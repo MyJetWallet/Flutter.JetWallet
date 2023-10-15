@@ -124,7 +124,6 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
                       sRouter.push(
                         BuyAmountRoute(
                           asset: asset,
-                          method: store.getCardBuyMethod(),
                           card: e,
                         ),
                       );

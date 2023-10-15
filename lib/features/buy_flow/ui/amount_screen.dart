@@ -16,7 +16,6 @@ import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
@@ -25,19 +24,14 @@ class BuyAmountScreen extends StatelessWidget {
   const BuyAmountScreen({
     super.key,
     required this.asset,
-    this.method,
     this.card,
     this.account,
-    this.showUaAlert = false,
   });
 
   final CurrencyModel asset;
 
-  final BuyMethodDto? method;
   final CircleCard? card;
   final SimpleBankingAccount? account;
-
-  final bool showUaAlert;
 
   @override
   Widget build(BuildContext context) {
@@ -45,14 +39,11 @@ class BuyAmountScreen extends StatelessWidget {
       create: (context) => BuyAmountStore()
         ..init(
           inputAsset: asset,
-          inputMethod: method,
           inputCard: card,
           account: account,
-          showUaAlert: showUaAlert,
         ),
       builder: (context, child) => _BuyAmountScreenBody(
         asset: asset,
-        method: method,
         card: card,
       ),
     );
@@ -62,13 +53,11 @@ class BuyAmountScreen extends StatelessWidget {
 class _BuyAmountScreenBody extends StatefulObserverWidget {
   const _BuyAmountScreenBody({
     required this.asset,
-    this.method,
     this.card,
   });
 
   final CurrencyModel asset;
 
-  final BuyMethodDto? method;
   final CircleCard? card;
 
   @override
@@ -162,20 +151,19 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
                     borderRadius: BorderRadius.circular(40),
                   ),
                   margin: const EdgeInsets.only(right: 27),
-                  child: Icon(
-                    Icons.swap_vert,
+                  child: SSwapIcon(
                     color: colors.black,
                   ),
                 ),
               ),
             ],
           ),
-          if (store.errorText != null) ...[
+          if (store.paymentMethodInputError != null) ...[
             const SpaceH8(),
             AmountInputErrorWidget(
-              errorText: store.errorText!,
+              errorText: store.paymentMethodInputError!,
             ),
-          ] else ... [
+          ] else ...[
             const SpaceH28(),
           ],
           const Spacer(),
@@ -284,7 +272,10 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
               store.updateInputValue(value);
             },
             buttonType: SButtonType.primary2,
-            submitButtonActive: store.inputValid && !store.disableSubmit && !(double.parse(store.primaryAmount) == 0.0),
+            submitButtonActive: store.inputValid &&
+                !store.disableSubmit &&
+                !(double.parse(store.primaryAmount) == 0.0) &&
+                store.limitByAsset?.barProgress != 100,
             submitButtonName: intl.addCircleCard_continue,
             onSubmitPressed: () {
               sRouter.push(

@@ -2,6 +2,8 @@ import 'package:data_channel/data_channel.dart';
 import 'package:simple_networking/api_client/api_client.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/validation_api/data_sources/validation_api_data_sources.dart';
+import 'package:simple_networking/modules/validation_api/models/device_binding/post_device_binding_request_model.dart';
+import 'package:simple_networking/modules/validation_api/models/device_binding/post_device_binding_verify_model.dart';
 import 'package:simple_networking/modules/validation_api/models/phone_number/phone_number_response_model.dart';
 import 'package:simple_networking/modules/validation_api/models/phone_verification/phone_verification_full_request_model.dart';
 import 'package:simple_networking/modules/validation_api/models/phone_verification/phone_verification_request_model.dart';
@@ -77,6 +79,24 @@ class ValidationApiRepository {
     PhoneVerificationFullVerifyRequestModel model,
   ) async {
     return _validationApiDataSources.postPhoneVerificationFullVerifyRequest(
+      model,
+    );
+  }
+
+  /// Device Binding
+
+  Future<DC<ServerRejectException, void>> postDeviceBindingRequest(
+    PostDeviceBindingRequestModel model,
+  ) async {
+    return _validationApiDataSources.postDeviceBindingRequestRequest(
+      model,
+    );
+  }
+
+  Future<DC<ServerRejectException, void>> postDeviceBindingVerify(
+    PostDeviceBindingVerifyModel model,
+  ) async {
+    return _validationApiDataSources.postDeviceBindingVerifyRequest(
       model,
     );
   }

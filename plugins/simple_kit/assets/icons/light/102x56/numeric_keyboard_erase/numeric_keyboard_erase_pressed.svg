@@ -1,6 +1,5 @@
-<svg width="102" height="56" viewBox="0 0 102 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g opacity="0.8">
-<path d="M43 18H67V38H43L35 28L43 18Z" fill="black"/>
-<path d="M48 25L50 23L53 26L56 23L58 25L55 28L58 31L56 33L53 30L50 33L48 31L51 28L48 25Z" fill="white"/>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Medium/Arrow left">
+<path id="Shape" d="M8 5L3 12L8 19H11.5L7.57143 13.5L21 13.5V10.5L7.57143 10.5L11.5 5H8Z" fill="black"/>
 </g>
 </svg>

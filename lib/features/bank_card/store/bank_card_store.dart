@@ -475,7 +475,6 @@ abstract class _BankCardStoreBase with Store {
       sRouter.push(
         BuyAmountRoute(
           asset: asset,
-          method: method,
           card: card,
         ),
       );

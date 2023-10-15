@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:data_channel/data_channel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -16,6 +17,8 @@ import 'package:simple_kit/modules/account/phone_number/simple_number.dart';
 import 'package:simple_kit/modules/fields/standard_field/base/standard_field_error_notifier.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/validation_api/models/device_binding/post_device_binding_request_model.dart';
+import 'package:simple_networking/modules/validation_api/models/device_binding/post_device_binding_verify_model.dart';
 import 'package:simple_networking/modules/validation_api/models/phone_verification/phone_verification_full_request_model.dart';
 import 'package:simple_networking/modules/validation_api/models/phone_verification/phone_verification_request_model.dart';
 import 'package:simple_networking/modules/validation_api/models/phone_verification_verify/phone_verification_full_verify_request_model.dart';
@@ -23,8 +26,7 @@ import 'package:simple_networking/modules/validation_api/models/phone_verificati
 
 part 'phone_verification_store.g.dart';
 
-class PhoneVerificationStore extends _PhoneVerificationStoreBase
-    with _$PhoneVerificationStore {
+class PhoneVerificationStore extends _PhoneVerificationStoreBase with _$PhoneVerificationStore {
   PhoneVerificationStore(super.args);
 
   static _PhoneVerificationStoreBase of(BuildContext context) =>
@@ -105,26 +107,35 @@ abstract class _PhoneVerificationStoreBase with Store {
   Future<void> sendCode(bool isStart) async {
     try {
       resendTapped = true;
-      final number = await decomposePhoneNumber(
-        phoneNumber,
-        isoCodeNumber: dialCode?.isoCode ?? '',
-      );
+      late DC<ServerRejectException, void> response;
+      if (args.isDeviceBinding) {
+        final model = PostDeviceBindingRequestModel(
+          locale: intl.localeName,
+          verificationType: isStart ? 1 : 2,
+          requestId: DateTime.now().microsecondsSinceEpoch.toString(),
+        );
 
-      final model = PhoneVerificationRequestModel(
-        locale: intl.localeName,
-        phoneBody: number.body.replaceAll(
-          dialCode?.countryCode ?? '',
-          '',
-        ),
-        phoneCode: dialCode?.countryCode ?? '',
-        phoneIso: number.isoCode,
-        verificationType: isStart ? 1 : 2,
-        requestId: DateTime.now().microsecondsSinceEpoch.toString(),
-      );
+        response = await sNetwork.getValidationModule().postDeviceBindingRequest(model);
+      } else {
+        final number = await decomposePhoneNumber(
+          phoneNumber,
+          isoCodeNumber: dialCode?.isoCode ?? '',
+        );
 
-      final response = await sNetwork
-          .getValidationModule()
-          .postPhoneVerificationRequest(model);
+        final model = PhoneVerificationRequestModel(
+          locale: intl.localeName,
+          phoneBody: number.body.replaceAll(
+            dialCode?.countryCode ?? '',
+            '',
+          ),
+          phoneCode: dialCode?.countryCode ?? '',
+          phoneIso: number.isoCode,
+          verificationType: isStart ? 1 : 2,
+          requestId: DateTime.now().microsecondsSinceEpoch.toString(),
+        );
+
+        response = await sNetwork.getValidationModule().postPhoneVerificationRequest(model);
+      }
 
       if (response.hasError) {
         _logger.log(stateFlow, 'sendCode', response.error);
@@ -151,24 +162,32 @@ abstract class _PhoneVerificationStoreBase with Store {
     try {
       loader.startLoading();
 
-      final number = await decomposePhoneNumber(
-        phoneNumber,
-        isoCodeNumber: dialCode?.isoCode ?? '',
-      );
+      late DC<ServerRejectException, void> response;
 
-      final model = PhoneVerificationVerifyRequestModel(
-        code: controller.text,
-        phoneBody: number.body.replaceAll(
-          dialCode?.countryCode ?? '',
-          '',
-        ),
-        phoneCode: dialCode?.countryCode ?? '',
-        phoneIso: number.isoCode,
-      );
+      if (args.isDeviceBinding) {
+        final model = PostDeviceBindingVerifyModel(
+          code: controller.text,
+        );
 
-      final response = await sNetwork
-          .getValidationModule()
-          .postPhoneVerificationVerify(model);
+        response = await sNetwork.getValidationModule().postDeviceBindingVerify(model);
+      } else {
+        final number = await decomposePhoneNumber(
+          phoneNumber,
+          isoCodeNumber: dialCode?.isoCode ?? '',
+        );
+
+        final model = PhoneVerificationVerifyRequestModel(
+          code: controller.text,
+          phoneBody: number.body.replaceAll(
+            dialCode?.countryCode ?? '',
+            '',
+          ),
+          phoneCode: dialCode?.countryCode ?? '',
+          phoneIso: number.isoCode,
+        );
+
+        response = await sNetwork.getValidationModule().postPhoneVerificationVerify(model);
+      }
 
       if (response.hasError) {
         _logger.log(stateFlow, 'verifyCode', response.error);
@@ -204,15 +223,24 @@ abstract class _PhoneVerificationStoreBase with Store {
         resendTapped = true;
       }
 
-      final model = PhoneVerificationFullRequestModel(
-        locale: intl.localeName,
-        verificationType: isStart ? 1 : 2,
-        requestId: DateTime.now().microsecondsSinceEpoch.toString(),
-      );
+      late DC<ServerRejectException, void> response;
+      if (args.isDeviceBinding) {
+        final model = PostDeviceBindingRequestModel(
+          locale: intl.localeName,
+          verificationType: isStart ? 1 : 2,
+          requestId: DateTime.now().microsecondsSinceEpoch.toString(),
+        );
 
-      final response = await sNetwork
-          .getValidationModule()
-          .postPhoneVerificationFullRequest(model);
+        response = await sNetwork.getValidationModule().postDeviceBindingRequest(model);
+      } else {
+        final model = PhoneVerificationFullRequestModel(
+          locale: intl.localeName,
+          verificationType: isStart ? 1 : 2,
+          requestId: DateTime.now().microsecondsSinceEpoch.toString(),
+        );
+
+        response = await sNetwork.getValidationModule().postPhoneVerificationFullRequest(model);
+      }
 
       if (response.hasError) {
         _logger.log(stateFlow, 'sendCode', response.error);
@@ -239,13 +267,21 @@ abstract class _PhoneVerificationStoreBase with Store {
     try {
       loader.startLoading();
 
-      final model = PhoneVerificationFullVerifyRequestModel(
-        code: controller.text,
-      );
+      late DC<ServerRejectException, void> response;
 
-      final response = await sNetwork
-          .getValidationModule()
-          .postPhoneVerificationFullVerify(model);
+      if (args.isDeviceBinding) {
+        final model = PostDeviceBindingVerifyModel(
+          code: controller.text,
+        );
+
+        response = await sNetwork.getValidationModule().postDeviceBindingVerify(model);
+      } else {
+        final model = PhoneVerificationFullVerifyRequestModel(
+          code: controller.text,
+        );
+
+        response = await sNetwork.getValidationModule().postPhoneVerificationFullVerify(model);
+      }
 
       if (response.hasError) {
         _logger.log(stateFlow, 'verifyCode', response.error);

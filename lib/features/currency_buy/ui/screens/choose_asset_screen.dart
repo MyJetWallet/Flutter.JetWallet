@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
 import '../../../../core/di/di.dart';
 import '../../../../core/services/signal_r/signal_r_service_new.dart';
@@ -107,7 +108,7 @@ class _ActionBuy extends StatelessObserverWidget {
     return Column(
       children: [
         for (final currency in state.fCurrencies) ...[
-          if (currency.supportsAtLeastOneBuyMethod)
+          if (currency.supportsAtLeastOneBuyMethod && currency.type == AssetType.crypto)
             SMarketItem(
               icon: SNetworkSvg24(
                 url: currency.iconUrl,

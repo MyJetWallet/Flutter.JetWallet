@@ -431,12 +431,12 @@ abstract class _BuyConfirmationStoreBase with Store {
         ),
       );
     } else if (category == PaymentMethodCategory.account) {
-      await _requestPaymentAcaunt();
+      await _requestPaymentAccaunt();
     }
   }
 
   @action
-  Future<void> _requestPaymentAcaunt() async {
+  Future<void> _requestPaymentAccaunt() async {
     var pin = '';
     try {
       termiteUpdate();
@@ -476,6 +476,7 @@ abstract class _BuyConfirmationStoreBase with Store {
       await sRouter.push(
         PhoneVerificationRouter(
           args: PhoneVerificationArgs(
+            isDeviceBinding: true,
             phoneNumber: sUserInfo.phone,
             activeDialCode: phoneNumber,
             onVerified: () {
@@ -500,7 +501,6 @@ abstract class _BuyConfirmationStoreBase with Store {
         return;
       }
 
-      //onSuccess();
     } on ServerRejectException catch (error) {
       unawaited(_showFailureScreen(error.cause));
     } catch (error) {

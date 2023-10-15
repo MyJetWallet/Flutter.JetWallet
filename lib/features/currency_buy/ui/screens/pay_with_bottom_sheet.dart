@@ -141,11 +141,6 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
                     BuyAmountRoute(
                       asset: asset,
                       account: account,
-                      method: const BuyMethodDto(
-                        id: PaymentMethodType.unlimintCard,
-                        termsAccepted: true,
-                        category: PaymentMethodCategory.account,
-                      ),
                     ),
                   );
                 }
