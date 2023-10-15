@@ -302,7 +302,6 @@ abstract class _BankCardStoreBase with Store {
     required bool isPreview,
     PaymentAsset? currency,
     required String amount,
-    BuyMethodDto? method,
     required CurrencyModel asset,
   }) async {
     loader.startLoadingImmediately();
@@ -354,11 +353,9 @@ abstract class _BankCardStoreBase with Store {
                     onSuccess: () {
                       showPreview(
                         cardNumber: cardNumberFinal,
-                        currency: currency,
                         amount: amount,
                         cardId: newCard.data?.data.cardId ?? '',
                         showUaAlert: newCard.data?.data.showUaAlert ?? false,
-                        method: method,
                         asset: asset,
                         expMonth: int.parse(expiryMonth),
                         expYear: int.parse(
@@ -377,11 +374,9 @@ abstract class _BankCardStoreBase with Store {
                     onSuccess: () {
                       showPreview(
                         cardNumber: cardNumberFinal,
-                        currency: currency,
                         amount: amount,
                         cardId: newCard.data?.data.cardId ?? '',
                         showUaAlert: newCard.data?.data.showUaAlert ?? false,
-                        method: method,
                         asset: asset,
                         expMonth: int.parse(expiryMonth),
                         expYear: int.parse(
@@ -396,11 +391,9 @@ abstract class _BankCardStoreBase with Store {
             } else if (newCard.data?.data.status == CardStatus.accepted) {
               showPreview(
                 cardNumber: cardNumberFinal,
-                currency: currency,
                 amount: amount,
                 cardId: newCard.data?.data.cardId ?? '',
                 showUaAlert: newCard.data?.data.showUaAlert ?? false,
-                method: method,
                 asset: asset,
                 expMonth: int.parse(expiryMonth),
                 expYear: int.parse(
@@ -445,10 +438,8 @@ abstract class _BankCardStoreBase with Store {
   @action
   void showPreview({
     required String amount,
-    PaymentAsset? currency,
     required String cardNumber,
     required String cardId,
-    BuyMethodDto? method,
     required CurrencyModel asset,
     bool showUaAlert = false,
     required int expMonth,

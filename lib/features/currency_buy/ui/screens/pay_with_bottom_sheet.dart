@@ -16,8 +16,6 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
@@ -166,11 +164,6 @@ void _onAddCardTap(BuildContext context, CurrencyModel asset) {
           amount: '',
           isPreview: true,
           asset: asset,
-          method: const BuyMethodDto(
-            id: PaymentMethodType.bankCard,
-            termsAccepted: true,
-            category: PaymentMethodCategory.cards,
-          ),
           divideDateAndLabel: true,
         );
       },

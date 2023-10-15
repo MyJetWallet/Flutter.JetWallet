@@ -78,7 +78,7 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                'Sell to',
+                intl.buy_confirmation_paid_with,
                 style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
               ),
               if (store.isDataLoaded) ...[
@@ -142,7 +142,7 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Price',
+              intl.buy_confirmation_price,
               style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
             ),
             const Spacer(),

@@ -19,8 +19,8 @@ class BalancesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const MarketSeparator(
-          text: 'Balances',
+        MarketSeparator(
+          text: intl.pay_with_balances,
           isNeedDivider: false,
         ),
         for (final account in accounts)

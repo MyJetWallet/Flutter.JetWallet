@@ -13,7 +13,6 @@ import 'package:jetwallet/features/bank_card/widgets/bank_card_holdername.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 
 class AddBankCardScreen extends StatelessWidget {
   const AddBankCardScreen({
@@ -21,7 +20,6 @@ class AddBankCardScreen extends StatelessWidget {
     required this.onCardAdded,
     required this.amount,
     this.isPreview = false,
-    this.method,
     this.asset,
     this.divideDateAndLabel = false,
   });
@@ -31,7 +29,6 @@ class AddBankCardScreen extends StatelessWidget {
   final bool isPreview;
   final bool divideDateAndLabel;
 
-  final BuyMethodDto? method;
   final CurrencyModel? asset;
 
   @override
@@ -42,7 +39,6 @@ class AddBankCardScreen extends StatelessWidget {
         onCardAdded: onCardAdded,
         amount: amount,
         isPreview: isPreview,
-        method: method,
         asset: asset,
         divideDateAndLabel: divideDateAndLabel,
       ),
@@ -55,7 +51,6 @@ class _AddBankCardScreenBody extends StatelessObserverWidget {
     required this.onCardAdded,
     required this.amount,
     this.isPreview = false,
-    this.method,
     this.asset,
     required this.divideDateAndLabel,
   });
@@ -63,7 +58,6 @@ class _AddBankCardScreenBody extends StatelessObserverWidget {
   final Function() onCardAdded;
   final String amount;
   final bool isPreview;
-  final BuyMethodDto? method;
   final CurrencyModel? asset;
   final bool divideDateAndLabel;
 
@@ -146,7 +140,6 @@ class _AddBankCardScreenBody extends StatelessObserverWidget {
                                   contextWithBankCardStore: context,
                                   amount: amount,
                                   onCardAdded: onCardAdded,
-                                  method: method,
                                   asset: asset,
                                   isPreview: isPreview,
                                 );
@@ -183,7 +176,6 @@ class _AddBankCardScreenBody extends StatelessObserverWidget {
                             onError: () {},
                             isPreview: isPreview,
                             amount: amount,
-                            method: method,
                             asset: asset!,
                           );
                         }

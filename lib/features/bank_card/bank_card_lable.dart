@@ -18,7 +18,6 @@ class BankCardLabel extends StatelessObserverWidget {
     required this.amount,
     this.currency,
     this.isPreview = false,
-    this.method,
     this.asset,
   });
 
@@ -27,7 +26,6 @@ class BankCardLabel extends StatelessObserverWidget {
   final String amount;
   final PaymentAsset? currency;
   final bool isPreview;
-  final BuyMethodDto? method;
   final CurrencyModel? asset;
 
   @override
@@ -40,7 +38,7 @@ class BankCardLabel extends StatelessObserverWidget {
       loading: store.loader,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: 'Add a custom name',
+          title: intl.bank_card_leable_headet,
           onBackButtonTap: () => sRouter.pop(),
         ),
       ),
@@ -83,7 +81,6 @@ class BankCardLabel extends StatelessObserverWidget {
                   isPreview: isPreview,
                   amount: amount,
                   currency: currency,
-                  method: method,
                   asset: asset!,
                 );
               },

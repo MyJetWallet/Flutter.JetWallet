@@ -103,15 +103,15 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
                     unselectedLabelStyle: sSubtitle3Style,
                     splashBorderRadius: BorderRadius.circular(16),
                     isScrollable: true,
-                    tabs: const [
+                    tabs: [
                       Tab(
-                        text: 'Buy',
+                        text: intl.amount_screen_tab_buy,
                       ),
                       Tab(
-                        text: 'Sell',
+                        text: intl.amount_screen_tab_sell,
                       ),
                       Tab(
-                        text: 'Convert',
+                        text: intl.amount_screen_tab_convert,
                       ),
                     ],
                   ),
@@ -142,7 +142,7 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
           const Spacer(),
           BuyOptionWidget(
             title: store.asset?.description ?? '',
-            subTitle: 'Buy',
+            subTitle: intl.amount_screen_buy,
             trailing: volumeFormat(
               decimal: store.asset?.baseBalance ?? Decimal.zero,
               accuracy: store.asset?.accuracy ?? 1,
@@ -166,7 +166,7 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
           if (store.category == PaymentMethodCategory.account)
             BuyOptionWidget(
               title: store.account?.label ?? '',
-              subTitle: 'Pay with',
+              subTitle: intl.amount_screen_pay_with,
               trailing: volumeFormat(
                 decimal: store.account?.balance ?? Decimal.zero,
                 accuracy: store.asset?.accuracy ?? 1,
@@ -201,7 +201,7 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
           else
             BuyOptionWidget(
               title: store.card?.cardLabel ?? '',
-              subTitle: 'Pay with',
+              subTitle: intl.amount_screen_pay_with,
               icon: Container(
                 padding: const EdgeInsets.all(4),
                 decoration: ShapeDecoration(

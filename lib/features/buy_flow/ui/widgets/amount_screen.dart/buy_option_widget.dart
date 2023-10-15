@@ -45,20 +45,17 @@ class BuyOptionWidget extends StatelessWidget {
               children: [
                 Text(
                   subTitle,
-                  style: const TextStyle(
-                    color: Color(0xFF777C85),
-                    fontSize: 14,
-                    fontFamily: 'Gilroy',
+                  style: sBodyText2Style.copyWith(
+                    color: colors.grey1,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 Text(
                   title,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 14,
-                    fontFamily: 'Gilroy',
+                  style: sBodyText2Style.copyWith(
+                    color: colors.black,
                     fontWeight: FontWeight.w600,
+                    height: 1,
                   ),
                 ),
               ],
@@ -67,10 +64,8 @@ class BuyOptionWidget extends StatelessWidget {
             Text(
               trailing ?? '',
               textAlign: TextAlign.right,
-              style: const TextStyle(
-                color: Color(0xFF777C85),
-                fontSize: 14,
-                fontFamily: 'Gilroy',
+              style: sBodyText2Style.copyWith(
+                color: colors.grey1,
                 fontWeight: FontWeight.w600,
               ),
             ),

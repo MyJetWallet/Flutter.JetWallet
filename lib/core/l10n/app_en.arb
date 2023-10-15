@@ -1318,5 +1318,15 @@
     "create_personal_creating": "Creating personal account...",
     "buy_confirmation_processing_fee": "Processing fee",
     "buy_confirmation_processing_fee_description": "This fee is charged by Simple for processing this transaction",
-    "buy_confirmation_payment_fee_description": "This fee is charged by Simple to cover services of our payment partners"
+    "buy_confirmation_payment_fee_description": "This fee is charged by Simple to cover services of our payment partners",
+    "buy_confirmation_paid_with": "Paid with",
+    "buy_confirmation_price": "Price",
+    "bank_card_leable_headet": "Add a custom name",
+    "choose_asser_screan_header": "Buy",
+    "amount_screen_tab_buy": "Buy",
+    "amount_screen_tab_sell": "Sell",
+    "amount_screen_tab_convert": "Convert",
+    "amount_screen_buy": "Buy",
+    "amount_screen_pay_with": "Pay with",
+    "pay_with_balances": "Balances"
 }

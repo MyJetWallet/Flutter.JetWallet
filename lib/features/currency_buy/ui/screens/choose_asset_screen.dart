@@ -44,7 +44,7 @@ class ChooseAssetScreen extends StatelessWidget {
       loaderText: intl.loader_please_wait,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: 'Buy',
+          title: intl.choose_asser_screan_header,
           onBackButtonTap: () => Navigator.pop(context),
         ),
       ),
