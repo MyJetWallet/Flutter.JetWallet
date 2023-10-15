@@ -123,49 +123,22 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
             small: () => const SpaceH40(),
             medium: () => const Spacer(),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: SNewActionPriceField(
-                  widgetSize: widgetSizeFrom(deviceSize),
-                  primaryAmount: formatCurrencyStringAmount(
-                    value: store.primaryAmount,
-                  ),
-                  primarySymbol: store.primarySymbol,
-                  secondaryAmount: formatCurrencyStringAmount(
-                    value: store.secondaryAmount,
-                  ),
-                  secondarySymbol: store.secondarySymbol,
-                ),
-              ),
-              SIconButton(
-                onTap: () {
-                  store.isFiatEntering = !store.isFiatEntering;
-                },
-                defaultIcon: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: colors.grey5,
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                  margin: const EdgeInsets.only(right: 27),
-                  child: SSwapIcon(
-                    color: colors.black,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          if (store.paymentMethodInputError != null) ...[
-            const SpaceH8(),
-            AmountInputErrorWidget(
-              errorText: store.paymentMethodInputError!,
+          SNewActionPriceField(
+            widgetSize: widgetSizeFrom(deviceSize),
+            primaryAmount: formatCurrencyStringAmount(
+              value: store.fiatInputValue,
             ),
-          ] else ...[
-            const SpaceH28(),
-          ],
+            primarySymbol: store.fiatSymbol,
+            secondaryAmount: formatCurrencyStringAmount(
+              value: store.cryptoInputValue,
+            ),
+            secondarySymbol: store.cryptoSymbol,
+            isPrimaryActive: store.isFiatEntering,
+            onSwap: () {
+              store.isFiatEntering = !store.isFiatEntering;
+            },
+            errorText: store.paymentMethodInputError,
+          ),
           const Spacer(),
           BuyOptionWidget(
             title: store.asset?.description ?? '',
@@ -288,45 +261,6 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
                 ),
               );
             },
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class AmountInputErrorWidget extends StatelessWidget {
-  const AmountInputErrorWidget({
-    super.key,
-    required this.errorText,
-  });
-
-  final String errorText;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = sKit.colors;
-
-    return SPaddingH24(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 16,
-            height: 16,
-            margin: const EdgeInsets.only(top: 2),
-            child: const SErrorIcon(),
-          ),
-          const SpaceW5(),
-          Expanded(
-            child: Text(
-              errorText,
-              style: sBodyText2Style.copyWith(
-                color: colors.red,
-                height: 1.4,
-              ),
-              maxLines: 2,
-            ),
           ),
         ],
       ),
