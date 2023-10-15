@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/icons/24x24/public/chevron_down_double/simple_chevron_down_double_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class WhatToWhatWidget extends StatelessWidget {
-  const WhatToWhatWidget({
+class WhatToWhatConvertWidget extends StatelessWidget {
+  const WhatToWhatConvertWidget({
     super.key,
     required this.fromAssetIconUrl,
     required this.fromAssetDescription,
@@ -46,6 +46,7 @@ class WhatToWhatWidget extends StatelessWidget {
             assetIconUrl: toAssetIconUrl,
             assetDescription: toAssetDescription,
             assetValue: toAssetValue,
+            isSecandary: true,
           ),
         ],
       ),
@@ -58,11 +59,13 @@ class _AssetRowWidget extends StatelessWidget {
     required this.assetIconUrl,
     required this.assetDescription,
     required this.assetValue,
+    this.isSecandary = false,
   });
 
   final String assetIconUrl;
   final String assetDescription;
   final String assetValue;
+  final bool isSecandary;
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +91,9 @@ class _AssetRowWidget extends StatelessWidget {
             ),
             Text(
               assetValue,
-              style: sTextH4Style,
+              style: sTextH4Style.copyWith(
+                color: isSecandary ? colors.purple : null,
+              ),
             ),
           ],
         ),

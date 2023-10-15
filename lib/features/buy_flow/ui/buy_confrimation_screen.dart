@@ -7,13 +7,13 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/buy_flow/store/buy_confirmation_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/confirmation_widgets/confirmation_info_grid.dart';
-import 'package:jetwallet/features/buy_flow/ui/widgets/confirmation_widgets/what_to_what_widget.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -106,7 +106,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
             hasScrollBody: false,
             child: Column(
               children: [
-                WhatToWhatWidget(
+                WhatToWhatConvertWidget(
                   fromAssetIconUrl: paymentCurrency.iconUrl,
                   fromAssetDescription: paymentCurrency.symbol,
                   fromAssetValue: volumeFormat(

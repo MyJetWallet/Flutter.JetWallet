@@ -185,27 +185,27 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
                 intl.buy_confirmation_payment_fee,
                 style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
               ),
-              if (store.category == PaymentMethodCategory.cards) ...[
-                const SpaceW5(),
-                GestureDetector(
-                  onTap: () {
-                    sAnalytics.newBuyTapPaymentFee();
+              const SpaceW5(),
+              GestureDetector(
+                onTap: () {
+                  sAnalytics.newBuyTapPaymentFee();
 
-                    buyConfirmationShowLimit(
-                      context,
-                      widget.paymentFee ?? '',
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: SizedBox(
-                      width: 16,
-                      height: 16,
-                      child: SInfoIcon(color: sKit.colors.grey1),
-                    ),
+                  buyConfirmationFeeExplanation(
+                    context: context,
+                    title: intl.buy_confirmation_payment_fee,
+                    fee: widget.paymentFee ?? '',
+                    description: intl.buy_confirmation_payment_fee_description,
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: SInfoIcon(color: sKit.colors.grey1),
                   ),
                 ),
-              ],
+              ),
               const Spacer(),
               if (store.isDataLoaded) ...[
                 Text(
@@ -224,9 +224,31 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Processing fee',
+                intl.buy_confirmation_processing_fee,
                 style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
               ),
+              const SpaceW5(),
+              GestureDetector(
+                onTap: () {
+                  sAnalytics.newBuyTapPaymentFee();
+
+                  buyConfirmationFeeExplanation(
+                    context: context,
+                    title: intl.buy_confirmation_processing_fee,
+                    fee: widget.ourFee ?? '',
+                    description: intl.buy_confirmation_processing_fee_description,
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: SInfoIcon(color: sKit.colors.grey1),
+                  ),
+                ),
+              ),
+              const Spacer(),
               if (store.isDataLoaded) ...[
                 Text(
                   widget.ourFee ?? '',
@@ -245,7 +267,12 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
   }
 }
 
-void buyConfirmationShowLimit(BuildContext context, String fee) {
+void buyConfirmationFeeExplanation({
+  required BuildContext context,
+  required String title,
+  required String fee,
+  required String description,
+}) {
   sAnalytics.newBuyFeeView(paymentFee: fee);
 
   sShowBasicModalBottomSheet(
@@ -261,7 +288,7 @@ void buyConfirmationShowLimit(BuildContext context, String fee) {
             Row(
               children: [
                 Text(
-                  intl.buy_confirmation_transaction_fee,
+                  title,
                   style: sTextH4Style,
                 ),
                 const Spacer(),
@@ -276,24 +303,17 @@ void buyConfirmationShowLimit(BuildContext context, String fee) {
               fee,
               style: sTextH4Style,
             ),
-            const SpaceH4(),
-            Text(
-              intl.buy_confirmation_third_party_fee,
-              style: sBodyText2Style.copyWith(
-                color: sKit.colors.grey1,
-              ),
-            ),
             const SpaceH12(),
             const SDivider(),
             const SpaceH12(),
             Text(
-              intl.buy_confirmation_third_fee_descr,
+              description,
               maxLines: 3,
               style: sCaptionTextStyle.copyWith(
                 color: sKit.colors.grey3,
               ),
             ),
-            const SpaceH40(),
+            const SpaceH64(),
           ],
         ),
       ),

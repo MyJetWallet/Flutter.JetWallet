@@ -1315,5 +1315,8 @@
     "create_personal_account": "Please pass verification at our partner side",
     "create_personal_verify_account": "Verify account",
     "create_personal_cancel": "Cancel",
-    "create_personal_creating": "Creating personal account..."
+    "create_personal_creating": "Creating personal account...",
+    "buy_confirmation_processing_fee": "Processing fee",
+    "buy_confirmation_processing_fee_description": "This fee is charged by Simple for processing this transaction",
+    "buy_confirmation_payment_fee_description": "This fee is charged by Simple to cover services of our payment partners"
 }
