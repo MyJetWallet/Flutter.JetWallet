@@ -39,14 +39,16 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
     super.initState();
 
     _controller.addListener(() {
-      if (isTopPosition != (_controller.position.pixels == 0)) {
-        if (_controller.position.pixels < 0) {
+      if (_controller.position.pixels <= 0) {
+        if (!isTopPosition) {
           setState(() {
             isTopPosition = true;
           });
-        } else {
+        }
+      } else {
+        if (isTopPosition) {
           setState(() {
-            isTopPosition = _controller.position.pixels == 0;
+            isTopPosition = false;
           });
         }
       }

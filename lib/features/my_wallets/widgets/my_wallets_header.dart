@@ -152,13 +152,20 @@ class _ScrollInProgressHeader extends StatelessObserverWidget {
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SpaceW56(),
-        Center(
-          child: Text(
-            intl.my_wallets_header,
-            style: sTextH5Style,
-          ),
+        const SizedBox(
+          height: 64,
+          width: 56,
+        ),
+        Column(
+          children: [
+            const SpaceH10(),
+            Text(
+              intl.my_wallets_header,
+              style: sTextH5Style,
+            ),
+          ],
         ),
         SizedBox(
           width: 56.0,
