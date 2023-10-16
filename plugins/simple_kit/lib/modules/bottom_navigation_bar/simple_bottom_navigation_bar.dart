@@ -129,10 +129,12 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                           ),
                         ),
                       ),
-                      NotificationBox(
-                        notifications: widget.isCardRequested ? 0 : 1,
-                        top: -2,
+                      Positioned(
                         right: (MediaQuery.of(context).size.width - 48) / 8 - 36,
+                        top: -2,
+                        child: NotificationBox(
+                          notifications: widget.isCardRequested ? 0 : 1,
+                        ),
                       ),
                     ],
                   ),
@@ -167,10 +169,12 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                           ),
                         ),
                       ),
-                      NotificationBox(
-                        notifications: widget.rewardCount,
-                        top: -2,
+                      Positioned(
                         right: (MediaQuery.of(context).size.width - 48) / 8 - 36,
+                        top: -2,
+                        child: NotificationBox(
+                          notifications: widget.rewardCount,
+                        ),
                       ),
                     ],
                   ),
