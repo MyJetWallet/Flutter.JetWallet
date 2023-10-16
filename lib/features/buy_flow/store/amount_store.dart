@@ -140,6 +140,12 @@ abstract class _BuyAmountStoreBase with Store {
           ?.firstWhere((element) => element.asset == (inputCard?.cardAssetSymbol ?? 'EUR'));
 
       _updateLimitModel(paymentAsset!);
+    } else {
+      paymentAsset = inputAsset.buyMethods
+          .firstWhere((element) => element.id == PaymentMethodType.ibanTransferUnlimint)
+          .paymentAssets
+          ?.firstWhere((element) => element.asset == (account?.currency ?? 'EUR'));
+      _updateLimitModel(paymentAsset!);
     }
 
     loadConversionPrice(
@@ -212,6 +218,12 @@ abstract class _BuyAmountStoreBase with Store {
       account = newAccount;
       card = null;
       category = PaymentMethodCategory.account;
+
+      paymentAsset = asset?.buyMethods
+          .firstWhere((element) => element.id == PaymentMethodType.ibanTransferUnlimint)
+          .paymentAssets
+          ?.firstWhere((element) => element.asset == newAccount.currency);
+      _updateLimitModel(paymentAsset!);
     }
 
     loadConversionPrice(
@@ -250,7 +262,7 @@ abstract class _BuyAmountStoreBase with Store {
 
   @computed
   int get selectedCurrencyAccuracy {
-    return asset == null ? baseCurrency.accuracy : buyCurrency.accuracy;
+    return asset == null ? baseCurrency.accuracy : asset!.accuracy;
   }
 
   @action
@@ -334,27 +346,63 @@ abstract class _BuyAmountStoreBase with Store {
 
   @action
   void _validateInputAccaunt() {
-    if (account!.balance! < Decimal.parse(fiatInputValue)) {
-      _updatePaymentMethodInputError('Not enough balance to proceed with the transaction');
+    if (!isInputValid(fiatInputValue)) {
       inputValid = false;
-      inputError = InputError.amountTooLarge;
 
       return;
     }
-    if (account!.balance! >= Decimal.parse(fiatInputValue)) {
+
+    final value = double.parse(fiatInputValue);
+    final min = double.parse('${paymentAsset?.minAmount ?? 0}');
+    var max = double.parse(account?.balance?.toString() ?? '0');
+
+    double? limitMax = max;
+
+    if (limitByAsset != null) {
+      limitMax = limitByAsset!.barInterval == StateBarType.day1
+          ? (limitByAsset!.day1Limit - limitByAsset!.day1Amount).toDouble()
+          : limitByAsset!.barInterval == StateBarType.day7
+              ? (limitByAsset!.day7Limit - limitByAsset!.day7Amount).toDouble()
+              : (limitByAsset!.day30Limit - limitByAsset!.day30Amount).toDouble();
+    }
+
+    max = limitMax < max ? limitMax : max;
+
+    inputValid = value >= min && value <= max;
+
+    if (max == 0) {
+      _updatePaymentMethodInputError(
+        intl.limitIsExceeded,
+      );
+    } else if (value < min) {
+      _updatePaymentMethodInputError(
+        '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
+          decimal: Decimal.parse(min.toString()),
+          accuracy: buyCurrency.accuracy,
+          symbol: buyCurrency.symbol,
+        )}',
+      );
+    } else if (value > max) {
+      _updatePaymentMethodInputError(
+        '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
+          decimal: Decimal.parse(max.toString()),
+          accuracy: buyCurrency.accuracy,
+          symbol: buyCurrency.symbol,
+        )}',
+      );
+    } else {
       _updatePaymentMethodInputError(null);
-      inputValid = true;
-      inputError = InputError.none;
-
-      return;
     }
-    if (double.parse(fiatInputValue) == 0.0) {
-      inputValid = true;
-      inputError = InputError.none;
-      _updatePaymentMethodInputError(null);
 
-      return;
-    }
+    const error = InputError.none;
+
+    inputError = double.parse(fiatInputValue) != 0
+        ? error == InputError.none
+            ? paymentMethodInputError == null
+                ? InputError.none
+                : InputError.limitError
+            : error
+        : InputError.none;
   }
 
   @action
