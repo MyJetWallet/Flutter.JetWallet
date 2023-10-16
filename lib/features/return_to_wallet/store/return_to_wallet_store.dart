@@ -11,7 +11,6 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/utils/models/selected_percent.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -20,12 +19,10 @@ import 'package:simple_networking/modules/wallet_api/models/calculate_earn_offer
 
 part 'return_to_wallet_store.g.dart';
 
-class ReturnToWalletStore extends _ReturnToWalletStoreBase
-    with _$ReturnToWalletStore {
+class ReturnToWalletStore extends _ReturnToWalletStoreBase with _$ReturnToWalletStore {
   ReturnToWalletStore(super.input);
 
-  static _ReturnToWalletStoreBase of(BuildContext context) =>
-      Provider.of<ReturnToWalletStore>(context, listen: false);
+  static _ReturnToWalletStoreBase of(BuildContext context) => Provider.of<ReturnToWalletStore>(context, listen: false);
 }
 
 abstract class _ReturnToWalletStoreBase with Store {
@@ -48,12 +45,6 @@ abstract class _ReturnToWalletStoreBase with Store {
 
   @observable
   CurrencyModel? selectedCurrency;
-
-  @observable
-  SKeyboardPreset? selectedPreset;
-
-  @observable
-  String? tappedPreset;
 
   @observable
   String inputValue = '0';
@@ -111,16 +102,12 @@ abstract class _ReturnToWalletStoreBase with Store {
 
   @computed
   String get selectedCurrencySymbol {
-    return selectedCurrency == null
-        ? baseCurrency!.symbol
-        : selectedCurrency!.symbol;
+    return selectedCurrency == null ? baseCurrency!.symbol : selectedCurrency!.symbol;
   }
 
   @computed
   int get selectedCurrencyAccuracy {
-    return selectedCurrency == null
-        ? baseCurrency!.accuracy
-        : selectedCurrency!.accuracy;
+    return selectedCurrency == null ? baseCurrency!.accuracy : selectedCurrency!.accuracy;
   }
 
   @computed
@@ -142,7 +129,6 @@ abstract class _ReturnToWalletStoreBase with Store {
   String conversionText() {
     return marketFormat(
       accuracy: baseCurrency!.accuracy,
-      prefix: baseCurrency?.prefix,
       decimal: Decimal.parse(baseConversionValue),
       symbol: baseCurrency!.symbol,
     );
@@ -176,54 +162,11 @@ abstract class _ReturnToWalletStoreBase with Store {
   }
 
   @action
-  void tapPreset(String presetName) {
-    tappedPreset = presetName;
-  }
-
-  @action
   void updateSelectedCurrency(CurrencyModel? currency) {
     _logger.log(notifier, 'updateSelectedCurrency');
 
     selectedCurrency = currency;
     _validateInput();
-  }
-
-  @action
-  void selectPercentFromBalance(SKeyboardPreset preset) {
-    _logger.log(notifier, 'selectPercentFromBalance');
-
-    _updateSelectedPreset(preset);
-
-    final percent = _percentFromPreset(preset);
-
-    final value = valueBasedOnSelectedPercent(
-      availableBalance: currentBalance,
-      selected: percent,
-      currency: input.currency,
-    );
-
-    _updateInputValue(
-      valueAccordingToAccuracy(value, input.currency.accuracy),
-    );
-    _validateInput();
-    _calculateTargetConversion();
-    _calculateBaseConversion();
-  }
-
-  @action
-  void _updateSelectedPreset(SKeyboardPreset preset) {
-    selectedPreset = preset;
-  }
-
-  @action
-  SelectedPercent _percentFromPreset(SKeyboardPreset preset) {
-    if (preset == SKeyboardPreset.preset1) {
-      return SelectedPercent.pct25;
-    } else if (preset == SKeyboardPreset.preset2) {
-      return SelectedPercent.pct50;
-    } else {
-      return SelectedPercent.pct100;
-    }
   }
 
   @action
@@ -246,7 +189,6 @@ abstract class _ReturnToWalletStoreBase with Store {
     _validateInput();
     _calculateTargetConversion();
     _calculateBaseConversion();
-    _clearPercent();
   }
 
   @action
@@ -265,8 +207,7 @@ abstract class _ReturnToWalletStoreBase with Store {
 
   @action
   void _calculateTargetConversion([Decimal? newPrice]) {
-    if ((targetConversionPrice != null || newPrice != null) &&
-        inputValue.isNotEmpty) {
+    if ((targetConversionPrice != null || newPrice != null) && inputValue.isNotEmpty) {
       final amount = Decimal.parse(inputValue);
       final price = newPrice ?? targetConversionPrice!;
       final accuracy = selectedCurrencyAccuracy;
@@ -335,10 +276,5 @@ abstract class _ReturnToWalletStoreBase with Store {
     }
 
     _updateInputError(error);
-  }
-
-  @action
-  void _clearPercent() {
-    selectedPreset = null;
   }
 }

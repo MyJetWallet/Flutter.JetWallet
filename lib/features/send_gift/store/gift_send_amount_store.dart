@@ -8,7 +8,6 @@ import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/utils/models/selected_percent.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
@@ -16,8 +15,7 @@ import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_
 
 part 'gift_send_amount_store.g.dart';
 
-class GeftSendAmountStore extends _GeftSendAmountStoreBase
-    with _$GeftSendAmountStore {
+class GeftSendAmountStore extends _GeftSendAmountStoreBase with _$GeftSendAmountStore {
   GeftSendAmountStore() : super();
 }
 
@@ -30,13 +28,6 @@ abstract class _GeftSendAmountStoreBase with Store {
       },
     );
   }
-
-  @observable
-  SKeyboardPreset? selectedPreset;
-  @observable
-  String? tappedPreset;
-  @action
-  void tapPreset(String preset) => tappedPreset = preset;
 
   @observable
   String withAmount = '0';
@@ -73,9 +64,9 @@ abstract class _GeftSendAmountStoreBase with Store {
       );
 
   @computed
-   SendMethodDto get _sendGiftMethod => sSignalRModules.sendMethods.firstWhere(
-    (element) => element.id == WithdrawalMethods.internalSend,
-  );
+  SendMethodDto get _sendGiftMethod => sSignalRModules.sendMethods.firstWhere(
+        (element) => element.id == WithdrawalMethods.internalSend,
+      );
 
   @computed
   Decimal? get _minLimit => _sendGiftMethod.symbolNetworkDetails?.firstWhere(
@@ -100,30 +91,6 @@ abstract class _GeftSendAmountStoreBase with Store {
 
   @action
   void refresh() {
-    selectedPreset = null;
-    _validateAmount();
-    _calculateBaseConversion();
-  }
-
-  @action
-  void selectPercentFromBalance(SKeyboardPreset preset) {
-    selectedPreset = preset;
-
-    final percent = _percentFromPreset(preset);
-
-    final value = valueBasedOnSelectedPercent(
-      selected: percent,
-      currency: selectedCurrency,
-      availableBalance: Decimal.parse(
-        '''${selectedCurrency.assetBalance.toDouble() - selectedCurrency.cardReserve.toDouble()}''',
-      ),
-    );
-
-    withAmount = valueAccordingToAccuracy(
-      value,
-      selectedCurrency.accuracy,
-    );
-
     _validateAmount();
     _calculateBaseConversion();
   }
@@ -137,7 +104,6 @@ abstract class _GeftSendAmountStoreBase with Store {
 
     _validateAmount();
     _calculateBaseConversion();
-    selectedPreset = null;
   }
 
   @action
@@ -162,26 +128,23 @@ abstract class _GeftSendAmountStoreBase with Store {
       null,
     );
 
-      final value = Decimal.parse(withAmount);
+    final value = Decimal.parse(withAmount);
 
-      if (_minLimit != null && _minLimit! > value) {
-        limitError = '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
-          decimal: _minLimit!,
-          accuracy: selectedCurrency.accuracy,
-          symbol: selectedCurrency.symbol,
-          prefix: selectedCurrency.prefixSymbol,
-        )}';
-      } else if (_maxLimit != null && _maxLimit! < value) {
-        limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
-          decimal: _maxLimit!,
-          accuracy: selectedCurrency.accuracy,
-          symbol: selectedCurrency.symbol,
-          prefix: selectedCurrency.prefixSymbol,
-        )}';
-      } else {
-        limitError = '';
-      }
-
+    if (_minLimit != null && _minLimit! > value) {
+      limitError = '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
+        decimal: _minLimit!,
+        accuracy: selectedCurrency.accuracy,
+        symbol: selectedCurrency.symbol,
+      )}';
+    } else if (_maxLimit != null && _maxLimit! < value) {
+      limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
+        decimal: _maxLimit!,
+        accuracy: selectedCurrency.accuracy,
+        symbol: selectedCurrency.symbol,
+      )}';
+    } else {
+      limitError = '';
+    }
 
     withAmmountInputError = double.parse(withAmount) != 0
         ? error == InputError.none
@@ -192,16 +155,5 @@ abstract class _GeftSendAmountStoreBase with Store {
         : InputError.none;
 
     withValid = error == InputError.none && isInputValid(withAmount);
-  }
-
-  @action
-  SelectedPercent _percentFromPreset(SKeyboardPreset preset) {
-    if (preset == SKeyboardPreset.preset1) {
-      return SelectedPercent.pct25;
-    } else if (preset == SKeyboardPreset.preset2) {
-      return SelectedPercent.pct50;
-    } else {
-      return SelectedPercent.pct100;
-    }
   }
 }

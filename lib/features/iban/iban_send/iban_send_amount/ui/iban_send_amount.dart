@@ -72,7 +72,6 @@ class IbanSendAmountBody extends StatelessObserverWidget {
                 child: SActionPriceField(
                   widgetSize: widgetSizeFrom(deviceSize),
                   price: formatCurrencyStringAmount(
-                    prefix: store.eurCurrency.prefixSymbol,
                     value: store.withAmount,
                     symbol: store.eurCurrency.symbol,
                   ),
@@ -86,18 +85,6 @@ class IbanSendAmountBody extends StatelessObserverWidget {
             ],
           ),
           const Spacer(),
-          /*SPaymentSelectCreditCard(
-            widgetSize: widgetSizeFrom(deviceSize),
-            icon: SAccountIcon(
-              color: colors.black,
-            ),
-            name: store.contact?.name ?? '',
-            description: store.contact?.iban ?? '',
-            //limit: isLimitBlock ? 100 : state.limitByAsset?.barProgress ?? 0,
-            limit: 0,
-            onTap: () => showLimits(),
-          ),
-          */
           SPaymentSelectAsset(
             onTap: () {
               sAnalytics.tapOnTheButtonLimitsIBAN();
@@ -121,20 +108,6 @@ class IbanSendAmountBody extends StatelessObserverWidget {
           ),
           SNumericKeyboardAmount(
             widgetSize: widgetSizeFrom(deviceSize),
-            preset1Name: '25%',
-            preset2Name: '50%',
-            preset3Name: intl.max,
-            selectedPreset: store.selectedPreset,
-            onPresetChanged: (preset) {
-              store.tapPreset(
-                preset.index == 0
-                    ? '25%'
-                    : preset.index == 1
-                        ? '50%'
-                        : 'Max',
-              );
-              store.selectPercentFromBalance(preset);
-            },
             onKeyPressed: (value) {
               store.updateAmount(value);
             },
@@ -146,7 +119,7 @@ class IbanSendAmountBody extends StatelessObserverWidget {
                 asset: 'EUR',
                 methodType: '2',
                 sendAmount: store.withAmount,
-                preset: store.tappedPreset ?? 'false',
+                preset: 'false',
               );
 
               store.loadPreview();

@@ -235,12 +235,6 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
           const SpaceH20(),
           SNumericKeyboardAmount(
             widgetSize: widgetSizeFrom(deviceSize),
-            showPresets: false,
-            preset1Name: '',
-            preset2Name: '',
-            preset3Name: '',
-            selectedPreset: null,
-            onPresetChanged: (preset) {},
             onKeyPressed: (value) {
               store.updateInputValue(value);
             },

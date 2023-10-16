@@ -54,7 +54,6 @@ class _GiftAmountState extends State<GiftAmount> {
         child: SSmallHeader(
           title: intl.send_gift_title,
           subTitle: '${intl.send_gift_available}: ${volumeFormat(
-            prefix: widget.sendGiftInfo.currency?.prefixSymbol,
             decimal: geftSendAmountStore.availableCurrency,
             accuracy: widget.sendGiftInfo.currency?.accuracy ?? 0,
             symbol: widget.sendGiftInfo.currency?.symbol ?? '',
@@ -78,24 +77,20 @@ class _GiftAmountState extends State<GiftAmount> {
                 return SActionPriceField(
                   widgetSize: widgetSizeFrom(deviceSize),
                   price: formatCurrencyStringAmount(
-                    prefix: geftSendAmountStore.selectedCurrency.prefixSymbol,
                     value: geftSendAmountStore.withAmount,
                     symbol: geftSendAmountStore.selectedCurrency.symbol,
                   ),
                   helper: '≈ ${marketFormat(
                     accuracy: geftSendAmountStore.baseCurrency.accuracy,
-                    prefix: geftSendAmountStore.baseCurrency.prefix,
                     decimal: Decimal.parse(
                       geftSendAmountStore.baseConversionValue,
                     ),
                     symbol: geftSendAmountStore.baseCurrency.symbol,
                   )}',
-                  error: geftSendAmountStore.withAmmountInputError ==
-                          InputError.limitError
+                  error: geftSendAmountStore.withAmmountInputError == InputError.limitError
                       ? geftSendAmountStore.limitError
                       : geftSendAmountStore.withAmmountInputError.value(),
-                  isErrorActive:
-                      geftSendAmountStore.withAmmountInputError.isActive,
+                  isErrorActive: geftSendAmountStore.withAmmountInputError.isActive,
                 );
               },
             ),
@@ -110,70 +105,35 @@ class _GiftAmountState extends State<GiftAmount> {
             builder: (context) {
               return SNumericKeyboardAmount(
                 widgetSize: widgetSizeFrom(deviceSize),
-                preset1Name: '25%',
-                preset2Name: '50%',
-                preset3Name: intl.max,
-                selectedPreset: geftSendAmountStore.selectedPreset,
-                onPresetChanged: (preset) {
-                  geftSendAmountStore.tapPreset(
-                    preset.index == 0
-                        ? '25%'
-                        : preset.index == 1
-                            ? '50%'
-                            : 'Max',
-                  );
-                  geftSendAmountStore.selectPercentFromBalance(preset);
-                },
                 onKeyPressed: (value) {
                   geftSendAmountStore.updateAmount(value);
-                  if (geftSendAmountStore.withAmmountInputError !=
-                      InputError.none) {
+                  if (geftSendAmountStore.withAmmountInputError != InputError.none) {
                     sAnalytics.errorSendLimitExceeded(
                       asset: geftSendAmountStore.selectedCurrency.symbol,
-                      giftSubmethod:
-                          widget.sendGiftInfo.selectedContactType?.name ?? '',
-                      errorText: geftSendAmountStore.withAmmountInputError ==
-                              InputError.limitError
+                      giftSubmethod: widget.sendGiftInfo.selectedContactType?.name ?? '',
+                      errorText: geftSendAmountStore.withAmmountInputError == InputError.limitError
                           ? geftSendAmountStore.limitError
                           : geftSendAmountStore.withAmmountInputError.value(),
                     );
                   }
                 },
                 buttonType: SButtonType.primary2,
-                submitButtonActive: geftSendAmountStore.withAmmountInputError ==
-                        InputError.none &&
-                    geftSendAmountStore.withValid,
+                submitButtonActive:
+                    geftSendAmountStore.withAmmountInputError == InputError.none && geftSendAmountStore.withValid,
                 submitButtonName: intl.addCircleCard_continue,
                 onSubmitPressed: () {
                   final tempSendGiftInfo = widget.sendGiftInfo.copyWith(
                     amount: Decimal.tryParse(geftSendAmountStore.withAmount),
                   );
 
-                  dynamic preset;
-                  switch (geftSendAmountStore.selectedPreset) {
-                    case SKeyboardPreset.preset1:
-                      preset = '25%';
-                      break;
-                    case SKeyboardPreset.preset2:
-                      preset = '50%';
-                      break;
-                    case SKeyboardPreset.preset3:
-                      preset = '100%';
-                      break;
-                    default:
-                      preset = false;
-                  }
-
                   sAnalytics.tapOnTheButtonContinueWithSendGiftAmountScreen(
                     asset: geftSendAmountStore.selectedCurrency.symbol,
-                    giftSubmethod:
-                        tempSendGiftInfo.selectedContactType?.name ?? '',
+                    giftSubmethod: tempSendGiftInfo.selectedContactType?.name ?? '',
                     totalSendAmount: tempSendGiftInfo.amount.toString(),
-                    preset: preset,
+                    preset: 'false',
                   );
                   sAnalytics.orderSummarySendScreenView(
-                    giftSubmethod:
-                        tempSendGiftInfo.selectedContactType?.name ?? '',
+                    giftSubmethod: tempSendGiftInfo.selectedContactType?.name ?? '',
                   );
                   sRouter.push(
                     GiftOrderSummuryRouter(

@@ -3,80 +3,34 @@ import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 
 import '../../simple_kit.dart';
 import 'components/numeric_keyboard_frame.dart';
-import 'components/numeric_keyboard_preset.dart';
 import 'components/numeric_keyboard_row.dart';
-
-enum SKeyboardPreset { preset1, preset2, preset3 }
 
 class SNumericKeyboardAmount extends StatelessWidget {
   const SNumericKeyboardAmount({
     Key? key,
     this.buttonType = SButtonType.primary1,
     required this.widgetSize,
-    required this.preset1Name,
-    required this.preset2Name,
-    required this.preset3Name,
-    required this.selectedPreset,
-    required this.onPresetChanged,
     required this.onKeyPressed,
     required this.submitButtonActive,
     required this.submitButtonName,
     required this.onSubmitPressed,
-    this.showPresets = true,
   }) : super(key: key);
 
   final SButtonType buttonType;
   final SWidgetSize widgetSize;
-  final String preset1Name;
-  final String preset2Name;
-  final String preset3Name;
-  final SKeyboardPreset? selectedPreset;
-  final void Function(SKeyboardPreset) onPresetChanged;
   final void Function(String) onKeyPressed;
   final bool submitButtonActive;
   final String submitButtonName;
   final void Function() onSubmitPressed;
-  final bool showPresets;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: widgetSize == SWidgetSize.medium
-          ? showPresets
-              ? 440
-              : 380
-          : 340,
+      height: widgetSize == SWidgetSize.medium ? 380 : 340,
       child: Material(
         color: SColorsLight().white,
         child: Column(
           children: [
-            if (widgetSize == SWidgetSize.medium && showPresets) ...[
-              const SpaceH20(),
-              SPaddingH24(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    NumericKeyboardPreset(
-                      name: preset1Name,
-                      selected: selectedPreset == SKeyboardPreset.preset1,
-                      onTap: () => onPresetChanged(SKeyboardPreset.preset1),
-                    ),
-                    const SpaceW10(),
-                    NumericKeyboardPreset(
-                      name: preset2Name,
-                      selected: selectedPreset == SKeyboardPreset.preset2,
-                      onTap: () => onPresetChanged(SKeyboardPreset.preset2),
-                    ),
-                    const SpaceW10(),
-                    NumericKeyboardPreset(
-                      name: preset3Name,
-                      selected: selectedPreset == SKeyboardPreset.preset3,
-                      onTap: () => onPresetChanged(SKeyboardPreset.preset3),
-                    ),
-                  ],
-                ),
-              ),
-            ],
             NumericKeyboardFrame(
               heightBetweenRows: widgetSize == SWidgetSize.medium ? 10 : 2,
               height: widgetSize == SWidgetSize.medium ? 274 : 242,

@@ -25,12 +25,10 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/utils/models/selected_percent.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/keyboards/constants.dart';
-import 'package:simple_kit/modules/keyboards/simple_numeric_keyboard_amount.dart';
 import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/utils/constants.dart';
@@ -45,7 +43,6 @@ import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_
 import 'package:simple_networking/modules/wallet_api/models/simplex/simplex_payment_request_model.dart';
 
 import '../../../core/router/app_router.dart';
-import '../../../utils/formatting/base/base_currencies_format.dart';
 
 part 'currency_buy_store.g.dart';
 
@@ -170,12 +167,6 @@ abstract class _CurrencyBuyStoreBase with Store {
   CardLimitsModel? limitByAsset;
 
   @observable
-  SKeyboardPreset? selectedPreset;
-
-  @observable
-  String? tappedPreset;
-
-  @observable
   String? paymentMethodInputError;
 
   @observable
@@ -210,15 +201,6 @@ abstract class _CurrencyBuyStoreBase with Store {
 
   @observable
   StackLoaderStore loader = StackLoaderStore();
-
-  @observable
-  String preset1Name = '';
-
-  @observable
-  String preset2Name = '';
-
-  @observable
-  String preset3Name = '';
 
   @computed
   bool get isInputErrorActive {
@@ -255,7 +237,6 @@ abstract class _CurrencyBuyStoreBase with Store {
     final target = volumeFormat(
       decimal: Decimal.parse(targetConversionValue),
       symbol: currency.symbol,
-      prefix: currency.prefixSymbol,
       accuracy: currency.accuracy,
     );
 
@@ -444,27 +425,6 @@ abstract class _CurrencyBuyStoreBase with Store {
           .toList();
       if (currenciesPayment.isNotEmpty) {
         paymentCurrency = currenciesPayment[0];
-        preset1Name = selectedPaymentMethod != null
-            ? baseCurrenciesFormat(
-                prefix: paymentCurrency?.prefixSymbol ?? '',
-                text: '50',
-                symbol: paymentCurrency?.symbol ?? '',
-              )
-            : '25%';
-        preset2Name = selectedPaymentMethod != null
-            ? baseCurrenciesFormat(
-                prefix: paymentCurrency?.prefixSymbol ?? '',
-                text: '100',
-                symbol: paymentCurrency?.symbol ?? '',
-              )
-            : '50%';
-        preset3Name = selectedPaymentMethod != null
-            ? baseCurrenciesFormat(
-                prefix: paymentCurrency?.prefixSymbol ?? '',
-                text: '500',
-                symbol: paymentCurrency?.symbol ?? '',
-              )
-            : 'MAX';
       }
     }
   }
@@ -620,27 +580,6 @@ abstract class _CurrencyBuyStoreBase with Store {
         if (currenciesPayment.isNotEmpty) {
           paymentCurrency = currenciesPayment[0];
           _calculateTargetConversionForCrypto();
-          preset1Name = selectedPaymentMethod != null
-              ? baseCurrenciesFormat(
-                  prefix: paymentCurrency?.prefixSymbol ?? '',
-                  text: '50',
-                  symbol: paymentCurrency?.symbol ?? '',
-                )
-              : '25%';
-          preset2Name = selectedPaymentMethod != null
-              ? baseCurrenciesFormat(
-                  prefix: paymentCurrency?.prefixSymbol ?? '',
-                  text: '100',
-                  symbol: paymentCurrency?.symbol ?? '',
-                )
-              : '50%';
-          preset3Name = selectedPaymentMethod != null
-              ? baseCurrenciesFormat(
-                  prefix: paymentCurrency?.prefixSymbol ?? '',
-                  text: '500',
-                  symbol: paymentCurrency?.symbol ?? '',
-                )
-              : 'MAX';
         }
       }
       if (inputValue == '0') {
@@ -691,76 +630,10 @@ abstract class _CurrencyBuyStoreBase with Store {
   }
 
   @action
-  void tapPreset(String presetName) {
-    tappedPreset = presetName;
-  }
-
-  @action
-  void selectFixedSum(SKeyboardPreset preset) {
-    late int value;
-
-    _updateSelectedPreset(preset);
-
-    if (preset == SKeyboardPreset.preset1) {
-      value = 50;
-    } else if (preset == SKeyboardPreset.preset2) {
-      value = 100;
-    } else {
-      value = 500;
-    }
-
-    _updateInputValue(
-      valueAccordingToAccuracy(value.toString(), 0),
-    );
-    _validateInput();
-    _calculateTargetConversion();
-    _calculateBaseConversion();
-  }
-
-  @action
   void updateRecurringBuyType(RecurringBuysType type) {
     _logger.log(notifier, 'updateRecurringBuyType');
 
     recurringBuyType = type;
-  }
-
-  @action
-  void selectPercentFromBalance(SKeyboardPreset preset) {
-    if (selectedCurrency != null) {
-      _logger.log(notifier, 'selectPercentFromBalance');
-
-      _updateSelectedPreset(preset);
-
-      final percent = _percentFromPreset(preset);
-
-      final value = valueBasedOnSelectedPercent(
-        selected: percent,
-        currency: selectedCurrency!,
-      );
-
-      _updateInputValue(
-        valueAccordingToAccuracy(value, selectedCurrency!.accuracy),
-      );
-      _validateInput();
-      _calculateTargetConversion();
-      _calculateBaseConversion();
-    }
-  }
-
-  @action
-  void _updateSelectedPreset(SKeyboardPreset preset) {
-    selectedPreset = preset;
-  }
-
-  @action
-  SelectedPercent _percentFromPreset(SKeyboardPreset preset) {
-    if (preset == SKeyboardPreset.preset1) {
-      return SelectedPercent.pct25;
-    } else if (preset == SKeyboardPreset.preset2) {
-      return SelectedPercent.pct50;
-    } else {
-      return SelectedPercent.pct100;
-    }
   }
 
   @action
@@ -782,7 +655,6 @@ abstract class _CurrencyBuyStoreBase with Store {
     _validateInput();
     _calculateTargetConversion();
     _calculateBaseConversion();
-    _clearPercent();
   }
 
   @action
@@ -994,7 +866,6 @@ abstract class _CurrencyBuyStoreBase with Store {
             decimal: Decimal.parse(min.toString()),
             accuracy: paymentCurrency?.accuracy ?? baseCurrency!.accuracy,
             symbol: paymentCurrency?.symbol ?? baseCurrency!.symbol,
-            prefix: paymentCurrency?.prefixSymbol ?? paymentCurrency?.symbol,
           )}',
         );
       } else if (value > max) {
@@ -1007,7 +878,6 @@ abstract class _CurrencyBuyStoreBase with Store {
             decimal: Decimal.parse(max.toString()),
             accuracy: paymentCurrency?.accuracy ?? baseCurrency!.accuracy,
             symbol: paymentCurrency?.symbol ?? baseCurrency!.symbol,
-            prefix: paymentCurrency?.prefixSymbol ?? paymentCurrency?.symbol,
           )}',
         );
       } else {
@@ -1124,11 +994,5 @@ abstract class _CurrencyBuyStoreBase with Store {
 
     await _fetchCircleCards();
     updateSelectedCircleCard(card);
-  }
-
-  @action
-  void _clearPercent() {
-    tappedPreset = null;
-    selectedPreset = null;
   }
 }
