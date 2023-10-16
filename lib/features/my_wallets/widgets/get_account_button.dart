@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/my_wallets/helper/show_wallet_address_info.dart';
@@ -101,6 +102,8 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context) async
     kycState.withdrawalStatus,
   );
 
+  final anyBlock = sSignalRModules.clientDetail.clientBlockers.isNotEmpty;
+
   final verificationInProgress = kycState.inVerificationProgress;
   final isKyc = !kycPassed && !kycBlocked && !verificationInProgress;
 
@@ -110,7 +113,7 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context) async
     return;
   }
 
-  if (kycBlocked) {
+  if (kycBlocked || anyBlock) {
     kyc.showBlockedAlert();
 
     return;
