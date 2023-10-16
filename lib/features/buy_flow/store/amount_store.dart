@@ -8,6 +8,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/format_service.dart';
+import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
@@ -106,6 +107,8 @@ abstract class _BuyAmountStoreBase with Store {
     return category == PaymentMethodCategory.cards ? card?.toString() ?? '' : account?.currency ?? '';
   }
 
+  @computed
+  Decimal get _availablePresentForProcessing => Decimal.one - ((convertMarkup / Decimal.parse('100')).toDecimal());
   @observable
   CardLimitsModel? limitByAsset;
 
@@ -337,77 +340,7 @@ abstract class _BuyAmountStoreBase with Store {
 
   @action
   void _validateInput() {
-    if (category == PaymentMethodCategory.account) {
-      _validateInputAccaunt();
-    } else {
-      _validateInputCard();
-    }
-  }
-
-  @action
-  void _validateInputAccaunt() {
-    if (!isInputValid(fiatInputValue)) {
-      inputValid = false;
-
-      return;
-    }
-
-    final value = double.parse(fiatInputValue);
-    final min = double.parse('${paymentAsset?.minAmount ?? 0}');
-    var max = double.parse(account?.balance?.toString() ?? '0');
-
-    double? limitMax = max;
-
-    if (limitByAsset != null) {
-      limitMax = limitByAsset!.barInterval == StateBarType.day1
-          ? (limitByAsset!.day1Limit - limitByAsset!.day1Amount).toDouble()
-          : limitByAsset!.barInterval == StateBarType.day7
-              ? (limitByAsset!.day7Limit - limitByAsset!.day7Amount).toDouble()
-              : (limitByAsset!.day30Limit - limitByAsset!.day30Amount).toDouble();
-    }
-
-    max = limitMax < max ? limitMax : max;
-
-    inputValid = value >= min && value <= max;
-
-    if (max == 0) {
-      _updatePaymentMethodInputError(
-        intl.limitIsExceeded,
-      );
-    } else if (value < min) {
-      _updatePaymentMethodInputError(
-        '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
-          decimal: Decimal.parse(min.toString()),
-          accuracy: buyCurrency.accuracy,
-          symbol: buyCurrency.symbol,
-        )}',
-      );
-    } else if (value > max) {
-      _updatePaymentMethodInputError(
-        '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
-          decimal: Decimal.parse(max.toString()),
-          accuracy: buyCurrency.accuracy,
-          symbol: buyCurrency.symbol,
-        )}',
-      );
-    } else {
-      _updatePaymentMethodInputError(null);
-    }
-
-    const error = InputError.none;
-
-    inputError = double.parse(fiatInputValue) != 0
-        ? error == InputError.none
-            ? paymentMethodInputError == null
-                ? InputError.none
-                : InputError.limitError
-            : error
-        : InputError.none;
-  }
-
-  @action
-  void _validateInputCard() {
-    if (double.parse(fiatInputValue) == 0.0) {
+    if (Decimal.parse(fiatInputValue) == Decimal.zero) {
       inputValid = true;
       inputError = InputError.none;
       _updatePaymentMethodInputError(null);
@@ -421,34 +354,32 @@ abstract class _BuyAmountStoreBase with Store {
       return;
     }
 
-    final value = double.parse(fiatInputValue);
-    final min = double.parse('${paymentAsset?.minAmount ?? 0}');
-    var max = double.parse('${paymentAsset?.maxAmount ?? 0}');
+    final value = Decimal.parse(fiatInputValue);
+    final min = paymentAsset?.minAmount ?? Decimal.zero;
+    var max = (account?.balance ?? paymentAsset?.maxAmount ?? Decimal.zero) * _availablePresentForProcessing;
 
-    if (category == PaymentMethodCategory.cards) {
-      double? limitMax = max;
+    Decimal? limitMax = max;
 
-      if (limitByAsset != null) {
-        limitMax = limitByAsset!.barInterval == StateBarType.day1
-            ? (limitByAsset!.day1Limit - limitByAsset!.day1Amount).toDouble()
-            : limitByAsset!.barInterval == StateBarType.day7
-                ? (limitByAsset!.day7Limit - limitByAsset!.day7Amount).toDouble()
-                : (limitByAsset!.day30Limit - limitByAsset!.day30Amount).toDouble();
-      }
-
-      max = limitMax < max ? limitMax : max;
+    if (limitByAsset != null) {
+      limitMax = limitByAsset!.barInterval == StateBarType.day1
+          ? (limitByAsset!.day1Limit - limitByAsset!.day1Amount)
+          : limitByAsset!.barInterval == StateBarType.day7
+              ? (limitByAsset!.day7Limit - limitByAsset!.day7Amount)
+              : (limitByAsset!.day30Limit - limitByAsset!.day30Amount);
     }
+    limitMax = limitMax * _availablePresentForProcessing;
+    max = limitMax < max ? limitMax : max;
 
     inputValid = value >= min && value <= max;
 
-    if (max == 0) {
+    if (max == Decimal.zero) {
       _updatePaymentMethodInputError(
         intl.limitIsExceeded,
       );
     } else if (value < min) {
       _updatePaymentMethodInputError(
         '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
-          decimal: Decimal.parse(min.toString()),
+          decimal: min,
           accuracy: buyCurrency.accuracy,
           symbol: buyCurrency.symbol,
         )}',
@@ -456,7 +387,7 @@ abstract class _BuyAmountStoreBase with Store {
     } else if (value > max) {
       _updatePaymentMethodInputError(
         '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
-          decimal: Decimal.parse(max.toString()),
+          decimal: max,
           accuracy: buyCurrency.accuracy,
           symbol: buyCurrency.symbol,
         )}',

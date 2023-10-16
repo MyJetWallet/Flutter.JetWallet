@@ -42,8 +42,7 @@ class RemoteConfig {
       final storageService = getIt.get<LocalStorageService>();
       final activeSlotUsing = await storageService.getValue(activeSlot);
 
-      final isFirstRunning =
-          await getIt<LocalCacheService>().checkIsFirstRunning();
+      final isFirstRunning = await getIt<LocalCacheService>().checkIsFirstRunning();
 
       final isSlotBActive = activeSlotUsing == 'slot b' && !isFirstRunning;
 
@@ -64,8 +63,7 @@ class RemoteConfig {
       }
 
       Future<RemoteConfigModel> getRemoteConfigFromCache() async {
-        final remoteConfigLocal =
-            await getIt<LocalCacheService>().getRemoteConfig();
+        final remoteConfigLocal = await getIt<LocalCacheService>().getRemoteConfig();
 
         return remoteConfigLocal ?? await getRemoteConfigFromServer();
       }
@@ -129,9 +127,7 @@ class RemoteConfig {
 
   /// Each index respresents different flavor (backend environment)
   void overrideApisFrom(int index, bool slotBActive) {
-    final flavor = slotBActive
-        ? remoteConfig?.connectionFlavorsSlave[index]
-        : remoteConfig?.connectionFlavors[index];
+    final flavor = slotBActive ? remoteConfig?.connectionFlavorsSlave[index] : remoteConfig?.connectionFlavors[index];
 
     getIt.get<SNetwork>().simpleOptions = SimpleOptions(
       candlesApi: flavor!.candlesApi,
@@ -144,10 +140,8 @@ class RemoteConfig {
   }
 
   void overrideAppConfigValues() {
-    emailVerificationCodeLength =
-        remoteConfig!.appConfig.emailVerificationCodeLength;
-    phoneVerificationCodeLength =
-        remoteConfig!.appConfig.phoneVerificationCodeLength;
+    emailVerificationCodeLength = remoteConfig!.appConfig.emailVerificationCodeLength;
+    phoneVerificationCodeLength = remoteConfig!.appConfig.phoneVerificationCodeLength;
     userAgreementLink = remoteConfig!.appConfig.userAgreementLink;
     privacyPolicyLink = remoteConfig!.appConfig.privacyPolicyLink;
     referralPolicyLink = remoteConfig!.appConfig.referralPolicyLink;
@@ -160,15 +154,12 @@ class RemoteConfig {
     paymentDelayDays = remoteConfig!.appConfig.paymentDelayDays;
     privacyEarnLink = remoteConfig!.appConfig.privacyEarnLink;
     amlKycPolicyLink = remoteConfig!.appConfig.amlKycPolicyLink;
-    minAmountOfCharsInPassword =
-        remoteConfig!.appConfig.minAmountOfCharsInPassword;
-    maxAmountOfCharsInPassword =
-        remoteConfig!.appConfig.maxAmountOfCharsInPassword;
+    minAmountOfCharsInPassword = remoteConfig!.appConfig.minAmountOfCharsInPassword;
+    maxAmountOfCharsInPassword = remoteConfig!.appConfig.maxAmountOfCharsInPassword;
     quoteRetryInterval = remoteConfig!.appConfig.quoteRetryInterval;
     defaultAssetIcon = remoteConfig!.appConfig.defaultAssetIcon;
     emailResendCountdown = remoteConfig!.appConfig.emailResendCountdown;
-    withdrawalConfirmResendCountdown =
-        remoteConfig!.appConfig.withdrawConfirmResendCountdown;
+    withdrawalConfirmResendCountdown = remoteConfig!.appConfig.withdrawConfirmResendCountdown;
     localPinLength = remoteConfig!.appConfig.localPinLength;
     maxPinAttempts = remoteConfig!.appConfig.maxPinAttempts;
     forgotPasswordLockHours = remoteConfig!.appConfig.forgotPasswordLockHours;
@@ -177,6 +168,7 @@ class RemoteConfig {
     refundPolicyLink = remoteConfig!.appConfig.refundPolicyLink;
     cardLimitsLearnMoreLink = remoteConfig!.appConfig.cardLimitsLearnMoreLink;
     p2pTerms = remoteConfig!.appConfig.p2pTerms;
+    convertMarkup = remoteConfig!.appConfig.convertMarkup;
   }
 
   void overrideVersioningValues() {
