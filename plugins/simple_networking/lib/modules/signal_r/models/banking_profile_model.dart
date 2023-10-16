@@ -10,6 +10,7 @@ class BankingProfileModel with _$BankingProfileModel {
   factory BankingProfileModel({
     final SimpleBankingModel? simple,
     final BankingDataModel? banking,
+    @BankingShowStateSerialiser() final BankingShowState? showState,
   }) = _BankingProfileModel;
 
   factory BankingProfileModel.fromJson(Map<String, dynamic> json) => _$BankingProfileModelFromJson(json);
@@ -214,4 +215,65 @@ class BankingClientStatusSerialiser implements JsonConverter<BankingClientStatus
 
   @override
   dynamic toJson(BankingClientStatus type) => type.name;
+}
+
+///
+
+enum BankingShowState {
+  hide,
+  accountList,
+  onlySimple,
+  getAccount,
+  inProgress,
+  getAccountBlock,
+  unsupported,
+}
+
+extension _BankingShowStateExtension on BankingShowState {
+  String get name {
+    switch (this) {
+      case BankingShowState.hide:
+        return 'Hide';
+      case BankingShowState.accountList:
+        return 'AccountList';
+      case BankingShowState.onlySimple:
+        return 'OnlySimple';
+      case BankingShowState.getAccount:
+        return 'GetAccount';
+      case BankingShowState.inProgress:
+        return 'InProgress';
+      case BankingShowState.getAccountBlock:
+        return 'GetAccountBlock';
+      default:
+        return 'Unsupported';
+    }
+  }
+}
+
+class BankingShowStateSerialiser implements JsonConverter<BankingShowState, dynamic> {
+  const BankingShowStateSerialiser();
+
+  @override
+  BankingShowState fromJson(dynamic json) {
+    final value = json.toString();
+
+    if (value == '0') {
+      return BankingShowState.hide;
+    } else if (value == '1') {
+      return BankingShowState.accountList;
+    } else if (value == '2') {
+      return BankingShowState.onlySimple;
+    } else if (value == '3') {
+      return BankingShowState.getAccount;
+    } else if (value == '4') {
+      return BankingShowState.inProgress;
+    } else if (value == '5') {
+      return BankingShowState.getAccountBlock;
+    } else {
+      return BankingShowState.unsupported;
+    }
+  }
+
+  @override
+  dynamic toJson(BankingShowState type) => type.name;
 }

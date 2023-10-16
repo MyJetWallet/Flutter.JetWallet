@@ -1,9 +1,11 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_header.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -126,48 +128,6 @@ class EurWalletBody extends StatelessObserverWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SCardRow(
-                  icon: Container(
-                    margin: const EdgeInsets.only(top: 3),
-                    padding: const EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                      color: sKit.colors.blue,
-                      shape: BoxShape.circle,
-                    ),
-                    child: SizedBox(
-                      width: 16,
-                      height: 16,
-                      child: SBankMediumIcon(
-                        color: sKit.colors.white,
-                      ),
-                    ),
-                  ),
-                  name: sSignalRModules.bankingProfileData?.simple?.account?.label ?? 'Account 1',
-                  helper: intl.eur_wallet_simple_account,
-                  onTap: () {
-                    sRouter.push(
-                      const CJAccountRouter(),
-                    );
-                  },
-                  description: '',
-                  amount: '',
-                  needSpacer: true,
-                  rightIcon: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    decoration: ShapeDecoration(
-                      shape: RoundedRectangleBorder(
-                        side: const BorderSide(color: Color(0xFFF1F4F8)),
-                        borderRadius: BorderRadius.circular(22),
-                      ),
-                    ),
-                    child: Text(
-                      '1 545 EUR',
-                      style: sSubtitle1Style.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ),
                 for (final el in sSignalRModules.bankingProfileData?.banking?.accounts ?? <SimpleBankingAccount>[])
                   SCardRow(
                     icon: Container(
@@ -207,7 +167,11 @@ class EurWalletBody extends StatelessObserverWidget {
                               ),
                             ),
                             child: Text(
-                              '1 545 EUR',
+                              volumeFormat(
+                                decimal: el.balance ?? Decimal.zero,
+                                accuracy: eurCurrency.accuracy,
+                                symbol: eurCurrency.symbol,
+                              ),
                               style: sSubtitle1Style.copyWith(
                                 fontWeight: FontWeight.w600,
                               ),

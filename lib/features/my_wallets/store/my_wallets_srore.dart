@@ -1,9 +1,15 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/my_wallets/helper/currencies_for_my_wallet.dart';
+import 'package:jetwallet/features/my_wallets/helper/show_wallet_address_info.dart';
+import 'package:jetwallet/features/my_wallets/helper/show_wallet_verify_account.dart';
 import 'package:jetwallet/utils/enum.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
@@ -149,7 +155,7 @@ abstract class _MyWalletsSroreBase with Store {
 
   // Manual change button status
   @observable
-  SimpleWalletAccountStatus? accountManualStatus;
+  BankingShowState? accountManualStatus;
 
   @computed
   SimpleAccountStatus get simpleStatus =>
@@ -164,48 +170,40 @@ abstract class _MyWalletsSroreBase with Store {
       sSignalRModules.bankingProfileData?.banking?.status ?? BankingClientStatus.simpleKycRequired;
 
   @computed
-  SimpleWalletAccountStatus get buttonStatus {
+  BankingShowState get buttonStatus {
     if (accountManualStatus != null) {
       return accountManualStatus!;
     }
 
-    if (simpleStatus == SimpleAccountStatus.allowed && sSignalRModules.bankingProfileData?.simple?.account != null) {
-      if (personalStatus == BankingClientStatus.kycInProgress) {
-        return SimpleWalletAccountStatus.createdAndcreating;
-      }
-
-      return SimpleWalletAccountStatus.created;
-    }
-    if (simpleStatus == SimpleAccountStatus.kycInProgress) {
-      return SimpleWalletAccountStatus.creating;
-    } else if (simpleStatus == SimpleAccountStatus.kycBlocked) {
-      return SimpleWalletAccountStatus.blocked;
-    } else {
-      return SimpleWalletAccountStatus.none;
-    }
+    return sSignalRModules.bankingProfileData?.showState ?? BankingShowState.getAccount;
   }
 
   @computed
   String get simpleAccountButtonText {
     switch (buttonStatus) {
-      case SimpleWalletAccountStatus.none:
+      case BankingShowState.getAccount:
         return intl.my_wallets_get_account;
-      case SimpleWalletAccountStatus.blocked:
+      case BankingShowState.getAccountBlock:
         return intl.my_wallets_get_account;
-      case SimpleWalletAccountStatus.creating:
+      case BankingShowState.inProgress:
         return intl.my_wallets_create_account;
-      case SimpleWalletAccountStatus.createdAndcreating:
-        return intl.my_wallets_create_account;
-      case SimpleWalletAccountStatus.created:
+      case BankingShowState.accountList:
         return '${(sSignalRModules.bankingProfileData?.banking?.accounts?.length ?? 1) + 1} ${intl.my_wallets_account}';
       default:
         return '';
     }
   }
 
+  Future<void> afterVerification() async {
+    sNotification.showError(intl.let_us_create_account, isError: false);
+    setSimpleAccountStatus(SimpleWalletAccountStatus.creating);
+  }
+
   @action
   Future<void> createSimpleAccount() async {
-    accountManualStatus = SimpleWalletAccountStatus.creating;
+    final context = sRouter.navigatorKey.currentContext!;
+
+    accountManualStatus = BankingShowState.inProgress;
 
     //await Future.delayed(const Duration(seconds: 10));
     final resp = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postSimpleAccountCreate();
@@ -219,7 +217,26 @@ abstract class _MyWalletsSroreBase with Store {
       );
       accountManualStatus = null;
     } else {
-      accountManualStatus = SimpleWalletAccountStatus.created;
+      if (resp.data!.simpleKycRequired) {
+        showWalletVerifyAccount(
+          context,
+          after: afterVerification,
+          isBanking: false,
+        );
+      } else if (resp.data!.bankingKycRequired) {
+        showWalletVerifyAccount(
+          context,
+          after: afterVerification,
+          isBanking: true,
+        );
+      } else if (resp.data!.addressSetupRequired) {
+        showWalletAdressInfo(
+          context,
+          after: afterVerification,
+        );
+      } else {
+        accountManualStatus = BankingShowState.accountList;
+      }
     }
   }
 }

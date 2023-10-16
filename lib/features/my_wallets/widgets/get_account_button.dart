@@ -33,19 +33,19 @@ class GetAccountButton extends StatelessObserverWidget {
         top: 8,
         bottom: 16,
         left: 60,
-        right: store.buttonStatus == SimpleWalletAccountStatus.none ? 60 : 30,
+        right: store.buttonStatus == BankingShowState.getAccount ? 60 : 30,
       ),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
-        width: store.buttonStatus == SimpleWalletAccountStatus.none ? null : double.infinity,
+        width: store.buttonStatus == BankingShowState.getAccount ? null : double.infinity,
         child: SIconTextButton(
           onTap: () {
             sAnalytics.tapOnTheButtonGetAccountEUROnWalletsScreen();
             onGetAccountClick(store, context);
           },
           text: store.simpleAccountButtonText,
-          mainAxisSize: store.buttonStatus == SimpleWalletAccountStatus.none ? MainAxisSize.min : MainAxisSize.max,
-          icon: store.buttonStatus == SimpleWalletAccountStatus.none
+          mainAxisSize: store.buttonStatus == BankingShowState.getAccount ? MainAxisSize.min : MainAxisSize.max,
+          icon: store.buttonStatus == BankingShowState.getAccount
               ? SBankMediumIcon(color: sKit.colors.blue)
               : Container(
                   padding: const EdgeInsets.all(4),
@@ -59,19 +59,19 @@ class GetAccountButton extends StatelessObserverWidget {
                     child: SBankMediumIcon(color: sKit.colors.white),
                   ),
                 ),
-          rightIcon: store.buttonStatus == SimpleWalletAccountStatus.created
+          rightIcon: store.buttonStatus == BankingShowState.accountList
               ? SizedBox(
                   width: 20,
                   height: 20,
                   child: SBlueRightArrowIcon(color: sKit.colors.black),
                 )
               : null,
-          textStyle: store.buttonStatus == SimpleWalletAccountStatus.none
+          textStyle: store.buttonStatus == BankingShowState.getAccount
               ? sTextButtonStyle.copyWith(
                   color: sKit.colors.purple,
                   fontWeight: FontWeight.w600,
                 )
-              : store.buttonStatus == SimpleWalletAccountStatus.creating
+              : store.buttonStatus == BankingShowState.inProgress
                   ? sBodyText2Style.copyWith(
                       color: sKit.colors.grey1,
                       fontWeight: FontWeight.w600,
@@ -87,8 +87,6 @@ class GetAccountButton extends StatelessObserverWidget {
 }
 
 Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context) async {
-  if (store.simpleAccontStatus == SimpleWalletAccountStatus.created) return;
-
   final kycState = getIt.get<KycService>();
   final kyc = getIt.get<KycAlertHandler>();
 
@@ -106,17 +104,6 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context) async
   final verificationInProgress = kycState.inVerificationProgress;
   final isKyc = !kycPassed && !kycBlocked && !verificationInProgress;
 
-  Future<void> afterVerification() async {
-    getIt.get<SimpleLoggerService>().log(
-          level: Level.warning,
-          place: 'Wallet',
-          message: 'after verification Get Simple Account',
-        );
-
-    sNotification.showError(intl.let_us_create_account, isError: false);
-    store.setSimpleAccountStatus(SimpleWalletAccountStatus.creating);
-  }
-
   if (verificationInProgress) {
     kyc.showVerifyingAlert();
 
@@ -129,21 +116,25 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context) async
     return;
   }
 
-  if (store.buttonStatus == SimpleWalletAccountStatus.blocked) {
+  print(store.buttonStatus);
+
+  if (store.buttonStatus == BankingShowState.getAccountBlock) {
     kyc.showBlockedAlert();
 
     return;
-  } else if (store.buttonStatus == SimpleWalletAccountStatus.creating ||
-      store.buttonStatus == SimpleWalletAccountStatus.createdAndcreating) {
+  } else if (store.buttonStatus == BankingShowState.inProgress) {
     kyc.showVerifyingAlert();
 
     return;
-  } else if (store.buttonStatus == SimpleWalletAccountStatus.created) {
+  } else if (store.buttonStatus == BankingShowState.accountList) {
     await sRouter.push(const CJAccountRouter());
 
     return;
+  } else if (store.buttonStatus == BankingShowState.getAccount) {
+    await store.createSimpleAccount();
   }
 
+  /*
   if (store.simpleStatus == SimpleAccountStatus.allowed) {
     await store.createSimpleAccount();
   } else if (isKyc || store.simpleStatus == SimpleAccountStatus.kycRequired) {
@@ -151,4 +142,5 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context) async
   } else if (store.simpleStatus == SimpleAccountStatus.addressRequired) {
     showWalletAdressInfo(context, after: afterVerification);
   }
+  */
 }
