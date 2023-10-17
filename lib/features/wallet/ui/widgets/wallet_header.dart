@@ -34,6 +34,8 @@ class WalletHeader extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
+        final baseCurrency = sSignalRModules.baseCurrency;
+
         final settings = context.dependOnInheritedWidgetOfExactType<FlexibleSpaceBarSettings>();
         final deltaExtent = settings!.maxExtent - settings.minExtent;
         final t = (1.0 - (settings.currentExtent - settings.minExtent) / deltaExtent).clamp(0.0, 1.0);
@@ -95,7 +97,7 @@ class WalletHeader extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                      if (!isEurWallet)
+                      if (baseCurrency.symbol != curr.symbol)
                         Text(
                           curr.volumeAssetBalance,
                           style: sBodyText2Style.copyWith(

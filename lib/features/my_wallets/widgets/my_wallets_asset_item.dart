@@ -24,6 +24,12 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
     final baseCurrency = sSignalRModules.baseCurrency;
     final marketItems = sSignalRModules.marketItems;
 
+    var secondaryText = '';
+
+    if (baseCurrency.symbol != currency.symbol) {
+      secondaryText = getIt<AppStore>().isBalanceHide ? currency.symbol : currency.volumeAssetBalance;
+    }
+
     return SWalletItem(
       height: 80,
       key: UniqueKey(),
@@ -35,7 +41,7 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
       baseCurrencySymbol: baseCurrency.symbol,
       primaryText: currency.description,
       amount: currency.volumeBaseBalance(baseCurrency),
-      secondaryText: getIt<AppStore>().isBalanceHide ? currency.symbol : currency.volumeAssetBalance,
+      secondaryText: secondaryText,
       onTap: !isMoving
           ? () {
               sAnalytics.tapOnFavouriteWalletOnWalletsScreen(
