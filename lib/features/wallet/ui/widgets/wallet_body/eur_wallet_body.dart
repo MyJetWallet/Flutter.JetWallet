@@ -256,7 +256,7 @@ class EurWalletBody extends StatelessObserverWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SpaceH31(),
               ],
             ),
           ),
