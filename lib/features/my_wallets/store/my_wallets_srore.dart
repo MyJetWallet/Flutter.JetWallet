@@ -3,7 +3,6 @@
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -14,7 +13,6 @@ import 'package:jetwallet/utils/enum.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/wallet/set_active_assets_request_model.dart';
 
@@ -23,7 +21,7 @@ part 'my_wallets_srore.g.dart';
 class MyWalletsSrore = _MyWalletsSroreBase with _$MyWalletsSrore;
 
 abstract class _MyWalletsSroreBase with Store {
-  _MyWalletsSroreBase() {}
+  _MyWalletsSroreBase();
 
   @observable
   bool isReordering = false;
@@ -65,6 +63,12 @@ abstract class _MyWalletsSroreBase with Store {
     }
     final item = reorderingCurrencies.removeAt(oldIndex);
     reorderingCurrencies.insert(newIndexTemp, item);
+  }
+
+  @action
+  void endReorderingImmediately() {
+    isReordering = false;
+    reorderingCurrencies = currencies;
   }
 
   @action

@@ -39,17 +39,19 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
         .isNotEmpty;
     final isShowReceive = sSignalRModules.currenciesList.where((element) => element.supportsCryptoDeposit).isNotEmpty;
 
+    final myWalletsSrore = getIt.get<MyWalletsSrore>();
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         CircleActionBuy(
           onTap: () {
-            getIt.get<MyWalletsSrore>().isReordering = false;
-
-            if (isBuyAvailable) {
-              sAnalytics.newBuyTapBuy(
-                source: 'My Assets - Buy',
-              );
+            sAnalytics.newBuyTapBuy(
+              source: 'My Assets - Buy',
+            );
+            if (myWalletsSrore.isReordering) {
+              myWalletsSrore.endReorderingImmediately();
+            } else if (isBuyAvailable) {
               showBuyAction(
                 shouldPop: false,
                 context: context,
@@ -66,22 +68,23 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
         if (isShowReceive) ...[
           CircleActionReceive(
             onTap: () {
-              getIt.get<MyWalletsSrore>().isReordering = false;
-
               sAnalytics.tapOnTheReceiveButton(
                 source: 'My Assets - Receive',
               );
-
-              if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
+              if (myWalletsSrore.isReordering) {
+                myWalletsSrore.endReorderingImmediately();
+              } else if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
                 showReceiveAction(context, shouldPop: false);
               } else {
                 kycAlertHandler.handle(
                   status: kycState.depositStatus,
                   isProgress: kycState.verificationInProgress,
-                  currentNavigate: () => showReceiveAction(
-                    context,
-                    shouldPop: false,
-                  ),
+                  currentNavigate: () {
+                    showReceiveAction(
+                      context,
+                      shouldPop: false,
+                    );
+                  },
                   requiredDocuments: kycState.requiredDocuments,
                   requiredVerifications: kycState.requiredVerifications,
                 );
@@ -92,10 +95,11 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
         if (isShowSend) ...[
           CircleActionSend(
             onTap: () {
-              getIt.get<MyWalletsSrore>().isReordering = false;
-
               sAnalytics.tabOnTheSendButton(source: 'My Assets - Send');
-              if (kycState.withdrawalStatus == kycOperationStatus(KycStatus.allowed)) {
+
+              if (myWalletsSrore.isReordering) {
+                myWalletsSrore.endReorderingImmediately();
+              } else if (kycState.withdrawalStatus == kycOperationStatus(KycStatus.allowed)) {
                 showSendAction(
                   context,
                   isNotEmptyBalance: isNotEmptyBalance,
@@ -119,9 +123,9 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
         ],
         CircleActionExchange(
           onTap: () {
-            getIt.get<MyWalletsSrore>().isReordering = false;
-
-            if (kycState.sellStatus == kycOperationStatus(KycStatus.allowed)) {
+            if (myWalletsSrore.isReordering) {
+              myWalletsSrore.endReorderingImmediately();
+            } else if (kycState.sellStatus == kycOperationStatus(KycStatus.allowed)) {
               showSendTimerAlertOr(
                 context: context,
                 or: () => sRouter.push(ConvertRouter()),

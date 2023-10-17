@@ -6,6 +6,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_verified_model.dart';
+import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/bottom_navigation_bar/components/notification_box.dart';
@@ -181,7 +182,12 @@ class _ScrollInProgressHeader extends StatelessObserverWidget {
                   color: colors.black.withOpacity(0.7),
                 ),
                 onTap: () {
-                  sRouter.push(const AccountRouter());
+                  final myWalletsSrore = getIt.get<MyWalletsSrore>();
+                  if (myWalletsSrore.isReordering) {
+                    myWalletsSrore.endReorderingImmediately();
+                  } else {
+                    sRouter.push(const AccountRouter());
+                  }
                 },
               ),
               Positioned(

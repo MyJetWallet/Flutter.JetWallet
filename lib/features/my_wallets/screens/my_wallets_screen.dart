@@ -108,7 +108,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                   animation: controller,
                   builder: (BuildContext context, Widget? _) {
                     return SizedBox(
-                      height: controller.value *  75,
+                      height: controller.value * 75,
                       child: Container(
                         width: 24.0,
                         decoration: BoxDecoration(
@@ -157,11 +157,15 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                     sAnalytics.tapOnTheButtonPendingTransactionsOnWalletsScreen(
                       numberOfPendingTrx: store.countOfPendingTransactions,
                     );
-                    sRouter.push(
-                      TransactionHistoryRouter(
-                        initialIndex: 1,
-                      ),
-                    );
+                    if (store.isReordering) {
+                      store.endReorderingImmediately();
+                    } else {
+                      sRouter.push(
+                        TransactionHistoryRouter(
+                          initialIndex: 1,
+                        ),
+                      );
+                    }
                   },
                 ),
                 const SpaceH10(),
