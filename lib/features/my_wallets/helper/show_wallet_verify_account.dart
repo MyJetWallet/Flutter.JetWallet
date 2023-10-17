@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -11,6 +13,7 @@ import 'package:simple_kit/simple_kit.dart';
 void showWalletVerifyAccount(
   BuildContext context, {
   required VoidCallback after,
+  required bool isBanking,
 }) {
   final kycState = getIt.get<KycService>();
 
@@ -41,7 +44,7 @@ void showWalletVerifyAccount(
       } else {
         await getIt<SumsubService>().launch(
           onFinish: after,
-          isBanking: false,
+          isBanking: isBanking,
         );
       }
 
