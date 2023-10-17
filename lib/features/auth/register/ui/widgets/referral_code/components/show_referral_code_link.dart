@@ -168,7 +168,7 @@ class _ReferralCodeBottom extends StatelessObserverWidget {
             name: intl.showBasicModalBottomSheet_continue,
             onTap: () {
               sAnalytics.signInFlowPersonaReferralLinkContinue(
-                  code: getIt.get<ReferallCodeStore>().referralCode ?? '');
+                  code: getIt.get<ReferallCodeStore>().referralCode ?? '',);
 
               Navigator.pop(context);
             },

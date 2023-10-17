@@ -32,7 +32,6 @@ class DeleteProfile extends StatelessObserverWidget {
       totalBalance += item.baseBalance;
     }
     final totalBalanceStr = marketFormat(
-      prefix: baseCurrency.prefix,
       decimal: totalBalance,
       accuracy: baseCurrency.accuracy,
       symbol: baseCurrency.symbol,

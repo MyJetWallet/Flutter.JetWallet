@@ -49,8 +49,7 @@ class PreviewConvertBody extends StatefulObserverWidget {
   State<PreviewConvertBody> createState() => _PreviewConvertBodyState();
 }
 
-class _PreviewConvertBodyState extends State<PreviewConvertBody>
-    with SingleTickerProviderStateMixin {
+class _PreviewConvertBodyState extends State<PreviewConvertBody> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
 
   @override
@@ -105,7 +104,6 @@ class _PreviewConvertBodyState extends State<PreviewConvertBody>
                 ),
                 Text(
                   volumeFormat(
-                    prefix: to.prefixSymbol,
                     accuracy: to.accuracy,
                     decimal: store.toAssetAmount ?? Decimal.zero,
                     symbol: to.symbol,
@@ -121,10 +119,8 @@ class _PreviewConvertBodyState extends State<PreviewConvertBody>
                 SActionConfirmText(
                   baseline: 24,
                   name: intl.previewConvert_youSpend,
-                  contentLoading: store.union is QuoteLoading &&
-                      widget.input.toAssetEnabled,
+                  contentLoading: store.union is QuoteLoading && widget.input.toAssetEnabled,
                   value: volumeFormat(
-                    prefix: from.prefixSymbol,
                     accuracy: from.accuracy,
                     decimal: store.fromAssetAmount ?? Decimal.zero,
                     symbol: from.symbol,
@@ -138,8 +134,7 @@ class _PreviewConvertBodyState extends State<PreviewConvertBody>
                     children: [
                       Text(
                         intl.previewConvert_exchangeRate,
-                        style:
-                            sBodyText2Style.copyWith(color: sKit.colors.grey1),
+                        style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
                       ),
                       const Spacer(),
                       if (store.union is QuoteSuccess) ...[
@@ -157,12 +152,10 @@ class _PreviewConvertBodyState extends State<PreviewConvertBody>
                         const SizedBox(width: 8),
                         Text(
                           '${volumeFormat(
-                            prefix: from.prefixSymbol,
                             accuracy: from.accuracy,
                             decimal: Decimal.one,
                             symbol: from.symbol,
                           )} = ${volumeFormat(
-                            prefix: to.prefixSymbol,
                             accuracy: accuracy,
                             decimal: store.price ?? Decimal.zero,
                             symbol: to.symbol,
@@ -186,8 +179,7 @@ class _PreviewConvertBodyState extends State<PreviewConvertBody>
                 SActionConfirmText(
                   name: intl.fee,
                   baseline: 24,
-                  contentLoading: store.union is QuoteLoading &&
-                      !widget.input.toAssetEnabled,
+                  contentLoading: store.union is QuoteLoading && !widget.input.toAssetEnabled,
                   value: '${store.feePercent}%',
                 ),
                 const SizedBox(height: 19),

@@ -21,8 +21,7 @@ import '../widgets/share_gift_result_bottom_sheet.dart';
 
 part 'general_send_gift_store.g.dart';
 
-class GeneralSendGiftStore = GeneralSendGiftStoreBase
-    with _$GeneralSendGiftStore;
+class GeneralSendGiftStore = GeneralSendGiftStoreBase with _$GeneralSendGiftStore;
 
 abstract class GeneralSendGiftStoreBase with Store {
   StackLoaderStore loader = StackLoaderStore();
@@ -49,8 +48,7 @@ abstract class GeneralSendGiftStoreBase with Store {
   void init(SendGiftInfoModel sendGiftInfo) {
     _setCurrency(sendGiftInfo.currency ?? CurrencyModel.empty());
     _setReceiverInformation(
-      newSelectedContactType:
-          sendGiftInfo.selectedContactType ?? ReceiverContacrType.email,
+      newSelectedContactType: sendGiftInfo.selectedContactType ?? ReceiverContacrType.email,
       email: sendGiftInfo.email,
       newPhoneBody: sendGiftInfo.phoneBody,
       newPhoneCountryCode: sendGiftInfo.phoneCountryCode,
@@ -117,11 +115,7 @@ abstract class GeneralSendGiftStoreBase with Store {
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
       );
       try {
-        response = await getIt
-            .get<SNetwork>()
-            .simpleNetworking
-            .getWalletModule()
-            .sendGiftByEmail(
+        response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().sendGiftByEmail(
               model,
             );
       } catch (e) {
@@ -144,11 +138,7 @@ abstract class GeneralSendGiftStoreBase with Store {
       );
 
       try {
-        response = await getIt
-            .get<SNetwork>()
-            .simpleNetworking
-            .getWalletModule()
-            .sendGiftByPhone(
+        response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().sendGiftByPhone(
               model,
             );
       } catch (e) {
@@ -207,7 +197,6 @@ abstract class GeneralSendGiftStoreBase with Store {
       SuccessScreenRouter(
         primaryText: intl.successScreen_success,
         secondaryText: '${intl.send_gift_you_sent} ${volumeFormat(
-          prefix: currency.prefixSymbol,
           decimal: amount,
           accuracy: currency.accuracy,
           symbol: currency.symbol,
@@ -229,14 +218,10 @@ abstract class GeneralSendGiftStoreBase with Store {
           context: context,
           currency: currency,
           amount: amount,
-          email:
-              selectedContactType == ReceiverContacrType.email ? _email : null,
-          phoneNumber: selectedContactType == ReceiverContacrType.phone
-              ? (_phoneCountryCode + _phoneBody)
-              : null,
+          email: selectedContactType == ReceiverContacrType.email ? _email : null,
+          phoneNumber: selectedContactType == ReceiverContacrType.phone ? (_phoneCountryCode + _phoneBody) : null,
           onClose: () {
-            sAnalytics
-                .tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet();
+            sAnalytics.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet();
           },
         );
       },

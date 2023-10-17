@@ -28,8 +28,7 @@ final List<IncomingGiftObject> alreadyShownGifts = [];
 Future<void> pushReceiveGiftBottomSheet(
   IncomingGiftObject gift,
 ) async {
-  if (getIt.isRegistered<AppStore>() &&
-      getIt.get<AppStore>().authorizedStatus is Home) {
+  if (getIt.isRegistered<AppStore>() && getIt.get<AppStore>().authorizedStatus is Home) {
     final context = sRouter.navigatorKey.currentContext!;
     if (context.mounted) {
       await receiveGiftBottomSheet(
@@ -64,7 +63,6 @@ Future<void> receiveGiftBottomSheet({
   );
   sAnalytics.claimGiftScreenView(
     giftAmount: volumeFormat(
-      prefix: currency.prefixSymbol,
       decimal: giftModel.amount ?? Decimal.zero,
       accuracy: currency.accuracy,
       symbol: currency.symbol,
@@ -96,7 +94,6 @@ Future<void> receiveGiftBottomSheet({
       if (!(itsPostProcessing is bool && itsPostProcessing)) {
         sAnalytics.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingClaimGiftSheet(
           giftAmount: volumeFormat(
-            prefix: currency.prefixSymbol,
             decimal: giftModel.amount ?? Decimal.zero,
             accuracy: currency.accuracy,
             symbol: currency.symbol,
@@ -126,7 +123,6 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
     );
 
     final giftAmount = volumeFormat(
-      prefix: currency.prefixSymbol,
       decimal: giftModel.amount ?? Decimal.zero,
       accuracy: currency.accuracy,
       symbol: currency.symbol,
@@ -259,7 +255,6 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
       giftModel.assetSymbol ?? '',
     );
     final giftAmount = volumeFormat(
-      prefix: currency.prefixSymbol,
       decimal: giftModel.amount ?? Decimal.zero,
       accuracy: currency.accuracy,
       symbol: currency.symbol,
@@ -274,11 +269,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
 
     unawaited(sRouter.push(ProgressRouter(loading: loading)));
     try {
-      await getIt
-          .get<SNetwork>()
-          .simpleNetworking
-          .getWalletModule()
-          .acceptGift(giftModel.id);
+      await getIt.get<SNetwork>().simpleNetworking.getWalletModule().acceptGift(giftModel.id);
 
       await showSuccessScreen(currency);
     } on ServerRejectException catch (error) {
@@ -294,7 +285,6 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
       giftModel.assetSymbol ?? '',
     );
     final giftAmount = volumeFormat(
-      prefix: currency.prefixSymbol,
       decimal: giftModel.amount ?? Decimal.zero,
       accuracy: currency.accuracy,
       symbol: currency.symbol,
@@ -308,7 +298,6 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
       SuccessScreenRouter(
         primaryText: intl.successScreen_success,
         secondaryText: '${volumeFormat(
-          prefix: currency.prefixSymbol,
           decimal: giftModel.amount ?? Decimal.zero,
           accuracy: currency.accuracy,
           symbol: currency.symbol,
@@ -329,7 +318,6 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
       giftModel.assetSymbol ?? '',
     );
     final giftAmount = volumeFormat(
-      prefix: currency.prefixSymbol,
       decimal: giftModel.amount ?? Decimal.zero,
       accuracy: currency.accuracy,
       symbol: currency.symbol,
@@ -363,7 +351,6 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
       giftModel.assetSymbol ?? '',
     );
     final giftAmount = volumeFormat(
-      prefix: currency.prefixSymbol,
       decimal: giftModel.amount ?? Decimal.zero,
       accuracy: currency.accuracy,
       symbol: currency.symbol,
@@ -386,12 +373,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
           giftFrom: giftModel.fromName ?? '',
         );
 
-        await getIt
-            .get<SNetwork>()
-            .simpleNetworking
-            .getWalletModule()
-            .declineGift(giftModel.id)
-            .then(
+        await getIt.get<SNetwork>().simpleNetworking.getWalletModule().declineGift(giftModel.id).then(
           (value) {
             Navigator.of(context).pop(true);
             Navigator.of(context).pop(true);

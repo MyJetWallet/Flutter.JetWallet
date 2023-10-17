@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/icons/32x32/public/market/simple_market_icon.dart';
 import 'package:simple_kit/modules/icons/32x32/public/card_bottom/simple_card_bottom_icon.dart';
-import 'package:simple_kit/modules/icons/32x32/public/account_bar/simple_account_bar_icon.dart';
 import 'package:simple_kit/modules/icons/32x32/public/wallets/simple_wallets_icon.dart';
 
 import '../../simple_kit.dart';

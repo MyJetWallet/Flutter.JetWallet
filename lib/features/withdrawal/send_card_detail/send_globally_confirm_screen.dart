@@ -140,8 +140,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                     itemBuilder: (context, index) {
                       return SActionConfirmText(
                         name: state.receiverDetails[index].info.fieldName ?? '',
-                        value: state.receiverDetails[index].info.fieldId ==
-                                FieldInfoId.cardNumber
+                        value: state.receiverDetails[index].info.fieldId == FieldInfoId.cardNumber
                             ? getCardTypeMask(
                                 state.receiverDetails[index].value,
                               )
@@ -170,9 +169,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                   SActionConfirmText(
                     name: intl.global_send_you_send,
                     value: volumeFormat(
-                      prefix: state.sendCurrency!.prefixSymbol,
-                      decimal: (data.amount ?? Decimal.zero) -
-                          (data.feeAmount ?? Decimal.zero),
+                      decimal: (data.amount ?? Decimal.zero) - (data.feeAmount ?? Decimal.zero),
                       accuracy: state.sendCurrency!.accuracy,
                       symbol: state.sendCurrency!.symbol,
                     ),
@@ -180,7 +177,6 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                   SActionConfirmText(
                     name: intl.send_globally_processing_fee,
                     value: volumeFormat(
-                      prefix: state.sendCurrency!.prefixSymbol,
                       decimal: data.feeAmount ?? Decimal.zero,
                       accuracy: state.sendCurrency!.accuracy,
                       symbol: state.sendCurrency!.symbol,
@@ -213,7 +209,6 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                             contentLoading: state.loader.loading,
                             valueColor: colors.blue,
                             value: volumeFormat(
-                              prefix: state.sendCurrency!.prefixSymbol,
                               decimal: data.amount ?? Decimal.zero,
                               accuracy: state.sendCurrency!.accuracy,
                               symbol: state.sendCurrency!.symbol,
@@ -242,7 +237,6 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                           contentLoading: state.loader.loading,
                           valueColor: colors.blue,
                           value: volumeFormat(
-                            prefix: state.sendCurrency!.prefixSymbol,
                             decimal: data.amount ?? Decimal.zero,
                             accuracy: state.sendCurrency!.accuracy,
                             symbol: state.sendCurrency!.symbol,
@@ -281,8 +275,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                             destCountry: data.countryCode ?? '',
                             paymentMethod: method.name ?? '',
                             globalSendType: method.methodId ?? '',
-                            totalSendAmount:
-                                (data.amount ?? Decimal.zero).toString(),
+                            totalSendAmount: (data.amount ?? Decimal.zero).toString(),
                           );
 
                           sRouter.pop();

@@ -47,12 +47,10 @@ class _PreviewBuyWithAssetBody extends StatefulObserverWidget {
   final void Function()? onBackButtonTap;
 
   @override
-  State<_PreviewBuyWithAssetBody> createState() =>
-      __PreviewBuyWithAssetBodyState();
+  State<_PreviewBuyWithAssetBody> createState() => __PreviewBuyWithAssetBodyState();
 }
 
-class __PreviewBuyWithAssetBodyState extends State<_PreviewBuyWithAssetBody>
-    with SingleTickerProviderStateMixin {
+class __PreviewBuyWithAssetBodyState extends State<_PreviewBuyWithAssetBody> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
 
   @override
@@ -142,7 +140,6 @@ class __PreviewBuyWithAssetBodyState extends State<_PreviewBuyWithAssetBody>
                   SActionConfirmText(
                     name: intl.previewBuyWithAsset_youPay,
                     value: volumeFormat(
-                      prefix: from.prefixSymbol,
                       accuracy: from.accuracy,
                       decimal: state.fromAssetAmount ?? Decimal.zero,
                       symbol: from.symbol,
@@ -154,7 +151,6 @@ class __PreviewBuyWithAssetBodyState extends State<_PreviewBuyWithAssetBody>
                       baseline: 35.0,
                       contentLoading: state.union is QuoteLoading,
                       value: '≈ ${volumeFormat(
-                        prefix: to.prefixSymbol,
                         accuracy: to.accuracy,
                         decimal: state.toAssetAmount ?? Decimal.zero,
                         symbol: to.symbol,
@@ -174,13 +170,11 @@ class __PreviewBuyWithAssetBodyState extends State<_PreviewBuyWithAssetBody>
                       timerLoading: state.union is QuoteLoading,
                       animation: state.timerAnimation,
                       value: '${volumeFormat(
-                        prefix: from.prefixSymbol,
                         accuracy: from.accuracy,
                         decimal: Decimal.one,
                         symbol: from.symbol,
                       )} = \n'
                           '${volumeFormat(
-                        prefix: to.prefixSymbol,
                         accuracy: accuracy,
                         decimal: state.price ?? Decimal.zero,
                         symbol: to.symbol,

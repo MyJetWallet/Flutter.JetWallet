@@ -155,11 +155,8 @@ class AssetPaymentProductsEnumSerialiser implements JsonConverter<AssetPaymentPr
   AssetPaymentProductsEnum fromJson(dynamic json) {
     final value = json.toString();
 
-    if (value == 'RewardsOnboardingProgram') {
-      return AssetPaymentProductsEnum.rewardsOnboardingProgram;
-    } else {
-      return AssetPaymentProductsEnum.unsupported;
-    }
+   return value == 'RewardsOnboardingProgram' ? AssetPaymentProductsEnum.rewardsOnboardingProgram : AssetPaymentProductsEnum.unsupported;
+
   }
 
   @override

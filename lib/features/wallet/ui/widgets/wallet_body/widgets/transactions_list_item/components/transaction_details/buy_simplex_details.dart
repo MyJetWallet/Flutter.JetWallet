@@ -74,7 +74,6 @@ class BuySimplexDetails extends StatelessObserverWidget {
               text: volumeFormat(
                 decimal: transactionListItem.buyInfo!.sellAmount,
                 symbol: transactionListItem.buyInfo!.sellAssetId,
-                prefix: paymentCurrency.prefixSymbol,
                 accuracy: paymentCurrency.accuracy,
               ),
             ),

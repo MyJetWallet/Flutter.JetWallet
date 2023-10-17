@@ -20,8 +20,6 @@ import 'package:intl/intl.dart';
 ///    Example when accuracy is 3: 1 000.100 => 1 000.1
 /// 8. zero case: 0 => 0, 0.00 => 0
 String volumeFormat({
-  @Deprecated('The parameter is not used')
-  String? prefix,
   required Decimal decimal,
   required int accuracy,
   required String symbol,
@@ -40,9 +38,7 @@ String volumeFormat({
   formattedWithSymbol = '$formatted $symbol';
   //prefix == null ? '$formatted $symbol' : '$prefix $formatted';
 
-  return decimal.signum.isNegative
-      ? '-$formattedWithSymbol'
-      : formattedWithSymbol;
+  return decimal.signum.isNegative ? '-$formattedWithSymbol' : formattedWithSymbol;
 }
 
 String _formatNumber(Decimal decimal, int accuracy, bool onlyFullPart) {
@@ -74,7 +70,5 @@ String _formatNumber(Decimal decimal, int accuracy, bool onlyFullPart) {
   final wholePart2 = int.parse(wholePart.toString());
   final wholePart3 = formatter.format(wholePart2).replaceAll(',', ' ');
 
-  return decimalPart.isEmpty || onlyFullPart
-      ? wholePart3
-      : '$wholePart3.$decimalPart';
+  return decimalPart.isEmpty || onlyFullPart ? wholePart3 : '$wholePart3.$decimalPart';
 }

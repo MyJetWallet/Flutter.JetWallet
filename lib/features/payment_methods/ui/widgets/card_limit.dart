@@ -59,13 +59,11 @@ class CardLimit extends StatelessObserverWidget {
       }
 
       return '${volumeFormat(
-        prefix: baseCurrency.prefix,
         decimal: amount,
         symbol: baseCurrency.symbol,
         accuracy: baseCurrency.accuracy,
         onlyFullPart: true,
       )} / ${volumeFormat(
-        prefix: baseCurrency.prefix,
         decimal: limit,
         symbol: baseCurrency.symbol,
         accuracy: baseCurrency.accuracy,
@@ -109,8 +107,7 @@ class CardLimit extends StatelessObserverWidget {
                             width: currentWidth,
                             height: small ? 4 : 12,
                             decoration: BoxDecoration(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(6)),
+                              borderRadius: const BorderRadius.all(Radius.circular(6)),
                               color: colors.grey4,
                             ),
                           ),
@@ -122,16 +119,10 @@ class CardLimit extends StatelessObserverWidget {
                                 borderRadius: BorderRadius.only(
                                   topLeft: const Radius.circular(6),
                                   bottomLeft: const Radius.circular(6),
-                                  topRight: isWidthDifferenceSmall
-                                      ? const Radius.circular(6)
-                                      : Radius.zero,
-                                  bottomRight: isWidthDifferenceSmall
-                                      ? const Radius.circular(6)
-                                      : Radius.zero,
+                                  topRight: isWidthDifferenceSmall ? const Radius.circular(6) : Radius.zero,
+                                  bottomRight: isWidthDifferenceSmall ? const Radius.circular(6) : Radius.zero,
                                 ),
-                                color: cardLimit.barProgress == 100
-                                    ? colors.red
-                                    : colorToUse,
+                                color: cardLimit.barProgress == 100 ? colors.red : colorToUse,
                               ),
                             ),
                           ),

@@ -66,8 +66,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     onTap: () {
                       Clipboard.setData(
                         ClipboardData(
-                          text: transactionListItem.paymeInfo?.accountNumber ??
-                              '',
+                          text: transactionListItem.paymeInfo?.accountNumber ?? '',
                         ),
                       );
 
@@ -95,8 +94,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     onTap: () {
                       Clipboard.setData(
                         ClipboardData(
-                          text: transactionListItem.paymeInfo?.recipientName ??
-                              '',
+                          text: transactionListItem.paymeInfo?.recipientName ?? '',
                         ),
                       );
 
@@ -196,8 +194,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
             ),
             const SpaceH18(),
           ],
-          if (transactionListItem.paymeInfo?.iban != null &&
-              transactionListItem.paymeInfo!.iban!.isNotEmpty) ...[
+          if (transactionListItem.paymeInfo?.iban != null && transactionListItem.paymeInfo!.iban!.isNotEmpty) ...[
             TransactionDetailsItem(
               text: intl.global_send_history_iban,
               value: Row(
@@ -238,8 +235,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     onTap: () {
                       Clipboard.setData(
                         ClipboardData(
-                          text:
-                              transactionListItem.paymeInfo?.phoneNumber ?? '',
+                          text: transactionListItem.paymeInfo?.phoneNumber ?? '',
                         ),
                       );
 
@@ -323,8 +319,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     onTap: () {
                       Clipboard.setData(
                         ClipboardData(
-                          text:
-                              transactionListItem.paymeInfo?.bankAccount ?? '',
+                          text: transactionListItem.paymeInfo?.bankAccount ?? '',
                         ),
                       );
 
@@ -376,7 +371,6 @@ class SendGloballyDetails extends StatelessObserverWidget {
             text: intl.global_send_history_sent,
             value: TransactionDetailsValueText(
               text: volumeFormat(
-                prefix: currency.prefixSymbol,
                 decimal: transactionListItem.withdrawalInfo!.withdrawalAmount -
                     transactionListItem.withdrawalInfo!.feeAmount,
                 accuracy: currency.accuracy,
@@ -387,15 +381,12 @@ class SendGloballyDetails extends StatelessObserverWidget {
           if (transactionListItem.status == Status.completed) ...[
             const SpaceH18(),
             TransactionDetailsItem(
-              text:
-                  '''${intl.send_globally_amount_in}${transactionListItem.withdrawalInfo?.receiveAsset ?? ''}''',
+              text: '''${intl.send_globally_amount_in}${transactionListItem.withdrawalInfo?.receiveAsset ?? ''}''',
               value: TransactionDetailsValueText(
                 text: volumeFormat(
-                  decimal: transactionListItem.withdrawalInfo!.receiveAmount ??
-                      Decimal.zero,
+                  decimal: transactionListItem.withdrawalInfo!.receiveAmount ?? Decimal.zero,
                   accuracy: currency.accuracy,
-                  symbol:
-                      transactionListItem.withdrawalInfo?.receiveAsset ?? '',
+                  symbol: transactionListItem.withdrawalInfo?.receiveAsset ?? '',
                 ),
               ),
             ),
@@ -406,7 +397,6 @@ class SendGloballyDetails extends StatelessObserverWidget {
               text: intl.send_globally_processing_fee,
               value: TransactionDetailsValueText(
                 text: volumeFormat(
-                  prefix: currency.prefixSymbol,
                   decimal: transactionListItem.withdrawalInfo!.feeAmount,
                   accuracy: currency.accuracy,
                   symbol: currency.symbol,

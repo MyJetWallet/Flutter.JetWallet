@@ -57,9 +57,7 @@ class GiftReceiveDetails extends StatelessObserverWidget {
               children: [
                 TransactionDetailsValueText(
                   text: volumeFormat(
-                    prefix: currency.prefixSymbol,
-                    decimal: transactionListItem.withdrawalInfo?.feeAmount ??
-                        Decimal.zero,
+                    decimal: transactionListItem.withdrawalInfo?.feeAmount ?? Decimal.zero,
                     accuracy: currency.accuracy,
                     symbol: currency.symbol,
                   ),

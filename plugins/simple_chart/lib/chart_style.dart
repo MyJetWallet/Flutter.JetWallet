@@ -6,7 +6,7 @@ class ChartColors {
   static const Color gridColor = Color(0xff4f525e);
   static const List<Color> kLineShadowColor = [
     Color(0xff07FFF2),
-    Color(0x1A07FFF2)
+    Color(0x1A07FFF2),
   ]; //gradient kline
   static const Color upColor = Color(0xff21b3a4);
   static const Color dnColor = Color(0xffec165c);

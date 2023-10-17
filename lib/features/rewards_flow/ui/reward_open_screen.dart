@@ -18,11 +18,11 @@ import 'package:jetwallet/features/rewards_flow/ui/widgets/reward_animated_card.
 import 'package:jetwallet/features/rewards_flow/ui/widgets/reward_closed_card.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/wallet_api/models/rewards/reward_spin_response.dart';
 
 part 'reward_open_screen.g.dart';
@@ -194,14 +194,12 @@ abstract class _RewardOpenStoreBase with Store {
         sNotification.showError(
           intl.something_went_wrong_try_again2,
           id: 1,
-          isError: true,
         );
       }
     } catch (e) {
       sNotification.showError(
         intl.something_went_wrong_try_again,
         id: 1,
-        isError: true,
       );
     }
   }
@@ -247,7 +245,6 @@ abstract class _RewardOpenStoreBase with Store {
         ),
       ],
       text: '${intl.reward_share_text} ${volumeFormat(
-        prefix: currency.prefixSymbol,
         decimal: spinData?.amount ?? Decimal.zero,
         accuracy: currency.accuracy,
         symbol: currency.symbol,
@@ -318,7 +315,6 @@ class RewardOpenScreen extends StatelessWidget {
 
 class _RewardOpenScreenBody extends StatefulObserverWidget {
   const _RewardOpenScreenBody({
-    super.key,
     required this.rewardStore,
     required this.source,
   });

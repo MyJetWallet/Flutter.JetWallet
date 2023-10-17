@@ -40,7 +40,6 @@ class RewardsBalancesCell extends StatelessObserverWidget {
 
 class _BalanceCell extends StatefulWidget {
   const _BalanceCell({
-    super.key,
     required this.data,
     this.needSeparator = true,
   });
@@ -63,7 +62,6 @@ class _BalanceCellState extends State<_BalanceCell> {
         );
 
     final fAmount = volumeFormat(
-      prefix: curr.prefixSymbol,
       decimal: widget.data.amount,
       accuracy: curr.accuracy,
       symbol: curr.symbol,
@@ -130,7 +128,6 @@ class _BalanceCellState extends State<_BalanceCell> {
                         padding: const EdgeInsets.only(top: 1),
                         child: Text(
                           volumeFormat(
-                            prefix: curr.prefixSymbol,
                             decimal: widget.data.amount,
                             accuracy: curr.accuracy,
                             symbol: curr.symbol,
@@ -285,12 +282,14 @@ class _RewardTransferPopupState extends State<RewardTransferPopup> {
 
                       if (!response.hasError) {
                         showSuccessRewardSheet(
-                            widget.data.assetSymbol ?? '', '${widget.data.amount ?? Decimal.zero}', widget.fAmount);
+                          widget.data.assetSymbol ?? '',
+                          '${widget.data.amount ?? Decimal.zero}',
+                          widget.fAmount,
+                        );
                       } else {
                         sNotification.showError(
                           response.error?.cause ?? '',
                           id: 1,
-                          isError: true,
                         );
                       }
                     } catch (e) {
@@ -298,7 +297,6 @@ class _RewardTransferPopupState extends State<RewardTransferPopup> {
                       sNotification.showError(
                         intl.something_went_wrong_try_again,
                         id: 1,
-                        isError: true,
                       );
 
                       return;
@@ -310,16 +308,17 @@ class _RewardTransferPopupState extends State<RewardTransferPopup> {
                 //],
                 const SpaceH10(),
                 STextButton1(
-                    active: true,
-                    name: intl.reward_cancel,
-                    onTap: () {
-                      sAnalytics.rewardsTransferPopupClickCancel(
-                        transferAmount: widget.data.assetSymbol ?? '',
-                        transferAseet: '${widget.data.amount}',
-                      );
+                  active: true,
+                  name: intl.reward_cancel,
+                  onTap: () {
+                    sAnalytics.rewardsTransferPopupClickCancel(
+                      transferAmount: widget.data.assetSymbol ?? '',
+                      transferAseet: '${widget.data.amount}',
+                    );
 
-                      Navigator.pop(sRouter.navigatorKey.currentContext!);
-                    }),
+                    Navigator.pop(sRouter.navigatorKey.currentContext!);
+                  },
+                ),
                 const SpaceH20(),
               ],
             ),

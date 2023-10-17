@@ -219,7 +219,7 @@ abstract class _ReferallCodeStoreBase with Store {
       _logger.log(stateFlow, 'validateReferralCode', error);
 
       sAnalytics.signInFlowPersonaReferralLinkError(
-          errorCode: error.toString());
+          errorCode: error.toString(),);
 
       referralCodeValidation = const Invalid();
       bottomSheetReferralCodeValidation = const Invalid();

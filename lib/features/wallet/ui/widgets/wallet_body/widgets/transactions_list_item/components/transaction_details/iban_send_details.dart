@@ -49,7 +49,6 @@ class IbanSendDetails extends StatelessObserverWidget {
                 text: intl.iban_send_history_transaction_fee,
                 value: TransactionDetailsValueText(
                   text: volumeFormat(
-                    prefix: currency.prefixSymbol,
                     decimal: transactionListItem.withdrawalInfo!.feeAmount,
                     accuracy: currency.accuracy,
                     symbol: currency.symbol,

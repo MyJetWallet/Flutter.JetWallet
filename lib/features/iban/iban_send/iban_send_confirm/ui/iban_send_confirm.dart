@@ -70,9 +70,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
         children: [
           ListView(
             padding: EdgeInsets.only(
-              bottom: widgetSizeFrom(deviceSize) == SWidgetSize.small
-                  ? 310.0
-                  : 260.0,
+              bottom: widgetSizeFrom(deviceSize) == SWidgetSize.small ? 310.0 : 260.0,
             ),
             children: [
               Column(
@@ -113,7 +111,6 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                   SActionConfirmText(
                     name: intl.iban_out_you_send,
                     value: volumeFormat(
-                      prefix: state.eurCurrency.prefixSymbol,
                       decimal: data.sendAmount ?? Decimal.zero,
                       accuracy: state.eurCurrency.accuracy,
                       symbol: state.eurCurrency.symbol,
@@ -123,7 +120,6 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                   SActionConfirmText(
                     name: intl.iban_out_fee,
                     value: volumeFormat(
-                      prefix: state.eurCurrency.prefixSymbol,
                       decimal: data.feeAmount ?? Decimal.zero,
                       accuracy: state.eurCurrency.accuracy,
                       symbol: state.eurCurrency.symbol,
@@ -177,7 +173,6 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                             contentLoading: state.loader.loading,
                             valueColor: colors.blue,
                             value: volumeFormat(
-                              prefix: state.eurCurrency.prefixSymbol,
                               decimal: data.amount ?? Decimal.zero,
                               accuracy: state.eurCurrency.accuracy,
                               symbol: state.eurCurrency.symbol,
@@ -206,7 +201,6 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                           contentLoading: state.loader.loading,
                           valueColor: colors.blue,
                           value: volumeFormat(
-                            prefix: state.eurCurrency.prefixSymbol,
                             decimal: data.amount ?? Decimal.zero,
                             accuracy: state.eurCurrency.accuracy,
                             symbol: state.eurCurrency.symbol,

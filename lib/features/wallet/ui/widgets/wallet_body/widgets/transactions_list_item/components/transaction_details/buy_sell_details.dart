@@ -49,14 +49,12 @@ class BuySellDetails extends StatelessObserverWidget {
       );
 
       final base = volumeFormat(
-        prefix: currency1.prefixSymbol,
         decimal: transactionListItem.swapInfo!.baseRate,
         accuracy: currency1.accuracy,
         symbol: currency1.symbol,
       );
 
       final quote = volumeFormat(
-        prefix: currency2.prefixSymbol,
         decimal: transactionListItem.swapInfo!.quoteRate,
         accuracy: accuracy,
         symbol: currency2.symbol,
@@ -106,7 +104,6 @@ class BuySellDetails extends StatelessObserverWidget {
               text: intl.withText,
               value: TransactionDetailsValueText(
                 text: volumeFormat(
-                  prefix: sellCurrency.prefixSymbol,
                   decimal: transactionListItem.swapInfo!.sellAmount,
                   accuracy: sellCurrency.accuracy,
                   symbol: sellCurrency.symbol,
@@ -133,7 +130,6 @@ class BuySellDetails extends StatelessObserverWidget {
               text: intl.buySellDetails_forText,
               value: TransactionDetailsValueText(
                 text: volumeFormat(
-                  prefix: buyCurrency.prefixSymbol,
                   decimal: transactionListItem.swapInfo!.buyAmount,
                   accuracy: buyCurrency.accuracy,
                   symbol: buyCurrency.symbol,

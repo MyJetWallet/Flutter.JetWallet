@@ -46,8 +46,7 @@ class PreviewSellBody extends StatefulObserverWidget {
   State<PreviewSellBody> createState() => _PreviewSellBodyState();
 }
 
-class _PreviewSellBodyState extends State<PreviewSellBody>
-    with SingleTickerProviderStateMixin {
+class _PreviewSellBodyState extends State<PreviewSellBody> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
 
   @override
@@ -129,7 +128,6 @@ class _PreviewSellBodyState extends State<PreviewSellBody>
                   SActionConfirmText(
                     name: intl.previewSell_youPay,
                     value: volumeFormat(
-                      prefix: from.prefixSymbol,
                       accuracy: from.accuracy,
                       decimal: store.fromAssetAmount ?? Decimal.zero,
                       symbol: from.symbol,
@@ -140,7 +138,6 @@ class _PreviewSellBodyState extends State<PreviewSellBody>
                     baseline: 35.0,
                     contentLoading: store.union is QuoteLoading,
                     value: '≈ ${volumeFormat(
-                      prefix: to.prefixSymbol,
                       accuracy: to.accuracy,
                       decimal: store.toAssetAmount ?? Decimal.zero,
                       symbol: to.symbol,
@@ -159,13 +156,11 @@ class _PreviewSellBodyState extends State<PreviewSellBody>
                     timerLoading: store.union is QuoteLoading,
                     animation: store.timerAnimation,
                     value: '${volumeFormat(
-                      prefix: from.prefixSymbol,
                       accuracy: from.accuracy,
                       decimal: Decimal.one,
                       symbol: from.symbol,
                     )} = \n'
                         '${volumeFormat(
-                      prefix: to.prefixSymbol,
                       accuracy: accuracy,
                       decimal: store.price ?? Decimal.zero,
                       symbol: to.symbol,

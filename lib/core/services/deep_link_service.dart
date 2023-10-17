@@ -456,7 +456,6 @@ class DeepLinkService {
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
-      final kycState = getIt.get<KycService>();
 
       await getIt<SumsubService>().launch(
         isBanking: false,
@@ -465,7 +464,6 @@ class DeepLinkService {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
           func: () async {
-            final kycState = getIt.get<KycService>();
 
             await getIt<SumsubService>().launch(
               isBanking: false,

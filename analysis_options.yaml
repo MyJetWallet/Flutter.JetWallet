@@ -26,6 +26,7 @@ linter:
     lines_longer_than_80_chars: false
 
     use_setters_to_change_properties: false
+    use_build_context_synchronously: false
     
     # experimental, add when stable
     # avoid_dynamic_calls: true
@@ -71,7 +72,6 @@ dart_code_metrics:
     - prefer-conditional-expressions
     - no-equal-then-else
     - avoid-unnecessary-setstate
-    - prefer_relative_imports
     - prefer_final_fields
     - prefer_final_locals
     - prefer_const_declarations

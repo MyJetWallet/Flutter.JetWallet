@@ -32,8 +32,8 @@ abstract class _FormatServiceBase with Store {
     final priceInBaseCurrency = usdCurrencyAsset.currentPrice * priceInUSD;
 
     return operationAsset == baseCurrency.symbol
-        ? '''≈ ${volumeFormat(prefix: baseCurrency.prefix, decimal: operationAmount, accuracy: baseCurrency.accuracy, symbol: baseCurrency.symbol)}'''
-        : '''≈ ${volumeFormat(prefix: baseCurrency.prefix, decimal: priceInBaseCurrency, accuracy: baseCurrency.accuracy, symbol: baseCurrency.symbol)}''';
+        ? '''≈ ${volumeFormat(decimal: operationAmount, accuracy: baseCurrency.accuracy, symbol: baseCurrency.symbol)}'''
+        : '''≈ ${volumeFormat(decimal: priceInBaseCurrency, accuracy: baseCurrency.accuracy, symbol: baseCurrency.symbol)}''';
   }
 
   CurrencyModel findCurrency({
@@ -76,8 +76,7 @@ abstract class _FormatServiceBase with Store {
     // Covnert FromCurrency to User base currency
     final fromCurrInBaseCurr = fromCurrencyAmmount * fromAsset.currentPrice;
 
-    final baseCurrencyToAsset =
-        baseAsset.currentPrice.toDouble() / toAsset.currentPrice.toDouble();
+    final baseCurrencyToAsset = baseAsset.currentPrice.toDouble() / toAsset.currentPrice.toDouble();
 
     final toAmmount = fromCurrInBaseCurr.toDouble() * baseCurrencyToAsset;
     final finalAmmount = Decimal.parse(toAmmount.toString());
@@ -96,9 +95,7 @@ abstract class _FormatServiceBase with Store {
     );
 
     double roundWithAccuracy(double number, int normalizedAccuracy) {
-      final res = isMin
-          ? number.ceilDigits(normalizedAccuracy)
-          : number.floorDigits(normalizedAccuracy);
+      final res = isMin ? number.ceilDigits(normalizedAccuracy) : number.floorDigits(normalizedAccuracy);
 
       return isMin
           ? number >= res

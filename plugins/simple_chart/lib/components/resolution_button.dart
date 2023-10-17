@@ -58,7 +58,7 @@ class ResolutionButton extends StatelessWidget {
         else
           const SizedBox(
             height: 8,
-          )
+          ),
       ],
     );
   }

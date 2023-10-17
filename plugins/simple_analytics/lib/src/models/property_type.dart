@@ -55,4 +55,8 @@ class PropertyType {
   static const openedAsset = 'Opened Asset';
   static const addedFavouritesAssetName = 'Added favourites asset name';
   static const globalHistoryTab = 'GlobalHistoryTab';
+  static const numberOfOpenedEurAccounts = 'Number of opened EUR accounts';
+  static const eurAccountType = 'EUR Account type';
+  static const eurAccountLabel = 'EUR Account label';
+  static const isHasTransactions = 'IsHasTransaction';
 }

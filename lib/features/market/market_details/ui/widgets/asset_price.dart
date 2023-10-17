@@ -22,8 +22,8 @@ class AssetPrice extends StatelessObserverWidget {
     final chart = ChartStore.of(context);
     final baseCurrency = sSignalRModules.baseCurrency;
 
-    final currency = sSignalRModules.getMarketPrices
-        .firstWhere((element) => element.symbol == marketItem.associateAsset);
+    final currency =
+        sSignalRModules.getMarketPrices.firstWhere((element) => element.symbol == marketItem.associateAsset);
 
     return SizedBox(
       height: 40,
@@ -57,13 +57,11 @@ class AssetPrice extends StatelessObserverWidget {
   ) {
     return chart.selectedCandle != null
         ? marketFormat(
-            prefix: baseCurrency.prefix,
             decimal: Decimal.parse(chart.selectedCandle!.close.toString()),
             accuracy: marketItem.priceAccuracy,
             symbol: baseCurrency.symbol,
           )
         : marketFormat(
-            prefix: baseCurrency.prefix,
             decimal: currency.lastPrice,
             symbol: baseCurrency.symbol,
             accuracy: currency.priceAccuracy,

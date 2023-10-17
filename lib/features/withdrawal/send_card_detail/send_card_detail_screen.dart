@@ -168,7 +168,6 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                           width: 80,
                           package: 'simple_kit',
                         ),
-                        primaryButtonType: SButtonType.primary1,
                         onPrimaryButtonTap: () {
                           sAnalytics.globalSendGotItButton(
                             asset: store.currency,
@@ -179,7 +178,6 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
 
                           Navigator.pop(context);
                         },
-                        isNeedCancelButton: false,
                         cancelText: intl.profileDetails_cancel,
                         onCancelButtonTap: () => {Navigator.pop(context)},
                       );

@@ -14,11 +14,9 @@ List<String> periodChange({
   required ChartState chart,
   required BaseCurrencyModel baseCurrency,
 }) {
-  if (chart.candles[chart.resolution] != null &&
-      chart.candles[chart.resolution]!.isNotEmpty) {
+  if (chart.candles[chart.resolution] != null && chart.candles[chart.resolution]!.isNotEmpty) {
     final firstPrice = chart.candles[chart.resolution]!.first.close;
-    final lastPrice =
-        selectedCandle?.close ?? chart.candles[chart.resolution]!.last.close;
+    final lastPrice = selectedCandle?.close ?? chart.candles[chart.resolution]!.last.close;
     final periodPriceChange = lastPrice - firstPrice;
     final periodPercentChange = percentChangeBetween(firstPrice, lastPrice);
 
@@ -31,7 +29,6 @@ List<String> periodChange({
     return marketItem != null
         ? [
             marketFormat(
-              prefix: baseCurrency.prefix,
               decimal: Decimal.parse(periodPriceChange.toString()),
               accuracy: marketItem.priceAccuracy,
               symbol: baseCurrency.symbol,
@@ -40,7 +37,6 @@ List<String> periodChange({
           ]
         : [
             volumeFormat(
-              prefix: baseCurrency.prefix,
               decimal: Decimal.parse(periodPriceChange.toString()),
               accuracy: baseCurrency.accuracy,
               symbol: baseCurrency.symbol,

@@ -113,8 +113,7 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
       }
     }
 
-    icon =
-        state.isChecked ? const SCheckboxSelectedIcon() : const SCheckboxIcon();
+    icon = state.isChecked ? const SCheckboxSelectedIcon() : const SCheckboxIcon();
 
     return SPageFrameWithPadding(
       loading: state.loader,
@@ -127,9 +126,7 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
         children: [
           ListView(
             padding: EdgeInsets.only(
-              bottom: widgetSizeFrom(deviceSize) == SWidgetSize.small
-                  ? 310.0
-                  : 260.0,
+              bottom: widgetSizeFrom(deviceSize) == SWidgetSize.small ? 310.0 : 260.0,
             ),
             children: [
               Column(
@@ -159,7 +156,6 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
                     name: intl.previewBuyWithCircle_youWillGet,
                     contentLoading: state.loader.loading,
                     value: '≈ ${volumeFormat(
-                      prefix: input.currency.prefixSymbol,
                       symbol: input.currency.symbol,
                       accuracy: input.currency.accuracy,
                       decimal: state.buyAmount ?? Decimal.zero,
@@ -169,7 +165,6 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
                     name: intl.previewBuyWithCircle_rate,
                     contentLoading: state.loader.loading,
                     value: '1 ${input.currency.symbol} = ${volumeFormat(
-                      prefix: input.currencyPayment.prefixSymbol,
                       symbol: input.currencyPayment.symbol,
                       accuracy: input.currencyPayment.accuracy,
                       decimal: state.rate ?? Decimal.zero,
@@ -177,14 +172,12 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
                   ),
                   SActionConfirmText(
                     name: intl.previewBuyWithCircle_payFrom,
-                    value:
-                        '${state.card?.network.name} •••• ${state.card?.last4}',
+                    value: '${state.card?.network.name} •••• ${state.card?.last4}',
                   ),
                   SActionConfirmText(
                     name: intl.previewBuyWithCircle_creditCardFee,
                     contentLoading: state.loader.loading,
                     value: volumeFormat(
-                      prefix: transactionFeeCurrency.prefixSymbol,
                       decimal: state.depositFeeAmount ?? Decimal.zero,
                       accuracy: transactionFeeCurrency.accuracy,
                       symbol: transactionFeeCurrency.symbol,
@@ -195,7 +188,6 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
                     name: intl.previewBuyWithCircle_transactionFee,
                     contentLoading: state.loader.loading,
                     value: volumeFormat(
-                      prefix: input.currency.prefixSymbol,
                       decimal: state.tradeFeeAmount ?? Decimal.zero,
                       accuracy: input.currency.accuracy,
                       symbol: input.currency.symbol,
@@ -224,7 +216,6 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
                             contentLoading: state.loader.loading,
                             valueColor: colors.blue,
                             value: volumeFormat(
-                              prefix: input.currencyPayment.prefixSymbol,
                               symbol: input.currencyPayment.symbol,
                               accuracy: input.currencyPayment.accuracy,
                               decimal: state.amountToPay!,
@@ -268,8 +259,7 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
                               child: RichText(
                                 text: TextSpan(
                                   text: state.isPending
-                                      ? intl
-                                          .previewBuyWithCircle_cardIsProcessing
+                                      ? intl.previewBuyWithCircle_cardIsProcessing
                                       : intl.previewBuyWithCircle_cardIsReady,
                                   style: sBodyText1Style.copyWith(
                                     color: colors.black,
@@ -302,7 +292,6 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
                           contentLoading: state.loader.loading,
                           valueColor: colors.blue,
                           value: volumeFormat(
-                            prefix: input.currencyPayment.prefixSymbol,
                             symbol: input.currencyPayment.symbol,
                             accuracy: input.currencyPayment.accuracy,
                             decimal: state.amountToPay!,
@@ -349,9 +338,7 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
                   ),
                 const SpaceH24(),
                 SPrimaryButton2(
-                  active: !state.loader.loading &&
-                      !state.isPending &&
-                      (state.isChecked || hideCheckbox),
+                  active: !state.loader.loading && !state.isPending && (state.isChecked || hideCheckbox),
                   name: intl.previewBuyWithAsset_confirm,
                   onTap: () {
                     state.onConfirm();

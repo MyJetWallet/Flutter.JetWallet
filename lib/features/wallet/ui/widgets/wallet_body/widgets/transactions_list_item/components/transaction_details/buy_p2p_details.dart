@@ -58,14 +58,12 @@ class BuyP2PDetails extends StatelessObserverWidget {
       );
 
       final base = volumeFormat(
-        prefix: buyCurrency.prefixSymbol,
         decimal: transactionListItem.cryptoBuyInfo!.baseRate,
         accuracy: buyCurrency.accuracy,
         symbol: buyCurrency.symbol,
       );
 
       final quote = volumeFormat(
-        prefix: paymentCurrency.prefixSymbol,
         decimal: transactionListItem.cryptoBuyInfo!.quoteRate,
         accuracy: accuracy,
         symbol: paymentCurrency.symbol,
@@ -118,7 +116,6 @@ class BuyP2PDetails extends StatelessObserverWidget {
                   decimal: transactionListItem.cryptoBuyInfo!.paymentAmount,
                   accuracy: paymentCurrency.accuracy,
                   symbol: transactionListItem.cryptoBuyInfo!.paymentAssetId,
-                  prefix: paymentCurrency.prefixSymbol,
                 ),
               ),
             ),
@@ -137,8 +134,7 @@ class BuyP2PDetails extends StatelessObserverWidget {
               value: TransactionDetailsValueText(
                 text: transactionListItem.cryptoBuyInfo?.paymentMethodName ??
                     getLocalOperationName(
-                      transactionListItem.cryptoBuyInfo?.paymentMethod ??
-                          PaymentMethodType.unsupported,
+                      transactionListItem.cryptoBuyInfo?.paymentMethod ?? PaymentMethodType.unsupported,
                     ),
               ),
             ),
@@ -149,7 +145,6 @@ class BuyP2PDetails extends StatelessObserverWidget {
               text: intl.history_payment_fee,
               value: TransactionDetailsValueText(
                 text: volumeFormat(
-                  prefix: depositCurrency.prefixSymbol,
                   decimal: transactionListItem.cryptoBuyInfo!.depositFeeAmount,
                   accuracy: depositCurrency.accuracy,
                   symbol: depositCurrency.symbol,
@@ -161,7 +156,6 @@ class BuyP2PDetails extends StatelessObserverWidget {
               text: intl.history_our_fee,
               value: TransactionDetailsValueText(
                 text: volumeFormat(
-                  prefix: currentCurrency.prefixSymbol,
                   decimal: transactionListItem.cryptoBuyInfo!.tradeFeeAmount,
                   accuracy: currentCurrency.accuracy,
                   symbol: currentCurrency.symbol,
