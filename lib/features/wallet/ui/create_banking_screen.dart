@@ -34,7 +34,7 @@ class CreateBankingScreen extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
-                  colors: [Color(0xFF8ADE39), Color(0xFFBEF275)],
+                  colors: [Color.fromRGBO(137, 187, 91, 1), Color(0xFFBEF275)],
                 ),
                 shape: OvalBorder(),
               ),
@@ -104,6 +104,7 @@ class CreateBankingScreen extends StatelessWidget {
               showCreatePersonalAccount(context, loading);
             },
           ),
+          const SpaceH24(),
         ],
       ),
     );

@@ -63,7 +63,7 @@ class SSmallHeader extends StatelessWidget {
         children: [
           const SpaceH64(),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               if (showBackButton)
@@ -108,9 +108,7 @@ class SSmallHeader extends StatelessWidget {
               if (showStarButton)
                 SIconButton(
                   onTap: onStarButtonTap,
-                  defaultIcon: isStarSelected
-                      ? const SStarSelectedIcon()
-                      : const SStarIcon(),
+                  defaultIcon: isStarSelected ? const SStarSelectedIcon() : const SStarIcon(),
                   pressedIcon: const SStarPressedIcon(),
                 )
               else if (showInfoButton)
