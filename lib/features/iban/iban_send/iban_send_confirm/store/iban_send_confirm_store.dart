@@ -18,12 +18,10 @@ import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_withdrawal_model.dart';
 part 'iban_send_confirm_store.g.dart';
 
-class IbanSendConfirmStore extends _IbanSendConfirmStoreBase
-    with _$IbanSendConfirmStore {
+class IbanSendConfirmStore extends _IbanSendConfirmStoreBase with _$IbanSendConfirmStore {
   IbanSendConfirmStore() : super();
 
-  static IbanSendConfirmStore of(BuildContext context) =>
-      Provider.of<IbanSendConfirmStore>(context, listen: false);
+  static IbanSendConfirmStore of(BuildContext context) => Provider.of<IbanSendConfirmStore>(context, listen: false);
 }
 
 abstract class _IbanSendConfirmStoreBase with Store {
@@ -60,11 +58,7 @@ abstract class _IbanSendConfirmStoreBase with Store {
       bic: data.bic,
     );
 
-    final response = await getIt
-        .get<SNetwork>()
-        .simpleNetworking
-        .getWalletModule()
-        .postIbanWithdrawal(model);
+    final response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postIbanWithdrawal(model);
 
     loader.finishLoadingImmediately();
 
@@ -108,9 +102,7 @@ abstract class _IbanSendConfirmStoreBase with Store {
         .push(
           SuccessScreenRouter(
             primaryText: intl.send_globally_success,
-            secondaryText:
-                '${intl.send_globally_success_secondary} ${volumeFormat(
-              prefix: eurCurrency.prefixSymbol,
+            secondaryText: '${intl.send_globally_success_secondary} ${volumeFormat(
               decimal: data.sendAmount ?? Decimal.zero,
               accuracy: eurCurrency.accuracy,
               symbol: eurCurrency.symbol,

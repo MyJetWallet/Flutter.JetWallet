@@ -32,25 +32,21 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final catchingTypes =
-        transactionListItem.operationType == OperationType.nftBuy ||
-            transactionListItem.operationType == OperationType.nftSwap ||
-            transactionListItem.operationType == OperationType.nftSell;
+    final catchingTypes = transactionListItem.operationType == OperationType.nftBuy ||
+        transactionListItem.operationType == OperationType.nftSwap ||
+        transactionListItem.operationType == OperationType.nftSell;
 
-    final isLocal =
-        transactionListItem.operationType == OperationType.cryptoInfo &&
-            isOperationLocal(
-              transactionListItem.cryptoBuyInfo?.paymentMethod ??
-                  PaymentMethodType.unsupported,
-            );
+    final isLocal = transactionListItem.operationType == OperationType.cryptoInfo &&
+        isOperationLocal(
+          transactionListItem.cryptoBuyInfo?.paymentMethod ?? PaymentMethodType.unsupported,
+        );
 
-    final currencyForOperation =
-        transactionListItem.operationType == OperationType.nftBuy ||
-                transactionListItem.operationType == OperationType.nftSwap
-            ? transactionListItem.swapInfo?.sellAssetId ?? ''
-            : transactionListItem.operationType == OperationType.nftSell
-                ? transactionListItem.swapInfo?.buyAssetId ?? ''
-                : transactionListItem.assetId;
+    final currencyForOperation = transactionListItem.operationType == OperationType.nftBuy ||
+            transactionListItem.operationType == OperationType.nftSwap
+        ? transactionListItem.swapInfo?.sellAssetId ?? ''
+        : transactionListItem.operationType == OperationType.nftSell
+            ? transactionListItem.swapInfo?.buyAssetId ?? ''
+            : transactionListItem.assetId;
 
     final currency = getIt<FormatService>().findCurrency(
       assetSymbol: currencyForOperation,
@@ -115,17 +111,14 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
           ),
         if (devicePR == 2) ...[
           const SpaceH30(),
-        ] else if (transactionListItem.operationType ==
-                OperationType.sendGlobally ||
-            ((transactionListItem.operationType == OperationType.p2pBuy ||
-                    isLocal) &&
+        ] else if (transactionListItem.operationType == OperationType.sendGlobally ||
+            ((transactionListItem.operationType == OperationType.p2pBuy || isLocal) &&
                 transactionListItem.status == Status.inProgress)) ...[
           const SpaceH40(),
         ] else ...[
           const SpaceH67(),
         ],
-        if ((transactionListItem.operationType == OperationType.p2pBuy ||
-                isLocal) &&
+        if ((transactionListItem.operationType == OperationType.p2pBuy || isLocal) &&
             transactionListItem.status == Status.inProgress)
           Text(
             intl.history_approximately,
@@ -133,12 +126,10 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
               color: colors.grey2,
             ),
           ),
-        if (!nftTypes.contains(transactionListItem.operationType) ||
-            catchingTypes) ...[
+        if (!nftTypes.contains(transactionListItem.operationType) || catchingTypes) ...[
           SPaddingH24(
             child: AutoSizeText(
               volumeFormat(
-                prefix: currency.prefixSymbol,
                 decimal: operationAmount(transactionListItem),
                 accuracy: currency.accuracy,
                 symbol: currency.symbol,
@@ -196,11 +187,9 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
       title = '${operationName(OperationType.buy, context)} '
           '${currency.description} - '
           '${operationName(transactionListItem.operationType, context)}';
-    } else if (transactionListItem.operationType ==
-            OperationType.earningDeposit ||
+    } else if (transactionListItem.operationType == OperationType.earningDeposit ||
         transactionListItem.operationType == OperationType.earningWithdrawal) {
-      if (transactionListItem.earnInfo?.totalBalance !=
-              transactionListItem.balanceChange.abs() &&
+      if (transactionListItem.earnInfo?.totalBalance != transactionListItem.balanceChange.abs() &&
           transactionListItem.operationType == OperationType.earningDeposit) {
         title = operationName(
           transactionListItem.operationType,
@@ -217,11 +206,9 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
     } else if (transactionListItem.operationType == OperationType.nftSell ||
         transactionListItem.operationType == OperationType.nftSellOpposite) {
       title = '${operationName(OperationType.sell, context)} $nftName';
-    } else if (transactionListItem.operationType ==
-        OperationType.nftWithdrawal) {
+    } else if (transactionListItem.operationType == OperationType.nftWithdrawal) {
       title = '${intl.operationName_send} $nftName';
-    } else if (transactionListItem.operationType ==
-        OperationType.nftWithdrawalFee) {
+    } else if (transactionListItem.operationType == OperationType.nftWithdrawalFee) {
       title = '${intl.operationName_send} $nftName';
     } else if (transactionListItem.operationType == OperationType.nftDeposit) {
       title = '${intl.operationName_receive} $nftName';
@@ -234,8 +221,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
           ' ${transactionListItem.swapInfo?.sellAssetId} '
           '${intl.operationName_exchangeTo} '
           '${transactionListItem.swapInfo?.buyAssetId}';
-    } else if (transactionListItem.operationType ==
-        OperationType.sendGlobally) {
+    } else if (transactionListItem.operationType == OperationType.sendGlobally) {
       title = '${operationName(
         OperationType.sendGlobally,
         context,
@@ -300,15 +286,13 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
         transactionListItem.operationType == OperationType.ibanSend ||
         transactionListItem.operationType == OperationType.sendGlobally) {
       return Decimal.parse(
-        '${transactionListItem.withdrawalInfo!.withdrawalAmount}'
-            .replaceAll('-', ''),
+        '${transactionListItem.withdrawalInfo!.withdrawalAmount}'.replaceAll('-', ''),
       );
     }
 
     if (transactionListItem.operationType == OperationType.transferByPhone) {
       return Decimal.parse(
-        '''${transactionListItem.transferByPhoneInfo?.withdrawalAmount ?? Decimal.zero}'''
-            .replaceAll('-', ''),
+        '''${transactionListItem.transferByPhoneInfo?.withdrawalAmount ?? Decimal.zero}'''.replaceAll('-', ''),
       );
     }
 

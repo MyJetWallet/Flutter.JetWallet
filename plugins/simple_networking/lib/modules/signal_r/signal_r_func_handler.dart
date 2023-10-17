@@ -439,8 +439,6 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      print(e);
-
       instance.handleError(bankingProfileMessage, e);
     }
   }

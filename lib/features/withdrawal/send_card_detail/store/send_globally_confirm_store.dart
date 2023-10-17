@@ -30,8 +30,7 @@ class ReceiverDetailModel {
   final String value;
 }
 
-class SendGloballyConfirmStore extends _SendGloballyConfirmStoreBase
-    with _$SendGloballyConfirmStore {
+class SendGloballyConfirmStore extends _SendGloballyConfirmStoreBase with _$SendGloballyConfirmStore {
   SendGloballyConfirmStore() : super();
 
   static SendGloballyConfirmStore of(BuildContext context) =>
@@ -158,11 +157,7 @@ abstract class _SendGloballyConfirmStoreBase with Store {
     );
 
     try {
-      final response = await getIt
-          .get<SNetwork>()
-          .simpleNetworking
-          .getWalletModule()
-          .sendToBankCard(
+      final response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().sendToBankCard(
             model,
           );
 
@@ -223,9 +218,7 @@ abstract class _SendGloballyConfirmStoreBase with Store {
         .push(
           SuccessScreenRouter(
             primaryText: intl.send_globally_success,
-            secondaryText:
-                '${intl.send_globally_success_secondary} ${volumeFormat(
-              prefix: sendCurrency!.prefixSymbol,
+            secondaryText: '${intl.send_globally_success_secondary} ${volumeFormat(
               decimal: model.amount ?? Decimal.zero,
               accuracy: sendCurrency!.accuracy,
               symbol: sendCurrency!.symbol,

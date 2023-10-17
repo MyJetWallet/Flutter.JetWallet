@@ -57,7 +57,6 @@ class WithdrawNftDetails extends StatelessObserverWidget {
 
                       return TransactionDetailsValueText(
                         text: volumeFormat(
-                          prefix: currency.prefixSymbol,
                           decimal: transactionListItem.withdrawalInfo!.feeAmount,
                           accuracy: currency.accuracy,
                           symbol: currency.symbol,

@@ -33,9 +33,8 @@ class GiftSendDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final receiverContact = transactionListItem.giftSendInfo?.toEmail ??
-        transactionListItem.giftSendInfo?.toPhoneNumber ??
-        '';
+    final receiverContact =
+        transactionListItem.giftSendInfo?.toEmail ?? transactionListItem.giftSendInfo?.toPhoneNumber ?? '';
     final currency = currencyFrom(
       sSignalRModules.currenciesList,
       transactionListItem.assetId,
@@ -90,9 +89,7 @@ class GiftSendDetails extends StatelessObserverWidget {
                 children: [
                   TransactionDetailsValueText(
                     text: volumeFormat(
-                      prefix: currency.prefixSymbol,
-                      decimal: transactionListItem.withdrawalInfo?.feeAmount ??
-                          Decimal.zero,
+                      decimal: transactionListItem.withdrawalInfo?.feeAmount ?? Decimal.zero,
                       accuracy: currency.accuracy,
                       symbol: currency.symbol,
                     ),
@@ -116,16 +113,13 @@ class GiftSendDetails extends StatelessObserverWidget {
                   shareGiftResultBottomSheet(
                     context: context,
                     amount: Decimal.parse(
-                      '${transactionListItem.balanceChange}'
-                          .replaceAll('-', ''),
+                      '${transactionListItem.balanceChange}'.replaceAll('-', ''),
                     ),
                     currency: currency,
                     email: transactionListItem.giftSendInfo?.toEmail,
-                    phoneNumber:
-                        transactionListItem.giftSendInfo?.toPhoneNumber,
+                    phoneNumber: transactionListItem.giftSendInfo?.toPhoneNumber,
                     onClose: () {
-                      sAnalytics
-                          .tapOnTheButtonCloseOrTapOnSentHistoryDetailsSheet();
+                      sAnalytics.tapOnTheButtonCloseOrTapOnSentHistoryDetailsSheet();
                     },
                   );
                 },
@@ -135,8 +129,7 @@ class GiftSendDetails extends StatelessObserverWidget {
                 active: true,
                 name: intl.gift_history_cancel_transaction,
                 onTap: () {
-                  sAnalytics
-                      .tapOnTheButtonCancelTransactiononSentHistoryDetails();
+                  sAnalytics.tapOnTheButtonCancelTransactiononSentHistoryDetails();
 
                   sShowAlertPopup(
                     context,
@@ -148,11 +141,7 @@ class GiftSendDetails extends StatelessObserverWidget {
                     onPrimaryButtonTap: () async {
                       store.startLoadingImmediately();
                       Navigator.pop(context);
-                      await getIt
-                          .get<SNetwork>()
-                          .simpleNetworking
-                          .getWalletModule()
-                          .cancelGift(
+                      await getIt.get<SNetwork>().simpleNetworking.getWalletModule().cancelGift(
                             transactionListItem.giftSendInfo?.transferId ?? '',
                           );
                       store.finishLoading();

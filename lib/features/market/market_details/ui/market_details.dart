@@ -100,8 +100,7 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
 
     final currency = currencyFrom(currencies, widget.marketItem.symbol);
 
-    var isInWatchlist =
-        watchlistIdsN.state.contains(widget.marketItem.associateAsset);
+    var isInWatchlist = watchlistIdsN.state.contains(widget.marketItem.associateAsset);
 
     final baseCurrency = sSignalRModules.baseCurrency;
 
@@ -115,9 +114,7 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
     return SPageFrame(
       loaderText: intl.loader_please_wait,
       header: Material(
-        color: chart.union != const ChartUnion.loading()
-            ? Colors.transparent
-            : colors.white,
+        color: chart.union != const ChartUnion.loading() ? Colors.transparent : colors.white,
         child: SPaddingH24(
           child: SSmallHeader(
             title: '${widget.marketItem.name} (${widget.marketItem.symbol})',
@@ -125,8 +122,7 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
             isStarSelected: isInWatchlist,
             onStarButtonTap: () {
               if (isInWatchlist) {
-                watchlistIdsN
-                    .removeFromWatchlist(widget.marketItem.associateAsset);
+                watchlistIdsN.removeFromWatchlist(widget.marketItem.associateAsset);
                 isInWatchlist = false;
               } else {
                 watchlistIdsN.addToWatchlist(widget.marketItem.associateAsset);
@@ -211,20 +207,17 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     if (marketInfo.data != null) ...[
-                                      if (widget.marketItem.type !=
-                                          AssetType.indices) ...[
+                                      if (widget.marketItem.type != AssetType.indices) ...[
                                         const SpaceH20(),
                                         MarketStatsBlock(
                                           marketInfo: marketInfo.data!,
-                                          isCPower: widget.marketItem.symbol ==
-                                              'CPWR',
+                                          isCPower: widget.marketItem.symbol == 'CPWR',
                                         ),
                                       ],
                                       AboutBlock(
                                         marketInfo: marketInfo.data!,
                                         showDivider: news.news.isNotEmpty,
-                                        isCpower:
-                                            widget.marketItem.symbol == 'CPWR',
+                                        isCpower: widget.marketItem.symbol == 'CPWR',
                                       ),
                                     ],
                                     const SpaceH46(),
@@ -297,15 +290,12 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
                   ),
                   primaryText: intl.portfolioHeader_balance,
                   amount: volumeFormat(
-                    prefix: baseCurrency.prefix,
                     decimal: widget.marketItem.baseBalance,
                     symbol: baseCurrency.symbol,
                     accuracy: baseCurrency.accuracy,
                   ),
-                  amountDecimal:
-                      double.parse('${widget.marketItem.baseBalance}'),
+                  amountDecimal: double.parse('${widget.marketItem.baseBalance}'),
                   secondaryText: volumeFormat(
-                    prefix: widget.marketItem.prefixSymbol,
                     decimal: widget.marketItem.assetBalance,
                     symbol: widget.marketItem.symbol,
                     accuracy: widget.marketItem.assetAccuracy,
@@ -317,8 +307,7 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
                     );
                   },
                   removeDivider: true,
-                  leftBlockTopPadding:
-                      widget.marketItem.isBalanceEmpty ? 30 : 20,
+                  leftBlockTopPadding: widget.marketItem.isBalanceEmpty ? 30 : 20,
                   rightBlockTopPadding: 20,
                   showSecondaryText: !widget.marketItem.isBalanceEmpty,
                   fullSizeBalance: true,

@@ -21,7 +21,7 @@ part 'my_wallets_srore.g.dart';
 class MyWalletsSrore = _MyWalletsSroreBase with _$MyWalletsSrore;
 
 abstract class _MyWalletsSroreBase with Store {
-  _MyWalletsSroreBase() {}
+  _MyWalletsSroreBase();
 
   @observable
   bool isReordering = false;

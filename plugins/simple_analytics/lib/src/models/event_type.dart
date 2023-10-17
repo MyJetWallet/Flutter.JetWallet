@@ -244,8 +244,7 @@ class EventType {
   static const tapOnTheDeleteButtonOnTheWalletScreen = 'Tap on the ‘Delete’ button on the ‘Wallet’ screen';
   static const tapOnTheButtonDoneForChangeWalletsOrderOnTheWalletScreen =
       'Tap on the button ‘Done’ for change wallets order on the ‘Wallet’ screen';
-  static const tapOnTheButtonGetAccountEUROnWalletsScreen =
-      'Tap on the button ‘Get account EUR’ on `Wallets` screen';
+  static const tapOnTheButtonGetAccountEUROnWalletsScreen = 'Tap on the button ‘Get account EUR’ on `Wallets` screen';
 
   // Wallet
   static const cryptoFavouriteWalletScreen = ' `Crypto favourite wallet` screen';
@@ -268,4 +267,49 @@ class EventType {
       'Tap on the button ‘any history trx’ on `Global transaction history` screen';
   static const tapOnTheButtonBackOnGlobalTransactionHistoryScreen =
       'Tap on the button ‘Back’ on `Global transaction history` screen ';
+
+  // EUR Wallets
+  static const eurWalletVerifyYourAccount = "'Please verify your account' popup  view";
+  static const eurWalletTapOnVerifyAccount = "Tap on the button ‘Verify account’ on 'Please verify your account' popup";
+  static const eurWalletShowUpdateAddressInfo = "'Please update your address information' popup  view";
+  static const eurWalletTapContinueOnAdreeInfo =
+      "Tap on the button ‘Continue’ on 'Please update your address information' popup";
+  static const eurWalletShowToastLestCreateAccount =
+      "‘Wallets' screen  view with toast 'Let us create account for you’";
+  static const eurWalletAccountScreen = "‘Wallet EUR with accounts' screen";
+  static const eurWalletTapBackOnAccountsScreen =
+      "Tap on the button ‘Back’ or 'Swipe to back' on Wallet EUR with accounts' screen";
+  static const eurWalletSwipeBetweenWallets = "Swipe ‘between favourites wallets balances' screens";
+  static const eurWalletAddAccountEur = "Tap on the button ‘Add account’ on 'Wallet EUR with accounts' screen";
+  static const eurWalletPersonalEURAccount = "‘Personal EUR account' screen";
+  static const eurWalletBackOnPersonalAccount = "Tap on the button ‘Back' on ‘Personal EUR account' screen";
+  static const eurWalletTapOnContinuePersonalEUR = "Tap on the button ‘Continue' on ‘Personal EUR account' screen";
+  static const eurWalletPleasePassVerificaton = "'Please pass verification at our partner side' popup  view";
+  static const eurWalletVerifyAccountPartnerSide =
+      "Tap on the button ‘Verify account’ on 'Please pass verification at our partner side' popup";
+  static const eurWalletCryptoFavourite = "‘Crypto favourite wallet' screen";
+  static const eurWalletTapBackCryptoFav =
+      "Tap on the button ‘Back’ or 'Swipe to back' on 'Crypto favourite wallet' screen";
+  static const eurWalletSwipeHistoryList = "‘Swipe history list' on 'Crypto favourite wallet' screen";
+  static const eurWalletEURAccountWallet = "‘EUR account Wallet' screen  view ";
+  static const eurWalletTapBackOnAccountWalletScreen =
+      "Tap on the button ‘Back’ or 'Swipe to back' on 'EUR account Wallet' screen";
+  static const eurWalletTapEditEURAccointScreen = "Tap on the button ‘Edit label' on 'EUR account Wallet' screen";
+  static const eurWalletEditLabelScreen = "‘Edit label' screen  view";
+  static const eurWalletTapSaveChanges = "Tap on the button ‘Save changes' on 'Edit label' screen";
+  static const eurWalletTapAddCashEurAccount = "Tap on the button ‘Add cash' on 'EUR account Wallet' screen";
+  static const eurWalletDepositDetailsSheet = "‘Deposit details' sheet  view";
+  static const eurWalletTapCloseOnDeposirSheet = "Tap on the button ‘Close’ on 'Deposit details' sheet";
+  static const eurWalletTapCopyDeposit = "Tap on the button ‘Copy’ on 'Deposit details'  sheet";
+  static const eurWalletSwipeHistoryListEURAccount = "‘Swipe history list' on 'EUR account Wallet' screen";
+  static const eurWalletWithdrawEURAccountScreen = "Tap on the button ‘Withdraw' on 'EUR account Wallet' screen";
+  static const eurWalletTapAnyHistoryTRXEUR = "Tap on the button ‘any history trx' on 'EUR account Wallet' screen";
+  static const eurWalletTapAnyHistoryTRX = "Tap on the button ‘any history trx’ on 'Crypto favourite wallet' screen";
+  static const eurWalletGlovalTransactionHistory = '‘Global transaction history’ screen  view';
+  static const eurWalletAllGlobalTransactionHistory = "Tap on the button ‘All’ on 'Global transaction history' screen";
+  static const eurWalletTapButtonPendingGlobalHS = "Tap on the button ‘Pending’ on 'Global transaction history' screen";
+  static const eurWalletSwipeHistoryListGlobalHS = "‘Swipe history list' on 'Global transaction history' screen";
+  static const eurWalletTapAnyHistoryTRXGlobalHS =
+      "Tap on the button ‘any history trx’ on 'Global transaction history' screen";
+  static const eurWalletTapBackOnGlobalHS = "Tap on the button ‘Back’ on 'Global transaction history' screen";
 }

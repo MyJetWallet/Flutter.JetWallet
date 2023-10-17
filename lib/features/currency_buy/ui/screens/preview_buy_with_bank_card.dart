@@ -59,8 +59,7 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
           (element) => element.integration == IntegrationType.unlimintAlt,
         )
         .toList();
-    final activeCard =
-        uAC.where((element) => element.id == input.cardId).toList();
+    final activeCard = uAC.where((element) => element.id == input.cardId).toList();
 
     final state = PreviewBuyWithBankCardStore.of(context);
     final buyMethod = input.currency.buyMethods
@@ -76,8 +75,7 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
       medium: () => heightWidget = heightWidget - 180,
     );
 
-    icon =
-        state.isChecked ? const SCheckboxSelectedIcon() : const SCheckboxIcon();
+    icon = state.isChecked ? const SCheckboxSelectedIcon() : const SCheckboxIcon();
 
     return SPageFrameWithPadding(
       loaderText: intl.register_pleaseWait,
@@ -98,8 +96,7 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
         children: [
           ListView(
             padding: EdgeInsets.only(
-              bottom:
-                  widgetSizeFrom(deviceSize) == SWidgetSize.small ? 310.0 : 260,
+              bottom: widgetSizeFrom(deviceSize) == SWidgetSize.small ? 310.0 : 260,
             ),
             children: [
               Column(
@@ -129,7 +126,6 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                     name: intl.previewBuyWithCircle_youWillGet,
                     contentLoading: state.loader.loading,
                     value: '≈ ${volumeFormat(
-                      prefix: input.currency.prefixSymbol,
                       symbol: input.currency.symbol,
                       accuracy: input.currency.accuracy,
                       decimal: state.buyAmount ?? Decimal.zero,
@@ -141,7 +137,6 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                     name: intl.previewBuyWithCircle_rate,
                     contentLoading: state.loader.loading,
                     value: '1 ${input.currency.symbol} = ${volumeFormat(
-                      prefix: input.currencyPayment.prefixSymbol,
                       symbol: input.currencyPayment.symbol,
                       accuracy: input.currencyPayment.accuracy,
                       decimal: state.rate ?? Decimal.zero,
@@ -167,13 +162,11 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                     contentLoading: state.loader.loading,
                     value: state.depositFeeAmountMax == state.depositFeeAmount
                         ? volumeFormat(
-                            prefix: input.currencyPayment.prefixSymbol,
                             decimal: state.depositFeeAmount ?? Decimal.zero,
                             accuracy: input.currencyPayment.accuracy,
                             symbol: input.currencyPayment.symbol,
                           )
                         : '≈ ${volumeFormat(
-                            prefix: input.currencyPayment.prefixSymbol,
                             decimal: state.depositFeeAmountMax ?? Decimal.zero,
                             accuracy: input.currencyPayment.accuracy,
                             symbol: input.currencyPayment.symbol,
@@ -183,10 +176,8 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                     infoAction: () {
                       sAnalytics.newBuyTapPaymentFee();
                       sAnalytics.newBuyFeeView(
-                        paymentFee: state.depositFeeAmountMax ==
-                                state.depositFeeAmount
+                        paymentFee: state.depositFeeAmountMax == state.depositFeeAmount
                             ? volumeFormat(
-                                prefix: baseCurrency.prefix,
                                 decimal: state.depositFeeAmount ?? Decimal.zero,
                                 accuracy: baseCurrency.accuracy,
                                 symbol: baseCurrency.symbol,
@@ -196,10 +187,8 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                       showTransactionFeeBottomSheet(
                         context: context,
                         colors: colors,
-                        isAbsolute:
-                            state.depositFeeAmountMax == state.depositFeeAmount,
+                        isAbsolute: state.depositFeeAmountMax == state.depositFeeAmount,
                         tradeFeeAbsolute: volumeFormat(
-                          prefix: input.currencyPayment.prefixSymbol,
                           decimal: state.depositFeeAmount ?? Decimal.zero,
                           accuracy: input.currencyPayment.accuracy,
                           symbol: input.currencyPayment.symbol,
@@ -214,7 +203,6 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                     name: intl.previewBuyWithUnlimint_simpleFee,
                     contentLoading: state.loader.loading,
                     value: volumeFormat(
-                      prefix: input.currency.prefixSymbol,
                       decimal: state.tradeFeeAmount ?? Decimal.zero,
                       accuracy: input.currency.accuracy,
                       symbol: input.currency.symbol,
@@ -244,7 +232,6 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                             contentLoading: state.loader.loading,
                             valueColor: colors.blue,
                             value: volumeFormat(
-                              prefix: input.currencyPayment.prefixSymbol,
                               symbol: input.currencyPayment.symbol,
                               accuracy: input.currencyPayment.accuracy,
                               decimal: state.amountToPay!,
@@ -272,7 +259,6 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                           contentLoading: state.loader.loading,
                           valueColor: colors.blue,
                           value: volumeFormat(
-                            prefix: input.currencyPayment.prefixSymbol,
                             symbol: input.currencyPayment.symbol,
                             accuracy: input.currencyPayment.accuracy,
                             decimal: state.amountToPay!,
@@ -310,15 +296,11 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                           if (!hideCheckbox) ...[
                             SPolicyText(
                               firstText: intl.previewBuyWithUmlimint_disclaimer,
-                              userAgreementText:
-                                  ''' ${intl.previewBuyWithUmlimint_disclaimerTerms}''',
+                              userAgreementText: ''' ${intl.previewBuyWithUmlimint_disclaimerTerms}''',
                               betweenText: ', ',
-                              privacyPolicyText:
-                                  intl.previewBuyWithUmlimint_disclaimerPolicy,
-                              onUserAgreementTap: () =>
-                                  launchURL(context, userAgreementLink),
-                              onPrivacyPolicyTap: () =>
-                                  launchURL(context, privacyPolicyLink),
+                              privacyPolicyText: intl.previewBuyWithUmlimint_disclaimerPolicy,
+                              onUserAgreementTap: () => launchURL(context, userAgreementLink),
+                              onPrivacyPolicyTap: () => launchURL(context, privacyPolicyLink),
                             ),
                             const SpaceH14(),
                           ],
@@ -338,8 +320,7 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                 ),
                 const SpaceH24(),
                 SPrimaryButton2(
-                  active: !state.loader.loading &&
-                      (state.isChecked || hideCheckbox),
+                  active: !state.loader.loading && (state.isChecked || hideCheckbox),
                   name: intl.previewBuyWithAsset_confirm,
                   onTap: () {
                     state.onConfirm();

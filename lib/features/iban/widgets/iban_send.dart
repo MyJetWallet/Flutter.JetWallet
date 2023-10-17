@@ -76,7 +76,6 @@ class IbanSend extends StatelessObserverWidget {
                     const SizedBox(height: 2),
                     Text(
                       volumeFormat(
-                        prefix: eurCurrency.prefixSymbol,
                         decimal: eurCurrency.assetBalance,
                         accuracy: eurCurrency.accuracy,
                         symbol: eurCurrency.symbol,

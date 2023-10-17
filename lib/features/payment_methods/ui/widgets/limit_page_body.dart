@@ -41,13 +41,11 @@ class LimitPageBody extends StatelessObserverWidget {
     String checkLimitText(Decimal amount, Decimal limit) {
       if (currency != null) {
         return '${volumeFormat(
-          prefix: currency!.prefixSymbol,
           decimal: amount,
           symbol: currency!.symbol,
           accuracy: currency!.accuracy,
           onlyFullPart: true,
         )} / ${volumeFormat(
-          prefix: currency!.prefixSymbol,
           decimal: limit,
           symbol: currency!.symbol,
           accuracy: currency!.accuracy,
@@ -56,13 +54,11 @@ class LimitPageBody extends StatelessObserverWidget {
       }
 
       return '${volumeFormat(
-        prefix: baseCurrency.prefix,
         decimal: amount,
         symbol: baseCurrency.symbol,
         accuracy: baseCurrency.accuracy,
         onlyFullPart: true,
       )} / ${volumeFormat(
-        prefix: baseCurrency.prefix,
         decimal: limit,
         symbol: baseCurrency.symbol,
         accuracy: baseCurrency.accuracy,
@@ -121,15 +117,10 @@ class LimitPageBody extends StatelessObserverWidget {
                     borderRadius: BorderRadius.only(
                       topLeft: const Radius.circular(6),
                       bottomLeft: const Radius.circular(6),
-                      topRight: isWidthDifferenceSmall
-                          ? const Radius.circular(6)
-                          : Radius.zero,
-                      bottomRight: isWidthDifferenceSmall
-                          ? const Radius.circular(6)
-                          : Radius.zero,
+                      topRight: isWidthDifferenceSmall ? const Radius.circular(6) : Radius.zero,
+                      bottomRight: isWidthDifferenceSmall ? const Radius.circular(6) : Radius.zero,
                     ),
-                    color:
-                        cardLimit.barProgress == 100 ? colors.red : colorToUse,
+                    color: cardLimit.barProgress == 100 ? colors.red : colorToUse,
                   ),
                 ),
               ),
@@ -164,14 +155,12 @@ class LimitPageBody extends StatelessObserverWidget {
             value: TransactionDetailsValueText(
               text: currency == null
                   ? volumeFormat(
-                      prefix: baseCurrency.prefix,
                       decimal: cardLimit.minAmount,
                       symbol: baseCurrency.symbol,
                       accuracy: baseCurrency.accuracy,
                       onlyFullPart: true,
                     )
                   : volumeFormat(
-                      prefix: currency!.prefixSymbol,
                       decimal: cardLimit.minAmount,
                       symbol: currency!.symbol,
                       accuracy: currency!.accuracy,
@@ -185,14 +174,12 @@ class LimitPageBody extends StatelessObserverWidget {
             value: TransactionDetailsValueText(
               text: currency == null
                   ? volumeFormat(
-                      prefix: baseCurrency.prefix,
                       decimal: cardLimit.maxAmount,
                       symbol: baseCurrency.symbol,
                       accuracy: baseCurrency.accuracy,
                       onlyFullPart: true,
                     )
                   : volumeFormat(
-                      prefix: currency!.prefixSymbol,
                       decimal: cardLimit.maxAmount,
                       symbol: currency!.symbol,
                       accuracy: currency!.accuracy,

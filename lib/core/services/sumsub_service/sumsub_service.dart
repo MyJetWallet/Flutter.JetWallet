@@ -99,7 +99,7 @@ class SumsubService {
       }
     }
 
-    onActionResult(SNSMobileSDKActionResult result) {
+    Future<SNSActionResultHandlerReaction> onActionResult(SNSMobileSDKActionResult result) {
       sAnalytics.kycFlowVerifyingNowSV(
         country: countries.activeCountry?.countryName ?? '',
       );
@@ -135,7 +135,7 @@ class SumsubService {
         .withAutoCloseOnApprove(0)
         .build();
 
-    final SNSMobileSDKResult result = await snsMobileSDK.launch();
+    final _ = await snsMobileSDK.launch();
   }
 
   void simulateSuccess({

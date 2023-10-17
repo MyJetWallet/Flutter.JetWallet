@@ -21,7 +21,6 @@ class WalletCard extends StatelessObserverWidget {
     final baseCurrency = sSignalRModules.baseCurrency;
 
     final interestRateDisabledText = '+${volumeFormat(
-      prefix: baseCurrency.prefix,
       decimal: currency.baseTotalEarnAmount,
       accuracy: baseCurrency.accuracy,
       symbol: baseCurrency.symbol,
@@ -32,8 +31,7 @@ class WalletCard extends StatelessObserverWidget {
           sSubtitle3Style,
         ).width +
         20;
-    final isInProgress =
-        currency.assetBalance == Decimal.zero && currency.isPendingDeposit;
+    final isInProgress = currency.assetBalance == Decimal.zero && currency.isPendingDeposit;
 
     return Container(
       height: 150,
@@ -74,9 +72,7 @@ class WalletCard extends StatelessObserverWidget {
             child: SBaselineChild(
               baseline: 48,
               child: Text(
-                isInProgress
-                    ? '${intl.walletCard_balanceInProcess}...'
-                    : currency.volumeBaseBalance(baseCurrency),
+                isInProgress ? '${intl.walletCard_balanceInProcess}...' : currency.volumeBaseBalance(baseCurrency),
                 style: sTextH1Style,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

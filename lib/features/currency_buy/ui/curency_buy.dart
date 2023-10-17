@@ -166,13 +166,11 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
         }
 
         return '${volumeFormat(
-          prefix: state.paymentCurrency!.prefixSymbol,
           decimal: amount,
           symbol: state.paymentCurrency!.symbol,
           accuracy: state.paymentCurrency!.accuracy,
           onlyFullPart: true,
         )} / ${volumeFormat(
-          prefix: state.paymentCurrency!.prefixSymbol,
           decimal: limit,
           symbol: state.paymentCurrency!.symbol,
           accuracy: state.paymentCurrency!.accuracy,

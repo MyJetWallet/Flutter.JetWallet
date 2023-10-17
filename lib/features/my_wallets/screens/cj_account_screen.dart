@@ -8,10 +8,8 @@ import 'package:jetwallet/features/my_wallets/helper/show_deposit_details_popup.
 import 'package:jetwallet/features/my_wallets/widgets/cj_header_widget.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
 import 'package:jetwallet/utils/constants.dart';
-import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_button.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_send.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 

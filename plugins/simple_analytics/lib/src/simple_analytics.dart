@@ -1384,7 +1384,7 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '177',
-        PropertyType.kycStatus: kycDepositStatus
+        PropertyType.kycStatus: kycDepositStatus,
       },
     );
   }
@@ -1395,7 +1395,7 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '178',
-        PropertyType.kycStatus: kycDepositStatus
+        PropertyType.kycStatus: kycDepositStatus,
       },
     );
   }
@@ -1406,7 +1406,7 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '179',
-        PropertyType.kycStatus: kycDepositStatus
+        PropertyType.kycStatus: kycDepositStatus,
       },
     );
   }
@@ -1417,7 +1417,7 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '180',
-        PropertyType.kycStatus: kycDepositStatus
+        PropertyType.kycStatus: kycDepositStatus,
       },
     );
   }
@@ -1428,7 +1428,7 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '181',
-        PropertyType.kycStatus: kycDepositStatus
+        PropertyType.kycStatus: kycDepositStatus,
       },
     );
   }
@@ -3113,6 +3113,161 @@ class SimpleAnalytics {
     );
   }
 
+  void eurWalletVerifyYourAccount() {
+    _analytics.logEvent(
+      EventType.eurWalletVerifyYourAccount,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '269',
+      },
+    );
+  }
+
+  void eurWalletTapOnVerifyAccount() {
+    _analytics.logEvent(
+      EventType.eurWalletTapOnVerifyAccount,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '270',
+      },
+    );
+  }
+
+  void eurWalletShowUpdateAddressInfo() {
+    _analytics.logEvent(
+      EventType.eurWalletShowUpdateAddressInfo,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '271',
+      },
+    );
+  }
+
+  void eurWalletTapContinueOnAdreeInfo() {
+    _analytics.logEvent(
+      EventType.eurWalletTapContinueOnAdreeInfo,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '272',
+      },
+    );
+  }
+
+  void eurWalletShowToastLestCreateAccount() {
+    _analytics.logEvent(
+      EventType.eurWalletShowToastLestCreateAccount,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '273',
+      },
+    );
+  }
+
+  void eurWalletAccountScreen(int numberOfEurAccounts) {
+    _analytics.logEvent(
+      EventType.eurWalletAccountScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '274',
+        PropertyType.numberOfOpenedEurAccounts: numberOfEurAccounts,
+      },
+    );
+  }
+
+  void eurWalletTapBackOnAccountsScreen() {
+    _analytics.logEvent(
+      EventType.eurWalletTapBackOnAccountsScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '275',
+      },
+    );
+  }
+
+  void eurWalletSwipeBetweenWallets() {
+    _analytics.logEvent(
+      EventType.eurWalletSwipeBetweenWallets,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '276',
+      },
+    );
+  }
+
+  void eurWalletAddAccountEur() {
+    _analytics.logEvent(
+      EventType.eurWalletAddAccountEur,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '277',
+      },
+    );
+  }
+
+  void eurWalletPersonalEURAccount() {
+    _analytics.logEvent(
+      EventType.eurWalletPersonalEURAccount,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '278',
+      },
+    );
+  }
+
+  void eurWalletBackOnPersonalAccount() {
+    _analytics.logEvent(
+      EventType.eurWalletBackOnPersonalAccount,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '279',
+      },
+    );
+  }
+
+  void eurWalletTapOnContinuePersonalEUR() {
+    _analytics.logEvent(
+      EventType.eurWalletTapOnContinuePersonalEUR,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '280',
+      },
+    );
+  }
+
+  void eurWalletPleasePassVerificaton() {
+    _analytics.logEvent(
+      EventType.eurWalletPleasePassVerificaton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '281',
+      },
+    );
+  }
+
+  void eurWalletVerifyAccountPartnerSide() {
+    _analytics.logEvent(
+      EventType.eurWalletVerifyAccountPartnerSide,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '282',
+      },
+    );
+  }
+
   void cryptoFavouriteWalletScreen({
     required String openedAsset,
   }) {
@@ -3154,6 +3309,161 @@ class SimpleAnalytics {
       },
     );
   }
+
+  void eurWalletEURAccountWallet({
+    required bool isCJ,
+    required String eurAccountLabel,
+    required bool isHasTransaction,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWalletEURAccountWallet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '286',
+        PropertyType.eurAccountType: isCJ ? 'CJ' : 'Unlimint',
+        PropertyType.eurAccountLabel: eurAccountLabel,
+        PropertyType.isHasTransactions: isHasTransaction,
+      },
+    );
+  }
+
+  void eurWalletTapBackOnAccountWalletScreen({
+    required bool isCJ,
+    required String eurAccountLabel,
+    required bool isHasTransaction,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWalletTapBackOnAccountWalletScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '287',
+        PropertyType.eurAccountType: isCJ ? 'CJ' : 'Unlimint',
+        PropertyType.eurAccountLabel: eurAccountLabel,
+        PropertyType.isHasTransactions: isHasTransaction,
+      },
+    );
+  }
+
+  void eurWalletTapEditEURAccointScreen({
+    required bool isCJ,
+    required String eurAccountLabel,
+    required bool isHasTransaction,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWalletTapEditEURAccointScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '288',
+        PropertyType.eurAccountType: isCJ ? 'CJ' : 'Unlimint',
+        PropertyType.eurAccountLabel: eurAccountLabel,
+        PropertyType.isHasTransactions: isHasTransaction,
+      },
+    );
+  }
+
+  void eurWalletEditLabelScreen() {
+    _analytics.logEvent(
+      EventType.eurWalletEditLabelScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '289',
+      },
+    );
+  }
+
+  void eurWalletTapSaveChanges() {
+    _analytics.logEvent(
+      EventType.eurWalletTapSaveChanges,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '290',
+      },
+    );
+  }
+
+  void eurWalletTapAddCashEurAccount() {
+    _analytics.logEvent(
+      EventType.eurWalletTapAddCashEurAccount,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '291',
+      },
+    );
+  }
+
+  void eurWalletDepositDetailsSheet() {
+    _analytics.logEvent(
+      EventType.eurWalletDepositDetailsSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '292',
+      },
+    );
+  }
+
+  void eurWalletTapCloseOnDeposirSheet() {
+    _analytics.logEvent(
+      EventType.eurWalletTapCloseOnDeposirSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '293',
+      },
+    );
+  }
+
+  void eurWalletTapCopyDeposit() {
+    _analytics.logEvent(
+      EventType.eurWalletTapCopyDeposit,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '294',
+      },
+    );
+  }
+
+  void eurWalletSwipeHistoryListEURAccount() {
+    _analytics.logEvent(
+      EventType.eurWalletSwipeHistoryListEURAccount,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '295',
+      },
+    );
+  }
+
+  void eurWalletWithdrawEURAccountScreen() {
+    _analytics.logEvent(
+      EventType.eurWalletWithdrawEURAccountScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '296',
+      },
+    );
+  }
+
+  void eurWalletTapAnyHistoryTRXEUR() {
+    _analytics.logEvent(
+      EventType.eurWalletTapAnyHistoryTRXEUR,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '297',
+      },
+    );
+  }
+
+
 
   void tapOnTheButtonAnyHistoryTrxOnCryptoFavouriteWalletScreen({
     required String openedAsset,
@@ -3239,7 +3549,7 @@ class SimpleAnalytics {
     );
   }
 
-  void tapOnTheButtonBackOnGlobalTransactionHistoryScreen ({
+  void tapOnTheButtonBackOnGlobalTransactionHistoryScreen({
     required GlobalHistoryTab globalHistoryTab,
   }) {
     _analytics.logEvent(
