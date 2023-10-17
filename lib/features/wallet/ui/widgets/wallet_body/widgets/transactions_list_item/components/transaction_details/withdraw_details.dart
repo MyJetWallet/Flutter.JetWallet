@@ -38,8 +38,7 @@ class WithdrawDetails extends StatelessObserverWidget {
             ),
           ),
           const SpaceH18(),
-          if (transactionListItem.withdrawalInfo!.txId != null &&
-              !transactionListItem.withdrawalInfo!.isInternal) ...[
+          if (transactionListItem.withdrawalInfo!.txId != null && !transactionListItem.withdrawalInfo!.isInternal) ...[
             TransactionDetailsItem(
               text: 'Txhash',
               value: Row(
@@ -87,8 +86,7 @@ class WithdrawDetails extends StatelessObserverWidget {
                   onTap: () {
                     Clipboard.setData(
                       ClipboardData(
-                        text:
-                            transactionListItem.withdrawalInfo!.toAddress ?? '',
+                        text: transactionListItem.withdrawalInfo!.toAddress ?? '',
                       ),
                     );
 
@@ -135,15 +133,13 @@ class WithdrawDetails extends StatelessObserverWidget {
                       final currency = currencyFrom(
                         sSignalRModules.currenciesList,
                         transactionListItem.withdrawalInfo!.feeAssetId ??
-                            transactionListItem
-                                .withdrawalInfo!.withdrawalAssetId,
+                            transactionListItem.withdrawalInfo!.withdrawalAssetId!,
                       );
 
                       return TransactionDetailsValueText(
                         text: volumeFormat(
                           prefix: currency.prefixSymbol,
-                          decimal:
-                              transactionListItem.withdrawalInfo!.feeAmount,
+                          decimal: transactionListItem.withdrawalInfo!.feeAmount,
                           accuracy: currency.accuracy,
                           symbol: currency.symbol,
                         ),

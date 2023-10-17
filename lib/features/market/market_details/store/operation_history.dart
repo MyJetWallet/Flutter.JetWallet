@@ -31,8 +31,7 @@ class OperationHistory extends _OperationHistoryBase with _$OperationHistory {
     super.pendingOnly,
   );
 
-  static _OperationHistoryBase of(BuildContext context) =>
-      Provider.of<OperationHistory>(context, listen: false);
+  static _OperationHistoryBase of(BuildContext context) => Provider.of<OperationHistory>(context, listen: false);
 }
 
 abstract class _OperationHistoryBase with Store {
@@ -59,8 +58,7 @@ abstract class _OperationHistoryBase with Store {
   ScrollController scrollController = ScrollController();
 
   @observable
-  ObservableList<oh_resp.OperationHistoryItem> operationHistoryItems =
-      ObservableList.of([]);
+  ObservableList<oh_resp.OperationHistoryItem> operationHistoryItems = ObservableList.of([]);
 
   @observable
   OperationHistoryUnion union = const OperationHistoryUnion.loading();
@@ -129,8 +127,7 @@ abstract class _OperationHistoryBase with Store {
       union = const OperationHistoryUnion.loaded();
 
       if (jwOperationId != null) {
-        final item = listToShow
-            .indexWhere((element) => element.operationId == jwOperationId);
+        final item = listToShow.indexWhere((element) => element.operationId == jwOperationId);
 
         if (item != -1) {
           if (detailsShowed) return;
@@ -163,9 +160,7 @@ abstract class _OperationHistoryBase with Store {
 
   @action
   Future<void> getOperationHistoryOperation(String operationID) async {
-    final response = await sNetwork
-        .getWalletModule()
-        .getOperationHistoryOperationID(operationID);
+    final response = await sNetwork.getWalletModule().getOperationHistoryOperationID(operationID);
 
     response.pick(
       onData: (data) {
@@ -250,8 +245,7 @@ abstract class _OperationHistoryBase with Store {
       union = const OperationHistoryUnion.loading();
     }
 
-    final response =
-        await sNetwork.getWalletModule().getOperationHistory(model);
+    final response = await sNetwork.getWalletModule().getOperationHistory(model);
 
     return response.data!;
   }
@@ -297,9 +291,7 @@ List<oh_resp.OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(
       .map((item) {
     return item.operationType == oh_resp.OperationType.swap
         ? item.copyWith(
-            operationType: item.swapInfo!.isSell
-                ? oh_resp.OperationType.sell
-                : oh_resp.OperationType.buy,
+            operationType: item.swapInfo!.isSell ? oh_resp.OperationType.sell : oh_resp.OperationType.buy,
           )
         : item;
   }).toList();

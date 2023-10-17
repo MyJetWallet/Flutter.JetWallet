@@ -153,7 +153,10 @@ class EurWalletBody extends StatelessObserverWidget {
                         : intl.create_simple_creating,
                     onTap: () {
                       sRouter.push(
-                        const CJAccountRouter(),
+                        CJAccountRouter(
+                          bankingAccount: simpleAccount,
+                          isCJAccount: true,
+                        ),
                       );
                     },
                     description: '',
@@ -204,7 +207,10 @@ class EurWalletBody extends StatelessObserverWidget {
                         : intl.create_personal_creating,
                     onTap: () {
                       sRouter.push(
-                        const CJAccountRouter(),
+                        CJAccountRouter(
+                          bankingAccount: el,
+                          isCJAccount: false,
+                        ),
                       );
                     },
                     description: '',

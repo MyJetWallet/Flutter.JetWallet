@@ -138,7 +138,14 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context, Curre
   } else if (store.buttonStatus == BankingShowState.getAccount) {
     await store.createSimpleAccount();
   } else if (store.buttonStatus == BankingShowState.onlySimple) {
-    await sRouter.push(const CJAccountRouter());
+    if (sSignalRModules.bankingProfileData?.simple?.account != null) {
+      await sRouter.push(
+        CJAccountRouter(
+          bankingAccount: sSignalRModules.bankingProfileData!.simple!.account!,
+          isCJAccount: true,
+        ),
+      );
+    }
 
     return;
   }
