@@ -3,7 +3,6 @@
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -14,7 +13,6 @@ import 'package:jetwallet/utils/enum.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/wallet/set_active_assets_request_model.dart';
 
@@ -180,6 +178,12 @@ abstract class _MyWalletsSroreBase with Store {
 
   @computed
   String get simpleAccountButtonText {
+    final bankAccountsCount = sSignalRModules.bankingProfileData?.banking?.accounts?.length ?? 0;
+    var allAccountsCount = bankAccountsCount;
+    if (sSignalRModules.bankingProfileData?.simple != null) {
+      allAccountsCount++;
+    }
+
     switch (buttonStatus) {
       case BankingShowState.getAccount:
         return intl.my_wallets_get_account;
@@ -188,9 +192,9 @@ abstract class _MyWalletsSroreBase with Store {
       case BankingShowState.inProgress:
         return intl.my_wallets_create_account;
       case BankingShowState.accountList:
-        return '${(sSignalRModules.bankingProfileData?.banking?.accounts?.length ?? 1) + 1} ${intl.my_wallets_account}';
+        return '$allAccountsCount ${intl.my_wallets_account}';
       case BankingShowState.onlySimple:
-        return '${(sSignalRModules.bankingProfileData?.banking?.accounts?.length ?? 1) + 1} ${intl.my_wallets_account}';
+        return '1 ${intl.my_wallets_account}';
       default:
         return '';
     }

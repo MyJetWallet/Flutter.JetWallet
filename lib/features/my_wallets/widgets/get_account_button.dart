@@ -1,21 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
-import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/logger_service/logger_service.dart';
-import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
-import 'package:jetwallet/features/my_wallets/helper/show_wallet_address_info.dart';
-import 'package:jetwallet/features/my_wallets/helper/show_wallet_verify_account.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
-import 'package:jetwallet/utils/enum.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:logger/logger.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -149,14 +142,4 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context, Curre
 
     return;
   }
-
-  /*
-  if (store.simpleStatus == SimpleAccountStatus.allowed) {
-    await store.createSimpleAccount();
-  } else if (isKyc || store.simpleStatus == SimpleAccountStatus.kycRequired) {
-    showWalletVerifyAccount(context, after: afterVerification);
-  } else if (store.simpleStatus == SimpleAccountStatus.addressRequired) {
-    showWalletAdressInfo(context, after: afterVerification);
-  }
-  */
 }

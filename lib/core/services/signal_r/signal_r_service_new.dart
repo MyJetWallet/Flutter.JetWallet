@@ -69,12 +69,10 @@ part 'signal_r_service_new.g.dart';
 late SignalRServiceUpdated sSignalRModules;
 
 @JsonSerializable()
-class SignalRServiceUpdated extends _SignalRServiceUpdatedBase
-    with _$SignalRServiceUpdated {
+class SignalRServiceUpdated extends _SignalRServiceUpdatedBase with _$SignalRServiceUpdated {
   SignalRServiceUpdated() : super();
 
-  factory SignalRServiceUpdated.fromJson(Map<String, dynamic> json) =>
-      _$SignalRServiceUpdatedFromJson(json);
+  factory SignalRServiceUpdated.fromJson(Map<String, dynamic> json) => _$SignalRServiceUpdatedFromJson(json);
 
   Map<String, dynamic> toJson() => _$SignalRServiceUpdatedToJson(this);
 }
@@ -124,15 +122,13 @@ abstract class _SignalRServiceUpdatedBase with Store {
   @JsonKey(includeFromJson: false, includeToJson: false)
   GlobalSendMethodsModel? globalSendMethods;
   @action
-  void setGlobalSendMethods(GlobalSendMethodsModel value) =>
-      globalSendMethods = value;
+  void setGlobalSendMethods(GlobalSendMethodsModel value) => globalSendMethods = value;
 
   @observable
   @ObservableEarnOfferModelListConverter()
   ObservableList<EarnOfferModel> earnOffersList = ObservableList.of([]);
   @action
-  void setEarnOffersList(List<EarnOfferModel> value) =>
-      earnOffersList = ObservableList.of(value);
+  void setEarnOffersList(List<EarnOfferModel> value) => earnOffersList = ObservableList.of(value);
 
   @observable
   EarnProfileModel? earnProfile;
@@ -162,8 +158,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
       for (var i = 0; i < kycCountriesList.length; i++) {
         final documents = <KycDocumentType>[];
 
-        final acceptedDocuments =
-            kycCountriesList[i].acceptedDocuments.toList();
+        final acceptedDocuments = kycCountriesList[i].acceptedDocuments.toList();
 
         if (acceptedDocuments.isNotEmpty) {
           acceptedDocuments.sort(
@@ -196,22 +191,19 @@ abstract class _SignalRServiceUpdatedBase with Store {
   @observable
   Decimal marketInfo = Decimal.zero;
   @action
-  void setMarketInfo(TotalMarketInfoModel value) =>
-      marketInfo = value.marketCapChange24H.round(scale: 2);
+  void setMarketInfo(TotalMarketInfoModel value) => marketInfo = value.marketCapChange24H.round(scale: 2);
 
   @observable
   @ObservableCampaignModelListConverter()
   ObservableList<CampaignModel> marketCampaigns = ObservableList.of([]);
   @action
-  void setMarketCampaigns(CampaignResponseModel value) =>
-      marketCampaigns = ObservableList.of(value.campaigns);
+  void setMarketCampaigns(CampaignResponseModel value) => marketCampaigns = ObservableList.of(value.campaigns);
 
   @observable
   @ObservableReferralStatsModelListConverter()
   ObservableList<ReferralStatsModel> referralStats = ObservableList.of([]);
   @action
-  void setReferralStats(ReferralStatsResponseModel value) =>
-      referralStats = ObservableList.of(value.referralStats);
+  void setReferralStats(ReferralStatsResponseModel value) => referralStats = ObservableList.of(value.referralStats);
 
   @observable
   InstrumentsModel? instruments;
@@ -316,15 +308,13 @@ abstract class _SignalRServiceUpdatedBase with Store {
   @ObservableIndexModelListConverter()
   ObservableList<IndexModel> indicesDetails = ObservableList.of([]);
   @action
-  void setIndicesDetails(IndicesModel value) =>
-      indicesDetails = ObservableList.of(value.indices);
+  void setIndicesDetails(IndicesModel value) => indicesDetails = ObservableList.of(value.indices);
 
   @observable
   @ObservablePriceAccuracyListConverter()
   ObservableList<PriceAccuracy> priceAccuracies = ObservableList.of([]);
   @action
-  void setPriceAccuracies(PriceAccuracies value) =>
-      priceAccuracies = ObservableList.of(value.accuracies);
+  void setPriceAccuracies(PriceAccuracies value) => priceAccuracies = ObservableList.of(value.accuracies);
 
   @observable
   ReferralInfoModel referralInfo = const ReferralInfoModel(
@@ -351,8 +341,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
                 id: e.id,
                 name: e.name,
                 description: e.description,
-                category: NftCollectionCategoryEnum.values
-                    .firstWhere((x) => x.index == e.category),
+                category: NftCollectionCategoryEnum.values.firstWhere((x) => x.index == e.category),
                 tags: e.tags,
                 nftList: [],
                 sImage: e.sImage,
@@ -385,18 +374,17 @@ abstract class _SignalRServiceUpdatedBase with Store {
             );
 
         if (localInd != -1) {
-          nftList[ind].nftList[localInd] =
-              nftList[ind].nftList[localInd].copyWith(
-                    sellAsset: value.nfts[i].sellAsset,
-                    sellPrice: value.nfts[i].sellPrice,
-                    collectionId: value.nfts[i].collectionId,
-                    buyPrice: value.nfts[i].buyPrice,
-                    buyAsset: value.nfts[i].buyAsset,
-                    ownerChangedAt: value.nfts[i].ownerChangedAt,
-                    tradingAsset: value.nfts[i].tradingAsset,
-                    fee: value.nfts[i].fee,
-                    onSell: value.nfts[i].onSell,
-                  );
+          nftList[ind].nftList[localInd] = nftList[ind].nftList[localInd].copyWith(
+                sellAsset: value.nfts[i].sellAsset,
+                sellPrice: value.nfts[i].sellPrice,
+                collectionId: value.nfts[i].collectionId,
+                buyPrice: value.nfts[i].buyPrice,
+                buyAsset: value.nfts[i].buyAsset,
+                ownerChangedAt: value.nfts[i].ownerChangedAt,
+                tradingAsset: value.nfts[i].tradingAsset,
+                fee: value.nfts[i].fee,
+                onSell: value.nfts[i].onSell,
+              );
         } else {
           nftList[ind].nftList.add(value.nfts[i]);
         }
@@ -470,8 +458,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
   ObservableList<CurrencyModel> currenciesList = ObservableList.of([]);
   @observable
   @ObservableCurrencyModelListConverter()
-  ObservableList<CurrencyModel> currenciesWithHiddenList =
-      ObservableList.of([]);
+  ObservableList<CurrencyModel> currenciesWithHiddenList = ObservableList.of([]);
 
   @action
   void setAssets(AssetsModel value) {
@@ -691,21 +678,15 @@ abstract class _SignalRServiceUpdatedBase with Store {
         final index = currenciesList.indexOf(currency);
 
         if (currenciesList[index].depositBlockchains.isNotEmpty) {
-          for (final depositBlockchain
-              in currenciesList[index].depositBlockchains) {
-            final blockchainIndex = currenciesList[index]
-                .depositBlockchains
-                .indexOf(depositBlockchain);
+          for (final depositBlockchain in currenciesList[index].depositBlockchains) {
+            final blockchainIndex = currenciesList[index].depositBlockchains.indexOf(depositBlockchain);
             for (final blockchain in data.blockchains) {
               if (depositBlockchain.id == blockchain.id) {
                 currenciesList[index].depositBlockchains[blockchainIndex] =
-                    currenciesList[index]
-                        .depositBlockchains[blockchainIndex]
-                        .copyWith(
+                    currenciesList[index].depositBlockchains[blockchainIndex].copyWith(
                           tagType: blockchain.tagType,
                           description: blockchain.description,
-                          blockchainExplorerUrlTemplate:
-                              blockchain.blockchainExplorerUrlTemplate,
+                          blockchainExplorerUrlTemplate: blockchain.blockchainExplorerUrlTemplate,
                         );
               }
             }
@@ -713,21 +694,15 @@ abstract class _SignalRServiceUpdatedBase with Store {
         }
 
         if (currenciesList[index].withdrawalBlockchains.isNotEmpty) {
-          for (final withdrawalBlockchain
-              in currenciesList[index].withdrawalBlockchains) {
-            final blockchainIndex = currenciesList[index]
-                .withdrawalBlockchains
-                .indexOf(withdrawalBlockchain);
+          for (final withdrawalBlockchain in currenciesList[index].withdrawalBlockchains) {
+            final blockchainIndex = currenciesList[index].withdrawalBlockchains.indexOf(withdrawalBlockchain);
             for (final blockchain in data.blockchains) {
               if (withdrawalBlockchain.id == blockchain.id) {
                 currenciesList[index].withdrawalBlockchains[blockchainIndex] =
-                    currenciesList[index]
-                        .withdrawalBlockchains[blockchainIndex]
-                        .copyWith(
+                    currenciesList[index].withdrawalBlockchains[blockchainIndex].copyWith(
                           tagType: blockchain.tagType,
                           description: blockchain.description,
-                          blockchainExplorerUrlTemplate:
-                              blockchain.blockchainExplorerUrlTemplate,
+                          blockchainExplorerUrlTemplate: blockchain.blockchainExplorerUrlTemplate,
                         );
               }
             }
@@ -843,8 +818,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
         for (final currency in currenciesList) {
           if (currency.symbol == assetFee.asset) {
             final index = currenciesList.indexOf(currency);
-            final assetWithdrawalFees =
-                currenciesList[index].assetWithdrawalFees.toList();
+            final assetWithdrawalFees = currenciesList[index].assetWithdrawalFees.toList();
 
             assetWithdrawalFees.add(assetFee);
             currenciesList[index] = currency.copyWith(
@@ -864,10 +838,22 @@ abstract class _SignalRServiceUpdatedBase with Store {
   }
 
   @observable
+  Decimal totalEurWalletBalance = Decimal.zero;
+
+  @observable
   BankingProfileModel? bankingProfileData;
   @action
   void setBankingProfileData(BankingProfileModel data) {
     bankingProfileData = data;
+    totalEurWalletBalance = Decimal.zero;
+
+    for (final el in data.banking?.accounts ?? <SimpleBankingAccount>[]) {
+      totalEurWalletBalance += el.balance ?? Decimal.zero;
+    }
+
+    if (data.simple != null) {
+      totalEurWalletBalance += data.simple?.account?.balance ?? Decimal.zero;
+    }
   }
 
   @observable
@@ -1122,9 +1108,7 @@ List<MarketItemModel> _formattedItems(
 
   return items
       .where(
-        (item) =>
-            item.symbol.toLowerCase().contains(searchInput) ||
-            item.name.toLowerCase().contains(searchInput),
+        (item) => item.symbol.toLowerCase().contains(searchInput) || item.name.toLowerCase().contains(searchInput),
       )
       .toList();
 }

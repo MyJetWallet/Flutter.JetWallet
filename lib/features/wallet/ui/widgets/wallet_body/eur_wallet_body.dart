@@ -184,7 +184,7 @@ class EurWalletBody extends StatelessObserverWidget {
                           )
                         : null,
                   ),
-                for (final el in sSignalRModules.bankingProfileData?.banking?.accounts ?? <SimpleBankingAccount>[])
+                for (final el in bankAccounts)
                   SCardRow(
                     icon: Container(
                       margin: const EdgeInsets.only(top: 3),
@@ -243,15 +243,15 @@ class EurWalletBody extends StatelessObserverWidget {
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: SIconTextButton(
                       onTap: () {
-                        if (bankAccounts.length == 2) return;
+                        if (bankAccounts.length >= 2) return;
                         sRouter.push(const CreateBankingRoute());
                       },
                       text: intl.eur_wallet_add_account,
                       textStyle: sTextButtonStyle.copyWith(
-                        color: bankAccounts.length == 2 ? sKit.colors.grey2 : sKit.colors.blue,
+                        color: bankAccounts.length >= 2 ? sKit.colors.grey2 : sKit.colors.blue,
                       ),
                       icon: SPlusIcon(
-                        color: bankAccounts.length == 2 ? sKit.colors.grey2 : sKit.colors.blue,
+                        color: bankAccounts.length >= 2 ? sKit.colors.grey2 : sKit.colors.blue,
                       ),
                     ),
                   ),

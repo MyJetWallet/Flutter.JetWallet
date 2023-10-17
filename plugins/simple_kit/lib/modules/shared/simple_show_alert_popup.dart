@@ -112,8 +112,7 @@ void sShowAlertPopup(
                           active: activePrimaryButton,
                           onTap: () => onPrimaryButtonTap(),
                         ),
-                      if (onSecondaryButtonTap != null &&
-                          secondaryButtonName != null) ...[
+                      if (onSecondaryButtonTap != null && secondaryButtonName != null) ...[
                         const SpaceH10(),
                         STextButton1(
                           name: secondaryButtonName,
@@ -135,6 +134,7 @@ void sShowAlertPopup(
                 ),
               ),
             ),
+            const SizedBox(height: 10),
           ],
         ),
       );
