@@ -52,15 +52,13 @@ class WithdrawNftDetails extends StatelessObserverWidget {
                       final currency = currencyFrom(
                         sSignalRModules.currenciesList,
                         transactionListItem.withdrawalInfo!.feeAssetId ??
-                            transactionListItem
-                                .withdrawalInfo!.withdrawalAssetId,
+                            transactionListItem.withdrawalInfo!.withdrawalAssetId!,
                       );
 
                       return TransactionDetailsValueText(
                         text: volumeFormat(
                           prefix: currency.prefixSymbol,
-                          decimal:
-                              transactionListItem.withdrawalInfo!.feeAmount,
+                          decimal: transactionListItem.withdrawalInfo!.feeAmount,
                           accuracy: currency.accuracy,
                           symbol: currency.symbol,
                         ),
@@ -119,8 +117,7 @@ class WithdrawNftDetails extends StatelessObserverWidget {
                     onTap: () {
                       Clipboard.setData(
                         ClipboardData(
-                          text: transactionListItem.withdrawalInfo!.toAddress ??
-                              '',
+                          text: transactionListItem.withdrawalInfo!.toAddress ?? '',
                         ),
                       );
 

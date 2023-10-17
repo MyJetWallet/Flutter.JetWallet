@@ -1328,5 +1328,6 @@
     "amount_screen_tab_convert": "Convert",
     "amount_screen_buy": "Buy",
     "amount_screen_pay_with": "Pay with",
-    "pay_with_balances": "Balances"
+    "pay_with_balances": "Balances",
+    "create_simple_creating": "Creating simple account..."
 }

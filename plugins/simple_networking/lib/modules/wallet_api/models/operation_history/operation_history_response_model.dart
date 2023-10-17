@@ -43,8 +43,7 @@ class OperationHistoryItem with _$OperationHistoryItem {
     @StatusSerialiser() required Status status,
   }) = _OperationHistoryItem;
 
-  factory OperationHistoryItem.fromJson(Map<String, dynamic> json) =>
-      _$OperationHistoryItemFromJson(json);
+  factory OperationHistoryItem.fromJson(Map<String, dynamic> json) => _$OperationHistoryItemFromJson(json);
 }
 
 enum OperationType {
@@ -323,8 +322,7 @@ class DepositInfo with _$DepositInfo {
     required double depositAmount,
   }) = _DepositInfo;
 
-  factory DepositInfo.fromJson(Map<String, dynamic> json) =>
-      _$DepositInfoFromJson(json);
+  factory DepositInfo.fromJson(Map<String, dynamic> json) => _$DepositInfoFromJson(json);
 }
 
 @freezed
@@ -339,14 +337,13 @@ class WithdrawalInfo with _$WithdrawalInfo {
     String? contactName,
     @DecimalNullSerialiser() Decimal? receiveAmount,
     @DecimalNullSerialiser() Decimal? receiveRate,
-    required String withdrawalAssetId,
+    String? withdrawalAssetId,
     @DecimalSerialiser() required Decimal withdrawalAmount,
     @DecimalSerialiser() required Decimal feeAmount,
     required bool isInternal,
   }) = _WithdrawalInfo;
 
-  factory WithdrawalInfo.fromJson(Map<String, dynamic> json) =>
-      _$WithdrawalInfoFromJson(json);
+  factory WithdrawalInfo.fromJson(Map<String, dynamic> json) => _$WithdrawalInfoFromJson(json);
 }
 
 @freezed
@@ -362,8 +359,7 @@ class BuyInfo with _$BuyInfo {
     @DecimalSerialiser() required Decimal feeAmount,
   }) = _BuyInfo;
 
-  factory BuyInfo.fromJson(Map<String, dynamic> json) =>
-      _$BuyInfoFromJson(json);
+  factory BuyInfo.fromJson(Map<String, dynamic> json) => _$BuyInfoFromJson(json);
 }
 
 @freezed
@@ -381,8 +377,7 @@ class SwapInfo with _$SwapInfo {
     @DecimalSerialiser() @JsonKey(name: 'feePerc') required Decimal feePercent,
   }) = _SwapInfo;
 
-  factory SwapInfo.fromJson(Map<String, dynamic> json) =>
-      _$SwapInfoFromJson(json);
+  factory SwapInfo.fromJson(Map<String, dynamic> json) => _$SwapInfoFromJson(json);
 }
 
 @freezed
@@ -392,8 +387,7 @@ class WithdrawalFeeInfo with _$WithdrawalFeeInfo {
     required double feeAmount,
   }) = _WithdrawalFeeInfo;
 
-  factory WithdrawalFeeInfo.fromJson(Map<String, dynamic> json) =>
-      _$WithdrawalFeeInfoFromJson(json);
+  factory WithdrawalFeeInfo.fromJson(Map<String, dynamic> json) => _$WithdrawalFeeInfoFromJson(json);
 }
 
 @freezed
@@ -406,8 +400,7 @@ class TransferByPhoneInfo with _$TransferByPhoneInfo {
     @DecimalSerialiser() required Decimal withdrawalAmount,
   }) = _TransferByPhoneInfo;
 
-  factory TransferByPhoneInfo.fromJson(Map<String, dynamic> json) =>
-      _$TransferByPhoneInfoFromJson(json);
+  factory TransferByPhoneInfo.fromJson(Map<String, dynamic> json) => _$TransferByPhoneInfoFromJson(json);
 }
 
 @freezed
@@ -418,8 +411,7 @@ class ReceiveByPhoneInfo with _$ReceiveByPhoneInfo {
     required double depositAmount,
   }) = _ReceiveByPhoneInfo;
 
-  factory ReceiveByPhoneInfo.fromJson(Map<String, dynamic> json) =>
-      _$ReceiveByPhoneInfoFromJson(json);
+  factory ReceiveByPhoneInfo.fromJson(Map<String, dynamic> json) => _$ReceiveByPhoneInfoFromJson(json);
 }
 
 @freezed
@@ -437,8 +429,7 @@ class RecurringBuyInfo with _$RecurringBuyInfo {
     @DecimalSerialiser() required Decimal feeAmount,
   }) = _RecurringBuyInfo;
 
-  factory RecurringBuyInfo.fromJson(Map<String, dynamic> json) =>
-      _$RecurringBuyInfoFromJson(json);
+  factory RecurringBuyInfo.fromJson(Map<String, dynamic> json) => _$RecurringBuyInfoFromJson(json);
 }
 
 @freezed
@@ -450,8 +441,7 @@ class EarnInfo with _$EarnInfo {
     @DecimalSerialiser() required Decimal totalBalance,
   }) = _EarnInfo;
 
-  factory EarnInfo.fromJson(Map<String, dynamic> json) =>
-      _$EarnInfoFromJson(json);
+  factory EarnInfo.fromJson(Map<String, dynamic> json) => _$EarnInfoFromJson(json);
 }
 
 @freezed
@@ -461,8 +451,7 @@ class OfferInfo with _$OfferInfo {
     required String offerTag,
   }) = _OfferInfo;
 
-  factory OfferInfo.fromJson(Map<String, dynamic> json) =>
-      _$OfferInfoFromJson(json);
+  factory OfferInfo.fromJson(Map<String, dynamic> json) => _$OfferInfoFromJson(json);
 }
 
 @freezed
@@ -485,8 +474,7 @@ class CryptoBuyInfo with _$CryptoBuyInfo {
     String? paymentMethodName,
   }) = _CryptoBuyInfo;
 
-  factory CryptoBuyInfo.fromJson(Map<String, dynamic> json) =>
-      _$CryptoBuyInfoFromJson(json);
+  factory CryptoBuyInfo.fromJson(Map<String, dynamic> json) => _$CryptoBuyInfoFromJson(json);
 }
 
 @freezed
@@ -507,8 +495,7 @@ class PaymeInfo with _$PaymeInfo {
     final String? methodName,
   }) = _PaymeInfo;
 
-  factory PaymeInfo.fromJson(Map<String, dynamic> json) =>
-      _$PaymeInfoFromJson(json);
+  factory PaymeInfo.fromJson(Map<String, dynamic> json) => _$PaymeInfoFromJson(json);
 }
 
 @freezed
@@ -521,8 +508,7 @@ class GiftSendInfo with _$GiftSendInfo {
     String? declineReason,
   }) = _GiftSendInfo;
 
-  factory GiftSendInfo.fromJson(Map<String, dynamic> json) =>
-      _$GiftSendInfoFromJson(json);
+  factory GiftSendInfo.fromJson(Map<String, dynamic> json) => _$GiftSendInfoFromJson(json);
 }
 
 @freezed
@@ -531,6 +517,5 @@ class GiftReceiveInfo with _$GiftReceiveInfo {
     required String senderName,
   }) = _GiftReceiveInfo;
 
-  factory GiftReceiveInfo.fromJson(Map<String, dynamic> json) =>
-      _$GiftReceiveInfoFromJson(json);
+  factory GiftReceiveInfo.fromJson(Map<String, dynamic> json) => _$GiftReceiveInfoFromJson(json);
 }

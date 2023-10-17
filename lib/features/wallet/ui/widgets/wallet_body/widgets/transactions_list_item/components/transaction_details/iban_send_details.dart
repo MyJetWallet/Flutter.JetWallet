@@ -42,7 +42,7 @@ class IbanSendDetails extends StatelessObserverWidget {
               final currency = currencyFrom(
                 sSignalRModules.currenciesList,
                 transactionListItem.withdrawalInfo!.feeAssetId ??
-                    transactionListItem.withdrawalInfo!.withdrawalAssetId,
+                    transactionListItem.withdrawalInfo!.withdrawalAssetId!,
               );
 
               return TransactionDetailsItem(
@@ -103,10 +103,7 @@ class IbanSendDetails extends StatelessObserverWidget {
                       ),
                       child: TransactionDetailsValueText(
                         textAlign: TextAlign.end,
-                        text:
-                            (transactionListItem.withdrawalInfo?.contactName ??
-                                    '')
-                                .trim(),
+                        text: (transactionListItem.withdrawalInfo?.contactName ?? '').trim(),
                       ),
                     ),
                     ConstrainedBox(
@@ -115,9 +112,7 @@ class IbanSendDetails extends StatelessObserverWidget {
                       ),
                       child: TransactionDetailsValueText(
                         textAlign: TextAlign.end,
-                        text: (transactionListItem.withdrawalInfo?.toAddress ??
-                                '')
-                            .trim(),
+                        text: (transactionListItem.withdrawalInfo?.toAddress ?? '').trim(),
                         color: sKit.colors.grey1,
                       ),
                     ),

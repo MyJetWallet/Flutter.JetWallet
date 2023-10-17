@@ -1,13 +1,20 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/utils/constants.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
-class CJHeaderWidget extends StatelessObserverWidget {
-  const CJHeaderWidget({super.key, required this.eurCurr});
+class CJHeaderWidget extends StatelessWidget {
+  const CJHeaderWidget({
+    super.key,
+    required this.eurCurr,
+    required this.bankingAccount,
+  });
 
   final CurrencyModel eurCurr;
+  final SimpleBankingAccount bankingAccount;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +24,11 @@ class CJHeaderWidget extends StatelessObserverWidget {
 
         return FlexibleSpaceBar(
           title: Text(
-            eurCurr.volumeAssetBalance,
+            volumeFormat(
+              decimal: bankingAccount.balance ?? Decimal.zero,
+              accuracy: eurCurr.accuracy,
+              symbol: eurCurr.symbol,
+            ),
             style: top > 131
                 ? sTextH3Style.copyWith(
                     color: sKit.colors.black,

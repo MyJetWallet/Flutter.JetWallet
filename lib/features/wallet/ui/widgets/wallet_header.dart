@@ -7,6 +7,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/utils/constants.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -17,11 +18,13 @@ class WalletHeader extends StatelessWidget {
     required this.curr,
     required this.pageController,
     required this.pageCount,
+    this.isEurWallet = false,
   });
 
   final CurrencyModel curr;
   final PageController pageController;
   final int pageCount;
+  final bool isEurWallet;
 
   @override
   Widget build(BuildContext context) {
@@ -65,24 +68,41 @@ class WalletHeader extends StatelessWidget {
                         ],
                       ),
                       const SpaceH2(),
-                      Text(
-                        isInProgress
-                            ? '${intl.walletCard_balanceInProcess}...'
-                            : curr.volumeBaseBalance(getIt.get<FormatService>().baseCurrency),
-                        style: sTextH2Style.copyWith(
-                          color: sKit.colors.black,
+                      if (isEurWallet)
+                        Text(
+                          isInProgress
+                              ? '${intl.walletCard_balanceInProcess}...'
+                              : volumeFormat(
+                                  decimal: curr.baseBalance,
+                                  accuracy: curr.accuracy,
+                                  symbol: curr.symbol,
+                                ),
+                          style: sTextH2Style.copyWith(
+                            color: sKit.colors.black,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Text(
-                        curr.volumeAssetBalance,
-                        style: sBodyText2Style.copyWith(
-                          color: sKit.colors.grey1,
+                      if (!isEurWallet)
+                        Text(
+                          isInProgress
+                              ? '${intl.walletCard_balanceInProcess}...'
+                              : curr.volumeBaseBalance(getIt.get<FormatService>().baseCurrency),
+                          style: sTextH2Style.copyWith(
+                            color: sKit.colors.black,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                      if (!isEurWallet)
+                        Text(
+                          curr.volumeAssetBalance,
+                          style: sBodyText2Style.copyWith(
+                            color: sKit.colors.grey1,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       const SpaceH16(),
                       if (pageCount > 1)
                         Row(

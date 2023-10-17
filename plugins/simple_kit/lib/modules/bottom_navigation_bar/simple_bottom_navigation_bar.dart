@@ -122,7 +122,7 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                                 style: sBodyText2Style.copyWith(
                                   fontWeight: FontWeight.w600,
                                   height: 1.38,
-                                  color: widget.selectedIndex == 3 ? SColorsLight().black : SColorsLight().grey3,
+                                  color: widget.selectedIndex == 2 ? SColorsLight().black : SColorsLight().grey3,
                                 ),
                               ),
                             ],
@@ -162,7 +162,7 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                                 style: sBodyText2Style.copyWith(
                                   fontWeight: FontWeight.w600,
                                   height: 1.38,
-                                  color: widget.selectedIndex == 4 ? SColorsLight().black : SColorsLight().grey3,
+                                  color: widget.selectedIndex == 3 ? SColorsLight().black : SColorsLight().grey3,
                                 ),
                               ),
                             ],

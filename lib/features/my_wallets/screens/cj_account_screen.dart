@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -14,12 +13,20 @@ import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_button.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_send.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 const double _appBarBottomPosition = 120.0;
 
 @RoutePage(name: 'CJAccountRouter')
 class CJAccountScreen extends StatefulObserverWidget {
-  const CJAccountScreen({super.key});
+  const CJAccountScreen({
+    super.key,
+    required this.bankingAccount,
+    required this.isCJAccount,
+  });
+
+  final SimpleBankingAccount bankingAccount;
+  final bool isCJAccount;
 
   @override
   State<CJAccountScreen> createState() => _CJAccountScreenState();
@@ -98,13 +105,13 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                 if (silverCollapsed) const SizedBox(height: 10),
                 if (!silverCollapsed)
                   Text(
-                    sSignalRModules.bankingProfileData?.simple?.account?.label ?? 'Account',
+                    widget.bankingAccount.label ?? 'Account',
                     style: sTextH5Style.copyWith(
                       color: sKit.colors.black,
                     ),
                   ),
                 Text(
-                  intl.wallet_simple_account,
+                  widget.isCJAccount ? intl.wallet_simple_account : intl.eur_wallet_personal_account,
                   style: sBodyText2Style.copyWith(
                     color: sKit.colors.grey1,
                   ),
@@ -113,6 +120,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
             ),
             flexibleSpace: CJHeaderWidget(
               eurCurr: eurCurrency,
+              bankingAccount: widget.bankingAccount,
             ),
           ),
           if (!silverCollapsed)
