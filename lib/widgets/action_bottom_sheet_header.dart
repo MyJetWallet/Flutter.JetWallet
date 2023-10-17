@@ -16,9 +16,8 @@ class ActionBottomSheetHeader extends StatefulWidget {
     this.onCloseTap,
     required this.name,
     this.horizontalDividerPadding = 0,
-    this.searchFieldHeight,
+    this.isNewSearch = false,
     this.addPaddingBelowTitle = false,
-    this.searchCursorHeight,
   });
 
   final String name;
@@ -33,8 +32,7 @@ class ActionBottomSheetHeader extends StatefulWidget {
   final bool needBottomPadding;
   final bool addPaddingBelowTitle;
   final double horizontalDividerPadding;
-  final double? searchFieldHeight;
-  final double? searchCursorHeight;
+  final bool isNewSearch;
 
   @override
   State<ActionBottomSheetHeader> createState() => _ActionBottomSheetHeaderState();
@@ -87,8 +85,16 @@ class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
               labelText: intl.actionBottomSheetHeader_search,
               onChanged: widget.onChanged,
               maxLines: 1,
-              height: widget.searchFieldHeight,
-              cursorHeight: widget.searchCursorHeight,
+            )
+          else if (widget.isNewSearch)
+            SPaddingH24(
+              child: SStandardField(
+                controller: textController,
+                hintText: intl.actionBottomSheetHeader_search,
+                onChanged: widget.onChanged,
+                maxLines: 1,
+                height: 44,
+              ),
             )
           else
             SPaddingH24(
@@ -97,8 +103,6 @@ class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
                 labelText: intl.actionBottomSheetHeader_search,
                 onChanged: widget.onChanged,
                 maxLines: 1,
-                height: widget.searchFieldHeight,
-                cursorHeight: widget.searchCursorHeight,
               ),
             ),
           Padding(
@@ -135,7 +139,6 @@ class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
                     onChanged: widget.onChanged,
                     alignLabelWithHint: true,
                     maxLines: 1,
-                    height: widget.searchFieldHeight,
                   ),
                 ),
               ],
