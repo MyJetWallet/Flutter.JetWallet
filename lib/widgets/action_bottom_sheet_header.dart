@@ -16,7 +16,7 @@ class ActionBottomSheetHeader extends StatefulWidget {
     this.onCloseTap,
     required this.name,
     this.horizontalDividerPadding = 0,
-    this.isNewSearch = false,
+    this.isNewDesign = false,
     this.addPaddingBelowTitle = false,
   });
 
@@ -32,7 +32,8 @@ class ActionBottomSheetHeader extends StatefulWidget {
   final bool needBottomPadding;
   final bool addPaddingBelowTitle;
   final double horizontalDividerPadding;
-  final bool isNewSearch;
+  // TODO(yaroslav): migrate to the new design in all places.
+  final bool isNewDesign;
 
   @override
   State<ActionBottomSheetHeader> createState() => _ActionBottomSheetHeaderState();
@@ -47,7 +48,11 @@ class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
       children: [
         if (!widget.hideTitle)
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: widget.removePadding ? 0 : 24),
+            padding: EdgeInsets.only(
+              left: widget.removePadding ? 0 : 24,
+              right: widget.removePadding ? 0 : 24,
+              top: widget.isNewDesign ? 6: 0,
+            ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -86,7 +91,7 @@ class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
               onChanged: widget.onChanged,
               maxLines: 1,
             )
-          else if (widget.isNewSearch)
+          else if (widget.isNewDesign)
             SPaddingH24(
               child: SStandardField(
                 controller: textController,

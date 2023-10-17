@@ -30,7 +30,7 @@ void showAddWalletBottomSheet(BuildContext context) {
       },
       horizontalDividerPadding: 24,
       addPaddingBelowTitle: true,
-      isNewSearch: true,
+      isNewDesign: true,
     ),
     horizontalPinnedPadding: 0,
     removePinnedPadding: true,
@@ -50,7 +50,6 @@ class _AssetsList extends StatelessObserverWidget {
 
     return Column(
       children: [
-        const SpaceH16(),
         for (final currency in currencies)
           WalletSearchItem(
             icon: SNetworkSvg24(
