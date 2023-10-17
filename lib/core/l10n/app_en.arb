@@ -1315,5 +1315,6 @@
     "create_personal_account": "Please pass verification at our partner side",
     "create_personal_verify_account": "Verify account",
     "create_personal_cancel": "Cancel",
-    "create_personal_creating": "Creating personal account..."
+    "create_personal_creating": "Creating personal account...",
+    "create_simple_creating": "Creating simple account..."
 }

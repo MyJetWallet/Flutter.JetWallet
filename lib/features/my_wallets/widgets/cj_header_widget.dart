@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class CJHeaderWidget extends StatelessObserverWidget {
+class CJHeaderWidget extends StatelessWidget {
   const CJHeaderWidget({super.key, required this.eurCurr});
 
   final CurrencyModel eurCurr;

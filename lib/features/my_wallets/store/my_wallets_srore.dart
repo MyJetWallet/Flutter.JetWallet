@@ -189,6 +189,8 @@ abstract class _MyWalletsSroreBase with Store {
         return intl.my_wallets_create_account;
       case BankingShowState.accountList:
         return '${(sSignalRModules.bankingProfileData?.banking?.accounts?.length ?? 1) + 1} ${intl.my_wallets_account}';
+      case BankingShowState.onlySimple:
+        return '${(sSignalRModules.bankingProfileData?.banking?.accounts?.length ?? 1) + 1} ${intl.my_wallets_account}';
       default:
         return '';
     }

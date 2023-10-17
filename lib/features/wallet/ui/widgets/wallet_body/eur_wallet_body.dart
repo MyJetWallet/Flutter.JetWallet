@@ -28,6 +28,7 @@ class EurWalletBody extends StatelessObserverWidget {
     ).where((element) => element.symbol == 'EUR').first;
 
     final bankAccounts = sSignalRModules.bankingProfileData?.banking?.accounts ?? <SimpleBankingAccount>[];
+    final simpleAccount = sSignalRModules.bankingProfileData?.simple?.account;
 
     return SPageFrame(
       loaderText: '',
@@ -71,6 +72,7 @@ class EurWalletBody extends StatelessObserverWidget {
               curr: eurCurrency,
               pageController: pageController,
               pageCount: pageCount,
+              isEurWallet: true,
             ),
           ),
           const SliverPadding(padding: EdgeInsets.only(top: 24)),
@@ -128,6 +130,57 @@ class EurWalletBody extends StatelessObserverWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                if (simpleAccount != null)
+                  SCardRow(
+                    icon: Container(
+                      margin: const EdgeInsets.only(top: 3),
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: sKit.colors.blue,
+                        shape: BoxShape.circle,
+                      ),
+                      child: SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: SBankMediumIcon(
+                          color: sKit.colors.white,
+                        ),
+                      ),
+                    ),
+                    name: simpleAccount.label ?? 'Account 1',
+                    helper: simpleAccount.status == AccountStatus.active
+                        ? intl.eur_wallet_simple_account
+                        : intl.create_simple_creating,
+                    onTap: () {
+                      sRouter.push(
+                        const CJAccountRouter(),
+                      );
+                    },
+                    description: '',
+                    amount: '',
+                    needSpacer: true,
+                    rightIcon: simpleAccount.status == AccountStatus.active
+                        ? Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            decoration: ShapeDecoration(
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(color: Color(0xFFF1F4F8)),
+                                borderRadius: BorderRadius.circular(22),
+                              ),
+                            ),
+                            child: Text(
+                              volumeFormat(
+                                decimal: simpleAccount.balance ?? Decimal.zero,
+                                accuracy: eurCurrency.accuracy,
+                                symbol: eurCurrency.symbol,
+                              ),
+                              style: sSubtitle1Style.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          )
+                        : null,
+                  ),
                 for (final el in sSignalRModules.bankingProfileData?.banking?.accounts ?? <SimpleBankingAccount>[])
                   SCardRow(
                     icon: Container(
@@ -145,7 +198,7 @@ class EurWalletBody extends StatelessObserverWidget {
                         ),
                       ),
                     ),
-                    name: el.label ?? '',
+                    name: el.label ?? 'Account',
                     helper: el.status == AccountStatus.active
                         ? intl.eur_wallet_personal_account
                         : intl.create_personal_creating,
@@ -197,6 +250,7 @@ class EurWalletBody extends StatelessObserverWidget {
                     ),
                   ),
                 ),
+                const SizedBox(height: 20),
               ],
             ),
           ),

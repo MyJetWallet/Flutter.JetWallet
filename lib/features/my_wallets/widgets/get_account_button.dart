@@ -13,6 +13,8 @@ import 'package:jetwallet/features/my_wallets/helper/show_wallet_verify_account.
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/utils/enum.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
+import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
@@ -29,6 +31,10 @@ class GetAccountButton extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
+    final eurCurrency = nonIndicesWithBalanceFrom(
+      sSignalRModules.currenciesList,
+    ).where((element) => element.symbol == 'EUR').first;
+
     return Padding(
       padding: EdgeInsets.only(
         top: 8,
@@ -42,7 +48,7 @@ class GetAccountButton extends StatelessObserverWidget {
         child: SIconTextButton(
           onTap: () {
             sAnalytics.tapOnTheButtonGetAccountEUROnWalletsScreen();
-            onGetAccountClick(store, context);
+            onGetAccountClick(store, context, eurCurrency);
           },
           text: store.simpleAccountButtonText,
           mainAxisSize: store.buttonStatus == BankingShowState.getAccount ? MainAxisSize.min : MainAxisSize.max,
@@ -87,15 +93,10 @@ class GetAccountButton extends StatelessObserverWidget {
   }
 }
 
-Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context) async {
+Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context, CurrencyModel eurCurrency) async {
   final kycState = getIt.get<KycService>();
   final kyc = getIt.get<KycAlertHandler>();
 
-  final kycPassed = checkKycPassed(
-    kycState.depositStatus,
-    kycState.sellStatus,
-    kycState.withdrawalStatus,
-  );
   final kycBlocked = checkKycBlocked(
     kycState.depositStatus,
     kycState.sellStatus,
@@ -105,7 +106,6 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context) async
   final anyBlock = sSignalRModules.clientDetail.clientBlockers.isNotEmpty;
 
   final verificationInProgress = kycState.inVerificationProgress;
-  final isKyc = !kycPassed && !kycBlocked && !verificationInProgress;
 
   if (verificationInProgress) {
     kyc.showVerifyingAlert();
@@ -119,8 +119,6 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context) async
     return;
   }
 
-  print(store.buttonStatus);
-
   if (store.buttonStatus == BankingShowState.getAccountBlock) {
     kyc.showBlockedAlert();
 
@@ -130,11 +128,19 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context) async
 
     return;
   } else if (store.buttonStatus == BankingShowState.accountList) {
-    await sRouter.push(const CJAccountRouter());
+    await sRouter.push(
+      WalletRouter(
+        currency: eurCurrency,
+      ),
+    );
 
     return;
   } else if (store.buttonStatus == BankingShowState.getAccount) {
     await store.createSimpleAccount();
+  } else if (store.buttonStatus == BankingShowState.onlySimple) {
+    await sRouter.push(const CJAccountRouter());
+
+    return;
   }
 
   /*
