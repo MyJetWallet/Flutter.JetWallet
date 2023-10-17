@@ -8,10 +8,12 @@ class SNotificationBox extends StatelessWidget {
     Key? key,
     required this.text,
     this.isError = true,
+    this.hideIcon = false,
   }) : super(key: key);
 
   final String text;
   final bool isError;
+  final bool hideIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class SNotificationBox extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (isError) ...[
+              if (isError && !hideIcon) ...[
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     vertical: 20,
@@ -44,8 +46,8 @@ class SNotificationBox extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(
-                    top: isError ? 18 : 10,
-                    bottom: isError ? 22 : 14,
+                    top: isError && !hideIcon ? 18 : 10,
+                    bottom: isError && !hideIcon ? 22 : 14,
                   ),
                   child: Text(
                     text,

@@ -1,4 +1,8 @@
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M11 20L8.75 17L21 17V14H3L7.5 20H11Z" fill="#374DFB"/>
-<path d="M13 4L15.25 7L3 7V10H21L16.5 4H13Z" fill="#374DFB"/>
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icon">
+<g id="Shape">
+<path d="M7.08268 5.47617L7.08268 14.1666H4.58268L4.58268 5.47617L1.66602 7.5595L1.66602 4.64284L5.83268 1.66665L9.99935 4.64284L9.99935 7.5595L7.08268 5.47617Z" fill="black"/>
+<path d="M12.916 14.5238V5.83331H15.416V14.5238L18.3327 12.4405V15.3571L14.166 18.3333L9.99935 15.3571V12.4405L12.916 14.5238Z" fill="black"/>
+</g>
+</g>
 </svg>

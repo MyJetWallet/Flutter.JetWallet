@@ -41,7 +41,8 @@ class SStandardField extends StatelessObserverWidget {
     this.validators = const [],
     this.maxLength,
     this.maxLines,
-    required this.labelText,
+    this.labelText,
+    this.hintText,
     this.height,
     this.cursorHeight,
   }) : super(key: key);
@@ -70,7 +71,8 @@ class SStandardField extends StatelessObserverWidget {
   final bool alignLabelWithHint;
   final bool enabled;
   final bool hideSpace;
-  final String labelText;
+  final String? labelText;
+  final String? hintText;
   final bool isError;
   final bool hasManualError;
   final bool hideLabel;
@@ -119,6 +121,7 @@ class SStandardField extends StatelessObserverWidget {
             maxLines: maxLines,
             height: height,
             cursorHeight: cursorHeight,
+            hintText: hintText,
           )
         : SimpleLightStandardField(
             controller: controller,
@@ -155,6 +158,7 @@ class SStandardField extends StatelessObserverWidget {
             maxLines: maxLines,
             height: height,
             cursorHeight: cursorHeight,
+            hintText: hintText,
           );
   }
 }

@@ -91,9 +91,7 @@ class _CurrencySellBodyState extends State<CurrencySellBody> {
                       url: currency.iconUrl,
                     )
                   : SNetworkSvg24(
-                      color: currency == store.selectedCurrency
-                          ? colors.blue
-                          : colors.black,
+                      color: currency == store.selectedCurrency ? colors.blue : colors.black,
                       url: currency.iconUrl,
                     ),
               name: currency.description,
@@ -112,9 +110,7 @@ class _CurrencySellBodyState extends State<CurrencySellBody> {
                       url: currency.iconUrl,
                     )
                   : SNetworkSvg24(
-                      color: currency == store.selectedCurrency
-                          ? colors.blue
-                          : colors.black,
+                      color: currency == store.selectedCurrency ? colors.blue : colors.black,
                       url: currency.iconUrl,
                     ),
               name: currency.description,
@@ -168,7 +164,6 @@ class _CurrencySellBodyState extends State<CurrencySellBody> {
             child: SActionPriceField(
               widgetSize: widgetSizeFrom(deviceSize),
               price: formatCurrencyStringAmount(
-                prefix: widget.currency.prefixSymbol,
                 value: store.inputValue,
                 symbol: widget.currency.symbol,
               ),
@@ -232,20 +227,6 @@ class _CurrencySellBodyState extends State<CurrencySellBody> {
           ),
           SNumericKeyboardAmount(
             widgetSize: widgetSizeFrom(deviceSize),
-            preset1Name: '25%',
-            preset2Name: '50%',
-            preset3Name: intl.max,
-            selectedPreset: store.selectedPreset,
-            onPresetChanged: (preset) {
-              store.tapPreset(
-                preset.index == 0
-                    ? '25%'
-                    : preset.index == 1
-                        ? '50%'
-                        : 'Max',
-              );
-              store.selectPercentFromBalance(preset);
-            },
             onKeyPressed: (value) {
               store.updateInputValue(value);
             },

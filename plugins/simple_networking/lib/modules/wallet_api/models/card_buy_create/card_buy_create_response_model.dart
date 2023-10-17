@@ -14,18 +14,21 @@ class CardBuyCreateResponseModel with _$CardBuyCreateResponseModel {
     @DecimalSerialiser() required Decimal buyAmount,
     String? buyAsset,
     @DecimalSerialiser() required Decimal depositFeeAmount,
-    String? depositFeeAsset,
-    @DecimalSerialiser() required Decimal tradeFeeAmount,
     @DecimalSerialiser() Decimal? depositFeeAmountMax,
     @DecimalSerialiser() Decimal? depositFeePerc,
     @DecimalSerialiser() Decimal? depositFeePercMax,
-    @DecimalNullSerialiser() Decimal? paymentFeeInPaymentAsset,
-    @DecimalNullSerialiser() Decimal? simpleFeeAmountInPaymentAsset,
+    String? depositFeeAsset,
+    @DecimalSerialiser() required Decimal tradeFeeAmount,
     String? tradeFeeAsset,
     @DecimalSerialiser() required Decimal rate,
-    int? actualTimeInSecond,
+    @DecimalSerialiser() required Decimal withdrawalAmount,
+    Decimal? withdrawalFeeAsset,
+    @DecimalSerialiser() required Decimal withdrawalFeeAmount,
+    @DecimalNullSerialiser() Decimal? paymentFeeInPaymentAsset,
+    @DecimalNullSerialiser() Decimal? simpleFeeAmountInPaymentAsset,
+    required int actualTimeInSecond,
+    required bool deviceBindingRequired,
   }) = _CardBuyCreateResponseModel;
 
-  factory CardBuyCreateResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$CardBuyCreateResponseModelFromJson(json);
+  factory CardBuyCreateResponseModel.fromJson(Map<String, dynamic> json) => _$CardBuyCreateResponseModelFromJson(json);
 }

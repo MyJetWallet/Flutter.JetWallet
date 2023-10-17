@@ -27,7 +27,6 @@ import 'package:jetwallet/features/auth/user_data/ui/user_data_screen.dart';
 import 'package:jetwallet/features/auth/verification_reg/verification_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/buy_confrimation_screen.dart';
-import 'package:jetwallet/features/buy_flow/ui/payment_method_screen.dart';
 import 'package:jetwallet/features/card_coming_soon/card_screen.dart';
 import 'package:jetwallet/features/convert/model/preview_convert_input.dart';
 import 'package:jetwallet/features/convert/ui/convert.dart';
@@ -109,7 +108,7 @@ import 'package:jetwallet/widgets/result_screens/verifying_screen/verifying_scre
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
@@ -546,10 +545,6 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/progress_router',
       page: ProgressRouter.page,
-    ),
-    AutoRoute(
-      path: '/buy_payment_method',
-      page: BuyPaymentMethodRoute.page,
     ),
     AutoRoute(
       path: '/buy_flow_amount',

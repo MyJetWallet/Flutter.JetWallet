@@ -2,6 +2,8 @@ import 'package:data_channel/data_channel.dart';
 import 'package:simple_networking/api_client/api_client.dart';
 import 'package:simple_networking/helpers/handle_api_responses.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/validation_api/models/device_binding/post_device_binding_request_model.dart';
+import 'package:simple_networking/modules/validation_api/models/device_binding/post_device_binding_verify_model.dart';
 import 'package:simple_networking/modules/validation_api/models/phone_number/phone_number_response_model.dart';
 import 'package:simple_networking/modules/validation_api/models/phone_verification/phone_verification_request_model.dart';
 import 'package:simple_networking/modules/validation_api/models/phone_verification_verify/phone_verification_verify_request_model.dart';
@@ -165,6 +167,52 @@ class ValidationApiDataSources {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.validationApi}/phone-setup/verification/verify',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        handleResultResponse(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>>
+      postDeviceBindingRequestRequest(
+    PostDeviceBindingRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.validationApi}/device-binding/request',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        handleFullNumberResponse(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>>
+      postDeviceBindingVerifyRequest(
+    PostDeviceBindingVerifyModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.validationApi}/device-binding/verify',
         data: model.toJson(),
       );
 

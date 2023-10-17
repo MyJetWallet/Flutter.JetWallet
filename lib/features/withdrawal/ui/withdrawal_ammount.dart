@@ -21,8 +21,7 @@ class WithdrawalAmmountScreen extends StatefulObserverWidget {
   const WithdrawalAmmountScreen({super.key});
 
   @override
-  State<WithdrawalAmmountScreen> createState() =>
-      _WithdrawalAmmountScreenState();
+  State<WithdrawalAmmountScreen> createState() => _WithdrawalAmmountScreenState();
 }
 
 class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
@@ -73,8 +72,7 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
-          title:
-              '''${intl.withdrawal_send_verb} ${store.withdrawalInputModel!.currency!.description}''',
+          title: '''${intl.withdrawal_send_verb} ${store.withdrawalInputModel!.currency!.description}''',
         ),
       ),
       child: Column(
@@ -99,14 +97,11 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
                   child: SActionPriceField(
                     widgetSize: widgetSizeFrom(deviceSize),
                     price: formatCurrencyStringAmount(
-                      prefix:
-                          store.withdrawalInputModel?.currency?.prefixSymbol,
                       value: store.withAmount,
                       symbol: store.withdrawalInputModel!.currency!.symbol,
                     ),
                     helper: '≈ ${marketFormat(
                       accuracy: store.baseCurrency.accuracy,
-                      prefix: store.baseCurrency.prefix,
                       decimal: Decimal.parse(store.baseConversionValue),
                       symbol: store.baseCurrency.symbol,
                     )}',
@@ -166,8 +161,7 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
               color: colors.black,
             ),
             name: shortAddressForm(store.address),
-            description:
-                '''${store.withdrawalInputModel!.currency!.symbol} ${intl.withdrawalAmount_wallet}''',
+            description: '''${store.withdrawalInputModel!.currency!.symbol} ${intl.withdrawalAmount_wallet}''',
           ),
           deviceSize.when(
             small: () => const Spacer(),
@@ -175,20 +169,6 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
           ),
           SNumericKeyboardAmount(
             widgetSize: widgetSizeFrom(deviceSize),
-            preset1Name: '25%',
-            preset2Name: '50%',
-            preset3Name: intl.max,
-            selectedPreset: store.selectedPreset,
-            onPresetChanged: (preset) {
-              store.tapPreset(
-                preset.index == 0
-                    ? '25%'
-                    : preset.index == 1
-                        ? '50%'
-                        : 'Max',
-              );
-              store.selectPercentFromBalance(preset);
-            },
             onKeyPressed: (value) {
               store.updateAmount(value);
             },
@@ -196,27 +176,12 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
             submitButtonActive: store.withValid,
             submitButtonName: intl.withdraw_continue,
             onSubmitPressed: () {
-              String preset;
-              switch (store.selectedPreset) {
-                case SKeyboardPreset.preset1:
-                  preset = '25%';
-                  break;
-                case SKeyboardPreset.preset2:
-                  preset = '50%';
-                  break;
-                case SKeyboardPreset.preset3:
-                  preset = '100%';
-                  break;
-                default:
-                  preset = 'false';
-              }
-
               sAnalytics.cryptoSendTapContinueAmountScreen(
                 asset: store.withdrawalInputModel!.currency!.symbol,
                 network: store.network.description,
                 sendMethodType: '0',
                 totalSendAmount: store.withAmount,
-                preset: preset,
+                preset: 'false',
               );
 
               store.withdrawalPush(WithdrawStep.preview);

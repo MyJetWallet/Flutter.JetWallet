@@ -36,7 +36,8 @@ class SimpleLightStandardField extends StatefulWidget {
     this.validators = const [],
     this.maxLength,
     this.maxLines,
-    required this.labelText,
+    this.labelText,
+    this.hintText,
     this.height,
     this.cursorHeight,
   })  : assert(
@@ -70,7 +71,8 @@ class SimpleLightStandardField extends StatefulWidget {
   final bool alignLabelWithHint;
   final bool enabled;
   final bool hideSpace;
-  final String labelText;
+  final String? labelText;
+  final String? hintText;
   final bool isError;
   final bool hasManualError;
   final bool hideLabel;
@@ -144,6 +146,7 @@ class _SimpleLightStandardFieldState extends State<SimpleLightStandardField> {
       validators: widget.validators,
       height: widget.height,
       cursorHeight: widget.cursorHeight,
+      hintText: widget.hintText,
     );
   }
 }

@@ -31,9 +31,9 @@ class _KeyboardKeyState extends State<KeyboardKey> {
   Widget build(BuildContext context) {
     return KeyboardKeySize(
       child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: highlighted ? SColorsLight().white : Colors.transparent,
-          borderRadius: BorderRadius.circular(16),
+        decoration: ShapeDecoration(
+          color: !highlighted ? SColorsLight().white : SColorsLight().grey5,
+          shape: const CircleBorder(),
         ),
         child: KeyboardKeyDetector(
           onTap: () => widget.onKeyPressed(widget.realValue),
@@ -46,9 +46,7 @@ class _KeyboardKeyState extends State<KeyboardKey> {
             child: Text(
               widget.frontKey,
               style: sTextH4Style.copyWith(
-                color: highlighted
-                    ? SColorsLight().black.withOpacity(0.8)
-                    : SColorsLight().black,
+                color: highlighted ? SColorsLight().black.withOpacity(0.8) : SColorsLight().black,
               ),
             ),
           ),

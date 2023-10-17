@@ -33,8 +33,7 @@ class SendGloballyAmountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider<SendGloballyAmountStore>(
-      create: (context) =>
-          SendGloballyAmountStore()..setCardNumber(data, method),
+      create: (context) => SendGloballyAmountStore()..setCardNumber(data, method),
       builder: (context, child) => SendGloballyAmountScreenBody(
         data: data,
         method: method,
@@ -54,12 +53,10 @@ class SendGloballyAmountScreenBody extends StatefulObserverWidget {
   final GlobalSendMethodsModelMethods method;
 
   @override
-  State<SendGloballyAmountScreenBody> createState() =>
-      _SendGloballyAmountScreenBodyState();
+  State<SendGloballyAmountScreenBody> createState() => _SendGloballyAmountScreenBodyState();
 }
 
-class _SendGloballyAmountScreenBodyState
-    extends State<SendGloballyAmountScreenBody> {
+class _SendGloballyAmountScreenBodyState extends State<SendGloballyAmountScreenBody> {
   @override
   void initState() {
     super.initState();
@@ -115,7 +112,6 @@ class _SendGloballyAmountScreenBodyState
             child: SActionPriceField(
               widgetSize: widgetSizeFrom(deviceSize),
               price: formatCurrencyStringAmount(
-                prefix: store.sendCurrency!.prefixSymbol,
                 value: store.withAmount,
                 symbol: store.sendCurrency!.symbol,
               ),
@@ -126,7 +122,6 @@ class _SendGloballyAmountScreenBodyState
               isErrorActive: store.withAmmountInputError.isActive,
             ),
           ),
-          //const SizedBox(height: 40),
           const Spacer(),
           SPaddingH24(
             child: InkWell(
@@ -163,8 +158,7 @@ class _SendGloballyAmountScreenBodyState
                     Row(
                       children: [
                         const SpaceW19(), // 1 px border
-                        if (store.cardNetwork !=
-                            CircleCardNetwork.unsupported) ...[
+                        if (store.cardNetwork != CircleCardNetwork.unsupported) ...[
                           getNetworkIcon(context),
                         ] else ...[
                           SNetworkCachedSvg(
@@ -204,26 +198,11 @@ class _SendGloballyAmountScreenBodyState
           ),
           SNumericKeyboardAmount(
             widgetSize: widgetSizeFrom(deviceSize),
-            preset1Name: '25%',
-            preset2Name: '50%',
-            preset3Name: intl.max,
-            selectedPreset: store.selectedPreset,
-            onPresetChanged: (preset) {
-              store.tapPreset(
-                preset.index == 0
-                    ? '25%'
-                    : preset.index == 1
-                        ? '50%'
-                        : 'Max',
-              );
-              store.selectPercentFromBalance(preset);
-            },
             onKeyPressed: (value) {
               store.updateAmount(value);
             },
             buttonType: SButtonType.primary2,
-            submitButtonActive: store.withValid &&
-                store.withAmmountInputError == InputError.none,
+            submitButtonActive: store.withValid && store.withAmmountInputError == InputError.none,
             submitButtonName: intl.addCircleCard_continue,
             onSubmitPressed: () {
               sAnalytics.globalSendContinueAmountSc(
@@ -233,7 +212,7 @@ class _SendGloballyAmountScreenBodyState
                 paymentMethod: store.method?.name ?? '',
                 globalSendType: widget.method.methodId ?? '',
                 totalSendAmount: store.withAmount,
-                preset: store.tappedPreset ?? 'false',
+                preset: 'false',
               );
 
               store.loadPreview();

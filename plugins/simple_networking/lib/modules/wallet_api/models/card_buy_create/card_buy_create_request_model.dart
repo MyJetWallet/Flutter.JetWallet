@@ -11,9 +11,13 @@ class CardBuyCreateRequestModel with _$CardBuyCreateRequestModel {
     @DecimalSerialiser() required Decimal paymentAmount,
     String? paymentAsset,
     String? buyAsset,
+    @DecimalNullSerialiser() Decimal? buyAmount,
+    bool? buyFixed,
     required CirclePaymentMethod paymentMethod,
     CirclePaymentDataModel? circlePaymentData,
+    CirclePaymentDataModel? unlimintPaymentData,
     CirclePaymentDataModel? cardPaymentData,
+    IbanPaymentPreview? ibanPaymentData,
   }) = _CardBuyCreateRequestModel;
 
   factory CardBuyCreateRequestModel.fromJson(Map<String, dynamic> json) =>
@@ -30,6 +34,17 @@ class CirclePaymentDataModel with _$CirclePaymentDataModel {
       _$CirclePaymentDataModelFromJson(json);
 }
 
+@freezed
+class IbanPaymentPreview with _$IbanPaymentPreview {
+  const factory IbanPaymentPreview({
+    required String accountId,
+  }) = _IbanPaymentPreview;
+
+  factory IbanPaymentPreview.fromJson(Map<String, dynamic> json) =>
+      _$IbanPaymentPreviewFromJson(json);
+}
+
+
 enum CirclePaymentMethod {
   @JsonValue(0)
   circle,
@@ -43,6 +58,8 @@ enum CirclePaymentMethod {
   applePay,
   @JsonValue(5)
   googlePay,
+  @JsonValue(6)
+  ibanTransferUnlimint,
   @JsonValue(102)
   pix,
   @JsonValue(103)

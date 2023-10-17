@@ -24,6 +24,7 @@ class SimpleBaseSvg24X24 extends StatelessWidget {
         assetName,
         color: color,
         package: 'simple_kit',
+        fit: BoxFit.scaleDown,
       ),
     );
   }

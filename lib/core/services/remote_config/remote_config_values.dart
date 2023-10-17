@@ -1,4 +1,6 @@
 // AppConfig
+import 'package:decimal/decimal.dart';
+
 late int emailVerificationCodeLength;
 late int phoneVerificationCodeLength;
 late String userAgreementLink;
@@ -27,6 +29,7 @@ late int changePasswordLockHours;
 late int changePhoneLockHours;
 late String cardLimitsLearnMoreLink;
 late String p2pTerms;
+late Decimal convertMarkup;
 
 // Versioning
 late String recommendedVersion;

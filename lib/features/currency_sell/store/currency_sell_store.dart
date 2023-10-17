@@ -11,7 +11,6 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/utils/models/selected_percent.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -19,12 +18,10 @@ import 'package:simple_kit/simple_kit.dart';
 
 part 'currency_sell_store.g.dart';
 
-class CirrencySellStore extends _CirrencySellStoreBase
-    with _$CirrencySellStore {
+class CirrencySellStore extends _CirrencySellStoreBase with _$CirrencySellStore {
   CirrencySellStore(super.currencyModel);
 
-  static _CirrencySellStoreBase of(BuildContext context) =>
-      Provider.of<CirrencySellStore>(context, listen: false);
+  static _CirrencySellStoreBase of(BuildContext context) => Provider.of<CirrencySellStore>(context, listen: false);
 }
 
 abstract class _CirrencySellStoreBase with Store {
@@ -47,12 +44,6 @@ abstract class _CirrencySellStoreBase with Store {
   CurrencyModel? selectedCurrency;
 
   @observable
-  SKeyboardPreset? selectedPreset;
-
-  @observable
-  String? tappedPreset;
-
-  @observable
   String inputValue = '0';
 
   @observable
@@ -72,23 +63,18 @@ abstract class _CirrencySellStoreBase with Store {
 
   @computed
   String get selectedCurrencySymbol {
-    return selectedCurrency == null
-        ? baseCurrency!.symbol
-        : selectedCurrency!.symbol;
+    return selectedCurrency == null ? baseCurrency!.symbol : selectedCurrency!.symbol;
   }
 
   @computed
   int get selectedCurrencyAccuracy {
-    return selectedCurrency == null
-        ? baseCurrency!.accuracy
-        : selectedCurrency!.accuracy;
+    return selectedCurrency == null ? baseCurrency!.accuracy : selectedCurrency!.accuracy;
   }
 
   @action
   String conversionText() {
     final base = volumeFormat(
       accuracy: baseCurrency!.accuracy,
-      prefix: baseCurrency?.prefix,
       decimal: Decimal.parse(baseConversionValue),
       symbol: baseCurrency!.symbol,
     );
@@ -101,7 +87,6 @@ abstract class _CirrencySellStoreBase with Store {
       final target = volumeFormat(
         decimal: Decimal.parse(targetConversionValue),
         symbol: selectedCurrency!.symbol,
-        prefix: selectedCurrency!.prefixSymbol,
         accuracy: selectedCurrency!.accuracy,
       );
 
@@ -126,53 +111,11 @@ abstract class _CirrencySellStoreBase with Store {
   }
 
   @action
-  void tapPreset(String presetName) {
-    tappedPreset = presetName;
-  }
-
-  @action
   void updateSelectedCurrency(CurrencyModel? currency) {
     _logger.log(notifier, 'updateSelectedCurrency');
 
     selectedCurrency = currency;
     _validateInput();
-  }
-
-  @action
-  void selectPercentFromBalance(SKeyboardPreset preset) {
-    _logger.log(notifier, 'selectPercentFromBalance');
-
-    _updateSelectedPreset(preset);
-
-    final tempPercent = _percentFromPreset(preset);
-
-    final value = valueBasedOnSelectedPercent(
-      selected: tempPercent,
-      currency: currencyModel,
-    );
-
-    _updateInputValue(
-      valueAccordingToAccuracy(value, currencyModel.accuracy),
-    );
-    _validateInput();
-    _calculateTargetConversion();
-    _calculateBaseConversion();
-  }
-
-  @action
-  void _updateSelectedPreset(SKeyboardPreset preset) {
-    selectedPreset = preset;
-  }
-
-  @action
-  SelectedPercent _percentFromPreset(SKeyboardPreset preset) {
-    if (preset == SKeyboardPreset.preset1) {
-      return SelectedPercent.pct25;
-    } else if (preset == SKeyboardPreset.preset2) {
-      return SelectedPercent.pct50;
-    } else {
-      return SelectedPercent.pct100;
-    }
   }
 
   @action
@@ -194,7 +137,6 @@ abstract class _CirrencySellStoreBase with Store {
     _validateInput();
     _calculateTargetConversion();
     _calculateBaseConversion();
-    _clearPercent();
   }
 
   @action
@@ -228,8 +170,7 @@ abstract class _CirrencySellStoreBase with Store {
 
   @action
   void _calculateTargetConversion([Decimal? newPrice]) {
-    if ((targetConversionPrice != null || newPrice != null) &&
-        inputValue.isNotEmpty) {
+    if ((targetConversionPrice != null || newPrice != null) && inputValue.isNotEmpty) {
       final amount = Decimal.parse(inputValue);
       final price = newPrice ?? targetConversionPrice!;
       final accuracy = selectedCurrencyAccuracy;
@@ -297,10 +238,5 @@ abstract class _CirrencySellStoreBase with Store {
     }
 
     _updateInputError(error);
-  }
-
-  @action
-  void _clearPercent() {
-    selectedPreset = null;
   }
 }

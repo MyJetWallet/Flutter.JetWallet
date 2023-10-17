@@ -10,6 +10,7 @@ Future showNotification(
   int duration = 2,
   bool needFeedback = false,
   bool isError = true,
+  bool hideIcon = false,
 ]) {
   if (needFeedback) {
     HapticFeedback.lightImpact();
@@ -27,6 +28,7 @@ Future showNotification(
           child: SNotificationBox(
             text: message,
             isError: isError,
+            hideIcon: hideIcon,
           ),
         ),
       );

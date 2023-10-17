@@ -132,9 +132,8 @@ class PaymentMethodCardIconWidget extends StatelessWidget {
             const SizedBox(height: 1),
             Text(
               name,
-              style: sBodyText2Style.copyWith(
-                color: sKit.colors.black,
-                fontWeight: FontWeight.w600,
+              style: sSubtitle3Style.copyWith(
+                color: sKit.colors.purple,
               ),
             ),
           ],
@@ -180,39 +179,24 @@ class PaymentMethodBankCardWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(2),
                     child: getNetworkIcon(),
                   ),
-                  const SizedBox(width: 8),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        subName,
-                        style: sOverlineTextStyle.copyWith(
-                          color: sKit.colors.grey2,
-                          height: 1.384,
-                        ),
-                      ),
-                      if (subName2 != null)
-                        Text(
-                          subName2 ?? '',
-                          style: sCaptionTextStyle.copyWith(
-                            color: expire ? sKit.colors.red : sKit.colors.grey2,
-                            height: 1.384,
-                          ),
-                        ),
-                    ],
-                  ),
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            const SpaceH12(),
             Text(
               name,
-              style: sBodyText2Style.copyWith(
+              style: sSubtitle3Style.copyWith(
                 color: sKit.colors.black,
-                fontWeight: FontWeight.w600,
-                height: 1.428,
               ),
             ),
+            if (subName2 != null)
+              Text(
+                subName2 ?? '',
+                style: sCaptionTextStyle.copyWith(
+                  color: expire ? sKit.colors.red : sKit.colors.grey2,
+                  height: 1.384,
+                ),
+              ),
           ],
         ),
       ),

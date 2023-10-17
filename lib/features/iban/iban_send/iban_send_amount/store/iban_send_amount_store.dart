@@ -14,7 +14,6 @@ import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/utils/models/selected_percent.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -28,22 +27,13 @@ import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban
 
 part 'iban_send_amount_store.g.dart';
 
-class IbanSendAmountStore extends _IbanSendAmountStoreBase
-    with _$IbanSendAmountStore {
+class IbanSendAmountStore extends _IbanSendAmountStoreBase with _$IbanSendAmountStore {
   IbanSendAmountStore() : super();
 
-  static IbanSendAmountStore of(BuildContext context) =>
-      Provider.of<IbanSendAmountStore>(context, listen: false);
+  static IbanSendAmountStore of(BuildContext context) => Provider.of<IbanSendAmountStore>(context, listen: false);
 }
 
 abstract class _IbanSendAmountStoreBase with Store {
-  @observable
-  SKeyboardPreset? selectedPreset;
-  @observable
-  String? tappedPreset;
-  @action
-  void tapPreset(String preset) => tappedPreset = preset;
-
   @observable
   String withAmount = '0';
 
@@ -149,11 +139,7 @@ abstract class _IbanSendAmountStoreBase with Store {
       bic: contact?.bic ?? '',
     );
 
-    final response = await getIt
-        .get<SNetwork>()
-        .simpleNetworking
-        .getWalletModule()
-        .postPreviewIbanWithdrawal(model);
+    final response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postPreviewIbanWithdrawal(model);
 
     loader.finishLoadingImmediately();
 
@@ -175,29 +161,6 @@ abstract class _IbanSendAmountStoreBase with Store {
   }
 
   @action
-  void selectPercentFromBalance(SKeyboardPreset preset) {
-    selectedPreset = preset;
-
-    final percent = _percentFromPreset(preset);
-
-    final value = valueBasedOnSelectedPercent(
-      selected: percent,
-      currency: eurCurrency,
-      availableBalance: Decimal.parse(
-        '''${eurCurrency.assetBalance.toDouble() - eurCurrency.cardReserve.toDouble()}''',
-      ),
-    );
-
-    withAmount = valueAccordingToAccuracy(
-      value,
-      eurCurrency.accuracy,
-    );
-
-    _validateAmount();
-    _calculateBaseConversion();
-  }
-
-  @action
   void updateAmount(String value) {
     withAmount = responseOnInputAction(
       oldInput: withAmount,
@@ -207,7 +170,6 @@ abstract class _IbanSendAmountStoreBase with Store {
 
     _validateAmount();
     _calculateBaseConversion();
-    selectedPreset = null;
   }
 
   @action
@@ -239,14 +201,12 @@ abstract class _IbanSendAmountStoreBase with Store {
         decimal: _minLimit!,
         accuracy: eurCurrency.accuracy,
         symbol: eurCurrency.symbol,
-        prefix: eurCurrency.prefixSymbol,
       )}';
     } else if (_maxLimit != null && _maxLimit! < value) {
       limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
         decimal: _maxLimit!,
         accuracy: eurCurrency.accuracy,
         symbol: eurCurrency.symbol,
-        prefix: eurCurrency.prefixSymbol,
       )}';
     } else {
       limitError = '';
@@ -266,18 +226,6 @@ abstract class _IbanSendAmountStoreBase with Store {
       );
     }
 
-    withValid =
-        withAmmountInputError == InputError.none && isInputValid(withAmount);
-  }
-
-  @action
-  SelectedPercent _percentFromPreset(SKeyboardPreset preset) {
-    if (preset == SKeyboardPreset.preset1) {
-      return SelectedPercent.pct25;
-    } else if (preset == SKeyboardPreset.preset2) {
-      return SelectedPercent.pct50;
-    } else {
-      return SelectedPercent.pct100;
-    }
+    withValid = withAmmountInputError == InputError.none && isInputValid(withAmount);
   }
 }

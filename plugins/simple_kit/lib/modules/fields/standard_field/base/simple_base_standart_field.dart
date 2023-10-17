@@ -35,7 +35,8 @@ class SimpleBaseStandardField extends StatefulWidget {
     this.hasManualError = false,
     this.hideLabel = false,
     this.grayLabel = false,
-    required this.labelText,
+    this.labelText,
+    this.hintText,
     this.height,
     this.cursorHeight,
   }) : super(key: key);
@@ -61,7 +62,8 @@ class SimpleBaseStandardField extends StatefulWidget {
   final bool alignLabelWithHint;
   final bool enabled;
   final bool hideSpace;
-  final String labelText;
+  final String? labelText;
+  final String? hintText;
   final bool isError;
   final bool hasManualError;
   final bool grayLabel;
@@ -134,6 +136,10 @@ class _SimpleBaseStandardFieldState extends State<SimpleBaseStandardField> {
             return null;
           },
           decoration: InputDecoration(
+            hintText: widget.hintText,
+            hintStyle: sSubtitle2Style.copyWith(
+              color: SColorsLight().grey2,
+            ),
             border: InputBorder.none,
             labelText: widget.labelText,
             alignLabelWithHint: widget.alignLabelWithHint,

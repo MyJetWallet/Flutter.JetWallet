@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_buy/action_buy.dart';
 import 'package:jetwallet/features/actions/action_receive/action_receive.dart';
@@ -30,27 +31,22 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
-    final isShowBuy = sSignalRModules.currenciesList
-        .where((element) => element.buyMethods.isNotEmpty)
-        .isNotEmpty;
+    final isBuyAvailable = sSignalRModules.currenciesList.where((element) => element.buyMethods.isNotEmpty).isNotEmpty;
     final isShowSend = sSignalRModules.currenciesList
         .where(
-          (element) =>
-              element.isSupportAnyWithdrawal && element.isAssetBalanceNotEmpty,
+          (element) => element.isSupportAnyWithdrawal && element.isAssetBalanceNotEmpty,
         )
         .isNotEmpty;
-    final isShowReceive = sSignalRModules.currenciesList
-        .where((element) => element.supportsCryptoDeposit)
-        .isNotEmpty;
+    final isShowReceive = sSignalRModules.currenciesList.where((element) => element.supportsCryptoDeposit).isNotEmpty;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        if (isShowBuy) ...[
-          CircleActionBuy(
-            onTap: () {
-              getIt.get<MyWalletsSrore>().isReordering = false;
-              
+        CircleActionBuy(
+          onTap: () {
+            getIt.get<MyWalletsSrore>().isReordering = false;
+
+            if (isBuyAvailable) {
               sAnalytics.newBuyTapBuy(
                 source: 'My Assets - Buy',
               );
@@ -58,9 +54,15 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
                 shouldPop: false,
                 context: context,
               );
-            },
-          ),
-        ],
+            } else {
+              sNotification.showError(
+                'Operation is unavailable. Please contact our support.',
+                id: 1,
+                hideIcon: true,
+              );
+            }
+          },
+        ),
         if (isShowReceive) ...[
           CircleActionReceive(
             onTap: () {
@@ -70,8 +72,7 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
                 source: 'My Assets - Receive',
               );
 
-              if (kycState.depositStatus ==
-                  kycOperationStatus(KycStatus.allowed)) {
+              if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
                 showReceiveAction(context, shouldPop: false);
               } else {
                 kycAlertHandler.handle(
@@ -94,8 +95,7 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
               getIt.get<MyWalletsSrore>().isReordering = false;
 
               sAnalytics.tabOnTheSendButton(source: 'My Assets - Send');
-              if (kycState.withdrawalStatus ==
-                  kycOperationStatus(KycStatus.allowed)) {
+              if (kycState.withdrawalStatus == kycOperationStatus(KycStatus.allowed)) {
                 showSendAction(
                   context,
                   isNotEmptyBalance: isNotEmptyBalance,

@@ -17,20 +17,23 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:responsive_grid_list/responsive_grid_list.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
 class PaymentMethodCardsWidget extends StatelessObserverWidget {
   const PaymentMethodCardsWidget({
     super.key,
     required this.title,
     required this.asset,
-    required this.currency,
+    this.onSelected,
   });
 
   final String title;
   final CurrencyModel asset;
-  final PaymentAsset currency;
+  final void Function({
+    CircleCard? inputCard,
+    SimpleBankingAccount? account,
+  })? onSelected;
 
   void onAddCardTap(BuildContext context) {
     Navigator.push(
@@ -43,14 +46,8 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
             onCardAdded: () {},
             amount: '',
             isPreview: true,
-            currency: currency,
             asset: asset,
-            method: BuyMethodDto(
-              id: PaymentMethodType.bankCard,
-              termsAccepted: true,
-              category: PaymentMethodCategory.cards,
-              paymentAssets: [currency],
-            ),
+            divideDateAndLabel: true,
           );
         },
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -58,8 +55,7 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
           const end = Offset.zero;
           const curve = Curves.ease;
 
-          final tween =
-              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
           return SlideTransition(
             position: animation.drive(tween),
@@ -77,7 +73,10 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
     return Column(
       children: [
         const SizedBox(height: 8),
-        MarketSeparator(text: title),
+        MarketSeparator(
+          text: title,
+          isNeedDivider: false,
+        ),
         const SpaceH16(),
         ResponsiveGridList(
           horizontalGridSpacing: 12,
@@ -112,14 +111,16 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
                     e.expMonth,
                     e.expYear,
                   )) {
-                    sRouter.push(
-                      BuyAmountRoute(
-                        asset: asset,
-                        currency: currency,
-                        method: store.getCardBuyMethod(),
-                        card: e,
-                      ),
-                    );
+                    if (onSelected != null) {
+                      onSelected!(inputCard: e);
+                    } else {
+                      sRouter.push(
+                        BuyAmountRoute(
+                          asset: asset,
+                          card: e,
+                        ),
+                      );
+                    }
                   }
                 },
               );

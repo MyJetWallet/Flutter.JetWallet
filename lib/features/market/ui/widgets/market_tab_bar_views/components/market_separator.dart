@@ -6,9 +6,11 @@ class MarketSeparator extends StatelessObserverWidget {
   const MarketSeparator({
     super.key,
     required this.text,
+    this.isNeedDivider = true,
   });
 
   final String text;
+  final bool isNeedDivider;
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +36,12 @@ class MarketSeparator extends StatelessObserverWidget {
             ),
           ),
           const SpaceW10(),
-          Expanded(
-            child: SDivider(
-              color: colors.grey3,
+          if (isNeedDivider)
+            Expanded(
+              child: SDivider(
+                color: colors.grey3,
+              ),
             ),
-          ),
         ],
       ),
     );

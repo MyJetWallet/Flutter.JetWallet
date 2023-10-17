@@ -35,9 +35,9 @@ class _KeyboardIconState extends State<KeyboardIcon> {
       child: widget.hide ?? false
           ? const SizedBox()
           : DecoratedBox(
-              decoration: BoxDecoration(
-                color: highlighted ? SColorsLight().white : Colors.transparent,
-                borderRadius: BorderRadius.circular(16),
+              decoration: ShapeDecoration(
+                color: !highlighted ? SColorsLight().white : SColorsLight().grey5,
+                shape: const CircleBorder(),
               ),
               child: KeyboardKeyDetector(
                 onTap: () => widget.onPressed(widget.realValue),

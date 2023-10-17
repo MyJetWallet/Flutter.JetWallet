@@ -84,7 +84,6 @@ class _ReturnToWalletBody extends StatelessObserverWidget {
             child: SActionPriceField(
               widgetSize: widgetSizeFrom(deviceSize),
               price: formatCurrencyStringAmount(
-                prefix: currency.prefixSymbol,
                 value: state.inputValue,
                 symbol: currency.symbol,
               ),
@@ -134,20 +133,6 @@ class _ReturnToWalletBody extends StatelessObserverWidget {
           ),
           SNumericKeyboardAmount(
             widgetSize: widgetSizeFrom(deviceSize),
-            preset1Name: '25%',
-            preset2Name: '50%',
-            preset3Name: intl.return_to_wallet_max_preset,
-            selectedPreset: state.selectedPreset,
-            onPresetChanged: (preset) {
-              state.tapPreset(
-                preset.index == 0
-                    ? '25%'
-                    : preset.index == 1
-                        ? '50%'
-                        : 'Max',
-              );
-              state.selectPercentFromBalance(preset);
-            },
             onKeyPressed: (value) {
               state.updateInputValue(value);
             },
@@ -158,16 +143,14 @@ class _ReturnToWalletBody extends StatelessObserverWidget {
               sRouter.push(
                 PreviewReturnToWalletRouter(
                   input: PreviewReturnToWalletInput(
-                    remainingBalance: ((state.currentBalance ?? Decimal.zero) -
-                            Decimal.parse(state.inputValue))
-                        .toString(),
+                    remainingBalance:
+                        ((state.currentBalance ?? Decimal.zero) - Decimal.parse(state.inputValue)).toString(),
                     amount: state.inputValue,
                     fromCurrency: currency,
                     toCurrency: currency,
                     apy: state.apy.toString(),
                     expectedYearlyProfit: state.expectedYearlyProfit.toString(),
-                    expectedYearlyProfitBase:
-                        state.expectedYearlyProfitBaseAsset.toString(),
+                    expectedYearlyProfitBase: state.expectedYearlyProfitBaseAsset.toString(),
                     earnOffer: earnOffer,
                   ),
                 ),

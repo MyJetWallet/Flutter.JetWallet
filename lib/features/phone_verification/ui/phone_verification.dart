@@ -23,6 +23,7 @@ class PhoneVerificationArgs {
   PhoneVerificationArgs({
     this.showChangeTextAlert = false,
     this.sendCodeOnInitState = true,
+    this.isDeviceBinding = false,
     required this.phoneNumber,
     required this.onVerified,
     this.activeDialCode,
@@ -30,6 +31,7 @@ class PhoneVerificationArgs {
 
   final bool sendCodeOnInitState;
   final bool showChangeTextAlert;
+  final bool isDeviceBinding;
   final String phoneNumber;
   final void Function() onVerified;
   final SPhoneNumber? activeDialCode;
@@ -85,9 +87,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
     final colors = sKit.colors;
 
     store.focusNode.addListener(() {
-      if (store.focusNode.hasFocus &&
-          store.controller.value.text.length == codeLength &&
-          store.pinFieldError.value) {
+      if (store.focusNode.hasFocus && store.controller.value.text.length == codeLength && store.pinFieldError.value) {
         store.controller.clear();
       }
     });

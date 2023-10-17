@@ -26,8 +26,7 @@ import 'package:simple_networking/modules/wallet_api/models/send_globally/send_t
 
 part 'send_globally_amount_store.g.dart';
 
-class SendGloballyAmountStore extends _SendGloballyAmountStoreBase
-    with _$SendGloballyAmountStore {
+class SendGloballyAmountStore extends _SendGloballyAmountStoreBase with _$SendGloballyAmountStore {
   SendGloballyAmountStore() : super();
 
   static SendGloballyAmountStore of(BuildContext context) =>
@@ -35,12 +34,6 @@ class SendGloballyAmountStore extends _SendGloballyAmountStoreBase
 }
 
 abstract class _SendGloballyAmountStoreBase with Store {
-  @observable
-  SKeyboardPreset? selectedPreset;
-  @observable
-  String? tappedPreset;
-  @action
-  void tapPreset(String preset) => tappedPreset = preset;
 
   @observable
   String? sendCurrencyAsset;
@@ -164,11 +157,7 @@ abstract class _SendGloballyAmountStoreBase with Store {
       methodId: method!.methodId ?? '',
     );
 
-    final response = await getIt
-        .get<SNetwork>()
-        .simpleNetworking
-        .getWalletModule()
-        .sendToBankCardPreview(
+    final response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().sendToBankCardPreview(
           mainData!,
         );
 
@@ -192,32 +181,6 @@ abstract class _SendGloballyAmountStoreBase with Store {
   }
 
   @action
-  void selectPercentFromBalance(SKeyboardPreset preset) {
-    selectedPreset = preset;
-
-    final percent = _percentFromPreset(preset);
-
-    final availableBalance = Decimal.parse(
-      '''${sendCurrency!.assetBalance.toDouble() - sendCurrency!.cardReserve.toDouble()}''',
-    );
-
-    final value = valueBasedOnSelectedPercent(
-      selected: percent,
-      currency: sendCurrency!,
-      availableBalance:
-          availableBalabce > maxLimitAmount ? maxLimitAmount : availableBalance,
-    );
-
-    withAmount = valueAccordingToAccuracy(
-      value,
-      sendCurrency!.accuracy,
-    );
-
-    _validateAmount();
-    _calculateBaseConversion();
-  }
-
-  @action
   void updateAmount(String value) {
     withAmount = responseOnInputAction(
       oldInput: withAmount,
@@ -227,7 +190,6 @@ abstract class _SendGloballyAmountStoreBase with Store {
 
     _validateAmount();
     _calculateBaseConversion();
-    selectedPreset = null;
   }
 
   @action
@@ -246,8 +208,7 @@ abstract class _SendGloballyAmountStoreBase with Store {
 
   @action
   void _validateAmount() {
-    final error =
-        onGloballyWithdrawInputErrorHandler(withAmount, sendCurrency!, null);
+    final error = onGloballyWithdrawInputErrorHandler(withAmount, sendCurrency!, null);
 
     final value = Decimal.parse(withAmount);
 
@@ -256,14 +217,12 @@ abstract class _SendGloballyAmountStoreBase with Store {
         decimal: minLimitAmount,
         accuracy: sendCurrency!.accuracy,
         symbol: sendCurrency!.symbol,
-        prefix: sendCurrency!.prefixSymbol,
       )}';
     } else if (maxLimitAmount < value) {
       limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
         decimal: maxLimitAmount,
         accuracy: sendCurrency!.accuracy,
         symbol: sendCurrency!.symbol,
-        prefix: sendCurrency!.prefixSymbol,
       )}';
     } else {
       limitError = '';
@@ -279,9 +238,7 @@ abstract class _SendGloballyAmountStoreBase with Store {
 
     if (withAmmountInputError != InputError.none) {
       sAnalytics.globalSendErrorLimit(
-        errorCode: withAmmountInputError == InputError.limitError
-            ? limitError
-            : withAmmountInputError.name,
+        errorCode: withAmmountInputError == InputError.limitError ? limitError : withAmmountInputError.name,
         asset: sendCurrency!.symbol,
         sendMethodType: '1',
         destCountry: countryCode,
@@ -290,16 +247,5 @@ abstract class _SendGloballyAmountStoreBase with Store {
       );
     }
     withValid = error == InputError.none && isInputValid(withAmount);
-  }
-
-  @action
-  SelectedPercent _percentFromPreset(SKeyboardPreset preset) {
-    if (preset == SKeyboardPreset.preset1) {
-      return SelectedPercent.pct25;
-    } else if (preset == SKeyboardPreset.preset2) {
-      return SelectedPercent.pct50;
-    } else {
-      return SelectedPercent.pct100;
-    }
   }
 }

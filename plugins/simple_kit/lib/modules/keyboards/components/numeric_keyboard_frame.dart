@@ -24,7 +24,7 @@ class NumericKeyboardFrame extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: height,
-      color: SColorsLight().grey5,
+      color: SColorsLight().white,
       padding: EdgeInsets.only(
         left: 24.0,
         right: 24.0,

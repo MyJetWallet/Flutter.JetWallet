@@ -12,8 +12,7 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/currency_withdraw/model/address_validation_union.dart';
-import 'package:jetwallet/features/currency_withdraw/model/withdrawal_confirm_union.dart'
-    as confirm;
+import 'package:jetwallet/features/currency_withdraw/model/withdrawal_confirm_union.dart' as confirm;
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/features/withdrawal/model/withdrawal_confirm_model.dart';
 import 'package:jetwallet/utils/constants.dart';
@@ -23,7 +22,6 @@ import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
-import 'package:jetwallet/utils/models/selected_percent.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:mobx/mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -53,8 +51,7 @@ enum WithdrawStep { address, ammount, preview, confirm }
 class WithdrawalStore extends _WithdrawalStoreBase with _$WithdrawalStore {
   WithdrawalStore() : super();
 
-  static _WithdrawalStoreBase of(BuildContext context) =>
-      Provider.of<WithdrawalStore>(context, listen: false);
+  static _WithdrawalStoreBase of(BuildContext context) => Provider.of<WithdrawalStore>(context, listen: false);
 }
 
 abstract class _WithdrawalStoreBase with Store {
@@ -70,14 +67,12 @@ abstract class _WithdrawalStoreBase with Store {
   WithdrawalModel? withdrawalInputModel;
 
   @computed
-  SendMethodDto get _sendBlockchainMethod =>
-      sSignalRModules.sendMethods.firstWhere(
+  SendMethodDto get _sendBlockchainMethod => sSignalRModules.sendMethods.firstWhere(
         (element) => element.id == WithdrawalMethods.blockchainSend,
       );
 
   @computed
-  List<BlockchainModel> get networks =>
-      withdrawalInputModel?.currency?.networksForBlockchainSend ?? [];
+  List<BlockchainModel> get networks => withdrawalInputModel?.currency?.networksForBlockchainSend ?? [];
 
   @observable
   bool addressError = false;
@@ -162,13 +157,6 @@ abstract class _WithdrawalStoreBase with Store {
   InputError withAmmountInputError = InputError.none;
 
   @observable
-  SKeyboardPreset? selectedPreset;
-  @observable
-  String? tappedPreset;
-  @action
-  void tapPreset(String preset) => tappedPreset = preset;
-
-  @observable
   bool withValid = false;
 
   @observable
@@ -186,8 +174,7 @@ abstract class _WithdrawalStoreBase with Store {
   bool confirmIsProcessing = false;
 
   @observable
-  confirm.WithdrawalConfirmUnion confirmUnion =
-      const confirm.WithdrawalConfirmUnion.input();
+  confirm.WithdrawalConfirmUnion confirmUnion = const confirm.WithdrawalConfirmUnion.input();
 
   @observable
   TextEditingController confirmController = TextEditingController();
@@ -233,13 +220,10 @@ abstract class _WithdrawalStoreBase with Store {
   }
 
   @computed
-  String get header =>
-      '''${intl.withdrawal_send_verb} ${withdrawalInputModel!.currency!.description}''';
+  String get header => '''${intl.withdrawal_send_verb} ${withdrawalInputModel!.currency!.description}''';
 
   @computed
-  String get bassAsset => withdrawalType == WithdrawalType.asset
-      ? withdrawalInputModel!.currency!.symbol
-      : 'MATIC';
+  String get bassAsset => withdrawalType == WithdrawalType.asset ? withdrawalInputModel!.currency!.symbol : 'MATIC';
 
   @computed
   String get validationResult {
@@ -269,9 +253,7 @@ abstract class _WithdrawalStoreBase with Store {
 
   @computed
   String get withdrawHint {
-    return isReadyToContinue
-        ? '${intl.withdrawHint_text1}.'
-        : '${intl.withdrawHint_text2}.';
+    return isReadyToContinue ? '${intl.withdrawHint_text1}.' : '${intl.withdrawHint_text2}.';
   }
 
   @computed
@@ -284,28 +266,21 @@ abstract class _WithdrawalStoreBase with Store {
   }
 
   @computed
-  SendMethodDto get _sendWithdrawalMethod =>
-      sSignalRModules.sendMethods.firstWhere(
+  SendMethodDto get _sendWithdrawalMethod => sSignalRModules.sendMethods.firstWhere(
         (element) => element.id == WithdrawalMethods.blockchainSend,
       );
 
   @computed
-  Decimal? get _minLimit =>
-      _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
-        (element) =>
-            element.network == network.id &&
-            element.symbol == withdrawalInputModel?.currency?.symbol,
+  Decimal? get _minLimit => _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
+        (element) => element.network == network.id && element.symbol == withdrawalInputModel?.currency?.symbol,
         orElse: () {
           return const SymbolNetworkDetails();
         },
       ).minAmount;
 
   @computed
-  Decimal? get _maxLimit =>
-      _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
-        (element) =>
-            element.network == network.id &&
-            element.symbol == withdrawalInputModel?.currency?.symbol,
+  Decimal? get _maxLimit => _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
+        (element) => element.network == network.id && element.symbol == withdrawalInputModel?.currency?.symbol,
         orElse: () {
           return const SymbolNetworkDetails();
         },
@@ -335,8 +310,7 @@ abstract class _WithdrawalStoreBase with Store {
       //addressController.text = '0x9fCD3018a923B5BD3488bBA507e2ceb002AECe1D';
     }
 
-    withdrawSubscription =
-        getIt<EventBus>().on<WithdrawalConfirmModel>().listen(updateCode);
+    withdrawSubscription = getIt<EventBus>().on<WithdrawalConfirmModel>().listen(updateCode);
   }
 
   @action
@@ -347,8 +321,7 @@ abstract class _WithdrawalStoreBase with Store {
     switch (step) {
       case WithdrawStep.address:
         if (isReplace) {
-          sRouter
-              .popUntil((route) => route.settings is WithdrawalAddressRouter);
+          sRouter.popUntil((route) => route.settings is WithdrawalAddressRouter);
         } else {
           sRouter.push(const WithdrawalAddressRouter());
         }
@@ -356,8 +329,7 @@ abstract class _WithdrawalStoreBase with Store {
         break;
       case WithdrawStep.ammount:
         if (isReplace) {
-          sRouter
-              .popUntil((route) => route.settings is WithdrawalAmmountRouter);
+          sRouter.popUntil((route) => route.settings is WithdrawalAmmountRouter);
         } else {
           sRouter.push(const WithdrawalAmmountRouter());
         }
@@ -365,8 +337,7 @@ abstract class _WithdrawalStoreBase with Store {
         break;
       case WithdrawStep.preview:
         if (isReplace) {
-          sRouter
-              .popUntil((route) => route.settings is WithdrawalPreviewRouter);
+          sRouter.popUntil((route) => route.settings is WithdrawalPreviewRouter);
         } else {
           sRouter.push(const WithdrawalPreviewRouter());
         }
@@ -374,8 +345,7 @@ abstract class _WithdrawalStoreBase with Store {
         break;
       case WithdrawStep.confirm:
         if (isReplace) {
-          sRouter
-              .popUntil((route) => route.settings is WithdrawalConfirmRouter);
+          sRouter.popUntil((route) => route.settings is WithdrawalConfirmRouter);
         } else {
           sRouter.push(const WithdrawalConfirmRouter());
         }
@@ -390,18 +360,15 @@ abstract class _WithdrawalStoreBase with Store {
     if (withdrawalType == WithdrawalType.asset) {
       if (withdrawalInputModel?.currency == null) return;
 
-      final condition1 =
-          addressValidation is Hide || addressValidation is Valid;
+      final condition1 = addressValidation is Hide || addressValidation is Valid;
       final condition2 = tagValidation is Hide || tagValidation is Valid;
       final condition3 = addressController.text.isNotEmpty;
       final condition4 = tag.isNotEmpty || networkController.text == earnRipple;
 
-      isReadyToContinue = tag.isNotEmpty
-          ? condition1 && condition2 && condition3 && condition4
-          : condition1 && condition3;
-    } else if (withdrawalInputModel?.nft != null) {
       isReadyToContinue =
-          networkController.text.isNotEmpty && addressValidation is Valid;
+          tag.isNotEmpty ? condition1 && condition2 && condition3 && condition4 : condition1 && condition3;
+    } else if (withdrawalInputModel?.nft != null) {
+      isReadyToContinue = networkController.text.isNotEmpty && addressValidation is Valid;
     }
   }
 
@@ -426,8 +393,7 @@ abstract class _WithdrawalStoreBase with Store {
         assetNetwork: network.id,
       );
 
-      final response =
-          await sNetwork.getWalletModule().postValidateAddress(model);
+      final response = await sNetwork.getWalletModule().postValidateAddress(model);
 
       response.pick(
         onData: (data) {
@@ -481,8 +447,7 @@ abstract class _WithdrawalStoreBase with Store {
               assetNetwork: withdrawalInputModel!.nft!.blockchain!,
             );
 
-      final response =
-          await sNetwork.getWalletModule().postValidateAddress(model);
+      final response = await sNetwork.getWalletModule().postValidateAddress(model);
 
       response.pick(
         onData: (data) {
@@ -735,8 +700,7 @@ abstract class _WithdrawalStoreBase with Store {
     final storageStatus = await storage.getValue(cameraStatusKey);
     final permissionStatus = await Permission.camera.request();
 
-    if (permissionStatus == PermissionStatus.denied ||
-        permissionStatus == PermissionStatus.permanentlyDenied) {
+    if (permissionStatus == PermissionStatus.denied || permissionStatus == PermissionStatus.permanentlyDenied) {
       if (storageStatus != null) {
         return CameraStatus.permanentlyDenied;
       }
@@ -820,9 +784,7 @@ abstract class _WithdrawalStoreBase with Store {
       },
     );
 
-    return fromSettings
-        ? Navigator.pushReplacement(context, qrPageRoute)
-        : Navigator.push(context, qrPageRoute);
+    return fromSettings ? Navigator.pushReplacement(context, qrPageRoute) : Navigator.push(context, qrPageRoute);
   }
 
   /*
@@ -851,29 +813,6 @@ abstract class _WithdrawalStoreBase with Store {
   }
 
   @action
-  void selectPercentFromBalance(SKeyboardPreset preset) {
-    selectedPreset = preset;
-
-    final percent = _percentFromPreset(preset);
-
-    final value = valueBasedOnSelectedPercent(
-      selected: percent,
-      currency: withdrawalInputModel!.currency!,
-      availableBalance: Decimal.parse(
-        '''${withdrawalInputModel!.currency!.assetBalance.toDouble() - withdrawalInputModel!.currency!.cardReserve.toDouble()}''',
-      ),
-    );
-
-    withAmount = valueAccordingToAccuracy(
-      value,
-      withdrawalInputModel!.currency!.accuracy,
-    );
-
-    _validateAmount();
-    _calculateBaseConversion();
-  }
-
-  @action
   void updateAmount(String value) {
     withAmount = responseOnInputAction(
       oldInput: withAmount,
@@ -883,18 +822,6 @@ abstract class _WithdrawalStoreBase with Store {
 
     _validateAmount();
     _calculateBaseConversion();
-    selectedPreset = null;
-  }
-
-  @action
-  SelectedPercent _percentFromPreset(SKeyboardPreset preset) {
-    if (preset == SKeyboardPreset.preset1) {
-      return SelectedPercent.pct25;
-    } else if (preset == SKeyboardPreset.preset2) {
-      return SelectedPercent.pct50;
-    } else {
-      return SelectedPercent.pct100;
-    }
   }
 
   @action
@@ -921,14 +848,12 @@ abstract class _WithdrawalStoreBase with Store {
         decimal: _minLimit!,
         accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
         symbol: withdrawalInputModel?.currency?.symbol ?? '',
-        prefix: '',
       )}';
     } else if (_maxLimit != null && _maxLimit! < value) {
       limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
         decimal: _maxLimit!,
         accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
         symbol: withdrawalInputModel?.currency?.symbol ?? '',
-        prefix: '',
       )}';
     } else {
       limitError = '';
@@ -942,8 +867,7 @@ abstract class _WithdrawalStoreBase with Store {
             : error
         : InputError.none;
 
-    withValid =
-        withAmmountInputError == InputError.none && isInputValid(withAmount);
+    withValid = withAmmountInputError == InputError.none && isInputValid(withAmount);
   }
 
   @action
@@ -980,8 +904,7 @@ abstract class _WithdrawalStoreBase with Store {
 
     previewLoading = true;
     final storageService = getIt.get<LocalStorageService>();
-    if (withdrawalInputModel != null &&
-        withdrawalInputModel?.currency != null) {
+    if (withdrawalInputModel != null && withdrawalInputModel?.currency != null) {
       await storageService.setString(
         lastAssetSend,
         withdrawalInputModel!.currency!.symbol,
@@ -1142,9 +1065,7 @@ abstract class _WithdrawalStoreBase with Store {
         brand: 'simple',
       );
 
-      final resp = await sNetwork
-          .getValidationModule()
-          .postVerifyWithdrawalVerificationCode(model);
+      final resp = await sNetwork.getValidationModule().postVerifyWithdrawalVerificationCode(model);
 
       if (resp.hasError) {
         confirmUnion = confirm.WithdrawalConfirmUnion.error(resp.error!.cause);
@@ -1203,11 +1124,9 @@ abstract class _WithdrawalStoreBase with Store {
     sRouter.push(
       FailureScreenRouter(
         primaryText: intl.withdrawalConfirm_failure,
-        secondaryText:
-            '''${intl.withdrawalConfirm_failedTo} ${intl.withdrawal_send_verb.toLowerCase()}''',
-        primaryButtonName: withdrawalType == WithdrawalType.asset
-            ? intl.withdrawalConfirm_editOrder
-            : intl.send_timer_alert_ok,
+        secondaryText: '''${intl.withdrawalConfirm_failedTo} ${intl.withdrawal_send_verb.toLowerCase()}''',
+        primaryButtonName:
+            withdrawalType == WithdrawalType.asset ? intl.withdrawalConfirm_editOrder : intl.send_timer_alert_ok,
         onPrimaryButtonTap: () {
           if (withdrawalType == WithdrawalType.asset) {
             sRouter.replaceAll([
@@ -1222,9 +1141,7 @@ abstract class _WithdrawalStoreBase with Store {
             sRouter.popUntilRoot();
           }
         },
-        secondaryButtonName: withdrawalType == WithdrawalType.asset
-            ? intl.withdrawalConfirm_close
-            : null,
+        secondaryButtonName: withdrawalType == WithdrawalType.asset ? intl.withdrawalConfirm_close : null,
         onSecondaryButtonTap: () => sRouter.popUntilRoot(),
       ),
     );
@@ -1246,8 +1163,7 @@ abstract class _WithdrawalStoreBase with Store {
 
     sRouter.push(
       SuccessScreenRouter(
-        secondaryText:
-            '${intl.withdrawal_successRequest} ${Decimal.parse(withAmount)}'
+        secondaryText: '${intl.withdrawal_successRequest} ${Decimal.parse(withAmount)}'
             ' ${withdrawalInputModel!.currency!.symbol}'
             ' ${intl.withdrawal_successPlaced}',
         onSuccess: (context) {
