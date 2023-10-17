@@ -108,7 +108,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                   animation: controller,
                   builder: (BuildContext context, Widget? _) {
                     return SizedBox(
-                      height: 75,
+                      height: controller.value *  75,
                       child: Container(
                         width: 24.0,
                         decoration: BoxDecoration(
