@@ -59,7 +59,7 @@ class _TransactionsListBody extends StatefulObserverWidget {
   final ScrollController scrollController;
   final String? symbol;
   final bool isRecurring;
-   final void Function(String assetSymbol)? onItemTapLisener;
+  final void Function(String assetSymbol)? onItemTapLisener;
 
   @override
   State<StatefulWidget> createState() => _TransactionsListBodyState();
@@ -69,7 +69,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
   @override
   void initState() {
     widget.scrollController.addListener(() {
-      if (widget.scrollController.position.maxScrollExtent ==
+      if (widget.scrollController.position.maxScrollExtent <=
           widget.scrollController.offset) {
         if (OperationHistory.of(context).union ==
                 const OperationHistoryUnion.loaded() &&
@@ -103,10 +103,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
     return SliverPadding(
       key: UniqueKey(),
       padding: EdgeInsets.only(
-        top: OperationHistory.of(context).union !=
-                const OperationHistoryUnion.error()
-            ? 15
-            : 0,
+        top: OperationHistory.of(context).union != const OperationHistoryUnion.error() ? 15 : 0,
         bottom: _addBottomPadding() ? 72 : 0,
       ),
       sliver: OperationHistory.of(context).union.when(
@@ -207,8 +204,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                               active: true,
                               name: intl.transactionsList_retry,
                               onTap: () {
-                                OperationHistory.of(context)
-                                    .initOperationHistory();
+                                OperationHistory.of(context).initOperationHistory();
                               },
                             ),
                           ],
@@ -227,8 +223,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                   },
                   groupComparator: (date1, date2) => 0,
                   itemBuilder: (context, transaction) {
-                    return listToShow.indexOf(transaction) ==
-                            listToShow.length - 1
+                    return listToShow.indexOf(transaction) == listToShow.length - 1
                         ? Column(
                             children: [
                               TransactionListItem(
@@ -254,8 +249,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                 child: Column(
                                   children: [
                                     Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.only(
@@ -276,8 +270,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                               height: 77,
                                               child: Baseline(
                                                 baseline: 38,
-                                                baselineType:
-                                                    TextBaseline.alphabetic,
+                                                baselineType: TextBaseline.alphabetic,
                                                 child: Text(
                                                   intl.newsList_wentWrongText,
                                                   style: sBodyText1Style,
@@ -293,8 +286,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                       active: true,
                                       name: intl.transactionsList_retry,
                                       onTap: () {
-                                        OperationHistory.of(context)
-                                            .operationHistory(
+                                        OperationHistory.of(context).operationHistory(
                                           widget.symbol,
                                         );
                                       },
@@ -324,8 +316,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                     return TransactionMonthSeparator(text: date);
                   },
                   itemBuilder: (context, transaction) {
-                    return listToShow.indexOf(transaction) ==
-                            listToShow.length - 1
+                    return listToShow.indexOf(transaction) == listToShow.length - 1
                         ? Column(
                             children: [
                               TransactionListItem(
@@ -358,8 +349,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
   }
 
   bool _addBottomPadding() {
-    return (OperationHistory.of(context).union !=
-            const OperationHistoryUnion.error()) &&
+    return (OperationHistory.of(context).union != const OperationHistoryUnion.error()) &&
         !OperationHistory.of(context).nothingToLoad;
   }
 }
