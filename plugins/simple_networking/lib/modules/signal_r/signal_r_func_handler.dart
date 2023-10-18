@@ -443,6 +443,19 @@ class SignalRFuncHandler {
     }
   }
 
+  void pendingOperationCountHandler(List<Object?>? data) {
+    try {
+      log(data.toString());
+      final int count = _json(data)['count'];
+
+      sTransport.setPendingOperationCount(count);
+
+      SignalRModuleNew.handlePackage();
+    } catch (e) {
+      instance.handleError(bankingProfileMessage, e);
+    }
+  }
+
   /// Type cast response data from the SignalR
   Map<String, dynamic> _json(List<dynamic>? data) {
     return data?.first as Map<String, dynamic>;

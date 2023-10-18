@@ -857,6 +857,13 @@ abstract class _SignalRServiceUpdatedBase with Store {
   }
 
   @observable
+  int pendingOperationCount = 0;
+  @action
+  void setPendingOperationCount(int count) {
+    pendingOperationCount = count;
+  }
+
+  @observable
   bool showPaymentsMethods = false;
   @observable
   AssetPaymentMethods? assetPaymentMethods;

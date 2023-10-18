@@ -73,6 +73,7 @@ class SignalRTransport {
     required this.receiveGifts,
     required this.rewardsProfile,
     required this.bankingProfile,
+    required this.setPendingOperationCount,
   });
 
   final void Function(bool) initFinished;
@@ -117,6 +118,8 @@ class SignalRTransport {
   final void Function(RewardsProfileModel) rewardsProfile;
 
   final void Function(BankingProfileModel) bankingProfile;
+
+  final void Function(int) setPendingOperationCount;
 
   /// Logs
 

@@ -535,6 +535,11 @@ class SignalRModuleNew {
       rewardsProfileMessage,
       method: handler.rewardsProfileHandler,
     );
+
+    _hubConnection?.off(
+      pendingOperationCountMessage,
+      method: handler.pendingOperationCountHandler,
+    );
   }
 
   Future<void> setupMessageHandler() async {
@@ -636,6 +641,8 @@ class SignalRModuleNew {
     );
 
     _hubConnection?.on(bankingProfileMessage, handler.bankingProfileHandler);
+
+    _hubConnection?.on(pendingOperationCountMessage, handler.pendingOperationCountHandler);
 
     ///
 

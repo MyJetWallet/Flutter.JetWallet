@@ -150,7 +150,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
               const SpaceH32(),
               const ActionsMyWalletsRowWidget(),
               const SpaceH28(),
-              if (store.isPendingTransactions) ...[
+              if (store.countOfPendingTransactions > 0) ...[
                 PendingTransactionsWidget(
                   countOfTransactions: store.countOfPendingTransactions,
                   onTap: () {
