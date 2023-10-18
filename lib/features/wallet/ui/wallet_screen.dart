@@ -74,41 +74,51 @@ class _WalletState extends State<Wallet> with AutomaticKeepAliveClientMixin, Tic
       _pageController.jumpToPage(supposedPage);
     }
 
-    return Scaffold(
-      body: Material(
-        color: Colors.transparent,
-        child: Stack(
-          children: [
-            PageView(
-              controller: _pageController,
-              onPageChanged: (page) {
-                if (skeepOnPageChanged) {
-                  skeepOnPageChanged = false;
-                } else {
-                  currentAsset = currencies[page];
-                  currentPage = page;
-                  sAnalytics.cryptoFavouriteWalletScreen(
-                    openedAsset: currencies[page].symbol,
-                  );
-                }
-              },
-              children: [
-                for (final currency in currencies)
-                  currency.symbol == 'EUR'
-                      ? EurWalletBody(
-                          key: Key(currency.symbol),
-                          pageController: _pageController,
-                          pageCount: currencies.length,
-                        )
-                      : WalletBody(
-                          key: Key(currency.symbol),
-                          currency: currency,
-                          pageController: _pageController,
-                          pageCount: currencies.length,
-                        ),
-              ],
-            ),
-          ],
+    return WillPopScope(
+      onWillPop: () {
+        sAnalytics.eurWalletSwipeBetweenWallets();
+        sAnalytics.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen(
+          openedAsset: widget.currency.symbol,
+        );
+
+        return Future.value(true);
+      },
+      child: Scaffold(
+        body: Material(
+          color: Colors.transparent,
+          child: Stack(
+            children: [
+              PageView(
+                controller: _pageController,
+                onPageChanged: (page) {
+                  if (skeepOnPageChanged) {
+                    skeepOnPageChanged = false;
+                  } else {
+                    currentAsset = currencies[page];
+                    currentPage = page;
+                    sAnalytics.cryptoFavouriteWalletScreen(
+                      openedAsset: currencies[page].symbol,
+                    );
+                  }
+                },
+                children: [
+                  for (final currency in currencies)
+                    currency.symbol == 'EUR'
+                        ? EurWalletBody(
+                            key: Key(currency.symbol),
+                            pageController: _pageController,
+                            pageCount: currencies.length,
+                          )
+                        : WalletBody(
+                            key: Key(currency.symbol),
+                            currency: currency,
+                            pageController: _pageController,
+                            pageCount: currencies.length,
+                          ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

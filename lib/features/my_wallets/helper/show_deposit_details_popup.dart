@@ -5,12 +5,16 @@ import 'package:jetwallet/features/iban/widgets/iban_item.dart';
 import 'package:jetwallet/features/iban/widgets/iban_terms_container.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-void showDepositDetails(BuildContext context) {
+void showDepositDetails(
+  BuildContext context,
+  VoidCallback onClose,
+) {
   sShowBasicModalBottomSheet(
     context: context,
     pinned: SBottomSheetHeader(
       name: intl.wallet_deposit_details,
     ),
+    onDissmis: onClose,
     children: [
       const SpaceH12(),
       const IbanTermsContainer(),

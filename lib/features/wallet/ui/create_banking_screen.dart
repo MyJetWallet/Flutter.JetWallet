@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/my_wallets/helper/show_create_personal_account.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/20x20/public/tick/simple_tick_icon.dart';
 import 'package:simple_kit/modules/icons/40x40/public/user/simple_user_icon.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
@@ -101,6 +102,8 @@ class CreateBankingScreen extends StatelessWidget {
             active: true,
             name: intl.create_continue,
             onTap: () {
+              sAnalytics.eurWalletTapOnContinuePersonalEUR();
+
               showCreatePersonalAccount(context, loading);
             },
           ),
