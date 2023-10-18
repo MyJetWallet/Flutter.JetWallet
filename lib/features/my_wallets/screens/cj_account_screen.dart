@@ -10,6 +10,7 @@ import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transac
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_button.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
@@ -38,6 +39,12 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
   @override
   void initState() {
     super.initState();
+
+    sAnalytics.eurWalletEURAccountWallet(
+      isCJ: widget.isCJAccount,
+      eurAccountLabel: widget.bankingAccount.label ?? 'Account',
+      isHasTransaction: true,
+    );
 
     _controller = ScrollController();
 
@@ -79,7 +86,15 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
             leading: Padding(
               padding: const EdgeInsets.only(left: 24),
               child: SIconButton(
-                onTap: () => Navigator.pop(context),
+                onTap: () {
+                  sAnalytics.eurWalletTapBackOnAccountWalletScreen(
+                    isCJ: widget.isCJAccount,
+                    eurAccountLabel: widget.bankingAccount.label ?? 'Account',
+                    isHasTransaction: true,
+                  );
+
+                  Navigator.pop(context);
+                },
                 defaultIcon: const SBackIcon(),
                 pressedIcon: const SBackPressedIcon(),
               ),
@@ -89,6 +104,14 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                 padding: const EdgeInsets.only(right: 24),
                 child: SIconButton(
                   onTap: () {
+                    sAnalytics.eurWalletTapEditEURAccointScreen(
+                      isCJ: widget.isCJAccount,
+                      eurAccountLabel: widget.bankingAccount.label ?? 'Account',
+                      isHasTransaction: true,
+                    );
+
+                    sAnalytics.eurWalletEditLabelScreen();
+
                     sRouter.push(const CJAccountLabelRouter());
                   },
                   defaultIcon: const SEditIcon(),
@@ -138,14 +161,38 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                       text: intl.wallet_add_cash,
                       type: CircleButtonType.addCash,
                       onTap: () {
-                        showDepositDetails(context);
+                        sAnalytics.eurWalletTapAddCashEurAccount(
+                          isCJ: widget.isCJAccount,
+                          eurAccountLabel: widget.bankingAccount.label ?? 'Account',
+                          isHasTransaction: true,
+                        );
+
+                        sAnalytics.eurWalletDepositDetailsSheet(
+                          isCJ: widget.isCJAccount,
+                          eurAccountLabel: widget.bankingAccount.label ?? 'Account',
+                          isHasTransaction: true,
+                        );
+
+                        showDepositDetails(context, () {
+                          sAnalytics.eurWalletTapCloseOnDeposirSheet(
+                            isCJ: widget.isCJAccount,
+                            eurAccountLabel: widget.bankingAccount.label ?? 'Account',
+                            isHasTransaction: true,
+                          );
+                        });
                       },
                     ),
                     CircleActionButton(
                       text: intl.wallet_withdraw,
                       type: CircleButtonType.withdraw,
                       isDisabled: true,
-                      onTap: () {},
+                      onTap: () {
+                        sAnalytics.eurWalletWithdrawEURAccountScreen(
+                          isCJ: widget.isCJAccount,
+                          eurAccountLabel: widget.bankingAccount.label ?? 'Account',
+                          isHasTransaction: true,
+                        );
+                      },
                     ),
                   ],
                 ),

@@ -3046,7 +3046,7 @@ class SimpleAnalytics {
 
   void addWalletForFavouritesScreenView() {
     _analytics.logEvent(
-      EventType.tapOnTheButtonAddWalletOnWalletsScreen,
+      EventType.addWalletForFavouritesScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3386,46 +3386,74 @@ class SimpleAnalytics {
     );
   }
 
-  void eurWalletTapAddCashEurAccount() {
+  void eurWalletTapAddCashEurAccount({
+    required bool isCJ,
+    required String eurAccountLabel,
+    required bool isHasTransaction,
+  }) {
     _analytics.logEvent(
       EventType.eurWalletTapAddCashEurAccount,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '291',
+        PropertyType.eurAccountType: isCJ ? 'CJ' : 'Unlimint',
+        PropertyType.eurAccountLabel: eurAccountLabel,
+        PropertyType.isHasTransactions: isHasTransaction,
       },
     );
   }
 
-  void eurWalletDepositDetailsSheet() {
+  void eurWalletDepositDetailsSheet({
+    required bool isCJ,
+    required String eurAccountLabel,
+    required bool isHasTransaction,
+  }) {
     _analytics.logEvent(
       EventType.eurWalletDepositDetailsSheet,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '292',
+        PropertyType.eurAccountType: isCJ ? 'CJ' : 'Unlimint',
+        PropertyType.eurAccountLabel: eurAccountLabel,
+        PropertyType.isHasTransactions: isHasTransaction,
       },
     );
   }
 
-  void eurWalletTapCloseOnDeposirSheet() {
+  void eurWalletTapCloseOnDeposirSheet({
+    required bool isCJ,
+    required String eurAccountLabel,
+    required bool isHasTransaction,
+  }) {
     _analytics.logEvent(
       EventType.eurWalletTapCloseOnDeposirSheet,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '293',
+        PropertyType.eurAccountType: isCJ ? 'CJ' : 'Unlimint',
+        PropertyType.eurAccountLabel: eurAccountLabel,
+        PropertyType.isHasTransactions: isHasTransaction,
       },
     );
   }
 
-  void eurWalletTapCopyDeposit() {
+  void eurWalletTapCopyDeposit({
+    required bool isCJ,
+    required String eurAccountLabel,
+    required bool isHasTransaction,
+  }) {
     _analytics.logEvent(
       EventType.eurWalletTapCopyDeposit,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '294',
+        PropertyType.eurAccountType: isCJ ? 'CJ' : 'Unlimint',
+        PropertyType.eurAccountLabel: eurAccountLabel,
+        PropertyType.isHasTransactions: isHasTransaction,
       },
     );
   }
@@ -3441,29 +3469,41 @@ class SimpleAnalytics {
     );
   }
 
-  void eurWalletWithdrawEURAccountScreen() {
+  void eurWalletWithdrawEURAccountScreen({
+    required bool isCJ,
+    required String eurAccountLabel,
+    required bool isHasTransaction,
+  }) {
     _analytics.logEvent(
       EventType.eurWalletWithdrawEURAccountScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '296',
+        PropertyType.eurAccountType: isCJ ? 'CJ' : 'Unlimint',
+        PropertyType.eurAccountLabel: eurAccountLabel,
+        PropertyType.isHasTransactions: isHasTransaction,
       },
     );
   }
 
-  void eurWalletTapAnyHistoryTRXEUR() {
+  void eurWalletTapAnyHistoryTRXEUR({
+    required bool isCJ,
+    required String eurAccountLabel,
+    required bool isHasTransaction,
+  }) {
     _analytics.logEvent(
       EventType.eurWalletTapAnyHistoryTRXEUR,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '297',
+        PropertyType.eurAccountType: isCJ ? 'CJ' : 'Unlimint',
+        PropertyType.eurAccountLabel: eurAccountLabel,
+        PropertyType.isHasTransactions: isHasTransaction,
       },
     );
   }
-
-
 
   void tapOnTheButtonAnyHistoryTrxOnCryptoFavouriteWalletScreen({
     required String openedAsset,

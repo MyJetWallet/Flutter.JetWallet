@@ -7,6 +7,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 void showWalletVerifyAccount(
@@ -28,6 +29,8 @@ void showWalletVerifyAccount(
       package: 'simple_kit',
     ),
     onPrimaryButtonTap: () async {
+      sAnalytics.eurWalletTapOnVerifyAccount();
+
       if (kycState.requiredVerifications.contains(RequiredVerified.proofOfPhone)) {
         await sRouter.push(
           SetPhoneNumberRouter(
