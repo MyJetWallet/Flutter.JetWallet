@@ -3602,4 +3602,18 @@ class SimpleAnalytics {
       },
     );
   }
+
+  void pinAfterWaiting({
+    required int timeAfterBlock,
+  }) {
+    _analytics.logEvent(
+      EventType.pinAfterWaiting,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.timeAfterBlock: timeAfterBlock,
+        PropertyType.eventId: '304',
+      },
+    );
+  }
 }
