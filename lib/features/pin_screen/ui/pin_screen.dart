@@ -36,6 +36,7 @@ class PinScreen extends StatelessWidget {
     this.onWrongPin,
     this.onError,
     this.onBackPressed,
+    this.onVerificationEnd,
     required this.union,
   });
 
@@ -50,6 +51,7 @@ class PinScreen extends StatelessWidget {
   final Function(String)? onError;
   final bool fromRegister;
   final void Function()? onBackPressed;
+  final void Function()? onVerificationEnd;
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +62,7 @@ class PinScreen extends StatelessWidget {
         onChangePhone: onChangePhone,
         isChangePin: isChangePin,
         onWrongPin: onWrongPin,
+        onVerificationEnd: onVerificationEnd,
       )..initDefaultScreen(),
       builder: (context, child) => _PinScreenBody(
         displayHeader: displayHeader,
@@ -146,9 +149,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                       child: SSmallHeader(
                         title: intl.pin_screen_confirm_withPin,
                         onBackButtonTap: () {
-                          widget.onBackPressed != null
-                              ? widget.onBackPressed?.call()
-                              : sRouter.back();
+                          widget.onBackPressed != null ? widget.onBackPressed?.call() : sRouter.back();
                         },
                       ),
                     );
@@ -228,8 +229,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
               Opacity(
                 opacity: pin.isError ? 1 : 0,
                 child: Text(
-                  (pin.screenUnion == const ConfirmPin() ||
-                          pin.screenUnion == const NewPin())
+                  (pin.screenUnion == const ConfirmPin() || pin.screenUnion == const NewPin())
                       ? intl.pinScreen_pinDontMatch
                       : intl.pinScreen_incorrectPIN,
                   style: sSubtitle3Style.copyWith(color: colors.red),
@@ -254,9 +254,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                 },
               ),
               const Spacer(),
-              if (!widget.displayHeader ||
-                  (pin.showForgot &&
-                      pin.screenUnion == const PinScreenUnion.enterPin()))
+              if (!widget.displayHeader || (pin.showForgot && pin.screenUnion == const PinScreenUnion.enterPin()))
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -288,8 +286,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                             );
                             Navigator.pop(context);
                           },
-                          secondaryButtonName:
-                              intl.forgot_pass_dialog_btn_cancel,
+                          secondaryButtonName: intl.forgot_pass_dialog_btn_cancel,
                           onSecondaryButtonTap: () {
                             Navigator.pop(context);
                           },
