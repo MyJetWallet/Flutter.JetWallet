@@ -21,7 +21,6 @@ class CircleCard with _$CircleCard {
     required bool lastUsed,
     required CircleCardInfoPayment paymentDetails,
     String? cardLabel,
-    String? cardAssetSymbol,
     @Default(false) bool manualAddes,
   }) = _CircleCard;
 

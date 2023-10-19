@@ -138,7 +138,7 @@ abstract class _BuyConfirmationStoreBase with Store {
 
   @computed
   CurrencyModel get payCurrency => sSignalRModules.currenciesWithHiddenList.firstWhere(
-        (currency) => currency.symbol == (card?.cardAssetSymbol ?? 'BTC'),
+        (currency) => currency.symbol == 'EUR',
         orElse: () => CurrencyModel.empty(),
       );
 
@@ -174,7 +174,7 @@ abstract class _BuyConfirmationStoreBase with Store {
     loader.startLoadingImmediately();
 
     payAmount = pAmount;
-    payAsset = inputCard?.cardAssetSymbol ?? account?.currency ?? 'EUR';
+    payAsset = account?.currency ?? 'EUR';
     card = inputCard;
     account = inputAccount;
     buyAssetSymbol = bAsset;
@@ -499,7 +499,6 @@ abstract class _BuyConfirmationStoreBase with Store {
       if (sRouter.currentPath != '/buy_flow_confirmation') {
         return;
       }
-
     } on ServerRejectException catch (error) {
       unawaited(_showFailureScreen(error.cause));
     } catch (error) {
