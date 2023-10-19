@@ -478,12 +478,12 @@ abstract class _BuyConfirmationStoreBase with Store {
       if (deviceBindingRequired) {
         var continueBuying = false;
 
-        final s = volumeFormat(symbol: payAsset, accuracy: payCurrency.accuracy, decimal: Decimal.parse(payAmount));
+        final formatedAmaunt = volumeFormat(symbol: payAsset, accuracy: payCurrency.accuracy, decimal: Decimal.parse(payAmount));
         await Future.delayed(const Duration(milliseconds: 500));
         await sShowAlertPopup(
           sRouter.navigatorKey.currentContext!,
           primaryText: '',
-          secondaryText: '${intl.binding_phone_dialog_first_part} $s ${intl.binding_phone_dialog_second_part}',
+          secondaryText: '${intl.binding_phone_dialog_first_part} $formatedAmaunt ${intl.binding_phone_dialog_second_part}',
           primaryButtonName: intl.binding_phone_dialog_confirm,
           secondaryButtonName: intl.binding_phone_dialog_cancel,
           image: Image.asset(
