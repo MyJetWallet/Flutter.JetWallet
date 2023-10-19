@@ -19,6 +19,8 @@ import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
+import '../../currency_buy/ui/widgets/choose_asset_bottom_sheet.dart';
+
 @RoutePage()
 class BuyAmountScreen extends StatelessWidget {
   const BuyAmountScreen({
@@ -152,13 +154,12 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
               url: store.asset?.iconUrl ?? '',
             ),
             onTap: () {
-              sRouter.push(
-                ChooseAssetRouter(
-                  onChooseAsset: (currency) {
-                    store.setNewAsset(currency);
-                    Navigator.of(context).pop();
-                  },
-                ),
+              showChooseAssetBottomSheet(
+                context: context,
+                onChooseAsset: (currency) {
+                  store.setNewAsset(currency);
+                  Navigator.of(context).pop();
+                },
               );
             },
           ),

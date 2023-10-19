@@ -199,6 +199,8 @@ abstract class _BuyAmountStoreBase with Store {
     fiatInputValue = '0';
 
     cryptoInputValue = '0';
+    errorText = null;
+
     inputValid = false;
   }
 
@@ -237,6 +239,7 @@ abstract class _BuyAmountStoreBase with Store {
     fiatInputValue = '0';
 
     cryptoInputValue = '0';
+    errorText = null;
     _validateInput();
   }
 
