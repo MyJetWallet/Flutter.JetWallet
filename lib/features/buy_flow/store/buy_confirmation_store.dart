@@ -99,6 +99,9 @@ abstract class _BuyConfirmationStoreBase with Store {
   int actualTimeInSecond = 0;
 
   @observable
+  bool deviceBindingRequired = false;
+
+  @observable
   Decimal price = Decimal.zero;
 
   AnimationController? timerAnimation;
@@ -232,6 +235,7 @@ abstract class _BuyConfirmationStoreBase with Store {
           rate = data.rate;
           paymentId = data.paymentId ?? '';
           actualTimeInSecond = data.actualTimeInSecond;
+          deviceBindingRequired = data.deviceBindingRequired;
         },
         onError: (error) {
           loader.finishLoadingImmediately();
@@ -451,6 +455,8 @@ abstract class _BuyConfirmationStoreBase with Store {
         ),
       );
 
+      if (pin == '') return;
+
       final model = CardBuyExecuteRequestModel(
         paymentId: paymentId,
         paymentMethod: convertMethodToCirclePaymentMethod(category),
@@ -469,22 +475,54 @@ abstract class _BuyConfirmationStoreBase with Store {
         paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : 'account',
         paymentMethodCurrency: depositFeeCurrency.symbol,
       );
+      if (deviceBindingRequired) {
+        var continueBuying = false;
+
+        final s = volumeFormat(symbol: payAsset, accuracy: payCurrency.accuracy, decimal: Decimal.parse(payAmount));
+        await Future.delayed(const Duration(milliseconds: 500));
+        await sShowAlertPopup(
+          sRouter.navigatorKey.currentContext!,
+          primaryText: '',
+          secondaryText: '${intl.binding_phone_dialog_first_part} $s ${intl.binding_phone_dialog_second_part}',
+          primaryButtonName: intl.binding_phone_dialog_confirm,
+          secondaryButtonName: intl.binding_phone_dialog_cancel,
+          image: Image.asset(
+            infoLightAsset,
+            width: 80,
+            height: 80,
+            package: 'simple_kit',
+          ),
+          onPrimaryButtonTap: () {
+            continueBuying = true;
+            sRouter.pop();
+          },
+          onSecondaryButtonTap: () {
+            continueBuying = false;
+            sRouter.pop();
+          },
+        );
+
+        if (!continueBuying) return;
+
+        final phoneNumber = countryCodeByUserRegister();
+        var isVerifaierd = false;
+        await sRouter.push(
+          PhoneVerificationRouter(
+            args: PhoneVerificationArgs(
+              isDeviceBinding: true,
+              phoneNumber: sUserInfo.phone,
+              activeDialCode: phoneNumber,
+              onVerified: () {
+                isVerifaierd = true;
+                sRouter.pop();
+              },
+            ),
+          ),
+        );
+        if (!isVerifaierd) return;
+      }
 
       loader.startLoadingImmediately();
-      final phoneNumber = countryCodeByUserRegister();
-      await sRouter.push(
-        PhoneVerificationRouter(
-          args: PhoneVerificationArgs(
-            isDeviceBinding: true,
-            phoneNumber: sUserInfo.phone,
-            activeDialCode: phoneNumber,
-            onVerified: () {
-              sRouter.pop();
-            },
-          ),
-        ),
-      );
-
       final resp = await sNetwork.getWalletModule().postCardBuyExecute(
             model,
             cancelToken: cancelToken,
@@ -499,6 +537,13 @@ abstract class _BuyConfirmationStoreBase with Store {
       if (sRouter.currentPath != '/buy_flow_confirmation') {
         return;
       }
+
+      if (isWaitingSkipped) {
+        return;
+      }
+      unawaited(_showSuccessScreen(false));
+
+      skippedWaiting();
     } on ServerRejectException catch (error) {
       unawaited(_showFailureScreen(error.cause));
     } catch (error) {

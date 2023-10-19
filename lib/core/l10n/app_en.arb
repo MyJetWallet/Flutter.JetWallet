@@ -1329,5 +1329,9 @@
     "amount_screen_buy": "Buy",
     "amount_screen_pay_with": "Pay with",
     "pay_with_balances": "Balances",
-    "create_simple_creating": "Creating simple account..."
+    "create_simple_creating": "Creating simple account...",
+    "binding_phone_dialog_first_part": "To proceed with this purchase confirm of sending funds of",
+    "binding_phone_dialog_second_part": "rom your bank account at Unlimit to the bank account on the name of Simple Europe UAB",
+    "binding_phone_dialog_confirm": "Confirm",
+    "binding_phone_dialog_cancel": "Cancel"
 }

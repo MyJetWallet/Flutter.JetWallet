@@ -45,8 +45,7 @@ class _CardScreenBodyState extends State<CardScreen> {
   void initState() {
     super.initState();
     isButtonActive = true;
-    _controllerConfetti =
-        ConfettiController(duration: const Duration(milliseconds: 200));
+    _controllerConfetti = ConfettiController(duration: const Duration(milliseconds: 200));
     getIt<EventBus>().on<ResetScrollCard>().listen((event) {
       controller.animateTo(
         0,
@@ -71,8 +70,7 @@ class _CardScreenBodyState extends State<CardScreen> {
     final colors = sKit.colors;
     final deviceSize = sDeviceSize;
     final fullName = '${userInfo.firstName} ${userInfo.lastName}'.toUpperCase();
-    final shortName =
-        '${userInfo.firstName} ${userInfo.lastName[0]}.'.toUpperCase();
+    final shortName = '${userInfo.firstName} ${userInfo.lastName[0]}.'.toUpperCase();
 
     final kycPassed = checkKycPassed(
       kycState.depositStatus,
@@ -108,8 +106,7 @@ class _CardScreenBodyState extends State<CardScreen> {
                   children: [
                     Column(
                       children: [
-                        if (widgetSizeFrom(deviceSize) != SWidgetSize.small)
-                          const SpaceH42(),
+                        if (widgetSizeFrom(deviceSize) != SWidgetSize.small) const SpaceH42(),
                         Stack(
                           children: [
                             Image.asset(
@@ -117,14 +114,8 @@ class _CardScreenBodyState extends State<CardScreen> {
                               width: size,
                             ),
                             Positioned(
-                              left: widgetSizeFrom(deviceSize) !=
-                                      SWidgetSize.small
-                                  ? 24
-                                  : 30,
-                              bottom: widgetSizeFrom(deviceSize) !=
-                                      SWidgetSize.small
-                                  ? 80
-                                  : 60,
+                              left: widgetSizeFrom(deviceSize) != SWidgetSize.small ? 24 : 30,
+                              bottom: widgetSizeFrom(deviceSize) != SWidgetSize.small ? 80 : 60,
                               child: Transform.rotate(
                                 angle: -pi / 4,
                                 child: Stack(
@@ -134,18 +125,10 @@ class _CardScreenBodyState extends State<CardScreen> {
                                       height: sizeHeight,
                                     ),
                                     Positioned(
-                                      bottom: widgetSizeFrom(deviceSize) !=
-                                              SWidgetSize.small
-                                          ? 24
-                                          : 0,
-                                      left: widgetSizeFrom(deviceSize) !=
-                                              SWidgetSize.small
-                                          ? 24
-                                          : 0,
+                                      bottom: widgetSizeFrom(deviceSize) != SWidgetSize.small ? 24 : 0,
+                                      left: widgetSizeFrom(deviceSize) != SWidgetSize.small ? 24 : 0,
                                       child: Text(
-                                        fullName.length > 21
-                                            ? shortName
-                                            : fullName,
+                                        fullName.length > 21 ? shortName : fullName,
                                         style: sTextH5Style.copyWith(
                                           color: colors.white,
                                           height: 1,
@@ -161,10 +144,7 @@ class _CardScreenBodyState extends State<CardScreen> {
                             ),
                           ],
                         ),
-                        if (widgetSizeFrom(deviceSize) != SWidgetSize.small)
-                          const SpaceH34()
-                        else
-                          const SpaceH20(),
+                        if (widgetSizeFrom(deviceSize) != SWidgetSize.small) const SpaceH34() else const SpaceH20(),
                         if (!userInfo.cardRequested) ...[
                           Text(
                             intl.card_main_text,
@@ -199,54 +179,49 @@ class _CardScreenBodyState extends State<CardScreen> {
                       Column(
                         children: [
                           SPrimaryButton4(
-                            active: isButtonActive &&
-                                !kycBlocked &&
-                                !verificationInProgress,
+                            active: isButtonActive && !kycBlocked && !verificationInProgress,
                             name: intl.join_the_waitlist,
                             onTap: () async {
                               setState(() {
                                 isButtonActive = false;
                               });
                               if (!kycPassed) {
-                                sShowAlertPopup(
-                                  context,
-                                  primaryText: '',
-                                  secondaryText: intl.card_verify,
-                                  primaryButtonName: intl.card_proceed,
-                                  image: Image.asset(
-                                    infoLightAsset,
-                                    height: 80,
-                                    width: 80,
-                                    package: 'simple_kit',
-                                  ),
-                                  onPrimaryButtonTap: () {
-                                    Navigator.pop(context);
-                                    final isDepositAllow = kycState
-                                            .depositStatus !=
-                                        kycOperationStatus(KycStatus.allowed);
-                                    final isWithdrawalAllow = kycState
-                                            .withdrawalStatus !=
-                                        kycOperationStatus(KycStatus.allowed);
+                                unawaited(
+                                  sShowAlertPopup(
+                                    context,
+                                    primaryText: '',
+                                    secondaryText: intl.card_verify,
+                                    primaryButtonName: intl.card_proceed,
+                                    image: Image.asset(
+                                      infoLightAsset,
+                                      height: 80,
+                                      width: 80,
+                                      package: 'simple_kit',
+                                    ),
+                                    onPrimaryButtonTap: () {
+                                      Navigator.pop(context);
+                                      final isDepositAllow =
+                                          kycState.depositStatus != kycOperationStatus(KycStatus.allowed);
+                                      final isWithdrawalAllow =
+                                          kycState.withdrawalStatus != kycOperationStatus(KycStatus.allowed);
 
-                                    kycAlertHandler.handle(
-                                      status: isDepositAllow
-                                          ? kycState.depositStatus
-                                          : isWithdrawalAllow
-                                              ? kycState.withdrawalStatus
-                                              : kycState.sellStatus,
-                                      isProgress:
-                                          kycState.verificationInProgress,
-                                      currentNavigate: () {},
-                                      requiredDocuments:
-                                          kycState.requiredDocuments,
-                                      requiredVerifications:
-                                          kycState.requiredVerifications,
-                                    );
-                                  },
-                                  secondaryButtonName: intl.card_cancel,
-                                  onSecondaryButtonTap: () {
-                                    Navigator.pop(context);
-                                  },
+                                      kycAlertHandler.handle(
+                                        status: isDepositAllow
+                                            ? kycState.depositStatus
+                                            : isWithdrawalAllow
+                                                ? kycState.withdrawalStatus
+                                                : kycState.sellStatus,
+                                        isProgress: kycState.verificationInProgress,
+                                        currentNavigate: () {},
+                                        requiredDocuments: kycState.requiredDocuments,
+                                        requiredVerifications: kycState.requiredVerifications,
+                                      );
+                                    },
+                                    secondaryButtonName: intl.card_cancel,
+                                    onSecondaryButtonTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
                                 );
                                 setState(() {
                                   isButtonActive = true;
@@ -254,9 +229,7 @@ class _CardScreenBodyState extends State<CardScreen> {
                               } else {
                                 loader.startLoading();
                                 try {
-                                  final response = await sNetwork
-                                      .getWalletModule()
-                                      .postCardSoon();
+                                  final response = await sNetwork.getWalletModule().postCardSoon();
 
                                   loader.finishLoadingImmediately();
                                   loader.finishLoading();
