@@ -56,7 +56,7 @@ class _UserDataScreenBody extends StatelessObserverWidget {
       loaderText: intl.register_pleaseWait,
       loading: birthDateInfo.loader,
       color: colors.grey5,
-      header: SAuthHeader(
+      header: SLargeHeader(
         //customIconButton: const SpaceH24(),
         progressValue: 60,
         title: intl.user_data_whats_your_name,

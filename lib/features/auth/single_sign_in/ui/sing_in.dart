@@ -91,7 +91,7 @@ class _SingInBody extends StatelessObserverWidget {
             loaderText: intl.register_pleaseWait,
             color: colors.grey5,
             loading: signInStore.loader,
-            header: SAuthHeader(
+            header: SLargeHeader(
               title: intl.register_enterYourEmail,
             ),
             child: CustomScrollView(

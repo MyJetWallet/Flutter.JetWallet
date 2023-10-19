@@ -142,37 +142,25 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
               pin.screenUnion.when(
                 enterPin: () {
                   if (widget.isChangePhone) {
-                    return SPaddingH24(
-                      child: SSmallHeader(
-                        title: intl.pin_screen_confirm_withPin,
-                        onBackButtonTap: () {
-                          widget.onBackPressed != null
-                              ? widget.onBackPressed?.call()
-                              : sRouter.back();
-                        },
-                      ),
+                    return SLargeHeader(
+                      title: intl.pin_screen_confirm_withPin,
+                      onBackButtonTap: () {
+                        widget.onBackPressed != null ? widget.onBackPressed?.call() : sRouter.back();
+                      },
+                      titleStyle: sTextH3Style,
                     );
                   }
 
                   return widget.displayHeader
-                      ? SAuthHeader(
+                      ? SLargeHeader(
                           title: pin.screenDescription(),
                           hideBackButton: widget.isForgotPassword,
                         )
                       : const SizedBox();
                 },
                 confirmPin: () {
-                  return SAuthHeader(
+                  return SLargeHeader(
                     title: pin.screenDescription(),
-                    /*
-                    customIconButton: SIconButton(
-                      onTap: () {
-                        sRouter.push(const VerificationRouter());
-                      },
-                      defaultIcon: const SCloseIcon(),
-                      pressedIcon: const SClosePressedIcon(),
-                    ),
-                    */
                     onBackButtonTap: () {
                       pin.backToNewFlow();
 
@@ -181,7 +169,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                   );
                 },
                 newPin: () {
-                  return SAuthHeader(
+                  return SLargeHeader(
                     title: pin.screenDescription(),
                     onBackButtonTap: () {
                       onbackButton!();
@@ -225,17 +213,15 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                   ),
                 ),
               const Spacer(),
-              Opacity(
-                opacity: pin.isError ? 1 : 0,
-                child: Text(
-                  (pin.screenUnion == const ConfirmPin() ||
-                          pin.screenUnion == const NewPin())
+              if (pin.isError) ...[
+                Text(
+                  (pin.screenUnion == const ConfirmPin() || pin.screenUnion == const NewPin())
                       ? intl.pinScreen_pinDontMatch
                       : intl.pinScreen_incorrectPIN,
                   style: sSubtitle3Style.copyWith(color: colors.red),
                 ),
-              ),
-              const SpaceH53(),
+                const SpaceH53(),
+              ],
               Observer(
                 builder: (context) {
                   return ShakeWidget(
@@ -254,9 +240,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                 },
               ),
               const Spacer(),
-              if (!widget.displayHeader ||
-                  (pin.showForgot &&
-                      pin.screenUnion == const PinScreenUnion.enterPin()))
+              if (!widget.displayHeader || pin.screenUnion == const PinScreenUnion.enterPin())
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -288,8 +272,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                             );
                             Navigator.pop(context);
                           },
-                          secondaryButtonName:
-                              intl.forgot_pass_dialog_btn_cancel,
+                          secondaryButtonName: intl.forgot_pass_dialog_btn_cancel,
                           onSecondaryButtonTap: () {
                             Navigator.pop(context);
                           },
@@ -304,8 +287,6 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                 )
               else
                 const SpaceH24(),
-              if (!widget.displayHeader) const SpaceH34(),
-              if (widget.displayHeader) const SpaceH40(),
               SNumericKeyboardPin(
                 hideBiometricButton: pin.hideBiometricButton,
                 onKeyPressed: (value) async {
