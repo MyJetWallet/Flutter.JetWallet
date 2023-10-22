@@ -120,14 +120,16 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
       child: Column(
         children: [
           const SpaceH24(),
-          Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: PaymentMethodCardsWidget(
-              title: intl.payment_method_cards,
-              asset: asset,
-              onSelected: onSelected,
+          if (store.isCardsAvailable)
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: PaymentMethodCardsWidget(
+                title: intl.payment_method_cards,
+                asset: asset,
+                onSelected: onSelected,
+                cards: store.cards,
+              ),
             ),
-          ),
           const SpaceH24(),
           if (store.accounts.isNotEmpty)
             BalancesWidget(

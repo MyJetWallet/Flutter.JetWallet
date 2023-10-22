@@ -1,8 +1,5 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:jetwallet/core/di/di.dart';
-import 'package:jetwallet/core/services/format_service.dart';
-import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
@@ -27,61 +24,49 @@ abstract class _PaymentMethodStoreBase with Store {
   CurrencyModel? selectedAssset;
 
   @computed
-  CurrencyModel get buyCurrency => getIt.get<FormatService>().findCurrency(
-        findInHideTerminalList: true,
-        assetSymbol: selectedAssset?.symbol ?? 'BTC',
-      );
+  List<CircleCard> get cards => sSignalRModules.cards.cardInfos.toList();
+  @computed
+  List<SimpleBankingAccount> get accounts {
+    final accounts = <SimpleBankingAccount>[];
+
+    final simpleAccount = sSignalRModules.bankingProfileData?.simple?.account;
+
+    if ((simpleAccount != null) && isSimpleAccountAvaible) {
+      accounts.add(simpleAccount);
+    }
+
+    final bankingAccounts = sSignalRModules.bankingProfileData?.banking?.accounts
+            ?.where((element) => ((element.balance ?? Decimal.zero) != Decimal.zero) && !(element.isHidden ?? false))
+            .toList() ??
+        <SimpleBankingAccount>[];
+
+    if (isBankingAccountsAvaible) {
+      accounts.addAll(bankingAccounts);
+    }
+
+    return accounts;
+  }
 
   @computed
-  List<CircleCard> get unlimintAltCards => sSignalRModules.cards.cardInfos
-      .where(
-        (element) => element.integration == IntegrationType.unlimintAlt,
-      )
-      .toList();
-  @computed
-  List<SimpleBankingAccount> get accounts =>
-      sSignalRModules.bankingProfileData?.banking?.accounts
-          ?.where((element) => (element.balance ?? Decimal.zero) != Decimal.zero)
-          .toList() ??
-      <SimpleBankingAccount>[];
+  bool get isCardsAvailable {
+    return sSignalRModules.buyMethods.any((element) => element.id == PaymentMethodType.bankCard);
+  }
 
-  @observable
-  ObservableList<BuyMethodDto> cardsMethods = ObservableList.of([]);
-  @observable
-  ObservableList<CircleCard> cardsMethodsFiltred = ObservableList.of([]);
+  @computed
+  bool get isSimpleAccountAvaible =>
+      sSignalRModules.paymentProducts?.any((element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount) ??
+      false;
+
+  @computed
+  bool get isBankingAccountsAvaible =>
+      sSignalRModules.paymentProducts?.any((element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount) ??
+      false;
 
   @action
   Future<void> init(CurrencyModel asset) async {
     sAnalytics.paymentMethodScreenView();
 
     selectedAssset = asset;
-
-    if (asset.buyMethods.isNotEmpty) {
-      for (final element in asset.buyMethods) {
-        if (element.category == PaymentMethodCategory.cards) {
-          cardsMethods.add(element);
-        }
-      }
-
-      final storage = sLocalStorageService;
-
-      final cardM = await storage.getValue(bankLastMethodId);
-      if (cardM != null) {
-        sSignalRModules.cards.cardInfos.sort((a, b) => a.id == cardM ? 0 : 1);
-      }
-
-      cardsMethodsFiltred = ObservableList.of(unlimintAltCards.toList());
-    }
-
-    if (cardsMethods.isEmpty) {
-      sAnalytics.newBuyNoSavedCard();
-    }
-  }
-
-  BuyMethodDto? getCardBuyMethod() {
-    final cardIndex = cardsMethods.indexWhere((element) => element.id == PaymentMethodType.bankCard);
-
-    return cardIndex != -1 ? cardsMethods[cardIndex] : null;
   }
 }
 

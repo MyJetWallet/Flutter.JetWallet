@@ -127,38 +127,24 @@ class SymbolNetworkDetails with _$SymbolNetworkDetails {
 @freezed
 class AssetPaymentProducts with _$AssetPaymentProducts {
   const factory AssetPaymentProducts({
-    @AssetPaymentProductsEnumSerialiser() final AssetPaymentProductsEnum? id,
-    final String? iconUrl,
-    final int? orderId,
+    AssetPaymentProductsEnum? id,
+    String? iconUrl,
+    int? orderId,
   }) = _AssetPaymentProducts;
 
   factory AssetPaymentProducts.fromJson(Map<String, dynamic> json) => _$AssetPaymentProductsFromJson(json);
 }
 
-enum AssetPaymentProductsEnum { rewardsOnboardingProgram, unsupported }
-
-extension _AssetPaymentProductsEnumExtension on AssetPaymentProductsEnum {
-  String get name {
-    switch (this) {
-      case AssetPaymentProductsEnum.rewardsOnboardingProgram:
-        return 'RewardsOnboardingProgram';
-      default:
-        return 'Unsupported';
-    }
-  }
-}
-
-class AssetPaymentProductsEnumSerialiser implements JsonConverter<AssetPaymentProductsEnum, dynamic> {
-  const AssetPaymentProductsEnumSerialiser();
-
-  @override
-  AssetPaymentProductsEnum fromJson(dynamic json) {
-    final value = json.toString();
-
-   return value == 'RewardsOnboardingProgram' ? AssetPaymentProductsEnum.rewardsOnboardingProgram : AssetPaymentProductsEnum.unsupported;
-
-  }
-
-  @override
-  dynamic toJson(AssetPaymentProductsEnum type) => type.name;
+@JsonEnum()
+enum AssetPaymentProductsEnum {
+  @JsonValue('RewardsOnboardingProgram')
+  rewardsOnboardingProgram,
+  @JsonValue('Unsupported')
+  unsupported,
+  @JsonValue('BankingIbanAccount')
+  bankingIbanAccount,
+  @JsonValue('BankingCardAccount')
+  bankingCardAccount,
+  @JsonValue('SimpleIbanAccount')
+  simpleIbanAccount
 }
