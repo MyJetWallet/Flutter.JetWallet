@@ -63,7 +63,7 @@ class SSmallHeader extends StatelessWidget {
         children: [
           const SpaceH64(),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               if (showBackButton)

@@ -80,6 +80,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final store = BuyConfirmationStore.of(context);
+    final colors = sKit.colors;
 
     return SPageFrameWithPadding(
       loading: store.loader,
@@ -98,6 +99,10 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
           : null,
       header: SSmallHeader(
         title: intl.buy_confirmation_title,
+        subTitle: intl.buy_confirmation_subtitle,
+        subTitleStyle: sBodyText2Style.copyWith(
+          color: colors.grey1,
+        ),
         onBackButtonTap: () => sRouter.pop(),
       ),
       child: CustomScrollView(

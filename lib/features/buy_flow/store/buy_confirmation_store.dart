@@ -413,8 +413,8 @@ abstract class _BuyConfirmationStoreBase with Store {
 
       showBankCardCvvBottomSheet(
         context: sRouter.navigatorKey.currentContext!,
-        header: '${intl.previewBuyWithCircle_enter} CVV \n'
-            '${intl.previewBuyWithCircle_for} '
+        header: '${intl.previewBuyWithCircle_enter} CVV '
+            '${intl.previewBuyWithCircle_for} \n'
             '${card!.cardLabel}'
             ' •••• ${card!.last4}',
         onCompleted: (cvvNew) {
@@ -478,12 +478,14 @@ abstract class _BuyConfirmationStoreBase with Store {
       if (deviceBindingRequired) {
         var continueBuying = false;
 
-        final formatedAmaunt = volumeFormat(symbol: payAsset, accuracy: payCurrency.accuracy, decimal: Decimal.parse(payAmount));
+        final formatedAmaunt =
+            volumeFormat(symbol: payAsset, accuracy: payCurrency.accuracy, decimal: Decimal.parse(payAmount));
         await Future.delayed(const Duration(milliseconds: 500));
         await sShowAlertPopup(
           sRouter.navigatorKey.currentContext!,
           primaryText: '',
-          secondaryText: '${intl.binding_phone_dialog_first_part} $formatedAmaunt ${intl.binding_phone_dialog_second_part}',
+          secondaryText:
+              '${intl.binding_phone_dialog_first_part} $formatedAmaunt ${intl.binding_phone_dialog_second_part} $simpleCompanyName',
           primaryButtonName: intl.binding_phone_dialog_confirm,
           secondaryButtonName: intl.binding_phone_dialog_cancel,
           image: Image.asset(

@@ -64,7 +64,7 @@ class CvvBottomSheetBody extends StatelessObserverWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          intl.previewBuyWithCircle_cvvNewDescription,
+          intl.cvv_description,
           style: sBodyText1Style.copyWith(
             color: colors.grey1,
           ),
