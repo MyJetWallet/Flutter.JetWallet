@@ -43,8 +43,8 @@ void showPayWithBottomSheet({
       context: context,
       then: (value) {},
       scrollable: true,
-      pinned: const ActionBottomSheetHeader(
-        name: 'Pay with',
+      pinned: ActionBottomSheetHeader(
+        name: intl.amount_screen_pay_with,
         needBottomPadding: false,
       ),
       horizontalPinnedPadding: 0.0,

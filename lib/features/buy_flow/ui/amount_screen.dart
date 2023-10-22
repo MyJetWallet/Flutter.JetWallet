@@ -201,7 +201,7 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
             )
           else
             BuyOptionWidget(
-              title: store.card?.cardLabel ?? '',
+              title: store.card?.formatedCardLabel ?? '',
               subTitle: intl.amount_screen_pay_with,
               icon: Container(
                 padding: const EdgeInsets.all(4),
