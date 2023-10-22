@@ -145,11 +145,7 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
           BuyOptionWidget(
             title: store.asset?.description ?? '',
             subTitle: intl.amount_screen_buy,
-            trailing: volumeFormat(
-              decimal: store.asset?.baseBalance ?? Decimal.zero,
-              accuracy: store.asset?.accuracy ?? 1,
-              symbol: store.asset?.symbol ?? '',
-            ),
+            trailing:  store.asset?.volumeAssetBalance,
             icon: SNetworkSvg24(
               url: store.asset?.iconUrl ?? '',
             ),
