@@ -312,4 +312,6 @@ class EventType {
   static const eurWalletTapAnyHistoryTRXGlobalHS =
       "Tap on the button ‘any history trx’ on 'Global transaction history' screen";
   static const eurWalletTapBackOnGlobalHS = "Tap on the button ‘Back’ on 'Global transaction history' screen";
+
+  static const pinAfterWaiting = "'Pin after waiting' screen view";
 }

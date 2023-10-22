@@ -36,6 +36,7 @@ class PinScreen extends StatelessWidget {
     this.onWrongPin,
     this.onError,
     this.onBackPressed,
+    this.onVerificationEnd,
     required this.union,
   });
 
@@ -50,6 +51,7 @@ class PinScreen extends StatelessWidget {
   final Function(String)? onError;
   final bool fromRegister;
   final void Function()? onBackPressed;
+  final void Function()? onVerificationEnd;
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +62,7 @@ class PinScreen extends StatelessWidget {
         onChangePhone: onChangePhone,
         isChangePin: isChangePin,
         onWrongPin: onWrongPin,
+        onVerificationEnd: onVerificationEnd,
       )..initDefaultScreen(),
       builder: (context, child) => _PinScreenBody(
         displayHeader: displayHeader,
