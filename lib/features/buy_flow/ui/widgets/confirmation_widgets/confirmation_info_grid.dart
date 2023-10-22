@@ -277,28 +277,17 @@ void buyConfirmationFeeExplanation({
 
   sShowBasicModalBottomSheet(
     context: context,
-    removePinnedPadding: true,
-    horizontalPinnedPadding: 0,
+    horizontalPinnedPadding: 24,
     scrollable: true,
+    pinned: SBottomSheetHeader(
+      name: title,
+    ),
     children: [
       SPaddingH24(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Text(
-                  title,
-                  style: sTextH4Style,
-                ),
-                const Spacer(),
-                GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: const SErasePressedIcon(),
-                ),
-              ],
-            ),
-            const SpaceH24(),
+            const SpaceH16(),
             Text(
               fee,
               style: sTextH4Style,

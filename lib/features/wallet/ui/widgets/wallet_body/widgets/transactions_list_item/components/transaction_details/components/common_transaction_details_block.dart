@@ -3,12 +3,10 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -64,21 +62,15 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
       children: [
         if (transactionListItem.operationType != OperationType.sendGlobally)
           SPaddingH24(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: 
+            Row(
               children: [
-                const SizedBox(width: 24),
                 _transactionHeader(
                   transactionListItem,
                   currency,
                   context,
                   nftAsset.name,
                   intl,
-                ),
-                SIconButton(
-                  onTap: () => Navigator.pop(context),
-                  defaultIcon: const SEraseIcon(),
-                  pressedIcon: const SErasePressedIcon(),
                 ),
               ],
             ),
@@ -251,33 +243,8 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
       );
     }
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          title,
-          style: sTextH5Style,
-          overflow: TextOverflow.ellipsis,
-          textAlign: TextAlign.center,
-          maxLines: 1,
-        ),
-        if (transactionListItem.operationType == OperationType.giftSend ||
-            transactionListItem.operationType == OperationType.giftReceive)
-          const SizedBox(
-            height: 20,
-            child: SGiftSendIcon(),
-          ),
-        if (transactionListItem.operationType == OperationType.rewardPayment)
-          Padding(
-            padding: const EdgeInsets.only(left: 4),
-            child: SizedBox(
-              height: 20,
-              child: SvgPicture.asset(
-                simpleRewardTrophy,
-              ),
-            ),
-          ),
-      ],
+    return SBottomSheetHeader(
+      name: title,
     );
   }
 

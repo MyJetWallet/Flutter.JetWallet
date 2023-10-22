@@ -1333,5 +1333,6 @@
     "binding_phone_dialog_first_part": "To proceed with this purchase confirm of sending funds of",
     "binding_phone_dialog_second_part": "rom your bank account at Unlimit to the bank account on the name of Simple Europe UAB",
     "binding_phone_dialog_confirm": "Confirm",
-    "binding_phone_dialog_cancel": "Cancel"
+    "binding_phone_dialog_cancel": "Cancel",
+    "account_bottom_sheet_header": "Account details"
 }

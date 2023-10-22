@@ -28,15 +28,6 @@ class SBottomSheetHeader extends StatelessWidget {
             ),
           ),
         ),
-        const Spacer(),
-        SIconButton(
-          onTap: () {
-            onTap?.call();
-            Navigator.pop(context);
-          },
-          defaultIcon: const SEraseIcon(),
-          pressedIcon: const SErasePressedIcon(),
-        ),
       ],
     );
   }

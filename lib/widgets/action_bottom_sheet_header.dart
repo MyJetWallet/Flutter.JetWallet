@@ -8,12 +8,10 @@ class ActionBottomSheetHeader extends StatefulWidget {
     this.showSearch = false,
     this.showSearchWithArrow = false,
     this.hideTitle = false,
-    this.showCloseIcon = true,
     this.removePadding = false,
     this.removeSearchPadding = false,
     this.needBottomPadding = true,
     this.onChanged,
-    this.onCloseTap,
     required this.name,
     this.horizontalDividerPadding = 0,
     this.isNewDesign = false,
@@ -22,11 +20,9 @@ class ActionBottomSheetHeader extends StatefulWidget {
 
   final String name;
   final Function(String)? onChanged;
-  final Function()? onCloseTap;
   final bool showSearch;
   final bool showSearchWithArrow;
   final bool hideTitle;
-  final bool showCloseIcon;
   final bool removePadding;
   final bool removeSearchPadding;
   final bool needBottomPadding;
@@ -51,34 +47,20 @@ class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
             padding: EdgeInsets.only(
               left: widget.removePadding ? 0 : 24,
               right: widget.removePadding ? 0 : 24,
-              top: widget.isNewDesign ? 6: 0,
+              top: widget.isNewDesign ? 6 : 0,
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Baseline(
-                    baseline: 20.0,
-                    baselineType: TextBaseline.alphabetic,
-                    child: Text(
-                      widget.name,
-                      style: sTextH4Style,
-                      maxLines: 2,
-                    ),
+                Baseline(
+                  baseline: 20.0,
+                  baselineType: TextBaseline.alphabetic,
+                  child: Text(
+                    widget.name,
+                    style: sTextH4Style,
+                    maxLines: 2,
                   ),
                 ),
-                if (widget.showCloseIcon)
-                  SIconButton(
-                    onTap: () {
-                      if (widget.onCloseTap != null) {
-                        widget.onCloseTap?.call();
-                      }
-
-                      Navigator.pop(context);
-                    },
-                    defaultIcon: const SEraseIcon(),
-                    pressedIcon: const SErasePressedIcon(),
-                  ),
               ],
             ),
           ),
