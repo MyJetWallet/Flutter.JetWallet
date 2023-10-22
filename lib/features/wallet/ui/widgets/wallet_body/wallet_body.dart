@@ -3,10 +3,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
-import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
@@ -54,7 +54,6 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
     final colors = sKit.colors;
 
     final kycState = getIt.get<KycService>();
-    final kycAlertHandler = getIt.get<KycAlertHandler>();
 
     return Material(
       color: colors.white,
@@ -155,22 +154,10 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                               from: BlockingType.deposit,
                             );
                           } else {
-                            kycAlertHandler.handle(
-                              status: kycState.depositStatus,
-                              isProgress: kycState.verificationInProgress,
-                              navigatePop: true,
-                              currentNavigate: () {
-                                showSendTimerAlertOr(
-                                  context: context,
-                                  or: () => showPayWithBottomSheet(
-                                    context: context,
-                                    currency: actualAsset,
-                                  ),
-                                  from: BlockingType.deposit,
-                                );
-                              },
-                              requiredDocuments: kycState.requiredDocuments,
-                              requiredVerifications: kycState.requiredVerifications,
+                            sNotification.showError(
+                              intl.my_wallets_actions_warning,
+                              id: 1,
+                              hideIcon: true,
                             );
                           }
                         },
@@ -189,23 +176,10 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                                 from: BlockingType.deposit,
                               );
                             } else {
-                              kycAlertHandler.handle(
-                                status: kycState.depositStatus,
-                                isProgress: kycState.verificationInProgress,
-                                currentNavigate: () {
-                                  showSendTimerAlertOr(
-                                    context: context,
-                                    or: () => sRouter.navigate(
-                                      CryptoDepositRouter(
-                                        header: intl.balanceActionButtons_receive,
-                                        currency: actualAsset,
-                                      ),
-                                    ),
-                                    from: BlockingType.deposit,
-                                  );
-                                },
-                                requiredDocuments: kycState.requiredDocuments,
-                                requiredVerifications: kycState.requiredVerifications,
+                              sNotification.showError(
+                                intl.my_wallets_actions_warning,
+                                id: 1,
+                                hideIcon: true,
                               );
                             }
                           } else {
@@ -232,14 +206,10 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                               navigateBack: false,
                             );
                           } else {
-                            kycAlertHandler.handle(
-                              status: kycState.withdrawalStatus,
-                              isProgress: kycState.verificationInProgress,
-                              currentNavigate: () {
-                                showSendOptions(context, actualAsset);
-                              },
-                              requiredDocuments: kycState.requiredDocuments,
-                              requiredVerifications: kycState.requiredVerifications,
+                            sNotification.showError(
+                              intl.my_wallets_actions_warning,
+                              id: 1,
+                              hideIcon: true,
                             );
                           }
                         },
@@ -256,20 +226,10 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                               from: BlockingType.trade,
                             );
                           } else {
-                            kycAlertHandler.handle(
-                              status: kycState.sellStatus,
-                              isProgress: kycState.verificationInProgress,
-                              currentNavigate: () => showSendTimerAlertOr(
-                                context: context,
-                                or: () => sRouter.push(
-                                  ConvertRouter(
-                                    fromCurrency: actualAsset,
-                                  ),
-                                ),
-                                from: BlockingType.trade,
-                              ),
-                              requiredDocuments: kycState.requiredDocuments,
-                              requiredVerifications: kycState.requiredVerifications,
+                            sNotification.showError(
+                              intl.my_wallets_actions_warning,
+                              id: 1,
+                              hideIcon: true,
                             );
                           }
                         },

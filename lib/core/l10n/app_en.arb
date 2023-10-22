@@ -1334,5 +1334,6 @@
     "binding_phone_dialog_second_part": "rom your bank account at Unlimit to the bank account on the name of Simple Europe UAB",
     "binding_phone_dialog_confirm": "Confirm",
     "binding_phone_dialog_cancel": "Cancel",
-    "account_bottom_sheet_header": "Account details"
+    "account_bottom_sheet_header": "Account details",
+    "my_wallets_actions_warning": "Operation is unavailable. Please contact our support."
 }
