@@ -3612,7 +3612,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.timeAfterBlock: timeAfterBlock,
-        PropertyType.eventId: '304',
+        PropertyType.eventId: '305',
       },
     );
   }

@@ -21,7 +21,7 @@ void showDepositDetails(
       const SpaceH8(),
       IBanItem(
         name: intl.iban_benificiary,
-        text: sSignalRModules.bankingProfileData?.simple?.account?.bankName ?? '',
+        text: sSignalRModules.bankingProfileData?.simple?.account?.bankName ?? 'Simple Europe UAB',
       ),
       IBanItem(
         name: intl.iban_iban,

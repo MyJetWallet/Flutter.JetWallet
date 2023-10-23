@@ -1,7 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/my_wallets/helper/show_create_personal_account.dart';
+import 'package:jetwallet/features/my_wallets/helper/show_wallet_address_info.dart';
+import 'package:jetwallet/features/my_wallets/helper/show_wallet_verify_account.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/20x20/public/tick/simple_tick_icon.dart';
 import 'package:simple_kit/modules/icons/40x40/public/user/simple_user_icon.dart';
@@ -101,13 +107,53 @@ class CreateBankingScreen extends StatelessWidget {
           SPrimaryButton2(
             active: true,
             name: intl.create_continue,
-            onTap: () {
+            onTap: () async {
               sAnalytics.eurWalletTapOnContinuePersonalEUR();
+
+              void _afterVerification() {
+                sRouter.popUntilRoot();
+
+                sNotification.showError(intl.let_us_create_account, isError: false);
+              }
+
+              final resp = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postSimpleAccountCreate();
+
+              if (resp.hasError) {
+                sNotification.showError(
+                  intl.something_went_wrong_try_again,
+                  duration: 4,
+                  id: 1,
+                  needFeedback: true,
+                );
+              } else {
+                if (resp.data!.simpleKycRequired) {
+                  sAnalytics.eurWalletVerifyYourAccount();
+
+                  showWalletVerifyAccount(
+                    context,
+                    after: _afterVerification,
+                    isBanking: false,
+                  );
+                } else if (resp.data!.bankingKycRequired) {
+                  showWalletVerifyAccount(
+                    context,
+                    after: _afterVerification,
+                    isBanking: true,
+                  );
+                } else if (resp.data!.addressSetupRequired) {
+                  sAnalytics.eurWalletShowUpdateAddressInfo();
+
+                  showWalletAdressInfo(
+                    context,
+                    after: _afterVerification,
+                  );
+                }
+              }
 
               showCreatePersonalAccount(context, loading);
             },
           ),
-          const SpaceH24(),
+          const SpaceH31(),
         ],
       ),
     );

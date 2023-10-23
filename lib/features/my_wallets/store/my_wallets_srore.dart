@@ -212,7 +212,7 @@ abstract class _MyWalletsSroreBase with Store {
   Future<void> createSimpleAccount() async {
     final context = sRouter.navigatorKey.currentContext!;
 
-    accountManualStatus = BankingShowState.inProgress;
+    //accountManualStatus = BankingShowState.inProgress;
 
     //await Future.delayed(const Duration(seconds: 10));
     final resp = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postSimpleAccountCreate();
@@ -248,7 +248,7 @@ abstract class _MyWalletsSroreBase with Store {
           after: afterVerification,
         );
       } else {
-        accountManualStatus = BankingShowState.accountList;
+        //accountManualStatus = BankingShowState.accountList;
       }
     }
 

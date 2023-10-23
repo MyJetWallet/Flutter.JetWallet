@@ -31,7 +31,7 @@ class GetAccountButton extends StatelessObserverWidget {
     return Padding(
       padding: EdgeInsets.only(
         top: 8,
-        bottom: 16,
+        bottom: 10,
         left: 60,
         right: store.buttonStatus == BankingShowState.getAccount ? 60 : 30,
       ),
