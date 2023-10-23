@@ -80,7 +80,7 @@ class _DefaultHeader extends StatelessObserverWidget {
           ),
           const Spacer(),
           SizedBox(
-            height: 50,
+            height: 42,
             child: Stack(
               alignment: Alignment.center,
               children: [
