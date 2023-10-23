@@ -281,7 +281,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                       ),
                     ),
                   ),
-                  const SpaceH31(),
+                  const SpaceH30(),
                 ],
               ),
             ),
