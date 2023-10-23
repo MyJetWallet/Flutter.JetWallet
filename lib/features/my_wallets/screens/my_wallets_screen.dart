@@ -72,7 +72,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
       loaderText: '',
       header: Column(
         children: [
-          const SpaceH54(),
+          const SpaceH50(),
           VisibilityDetector(
             key: const Key('header'),
             onVisibilityChanged: (visibilityInfo) {

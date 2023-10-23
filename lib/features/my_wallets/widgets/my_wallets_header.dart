@@ -44,81 +44,80 @@ class _DefaultHeader extends StatelessObserverWidget {
     final colors = sKit.colors;
     final kycState = getIt.get<KycService>();
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        const SpaceW24(),
-        Text(
-          intl.my_wallets_header,
-          style: sTextH4Style,
-        ),
-        const SpaceW8(),
-        SIconButton(
-          defaultIcon: !getIt<AppStore>().isBalanceHide
-              ? SEyeCloseIcon(
-                  color: colors.black,
-                )
-              : SEyeOpenIcon(
-                  color: colors.black,
+    return SPaddingH24(
+      child: Row(
+        children: [
+          Text(
+            intl.my_wallets_header,
+            style: sTextH4Style,
+          ),
+          const SpaceW8(),
+          SIconButton(
+            defaultIcon: !getIt<AppStore>().isBalanceHide
+                ? SEyeCloseIcon(
+                    color: colors.black,
+                  )
+                : SEyeOpenIcon(
+                    color: colors.black,
+                  ),
+            pressedIcon: !getIt<AppStore>().isBalanceHide
+                ? SEyeCloseIcon(
+                    color: colors.black.withOpacity(0.7),
+                  )
+                : SEyeOpenIcon(
+                    color: colors.black.withOpacity(0.7),
+                  ),
+            onTap: () {
+              if (getIt<AppStore>().isBalanceHide) {
+                getIt<AppStore>().setIsBalanceHide(false);
+              } else {
+                getIt<AppStore>().setIsBalanceHide(true);
+              }
+              sAnalytics.tapOnTheButtonShowHideBalancesOnWalletsScreen(
+                isShowNow: !getIt<AppStore>().isBalanceHide,
+              );
+            },
+          ),
+          const Spacer(),
+          SizedBox(
+            height: 50,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                SIconButton(
+                  defaultIcon: SProfileDetailsIcon(
+                    color: colors.black,
+                  ),
+                  pressedIcon: SProfileDetailsIcon(
+                    color: colors.black.withOpacity(0.7),
+                  ),
+                  onTap: () {
+                    sAnalytics.tapOnTheButtonProfileOnWalletsScreen();
+                    sRouter.push(const AccountRouter());
+                  },
                 ),
-          pressedIcon: !getIt<AppStore>().isBalanceHide
-              ? SEyeCloseIcon(
-                  color: colors.black.withOpacity(0.7),
-                )
-              : SEyeOpenIcon(
-                  color: colors.black.withOpacity(0.7),
-                ),
-          onTap: () {
-            if (getIt<AppStore>().isBalanceHide) {
-              getIt<AppStore>().setIsBalanceHide(false);
-            } else {
-              getIt<AppStore>().setIsBalanceHide(true);
-            }
-            sAnalytics.tapOnTheButtonShowHideBalancesOnWalletsScreen(
-              isShowNow: !getIt<AppStore>().isBalanceHide,
-            );
-          },
-        ),
-        const Spacer(),
-        SizedBox(
-          width: 56.0,
-          height: 50,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              SIconButton(
-                defaultIcon: SProfileDetailsIcon(
-                  color: colors.black,
-                ),
-                pressedIcon: SProfileDetailsIcon(
-                  color: colors.black.withOpacity(0.7),
-                ),
-                onTap: () {
-                  sAnalytics.tapOnTheButtonProfileOnWalletsScreen();
-                  sRouter.push(const AccountRouter());
-                },
-              ),
-              Positioned(
-                right: 0,
-                top: -8,
-                child: NotificationBox(
-                  notifications: _profileNotificationLength(
-                    KycModel(
-                      depositStatus: kycState.depositStatus,
-                      sellStatus: kycState.sellStatus,
-                      withdrawalStatus: kycState.withdrawalStatus,
-                      requiredDocuments: kycState.requiredDocuments,
-                      requiredVerifications: kycState.requiredVerifications,
-                      verificationInProgress: kycState.verificationInProgress,
+                Positioned(
+                  right: 0,
+                  top: -8,
+                  child: NotificationBox(
+                    notifications: _profileNotificationLength(
+                      KycModel(
+                        depositStatus: kycState.depositStatus,
+                        sellStatus: kycState.sellStatus,
+                        withdrawalStatus: kycState.withdrawalStatus,
+                        requiredDocuments: kycState.requiredDocuments,
+                        requiredVerifications: kycState.requiredVerifications,
+                        verificationInProgress: kycState.verificationInProgress,
+                      ),
+                      true,
                     ),
-                    true,
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -151,66 +150,67 @@ class _ScrollInProgressHeader extends StatelessObserverWidget {
     final colors = sKit.colors;
     final kycState = getIt.get<KycService>();
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(
-          height: 64,
-          width: 56,
-        ),
-        Column(
-          children: [
-            const SpaceH10(),
-            Text(
-              intl.my_wallets_header,
-              style: sTextH5Style,
-            ),
-          ],
-        ),
-        SizedBox(
-          width: 56.0,
-          height: 50,
-          child: Stack(
-            alignment: Alignment.center,
+    return SPaddingH24(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(
+            height: 64,
+            width: 24,
+          ),
+          Column(
             children: [
-              SIconButton(
-                defaultIcon: SProfileDetailsIcon(
-                  color: colors.black,
-                ),
-                pressedIcon: SProfileDetailsIcon(
-                  color: colors.black.withOpacity(0.7),
-                ),
-                onTap: () {
-                  final myWalletsSrore = getIt.get<MyWalletsSrore>();
-                  if (myWalletsSrore.isReordering) {
-                    myWalletsSrore.endReorderingImmediately();
-                  } else {
-                    sRouter.push(const AccountRouter());
-                  }
-                },
-              ),
-              Positioned(
-                right: 0,
-                top: -8,
-                child: NotificationBox(
-                  notifications: _profileNotificationLength(
-                    KycModel(
-                      depositStatus: kycState.depositStatus,
-                      sellStatus: kycState.sellStatus,
-                      withdrawalStatus: kycState.withdrawalStatus,
-                      requiredDocuments: kycState.requiredDocuments,
-                      requiredVerifications: kycState.requiredVerifications,
-                      verificationInProgress: kycState.verificationInProgress,
-                    ),
-                    true,
-                  ),
-                ),
+              const SpaceH10(),
+              Text(
+                intl.my_wallets_header,
+                style: sTextH5Style,
               ),
             ],
           ),
-        ),
-      ],
+          SizedBox(
+            height: 50,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                SIconButton(
+                  defaultIcon: SProfileDetailsIcon(
+                    color: colors.black,
+                  ),
+                  pressedIcon: SProfileDetailsIcon(
+                    color: colors.black.withOpacity(0.7),
+                  ),
+                  onTap: () {
+                    final myWalletsSrore = getIt.get<MyWalletsSrore>();
+                    if (myWalletsSrore.isReordering) {
+                      myWalletsSrore.endReorderingImmediately();
+                    } else {
+                      sRouter.push(const AccountRouter());
+                    }
+                  },
+                ),
+                Positioned(
+                  right: 0,
+                  top: -8,
+                  child: NotificationBox(
+                    notifications: _profileNotificationLength(
+                      KycModel(
+                        depositStatus: kycState.depositStatus,
+                        sellStatus: kycState.sellStatus,
+                        withdrawalStatus: kycState.withdrawalStatus,
+                        requiredDocuments: kycState.requiredDocuments,
+                        requiredVerifications: kycState.requiredVerifications,
+                        verificationInProgress: kycState.verificationInProgress,
+                      ),
+                      true,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
