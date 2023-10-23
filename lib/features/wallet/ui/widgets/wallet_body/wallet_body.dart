@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
@@ -43,9 +44,31 @@ class WalletBody extends StatefulObserverWidget {
 
 class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMixin {
   final ScrollController _scrollController = ScrollController();
+  bool isTopPosition = true;
 
   bool silverCollapsed = false;
   bool _scrollingHasAlreadyOccurred = false;
+
+  @override
+  void initState() {
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels <= 0) {
+        if (!isTopPosition) {
+          setState(() {
+            isTopPosition = true;
+          });
+        }
+      } else {
+        if (isTopPosition) {
+          setState(() {
+            isTopPosition = false;
+          });
+        }
+      }
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,23 +119,41 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                       pressedIcon: const SBackPressedIcon(),
                     ),
                   ),
-                  title: Column(
-                    children: [
-                      if (silverCollapsed) const SizedBox(height: 10),
-                      if (!silverCollapsed)
+                  title: AnimatedCrossFade(
+                    firstChild: Column(
+                      children: [
                         Text(
                           widget.currency.description,
                           style: sTextH5Style.copyWith(
                             color: sKit.colors.black,
                           ),
                         ),
-                      Text(
-                        intl.wallet_title,
-                        style: sBodyText2Style.copyWith(
-                          color: sKit.colors.grey1,
+                        Text(
+                          intl.eur_wallet,
+                          style: sBodyText2Style.copyWith(
+                            color: sKit.colors.grey1,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
+                    secondChild: Column(
+                      children: [
+                        Text(
+                          widget.currency.volumeBaseBalance(getIt.get<FormatService>().baseCurrency),
+                          style: sTextH5Style.copyWith(
+                            color: sKit.colors.black,
+                          ),
+                        ),
+                        Text(
+                          widget.currency.description,
+                          style: sBodyText2Style.copyWith(
+                            color: sKit.colors.grey1,
+                          ),
+                        ),
+                      ],
+                    ),
+                    crossFadeState: isTopPosition ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                    duration: const Duration(milliseconds: 400),
                   ),
                   flexibleSpace: WalletHeader(
                     curr: widget.currency,
