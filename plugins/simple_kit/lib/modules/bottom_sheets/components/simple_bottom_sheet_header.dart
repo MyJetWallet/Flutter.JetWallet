@@ -5,11 +5,9 @@ class SBottomSheetHeader extends StatelessWidget {
   const SBottomSheetHeader({
     Key? key,
     required this.name,
-    this.onTap,
   }) : super(key: key);
 
   final String name;
-  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {

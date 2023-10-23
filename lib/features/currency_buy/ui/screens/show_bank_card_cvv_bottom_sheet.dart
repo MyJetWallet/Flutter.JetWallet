@@ -21,7 +21,6 @@ void showBankCardCvvBottomSheet({
     scrollable: true,
     pinned: SBottomSheetHeader(
       name: header,
-      onTap: () {},
     ),
     onDissmis: () {
       if (onDissmis != null) onDissmis();

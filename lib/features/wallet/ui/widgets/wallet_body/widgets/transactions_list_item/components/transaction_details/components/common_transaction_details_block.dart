@@ -60,47 +60,15 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
 
     return Column(
       children: [
-        if (transactionListItem.operationType != OperationType.sendGlobally)
-          SPaddingH24(
-            child: 
-            Row(
-              children: [
-                _transactionHeader(
-                  transactionListItem,
-                  currency,
-                  context,
-                  nftAsset.name,
-                  intl,
-                ),
-              ],
-            ),
+        SPaddingH24(
+          child: _transactionHeader(
+            transactionListItem,
+            currency,
+            context,
+            nftAsset.name,
+            intl,
           ),
-        if (transactionListItem.operationType == OperationType.sendGlobally)
-          SPaddingH24(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const _IconPlaceholder(),
-                const SpaceW12(),
-                Expanded(
-                  child: _transactionHeader(
-                    transactionListItem,
-                    currency,
-                    context,
-                    nftAsset.name,
-                    intl,
-                  ),
-                ),
-                const SpaceW12(),
-                SIconButton(
-                  onTap: () => Navigator.pop(context),
-                  defaultIcon: const SEraseIcon(),
-                  pressedIcon: const SErasePressedIcon(),
-                ),
-              ],
-            ),
-          ),
+        ),
         if (devicePR == 2) ...[
           const SpaceH30(),
         ] else if (transactionListItem.operationType == OperationType.sendGlobally ||
@@ -280,17 +248,5 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
     }
 
     return transactionListItem.assetId;
-  }
-}
-
-class _IconPlaceholder extends StatelessWidget {
-  const _IconPlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    return const SizedBox(
-      width: 24.0,
-      height: 24.0,
-    );
   }
 }
