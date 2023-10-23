@@ -44,43 +44,62 @@ class _DefaultHeader extends StatelessObserverWidget {
     final colors = sKit.colors;
     final kycState = getIt.get<KycService>();
 
+    final notificationsCount = _profileNotificationLength(
+      KycModel(
+        depositStatus: kycState.depositStatus,
+        sellStatus: kycState.sellStatus,
+        withdrawalStatus: kycState.withdrawalStatus,
+        requiredDocuments: kycState.requiredDocuments,
+        requiredVerifications: kycState.requiredVerifications,
+        verificationInProgress: kycState.verificationInProgress,
+      ),
+      true,
+    );
+
     return SPaddingH24(
       child: Row(
         children: [
-          Text(
-            intl.my_wallets_header,
-            style: sTextH4Style,
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Text(
+              intl.my_wallets_header,
+              style: sTextH4Style,
+            ),
           ),
           const SpaceW8(),
-          SIconButton(
-            defaultIcon: !getIt<AppStore>().isBalanceHide
-                ? SEyeCloseIcon(
-                    color: colors.black,
-                  )
-                : SEyeOpenIcon(
-                    color: colors.black,
-                  ),
-            pressedIcon: !getIt<AppStore>().isBalanceHide
-                ? SEyeCloseIcon(
-                    color: colors.black.withOpacity(0.7),
-                  )
-                : SEyeOpenIcon(
-                    color: colors.black.withOpacity(0.7),
-                  ),
-            onTap: () {
-              if (getIt<AppStore>().isBalanceHide) {
-                getIt<AppStore>().setIsBalanceHide(false);
-              } else {
-                getIt<AppStore>().setIsBalanceHide(true);
-              }
-              sAnalytics.tapOnTheButtonShowHideBalancesOnWalletsScreen(
-                isShowNow: !getIt<AppStore>().isBalanceHide,
-              );
-            },
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: SIconButton(
+              defaultIcon: !getIt<AppStore>().isBalanceHide
+                  ? SEyeCloseIcon(
+                      color: colors.black,
+                    )
+                  : SEyeOpenIcon(
+                      color: colors.black,
+                    ),
+              pressedIcon: !getIt<AppStore>().isBalanceHide
+                  ? SEyeCloseIcon(
+                      color: colors.black.withOpacity(0.7),
+                    )
+                  : SEyeOpenIcon(
+                      color: colors.black.withOpacity(0.7),
+                    ),
+              onTap: () {
+                if (getIt<AppStore>().isBalanceHide) {
+                  getIt<AppStore>().setIsBalanceHide(false);
+                } else {
+                  getIt<AppStore>().setIsBalanceHide(true);
+                }
+                sAnalytics.tapOnTheButtonShowHideBalancesOnWalletsScreen(
+                  isShowNow: !getIt<AppStore>().isBalanceHide,
+                );
+              },
+            ),
           ),
           const Spacer(),
           SizedBox(
-            height: 42,
+            height: 47,
+            width: notificationsCount != 0 ? 56 : null,
             child: Stack(
               alignment: Alignment.center,
               children: [
@@ -100,17 +119,7 @@ class _DefaultHeader extends StatelessObserverWidget {
                   right: 0,
                   top: -8,
                   child: NotificationBox(
-                    notifications: _profileNotificationLength(
-                      KycModel(
-                        depositStatus: kycState.depositStatus,
-                        sellStatus: kycState.sellStatus,
-                        withdrawalStatus: kycState.withdrawalStatus,
-                        requiredDocuments: kycState.requiredDocuments,
-                        requiredVerifications: kycState.requiredVerifications,
-                        verificationInProgress: kycState.verificationInProgress,
-                      ),
-                      true,
-                    ),
+                    notifications: notificationsCount,
                   ),
                 ),
               ],
@@ -150,14 +159,26 @@ class _ScrollInProgressHeader extends StatelessObserverWidget {
     final colors = sKit.colors;
     final kycState = getIt.get<KycService>();
 
+    final notificationsCount = _profileNotificationLength(
+      KycModel(
+        depositStatus: kycState.depositStatus,
+        sellStatus: kycState.sellStatus,
+        withdrawalStatus: kycState.withdrawalStatus,
+        requiredDocuments: kycState.requiredDocuments,
+        requiredVerifications: kycState.requiredVerifications,
+        verificationInProgress: kycState.verificationInProgress,
+      ),
+      true,
+    );
+
     return SPaddingH24(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
+          SizedBox(
             height: 64,
-            width: 24,
+            width: notificationsCount != 0 ? 56 : 24,
           ),
           Column(
             children: [
@@ -169,7 +190,8 @@ class _ScrollInProgressHeader extends StatelessObserverWidget {
             ],
           ),
           SizedBox(
-            height: 50,
+            height: 47,
+            width: notificationsCount != 0 ? 56 : null,
             child: Stack(
               alignment: Alignment.center,
               children: [
@@ -193,17 +215,7 @@ class _ScrollInProgressHeader extends StatelessObserverWidget {
                   right: 0,
                   top: -8,
                   child: NotificationBox(
-                    notifications: _profileNotificationLength(
-                      KycModel(
-                        depositStatus: kycState.depositStatus,
-                        sellStatus: kycState.sellStatus,
-                        withdrawalStatus: kycState.withdrawalStatus,
-                        requiredDocuments: kycState.requiredDocuments,
-                        requiredVerifications: kycState.requiredVerifications,
-                        verificationInProgress: kycState.verificationInProgress,
-                      ),
-                      true,
-                    ),
+                    notifications: notificationsCount,
                   ),
                 ),
               ],
