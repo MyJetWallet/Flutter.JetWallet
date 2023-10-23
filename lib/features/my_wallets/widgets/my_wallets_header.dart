@@ -112,7 +112,12 @@ class _DefaultHeader extends StatelessObserverWidget {
                   ),
                   onTap: () {
                     sAnalytics.tapOnTheButtonProfileOnWalletsScreen();
-                    sRouter.push(const AccountRouter());
+                    final myWalletsSrore = getIt.get<MyWalletsSrore>();
+                    if (myWalletsSrore.isReordering) {
+                      myWalletsSrore.endReorderingImmediately();
+                    } else {
+                      sRouter.push(const AccountRouter());
+                    }
                   },
                 ),
                 Positioned(
@@ -203,6 +208,7 @@ class _ScrollInProgressHeader extends StatelessObserverWidget {
                     color: colors.black.withOpacity(0.7),
                   ),
                   onTap: () {
+                    sAnalytics.tapOnTheButtonProfileOnWalletsScreen();
                     final myWalletsSrore = getIt.get<MyWalletsSrore>();
                     if (myWalletsSrore.isReordering) {
                       myWalletsSrore.endReorderingImmediately();
