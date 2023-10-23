@@ -10,9 +10,10 @@ import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
-/// Checks KYC elegebility status and shows appropriate action
 void showBuyAction({
   bool shouldPop = true,
   bool showRecurring = false,
@@ -22,10 +23,18 @@ void showBuyAction({
 }) {
   final kyc = getIt.get<KycService>();
 
-  final isBuyMethodsAvailable =
-      sSignalRModules.currenciesList.where((element) => element.buyMethods.isNotEmpty).isNotEmpty;
+  final isCardsAvailable = sSignalRModules.buyMethods.any((element) => element.id == PaymentMethodType.bankCard);
 
-  if ((kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) && isBuyMethodsAvailable) {
+  final isSimpleAccountAvaible =
+      sSignalRModules.paymentProducts?.any((element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount) ??
+          false;
+
+  final isBankingAccountsAvaible =
+      sSignalRModules.paymentProducts?.any((element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount) ??
+          false;
+
+  if ((kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) &&
+      (isCardsAvailable || isSimpleAccountAvaible || isBankingAccountsAvaible)) {
     _showAction(context);
   } else {
     if (shouldPop) Navigator.pop(context);
