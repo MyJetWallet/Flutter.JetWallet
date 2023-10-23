@@ -64,7 +64,7 @@ class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
               ],
             ),
           ),
-        if (widget.addPaddingBelowTitle) const SpaceH26(),
+        if (widget.addPaddingBelowTitle) const SpaceH34(),
         if (widget.showSearch) ...[
           if (widget.removeSearchPadding)
             SStandardField(
@@ -74,13 +74,16 @@ class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
               maxLines: 1,
             )
           else if (widget.isNewDesign)
-            SPaddingH24(
-              child: SStandardField(
-                controller: textController,
-                hintText: intl.actionBottomSheetHeader_search,
-                onChanged: widget.onChanged,
-                maxLines: 1,
-                height: 44,
+            Container(
+              transform: Matrix4.translationValues(0.0, 3, 0.0),
+              child: SPaddingH24(
+                child: SStandardField(
+                  controller: textController,
+                  hintText: intl.actionBottomSheetHeader_search,
+                  onChanged: widget.onChanged,
+                  maxLines: 1,
+                  height: 44,
+                ),
               ),
             )
           else
