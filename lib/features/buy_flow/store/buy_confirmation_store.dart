@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:data_channel/data_channel.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dio/dio.dart';
 import 'package:encrypt/encrypt.dart';
@@ -38,6 +39,8 @@ import 'package:simple_networking/modules/wallet_api/models/card_buy_execute/car
 import 'package:simple_networking/modules/wallet_api/models/card_buy_info/card_buy_info_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_info/card_buy_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
+import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/swap_execute_quote/execute_quote_request_model.dart';
 
 part 'buy_confirmation_store.g.dart';
 
@@ -212,37 +215,69 @@ abstract class _BuyConfirmationStoreBase with Store {
   Future<void> getActualData() async {
     if (terminateUpdates) return;
 
-    final model = getModelForCardBuyReq(
-      category: category,
-      pAmount: payAmount,
-      bAsset: buyAssetSymbol ?? '',
-      pAsset: payAsset,
-    );
-
     try {
-      final response = await sNetwork.getWalletModule().postCardBuyCreate(model);
+      if (account?.bankName != null) {
+        final model = getModelForCardBuyReq(
+          category: category,
+          pAmount: payAmount,
+          bAsset: buyAssetSymbol ?? '',
+          pAsset: payAsset,
+        );
 
-      response.pick(
-        onData: (data) {
-          paymentAmount = data.paymentAmount;
-          paymentAsset = data.paymentAsset;
-          buyAmount = data.buyAmount;
-          buyAsset = data.buyAsset;
-          depositFeeAmount = data.depositFeeAmount;
-          depositFeeAsset = data.depositFeeAsset;
-          tradeFeeAmount = data.tradeFeeAmount;
-          tradeFeeAsset = data.tradeFeeAsset;
-          rate = data.rate;
-          paymentId = data.paymentId ?? '';
-          actualTimeInSecond = data.actualTimeInSecond;
-          deviceBindingRequired = data.deviceBindingRequired;
-        },
-        onError: (error) {
-          loader.finishLoadingImmediately();
+        final response = await sNetwork.getWalletModule().postCardBuyCreate(model);
 
-          _showFailureScreen(error.cause);
-        },
-      );
+        response.pick(
+          onData: (data) {
+            paymentAmount = data.paymentAmount;
+            paymentAsset = data.paymentAsset;
+            buyAmount = data.buyAmount;
+            buyAsset = data.buyAsset;
+            depositFeeAmount = data.depositFeeAmount;
+            depositFeeAsset = data.depositFeeAsset;
+            tradeFeeAmount = data.tradeFeeAmount;
+            tradeFeeAsset = data.tradeFeeAsset;
+            rate = data.rate;
+            paymentId = data.paymentId ?? '';
+            actualTimeInSecond = data.actualTimeInSecond;
+            deviceBindingRequired = data.deviceBindingRequired;
+          },
+          onError: (error) {
+            loader.finishLoadingImmediately();
+
+            _showFailureScreen(error.cause);
+          },
+        );
+      } else {
+        final model = GetQuoteRequestModel(
+          fromAssetAmount: Decimal.parse(payAmount),
+          fromAssetSymbol: payAsset,
+          toAssetSymbol: buyAssetSymbol ?? '',
+        );
+
+        final response = await sNetwork.getWalletModule().postGetQuote(model);
+
+        response.pick(
+          onData: (data) {
+            paymentAmount = data.fromAssetAmount;
+            paymentAsset = data.fromAssetSymbol;
+            buyAmount = data.toAssetAmount;
+            buyAsset = data.toAssetSymbol;
+            depositFeeAmount = Decimal.zero;
+            depositFeeAsset = data.fromAssetSymbol;
+            tradeFeeAmount = data.feeAmount;
+            tradeFeeAsset = data.feeAsset;
+            rate = data.price;
+            paymentId = data.operationId;
+            actualTimeInSecond = data.expirationTime;
+            deviceBindingRequired = false;
+          },
+          onError: (error) {
+            loader.finishLoadingImmediately();
+
+            _showFailureScreen(error.cause);
+          },
+        );
+      }
     } on ServerRejectException catch (error) {
       loader.finishLoadingImmediately();
 
@@ -457,15 +492,6 @@ abstract class _BuyConfirmationStoreBase with Store {
 
       if (pin == '') return;
 
-      final model = CardBuyExecuteRequestModel(
-        paymentId: paymentId,
-        paymentMethod: convertMethodToCirclePaymentMethod(category),
-        ibanPaymentData: IbanPaymentData(
-          accountId: account?.accountId,
-          pin: pin,
-        ),
-      );
-
       showProcessing = true;
       wasAction = true;
 
@@ -525,10 +551,35 @@ abstract class _BuyConfirmationStoreBase with Store {
       }
 
       loader.startLoadingImmediately();
-      final resp = await sNetwork.getWalletModule().postCardBuyExecute(
-            model,
-            cancelToken: cancelToken,
-          );
+
+      late DC<ServerRejectException, dynamic> resp;
+
+      if (account?.bankName != null) {
+        final model = CardBuyExecuteRequestModel(
+          paymentId: paymentId,
+          paymentMethod: convertMethodToCirclePaymentMethod(category),
+          ibanPaymentData: IbanPaymentData(
+            accountId: account?.accountId,
+            pin: pin,
+          ),
+        );
+
+        resp = await sNetwork.getWalletModule().postCardBuyExecute(
+              model,
+              cancelToken: cancelToken,
+            );
+      } else {
+        final model = ExecuteQuoteRequestModel(
+          operationId: paymentId,
+          price: price,
+          fromAssetSymbol: paymentAsset!,
+          toAssetSymbol: buyAsset!,
+          fromAssetAmount: paymentAmount,
+          toAssetAmount: buyAmount,
+        );
+
+        resp = await sNetwork.getWalletModule().postExecuteQuote(model);
+      }
 
       if (resp.hasError) {
         await _showFailureScreen(resp.error?.cause ?? '');
