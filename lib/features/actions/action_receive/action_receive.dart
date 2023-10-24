@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/actions/helpers/show_currency_search.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
@@ -17,47 +18,28 @@ import 'package:simple_networking/modules/signal_r/models/client_detail_model.da
 import '../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../utils/models/currency_model.dart';
 import '../../app/store/app_store.dart';
-import '../../kyc/helper/kyc_alert_handler.dart';
 import '../../kyc/kyc_service.dart';
 import '../../kyc/models/kyc_operation_status_model.dart';
 
-void showReceiveAction(
-  BuildContext context, {
-  bool shouldPop = true,
-  bool checkKYC = false,
-}) {
+void showReceiveAction(BuildContext context) {
   final kyc = getIt.get<KycService>();
-  final handler = getIt.get<KycAlertHandler>();
 
-  if (shouldPop) Navigator.pop(context);
+  final isReceiveMethodsAvailable =
+      sSignalRModules.currenciesList.where((element) => element.supportsCryptoDeposit).isNotEmpty;
 
-  if (checkKYC) {
-    if (kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) {
-      showSendTimerAlertOr(
-        context: context,
-        or: () {
-          _showReceive(context);
-        },
-        from: BlockingType.deposit,
-      );
-    } else {
-      sRouter.pop();
-
-      handler.handle(
-        status: kyc.depositStatus,
-        isProgress: kyc.verificationInProgress,
-        currentNavigate: () => _showReceive(context),
-        requiredDocuments: kyc.requiredDocuments,
-        requiredVerifications: kyc.requiredVerifications,
-      );
-    }
-  } else {
+  if ((kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) && isReceiveMethodsAvailable) {
     showSendTimerAlertOr(
       context: context,
       or: () {
         _showReceive(context);
       },
       from: BlockingType.deposit,
+    );
+  } else {
+    sNotification.showError(
+      intl.my_wallets_actions_warning,
+      id: 1,
+      hideIcon: true,
     );
   }
 }
@@ -162,21 +144,18 @@ class _ActionReceive extends StatelessObserverWidget {
     var currencyFiltered = List<CurrencyModel>.from(state.fCurrencies);
     currencyFiltered = currencyFiltered
         .where(
-          (element) =>
-              element.type == AssetType.crypto && element.supportsCryptoDeposit,
+          (element) => element.type == AssetType.crypto && element.supportsCryptoDeposit,
         )
         .toList();
 
     final cryptoSearchLength = sSignalRModules.currenciesList
         .where(
-          (element) =>
-              element.type == AssetType.crypto && element.supportsCryptoDeposit,
+          (element) => element.type == AssetType.crypto && element.supportsCryptoDeposit,
         )
         .length;
     final showFiatLength = sSignalRModules.currenciesList
         .where(
-          (element) =>
-              element.type == AssetType.fiat && element.supportsCryptoDeposit,
+          (element) => element.type == AssetType.fiat && element.supportsCryptoDeposit,
         )
         .length;
 
@@ -332,9 +311,7 @@ class _ActionReceive extends StatelessObserverWidget {
                       removeDivider: currency ==
                           state.fCurrencies
                               .where(
-                                (element) =>
-                                    element.type == AssetType.fiat &&
-                                    element.supportsIbanDeposit,
+                                (element) => element.type == AssetType.fiat && element.supportsIbanDeposit,
                               )
                               .last,
                       onTap: () {

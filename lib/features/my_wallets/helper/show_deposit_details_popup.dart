@@ -12,7 +12,7 @@ void showDepositDetails(
   sShowBasicModalBottomSheet(
     context: context,
     pinned: SBottomSheetHeader(
-      name: intl.wallet_deposit_details,
+      name: intl.account_bottom_sheet_header,
     ),
     onDissmis: onClose,
     children: [

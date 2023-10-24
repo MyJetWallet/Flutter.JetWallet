@@ -105,13 +105,17 @@ class PhoneVerificationBody extends StatelessObserverWidget {
           customIconButton: args.sendCodeOnInitState
               ? SIconButton(
                   onTap: () {
-                    getIt<LogoutService>().logout(
-                      'TWO FA, logout',
-                      withLoading: false,
-                      callbackAfterSend: () {},
-                    );
+                    if (args.isDeviceBinding) {
+                      getIt<AppRouter>().pop();
+                    } else {
+                      getIt<LogoutService>().logout(
+                        'TWO FA, logout',
+                        withLoading: false,
+                        callbackAfterSend: () {},
+                      );
 
-                    getIt<AppRouter>().pop();
+                      getIt<AppRouter>().pop();
+                    }
                   },
                   defaultIcon: const SCloseIcon(),
                   pressedIcon: const SClosePressedIcon(),

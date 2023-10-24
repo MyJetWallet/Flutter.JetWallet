@@ -41,9 +41,9 @@ class BalancesWidget extends StatelessWidget {
               ),
             ),
             name: account.label ?? '',
-            helper: account.status == AccountStatus.active
+            helper: account.bankName != null
                 ? intl.eur_wallet_personal_account
-                : intl.create_personal_creating,
+                : intl.eur_wallet_simple_account,
             onTap: () {
               onTap(account);
             },

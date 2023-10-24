@@ -366,7 +366,7 @@ class BuyInfo with _$BuyInfo {
 class SwapInfo with _$SwapInfo {
   const factory SwapInfo({
     required bool isSell,
-    required String sellAssetId,
+    String? sellAssetId,
     required String buyAssetId,
     @Default('') String feeAsset,
     @DecimalSerialiser() required Decimal sellAmount,

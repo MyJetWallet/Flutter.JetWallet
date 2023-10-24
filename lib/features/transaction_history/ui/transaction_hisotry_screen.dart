@@ -50,7 +50,7 @@ class _TransactionHistoryState extends State<TransactionHistory> with TickerProv
           globalHistoryTab: GlobalHistoryTab.all,
         );
       } else {
-        sAnalytics.tapOnTheButtonAllOnGlobalTransactionHistoryScreen(
+        sAnalytics.tapOnTheButtonPendingOnGlobalTransactionHistoryScreen(
           globalHistoryTab: GlobalHistoryTab.pending,
         );
       }

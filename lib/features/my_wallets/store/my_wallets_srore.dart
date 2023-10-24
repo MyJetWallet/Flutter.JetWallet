@@ -40,10 +40,7 @@ abstract class _MyWalletsSroreBase with Store {
   }
 
   @computed
-  bool get isPendingTransactions => currencies.any((element) => element.isPendingDeposit);
-
-  @computed
-  int get countOfPendingTransactions => currencies.where((element) => element.isPendingDeposit).length;
+  int get countOfPendingTransactions => sSignalRModules.pendingOperationCount;
 
   @computed
   ObservableList<CurrencyModel> get currenciesForSearch => currenciesForSearchInMyWallet(_allAssets);
@@ -63,6 +60,12 @@ abstract class _MyWalletsSroreBase with Store {
     }
     final item = reorderingCurrencies.removeAt(oldIndex);
     reorderingCurrencies.insert(newIndexTemp, item);
+  }
+
+  @action
+  void endReorderingImmediately() {
+    isReordering = false;
+    reorderingCurrencies = currencies;
   }
 
   @action

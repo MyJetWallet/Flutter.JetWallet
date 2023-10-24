@@ -19,6 +19,8 @@ import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
+import '../../currency_buy/ui/widgets/choose_asset_bottom_sheet.dart';
+
 @RoutePage()
 class BuyAmountScreen extends StatelessWidget {
   const BuyAmountScreen({
@@ -143,22 +145,17 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
           BuyOptionWidget(
             title: store.asset?.description ?? '',
             subTitle: intl.amount_screen_buy,
-            trailing: volumeFormat(
-              decimal: store.asset?.baseBalance ?? Decimal.zero,
-              accuracy: store.asset?.accuracy ?? 1,
-              symbol: store.asset?.symbol ?? '',
-            ),
+            trailing:  store.asset?.volumeAssetBalance,
             icon: SNetworkSvg24(
               url: store.asset?.iconUrl ?? '',
             ),
             onTap: () {
-              sRouter.push(
-                ChooseAssetRouter(
-                  onChooseAsset: (currency) {
-                    store.setNewAsset(currency);
-                    Navigator.of(context).pop();
-                  },
-                ),
+              showChooseAssetBottomSheet(
+                context: context,
+                onChooseAsset: (currency) {
+                  store.setNewAsset(currency);
+                  Navigator.of(context).pop();
+                },
               );
             },
           ),
@@ -200,7 +197,7 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
             )
           else
             BuyOptionWidget(
-              title: store.card?.cardLabel ?? '',
+              title: store.card?.formatedCardLabel ?? '',
               subTitle: intl.amount_screen_pay_with,
               icon: Container(
                 padding: const EdgeInsets.all(4),

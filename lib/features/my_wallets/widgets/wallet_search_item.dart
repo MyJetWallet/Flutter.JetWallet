@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/modules/shared/simple_spacers.dart';
-import 'package:simple_kit/modules/texts/simple_text_styles.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 class WalletSearchItem extends StatelessWidget {
   const WalletSearchItem({
@@ -19,6 +18,8 @@ class WalletSearchItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = sKit.colors;
+
     return InkWell(
       highlightColor: SColorsLight().grey5,
       splashColor: Colors.transparent,
@@ -33,7 +34,7 @@ class WalletSearchItem extends StatelessWidget {
             Text(
               description,
               style: sSubtitle2Style.copyWith(
-                color: Colors.black,
+                color: colors.black,
                 height: 1,
               ),
             ),
@@ -44,7 +45,7 @@ class WalletSearchItem extends StatelessWidget {
               child: Text(
                 symbol,
                 style: sSubtitle3Style.copyWith(
-                  color: SColorsLight().grey3,
+                  color: colors.grey1,
                 ),
               ),
             ),

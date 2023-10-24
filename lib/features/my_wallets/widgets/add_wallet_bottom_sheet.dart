@@ -29,9 +29,8 @@ void showAddWalletBottomSheet(BuildContext context) {
         store.onSearch(value);
       },
       horizontalDividerPadding: 24,
-      searchFieldHeight: 56,
-      searchCursorHeight: 17,
       addPaddingBelowTitle: true,
+      isNewDesign: true,
     ),
     horizontalPinnedPadding: 0,
     removePinnedPadding: true,
@@ -51,7 +50,6 @@ class _AssetsList extends StatelessObserverWidget {
 
     return Column(
       children: [
-        const SpaceH16(),
         for (final currency in currencies)
           WalletSearchItem(
             icon: SNetworkSvg24(

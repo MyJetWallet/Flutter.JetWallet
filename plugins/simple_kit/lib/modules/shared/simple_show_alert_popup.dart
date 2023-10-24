@@ -4,7 +4,7 @@ import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import '../../../simple_kit.dart';
 
 // ignore: long-method
-void sShowAlertPopup(
+Future<void> sShowAlertPopup(
   BuildContext context, {
   Function()? onWillPop,
   Function()? onSecondaryButtonTap,
@@ -25,8 +25,8 @@ void sShowAlertPopup(
   required String primaryText,
   required String primaryButtonName,
   required Function() onPrimaryButtonTap,
-}) {
-  showDialog(
+}) async {
+  await showDialog(
     context: context,
     barrierDismissible: barrierDismissible,
     useSafeArea: false,

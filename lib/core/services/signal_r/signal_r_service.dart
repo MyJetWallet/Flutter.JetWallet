@@ -153,6 +153,7 @@ class SignalRService {
       receiveGifts: sSignalRModules.reciveGiftsEvent,
       rewardsProfile: sSignalRModules.rewardsProfileMethods,
       bankingProfile: sSignalRModules.setBankingProfileData,
+      setPendingOperationCount: sSignalRModules.setPendingOperationCount,
 
       ///
       createNewSessionLog: () {

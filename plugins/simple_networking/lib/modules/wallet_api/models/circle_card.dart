@@ -9,6 +9,8 @@ part 'circle_card.g.dart';
 
 @freezed
 class CircleCard with _$CircleCard {
+  const CircleCard._();
+
   const factory CircleCard({
     required String id,
     required String last4,
@@ -21,12 +23,14 @@ class CircleCard with _$CircleCard {
     required bool lastUsed,
     required CircleCardInfoPayment paymentDetails,
     String? cardLabel,
-    String? cardAssetSymbol,
     @Default(false) bool manualAddes,
   }) = _CircleCard;
 
-  factory CircleCard.fromJson(Map<String, dynamic> json) =>
-      _$CircleCardFromJson(json);
+  factory CircleCard.fromJson(Map<String, dynamic> json) => _$CircleCardFromJson(json);
+
+  String get formatedCardLabel {
+    return cardLabel != '' ? cardLabel! : '${network.frontName} ****$last4';
+  }
 }
 
 enum CircleCardStatus {
@@ -77,10 +81,20 @@ extension _CircleCardNetworkExtension on CircleCardNetwork {
         return 'unsupported';
     }
   }
+
+  String get frontName {
+    switch (this) {
+      case CircleCardNetwork.VISA:
+        return 'Visa';
+      case CircleCardNetwork.MASTERCARD:
+        return 'Master Card';
+      default:
+        return 'Other';
+    }
+  }
 }
 
-class CircleCardNetworkSerialiser
-    implements JsonConverter<CircleCardNetwork, dynamic> {
+class CircleCardNetworkSerialiser implements JsonConverter<CircleCardNetwork, dynamic> {
   const CircleCardNetworkSerialiser();
 
   @override
@@ -108,6 +122,5 @@ class CircleCardInfoPayment with _$CircleCardInfoPayment {
     @DecimalSerialiser() required Decimal feePercentage,
   }) = _CircleCardInfoPayment;
 
-  factory CircleCardInfoPayment.fromJson(Map<String, dynamic> json) =>
-      _$CircleCardInfoPaymentFromJson(json);
+  factory CircleCardInfoPayment.fromJson(Map<String, dynamic> json) => _$CircleCardInfoPaymentFromJson(json);
 }

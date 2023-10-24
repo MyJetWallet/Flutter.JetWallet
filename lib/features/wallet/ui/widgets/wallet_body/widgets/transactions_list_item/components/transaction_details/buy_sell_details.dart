@@ -36,7 +36,7 @@ class BuySellDetails extends StatelessObserverWidget {
 
     final sellCurrency = currencyFrom(
       currencies,
-      transactionListItem.swapInfo!.sellAssetId,
+      transactionListItem.swapInfo!.sellAssetId ?? '',
     );
 
     String rateFor(

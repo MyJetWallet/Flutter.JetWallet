@@ -48,17 +48,21 @@ class CardHeader extends StatelessObserverWidget {
                       sRouter.push(const AccountRouter());
                     },
                   ),
-                  NotificationBox(
-                    notifications: _profileNotificationLength(
-                      KycModel(
-                        depositStatus: kycState.depositStatus,
-                        sellStatus: kycState.sellStatus,
-                        withdrawalStatus: kycState.withdrawalStatus,
-                        requiredDocuments: kycState.requiredDocuments,
-                        requiredVerifications: kycState.requiredVerifications,
-                        verificationInProgress: kycState.verificationInProgress,
+                  Positioned(
+                    right: 0,
+                    top: -5,
+                    child: NotificationBox(
+                      notifications: _profileNotificationLength(
+                        KycModel(
+                          depositStatus: kycState.depositStatus,
+                          sellStatus: kycState.sellStatus,
+                          withdrawalStatus: kycState.withdrawalStatus,
+                          requiredDocuments: kycState.requiredDocuments,
+                          requiredVerifications: kycState.requiredVerifications,
+                          verificationInProgress: kycState.verificationInProgress,
+                        ),
+                        true,
                       ),
-                      true,
                     ),
                   ),
                 ],

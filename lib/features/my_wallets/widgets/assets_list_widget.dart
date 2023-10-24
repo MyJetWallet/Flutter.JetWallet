@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -40,18 +41,26 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
             ChangeOrderWidget(
               onPressedDone: store.onEndReordering,
             ),
-          SlidableAutoCloseBehavior(
-            child: ReorderableListView(
-              proxyDecorator: _proxyDecorator,
-              shrinkWrap: true,
-              padding: EdgeInsets.zero,
-              physics: const NeverScrollableScrollPhysics(),
-              buildDefaultDragHandles: store.isReordering,
-              onReorder: (int oldIndex, int newIndex) {
-                store.onReorder(oldIndex, newIndex);
-                setState(() {});
-              },
-              children: list,
+          RawGestureDetector(
+            gestures: <Type, GestureRecognizerFactory>{
+              _OnlyOnePointerRecognizer: GestureRecognizerFactoryWithHandlers<_OnlyOnePointerRecognizer>(
+                () => _OnlyOnePointerRecognizer(),
+                (_OnlyOnePointerRecognizer instance) {},
+              ),
+            },
+            child: SlidableAutoCloseBehavior(
+              child: ReorderableListView(
+                proxyDecorator: _proxyDecorator,
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                physics: const NeverScrollableScrollPhysics(),
+                buildDefaultDragHandles: store.isReordering,
+                onReorder: (int oldIndex, int newIndex) {
+                  store.onReorder(oldIndex, newIndex);
+                  setState(() {});
+                },
+                children: list,
+              ),
             ),
           ),
         ],
@@ -157,5 +166,34 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
       },
       child: child,
     );
+  }
+}
+
+class _OnlyOnePointerRecognizer extends OneSequenceGestureRecognizer {
+  int _p = 0;
+
+  @override
+  void addPointer(PointerDownEvent event) {
+    startTrackingPointer(event.pointer);
+
+    if (_p == 0) {
+      resolve(GestureDisposition.rejected);
+      _p = event.pointer;
+    } else {
+      resolve(GestureDisposition.accepted);
+    }
+  }
+
+  @override
+  String get debugDescription => 'only one pointer recognizer';
+
+  @override
+  void didStopTrackingLastPointer(int pointer) {}
+
+  @override
+  void handleEvent(PointerEvent event) {
+    if (!event.down && event.pointer == _p) {
+      _p = 0;
+    }
   }
 }

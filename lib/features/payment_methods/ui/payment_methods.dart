@@ -88,7 +88,7 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                           PaymentCardItem(
                             name: '${card.cardLabel} •••• ${card.last4}',
                             network: card.network,
-                            currency: card.cardAssetSymbol,
+                            currency: 'EUR',
                             expirationDate:
                                 'Exp. ${card.expMonth}/${card.expYear}',
                             expired: isCardExpired(card.expMonth, card.expYear),

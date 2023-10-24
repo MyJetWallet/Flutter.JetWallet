@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:data_channel/data_channel.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dio/dio.dart';
 import 'package:encrypt/encrypt.dart';
@@ -38,6 +39,8 @@ import 'package:simple_networking/modules/wallet_api/models/card_buy_execute/car
 import 'package:simple_networking/modules/wallet_api/models/card_buy_info/card_buy_info_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_info/card_buy_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
+import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/swap_execute_quote/execute_quote_request_model.dart';
 
 part 'buy_confirmation_store.g.dart';
 
@@ -99,6 +102,9 @@ abstract class _BuyConfirmationStoreBase with Store {
   int actualTimeInSecond = 0;
 
   @observable
+  bool deviceBindingRequired = false;
+
+  @observable
   Decimal price = Decimal.zero;
 
   AnimationController? timerAnimation;
@@ -138,7 +144,7 @@ abstract class _BuyConfirmationStoreBase with Store {
 
   @computed
   CurrencyModel get payCurrency => sSignalRModules.currenciesWithHiddenList.firstWhere(
-        (currency) => currency.symbol == (card?.cardAssetSymbol ?? 'BTC'),
+        (currency) => currency.symbol == 'EUR',
         orElse: () => CurrencyModel.empty(),
       );
 
@@ -174,7 +180,7 @@ abstract class _BuyConfirmationStoreBase with Store {
     loader.startLoadingImmediately();
 
     payAmount = pAmount;
-    payAsset = inputCard?.cardAssetSymbol ?? account?.currency ?? 'EUR';
+    payAsset = account?.currency ?? 'EUR';
     card = inputCard;
     account = inputAccount;
     buyAssetSymbol = bAsset;
@@ -209,36 +215,69 @@ abstract class _BuyConfirmationStoreBase with Store {
   Future<void> getActualData() async {
     if (terminateUpdates) return;
 
-    final model = getModelForCardBuyReq(
-      category: category,
-      pAmount: payAmount,
-      bAsset: buyAssetSymbol ?? '',
-      pAsset: payAsset,
-    );
-
     try {
-      final response = await sNetwork.getWalletModule().postCardBuyCreate(model);
+      if (account?.bankName != null) {
+        final model = getModelForCardBuyReq(
+          category: category,
+          pAmount: payAmount,
+          bAsset: buyAssetSymbol ?? '',
+          pAsset: payAsset,
+        );
 
-      response.pick(
-        onData: (data) {
-          paymentAmount = data.paymentAmount;
-          paymentAsset = data.paymentAsset;
-          buyAmount = data.buyAmount;
-          buyAsset = data.buyAsset;
-          depositFeeAmount = data.depositFeeAmount;
-          depositFeeAsset = data.depositFeeAsset;
-          tradeFeeAmount = data.tradeFeeAmount;
-          tradeFeeAsset = data.tradeFeeAsset;
-          rate = data.rate;
-          paymentId = data.paymentId ?? '';
-          actualTimeInSecond = data.actualTimeInSecond;
-        },
-        onError: (error) {
-          loader.finishLoadingImmediately();
+        final response = await sNetwork.getWalletModule().postCardBuyCreate(model);
 
-          _showFailureScreen(error.cause);
-        },
-      );
+        response.pick(
+          onData: (data) {
+            paymentAmount = data.paymentAmount;
+            paymentAsset = data.paymentAsset;
+            buyAmount = data.buyAmount;
+            buyAsset = data.buyAsset;
+            depositFeeAmount = data.depositFeeAmount;
+            depositFeeAsset = data.depositFeeAsset;
+            tradeFeeAmount = data.tradeFeeAmount;
+            tradeFeeAsset = data.tradeFeeAsset;
+            rate = data.rate;
+            paymentId = data.paymentId ?? '';
+            actualTimeInSecond = data.actualTimeInSecond;
+            deviceBindingRequired = data.deviceBindingRequired;
+          },
+          onError: (error) {
+            loader.finishLoadingImmediately();
+
+            _showFailureScreen(error.cause);
+          },
+        );
+      } else {
+        final model = GetQuoteRequestModel(
+          fromAssetAmount: Decimal.parse(payAmount),
+          fromAssetSymbol: payAsset,
+          toAssetSymbol: buyAssetSymbol ?? '',
+        );
+
+        final response = await sNetwork.getWalletModule().postGetQuote(model);
+
+        response.pick(
+          onData: (data) {
+            paymentAmount = data.fromAssetAmount;
+            paymentAsset = data.fromAssetSymbol;
+            buyAmount = data.toAssetAmount;
+            buyAsset = data.toAssetSymbol;
+            depositFeeAmount = Decimal.zero;
+            depositFeeAsset = data.fromAssetSymbol;
+            tradeFeeAmount = data.feeAmount;
+            tradeFeeAsset = data.feeAsset;
+            rate = data.price;
+            paymentId = data.operationId;
+            actualTimeInSecond = data.expirationTime;
+            deviceBindingRequired = false;
+          },
+          onError: (error) {
+            loader.finishLoadingImmediately();
+
+            _showFailureScreen(error.cause);
+          },
+        );
+      }
     } on ServerRejectException catch (error) {
       loader.finishLoadingImmediately();
 
@@ -409,8 +448,8 @@ abstract class _BuyConfirmationStoreBase with Store {
 
       showBankCardCvvBottomSheet(
         context: sRouter.navigatorKey.currentContext!,
-        header: '${intl.previewBuyWithCircle_enter} CVV \n'
-            '${intl.previewBuyWithCircle_for} '
+        header: '${intl.previewBuyWithCircle_enter} CVV '
+            '${intl.previewBuyWithCircle_for} \n'
             '${card!.cardLabel}'
             ' •••• ${card!.last4}',
         onCompleted: (cvvNew) {
@@ -451,14 +490,7 @@ abstract class _BuyConfirmationStoreBase with Store {
         ),
       );
 
-      final model = CardBuyExecuteRequestModel(
-        paymentId: paymentId,
-        paymentMethod: convertMethodToCirclePaymentMethod(category),
-        ibanPaymentData: IbanPaymentData(
-          accountId: account?.accountId,
-          pin: pin,
-        ),
-      );
+      if (pin == '') return;
 
       showProcessing = true;
       wasAction = true;
@@ -469,26 +501,85 @@ abstract class _BuyConfirmationStoreBase with Store {
         paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : 'account',
         paymentMethodCurrency: depositFeeCurrency.symbol,
       );
+      if (deviceBindingRequired) {
+        var continueBuying = false;
+
+        final formatedAmaunt =
+            volumeFormat(symbol: payAsset, accuracy: payCurrency.accuracy, decimal: Decimal.parse(payAmount));
+        await Future.delayed(const Duration(milliseconds: 500));
+        await sShowAlertPopup(
+          sRouter.navigatorKey.currentContext!,
+          primaryText: '',
+          secondaryText:
+              '${intl.binding_phone_dialog_first_part} $formatedAmaunt ${intl.binding_phone_dialog_second_part} $simpleCompanyName',
+          primaryButtonName: intl.binding_phone_dialog_confirm,
+          secondaryButtonName: intl.binding_phone_dialog_cancel,
+          image: Image.asset(
+            infoLightAsset,
+            width: 80,
+            height: 80,
+            package: 'simple_kit',
+          ),
+          onPrimaryButtonTap: () {
+            continueBuying = true;
+            sRouter.pop();
+          },
+          onSecondaryButtonTap: () {
+            continueBuying = false;
+            sRouter.pop();
+          },
+        );
+
+        if (!continueBuying) return;
+
+        final phoneNumber = countryCodeByUserRegister();
+        var isVerifaierd = false;
+        await sRouter.push(
+          PhoneVerificationRouter(
+            args: PhoneVerificationArgs(
+              isDeviceBinding: true,
+              phoneNumber: sUserInfo.phone,
+              activeDialCode: phoneNumber,
+              onVerified: () {
+                isVerifaierd = true;
+                sRouter.pop();
+              },
+            ),
+          ),
+        );
+        if (!isVerifaierd) return;
+      }
 
       loader.startLoadingImmediately();
-      final phoneNumber = countryCodeByUserRegister();
-      await sRouter.push(
-        PhoneVerificationRouter(
-          args: PhoneVerificationArgs(
-            isDeviceBinding: true,
-            phoneNumber: sUserInfo.phone,
-            activeDialCode: phoneNumber,
-            onVerified: () {
-              sRouter.pop();
-            },
-          ),
-        ),
-      );
 
-      final resp = await sNetwork.getWalletModule().postCardBuyExecute(
-            model,
-            cancelToken: cancelToken,
-          );
+      late DC<ServerRejectException, dynamic> resp;
+
+      if (account?.bankName != null) {
+        final model = CardBuyExecuteRequestModel(
+          paymentId: paymentId,
+          paymentMethod: convertMethodToCirclePaymentMethod(category),
+          ibanPaymentData: IbanPaymentData(
+            accountId: account?.accountId,
+            pin: pin,
+          ),
+        );
+
+        resp = await sNetwork.getWalletModule().postCardBuyExecute(
+              model,
+              cancelToken: cancelToken,
+            );
+      } else {
+        final model = ExecuteQuoteRequestModel(
+          operationId: paymentId,
+          price: price,
+          fromAssetSymbol: paymentAsset!,
+          toAssetSymbol: buyAsset!,
+          fromAssetAmount: paymentAmount,
+          toAssetAmount: buyAmount,
+        );
+
+        resp = await sNetwork.getWalletModule().postExecuteQuote(model);
+      }
 
       if (resp.hasError) {
         await _showFailureScreen(resp.error?.cause ?? '');
@@ -500,6 +591,12 @@ abstract class _BuyConfirmationStoreBase with Store {
         return;
       }
 
+      if (isWaitingSkipped) {
+        return;
+      }
+      unawaited(_showSuccessScreen(false));
+
+      skippedWaiting();
     } on ServerRejectException catch (error) {
       unawaited(_showFailureScreen(error.cause));
     } catch (error) {

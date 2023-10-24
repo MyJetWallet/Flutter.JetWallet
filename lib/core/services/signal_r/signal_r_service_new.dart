@@ -857,6 +857,13 @@ abstract class _SignalRServiceUpdatedBase with Store {
   }
 
   @observable
+  int pendingOperationCount = 0;
+  @action
+  void setPendingOperationCount(int count) {
+    pendingOperationCount = count;
+  }
+
+  @observable
   bool showPaymentsMethods = false;
   @observable
   AssetPaymentMethods? assetPaymentMethods;
@@ -871,6 +878,14 @@ abstract class _SignalRServiceUpdatedBase with Store {
 
   @observable
   List<SendMethodDto> sendMethods = [];
+
+  @observable
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  ObservableList<BuyMethodDto> buyMethods = ObservableList.of([]);
+
+  @observable
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  ObservableList<AssetPaymentProducts>? paymentProducts = ObservableList.of([]);
 
   @action
   void updateAssetPaymentMethods(AssetPaymentMethods value) {
@@ -932,6 +947,9 @@ abstract class _SignalRServiceUpdatedBase with Store {
   void updateAssetPaymentMethodsNew(AssetPaymentMethodsNew value) {
     showPaymentsMethods = value.showCardsInProfile;
     assetPaymentMethodsNew = value;
+    buyMethods = ObservableList.of(value.buy ?? []);
+    paymentProducts = ObservableList.of(value.product ?? []);
+
     for (final currency in currenciesList) {
       final index = currenciesList.indexOf(currency);
       final buyMethodsFull = List<BuyMethodDto>.from(value.buy ?? []);

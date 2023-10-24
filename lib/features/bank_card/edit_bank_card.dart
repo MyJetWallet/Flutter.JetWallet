@@ -116,7 +116,7 @@ class _EditBankCardScreenBody extends StatelessObserverWidget {
   }
 }
 
-void showDeleteDisclaimer(
+Future<void> showDeleteDisclaimer(
   BuildContext context, {
   required VoidCallback onDelete,
 }) {

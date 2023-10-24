@@ -39,14 +39,16 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
     super.initState();
 
     _controller.addListener(() {
-      if (isTopPosition != (_controller.position.pixels == 0)) {
-        if (_controller.position.pixels < 0) {
+      if (_controller.position.pixels <= 0) {
+        if (!isTopPosition) {
           setState(() {
             isTopPosition = true;
           });
-        } else {
+        }
+      } else {
+        if (isTopPosition) {
           setState(() {
-            isTopPosition = _controller.position.pixels == 0;
+            isTopPosition = false;
           });
         }
       }
@@ -70,7 +72,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
       loaderText: '',
       header: Column(
         children: [
-          const SpaceH54(),
+          const SpaceH50(),
           VisibilityDetector(
             key: const Key('header'),
             onVisibilityChanged: (visibilityInfo) {
@@ -106,7 +108,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                   animation: controller,
                   builder: (BuildContext context, Widget? _) {
                     return SizedBox(
-                      height: 75,
+                      height: controller.value * 75,
                       child: Container(
                         width: 24.0,
                         decoration: BoxDecoration(
@@ -148,18 +150,22 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
               const SpaceH32(),
               const ActionsMyWalletsRowWidget(),
               const SpaceH28(),
-              if (store.isPendingTransactions) ...[
+              if (store.countOfPendingTransactions > 0) ...[
                 PendingTransactionsWidget(
                   countOfTransactions: store.countOfPendingTransactions,
                   onTap: () {
                     sAnalytics.tapOnTheButtonPendingTransactionsOnWalletsScreen(
                       numberOfPendingTrx: store.countOfPendingTransactions,
                     );
-                    sRouter.push(
-                      TransactionHistoryRouter(
-                        initialIndex: 1,
-                      ),
-                    );
+                    if (store.isReordering) {
+                      store.endReorderingImmediately();
+                    } else {
+                      sRouter.push(
+                        TransactionHistoryRouter(
+                          initialIndex: 1,
+                        ),
+                      );
+                    }
                   },
                 ),
                 const SpaceH10(),

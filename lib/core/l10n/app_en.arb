@@ -1164,7 +1164,7 @@
     "payment_method_local": "Local",
     "payment_method_p2p": "P2P",
     "add_card_text": "Add card",
-    "buy_confirmation_title": "Order Summary",
+    "buy_confirmation_title": "Order summary",
     "buy_confirmation_payment_method": "Payment method",
     "buy_confirmation_buy_confirmation": "Exchange rate",
     "buy_confirmation_payment_fee": "Payment fee",
@@ -1329,5 +1329,13 @@
     "amount_screen_buy": "Buy",
     "amount_screen_pay_with": "Pay with",
     "pay_with_balances": "Balances",
-    "create_simple_creating": "Creating simple account..."
+    "create_simple_creating": "Creating simple account...",
+    "binding_phone_dialog_first_part": "To proceed with this purchase confirm of sending funds of",
+    "binding_phone_dialog_second_part": "from your bank account at Unlimit to the bank account on the name of",
+    "binding_phone_dialog_confirm": "Confirm",
+    "binding_phone_dialog_cancel": "Cancel",
+    "account_bottom_sheet_header": "Account details",
+    "my_wallets_actions_warning": "Operation is unavailable. Please contact our support.",
+    "buy_confirmation_subtitle": "Buy",
+    "cvv_description": "Normally CVV is on the back of the card"
 }

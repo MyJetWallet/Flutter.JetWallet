@@ -79,7 +79,7 @@ abstract class _BuyAmountStoreBase with Store {
 
   @computed
   String get fiatSymbol {
-    return category == PaymentMethodCategory.cards ? card?.cardAssetSymbol ?? '' : account?.currency ?? '';
+    return category == PaymentMethodCategory.cards ? 'EUR' : account?.currency ?? '';
   }
 
   @computed
@@ -140,7 +140,7 @@ abstract class _BuyAmountStoreBase with Store {
       paymentAsset = inputAsset.buyMethods
           .firstWhere((element) => element.id == PaymentMethodType.bankCard)
           .paymentAssets
-          ?.firstWhere((element) => element.asset == (inputCard?.cardAssetSymbol ?? 'EUR'));
+          ?.firstWhere((element) => element.asset == 'EUR');
 
       _updateLimitModel(paymentAsset!);
     } else {
@@ -199,6 +199,8 @@ abstract class _BuyAmountStoreBase with Store {
     fiatInputValue = '0';
 
     cryptoInputValue = '0';
+    errorText = null;
+
     inputValid = false;
   }
 
@@ -213,7 +215,7 @@ abstract class _BuyAmountStoreBase with Store {
       paymentAsset = asset?.buyMethods
           .firstWhere((element) => element.id == PaymentMethodType.bankCard)
           .paymentAssets
-          ?.firstWhere((element) => element.asset == newCard.cardAssetSymbol);
+          ?.firstWhere((element) => element.asset == 'EUR');
 
       _updateLimitModel(paymentAsset!);
     }
@@ -237,6 +239,7 @@ abstract class _BuyAmountStoreBase with Store {
     fiatInputValue = '0';
 
     cryptoInputValue = '0';
+    errorText = null;
     _validateInput();
   }
 

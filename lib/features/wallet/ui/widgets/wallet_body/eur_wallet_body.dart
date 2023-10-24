@@ -27,10 +27,31 @@ class EurWalletBody extends StatefulObserverWidget {
 }
 
 class _EurWalletBodyState extends State<EurWalletBody> {
+  final _controller = ScrollController();
+  bool isTopPosition = true;
+
   @override
   void initState() {
     sAnalytics.eurWalletAccountScreen(
-        (sSignalRModules.bankingProfileData?.banking?.accounts ?? <SimpleBankingAccount>[]).length);
+      (sSignalRModules.bankingProfileData?.banking?.accounts ?? <SimpleBankingAccount>[]).length,
+    );
+
+    _controller.addListener(() {
+      if (_controller.position.pixels <= 0) {
+        if (!isTopPosition) {
+          setState(() {
+            isTopPosition = true;
+          });
+        }
+      } else {
+        if (isTopPosition) {
+          setState(() {
+            isTopPosition = false;
+          });
+        }
+      }
+    });
+
     super.initState();
   }
 
@@ -52,6 +73,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
       child: SPageFrame(
         loaderText: '',
         child: CustomScrollView(
+          controller: _controller,
           slivers: [
             SliverAppBar(
               expandedHeight: 226,
@@ -74,21 +96,45 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                   pressedIcon: const SBackPressedIcon(),
                 ),
               ),
-              title: Column(
-                children: [
-                  Text(
-                    eurCurrency.description,
-                    style: sTextH5Style.copyWith(
-                      color: sKit.colors.black,
+              title: AnimatedCrossFade(
+                firstChild: Column(
+                  children: [
+                    Text(
+                      eurCurrency.description,
+                      style: sTextH5Style.copyWith(
+                        color: sKit.colors.black,
+                      ),
                     ),
-                  ),
-                  Text(
-                    intl.eur_wallet,
-                    style: sBodyText2Style.copyWith(
-                      color: sKit.colors.grey1,
+                    Text(
+                      intl.eur_wallet,
+                      style: sBodyText2Style.copyWith(
+                        color: sKit.colors.grey1,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+                secondChild: Column(
+                  children: [
+                    Text(
+                      volumeFormat(
+                        decimal: sSignalRModules.totalEurWalletBalance,
+                        accuracy: eurCurrency.accuracy,
+                        symbol: eurCurrency.symbol,
+                      ),
+                      style: sTextH5Style.copyWith(
+                        color: sKit.colors.black,
+                      ),
+                    ),
+                    Text(
+                      eurCurrency.description,
+                      style: sBodyText2Style.copyWith(
+                        color: sKit.colors.grey1,
+                      ),
+                    ),
+                  ],
+                ),
+                crossFadeState: isTopPosition ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                duration: const Duration(milliseconds: 400),
               ),
               flexibleSpace: WalletHeader(
                 curr: eurCurrency,
@@ -281,7 +327,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SpaceH30(),
                 ],
               ),
             ),

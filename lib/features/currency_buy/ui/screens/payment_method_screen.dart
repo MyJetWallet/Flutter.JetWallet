@@ -105,7 +105,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
         !(state.unlimintCards.isNotEmpty && unlimintIncludes.isNotEmpty) &&
         !(state.unlimintAltCards.isNotEmpty && unlimintAltIncludes.isNotEmpty);
 
-    void showDeleteDisclaimer({required VoidCallback onDelete}) {
+    Future<void> showDeleteDisclaimer({required VoidCallback onDelete}) {
       return sShowAlertPopup(
         context,
         primaryText: '${intl.paymentMethod_showAlertPopupPrimaryText}?',

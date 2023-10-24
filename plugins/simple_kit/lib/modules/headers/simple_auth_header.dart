@@ -4,8 +4,8 @@ import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 
 import '../../simple_kit.dart';
 
-class SAuthHeader extends StatelessWidget {
-  const SAuthHeader({
+class SLargeHeader extends StatelessWidget {
+  const SLargeHeader({
     Key? key,
     this.customIconButton,
     this.onLinkTap,
@@ -21,6 +21,7 @@ class SAuthHeader extends StatelessWidget {
     this.hideBackButton = false,
     this.maxLines = 1,
     required this.title,
+    this.titleStyle,
   }) : super(key: key);
 
   final Widget? customIconButton;
@@ -37,6 +38,7 @@ class SAuthHeader extends StatelessWidget {
   final int progressValue;
   final int maxLines;
   final Function()? onBackButtonTap;
+  final TextStyle? titleStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +58,7 @@ class SAuthHeader extends StatelessWidget {
                         customIconButton!
                       else
                         SIconButton(
-                          onTap:
-                              onBackButtonTap ?? () => Navigator.pop(context),
+                          onTap: onBackButtonTap ?? () => Navigator.pop(context),
                           defaultIcon: const SBackIcon(),
                           pressedIcon: const SBackPressedIcon(),
                         ),
@@ -79,39 +80,37 @@ class SAuthHeader extends StatelessWidget {
                       ),
                   ],
                 ),
+                const SpaceH16(),
                 Row(
                   textBaseline: TextBaseline.alphabetic,
                   crossAxisAlignment: CrossAxisAlignment.baseline,
                   children: [
                     Expanded(
-                      child: Baseline(
-                        baseline: 56.0,
-                        baselineType: TextBaseline.alphabetic,
-                        child: isAutoSize
-                            ? AutoSizeText(
-                                title,
-                                textAlign: TextAlign.start,
-                                minFontSize: 4.0,
-                                maxLines: maxLines,
-                                strutStyle: const StrutStyle(
-                                  height: 1.25,
-                                  fontSize: 32.0,
-                                  fontFamily: 'Gilroy',
-                                ),
-                                style: TextStyle(
-                                  height: 1.25,
-                                  fontSize: 32.0,
-                                  fontFamily: 'Gilroy',
-                                  fontWeight: FontWeight.w600,
-                                  color: SColorsLight().black,
-                                ),
-                              )
-                            : Text(
-                                title,
-                                maxLines: 2,
-                                style: sTextH2Style,
+                      child: isAutoSize
+                          ? AutoSizeText(
+                              title,
+                              textAlign: TextAlign.start,
+                              minFontSize: 4.0,
+                              maxLines: maxLines,
+                              strutStyle: const StrutStyle(
+                                height: 1.25,
+                                fontSize: 32.0,
+                                fontFamily: 'Gilroy',
                               ),
-                      ),
+                              style: titleStyle ??
+                                  TextStyle(
+                                    height: 1.25,
+                                    fontSize: 32.0,
+                                    fontFamily: 'Gilroy',
+                                    fontWeight: FontWeight.w600,
+                                    color: SColorsLight().black,
+                                  ),
+                            )
+                          : Text(
+                              title,
+                              maxLines: 2,
+                              style: titleStyle ?? sTextH2Style,
+                            ),
                     ),
                     if (showLink)
                       Padding(

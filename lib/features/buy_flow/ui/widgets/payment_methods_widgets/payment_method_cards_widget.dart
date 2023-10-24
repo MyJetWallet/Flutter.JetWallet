@@ -5,7 +5,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/bank_card/add_bank_card.dart';
-import 'package:jetwallet/features/buy_flow/store/payment_method_store.dart';
 import 'package:jetwallet/features/currency_buy/helper/formatted_circle_card.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
@@ -25,11 +24,13 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
     super.key,
     required this.title,
     required this.asset,
+    required this.cards,
     this.onSelected,
   });
 
   final String title;
   final CurrencyModel asset;
+  final List<CircleCard>  cards;
   final void Function({
     CircleCard? inputCard,
     SimpleBankingAccount? account,
@@ -68,8 +69,6 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final store = PaymentMethodStore.of(context);
-
     return Column(
       children: [
         const SizedBox(height: 8),
@@ -90,7 +89,7 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
             physics: const NeverScrollableScrollPhysics(),
             padding: EdgeInsets.zero,
           ),
-          children: store.unlimintAltCards.map(
+          children: cards.map(
             (e) {
               final formatted = formattedCircleCard(
                 e,

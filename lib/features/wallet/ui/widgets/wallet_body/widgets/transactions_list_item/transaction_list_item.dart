@@ -181,9 +181,9 @@ class TransactionListItem extends StatelessObserverWidget {
                         decimal: transactionListItem.swapInfo!.sellAmount,
                         accuracy: currencyFrom(
                           currencies,
-                          transactionListItem.swapInfo!.sellAssetId,
+                          transactionListItem.swapInfo!.sellAssetId ?? '',
                         ).accuracy,
-                        symbol: transactionListItem.swapInfo!.sellAssetId,
+                        symbol: transactionListItem.swapInfo!.sellAssetId ?? '',
                       )}',
                       color: colors.grey2,
                     ),

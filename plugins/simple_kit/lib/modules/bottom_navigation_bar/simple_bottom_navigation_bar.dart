@@ -65,12 +65,15 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                 const Spacer(),
                 SizedBox(
                   width: (MediaQuery.of(context).size.width - 48) / 4,
+                  height: 62,
                   child: STransparentInkWell(
                     onTap: () => widget.onChanged(0),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         const SpaceH11(),
                         if (widget.selectedIndex == 0) const SWalletsActiveIcon() else const SWalletsIcon(),
+                         const SpaceH4(),
                         Text(
                           widget.walletsText,
                           style: sBodyText2Style.copyWith(
@@ -128,10 +131,12 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                           ),
                         ),
                       ),
-                      NotificationBox(
-                        notifications: widget.isCardRequested ? 0 : 1,
-                        top: -2,
+                      Positioned(
                         right: (MediaQuery.of(context).size.width - 48) / 8 - 36,
+                        top: -2,
+                        child: NotificationBox(
+                          notifications: widget.isCardRequested ? 0 : 1,
+                        ),
                       ),
                     ],
                   ),
@@ -166,10 +171,12 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                           ),
                         ),
                       ),
-                      NotificationBox(
-                        notifications: widget.rewardCount,
-                        top: -2,
+                      Positioned(
                         right: (MediaQuery.of(context).size.width - 48) / 8 - 36,
+                        top: -2,
+                        child: NotificationBox(
+                          notifications: widget.rewardCount,
+                        ),
                       ),
                     ],
                   ),

@@ -70,9 +70,7 @@ class ChooseAssetScreen extends StatelessWidget {
               ),
             Observer(
               builder: (context) {
-                return _ActionBuy(
-                  fromCard: true,
-                  showRecurring: false,
+                return ChooseAssetBody(
                   searchStore: searchStore,
                   onChooseAsset: onChooseAsset,
                 );
@@ -85,16 +83,12 @@ class ChooseAssetScreen extends StatelessWidget {
   }
 }
 
-class _ActionBuy extends StatelessObserverWidget {
-  const _ActionBuy({
-    required this.fromCard,
-    required this.showRecurring,
+class ChooseAssetBody extends StatelessObserverWidget {
+  const ChooseAssetBody({
     required this.searchStore,
     required this.onChooseAsset,
   });
 
-  final bool fromCard;
-  final bool showRecurring;
   final ActionSearchStore searchStore;
   final void Function(CurrencyModel currency) onChooseAsset;
 
