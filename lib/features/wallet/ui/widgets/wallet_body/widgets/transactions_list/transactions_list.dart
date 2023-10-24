@@ -20,12 +20,14 @@ class TransactionsList extends StatelessWidget {
     this.symbol,
     required this.scrollController,
     this.onItemTapLisener,
+    this.fromCJAccount = false,
   });
 
   final ScrollController scrollController;
   final String? symbol;
   final bool isRecurring;
   final void Function(String assetSymbol)? onItemTapLisener;
+  final bool fromCJAccount;
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +44,7 @@ class TransactionsList extends StatelessWidget {
         symbol: symbol,
         isRecurring: isRecurring,
         onItemTapLisener: onItemTapLisener,
+        fromCJAccount: fromCJAccount,
       ),
       //dispose: (context, value) => value.stopTimer(),
     );
@@ -54,12 +57,14 @@ class _TransactionsListBody extends StatefulObserverWidget {
     this.symbol,
     required this.scrollController,
     this.onItemTapLisener,
+    this.fromCJAccount = false,
   });
 
   final ScrollController scrollController;
   final String? symbol;
   final bool isRecurring;
   final void Function(String assetSymbol)? onItemTapLisener;
+  final bool fromCJAccount;
 
   @override
   State<StatefulWidget> createState() => _TransactionsListBodyState();
@@ -69,10 +74,8 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
   @override
   void initState() {
     widget.scrollController.addListener(() {
-      if (widget.scrollController.position.maxScrollExtent <=
-          widget.scrollController.offset) {
-        if (OperationHistory.of(context).union ==
-                const OperationHistoryUnion.loaded() &&
+      if (widget.scrollController.position.maxScrollExtent <= widget.scrollController.offset) {
+        if (OperationHistory.of(context).union == const OperationHistoryUnion.loaded() &&
             !OperationHistory.of(context).nothingToLoad) {
           OperationHistory.of(context).operationHistory(widget.symbol);
         }
@@ -144,6 +147,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                     return TransactionListItem(
                       transactionListItem: transaction,
                       onItemTapLisener: widget.onItemTapLisener,
+                      fromCJAccount: widget.fromCJAccount,
                     );
                   },
                 );
@@ -229,6 +233,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                               TransactionListItem(
                                 transactionListItem: transaction,
                                 onItemTapLisener: widget.onItemTapLisener,
+                                fromCJAccount: widget.fromCJAccount,
                               ),
                               Container(
                                 width: double.infinity,
@@ -299,6 +304,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                         : TransactionListItem(
                             transactionListItem: transaction,
                             onItemTapLisener: widget.onItemTapLisener,
+                            fromCJAccount: widget.fromCJAccount,
                           );
                   },
                 );
@@ -322,6 +328,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                               TransactionListItem(
                                 transactionListItem: transaction,
                                 onItemTapLisener: widget.onItemTapLisener,
+                                fromCJAccount: widget.fromCJAccount,
                               ),
                               const SpaceH24(),
                               Container(
@@ -340,6 +347,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                         : TransactionListItem(
                             transactionListItem: transaction,
                             onItemTapLisener: widget.onItemTapLisener,
+                            fromCJAccount: widget.fromCJAccount,
                           );
                   },
                 );

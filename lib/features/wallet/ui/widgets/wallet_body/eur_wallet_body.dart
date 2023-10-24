@@ -220,12 +220,20 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                           ? intl.eur_wallet_simple_account
                           : intl.create_simple_creating,
                       onTap: () {
-                        sRouter.push(
-                          CJAccountRouter(
-                            bankingAccount: simpleAccount,
-                            isCJAccount: true,
-                          ),
-                        );
+                        sRouter
+                            .push(
+                              CJAccountRouter(
+                                bankingAccount: simpleAccount,
+                                isCJAccount: true,
+                              ),
+                            )
+                            .then(
+                              (value) => sAnalytics.eurWalletTapBackOnAccountWalletScreen(
+                                isCJ: true,
+                                eurAccountLabel: simpleAccount.label ?? '',
+                                isHasTransaction: false,
+                              ),
+                            );
                       },
                       description: '',
                       amount: '',
@@ -274,12 +282,20 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                           ? intl.eur_wallet_personal_account
                           : intl.create_personal_creating,
                       onTap: () {
-                        sRouter.push(
-                          CJAccountRouter(
-                            bankingAccount: el,
-                            isCJAccount: false,
-                          ),
-                        );
+                        sRouter
+                            .push(
+                              CJAccountRouter(
+                                bankingAccount: el,
+                                isCJAccount: false,
+                              ),
+                            )
+                            .then(
+                              (value) => sAnalytics.eurWalletTapBackOnAccountWalletScreen(
+                                isCJ: false,
+                                eurAccountLabel: el.label ?? '',
+                                isHasTransaction: false,
+                              ),
+                            );
                       },
                       description: '',
                       amount: '',
@@ -315,7 +331,9 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                           sAnalytics.eurWalletAddAccountEur();
                           sAnalytics.eurWalletPersonalEURAccount();
 
-                          sRouter.push(const CreateBankingRoute());
+                          sRouter
+                              .push(const CreateBankingRoute())
+                              .then((value) => sAnalytics.eurWalletBackOnPersonalAccount());
                         },
                         text: intl.eur_wallet_add_account,
                         textStyle: sTextButtonStyle.copyWith(

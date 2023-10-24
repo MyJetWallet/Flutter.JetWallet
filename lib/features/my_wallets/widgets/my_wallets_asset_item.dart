@@ -73,20 +73,30 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
                   }
 
                   if (sSignalRModules.bankingProfileData?.showState == BankingShowState.onlySimple) {
-                    sRouter.push(
-                      CJAccountRouter(
-                        bankingAccount: sSignalRModules.bankingProfileData!.simple!.account!,
-                        isCJAccount: true,
-                      ),
-                    );
+                    sRouter
+                        .push(
+                          CJAccountRouter(
+                            bankingAccount: sSignalRModules.bankingProfileData!.simple!.account!,
+                            isCJAccount: true,
+                          ),
+                        )
+                        .then(
+                          (value) => sAnalytics.eurWalletTapBackOnAccountWalletScreen(
+                            isCJ: true,
+                            eurAccountLabel: sSignalRModules.bankingProfileData!.simple!.account!.label ?? '',
+                            isHasTransaction: false,
+                          ),
+                        );
                   } else if (sSignalRModules.bankingProfileData?.showState == BankingShowState.inProgress) {
                     return;
                   } else if (sSignalRModules.bankingProfileData?.showState == BankingShowState.accountList) {
-                    sRouter.push(
-                      WalletRouter(
-                        currency: currency,
-                      ),
-                    );
+                    sRouter
+                        .push(
+                          WalletRouter(
+                            currency: currency,
+                          ),
+                        )
+                        .then((value) => sAnalytics.eurWalletTapBackOnAccountsScreen());
                   }
 
                   return;
@@ -103,6 +113,8 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
                     sAnalytics.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen(
                       openedAsset: currency.symbol,
                     );
+
+                    sAnalytics.eurWalletTapBackOnAccountsScreen();
                   },
                 );
               }

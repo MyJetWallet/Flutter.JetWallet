@@ -8,6 +8,7 @@ import 'package:jetwallet/features/market/market_details/helper/currency_from.da
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../helper/format_date_to_hm.dart';
@@ -22,10 +23,12 @@ class TransactionListItem extends StatelessObserverWidget {
     super.key,
     required this.transactionListItem,
     this.onItemTapLisener,
+    this.fromCJAccount = false,
   });
 
   final OperationHistoryItem transactionListItem;
   final void Function(String assetSymbol)? onItemTapLisener;
+  final bool fromCJAccount;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +54,14 @@ class TransactionListItem extends StatelessObserverWidget {
 
     return InkWell(
       onTap: () {
+        if (fromCJAccount) {
+          sAnalytics.eurWalletTapAnyHistoryTRXEUR(
+            isCJ: true,
+            isHasTransaction: true,
+            eurAccountLabel: '',
+          );
+        }
+
         onItemTapLisener?.call(transactionListItem.assetId);
         showTransactionDetails(
           context,

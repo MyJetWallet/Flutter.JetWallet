@@ -133,18 +133,28 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context, Curre
     return;
   } else if (store.buttonStatus == BankingShowState.accountList) {
     if (sSignalRModules.bankingProfileData?.banking?.accounts?.isEmpty ?? true) {
-      await sRouter.push(
-        CJAccountRouter(
-          bankingAccount: sSignalRModules.bankingProfileData!.simple!.account!,
-          isCJAccount: true,
-        ),
-      );
+      await sRouter
+          .push(
+            CJAccountRouter(
+              bankingAccount: sSignalRModules.bankingProfileData!.simple!.account!,
+              isCJAccount: true,
+            ),
+          )
+          .then(
+            (value) => sAnalytics.eurWalletTapBackOnAccountWalletScreen(
+              isCJ: true,
+              eurAccountLabel: sSignalRModules.bankingProfileData!.simple!.account!.label ?? '',
+              isHasTransaction: false,
+            ),
+          );
     } else {
-      await sRouter.push(
-        WalletRouter(
-          currency: eurCurrency,
-        ),
-      );
+      await sRouter
+          .push(
+            WalletRouter(
+              currency: eurCurrency,
+            ),
+          )
+          .then((value) => sAnalytics.eurWalletTapBackOnAccountsScreen());
     }
 
     return;
@@ -152,12 +162,20 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context, Curre
     await store.createSimpleAccount();
   } else if (store.buttonStatus == BankingShowState.onlySimple) {
     if (sSignalRModules.bankingProfileData?.simple?.account != null) {
-      await sRouter.push(
-        CJAccountRouter(
-          bankingAccount: sSignalRModules.bankingProfileData!.simple!.account!,
-          isCJAccount: true,
-        ),
-      );
+      await sRouter
+          .push(
+            CJAccountRouter(
+              bankingAccount: sSignalRModules.bankingProfileData!.simple!.account!,
+              isCJAccount: true,
+            ),
+          )
+          .then(
+            (value) => sAnalytics.eurWalletTapBackOnAccountWalletScreen(
+              isCJ: true,
+              eurAccountLabel: sSignalRModules.bankingProfileData!.simple!.account!.label ?? '',
+              isHasTransaction: false,
+            ),
+          );
     }
 
     return;

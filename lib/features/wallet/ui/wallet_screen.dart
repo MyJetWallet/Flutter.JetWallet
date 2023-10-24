@@ -91,6 +91,8 @@ class _WalletState extends State<Wallet> with AutomaticKeepAliveClientMixin, Tic
               PageView(
                 controller: _pageController,
                 onPageChanged: (page) {
+                  sAnalytics.eurWalletSwipeBetweenWallets();
+
                   if (skeepOnPageChanged) {
                     skeepOnPageChanged = false;
                   } else {

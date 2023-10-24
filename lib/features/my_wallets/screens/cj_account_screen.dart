@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -84,7 +85,8 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
     final isWithdrawButtonActive = kycState.depositStatus == kycOperationStatus(KycStatus.allowed) &&
         (sSignalRModules.clientDetail.clientBlockers
                 .indexWhere((element) => element.blockingType == BlockingType.withdrawal) ==
-            -1);
+            -1) &&
+        (widget.bankingAccount.balance ?? Decimal.zero) != Decimal.zero;
 
     return SPageFrame(
       loaderText: '',
@@ -227,6 +229,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
             TransactionsList(
               scrollController: _transactionScrollController,
               symbol: 'EUR',
+              fromCJAccount: true,
             ),
           ] else ...[
             SliverToBoxAdapter(
