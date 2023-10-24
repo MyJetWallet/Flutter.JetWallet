@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
@@ -106,14 +108,23 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context, Curre
     return;
   }
 
-  if (kycBlocked || anyBlock) {
-    kyc.showBlockedAlert();
+  if (kycBlocked) {
+    //kyc.showBlockedAlert();
+  }
+
+  if (anyBlock || kycBlocked) {
+    sNotification.showError(
+      intl.operation_is_unavailable,
+      duration: 4,
+      id: 1,
+      needFeedback: true,
+    );
 
     return;
   }
 
   if (store.buttonStatus == BankingShowState.getAccountBlock) {
-    kyc.showBlockedAlert();
+    await store.createSimpleAccount();
 
     return;
   } else if (store.buttonStatus == BankingShowState.inProgress) {
@@ -121,11 +132,20 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context, Curre
 
     return;
   } else if (store.buttonStatus == BankingShowState.accountList) {
-    await sRouter.push(
-      WalletRouter(
-        currency: eurCurrency,
-      ),
-    );
+    if (sSignalRModules.bankingProfileData?.banking?.accounts?.isEmpty ?? true) {
+      await sRouter.push(
+        CJAccountRouter(
+          bankingAccount: sSignalRModules.bankingProfileData!.simple!.account!,
+          isCJAccount: true,
+        ),
+      );
+    } else {
+      await sRouter.push(
+        WalletRouter(
+          currency: eurCurrency,
+        ),
+      );
+    }
 
     return;
   } else if (store.buttonStatus == BankingShowState.getAccount) {

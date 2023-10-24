@@ -1,9 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
+import 'package:jetwallet/features/kyc/kyc_service.dart';
+import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/my_wallets/helper/show_deposit_details_popup.dart';
 import 'package:jetwallet/features/my_wallets/widgets/cj_header_widget.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
@@ -13,6 +17,7 @@ import 'package:jetwallet/widgets/circle_action_buttons/circle_action_button.dar
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
+import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 const double _appBarBottomPosition = 120.0;
 
@@ -69,6 +74,17 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
     final eurCurrency = nonIndicesWithBalanceFrom(
       sSignalRModules.currenciesList,
     ).where((element) => element.symbol == 'EUR').first;
+
+    final kycState = getIt.get<KycService>();
+
+    final isDepositButtonActive = kycState.depositStatus == kycOperationStatus(KycStatus.allowed) &&
+        (sSignalRModules.clientDetail.clientBlockers
+                .indexWhere((element) => element.blockingType == BlockingType.deposit) ==
+            -1);
+    final isWithdrawButtonActive = kycState.depositStatus == kycOperationStatus(KycStatus.allowed) &&
+        (sSignalRModules.clientDetail.clientBlockers
+                .indexWhere((element) => element.blockingType == BlockingType.withdrawal) ==
+            -1);
 
     return SPageFrame(
       loaderText: '',
@@ -160,6 +176,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                     CircleActionButton(
                       text: intl.wallet_add_cash,
                       type: CircleButtonType.addCash,
+                      isDisabled: !isDepositButtonActive,
                       onTap: () {
                         sAnalytics.eurWalletTapAddCashEurAccount(
                           isCJ: widget.isCJAccount,
@@ -185,7 +202,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                     CircleActionButton(
                       text: intl.wallet_withdraw,
                       type: CircleButtonType.withdraw,
-                      isDisabled: true,
+                      isDisabled: !isWithdrawButtonActive,
                       onTap: () {
                         sAnalytics.eurWalletWithdrawEURAccountScreen(
                           isCJ: widget.isCJAccount,
