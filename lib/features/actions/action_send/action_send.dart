@@ -8,17 +8,16 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/actions/action_send/widgets/send_alert_bottom_sheet.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
+import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_country_model.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_card_payment_method_store.dart';
-import 'package:jetwallet/utils/helpers/are_balances_empty.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/helpers/flag_asset_name.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -32,14 +31,11 @@ import '../../../core/services/local_storage_service.dart';
 import '../helpers/show_currency_search.dart';
 
 void showSendAction(BuildContext context) {
-  final currencies = sSignalRModules.currenciesList;
-  final isEmptyBalance = areBalancesEmpty(currencies);
+  final handler = getIt.get<KycAlertHandler>();
 
-  final isSendMethodAvailable = sSignalRModules.currenciesList
-      .where(
-        (element) => element.isSupportAnyWithdrawal && element.isAssetBalanceNotEmpty,
-      )
-      .isNotEmpty;
+  final isSendMethodAvailable = sSignalRModules.currenciesList.any(
+    (element) => element.isSupportAnyWithdrawal && element.isAssetBalanceNotEmpty,
+  );
 
   final kyc = getIt.get<KycService>();
 
@@ -49,13 +45,19 @@ void showSendAction(BuildContext context) {
       or: () => _showSendAction(context),
       from: BlockingType.withdrawal,
     );
-  } else if (isEmptyBalance) {
-    sendAlertBottomSheet(context);
-  } else {
+  } else if (!isSendMethodAvailable) {
     sNotification.showError(
       intl.my_wallets_actions_warning,
       id: 3,
       hideIcon: true,
+    );
+  } else {
+    handler.handle(
+      status: kyc.depositStatus,
+      isProgress: kyc.verificationInProgress,
+      currentNavigate: () => _showSendAction(context),
+      requiredDocuments: kyc.requiredDocuments,
+      requiredVerifications: kyc.requiredVerifications,
     );
   }
 }

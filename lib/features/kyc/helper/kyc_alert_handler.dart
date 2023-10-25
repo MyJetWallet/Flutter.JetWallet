@@ -5,6 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/features/kyc/helper/show_kyc_popup.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
@@ -135,23 +136,10 @@ class KycAlertHandler {
   void showBlockedAlert() {
     sAnalytics.kycFlowYouBlockedPopup();
 
-    showKycPopup(
-      context: context,
-      primaryText: '${intl.kycAlertHandler_youAreBlocked}!',
-      secondaryText: '${intl.kycAlertHandler_showBlockedAlertSecondaryText1}\n'
-          '${intl.kycAlertHandler_showBlockedAlertSecondaryText2}',
-      primaryButtonName: intl.kycAlertHandler_support,
-      onPrimaryButtonTap: () {
-        Navigator.pop(context);
-
-        sAnalytics.kycFlowYouBlockedSupportTap();
-
-        sRouter.push(
-          CrispRouter(
-            welcomeText: intl.crispSendMessage_hi,
-          ),
-        );
-      },
+    sNotification.showError(
+      intl.my_wallets_actions_warning,
+      id: 3,
+      hideIcon: true,
     );
   }
 

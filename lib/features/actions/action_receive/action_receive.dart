@@ -8,6 +8,7 @@ import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_a
 import 'package:jetwallet/features/actions/helpers/show_currency_search.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
+import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -23,6 +24,7 @@ import '../../kyc/models/kyc_operation_status_model.dart';
 
 void showReceiveAction(BuildContext context) {
   final kyc = getIt.get<KycService>();
+  final handler = getIt.get<KycAlertHandler>();
 
   final isReceiveMethodsAvailable =
       sSignalRModules.currenciesList.where((element) => element.supportsCryptoDeposit).isNotEmpty;
@@ -35,11 +37,19 @@ void showReceiveAction(BuildContext context) {
       },
       from: BlockingType.deposit,
     );
-  } else {
+  } else if (!isReceiveMethodsAvailable) {
     sNotification.showError(
       intl.my_wallets_actions_warning,
       id: 1,
       hideIcon: true,
+    );
+  } else {
+    handler.handle(
+      status: kyc.depositStatus,
+      isProgress: kyc.verificationInProgress,
+      currentNavigate: () => _showReceive(context),
+      requiredDocuments: kyc.requiredDocuments,
+      requiredVerifications: kyc.requiredVerifications,
     );
   }
 }
