@@ -15,6 +15,7 @@ import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../core/services/deep_link_service.dart';
@@ -30,9 +31,11 @@ class AccountScreen extends StatefulObserverWidget {
   State<AccountScreen> createState() => _AccountScreenState();
 }
 
-class _AccountScreenState extends State<AccountScreen>
-    with SingleTickerProviderStateMixin {
+class _AccountScreenState extends State<AccountScreen> with SingleTickerProviderStateMixin {
   int debugTapCounter = 0;
+
+  // for analytic
+  GlobalHistoryTab historyTab = GlobalHistoryTab.all;
 
   @override
   Widget build(BuildContext context) {
@@ -95,8 +98,7 @@ class _AccountScreenState extends State<AccountScreen>
               userEmail: authInfo.email,
               userFirstName: userInfo.firstName,
               userLastName: userInfo.lastName,
-              showUserName:
-                  userInfo.firstName.isNotEmpty && userInfo.lastName.isNotEmpty,
+              showUserName: userInfo.firstName.isNotEmpty && userInfo.lastName.isNotEmpty,
               isVerified: checkKycPassed(
                 kycState.depositStatus,
                 kycState.sellStatus,
@@ -140,10 +142,8 @@ class _AccountScreenState extends State<AccountScreen>
                     );
                   },
                   onKycBannerTap: () {
-                    final isDepositAllow = kycState.depositStatus !=
-                        kycOperationStatus(KycStatus.allowed);
-                    final isWithdrawalAllow = kycState.withdrawalStatus !=
-                        kycOperationStatus(KycStatus.allowed);
+                    final isDepositAllow = kycState.depositStatus != kycOperationStatus(KycStatus.allowed);
+                    final isWithdrawalAllow = kycState.withdrawalStatus != kycOperationStatus(KycStatus.allowed);
 
                     kycAlertHandler.handle(
                       status: isDepositAllow
@@ -208,9 +208,25 @@ class _AccountScreenState extends State<AccountScreen>
                       title: intl.account_transactionHistory,
                       icon: const SIndexHistoryIcon(),
                       isSDivider: true,
-                      onTap: () => sRouter.push(
-                        TransactionHistoryRouter(),
-                      ),
+                      onTap: () {
+                        historyTab = GlobalHistoryTab.all;
+                        sRouter.push(
+                          TransactionHistoryRouter(
+                            onTabChanged: (index) {
+                              final result = index == 0 ? GlobalHistoryTab.all : GlobalHistoryTab.pending;
+                              setState(() {
+                                historyTab = result;
+                              });
+                            },
+                          ),
+                        ).then(
+                          (value) {
+                            sAnalytics.tapOnTheButtonBackOnGlobalTransactionHistoryScreen(
+                              globalHistoryTab: historyTab,
+                            );
+                          },
+                        );
+                      },
                     ),
                     SimpleAccountCategoryButton(
                       title: intl.account_support,

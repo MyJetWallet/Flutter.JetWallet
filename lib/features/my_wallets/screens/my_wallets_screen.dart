@@ -34,6 +34,9 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
 
   final store = getIt.get<MyWalletsSrore>();
 
+  // for analytic
+  GlobalHistoryTab historyTab = GlobalHistoryTab.pending;
+
   @override
   void initState() {
     super.initState();
@@ -160,10 +163,25 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                     if (store.isReordering) {
                       store.endReorderingImmediately();
                     } else {
-                      sRouter.push(
+                      historyTab = GlobalHistoryTab.pending;
+                      sRouter
+                          .push(
                         TransactionHistoryRouter(
                           initialIndex: 1,
+                          onTabChanged: (index) {
+                            final result = index == 0 ? GlobalHistoryTab.all : GlobalHistoryTab.pending;
+                            setState(() {
+                              historyTab = result;
+                            });
+                          },
                         ),
+                      )
+                          .then(
+                        (value) {
+                          sAnalytics.tapOnTheButtonBackOnGlobalTransactionHistoryScreen(
+                            globalHistoryTab: historyTab,
+                          );
+                        },
                       );
                     }
                   },
