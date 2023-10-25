@@ -199,7 +199,7 @@ abstract class _MyWalletsSroreBase with Store {
       case BankingShowState.onlySimple:
         return '1 ${intl.my_wallets_account}';
       default:
-        return '';
+        return intl.my_wallets_get_account;
     }
   }
 

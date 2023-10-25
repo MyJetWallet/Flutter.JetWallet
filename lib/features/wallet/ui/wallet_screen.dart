@@ -6,7 +6,9 @@ import 'package:jetwallet/features/my_wallets/helper/currencies_for_my_wallet.da
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/eur_wallet_body.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/wallet_body.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 @RoutePage(name: 'WalletRouter')
 class Wallet extends StatefulObserverWidget {
@@ -34,7 +36,11 @@ class _WalletState extends State<Wallet> with AutomaticKeepAliveClientMixin, Tic
       openedAsset: widget.currency.symbol,
     );
 
-    final currencies = currenciesForMyWallet(sSignalRModules.currenciesList);
+    final currencies = currenciesForMyWallet(
+      sSignalRModules.currenciesList,
+      fromWalletsScreen: true,
+      state: sSignalRModules.bankingProfileData?.showState,
+    );
 
     final initialPage = currencies.indexOf(widget.currency);
     currentAsset = widget.currency;
@@ -58,7 +64,11 @@ class _WalletState extends State<Wallet> with AutomaticKeepAliveClientMixin, Tic
   Widget build(BuildContext context) {
     super.build(context);
 
-    final currencies = currenciesForMyWallet(sSignalRModules.currenciesList);
+    final currencies = currenciesForMyWallet(
+      sSignalRModules.currenciesList,
+      fromWalletsScreen: true,
+      state: sSignalRModules.bankingProfileData?.showState,
+    );
 
     // These actions are required to handle navigation
     // if the order of assets is changed externally
@@ -74,53 +84,43 @@ class _WalletState extends State<Wallet> with AutomaticKeepAliveClientMixin, Tic
       _pageController.jumpToPage(supposedPage);
     }
 
-    return WillPopScope(
-      onWillPop: () {
-        sAnalytics.eurWalletSwipeBetweenWallets();
-        sAnalytics.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen(
-          openedAsset: widget.currency.symbol,
-        );
+    return Scaffold(
+      body: Material(
+        color: Colors.transparent,
+        child: Stack(
+          children: [
+            PageView(
+              controller: _pageController,
+              onPageChanged: (page) {
+                sAnalytics.eurWalletSwipeBetweenWallets();
 
-        return Future.value(true);
-      },
-      child: Scaffold(
-        body: Material(
-          color: Colors.transparent,
-          child: Stack(
-            children: [
-              PageView(
-                controller: _pageController,
-                onPageChanged: (page) {
-                  sAnalytics.eurWalletSwipeBetweenWallets();
-
-                  if (skeepOnPageChanged) {
-                    skeepOnPageChanged = false;
-                  } else {
-                    currentAsset = currencies[page];
-                    currentPage = page;
-                    sAnalytics.cryptoFavouriteWalletScreen(
-                      openedAsset: currencies[page].symbol,
-                    );
-                  }
-                },
-                children: [
-                  for (final currency in currencies)
-                    currency.symbol == 'EUR'
-                        ? EurWalletBody(
-                            key: Key(currency.symbol),
-                            pageController: _pageController,
-                            pageCount: currencies.length,
-                          )
-                        : WalletBody(
-                            key: Key(currency.symbol),
-                            currency: currency,
-                            pageController: _pageController,
-                            pageCount: currencies.length,
-                          ),
-                ],
-              ),
-            ],
-          ),
+                if (skeepOnPageChanged) {
+                  skeepOnPageChanged = false;
+                } else {
+                  currentAsset = currencies[page];
+                  currentPage = page;
+                  sAnalytics.cryptoFavouriteWalletScreen(
+                    openedAsset: currencies[page].symbol,
+                  );
+                }
+              },
+              children: [
+                for (final currency in currencies)
+                  currency.symbol == 'EUR'
+                      ? EurWalletBody(
+                          key: Key(currency.symbol),
+                          pageController: _pageController,
+                          pageCount: currencies.length,
+                        )
+                      : WalletBody(
+                          key: Key(currency.symbol),
+                          currency: currency,
+                          pageController: _pageController,
+                          pageCount: currencies.length,
+                        ),
+              ],
+            ),
+          ],
         ),
       ),
     );
