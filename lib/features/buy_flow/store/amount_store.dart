@@ -143,12 +143,6 @@ abstract class _BuyAmountStoreBase with Store {
           ?.firstWhere((element) => element.asset == 'EUR');
 
       _updateLimitModel(paymentAsset!);
-    } else {
-      paymentAsset = inputAsset.buyMethods
-          .firstWhere((element) => element.id == PaymentMethodType.ibanTransferUnlimint)
-          .paymentAssets
-          ?.firstWhere((element) => element.asset == (account?.currency ?? 'EUR'));
-      _updateLimitModel(paymentAsset!);
     }
 
     loadConversionPrice(
@@ -223,12 +217,7 @@ abstract class _BuyAmountStoreBase with Store {
       account = newAccount;
       card = null;
       category = PaymentMethodCategory.account;
-
-      paymentAsset = asset?.buyMethods
-          .firstWhere((element) => element.id == PaymentMethodType.ibanTransferUnlimint)
-          .paymentAssets
-          ?.firstWhere((element) => element.asset == newAccount.currency);
-      _updateLimitModel(paymentAsset!);
+      paymentAsset = null;
     }
 
     loadConversionPrice(
@@ -363,14 +352,15 @@ abstract class _BuyAmountStoreBase with Store {
 
     Decimal? limitMax = max;
 
-    if (limitByAsset != null) {
+    if (limitByAsset != null && category == PaymentMethodCategory.cards) {
       limitMax = limitByAsset!.barInterval == StateBarType.day1
           ? (limitByAsset!.day1Limit - limitByAsset!.day1Amount)
           : limitByAsset!.barInterval == StateBarType.day7
               ? (limitByAsset!.day7Limit - limitByAsset!.day7Amount)
               : (limitByAsset!.day30Limit - limitByAsset!.day30Amount);
+      limitMax = limitMax * _availablePresentForProcessing;
     }
-    limitMax = limitMax * _availablePresentForProcessing;
+
     max = limitMax < max ? limitMax : max;
 
     inputValid = value >= min && value <= max;
