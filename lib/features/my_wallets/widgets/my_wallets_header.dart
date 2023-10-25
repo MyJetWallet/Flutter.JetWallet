@@ -27,11 +27,16 @@ class MyWalletsHeader extends StatefulWidget {
 class _MyWalletsHeaderState extends State<MyWalletsHeader> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    return AnimatedCrossFade(
-      firstChild: const _DefaultHeader(),
-      secondChild: const _ScrollInProgressHeader(),
-      crossFadeState: !widget.isTitleCenter ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-      duration: const Duration(milliseconds: 200),
+    final colors = sKit.colors;
+
+    return ColoredBox(
+      color: colors.white,
+      child: AnimatedCrossFade(
+        firstChild: const _DefaultHeader(),
+        secondChild: const _ScrollInProgressHeader(),
+        crossFadeState: !widget.isTitleCenter ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+        duration: const Duration(milliseconds: 200),
+      ),
     );
   }
 }
@@ -58,43 +63,48 @@ class _DefaultHeader extends StatelessObserverWidget {
 
     return SPaddingH24(
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Text(
-              intl.my_wallets_header,
-              style: sTextH4Style,
-            ),
-          ),
-          const SpaceW8(),
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: SIconButton(
-              defaultIcon: !getIt<AppStore>().isBalanceHide
-                  ? SEyeCloseIcon(
-                      color: colors.black,
-                    )
-                  : SEyeOpenIcon(
-                      color: colors.black,
-                    ),
-              pressedIcon: !getIt<AppStore>().isBalanceHide
-                  ? SEyeCloseIcon(
-                      color: colors.black.withOpacity(0.7),
-                    )
-                  : SEyeOpenIcon(
-                      color: colors.black.withOpacity(0.7),
-                    ),
-              onTap: () {
-                if (getIt<AppStore>().isBalanceHide) {
-                  getIt<AppStore>().setIsBalanceHide(false);
-                } else {
-                  getIt<AppStore>().setIsBalanceHide(true);
-                }
-                sAnalytics.tapOnTheButtonShowHideBalancesOnWalletsScreen(
-                  isShowNow: !getIt<AppStore>().isBalanceHide,
-                );
-              },
-            ),
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Text(
+                  intl.my_wallets_header,
+                  style: sTextH4Style,
+                ),
+              ),
+              const SpaceW8(),
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: SIconButton(
+                  defaultIcon: !getIt<AppStore>().isBalanceHide
+                      ? SEyeCloseIcon(
+                          color: colors.black,
+                        )
+                      : SEyeOpenIcon(
+                          color: colors.black,
+                        ),
+                  pressedIcon: !getIt<AppStore>().isBalanceHide
+                      ? SEyeCloseIcon(
+                          color: colors.black.withOpacity(0.7),
+                        )
+                      : SEyeOpenIcon(
+                          color: colors.black.withOpacity(0.7),
+                        ),
+                  onTap: () {
+                    if (getIt<AppStore>().isBalanceHide) {
+                      getIt<AppStore>().setIsBalanceHide(false);
+                    } else {
+                      getIt<AppStore>().setIsBalanceHide(true);
+                    }
+                    sAnalytics.tapOnTheButtonShowHideBalancesOnWalletsScreen(
+                      isShowNow: !getIt<AppStore>().isBalanceHide,
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
           const Spacer(),
           SizedBox(

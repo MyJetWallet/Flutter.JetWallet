@@ -27,6 +27,7 @@ class SIconTextButton extends StatelessWidget {
 
     TextStyle? tStyle = sTextButtonStyle.copyWith(
       color: sKit.colors.blue,
+      height: 1.5,
     );
     if (textStyle != null) {
       tStyle = textStyle!;
@@ -38,9 +39,11 @@ class SIconTextButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 8,
+        padding: const EdgeInsets.only(
+          left: 16,
+          right: 20,
+          top: 8,
+          bottom: 8,
         ),
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ).copyWith(

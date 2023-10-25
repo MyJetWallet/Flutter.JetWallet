@@ -4,7 +4,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
-import 'package:jetwallet/features/my_wallets/widgets/change_order_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/get_account_button.dart';
 import 'package:jetwallet/features/my_wallets/widgets/my_wallets_asset_item.dart';
 import 'package:simple_kit/modules/icons/24x24/public/delete_asset/simple_delete_asset.dart';
@@ -37,10 +36,6 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
       },
       child: Column(
         children: [
-          if (store.isReordering)
-            ChangeOrderWidget(
-              onPressedDone: store.onEndReordering,
-            ),
           RawGestureDetector(
             gestures: <Type, GestureRecognizerFactory>{
               _OnlyOnePointerRecognizer: GestureRecognizerFactoryWithHandlers<_OnlyOnePointerRecognizer>(

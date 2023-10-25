@@ -5,12 +5,15 @@ import 'package:simple_kit/modules/icons/24x24/light/done/simple_light_done_icon
 import 'package:simple_kit/utils/enum.dart';
 
 class SDoneIcon extends StatelessObserverWidget {
-  const SDoneIcon({Key? key}) : super(key: key);
+  const SDoneIcon({
+    Key? key,
+    this.color,
+  }) : super(key: key);
+
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightDoneIcon()
-        : const SimpleLightDoneIcon();
+    return sKit.currentTheme == STheme.dark ? SimpleLightDoneIcon(color: color) : SimpleLightDoneIcon(color: color);
   }
 }
