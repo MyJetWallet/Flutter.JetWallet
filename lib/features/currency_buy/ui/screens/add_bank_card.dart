@@ -73,7 +73,7 @@ class AddBankCardBody extends StatelessObserverWidget {
     final status = kycOperationStatus(KycStatus.kycRequired);
 
     final isUserVerified = kycState.depositStatus != status &&
-        kycState.sellStatus != status &&
+        kycState.tradeStatus != status &&
         kycState.withdrawalStatus != status;
     icon =
         store.saveCard ? const SCheckboxSelectedIcon() : const SCheckboxIcon();

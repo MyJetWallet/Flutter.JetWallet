@@ -101,7 +101,7 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
               showUserName: userInfo.firstName.isNotEmpty && userInfo.lastName.isNotEmpty,
               isVerified: checkKycPassed(
                 kycState.depositStatus,
-                kycState.sellStatus,
+                kycState.tradeStatus,
                 kycState.withdrawalStatus,
               ),
               icon: Image.asset(
@@ -120,12 +120,12 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
                 AccountBannerList(
                   kycPassed: checkKycPassed(
                     kycState.depositStatus,
-                    kycState.sellStatus,
+                    kycState.tradeStatus,
                     kycState.withdrawalStatus,
                   ),
                   kycBlocked: checkKycBlocked(
                     kycState.depositStatus,
-                    kycState.sellStatus,
+                    kycState.tradeStatus,
                     kycState.withdrawalStatus,
                   ),
                   verificationInProgress: kycState.inVerificationProgress,
@@ -150,7 +150,7 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
                           ? kycState.depositStatus
                           : isWithdrawalAllow
                               ? kycState.withdrawalStatus
-                              : kycState.sellStatus,
+                              : kycState.tradeStatus,
                       isProgress: kycState.verificationInProgress,
                       currentNavigate: () {},
                       requiredDocuments: kycState.requiredDocuments,

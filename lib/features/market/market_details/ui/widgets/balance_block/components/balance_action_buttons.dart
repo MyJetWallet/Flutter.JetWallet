@@ -67,10 +67,10 @@ class BalanceActionButtons extends StatelessObserverWidget {
           ),
         ] else ...[
           CircleActionButtons(
-            showBuy: currency.supportsAtLeastOneBuyMethod,
-            showReceive: currency.supportsCryptoDeposit,
-            showExchange: currency.isAssetBalanceNotEmpty,
-            showSend: currency.isAssetBalanceNotEmpty && currency.supportsCryptoWithdrawal,
+            isBuyDisabled: !currency.supportsAtLeastOneBuyMethod,
+            isReceiveDisabled: !currency.supportsCryptoDeposit,
+            isExchangeDisabled: !currency.isAssetBalanceNotEmpty,
+            isSendDisabled: !currency.isAssetBalanceNotEmpty && !currency.supportsCryptoWithdrawal,
             onBuy: () {
               sAnalytics.newBuyTapBuy(
                 source: 'Market - Asset - Buy',
@@ -148,7 +148,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
               }
             },
             onExchange: () {
-              if (kycState.sellStatus == kycOperationStatus(KycStatus.allowed)) {
+              if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
                 showSendTimerAlertOr(
                   context: context,
                   or: () {

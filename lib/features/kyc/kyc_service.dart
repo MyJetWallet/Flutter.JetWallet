@@ -12,7 +12,7 @@ abstract class _KycServiceBase with Store {
   int get depositStatus => sSignalRModules.clientDetail.depositStatus;
 
   @computed
-  int get sellStatus => sSignalRModules.clientDetail.tradeStatus;
+  int get tradeStatus => sSignalRModules.clientDetail.tradeStatus;
 
   @computed
   int get withdrawalStatus => sSignalRModules.clientDetail.withdrawalStatus;

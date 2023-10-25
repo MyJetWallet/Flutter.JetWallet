@@ -79,7 +79,7 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
 
             if (myWalletsSrore.isReordering) {
               myWalletsSrore.endReorderingImmediately();
-            } else if (kycState.sellStatus == kycOperationStatus(KycStatus.allowed)) {
+            } else if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
               showSendTimerAlertOr(
                 context: context,
                 or: () => sRouter.push(ConvertRouter()),

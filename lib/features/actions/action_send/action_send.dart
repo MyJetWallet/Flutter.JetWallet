@@ -39,7 +39,7 @@ void showSendAction(BuildContext context) {
 
   final kyc = getIt.get<KycService>();
 
-  if ((kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) && isSendMethodAvailable) {
+  if ((kyc.withdrawalStatus == kycOperationStatus(KycStatus.allowed)) && isSendMethodAvailable) {
     showSendTimerAlertOr(
       context: context,
       or: () => _showSendAction(context),
@@ -53,7 +53,7 @@ void showSendAction(BuildContext context) {
     );
   } else {
     handler.handle(
-      status: kyc.depositStatus,
+      status: kyc.withdrawalStatus,
       isProgress: kyc.verificationInProgress,
       currentNavigate: () => _showSendAction(context),
       requiredDocuments: kyc.requiredDocuments,

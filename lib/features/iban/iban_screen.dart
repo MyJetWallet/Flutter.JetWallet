@@ -51,7 +51,7 @@ class _IBanScreenBodyState extends State<IBanScreen> {
     getIt.get<IbanStore>().initCountryState(countriesList);
     final kycPassed = checkKycPassed(
       kycState.depositStatus,
-      kycState.sellStatus,
+      kycState.tradeStatus,
       kycState.withdrawalStatus,
     );
 
@@ -82,12 +82,12 @@ class _IBanScreenBodyState extends State<IBanScreen> {
 
     final kycPassed = checkKycPassed(
       kycState.depositStatus,
-      kycState.sellStatus,
+      kycState.tradeStatus,
       kycState.withdrawalStatus,
     );
     final kycBlocked = checkKycBlocked(
       kycState.depositStatus,
-      kycState.sellStatus,
+      kycState.tradeStatus,
       kycState.withdrawalStatus,
     );
     final verificationInProgress = kycState.inVerificationProgress;
@@ -151,7 +151,7 @@ class _IBanScreenBodyState extends State<IBanScreen> {
                                 ? kycState.depositStatus
                                 : isWithdrawalAllow
                                     ? kycState.withdrawalStatus
-                                    : kycState.sellStatus,
+                                    : kycState.tradeStatus,
                             isProgress: kycState.verificationInProgress,
                             currentNavigate: () {},
                             requiredDocuments: kycState.requiredDocuments,

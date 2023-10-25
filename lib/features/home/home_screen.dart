@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final kycState = getIt.get<KycService>();
     final kycBlocked = checkKycBlocked(
       kycState.depositStatus,
-      kycState.sellStatus,
+      kycState.tradeStatus,
       kycState.withdrawalStatus,
     );
 

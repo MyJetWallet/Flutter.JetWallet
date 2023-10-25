@@ -55,7 +55,7 @@ class CardHeader extends StatelessObserverWidget {
                       notifications: _profileNotificationLength(
                         KycModel(
                           depositStatus: kycState.depositStatus,
-                          sellStatus: kycState.sellStatus,
+                          sellStatus: kycState.tradeStatus,
                           withdrawalStatus: kycState.withdrawalStatus,
                           requiredDocuments: kycState.requiredDocuments,
                           requiredVerifications: kycState.requiredVerifications,

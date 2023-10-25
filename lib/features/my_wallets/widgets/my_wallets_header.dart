@@ -47,7 +47,7 @@ class _DefaultHeader extends StatelessObserverWidget {
     final notificationsCount = _profileNotificationLength(
       KycModel(
         depositStatus: kycState.depositStatus,
-        sellStatus: kycState.sellStatus,
+        sellStatus: kycState.tradeStatus,
         withdrawalStatus: kycState.withdrawalStatus,
         requiredDocuments: kycState.requiredDocuments,
         requiredVerifications: kycState.requiredVerifications,
@@ -167,7 +167,7 @@ class _ScrollInProgressHeader extends StatelessObserverWidget {
     final notificationsCount = _profileNotificationLength(
       KycModel(
         depositStatus: kycState.depositStatus,
-        sellStatus: kycState.sellStatus,
+        sellStatus: kycState.tradeStatus,
         withdrawalStatus: kycState.withdrawalStatus,
         requiredDocuments: kycState.requiredDocuments,
         requiredVerifications: kycState.requiredVerifications,

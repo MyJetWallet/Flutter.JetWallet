@@ -94,7 +94,7 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context, Curre
 
   final kycBlocked = checkKycBlocked(
     kycState.depositStatus,
-    kycState.sellStatus,
+    kycState.tradeStatus,
     kycState.withdrawalStatus,
   );
 
