@@ -64,7 +64,7 @@ class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
               ],
             ),
           ),
-        if (widget.addPaddingBelowTitle) const SpaceH34(),
+        if (widget.addPaddingBelowTitle) const SpaceH26(),
         if (widget.showSearch) ...[
           if (widget.removeSearchPadding)
             SStandardField(
