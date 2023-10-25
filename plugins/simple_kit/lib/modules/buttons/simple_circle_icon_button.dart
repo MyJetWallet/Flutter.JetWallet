@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simple_kit/core/simple_kit.dart';
 
 class SimpleCircleButton extends StatefulWidget {
   const SimpleCircleButton({
@@ -7,6 +8,7 @@ class SimpleCircleButton extends StatefulWidget {
     this.pressedIcon,
     this.backgroundColor = Colors.black,
     this.height = 48,
+    this.isDisabled = false,
     required this.defaultIcon,
   });
 
@@ -14,6 +16,7 @@ class SimpleCircleButton extends StatefulWidget {
   final Widget? pressedIcon;
   final Widget defaultIcon;
   final double height;
+  final bool isDisabled;
 
   final Color backgroundColor;
 
@@ -26,9 +29,15 @@ class _SimpleCircleButtonState extends State<SimpleCircleButton> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = sKit.colors;
+
     late Color currentColor;
 
-    currentColor = highlighted ? widget.backgroundColor.withOpacity(0.8) : widget.backgroundColor;
+    currentColor = widget.isDisabled
+        ? colors.grey4
+        : highlighted
+            ? widget.backgroundColor.withOpacity(0.8)
+            : widget.backgroundColor;
 
     return Container(
       height: widget.height,
@@ -38,7 +47,7 @@ class _SimpleCircleButtonState extends State<SimpleCircleButton> {
       ),
       padding: const EdgeInsets.all(12),
       child: InkWell(
-        onTap: widget.onTap,
+        onTap: !widget.isDisabled ? widget.onTap : null,
         onHighlightChanged: (value) {
           setState(() {
             highlighted = value;

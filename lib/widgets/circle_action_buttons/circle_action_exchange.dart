@@ -6,9 +6,11 @@ class CircleActionExchange extends StatelessWidget {
   const CircleActionExchange({
     super.key,
     required this.onTap,
+    this.isDisabled = false,
   });
 
   final Function() onTap;
+  final bool isDisabled;
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +27,14 @@ class CircleActionExchange extends StatelessWidget {
               color: colors.white.withOpacity(0.7),
             ),
             onTap: onTap,
+            isDisabled: isDisabled,
           ),
           const SpaceH6(),
           Text(
             intl.balanceActionButtons_exchange,
             style: sBodyText2Style.copyWith(
               fontWeight: FontWeight.w600,
+              color: isDisabled ? colors.grey2 : null,
             ),
           ),
         ],
