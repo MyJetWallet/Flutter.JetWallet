@@ -153,7 +153,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                       ],
                     ),
                     crossFadeState: isTopPosition ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-                    duration: const Duration(milliseconds: 400),
+                    duration: const Duration(milliseconds: 200),
                   ),
                   flexibleSpace: WalletHeader(
                     curr: widget.currency,

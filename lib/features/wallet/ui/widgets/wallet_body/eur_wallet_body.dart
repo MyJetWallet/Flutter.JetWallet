@@ -134,7 +134,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                   ],
                 ),
                 crossFadeState: isTopPosition ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-                duration: const Duration(milliseconds: 400),
+                duration: const Duration(milliseconds: 200),
               ),
               flexibleSpace: WalletHeader(
                 curr: eurCurrency,
