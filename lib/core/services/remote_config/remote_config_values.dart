@@ -62,3 +62,7 @@ late String displayName;
 late List<String> merchantCapabilities;
 late List<String> supportedNetworks;
 late String countryCode;
+
+//Sift
+late String siftBeaconKey;
+late String siftAccountId;

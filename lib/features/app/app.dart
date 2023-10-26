@@ -10,7 +10,6 @@ import 'package:jetwallet/features/app/app_builder.dart';
 import 'package:jetwallet/features/app/route_observer.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
-import 'package:sift/sift.dart';
 
 class AppScreen extends StatefulWidget {
   const AppScreen({
@@ -51,8 +50,6 @@ class _AppScreenState extends State<AppScreen> {
       getIt.registerSingleton<PushNotification>(
         PushNotification(),
       );
-
-      getPlatform();
     } catch (e) {
       _logger.log(
         notifier,
@@ -61,16 +58,6 @@ class _AppScreenState extends State<AppScreen> {
     }
 
     super.initState();
-  }
-
-  Future<void> getPlatform() async {
-    final _siftPlugin = Sift();
-
-    print('INIT SIFT');
-
-    var platformVersion = await _siftPlugin.getPlatformVersion() ?? 'Unknown platform version';
-
-    print(platformVersion);
   }
 
   @override

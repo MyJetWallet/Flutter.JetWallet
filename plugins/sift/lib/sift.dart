@@ -1,6 +1,6 @@
 import 'sift_platform_interface.dart';
 
-class Sift {
+class SimpleSift {
   Future<String?> getPlatformVersion() {
     return SiftPlatform.instance.getPlatformVersion();
   }

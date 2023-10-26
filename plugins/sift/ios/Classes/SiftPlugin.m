@@ -20,9 +20,8 @@
     Sift *sift = [Sift sharedInstance];
     [sift setAccountId:accountId];
     [sift setBeaconKey:beaconKey];
-    [sift upload];
 
-    result([@"Success sift"]);
+    result([@"Sift ok " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
   } else if ([@"setUserID" isEqualToString:call.method]) {
     NSString *userId = call.arguments[@"id"];
 
