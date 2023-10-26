@@ -216,7 +216,37 @@ abstract class _BuyConfirmationStoreBase with Store {
     if (terminateUpdates) return;
 
     try {
-      if (account?.bankName != null) {
+      if (account?.accountId == 'clearjuction_account') {
+        final model = GetQuoteRequestModel(
+          fromAssetAmount: Decimal.parse(payAmount),
+          fromAssetSymbol: payAsset,
+          toAssetSymbol: buyAssetSymbol ?? '',
+        );
+
+        final response = await sNetwork.getWalletModule().postGetQuote(model);
+
+        response.pick(
+          onData: (data) {
+            paymentAmount = data.fromAssetAmount;
+            paymentAsset = data.fromAssetSymbol;
+            buyAmount = data.toAssetAmount;
+            buyAsset = data.toAssetSymbol;
+            depositFeeAmount = Decimal.zero;
+            depositFeeAsset = data.fromAssetSymbol;
+            tradeFeeAmount = data.feeAmount;
+            tradeFeeAsset = data.feeAsset;
+            rate = data.price;
+            paymentId = data.operationId;
+            actualTimeInSecond = data.expirationTime;
+            deviceBindingRequired = false;
+          },
+          onError: (error) {
+            loader.finishLoadingImmediately();
+
+            _showFailureScreen(error.cause);
+          },
+        );
+      } else {
         final model = getModelForCardBuyReq(
           category: category,
           pAmount: payAmount,
@@ -240,36 +270,6 @@ abstract class _BuyConfirmationStoreBase with Store {
             paymentId = data.paymentId ?? '';
             actualTimeInSecond = data.actualTimeInSecond;
             deviceBindingRequired = data.deviceBindingRequired;
-          },
-          onError: (error) {
-            loader.finishLoadingImmediately();
-
-            _showFailureScreen(error.cause);
-          },
-        );
-      } else {
-        final model = GetQuoteRequestModel(
-          fromAssetAmount: Decimal.parse(payAmount),
-          fromAssetSymbol: payAsset,
-          toAssetSymbol: buyAssetSymbol ?? '',
-        );
-
-        final response = await sNetwork.getWalletModule().postGetQuote(model);
-
-        response.pick(
-          onData: (data) {
-            paymentAmount = data.fromAssetAmount;
-            paymentAsset = data.fromAssetSymbol;
-            buyAmount = data.toAssetAmount;
-            buyAsset = data.toAssetSymbol;
-            depositFeeAmount = Decimal.zero;
-            depositFeeAsset = data.fromAssetSymbol;
-            tradeFeeAmount = data.feeAmount;
-            tradeFeeAsset = data.feeAsset;
-            rate = data.price;
-            paymentId = data.operationId;
-            actualTimeInSecond = data.expirationTime;
-            deviceBindingRequired = false;
           },
           onError: (error) {
             loader.finishLoadingImmediately();
@@ -554,7 +554,18 @@ abstract class _BuyConfirmationStoreBase with Store {
 
       late DC<ServerRejectException, dynamic> resp;
 
-      if (account?.bankName != null) {
+      if (account?.accountId == 'clearjuction_account') {
+        final model = ExecuteQuoteRequestModel(
+          operationId: paymentId,
+          price: price,
+          fromAssetSymbol: paymentAsset!,
+          toAssetSymbol: buyAsset!,
+          fromAssetAmount: paymentAmount,
+          toAssetAmount: buyAmount,
+        );
+
+        resp = await sNetwork.getWalletModule().postExecuteQuote(model);
+      } else {
         final model = CardBuyExecuteRequestModel(
           paymentId: paymentId,
           paymentMethod: convertMethodToCirclePaymentMethod(category),
@@ -568,17 +579,6 @@ abstract class _BuyConfirmationStoreBase with Store {
               model,
               cancelToken: cancelToken,
             );
-      } else {
-        final model = ExecuteQuoteRequestModel(
-          operationId: paymentId,
-          price: price,
-          fromAssetSymbol: paymentAsset!,
-          toAssetSymbol: buyAsset!,
-          fromAssetAmount: paymentAmount,
-          toAssetAmount: buyAmount,
-        );
-
-        resp = await sNetwork.getWalletModule().postExecuteQuote(model);
       }
 
       if (resp.hasError) {
