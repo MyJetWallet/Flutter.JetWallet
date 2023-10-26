@@ -10,6 +10,7 @@ import 'package:jetwallet/features/my_wallets/widgets/my_wallets_asset_item.dart
 import 'package:simple_kit/modules/icons/24x24/public/delete_asset/simple_delete_asset.dart';
 import 'package:simple_kit/modules/icons/24x24/public/start_reorder/simple_start_reorder_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class AssetsListWidget extends StatefulObserverWidget {
@@ -73,64 +74,76 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
     final list = <Widget>[];
 
     for (var index = 0; index < store.currencies.length; index += 1) {
-      list.add(
-        Column(
-          key: ValueKey(store.currencies[index].symbol),
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Slidable(
-              startActionPane: !store.isReordering
-                  ? ActionPane(
-                      extentRatio: 0.2,
-                      motion: const StretchMotion(),
-                      children: [
-                        Builder(
-                          builder: (context) {
-                            return CustomSlidableAction(
-                              onPressed: (context) {
-                                store.onStartReordering();
-                              },
-                              backgroundColor: colors.purple,
-                              foregroundColor: colors.white,
-                              child: SStartReorderIcon(
-                                color: colors.white,
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    )
-                  : null,
-              endActionPane: store.currencies[index].isAssetBalanceEmpty
-                  ? ActionPane(
-                      extentRatio: 0.2,
-                      motion: const StretchMotion(),
-                      children: [
-                        CustomSlidableAction(
-                          onPressed: (context) {
-                            store.onDelete(index);
-                          },
-                          backgroundColor: colors.red,
-                          foregroundColor: colors.white,
-                          child: SDeleteAssetIcon(
-                            color: colors.white,
+      var skip = false;
+
+      if (store.currencies[index].symbol == 'EUR') {
+        if (store.buttonStatus == BankingShowState.hide) {
+          skip = true;
+        }
+      }
+
+      if (!skip) {
+        list.add(
+          Column(
+            key: ValueKey(store.currencies[index].symbol),
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Slidable(
+                startActionPane: !store.isReordering
+                    ? ActionPane(
+                        extentRatio: 0.2,
+                        motion: const StretchMotion(),
+                        children: [
+                          Builder(
+                            builder: (context) {
+                              return CustomSlidableAction(
+                                onPressed: (context) {
+                                  store.onStartReordering();
+                                },
+                                backgroundColor: colors.purple,
+                                foregroundColor: colors.white,
+                                child: SStartReorderIcon(
+                                  color: colors.white,
+                                ),
+                              );
+                            },
                           ),
-                        ),
-                      ],
-                    )
-                  : null,
-              child: MyWalletsAssetItem(
-                isMoving: store.isReordering,
-                currency: store.currencies[index],
+                        ],
+                      )
+                    : null,
+                endActionPane: store.currencies[index].isAssetBalanceEmpty
+                    ? ActionPane(
+                        extentRatio: 0.2,
+                        motion: const StretchMotion(),
+                        children: [
+                          CustomSlidableAction(
+                            onPressed: (context) {
+                              store.onDelete(index);
+                            },
+                            backgroundColor: colors.red,
+                            foregroundColor: colors.white,
+                            child: SDeleteAssetIcon(
+                              color: colors.white,
+                            ),
+                          ),
+                        ],
+                      )
+                    : null,
+                child: MyWalletsAssetItem(
+                  isMoving: store.isReordering,
+                  currency: store.currencies[index],
+                ),
               ),
-            ),
-            if (!store.isReordering && store.currencies[index].symbol == 'EUR')
-              GetAccountButton(
-                store: store,
-              ),
-          ],
-        ),
-      );
+              if (!store.isReordering &&
+                  store.currencies[index].symbol == 'EUR' &&
+                  store.buttonStatus != BankingShowState.hide)
+                GetAccountButton(
+                  store: store,
+                ),
+            ],
+          ),
+        );
+      }
     }
 
     return list;
