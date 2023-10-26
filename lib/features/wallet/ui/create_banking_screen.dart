@@ -125,6 +125,8 @@ class CreateBankingScreen extends StatelessWidget {
                   id: 1,
                   needFeedback: true,
                 );
+
+                sRouter.popUntilRoot();
               } else {
                 if (resp.data!.simpleKycRequired) {
                   sAnalytics.eurWalletVerifyYourAccount();
