@@ -64,293 +64,285 @@ class _EurWalletBodyState extends State<EurWalletBody> {
     final bankAccounts = sSignalRModules.bankingProfileData?.banking?.accounts ?? <SimpleBankingAccount>[];
     final simpleAccount = sSignalRModules.bankingProfileData?.simple?.account;
 
-    return WillPopScope(
-      onWillPop: () {
-        sAnalytics.eurWalletTapBackOnAccountsScreen();
-
-        return Future.value(true);
-      },
-      child: SPageFrame(
-        loaderText: '',
-        child: CustomScrollView(
-          controller: _controller,
-          slivers: [
-            SliverAppBar(
-              expandedHeight: 226,
-              collapsedHeight: 64,
-              pinned: true,
-              stretch: true,
-              backgroundColor: sKit.colors.white,
-              elevation: 0.0,
-              automaticallyImplyLeading: false,
-              leadingWidth: 48,
-              centerTitle: true,
-              leading: Padding(
-                padding: const EdgeInsets.only(left: 24),
-                child: SIconButton(
-                  onTap: () {
-                    sAnalytics.eurWalletBackOnPersonalAccount();
-                    Navigator.pop(context);
-                  },
-                  defaultIcon: const SBackIcon(),
-                  pressedIcon: const SBackPressedIcon(),
-                ),
-              ),
-              title: AnimatedCrossFade(
-                firstChild: Column(
-                  children: [
-                    Text(
-                      eurCurrency.description,
-                      style: sTextH5Style.copyWith(
-                        color: sKit.colors.black,
-                      ),
-                    ),
-                    Text(
-                      intl.eur_wallet,
-                      style: sBodyText2Style.copyWith(
-                        color: sKit.colors.grey1,
-                      ),
-                    ),
-                  ],
-                ),
-                secondChild: Column(
-                  children: [
-                    Text(
-                      volumeFormat(
-                        decimal: sSignalRModules.totalEurWalletBalance,
-                        accuracy: eurCurrency.accuracy,
-                        symbol: eurCurrency.symbol,
-                      ),
-                      style: sTextH5Style.copyWith(
-                        color: sKit.colors.black,
-                      ),
-                    ),
-                    Text(
-                      eurCurrency.description,
-                      style: sBodyText2Style.copyWith(
-                        color: sKit.colors.grey1,
-                      ),
-                    ),
-                  ],
-                ),
-                crossFadeState: isTopPosition ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-                duration: const Duration(milliseconds: 400),
-              ),
-              flexibleSpace: WalletHeader(
-                curr: eurCurrency,
-                pageController: widget.pageController,
-                pageCount: widget.pageCount,
-                isEurWallet: true,
+    return SPageFrame(
+      loaderText: '',
+      child: CustomScrollView(
+        controller: _controller,
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 226,
+            collapsedHeight: 64,
+            pinned: true,
+            stretch: true,
+            backgroundColor: sKit.colors.white,
+            elevation: 0.0,
+            automaticallyImplyLeading: false,
+            leadingWidth: 48,
+            centerTitle: true,
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 24),
+              child: SIconButton(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                defaultIcon: const SBackIcon(),
+                pressedIcon: const SBackPressedIcon(),
               ),
             ),
-            const SliverPadding(padding: EdgeInsets.only(top: 24)),
-            SliverToBoxAdapter(
-              child: SPaddingH24(
-                child: Text(
-                  intl.eur_wallet_cards,
-                  style: sTextH4Style,
-                ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24.0,
-                  vertical: 16,
-                ),
-                child: Row(
-                  children: [
-                    const SCardIcon(),
-                    const SpaceW12(),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          intl.eur_wallet_simple_card,
-                          style: sSubtitle1Style,
-                        ),
-                        Text(
-                          intl.eur_wallet_coming_soon,
-                          style: sBodyText2Style.copyWith(
-                            color: sKit.colors.grey1,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SliverPadding(padding: EdgeInsets.only(top: 24)),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24.0,
-                  vertical: 8,
-                ),
-                child: Text(
-                  intl.eur_wallet_accounts,
-                  style: sTextH4Style,
-                ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            title: AnimatedCrossFade(
+              firstChild: Column(
                 children: [
-                  if (simpleAccount != null)
-                    SCardRow(
-                      icon: Container(
-                        margin: const EdgeInsets.only(top: 3),
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: sKit.colors.blue,
-                          shape: BoxShape.circle,
-                        ),
-                        child: SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: SBankMediumIcon(
-                            color: sKit.colors.white,
-                          ),
-                        ),
-                      ),
-                      name: simpleAccount.label ?? 'Account 1',
-                      helper: simpleAccount.status == AccountStatus.active
-                          ? intl.eur_wallet_simple_account
-                          : intl.create_simple_creating,
-                      onTap: () {
-                        sRouter
-                            .push(
-                              CJAccountRouter(
-                                bankingAccount: simpleAccount,
-                                isCJAccount: true,
-                              ),
-                            )
-                            .then(
-                              (value) => sAnalytics.eurWalletTapBackOnAccountWalletScreen(
-                                isCJ: true,
-                                eurAccountLabel: simpleAccount.label ?? '',
-                                isHasTransaction: false,
-                              ),
-                            );
-                      },
-                      description: '',
-                      amount: '',
-                      needSpacer: true,
-                      rightIcon: simpleAccount.status == AccountStatus.active
-                          ? Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                              decoration: ShapeDecoration(
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(color: Color(0xFFF1F4F8)),
-                                  borderRadius: BorderRadius.circular(22),
-                                ),
-                              ),
-                              child: Text(
-                                volumeFormat(
-                                  decimal: simpleAccount.balance ?? Decimal.zero,
-                                  accuracy: eurCurrency.accuracy,
-                                  symbol: eurCurrency.symbol,
-                                ),
-                                style: sSubtitle1Style.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            )
-                          : null,
-                    ),
-                  for (final el in bankAccounts)
-                    SCardRow(
-                      icon: Container(
-                        margin: const EdgeInsets.only(top: 3),
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: sKit.colors.blue,
-                          shape: BoxShape.circle,
-                        ),
-                        child: SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: SBankMediumIcon(
-                            color: sKit.colors.white,
-                          ),
-                        ),
-                      ),
-                      name: el.label ?? 'Account',
-                      helper: el.status == AccountStatus.active
-                          ? intl.eur_wallet_personal_account
-                          : intl.create_personal_creating,
-                      onTap: () {
-                        sRouter
-                            .push(
-                              CJAccountRouter(
-                                bankingAccount: el,
-                                isCJAccount: false,
-                              ),
-                            )
-                            .then(
-                              (value) => sAnalytics.eurWalletTapBackOnAccountWalletScreen(
-                                isCJ: false,
-                                eurAccountLabel: el.label ?? '',
-                                isHasTransaction: false,
-                              ),
-                            );
-                      },
-                      description: '',
-                      amount: '',
-                      needSpacer: true,
-                      rightIcon: el.status == AccountStatus.active
-                          ? Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                              decoration: ShapeDecoration(
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(color: Color(0xFFF1F4F8)),
-                                  borderRadius: BorderRadius.circular(22),
-                                ),
-                              ),
-                              child: Text(
-                                volumeFormat(
-                                  decimal: el.balance ?? Decimal.zero,
-                                  accuracy: eurCurrency.accuracy,
-                                  symbol: eurCurrency.symbol,
-                                ),
-                                style: sSubtitle1Style.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            )
-                          : null,
-                    ),
-                  SPaddingH24(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: SIconTextButton(
-                        onTap: () {
-                          if (bankAccounts.length >= 2) return;
-                          sAnalytics.eurWalletAddAccountEur();
-                          sAnalytics.eurWalletPersonalEURAccount();
-
-                          sRouter
-                              .push(const CreateBankingRoute())
-                              .then((value) => sAnalytics.eurWalletBackOnPersonalAccount());
-                        },
-                        text: intl.eur_wallet_add_account,
-                        textStyle: sTextButtonStyle.copyWith(
-                          color: bankAccounts.length >= 2 ? sKit.colors.grey2 : sKit.colors.blue,
-                        ),
-                        icon: SPlusIcon(
-                          color: bankAccounts.length >= 2 ? sKit.colors.grey2 : sKit.colors.blue,
-                        ),
-                      ),
+                  Text(
+                    eurCurrency.description,
+                    style: sTextH5Style.copyWith(
+                      color: sKit.colors.black,
                     ),
                   ),
-                  const SpaceH30(),
+                  Text(
+                    intl.eur_wallet,
+                    style: sBodyText2Style.copyWith(
+                      color: sKit.colors.grey1,
+                    ),
+                  ),
+                ],
+              ),
+              secondChild: Column(
+                children: [
+                  Text(
+                    volumeFormat(
+                      decimal: sSignalRModules.totalEurWalletBalance,
+                      accuracy: eurCurrency.accuracy,
+                      symbol: eurCurrency.symbol,
+                    ),
+                    style: sTextH5Style.copyWith(
+                      color: sKit.colors.black,
+                    ),
+                  ),
+                  Text(
+                    eurCurrency.description,
+                    style: sBodyText2Style.copyWith(
+                      color: sKit.colors.grey1,
+                    ),
+                  ),
+                ],
+              ),
+              crossFadeState: isTopPosition ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+              duration: const Duration(milliseconds: 400),
+            ),
+            flexibleSpace: WalletHeader(
+              curr: eurCurrency,
+              pageController: widget.pageController,
+              pageCount: widget.pageCount,
+              isEurWallet: true,
+            ),
+          ),
+          const SliverPadding(padding: EdgeInsets.only(top: 24)),
+          SliverToBoxAdapter(
+            child: SPaddingH24(
+              child: Text(
+                intl.eur_wallet_cards,
+                style: sTextH4Style,
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24.0,
+                vertical: 16,
+              ),
+              child: Row(
+                children: [
+                  const SCardIcon(),
+                  const SpaceW12(),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        intl.eur_wallet_simple_card,
+                        style: sSubtitle1Style,
+                      ),
+                      Text(
+                        intl.eur_wallet_coming_soon,
+                        style: sBodyText2Style.copyWith(
+                          color: sKit.colors.grey1,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+          const SliverPadding(padding: EdgeInsets.only(top: 24)),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24.0,
+                vertical: 8,
+              ),
+              child: Text(
+                intl.eur_wallet_accounts,
+                style: sTextH4Style,
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (simpleAccount != null)
+                  SCardRow(
+                    icon: Container(
+                      margin: const EdgeInsets.only(top: 3),
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: sKit.colors.blue,
+                        shape: BoxShape.circle,
+                      ),
+                      child: SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: SBankMediumIcon(
+                          color: sKit.colors.white,
+                        ),
+                      ),
+                    ),
+                    name: simpleAccount.label ?? 'Account 1',
+                    helper: simpleAccount.status == AccountStatus.active
+                        ? intl.eur_wallet_simple_account
+                        : intl.create_simple_creating,
+                    onTap: () {
+                      sRouter
+                          .push(
+                            CJAccountRouter(
+                              bankingAccount: simpleAccount,
+                              isCJAccount: true,
+                            ),
+                          )
+                          .then(
+                            (value) => sAnalytics.eurWalletTapBackOnAccountWalletScreen(
+                              isCJ: true,
+                              eurAccountLabel: simpleAccount.label ?? '',
+                              isHasTransaction: false,
+                            ),
+                          );
+                    },
+                    description: '',
+                    amount: '',
+                    needSpacer: true,
+                    rightIcon: simpleAccount.status == AccountStatus.active
+                        ? Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            decoration: ShapeDecoration(
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(color: Color(0xFFF1F4F8)),
+                                borderRadius: BorderRadius.circular(22),
+                              ),
+                            ),
+                            child: Text(
+                              volumeFormat(
+                                decimal: simpleAccount.balance ?? Decimal.zero,
+                                accuracy: eurCurrency.accuracy,
+                                symbol: eurCurrency.symbol,
+                              ),
+                              style: sSubtitle1Style.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          )
+                        : null,
+                  ),
+                for (final el in bankAccounts)
+                  SCardRow(
+                    icon: Container(
+                      margin: const EdgeInsets.only(top: 3),
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: sKit.colors.blue,
+                        shape: BoxShape.circle,
+                      ),
+                      child: SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: SBankMediumIcon(
+                          color: sKit.colors.white,
+                        ),
+                      ),
+                    ),
+                    name: el.label ?? 'Account',
+                    helper: el.status == AccountStatus.active
+                        ? intl.eur_wallet_personal_account
+                        : intl.create_personal_creating,
+                    onTap: () {
+                      sRouter
+                          .push(
+                            CJAccountRouter(
+                              bankingAccount: el,
+                              isCJAccount: false,
+                            ),
+                          )
+                          .then(
+                            (value) => sAnalytics.eurWalletTapBackOnAccountWalletScreen(
+                              isCJ: false,
+                              eurAccountLabel: el.label ?? '',
+                              isHasTransaction: false,
+                            ),
+                          );
+                    },
+                    description: '',
+                    amount: '',
+                    needSpacer: true,
+                    rightIcon: el.status == AccountStatus.active
+                        ? Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            decoration: ShapeDecoration(
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(color: Color(0xFFF1F4F8)),
+                                borderRadius: BorderRadius.circular(22),
+                              ),
+                            ),
+                            child: Text(
+                              volumeFormat(
+                                decimal: el.balance ?? Decimal.zero,
+                                accuracy: eurCurrency.accuracy,
+                                symbol: eurCurrency.symbol,
+                              ),
+                              style: sSubtitle1Style.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          )
+                        : null,
+                  ),
+                SPaddingH24(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: SIconTextButton(
+                      onTap: () {
+                        if (bankAccounts.length >= 2) return;
+                        sAnalytics.eurWalletAddAccountEur();
+                        sAnalytics.eurWalletPersonalEURAccount();
+
+                        sRouter
+                            .push(const CreateBankingRoute())
+                            .then((value) => sAnalytics.eurWalletBackOnPersonalAccount());
+                      },
+                      text: intl.eur_wallet_add_account,
+                      textStyle: sTextButtonStyle.copyWith(
+                        color: bankAccounts.length >= 2 ? sKit.colors.grey2 : sKit.colors.blue,
+                      ),
+                      icon: SPlusIcon(
+                        color: bankAccounts.length >= 2 ? sKit.colors.grey2 : sKit.colors.blue,
+                      ),
+                    ),
+                  ),
+                ),
+                const SpaceH30(),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

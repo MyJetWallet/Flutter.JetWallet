@@ -388,8 +388,7 @@ abstract class _AppStoreBase with Store {
   @observable
   TabController? marketController;
   @action
-  TabController? setMarketController(TabController? value) =>
-      marketController = value;
+  TabController? setMarketController(TabController? value) => marketController = value;
 
   @action
   Future<void> initSessionInfo() async {
@@ -404,7 +403,7 @@ abstract class _AppStoreBase with Store {
           hasDisclaimersValue: info.data!.hasDisclaimers,
           hasHighYieldDisclaimersValue: info.data!.hasHighYieldDisclaimers,
           hasNftDisclaimersValue: info.data!.hasNftDisclaimers,
-          isTechClientValue: info.data!.isTechClient,
+          isTechClientValue: info.data?.isTechClient ?? false,
         );
       }
 
@@ -423,11 +422,9 @@ abstract class _AppStoreBase with Store {
           phoneValue: profileInfo.data!.phone ?? '',
           referralLinkValue: profileInfo.data!.referralLink ?? '',
           referralCodeValue: profileInfo.data!.referralCode ?? '',
-          countryOfRegistrationValue:
-              profileInfo.data!.countryOfRegistration ?? '',
+          countryOfRegistrationValue: profileInfo.data!.countryOfRegistration ?? '',
           countryOfResidenceValue: profileInfo.data!.countryOfResidence ?? '',
-          countryOfCitizenshipValue:
-              profileInfo.data!.countryOfCitizenship ?? '',
+          countryOfCitizenshipValue: profileInfo.data!.countryOfCitizenship ?? '',
           firstNameValue: profileInfo.data!.firstName ?? '',
           lastNameValue: profileInfo.data!.lastName ?? '',
         );
