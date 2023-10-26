@@ -261,7 +261,6 @@ abstract class _BankCardStoreBase with Store {
       expiryMonth = sp.first;
       expiryYear = sp[1];
 
-      monthNode.nextFocus();
       labelNode.requestFocus();
 
       if ((expiryYear.length == 4 || expiryYear.length == 2) && expiryYear != '20') {
