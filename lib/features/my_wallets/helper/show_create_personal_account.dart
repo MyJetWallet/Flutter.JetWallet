@@ -6,7 +6,11 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-void showCreatePersonalAccount(BuildContext context, StackLoaderStore loading) {
+void showCreatePersonalAccount(
+  BuildContext context,
+  StackLoaderStore loading,
+  VoidCallback after,
+) {
   sAnalytics.eurWalletPleasePassVerificaton();
   sShowAlertPopup(
     context,
@@ -33,6 +37,7 @@ void showCreatePersonalAccount(BuildContext context, StackLoaderStore loading) {
       await getIt<SumsubService>().launch(
         isBanking: true,
         onFinish: () {
+          after();
           loading.finishLoadingImmediately();
         },
       );

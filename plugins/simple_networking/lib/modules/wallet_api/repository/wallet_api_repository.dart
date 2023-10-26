@@ -801,7 +801,7 @@ class WalletApiRepository {
 
   // Banking
 
-  Future<DC<ServerRejectException, void>> postAccountCreate() async {
+  Future<DC<ServerRejectException, CreateBankingAccountSimpleResponse>> postAccountCreate() async {
     return _walletApiDataSources.postAccountCreateRequest();
   }
 

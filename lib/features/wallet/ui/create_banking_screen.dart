@@ -116,7 +116,7 @@ class CreateBankingScreen extends StatelessWidget {
                 sNotification.showError(intl.let_us_create_account, isError: false);
               }
 
-              final resp = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postSimpleAccountCreate();
+              final resp = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postAccountCreate();
 
               if (resp.hasError) {
                 sNotification.showError(
@@ -125,6 +125,8 @@ class CreateBankingScreen extends StatelessWidget {
                   id: 1,
                   needFeedback: true,
                 );
+
+                sRouter.popUntilRoot();
               } else {
                 if (resp.data!.simpleKycRequired) {
                   sAnalytics.eurWalletVerifyYourAccount();
@@ -135,10 +137,10 @@ class CreateBankingScreen extends StatelessWidget {
                     isBanking: false,
                   );
                 } else if (resp.data!.bankingKycRequired) {
-                  showWalletVerifyAccount(
+                  showCreatePersonalAccount(
                     context,
-                    after: _afterVerification,
-                    isBanking: true,
+                    loading,
+                    _afterVerification,
                   );
                 } else if (resp.data!.addressSetupRequired) {
                   sAnalytics.eurWalletShowUpdateAddressInfo();
@@ -149,8 +151,6 @@ class CreateBankingScreen extends StatelessWidget {
                   );
                 }
               }
-
-              showCreatePersonalAccount(context, loading);
             },
           ),
           const SpaceH31(),
