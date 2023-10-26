@@ -78,6 +78,7 @@ class RemoteConfig {
         overrideCircleValues();
         overrideNFTValues();
         overrideMerchantPayConfigValues();
+        overrideSiftConfigValues();
 
         overrideApisFrom(
           _defaultFlavorIndex,
@@ -218,6 +219,11 @@ class RemoteConfig {
     merchantCapabilities = remoteConfig!.merchantPay.merchantCapabilities ?? [];
     supportedNetworks = remoteConfig!.merchantPay.supportedNetworks ?? [];
     countryCode = remoteConfig!.merchantPay.countryCode ?? '';
+  }
+
+  void overrideSiftConfigValues() {
+    siftAccountId = remoteConfig!.sift.siftAccountId ?? '';
+    siftBeaconKey = remoteConfig!.sift.siftBeaconKey ?? '';
   }
 
   void dispose() {
