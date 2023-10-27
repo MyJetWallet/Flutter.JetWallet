@@ -145,7 +145,7 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
           BuyOptionWidget(
             title: store.asset?.description ?? '',
             subTitle: intl.amount_screen_buy,
-            trailing:  store.asset?.volumeAssetBalance,
+            trailing: store.asset?.volumeAssetBalance,
             icon: SNetworkSvg24(
               url: store.asset?.iconUrl ?? '',
             ),
@@ -246,7 +246,9 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
                 BuyConfirmationRoute(
                   asset: store.asset!,
                   paymentCurrency: store.buyCurrency,
-                  amount: store.fiatInputValue,
+                  isFromFixed: store.isFiatEntering,
+                  fromAmount: store.fiatInputValue,
+                  toAmount: store.cryptoInputValue,
                   card: store.card,
                   account: store.account,
                 ),
