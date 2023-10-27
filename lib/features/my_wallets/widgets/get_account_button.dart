@@ -108,10 +108,6 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context, Curre
     return;
   }
 
-  if (kycBlocked) {
-    //kyc.showBlockedAlert();
-  }
-
   if (anyBlock || kycBlocked) {
     sNotification.showError(
       intl.operation_is_unavailable,
@@ -132,30 +128,13 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context, Curre
 
     return;
   } else if (store.buttonStatus == BankingShowState.accountList) {
-    if (sSignalRModules.bankingProfileData?.banking?.accounts?.isEmpty ?? true) {
-      await sRouter
-          .push(
-            CJAccountRouter(
-              bankingAccount: sSignalRModules.bankingProfileData!.simple!.account!,
-              isCJAccount: true,
-            ),
-          )
-          .then(
-            (value) => sAnalytics.eurWalletTapBackOnAccountWalletScreen(
-              isCJ: true,
-              eurAccountLabel: sSignalRModules.bankingProfileData!.simple!.account!.label ?? '',
-              isHasTransaction: false,
-            ),
-          );
-    } else {
-      await sRouter
-          .push(
-            WalletRouter(
-              currency: eurCurrency,
-            ),
-          )
-          .then((value) => sAnalytics.eurWalletTapBackOnAccountsScreen());
-    }
+    await sRouter
+        .push(
+          WalletRouter(
+            currency: eurCurrency,
+          ),
+        )
+        .then((value) => sAnalytics.eurWalletTapBackOnAccountsScreen());
 
     return;
   } else if (store.buttonStatus == BankingShowState.getAccount) {

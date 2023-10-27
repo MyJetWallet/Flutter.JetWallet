@@ -315,29 +315,30 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                           )
                         : null,
                   ),
-                SPaddingH24(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: SIconTextButton(
-                      onTap: () {
-                        if (bankAccounts.length >= 2) return;
-                        sAnalytics.eurWalletAddAccountEur();
-                        sAnalytics.eurWalletPersonalEURAccount();
+                if (bankAccounts.isEmpty)
+                  SPaddingH24(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: SIconTextButton(
+                        onTap: () {
+                          if (bankAccounts.length > 1) return;
+                          sAnalytics.eurWalletAddAccountEur();
+                          sAnalytics.eurWalletPersonalEURAccount();
 
-                        sRouter
-                            .push(const CreateBankingRoute())
-                            .then((value) => sAnalytics.eurWalletBackOnPersonalAccount());
-                      },
-                      text: intl.eur_wallet_add_account,
-                      textStyle: sTextButtonStyle.copyWith(
-                        color: bankAccounts.length >= 2 ? sKit.colors.grey2 : sKit.colors.blue,
-                      ),
-                      icon: SPlusIcon(
-                        color: bankAccounts.length >= 2 ? sKit.colors.grey2 : sKit.colors.blue,
+                          sRouter
+                              .push(const CreateBankingRoute())
+                              .then((value) => sAnalytics.eurWalletBackOnPersonalAccount());
+                        },
+                        text: intl.eur_wallet_add_account,
+                        textStyle: sTextButtonStyle.copyWith(
+                          color: bankAccounts.length > 1 ? sKit.colors.grey2 : sKit.colors.blue,
+                        ),
+                        icon: SPlusIcon(
+                          color: bankAccounts.length > 1 ? sKit.colors.grey2 : sKit.colors.blue,
+                        ),
                       ),
                     ),
                   ),
-                ),
                 const SpaceH30(),
               ],
             ),

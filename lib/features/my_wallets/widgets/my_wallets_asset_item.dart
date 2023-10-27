@@ -61,62 +61,57 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
                 );
               } else {
                 if (currency.symbol == 'EUR') {
-                  if (sSignalRModules.clientDetail.clientBlockers.isNotEmpty) {
-                    sNotification.showError(
-                      intl.operation_is_unavailable,
-                      duration: 4,
-                      id: 1,
-                      needFeedback: true,
-                    );
-
-                    return;
-                  }
-
                   if (sSignalRModules.bankingProfileData?.showState == BankingShowState.onlySimple) {
-                    sRouter
-                        .push(
-                          CJAccountRouter(
-                            bankingAccount: sSignalRModules.bankingProfileData!.simple!.account!,
-                            isCJAccount: true,
-                          ),
-                        )
-                        .then(
-                          (value) => sAnalytics.eurWalletTapBackOnAccountWalletScreen(
-                            isCJ: true,
-                            eurAccountLabel: sSignalRModules.bankingProfileData!.simple!.account!.label ?? '',
-                            isHasTransaction: false,
-                          ),
-                        );
+                    if (checkUserBlock()) {
+                      sRouter
+                          .push(
+                            CJAccountRouter(
+                              bankingAccount: sSignalRModules.bankingProfileData!.simple!.account!,
+                              isCJAccount: true,
+                            ),
+                          )
+                          .then(
+                            (value) => sAnalytics.eurWalletTapBackOnAccountWalletScreen(
+                              isCJ: true,
+                              eurAccountLabel: sSignalRModules.bankingProfileData!.simple!.account!.label ?? '',
+                              isHasTransaction: false,
+                            ),
+                          );
+                    }
                   } else if (sSignalRModules.bankingProfileData?.showState == BankingShowState.inProgress) {
                     return;
                   } else if (sSignalRModules.bankingProfileData?.showState == BankingShowState.accountList) {
-                    sRouter
-                        .push(
-                          WalletRouter(
-                            currency: currency,
-                          ),
-                        )
-                        .then((value) => sAnalytics.eurWalletTapBackOnAccountsScreen());
+                    if (checkUserBlock()) {
+                      sRouter
+                          .push(
+                            WalletRouter(
+                              currency: currency,
+                            ),
+                          )
+                          .then((value) => sAnalytics.eurWalletTapBackOnAccountsScreen());
+                    }
                   }
 
                   return;
                 }
 
-                sRouter
-                    .push(
-                  WalletRouter(
-                    currency: currency,
-                  ),
-                )
-                    .then(
-                  (value) {
-                    sAnalytics.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen(
-                      openedAsset: currency.symbol,
-                    );
+                if (checkUserBlock()) {
+                  sRouter
+                      .push(
+                    WalletRouter(
+                      currency: currency,
+                    ),
+                  )
+                      .then(
+                    (value) {
+                      sAnalytics.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen(
+                        openedAsset: currency.symbol,
+                      );
 
-                    sAnalytics.eurWalletTapBackOnAccountsScreen();
-                  },
-                );
+                      sAnalytics.eurWalletTapBackOnAccountsScreen();
+                    },
+                  );
+                }
               }
             }
           : null,
@@ -125,5 +120,20 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
       isMoving: isMoving,
       priceFieldHeight: 44,
     );
+  }
+
+  bool checkUserBlock() {
+    if (sSignalRModules.clientDetail.clientBlockers.isNotEmpty) {
+      sNotification.showError(
+        intl.operation_is_unavailable,
+        duration: 4,
+        id: 1,
+        needFeedback: true,
+      );
+
+      return false;
+    } else {
+      return true;
+    }
   }
 }

@@ -226,7 +226,7 @@ abstract class _MyWalletsSroreBase with Store {
       );
       accountManualStatus = null;
     } else {
-      if (resp.data!.simpleKycRequired) {
+      if (resp.data!.simpleKycRequired || resp.data!.addressSetupRequired) {
         sAnalytics.eurWalletVerifyYourAccount();
 
         showWalletVerifyAccount(
@@ -239,13 +239,6 @@ abstract class _MyWalletsSroreBase with Store {
           context,
           after: afterVerification,
           isBanking: true,
-        );
-      } else if (resp.data!.addressSetupRequired) {
-        sAnalytics.eurWalletShowUpdateAddressInfo();
-
-        showWalletAdressInfo(
-          context,
-          after: afterVerification,
         );
       } else {
         //accountManualStatus = BankingShowState.accountList;
