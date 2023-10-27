@@ -42,9 +42,13 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
   final ScrollController _transactionScrollController = ScrollController();
   bool silverCollapsed = false;
 
+  String label = '';
+
   @override
   void initState() {
     super.initState();
+
+    label = widget.bankingAccount.label ?? 'Account';
 
     sAnalytics.eurWalletEURAccountWallet(
       isCJ: widget.isCJAccount,
@@ -130,7 +134,21 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
 
                     sAnalytics.eurWalletEditLabelScreen();
 
-                    sRouter.push(const CJAccountLabelRouter());
+                    sRouter
+                        .push(
+                      CJAccountLabelRouter(
+                        initLabel: label,
+                      ),
+                    )
+                        .then((value) {
+                      if (value != null) {
+                        try {
+                          setState(() {
+                            label = value as String;
+                          });
+                        } catch (e) {}
+                      }
+                    });
                   },
                   defaultIcon: const SEditIcon(),
                   pressedIcon: SEditIcon(color: sKit.colors.grey1),
@@ -144,7 +162,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                 if (silverCollapsed) const SizedBox(height: 10),
                 if (!silverCollapsed)
                   Text(
-                    widget.bankingAccount.label ?? 'Account',
+                    label,
                     style: sTextH5Style.copyWith(
                       color: sKit.colors.black,
                     ),

@@ -12,17 +12,32 @@ import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'CJAccountLabelRouter')
 class CJAccountLabelScreen extends StatefulObserverWidget {
-  const CJAccountLabelScreen({super.key});
+  const CJAccountLabelScreen({
+    super.key,
+    required this.initLabel,
+  });
+
+  final String initLabel;
 
   @override
   State<CJAccountLabelScreen> createState() => _CJAccountLabelScreenState();
 }
 
 class _CJAccountLabelScreenState extends State<CJAccountLabelScreen> {
-  final TextEditingController labelController = TextEditingController();
+  late final TextEditingController labelController;
   final StackLoaderStore loader = StackLoaderStore();
 
   bool isButtonActive = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    labelController = TextEditingController(
+      text: widget.initLabel,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +99,7 @@ class _CJAccountLabelScreenState extends State<CJAccountLabelScreen> {
                                 sNotification.showError(intl.something_went_wrong_try_again);
                                 loader.finishLoadingImmediately();
                               } else {
-                                sRouter.back();
+                                Navigator.pop(context, labelController.text);
                               }
                             } catch (e) {
                               sNotification.showError(intl.something_went_wrong_try_again);
