@@ -104,6 +104,7 @@ import 'package:simple_networking/modules/wallet_api/models/withdraw/withdraw_re
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/withdrawal_resend_request.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../simple_networking.dart';
 import '../models/iban_info/iban_info_response_model.dart';
@@ -2344,9 +2345,13 @@ class WalletApiDataSources {
 
   Future<DC<ServerRejectException, CreateBankingAccountSimpleResponse>> postAccountCreateRequest() async {
     try {
+      const reqId = Uuid();
+
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/banking/account/create',
-        data: {},
+        data: {
+          'requestId': reqId.v1(),
+        },
       );
 
       try {
