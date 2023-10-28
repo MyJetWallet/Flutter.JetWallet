@@ -5,8 +5,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/my_wallets/helper/show_deposit_details_popup.dart';
@@ -42,9 +42,13 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
   final ScrollController _transactionScrollController = ScrollController();
   bool silverCollapsed = false;
 
+  String label = '';
+
   @override
   void initState() {
     super.initState();
+
+    label = widget.bankingAccount.label ?? 'Account';
 
     sAnalytics.eurWalletEURAccountWallet(
       isCJ: widget.isCJAccount,
@@ -86,7 +90,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
         (sSignalRModules.clientDetail.clientBlockers
                 .indexWhere((element) => element.blockingType == BlockingType.withdrawal) ==
             -1) &&
-        (widget.bankingAccount.balance ?? Decimal.zero) != Decimal.zero;
+        (widget.bankingAccount.balance ?? Decimal.zero) > Decimal.zero;
 
     return SPageFrame(
       loaderText: '',
@@ -130,7 +134,21 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
 
                     sAnalytics.eurWalletEditLabelScreen();
 
-                    sRouter.push(const CJAccountLabelRouter());
+                    sRouter
+                        .push(
+                      CJAccountLabelRouter(
+                        initLabel: label,
+                      ),
+                    )
+                        .then((value) {
+                      if (value != null) {
+                        try {
+                          setState(() {
+                            label = value as String;
+                          });
+                        } catch (e) {}
+                      }
+                    });
                   },
                   defaultIcon: const SEditIcon(),
                   pressedIcon: SEditIcon(color: sKit.colors.grey1),
@@ -144,7 +162,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                 if (silverCollapsed) const SizedBox(height: 10),
                 if (!silverCollapsed)
                   Text(
-                    widget.bankingAccount.label ?? 'Account',
+                    label,
                     style: sTextH5Style.copyWith(
                       color: sKit.colors.black,
                     ),
@@ -178,8 +196,18 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                     CircleActionButton(
                       text: intl.wallet_add_cash,
                       type: CircleButtonType.addCash,
-                      isDisabled: !isDepositButtonActive,
                       onTap: () {
+                        if (!isDepositButtonActive) {
+                          sNotification.showError(
+                            intl.operation_is_unavailable,
+                            duration: 4,
+                            id: 1,
+                            needFeedback: true,
+                          );
+
+                          return;
+                        }
+
                         sAnalytics.eurWalletTapAddCashEurAccount(
                           isCJ: widget.isCJAccount,
                           eurAccountLabel: widget.bankingAccount.label ?? 'Account',
@@ -204,8 +232,19 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                     CircleActionButton(
                       text: intl.wallet_withdraw,
                       type: CircleButtonType.withdraw,
-                      isDisabled: !isWithdrawButtonActive,
+                      isDisabled: !((widget.bankingAccount.balance ?? Decimal.zero) > Decimal.zero),
                       onTap: () {
+                        if (!isWithdrawButtonActive) {
+                          sNotification.showError(
+                            intl.operation_is_unavailable,
+                            duration: 4,
+                            id: 1,
+                            needFeedback: true,
+                          );
+
+                          return;
+                        }
+
                         sAnalytics.eurWalletWithdrawEURAccountScreen(
                           isCJ: widget.isCJAccount,
                           eurAccountLabel: widget.bankingAccount.label ?? 'Account',

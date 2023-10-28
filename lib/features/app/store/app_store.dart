@@ -403,7 +403,7 @@ abstract class _AppStoreBase with Store {
           hasDisclaimersValue: info.data!.hasDisclaimers,
           hasHighYieldDisclaimersValue: info.data!.hasHighYieldDisclaimers,
           hasNftDisclaimersValue: info.data!.hasNftDisclaimers,
-          isTechClientValue: info.data!.isTechClient,
+          isTechClientValue: info.data?.isTechClient ?? false,
         );
       }
 

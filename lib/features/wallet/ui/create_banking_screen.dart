@@ -128,7 +128,7 @@ class CreateBankingScreen extends StatelessWidget {
 
                 sRouter.popUntilRoot();
               } else {
-                if (resp.data!.simpleKycRequired) {
+                if (resp.data!.simpleKycRequired || resp.data!.addressSetupRequired) {
                   sAnalytics.eurWalletVerifyYourAccount();
 
                   showWalletVerifyAccount(
@@ -141,13 +141,6 @@ class CreateBankingScreen extends StatelessWidget {
                     context,
                     loading,
                     _afterVerification,
-                  );
-                } else if (resp.data!.addressSetupRequired) {
-                  sAnalytics.eurWalletShowUpdateAddressInfo();
-
-                  showWalletAdressInfo(
-                    context,
-                    after: _afterVerification,
                   );
                 }
               }
