@@ -177,15 +177,14 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                         );
                         final actualAsset = widget.currency;
 
-                        if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed) &&
-                            widget.currency.supportsAtLeastOneBuyMethod) {
+                        if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed) && actualAsset.supportBuy) {
                           showSendTimerAlertOr(
                             context: context,
                             or: () => showPayWithBottomSheet(
                               context: context,
                               currency: actualAsset,
                             ),
-                            from: BlockingType.deposit,
+                            from: BlockingType.trade,
                           );
                         } else if (!widget.currency.supportsAtLeastOneBuyMethod) {
                           sNotification.showError(
@@ -195,7 +194,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                           );
                         } else {
                           handler.handle(
-                            status: kycState.withdrawalStatus,
+                            status: kycState.tradeStatus,
                             isProgress: kycState.verificationInProgress,
                             currentNavigate: () => showPayWithBottomSheet(
                               context: context,
@@ -228,7 +227,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                           );
                         } else {
                           handler.handle(
-                            status: kycState.withdrawalStatus,
+                            status: kycState.depositStatus,
                             isProgress: kycState.verificationInProgress,
                             currentNavigate: () => sRouter.navigate(
                               CryptoDepositRouter(
@@ -245,33 +244,13 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                         sAnalytics.tabOnTheSendButton(
                           source: 'My Assets - Asset - Send',
                         );
+
                         final actualAsset = widget.currency;
-                        if (kycState.withdrawalStatus == kycOperationStatus(KycStatus.allowed) &&
-                            widget.currency.supportsAtLeastOneWithdrawalMethod) {
-                          showSendOptions(
-                            context,
-                            actualAsset,
-                            navigateBack: false,
-                          );
-                        } else if (!widget.currency.supportsAtLeastOneWithdrawalMethod) {
-                          sNotification.showError(
-                            intl.my_wallets_actions_warning,
-                            id: 1,
-                            hideIcon: true,
-                          );
-                        } else {
-                          handler.handle(
-                            status: kycState.withdrawalStatus,
-                            isProgress: kycState.verificationInProgress,
-                            currentNavigate: () => showSendOptions(
-                              context,
-                              actualAsset,
-                              navigateBack: false,
-                            ),
-                            requiredDocuments: kycState.requiredDocuments,
-                            requiredVerifications: kycState.requiredVerifications,
-                          );
-                        }
+                        showSendOptions(
+                          context,
+                          actualAsset,
+                          navigateBack: false,
+                        );
                       },
                       onExchange: () {
                         final actualAsset = widget.currency;

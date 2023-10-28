@@ -37,7 +37,7 @@ void showBuyAction({
 
   final isBuyAvaible = isCardsAvailable || isSimpleAccountAvaible || isBankingAccountsAvaible;
 
-  if ((kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) && isBuyAvaible) {
+  if ((kyc.tradeStatus == kycOperationStatus(KycStatus.allowed)) && isBuyAvaible) {
     _showAction(context);
   } else if (!isBuyAvaible) {
     if (shouldPop) Navigator.pop(context);
@@ -48,7 +48,7 @@ void showBuyAction({
     );
   } else {
     handler.handle(
-      status: kyc.depositStatus,
+      status: kyc.tradeStatus,
       isProgress: kyc.verificationInProgress,
       currentNavigate: () => _showAction(context),
       requiredDocuments: kyc.requiredDocuments,
@@ -74,6 +74,6 @@ void _showAction(BuildContext context) {
         ),
       );
     },
-    from: BlockingType.deposit,
+    from: BlockingType.trade,
   );
 }

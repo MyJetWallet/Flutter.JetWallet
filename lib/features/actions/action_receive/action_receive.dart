@@ -26,8 +26,7 @@ void showReceiveAction(BuildContext context) {
   final kyc = getIt.get<KycService>();
   final handler = getIt.get<KycAlertHandler>();
 
-  final isReceiveMethodsAvailable =
-      sSignalRModules.currenciesList.where((element) => element.supportsCryptoDeposit).isNotEmpty;
+  final isReceiveMethodsAvailable = sSignalRModules.currenciesList.any((element) => element.supportsCryptoDeposit);
 
   if ((kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) && isReceiveMethodsAvailable) {
     showSendTimerAlertOr(

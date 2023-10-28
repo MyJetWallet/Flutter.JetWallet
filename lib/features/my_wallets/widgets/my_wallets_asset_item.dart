@@ -123,6 +123,8 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
   }
 
   bool checkUserBlock() {
+    return true;
+    // TODO(yaroslav): WHY??????????? Where is it written that we need to block an entire asset?
     if (sSignalRModules.clientDetail.clientBlockers.isNotEmpty) {
       sNotification.showError(
         intl.operation_is_unavailable,

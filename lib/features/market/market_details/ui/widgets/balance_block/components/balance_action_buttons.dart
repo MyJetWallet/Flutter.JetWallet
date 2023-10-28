@@ -8,6 +8,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/send_options.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
+import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
@@ -36,6 +37,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
       marketItem.associateAsset,
     );
     final kycState = getIt.get<KycService>();
+    final handler = getIt.get<KycAlertHandler>();
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -67,31 +69,38 @@ class BalanceActionButtons extends StatelessObserverWidget {
           ),
         ] else ...[
           CircleActionButtons(
-            isBuyDisabled: !currency.supportsAtLeastOneBuyMethod,
-            isReceiveDisabled: !currency.supportsCryptoDeposit,
-            isExchangeDisabled: !currency.isAssetBalanceNotEmpty,
-            isSendDisabled: !currency.isAssetBalanceNotEmpty && !currency.supportsCryptoWithdrawal,
+            isExchangeDisabled: currency.isAssetBalanceEmpty,
+            isSendDisabled: currency.isAssetBalanceEmpty,
             onBuy: () {
               sAnalytics.newBuyTapBuy(
                 source: 'Market - Asset - Buy',
               );
 
-              if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
+              if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed) && currency.supportBuy) {
                 showSendTimerAlertOr(
                   context: context,
-                  or: () {
-                    showPayWithBottomSheet(
-                      context: context,
-                      currency: currency,
-                    );
-                  },
-                  from: BlockingType.deposit,
+                  or: () => showPayWithBottomSheet(
+                    context: context,
+                    currency: currency,
+                  ),
+                  from: BlockingType.trade,
                 );
-              } else {
+              } else if (!currency.supportBuy) {
                 sNotification.showError(
                   intl.my_wallets_actions_warning,
                   id: 1,
                   hideIcon: true,
+                );
+              } else {
+                handler.handle(
+                  status: kycState.tradeStatus,
+                  isProgress: kycState.verificationInProgress,
+                  currentNavigate: () => showPayWithBottomSheet(
+                    context: context,
+                    currency: currency,
+                  ),
+                  requiredDocuments: kycState.requiredDocuments,
+                  requiredVerifications: kycState.requiredVerifications,
                 );
               }
             },
@@ -101,24 +110,35 @@ class BalanceActionButtons extends StatelessObserverWidget {
               );
 
               if (currency.type == AssetType.crypto) {
-                if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
+                if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed) && currency.supportsCryptoDeposit) {
                   showSendTimerAlertOr(
                     context: context,
-                    or: () {
-                      sRouter.navigate(
-                        CryptoDepositRouter(
-                          header: intl.balanceActionButtons_receive,
-                          currency: currency,
-                        ),
-                      );
-                    },
+                    or: () => sRouter.navigate(
+                      CryptoDepositRouter(
+                        header: intl.balanceActionButtons_receive,
+                        currency: currency,
+                      ),
+                    ),
                     from: BlockingType.deposit,
                   );
-                } else {
+                } else if (!currency.supportsCryptoDeposit) {
                   sNotification.showError(
                     intl.my_wallets_actions_warning,
                     id: 1,
                     hideIcon: true,
+                  );
+                } else {
+                  handler.handle(
+                    status: kycState.depositStatus,
+                    isProgress: kycState.verificationInProgress,
+                    currentNavigate: () => sRouter.navigate(
+                      CryptoDepositRouter(
+                        header: intl.balanceActionButtons_receive,
+                        currency: currency,
+                      ),
+                    ),
+                    requiredDocuments: kycState.requiredDocuments,
+                    requiredVerifications: kycState.requiredVerifications,
                   );
                 }
               } else {
@@ -133,38 +153,34 @@ class BalanceActionButtons extends StatelessObserverWidget {
               sAnalytics.tabOnTheSendButton(
                 source: 'Market - Asset - Send',
               );
-              if (kycState.withdrawalStatus == kycOperationStatus(KycStatus.allowed)) {
-                showSendOptions(
-                  context,
-                  currency,
-                  navigateBack: false,
-                );
-              } else {
-                sNotification.showError(
-                  intl.my_wallets_actions_warning,
-                  id: 1,
-                  hideIcon: true,
-                );
-              }
+              showSendOptions(
+                context,
+                currency,
+                navigateBack: false,
+              );
             },
             onExchange: () {
               if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
                 showSendTimerAlertOr(
                   context: context,
-                  or: () {
-                    sRouter.push(
-                      ConvertRouter(
-                        fromCurrency: currency,
-                      ),
-                    );
-                  },
+                  or: () => sRouter.push(
+                    ConvertRouter(
+                      fromCurrency: currency,
+                    ),
+                  ),
                   from: BlockingType.trade,
                 );
               } else {
-                sNotification.showError(
-                  intl.my_wallets_actions_warning,
-                  id: 1,
-                  hideIcon: true,
+                handler.handle(
+                  status: kycState.withdrawalStatus,
+                  isProgress: kycState.verificationInProgress,
+                  currentNavigate: () => sRouter.push(
+                    ConvertRouter(
+                      fromCurrency: currency,
+                    ),
+                  ),
+                  requiredDocuments: kycState.requiredDocuments,
+                  requiredVerifications: kycState.requiredVerifications,
                 );
               }
             },

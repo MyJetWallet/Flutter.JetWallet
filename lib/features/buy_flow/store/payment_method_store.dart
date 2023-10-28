@@ -1,6 +1,9 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/kyc/kyc_service.dart';
+import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +12,7 @@ import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
+import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
 part 'payment_method_store.g.dart';
@@ -49,7 +53,11 @@ abstract class _PaymentMethodStoreBase with Store {
 
   @computed
   bool get isCardsAvailable {
-    return sSignalRModules.buyMethods.any((element) => element.id == PaymentMethodType.bankCard);
+    final isMethodAvaible = sSignalRModules.buyMethods.any((element) => element.id == PaymentMethodType.bankCard);
+    final isKycAllowed = getIt.get<KycService>().depositStatus == kycOperationStatus(KycStatus.allowed);
+    final isNoBlocker = !sSignalRModules.clientDetail.clientBlockers.any((element) => element.blockingType == BlockingType.deposit);
+
+    return isMethodAvaible && isKycAllowed && isNoBlocker;
   }
 
   @computed
