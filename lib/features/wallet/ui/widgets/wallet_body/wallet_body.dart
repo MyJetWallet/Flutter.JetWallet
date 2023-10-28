@@ -110,50 +110,6 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                   automaticallyImplyLeading: false,
                   leadingWidth: 48,
                   centerTitle: true,
-                  leading: Padding(
-                    padding: const EdgeInsets.only(left: 24),
-                    child: SIconButton(
-                      onTap: () => Navigator.pop(context),
-                      defaultIcon: const SBackIcon(),
-                      pressedIcon: const SBackPressedIcon(),
-                    ),
-                  ),
-                  title: AnimatedCrossFade(
-                    firstChild: Column(
-                      children: [
-                        Text(
-                          widget.currency.description,
-                          style: sTextH5Style.copyWith(
-                            color: sKit.colors.black,
-                          ),
-                        ),
-                        Text(
-                          intl.eur_wallet,
-                          style: sBodyText2Style.copyWith(
-                            color: sKit.colors.grey1,
-                          ),
-                        ),
-                      ],
-                    ),
-                    secondChild: Column(
-                      children: [
-                        Text(
-                          widget.currency.volumeBaseBalance(getIt.get<FormatService>().baseCurrency),
-                          style: sTextH5Style.copyWith(
-                            color: sKit.colors.black,
-                          ),
-                        ),
-                        Text(
-                          widget.currency.description,
-                          style: sBodyText2Style.copyWith(
-                            color: sKit.colors.grey1,
-                          ),
-                        ),
-                      ],
-                    ),
-                    crossFadeState: isTopPosition ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-                    duration: const Duration(milliseconds: 200),
-                  ),
                   flexibleSpace: WalletHeader(
                     curr: widget.currency,
                     pageController: widget.pageController,
@@ -330,6 +286,40 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                   child: SpaceH120(),
                 ),
               ],
+            ),
+            Align(
+              alignment: Alignment.topCenter,
+              child: AnimatedCrossFade(
+                crossFadeState: isTopPosition ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                duration: const Duration(milliseconds: 200),
+                firstChild: SPaddingH24(
+                  child: SSmallHeader(
+                    title: widget.currency.description,
+                    subTitle: intl.eur_wallet,
+                    titleStyle: sTextH5Style.copyWith(
+                      color: sKit.colors.black,
+                    ),
+                    subTitleStyle: sBodyText2Style.copyWith(
+                      color: sKit.colors.grey1,
+                    ),
+                  ),
+                ),
+                secondChild: ColoredBox(
+                  color: colors.white,
+                  child: SPaddingH24(
+                    child: SSmallHeader(
+                      title: widget.currency.volumeBaseBalance(getIt.get<FormatService>().baseCurrency),
+                      subTitle: widget.currency.description,
+                      titleStyle: sTextH5Style.copyWith(
+                        color: sKit.colors.black,
+                      ),
+                      subTitleStyle: sBodyText2Style.copyWith(
+                        color: sKit.colors.grey1,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
