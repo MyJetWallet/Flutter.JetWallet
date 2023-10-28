@@ -53,7 +53,7 @@ abstract class _PaymentMethodStoreBase with Store {
 
   @computed
   bool get isCardsAvailable {
-    final isMethodAvaible = sSignalRModules.buyMethods.any((element) => element.id == PaymentMethodType.bankCard);
+    final isMethodAvaible = selectedAssset?.buyMethods.any((element) => element.id == PaymentMethodType.bankCard) ?? false;
     final isKycAllowed = getIt.get<KycService>().depositStatus == kycOperationStatus(KycStatus.allowed);
     final isNoBlocker = !sSignalRModules.clientDetail.clientBlockers.any((element) => element.blockingType == BlockingType.deposit);
 
@@ -67,7 +67,7 @@ abstract class _PaymentMethodStoreBase with Store {
 
   @computed
   bool get isBankingAccountsAvaible =>
-      sSignalRModules.paymentProducts?.any((element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount) ??
+      selectedAssset?.assetPaymentProductss.any((element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount) ??
       false;
 
   @action

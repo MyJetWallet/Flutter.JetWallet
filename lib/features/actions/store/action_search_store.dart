@@ -90,8 +90,10 @@ abstract class _ActionSearchStoreBase with Store {
   TextEditingController searchController = TextEditingController();
 
   @action
-  void init() {
-    final tempCurrencies = sSignalRModules.currenciesList;
+  void init({
+    List<CurrencyModel>? customCurrencies,
+  }) {
+    final tempCurrencies = customCurrencies ?? sSignalRModules.currenciesList;
     final tempBuyFromCardCurrencies = <CurrencyModel>[];
     final tempReceiveCurrencies = <CurrencyModel>[];
     final tempSendCurrencies = <CurrencyModel>[];
