@@ -11,7 +11,6 @@ class SNewActionPriceField extends StatelessWidget {
     required this.secondaryAmount,
     required this.secondarySymbol,
     required this.widgetSize,
-    this.isPrimaryActive = true,
     required this.onSwap,
     this.errorText,
   }) : super(key: key);
@@ -20,7 +19,6 @@ class SNewActionPriceField extends StatelessWidget {
   final String primarySymbol;
   final String secondaryAmount;
   final String secondarySymbol;
-  final bool isPrimaryActive;
   final void Function()? onSwap;
   final String? errorText;
   final SWidgetSize widgetSize;
@@ -39,7 +37,7 @@ class SNewActionPriceField extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (isPrimaryActive)
+                    if (primaryAmount.length <= 6)
                       AutoSizeText.rich(
                         maxLines: 1,
                         minFontSize: 1,
@@ -61,7 +59,7 @@ class SNewActionPriceField extends StatelessWidget {
                       )
                     else
                       AutoSizeText(
-                        '$secondaryAmount $secondarySymbol',
+                        '$primaryAmount $primarySymbol',
                         minFontSize: 4.0,
                         maxLines: 1,
                         style: sTextH3Style.copyWith(
@@ -70,7 +68,7 @@ class SNewActionPriceField extends StatelessWidget {
                       ),
                     const SpaceH4(),
                     AutoSizeText(
-                      isPrimaryActive ? '$secondaryAmount $secondarySymbol' : '$primaryAmount $primarySymbol',
+                     '$secondaryAmount $secondarySymbol',
                       minFontSize: 4.0,
                       maxLines: 1,
                       style: sSubtitle3Style.copyWith(

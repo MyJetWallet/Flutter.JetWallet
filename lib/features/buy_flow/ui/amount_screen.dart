@@ -128,14 +128,13 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
           SNewActionPriceField(
             widgetSize: widgetSizeFrom(deviceSize),
             primaryAmount: formatCurrencyStringAmount(
-              value: store.fiatInputValue,
+              value: store.isFiatEntering ? store.fiatInputValue : store.cryptoInputValue,
             ),
-            primarySymbol: store.fiatSymbol,
+            primarySymbol: store.isFiatEntering ? store.fiatSymbol : store.cryptoSymbol,
             secondaryAmount: formatCurrencyStringAmount(
-              value: store.cryptoInputValue,
+              value: store.isFiatEntering ? store.cryptoInputValue : store.fiatInputValue,
             ),
-            secondarySymbol: store.cryptoSymbol,
-            isPrimaryActive: store.isFiatEntering,
+            secondarySymbol: store.isFiatEntering ? store.cryptoSymbol : store.fiatSymbol,
             onSwap: () {
               store.isFiatEntering = !store.isFiatEntering;
             },
