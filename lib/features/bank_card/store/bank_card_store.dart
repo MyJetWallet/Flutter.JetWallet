@@ -12,6 +12,7 @@ import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/amount/amount_screem.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
@@ -484,7 +485,8 @@ abstract class _BankCardStoreBase with Store {
           );
 
       sRouter.push(
-        BuyAmountRoute(
+        AmountRoute(
+          tab: AmountScreenTab.buy,
           asset: asset,
           card: card,
         ),

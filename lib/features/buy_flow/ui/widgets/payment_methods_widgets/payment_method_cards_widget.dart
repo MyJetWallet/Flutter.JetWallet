@@ -4,6 +4,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/amount/amount_screem.dart';
 import 'package:jetwallet/features/bank_card/add_bank_card.dart';
 import 'package:jetwallet/features/currency_buy/helper/formatted_circle_card.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
@@ -30,7 +31,7 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
 
   final String title;
   final CurrencyModel asset;
-  final List<CircleCard>  cards;
+  final List<CircleCard> cards;
   final void Function({
     CircleCard? inputCard,
     SimpleBankingAccount? account,
@@ -114,7 +115,8 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
                       onSelected!(inputCard: e);
                     } else {
                       sRouter.push(
-                        BuyAmountRoute(
+                        AmountRoute(
+                          tab: AmountScreenTab.buy,
                           asset: asset,
                           card: e,
                         ),

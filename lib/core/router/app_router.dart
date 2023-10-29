@@ -15,6 +15,7 @@ import 'package:jetwallet/features/account/profile_details/ui/widgets/set_new_pa
 import 'package:jetwallet/features/account/widgets/help_center_web_view.dart';
 import 'package:jetwallet/features/add_circle_card/ui/add_circle_card.dart';
 import 'package:jetwallet/features/add_circle_card/ui/circle_billing_address/circle_billing_address.dart';
+import 'package:jetwallet/features/amount/amount_screem.dart';
 import 'package:jetwallet/features/app/api_selector_screen/api_selector_screen.dart';
 import 'package:jetwallet/features/app/init_router/app_init_router.dart';
 import 'package:jetwallet/features/auth/biometric/ui/biometric.dart';
@@ -25,7 +26,6 @@ import 'package:jetwallet/features/auth/single_sign_in/ui/sing_in.dart';
 import 'package:jetwallet/features/auth/splash/splash_screen.dart';
 import 'package:jetwallet/features/auth/user_data/ui/user_data_screen.dart';
 import 'package:jetwallet/features/auth/verification_reg/verification_screen.dart';
-import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/buy_confrimation_screen.dart';
 import 'package:jetwallet/features/card_coming_soon/card_screen.dart';
 import 'package:jetwallet/features/convert/model/preview_convert_input.dart';
@@ -547,8 +547,8 @@ class AppRouter extends _$AppRouter {
       page: ProgressRouter.page,
     ),
     AutoRoute(
-      path: '/buy_flow_amount',
-      page: BuyAmountRoute.page,
+      path: '/flow_amount',
+      page: AmountRoute.page,
     ),
     AutoRoute(
       path: '/buy_flow_confirmation',
