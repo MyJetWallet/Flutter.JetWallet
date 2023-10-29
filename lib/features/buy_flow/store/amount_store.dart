@@ -256,8 +256,8 @@ abstract class _BuyAmountStoreBase with Store {
   }
 
   @computed
-  int get selectedCurrencyAccuracy {
-    return asset == null ? baseCurrency.accuracy : asset!.accuracy;
+  int get fiatAccuracy {
+    return sSignalRModules.currenciesList.firstWhere((element) => element.symbol == fiatSymbol).accuracy;
   }
 
   @action
@@ -266,13 +266,13 @@ abstract class _BuyAmountStoreBase with Store {
       fiatInputValue = responseOnInputAction(
         oldInput: fiatInputValue,
         newInput: value,
-        accuracy: selectedCurrencyAccuracy,
+        accuracy: fiatAccuracy,
       );
     } else {
       cryptoInputValue = responseOnInputAction(
         oldInput: cryptoInputValue,
         newInput: value,
-        accuracy: selectedCurrencyAccuracy,
+        accuracy: asset?.accuracy ?? 2,
       );
     }
     if (isFiatEntering) {
