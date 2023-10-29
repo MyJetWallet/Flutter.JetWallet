@@ -347,8 +347,32 @@ abstract class _BuyAmountStoreBase with Store {
     }
 
     final value = Decimal.parse(fiatInputValue);
-    final min = paymentAsset?.minAmount ?? Decimal.zero;
+    var min = paymentAsset?.minAmount ?? Decimal.zero;
     var max = (account?.balance ?? paymentAsset?.maxAmount ?? Decimal.zero) * _availablePresentForProcessing;
+
+    if (category == PaymentMethodCategory.account && account?.accountId != 'clearjuction_account') {
+      final tempMin = asset!.buyMethods
+              .firstWhere((element) => element.id == PaymentMethodType.ibanTransferUnlimint)
+              .paymentAssets
+              ?.firstWhere((element) => element.asset == 'EUR')
+              .minAmount ??
+          Decimal.zero;
+      var tempMax = asset!.buyMethods
+              .firstWhere((element) => element.id == PaymentMethodType.ibanTransferUnlimint)
+              .paymentAssets
+              ?.firstWhere((element) => element.asset == 'EUR')
+              .maxAmount ??
+          Decimal.zero;
+      tempMax = tempMax * _availablePresentForProcessing;
+
+      if (min > tempMin) {
+        min = tempMin;
+      }
+
+      if (max > tempMax) {
+        max = tempMax;
+      }
+    }
 
     Decimal? limitMax = max;
 
