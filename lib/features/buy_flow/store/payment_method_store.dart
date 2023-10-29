@@ -53,9 +53,11 @@ abstract class _PaymentMethodStoreBase with Store {
 
   @computed
   bool get isCardsAvailable {
-    final isMethodAvaible = selectedAssset?.buyMethods.any((element) => element.id == PaymentMethodType.bankCard) ?? false;
+    final isMethodAvaible =
+        selectedAssset?.buyMethods.any((element) => element.id == PaymentMethodType.bankCard) ?? false;
     final isKycAllowed = getIt.get<KycService>().depositStatus == kycOperationStatus(KycStatus.allowed);
-    final isNoBlocker = !sSignalRModules.clientDetail.clientBlockers.any((element) => element.blockingType == BlockingType.deposit);
+    final isNoBlocker =
+        !sSignalRModules.clientDetail.clientBlockers.any((element) => element.blockingType == BlockingType.deposit);
 
     return isMethodAvaible && isKycAllowed && isNoBlocker;
   }
@@ -66,9 +68,16 @@ abstract class _PaymentMethodStoreBase with Store {
       false;
 
   @computed
-  bool get isBankingAccountsAvaible =>
-      selectedAssset?.assetPaymentProductss.any((element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount) ??
-      false;
+  bool get isBankingAccountsAvaible {
+    final isBankingIbanAccountAvaible =
+        sSignalRModules.paymentProducts?.any((element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount) ??
+            false;
+
+    final isMethodAvaible =
+        selectedAssset?.buyMethods.any((element) => element.id == PaymentMethodType.ibanTransferUnlimint) ?? false;
+
+    return isBankingIbanAccountAvaible && isMethodAvaible;
+  }
 
   @action
   Future<void> init(CurrencyModel asset) async {

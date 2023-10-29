@@ -33,7 +33,6 @@ class CurrencyModel with _$CurrencyModel {
     @Default([]) List<BlockchainModel> depositBlockchains,
     @Default([]) List<BlockchainModel> withdrawalBlockchains,
     @Default([]) List<AssetFeeModel> assetWithdrawalFees,
-    @Default([]) List<AssetPaymentProducts> assetPaymentProductss,
     @Default(0.0) double reserve,
     @Default('unknown') String lastUpdate,
     @Default(0.0) double sequenceId,
@@ -302,20 +301,6 @@ class CurrencyModel with _$CurrencyModel {
   }
 
   bool get isSingleNetworkForBlockchainSend => networksForBlockchainSend.length == 1;
-
-  bool get supportBuy {
-    final isCardsAvailable = buyMethods.any((element) => element.id == PaymentMethodType.bankCard);
-
-    final isSimpleAccountAvaible =
-        assetPaymentProductss.any((element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount);
-
-    final isBankingAccountsAvaible =
-        assetPaymentProductss.any((element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount);
-
-    final isBuyAvaible = isCardsAvailable || isSimpleAccountAvaible || isBankingAccountsAvaible;
-
-    return isBuyAvaible;
-  }
 }
 
 class ObservableCurrencyModelListConverter implements JsonConverter<ObservableList<CurrencyModel>, List<dynamic>> {

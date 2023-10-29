@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
@@ -16,6 +17,8 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 import '../../../../actions/action_send/widgets/send_options.dart';
@@ -133,7 +136,18 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                         );
                         final actualAsset = widget.currency;
 
-                        if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed) && actualAsset.supportBuy) {
+                        final isCardsAvailable =
+                            actualAsset.buyMethods.any((element) => element.id == PaymentMethodType.bankCard);
+
+                        final isSimpleAccountAvaible = sSignalRModules.paymentProducts
+                            ?.any((element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount) ?? false;
+
+                        final isBankingAccountsAvaible = sSignalRModules.paymentProducts
+                            ?.any((element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount)  ?? false;
+
+                        final isBuyAvaible = isCardsAvailable || isSimpleAccountAvaible || isBankingAccountsAvaible;
+
+                        if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed) && isBuyAvaible) {
                           showSendTimerAlertOr(
                             context: context,
                             or: () => showPayWithBottomSheet(
@@ -142,7 +156,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                             ),
                             from: BlockingType.trade,
                           );
-                        } else if (!widget.currency.supportsAtLeastOneBuyMethod) {
+                        } else if (!isBuyAvaible) {
                           sNotification.showError(
                             intl.my_wallets_actions_warning,
                             id: 1,

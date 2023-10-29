@@ -15,6 +15,8 @@ import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 import '../../../../../../actions/circle_actions/circle_actions.dart';
@@ -76,7 +78,19 @@ class BalanceActionButtons extends StatelessObserverWidget {
                 source: 'Market - Asset - Buy',
               );
 
-              if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed) && currency.supportBuy) {
+              final isCardsAvailable = currency.buyMethods.any((element) => element.id == PaymentMethodType.bankCard);
+
+              final isSimpleAccountAvaible = sSignalRModules.paymentProducts
+                      ?.any((element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount) ??
+                  false;
+
+              final isBankingAccountsAvaible = sSignalRModules.paymentProducts
+                      ?.any((element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount) ??
+                  false;
+
+              final isBuyAvaible = isCardsAvailable || isSimpleAccountAvaible || isBankingAccountsAvaible;
+
+              if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed) && isBuyAvaible) {
                 showSendTimerAlertOr(
                   context: context,
                   or: () => showPayWithBottomSheet(
@@ -85,7 +99,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                   ),
                   from: BlockingType.trade,
                 );
-              } else if (!currency.supportBuy) {
+              } else if (!isBuyAvaible) {
                 sNotification.showError(
                   intl.my_wallets_actions_warning,
                   id: 1,
