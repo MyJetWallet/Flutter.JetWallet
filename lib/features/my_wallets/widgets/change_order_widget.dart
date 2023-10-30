@@ -13,10 +13,12 @@ class ChangeOrderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    return Padding(
+    return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24),
+      color: colors.white,
       child: Column(
         children: [
+          const SpaceH9(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -39,6 +41,13 @@ class ChangeOrderWidget extends StatelessWidget {
               SIconTextButton(
                 onTap: onPressedDone,
                 text: intl.my_wallets_button_done,
+                icon: SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: SDoneIcon(
+                    color: colors.purple,
+                  ),
+                ),
               ),
             ],
           ),

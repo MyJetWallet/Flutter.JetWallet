@@ -6,19 +6,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/actions/action_send/widgets/send_alert_bottom_sheet.dart';
-import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
+import 'package:jetwallet/features/actions/action_send/widgets/send_options.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
-import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_country_model.dart';
-import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_card_payment_method_store.dart';
-import 'package:jetwallet/utils/helpers/are_balances_empty.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/helpers/flag_asset_name.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -32,32 +27,7 @@ import '../../../core/services/local_storage_service.dart';
 import '../helpers/show_currency_search.dart';
 
 void showSendAction(BuildContext context) {
-  final currencies = sSignalRModules.currenciesList;
-  final isEmptyBalance = areBalancesEmpty(currencies);
-
-  final isSendMethodAvailable = sSignalRModules.currenciesList
-      .where(
-        (element) => element.isSupportAnyWithdrawal && element.isAssetBalanceNotEmpty,
-      )
-      .isNotEmpty;
-
-  final kyc = getIt.get<KycService>();
-
-  if ((kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) && isSendMethodAvailable) {
-    showSendTimerAlertOr(
-      context: context,
-      or: () => _showSendAction(context),
-      from: BlockingType.withdrawal,
-    );
-  } else if (isEmptyBalance) {
-    sendAlertBottomSheet(context);
-  } else {
-    sNotification.showError(
-      intl.my_wallets_actions_warning,
-      id: 3,
-      hideIcon: true,
-    );
-  }
+  _showSendAction(context);
 }
 
 Future<void> _showSendAction(BuildContext context) async {
@@ -95,28 +65,36 @@ Future<void> _showSendAction(BuildContext context) async {
       SCardRow(
         icon: const SWallet2Icon(),
         onTap: () {
-          Navigator.pop(context);
-
-          _showSendActionChooseAsset(context);
+          handleSendMethodBlockers(
+            context: context,
+            onAllowed: () async {
+              Navigator.pop(context);
+             await _showSendActionChooseAsset(context);
+            },
+          );
         },
         amount: '',
         description: '',
         name: intl.sendOptions_to_crypto_wallet,
         helper: intl.withdrawOptions_actionItemNameDescr,
       ),
-      if (isGlobalSendActive.isNotEmpty && cryptoGlobalSendLength.isNotEmpty)
-        SCardRow(
-          icon: const SNetworkIcon(),
-          onTap: () {
-            Navigator.pop(context);
-
-            showGlobalSendCurrenctSelect(context);
-          },
-          amount: '',
-          description: '',
-          name: intl.global_send_name,
-          helper: intl.global_send_helper,
-        ),
+      SCardRow(
+        icon: const SNetworkIcon(),
+        onTap: () {
+          handleSendMethodBlockers(
+            context: context,
+            methodIsSuported: isGlobalSendActive.isNotEmpty && cryptoGlobalSendLength.isNotEmpty,
+            onAllowed: () {
+              Navigator.pop(context);
+              showGlobalSendCurrenctSelect(context);
+            },
+          );
+        },
+        amount: '',
+        description: '',
+        name: intl.global_send_name,
+        helper: intl.global_send_helper,
+      ),
       if (isIbanOutActive.isNotEmpty)
         SCardRow(
           icon: const SAccountIcon(),
@@ -153,22 +131,27 @@ Future<void> _showSendAction(BuildContext context) async {
           name: intl.sendOptions_to_bank_account,
           helper: intl.iban_send_helper,
         ),
-      if (isGiftSendActive.isNotEmpty)
-        SCardRow(
-          icon: const SGiftSendIcon(),
-          onTap: () {
-            sAnalytics.tapOnTheGiftButton();
-            Navigator.pop(context);
-            sRouter.push(const GiftSelectAssetRouter());
-          },
-          amount: '',
-          description: '',
-          name: intl.send_gift,
-          helper: intl.send_gift_to_simple_wallet,
-        ),
+      SCardRow(
+        icon: const SGiftSendIcon(),
+        onTap: () {
+          handleSendMethodBlockers(
+            context: context,
+            methodIsSuported: isGiftSendActive.isNotEmpty,
+            blockingType: BlockingType.transfer,
+            onAllowed: () {
+              sAnalytics.tapOnTheGiftButton();
+              Navigator.pop(context);
+              sRouter.push(const GiftSelectAssetRouter());
+            },
+          );
+        },
+        amount: '',
+        description: '',
+        name: intl.send_gift,
+        helper: intl.send_gift_to_simple_wallet,
+      ),
       const SpaceH42(),
     ],
-    then: (value) {},
   );
 }
 

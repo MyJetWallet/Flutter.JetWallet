@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
 part 'card_add_response_model.freezed.dart';
 part 'card_add_response_model.g.dart';
@@ -9,8 +10,7 @@ class CardAddResponseModel with _$CardAddResponseModel {
     required CardAddResponseDataModel data,
   }) = _CardAddResponseModel;
 
-  factory CardAddResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$CardAddResponseModelFromJson(json);
+  factory CardAddResponseModel.fromJson(Map<String, dynamic> json) => _$CardAddResponseModelFromJson(json);
 }
 
 @freezed
@@ -19,11 +19,14 @@ class CardAddResponseDataModel with _$CardAddResponseDataModel {
     String? cardId,
     CardStatus? status,
     CardVerificationType? requiredVerification,
+    String? last4,
+    @Default(CircleCardNetwork.unsupported)  @CircleCardNetworkSerialiser() CircleCardNetwork network,
+    int? expMonth,
+    int? expYear,
     @Default(false) bool showUaAlert,
   }) = _CardAddResponseDataModel;
 
-  factory CardAddResponseDataModel.fromJson(Map<String, dynamic> json) =>
-      _$CardAddResponseDataModelFromJson(json);
+  factory CardAddResponseDataModel.fromJson(Map<String, dynamic> json) => _$CardAddResponseDataModelFromJson(json);
 }
 
 enum CardStatus {

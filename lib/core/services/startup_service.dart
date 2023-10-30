@@ -34,6 +34,7 @@ import 'package:simple_networking/helpers/models/refresh_token_status.dart';
 import 'package:simple_networking/modules/auth_api/models/install_model.dart';
 import 'package:simple_networking/modules/auth_api/models/session_chek/session_check_response_model.dart';
 import 'package:simple_networking/modules/logs_api/models/add_log_model.dart';
+import 'package:simple_sift/sift.dart';
 import 'package:universal_io/io.dart';
 import 'package:uuid/uuid.dart';
 
@@ -61,6 +62,8 @@ class StartupService {
     }
 
     await getAdvData();
+
+    unawaited(launchSift());
 
     unawaited(initAppFBAnalytic());
     unawaited(initAppsFlyer());
@@ -420,6 +423,22 @@ class StartupService {
           );
     }
   }
+}
+
+Future<void> launchSift() async {
+  final logger = getIt.get<SimpleLoggerService>();
+  final siftPlugin = SimpleSift();
+
+  final siftStatus = await siftPlugin.setSiftConfig(
+    accountId: siftAccountId,
+    beaconKey: siftBeaconKey,
+  );
+
+  logger.log(
+    level: Level.info,
+    place: 'launchSift',
+    message: 'Sift: $siftStatus',
+  );
 }
 
 Future<void> getAdvData() async {

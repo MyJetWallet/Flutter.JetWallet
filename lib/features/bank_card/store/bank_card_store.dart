@@ -261,7 +261,6 @@ abstract class _BankCardStoreBase with Store {
       expiryMonth = sp.first;
       expiryYear = sp[1];
 
-      monthNode.nextFocus();
       labelNode.requestFocus();
 
       if ((expiryYear.length == 4 || expiryYear.length == 2) && expiryYear != '20') {
@@ -362,6 +361,7 @@ abstract class _BankCardStoreBase with Store {
                           expiryYear.length == 4 ? expiryYear : '20$expiryYear',
                         ),
                         cardLabel: cardLabel.isEmpty ? '' : cardLabel,
+                        network: data.data.network,
                       );
                     },
                   ),
@@ -383,6 +383,7 @@ abstract class _BankCardStoreBase with Store {
                           expiryYear.length == 4 ? expiryYear : '20$expiryYear',
                         ),
                         cardLabel: cardLabel.isEmpty ? '' : cardLabel,
+                        network: data.data.network,
                       );
                     },
                   ),
@@ -400,6 +401,7 @@ abstract class _BankCardStoreBase with Store {
                   expiryYear.length == 4 ? expiryYear : '20$expiryYear',
                 ),
                 cardLabel: cardLabel.isEmpty ? '' : cardLabel,
+                network: data.data.network,
               );
             } else {
               _showFailureScreen();
@@ -445,6 +447,7 @@ abstract class _BankCardStoreBase with Store {
     required int expMonth,
     required int expYear,
     required String cardLabel,
+    required  CircleCardNetwork network,
   }) {
     sRouter.pop();
     Timer(const Duration(milliseconds: 300), () {
@@ -460,7 +463,7 @@ abstract class _BankCardStoreBase with Store {
           : CircleCard(
               id: cardId,
               last4: finalCardNumber,
-              network: getCardNetworkNumber(cardNumber),
+              network: network,
               expMonth: expMonth,
               expYear: expYear,
               status: CircleCardStatus.complete,
@@ -572,19 +575,5 @@ abstract class _BankCardStoreBase with Store {
         onPrimaryButtonTap: () => sRouter.popUntilRoot(),
       ),
     );
-  }
-
-  static CircleCardNetwork getCardNetworkNumber(String input) {
-    CircleCardNetwork cardType;
-
-    if (RegExp(r'^4[0-9]{12}(?:[0-9]{3})?$').hasMatch(input)) {
-      cardType = CircleCardNetwork.MASTERCARD;
-    } else if (RegExp(r'^5[1-5][0-9]{14}$').hasMatch(input)) {
-      cardType = CircleCardNetwork.VISA;
-    } else {
-      cardType = CircleCardNetwork.unsupported;
-    }
-
-    return cardType;
   }
 }

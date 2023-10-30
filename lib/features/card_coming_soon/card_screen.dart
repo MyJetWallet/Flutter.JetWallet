@@ -74,12 +74,12 @@ class _CardScreenBodyState extends State<CardScreen> {
 
     final kycPassed = checkKycPassed(
       kycState.depositStatus,
-      kycState.sellStatus,
+      kycState.tradeStatus,
       kycState.withdrawalStatus,
     );
     final kycBlocked = checkKycBlocked(
       kycState.depositStatus,
-      kycState.sellStatus,
+      kycState.tradeStatus,
       kycState.withdrawalStatus,
     );
 
@@ -210,7 +210,7 @@ class _CardScreenBodyState extends State<CardScreen> {
                                             ? kycState.depositStatus
                                             : isWithdrawalAllow
                                                 ? kycState.withdrawalStatus
-                                                : kycState.sellStatus,
+                                                : kycState.tradeStatus,
                                         isProgress: kycState.verificationInProgress,
                                         currentNavigate: () {},
                                         requiredDocuments: kycState.requiredDocuments,

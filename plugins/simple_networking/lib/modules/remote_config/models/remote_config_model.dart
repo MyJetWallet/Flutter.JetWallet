@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simple_networking/modules/remote_config/models/remote_config_merchant_pay.dart';
 import 'package:simple_networking/modules/remote_config/models/remote_config_nft_model.dart';
+import 'package:simple_networking/modules/remote_config/models/remote_config_sift_model.dart';
 
 import 'remote_config_analytics_model.dart';
 import 'remote_config_appconfig_model.dart';
@@ -22,17 +23,14 @@ class RemoteConfigModel with _$RemoteConfigModel {
     @JsonKey(name: 'AppConfig') required RemoteConfigAppconfigModel appConfig,
     @JsonKey(name: 'AppsFlyer') required RemoteConfigAppsflyer appsFlyer,
     @JsonKey(name: 'Circle') required RemoteConfigCircle circle,
-    @JsonKey(name: 'ConnectionFlavors')
-    required List<RemoteConfigConnectionFlavorModel> connectionFlavors,
-    @JsonKey(name: 'ConnectionFlavorsSlave')
-    required List<RemoteConfigConnectionFlavorModel> connectionFlavorsSlave,
+    @JsonKey(name: 'ConnectionFlavors') required List<RemoteConfigConnectionFlavorModel> connectionFlavors,
+    @JsonKey(name: 'ConnectionFlavorsSlave') required List<RemoteConfigConnectionFlavorModel> connectionFlavorsSlave,
     @JsonKey(name: 'Simplex') required RemoteConfogSimplexModel simplex,
     @JsonKey(name: 'Support') required RemoteConfigSupportModel support,
-    @JsonKey(name: 'Versioning')
-    required RemoteConfogVersioningModel versioning,
+    @JsonKey(name: 'Versioning') required RemoteConfogVersioningModel versioning,
     @JsonKey(name: 'MerchantPay') required RemoteConfigMerchantPay merchantPay,
+    @JsonKey(name: 'Sift') required RemoteConfigSiftModel sift,
   }) = _RemoteConfigModel;
 
-  factory RemoteConfigModel.fromJson(Map<String, dynamic> json) =>
-      _$RemoteConfigModelFromJson(json);
+  factory RemoteConfigModel.fromJson(Map<String, dynamic> json) => _$RemoteConfigModelFromJson(json);
 }

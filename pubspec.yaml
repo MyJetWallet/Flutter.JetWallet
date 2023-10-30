@@ -151,6 +151,8 @@ dependencies:
     path: plugins/simple_analytics
   charts:
     path: plugins/simple_chart
+  simple_sift:
+    path: plugins/sift
 
 dev_dependencies:
   flutter_test:

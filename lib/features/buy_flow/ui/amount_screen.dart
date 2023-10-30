@@ -128,14 +128,13 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
           SNewActionPriceField(
             widgetSize: widgetSizeFrom(deviceSize),
             primaryAmount: formatCurrencyStringAmount(
-              value: store.fiatInputValue,
+              value: store.isFiatEntering ? store.fiatInputValue : store.cryptoInputValue,
             ),
-            primarySymbol: store.fiatSymbol,
+            primarySymbol: store.isFiatEntering ? store.fiatSymbol : store.cryptoSymbol,
             secondaryAmount: formatCurrencyStringAmount(
-              value: store.cryptoInputValue,
+              value: store.isFiatEntering ? store.cryptoInputValue : store.fiatInputValue,
             ),
-            secondarySymbol: store.cryptoSymbol,
-            isPrimaryActive: store.isFiatEntering,
+            secondarySymbol: store.isFiatEntering ? store.cryptoSymbol : store.fiatSymbol,
             onSwap: () {
               store.isFiatEntering = !store.isFiatEntering;
             },
@@ -145,7 +144,7 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
           BuyOptionWidget(
             title: store.asset?.description ?? '',
             subTitle: intl.amount_screen_buy,
-            trailing:  store.asset?.volumeAssetBalance,
+            trailing: store.asset?.volumeAssetBalance,
             icon: SNetworkSvg24(
               url: store.asset?.iconUrl ?? '',
             ),
@@ -246,7 +245,9 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
                 BuyConfirmationRoute(
                   asset: store.asset!,
                   paymentCurrency: store.buyCurrency,
-                  amount: store.fiatInputValue,
+                  isFromFixed: store.isFiatEntering,
+                  fromAmount: store.fiatInputValue,
+                  toAmount: store.cryptoInputValue,
                   card: store.card,
                   account: store.account,
                 ),

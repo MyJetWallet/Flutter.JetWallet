@@ -37,7 +37,7 @@ void showWalletAdressInfo(
             ? kycState.depositStatus
             : isWithdrawalAllow
                 ? kycState.withdrawalStatus
-                : kycState.sellStatus,
+                : kycState.tradeStatus,
         isProgress: kycState.verificationInProgress,
         currentNavigate: after,
         requiredDocuments: kycState.requiredDocuments,

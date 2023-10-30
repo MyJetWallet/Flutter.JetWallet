@@ -138,7 +138,7 @@ abstract class _BuyConfirmationStoreBase with Store {
 
   @computed
   CurrencyModel get buyCurrency => sSignalRModules.currenciesWithHiddenList.firstWhere(
-        (currency) => currency.symbol == (buyAssetSymbol ?? 'BTC'),
+        (currency) => currency.symbol == (buyAsset ?? 'BTC'),
         orElse: () => CurrencyModel.empty(),
       );
 
@@ -162,14 +162,14 @@ abstract class _BuyConfirmationStoreBase with Store {
 
   CircleCard? card;
   SimpleBankingAccount? account;
-  String? buyAssetSymbol;
-  String payAmount = '';
-  String payAsset = '';
+  bool isFromFixed = true;
 
   @action
   Future<void> loadPreview({
-    required String pAmount,
+    String? pAmount,
+    String? bAmount,
     required String bAsset,
+    required bool newIsFromFixed,
     CircleCard? inputCard,
     SimpleBankingAccount? inputAccount,
   }) async {
@@ -179,11 +179,13 @@ abstract class _BuyConfirmationStoreBase with Store {
 
     loader.startLoadingImmediately();
 
-    payAmount = pAmount;
-    payAsset = account?.currency ?? 'EUR';
+    isFromFixed = newIsFromFixed;
+    paymentAmount = Decimal.parse(pAmount ?? '0');
+    paymentAsset = account?.currency ?? 'EUR';
     card = inputCard;
     account = inputAccount;
-    buyAssetSymbol = bAsset;
+    buyAsset = bAsset;
+    buyAmount = Decimal.parse(bAmount ?? '0');
 
     await _isChecked();
 
@@ -194,7 +196,7 @@ abstract class _BuyConfirmationStoreBase with Store {
     sAnalytics.newBuyTapContinue(
       sourceCurrency: depositFeeCurrency.symbol,
       sourceAmount: paymentAmount.toString(),
-      destinationCurrency: buyAssetSymbol ?? '',
+      destinationCurrency: buyAsset ?? '',
       paymentMethodType: category.name,
       paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : 'account',
       paymentMethodCurrency: depositFeeCurrency.symbol,
@@ -216,42 +218,13 @@ abstract class _BuyConfirmationStoreBase with Store {
     if (terminateUpdates) return;
 
     try {
-      if (account?.bankName != null) {
-        final model = getModelForCardBuyReq(
-          category: category,
-          pAmount: payAmount,
-          bAsset: buyAssetSymbol ?? '',
-          pAsset: payAsset,
-        );
-
-        final response = await sNetwork.getWalletModule().postCardBuyCreate(model);
-
-        response.pick(
-          onData: (data) {
-            paymentAmount = data.paymentAmount;
-            paymentAsset = data.paymentAsset;
-            buyAmount = data.buyAmount;
-            buyAsset = data.buyAsset;
-            depositFeeAmount = data.depositFeeAmount;
-            depositFeeAsset = data.depositFeeAsset;
-            tradeFeeAmount = data.tradeFeeAmount;
-            tradeFeeAsset = data.tradeFeeAsset;
-            rate = data.rate;
-            paymentId = data.paymentId ?? '';
-            actualTimeInSecond = data.actualTimeInSecond;
-            deviceBindingRequired = data.deviceBindingRequired;
-          },
-          onError: (error) {
-            loader.finishLoadingImmediately();
-
-            _showFailureScreen(error.cause);
-          },
-        );
-      } else {
+      if (account?.accountId == 'clearjuction_account') {
         final model = GetQuoteRequestModel(
-          fromAssetAmount: Decimal.parse(payAmount),
-          fromAssetSymbol: payAsset,
-          toAssetSymbol: buyAssetSymbol ?? '',
+          isFromFixed: isFromFixed,
+          fromAssetAmount: isFromFixed ? paymentAmount : null,
+          fromAssetSymbol: paymentAsset ?? '',
+          toAssetAmount: isFromFixed ? null : buyAmount,
+          toAssetSymbol: buyAsset ?? '',
         );
 
         final response = await sNetwork.getWalletModule().postGetQuote(model);
@@ -277,6 +250,39 @@ abstract class _BuyConfirmationStoreBase with Store {
             _showFailureScreen(error.cause);
           },
         );
+      } else {
+        final model = getModelForCardBuyReq(
+          category: category,
+          pAmount: paymentAmount,
+          bAmount: buyAmount,
+          bAsset: buyAsset ?? '',
+          pAsset: paymentAsset ?? '',
+          buyFixed: !isFromFixed,
+        );
+
+        final response = await sNetwork.getWalletModule().postCardBuyCreate(model);
+
+        response.pick(
+          onData: (data) {
+            paymentAmount = data.paymentAmount;
+            paymentAsset = data.paymentAsset;
+            buyAmount = data.buyAmount;
+            buyAsset = data.buyAsset;
+            depositFeeAmount = data.depositFeeAmount;
+            depositFeeAsset = data.depositFeeAsset;
+            tradeFeeAmount = data.tradeFeeAmount;
+            tradeFeeAsset = data.tradeFeeAsset;
+            rate = data.rate;
+            paymentId = data.paymentId ?? '';
+            actualTimeInSecond = data.actualTimeInSecond;
+            deviceBindingRequired = data.deviceBindingRequired;
+          },
+          onError: (error) {
+            loader.finishLoadingImmediately();
+
+            _showFailureScreen(error.cause);
+          },
+        );
       }
     } on ServerRejectException catch (error) {
       loader.finishLoadingImmediately();
@@ -294,36 +300,39 @@ abstract class _BuyConfirmationStoreBase with Store {
   }
 
   CardBuyCreateRequestModel getModelForCardBuyReq({
+    required bool buyFixed,
     required PaymentMethodCategory category,
-    required String pAmount,
-    required String bAsset,
+    Decimal? pAmount,
     required String pAsset,
+    Decimal? bAmount,
+    required String bAsset,
   }) {
     switch (category) {
       case PaymentMethodCategory.cards:
         return CardBuyCreateRequestModel(
+          buyFixed: buyFixed,
           paymentMethod: convertMethodToCirclePaymentMethod(category),
-          paymentAmount: Decimal.parse(pAmount),
-          buyAmount: Decimal.parse(pAmount) * price,
+          paymentAmount: pAmount,
+          buyAmount: buyAmount,
           buyAsset: bAsset,
           paymentAsset: pAsset,
           cardPaymentData: CirclePaymentDataModel(cardId: card!.id),
-          buyFixed: false,
         );
       case PaymentMethodCategory.account:
         return CardBuyCreateRequestModel(
+          buyFixed: buyFixed,
           paymentMethod: convertMethodToCirclePaymentMethod(category),
-          paymentAmount: Decimal.parse(pAmount),
-          buyAmount: Decimal.parse(pAmount) * price,
+          paymentAmount: pAmount,
+          buyAmount: buyAmount,
           buyAsset: bAsset,
           paymentAsset: pAsset,
           ibanPaymentData: IbanPaymentPreview(accountId: account?.accountId ?? ''),
-          buyFixed: false,
         );
       default:
         return CardBuyCreateRequestModel(
+          buyFixed: true,
           paymentMethod: convertMethodToCirclePaymentMethod(category),
-          paymentAmount: Decimal.parse(pAmount),
+          paymentAmount: pAmount,
           buyAsset: bAsset,
           paymentAsset: pAsset,
         );
@@ -365,8 +374,6 @@ abstract class _BuyConfirmationStoreBase with Store {
     if (terminateUpdates) return;
 
     try {
-      await getActualData();
-
       price = await getConversionPrice(
             ConversionPriceInput(
               baseAssetSymbol: buyAsset!,
@@ -374,6 +381,8 @@ abstract class _BuyConfirmationStoreBase with Store {
             ),
           ) ??
           Decimal.zero;
+
+      await getActualData();
 
       _refreshTimerAnimation(actualTimeInSecond);
       _refreshTimer(actualTimeInSecond);
@@ -425,10 +434,10 @@ abstract class _BuyConfirmationStoreBase with Store {
   Future<void> createPayment() async {
     sAnalytics.newBuyTapConfirm(
       sourceCurrency: depositFeeCurrency.symbol,
-      destinationCurrency: buyAssetSymbol ?? '',
+      destinationCurrency: buyAsset ?? '',
       sourceAmount: '$paymentAmount',
       destinationAmount: '$buyAmount',
-      exchangeRate: '1 $buyAssetSymbol = ${volumeFormat(
+      exchangeRate: '1 $buyAsset = ${volumeFormat(
         symbol: depositFeeCurrency.symbol,
         accuracy: buyCurrency.accuracy,
         decimal: rate ?? Decimal.zero,
@@ -479,18 +488,20 @@ abstract class _BuyConfirmationStoreBase with Store {
     try {
       termiteUpdate();
 
-      await sRouter.push(
-        PinScreenRoute(
-          union: const Change(),
-          isChangePhone: true,
-          onChangePhone: (String newPin) async {
-            pin = newPin;
-            await sRouter.pop();
-          },
-        ),
-      );
+      if (account?.accountId != 'clearjuction_account') {
+        await sRouter.push(
+          PinScreenRoute(
+            union: const Change(),
+            isChangePhone: true,
+            onChangePhone: (String newPin) async {
+              pin = newPin;
+              await sRouter.pop();
+            },
+          ),
+        );
 
-      if (pin == '') return;
+        if (pin == '') return;
+      }
 
       showProcessing = true;
       wasAction = true;
@@ -504,8 +515,11 @@ abstract class _BuyConfirmationStoreBase with Store {
       if (deviceBindingRequired) {
         var continueBuying = false;
 
-        final formatedAmaunt =
-            volumeFormat(symbol: payAsset, accuracy: payCurrency.accuracy, decimal: Decimal.parse(payAmount));
+        final formatedAmaunt = volumeFormat(
+          symbol: paymentAsset ?? '',
+          accuracy: payCurrency.accuracy,
+          decimal: paymentAmount ?? Decimal.zero,
+        );
         await Future.delayed(const Duration(milliseconds: 500));
         await sShowAlertPopup(
           sRouter.navigatorKey.currentContext!,
@@ -554,7 +568,18 @@ abstract class _BuyConfirmationStoreBase with Store {
 
       late DC<ServerRejectException, dynamic> resp;
 
-      if (account?.bankName != null) {
+      if (account?.accountId == 'clearjuction_account') {
+        final model = ExecuteQuoteRequestModel(
+          operationId: paymentId,
+          price: price,
+          fromAssetSymbol: paymentAsset!,
+          toAssetSymbol: buyAsset!,
+          fromAssetAmount: paymentAmount,
+          toAssetAmount: buyAmount,
+        );
+
+        resp = await sNetwork.getWalletModule().postExecuteQuote(model);
+      } else {
         final model = CardBuyExecuteRequestModel(
           paymentId: paymentId,
           paymentMethod: convertMethodToCirclePaymentMethod(category),
@@ -568,17 +593,6 @@ abstract class _BuyConfirmationStoreBase with Store {
               model,
               cancelToken: cancelToken,
             );
-      } else {
-        final model = ExecuteQuoteRequestModel(
-          operationId: paymentId,
-          price: price,
-          fromAssetSymbol: paymentAsset!,
-          toAssetSymbol: buyAsset!,
-          fromAssetAmount: paymentAmount,
-          toAssetAmount: buyAmount,
-        );
-
-        resp = await sNetwork.getWalletModule().postExecuteQuote(model);
       }
 
       if (resp.hasError) {

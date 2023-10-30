@@ -180,7 +180,7 @@ class _ActionButtonState extends State<ActionButton> {
                               onBuy(true);
                             },
                             onSell: () {
-                              if (kycState.sellStatus ==
+                              if (kycState.tradeStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
@@ -191,7 +191,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 );
                               } else {
                                 kycAlertHandler.handle(
-                                  status: kycState.sellStatus,
+                                  status: kycState.tradeStatus,
                                   isProgress: kycState.verificationInProgress,
                                   currentNavigate: () => sRouter.navigate(
                                     CurrencySellRouter(
@@ -205,7 +205,7 @@ class _ActionButtonState extends State<ActionButton> {
                               }
                             },
                             onConvert: () {
-                              if (kycState.sellStatus ==
+                              if (kycState.tradeStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
@@ -222,7 +222,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 );
                               } else {
                                 kycAlertHandler.handle(
-                                  status: kycState.sellStatus,
+                                  status: kycState.tradeStatus,
                                   isProgress: kycState.verificationInProgress,
                                   currentNavigate: () => showSendTimerAlertOr(
                                     context: context,
@@ -443,7 +443,7 @@ class _ActionButtonState extends State<ActionButton> {
                               onBuy(true);
                             },
                             onSell: () {
-                              if (kycState.sellStatus ==
+                              if (kycState.tradeStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
@@ -455,7 +455,7 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 Navigator.of(context).pop();
                                 kycAlertHandler.handle(
-                                  status: kycState.sellStatus,
+                                  status: kycState.tradeStatus,
                                   isProgress: kycState.verificationInProgress,
                                   currentNavigate: () {
                                     sRouter.navigate(
@@ -471,7 +471,7 @@ class _ActionButtonState extends State<ActionButton> {
                               }
                             },
                             onConvert: () {
-                              if (kycState.sellStatus ==
+                              if (kycState.tradeStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
@@ -489,7 +489,7 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 Navigator.of(context).pop();
                                 kycAlertHandler.handle(
-                                  status: kycState.sellStatus,
+                                  status: kycState.tradeStatus,
                                   isProgress: kycState.verificationInProgress,
                                   navigatePop: true,
                                   currentNavigate: () => showSendTimerAlertOr(

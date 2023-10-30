@@ -117,8 +117,8 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                       getIt<AppRouter>().pop();
                     }
                   },
-                  defaultIcon: const SCloseIcon(),
-                  pressedIcon: const SClosePressedIcon(),
+                  defaultIcon: const SBackIcon(),
+                  pressedIcon: const SBackPressedIcon(),
                 )
               : null,
         ),

@@ -25,7 +25,9 @@ class BuyConfirmationScreen extends StatelessWidget {
     super.key,
     required this.asset,
     required this.paymentCurrency,
-    required this.amount,
+    required this.isFromFixed,
+    this.fromAmount,
+    this.toAmount,
     this.card,
     this.account,
   });
@@ -36,23 +38,25 @@ class BuyConfirmationScreen extends StatelessWidget {
   final CircleCard? card;
   final SimpleBankingAccount? account;
 
-  final String amount;
+  final bool isFromFixed;
+  final String? fromAmount;
+  final String? toAmount;
 
   @override
   Widget build(BuildContext context) {
     return Provider<BuyConfirmationStore>(
       create: (context) => BuyConfirmationStore()
         ..loadPreview(
-          pAmount: amount,
+          newIsFromFixed: isFromFixed,
+          pAmount: fromAmount ?? '0',
           bAsset: asset.symbol,
           inputCard: card,
           inputAccount: account,
+          bAmount: toAmount,
         ),
       builder: (context, child) => _BuyConfirmationScreenBody(
-        asset: asset,
         paymentCurrency: paymentCurrency,
-        amount: amount,
-        card: card,
+        amount: fromAmount ?? '0',
       ),
       dispose: (context, value) {
         value.cancelTimer();
@@ -64,16 +68,11 @@ class BuyConfirmationScreen extends StatelessWidget {
 
 class _BuyConfirmationScreenBody extends StatelessObserverWidget {
   const _BuyConfirmationScreenBody({
-    required this.asset,
     required this.paymentCurrency,
     required this.amount,
-    this.card,
   });
 
-  final CurrencyModel asset;
   final CurrencyModel paymentCurrency;
-
-  final CircleCard? card;
 
   final String amount;
 
@@ -112,6 +111,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
             child: Column(
               children: [
                 WhatToWhatConvertWidget(
+                  isLoading: !store.isDataLoaded,
                   fromAssetIconUrl: paymentCurrency.iconUrl,
                   fromAssetDescription: paymentCurrency.symbol,
                   fromAssetValue: volumeFormat(
@@ -144,7 +144,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                     decimal: Decimal.parse(amount),
                   ),
                   paymentCurrency: paymentCurrency,
-                  asset: asset,
+                  asset: store.buyCurrency,
                 ),
                 if (store.category != PaymentMethodCategory.p2p) ...[
                   SPolicyCheckbox(

@@ -5,6 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 class WhatToWhatConvertWidget extends StatelessWidget {
   const WhatToWhatConvertWidget({
     super.key,
+    required this.isLoading,
     required this.fromAssetIconUrl,
     required this.fromAssetDescription,
     required this.fromAssetValue,
@@ -13,6 +14,7 @@ class WhatToWhatConvertWidget extends StatelessWidget {
     required this.toAssetValue,
   });
 
+  final bool isLoading;
   final String fromAssetIconUrl;
   final String fromAssetDescription;
   final String fromAssetValue;
@@ -30,6 +32,7 @@ class WhatToWhatConvertWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _AssetRowWidget(
+            isLoading: isLoading,
             assetIconUrl: fromAssetIconUrl,
             assetDescription: fromAssetDescription,
             assetValue: fromAssetValue,
@@ -43,6 +46,7 @@ class WhatToWhatConvertWidget extends StatelessWidget {
             ),
           ),
           _AssetRowWidget(
+            isLoading: isLoading,
             assetIconUrl: toAssetIconUrl,
             assetDescription: toAssetDescription,
             assetValue: toAssetValue,
@@ -56,12 +60,14 @@ class WhatToWhatConvertWidget extends StatelessWidget {
 
 class _AssetRowWidget extends StatelessWidget {
   const _AssetRowWidget({
+    required this.isLoading,
     required this.assetIconUrl,
     required this.assetDescription,
     required this.assetValue,
     this.isSecandary = false,
   });
 
+  final bool isLoading;
   final String assetIconUrl;
   final String assetDescription;
   final String assetValue;
@@ -89,12 +95,19 @@ class _AssetRowWidget extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            Text(
-              assetValue,
-              style: sTextH4Style.copyWith(
-                color: isSecandary ? colors.purple : null,
+            if (isLoading)
+              SSkeletonTextLoader(
+                width: 120,
+                height: 32,
+                borderRadius: BorderRadius.circular(4),
+              )
+            else
+              Text(
+                assetValue,
+                style: sTextH4Style.copyWith(
+                  color: isSecandary ? colors.purple : null,
+                ),
               ),
-            ),
           ],
         ),
       ],

@@ -28,6 +28,7 @@ class SSmallHeader extends StatelessWidget {
     required this.title,
     this.subTitle,
     this.subTitleStyle,
+    this.titleStyle,
   }) : super(key: key);
 
   final Widget? icon;
@@ -51,6 +52,7 @@ class SSmallHeader extends StatelessWidget {
 
   final bool isStarSelected;
   final String title;
+  final TextStyle? titleStyle;
 
   final String? subTitle;
   final TextStyle? subTitleStyle;
@@ -90,7 +92,7 @@ class SSmallHeader extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       textAlign: titleAlign,
                       maxLines: 1,
-                      style: sTextH5Style,
+                      style: titleStyle ?? sTextH5Style,
                     ),
                     if (subTitle != null) ...[
                       Text(

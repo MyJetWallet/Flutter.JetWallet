@@ -48,11 +48,11 @@ class BankCardDateLabel extends StatelessObserverWidget {
             ),
           ),
         ),
-        const SDivider(
-          width: 1.0,
-          height: 88.0,
-        ),
-        if (showLabel)
+        if (showLabel) ...[
+          const SDivider(
+            width: 1.0,
+            height: 88.0,
+          ),
           Expanded(
             child: SFieldDividerFrame(
               child: SStandardField(
@@ -68,6 +68,7 @@ class BankCardDateLabel extends StatelessObserverWidget {
               ),
             ),
           ),
+        ],
       ],
     );
   }

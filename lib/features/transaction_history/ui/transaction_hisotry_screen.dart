@@ -18,12 +18,14 @@ class TransactionHistory extends StatefulObserverWidget {
     this.assetSymbol,
     this.initialIndex = 0,
     this.jwOperationId,
+    this.onTabChanged,
   });
 
   final String? assetName;
   final String? assetSymbol;
   final int initialIndex;
   final String? jwOperationId;
+  final void Function(int index)? onTabChanged;
 
   @override
   State<TransactionHistory> createState() => _TransactionHistoryState();
@@ -54,6 +56,7 @@ class _TransactionHistoryState extends State<TransactionHistory> with TickerProv
           globalHistoryTab: GlobalHistoryTab.pending,
         );
       }
+      widget.onTabChanged?.call(_tabController.index);
     });
 
     super.initState();
@@ -93,9 +96,6 @@ class _TransactionHistoryState extends State<TransactionHistory> with TickerProv
                 child: SSmallHeader(
                   title: _title(context, TransactionType.none),
                   onBackButtonTap: () {
-                    sAnalytics.tapOnTheButtonBackOnGlobalTransactionHistoryScreen(
-                      globalHistoryTab: _tabController.index == 0 ? GlobalHistoryTab.all : GlobalHistoryTab.pending,
-                    );
                     Navigator.pop(context);
                   },
                 ),

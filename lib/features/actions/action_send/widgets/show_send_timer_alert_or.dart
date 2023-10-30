@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 Duration getDurationFromBlocker(String timespanToExpire) {
   var days = 0;
   var hours = 0;
   var minutes = 0;
-
-  print(timespanToExpire);
 
   final parts = timespanToExpire.split('.');
 
@@ -59,72 +57,23 @@ void showSendTimerAlertOr({
 
     return ind != -1
         ? _showTimerAlert(
-            context,
-            clientDetail,
             clientDetail.clientBlockers[ind].expireDateTime ??
                 DateTime.now().add(
                   getDurationFromBlocker(clientDetail.clientBlockers[ind].timespanToExpire),
                 ),
-            from,
           )
         : or();
-
-/*
-    for (final blocker in clientDetail.clientBlockers) {
-      if (blocker.blockingType == BlockingType.transfer) {
-        return _showTimerAlert(
-          context,
-          clientDetail,
-          blocker.expireDateTime ?? DateTime.now(),
-        );
-      } else if (blocker.blockingType == BlockingType.withdrawal) {
-        return _showTimerAlert(
-          context,
-          clientDetail,
-          blocker.expireDateTime ?? DateTime.now(),
-        );
-      } else if (blocker.blockingType == BlockingType.trade) {
-        return _showTimerAlert(
-          context,
-          clientDetail,
-          blocker.expireDateTime ?? DateTime.now(),
-        );
-      }
-    }
-
-    return or();
-    */
   }
 }
 
 void _showTimerAlert(
-  BuildContext context,
-  ClientDetailModel clientDetail,
   DateTime expireIn,
-  BlockingType from,
 ) {
-  final expireFormatted = DateFormat('d MMM y HH:mm', intl.localeName).format(expireIn);
+  final expireFormatted = DateFormat('d MMM y', intl.localeName).format(expireIn);
 
-  String getDescription() {
-    switch (from) {
-      case BlockingType.deposit:
-        return intl.deposit_timer_alert_description;
-      case BlockingType.withdrawal:
-        return intl.send_timer_alert_description;
-      case BlockingType.trade:
-        return intl.trade_timer_alert_description;
-      case BlockingType.phoneNumberUpdate:
-        return intl.phone_update_block;
-      default:
-        return intl.send_timer_alert_description;
-    }
-  }
-
-  sShowTimerAlertPopup(
-    context: context,
-    buttonName: intl.send_timer_alert_ok,
-    description: getDescription(),
-    expireIn: expireFormatted,
-    onButtonTap: () => Navigator.pop(context),
+  sNotification.showError(
+    '${intl.message_operation_is_suspended} $expireFormatted',
+    id: 1,
+    hideIcon: true,
   );
 }

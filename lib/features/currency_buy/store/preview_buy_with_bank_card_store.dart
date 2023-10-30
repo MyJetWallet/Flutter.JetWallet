@@ -142,8 +142,9 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
     final cardData = CirclePaymentDataModel(cardId: input.cardId ?? '');
 
     final model = CardBuyCreateRequestModel(
+      buyFixed: true,
       paymentMethod: CirclePaymentMethod.bankCard,
-      paymentAmount: amountToPay!,
+      paymentAmount: amountToPay,
       buyAsset: input.currency.symbol,
       paymentAsset: input.currencyPayment.symbol,
       cardPaymentData: cardData,

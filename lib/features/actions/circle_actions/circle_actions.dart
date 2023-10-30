@@ -9,20 +9,20 @@ import 'package:simple_kit/simple_kit.dart';
 class CircleActionButtons extends StatelessObserverWidget {
   const CircleActionButtons({
     super.key,
-    required this.showBuy,
-    required this.showReceive,
-    required this.showSend,
-    required this.showExchange,
+    this.isBuyDisabled = false,
+    this.isReceiveDisabled = false,
+    this.isSendDisabled = false,
+    this.isExchangeDisabled = false,
     this.onBuy,
     this.onReceive,
     this.onSend,
     this.onExchange,
   });
 
-  final bool showBuy;
-  final bool showReceive;
-  final bool showSend;
-  final bool showExchange;
+  final bool isBuyDisabled;
+  final bool isReceiveDisabled;
+  final bool isSendDisabled;
+  final bool isExchangeDisabled;
   final Function()? onBuy;
   final Function()? onReceive;
   final Function()? onSend;
@@ -30,52 +30,36 @@ class CircleActionButtons extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    var countOfActive = 0;
-    if (showBuy) {
-      countOfActive++;
-    }
-    if (showReceive) {
-      countOfActive++;
-    }
-    if (showSend) {
-      countOfActive++;
-    }
-    if (showExchange) {
-      countOfActive++;
-    }
-
     return SPaddingH24(
       child: SizedBox(
-        width: countOfActive > 2 ? MediaQuery.of(context).size.width - 48 : 216,
+        width: MediaQuery.of(context).size.width - 48,
         child: Row(
-          mainAxisAlignment: countOfActive > 2
-              ? MainAxisAlignment.spaceBetween
-              : MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            if (showBuy)
-              CircleActionBuy(
-                onTap: () {
-                  onBuy?.call();
-                },
-              ),
-            if (showReceive)
-              CircleActionReceive(
-                onTap: () {
-                  onReceive?.call();
-                },
-              ),
-            if (showSend)
-              CircleActionSend(
-                onTap: () {
-                  onSend?.call();
-                },
-              ),
-            if (showExchange)
-              CircleActionExchange(
-                onTap: () {
-                  onExchange?.call();
-                },
-              ),
+            CircleActionBuy(
+              onTap: () {
+                onBuy?.call();
+              },
+              isDisabled: isBuyDisabled,
+            ),
+            CircleActionReceive(
+              onTap: () {
+                onReceive?.call();
+              },
+              isDisabled: isReceiveDisabled,
+            ),
+            CircleActionSend(
+              onTap: () {
+                onSend?.call();
+              },
+              isDisabled: isSendDisabled,
+            ),
+            CircleActionExchange(
+              onTap: () {
+                onExchange?.call();
+              },
+              isDisabled: isExchangeDisabled,
+            ),
           ],
         ),
       ),
