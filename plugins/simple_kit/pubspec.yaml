@@ -146,6 +146,7 @@ flutter:
     - assets/icons/light/24x24/history_declined/
     - assets/icons/light/24x24/transfer/
     - assets/icons/light/24x24/chevron_down_double/
+    - assets/icons/light/24x24/crypto/
     - assets/icons/light/32x32/market/
     - assets/icons/light/32x32/my_assets/
     - assets/icons/light/32x32/card_bottom/

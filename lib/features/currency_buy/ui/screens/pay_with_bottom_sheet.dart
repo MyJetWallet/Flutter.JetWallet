@@ -3,9 +3,9 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/features/amount/amount_screem.dart';
 import 'package:jetwallet/features/bank_card/add_bank_card.dart';
 import 'package:jetwallet/features/buy_flow/store/payment_method_store.dart';
+import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/payment_methods_widgets/balances_widget.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/payment_methods_widgets/payment_method_cards_widget.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
@@ -19,7 +19,7 @@ import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
 void showPayWithBottomSheet({
   required BuildContext context,
-  required CurrencyModel currency,
+  CurrencyModel? currency,
   void Function({
     CircleCard? inputCard,
     SimpleBankingAccount? account,
@@ -72,7 +72,7 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
     this.onSelected,
   });
 
-  final CurrencyModel asset;
+  final CurrencyModel? asset;
   final void Function({
     CircleCard? inputCard,
     SimpleBankingAccount? account,
@@ -106,7 +106,7 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
                   sRouter.push(
                     AmountRoute(
                       tab: AmountScreenTab.buy,
-                      asset: asset,
+                      asset: asset!,
                       account: account,
                     ),
                   );
@@ -122,7 +122,7 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
   }
 }
 
-void _onAddCardTap(BuildContext context, CurrencyModel asset) {
+void _onAddCardTap(BuildContext context, CurrencyModel? asset) {
   Navigator.push(
     context,
     PageRouteBuilder(

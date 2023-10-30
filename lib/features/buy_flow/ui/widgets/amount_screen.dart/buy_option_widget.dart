@@ -5,14 +5,14 @@ class BuyOptionWidget extends StatelessWidget {
   const BuyOptionWidget({
     super.key,
     required this.icon,
-    required this.title,
+    this.title,
     required this.subTitle,
     this.trailing,
     required this.onTap,
   });
 
   final Widget icon;
-  final String title;
+  final String? title;
   final String subTitle;
   final String? trailing;
   final void Function() onTap;
@@ -50,8 +50,9 @@ class BuyOptionWidget extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
+                if (title != null) 
                 Text(
-                  title,
+                  title!,
                   style: sBodyText2Style.copyWith(
                     color: colors.black,
                     fontWeight: FontWeight.w600,

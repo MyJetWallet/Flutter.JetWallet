@@ -24,15 +24,15 @@ import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
-part 'amount_store.g.dart';
+part 'sell_amount_store.g.dart';
 
-class BuyAmountStore extends _BuyAmountStoreBase with _$BuyAmountStore {
-  BuyAmountStore() : super();
+class SellAmountStore extends _SellAmountStoreBase with _$SellAmountStore {
+  SellAmountStore() : super();
 
-  static BuyAmountStore of(BuildContext context) => Provider.of<BuyAmountStore>(context, listen: false);
+  static SellAmountStore of(BuildContext context) => Provider.of<SellAmountStore>(context, listen: false);
 }
 
-abstract class _BuyAmountStoreBase with Store {
+abstract class _SellAmountStoreBase with Store {
   @computed
   BaseCurrencyModel get baseCurrency => sSignalRModules.baseCurrency;
 
@@ -42,8 +42,16 @@ abstract class _BuyAmountStoreBase with Store {
         assetSymbol: fiatSymbol,
       );
 
-  @observable
-  PaymentMethodCategory category = PaymentMethodCategory.cards;
+  @computed
+  PaymentMethodCategory get category {
+    if (card != null) {
+      return PaymentMethodCategory.cards;
+    } else if (account != null) {
+      return PaymentMethodCategory.account;
+    } else {
+      return PaymentMethodCategory.none;
+    }
+  }
 
   @observable
   bool disableSubmit = false;
@@ -79,7 +87,7 @@ abstract class _BuyAmountStoreBase with Store {
 
   @computed
   String get fiatSymbol {
-    return category == PaymentMethodCategory.cards ? 'EUR' : account?.currency ?? '';
+    return 'EUR';
   }
 
   @computed
@@ -126,7 +134,7 @@ abstract class _BuyAmountStoreBase with Store {
 
   @action
   void init({
-    required CurrencyModel inputAsset,
+    CurrencyModel? inputAsset,
     CircleCard? inputCard,
     SimpleBankingAccount? account,
   }) {
@@ -134,10 +142,8 @@ abstract class _BuyAmountStoreBase with Store {
     card = inputCard;
     this.account = account;
 
-    category = inputCard != null ? PaymentMethodCategory.cards : PaymentMethodCategory.account;
-
     if (category == PaymentMethodCategory.cards) {
-      paymentAsset = inputAsset.buyMethods
+      paymentAsset = inputAsset?.buyMethods
           .firstWhere((element) => element.id == PaymentMethodType.bankCard)
           .paymentAssets
           ?.firstWhere((element) => element.asset == 'EUR');
@@ -198,6 +204,7 @@ abstract class _BuyAmountStoreBase with Store {
     inputValid = false;
   }
 
+  @action
   void setNewPayWith({
     CircleCard? newCard,
     SimpleBankingAccount? newAccount,
@@ -205,7 +212,6 @@ abstract class _BuyAmountStoreBase with Store {
     if (newCard != null) {
       card = newCard;
       account = null;
-      category = PaymentMethodCategory.cards;
       paymentAsset = asset?.buyMethods
           .firstWhere((element) => element.id == PaymentMethodType.bankCard)
           .paymentAssets
@@ -216,7 +222,6 @@ abstract class _BuyAmountStoreBase with Store {
     if (newAccount != null) {
       account = newAccount;
       card = null;
-      category = PaymentMethodCategory.account;
       paymentAsset = null;
     }
 
@@ -237,12 +242,14 @@ abstract class _BuyAmountStoreBase with Store {
     String baseS,
     String targetS,
   ) async {
-    targetConversionPrice = await getConversionPrice(
-      ConversionPriceInput(
-        baseAssetSymbol: baseS,
-        quotedAssetSymbol: targetS,
-      ),
-    );
+    if (asset != null) {
+      targetConversionPrice = await getConversionPrice(
+        ConversionPriceInput(
+          baseAssetSymbol: baseS,
+          quotedAssetSymbol: targetS,
+        ),
+      );
+    }
   }
 
   @computed

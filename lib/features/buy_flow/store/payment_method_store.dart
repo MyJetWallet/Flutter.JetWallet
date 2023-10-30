@@ -59,7 +59,7 @@ abstract class _PaymentMethodStoreBase with Store {
     final isNoBlocker =
         !sSignalRModules.clientDetail.clientBlockers.any((element) => element.blockingType == BlockingType.deposit);
 
-    return isMethodAvaible && isKycAllowed && isNoBlocker;
+    return (selectedAssset == null || (isMethodAvaible && isKycAllowed)) && isNoBlocker;
   }
 
   @computed
@@ -76,11 +76,11 @@ abstract class _PaymentMethodStoreBase with Store {
     final isMethodAvaible =
         selectedAssset?.buyMethods.any((element) => element.id == PaymentMethodType.ibanTransferUnlimint) ?? false;
 
-    return isBankingIbanAccountAvaible && isMethodAvaible;
+    return isBankingIbanAccountAvaible && (selectedAssset == null ||  isMethodAvaible);
   }
 
   @action
-  Future<void> init(CurrencyModel asset) async {
+  Future<void> init(CurrencyModel? asset) async {
     sAnalytics.paymentMethodScreenView();
 
     selectedAssset = asset;
