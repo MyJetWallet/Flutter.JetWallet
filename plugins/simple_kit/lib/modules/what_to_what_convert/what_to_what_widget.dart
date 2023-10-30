@@ -7,18 +7,22 @@ class WhatToWhatConvertWidget extends StatelessWidget {
     super.key,
     required this.isLoading,
     required this.fromAssetIconUrl,
+    this.fromAssetCustomIcon,
     required this.fromAssetDescription,
     required this.fromAssetValue,
     required this.toAssetIconUrl,
+    this.toAssetCustomIcon,
     required this.toAssetDescription,
     required this.toAssetValue,
   });
 
   final bool isLoading;
   final String fromAssetIconUrl;
+  final Widget? fromAssetCustomIcon;
   final String fromAssetDescription;
   final String fromAssetValue;
   final String toAssetIconUrl;
+  final Widget? toAssetCustomIcon;
   final String toAssetDescription;
   final String toAssetValue;
 
@@ -36,6 +40,7 @@ class WhatToWhatConvertWidget extends StatelessWidget {
             assetIconUrl: fromAssetIconUrl,
             assetDescription: fromAssetDescription,
             assetValue: fromAssetValue,
+            customIcon: fromAssetCustomIcon,
           ),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -51,6 +56,7 @@ class WhatToWhatConvertWidget extends StatelessWidget {
             assetDescription: toAssetDescription,
             assetValue: toAssetValue,
             isSecandary: true,
+            customIcon: toAssetCustomIcon,
           ),
         ],
       ),
@@ -65,6 +71,7 @@ class _AssetRowWidget extends StatelessWidget {
     required this.assetDescription,
     required this.assetValue,
     this.isSecandary = false,
+    this.customIcon,
   });
 
   final bool isLoading;
@@ -72,6 +79,7 @@ class _AssetRowWidget extends StatelessWidget {
   final String assetDescription;
   final String assetValue;
   final bool isSecandary;
+  final Widget? customIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -79,11 +87,15 @@ class _AssetRowWidget extends StatelessWidget {
 
     return Row(
       children: [
-        SNetworkSvg(
-          url: assetIconUrl,
-          width: 40,
-          height: 40,
-        ),
+        if (customIcon != null) ...[
+          customIcon!,
+        ] else ...[
+          SNetworkSvg(
+            url: assetIconUrl,
+            width: 40,
+            height: 40,
+          ),
+        ],
         const SpaceW12(),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,

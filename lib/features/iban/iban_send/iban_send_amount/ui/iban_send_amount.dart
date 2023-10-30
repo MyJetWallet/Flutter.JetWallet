@@ -47,7 +47,7 @@ class IbanSendAmountBody extends StatelessObserverWidget {
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: '${intl.iban_out_send} ${store.eurCurrency.symbol}',
+          title: intl.withdraw,
           subTitle: '${intl.withdrawalAmount_available}: ${volumeFormat(
             decimal: store.availableCurrency,
             accuracy: store.eurCurrency.accuracy,
@@ -79,12 +79,41 @@ class IbanSendAmountBody extends StatelessObserverWidget {
                   error: store.withAmmountInputError == InputError.limitError
                       ? store.limitError
                       : store.withAmmountInputError.value(),
-                  isErrorActive: store.withAmmountInputError.isActive,
+                  //isErrorActive: store.withAmmountInputError.isActive,
+                  isErrorActive: false,
                 ),
               ),
             ],
           ),
           const Spacer(),
+          if (!store.withAmmountInputError.isActive) ...[
+            STransparentInkWell(
+              onTap: () {
+                store.updateAmount(store.availableCurrency.toString());
+              },
+              child: Text(
+                '${intl.withdrawAll} ${volumeFormat(
+                  decimal: store.availableCurrency,
+                  accuracy: store.eurCurrency.accuracy,
+                  symbol: store.eurCurrency.symbol,
+                )}',
+                style: sBodyText1Style.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: colors.blue,
+                ),
+              ),
+            ),
+          ] else ...[
+            Text(
+              store.withAmmountInputError == InputError.limitError
+                  ? store.limitError
+                  : store.withAmmountInputError.value(),
+              style: sBodyText2Style.copyWith(
+                color: colors.red,
+              ),
+            ),
+          ],
+          const SpaceH20(),
           SPaymentSelectAsset(
             onTap: () {
               sAnalytics.tapOnTheButtonLimitsIBAN();
