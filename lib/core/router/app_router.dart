@@ -28,6 +28,7 @@ import 'package:jetwallet/features/auth/user_data/ui/user_data_screen.dart';
 import 'package:jetwallet/features/auth/verification_reg/verification_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/buy_confrimation_screen.dart';
+import 'package:jetwallet/features/buy_flow/ui/convetr_confrimation_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/sell_confrimation_screen.dart';
 import 'package:jetwallet/features/card_coming_soon/card_screen.dart';
 import 'package:jetwallet/features/convert/model/preview_convert_input.dart';
@@ -576,6 +577,9 @@ class AppRouter extends _$AppRouter {
       path: '/sell_confirmation',
       page: SellConfirmationRoute.page,
     ),
-    
+    AutoRoute(
+      path: '/convetr_confirmation',
+      page: ConvetrConfirmationRoute.page,
+    ),
   ];
 }

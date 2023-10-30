@@ -4,7 +4,6 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/format_service.dart';
@@ -19,11 +18,6 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
-import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
-import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
-import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 part 'convert_amount_store.g.dart';
 
 class ConvertAmountStore extends _ConvertAmountStoreBase with _$ConvertAmountStore {
@@ -39,19 +33,8 @@ abstract class _ConvertAmountStoreBase with Store {
   @computed
   CurrencyModel get buyCurrency => getIt.get<FormatService>().findCurrency(
         findInHideTerminalList: true,
-        assetSymbol: fiatSymbol,
+        assetSymbol: fromAsset?.symbol ?? '',
       );
-
-  @computed
-  PaymentMethodCategory get category {
-    if (card != null) {
-      return PaymentMethodCategory.cards;
-    } else if (account != null) {
-      return PaymentMethodCategory.account;
-    } else {
-      return PaymentMethodCategory.none;
-    }
-  }
 
   @observable
   bool disableSubmit = false;
@@ -74,179 +57,81 @@ abstract class _ConvertAmountStoreBase with Store {
   bool inputValid = false;
 
   @observable
-  bool isFiatEntering = true;
+  bool isFromEntering = true;
 
   @observable
-  String fiatInputValue = '0';
+  String fromInputValue = '0';
 
   @observable
-  String cryptoInputValue = '0';
-
-  @computed
-  String get cryptoSymbol => asset?.symbol ?? '';
-
-  @computed
-  String get fiatSymbol {
-    return 'EUR';
-  }
+  String toInputValue = '0';
 
   @computed
   String get primaryAmount {
-    return isFiatEntering ? fiatInputValue : cryptoInputValue;
+    return isFromEntering ? fromInputValue : toInputValue;
   }
 
   @computed
   String get primarySymbol {
-    return isFiatEntering ? fiatSymbol : cryptoSymbol;
+    return isFromEntering ? fromAsset?.symbol ?? '' : toAsset?.symbol ?? '';
   }
 
   @computed
   String get secondaryAmount {
-    return isFiatEntering ? cryptoInputValue : fiatInputValue;
+    return isFromEntering ? toInputValue : fromInputValue;
   }
 
   @computed
   String get secondarySymbol {
-    return isFiatEntering ? cryptoSymbol : fiatSymbol;
-  }
-
-  @computed
-  String get fiatBalance {
-    return category == PaymentMethodCategory.cards ? card?.toString() ?? '' : account?.currency ?? '';
+    return isFromEntering ? toAsset?.symbol ?? '' : fromAsset?.symbol ?? '';
   }
 
   @computed
   Decimal get _availablePresentForProcessing => Decimal.one - ((convertMarkup / Decimal.parse('100')).toDecimal());
-  @observable
-  CardLimitsModel? limitByAsset;
 
   @observable
-  PaymentAsset? paymentAsset;
+  CurrencyModel? fromAsset;
 
   @observable
-  CurrencyModel? asset;
-
-  @observable
-  CircleCard? card;
-
-  @observable
-  SimpleBankingAccount? account;
+  CurrencyModel? toAsset;
 
   @action
   void init({
     CurrencyModel? inputAsset,
-    CircleCard? inputCard,
-    SimpleBankingAccount? account,
   }) {
-    asset = inputAsset;
-    card = inputCard;
-    this.account = account;
-
-    if (category == PaymentMethodCategory.cards) {
-      paymentAsset = inputAsset?.buyMethods
-          .firstWhere((element) => element.id == PaymentMethodType.bankCard)
-          .paymentAssets
-          ?.firstWhere((element) => element.asset == 'EUR');
-
-      _updateLimitModel(paymentAsset!);
-    }
-
-    loadConversionPrice(
-      fiatSymbol,
-      cryptoSymbol,
-    );
-
-    Timer(
-      const Duration(milliseconds: 500),
-      () {
-        if (inputCard != null && inputCard.showUaAlert) {
-          sShowAlertPopup(
-            sRouter.navigatorKey.currentContext!,
-            primaryText: intl.currencyBuy_alert,
-            secondaryText: intl.currencyBuy_alertDescription,
-            primaryButtonName: intl.actionBuy_gotIt,
-            image: Image.asset(
-              phoneChangeAsset,
-              width: 80,
-              height: 80,
-              package: 'simple_kit',
-            ),
-            onPrimaryButtonTap: () {
-              Navigator.pop(sRouter.navigatorKey.currentContext!);
-            },
-          );
-        }
-      },
-    );
-
-    sAnalytics.newBuyBuyAssetView(
-      asset: asset?.symbol ?? '',
-      paymentMethodType: category.name,
-      paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : 'account',
-      paymentMethodCurrency: buyCurrency.symbol,
-    );
+    fromAsset = inputAsset;
   }
 
   @action
-  void setNewAsset(CurrencyModel newAsset) {
-    asset = newAsset;
+  void setNewFromAsset(CurrencyModel newAsset) {
+    fromAsset = newAsset;
 
-    loadConversionPrice(
-      fiatSymbol,
-      cryptoSymbol,
-    );
+    loadConversionPrice();
 
-    fiatInputValue = '0';
-
-    cryptoInputValue = '0';
+    toInputValue = '0';
+    fromInputValue = '0';
     errorText = null;
-
     inputValid = false;
   }
 
   @action
-  void setNewPayWith({
-    CircleCard? newCard,
-    SimpleBankingAccount? newAccount,
-  }) {
-    if (newCard != null) {
-      card = newCard;
-      account = null;
-      paymentAsset = asset?.buyMethods
-          .firstWhere((element) => element.id == PaymentMethodType.bankCard)
-          .paymentAssets
-          ?.firstWhere((element) => element.asset == 'EUR');
+  void setNewToAsset(CurrencyModel newAsset) {
+    toAsset = newAsset;
 
-      _updateLimitModel(paymentAsset!);
-    }
-    if (newAccount != null) {
-      account = newAccount;
-      card = null;
-      paymentAsset = null;
-    }
+    loadConversionPrice();
 
-    loadConversionPrice(
-      fiatSymbol,
-      cryptoSymbol,
-    );
-
-    fiatInputValue = '0';
-
-    cryptoInputValue = '0';
+    toInputValue = '0';
+    fromInputValue = '0';
     errorText = null;
-    _validateInput();
+    inputValid = false;
   }
 
   @action
-  Future<void> loadConversionPrice(
-    String baseS,
-    String targetS,
-  ) async {
-    if (asset != null) {
+  Future<void> loadConversionPrice() async {
+    if (fromAsset != null && toAsset != null) {
       targetConversionPrice = await getConversionPrice(
         ConversionPriceInput(
-          baseAssetSymbol: baseS,
-          quotedAssetSymbol: targetS,
+          baseAssetSymbol: fromAsset?.symbol ?? '',
+          quotedAssetSymbol: toAsset?.symbol ?? '',
         ),
       );
     }
@@ -262,41 +147,36 @@ abstract class _ConvertAmountStoreBase with Store {
     return inputError.isActive || paymentMethodInputError != null;
   }
 
-  @computed
-  int get fiatAccuracy {
-    return sSignalRModules.currenciesList.firstWhere((element) => element.symbol == fiatSymbol).accuracy;
-  }
-
   @action
   void updateInputValue(String value) {
-    if (isFiatEntering) {
-      fiatInputValue = responseOnInputAction(
-        oldInput: fiatInputValue,
+    if (isFromEntering) {
+      fromInputValue = responseOnInputAction(
+        oldInput: fromInputValue,
         newInput: value,
-        accuracy: fiatAccuracy,
+        accuracy: fromAsset?.accuracy ?? 2,
       );
     } else {
-      cryptoInputValue = responseOnInputAction(
-        oldInput: cryptoInputValue,
+      toInputValue = responseOnInputAction(
+        oldInput: toInputValue,
         newInput: value,
-        accuracy: asset?.accuracy ?? 2,
+        accuracy: toAsset?.accuracy ?? 2,
       );
     }
-    if (isFiatEntering) {
-      _calculateCryptoConversion();
+    if (isFromEntering) {
+      _calculateToConversion();
     } else {
-      _calculateFiatConversion();
+      _calculateFromConversion();
     }
 
     _validateInput();
   }
 
   @action
-  void _calculateCryptoConversion() {
-    if (targetConversionPrice != null && fiatInputValue != '0') {
-      final amount = Decimal.parse(fiatInputValue);
+  void _calculateToConversion() {
+    if (targetConversionPrice != null && fromInputValue != '0') {
+      final amount = Decimal.parse(fromInputValue);
       final price = targetConversionPrice!;
-      final accuracy = asset!.accuracy;
+      final accuracy = toAsset?.accuracy ?? 2;
 
       var conversion = Decimal.zero;
 
@@ -306,19 +186,19 @@ abstract class _ConvertAmountStoreBase with Store {
         );
       }
 
-      cryptoInputValue = truncateZerosFrom(
+      toInputValue = truncateZerosFrom(
         conversion.toString(),
       );
     } else {
-      cryptoInputValue = zero;
+      toInputValue = zero;
     }
   }
 
-  void _calculateFiatConversion() {
-    if (targetConversionPrice != null && cryptoInputValue != '0') {
-      final amount = Decimal.parse(cryptoInputValue);
+  void _calculateFromConversion() {
+    if (targetConversionPrice != null && toInputValue != '0') {
+      final amount = Decimal.parse(toInputValue);
       final price = targetConversionPrice!;
-      final accuracy = asset!.accuracy;
+      final accuracy = fromAsset?.accuracy ?? 2;
 
       var conversion = Decimal.zero;
 
@@ -329,17 +209,17 @@ abstract class _ConvertAmountStoreBase with Store {
         );
       }
 
-      fiatInputValue = truncateZerosFrom(
+      fromInputValue = truncateZerosFrom(
         conversion.toString(),
       );
     } else {
-      fiatInputValue = zero;
+      fromInputValue = zero;
     }
   }
 
   @action
   void _validateInput() {
-    if (Decimal.parse(fiatInputValue) == Decimal.zero) {
+    if (Decimal.parse(fromInputValue) == Decimal.zero) {
       inputValid = true;
       inputError = InputError.none;
       _updatePaymentMethodInputError(null);
@@ -347,52 +227,15 @@ abstract class _ConvertAmountStoreBase with Store {
       return;
     }
 
-    if (!isInputValid(fiatInputValue)) {
+    if (!isInputValid(fromInputValue)) {
       inputValid = false;
 
       return;
     }
 
-    final value = Decimal.parse(fiatInputValue);
-    var min = paymentAsset?.minAmount ?? Decimal.zero;
-    var max = (account?.balance ?? paymentAsset?.maxAmount ?? Decimal.zero) * _availablePresentForProcessing;
-
-    if (category == PaymentMethodCategory.account && account?.accountId != 'clearjuction_account') {
-      final tempMin = asset!.buyMethods
-              .firstWhere((element) => element.id == PaymentMethodType.ibanTransferUnlimint)
-              .paymentAssets
-              ?.firstWhere((element) => element.asset == 'EUR')
-              .minAmount ??
-          Decimal.zero;
-      var tempMax = asset!.buyMethods
-              .firstWhere((element) => element.id == PaymentMethodType.ibanTransferUnlimint)
-              .paymentAssets
-              ?.firstWhere((element) => element.asset == 'EUR')
-              .maxAmount ??
-          Decimal.zero;
-      tempMax = tempMax * _availablePresentForProcessing;
-
-      if (min > tempMin) {
-        min = tempMin;
-      }
-
-      if (max > tempMax) {
-        max = tempMax;
-      }
-    }
-
-    Decimal? limitMax = max;
-
-    if (limitByAsset != null && category == PaymentMethodCategory.cards) {
-      limitMax = limitByAsset!.barInterval == StateBarType.day1
-          ? (limitByAsset!.day1Limit - limitByAsset!.day1Amount)
-          : limitByAsset!.barInterval == StateBarType.day7
-              ? (limitByAsset!.day7Limit - limitByAsset!.day7Amount)
-              : (limitByAsset!.day30Limit - limitByAsset!.day30Amount);
-      limitMax = limitMax * _availablePresentForProcessing;
-    }
-
-    max = limitMax < max ? limitMax : max;
+    final value = Decimal.parse(fromInputValue);
+    final min = Decimal.zero;
+    final max = (fromAsset?.assetBalance ?? Decimal.zero) * _availablePresentForProcessing;
 
     inputValid = value >= min && value <= max;
 
@@ -422,7 +265,7 @@ abstract class _ConvertAmountStoreBase with Store {
 
     const error = InputError.none;
 
-    inputError = double.parse(fiatInputValue) != 0
+    inputError = double.parse(fromInputValue) != 0
         ? error == InputError.none
             ? paymentMethodInputError == null
                 ? InputError.none
@@ -436,101 +279,12 @@ abstract class _ConvertAmountStoreBase with Store {
     if (error != null) {
       sAnalytics.newBuyErrorLimit(
         errorCode: error,
-        asset: asset?.symbol ?? '',
-        paymentMethodType: category.name,
-        paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : 'account',
+        asset: fromAsset?.symbol ?? '',
+        paymentMethodType: 'crypto',
+        paymentMethodName: 'crypto',
         paymentMethodCurrency: buyCurrency.symbol,
       );
     }
     paymentMethodInputError = error;
-  }
-
-  @action
-  void _updateLimitModel(PaymentAsset asset) {
-    int calcPercentage(Decimal first, Decimal second) {
-      if (first == Decimal.zero) {
-        return 0;
-      }
-      final doubleFirst = double.parse('$first');
-      final doubleSecond = double.parse('$second');
-      final doubleFinal = double.parse('${doubleFirst / doubleSecond}');
-
-      return (doubleFinal * 100).round();
-    }
-
-    if (asset.limits != null) {
-      var finalInterval = StateBarType.day1;
-      var finalProgress = 0;
-      var dayState = asset.limits!.dayValue == asset.limits!.dayLimit ? StateLimitType.block : StateLimitType.active;
-      var weekState = asset.limits!.weekValue == asset.limits!.weekLimit ? StateLimitType.block : StateLimitType.active;
-      var monthState =
-          asset.limits!.monthValue == asset.limits!.monthLimit ? StateLimitType.block : StateLimitType.active;
-      if (monthState == StateLimitType.block) {
-        finalProgress = 100;
-        finalInterval = StateBarType.day30;
-        weekState = weekState == StateLimitType.block ? StateLimitType.block : StateLimitType.none;
-        dayState = dayState == StateLimitType.block ? StateLimitType.block : StateLimitType.none;
-      } else if (weekState == StateLimitType.block) {
-        finalProgress = 100;
-        finalInterval = StateBarType.day7;
-        dayState = dayState == StateLimitType.block ? StateLimitType.block : StateLimitType.none;
-        monthState = StateLimitType.none;
-      } else if (dayState == StateLimitType.block) {
-        finalProgress = 100;
-        finalInterval = StateBarType.day1;
-        weekState = StateLimitType.none;
-        monthState = StateLimitType.none;
-      } else {
-        final dayLeft = asset.limits!.dayLimit - asset.limits!.dayValue;
-        final weekLeft = asset.limits!.weekLimit - asset.limits!.weekValue;
-        final monthLeft = asset.limits!.monthLimit - asset.limits!.monthValue;
-        if (dayLeft <= weekLeft && dayLeft <= monthLeft) {
-          finalInterval = StateBarType.day1;
-          finalProgress = calcPercentage(
-            asset.limits!.dayValue,
-            asset.limits!.dayLimit,
-          );
-          dayState = StateLimitType.active;
-          weekState = StateLimitType.none;
-          monthState = StateLimitType.none;
-        } else if (weekLeft <= monthLeft) {
-          finalInterval = StateBarType.day7;
-          finalProgress = calcPercentage(
-            asset.limits!.weekValue,
-            asset.limits!.weekLimit,
-          );
-          dayState = StateLimitType.none;
-          weekState = StateLimitType.active;
-          monthState = StateLimitType.none;
-        } else {
-          finalInterval = StateBarType.day30;
-          finalProgress = calcPercentage(
-            asset.limits!.monthValue,
-            asset.limits!.monthLimit,
-          );
-          dayState = StateLimitType.none;
-          weekState = StateLimitType.none;
-          monthState = StateLimitType.active;
-        }
-      }
-
-      final limitModel = CardLimitsModel(
-        minAmount: asset.minAmount,
-        maxAmount: asset.maxAmount,
-        day1Amount: asset.limits!.dayValue,
-        day1Limit: asset.limits!.dayLimit,
-        day1State: dayState,
-        day7Amount: asset.limits!.weekValue,
-        day7Limit: asset.limits!.weekLimit,
-        day7State: weekState,
-        day30Amount: asset.limits!.monthValue,
-        day30Limit: asset.limits!.monthLimit,
-        day30State: monthState,
-        barInterval: finalInterval,
-        barProgress: finalProgress,
-        leftHours: 0,
-      );
-      limitByAsset = limitModel;
-    }
   }
 }

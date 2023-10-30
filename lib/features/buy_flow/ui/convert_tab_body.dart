@@ -6,16 +6,12 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/buy_flow/store/convert_amount_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/buy_option_widget.dart';
-import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/modules/icons/24x24/public/crypto/simple_crypto_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
 import '../../currency_buy/ui/widgets/choose_asset_bottom_sheet.dart';
@@ -37,7 +33,6 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
     super.build(context);
 
     final deviceSize = sDeviceSize;
-    final colors = sKit.colors;
 
     return Provider<ConvertAmountStore>(
       create: (context) => ConvertAmountStore()
@@ -58,38 +53,38 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                 SNewActionPriceField(
                   widgetSize: widgetSizeFrom(deviceSize),
                   primaryAmount: formatCurrencyStringAmount(
-                    value: store.isFiatEntering ? store.fiatInputValue : store.cryptoInputValue,
+                    value: store.isFromEntering ? store.fromInputValue : store.toInputValue,
                   ),
-                  primarySymbol: store.isFiatEntering ? store.fiatSymbol : store.cryptoSymbol,
-                  secondaryAmount: store.asset != null
+                  primarySymbol: store.isFromEntering ? store.fromAsset?.symbol ?? '' : store.toAsset?.symbol ?? '',
+                  secondaryAmount: store.toAsset != null
                       ? formatCurrencyStringAmount(
-                          value: store.isFiatEntering ? store.cryptoInputValue : store.fiatInputValue,
+                          value: store.isFromEntering ? store.toInputValue : store.fromInputValue,
                         )
                       : null,
-                  secondarySymbol: store.asset != null
-                      ? store.isFiatEntering
-                          ? store.cryptoSymbol
-                          : store.fiatSymbol
+                  secondarySymbol: store.toAsset != null
+                      ? store.isFromEntering
+                          ? store.toAsset?.symbol
+                          : store.fromAsset?.symbol
                       : null,
                   onSwap: () {
-                    store.isFiatEntering = !store.isFiatEntering;
+                    store.isFromEntering = !store.isFromEntering;
                   },
                   errorText: store.paymentMethodInputError,
                 ),
                 const Spacer(),
-                if (store.asset != null)
+                if (store.fromAsset != null)
                   BuyOptionWidget(
-                    title: store.asset?.description,
+                    title: store.fromAsset?.description,
                     subTitle: intl.amount_screen_convert,
-                    trailing: store.asset?.volumeAssetBalance,
+                    trailing: store.fromAsset?.volumeAssetBalance,
                     icon: SNetworkSvg24(
-                      url: store.asset?.iconUrl ?? '',
+                      url: store.fromAsset?.iconUrl ?? '',
                     ),
                     onTap: () {
                       showChooseAssetBottomSheet(
                         context: context,
                         onChooseAsset: (currency) {
-                          store.setNewAsset(currency);
+                          store.setNewFromAsset(currency);
                           Navigator.of(context).pop();
                         },
                       );
@@ -103,77 +98,26 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                       showChooseAssetBottomSheet(
                         context: context,
                         onChooseAsset: (currency) {
-                          store.setNewAsset(currency);
+                          store.setNewFromAsset(currency);
                           Navigator.of(context).pop();
                         },
                       );
                     },
                   ),
                 const SpaceH8(),
-                if (store.category == PaymentMethodCategory.account)
+                if (store.toAsset != null)
                   BuyOptionWidget(
-                    title: store.account?.label,
-                    subTitle: intl.amount_screen_convert_to,
-                    trailing: volumeFormat(
-                      decimal: store.account?.balance ?? Decimal.zero,
-                      accuracy: store.asset?.accuracy ?? 1,
-                      symbol: store.account?.currency ?? '',
-                    ),
-                    icon: Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        color: sKit.colors.blue,
-                        shape: BoxShape.circle,
-                      ),
-                      child: SizedBox(
-                        width: 16,
-                        height: 16,
-                        child: SBankMediumIcon(color: sKit.colors.white),
-                      ),
+                    title: store.toAsset?.description,
+                    subTitle: intl.amount_screen_convert,
+                    trailing: store.toAsset?.volumeAssetBalance,
+                    icon: SNetworkSvg24(
+                      url: store.toAsset?.iconUrl ?? '',
                     ),
                     onTap: () {
-                      showPayWithBottomSheet(
+                      showChooseAssetBottomSheet(
                         context: context,
-                        currency: store.asset,
-                        onSelected: ({account, inputCard}) {
-                          store.setNewPayWith(
-                            newCard: inputCard,
-                            newAccount: account,
-                          );
-                          Navigator.of(context).pop();
-                        },
-                      );
-                    },
-                  )
-                else if (store.category == PaymentMethodCategory.cards)
-                  BuyOptionWidget(
-                    title: store.card?.formatedCardLabel,
-                    subTitle: intl.amount_screen_convert_to,
-                    icon: Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: ShapeDecoration(
-                        color: sKit.colors.white,
-                        shape: OvalBorder(
-                          side: BorderSide(
-                            color: colors.grey4,
-                          ),
-                        ),
-                      ),
-                      child: SizedBox(
-                        width: 16,
-                        height: 16,
-                        child: getNetworkIcon(store.card?.network),
-                      ),
-                    ),
-                    onTap: () {
-                      showPayWithBottomSheet(
-                        context: context,
-                        currency: store.asset,
-                        onSelected: ({account, inputCard}) {
-                          store.setNewPayWith(
-                            newCard: inputCard,
-                            newAccount: account,
-                          );
+                        onChooseAsset: (currency) {
+                          store.setNewToAsset(currency);
                           Navigator.of(context).pop();
                         },
                       );
@@ -181,28 +125,13 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                   )
                 else
                   BuyOptionWidget(
-                    subTitle: intl.amount_screen_convert_to,
-                    icon: Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        color: sKit.colors.grey1,
-                        shape: BoxShape.circle,
-                      ),
-                      child: SizedBox(
-                        width: 16,
-                        height: 16,
-                        child: SBankMediumIcon(color: sKit.colors.white),
-                      ),
-                    ),
+                    subTitle: intl.amount_screen_convert,
+                    icon: const SCryptoIcon(),
                     onTap: () {
-                      showPayWithBottomSheet(
+                      showChooseAssetBottomSheet(
                         context: context,
-                        currency: store.asset,
-                        onSelected: ({account, inputCard}) {
-                          store.setNewPayWith(
-                            newCard: inputCard,
-                            newAccount: account,
-                          );
+                        onChooseAsset: (currency) {
+                          store.setNewToAsset(currency);
                           Navigator.of(context).pop();
                         },
                       );
@@ -215,21 +144,17 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                     store.updateInputValue(value);
                   },
                   buttonType: SButtonType.primary2,
-                  submitButtonActive: store.inputValid &&
-                      !store.disableSubmit &&
-                      !(double.parse(store.primaryAmount) == 0.0) &&
-                      store.limitByAsset?.barProgress != 100,
+                  submitButtonActive:
+                      store.inputValid && !store.disableSubmit && !(double.parse(store.primaryAmount) == 0.0),
                   submitButtonName: intl.addCircleCard_continue,
                   onSubmitPressed: () {
                     sRouter.push(
-                      BuyConfirmationRoute(
-                        asset: store.asset!,
-                        paymentCurrency: store.buyCurrency,
-                        isFromFixed: store.isFiatEntering,
-                        fromAmount: store.fiatInputValue,
-                        toAmount: store.cryptoInputValue,
-                        card: store.card,
-                        account: store.account,
+                      ConvetrConfirmationRoute(
+                        fromAsset: store.fromAsset!,
+                        toAsset: store.toAsset!,
+                        fromAmount: Decimal.parse(store.fromInputValue),
+                        toAmount: Decimal.parse(store.toInputValue),
+                        isFromFixed: store.isFromEntering,
                       ),
                     );
                   },
