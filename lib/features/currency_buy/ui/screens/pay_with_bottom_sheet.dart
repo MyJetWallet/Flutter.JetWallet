@@ -24,8 +24,13 @@ void showPayWithBottomSheet({
     CircleCard? inputCard,
     SimpleBankingAccount? account,
   })? onSelected,
+  bool hideCards = false,
 }) {
-  final store = PaymentMethodStore()..init(currency);
+  final store = PaymentMethodStore()
+    ..init(
+      asset: currency,
+      hideCards: hideCards,
+    );
 
   if (store.cards.isNotEmpty || store.accounts.isNotEmpty) {
     sShowBasicModalBottomSheet(

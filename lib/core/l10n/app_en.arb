@@ -1343,5 +1343,7 @@
     "amount_screen_sell": "Sell",
     "amount_screen_convert": "Convert",
     "amount_screen_sell_to": "Sell to",
-    "amount_screen_convert_to": "Convert to"
+    "amount_screen_convert_to": "Convert to",
+    "sell_confirmation_subtitle": "Sell",
+    "sell_confirmation_sell_to" : "Sell to"
 }

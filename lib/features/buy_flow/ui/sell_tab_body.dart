@@ -37,7 +37,6 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
     super.build(context);
 
     final deviceSize = sDeviceSize;
-    final colors = sKit.colors;
 
     return Provider<SellAmountStore>(
       create: (context) => SellAmountStore()
@@ -66,8 +65,11 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                           value: store.isFiatEntering ? store.cryptoInputValue : store.fiatInputValue,
                         )
                       : null,
-                  secondarySymbol:  store.asset != null
-                      ?  store.isFiatEntering ? store.cryptoSymbol : store.fiatSymbol  : null,
+                  secondarySymbol: store.asset != null
+                      ? store.isFiatEntering
+                          ? store.cryptoSymbol
+                          : store.fiatSymbol
+                      : null,
                   onSwap: () {
                     store.isFiatEntering = !store.isFiatEntering;
                   },
@@ -132,43 +134,9 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                       showPayWithBottomSheet(
                         context: context,
                         currency: store.asset,
+                        hideCards: true,
                         onSelected: ({account, inputCard}) {
                           store.setNewPayWith(
-                            newCard: inputCard,
-                            newAccount: account,
-                          );
-                          Navigator.of(context).pop();
-                        },
-                      );
-                    },
-                  )
-                else if (store.category == PaymentMethodCategory.cards)
-                  BuyOptionWidget(
-                    title: store.card?.formatedCardLabel,
-                    subTitle: intl.amount_screen_sell_to,
-                    icon: Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: ShapeDecoration(
-                        color: sKit.colors.white,
-                        shape: OvalBorder(
-                          side: BorderSide(
-                            color: colors.grey4,
-                          ),
-                        ),
-                      ),
-                      child: SizedBox(
-                        width: 16,
-                        height: 16,
-                        child: getNetworkIcon(store.card?.network),
-                      ),
-                    ),
-                    onTap: () {
-                      showPayWithBottomSheet(
-                        context: context,
-                        currency: store.asset,
-                        onSelected: ({account, inputCard}) {
-                          store.setNewPayWith(
-                            newCard: inputCard,
                             newAccount: account,
                           );
                           Navigator.of(context).pop();
@@ -195,9 +163,9 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                       showPayWithBottomSheet(
                         context: context,
                         currency: store.asset,
+                        hideCards: true,
                         onSelected: ({account, inputCard}) {
                           store.setNewPayWith(
-                            newCard: inputCard,
                             newAccount: account,
                           );
                           Navigator.of(context).pop();
@@ -212,21 +180,18 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                     store.updateInputValue(value);
                   },
                   buttonType: SButtonType.primary2,
-                  submitButtonActive: store.inputValid &&
-                      !store.disableSubmit &&
-                      !(double.parse(store.primaryAmount) == 0.0) &&
-                      store.limitByAsset?.barProgress != 100,
+                  submitButtonActive:
+                      store.inputValid && !store.disableSubmit && !(double.parse(store.primaryAmount) == 0.0),
                   submitButtonName: intl.addCircleCard_continue,
                   onSubmitPressed: () {
                     sRouter.push(
-                      BuyConfirmationRoute(
+                      SellConfirmationRoute(
                         asset: store.asset!,
+                        isFromFixed: !store.isFiatEntering,
                         paymentCurrency: store.buyCurrency,
-                        isFromFixed: store.isFiatEntering,
-                        fromAmount: store.fiatInputValue,
-                        toAmount: store.cryptoInputValue,
-                        card: store.card,
-                        account: store.account,
+                        account: store.account!,
+                        fromAmount: Decimal.parse(store.cryptoInputValue),
+                        toAmount: Decimal.parse(store.fiatInputValue),
                       ),
                     );
                   },
