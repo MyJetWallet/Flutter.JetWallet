@@ -1131,6 +1131,7 @@
     "send_globally_limits_text": "Send limits",
     "iban_terms_3": "Funds must come from an account in your own name. Money sent from other accounts will be returned and extra fees may apply",
     "iban_terms_4": "You must be the beneficiary of the bank account",
+    "iban_terms_5": "You may receive funds from anyone",
     "historyRecurringBuys_noTransactionsYet": "No transactions yet",
     "historyRecurringBuy_text1": "Your transactions will appear here",
     "operationName_received": "Received",

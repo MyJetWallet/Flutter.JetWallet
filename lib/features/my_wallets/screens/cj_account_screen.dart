@@ -221,13 +221,18 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                           isHasTransaction: true,
                         );
 
-                        showDepositDetails(context, () {
-                          sAnalytics.eurWalletTapCloseOnDeposirSheet(
-                            isCJ: widget.isCJAccount,
-                            eurAccountLabel: widget.bankingAccount.label ?? 'Account',
-                            isHasTransaction: true,
-                          );
-                        });
+                        showDepositDetails(
+                          context,
+                          () {
+                            sAnalytics.eurWalletTapCloseOnDeposirSheet(
+                              isCJ: widget.isCJAccount,
+                              eurAccountLabel: widget.bankingAccount.label ?? 'Account',
+                              isHasTransaction: true,
+                            );
+                          },
+                          widget.isCJAccount,
+                          widget.bankingAccount,
+                        );
                       },
                     ),
                     CircleActionButton(
