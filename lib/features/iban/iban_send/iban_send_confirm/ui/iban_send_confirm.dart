@@ -20,7 +20,10 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_preview_withdrawal_model.dart';
 
 @RoutePage(name: 'IbanSendConfirmRouter')
@@ -29,10 +32,14 @@ class IbanSendConfirm extends StatelessWidget {
     super.key,
     required this.contact,
     required this.data,
+    required this.previewRequest,
+    required this.account,
   });
 
   final AddressBookContactModel contact;
-  final IbanPreviewWithdrawalModel data;
+  final BankingWithdrawalPreviewResponse data;
+  final BankingWithdrawalPreviewModel previewRequest;
+  final SimpleBankingAccount account;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +48,8 @@ class IbanSendConfirm extends StatelessWidget {
       builder: (context, child) => IbanSendConfirmBody(
         contact: contact,
         data: data,
+        previewRequest: previewRequest,
+        account: account,
       ),
     );
   }
@@ -51,10 +60,14 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
     super.key,
     required this.contact,
     required this.data,
+    required this.previewRequest,
+    required this.account,
   });
 
   final AddressBookContactModel contact;
-  final IbanPreviewWithdrawalModel data;
+  final BankingWithdrawalPreviewResponse data;
+  final BankingWithdrawalPreviewModel previewRequest;
+  final SimpleBankingAccount account;
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +79,10 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
     final eurCurrency = nonIndicesWithBalanceFrom(
       sSignalRModules.currenciesList,
     ).where((element) => element.symbol == 'EUR').first;
+
+    final simpleFeeCurrency = nonIndicesWithBalanceFrom(
+      sSignalRModules.currenciesList,
+    ).where((element) => element.symbol == (data.simpleFeeAsset ?? 'EUR')).first;
 
     return SPageFrameWithPadding(
       loaderText: intl.loader_please_wait,
@@ -123,7 +140,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                   ),
                   SActionConfirmText(
                     name: intl.iban_out_bic,
-                    value: data.bic ?? '',
+                    value: previewRequest.beneficiaryBankCode ?? '',
                   ),
                   SActionConfirmText(
                     name: intl.iban_out_benificiary,
@@ -141,9 +158,9 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                   SActionConfirmText(
                     name: intl.iban_out_fee,
                     value: volumeFormat(
-                      decimal: data.feeAmount ?? Decimal.zero,
-                      accuracy: state.eurCurrency.accuracy,
-                      symbol: state.eurCurrency.symbol,
+                      decimal: data.simpleFeeAmount ?? Decimal.zero,
+                      accuracy: simpleFeeCurrency.accuracy,
+                      symbol: simpleFeeCurrency.symbol,
                     ),
                     maxValueWidth: 140,
                   ),
@@ -226,10 +243,8 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                         },
                         onChangePhone: (String newPin) {
                           sRouter.pop();
-                          state.confirmIbanOut(
-                            data,
-                            contact,
-                          );
+
+                          state.confirmIbanOut(previewRequest, data, contact, newPin);
                         },
                       ),
                     );

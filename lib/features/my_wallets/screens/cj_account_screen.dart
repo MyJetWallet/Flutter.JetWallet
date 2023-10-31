@@ -246,7 +246,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                           return;
                         }
 
-                        showBankTransforSelect(context);
+                        showBankTransforSelect(context, widget.bankingAccount);
 
                         sAnalytics.eurWalletWithdrawEURAccountScreen(
                           isCJ: widget.isCJAccount,

@@ -6,8 +6,9 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
-void showBankTransforSelect(BuildContext context) {
+void showBankTransforSelect(BuildContext context, SimpleBankingAccount bankingAccount) {
   if (getIt.get<IbanStore>().contacts.isEmpty) {
     sRouter.push(IbanAddBankAccountRouter()).then((value) async {
       await getIt.get<IbanStore>().getAddressBook();
@@ -16,6 +17,7 @@ void showBankTransforSelect(BuildContext context) {
           .push(
             IbanSendAmountRouter(
               contact: getIt.get<IbanStore>().contacts[0],
+              bankingAccount: bankingAccount,
             ),
           )
           .then(
@@ -33,14 +35,21 @@ void showBankTransforSelect(BuildContext context) {
     ),
     children: [
       const SpaceH12(),
-      const ShowBankTransferSelect(),
+      ShowBankTransferSelect(
+        bankingAccount: bankingAccount,
+      ),
       const SpaceH42(),
     ],
   );
 }
 
 class ShowBankTransferSelect extends StatelessObserverWidget {
-  const ShowBankTransferSelect({super.key});
+  const ShowBankTransferSelect({
+    super.key,
+    required this.bankingAccount,
+  });
+
+  final SimpleBankingAccount bankingAccount;
 
   @override
   Widget build(BuildContext context) {
@@ -133,6 +142,7 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
                     .push(
                       IbanSendAmountRouter(
                         contact: store.contacts[index],
+                        bankingAccount: bankingAccount,
                       ),
                     )
                     .then(
@@ -165,6 +175,7 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
                   .push(
                     IbanSendAmountRouter(
                       contact: getIt.get<IbanStore>().contacts[0],
+                      bankingAccount: bankingAccount,
                     ),
                   )
                   .then(

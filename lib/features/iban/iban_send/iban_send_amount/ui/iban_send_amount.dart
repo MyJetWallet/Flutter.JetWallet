@@ -12,6 +12,7 @@ import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 
 @RoutePage(name: 'IbanSendAmountRouter')
@@ -19,14 +20,16 @@ class IbanSendAmount extends StatelessWidget {
   const IbanSendAmount({
     super.key,
     required this.contact,
+    required this.bankingAccount,
   });
 
   final AddressBookContactModel contact;
+  final SimpleBankingAccount bankingAccount;
 
   @override
   Widget build(BuildContext context) {
     return Provider<IbanSendAmountStore>(
-      create: (context) => IbanSendAmountStore()..init(contact),
+      create: (context) => IbanSendAmountStore()..init(contact, bankingAccount),
       builder: (context, child) => const IbanSendAmountBody(),
     );
   }

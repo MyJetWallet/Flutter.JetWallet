@@ -7,8 +7,11 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/iban_send_details.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
+import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
@@ -75,6 +78,8 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             ((transactionListItem.operationType == OperationType.p2pBuy || isLocal) &&
                 transactionListItem.status == Status.inProgress)) ...[
           const SpaceH40(),
+        ] else if (transactionListItem.operationType == OperationType.ibanSend) ...[
+          const SpaceH26(),
         ] else ...[
           const SpaceH67(),
         ],
@@ -86,7 +91,11 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
               color: colors.grey2,
             ),
           ),
-        if (!nftTypes.contains(transactionListItem.operationType) || catchingTypes) ...[
+        if (transactionListItem.operationType == OperationType.ibanSend) ...[
+          IbanSendDetailsHeader(
+            transactionListItem: transactionListItem,
+          ),
+        ] else if (!nftTypes.contains(transactionListItem.operationType) || catchingTypes) ...[
           SPaddingH24(
             child: AutoSizeText(
               volumeFormat(
@@ -111,8 +120,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
               ),
             ),
           ),
-          if (transactionListItem.operationType == OperationType.ibanSend ||
-              transactionListItem.operationType == OperationType.giftSend ||
+          if (transactionListItem.operationType == OperationType.giftSend ||
               transactionListItem.operationType == OperationType.giftReceive ||
               transactionListItem.status == Status.completed)
             Text(
@@ -126,7 +134,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
               ),
             ),
         ],
-        if (isOperationSupportCopy(transactionListItem))
+        if (isOperationSupportCopy(transactionListItem) && transactionListItem.operationType == OperationType.ibanSend)
           //const SpaceH8()
           const SizedBox.shrink()
         else
@@ -188,11 +196,10 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
       )}'
           ' ${transactionListItem.assetId} ';
     } else if (transactionListItem.operationType == OperationType.ibanSend) {
-      title = '${operationName(
+      title = operationName(
         OperationType.ibanSend,
         context,
-      )}'
-          ' ${transactionListItem.assetId} ';
+      );
     } else if (transactionListItem.operationType == OperationType.giftSend) {
       title = operationName(
         OperationType.giftSend,
