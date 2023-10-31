@@ -2,17 +2,13 @@ import 'dart:async';
 
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
-import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
-import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -27,15 +23,6 @@ class ConvertAmountStore extends _ConvertAmountStoreBase with _$ConvertAmountSto
 }
 
 abstract class _ConvertAmountStoreBase with Store {
-  @computed
-  BaseCurrencyModel get baseCurrency => sSignalRModules.baseCurrency;
-
-  @computed
-  CurrencyModel get buyCurrency => getIt.get<FormatService>().findCurrency(
-        findInHideTerminalList: true,
-        assetSymbol: fromAsset?.symbol ?? '',
-      );
-
   @observable
   bool disableSubmit = false;
   @action
@@ -111,6 +98,12 @@ abstract class _ConvertAmountStoreBase with Store {
     fromInputValue = '0';
     errorText = null;
     inputValid = false;
+  }
+
+  @action
+  void swapAssets() {
+    isFromEntering = !isFromEntering;
+    _validateInput();
   }
 
   @action
@@ -217,6 +210,19 @@ abstract class _ConvertAmountStoreBase with Store {
     }
   }
 
+  @computed
+  Decimal get minLimit {
+    return fromAsset?.minTradeAmount ?? Decimal.zero;
+  }
+
+  @computed
+  Decimal get maxLimit {
+    final assetBalance = fromAsset?.assetBalance ?? Decimal.zero;
+    final maxTradeAmount = fromAsset?.maxTradeAmount ?? Decimal.zero;
+
+    return (assetBalance < maxTradeAmount ? assetBalance : maxTradeAmount) * _availablePresentForProcessing;
+  }
+
   @action
   void _validateInput() {
     if (Decimal.parse(fromInputValue) == Decimal.zero) {
@@ -234,29 +240,27 @@ abstract class _ConvertAmountStoreBase with Store {
     }
 
     final value = Decimal.parse(fromInputValue);
-    final min = Decimal.zero;
-    final max = (fromAsset?.assetBalance ?? Decimal.zero) * _availablePresentForProcessing;
 
-    inputValid = value >= min && value <= max;
+    inputValid = value >= minLimit && value <= maxLimit;
 
-    if (max == Decimal.zero) {
+    if (maxLimit == Decimal.zero) {
       _updatePaymentMethodInputError(
         intl.limitIsExceeded,
       );
-    } else if (value < min) {
+    } else if (value < minLimit) {
       _updatePaymentMethodInputError(
         '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
-          decimal: min,
-          accuracy: buyCurrency.accuracy,
-          symbol: buyCurrency.symbol,
+          decimal: minLimit,
+          accuracy: fromAsset?.accuracy ?? 2,
+          symbol: fromAsset?.symbol ?? '',
         )}',
       );
-    } else if (value > max) {
+    } else if (value > maxLimit) {
       _updatePaymentMethodInputError(
         '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
-          decimal: max,
-          accuracy: buyCurrency.accuracy,
-          symbol: buyCurrency.symbol,
+          decimal: maxLimit,
+          accuracy: fromAsset?.accuracy ?? 2,
+          symbol: fromAsset?.symbol ?? '',
         )}',
       );
     } else {
@@ -282,7 +286,7 @@ abstract class _ConvertAmountStoreBase with Store {
         asset: fromAsset?.symbol ?? '',
         paymentMethodType: 'crypto',
         paymentMethodName: 'crypto',
-        paymentMethodCurrency: buyCurrency.symbol,
+        paymentMethodCurrency: fromAsset?.symbol ?? '',
       );
     }
     paymentMethodInputError = error;

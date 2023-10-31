@@ -67,7 +67,7 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                           : store.fromAsset?.symbol
                       : null,
                   onSwap: () {
-                    store.isFromEntering = !store.isFromEntering;
+                    store.swapAssets();
                   },
                   errorText: store.paymentMethodInputError,
                 ),
