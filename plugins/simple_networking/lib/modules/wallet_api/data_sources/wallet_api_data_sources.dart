@@ -1,5 +1,6 @@
 import 'package:data_channel/data_channel.dart';
 import 'package:dio/dio.dart';
+import 'package:signalr_core/signalr_core.dart';
 import 'package:simple_networking/api_client/api_client.dart';
 import 'package:simple_networking/helpers/handle_api_responses.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -9,6 +10,9 @@ import 'package:simple_networking/modules/wallet_api/models/add_card/add_card_re
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/all_cards/all_cards_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/apple_pay_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_response.dart';
+import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_request.dart';
 import 'package:simple_networking/modules/wallet_api/models/base_asset/get_base_assets_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/base_asset/set_base_assets_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/calculate_earn_offer_apy/calculate_earn_offer_apy_request_model.dart';
@@ -2478,6 +2482,48 @@ class WalletApiDataSources {
         final data = handleFullResponse<Map>(responseData);
 
         return DC.data(data['token']);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, BankingWithdrawalPreviewResponse>> postBankingWithdrawalPreviewRequest(
+    BankingWithdrawalPreviewModel request,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/banking/account/withdrawal-preview',
+        data: request.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(BankingWithdrawalPreviewResponse.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, String>> postBankingWithdrawalRequest(BankingWithdrawalRequest request) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/banking/account/withdrawal',
+        data: request.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(data['operationId']);
       } catch (e) {
         rethrow;
       }

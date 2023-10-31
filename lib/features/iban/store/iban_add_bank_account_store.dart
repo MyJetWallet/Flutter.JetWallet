@@ -14,8 +14,7 @@ import 'package:simple_networking/modules/wallet_api/models/address_book/address
 
 part 'iban_add_bank_account_store.g.dart';
 
-class IbanAddBankAccountStore extends _IbanAddBankAccountStoreBase
-    with _$IbanAddBankAccountStore {
+class IbanAddBankAccountStore extends _IbanAddBankAccountStoreBase with _$IbanAddBankAccountStore {
   IbanAddBankAccountStore() : super();
 
   static IbanAddBankAccountStore of(BuildContext context) =>
@@ -43,8 +42,7 @@ abstract class _IbanAddBankAccountStoreBase with Store {
   bool isButtonActive = false;
   @action
   void checkButton() {
-    isButtonActive =
-        labelController.text.isNotEmpty && ibanController.text.isNotEmpty;
+    isButtonActive = labelController.text.isNotEmpty && ibanController.text.isNotEmpty;
   }
 
   @action
@@ -54,7 +52,7 @@ abstract class _IbanAddBankAccountStoreBase with Store {
       isEditMode = true;
 
       labelController.text = predContactData!.name ?? '';
-      ibanController.text = predContactData!.iban ?? '';
+      ibanController.text = predContactData?.iban?.replaceAll(' ', '') ?? '';
 
       checkButton();
     }
@@ -63,7 +61,7 @@ abstract class _IbanAddBankAccountStoreBase with Store {
   @action
   Future<void> pasteIban() async {
     final copiedText = await _copiedText();
-    ibanController.text = copiedText;
+    ibanController.text = copiedText.replaceAll(' ', '');
 
     _moveCursorAtTheEnd(ibanController);
 
@@ -77,7 +75,7 @@ abstract class _IbanAddBankAccountStoreBase with Store {
     final response = await sNetwork.getWalletModule().postAddressBookAdd(
           labelController.text,
           '${sUserInfo.firstName} ${sUserInfo.lastName}',
-          ibanController.text,
+          ibanController.text.replaceAll(' ', ''),
         );
 
     response.pick(
@@ -111,7 +109,7 @@ abstract class _IbanAddBankAccountStoreBase with Store {
       final response = await sNetwork.getWalletModule().postAddressBookEdit(
             predContactData!.copyWith(
               name: labelController.text,
-              iban: ibanController.text,
+              iban: ibanController.text.replaceAll(' ', ''),
             ),
           );
 

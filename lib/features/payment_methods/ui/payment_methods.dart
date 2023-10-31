@@ -13,6 +13,7 @@ import 'package:jetwallet/utils/helpers/is_card_expired.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 @RoutePage(name: 'PaymentMethodsRouter')
 class PaymentMethods extends StatelessWidget {
@@ -89,8 +90,7 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                             name: '${card.cardLabel} •••• ${card.last4}',
                             network: card.network,
                             currency: 'EUR',
-                            expirationDate:
-                                'Exp. ${card.expMonth}/${card.expYear}',
+                            expirationDate: 'Exp. ${card.expMonth}/${card.expYear}',
                             expired: isCardExpired(card.expMonth, card.expYear),
                             status: card.status,
                             showDelete: false,
@@ -117,8 +117,7 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                                     const end = Offset.zero;
                                     const curve = Curves.ease;
 
-                                    final tween = Tween(begin: begin, end: end)
-                                        .chain(CurveTween(curve: curve));
+                                    final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
                                     return SlideTransition(
                                       position: animation.drive(tween),
@@ -134,8 +133,7 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                             onTap: () {},
                           ),
                         ],
-                        if (state.addressBookContacts.isNotEmpty &&
-                            state.isShowAccounts) ...[
+                        if (state.addressBookContacts.isNotEmpty && state.isShowAccounts) ...[
                           MarketSeparator(text: intl.iban_send_accounts),
                           ListView.builder(
                             shrinkWrap: true,
@@ -156,8 +154,7 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                                       sRouter
                                           .push(
                                         IbanEditBankAccountRouter(
-                                          contact:
-                                              state.addressBookContacts[index],
+                                          contact: state.addressBookContacts[index],
                                         ),
                                       )
                                           .then((value) async {
@@ -170,11 +167,9 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                                     ),
                                   ),
                                 ),
-                                name:
-                                    state.addressBookContacts[index].name ?? '',
+                                name: state.addressBookContacts[index].name ?? '',
                                 amount: '',
-                                helper:
-                                    state.addressBookContacts[index].iban ?? '',
+                                helper: state.addressBookContacts[index].iban ?? '',
                                 description: '',
                                 needSpacer: true,
                                 onTap: () {
@@ -182,6 +177,7 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                                       .push(
                                     IbanSendAmountRouter(
                                       contact: state.addressBookContacts[index],
+                                      bankingAccount: SimpleBankingAccount(),
                                     ),
                                   )
                                       .then((value) async {

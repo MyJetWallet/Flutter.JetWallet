@@ -7,27 +7,36 @@ class WhatToWhatConvertWidget extends StatelessWidget {
     super.key,
     required this.isLoading,
     required this.fromAssetIconUrl,
+    this.fromAssetCustomIcon,
     required this.fromAssetDescription,
     required this.fromAssetValue,
     required this.toAssetIconUrl,
+    this.toAssetCustomIcon,
     required this.toAssetDescription,
     required this.toAssetValue,
+    this.removeDefaultPaddings = false,
+    this.isError = false,
   });
 
   final bool isLoading;
   final String fromAssetIconUrl;
+  final Widget? fromAssetCustomIcon;
   final String fromAssetDescription;
   final String fromAssetValue;
   final String toAssetIconUrl;
+  final Widget? toAssetCustomIcon;
   final String toAssetDescription;
   final String toAssetValue;
+
+  final bool removeDefaultPaddings;
+  final bool isError;
 
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 24),
+      padding: removeDefaultPaddings ? EdgeInsets.zero : const EdgeInsets.symmetric(vertical: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -36,14 +45,20 @@ class WhatToWhatConvertWidget extends StatelessWidget {
             assetIconUrl: fromAssetIconUrl,
             assetDescription: fromAssetDescription,
             assetValue: fromAssetValue,
+            customIcon: fromAssetCustomIcon,
+            isError: isError,
           ),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             width: 16,
             height: 16,
-            child: SChevronDownDoubleIcon(
-              color: colors.grey2,
-            ),
+            child: isError
+                ? SCloseIcon(
+                    color: colors.grey2,
+                  )
+                : SChevronDownDoubleIcon(
+                    color: colors.grey2,
+                  ),
           ),
           _AssetRowWidget(
             isLoading: isLoading,
@@ -51,6 +66,8 @@ class WhatToWhatConvertWidget extends StatelessWidget {
             assetDescription: toAssetDescription,
             assetValue: toAssetValue,
             isSecandary: true,
+            customIcon: toAssetCustomIcon,
+            isError: isError,
           ),
         ],
       ),
@@ -65,6 +82,8 @@ class _AssetRowWidget extends StatelessWidget {
     required this.assetDescription,
     required this.assetValue,
     this.isSecandary = false,
+    this.customIcon,
+    this.isError = false,
   });
 
   final bool isLoading;
@@ -72,6 +91,8 @@ class _AssetRowWidget extends StatelessWidget {
   final String assetDescription;
   final String assetValue;
   final bool isSecandary;
+  final Widget? customIcon;
+  final bool isError;
 
   @override
   Widget build(BuildContext context) {
@@ -79,11 +100,15 @@ class _AssetRowWidget extends StatelessWidget {
 
     return Row(
       children: [
-        SNetworkSvg(
-          url: assetIconUrl,
-          width: 40,
-          height: 40,
-        ),
+        if (customIcon != null) ...[
+          customIcon!,
+        ] else ...[
+          SNetworkSvg(
+            url: assetIconUrl,
+            width: 40,
+            height: 40,
+          ),
+        ],
         const SpaceW12(),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,7 +130,12 @@ class _AssetRowWidget extends StatelessWidget {
               Text(
                 assetValue,
                 style: sTextH4Style.copyWith(
-                  color: isSecandary ? colors.purple : null,
+                  color: isError
+                      ? colors.grey1
+                      : isSecandary
+                          ? colors.purple
+                          : null,
+                  decoration: isError ? TextDecoration.lineThrough : null,
                 ),
               ),
           ],

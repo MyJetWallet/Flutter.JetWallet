@@ -42,8 +42,7 @@ class TransactionItem extends StatefulWidget {
   State<TransactionItem> createState() => _TransactionItemState();
 }
 
-class _TransactionItemState extends State<TransactionItem>
-    with SingleTickerProviderStateMixin {
+class _TransactionItemState extends State<TransactionItem> with SingleTickerProviderStateMixin {
   late AnimationController animationController;
   late Animation<Offset> scaleAnimation;
   String copiedText = '';
@@ -59,9 +58,7 @@ class _TransactionItemState extends State<TransactionItem>
     );
     final deviceSize = sDeviceSize;
     scaleAnimation = Tween<Offset>(
-      begin: widgetSizeFrom(deviceSize) == SWidgetSize.small
-          ? const Offset(0.0, 40.0)
-          : const Offset(0.0, 60.0),
+      begin: widgetSizeFrom(deviceSize) == SWidgetSize.small ? const Offset(0.0, 40.0) : const Offset(0.0, 60.0),
       end: Offset.zero,
     ).animate(
       CurvedAnimation(
@@ -88,12 +85,10 @@ class _TransactionItemState extends State<TransactionItem>
 
     final cancelTransfer = TransactionCancelStore();
     final deviceSize = sDeviceSize;
-    final isLocal =
-        widget.transactionListItem.operationType == OperationType.cryptoInfo &&
-            isOperationLocal(
-              widget.transactionListItem.cryptoBuyInfo?.paymentMethod ??
-                  PaymentMethodType.unsupported,
-            );
+    final isLocal = widget.transactionListItem.operationType == OperationType.cryptoInfo &&
+        isOperationLocal(
+          widget.transactionListItem.cryptoBuyInfo?.paymentMethod ?? PaymentMethodType.unsupported,
+        );
 
     void onCopyAction() {
       sNotification.showError(
@@ -112,16 +107,15 @@ class _TransactionItemState extends State<TransactionItem>
           children: [
             Column(
               children: [
-                if (widget.transactionListItem.operationType !=
-                    OperationType.sendGlobally) ...[
+                if (widget.transactionListItem.operationType == OperationType.ibanSend) ...[
+                  const SizedBox.shrink(),
+                ] else if (widget.transactionListItem.operationType != OperationType.sendGlobally) ...[
                   if (isOperationSupportCopy(widget.transactionListItem))
                     Transform.translate(
                       offset: scaleAnimation.value,
                       child: Container(
                         color: colors.greenLight,
-                        height: widgetSizeFrom(deviceSize) == SWidgetSize.small
-                            ? 40.0
-                            : 60.0,
+                        height: widgetSizeFrom(deviceSize) == SWidgetSize.small ? 40.0 : 60.0,
                         width: double.infinity,
                         child: Center(
                           child: Text(
@@ -136,8 +130,7 @@ class _TransactionItemState extends State<TransactionItem>
                 ] else ...[
                   const SpaceH32(),
                 ],
-                if (widget.transactionListItem.operationType ==
-                    OperationType.deposit) ...[
+                if (widget.transactionListItem.operationType == OperationType.deposit) ...[
                   Material(
                     color: colors.white,
                     child: DepositDetails(
@@ -152,8 +145,7 @@ class _TransactionItemState extends State<TransactionItem>
                     ),
                   ),
                 ],
-                if (widget.transactionListItem.operationType ==
-                    OperationType.withdraw) ...[
+                if (widget.transactionListItem.operationType == OperationType.withdraw) ...[
                   Material(
                     color: colors.white,
                     child: WithdrawDetails(
@@ -168,8 +160,7 @@ class _TransactionItemState extends State<TransactionItem>
                     ),
                   ),
                 ],
-                if (widget.transactionListItem.operationType ==
-                    OperationType.sendGlobally) ...[
+                if (widget.transactionListItem.operationType == OperationType.sendGlobally) ...[
                   Material(
                     color: colors.white,
                     child: SendGloballyDetails(
@@ -184,8 +175,7 @@ class _TransactionItemState extends State<TransactionItem>
                     ),
                   ),
                 ],
-                if (widget.transactionListItem.operationType ==
-                    OperationType.ibanSend) ...[
+                if (widget.transactionListItem.operationType == OperationType.ibanSend) ...[
                   Material(
                     color: colors.white,
                     child: IbanSendDetails(
@@ -200,8 +190,7 @@ class _TransactionItemState extends State<TransactionItem>
                     ),
                   ),
                 ],
-                if (widget.transactionListItem.operationType ==
-                    OperationType.simplexBuy) ...[
+                if (widget.transactionListItem.operationType == OperationType.simplexBuy) ...[
                   Material(
                     color: colors.white,
                     child: BuySimplexDetails(
@@ -216,10 +205,8 @@ class _TransactionItemState extends State<TransactionItem>
                     ),
                   ),
                 ],
-                if (widget.transactionListItem.operationType ==
-                        OperationType.buy ||
-                    widget.transactionListItem.operationType ==
-                        OperationType.sell) ...[
+                if (widget.transactionListItem.operationType == OperationType.buy ||
+                    widget.transactionListItem.operationType == OperationType.sell) ...[
                   Material(
                     color: colors.white,
                     child: BuySellDetails(
@@ -234,8 +221,7 @@ class _TransactionItemState extends State<TransactionItem>
                     ),
                   ),
                 ],
-                if (widget.transactionListItem.operationType ==
-                    OperationType.transferByPhone) ...[
+                if (widget.transactionListItem.operationType == OperationType.transferByPhone) ...[
                   Material(
                     color: colors.white,
                     child: TransferDetails(
@@ -250,8 +236,7 @@ class _TransactionItemState extends State<TransactionItem>
                     ),
                   ),
                 ],
-                if (widget.transactionListItem.operationType ==
-                    OperationType.receiveByPhone) ...[
+                if (widget.transactionListItem.operationType == OperationType.receiveByPhone) ...[
                   Material(
                     color: colors.white,
                     child: ReceiveDetails(
@@ -266,13 +251,9 @@ class _TransactionItemState extends State<TransactionItem>
                     ),
                   ),
                 ],
-                if ((widget.transactionListItem.operationType ==
-                            OperationType.cryptoInfo &&
-                        !isLocal) ||
-                    widget.transactionListItem.operationType ==
-                        OperationType.buyGooglePay ||
-                    widget.transactionListItem.operationType ==
-                        OperationType.buyApplePay) ...[
+                if ((widget.transactionListItem.operationType == OperationType.cryptoInfo && !isLocal) ||
+                    widget.transactionListItem.operationType == OperationType.buyGooglePay ||
+                    widget.transactionListItem.operationType == OperationType.buyApplePay) ...[
                   Material(
                     color: colors.white,
                     child: BuyCryptoDetails(
@@ -287,9 +268,7 @@ class _TransactionItemState extends State<TransactionItem>
                     ),
                   ),
                 ],
-                if (widget.transactionListItem.operationType ==
-                        OperationType.cryptoInfo &&
-                    isLocal) ...[
+                if (widget.transactionListItem.operationType == OperationType.cryptoInfo && isLocal) ...[
                   Material(
                     color: colors.white,
                     child: BuyP2PDetails(
@@ -304,8 +283,7 @@ class _TransactionItemState extends State<TransactionItem>
                     ),
                   ),
                 ],
-                if (widget.transactionListItem.operationType ==
-                    OperationType.nftSell) ...[
+                if (widget.transactionListItem.operationType == OperationType.nftSell) ...[
                   Material(
                     color: colors.white,
                     child: SellNftDetails(
@@ -320,10 +298,8 @@ class _TransactionItemState extends State<TransactionItem>
                     ),
                   ),
                 ],
-                if (widget.transactionListItem.operationType ==
-                        OperationType.nftWithdrawal ||
-                    widget.transactionListItem.operationType ==
-                        OperationType.nftWithdrawalFee) ...[
+                if (widget.transactionListItem.operationType == OperationType.nftWithdrawal ||
+                    widget.transactionListItem.operationType == OperationType.nftWithdrawalFee) ...[
                   Material(
                     color: colors.white,
                     child: WithdrawNftDetails(
@@ -338,8 +314,7 @@ class _TransactionItemState extends State<TransactionItem>
                     ),
                   ),
                 ],
-                if (widget.transactionListItem.operationType ==
-                    OperationType.nftDeposit) ...[
+                if (widget.transactionListItem.operationType == OperationType.nftDeposit) ...[
                   Material(
                     color: colors.white,
                     child: DepositNftDetails(
@@ -354,8 +329,7 @@ class _TransactionItemState extends State<TransactionItem>
                     ),
                   ),
                 ],
-                if (widget.transactionListItem.operationType ==
-                    OperationType.ibanDeposit) ...[
+                if (widget.transactionListItem.operationType == OperationType.ibanDeposit) ...[
                   Material(
                     color: colors.white,
                     child: IbanDetails(
@@ -370,8 +344,7 @@ class _TransactionItemState extends State<TransactionItem>
                     ),
                   ),
                 ],
-                if (widget.transactionListItem.operationType ==
-                    OperationType.rewardPayment) ...[
+                if (widget.transactionListItem.operationType == OperationType.rewardPayment) ...[
                   Material(
                     color: colors.white,
                     child: ReferralDetails(
@@ -386,8 +359,7 @@ class _TransactionItemState extends State<TransactionItem>
                     ),
                   ),
                 ],
-                if (widget.transactionListItem.operationType ==
-                    OperationType.p2pBuy) ...[
+                if (widget.transactionListItem.operationType == OperationType.p2pBuy) ...[
                   Material(
                     color: colors.white,
                     child: BuyP2PDetails(
@@ -402,8 +374,7 @@ class _TransactionItemState extends State<TransactionItem>
                     ),
                   ),
                 ],
-                if (widget.transactionListItem.operationType ==
-                    OperationType.giftSend) ...[
+                if (widget.transactionListItem.operationType == OperationType.giftSend) ...[
                   Material(
                     color: colors.white,
                     child: GiftSendDetails(
@@ -418,8 +389,7 @@ class _TransactionItemState extends State<TransactionItem>
                     ),
                   ),
                 ],
-                if (widget.transactionListItem.operationType ==
-                    OperationType.giftReceive) ...[
+                if (widget.transactionListItem.operationType == OperationType.giftReceive) ...[
                   Material(
                     color: colors.white,
                     child: GiftReceiveDetails(
@@ -463,11 +433,8 @@ class _TransactionItemState extends State<TransactionItem>
                   ),
                 ),
                 Visibility(
-                  visible:
-                      widget.transactionListItem.status == Status.inProgress &&
-                          widget.transactionListItem.transferByPhoneInfo
-                                  ?.transferId !=
-                              null,
+                  visible: widget.transactionListItem.status == Status.inProgress &&
+                      widget.transactionListItem.transferByPhoneInfo?.transferId != null,
                   child: Padding(
                     padding: const EdgeInsets.only(
                       left: 24,
@@ -479,8 +446,7 @@ class _TransactionItemState extends State<TransactionItem>
                       name: intl.transactionItem_cancel_cancel,
                       onTap: () {
                         cancelTransfer.cancelTransaction(
-                          widget.transactionListItem.transferByPhoneInfo
-                              ?.transferId,
+                          widget.transactionListItem.transferByPhoneInfo?.transferId,
                         );
                       },
                     ),

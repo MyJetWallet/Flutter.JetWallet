@@ -5,12 +5,14 @@ import 'package:simple_kit/modules/icons/24x24/light/erase/simple_light_erase_ma
 import 'package:simple_kit/utils/enum.dart';
 
 class SEraseMarketIcon extends StatelessObserverWidget {
-  const SEraseMarketIcon({Key? key}) : super(key: key);
+  const SEraseMarketIcon({Key? key, this.color}) : super(key: key);
+
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return sKit.currentTheme == STheme.dark
-        ? const SimpleLightEraseMarketIcon()
-        : const SimpleLightEraseMarketIcon();
+        ?  SimpleLightEraseMarketIcon(color: color)
+        :  SimpleLightEraseMarketIcon(color: color);
   }
 }

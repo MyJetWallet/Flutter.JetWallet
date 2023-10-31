@@ -38,9 +38,7 @@ String operationName(
     case OperationType.recurringBuy:
       return intl.account_recurringBuy;
     case OperationType.earningDeposit:
-      return isToppedUp != null
-          ? intl.operationName_topped_up
-          : intl.operationName_subscribed_to_earn;
+      return isToppedUp != null ? intl.operationName_topped_up : intl.operationName_subscribed_to_earn;
     case OperationType.cryptoInfo:
       return intl.operationName_bought;
     case OperationType.p2pBuy:
@@ -54,7 +52,7 @@ String operationName(
     case OperationType.unknown:
       return 'Unknown';
     case OperationType.ibanSend:
-      return intl.iban_send_history_title;
+      return intl.withdrawal_withdrawn;
     case OperationType.sendGlobally:
       return intl.send_globally_history_title;
     case OperationType.giftSend:

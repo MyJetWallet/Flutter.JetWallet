@@ -65,6 +65,7 @@ flutter:
     - assets/icons/light/20x20/rewards/
     - assets/icons/light/20x20/cash/
     - assets/icons/light/20x20/tick/
+    - assets/icons/light/20x20/checkmark/
     - assets/icons/light/24x24/acccount/
     - assets/icons/light/24x24/index_history/
     - assets/icons/light/24x24/account_status/
