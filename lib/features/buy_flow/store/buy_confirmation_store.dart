@@ -488,20 +488,18 @@ abstract class _BuyConfirmationStoreBase with Store {
     try {
       termiteUpdate();
 
-      if (account?.accountId != 'clearjuction_account') {
-        await sRouter.push(
-          PinScreenRoute(
-            union: const Change(),
-            isChangePhone: true,
-            onChangePhone: (String newPin) async {
-              pin = newPin;
-              await sRouter.pop();
-            },
-          ),
-        );
+      await sRouter.push(
+        PinScreenRoute(
+          union: const Change(),
+          isChangePhone: true,
+          onChangePhone: (String newPin) async {
+            pin = newPin;
+            await sRouter.pop();
+          },
+        ),
+      );
 
-        if (pin == '') return;
-      }
+      if (pin == '') return;
 
       showProcessing = true;
       wasAction = true;
