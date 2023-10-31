@@ -486,6 +486,7 @@ abstract class _SellConfirmationStoreBase with Store {
 
       if (accountId == 'clearjuction_account') {
         final model = ExecuteQuoteRequestModel(
+          isFromFixed: isFromFixed,
           operationId: paymentId,
           price: price,
           fromAssetSymbol: paymentAsset!,

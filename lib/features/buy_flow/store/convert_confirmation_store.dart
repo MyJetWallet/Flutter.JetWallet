@@ -445,6 +445,7 @@ abstract class _ConvertConfirmationStoreBase with Store {
       late DC<ServerRejectException, dynamic> resp;
 
       final model = ExecuteQuoteRequestModel(
+        isFromFixed: isFromFixed,
         operationId: paymentId,
         price: price,
         fromAssetSymbol: paymentAsset!,
