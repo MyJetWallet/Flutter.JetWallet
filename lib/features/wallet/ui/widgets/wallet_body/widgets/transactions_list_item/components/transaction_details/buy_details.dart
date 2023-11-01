@@ -8,8 +8,9 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
-import 'package:jetwallet/utils/helpers/split_iban.dart';
+import 'package:jetwallet/utils/helpers/price_accuracy.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
@@ -30,6 +31,22 @@ class BuyDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
+    final paymentAsset = nonIndicesWithBalanceFrom(
+      sSignalRModules.currenciesList,
+    )
+        .where(
+          (element) => element.symbol == (transactionListItem.cryptoBuyInfo?.paymentAssetId ?? 'EUR'),
+        )
+        .first;
+
+    final buyAsset = nonIndicesWithBalanceFrom(
+      sSignalRModules.currenciesList,
+    )
+        .where(
+          (element) => element.symbol == (transactionListItem.cryptoBuyInfo?.buyAssetId ?? 'EUR'),
+        )
+        .first;
+
     return SPaddingH24(
       child: Column(
         children: [
@@ -67,53 +84,9 @@ class BuyDetails extends StatelessObserverWidget {
           ),
           const SpaceH18(),
           TransactionDetailsItem(
-            text: intl.iban_send_history_send_to,
-            fromStart: true,
-            value: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width * 0.46,
-                      ),
-                      child: TransactionDetailsValueText(
-                        textAlign: TextAlign.end,
-                        text: (transactionListItem.withdrawalInfo?.contactName ?? '').trim(),
-                      ),
-                    ),
-                    ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width * 0.46,
-                      ),
-                      child: TransactionDetailsValueText(
-                        textAlign: TextAlign.end,
-                        text: splitIban((transactionListItem.withdrawalInfo?.toAddress ?? '').trim()),
-                        color: sKit.colors.grey1,
-                      ),
-                    ),
-                  ],
-                ),
-                const SpaceW10(),
-                SIconButton(
-                  onTap: () {
-                    Clipboard.setData(
-                      ClipboardData(
-                        text:
-                            '''${transactionListItem.withdrawalInfo?.contactName ?? ''}\n${transactionListItem.withdrawalInfo?.toAddress ?? ''}''',
-                      ),
-                    );
-
-                    onCopyAction(intl.iban_send_history_send_to);
-                  },
-                  defaultIcon: const SCopyIcon(),
-                  pressedIcon: const SCopyPressedIcon(),
-                ),
-              ],
+            text: intl.buy_confirmation_price,
+            value: TransactionDetailsValueText(
+              text: rateFor(buyAsset, paymentAsset),
             ),
           ),
           const SpaceH18(),
@@ -129,8 +102,8 @@ class BuyDetails extends StatelessObserverWidget {
             builder: (context) {
               final currency = currencyFrom(
                 sSignalRModules.currenciesList,
-                transactionListItem.withdrawalInfo?.feeAssetId ??
-                    transactionListItem.withdrawalInfo?.withdrawalAssetId ??
+                transactionListItem.cryptoBuyInfo?.paymentAssetId ??
+                    transactionListItem.cryptoBuyInfo?.paymentAssetId ??
                     '',
               );
 
@@ -138,7 +111,7 @@ class BuyDetails extends StatelessObserverWidget {
                 text: intl.iban_send_history_payment_fee,
                 value: TransactionDetailsValueText(
                   text: volumeFormat(
-                    decimal: transactionListItem.withdrawalInfo?.feeAmount ?? Decimal.zero,
+                    decimal: transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero,
                     accuracy: currency.accuracy,
                     symbol: currency.symbol,
                   ),
@@ -151,8 +124,8 @@ class BuyDetails extends StatelessObserverWidget {
             builder: (context) {
               final currency = currencyFrom(
                 sSignalRModules.currenciesList,
-                transactionListItem.withdrawalInfo?.feeAssetId ??
-                    transactionListItem.withdrawalInfo?.withdrawalAssetId ??
+                transactionListItem.cryptoBuyInfo?.tradeFeeAsset ??
+                    transactionListItem.cryptoBuyInfo?.paymentAssetId ??
                     '',
               );
 
@@ -160,7 +133,7 @@ class BuyDetails extends StatelessObserverWidget {
                 text: intl.iban_send_history_processin_fee,
                 value: TransactionDetailsValueText(
                   text: volumeFormat(
-                    decimal: transactionListItem.withdrawalInfo?.feeAmount ?? Decimal.zero,
+                    decimal: transactionListItem.cryptoBuyInfo?.tradeFeeAmount ?? Decimal.zero,
                     accuracy: currency.accuracy,
                     symbol: currency.symbol,
                   ),
@@ -173,6 +146,30 @@ class BuyDetails extends StatelessObserverWidget {
         ],
       ),
     );
+  }
+
+  String rateFor(
+    CurrencyModel currency1,
+    CurrencyModel currency2,
+  ) {
+    final accuracy = priceAccuracy(
+      currency1.symbol,
+      currency2.symbol,
+    );
+
+    final base = volumeFormat(
+      decimal: transactionListItem.cryptoBuyInfo!.baseRate,
+      accuracy: currency1.accuracy,
+      symbol: currency1.symbol,
+    );
+
+    final quote = volumeFormat(
+      decimal: transactionListItem.cryptoBuyInfo!.quoteRate,
+      accuracy: accuracy,
+      symbol: currency2.symbol,
+    );
+
+    return '$base = $quote';
   }
 }
 
