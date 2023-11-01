@@ -30,23 +30,26 @@ class GetAccountButton extends StatelessObserverWidget {
       sSignalRModules.currenciesList,
     ).where((element) => element.symbol == 'EUR').first;
 
+    final isButtonSmall =
+        store.buttonStatus == BankingShowState.getAccount || store.buttonStatus == BankingShowState.getAccountBlock;
+
     return Padding(
       padding: EdgeInsets.only(
         top: 8,
         bottom: 10,
         left: 60,
-        right: store.buttonStatus == BankingShowState.getAccount ? 60 : 30,
+        right: isButtonSmall ? 60 : 30,
       ),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
-        width: store.buttonStatus == BankingShowState.getAccount ? null : double.infinity,
+        width: isButtonSmall ? null : double.infinity,
         child: SIconTextButton(
           onTap: () {
             sAnalytics.tapOnTheButtonGetAccountEUROnWalletsScreen();
             onGetAccountClick(store, context, eurCurrency);
           },
           text: store.simpleAccountButtonText,
-          mainAxisSize: store.buttonStatus == BankingShowState.getAccount ? MainAxisSize.min : MainAxisSize.max,
+          mainAxisSize: isButtonSmall ? MainAxisSize.min : MainAxisSize.max,
           icon: store.buttonStatus == BankingShowState.getAccount
               ? SBankMediumIcon(color: sKit.colors.blue)
               : Container(
@@ -68,7 +71,7 @@ class GetAccountButton extends StatelessObserverWidget {
                   child: SBlueRightArrowIcon(color: sKit.colors.black),
                 )
               : null,
-          textStyle: store.buttonStatus == BankingShowState.getAccount
+          textStyle: isButtonSmall
               ? sTextButtonStyle.copyWith(
                   color: sKit.colors.purple,
                   fontWeight: FontWeight.w600,
@@ -94,11 +97,11 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context, Curre
 
   if (store.buttonStatus == BankingShowState.getAccountBlock) {
     sNotification.showError(
-                            intl.operation_is_unavailable,
-                            duration: 4,
-                            id: 1,
-                            needFeedback: true,
-                          );
+      intl.operation_is_unavailable,
+      duration: 4,
+      id: 1,
+      needFeedback: true,
+    );
 
     return;
   }

@@ -241,20 +241,22 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                           ? intl.eur_wallet_personal_account
                           : intl.create_personal_creating,
                       onTap: () {
-                        sRouter
-                            .push(
-                              CJAccountRouter(
-                                bankingAccount: el,
-                                isCJAccount: false,
-                              ),
-                            )
-                            .then(
-                              (value) => sAnalytics.eurWalletTapBackOnAccountWalletScreen(
-                                isCJ: false,
-                                eurAccountLabel: el.label ?? '',
-                                isHasTransaction: false,
-                              ),
-                            );
+                        if (el.status == AccountStatus.active) {
+                          sRouter
+                              .push(
+                                CJAccountRouter(
+                                  bankingAccount: el,
+                                  isCJAccount: false,
+                                ),
+                              )
+                              .then(
+                                (value) => sAnalytics.eurWalletTapBackOnAccountWalletScreen(
+                                  isCJ: false,
+                                  eurAccountLabel: el.label ?? '',
+                                  isHasTransaction: false,
+                                ),
+                              );
+                        }
                       },
                       description: '',
                       amount: '',
@@ -289,6 +291,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                           onTap: () {
                             if (isAddButtonDisabled) return;
                             if (bankAccounts.length > 1) return;
+
                             sAnalytics.eurWalletAddAccountEur();
                             sAnalytics.eurWalletPersonalEURAccount();
 
