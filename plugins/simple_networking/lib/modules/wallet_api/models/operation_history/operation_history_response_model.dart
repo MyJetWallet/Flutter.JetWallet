@@ -33,6 +33,10 @@ class OperationHistoryItem with _$OperationHistoryItem {
     EarnInfo? earnInfo,
     GiftSendInfo? giftSendInfo,
     GiftReceiveInfo? giftReceiveInfo,
+    IbanWithdrawalInfo? ibanWithdrawalInfo,
+    IbanDepositInfo? ibanDepositInfo,
+    IbanTransferInfo? ibanTransferInfo,
+    SellCryptoInfo? sellCryptoInfo,
     required String operationId,
     @OperationTypeSerialiser() required OperationType operationType,
     @Default('') String assetId,
@@ -60,7 +64,7 @@ enum OperationType {
   recurringBuy,
   earningDeposit,
   earningWithdrawal,
-  cryptoInfo,
+  cryptoBuy,
   unknown,
   buy,
   sell,
@@ -85,7 +89,12 @@ enum OperationType {
   sendGlobally,
   p2pBuy,
   giftSend,
-  giftReceive
+  giftReceive,
+  bankingAccountDeposit,
+  bankingAccountWithdrawal,
+  bankingTransfer,
+  bankingBuy,
+  bankingSell
 }
 
 extension _OperationTypeExtension on OperationType {
@@ -117,7 +126,7 @@ extension _OperationTypeExtension on OperationType {
         return 14;
       case OperationType.earningWithdrawal:
         return 15;
-      case OperationType.cryptoInfo:
+      case OperationType.cryptoBuy:
         return 17;
       case OperationType.buy:
         return 0;
@@ -167,6 +176,16 @@ extension _OperationTypeExtension on OperationType {
         return 42;
       case OperationType.giftReceive:
         return 43;
+      case OperationType.bankingAccountDeposit:
+        return 44;
+      case OperationType.bankingAccountWithdrawal:
+        return 45;
+      case OperationType.bankingTransfer:
+        return 46;
+      case OperationType.bankingBuy:
+        return 47;
+      case OperationType.bankingSell:
+        return 48;
       default:
         return 0;
     }
@@ -207,7 +226,7 @@ class OperationTypeSerialiser implements JsonConverter<OperationType, dynamic> {
     } else if (value == '15') {
       return OperationType.earningWithdrawal;
     } else if (value == '17') {
-      return OperationType.cryptoInfo;
+      return OperationType.cryptoBuy;
     } else if (value == 'unknown') {
       return OperationType.unknown;
     } else if (value == 'buy') {
@@ -258,6 +277,16 @@ class OperationTypeSerialiser implements JsonConverter<OperationType, dynamic> {
       return OperationType.giftSend;
     } else if (value == '43') {
       return OperationType.giftReceive;
+    } else if (value == '44') {
+      return OperationType.bankingAccountDeposit;
+    } else if (value == '45') {
+      return OperationType.bankingAccountWithdrawal;
+    } else if (value == '46') {
+      return OperationType.bankingTransfer;
+    } else if (value == '47') {
+      return OperationType.bankingBuy;
+    } else if (value == '48') {
+      return OperationType.bankingSell;
     } else {
       return OperationType.unknown;
     }
@@ -457,16 +486,16 @@ class OfferInfo with _$OfferInfo {
 @freezed
 class CryptoBuyInfo with _$CryptoBuyInfo {
   const factory CryptoBuyInfo({
-    required String paymentAssetId,
+    String? paymentAssetId,
     @DecimalSerialiser() required Decimal paymentAmount,
     required String buyAssetId,
     @DecimalSerialiser() required Decimal buyAmount,
     @DecimalSerialiser() required Decimal baseRate,
     @DecimalSerialiser() required Decimal quoteRate,
     @DecimalSerialiser() required Decimal depositFeeAmount,
-    required String depositFeeAsset,
+    String? depositFeeAsset,
     @DecimalSerialiser() required Decimal tradeFeeAmount,
-    required String tradeFeeAsset,
+    String? tradeFeeAsset,
     String? cardLast4,
     String? cardLabel,
     String? cardType,
@@ -518,4 +547,90 @@ class GiftReceiveInfo with _$GiftReceiveInfo {
   }) = _GiftReceiveInfo;
 
   factory GiftReceiveInfo.fromJson(Map<String, dynamic> json) => _$GiftReceiveInfoFromJson(json);
+}
+
+@freezed
+class IbanWithdrawalInfo with _$IbanWithdrawalInfo {
+  const factory IbanWithdrawalInfo({
+    String? fromIban,
+    String? toIban,
+    required bool expressPayment,
+    String? beneficiaryName,
+    String? beneficiaryAddress,
+    String? beneficiaryCountry,
+    String? beneficiaryBankCode,
+    String? intermediaryBankCode,
+    String? intermediaryBankAccount,
+    String? description,
+    String? accountId,
+    String? contactName,
+  }) = _IbanWithdrawalInfo;
+
+  factory IbanWithdrawalInfo.fromJson(Map<String, dynamic> json) => _$IbanWithdrawalInfoFromJson(json);
+}
+
+@freezed
+class IbanDepositInfo with _$IbanDepositInfo {
+  const factory IbanDepositInfo({
+    String? fromIban,
+    String? toIban,
+    required bool expressPayment,
+    String? description,
+    String? senderBankName,
+    String? senderCountry,
+    String? senderBankCode,
+    String? senderName,
+    String? accountId,
+    String? contactName,
+  }) = _IbanDepositInfo;
+
+  factory IbanDepositInfo.fromJson(Map<String, dynamic> json) => _$IbanDepositInfoFromJson(json);
+}
+
+@freezed
+class IbanTransferInfo with _$IbanTransferInfo {
+  const factory IbanTransferInfo({
+    String? fromIban,
+    String? toIban,
+    required bool expressPayment,
+    String? description,
+    String? senderBankName,
+    String? senderCountry,
+    String? senderBankCode,
+    String? senderName,
+    String? beneficiaryName,
+    String? beneficiaryAddress,
+    String? beneficiaryCountry,
+    String? beneficiaryBankCode,
+    String? intermediaryBankCode,
+    String? intermediaryBankAccount,
+    String? fromAccountId,
+    String? toAccountId,
+  }) = _IbanTransferInfo;
+
+  factory IbanTransferInfo.fromJson(Map<String, dynamic> json) => _$IbanTransferInfoFromJson(json);
+}
+
+@freezed
+class SellCryptoInfo with _$SellCryptoInfo {
+  const factory SellCryptoInfo({
+    String? txId,
+    String? sellAssetId,
+    @DecimalSerialiser() required Decimal sellAmount,
+    String? buyAssetId,
+    @DecimalSerialiser() required Decimal buyAmount,
+    String? feeAssetId,
+    @DecimalSerialiser() required Decimal feeAmount,
+    String? accountId,
+    required IbanAccountType accountType,
+  }) = _SellCryptoInfo;
+
+  factory SellCryptoInfo.fromJson(Map<String, dynamic> json) => _$SellCryptoInfoFromJson(json);
+}
+
+enum IbanAccountType {
+  @JsonValue(0)
+  simple,
+  @JsonValue(1)
+  banking,
 }

@@ -1356,5 +1356,7 @@
     "bankAccountsSelectPopupMyAccounts": "My accounts",
     "bankAccountsSelectPopupTitle": "Bank transfer",
     "withdrawAll": "Withdraw all",
-    "iban_account_number": "IBAN / Account number"
+    "iban_account_number": "IBAN / Account number",
+    "operationName_sold": "Sold",
+    "operationName_converted": "Converted"
 }

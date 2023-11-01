@@ -18,8 +18,8 @@ import 'components/transaction_details_item.dart';
 import 'components/transaction_details_status.dart';
 import 'components/transaction_details_value_text.dart';
 
-class IbanSendDetails extends StatelessObserverWidget {
-  const IbanSendDetails({
+class BuyDetails extends StatelessObserverWidget {
+  const BuyDetails({
     super.key,
     required this.transactionListItem,
     required this.onCopyAction,
@@ -176,8 +176,8 @@ class IbanSendDetails extends StatelessObserverWidget {
   }
 }
 
-class IbanSendDetailsHeader extends StatelessWidget {
-  const IbanSendDetailsHeader({
+class BuyDetailsHeader extends StatelessWidget {
+  const BuyDetailsHeader({
     super.key,
     required this.transactionListItem,
   });
@@ -186,11 +186,19 @@ class IbanSendDetailsHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final asset = nonIndicesWithBalanceFrom(
+    final paymentAsset = nonIndicesWithBalanceFrom(
       sSignalRModules.currenciesList,
     )
         .where(
-          (element) => element.symbol == (transactionListItem.withdrawalInfo?.withdrawalAssetId ?? 'EUR'),
+          (element) => element.symbol == (transactionListItem.cryptoBuyInfo?.paymentAssetId ?? 'EUR'),
+        )
+        .first;
+
+    final buyAsset = nonIndicesWithBalanceFrom(
+      sSignalRModules.currenciesList,
+    )
+        .where(
+          (element) => element.symbol == (transactionListItem.cryptoBuyInfo?.buyAssetId ?? 'EUR'),
         )
         .first;
 
@@ -200,21 +208,20 @@ class IbanSendDetailsHeader extends StatelessWidget {
           WhatToWhatConvertWidget(
             removeDefaultPaddings: true,
             isLoading: false,
-            fromAssetIconUrl: '',
+            fromAssetIconUrl: paymentAsset.iconUrl,
             fromAssetDescription: transactionListItem.withdrawalInfo?.contactName ?? '',
             fromAssetValue: volumeFormat(
-              symbol: asset.symbol,
-              accuracy: asset.accuracy,
-              decimal: transactionListItem.withdrawalInfo?.withdrawalAmount ?? Decimal.zero,
+              symbol: paymentAsset.symbol,
+              accuracy: paymentAsset.accuracy,
+              decimal: transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero,
             ),
             fromAssetCustomIcon: const BlueBankIcon(),
-            toAssetIconUrl: asset.iconUrl,
-            toAssetDescription: asset.description,
+            toAssetIconUrl: buyAsset.iconUrl,
+            toAssetDescription: buyAsset.description,
             toAssetValue: volumeFormat(
-              symbol: asset.symbol,
-              accuracy: asset.accuracy,
-              decimal: (transactionListItem.withdrawalInfo?.withdrawalAmount ?? Decimal.zero) -
-                  (transactionListItem.withdrawalInfo?.feeAmount ?? Decimal.zero),
+              symbol: buyAsset.symbol,
+              accuracy: buyAsset.accuracy,
+              decimal: transactionListItem.cryptoBuyInfo?.buyAmount ?? Decimal.zero,
             ),
             isError: transactionListItem.status == Status.declined,
           ),

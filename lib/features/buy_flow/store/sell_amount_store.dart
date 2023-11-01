@@ -269,6 +269,19 @@ abstract class _SellAmountStoreBase with Store {
     }
   }
 
+  @computed
+  Decimal get minLimit {
+    return asset?.minTradeAmount ?? Decimal.zero;
+  }
+
+  @computed
+  Decimal get maxLimit {
+    final assetBalance = asset?.assetBalance ?? Decimal.zero;
+    final maxTradeAmount = asset?.maxTradeAmount ?? Decimal.zero;
+
+    return (assetBalance < maxTradeAmount ? assetBalance : maxTradeAmount) * _availablePresentForProcessing;
+  }
+
   @action
   void _validateInput() {
     if (Decimal.parse(fiatInputValue) == Decimal.zero) {
@@ -286,51 +299,25 @@ abstract class _SellAmountStoreBase with Store {
     }
 
     final value = Decimal.parse(fiatInputValue);
-    var min = paymentAsset?.minAmount ?? Decimal.zero;
-    var max = (account?.balance ?? paymentAsset?.maxAmount ?? Decimal.zero) * _availablePresentForProcessing;
 
-    if (category == PaymentMethodCategory.account && account?.accountId != 'clearjuction_account') {
-      final tempMin = asset!.buyMethods
-              .firstWhere((element) => element.id == PaymentMethodType.ibanTransferUnlimint)
-              .paymentAssets
-              ?.firstWhere((element) => element.asset == 'EUR')
-              .minAmount ??
-          Decimal.zero;
-      var tempMax = asset!.buyMethods
-              .firstWhere((element) => element.id == PaymentMethodType.ibanTransferUnlimint)
-              .paymentAssets
-              ?.firstWhere((element) => element.asset == 'EUR')
-              .maxAmount ??
-          Decimal.zero;
-      tempMax = tempMax * _availablePresentForProcessing;
+    inputValid = value >= minLimit && value <= maxLimit;
 
-      if (min > tempMin) {
-        min = tempMin;
-      }
-
-      if (max > tempMax) {
-        max = tempMax;
-      }
-    }
-
-    inputValid = value >= min && value <= max;
-
-    if (max == Decimal.zero) {
+    if (maxLimit == Decimal.zero) {
       _updatePaymentMethodInputError(
         intl.limitIsExceeded,
       );
-    } else if (value < min) {
+    } else if (value < minLimit) {
       _updatePaymentMethodInputError(
         '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
-          decimal: min,
+          decimal: minLimit,
           accuracy: buyCurrency.accuracy,
           symbol: buyCurrency.symbol,
         )}',
       );
-    } else if (value > max) {
+    } else if (value > maxLimit) {
       _updatePaymentMethodInputError(
         '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
-          decimal: max,
+          decimal: maxLimit,
           accuracy: buyCurrency.accuracy,
           symbol: buyCurrency.symbol,
         )}',

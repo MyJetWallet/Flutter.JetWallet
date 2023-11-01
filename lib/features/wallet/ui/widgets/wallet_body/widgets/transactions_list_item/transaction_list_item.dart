@@ -294,7 +294,7 @@ class TransactionListItem extends StatelessObserverWidget {
         return SMinusIcon(color: isFailed ? color : null);
       case OperationType.unknown:
         return const SizedBox();
-      case OperationType.cryptoInfo:
+      case OperationType.cryptoBuy:
         return SPlusIcon(color: isFailed ? color : null);
       case OperationType.buyApplePay:
         return SPlusIcon(color: isFailed ? color : null);

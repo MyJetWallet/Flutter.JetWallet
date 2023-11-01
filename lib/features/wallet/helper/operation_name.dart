@@ -27,8 +27,6 @@ String operationName(
       return intl.operationName_interestRate;
     case OperationType.feeSharePayment:
       return intl.operationName_feeSharePayment;
-    case OperationType.swap:
-      return intl.operationName_exchanged;
     case OperationType.withdrawalFee:
       return intl.operationName_withdrawalFee;
     case OperationType.rewardPayment:
@@ -39,7 +37,7 @@ String operationName(
       return intl.account_recurringBuy;
     case OperationType.earningDeposit:
       return isToppedUp != null ? intl.operationName_topped_up : intl.operationName_subscribed_to_earn;
-    case OperationType.cryptoInfo:
+    case OperationType.cryptoBuy:
       return intl.operationName_bought;
     case OperationType.p2pBuy:
       return intl.operationName_bought;
@@ -59,6 +57,12 @@ String operationName(
       return intl.gift_history_sent;
     case OperationType.giftReceive:
       return intl.gift_history_received;
+    case OperationType.bankingBuy:
+      return intl.operationName_bought;
+    case OperationType.bankingSell:
+      return intl.operationName_sold;
+    case OperationType.swap:
+      return intl.operationName_converted;
     default:
       return 'Unknown';
   }
