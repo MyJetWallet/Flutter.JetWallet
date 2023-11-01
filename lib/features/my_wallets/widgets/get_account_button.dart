@@ -92,6 +92,17 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context, Curre
   final kycState = getIt.get<KycService>();
   final kyc = getIt.get<KycAlertHandler>();
 
+  if (store.buttonStatus == BankingShowState.getAccountBlock) {
+    sNotification.showError(
+                            intl.operation_is_unavailable,
+                            duration: 4,
+                            id: 1,
+                            needFeedback: true,
+                          );
+
+    return;
+  }
+
   final verificationInProgress = kycState.inVerificationProgress;
 
   if (verificationInProgress) {
