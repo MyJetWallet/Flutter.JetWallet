@@ -97,7 +97,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                     context: context,
                     currency: currency,
                   ),
-                  from: BlockingType.trade,
+                  from: [BlockingType.trade],
                 );
               } else if (!isBuyAvaible) {
                 sNotification.showError(
@@ -133,7 +133,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                         currency: currency,
                       ),
                     ),
-                    from: BlockingType.deposit,
+                    from: [BlockingType.deposit],
                   );
                 } else if (!currency.supportsCryptoDeposit) {
                   sNotification.showError(
@@ -182,7 +182,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                       fromCurrency: currency,
                     ),
                   ),
-                  from: BlockingType.trade,
+                  from: [BlockingType.trade],
                 );
               } else {
                 handler.handle(

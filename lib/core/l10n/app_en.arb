@@ -1285,6 +1285,7 @@
     "my_wallets_get_account": "Get account",
     "my_wallets_create_account": "Creating account...",
     "my_wallets_account": "account",
+    "my_wallets_accounts": "accounts",
     "my_wallets_pending_transactions": "Pending transactions...",
     "let_us_create_account": "Let us create account for you",
     "wallet_verify_your_account": "Please verify your account",
@@ -1350,5 +1351,6 @@
     "bankAccountsSelectPopupMyAccounts": "My accounts",
     "bankAccountsSelectPopupTitle": "Bank transfer",
     "withdrawAll": "Withdraw all",
-    "iban_account_number": "IBAN / Account number"
+    "iban_account_number": "IBAN / Account number",
+    "creating": "creating..."
 }

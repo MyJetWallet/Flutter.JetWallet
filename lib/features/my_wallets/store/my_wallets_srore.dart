@@ -195,7 +195,16 @@ abstract class _MyWalletsSroreBase with Store {
       case BankingShowState.inProgress:
         return intl.my_wallets_create_account;
       case BankingShowState.accountList:
-        return '$allAccountsCount ${intl.my_wallets_account}';
+        return (sSignalRModules.bankingProfileData?.banking?.accounts ?? [])
+                .where((element) => element.status == AccountStatus.inCreation)
+                .isNotEmpty
+            ? allAccountsCount > 1
+                ? '${allAccountsCount - 1} ${intl.my_wallets_accounts} + 1 ${intl.creating}'
+                : '${allAccountsCount - 1} ${intl.my_wallets_account} + 1 ${intl.creating}'
+            : allAccountsCount > 1
+                ? '$allAccountsCount ${intl.my_wallets_accounts}'
+                : '$allAccountsCount ${intl.my_wallets_account}';
+
       case BankingShowState.onlySimple:
         return '1 ${intl.my_wallets_account}';
       default:

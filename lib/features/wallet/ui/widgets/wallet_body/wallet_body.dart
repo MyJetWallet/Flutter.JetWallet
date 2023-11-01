@@ -140,10 +140,12 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                             actualAsset.buyMethods.any((element) => element.id == PaymentMethodType.bankCard);
 
                         final isSimpleAccountAvaible = sSignalRModules.paymentProducts
-                            ?.any((element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount) ?? false;
+                                ?.any((element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount) ??
+                            false;
 
                         final isBankingAccountsAvaible = sSignalRModules.paymentProducts
-                            ?.any((element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount)  ?? false;
+                                ?.any((element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount) ??
+                            false;
 
                         final isBuyAvaible = isCardsAvailable || isSimpleAccountAvaible || isBankingAccountsAvaible;
 
@@ -154,7 +156,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                               context: context,
                               currency: actualAsset,
                             ),
-                            from: BlockingType.trade,
+                            from: [BlockingType.trade],
                           );
                         } else if (!isBuyAvaible) {
                           sNotification.showError(
@@ -187,7 +189,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                                 currency: actualAsset,
                               ),
                             ),
-                            from: BlockingType.deposit,
+                            from: [BlockingType.deposit],
                           );
                         } else if (!widget.currency.supportsCryptoDeposit) {
                           sNotification.showError(
@@ -232,7 +234,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                                 fromCurrency: actualAsset,
                               ),
                             ),
-                            from: BlockingType.trade,
+                            from: [BlockingType.trade],
                           );
                         } else {
                           handler.handle(

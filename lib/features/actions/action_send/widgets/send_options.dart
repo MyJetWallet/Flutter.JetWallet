@@ -178,7 +178,7 @@ Future<void> handleSendMethodBlockers({
       or: () {
         onAllowed();
       },
-      from: blockingType,
+      from: [blockingType],
     );
   } else if (!methodIsSuported) {
     sNotification.showError(

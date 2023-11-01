@@ -19,6 +19,7 @@ void showDepositDetails(
       pinned: SBottomSheetHeader(
         name: intl.account_bottom_sheet_header,
       ),
+      scrollable: true,
       onDissmis: onClose,
       children: [
         const SpaceH12(),
@@ -52,6 +53,7 @@ void showDepositDetails(
       pinned: SBottomSheetHeader(
         name: intl.account_bottom_sheet_header,
       ),
+      scrollable: true,
       onDissmis: onClose,
       children: [
         const SpaceH12(),

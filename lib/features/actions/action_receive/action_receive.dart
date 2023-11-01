@@ -34,7 +34,7 @@ void showReceiveAction(BuildContext context) {
       or: () {
         _showReceive(context);
       },
-      from: BlockingType.deposit,
+      from: [BlockingType.deposit],
     );
   } else if (!isReceiveMethodsAvailable) {
     sNotification.showError(

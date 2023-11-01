@@ -92,29 +92,10 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context, Curre
   final kycState = getIt.get<KycService>();
   final kyc = getIt.get<KycAlertHandler>();
 
-  final kycBlocked = checkKycBlocked(
-    kycState.depositStatus,
-    kycState.tradeStatus,
-    kycState.withdrawalStatus,
-  );
-
-  final anyBlock = sSignalRModules.clientDetail.clientBlockers.isNotEmpty;
-
   final verificationInProgress = kycState.inVerificationProgress;
 
   if (verificationInProgress) {
     kyc.showVerifyingAlert();
-
-    return;
-  }
-
-  if (anyBlock || kycBlocked) {
-    sNotification.showError(
-      intl.operation_is_unavailable,
-      duration: 4,
-      id: 1,
-      needFeedback: true,
-    );
 
     return;
   }
