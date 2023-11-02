@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_buy.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_convert.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_exchange.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_receive.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_sell.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_send.dart';
@@ -69,12 +68,6 @@ class CircleActionButtons extends StatelessObserverWidget {
                 onSend?.call();
               },
               isDisabled: isSendDisabled,
-            ),
-            CircleActionExchange(
-              onTap: () {
-                onExchange?.call();
-              },
-              isDisabled: isExchangeDisabled,
             ),
             CircleActionConvert(
               onTap: () {

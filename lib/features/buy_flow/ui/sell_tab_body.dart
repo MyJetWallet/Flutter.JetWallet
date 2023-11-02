@@ -6,7 +6,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/buy_flow/store/sell_amount_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/buy_option_widget.dart';
-import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
+import 'package:jetwallet/features/buy_flow/ui/widgets/sell_with_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
@@ -131,7 +131,7 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                       ),
                     ),
                     onTap: () {
-                      showPayWithBottomSheet(
+                      showSellPayWithBottomSheet(
                         context: context,
                         currency: store.asset,
                         hideCards: true,
@@ -160,7 +160,7 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                       ),
                     ),
                     onTap: () {
-                      showPayWithBottomSheet(
+                      showSellPayWithBottomSheet(
                         context: context,
                         currency: store.asset,
                         hideCards: true,
