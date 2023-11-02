@@ -23,6 +23,7 @@ abstract class SimpleColors {
   abstract Color redLight;
   abstract Color extraLightBlue;
   abstract Color blueLight;
+  abstract Color blueExtraLight;
   abstract Color extraGreenLight;
   abstract Color greenLight;
   abstract Color greenDarkLight;
@@ -41,4 +42,6 @@ abstract class SimpleColors {
   abstract Color confetti7;
   abstract Color confetti8;
   abstract Color purple;
+  abstract Color greenExtraLight;
+  abstract Color redExtraLight;
 }

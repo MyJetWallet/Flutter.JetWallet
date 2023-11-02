@@ -7,12 +7,15 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/my_wallets/helper/show_deposit_details_popup.dart';
 import 'package:jetwallet/features/my_wallets/widgets/cj_header_widget.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
+import 'package:jetwallet/features/withdrawal_banking/helpers/show_bank_transfer_select.dart';
 import 'package:jetwallet/utils/constants.dart';
+import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_button.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -197,7 +200,8 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                       text: intl.wallet_add_cash,
                       type: CircleButtonType.addCash,
                       onTap: () {
-                        if (!isDepositButtonActive) {
+                        if (kycState.depositStatus == kycOperationStatus(KycStatus.blocked) ||
+                            kycState.withdrawalStatus == kycOperationStatus(KycStatus.blocked)) {
                           sNotification.showError(
                             intl.operation_is_unavailable,
                             duration: 4,
@@ -208,25 +212,36 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                           return;
                         }
 
-                        sAnalytics.eurWalletTapAddCashEurAccount(
-                          isCJ: widget.isCJAccount,
-                          eurAccountLabel: widget.bankingAccount.label ?? 'Account',
-                          isHasTransaction: true,
-                        );
+                        showSendTimerAlertOr(
+                          context: context,
+                          from: [BlockingType.withdrawal, BlockingType.deposit],
+                          or: () {
+                            sAnalytics.eurWalletTapAddCashEurAccount(
+                              isCJ: widget.isCJAccount,
+                              eurAccountLabel: widget.bankingAccount.label ?? 'Account',
+                              isHasTransaction: true,
+                            );
 
-                        sAnalytics.eurWalletDepositDetailsSheet(
-                          isCJ: widget.isCJAccount,
-                          eurAccountLabel: widget.bankingAccount.label ?? 'Account',
-                          isHasTransaction: true,
-                        );
+                            sAnalytics.eurWalletDepositDetailsSheet(
+                              isCJ: widget.isCJAccount,
+                              eurAccountLabel: widget.bankingAccount.label ?? 'Account',
+                              isHasTransaction: true,
+                            );
 
-                        showDepositDetails(context, () {
-                          sAnalytics.eurWalletTapCloseOnDeposirSheet(
-                            isCJ: widget.isCJAccount,
-                            eurAccountLabel: widget.bankingAccount.label ?? 'Account',
-                            isHasTransaction: true,
-                          );
-                        });
+                            showDepositDetails(
+                              context,
+                              () {
+                                sAnalytics.eurWalletTapCloseOnDeposirSheet(
+                                  isCJ: widget.isCJAccount,
+                                  eurAccountLabel: widget.bankingAccount.label ?? 'Account',
+                                  isHasTransaction: true,
+                                );
+                              },
+                              widget.isCJAccount,
+                              widget.bankingAccount,
+                            );
+                          },
+                        );
                       },
                     ),
                     CircleActionButton(
@@ -234,7 +249,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                       type: CircleButtonType.withdraw,
                       isDisabled: !((widget.bankingAccount.balance ?? Decimal.zero) > Decimal.zero),
                       onTap: () {
-                        if (!isWithdrawButtonActive) {
+                        if (kycState.withdrawalStatus == kycOperationStatus(KycStatus.blocked)) {
                           sNotification.showError(
                             intl.operation_is_unavailable,
                             duration: 4,
@@ -245,10 +260,18 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                           return;
                         }
 
-                        sAnalytics.eurWalletWithdrawEURAccountScreen(
-                          isCJ: widget.isCJAccount,
-                          eurAccountLabel: widget.bankingAccount.label ?? 'Account',
-                          isHasTransaction: true,
+                        showSendTimerAlertOr(
+                          context: context,
+                          from: [BlockingType.withdrawal],
+                          or: () {
+                            showBankTransforSelect(context, widget.bankingAccount);
+
+                            sAnalytics.eurWalletWithdrawEURAccountScreen(
+                              isCJ: widget.isCJAccount,
+                              eurAccountLabel: widget.bankingAccount.label ?? 'Account',
+                              isHasTransaction: true,
+                            );
+                          },
                         );
                       },
                     ),

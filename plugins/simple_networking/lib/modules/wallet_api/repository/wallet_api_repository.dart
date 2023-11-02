@@ -9,6 +9,9 @@ import 'package:simple_networking/modules/wallet_api/models/add_card/add_card_re
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/all_cards/all_cards_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/apple_pay_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_response.dart';
+import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_request.dart';
 import 'package:simple_networking/modules/wallet_api/models/base_asset/get_base_assets_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/base_asset/set_base_assets_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/calculate_earn_offer_apy/calculate_earn_offer_apy_request_model.dart';
@@ -72,6 +75,9 @@ import 'package:simple_networking/modules/wallet_api/models/profile_info/profile
 import 'package:simple_networking/modules/wallet_api/models/recurring_manage/recurring_delete_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/recurring_manage/recurring_manage_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/rewards/reward_spin_response.dart';
+import 'package:simple_networking/modules/wallet_api/models/sell/execute_crypto_sell_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/sell/get_crypto_sell_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/sell/get_crypto_sell_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_gift/gift_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
@@ -251,6 +257,18 @@ class WalletApiRepository {
     CardBuyCreateRequestModel model,
   ) async {
     return _walletApiDataSources.postCardBuyCreateRequest(model);
+  }
+
+  Future<DC<ServerRejectException, GetCryptoSellResponseModel>> postSellCreate(
+    GetCryptoSellRequestModel model,
+  ) async {
+    return _walletApiDataSources.postSellCreateRequest(model);
+  }
+
+  Future<DC<ServerRejectException, GetCryptoSellResponseModel>> postSellExecute(
+    ExecuteCryptoSellRequestModel model,
+  ) async {
+    return _walletApiDataSources.postSellExecuteRequest(model);
   }
 
   Future<DC<ServerRejectException, bool>> postApplePayConfirm(
@@ -821,5 +839,17 @@ class WalletApiRepository {
 
   Future<DC<ServerRejectException, String>> postBankingKycStart() async {
     return _walletApiDataSources.postBankingKycStartRequest();
+  }
+
+  Future<DC<ServerRejectException, BankingWithdrawalPreviewResponse>> postBankingWithdrawalPreview(
+    BankingWithdrawalPreviewModel request,
+  ) async {
+    return _walletApiDataSources.postBankingWithdrawalPreviewRequest(request);
+  }
+
+  Future<DC<ServerRejectException, String>> postBankingWithdrawal(
+    BankingWithdrawalRequest request,
+  ) async {
+    return _walletApiDataSources.postBankingWithdrawalRequest(request);
   }
 }

@@ -72,3 +72,14 @@ class TransactionDetailsStatus extends StatelessObserverWidget {
     }
   }
 }
+
+String transactionDetailsStatusText(Status status) {
+  switch (status) {
+    case Status.completed:
+      return intl.transactionDetailsStatus_completed;
+    case Status.inProgress:
+      return intl.transactionDetailsStatus_balanceInProcess;
+    case Status.declined:
+      return intl.transactionDetailsStatus_declined;
+  }
+}

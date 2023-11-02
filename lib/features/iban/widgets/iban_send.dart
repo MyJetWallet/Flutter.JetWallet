@@ -11,6 +11,7 @@ import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 class IbanSend extends StatelessObserverWidget {
   const IbanSend({super.key});
@@ -153,6 +154,7 @@ class IbanSend extends StatelessObserverWidget {
                         .push(
                           IbanSendAmountRouter(
                             contact: store.contacts[index],
+                            bankingAccount: SimpleBankingAccount(),
                           ),
                         )
                         .then(

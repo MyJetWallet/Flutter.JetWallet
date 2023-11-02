@@ -16,7 +16,7 @@ void showExchangeAction({
     showSendTimerAlertOr(
       context: context,
       or: () => sRouter.push(ConvertRouter()),
-      from: BlockingType.trade,
+      from: [BlockingType.trade],
     );
   } else {
     handler.handle(

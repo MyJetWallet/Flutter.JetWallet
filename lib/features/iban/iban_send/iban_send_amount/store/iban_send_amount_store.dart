@@ -21,8 +21,11 @@ import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_preview_withdrawal_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_withdrawal_model.dart';
 
 part 'iban_send_amount_store.g.dart';
@@ -48,6 +51,9 @@ abstract class _IbanSendAmountStoreBase with Store {
 
   @observable
   AddressBookContactModel? contact;
+
+  @observable
+  SimpleBankingAccount? account;
 
   @observable
   InputError withAmmountInputError = InputError.none;
@@ -94,8 +100,9 @@ abstract class _IbanSendAmountStoreBase with Store {
       ).maxAmount;
 
   @action
-  void init(AddressBookContactModel value) {
+  void init(AddressBookContactModel value, SimpleBankingAccount bankingAccount) {
     contact = value;
+    account = bankingAccount;
 
     sAnalytics.sendEurAmountScreenView();
 
@@ -139,7 +146,18 @@ abstract class _IbanSendAmountStoreBase with Store {
       bic: contact?.bic ?? '',
     );
 
-    final response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postPreviewIbanWithdrawal(model);
+    final previewModel = BankingWithdrawalPreviewModel(
+      accountId: account?.accountId ?? '',
+      toIbanAddress: contact?.iban ?? '',
+      assetSymbol: eurCurrency.symbol,
+      amount: Decimal.parse(withAmount),
+      contactId: contact?.id ?? '',
+      beneficiaryBankCode: contact?.bic ?? '',
+      expressPayment: false,
+    );
+
+    final response =
+        await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postBankingWithdrawalPreview(previewModel);
 
     loader.finishLoadingImmediately();
 
@@ -148,6 +166,8 @@ abstract class _IbanSendAmountStoreBase with Store {
         IbanSendConfirmRouter(
           data: response.data!,
           contact: contact!,
+          account: account!,
+          previewRequest: previewModel,
         ),
       );
     } else {

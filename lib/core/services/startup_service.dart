@@ -282,8 +282,8 @@ class StartupService {
       await getIt.isReady<KycProfileCountries>();
       await getIt.isReady<ProfileGetUserCountry>();
 
-      getIt.registerLazySingleton<IbanStore>(
-        () => IbanStore(),
+      getIt.registerSingleton<IbanStore>(
+        IbanStore(),
       );
 
       getIt.registerLazySingleton<SumsubService>(

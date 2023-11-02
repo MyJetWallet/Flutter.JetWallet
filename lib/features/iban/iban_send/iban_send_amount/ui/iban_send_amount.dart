@@ -12,6 +12,7 @@ import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 
 @RoutePage(name: 'IbanSendAmountRouter')
@@ -19,14 +20,16 @@ class IbanSendAmount extends StatelessWidget {
   const IbanSendAmount({
     super.key,
     required this.contact,
+    required this.bankingAccount,
   });
 
   final AddressBookContactModel contact;
+  final SimpleBankingAccount bankingAccount;
 
   @override
   Widget build(BuildContext context) {
     return Provider<IbanSendAmountStore>(
-      create: (context) => IbanSendAmountStore()..init(contact),
+      create: (context) => IbanSendAmountStore()..init(contact, bankingAccount),
       builder: (context, child) => const IbanSendAmountBody(),
     );
   }
@@ -47,7 +50,7 @@ class IbanSendAmountBody extends StatelessObserverWidget {
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: '${intl.iban_out_send} ${store.eurCurrency.symbol}',
+          title: intl.withdraw,
           subTitle: '${intl.withdrawalAmount_available}: ${volumeFormat(
             decimal: store.availableCurrency,
             accuracy: store.eurCurrency.accuracy,
@@ -79,12 +82,41 @@ class IbanSendAmountBody extends StatelessObserverWidget {
                   error: store.withAmmountInputError == InputError.limitError
                       ? store.limitError
                       : store.withAmmountInputError.value(),
-                  isErrorActive: store.withAmmountInputError.isActive,
+                  //isErrorActive: store.withAmmountInputError.isActive,
+                  isErrorActive: false,
                 ),
               ),
             ],
           ),
           const Spacer(),
+          if (!store.withAmmountInputError.isActive) ...[
+            STransparentInkWell(
+              onTap: () {
+                store.updateAmount(store.availableCurrency.toString());
+              },
+              child: Text(
+                '${intl.withdrawAll} ${volumeFormat(
+                  decimal: store.availableCurrency,
+                  accuracy: store.eurCurrency.accuracy,
+                  symbol: store.eurCurrency.symbol,
+                )}',
+                style: sBodyText1Style.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: colors.blue,
+                ),
+              ),
+            ),
+          ] else ...[
+            Text(
+              store.withAmmountInputError == InputError.limitError
+                  ? store.limitError
+                  : store.withAmmountInputError.value(),
+              style: sBodyText2Style.copyWith(
+                color: colors.red,
+              ),
+            ),
+          ],
+          const SpaceH20(),
           SPaymentSelectAsset(
             onTap: () {
               sAnalytics.tapOnTheButtonLimitsIBAN();

@@ -14,6 +14,9 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_response.dart';
+import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_request.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_preview_withdrawal_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_withdrawal_model.dart';
 part 'iban_send_confirm_store.g.dart';
@@ -33,7 +36,7 @@ abstract class _IbanSendConfirmStoreBase with Store {
   );
 
   void init(
-    IbanPreviewWithdrawalModel data,
+    BankingWithdrawalPreviewResponse data,
   ) {
     sAnalytics.orderSummarySendIBANScreenView(
       asset: eurCurrency.symbol,
@@ -44,21 +47,28 @@ abstract class _IbanSendConfirmStoreBase with Store {
 
   @action
   Future<void> confirmIbanOut(
-    IbanPreviewWithdrawalModel data,
+    BankingWithdrawalPreviewModel previewRequest,
+    BankingWithdrawalPreviewResponse data,
     AddressBookContactModel contact,
+    String pin,
   ) async {
     loader.startLoadingImmediately();
 
-    final model = IbanWithdrawalModel(
+    final model = BankingWithdrawalRequest(
+      pin: pin,
+      accountId: previewRequest.accountId,
+      toIbanAddress: previewRequest.toIbanAddress,
       assetSymbol: 'EUR',
       amount: data.amount,
-      lang: intl.localeName,
-      contactId: contact.id,
-      iban: data.iban,
-      bic: data.bic,
+      description: previewRequest.description,
+      beneficiaryName: previewRequest.beneficiaryName,
+      beneficiaryAddress: previewRequest.beneficiaryAddress,
+      beneficiaryBankCode: previewRequest.beneficiaryBankCode,
+      beneficiaryCountry: previewRequest.beneficiaryCountry,
+      expressPayment: previewRequest.expressPayment,
     );
 
-    final response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postIbanWithdrawal(model);
+    final response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postBankingWithdrawal(model);
 
     loader.finishLoadingImmediately();
 
@@ -78,7 +88,7 @@ abstract class _IbanSendConfirmStoreBase with Store {
         sendAmount: data.amount.toString(),
       );
 
-      await showSuccessScreen(data);
+      await showSuccessScreen(data.sendAmount);
     }
   }
 
@@ -97,13 +107,13 @@ abstract class _IbanSendConfirmStoreBase with Store {
   }
 
   @action
-  Future<void> showSuccessScreen(IbanPreviewWithdrawalModel data) {
+  Future<void> showSuccessScreen(Decimal? sendAmount) {
     return sRouter
         .push(
           SuccessScreenRouter(
             primaryText: intl.send_globally_success,
             secondaryText: '${intl.send_globally_success_secondary} ${volumeFormat(
-              decimal: data.sendAmount ?? Decimal.zero,
+              decimal: sendAmount ?? Decimal.zero,
               accuracy: eurCurrency.accuracy,
               symbol: eurCurrency.symbol,
             )}'

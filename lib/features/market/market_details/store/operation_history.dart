@@ -270,7 +270,7 @@ List<oh_resp.OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(
         item.operationType == oh_resp.OperationType.recurringBuy ||
         item.operationType == oh_resp.OperationType.earningDeposit ||
         item.operationType == oh_resp.OperationType.earningWithdrawal ||
-        item.operationType == oh_resp.OperationType.cryptoInfo ||
+        item.operationType == oh_resp.OperationType.cryptoBuy ||
         item.operationType == oh_resp.OperationType.buyApplePay ||
         item.operationType == oh_resp.OperationType.buyGooglePay ||
         item.operationType == oh_resp.OperationType.nftSwap ||
@@ -286,7 +286,11 @@ List<oh_resp.OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(
         item.operationType == oh_resp.OperationType.sendGlobally ||
         item.operationType == oh_resp.OperationType.p2pBuy ||
         item.operationType == oh_resp.OperationType.giftSend ||
-        item.operationType == oh_resp.OperationType.giftReceive,
+        item.operationType == oh_resp.OperationType.bankingBuy ||
+        item.operationType == oh_resp.OperationType.bankingSell ||
+        item.operationType == oh_resp.OperationType.bankingTransfer ||
+        item.operationType == oh_resp.OperationType.bankingAccountDeposit ||
+        item.operationType == oh_resp.OperationType.bankingAccountWithdrawal,
   )
       .map((item) {
     return item.operationType == oh_resp.OperationType.swap

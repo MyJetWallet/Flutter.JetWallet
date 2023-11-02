@@ -431,8 +431,6 @@ class SignalRFuncHandler {
 
   void bankingProfileHandler(List<Object?>? data) {
     try {
-      log(data.toString());
-
       final bankingProfileModel = BankingProfileModel.fromJson(_json(data));
 
       sTransport.bankingProfile(bankingProfileModel);
@@ -445,7 +443,6 @@ class SignalRFuncHandler {
 
   void pendingOperationCountHandler(List<Object?>? data) {
     try {
-      log(data.toString());
       final int count = _json(data)['count'];
 
       sTransport.setPendingOperationCount(count);
