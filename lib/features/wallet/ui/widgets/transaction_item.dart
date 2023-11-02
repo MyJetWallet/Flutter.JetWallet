@@ -194,9 +194,7 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                     ),
                   ),
                 ],
-                if (widget.transactionListItem.operationType == OperationType.bankingBuy ||
-                    widget.transactionListItem.operationType == OperationType.swap ||
-                    widget.transactionListItem.operationType == OperationType.bankingSell) ...[
+                if (widget.transactionListItem.operationType == OperationType.bankingBuy) ...[
                   Material(
                     color: colors.white,
                     child: BuyDetails(
