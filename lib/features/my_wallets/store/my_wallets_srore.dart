@@ -185,6 +185,10 @@ abstract class _MyWalletsSroreBase with Store {
         .where((element) => element.status == AccountStatus.active)
         .length;
 
+    final bankAccountsInCreationCount = (sSignalRModules.bankingProfileData?.banking?.accounts ?? [])
+        .where((element) => element.status == AccountStatus.inCreation)
+        .length;
+
     var allAccountsCount = bankAccountsCount;
     if (sSignalRModules.bankingProfileData?.simple != null) {
       if (sSignalRModules.bankingProfileData?.simple?.account?.status == AccountStatus.active) allAccountsCount++;
@@ -202,8 +206,8 @@ abstract class _MyWalletsSroreBase with Store {
                 .where((element) => element.status == AccountStatus.inCreation)
                 .isNotEmpty
             ? allAccountsCount > 1
-                ? '$allAccountsCount ${intl.my_wallets_accounts} + 1 ${intl.creating}'
-                : '$allAccountsCount ${intl.my_wallets_account} + 1 ${intl.creating}'
+                ? '$allAccountsCount ${intl.my_wallets_accounts} + $bankAccountsInCreationCount ${intl.creating}'
+                : '$allAccountsCount ${intl.my_wallets_account} + $bankAccountsInCreationCount ${intl.creating}'
             : allAccountsCount > 1
                 ? '$allAccountsCount ${intl.my_wallets_accounts}'
                 : '$allAccountsCount ${intl.my_wallets_account}';

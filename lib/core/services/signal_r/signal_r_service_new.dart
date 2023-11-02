@@ -847,6 +847,25 @@ abstract class _SignalRServiceUpdatedBase with Store {
     bankingProfileData = data;
     totalEurWalletBalance = Decimal.zero;
 
+    bankingProfileData = BankingProfileModel(
+      simple: const SimpleBankingModel(
+        status: SimpleAccountStatus.allowed,
+        account: SimpleBankingAccount(
+          status: AccountStatus.active,
+        ),
+      ),
+      banking: const BankingDataModel(
+        accounts: [
+          SimpleBankingAccount(status: AccountStatus.inCreation),
+          SimpleBankingAccount(status: AccountStatus.inCreation),
+        ],
+        status: BankingClientStatus.allowed,
+      ),
+      showState: BankingShowState.accountList,
+    );
+
+    return;
+
     for (final el in data.banking?.accounts ?? <SimpleBankingAccount>[]) {
       totalEurWalletBalance += el.balance ?? Decimal.zero;
     }
