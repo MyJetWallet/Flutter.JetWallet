@@ -74,6 +74,12 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                     store.isFiatEntering = !store.isFiatEntering;
                   },
                   errorText: store.paymentMethodInputError,
+                  optionText: store.cryptoInputValue == '0'
+                      ? '''${intl.sell_amount_sell_all} ${volumeFormat(decimal: store.maxLimit, accuracy: store.asset?.accuracy ?? 1, symbol: store.cryptoSymbol)}'''
+                      : null,
+                  optionOnTap: () {
+                    store.onSellAll();
+                  },
                 ),
                 const Spacer(),
                 if (store.asset != null)

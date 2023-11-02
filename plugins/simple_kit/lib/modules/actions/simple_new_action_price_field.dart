@@ -13,6 +13,8 @@ class SNewActionPriceField extends StatelessWidget {
     required this.widgetSize,
     required this.onSwap,
     this.errorText,
+    this.optionText,
+    this.optionOnTap,
   }) : super(key: key);
 
   final String primaryAmount;
@@ -22,6 +24,8 @@ class SNewActionPriceField extends StatelessWidget {
   final void Function()? onSwap;
   final String? errorText;
   final SWidgetSize widgetSize;
+  final String? optionText;
+  final Function()? optionOnTap;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +33,7 @@ class SNewActionPriceField extends StatelessWidget {
 
     return SPaddingH24(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,7 +102,13 @@ class SNewActionPriceField extends StatelessWidget {
               ),
             ],
           ),
-          if (errorText != null) ...[
+          if (optionText != null && optionOnTap != null) ...[
+            const SpaceH8(),
+            SClickableLinkText(
+              text: optionText!,
+              onTap: optionOnTap!,
+            ),
+          ] else if (errorText != null) ...[
             const SpaceH8(),
             _ErrorWidget(
               errorText: errorText!,

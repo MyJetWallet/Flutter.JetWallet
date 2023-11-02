@@ -1361,5 +1361,6 @@
     "iban_account_number": "IBAN / Account number",
     "operationName_sold": "Sold",
     "operationName_converted": "Converted",
-    "creating": "creating..."
+    "creating": "creating...",
+    "sell_amount_sell_all": "Sell all"
 }

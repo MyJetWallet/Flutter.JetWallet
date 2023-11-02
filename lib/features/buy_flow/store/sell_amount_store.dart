@@ -199,6 +199,19 @@ abstract class _SellAmountStoreBase with Store {
     return sSignalRModules.currenciesList.firstWhere((element) => element.symbol == fiatSymbol).accuracy;
   }
 
+  @action 
+  void onSellAll() {
+    cryptoInputValue = responseOnInputAction(
+        oldInput: cryptoInputValue,
+        newInput: maxLimit.toString(),
+        accuracy: asset?.accuracy ?? 2,
+      );
+
+     _calculateFiatConversion();
+
+     _validateInput();
+  }
+
   @action
   void updateInputValue(String value) {
     if (isFiatEntering) {

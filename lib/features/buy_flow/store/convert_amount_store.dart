@@ -141,6 +141,19 @@ abstract class _ConvertAmountStoreBase with Store {
   }
 
   @action
+  void onConvetrAll() {
+    fromInputValue = responseOnInputAction(
+      oldInput: fromInputValue,
+      newInput: maxLimit.toString(),
+      accuracy: fromAsset?.accuracy ?? 2,
+    );
+
+    _calculateToConversion();
+
+    _validateInput();
+  }
+
+  @action
   void updateInputValue(String value) {
     if (isFromEntering) {
       fromInputValue = responseOnInputAction(

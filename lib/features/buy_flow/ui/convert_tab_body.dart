@@ -6,6 +6,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/buy_flow/store/convert_amount_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/buy_option_widget.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -70,6 +71,12 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                     store.swapAssets();
                   },
                   errorText: store.paymentMethodInputError,
+                  optionText: store.fromInputValue == '0'
+                      ? '''${intl.sell_amount_sell_all} ${volumeFormat(decimal: store.maxLimit, accuracy: store.fromAsset?.accuracy ?? 1, symbol: store.fromAsset?.symbol ?? '')}'''
+                      : null,
+                  optionOnTap: () {
+                    store.onConvetrAll();
+                  },
                 ),
                 const Spacer(),
                 if (store.fromAsset != null)
