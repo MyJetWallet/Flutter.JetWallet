@@ -5,6 +5,8 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/buy_flow/store/convert_amount_store.dart';
+import 'package:jetwallet/features/buy_flow/ui/convert_choose_asset_bottom_sheet.dart';
+import 'package:jetwallet/features/buy_flow/ui/convert_to_choose_asset_bottom_sheet%20copy.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/buy_option_widget.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -14,8 +16,6 @@ import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/icons/24x24/public/crypto/simple_crypto_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
-
-import 'buy_choose_asset_bottom_sheet.dart';
 
 class ConvertAmountTabBody extends StatefulObserverWidget {
   const ConvertAmountTabBody({
@@ -88,7 +88,7 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                       url: store.fromAsset?.iconUrl ?? '',
                     ),
                     onTap: () {
-                      showBuyChooseAssetBottomSheet(
+                      showConvertChooseAssetBottomSheet(
                         context: context,
                         onChooseAsset: (currency) {
                           store.setNewFromAsset(currency);
@@ -102,7 +102,7 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                     subTitle: intl.amount_screen_convert,
                     icon: const SCryptoIcon(),
                     onTap: () {
-                      showBuyChooseAssetBottomSheet(
+                      showConvertChooseAssetBottomSheet(
                         context: context,
                         onChooseAsset: (currency) {
                           store.setNewFromAsset(currency);
@@ -115,13 +115,13 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                 if (store.toAsset != null)
                   BuyOptionWidget(
                     title: store.toAsset?.description,
-                    subTitle: intl.amount_screen_convert,
+                    subTitle: intl.convert_amount_convert_to,
                     trailing: store.toAsset?.volumeAssetBalance,
                     icon: SNetworkSvg24(
                       url: store.toAsset?.iconUrl ?? '',
                     ),
                     onTap: () {
-                      showBuyChooseAssetBottomSheet(
+                      showConvertToChooseAssetBottomSheet(
                         context: context,
                         onChooseAsset: (currency) {
                           store.setNewToAsset(currency);
@@ -132,10 +132,10 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                   )
                 else
                   BuyOptionWidget(
-                    subTitle: intl.amount_screen_convert,
+                    subTitle: intl.convert_amount_convert_to,
                     icon: const SCryptoIcon(),
                     onTap: () {
-                      showBuyChooseAssetBottomSheet(
+                      showConvertToChooseAssetBottomSheet(
                         context: context,
                         onChooseAsset: (currency) {
                           store.setNewToAsset(currency);

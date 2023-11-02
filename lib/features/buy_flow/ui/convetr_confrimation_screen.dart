@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/buy_flow/store/convert_confirmation_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/convert_confirmation_widgets/convert_confirmation_info_grid.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
+import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
@@ -60,6 +63,8 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
     final store = ConvertConfirmationStore.of(context);
     final colors = sKit.colors;
 
+    BaseCurrencyModel baseCurrency = sSignalRModules.baseCurrency;
+
     return SPageFrameWithPadding(
       loading: store.loader,
       loaderText: intl.register_pleaseWait,
@@ -97,12 +102,28 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                     accuracy: store.payCurrency.accuracy,
                     decimal: store.paymentAmount ?? Decimal.zero,
                   ),
+                  fromAssetBaseAmount: volumeFormat(
+                    symbol: baseCurrency.symbol,
+                    accuracy: baseCurrency.accuracy,
+                    decimal: calculateBaseBalanceWithReader(
+                      assetSymbol: store.payCurrency.symbol,
+                      assetBalance: store.paymentAmount ?? Decimal.zero,
+                    ),
+                  ),
                   toAssetIconUrl: store.buyCurrency.iconUrl,
                   toAssetDescription: store.buyCurrency.description,
                   toAssetValue: volumeFormat(
                     decimal: store.buyAmount ?? Decimal.zero,
                     accuracy: store.buyCurrency.accuracy,
                     symbol: store.buyCurrency.symbol,
+                  ),
+                  toAssetBaseAmount: volumeFormat(
+                    symbol: baseCurrency.symbol,
+                    accuracy: baseCurrency.accuracy,
+                    decimal: calculateBaseBalanceWithReader(
+                      assetSymbol: store.buyCurrency.symbol,
+                      assetBalance: store.buyAmount ?? Decimal.zero,
+                    ),
                   ),
                 ),
                 ConvertConfirmationInfoGrid(

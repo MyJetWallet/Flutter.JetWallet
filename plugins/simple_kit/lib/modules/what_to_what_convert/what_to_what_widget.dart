@@ -16,6 +16,8 @@ class WhatToWhatConvertWidget extends StatelessWidget {
     required this.toAssetValue,
     this.removeDefaultPaddings = false,
     this.isError = false,
+    this.fromAssetBaseAmount,
+    this.toAssetBaseAmount,
   });
 
   final bool isLoading;
@@ -23,10 +25,12 @@ class WhatToWhatConvertWidget extends StatelessWidget {
   final Widget? fromAssetCustomIcon;
   final String fromAssetDescription;
   final String fromAssetValue;
+  final String? fromAssetBaseAmount;
   final String toAssetIconUrl;
   final Widget? toAssetCustomIcon;
   final String toAssetDescription;
   final String toAssetValue;
+  final String? toAssetBaseAmount;
 
   final bool removeDefaultPaddings;
   final bool isError;
@@ -47,6 +51,7 @@ class WhatToWhatConvertWidget extends StatelessWidget {
             assetValue: fromAssetValue,
             customIcon: fromAssetCustomIcon,
             isError: isError,
+            assetBaseAmount: fromAssetBaseAmount,
           ),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -68,6 +73,7 @@ class WhatToWhatConvertWidget extends StatelessWidget {
             isSecandary: true,
             customIcon: toAssetCustomIcon,
             isError: isError,
+            assetBaseAmount: toAssetBaseAmount,
           ),
         ],
       ),
@@ -84,6 +90,7 @@ class _AssetRowWidget extends StatelessWidget {
     this.isSecandary = false,
     this.customIcon,
     this.isError = false,
+    this.assetBaseAmount,
   });
 
   final bool isLoading;
@@ -93,6 +100,7 @@ class _AssetRowWidget extends StatelessWidget {
   final bool isSecandary;
   final Widget? customIcon;
   final bool isError;
+  final String? assetBaseAmount;
 
   @override
   Widget build(BuildContext context) {
@@ -136,6 +144,14 @@ class _AssetRowWidget extends StatelessWidget {
                           ? colors.purple
                           : null,
                   decoration: isError ? TextDecoration.lineThrough : null,
+                ),
+              ),
+            if (assetBaseAmount != null)
+              Text(
+                assetBaseAmount!,
+                style: sBodyText2Style.copyWith(
+                  color: colors.grey1,
+                  height: 1.4,
                 ),
               ),
           ],

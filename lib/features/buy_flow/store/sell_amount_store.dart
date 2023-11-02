@@ -297,7 +297,7 @@ abstract class _SellAmountStoreBase with Store {
 
   @action
   void _validateInput() {
-    if (Decimal.parse(fiatInputValue) == Decimal.zero) {
+    if (Decimal.parse(cryptoInputValue) == Decimal.zero) {
       inputValid = true;
       inputError = InputError.none;
       _updatePaymentMethodInputError(null);
@@ -305,13 +305,13 @@ abstract class _SellAmountStoreBase with Store {
       return;
     }
 
-    if (!isInputValid(fiatInputValue)) {
+    if (!isInputValid(cryptoInputValue)) {
       inputValid = false;
 
       return;
     }
 
-    final value = Decimal.parse(fiatInputValue);
+    final value = Decimal.parse(cryptoInputValue);
 
     inputValid = value >= minLimit && value <= maxLimit;
 
@@ -341,7 +341,7 @@ abstract class _SellAmountStoreBase with Store {
 
     const error = InputError.none;
 
-    inputError = double.parse(fiatInputValue) != 0
+    inputError = double.parse(cryptoInputValue) != 0
         ? error == InputError.none
             ? paymentMethodInputError == null
                 ? InputError.none

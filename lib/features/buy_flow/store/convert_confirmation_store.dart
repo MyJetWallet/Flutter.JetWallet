@@ -491,20 +491,7 @@ abstract class _ConvertConfirmationStoreBase with Store {
     return sRouter
         .push(
           SuccessScreenRouter(
-            secondaryText: isGoogle
-                ? '${intl.successScreen_youBought} '
-                    '${volumeFormat(
-                    decimal: buyAmount ?? Decimal.zero,
-                    accuracy: buyCurrency.accuracy,
-                    symbol: buyCurrency.symbol,
-                  )}'
-                    '\n${intl.paid_with_gpay}'
-                : '${intl.successScreen_youBought} '
-                    '${volumeFormat(
-                    decimal: buyAmount ?? Decimal.zero,
-                    accuracy: buyCurrency.accuracy,
-                    symbol: buyCurrency.symbol,
-                  )}',
+            secondaryText: intl.convert_success_in_process,
             buttonText: intl.previewBuyWithUmlimint_saveCard,
             showProgressBar: true,
           ),
