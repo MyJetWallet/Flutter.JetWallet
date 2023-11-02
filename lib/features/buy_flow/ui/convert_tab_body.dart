@@ -15,7 +15,7 @@ import 'package:simple_kit/modules/icons/24x24/public/crypto/simple_crypto_icon.
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
-import '../../currency_buy/ui/widgets/choose_asset_bottom_sheet.dart';
+import 'buy_choose_asset_bottom_sheet.dart';
 
 class ConvertAmountTabBody extends StatefulObserverWidget {
   const ConvertAmountTabBody({
@@ -88,7 +88,7 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                       url: store.fromAsset?.iconUrl ?? '',
                     ),
                     onTap: () {
-                      showChooseAssetBottomSheet(
+                      showBuyChooseAssetBottomSheet(
                         context: context,
                         onChooseAsset: (currency) {
                           store.setNewFromAsset(currency);
@@ -102,7 +102,7 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                     subTitle: intl.amount_screen_convert,
                     icon: const SCryptoIcon(),
                     onTap: () {
-                      showChooseAssetBottomSheet(
+                      showBuyChooseAssetBottomSheet(
                         context: context,
                         onChooseAsset: (currency) {
                           store.setNewFromAsset(currency);
@@ -121,7 +121,7 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                       url: store.toAsset?.iconUrl ?? '',
                     ),
                     onTap: () {
-                      showChooseAssetBottomSheet(
+                      showBuyChooseAssetBottomSheet(
                         context: context,
                         onChooseAsset: (currency) {
                           store.setNewToAsset(currency);
@@ -135,7 +135,7 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                     subTitle: intl.amount_screen_convert,
                     icon: const SCryptoIcon(),
                     onTap: () {
-                      showChooseAssetBottomSheet(
+                      showBuyChooseAssetBottomSheet(
                         context: context,
                         onChooseAsset: (currency) {
                           store.setNewToAsset(currency);

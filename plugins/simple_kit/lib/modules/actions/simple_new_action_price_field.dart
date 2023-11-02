@@ -103,7 +103,7 @@ class SNewActionPriceField extends StatelessWidget {
             ],
           ),
           if (optionText != null && optionOnTap != null) ...[
-            const SpaceH8(),
+            const SpaceH20(),
             SClickableLinkText(
               text: optionText!,
               onTap: optionOnTap!,

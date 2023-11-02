@@ -6,13 +6,13 @@ import 'package:jetwallet/features/currency_buy/ui/screens/choose_asset_screen.d
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../core/di/di.dart';
-import '../../../../utils/helpers/currencies_helpers.dart';
-import '../../../../utils/models/currency_model.dart';
-import '../../../actions/helpers/show_currency_search.dart';
-import '../../../actions/store/action_search_store.dart';
+import '../../../core/di/di.dart';
+import '../../../utils/helpers/currencies_helpers.dart';
+import '../../../utils/models/currency_model.dart';
+import '../../actions/helpers/show_currency_search.dart';
+import '../../actions/store/action_search_store.dart';
 
-void showChooseAssetBottomSheet({
+void showBuyChooseAssetBottomSheet({
   required BuildContext context,
   required void Function(CurrencyModel currency) onChooseAsset,
 }) {

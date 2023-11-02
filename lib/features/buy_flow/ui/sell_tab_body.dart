@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/buy_flow/store/sell_amount_store.dart';
+import 'package:jetwallet/features/buy_flow/ui/sell_choose_asset_bottom_sheet.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/buy_option_widget.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/sell_with_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
@@ -17,8 +18,6 @@ import 'package:simple_kit/modules/icons/24x24/public/crypto/simple_crypto_icon.
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
-
-import '../../currency_buy/ui/widgets/choose_asset_bottom_sheet.dart';
 
 class SellAmountTabBody extends StatefulObserverWidget {
   const SellAmountTabBody({
@@ -91,7 +90,7 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                       url: store.asset?.iconUrl ?? '',
                     ),
                     onTap: () {
-                      showChooseAssetBottomSheet(
+                      showSellChooseAssetBottomSheet(
                         context: context,
                         onChooseAsset: (currency) {
                           store.setNewAsset(currency);
@@ -105,7 +104,7 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                     subTitle: intl.amount_screen_sell,
                     icon: const SCryptoIcon(),
                     onTap: () {
-                      showChooseAssetBottomSheet(
+                      showSellChooseAssetBottomSheet(
                         context: context,
                         onChooseAsset: (currency) {
                           store.setNewAsset(currency);

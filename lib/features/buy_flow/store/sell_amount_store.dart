@@ -199,17 +199,17 @@ abstract class _SellAmountStoreBase with Store {
     return sSignalRModules.currenciesList.firstWhere((element) => element.symbol == fiatSymbol).accuracy;
   }
 
-  @action 
+  @action
   void onSellAll() {
     cryptoInputValue = responseOnInputAction(
-        oldInput: cryptoInputValue,
-        newInput: maxLimit.toString(),
-        accuracy: asset?.accuracy ?? 2,
-      );
+      oldInput: cryptoInputValue,
+      newInput: maxLimit.toString(),
+      accuracy: asset?.accuracy ?? 2,
+    );
 
-     _calculateFiatConversion();
+    _calculateFiatConversion();
 
-     _validateInput();
+    _validateInput();
   }
 
   @action
@@ -323,16 +323,16 @@ abstract class _SellAmountStoreBase with Store {
       _updatePaymentMethodInputError(
         '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
           decimal: minLimit,
-          accuracy: buyCurrency.accuracy,
-          symbol: buyCurrency.symbol,
+          accuracy: asset?.accuracy ?? 2,
+          symbol: asset?.symbol ?? '',
         )}',
       );
     } else if (value > maxLimit) {
       _updatePaymentMethodInputError(
         '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
           decimal: maxLimit,
-          accuracy: buyCurrency.accuracy,
-          symbol: buyCurrency.symbol,
+          accuracy: asset?.accuracy ?? 2,
+          symbol: asset?.symbol ?? '',
         )}',
       );
     } else {
