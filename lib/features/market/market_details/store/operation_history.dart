@@ -29,6 +29,7 @@ class OperationHistory extends _OperationHistoryBase with _$OperationHistory {
     super.isRecurring,
     super.jwOperationId,
     super.pendingOnly,
+    super.accountId,
   );
 
   static _OperationHistoryBase of(BuildContext context) => Provider.of<OperationHistory>(context, listen: false);
@@ -41,6 +42,7 @@ abstract class _OperationHistoryBase with Store {
     this.isRecurring,
     this.jwOperationId,
     this.pendingOnly,
+    this.accountId,
   ) {
     getIt<EventBus>().on<GetNewHistoryEvent>().listen((event) {
       refreshHistory(needLoader: false);
@@ -50,6 +52,7 @@ abstract class _OperationHistoryBase with Store {
   final String? assetId;
   final TransactionType? filter;
   final bool? isRecurring;
+  final String? accountId;
 
   // Указывает на конкретную операцию, используем после тапа по пушу
   String? jwOperationId;
@@ -115,6 +118,7 @@ abstract class _OperationHistoryBase with Store {
           assetId: assetId,
           batchSize: 20,
           pendingOnly: pendingOnly,
+          accountId: accountId,
         ),
         needLoader,
       );
@@ -192,6 +196,7 @@ abstract class _OperationHistoryBase with Store {
         batchSize: 20,
         lastDate: operationHistoryItems.last.timeStamp,
         pendingOnly: pendingOnly,
+        accountId: accountId,
       ),
       true,
     );

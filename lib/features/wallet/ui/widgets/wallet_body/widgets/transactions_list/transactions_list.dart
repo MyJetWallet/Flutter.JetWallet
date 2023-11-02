@@ -21,6 +21,7 @@ class TransactionsList extends StatelessWidget {
     required this.scrollController,
     this.onItemTapLisener,
     this.fromCJAccount = false,
+    this.accountId,
   });
 
   final ScrollController scrollController;
@@ -28,6 +29,7 @@ class TransactionsList extends StatelessWidget {
   final bool isRecurring;
   final void Function(String assetSymbol)? onItemTapLisener;
   final bool fromCJAccount;
+  final String? accountId;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,7 @@ class TransactionsList extends StatelessWidget {
         isRecurring,
         null,
         false,
+        accountId,
       )..initOperationHistory(),
       builder: (context, child) => _TransactionsListBody(
         scrollController: scrollController,

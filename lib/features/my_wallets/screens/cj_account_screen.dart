@@ -292,6 +292,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
               scrollController: _transactionScrollController,
               symbol: 'EUR',
               fromCJAccount: true,
+              accountId: widget.bankingAccount.accountId,
             ),
           ] else ...[
             SliverToBoxAdapter(

@@ -54,6 +54,7 @@ class _TransactionsMainListState extends State<TransactionsMainList> with Automa
         widget.isRecurring,
         widget.jwOperationId,
         widget.pendingOnly,
+        null,
       )..initOperationHistory(),
       //dispose: (context, value) => value.stopTimer(),
       builder: (context, child) => _TransactionsListBody(
