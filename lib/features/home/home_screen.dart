@@ -77,7 +77,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
 
                 if (val == 2) {
-                  getIt<IbanStore>().initState();
                   getIt<IbanStore>().getAddressBook();
 
                   sAnalytics.accountTabScreenView();

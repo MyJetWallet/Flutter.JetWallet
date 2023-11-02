@@ -27,7 +27,6 @@ abstract class IbanStoreBase with Store {
   IbanStoreBase() {
     loader = StackLoaderStore();
 
-    initState();
     getAddressBook();
   }
 
@@ -36,10 +35,8 @@ abstract class IbanStoreBase with Store {
   static final _logger = Logger('IbanStore');
 
   @computed
-  bool get isIbanOutActive => sSignalRModules.currenciesList
-      .where((element) => element.supportIbanSendWithdrawal)
-      .toList()
-      .isNotEmpty;
+  bool get isIbanOutActive =>
+      sSignalRModules.currenciesList.where((element) => element.supportIbanSendWithdrawal).toList().isNotEmpty;
 
   int initTab = 0;
   void setInitTab(int value) => initTab = value;
@@ -143,9 +140,7 @@ abstract class IbanStoreBase with Store {
 
   @computed
   bool get isStreetAddress2Valid {
-    return streetAddress2.isEmpty
-        ? true
-        : streetAddress2.length >= 2 && streetAddress2.length <= 150;
+    return streetAddress2.isEmpty ? true : streetAddress2.length >= 2 && streetAddress2.length <= 150;
   }
 
   @computed
@@ -160,18 +155,14 @@ abstract class IbanStoreBase with Store {
 
   @computed
   bool get isBillingAddressValid {
-    return isStreetAddress1Valid &&
-        isStreetAddress2Valid &&
-        isCityValid &&
-        isPostalCodeValid;
+    return isStreetAddress1Valid && isStreetAddress2Valid && isCityValid && isPostalCodeValid;
   }
 
   @observable
   ObservableList<KycProfileCountryModel> countries = ObservableList.of([]);
 
   @observable
-  ObservableList<KycProfileCountryModel> sortedCountries =
-      ObservableList.of([]);
+  ObservableList<KycProfileCountryModel> sortedCountries = ObservableList.of([]);
 
   @observable
   String countryNameSearch = '';
@@ -208,8 +199,7 @@ abstract class IbanStoreBase with Store {
 
     if (countryOfRegistration != null) {
       for (var i = 0; i < countries.length; i++) {
-        if (countries[i].countryCode.toLowerCase() ==
-            countryOfRegistration.toLowerCase()) {
+        if (countries[i].countryCode.toLowerCase() == countryOfRegistration.toLowerCase()) {
           country.add(countries[i]);
         }
       }
@@ -227,65 +217,12 @@ abstract class IbanStoreBase with Store {
     final newList = List<KycProfileCountryModel>.from(countries);
 
     newList.removeWhere(
-      (KycProfileCountryModel element) =>
-          !element.countryName.toLowerCase().contains(
-                countryNameSearch.toLowerCase(),
-              ),
+      (KycProfileCountryModel element) => !element.countryName.toLowerCase().contains(
+            countryNameSearch.toLowerCase(),
+          ),
     );
 
     sortedCountries = ObservableList.of(newList);
-  }
-
-  @action
-  Future<void> initState() async {
-    // ibanName = '${userInfo.firstName} ${userInfo.lastName}';
-    ibanName = 'Simple Europe UAB';
-    if (ibanBic.isEmpty) {
-      isLoading = true;
-    }
-
-    if (ibanTabController != null) {
-      //ibanTabController!.animateTo(0);
-    }
-
-    try {
-      final response = await sNetwork.getWalletModule().getIbanInfo();
-
-      response.pick(
-        onData: (data) {
-          toSetupAddress = data.requirements?.toSetupAddress ?? false;
-          ibanBic = data.iban?.bic ?? '';
-          ibanAddress = data.iban?.iban ?? '';
-          status = data.status ?? IbanInfoStatusDto.notExist;
-          isLoading = false;
-          wasFirstLoad = true;
-        },
-        onError: (error) {
-          sNotification.showError(
-            error.cause,
-            id: 1,
-          );
-          isLoading = false;
-          wasFirstLoad = true;
-        },
-      );
-    } on ServerRejectException catch (error) {
-      sNotification.showError(
-        error.cause,
-        id: 1,
-      );
-      isLoading = false;
-      wasFirstLoad = true;
-    } catch (error) {
-      sNotification.showError(
-        intl.something_went_wrong_try_again2,
-        duration: 4,
-        id: 1,
-        needFeedback: true,
-      );
-      isLoading = false;
-      wasFirstLoad = true;
-    }
   }
 
   @action
@@ -379,7 +316,6 @@ abstract class IbanStoreBase with Store {
         loader!.finishLoading(
           onFinish: () {
             sRouter.pop();
-            initState();
           },
         );
       }
