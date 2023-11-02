@@ -219,7 +219,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                       asset: currency,
                     ),
                   ),
-                  from: BlockingType.trade,
+                  from: [BlockingType.trade],
                 );
               } else {
                 handler.handle(

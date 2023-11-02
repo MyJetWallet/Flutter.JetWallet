@@ -273,7 +273,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                                 asset: actualAsset,
                               ),
                             ),
-                            from: BlockingType.trade,
+                            from: [BlockingType.trade],
                           );
                         } else {
                           handler.handle(
