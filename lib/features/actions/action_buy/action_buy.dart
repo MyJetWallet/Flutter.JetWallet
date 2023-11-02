@@ -74,6 +74,6 @@ void _showAction(BuildContext context) {
         ),
       );
     },
-    from: BlockingType.trade,
+    from: [BlockingType.trade],
   );
 }

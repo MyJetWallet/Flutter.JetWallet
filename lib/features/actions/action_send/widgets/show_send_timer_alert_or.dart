@@ -44,7 +44,7 @@ Duration getDurationFromBlocker(String timespanToExpire) {
 void showSendTimerAlertOr({
   required BuildContext context,
   required void Function() or,
-  required BlockingType from,
+  required List<BlockingType> from,
 }) {
   final clientDetail = sSignalRModules.clientDetail;
 
@@ -52,7 +52,7 @@ void showSendTimerAlertOr({
     return or();
   } else {
     final ind = clientDetail.clientBlockers.indexWhere(
-      (element) => element.blockingType == from,
+      (element) => from.contains(element.blockingType),
     );
 
     return ind != -1

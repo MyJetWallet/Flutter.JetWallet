@@ -159,7 +159,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                               context: context,
                               currency: actualAsset,
                             ),
-                            from: BlockingType.trade,
+                            from: [BlockingType.trade],
                           );
                         } else if (!isBuyAvaible) {
                           sNotification.showError(
@@ -201,7 +201,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                                 currency: actualAsset,
                               ),
                             ),
-                            from: BlockingType.deposit,
+                            from: [BlockingType.deposit],
                           );
                         } else if (!widget.currency.supportsCryptoDeposit) {
                           sNotification.showError(
@@ -246,7 +246,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                                 fromCurrency: actualAsset,
                               ),
                             ),
-                            from: BlockingType.trade,
+                            from: [BlockingType.trade],
                           );
                         } else {
                           handler.handle(

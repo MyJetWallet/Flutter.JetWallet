@@ -59,21 +59,19 @@ class ProfileDetails extends StatelessObserverWidget {
                   or: () {
                     sRouter.push(
                       SetPhoneNumberRouter(
-                        successText:
-                            intl.profileDetails_newPhoneNumberConfirmed,
+                        successText: intl.profileDetails_newPhoneNumberConfirmed,
                         isChangePhone: true,
                         then: () {
                           sRouter.popUntil(
                             (route) {
-                              return route.settings.name ==
-                                  'ProfileDetailsRouter';
+                              return route.settings.name == 'ProfileDetailsRouter';
                             },
                           );
                         },
                       ),
                     );
                   },
-                  from: BlockingType.phoneNumberUpdate,
+                  from: [BlockingType.phoneNumberUpdate],
                 );
               },
             ),
