@@ -2400,14 +2400,14 @@ class WalletApiDataSources {
 
   // Banking
 
-  Future<DC<ServerRejectException, CreateBankingAccountSimpleResponse>> postAccountCreateRequest() async {
+  Future<DC<ServerRejectException, CreateBankingAccountSimpleResponse>> postAccountCreateRequest(
+    String requestId,
+  ) async {
     try {
-      const reqId = Uuid();
-
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/banking/account/create',
         data: {
-          'requestId': reqId.v1(),
+          'requestId': requestId,
         },
       );
 
