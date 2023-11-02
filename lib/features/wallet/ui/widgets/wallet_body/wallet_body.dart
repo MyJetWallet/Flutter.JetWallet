@@ -7,6 +7,7 @@ import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
+import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
@@ -130,6 +131,8 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                     child: CircleActionButtons(
                       isSendDisabled: widget.currency.isAssetBalanceEmpty,
                       isExchangeDisabled: widget.currency.isAssetBalanceEmpty,
+                      isSellDisabled: widget.currency.isAssetBalanceEmpty,
+                      isConvertDisabled: widget.currency.isAssetBalanceEmpty,
                       onBuy: () {
                         sAnalytics.newBuyTapBuy(
                           source: 'My Assets - Asset -  Buy',
@@ -176,6 +179,15 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                             requiredVerifications: kycState.requiredVerifications,
                           );
                         }
+                      },
+                      onSell: () {
+                        final actualAsset = widget.currency;
+                        sRouter.push(
+                          AmountRoute(
+                            tab: AmountScreenTab.sell,
+                            asset: actualAsset,
+                          ),
+                        );
                       },
                       onReceive: () {
                         final actualAsset = widget.currency;
@@ -243,6 +255,34 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                             currentNavigate: () => sRouter.push(
                               ConvertRouter(
                                 fromCurrency: actualAsset,
+                              ),
+                            ),
+                            requiredDocuments: kycState.requiredDocuments,
+                            requiredVerifications: kycState.requiredVerifications,
+                          );
+                        }
+                      },
+                      onConvert: () {
+                        final actualAsset = widget.currency;
+                        if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
+                          showSendTimerAlertOr(
+                            context: context,
+                            or: () => sRouter.push(
+                              AmountRoute(
+                                tab: AmountScreenTab.convert,
+                                asset: actualAsset,
+                              ),
+                            ),
+                            from: BlockingType.trade,
+                          );
+                        } else {
+                          handler.handle(
+                            status: kycState.withdrawalStatus,
+                            isProgress: kycState.verificationInProgress,
+                            currentNavigate: () => sRouter.push(
+                              AmountRoute(
+                                tab: AmountScreenTab.convert,
+                                asset: actualAsset,
                               ),
                             ),
                             requiredDocuments: kycState.requiredDocuments,

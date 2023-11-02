@@ -5,8 +5,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
-import 'package:jetwallet/features/buy_flow/store/buy_confirmation_store.dart';
-import 'package:jetwallet/features/buy_flow/ui/widgets/confirmation_widgets/confirmation_info_grid.dart';
+import 'package:jetwallet/features/buy_flow/store/sell_confirmation_store.dart';
+import 'package:jetwallet/features/buy_flow/ui/widgets/sell_confirmation_widgets/sell_confirmation_info_grid.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
@@ -15,48 +15,44 @@ import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.d
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
-import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
-@RoutePage(name: 'BuyConfirmationRoute')
-class BuyConfirmationScreen extends StatelessWidget {
-  const BuyConfirmationScreen({
+@RoutePage(name: 'SellConfirmationRoute')
+class SellConfirmationScreen extends StatelessWidget {
+  const SellConfirmationScreen({
     super.key,
     required this.asset,
     required this.paymentCurrency,
     required this.isFromFixed,
-    this.fromAmount,
-    this.toAmount,
-    this.card,
-    this.account,
+    required this.fromAmount,
+    required this.toAmount,
+    required this.account,
   });
 
   final CurrencyModel asset;
   final CurrencyModel paymentCurrency;
 
-  final CircleCard? card;
-  final SimpleBankingAccount? account;
+  final SimpleBankingAccount account;
 
   final bool isFromFixed;
-  final String? fromAmount;
-  final String? toAmount;
+  final Decimal fromAmount;
+  final Decimal toAmount;
 
   @override
   Widget build(BuildContext context) {
-    return Provider<BuyConfirmationStore>(
-      create: (context) => BuyConfirmationStore()
+    return Provider<SellConfirmationStore>(
+      create: (context) => SellConfirmationStore()
         ..loadPreview(
           newIsFromFixed: isFromFixed,
-          pAmount: fromAmount ?? '0',
-          bAsset: asset.symbol,
-          inputCard: card,
-          inputAccount: account,
-          bAmount: toAmount,
+          fromAmount: fromAmount,
+          fromAsset: asset.symbol,
+          toAsset: account.currency ?? '',
+          toAmount: toAmount,
+          newAccountId: account.accountId ?? '',
         ),
       builder: (context, child) => _BuyConfirmationScreenBody(
         paymentCurrency: paymentCurrency,
-        amount: fromAmount ?? '0',
+        account: account,
       ),
       dispose: (context, value) {
         value.cancelTimer();
@@ -69,16 +65,15 @@ class BuyConfirmationScreen extends StatelessWidget {
 class _BuyConfirmationScreenBody extends StatelessObserverWidget {
   const _BuyConfirmationScreenBody({
     required this.paymentCurrency,
-    required this.amount,
+    required this.account,
   });
 
   final CurrencyModel paymentCurrency;
-
-  final String amount;
+  final SimpleBankingAccount account;
 
   @override
   Widget build(BuildContext context) {
-    final store = BuyConfirmationStore.of(context);
+    final store = SellConfirmationStore.of(context);
     final colors = sKit.colors;
 
     return SPageFrameWithPadding(
@@ -88,7 +83,6 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
           ? WaitingScreen(
               wasAction: store.wasAction,
               primaryText: intl.buy_confirmation_local_p2p_processing_title,
-              secondaryText: store.getProcessingText,
               onSkip: () {
                 store.skipProcessing();
 
@@ -98,7 +92,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
           : null,
       header: SSmallHeader(
         title: intl.buy_confirmation_title,
-        subTitle: intl.buy_confirmation_subtitle,
+        subTitle: intl.sell_confirmation_subtitle,
         subTitleStyle: sBodyText2Style.copyWith(
           color: colors.grey1,
         ),
@@ -112,12 +106,12 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
               children: [
                 WhatToWhatConvertWidget(
                   isLoading: !store.isDataLoaded,
-                  fromAssetIconUrl: paymentCurrency.iconUrl,
-                  fromAssetDescription: paymentCurrency.symbol,
+                  fromAssetIconUrl: store.payCurrency.iconUrl,
+                  fromAssetDescription: store.payCurrency.symbol,
                   fromAssetValue: volumeFormat(
-                    symbol: paymentCurrency.symbol,
-                    accuracy: paymentCurrency.accuracy,
-                    decimal: Decimal.parse(amount),
+                    symbol: store.payCurrency.symbol,
+                    accuracy: store.payCurrency.accuracy,
+                    decimal: store.paymentAmount ?? Decimal.zero,
                   ),
                   toAssetIconUrl: store.buyCurrency.iconUrl,
                   toAssetDescription: store.buyCurrency.description,
@@ -127,7 +121,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                     symbol: store.buyCurrency.symbol,
                   ),
                 ),
-                ConfirmationInfoGrid(
+                SellConfirmationInfoGrid(
                   paymentFee: volumeFormat(
                     decimal: store.depositFeeAmount ?? Decimal.zero,
                     accuracy: store.depositFeeCurrency.accuracy,
@@ -141,36 +135,35 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                   totalValue: volumeFormat(
                     symbol: paymentCurrency.symbol,
                     accuracy: paymentCurrency.accuracy,
-                    decimal: Decimal.parse(amount),
+                    decimal: store.paymentAmount ?? Decimal.zero,
                   ),
                   paymentCurrency: paymentCurrency,
                   asset: store.buyCurrency,
+                  account: account,
                 ),
-                if (store.category != PaymentMethodCategory.p2p) ...[
-                  SPolicyCheckbox(
-                    height: 65,
-                    firstText: intl.buy_confirmation_privacy_checkbox_1,
-                    userAgreementText: intl.buy_confirmation_privacy_checkbox_2,
-                    betweenText: ', ',
-                    privacyPolicyText: intl.buy_confirmation_privacy_checkbox_3,
-                    secondText: '',
-                    activeText: '',
-                    thirdText: '',
-                    activeText2: '',
-                    onCheckboxTap: () {
-                      store.setIsBankTermsChecked();
-                    },
-                    onUserAgreementTap: () {
-                      launchURL(context, userAgreementLink);
-                    },
-                    onPrivacyPolicyTap: () {
-                      launchURL(context, privacyPolicyLink);
-                    },
-                    onActiveTextTap: () {},
-                    onActiveText2Tap: () {},
-                    isChecked: store.isBankTermsChecked,
-                  ),
-                ],
+                SPolicyCheckbox(
+                  height: 65,
+                  firstText: intl.buy_confirmation_privacy_checkbox_1,
+                  userAgreementText: intl.buy_confirmation_privacy_checkbox_2,
+                  betweenText: ', ',
+                  privacyPolicyText: intl.buy_confirmation_privacy_checkbox_3,
+                  secondText: '',
+                  activeText: '',
+                  thirdText: '',
+                  activeText2: '',
+                  onCheckboxTap: () {
+                    store.setIsBankTermsChecked();
+                  },
+                  onUserAgreementTap: () {
+                    launchURL(context, userAgreementLink);
+                  },
+                  onPrivacyPolicyTap: () {
+                    launchURL(context, privacyPolicyLink);
+                  },
+                  onActiveTextTap: () {},
+                  onActiveText2Tap: () {},
+                  isChecked: store.isBankTermsChecked,
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24),
                   child: SPrimaryButton2(

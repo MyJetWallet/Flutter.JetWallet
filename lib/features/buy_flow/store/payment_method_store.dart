@@ -27,6 +27,9 @@ abstract class _PaymentMethodStoreBase with Store {
   @observable
   CurrencyModel? selectedAssset;
 
+  @observable
+  bool isHideCards = false;
+
   @computed
   List<CircleCard> get cards => sSignalRModules.cards.cardInfos.toList();
   @computed
@@ -53,13 +56,16 @@ abstract class _PaymentMethodStoreBase with Store {
 
   @computed
   bool get isCardsAvailable {
+    if (isHideCards) {
+      return false;
+    }
     final isMethodAvaible =
         selectedAssset?.buyMethods.any((element) => element.id == PaymentMethodType.bankCard) ?? false;
     final isKycAllowed = getIt.get<KycService>().depositStatus == kycOperationStatus(KycStatus.allowed);
     final isNoBlocker =
         !sSignalRModules.clientDetail.clientBlockers.any((element) => element.blockingType == BlockingType.deposit);
 
-    return isMethodAvaible && isKycAllowed && isNoBlocker;
+    return (selectedAssset == null || (isMethodAvaible && isKycAllowed)) && isNoBlocker;
   }
 
   @computed
@@ -76,12 +82,17 @@ abstract class _PaymentMethodStoreBase with Store {
     final isMethodAvaible =
         selectedAssset?.buyMethods.any((element) => element.id == PaymentMethodType.ibanTransferUnlimint) ?? false;
 
-    return isBankingIbanAccountAvaible && isMethodAvaible;
+    return isBankingIbanAccountAvaible && (selectedAssset == null || isMethodAvaible);
   }
 
   @action
-  Future<void> init(CurrencyModel asset) async {
+  Future<void> init({
+    CurrencyModel? asset,
+    bool hideCards = false,
+  }) async {
     sAnalytics.paymentMethodScreenView();
+
+    isHideCards = hideCards;
 
     selectedAssset = asset;
   }

@@ -8,8 +8,8 @@ class SNewActionPriceField extends StatelessWidget {
     Key? key,
     required this.primaryAmount,
     required this.primarySymbol,
-    required this.secondaryAmount,
-    required this.secondarySymbol,
+    this.secondaryAmount,
+    this.secondarySymbol,
     required this.widgetSize,
     required this.onSwap,
     this.errorText,
@@ -17,8 +17,8 @@ class SNewActionPriceField extends StatelessWidget {
 
   final String primaryAmount;
   final String primarySymbol;
-  final String secondaryAmount;
-  final String secondarySymbol;
+  final String? secondaryAmount;
+  final String? secondarySymbol;
   final void Function()? onSwap;
   final String? errorText;
   final SWidgetSize widgetSize;
@@ -67,14 +67,15 @@ class SNewActionPriceField extends StatelessWidget {
                         ),
                       ),
                     const SpaceH4(),
-                    AutoSizeText(
-                     '$secondaryAmount $secondarySymbol',
-                      minFontSize: 4.0,
-                      maxLines: 1,
-                      style: sSubtitle3Style.copyWith(
-                        color: colors.grey1,
+                    if (secondaryAmount != null)
+                      AutoSizeText(
+                        '$secondaryAmount $secondarySymbol',
+                        minFontSize: 4.0,
+                        maxLines: 1,
+                        style: sSubtitle3Style.copyWith(
+                          color: colors.grey1,
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ),
@@ -109,8 +110,6 @@ class SNewActionPriceField extends StatelessWidget {
     );
   }
 }
-
-
 
 class _ErrorWidget extends StatelessWidget {
   const _ErrorWidget({

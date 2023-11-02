@@ -2,23 +2,23 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/features/buy_flow/store/buy_confirmation_store.dart';
-import 'package:jetwallet/features/buy_flow/ui/buy_tab_body.dart';
+import 'package:jetwallet/features/buy_flow/store/sell_confirmation_store.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
-class ConfirmationInfoGrid extends StatefulObserverWidget {
-  const ConfirmationInfoGrid({
+class SellConfirmationInfoGrid extends StatefulObserverWidget {
+  const SellConfirmationInfoGrid({
     super.key,
     this.paymentFee,
     this.ourFee,
     required this.totalValue,
     required this.paymentCurrency,
     required this.asset,
+    required this.account,
   });
 
   final String? paymentFee;
@@ -27,19 +27,20 @@ class ConfirmationInfoGrid extends StatefulObserverWidget {
   final String totalValue;
   final CurrencyModel paymentCurrency;
   final CurrencyModel asset;
+  final SimpleBankingAccount account;
 
   @override
-  State<ConfirmationInfoGrid> createState() => _ConfirmationInfoGridState();
+  State<SellConfirmationInfoGrid> createState() => _ConfirmationInfoGridState();
 }
 
-class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with SingleTickerProviderStateMixin {
+class _ConfirmationInfoGridState extends State<SellConfirmationInfoGrid> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
 
   @override
   void initState() {
     _animationController = AnimationController(vsync: this);
 
-    final store = BuyConfirmationStore.of(context);
+    final store = SellConfirmationStore.of(context);
 
     store.updateTimerAnimation(_animationController);
     super.initState();
@@ -65,7 +66,7 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
 
   @override
   Widget build(BuildContext context) {
-    final store = BuyConfirmationStore.of(context);
+    final store = SellConfirmationStore.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,59 +80,34 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                intl.buy_confirmation_paid_with,
+                intl.sell_confirmation_sell_to,
                 style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
               ),
               if (store.isDataLoaded) ...[
-                if (store.category == PaymentMethodCategory.cards) ...[
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * .7,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        SizedBox(
-                          width: 32,
-                          height: 20,
-                          child: getNetworkIcon(store.card?.network),
-                        ),
-                        const SizedBox(width: 8),
-                        Flexible(
-                          child: Text(
-                            '${store.card?.cardLabel ?? ''} •• ${store.card?.last4 ?? ''}',
-                            overflow: TextOverflow.ellipsis,
-                            style: sSubtitle3Style,
-                          ),
-                        ),
-                      ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SpaceW19(),
+                    Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: sKit.colors.blue,
+                        shape: BoxShape.circle,
+                      ),
+                      child: SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: SBankMediumIcon(color: sKit.colors.white),
+                      ),
                     ),
-                  ),
-                ] else if (store.category == PaymentMethodCategory.account) ...[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SpaceW19(),
-                      Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: sKit.colors.blue,
-                          shape: BoxShape.circle,
-                        ),
-                        child: SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: SBankMediumIcon(color: sKit.colors.white),
-                        ),
-                      ),
-                      const SpaceW8(),
-                      Text(
-                        store.account?.label ?? '',
-                        overflow: TextOverflow.ellipsis,
-                        style: sSubtitle3Style.copyWith(height: 1.5),
-                      ),
-                    ],
-                  ),
-                ],
+                    const SpaceW8(),
+                    Text(
+                      widget.account.label ?? '',
+                      overflow: TextOverflow.ellipsis,
+                      style: sSubtitle3Style.copyWith(height: 1.5),
+                    ),
+                  ],
+                ),
               ] else ...[
                 textPreloader(),
               ],

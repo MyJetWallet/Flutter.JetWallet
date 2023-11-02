@@ -78,6 +78,9 @@ import 'package:simple_networking/modules/wallet_api/models/profile_info/profile
 import 'package:simple_networking/modules/wallet_api/models/recurring_manage/recurring_delete_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/recurring_manage/recurring_manage_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/rewards/reward_spin_response.dart';
+import 'package:simple_networking/modules/wallet_api/models/sell/execute_crypto_sell_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/sell/get_crypto_sell_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/sell/get_crypto_sell_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_gift/gift_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
@@ -803,6 +806,56 @@ class WalletApiDataSources {
         );
 
         return DC.data(CardBuyCreateResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, GetCryptoSellResponseModel>> postSellCreateRequest(
+    GetCryptoSellRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/trading/sell/create',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse<Map>(
+          responseData,
+        );
+
+        return DC.data(GetCryptoSellResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, GetCryptoSellResponseModel>> postSellExecuteRequest(
+    ExecuteCryptoSellRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/trading/sell/execute',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse<Map>(
+          responseData,
+        );
+
+        return DC.data(GetCryptoSellResponseModel.fromJson(data));
       } catch (e) {
         rethrow;
       }

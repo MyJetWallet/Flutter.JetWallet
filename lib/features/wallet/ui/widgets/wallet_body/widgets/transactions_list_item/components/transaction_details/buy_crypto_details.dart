@@ -43,12 +43,12 @@ class BuyCryptoDetails extends StatelessObserverWidget {
 
     final paymentCurrency = currencyFrom(
       currenciesFull,
-      transactionListItem.cryptoBuyInfo!.paymentAssetId,
+      transactionListItem.cryptoBuyInfo!.paymentAssetId ?? '',
     );
 
     final depositCurrency = currencyFrom(
       currenciesFull,
-      transactionListItem.cryptoBuyInfo!.depositFeeAsset,
+      transactionListItem.cryptoBuyInfo!.depositFeeAsset ?? '',
     );
 
     String rateFor() {
@@ -115,7 +115,7 @@ class BuyCryptoDetails extends StatelessObserverWidget {
                 text: volumeFormat(
                   decimal: transactionListItem.cryptoBuyInfo!.paymentAmount,
                   accuracy: paymentCurrency.accuracy,
-                  symbol: transactionListItem.cryptoBuyInfo!.paymentAssetId,
+                  symbol: transactionListItem.cryptoBuyInfo!.paymentAssetId ?? '',
                 ),
               ),
             ),

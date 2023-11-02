@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/guards/init_guard.dart';
@@ -27,6 +28,8 @@ import 'package:jetwallet/features/auth/user_data/ui/user_data_screen.dart';
 import 'package:jetwallet/features/auth/verification_reg/verification_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/buy_confrimation_screen.dart';
+import 'package:jetwallet/features/buy_flow/ui/convetr_confrimation_screen.dart';
+import 'package:jetwallet/features/buy_flow/ui/sell_confrimation_screen.dart';
 import 'package:jetwallet/features/card_coming_soon/card_screen.dart';
 import 'package:jetwallet/features/convert/model/preview_convert_input.dart';
 import 'package:jetwallet/features/convert/ui/convert.dart';
@@ -549,8 +552,8 @@ class AppRouter extends _$AppRouter {
       page: ProgressRouter.page,
     ),
     AutoRoute(
-      path: '/buy_flow_amount',
-      page: BuyAmountRoute.page,
+      path: '/flow_amount',
+      page: AmountRoute.page,
     ),
     AutoRoute(
       path: '/buy_flow_confirmation',
@@ -571,6 +574,14 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/create_banking',
       page: CreateBankingRoute.page,
+    ),
+    AutoRoute(
+      path: '/sell_confirmation',
+      page: SellConfirmationRoute.page,
+    ),
+    AutoRoute(
+      path: '/convetr_confirmation',
+      page: ConvetrConfirmationRoute.page,
     ),
   ];
 }

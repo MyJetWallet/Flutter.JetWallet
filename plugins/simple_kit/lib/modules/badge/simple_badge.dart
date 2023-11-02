@@ -1,14 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rive/rive.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/icons/20x20/public/checkmark/simple_checkmark_icon.dart';
-import 'package:simple_kit/modules/icons/24x24/public/close/simple_close_icon.dart';
-import 'package:simple_kit/modules/icons/24x24/public/complete/simple_complete_done_icon.dart';
-import 'package:simple_kit/modules/icons/24x24/public/erase/simple_erase_icon.dart';
 import 'package:simple_kit/modules/icons/24x24/public/erase/simple_erase_market_icon.dart';
 import 'package:simple_kit/modules/texts/simple_text_styles.dart';
-import 'package:simple_kit/utils/constants.dart';
 
 enum SBadgeStatus {
   primary,

@@ -12,6 +12,7 @@ import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transac
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/iban_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/receive_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/referral_details.dart';
+import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/buy_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/transfer_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/withdraw_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/withdraw_nft_details.dart';
@@ -85,7 +86,7 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
 
     final cancelTransfer = TransactionCancelStore();
     final deviceSize = sDeviceSize;
-    final isLocal = widget.transactionListItem.operationType == OperationType.cryptoInfo &&
+    final isLocal = widget.transactionListItem.operationType == OperationType.cryptoBuy &&
         isOperationLocal(
           widget.transactionListItem.cryptoBuyInfo?.paymentMethod ?? PaymentMethodType.unsupported,
         );
@@ -107,7 +108,10 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
           children: [
             Column(
               children: [
-                if (widget.transactionListItem.operationType == OperationType.ibanSend) ...[
+                if (widget.transactionListItem.operationType == OperationType.bankingAccountWithdrawal ||
+                    widget.transactionListItem.operationType == OperationType.bankingBuy ||
+                    widget.transactionListItem.operationType == OperationType.swap ||
+                    widget.transactionListItem.operationType == OperationType.bankingSell) ...[
                   const SizedBox.shrink(),
                 ] else if (widget.transactionListItem.operationType != OperationType.sendGlobally) ...[
                   if (isOperationSupportCopy(widget.transactionListItem))
@@ -175,10 +179,27 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                     ),
                   ),
                 ],
-                if (widget.transactionListItem.operationType == OperationType.ibanSend) ...[
+                if (widget.transactionListItem.operationType == OperationType.bankingAccountWithdrawal) ...[
                   Material(
                     color: colors.white,
                     child: IbanSendDetails(
+                      transactionListItem: widget.transactionListItem,
+                      onCopyAction: (String text) {
+                        setState(() {
+                          copiedText = text;
+                        });
+
+                        onCopyAction();
+                      },
+                    ),
+                  ),
+                ],
+                if (widget.transactionListItem.operationType == OperationType.bankingBuy ||
+                    widget.transactionListItem.operationType == OperationType.swap ||
+                    widget.transactionListItem.operationType == OperationType.bankingSell) ...[
+                  Material(
+                    color: colors.white,
+                    child: BuyDetails(
                       transactionListItem: widget.transactionListItem,
                       onCopyAction: (String text) {
                         setState(() {
@@ -251,7 +272,7 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                     ),
                   ),
                 ],
-                if ((widget.transactionListItem.operationType == OperationType.cryptoInfo && !isLocal) ||
+                if ((widget.transactionListItem.operationType == OperationType.cryptoBuy && !isLocal) ||
                     widget.transactionListItem.operationType == OperationType.buyGooglePay ||
                     widget.transactionListItem.operationType == OperationType.buyApplePay) ...[
                   Material(
@@ -268,7 +289,7 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                     ),
                   ),
                 ],
-                if (widget.transactionListItem.operationType == OperationType.cryptoInfo && isLocal) ...[
+                if (widget.transactionListItem.operationType == OperationType.cryptoBuy && isLocal) ...[
                   Material(
                     color: colors.white,
                     child: BuyP2PDetails(
