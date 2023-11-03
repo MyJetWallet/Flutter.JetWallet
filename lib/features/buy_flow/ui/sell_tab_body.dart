@@ -70,7 +70,7 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                           : store.fiatSymbol
                       : null,
                   onSwap: () {
-                    store.isFiatEntering = !store.isFiatEntering;
+                    store.onSwap();
                   },
                   errorText: store.paymentMethodInputError,
                   optionText: store.cryptoInputValue == '0'

@@ -184,6 +184,11 @@ abstract class _SellAmountStoreBase with Store {
     }
   }
 
+  @action
+  void onSwap() {
+    isFiatEntering = isFiatEntering;
+  }
+
   @computed
   String get inputErrorValue {
     return paymentMethodInputError != null ? paymentMethodInputError! : inputError.value();

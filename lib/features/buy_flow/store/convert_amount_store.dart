@@ -102,6 +102,9 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @action
   void swapAssets() {
+    if (toAsset == null) {
+      return;
+    }
     isFromEntering = !isFromEntering;
     _validateInput();
   }

@@ -56,7 +56,8 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                   primaryAmount: formatCurrencyStringAmount(
                     value: store.isFromEntering ? store.fromInputValue : store.toInputValue,
                   ),
-                  primarySymbol: store.isFromEntering ? store.fromAsset?.symbol ?? '' : store.toAsset?.symbol ?? '',
+                  primarySymbol:
+                      store.isFromEntering ? store.fromAsset?.symbol ?? 'EUR' : store.toAsset?.symbol ?? 'EUR',
                   secondaryAmount: store.toAsset != null
                       ? formatCurrencyStringAmount(
                           value: store.isFromEntering ? store.toInputValue : store.fromInputValue,
@@ -71,7 +72,7 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                     store.swapAssets();
                   },
                   errorText: store.paymentMethodInputError,
-                  optionText: store.fromInputValue == '0'
+                  optionText: store.fromInputValue == '0' && store.fromAsset != null && store.toAsset != null
                       ? '''${intl.sell_amount_sell_all} ${volumeFormat(decimal: store.maxLimit, accuracy: store.fromAsset?.accuracy ?? 1, symbol: store.fromAsset?.symbol ?? '')}'''
                       : null,
                   optionOnTap: () {
