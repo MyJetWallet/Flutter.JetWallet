@@ -539,20 +539,7 @@ abstract class _SellConfirmationStoreBase with Store {
     return sRouter
         .push(
           SuccessScreenRouter(
-            secondaryText: isGoogle
-                ? '${intl.successScreen_youBought} '
-                    '${volumeFormat(
-                    decimal: buyAmount ?? Decimal.zero,
-                    accuracy: buyCurrency.accuracy,
-                    symbol: buyCurrency.symbol,
-                  )}'
-                    '\n${intl.paid_with_gpay}'
-                : '${intl.successScreen_youBought} '
-                    '${volumeFormat(
-                    decimal: buyAmount ?? Decimal.zero,
-                    accuracy: buyCurrency.accuracy,
-                    symbol: buyCurrency.symbol,
-                  )}',
+            secondaryText: intl.sell_success_cryptocurrencies,
             buttonText: intl.previewBuyWithUmlimint_saveCard,
             showProgressBar: true,
           ),

@@ -184,6 +184,11 @@ abstract class _SellAmountStoreBase with Store {
     }
   }
 
+  @action
+  void onSwap() {
+    isFiatEntering = isFiatEntering;
+  }
+
   @computed
   String get inputErrorValue {
     return paymentMethodInputError != null ? paymentMethodInputError! : inputError.value();
@@ -197,6 +202,19 @@ abstract class _SellAmountStoreBase with Store {
   @computed
   int get fiatAccuracy {
     return sSignalRModules.currenciesList.firstWhere((element) => element.symbol == fiatSymbol).accuracy;
+  }
+
+  @action
+  void onSellAll() {
+    cryptoInputValue = responseOnInputAction(
+      oldInput: cryptoInputValue,
+      newInput: maxLimit.toString(),
+      accuracy: asset?.accuracy ?? 2,
+    );
+
+    _calculateFiatConversion();
+
+    _validateInput();
   }
 
   @action
@@ -271,20 +289,17 @@ abstract class _SellAmountStoreBase with Store {
 
   @computed
   Decimal get minLimit {
-    return asset?.minTradeAmount ?? Decimal.zero;
+    return Decimal.zero;
   }
 
   @computed
   Decimal get maxLimit {
-    final assetBalance = asset?.assetBalance ?? Decimal.zero;
-    final maxTradeAmount = asset?.maxTradeAmount ?? Decimal.zero;
-
-    return (assetBalance < maxTradeAmount ? assetBalance : maxTradeAmount) * _availablePresentForProcessing;
+    return (asset?.assetBalance ?? Decimal.zero) * _availablePresentForProcessing;
   }
 
   @action
   void _validateInput() {
-    if (Decimal.parse(fiatInputValue) == Decimal.zero) {
+    if (Decimal.parse(cryptoInputValue) == Decimal.zero) {
       inputValid = true;
       inputError = InputError.none;
       _updatePaymentMethodInputError(null);
@@ -292,13 +307,13 @@ abstract class _SellAmountStoreBase with Store {
       return;
     }
 
-    if (!isInputValid(fiatInputValue)) {
+    if (!isInputValid(cryptoInputValue)) {
       inputValid = false;
 
       return;
     }
 
-    final value = Decimal.parse(fiatInputValue);
+    final value = Decimal.parse(cryptoInputValue);
 
     inputValid = value >= minLimit && value <= maxLimit;
 
@@ -310,16 +325,16 @@ abstract class _SellAmountStoreBase with Store {
       _updatePaymentMethodInputError(
         '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
           decimal: minLimit,
-          accuracy: buyCurrency.accuracy,
-          symbol: buyCurrency.symbol,
+          accuracy: asset?.accuracy ?? 2,
+          symbol: asset?.symbol ?? '',
         )}',
       );
     } else if (value > maxLimit) {
       _updatePaymentMethodInputError(
         '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
           decimal: maxLimit,
-          accuracy: buyCurrency.accuracy,
-          symbol: buyCurrency.symbol,
+          accuracy: asset?.accuracy ?? 2,
+          symbol: asset?.symbol ?? '',
         )}',
       );
     } else {
@@ -328,7 +343,7 @@ abstract class _SellAmountStoreBase with Store {
 
     const error = InputError.none;
 
-    inputError = double.parse(fiatInputValue) != 0
+    inputError = double.parse(cryptoInputValue) != 0
         ? error == InputError.none
             ? paymentMethodInputError == null
                 ? InputError.none

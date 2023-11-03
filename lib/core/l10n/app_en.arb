@@ -1361,5 +1361,14 @@
     "iban_account_number": "IBAN / Account number",
     "operationName_sold": "Sold",
     "operationName_converted": "Converted",
-    "creating": "creating..."
+    "creating": "creating...",
+    "sell_amount_sell_all": "Sell all",
+    "sell_amount_sell_to": "Sell to",
+    "sell_amount_accounts": "Accounts",
+    "sell_amount_cryptocurrencies": "Cryptocurrencies",
+    "sell_success_cryptocurrencies": "Order was placed",
+    "convert_success_in_process": "In process",
+    "convert_amount_convert_to": "Convert to",
+    "convert_amount_convert": "Convert",
+    "convert_amount_convert_all": "Convert all"
 }

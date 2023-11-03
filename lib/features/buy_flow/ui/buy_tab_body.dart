@@ -19,7 +19,7 @@ import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
-import '../../currency_buy/ui/widgets/choose_asset_bottom_sheet.dart';
+import 'buy_choose_asset_bottom_sheet.dart';
 
 class BuyAmountTabBody extends StatefulObserverWidget {
   const BuyAmountTabBody({
@@ -91,7 +91,7 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                       url: store.asset?.iconUrl ?? '',
                     ),
                     onTap: () {
-                      showChooseAssetBottomSheet(
+                      showBuyChooseAssetBottomSheet(
                         context: context,
                         onChooseAsset: (currency) {
                           store.setNewAsset(currency);
@@ -105,7 +105,7 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                     subTitle: intl.amount_screen_buy,
                     icon: const SCryptoIcon(),
                     onTap: () {
-                      showChooseAssetBottomSheet(
+                      showBuyChooseAssetBottomSheet(
                         context: context,
                         onChooseAsset: (currency) {
                           store.setNewAsset(currency);

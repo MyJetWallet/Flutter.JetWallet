@@ -20,7 +20,7 @@ class BalancesWidget extends StatelessWidget {
     return Column(
       children: [
         MarketSeparator(
-          text: intl.pay_with_balances,
+          text: intl.sell_amount_accounts,
           isNeedDivider: false,
         ),
         for (final account in accounts)

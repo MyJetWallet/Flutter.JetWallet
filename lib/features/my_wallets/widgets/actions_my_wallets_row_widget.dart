@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_buy/action_buy.dart';
-import 'package:jetwallet/features/actions/action_exchange/action_exchange.dart';
 import 'package:jetwallet/features/actions/action_receive/action_receive.dart';
 import 'package:jetwallet/features/actions/action_send/action_send.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_buy.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_exchange.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_receive.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_send.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -63,16 +61,6 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
               showSendAction(
                 context,
               );
-            }
-          },
-          isDisabled: isEmptyBalanse,
-        ),
-        CircleActionExchange(
-          onTap: () {
-            if (myWalletsSrore.isReordering) {
-              myWalletsSrore.endReorderingImmediately();
-            } else {
-              showExchangeAction(context: context);
             }
           },
           isDisabled: isEmptyBalanse,

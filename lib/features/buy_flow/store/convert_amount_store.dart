@@ -102,6 +102,9 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @action
   void swapAssets() {
+    if (toAsset == null) {
+      return;
+    }
     isFromEntering = !isFromEntering;
     _validateInput();
   }
@@ -138,6 +141,19 @@ abstract class _ConvertAmountStoreBase with Store {
   @computed
   bool get isInputErrorActive {
     return inputError.isActive || paymentMethodInputError != null;
+  }
+
+  @action
+  void onConvetrAll() {
+    fromInputValue = responseOnInputAction(
+      oldInput: fromInputValue,
+      newInput: convertAllAmount.toString(),
+      accuracy: fromAsset?.accuracy ?? 2,
+    );
+
+    _calculateToConversion();
+
+    _validateInput();
   }
 
   @action
@@ -208,6 +224,11 @@ abstract class _ConvertAmountStoreBase with Store {
     } else {
       fromInputValue = zero;
     }
+  }
+
+  @computed
+  Decimal get convertAllAmount {
+    return (fromAsset?.assetBalance ?? Decimal.zero) * _availablePresentForProcessing;
   }
 
   @computed

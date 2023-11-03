@@ -109,16 +109,7 @@ abstract class _ConvertConfirmationStoreBase with Store {
   bool wasAction = false;
 
   @observable
-  bool isBankTermsChecked = false;
-  @observable
   bool firstBuy = false;
-  @action
-  void setIsBankTermsChecked() {
-    isBankTermsChecked = !isBankTermsChecked;
-  }
-
-  @computed
-  bool get getCheckbox => isBankTermsChecked;
 
   @observable
   bool showProcessing = false;
@@ -166,8 +157,6 @@ abstract class _ConvertConfirmationStoreBase with Store {
     paymentAsset = fromAsset;
     buyAsset = toAsset;
     buyAmount = toAmount;
-
-    await _isChecked();
 
     await requestQuote();
 
@@ -354,7 +343,6 @@ abstract class _ConvertConfirmationStoreBase with Store {
       paymentMethodCurrency: depositFeeCurrency.symbol,
     );
 
-    unawaited(_setIsChecked());
     unawaited(_saveLastPaymentMethod());
 
     await _requestPaymentAccaunt();
@@ -491,20 +479,7 @@ abstract class _ConvertConfirmationStoreBase with Store {
     return sRouter
         .push(
           SuccessScreenRouter(
-            secondaryText: isGoogle
-                ? '${intl.successScreen_youBought} '
-                    '${volumeFormat(
-                    decimal: buyAmount ?? Decimal.zero,
-                    accuracy: buyCurrency.accuracy,
-                    symbol: buyCurrency.symbol,
-                  )}'
-                    '\n${intl.paid_with_gpay}'
-                : '${intl.successScreen_youBought} '
-                    '${volumeFormat(
-                    decimal: buyAmount ?? Decimal.zero,
-                    accuracy: buyCurrency.accuracy,
-                    symbol: buyCurrency.symbol,
-                  )}',
+            secondaryText: intl.convert_success_in_process,
             buttonText: intl.previewBuyWithUmlimint_saveCard,
             showProgressBar: true,
           ),
@@ -523,42 +498,6 @@ abstract class _ConvertConfirmationStoreBase with Store {
   @action
   void skippedWaiting() {
     isWaitingSkipped = true;
-  }
-
-  @action
-  Future<void> _isChecked() async {
-    try {
-      final storage = sLocalStorageService;
-
-      final status = await storage.getValue(checkedBankCard);
-      if (status != null) {
-        isBankTermsChecked = true;
-      } else {
-        firstBuy = true;
-      }
-    } catch (e) {
-      getIt.get<SimpleLoggerService>().log(
-            level: Level.error,
-            place: 'BuyConfirmationStore',
-            message: e.toString(),
-          );
-    }
-  }
-
-  @action
-  Future<void> _setIsChecked() async {
-    try {
-      final storage = sLocalStorageService;
-
-      await storage.setString(checkedBankCard, 'true');
-      isBankTermsChecked = true;
-    } catch (e) {
-      getIt.get<SimpleLoggerService>().log(
-            level: Level.error,
-            place: 'BuyConfirmationStore',
-            message: e.toString(),
-          );
-    }
   }
 
   void skipProcessing() {
