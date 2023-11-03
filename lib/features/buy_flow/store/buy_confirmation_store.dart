@@ -608,9 +608,11 @@ abstract class _BuyConfirmationStoreBase with Store {
       if (isWaitingSkipped) {
         return;
       }
-      unawaited(_showSuccessScreen(false));
 
-      skippedWaiting();
+      await _requestPaymentInfo(
+        (_, __, ___, ____, _____) {},
+        '',
+      );
     } on ServerRejectException catch (error) {
       unawaited(_showFailureScreen(error.cause));
     } catch (error) {
