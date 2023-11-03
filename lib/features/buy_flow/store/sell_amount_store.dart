@@ -289,15 +289,12 @@ abstract class _SellAmountStoreBase with Store {
 
   @computed
   Decimal get minLimit {
-    return asset?.minTradeAmount ?? Decimal.zero;
+    return Decimal.zero;
   }
 
   @computed
   Decimal get maxLimit {
-    final assetBalance = asset?.assetBalance ?? Decimal.zero;
-    final maxTradeAmount = asset?.maxTradeAmount ?? Decimal.zero;
-
-    return (assetBalance < maxTradeAmount ? assetBalance : maxTradeAmount) * _availablePresentForProcessing;
+    return (asset?.assetBalance ?? Decimal.zero) * _availablePresentForProcessing;
   }
 
   @action

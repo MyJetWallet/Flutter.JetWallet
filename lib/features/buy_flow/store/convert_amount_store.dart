@@ -147,7 +147,7 @@ abstract class _ConvertAmountStoreBase with Store {
   void onConvetrAll() {
     fromInputValue = responseOnInputAction(
       oldInput: fromInputValue,
-      newInput: maxLimit.toString(),
+      newInput: convertAllAmount.toString(),
       accuracy: fromAsset?.accuracy ?? 2,
     );
 
@@ -224,6 +224,11 @@ abstract class _ConvertAmountStoreBase with Store {
     } else {
       fromInputValue = zero;
     }
+  }
+
+  @computed
+  Decimal get convertAllAmount {
+    return (fromAsset?.assetBalance ?? Decimal.zero) * _availablePresentForProcessing;
   }
 
   @computed
