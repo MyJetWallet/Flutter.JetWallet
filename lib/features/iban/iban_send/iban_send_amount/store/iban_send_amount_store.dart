@@ -63,14 +63,19 @@ abstract class _IbanSendAmountStoreBase with Store {
   StackLoaderStore loader = StackLoaderStore();
 
   @computed
+  ObservableList<CurrencyModel> get _allAssets {
+    return sSignalRModules.currenciesList;
+  }
+
+  @computed
   CurrencyModel get eurCurrency => currencyFrom(
-        sSignalRModules.currenciesList,
+        _allAssets,
         'EUR',
       );
 
   @computed
   Decimal get availableCurrency => Decimal.parse(
-        '''${eurCurrency.assetBalance.toDouble() - eurCurrency.cardReserve.toDouble()}''',
+        '''${account!.balance!.toDouble() - eurCurrency.cardReserve.toDouble()}''',
       );
 
   CurrencyModel usdCurrency = currencyFrom(
@@ -129,6 +134,10 @@ abstract class _IbanSendAmountStoreBase with Store {
       );
     }
 
+    print(eurCurrency.assetBalance);
+
+    print(account!.balance!.toDouble());
+
     log(eurCurrency.toString());
     log(usdCurrency.toString());
   }
@@ -136,15 +145,6 @@ abstract class _IbanSendAmountStoreBase with Store {
   @action
   Future<void> loadPreview() async {
     loader.startLoadingImmediately();
-
-    final model = IbanWithdrawalModel(
-      assetSymbol: eurCurrency.symbol,
-      amount: Decimal.parse(withAmount),
-      lang: intl.localeName,
-      contactId: contact?.id ?? '',
-      iban: contact?.iban ?? '',
-      bic: contact?.bic ?? '',
-    );
 
     final previewModel = BankingWithdrawalPreviewModel(
       accountId: account?.accountId ?? '',
@@ -208,9 +208,9 @@ abstract class _IbanSendAmountStoreBase with Store {
 
   @action
   void _validateAmount() {
-    final error = onGloballyWithdrawInputErrorHandler(
+    final error = onEurWithdrawInputErrorHandler(
       withAmount,
-      eurCurrency,
+      account!.balance!,
       limits,
     );
 

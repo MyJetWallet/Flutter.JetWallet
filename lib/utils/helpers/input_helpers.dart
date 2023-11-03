@@ -22,13 +22,11 @@ String valueBasedOnSelectedPercent({
   required CurrencyModel currency,
 }) {
   if (selected == SelectedPercent.pct25) {
-    final value =
-        (availableBalance ?? currency.assetBalance) * Decimal.parse('0.25');
+    final value = (availableBalance ?? currency.assetBalance) * Decimal.parse('0.25');
 
     return '$value';
   } else if (selected == SelectedPercent.pct50) {
-    final value =
-        (availableBalance ?? currency.assetBalance) * Decimal.parse('0.50');
+    final value = (availableBalance ?? currency.assetBalance) * Decimal.parse('0.50');
 
     return '$value';
   } else if (selected == SelectedPercent.pct100) {
@@ -172,6 +170,22 @@ InputError onGloballyWithdrawInputErrorHandler(
     final value = Decimal.parse(input);
 
     if (currency.assetBalance < value) {
+      return InputError.notEnoughFunds;
+    }
+  }
+
+  return InputError.none;
+}
+
+InputError onEurWithdrawInputErrorHandler(
+  String input,
+  Decimal balance,
+  CardLimitsModel? limits,
+) {
+  if (input.isNotEmpty) {
+    final value = Decimal.parse(input);
+
+    if (balance < value) {
       return InputError.notEnoughFunds;
     }
   }
