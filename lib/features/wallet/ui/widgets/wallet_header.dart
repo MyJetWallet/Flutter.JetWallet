@@ -98,13 +98,16 @@ class WalletHeader extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       if (baseCurrency.symbol != curr.symbol)
-                        Text(
-                          curr.volumeAssetBalance,
-                          style: sBodyText2Style.copyWith(
-                            color: sKit.colors.grey1,
+                        Opacity(
+                          opacity: curr.symbol == 'EUR' ? 0 : 1,
+                          child: Text(
+                            curr.volumeAssetBalance,
+                            style: sBodyText2Style.copyWith(
+                              color: sKit.colors.grey1,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
                         ),
                       const SpaceH16(),
                       if (pageCount > 1)
