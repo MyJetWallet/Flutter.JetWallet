@@ -10,7 +10,6 @@ import 'package:jetwallet/features/buy_flow/ui/widgets/convert_confirmation_widg
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
-import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
@@ -63,7 +62,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
     final store = ConvertConfirmationStore.of(context);
     final colors = sKit.colors;
 
-    BaseCurrencyModel baseCurrency = sSignalRModules.baseCurrency;
+    final baseCurrency = sSignalRModules.baseCurrency;
 
     return SPageFrameWithPadding(
       loading: store.loader,
@@ -143,7 +142,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 32),
                   child: SPrimaryButton2(
-                    active: !store.loader.loading && store.getCheckbox,
+                    active: !store.loader.loading,
                     name: intl.previewBuyWithAsset_confirm,
                     onTap: () {
                       store.createPayment();
