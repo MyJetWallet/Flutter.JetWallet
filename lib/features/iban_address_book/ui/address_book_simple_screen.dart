@@ -1,81 +1,55 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
-import 'package:jetwallet/features/iban/store/iban_add_bank_account_store.dart';
 import 'package:jetwallet/features/iban/widgets/iban_terms_container.dart';
-import 'package:logger/logger.dart';
+import 'package:jetwallet/features/iban_address_book/store/iban_address_book_store.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 
-@RoutePage(name: 'IbanAddBankAccountRouter')
-class IbanAddBankAccountScreen extends StatelessWidget {
-  const IbanAddBankAccountScreen({
-    super.key,
+@RoutePage(name: 'IbanAdressBookSimpleRoute')
+class IbanAddressBookSimpleScreen extends StatelessWidget {
+  const IbanAddressBookSimpleScreen({
+    Key? key,
     this.contact,
-  });
+  }) : super(key: key);
 
   final AddressBookContactModel? contact;
 
   @override
   Widget build(BuildContext context) {
-    return Provider<IbanAddBankAccountStore>(
-      create: (context) => IbanAddBankAccountStore()..setContact(contact),
-      builder: (context, child) => const IbanAddBankAccountScreenBody(),
+    return Provider<IbanAddressBookStore>(
+      create: (context) => IbanAddressBookStore()
+        ..setContact(contact)
+        ..setFlow(true),
+      builder: (context, child) => const _BodyAddressBookSimple(),
     );
   }
 }
 
-@RoutePage(name: 'IbanEditBankAccountRouter')
-class IbanEditBankAccountScreen extends StatelessWidget {
-  const IbanEditBankAccountScreen({
-    super.key,
-    this.contact,
-  });
-
-  final AddressBookContactModel? contact;
+class _BodyAddressBookSimple extends StatelessWidget {
+  const _BodyAddressBookSimple({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Provider<IbanAddBankAccountStore>(
-      create: (context) => IbanAddBankAccountStore()..setContact(contact),
-      builder: (context, child) => const IbanAddBankAccountScreenBody(),
-    );
-  }
-}
+    final store = IbanAddressBookStore.of(context);
 
-class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
-  const IbanAddBankAccountScreenBody({super.key});
-
-  @override
-  Widget build(BuildContext context) {
     final colors = sKit.colors;
-
-    final store = IbanAddBankAccountStore.of(context);
-
-    getIt.get<SimpleLoggerService>().log(
-          level: Level.info,
-          place: 'Iban Add Bank Account Screen',
-          message: sUserInfo.toString(),
-        );
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
-      loading: IbanAddBankAccountStore.of(context).loader,
+      loading: IbanAddressBookStore.of(context).loader,
       color: colors.grey5,
       header: SPaddingH24(
         child: SSmallHeader(
           title: store.isEditMode ? intl.iban_edit_bank_account : intl.iban_add_bank_account,
           showCloseButton: store.isEditMode,
           showBackButton: !store.isEditMode,
-          onBackButtonTap: () => Navigator.pop(context),
-          onCLoseButton: () => Navigator.pop(context),
+          onBackButtonTap: () => Navigator.pop(context, false),
+          onCLoseButton: () => Navigator.pop(context, false),
         ),
       ),
       child: CustomScrollView(
@@ -98,10 +72,10 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
                         labelText: intl.iban_label,
                         maxLines: 1,
                         maxLength: 30,
-                        controller: IbanAddBankAccountStore.of(context).labelController,
+                        controller: IbanAddressBookStore.of(context).labelController,
                         textInputAction: TextInputAction.next,
                         onChanged: (text) {
-                          IbanAddBankAccountStore.of(context).checkButton();
+                          IbanAddressBookStore.of(context).checkButton();
                         },
                         hideSpace: true,
                       ),
@@ -111,25 +85,25 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
                         labelText: intl.iban_account_number,
                         textCapitalization: TextCapitalization.sentences,
                         textInputAction: TextInputAction.next,
-                        controller: IbanAddBankAccountStore.of(context).ibanController,
+                        controller: IbanAddressBookStore.of(context).ibanController,
                         keyboardType: TextInputType.multiline,
                         onChanged: (text) {
-                          IbanAddBankAccountStore.of(context).serIsIBANError(false);
+                          IbanAddressBookStore.of(context).serIsIBANError(false);
 
-                          IbanAddBankAccountStore.of(context).checkButton();
+                          IbanAddressBookStore.of(context).checkButton();
                         },
                         onErase: () {
-                          IbanAddBankAccountStore.of(context).serIsIBANError(false);
+                          IbanAddressBookStore.of(context).serIsIBANError(false);
 
-                          IbanAddBankAccountStore.of(context).checkButton();
+                          IbanAddressBookStore.of(context).checkButton();
                         },
-                        isError: IbanAddBankAccountStore.of(context).isIBANError,
+                        isError: IbanAddressBookStore.of(context).isIBANError,
                         suffixIcons: [
                           SIconButton(
                             onTap: () {
-                              IbanAddBankAccountStore.of(context).pasteIban();
+                              IbanAddressBookStore.of(context).pasteIban();
 
-                              IbanAddBankAccountStore.of(context).checkButton();
+                              IbanAddressBookStore.of(context).checkButton();
                             },
                             defaultIcon: const SPasteIcon(),
                             pressedIcon: const SPastePressedIcon(),
@@ -167,10 +141,10 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
                         child: Material(
                           color: colors.grey5,
                           child: SPrimaryButton1(
-                            active: IbanAddBankAccountStore.of(context).isButtonActive,
+                            active: IbanAddressBookStore.of(context).isButtonActive,
                             name: intl.iban_edit_save_changes,
                             onTap: () {
-                              IbanAddBankAccountStore.of(context).editAccount();
+                              IbanAddressBookStore.of(context).editAccount();
                             },
                           ),
                         ),
@@ -192,7 +166,7 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
                                 onPrimaryButtonTap: () {
                                   Navigator.pop(context);
 
-                                  IbanAddBankAccountStore.of(context).deleteAccount();
+                                  IbanAddressBookStore.of(context).deleteAccount();
                                 },
                                 isNeedCancelButton: true,
                                 cancelText: intl.profileDetails_cancel,
@@ -207,12 +181,12 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
                         child: Material(
                           color: colors.grey5,
                           child: SPrimaryButton2(
-                            active: IbanAddBankAccountStore.of(context).isButtonActive,
+                            active: IbanAddressBookStore.of(context).isButtonActive,
                             name: intl.iban_add_account,
                             onTap: () {
                               sAnalytics.tapOnTheButtonAddAccount();
 
-                              IbanAddBankAccountStore.of(context).addAccount();
+                              IbanAddressBookStore.of(context).addAccount();
                             },
                           ),
                         ),

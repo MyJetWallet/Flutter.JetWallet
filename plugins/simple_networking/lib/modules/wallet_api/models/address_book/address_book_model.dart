@@ -10,8 +10,7 @@ class AddressBookModel with _$AddressBookModel {
     final List<AddressBookContactModel>? topContacts,
   }) = _AddressBookModel;
 
-  factory AddressBookModel.fromJson(Map<String, dynamic> json) =>
-      _$AddressBookModelFromJson(json);
+  factory AddressBookModel.fromJson(Map<String, dynamic> json) => _$AddressBookModelFromJson(json);
 }
 
 @freezed
@@ -24,8 +23,10 @@ class AddressBookContactModel with _$AddressBookContactModel {
     final String? bic,
     final String? bankName,
     final int? weight,
+    final String? bankCountry,
+    final String? fullName,
+    final int? ibanType,
   }) = _AddressBookContactModel;
 
-  factory AddressBookContactModel.fromJson(Map<String, dynamic> json) =>
-      _$AddressBookContactModelFromJson(json);
+  factory AddressBookContactModel.fromJson(Map<String, dynamic> json) => _$AddressBookContactModelFromJson(json);
 }

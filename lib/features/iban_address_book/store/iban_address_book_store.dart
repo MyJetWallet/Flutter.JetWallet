@@ -1,8 +1,10 @@
+import 'package:data_channel/data_channel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/kyc_profile_countries.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
@@ -10,23 +12,35 @@ import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/kyc_profile/country_list_response_model.dart';
 
-part 'iban_add_bank_account_store.g.dart';
+part 'iban_address_book_store.g.dart';
 
-class IbanAddBankAccountStore extends _IbanAddBankAccountStoreBase with _$IbanAddBankAccountStore {
-  IbanAddBankAccountStore() : super();
+class IbanAddressBookStore extends _IbanAddressBookStoreBase with _$IbanAddressBookStore {
+  IbanAddressBookStore() : super();
 
-  static IbanAddBankAccountStore of(BuildContext context) =>
-      Provider.of<IbanAddBankAccountStore>(context, listen: false);
+  static IbanAddressBookStore of(BuildContext context) => Provider.of<IbanAddressBookStore>(context, listen: false);
 }
 
-abstract class _IbanAddBankAccountStoreBase with Store {
+abstract class _IbanAddressBookStoreBase with Store {
+  bool isCJAddressBook = false;
+
   final TextEditingController labelController = TextEditingController();
 
   final TextEditingController ibanController = TextEditingController();
 
   final TextEditingController bicController = TextEditingController();
+
+  final TextEditingController fullnameController = TextEditingController();
+
+  @observable
+  Country? country;
+  @action
+  void setCountry(Country c) => country = c;
+
+  final loader = StackLoaderStore();
 
   @observable
   bool isIBANError = false;
@@ -37,15 +51,22 @@ abstract class _IbanAddBankAccountStoreBase with Store {
   bool isEditMode = false;
   @observable
   AddressBookContactModel? predContactData;
-
-  final loader = StackLoaderStore();
-
   @observable
   bool isButtonActive = false;
+
   @action
   void checkButton() {
-    isButtonActive = labelController.text.isNotEmpty && ibanController.text.isNotEmpty;
+    isButtonActive = isCJAddressBook
+        ? labelController.text.isNotEmpty && ibanController.text.isNotEmpty
+        : labelController.text.isNotEmpty &&
+            ibanController.text.isNotEmpty &&
+            bicController.text.isNotEmpty &&
+            fullnameController.text.isNotEmpty &&
+            country != null;
   }
+
+  @action
+  void setFlow(bool value) => isCJAddressBook = value;
 
   @action
   void setContact(AddressBookContactModel? contact) {
@@ -53,9 +74,14 @@ abstract class _IbanAddBankAccountStoreBase with Store {
       predContactData = contact;
       isEditMode = true;
 
+      final countriesList = getIt.get<KycProfileCountries>().profileCountries;
+
       labelController.text = predContactData!.name ?? '';
       ibanController.text = predContactData?.iban?.replaceAll(' ', '') ?? '';
       bicController.text = predContactData?.bic ?? '';
+      fullnameController.text = predContactData?.fullName ?? '';
+      country =
+          countriesList.countries.firstWhere((element) => element.countryCode == (predContactData?.bankCountry ?? ''));
 
       checkButton();
     }
@@ -82,15 +108,48 @@ abstract class _IbanAddBankAccountStoreBase with Store {
   }
 
   @action
+  Future<void> pasteFullName() async {
+    final copiedText = await _copiedText();
+    fullnameController.text = copiedText.replaceAll(' ', '');
+
+    _moveCursorAtTheEnd(fullnameController);
+
+    checkButton();
+  }
+
+  Future<String> _copiedText() async {
+    final data = await Clipboard.getData('text/plain');
+
+    return (data?.text ?? '').replaceAll(' ', '');
+  }
+
+  @action
+  void _moveCursorAtTheEnd(TextEditingController controller) {
+    controller.selection = TextSelection.fromPosition(
+      TextPosition(offset: controller.text.length),
+    );
+  }
+
+  ///
+
+  @action
   Future<void> addAccount() async {
     loader.startLoadingImmediately();
 
-    final response = await sNetwork.getWalletModule().postAddressBookAdd(
-          labelController.text,
-          '${sUserInfo.firstName} ${sUserInfo.lastName}',
-          ibanController.text.replaceAll(' ', ''),
-          bicController.text,
-        );
+    final DC<ServerRejectException, AddressBookContactModel>? response;
+
+    response = isCJAddressBook
+        ? await sNetwork.getWalletModule().postAddressBookAddSimple(
+              labelController.text,
+              ibanController.text.replaceAll(' ', ''),
+            )
+        : await sNetwork.getWalletModule().postAddressBookAddPersonal(
+              labelController.text,
+              ibanController.text.replaceAll(' ', ''),
+              bicController.text,
+              country?.countryCode ?? '',
+              fullnameController.text,
+            );
 
     response.pick(
       onData: (data) {
@@ -102,7 +161,7 @@ abstract class _IbanAddBankAccountStoreBase with Store {
         isIBANError = true;
 
         sNotification.showError(
-          response.error?.cause ?? '',
+          response?.error?.cause ?? '',
           duration: 4,
           id: 1,
           needFeedback: true,
@@ -191,18 +250,5 @@ abstract class _IbanAddBankAccountStoreBase with Store {
     );
 
     loader.finishLoadingImmediately();
-  }
-
-  Future<String> _copiedText() async {
-    final data = await Clipboard.getData('text/plain');
-
-    return (data?.text ?? '').replaceAll(' ', '');
-  }
-
-  @action
-  void _moveCursorAtTheEnd(TextEditingController controller) {
-    controller.selection = TextSelection.fromPosition(
-      TextPosition(offset: controller.text.length),
-    );
   }
 }

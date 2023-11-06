@@ -2217,12 +2217,14 @@ class WalletApiDataSources {
   }
 
   Future<DC<ServerRejectException, AddressBookModel>> getAddressBookRequest(
-    String searchText,
+    int accountType,
   ) async {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/address-book/contacts',
-        data: {},
+        data: {
+          'accountType': accountType,
+        },
       );
 
       try {
@@ -2252,6 +2254,64 @@ class WalletApiDataSources {
           'nickname': nickname,
           'iban': iban,
           'bic': bic,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(AddressBookContactModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, AddressBookContactModel>> postAddressBookAddSimpleRequest(
+    String name,
+    String iban,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/address-book/add/simple',
+        data: {
+          'name': name,
+          'iban': iban,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(AddressBookContactModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, AddressBookContactModel>> postAddressBookAddPersonalRequest(
+    String name,
+    String iban,
+    String bic,
+    String country,
+    String fullName,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/address-book/add/personal',
+        data: {
+          'name': name,
+          'iban': iban,
+          'bic': bic,
+          'bankCountry': country,
+          'fullName': fullName,
         },
       );
 

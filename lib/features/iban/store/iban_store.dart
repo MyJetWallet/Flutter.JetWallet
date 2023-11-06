@@ -406,29 +406,48 @@ abstract class IbanStoreBase with Store {
   bool ibanAdressBookLoaded = false;
 
   @observable
-  ObservableList<AddressBookContactModel> contacts = ObservableList.of([]);
+  ObservableList<AddressBookContactModel> simpleContacts = ObservableList.of([]);
+  @observable
+  ObservableList<AddressBookContactModel> simpleTopContacts = ObservableList.of([]);
 
   @observable
-  ObservableList<AddressBookContactModel> topContacts = ObservableList.of([]);
+  ObservableList<AddressBookContactModel> allContacts = ObservableList.of([]);
+  @observable
+  ObservableList<AddressBookContactModel> allTopContacts = ObservableList.of([]);
 
   @action
   Future<void> getAddressBook() async {
-    if (contacts.isEmpty) {
+    if (simpleContacts.isEmpty || allContacts.isEmpty) {
       ibanAdressBookLoaded = false;
     }
 
-    final response = await sNetwork.getWalletModule().getAddressBook('');
-
-    response.pick(
+    // Simple
+    final simpleResponse = await sNetwork.getWalletModule().getAddressBook(0);
+    simpleResponse.pick(
       onData: (data) {
-        contacts = ObservableList.of(data.contacts ?? []);
-        topContacts = ObservableList.of(data.topContacts ?? []);
+        simpleContacts = ObservableList.of(data.contacts ?? []);
+        simpleTopContacts = ObservableList.of(data.topContacts ?? []);
 
         ibanAdressBookLoaded = true;
       },
     );
 
-    contacts.sort((a, b) {
+    // Unlimit
+    final unlimitResponse = await sNetwork.getWalletModule().getAddressBook(1);
+    unlimitResponse.pick(
+      onData: (data) {
+        allContacts = ObservableList.of(data.contacts ?? []);
+        allTopContacts = ObservableList.of(data.topContacts ?? []);
+
+        ibanAdressBookLoaded = true;
+      },
+    );
+
+    simpleContacts.sort((a, b) {
+      return b.weight!.compareTo(a.weight!);
+    });
+
+    allContacts.sort((a, b) {
       return b.weight!.compareTo(a.weight!);
     });
   }

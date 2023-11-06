@@ -56,6 +56,8 @@ import 'package:jetwallet/features/home/home_screen.dart';
 import 'package:jetwallet/features/iban/iban_add_bank_account_screen.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_amount/ui/iban_send_amount.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_confirm/ui/iban_send_confirm.dart';
+import 'package:jetwallet/features/iban_address_book/ui/address_book_simple_screen.dart';
+import 'package:jetwallet/features/iban_address_book/ui/address_book_unlimit_screen.dart';
 import 'package:jetwallet/features/kyc/allow_camera/ui/allow_camera_screen.dart';
 import 'package:jetwallet/features/kyc/choose_documents/ui/choose_documents.dart';
 import 'package:jetwallet/features/kyc/kyc_selfie/ui/kyc_selfie.dart';
@@ -315,6 +317,14 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/iban_add_account',
       page: IbanAddBankAccountRouter.page,
+    ),
+    AutoRoute(
+      path: '/iban_add_account_simpe',
+      page: IbanAdressBookSimpleRoute.page,
+    ),
+    AutoRoute(
+      path: '/iban_add_account_unlimit',
+      page: IbanAdressBookUnlimitRoute.page,
     ),
     CustomRoute(
       path: '/iban_edit_account',

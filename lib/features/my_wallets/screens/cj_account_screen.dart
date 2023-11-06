@@ -264,7 +264,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                           context: context,
                           from: [BlockingType.withdrawal],
                           or: () {
-                            showBankTransforSelect(context, widget.bankingAccount);
+                            showBankTransforSelect(context, widget.bankingAccount, widget.isCJAccount);
 
                             sAnalytics.eurWalletWithdrawEURAccountScreen(
                               isCJ: widget.isCJAccount,

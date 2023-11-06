@@ -34,12 +34,15 @@ class IbanSendConfirm extends StatelessWidget {
     required this.data,
     required this.previewRequest,
     required this.account,
+    required this.isCJ,
   });
 
   final AddressBookContactModel contact;
   final BankingWithdrawalPreviewResponse data;
   final BankingWithdrawalPreviewModel previewRequest;
   final SimpleBankingAccount account;
+
+  final bool isCJ;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +53,7 @@ class IbanSendConfirm extends StatelessWidget {
         data: data,
         previewRequest: previewRequest,
         account: account,
+        isCJ: isCJ,
       ),
     );
   }
@@ -62,12 +66,15 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
     required this.data,
     required this.previewRequest,
     required this.account,
+    required this.isCJ,
   });
 
   final AddressBookContactModel contact;
   final BankingWithdrawalPreviewResponse data;
   final BankingWithdrawalPreviewModel previewRequest;
   final SimpleBankingAccount account;
+
+  final bool isCJ;
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +138,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                   const SDivider(),
                   SActionConfirmText(
                     name: intl.iban_out_label,
-                    icon: const BlueBankIcon(size: 20),
+                    icon: isCJ ? const BlueBankIcon(size: 20) : const BlueBankUnlimitIcon(size: 20),
                     value: contact.name ?? '',
                   ),
                   SActionConfirmText(
@@ -144,8 +151,14 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                   ),
                   SActionConfirmText(
                     name: intl.iban_out_benificiary,
-                    value: '${sUserInfo.firstName} ${sUserInfo.lastName}',
+                    value: isCJ ? '${sUserInfo.firstName} ${sUserInfo.lastName}' : previewRequest.beneficiaryName ?? '',
                   ),
+                  if (!isCJ) ...[
+                    SActionConfirmText(
+                      name: intl.iban_reference,
+                      value: previewRequest.description ?? '',
+                    ),
+                  ],
                   SActionConfirmText(
                     name: intl.iban_out_payment_fee,
                     value: volumeFormat(

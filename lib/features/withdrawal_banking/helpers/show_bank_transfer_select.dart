@@ -8,22 +8,41 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
-void showBankTransforSelect(BuildContext context, SimpleBankingAccount bankingAccount) {
-  if (getIt.get<IbanStore>().contacts.isEmpty) {
-    sRouter.push(IbanAddBankAccountRouter()).then((value) async {
-      await getIt.get<IbanStore>().getAddressBook();
+void showBankTransforSelect(BuildContext context, SimpleBankingAccount bankingAccount, bool isCJ) {
+  if (isCJ ? getIt.get<IbanStore>().simpleContacts.isEmpty : getIt.get<IbanStore>().allContacts.isEmpty) {
+    if (isCJ) {
+      sRouter.push(IbanAdressBookSimpleRoute()).then((value) async {
+        await getIt.get<IbanStore>().getAddressBook();
 
-      await getIt<AppRouter>()
-          .push(
-            IbanSendAmountRouter(
-              contact: getIt.get<IbanStore>().contacts[0],
-              bankingAccount: bankingAccount,
-            ),
-          )
-          .then(
-            (value) => getIt.get<IbanStore>().getAddressBook(),
-          );
-    });
+        await getIt<AppRouter>()
+            .push(
+              IbanSendAmountRouter(
+                contact: (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[0],
+                bankingAccount: bankingAccount,
+                isCJ: isCJ,
+              ),
+            )
+            .then(
+              (value) => getIt.get<IbanStore>().getAddressBook(),
+            );
+      });
+    } else {
+      sRouter.push(IbanAdressBookUnlimitRoute()).then((value) async {
+        await getIt.get<IbanStore>().getAddressBook();
+
+        await getIt<AppRouter>()
+            .push(
+              IbanSendAmountRouter(
+                contact: (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[0],
+                bankingAccount: bankingAccount,
+                isCJ: isCJ,
+              ),
+            )
+            .then(
+              (value) => getIt.get<IbanStore>().getAddressBook(),
+            );
+      });
+    }
 
     return;
   }
@@ -33,10 +52,12 @@ void showBankTransforSelect(BuildContext context, SimpleBankingAccount bankingAc
     pinned: SBottomSheetHeader(
       name: intl.bankAccountsSelectPopupTitle,
     ),
+    scrollable: true,
     children: [
       const SpaceH12(),
       ShowBankTransferSelect(
         bankingAccount: bankingAccount,
+        isCJ: isCJ,
       ),
       const SpaceH42(),
     ],
@@ -47,9 +68,11 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
   const ShowBankTransferSelect({
     super.key,
     required this.bankingAccount,
+    required this.isCJ,
   });
 
   final SimpleBankingAccount bankingAccount;
+  final bool isCJ;
 
   @override
   Widget build(BuildContext context) {
@@ -60,45 +83,47 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(
-            horizontal: 24,
-            vertical: 20,
-          ),
-          decoration: BoxDecoration(
-            color: colors.yellowLight,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 2),
-                    child: SUserIcon(
-                      color: colors.black,
+        if (isCJ) ...[
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24,
+              vertical: 20,
+            ),
+            decoration: BoxDecoration(
+              color: colors.yellowLight,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2),
+                      child: SUserIcon(
+                        color: colors.black,
+                      ),
                     ),
-                  ),
-                  const SpaceW14(),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width - 88,
-                    child: Text(
-                      intl.bankAccountsSelectPopup,
-                      style: sBodyText2Style,
-                      maxLines: 15,
+                    const SpaceW14(),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width - 88,
+                      child: Text(
+                        intl.bankAccountsSelectPopup,
+                        style: sBodyText2Style,
+                        maxLines: 15,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-        const SpaceH16(),
+          const SpaceH16(),
+        ],
         SPaddingH24(
           child: Text(
-            intl.bankAccountsSelectPopupMyAccounts,
+            isCJ ? intl.bankAccountsSelectPopupMyAccounts : intl.bankAccountsSelectPopupRecipients,
             style: sBodyText2Style.copyWith(
               color: colors.grey2,
             ),
@@ -107,7 +132,7 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
         ListView.builder(
           shrinkWrap: true,
           padding: EdgeInsets.zero,
-          itemCount: store.contacts.length,
+          itemCount: (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts).length,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             return SCardRow(
@@ -120,11 +145,23 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
                 padding: const EdgeInsets.only(top: 9.0),
                 child: SIconButton(
                   onTap: () {
-                    sRouter.push(
-                      IbanEditBankAccountRouter(
-                        contact: store.contacts[index],
-                      ),
-                    );
+                    if (isCJ) {
+                      sRouter.push(
+                        IbanAdressBookSimpleRoute(
+                          contact: (isCJ
+                              ? getIt.get<IbanStore>().simpleContacts
+                              : getIt.get<IbanStore>().allContacts)[index],
+                        ),
+                      );
+                    } else {
+                      sRouter.push(
+                        IbanAdressBookUnlimitRoute(
+                          contact: (isCJ
+                              ? getIt.get<IbanStore>().simpleContacts
+                              : getIt.get<IbanStore>().allContacts)[index],
+                        ),
+                      );
+                    }
                   },
                   defaultIcon: const SEditIcon(),
                   pressedIcon: const SEditIcon(
@@ -132,17 +169,21 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
                   ),
                 ),
               ),
-              name: store.contacts[index].name ?? '',
+              name:
+                  (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[index].name ?? '',
               amount: '',
-              helper: store.contacts[index].iban ?? '',
+              helper:
+                  (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[index].iban ?? '',
               description: '',
               needSpacer: true,
               onTap: () {
                 getIt<AppRouter>()
                     .push(
                       IbanSendAmountRouter(
-                        contact: store.contacts[index],
+                        contact:
+                            (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[index],
                         bankingAccount: bankingAccount,
+                        isCJ: isCJ,
                       ),
                     )
                     .then(
@@ -161,27 +202,60 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
             ),
           ),
           //rightIcon: const SEditIcon(),
-          name: intl.iban_add_bank_account,
+          name: isCJ ? intl.iban_add_bank_account : intl.address_book_add_recipient,
           amount: '',
           helper: intl.iban_local_euro_accounts_only,
           description: '',
           onTap: () {
             sAnalytics.tapOnTheButtonAddBankAccount();
 
-            sRouter.push(IbanAddBankAccountRouter()).then((value) async {
-              await getIt.get<IbanStore>().getAddressBook();
+            if (isCJ) {
+              sRouter.push(IbanAdressBookSimpleRoute()).then(
+                (value) async {
+                  if (value != null && !(value as bool)) {
+                    return;
+                  }
 
-              await getIt<AppRouter>()
-                  .push(
-                    IbanSendAmountRouter(
-                      contact: getIt.get<IbanStore>().contacts[0],
-                      bankingAccount: bankingAccount,
-                    ),
-                  )
-                  .then(
-                    (value) => getIt.get<IbanStore>().getAddressBook(),
-                  );
-            });
+                  await getIt.get<IbanStore>().getAddressBook();
+
+                  await getIt<AppRouter>()
+                      .push(
+                        IbanSendAmountRouter(
+                          contact:
+                              (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[0],
+                          bankingAccount: bankingAccount,
+                          isCJ: isCJ,
+                        ),
+                      )
+                      .then(
+                        (value) => getIt.get<IbanStore>().getAddressBook(),
+                      );
+                },
+              );
+            } else {
+              sRouter.push(IbanAdressBookUnlimitRoute()).then(
+                (value) async {
+                  if (value != null && !(value as bool)) {
+                    return;
+                  }
+
+                  await getIt.get<IbanStore>().getAddressBook();
+
+                  await getIt<AppRouter>()
+                      .push(
+                        IbanSendAmountRouter(
+                          contact:
+                              (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[0],
+                          bankingAccount: bankingAccount,
+                          isCJ: isCJ,
+                        ),
+                      )
+                      .then(
+                        (value) => getIt.get<IbanStore>().getAddressBook(),
+                      );
+                },
+              );
+            }
           },
         ),
       ],

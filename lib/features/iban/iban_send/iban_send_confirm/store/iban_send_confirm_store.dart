@@ -5,14 +5,18 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
+import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/helpers/country_code_by_user_register.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_response.dart';
@@ -30,6 +34,9 @@ class IbanSendConfirmStore extends _IbanSendConfirmStoreBase with _$IbanSendConf
 abstract class _IbanSendConfirmStoreBase with Store {
   StackLoaderStore loader = StackLoaderStore();
 
+  @observable
+  bool deviceBindingRequired = false;
+
   CurrencyModel eurCurrency = currencyFrom(
     sSignalRModules.currenciesList,
     'EUR',
@@ -38,6 +45,8 @@ abstract class _IbanSendConfirmStoreBase with Store {
   void init(
     BankingWithdrawalPreviewResponse data,
   ) {
+    deviceBindingRequired = data.deviceBindingRequired ?? false;
+
     sAnalytics.orderSummarySendIBANScreenView(
       asset: eurCurrency.symbol,
       methodType: '2',
@@ -52,6 +61,58 @@ abstract class _IbanSendConfirmStoreBase with Store {
     AddressBookContactModel contact,
     String pin,
   ) async {
+    if (deviceBindingRequired) {
+      var continueBuying = false;
+
+      final formatedAmaunt = volumeFormat(
+        symbol: eurCurrency.symbol,
+        accuracy: eurCurrency.accuracy,
+        decimal: Decimal.fromInt(200),
+      );
+      await Future.delayed(const Duration(milliseconds: 500));
+      await sShowAlertPopup(
+        sRouter.navigatorKey.currentContext!,
+        primaryText: '',
+        secondaryText:
+            '${intl.binding_phone_dialog_first_part_2} $formatedAmaunt ${intl.binding_phone_dialog_second_part_2}',
+        primaryButtonName: intl.binding_phone_dialog_confirm,
+        secondaryButtonName: intl.binding_phone_dialog_cancel,
+        image: Image.asset(
+          infoLightAsset,
+          width: 80,
+          height: 80,
+          package: 'simple_kit',
+        ),
+        onPrimaryButtonTap: () {
+          continueBuying = true;
+          sRouter.pop();
+        },
+        onSecondaryButtonTap: () {
+          continueBuying = false;
+          sRouter.pop();
+        },
+      );
+
+      if (!continueBuying) return;
+
+      final phoneNumber = countryCodeByUserRegister();
+      var isVerifaierd = false;
+      await sRouter.push(
+        PhoneVerificationRouter(
+          args: PhoneVerificationArgs(
+            isDeviceBinding: true,
+            phoneNumber: sUserInfo.phone,
+            activeDialCode: phoneNumber,
+            onVerified: () {
+              isVerifaierd = true;
+              sRouter.pop();
+            },
+          ),
+        ),
+      );
+      if (!isVerifaierd) return;
+    }
+
     loader.startLoadingImmediately();
 
     final model = BankingWithdrawalRequest(

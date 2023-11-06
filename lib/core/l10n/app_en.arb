@@ -1339,6 +1339,8 @@
     "create_simple_creating": "Creating simple account...",
     "binding_phone_dialog_first_part": "To proceed with this purchase confirm of sending funds of",
     "binding_phone_dialog_second_part": "from your bank account at Unlimit to the bank account on the name of",
+    "binding_phone_dialog_first_part_2": "To proceed with this withdrawal of",
+    "binding_phone_dialog_second_part_2": "confirm with the sms code",
     "binding_phone_dialog_confirm": "Confirm",
     "binding_phone_dialog_cancel": "Cancel",
     "account_bottom_sheet_header": "Account details",
@@ -1356,9 +1358,11 @@
     "sell_confirmation_convert": "Convert",
     "bankAccountsSelectPopup": "Please be aware that you can send only to your personal bank accounts",
     "bankAccountsSelectPopupMyAccounts": "My accounts",
+    "bankAccountsSelectPopupRecipients": "Recipients",
     "bankAccountsSelectPopupTitle": "Bank transfer",
     "withdrawAll": "Withdraw all",
     "iban_account_number": "IBAN / Account number",
+    "iban_title": "IBAN",
     "operationName_sold": "Sold",
     "operationName_converted": "Converted",
     "creating": "creating...",
@@ -1370,5 +1374,10 @@
     "convert_success_in_process": "In process",
     "convert_amount_convert_to": "Convert to",
     "convert_amount_convert": "Convert",
-    "convert_amount_convert_all": "Convert all"
+    "convert_amount_convert_all": "Convert all",
+    "address_book_add_recipient": "Add recipient",
+    "address_book_edit_recipient": "Edit recipient",
+    "address_book_full_name": "Full name",
+    "address_book_country_of_recepients_bank": "Country of recepient’s bank",
+    "iban_reference": "Reference"
 }

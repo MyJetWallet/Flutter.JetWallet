@@ -754,9 +754,9 @@ class WalletApiRepository {
   // Address book
 
   Future<DC<ServerRejectException, AddressBookModel>> getAddressBook(
-    String searchText,
+    int accountType,
   ) async {
-    return _walletApiDataSources.getAddressBookRequest(searchText);
+    return _walletApiDataSources.getAddressBookRequest(accountType);
   }
 
   Future<DC<ServerRejectException, AddressBookContactModel>> postAddressBookAdd(
@@ -771,6 +771,23 @@ class WalletApiRepository {
       iban,
       bic,
     );
+  }
+
+  Future<DC<ServerRejectException, AddressBookContactModel>> postAddressBookAddSimple(
+    String name,
+    String iban,
+  ) async {
+    return _walletApiDataSources.postAddressBookAddSimpleRequest(name, iban);
+  }
+
+  Future<DC<ServerRejectException, AddressBookContactModel>> postAddressBookAddPersonal(
+    String name,
+    String iban,
+    String bic,
+    String country,
+    String fullName,
+  ) async {
+    return _walletApiDataSources.postAddressBookAddPersonalRequest(name, iban, bic, country, fullName);
   }
 
   Future<DC<ServerRejectException, void>> postAddressBookDelete(

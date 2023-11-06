@@ -58,6 +58,9 @@ abstract class _IbanSendAmountStoreBase with Store {
   @observable
   InputError withAmmountInputError = InputError.none;
 
+  @observable
+  bool showAllWithdraw = true;
+
   CardLimitsModel? limits;
 
   StackLoaderStore loader = StackLoaderStore();
@@ -133,17 +136,10 @@ abstract class _IbanSendAmountStoreBase with Store {
         leftHours: 0,
       );
     }
-
-    print(eurCurrency.assetBalance);
-
-    print(account!.balance!.toDouble());
-
-    log(eurCurrency.toString());
-    log(usdCurrency.toString());
   }
 
   @action
-  Future<void> loadPreview() async {
+  Future<void> loadPreview(String description, bool isCJ) async {
     loader.startLoadingImmediately();
 
     final previewModel = BankingWithdrawalPreviewModel(
@@ -153,6 +149,7 @@ abstract class _IbanSendAmountStoreBase with Store {
       amount: Decimal.parse(withAmount),
       contactId: contact?.id ?? '',
       beneficiaryBankCode: contact?.bic ?? '',
+      description: description,
       expressPayment: false,
     );
 
@@ -168,6 +165,7 @@ abstract class _IbanSendAmountStoreBase with Store {
           contact: contact!,
           account: account!,
           previewRequest: previewModel,
+          isCJ: isCJ,
         ),
       );
     } else {
@@ -187,6 +185,12 @@ abstract class _IbanSendAmountStoreBase with Store {
       newInput: value,
       accuracy: eurCurrency.accuracy,
     );
+
+    if (withAmount != zero) {
+      showAllWithdraw = false;
+    } else {
+      showAllWithdraw = true;
+    }
 
     _validateAmount();
     _calculateBaseConversion();
