@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/choose_asset_screen.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -13,10 +14,16 @@ import '../../actions/store/action_search_store.dart';
 void showConvertToChooseAssetBottomSheet({
   required BuildContext context,
   required void Function(CurrencyModel currency) onChooseAsset,
+  String? skipAssetSymbol,
 }) {
   final searchStore = getIt.get<ActionSearchStore>();
-  searchStore.init();
-  searchStore.refreshSearch();
+  final currenciesList = sSignalRModules.currenciesList.where((currency) {
+    return currency.symbol != skipAssetSymbol;
+  }).toList();
+
+  searchStore.init(
+    customCurrencies: currenciesList,
+  );
   final showSearch = showBuyCurrencySearch(
     context,
     fromCard: true,
