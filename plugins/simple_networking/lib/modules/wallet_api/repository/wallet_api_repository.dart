@@ -763,11 +763,13 @@ class WalletApiRepository {
     String name,
     String nickname,
     String iban,
+    String bic,
   ) async {
     return _walletApiDataSources.postAddressBookAddRequest(
       name,
       nickname,
       iban,
+      bic,
     );
   }
 

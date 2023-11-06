@@ -26,6 +26,8 @@ abstract class _IbanAddBankAccountStoreBase with Store {
 
   final TextEditingController ibanController = TextEditingController();
 
+  final TextEditingController bicController = TextEditingController();
+
   @observable
   bool isIBANError = false;
   @action
@@ -42,7 +44,7 @@ abstract class _IbanAddBankAccountStoreBase with Store {
   bool isButtonActive = false;
   @action
   void checkButton() {
-    isButtonActive = labelController.text.isNotEmpty && ibanController.text.isNotEmpty;
+    isButtonActive = labelController.text.isNotEmpty && ibanController.text.isNotEmpty && bicController.text.isNotEmpty;
   }
 
   @action
@@ -53,6 +55,7 @@ abstract class _IbanAddBankAccountStoreBase with Store {
 
       labelController.text = predContactData!.name ?? '';
       ibanController.text = predContactData?.iban?.replaceAll(' ', '') ?? '';
+      bicController.text = predContactData?.bic ?? '';
 
       checkButton();
     }
@@ -69,6 +72,16 @@ abstract class _IbanAddBankAccountStoreBase with Store {
   }
 
   @action
+  Future<void> pasteBIC() async {
+    final copiedText = await _copiedText();
+    bicController.text = copiedText.replaceAll(' ', '');
+
+    _moveCursorAtTheEnd(bicController);
+
+    checkButton();
+  }
+
+  @action
   Future<void> addAccount() async {
     loader.startLoadingImmediately();
 
@@ -76,6 +89,7 @@ abstract class _IbanAddBankAccountStoreBase with Store {
           labelController.text,
           '${sUserInfo.firstName} ${sUserInfo.lastName}',
           ibanController.text.replaceAll(' ', ''),
+          bicController.text,
         );
 
     response.pick(
@@ -110,6 +124,7 @@ abstract class _IbanAddBankAccountStoreBase with Store {
             predContactData!.copyWith(
               name: labelController.text,
               iban: ibanController.text.replaceAll(' ', ''),
+              bic: bicController.text,
             ),
           );
 

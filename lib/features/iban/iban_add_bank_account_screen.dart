@@ -110,7 +110,7 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
                       child: SStandardField(
                         labelText: intl.iban_account_number,
                         textCapitalization: TextCapitalization.sentences,
-                        textInputAction: TextInputAction.done,
+                        textInputAction: TextInputAction.next,
                         controller: IbanAddBankAccountStore.of(context).ibanController,
                         keyboardType: TextInputType.multiline,
                         onChanged: (text) {
@@ -143,6 +143,30 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
                             },
                           ),
                         ],
+                        hideSpace: true,
+                      ),
+                    ),
+                    SFieldDividerFrame(
+                      child: SStandardField(
+                        labelText: intl.iban_bic,
+                        maxLines: 1,
+                        maxLength: 30,
+                        controller: IbanAddBankAccountStore.of(context).bicController,
+                        textInputAction: TextInputAction.done,
+                        suffixIcons: [
+                          SIconButton(
+                            onTap: () {
+                              IbanAddBankAccountStore.of(context).pasteBIC();
+
+                              IbanAddBankAccountStore.of(context).checkButton();
+                            },
+                            defaultIcon: const SPasteIcon(),
+                            pressedIcon: const SPastePressedIcon(),
+                          ),
+                        ],
+                        onChanged: (text) {
+                          IbanAddBankAccountStore.of(context).checkButton();
+                        },
                         hideSpace: true,
                       ),
                     ),

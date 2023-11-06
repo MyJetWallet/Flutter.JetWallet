@@ -2242,6 +2242,7 @@ class WalletApiDataSources {
     String name,
     String nickname,
     String iban,
+    String bic,
   ) async {
     try {
       final response = await _apiClient.post(
@@ -2250,6 +2251,7 @@ class WalletApiDataSources {
           'name': name,
           'nickname': nickname,
           'iban': iban,
+          'bic': bic,
         },
       );
 
