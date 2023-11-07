@@ -29,7 +29,7 @@ class RemoteConfigModel with _$RemoteConfigModel {
     @JsonKey(name: 'Support') required RemoteConfigSupportModel support,
     @JsonKey(name: 'Versioning') required RemoteConfogVersioningModel versioning,
     @JsonKey(name: 'MerchantPay') required RemoteConfigMerchantPay merchantPay,
-    @JsonKey(name: 'Sift') required RemoteConfigSiftModel sift,
+    @JsonKey(name: 'Sift') RemoteConfigSiftModel? sift,
   }) = _RemoteConfigModel;
 
   factory RemoteConfigModel.fromJson(Map<String, dynamic> json) => _$RemoteConfigModelFromJson(json);
