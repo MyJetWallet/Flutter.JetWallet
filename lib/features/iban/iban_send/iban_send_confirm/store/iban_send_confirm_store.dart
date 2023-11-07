@@ -23,6 +23,7 @@ import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/b
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_request.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_preview_withdrawal_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_withdrawal_model.dart';
+import 'package:uuid/uuid.dart';
 part 'iban_send_confirm_store.g.dart';
 
 class IbanSendConfirmStore extends _IbanSendConfirmStoreBase with _$IbanSendConfirmStore {
@@ -33,6 +34,8 @@ class IbanSendConfirmStore extends _IbanSendConfirmStoreBase with _$IbanSendConf
 
 abstract class _IbanSendConfirmStoreBase with Store {
   StackLoaderStore loader = StackLoaderStore();
+
+  var requestId = '';
 
   @observable
   bool deviceBindingRequired = false;
@@ -46,6 +49,8 @@ abstract class _IbanSendConfirmStoreBase with Store {
     BankingWithdrawalPreviewResponse data,
   ) {
     deviceBindingRequired = data.deviceBindingRequired ?? false;
+
+    requestId = const Uuid().v1();
 
     sAnalytics.orderSummarySendIBANScreenView(
       asset: eurCurrency.symbol,
@@ -118,6 +123,7 @@ abstract class _IbanSendConfirmStoreBase with Store {
     final model = BankingWithdrawalRequest(
       pin: pin,
       accountId: previewRequest.accountId,
+      requestId: requestId,
       toIbanAddress: previewRequest.toIbanAddress,
       assetSymbol: 'EUR',
       amount: data.amount,

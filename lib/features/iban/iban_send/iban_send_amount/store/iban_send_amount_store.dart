@@ -27,6 +27,7 @@ import 'package:simple_networking/modules/wallet_api/models/address_book/address
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_preview_withdrawal_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_withdrawal_model.dart';
+import 'package:uuid/uuid.dart';
 
 part 'iban_send_amount_store.g.dart';
 
@@ -60,6 +61,8 @@ abstract class _IbanSendAmountStoreBase with Store {
 
   @observable
   bool showAllWithdraw = true;
+
+  var requestId = '';
 
   CardLimitsModel? limits;
 
@@ -112,6 +115,8 @@ abstract class _IbanSendAmountStoreBase with Store {
     contact = value;
     account = bankingAccount;
 
+    requestId = const Uuid().v1();
+
     sAnalytics.sendEurAmountScreenView();
 
     final ibanOutMethodInd = eurCurrency.withdrawalMethods.indexWhere(
@@ -144,6 +149,7 @@ abstract class _IbanSendAmountStoreBase with Store {
 
     final previewModel = BankingWithdrawalPreviewModel(
       accountId: account?.accountId ?? '',
+      requestId: requestId,
       toIbanAddress: contact?.iban ?? '',
       assetSymbol: eurCurrency.symbol,
       amount: Decimal.parse(withAmount),

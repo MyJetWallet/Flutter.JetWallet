@@ -10,6 +10,7 @@ class BankingWithdrawalRequest with _$BankingWithdrawalRequest {
   factory BankingWithdrawalRequest({
     final String? pin,
     final String? accountId,
+    final String? requestId,
     final String? toIbanAddress,
     final String? assetSymbol,
     @DecimalNullSerialiser() final Decimal? amount,
