@@ -2224,6 +2224,7 @@ class WalletApiDataSources {
         '${_apiClient.options.walletApi}/address-book/contacts',
         data: {
           'accountType': accountType,
+          "withIban": true,
         },
       );
 
