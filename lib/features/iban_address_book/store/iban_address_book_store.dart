@@ -80,8 +80,12 @@ abstract class _IbanAddressBookStoreBase with Store {
       ibanController.text = predContactData?.iban?.replaceAll(' ', '') ?? '';
       bicController.text = predContactData?.bic ?? '';
       fullnameController.text = predContactData?.fullName ?? '';
-      country =
-          countriesList.countries.firstWhere((element) => element.countryCode == (predContactData?.bankCountry ?? ''));
+
+      final countryIndex =
+          countriesList.countries.indexWhere((element) => element.countryCode == (predContactData?.bankCountry ?? ''));
+      if (countryIndex != -1) {
+        country = countriesList.countries[countryIndex];
+      }
 
       checkButton();
     }
