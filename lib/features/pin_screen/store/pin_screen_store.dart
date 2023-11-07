@@ -310,6 +310,9 @@ abstract class _PinScreenStoreBase with Store {
 
         await resetPin();
 
+        print('isChangePhone');
+        print('isChangePin');
+        print(isChangePhone);
         if (isChangePhone || isChangePin) {
           showForgot = true;
         }
@@ -365,6 +368,8 @@ abstract class _PinScreenStoreBase with Store {
         onError: (ServerRejectException error) async {
           sAnalytics.signInFlowErrorPin(error: error.cause);
 
+          print('isChangePhone');
+          print(isChangePhone);
           if (isChangePhone) {
             showForgot = true;
           }

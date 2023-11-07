@@ -641,6 +641,10 @@ class SignalRModuleNew {
     );
 
     _hubConnection?.on(bankingProfileMessage, handler.bankingProfileHandler);
+    _hubConnection?.on(bankingProfileMessage, (value) {
+      print('bankingProfileMessage');
+      print(value);
+    });
 
     _hubConnection?.on(pendingOperationCountMessage, handler.pendingOperationCountHandler);
 

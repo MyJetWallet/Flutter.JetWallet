@@ -9,6 +9,10 @@ class SimpleLightLinkButtonText extends StatelessWidget {
     this.defaultIcon,
     this.pressedIcon,
     this.inactiveIcon,
+    this.activeColor,
+    this.inactiveColor,
+    this.textStyle,
+    this.mainAxisAlignment,
     required this.name,
     required this.onTap,
     required this.active,
@@ -17,6 +21,11 @@ class SimpleLightLinkButtonText extends StatelessWidget {
   final String name;
   final Function() onTap;
   final bool active;
+
+  final Color? activeColor;
+  final Color? inactiveColor;
+  final TextStyle? textStyle;
+  final MainAxisAlignment? mainAxisAlignment;
 
   final Widget? defaultIcon;
   final Widget? pressedIcon;
@@ -28,11 +37,13 @@ class SimpleLightLinkButtonText extends StatelessWidget {
       name: name,
       onTap: onTap,
       active: active,
-      activeColor: SColorsLight().blue,
-      inactiveColor: SColorsLight().grey4,
+      activeColor: activeColor ?? SColorsLight().blue,
+      inactiveColor: inactiveColor ?? SColorsLight().grey4,
       defaultIcon: defaultIcon,
       pressedIcon: pressedIcon,
       inactiveIcon: inactiveIcon,
+      textStyle: textStyle,
+      mainAxisAlignment: mainAxisAlignment,
     );
   }
 }

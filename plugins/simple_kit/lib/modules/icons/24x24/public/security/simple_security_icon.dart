@@ -5,12 +5,17 @@ import 'package:simple_kit/modules/icons/24x24/light/security/simple_light_secur
 import 'package:simple_kit/utils/enum.dart';
 
 class SSecurityIcon extends StatelessObserverWidget {
-  const SSecurityIcon({Key? key}) : super(key: key);
+  const SSecurityIcon({
+    Key? key,
+    this.color,
+  }) : super(key: key);
+
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return sKit.currentTheme == STheme.dark
-        ? const SimpleLightSecurityIcon()
-        : const SimpleLightSecurityIcon();
+        ? SimpleLightSecurityIcon(color: color)
+        : SimpleLightSecurityIcon(color: color);
   }
 }

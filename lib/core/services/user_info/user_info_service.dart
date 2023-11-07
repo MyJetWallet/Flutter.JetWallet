@@ -74,6 +74,12 @@ abstract class _UserInfoServiceBase with Store {
   bool cardRequested = false;
 
   @observable
+  bool isSimpleCardAvailable = true;
+
+  @observable
+  bool isSimpleCardInProgress = false;
+
+  @observable
   String email = '';
 
   @observable

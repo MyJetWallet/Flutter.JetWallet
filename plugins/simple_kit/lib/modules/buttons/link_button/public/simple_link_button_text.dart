@@ -10,6 +10,10 @@ class SLinkButtonText extends StatelessObserverWidget {
     this.defaultIcon,
     this.pressedIcon,
     this.inactiveIcon,
+    this.activeColor,
+    this.inactiveColor,
+    this.textStyle,
+    this.mainAxisAlignment,
     required this.name,
     required this.onTap,
     required this.active,
@@ -18,6 +22,11 @@ class SLinkButtonText extends StatelessObserverWidget {
   final String name;
   final Function() onTap;
   final bool active;
+
+  final Color? activeColor;
+  final Color? inactiveColor;
+  final TextStyle? textStyle;
+  final MainAxisAlignment? mainAxisAlignment;
 
   final Widget? defaultIcon;
   final Widget? pressedIcon;
@@ -30,17 +39,25 @@ class SLinkButtonText extends StatelessObserverWidget {
             name: name,
             onTap: onTap,
             active: active,
+            activeColor: activeColor,
+            inactiveColor: inactiveColor,
             defaultIcon: defaultIcon,
             pressedIcon: pressedIcon,
             inactiveIcon: inactiveIcon,
+            textStyle: textStyle,
+            mainAxisAlignment: mainAxisAlignment,
           )
         : SimpleLightLinkButtonText(
             name: name,
             onTap: onTap,
             active: active,
+            activeColor: activeColor,
+            inactiveColor: inactiveColor,
             defaultIcon: defaultIcon,
             pressedIcon: pressedIcon,
             inactiveIcon: inactiveIcon,
+            textStyle: textStyle,
+            mainAxisAlignment: mainAxisAlignment,
           );
   }
 }

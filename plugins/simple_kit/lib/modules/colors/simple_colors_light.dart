@@ -122,4 +122,7 @@ class SColorsLight implements SimpleColors {
 
   @override
   Color purple = const Color(0xFF374CFA);
+
+  @override
+  Color lightPurple = const Color(0xFF9575F3);
 }

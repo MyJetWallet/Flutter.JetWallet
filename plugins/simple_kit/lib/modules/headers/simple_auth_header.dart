@@ -19,6 +19,7 @@ class SLargeHeader extends StatelessWidget {
     this.showSupportButton = false,
     this.isAutoSize = false,
     this.hideBackButton = false,
+    this.showCloseButton = false,
     this.maxLines = 1,
     required this.title,
     this.titleStyle,
@@ -34,6 +35,7 @@ class SLargeHeader extends StatelessWidget {
   final bool showSupportButton;
   final bool isAutoSize;
   final bool hideBackButton;
+  final bool showCloseButton;
   final String title;
   final int progressValue;
   final int maxLines;
@@ -77,6 +79,11 @@ class SLargeHeader extends StatelessWidget {
                       SIconButton(
                         onTap: onSupportButtonTap,
                         defaultIcon: const SFaqIcon(),
+                      ),
+                    if (showCloseButton)
+                      SIconButton(
+                        onTap: onBackButtonTap,
+                        defaultIcon: const SCloseIcon(),
                       ),
                   ],
                 ),

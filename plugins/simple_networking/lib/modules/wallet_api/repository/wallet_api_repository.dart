@@ -107,6 +107,11 @@ import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/wi
 import '../../../simple_networking.dart';
 import '../models/iban_info/iban_info_response_model.dart';
 import '../models/profile/profile_set_address_request.dart';
+import '../models/simple_card/simple_card_create_request.dart';
+import '../models/simple_card/simple_card_create_response.dart';
+import '../models/simple_card/simple_card_sensitive_request.dart';
+import '../models/simple_card/simple_card_set_password_request.dart';
+import '../models/simple_card/simple_card_sevsitive_response.dart';
 
 class WalletApiRepository {
   WalletApiRepository(this._apiClient) {
@@ -821,5 +826,42 @@ class WalletApiRepository {
 
   Future<DC<ServerRejectException, String>> postBankingKycStart() async {
     return _walletApiDataSources.postBankingKycStartRequest();
+  }
+
+  // simple card
+  Future<DC<ServerRejectException, SimpleCardCreateResponse>> postSimpleCardCreate({
+    required SimpleCardCreateRequest data,
+  }) async {
+    return _walletApiDataSources.postSimpleCardCreateRequest(data);
+  }
+
+  Future<DC<ServerRejectException, SimpleCardSensitiveResponse>> postSensitiveData({
+    required SimpleCardSensitiveRequest data,
+  }) async {
+    return _walletApiDataSources.postSensitiveDataRequest(data);
+  }
+
+  Future<DC<ServerRejectException, void>> postCardSetPassword({
+    required SimpleCardSetPasswordRequest data,
+  }) async {
+    return _walletApiDataSources.postCardSetPasswordRequest(data);
+  }
+
+  Future<DC<ServerRejectException, void>> postCardChangePassword({
+    required SimpleCardSetPasswordRequest data,
+  }) async {
+    return _walletApiDataSources.postCardChangePasswordRequest(data);
+  }
+
+  Future<DC<ServerRejectException, void>> postCardFreeze({
+    required String cardId,
+  }) async {
+    return _walletApiDataSources.postCardFreezeRequest(cardId: 'cardId');
+  }
+
+  Future<DC<ServerRejectException, void>> postCardUnfreeze({
+    required String cardId,
+  }) async {
+    return _walletApiDataSources.postCardUnfreezeRequest(cardId: 'cardId');
   }
 }

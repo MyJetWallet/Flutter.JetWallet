@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/simple_card/store/simple_card_store.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_header.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
@@ -11,6 +12,11 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
+
+import '../../../../../core/di/di.dart';
+import '../../../../../core/services/user_info/user_info_service.dart';
+import '../../../../simple_card/ui/widgets/card_options.dart';
 
 class EurWalletBody extends StatefulObserverWidget {
   const EurWalletBody({
@@ -64,6 +70,9 @@ class _EurWalletBodyState extends State<EurWalletBody> {
     final bankAccounts = sSignalRModules.bankingProfileData?.banking?.accounts ?? <SimpleBankingAccount>[];
     final simpleAccount = sSignalRModules.bankingProfileData?.simple?.account;
 
+    final userInfo = getIt.get<UserInfoService>();
+    final simpleCardStore = getIt.get<SimpleCardStore>();
+
     final colors = sKit.colors;
 
     return Stack(
@@ -99,34 +108,87 @@ class _EurWalletBodyState extends State<EurWalletBody> {
               ),
             ),
             SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24.0,
-                  vertical: 16,
-                ),
-                child: Row(
+              child: SCardRow(
+                icon: const Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SCardIcon(),
-                    const SpaceW12(),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          intl.eur_wallet_simple_card,
-                          style: sSubtitle1Style,
+                    SpaceH6(),
+                    SCardIcon(
+                      width: 24,
+                      height: 16,
+                    ),
+                  ],
+                ),
+                name: intl.eur_wallet_simple_card,
+                helper: !userInfo.isSimpleCardAvailable
+                    ? intl.eur_wallet_coming_soon
+                    : simpleCardStore.card != null
+                    ? intl.simple_card_type_virtual
+                    : '',
+                onTap: () {
+                  if (
+                    simpleCardStore.card != null &&
+                    simpleCardStore.card!.status == AccountStatusCard.active
+                  ) {
+                    sRouter.push(const SimpleCardRouter());
+                  }
+                },
+                description: '',
+                amount: '',
+                needSpacer: true,
+                rightIcon: simpleCardStore.card != null &&
+                    simpleCardStore.card!.status == AccountStatusCard.active
+                  ? Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                          side: const BorderSide(color: Color(0xFFF1F4F8)),
+                          borderRadius: BorderRadius.circular(22),
                         ),
-                        Text(
-                          intl.eur_wallet_coming_soon,
-                          style: sBodyText2Style.copyWith(
-                            color: sKit.colors.grey1,
+                      ),
+                      child: Text(
+                        volumeFormat(
+                          decimal: simpleCardStore.card?.balance ?? Decimal.zero,
+                          accuracy: eurCurrency.accuracy,
+                          symbol: eurCurrency.symbol,
+                        ),
+                        style: sSubtitle1Style.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    )
+                  : null,
+              ),
+            ),
+            if (userInfo.isSimpleCardAvailable && simpleCardStore.card == null) ...[
+              SliverToBoxAdapter(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SpaceH8(),
+                    SPaddingH24(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          left: 36,
+                        ),
+                        child: SIconTextButton(
+                          onTap: () {
+                            showCardOptions(context);
+                          },
+                          text: intl.simple_card_get_card,
+                          textStyle: sTextButtonStyle.copyWith(
+                            color: userInfo.isSimpleCardInProgress ? sKit.colors.grey2 : sKit.colors.blue,
+                          ),
+                          icon: SActionDepositIcon(
+                            color: userInfo.isSimpleCardInProgress ? sKit.colors.grey2 : sKit.colors.blue,
                           ),
                         ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
               ),
-            ),
+            ],
             const SliverPadding(padding: EdgeInsets.only(top: 24)),
             SliverToBoxAdapter(
               child: Padding(

@@ -28,6 +28,9 @@ import 'package:simple_kit/modules/icons/24x24/public/start_reorder/simple_start
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
+import '../../../core/services/user_info/user_info_service.dart';
+import '../../simple_card/ui/widgets/get_card_banner.dart';
+
 @RoutePage(name: 'MyWalletsRouter')
 class MyWalletsScreen extends StatefulObserverWidget {
   const MyWalletsScreen({super.key});
@@ -84,6 +87,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
+    final userInfo = getIt.get<UserInfoService>();
 
     final list = slidableItems();
 
@@ -170,6 +174,8 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                           const SliverToBoxAdapter(child: SpaceH32()),
                           const SliverToBoxAdapter(child: ActionsMyWalletsRowWidget()),
                           const SliverToBoxAdapter(child: SpaceH28()),
+                          if (userInfo.isSimpleCardAvailable)
+                            const SliverToBoxAdapter(child: GetCardBanner()),
                           if (store.countOfPendingTransactions > 0) ...[
                             SliverToBoxAdapter(
                               child: PendingTransactionsWidget(

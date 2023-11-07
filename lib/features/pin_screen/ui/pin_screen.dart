@@ -29,6 +29,7 @@ class PinScreen extends StatelessWidget {
     this.displayHeader = true,
     this.cannotLeave = false,
     this.isChangePhone = false,
+    this.isConfirmCard = false,
     this.isChangePin = false,
     this.fromRegister = true,
     this.isForgotPassword = false,
@@ -43,6 +44,7 @@ class PinScreen extends StatelessWidget {
   final bool displayHeader;
   final bool cannotLeave;
   final bool isChangePhone;
+  final bool isConfirmCard;
   final bool isChangePin;
   final bool isForgotPassword;
   final Function(String)? onChangePhone;
@@ -69,6 +71,7 @@ class PinScreen extends StatelessWidget {
         fromRegister: fromRegister,
         cannotLeave: cannotLeave,
         isChangePhone: isChangePhone,
+        isConfirmCard: isConfirmCard,
         isForgotPassword: isForgotPassword,
         union: union,
         onBackPressed: onBackPressed,
@@ -83,6 +86,7 @@ class _PinScreenBody extends StatefulObserverWidget {
     this.cannotLeave = false,
     this.isForgotPassword = false,
     this.isChangePhone = false,
+    this.isConfirmCard = false,
     this.onBackPressed,
     required this.fromRegister,
     required this.union,
@@ -92,6 +96,7 @@ class _PinScreenBody extends StatefulObserverWidget {
   final bool cannotLeave;
   final bool isForgotPassword;
   final bool isChangePhone;
+  final bool isConfirmCard;
   final PinFlowUnion union;
   final bool fromRegister;
   final void Function()? onBackPressed;
@@ -144,13 +149,24 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
             children: [
               pin.screenUnion.when(
                 enterPin: () {
-                  if (widget.isChangePhone) {
+                  if (widget.isChangePhone && !widget.isConfirmCard) {
                     return SLargeHeader(
                       title: intl.pin_screen_confirm_withPin,
                       onBackButtonTap: () {
                         widget.onBackPressed != null ? widget.onBackPressed?.call() : sRouter.back();
                       },
                       titleStyle: sTextH3Style,
+                    );
+                  }
+                  if (widget.isConfirmCard) {
+                    return SLargeHeader(
+                      title: intl.pin_screen_confirm_withPin,
+                      onBackButtonTap: () {
+                        widget.onBackPressed != null ? widget.onBackPressed?.call() : sRouter.back();
+                      },
+                      titleStyle: sTextH4Style,
+                      hideBackButton: true,
+                      showCloseButton: true,
                     );
                   }
 
@@ -243,7 +259,13 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                 },
               ),
               const Spacer(),
-              if (!widget.displayHeader || pin.screenUnion == const PinScreenUnion.enterPin())
+              if (!widget.displayHeader || (
+                  !widget.isConfirmCard &&
+                  pin.screenUnion == const PinScreenUnion.enterPin()
+              ) || (widget.isConfirmCard &&
+                  pin.screenUnion == const PinScreenUnion.enterPin() &&
+                  pin.showForgot
+              ))
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
