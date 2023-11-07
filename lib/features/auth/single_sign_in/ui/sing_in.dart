@@ -126,13 +126,11 @@ class _SingInBody extends StatelessObserverWidget {
                                       credentials.updateAndValidateEmail(value);
 
                                       if (value.isEmpty) {
-                                        SingleSingInStore.of(context)
-                                            .setIsEmailError(false);
+                                        SingleSingInStore.of(context).setIsEmailError(false);
                                       }
                                     },
                                     onErase: () {
-                                      SingleSingInStore.of(context)
-                                          .setIsEmailError(false);
+                                      SingleSingInStore.of(context).setIsEmailError(false);
                                     },
                                     hideClearButton: credentials.email.isEmpty,
                                     onErrorIconTap: () {
@@ -140,8 +138,7 @@ class _SingInBody extends StatelessObserverWidget {
                                         intl.register_invalidEmail,
                                       );
                                     },
-                                    isError: SingleSingInStore.of(context)
-                                        .isEmailError,
+                                    isError: SingleSingInStore.of(context).isEmailError,
                                   );
                                 },
                               ),
@@ -190,11 +187,9 @@ class _SingInBody extends StatelessObserverWidget {
 
                                 signInStore.singleSingIn();
                               } else {
-                                SingleSingInStore.of(context)
-                                    .setIsEmailError(true);
+                                SingleSingInStore.of(context).setIsEmailError(true);
 
-                                sNotification
-                                    .showError(intl.register_invalidEmail);
+                                sNotification.showError(intl.register_invalidEmail);
                               }
                             },
                           ),
