@@ -1057,6 +1057,7 @@
     "iban_edit_delete_noty": "Account details were deleted",
     "iban_out_send": "Send",
     "iban_out_label": "Label",
+    "iban_out_sent_to": "Send to",
     "iban_out_iban": "IBAN",
     "iban_out_bic": "BIC",
     "iban_out_benificiary": "Benificiary",

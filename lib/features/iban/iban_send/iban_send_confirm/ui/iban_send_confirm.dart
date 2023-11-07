@@ -137,7 +137,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                   ),
                   const SDivider(),
                   SActionConfirmText(
-                    name: intl.iban_out_label,
+                    name: isCJ ? intl.iban_out_label : intl.iban_out_sent_to,
                     icon: isCJ ? const BlueBankIcon(size: 20) : const BlueBankUnlimitIcon(size: 20),
                     value: contact.name ?? '',
                   ),
