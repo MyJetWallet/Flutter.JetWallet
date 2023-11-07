@@ -9,14 +9,14 @@ import 'components/country_profile_warning.dart';
 class CountryProfileItem extends StatelessObserverWidget {
   const CountryProfileItem({
     super.key,
-    required this.onTap,
+    this.onTap,
     required this.countryCode,
     required this.countryName,
     required this.isBlocked,
     this.needPadding = true,
   });
 
-  final Function() onTap;
+  final Function()? onTap;
   final String countryCode;
   final String countryName;
   final bool isBlocked;

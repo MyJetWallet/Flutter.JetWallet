@@ -58,25 +58,23 @@ void showCountryOfBank(BuildContext context, Function(Country) onTap) {
     removeBarPadding: true,
     removePinnedPadding: true,
     children: [
-      SizedBox(
-        height: MediaQuery.of(context).size.height,
-        child: ListView.builder(
-          shrinkWrap: true,
-          padding: EdgeInsets.zero,
-          itemCount: countriesList.countries.length,
-          itemBuilder: (context, index) {
-            return CountryProfileItem(
-              onTap: () {
-                onTap(countriesList.countries[index]);
+      ListView.builder(
+        shrinkWrap: true,
+        padding: EdgeInsets.zero,
+        itemCount: countriesList.countries.length,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return CountryProfileItem(
+            onTap: () {
+              onTap(countriesList.countries[index]);
 
-                sRouter.pop();
-              },
-              countryCode: countriesList.countries[index].countryCode,
-              countryName: countriesList.countries[index].countryName,
-              isBlocked: false,
-            );
-          },
-        ),
+              sRouter.pop();
+            },
+            countryCode: countriesList.countries[index].countryCode,
+            countryName: countriesList.countries[index].countryName,
+            isBlocked: false,
+          );
+        },
       ),
       const SpaceH24(),
     ],

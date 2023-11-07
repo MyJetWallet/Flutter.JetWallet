@@ -17,6 +17,7 @@ class BankingWithdrawalPreviewResponse with _$BankingWithdrawalPreviewResponse {
     final bool? deviceBindingRequired,
     @DecimalNullSerialiser() final Decimal? simpleFeeAmount,
     final String? simpleFeeAsset,
+    final String? fullName,
   }) = _BankingWithdrawalPreviewResponse;
 
   factory BankingWithdrawalPreviewResponse.fromJson(Map<String, dynamic> json) =>

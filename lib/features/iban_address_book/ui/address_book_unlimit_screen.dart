@@ -97,7 +97,6 @@ class _BodyAdressBookUnlimit extends StatelessObserverWidget {
                                   ),
                                 ),
                                 CountryProfileItem(
-                                  onTap: () {},
                                   countryCode: store.country!.countryCode,
                                   countryName: store.country!.countryName,
                                   isBlocked: false,

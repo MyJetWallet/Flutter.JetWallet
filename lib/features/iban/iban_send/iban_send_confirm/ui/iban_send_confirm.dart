@@ -151,7 +151,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                   ),
                   SActionConfirmText(
                     name: intl.iban_out_benificiary,
-                    value: isCJ ? '${sUserInfo.firstName} ${sUserInfo.lastName}' : previewRequest.beneficiaryName ?? '',
+                    value: isCJ ? '${sUserInfo.firstName} ${sUserInfo.lastName}' : data.fullName ?? '',
                   ),
                   if (!isCJ) ...[
                     SActionConfirmText(
