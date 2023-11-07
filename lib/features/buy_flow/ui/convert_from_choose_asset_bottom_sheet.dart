@@ -14,13 +14,14 @@ import '../../../utils/models/currency_model.dart';
 import '../../actions/helpers/show_currency_search.dart';
 import '../../actions/store/action_search_store.dart';
 
-void showConvertChooseAssetBottomSheet({
+void showConvertFromChooseAssetBottomSheet({
   required BuildContext context,
   required void Function(CurrencyModel currency) onChooseAsset,
+  String? skipAssetSymbol,
 }) {
   final searchStore = getIt.get<ActionSearchStore>();
   final currenciesList = sSignalRModules.currenciesList.where((currency) {
-    return currency.assetBalance != Decimal.zero;
+    return (currency.assetBalance != Decimal.zero) && (currency.symbol != skipAssetSymbol);
   }).toList();
 
   searchStore.init(

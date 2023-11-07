@@ -137,7 +137,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                     accuracy: paymentCurrency.accuracy,
                     decimal: store.paymentAmount ?? Decimal.zero,
                   ),
-                  paymentCurrency: paymentCurrency,
+                  paymentCurrency: store.payCurrency,
                   asset: store.buyCurrency,
                   account: account,
                 ),

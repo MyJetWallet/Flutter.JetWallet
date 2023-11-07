@@ -5,8 +5,8 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/buy_flow/store/convert_amount_store.dart';
-import 'package:jetwallet/features/buy_flow/ui/convert_choose_asset_bottom_sheet.dart';
-import 'package:jetwallet/features/buy_flow/ui/convert_to_choose_asset_bottom_sheet%20copy.dart';
+import 'package:jetwallet/features/buy_flow/ui/convert_from_choose_asset_bottom_sheet.dart';
+import 'package:jetwallet/features/buy_flow/ui/convert_to_choose_asset_bottom_sheet.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/buy_option_widget.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -89,12 +89,13 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                       url: store.fromAsset?.iconUrl ?? '',
                     ),
                     onTap: () {
-                      showConvertChooseAssetBottomSheet(
+                      showConvertFromChooseAssetBottomSheet(
                         context: context,
                         onChooseAsset: (currency) {
                           store.setNewFromAsset(currency);
                           Navigator.of(context).pop();
                         },
+                        skipAssetSymbol: store.toAsset?.symbol,
                       );
                     },
                   )
@@ -103,12 +104,13 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                     subTitle: intl.amount_screen_convert,
                     icon: const SCryptoIcon(),
                     onTap: () {
-                      showConvertChooseAssetBottomSheet(
+                      showConvertFromChooseAssetBottomSheet(
                         context: context,
                         onChooseAsset: (currency) {
                           store.setNewFromAsset(currency);
                           Navigator.of(context).pop();
                         },
+                        skipAssetSymbol: store.toAsset?.symbol,
                       );
                     },
                   ),
@@ -128,6 +130,7 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                           store.setNewToAsset(currency);
                           Navigator.of(context).pop();
                         },
+                        skipAssetSymbol: store.fromAsset?.symbol,
                       );
                     },
                   )
@@ -142,6 +145,7 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                           store.setNewToAsset(currency);
                           Navigator.of(context).pop();
                         },
+                        skipAssetSymbol: store.fromAsset?.symbol,
                       );
                     },
                   ),

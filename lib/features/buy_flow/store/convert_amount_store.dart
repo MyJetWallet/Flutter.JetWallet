@@ -85,7 +85,7 @@ abstract class _ConvertAmountStoreBase with Store {
   void init({
     CurrencyModel? inputAsset,
   }) {
-    fromAsset = inputAsset;
+    toAsset = inputAsset;
   }
 
   @action
@@ -233,13 +233,13 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @computed
   Decimal get minLimit {
-    return fromAsset?.minTradeAmount ?? Decimal.zero;
+    return (isFromEntering ? fromAsset?.minTradeAmount : toAsset?.minTradeAmount) ?? Decimal.zero;
   }
 
   @computed
   Decimal get maxLimit {
-    final assetBalance = fromAsset?.assetBalance ?? Decimal.zero;
-    final maxTradeAmount = fromAsset?.maxTradeAmount ?? Decimal.zero;
+    final assetBalance = (isFromEntering ? fromAsset?.assetBalance : toAsset?.assetBalance) ?? Decimal.zero;
+    final maxTradeAmount = (isFromEntering ? fromAsset?.maxTradeAmount : toAsset?.maxTradeAmount) ?? Decimal.zero;
 
     return (assetBalance < maxTradeAmount ? assetBalance : maxTradeAmount) * _availablePresentForProcessing;
   }

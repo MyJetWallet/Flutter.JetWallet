@@ -186,7 +186,7 @@ abstract class _SellAmountStoreBase with Store {
 
   @action
   void onSwap() {
-    isFiatEntering = isFiatEntering;
+    isFiatEntering = !isFiatEntering;
   }
 
   @computed

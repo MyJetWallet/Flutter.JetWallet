@@ -101,15 +101,15 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
               controller: tabController,
               children: [
                 BuyAmountTabBody(
-                  asset: widget.tab.index == 0 ? widget.asset : null,
-                  card: widget.tab.index == 0 ? widget.card : null,
-                  account: widget.tab.index == 0 ? widget.account : null,
+                  asset: widget.asset,
+                  card: widget.card,
+                  account: widget.account,
                 ),
                 SellAmountTabBody(
-                  asset: widget.tab.index == 1 ?  widget.asset : null,
+                  asset: widget.asset,
                 ),
-                 ConvertAmountTabBody(
-                  asset: widget.tab.index == 2 ?  widget.asset : null,
+                ConvertAmountTabBody(
+                  asset: widget.asset,
                 ),
               ],
             ),

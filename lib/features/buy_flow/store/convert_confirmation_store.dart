@@ -14,11 +14,7 @@ import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
-import 'package:jetwallet/core/services/user_info/user_info_service.dart';
-import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
-import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
-import 'package:jetwallet/utils/helpers/country_code_by_user_register.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
@@ -87,9 +83,6 @@ abstract class _ConvertConfirmationStoreBase with Store {
   String paymentId = '';
   @observable
   int actualTimeInSecond = 30;
-
-  @observable
-  bool deviceBindingRequired = false;
 
   @observable
   Decimal price = Decimal.zero;
@@ -210,7 +203,6 @@ abstract class _ConvertConfirmationStoreBase with Store {
           rate = data.price;
           paymentId = data.operationId;
           actualTimeInSecond = data.expirationTime;
-          deviceBindingRequired = false;
         },
         onError: (error) {
           loader.finishLoadingImmediately();
@@ -350,22 +342,8 @@ abstract class _ConvertConfirmationStoreBase with Store {
 
   @action
   Future<void> _requestPaymentAccaunt() async {
-    var pin = '';
     try {
       termiteUpdate();
-
-      await sRouter.push(
-        PinScreenRoute(
-          union: const Change(),
-          isChangePhone: true,
-          onChangePhone: (String newPin) async {
-            pin = newPin;
-            await sRouter.pop();
-          },
-        ),
-      );
-
-      if (pin == '') return;
 
       showProcessing = true;
       wasAction = true;
@@ -376,57 +354,6 @@ abstract class _ConvertConfirmationStoreBase with Store {
         paymentMethodName: 'account',
         paymentMethodCurrency: depositFeeCurrency.symbol,
       );
-      if (deviceBindingRequired) {
-        var continueBuying = false;
-
-        final formatedAmaunt = volumeFormat(
-          symbol: paymentAsset ?? '',
-          accuracy: payCurrency.accuracy,
-          decimal: paymentAmount ?? Decimal.zero,
-        );
-        await Future.delayed(const Duration(milliseconds: 500));
-        await sShowAlertPopup(
-          sRouter.navigatorKey.currentContext!,
-          primaryText: '',
-          secondaryText:
-              '${intl.binding_phone_dialog_first_part} $formatedAmaunt ${intl.binding_phone_dialog_second_part} $simpleCompanyName',
-          primaryButtonName: intl.binding_phone_dialog_confirm,
-          secondaryButtonName: intl.binding_phone_dialog_cancel,
-          image: Image.asset(
-            infoLightAsset,
-            width: 80,
-            height: 80,
-            package: 'simple_kit',
-          ),
-          onPrimaryButtonTap: () {
-            continueBuying = true;
-            sRouter.pop();
-          },
-          onSecondaryButtonTap: () {
-            continueBuying = false;
-            sRouter.pop();
-          },
-        );
-
-        if (!continueBuying) return;
-
-        final phoneNumber = countryCodeByUserRegister();
-        var isVerifaierd = false;
-        await sRouter.push(
-          PhoneVerificationRouter(
-            args: PhoneVerificationArgs(
-              isDeviceBinding: true,
-              phoneNumber: sUserInfo.phone,
-              activeDialCode: phoneNumber,
-              onVerified: () {
-                isVerifaierd = true;
-                sRouter.pop();
-              },
-            ),
-          ),
-        );
-        if (!isVerifaierd) return;
-      }
 
       loader.startLoadingImmediately();
 
