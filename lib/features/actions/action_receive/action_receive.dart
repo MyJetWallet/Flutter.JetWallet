@@ -162,114 +162,11 @@ class _ActionReceive extends StatelessObserverWidget {
           (element) => element.type == AssetType.crypto && element.supportsCryptoDeposit,
         )
         .length;
-    final showFiatLength = sSignalRModules.currenciesList
-        .where(
-          (element) => element.type == AssetType.fiat && element.supportsCryptoDeposit,
-        )
-        .length;
 
     final showSearch = showReceiveCurrencySearch(context) && state.showCrypto;
 
     return Column(
       children: [
-        if (cryptoSearchLength != 0 && showFiatLength != 0) ...[
-          Stack(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  state.updateShowCrypto(!state.showCrypto);
-                  state.search('');
-                  state.searchController.text = '';
-                },
-                child: Container(
-                  width: MediaQuery.of(context).size.width - 48,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: colors.grey5,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 9),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: (MediaQuery.of(context).size.width - 48) / 2,
-                          child: Center(
-                            child: Text(
-                              intl.actionDeposit_crypto,
-                              style: sSubtitle3Style.copyWith(
-                                color: colors.grey3,
-                                height: 1,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: (MediaQuery.of(context).size.width - 48) / 2,
-                          child: Center(
-                            child: Text(
-                              intl.actionDeposit_fiat,
-                              style: sSubtitle3Style.copyWith(
-                                color: colors.grey3,
-                                height: 1,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              if (state.showCrypto)
-                Positioned(
-                  left: 0,
-                  child: Container(
-                    width: (MediaQuery.of(context).size.width - 48) / 2,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: colors.black,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 9),
-                      child: Center(
-                        child: Text(
-                          intl.actionDeposit_crypto,
-                          style: sSubtitle3Style.copyWith(
-                            color: colors.white,
-                            height: 1,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              else
-                Positioned(
-                  right: 0,
-                  child: Container(
-                    width: (MediaQuery.of(context).size.width - 48) / 2,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: colors.black,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 9),
-                      child: Center(
-                        child: Text(
-                          intl.actionDeposit_fiat,
-                          style: sSubtitle3Style.copyWith(
-                            color: colors.white,
-                            height: 1,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-            ],
-          ),
-          const SpaceH12(),
-        ],
         if (showSearch) ...[
           SPaddingH24(
             child: SStandardField(
