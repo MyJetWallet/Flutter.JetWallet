@@ -72,7 +72,7 @@ abstract class _IbanSendConfirmStoreBase with Store {
       final formatedAmaunt = volumeFormat(
         symbol: eurCurrency.symbol,
         accuracy: eurCurrency.accuracy,
-        decimal: Decimal.fromInt(200),
+        decimal: data.amount ?? Decimal.fromInt(200),
       );
       await Future.delayed(const Duration(milliseconds: 500));
       await sShowAlertPopup(
