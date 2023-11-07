@@ -125,6 +125,7 @@ abstract class _IbanSendConfirmStoreBase with Store {
       accountId: previewRequest.accountId,
       requestId: requestId,
       toIbanAddress: previewRequest.toIbanAddress,
+      contactId: previewRequest.contactId,
       assetSymbol: 'EUR',
       amount: data.amount,
       description: previewRequest.description,

@@ -22,6 +22,7 @@ class BankingWithdrawalRequest with _$BankingWithdrawalRequest {
     final String? intermediaryBankCode,
     final String? intermediaryBankAccount,
     final bool? expressPayment,
+    final String? contactId,
   }) = _BankingWithdrawalRequest;
 
   factory BankingWithdrawalRequest.fromJson(Map<String, dynamic> json) => _$BankingWithdrawalRequestFromJson(json);
