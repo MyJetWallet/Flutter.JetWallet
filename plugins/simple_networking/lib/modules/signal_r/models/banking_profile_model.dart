@@ -13,7 +13,13 @@ class BankingProfileModel with _$BankingProfileModel {
     @BankingShowStateSerialiser() final BankingShowState? showState,
   }) = _BankingProfileModel;
 
+  const BankingProfileModel._();
+
   factory BankingProfileModel.fromJson(Map<String, dynamic> json) => _$BankingProfileModelFromJson(json);
+
+  bool get isAvaibleAnyAccount {
+    return simple?.account != null && (banking?.accounts ?? []).isNotEmpty;
+  }
 }
 
 @freezed
