@@ -30,7 +30,6 @@ class WalletHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final isInProgress = curr.assetBalance == Decimal.zero && curr.isPendingDeposit;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -73,13 +72,11 @@ class WalletHeader extends StatelessWidget {
                       const SpaceH2(),
                       if (isEurWallet)
                         Text(
-                          isInProgress
-                              ? '${intl.walletCard_balanceInProcess}...'
-                              : volumeFormat(
-                                  decimal: sSignalRModules.totalEurWalletBalance,
-                                  accuracy: curr.accuracy,
-                                  symbol: curr.symbol,
-                                ),
+                          volumeFormat(
+                            decimal: sSignalRModules.totalEurWalletBalance,
+                            accuracy: curr.accuracy,
+                            symbol: curr.symbol,
+                          ),
                           style: sTextH2Style.copyWith(
                             color: sKit.colors.black,
                           ),
@@ -88,9 +85,7 @@ class WalletHeader extends StatelessWidget {
                         ),
                       if (!isEurWallet)
                         Text(
-                          isInProgress
-                              ? '${intl.walletCard_balanceInProcess}...'
-                              : curr.volumeBaseBalance(getIt.get<FormatService>().baseCurrency),
+                          curr.volumeBaseBalance(getIt.get<FormatService>().baseCurrency),
                           style: sTextH2Style.copyWith(
                             color: sKit.colors.black,
                           ),
