@@ -182,10 +182,17 @@ abstract class _MyWalletsSroreBase with Store {
 
   @computed
   String get simpleAccountButtonText {
-    final bankAccountsCount = sSignalRModules.bankingProfileData?.banking?.accounts?.length ?? 0;
+    final bankAccountsCount = (sSignalRModules.bankingProfileData?.banking?.accounts ?? [])
+        .where((element) => element.status == AccountStatus.active)
+        .length;
+
+    final bankAccountsInCreationCount = (sSignalRModules.bankingProfileData?.banking?.accounts ?? [])
+        .where((element) => element.status == AccountStatus.inCreation)
+        .length;
+
     var allAccountsCount = bankAccountsCount;
     if (sSignalRModules.bankingProfileData?.simple != null) {
-      allAccountsCount++;
+      if (sSignalRModules.bankingProfileData?.simple?.account?.status == AccountStatus.active) allAccountsCount++;
     }
 
     switch (buttonStatus) {
@@ -196,7 +203,16 @@ abstract class _MyWalletsSroreBase with Store {
       case BankingShowState.inProgress:
         return intl.my_wallets_create_account;
       case BankingShowState.accountList:
-        return '$allAccountsCount ${intl.my_wallets_account}';
+        return (sSignalRModules.bankingProfileData?.banking?.accounts ?? [])
+                .where((element) => element.status == AccountStatus.inCreation)
+                .isNotEmpty
+            ? allAccountsCount > 1
+                ? '$allAccountsCount ${intl.my_wallets_accounts} + $bankAccountsInCreationCount ${intl.creating}'
+                : '$allAccountsCount ${intl.my_wallets_account} + $bankAccountsInCreationCount ${intl.creating}'
+            : allAccountsCount > 1
+                ? '$allAccountsCount ${intl.my_wallets_accounts}'
+                : '$allAccountsCount ${intl.my_wallets_account}';
+
       case BankingShowState.onlySimple:
         return '1 ${intl.my_wallets_account}';
       default:

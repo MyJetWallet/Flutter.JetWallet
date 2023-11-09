@@ -44,7 +44,7 @@ Duration getDurationFromBlocker(String timespanToExpire) {
 void showSendTimerAlertOr({
   required BuildContext context,
   required void Function() or,
-  required BlockingType from,
+  required List<BlockingType> from,
 }) {
   final clientDetail = sSignalRModules.clientDetail;
 
@@ -52,7 +52,7 @@ void showSendTimerAlertOr({
     return or();
   } else {
     final ind = clientDetail.clientBlockers.indexWhere(
-      (element) => element.blockingType == from,
+      (element) => from.contains(element.blockingType),
     );
 
     return ind != -1
@@ -61,6 +61,7 @@ void showSendTimerAlertOr({
                 DateTime.now().add(
                   getDurationFromBlocker(clientDetail.clientBlockers[ind].timespanToExpire),
                 ),
+                from,
           )
         : or();
   }
@@ -68,11 +69,27 @@ void showSendTimerAlertOr({
 
 void _showTimerAlert(
   DateTime expireIn,
+  List<BlockingType> from,
 ) {
   final expireFormatted = DateFormat('d MMM y', intl.localeName).format(expireIn);
 
+  String getDescription() {
+    switch (from.first) {
+      case BlockingType.deposit:
+        return intl.deposit_timer_alert_description;
+      case BlockingType.withdrawal:
+        return intl.send_timer_alert_description;
+      case BlockingType.trade:
+        return intl.trade_timer_alert_description;
+      case BlockingType.phoneNumberUpdate:
+        return intl.phone_update_block;
+      default:
+        return intl.send_timer_alert_description;
+    }
+  }
+
   sNotification.showError(
-    '${intl.message_operation_is_suspended} $expireFormatted',
+    '${getDescription()} $expireFormatted',
     id: 1,
     hideIcon: true,
   );

@@ -7,6 +7,7 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/wallet/helper/market_item_from.dart';
+import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -95,23 +96,21 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
                   return;
                 }
 
-                if (checkUserBlock()) {
-                  sRouter
-                      .push(
-                    WalletRouter(
-                      currency: currency,
-                    ),
-                  )
-                      .then(
-                    (value) {
-                      sAnalytics.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen(
-                        openedAsset: currency.symbol,
-                      );
+                sRouter
+                    .push(
+                  WalletRouter(
+                    currency: currency,
+                  ),
+                )
+                    .then(
+                  (value) {
+                    sAnalytics.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen(
+                      openedAsset: currency.symbol,
+                    );
 
-                      sAnalytics.eurWalletTapBackOnAccountsScreen();
-                    },
-                  );
-                }
+                    sAnalytics.eurWalletTapBackOnAccountsScreen();
+                  },
+                );
               }
             }
           : null,
@@ -123,8 +122,6 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
   }
 
   bool checkUserBlock() {
-    return true;
-    // TODO(yaroslav): WHY??????????? Where is it written that we need to block an entire asset?
     if (sSignalRModules.clientDetail.clientBlockers.isNotEmpty) {
       sNotification.showError(
         intl.operation_is_unavailable,

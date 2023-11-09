@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
+import 'package:jetwallet/features/iban/iban_send/iban_send_amount/helpers/show_reference_sheet.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_amount/store/iban_send_amount_store.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_limits/iban_send_limits.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
@@ -12,6 +13,7 @@ import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 
 @RoutePage(name: 'IbanSendAmountRouter')
@@ -19,21 +21,32 @@ class IbanSendAmount extends StatelessWidget {
   const IbanSendAmount({
     super.key,
     required this.contact,
+    required this.bankingAccount,
+    required this.isCJ,
   });
 
   final AddressBookContactModel contact;
+  final SimpleBankingAccount bankingAccount;
+  final bool isCJ;
 
   @override
   Widget build(BuildContext context) {
     return Provider<IbanSendAmountStore>(
-      create: (context) => IbanSendAmountStore()..init(contact),
-      builder: (context, child) => const IbanSendAmountBody(),
+      create: (context) => IbanSendAmountStore()..init(contact, bankingAccount),
+      builder: (context, child) => IbanSendAmountBody(
+        isCJ: isCJ,
+      ),
     );
   }
 }
 
 class IbanSendAmountBody extends StatelessObserverWidget {
-  const IbanSendAmountBody({super.key});
+  const IbanSendAmountBody({
+    super.key,
+    required this.isCJ,
+  });
+
+  final bool isCJ;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +60,7 @@ class IbanSendAmountBody extends StatelessObserverWidget {
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: '${intl.iban_out_send} ${store.eurCurrency.symbol}',
+          title: intl.withdraw,
           subTitle: '${intl.withdrawalAmount_available}: ${volumeFormat(
             decimal: store.availableCurrency,
             accuracy: store.eurCurrency.accuracy,
@@ -79,12 +92,42 @@ class IbanSendAmountBody extends StatelessObserverWidget {
                   error: store.withAmmountInputError == InputError.limitError
                       ? store.limitError
                       : store.withAmmountInputError.value(),
-                  isErrorActive: store.withAmmountInputError.isActive,
+                  //isErrorActive: store.withAmmountInputError.isActive,
+                  isErrorActive: false,
                 ),
               ),
             ],
           ),
           const Spacer(),
+          if (!store.withAmmountInputError.isActive) ...[
+            if (store.showAllWithdraw)
+              STransparentInkWell(
+                onTap: () {
+                  store.updateAmount(store.availableCurrency.toString());
+                },
+                child: Text(
+                  '${intl.withdrawAll} ${volumeFormat(
+                    decimal: store.availableCurrency,
+                    accuracy: store.eurCurrency.accuracy,
+                    symbol: store.eurCurrency.symbol,
+                  )}',
+                  style: sBodyText1Style.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: colors.blue,
+                  ),
+                ),
+              ),
+          ] else ...[
+            Text(
+              store.withAmmountInputError == InputError.limitError
+                  ? store.limitError
+                  : store.withAmmountInputError.value(),
+              style: sBodyText2Style.copyWith(
+                color: colors.red,
+              ),
+            ),
+          ],
+          const SpaceH20(),
           SPaymentSelectAsset(
             onTap: () {
               sAnalytics.tapOnTheButtonLimitsIBAN();
@@ -122,7 +165,12 @@ class IbanSendAmountBody extends StatelessObserverWidget {
                 preset: 'false',
               );
 
-              store.loadPreview();
+              showReferenceSheet(
+                context,
+                (description) {
+                  store.loadPreview(description, isCJ);
+                },
+              );
             },
           ),
         ],

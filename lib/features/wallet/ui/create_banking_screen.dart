@@ -6,17 +6,30 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/my_wallets/helper/show_create_personal_account.dart';
-import 'package:jetwallet/features/my_wallets/helper/show_wallet_address_info.dart';
 import 'package:jetwallet/features/my_wallets/helper/show_wallet_verify_account.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/20x20/public/tick/simple_tick_icon.dart';
 import 'package:simple_kit/modules/icons/40x40/public/user/simple_user_icon.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:uuid/uuid.dart';
 
 @RoutePage(name: 'CreateBankingRoute')
-class CreateBankingScreen extends StatelessWidget {
+class CreateBankingScreen extends StatefulWidget {
   const CreateBankingScreen({super.key});
+
+  @override
+  State<CreateBankingScreen> createState() => _CreateBankingScreenState();
+}
+
+class _CreateBankingScreenState extends State<CreateBankingScreen> {
+  String requestId = '';
+
+  @override
+  void initState() {
+    requestId = const Uuid().v1();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +129,7 @@ class CreateBankingScreen extends StatelessWidget {
                 sNotification.showError(intl.let_us_create_account, isError: false);
               }
 
-              final resp = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postAccountCreate();
+              final resp = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postAccountCreate(requestId);
 
               if (resp.hasError) {
                 sNotification.showError(

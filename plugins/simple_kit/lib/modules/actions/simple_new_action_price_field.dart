@@ -8,20 +8,24 @@ class SNewActionPriceField extends StatelessWidget {
     Key? key,
     required this.primaryAmount,
     required this.primarySymbol,
-    required this.secondaryAmount,
-    required this.secondarySymbol,
+    this.secondaryAmount,
+    this.secondarySymbol,
     required this.widgetSize,
     required this.onSwap,
     this.errorText,
+    this.optionText,
+    this.optionOnTap,
   }) : super(key: key);
 
   final String primaryAmount;
   final String primarySymbol;
-  final String secondaryAmount;
-  final String secondarySymbol;
+  final String? secondaryAmount;
+  final String? secondarySymbol;
   final void Function()? onSwap;
   final String? errorText;
   final SWidgetSize widgetSize;
+  final String? optionText;
+  final Function()? optionOnTap;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +33,7 @@ class SNewActionPriceField extends StatelessWidget {
 
     return SPaddingH24(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -67,14 +72,15 @@ class SNewActionPriceField extends StatelessWidget {
                         ),
                       ),
                     const SpaceH4(),
-                    AutoSizeText(
-                     '$secondaryAmount $secondarySymbol',
-                      minFontSize: 4.0,
-                      maxLines: 1,
-                      style: sSubtitle3Style.copyWith(
-                        color: colors.grey1,
+                    if (secondaryAmount != null)
+                      AutoSizeText(
+                        '$secondaryAmount $secondarySymbol',
+                        minFontSize: 4.0,
+                        maxLines: 1,
+                        style: sSubtitle3Style.copyWith(
+                          color: colors.grey1,
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ),
@@ -96,7 +102,13 @@ class SNewActionPriceField extends StatelessWidget {
               ),
             ],
           ),
-          if (errorText != null) ...[
+          if (optionText != null && optionOnTap != null) ...[
+            const SpaceH20(),
+            SClickableLinkText(
+              text: optionText!,
+              onTap: optionOnTap!,
+            ),
+          ] else if (errorText != null) ...[
             const SpaceH8(),
             _ErrorWidget(
               errorText: errorText!,
@@ -109,8 +121,6 @@ class SNewActionPriceField extends StatelessWidget {
     );
   }
 }
-
-
 
 class _ErrorWidget extends StatelessWidget {
   const _ErrorWidget({

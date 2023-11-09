@@ -17,8 +17,8 @@ class SessionInfoResponseModel with _$SessionInfoResponseModel {
     // Shows whether user passed 2FA at the current session or not
     @JsonKey(name: 'twoFactorAuthentication') required bool twoFaPassed,
     @JsonKey(name: 'twoFactorAuthenticationEnabled') required bool twoFaEnabled,
+    bool? toCheckSelfie,
   }) = _SessionInfoResponseModel;
 
-  factory SessionInfoResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$SessionInfoResponseModelFromJson(json);
+  factory SessionInfoResponseModel.fromJson(Map<String, dynamic> json) => _$SessionInfoResponseModelFromJson(json);
 }

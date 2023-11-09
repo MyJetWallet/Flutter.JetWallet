@@ -6,7 +6,7 @@ import '../../simple_kit.dart';
 class SCardRow extends StatelessWidget {
   const SCardRow({
     Key? key,
-    this.height = 72,
+    this.height = 80,
     this.helper = '',
     this.isSelected = false,
     this.divider = true,
@@ -59,7 +59,7 @@ class SCardRow extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(
             horizontal: 24.0,
-            vertical: !removeDivider ? 0 : 13,
+            vertical: !removeDivider ? 0 : 16,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -100,7 +100,7 @@ class SCardRow extends StatelessWidget {
                               textAlign: TextAlign.start,
                               maxLines: 3,
                               style: sCaptionTextStyle.copyWith(
-                                color: SColorsLight().grey3,
+                                color: SColorsLight().grey1,
                               ),
                             ),
                           ),

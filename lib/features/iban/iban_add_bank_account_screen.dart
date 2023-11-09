@@ -8,6 +8,7 @@ import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/iban/store/iban_add_bank_account_store.dart';
 import 'package:jetwallet/features/iban/widgets/iban_terms_container.dart';
 import 'package:logger/logger.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -70,9 +71,7 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
       color: colors.grey5,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: store.isEditMode
-              ? intl.iban_edit_bank_account
-              : intl.iban_add_bank_account,
+          title: store.isEditMode ? intl.iban_edit_bank_account : intl.iban_add_bank_account,
           showCloseButton: store.isEditMode,
           showBackButton: !store.isEditMode,
           onBackButtonTap: () => Navigator.pop(context),
@@ -89,7 +88,9 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const IbanTermsContainer(
+                    IbanTermsContainer(
+                      text1: intl.iban_terms_1,
+                      text2: intl.iban_terms_4,
                       addAccount: true,
                     ),
                     SFieldDividerFrame(
@@ -97,8 +98,7 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
                         labelText: intl.iban_label,
                         maxLines: 1,
                         maxLength: 30,
-                        controller:
-                            IbanAddBankAccountStore.of(context).labelController,
+                        controller: IbanAddBankAccountStore.of(context).labelController,
                         textInputAction: TextInputAction.next,
                         onChanged: (text) {
                           IbanAddBankAccountStore.of(context).checkButton();
@@ -108,26 +108,22 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
                     ),
                     SFieldDividerFrame(
                       child: SStandardField(
-                        labelText: intl.iban_iban,
+                        labelText: intl.iban_account_number,
                         textCapitalization: TextCapitalization.sentences,
-                        textInputAction: TextInputAction.done,
-                        controller:
-                            IbanAddBankAccountStore.of(context).ibanController,
+                        textInputAction: TextInputAction.next,
+                        controller: IbanAddBankAccountStore.of(context).ibanController,
                         keyboardType: TextInputType.multiline,
                         onChanged: (text) {
-                          IbanAddBankAccountStore.of(context)
-                              .serIsIBANError(false);
+                          IbanAddBankAccountStore.of(context).serIsIBANError(false);
 
                           IbanAddBankAccountStore.of(context).checkButton();
                         },
                         onErase: () {
-                          IbanAddBankAccountStore.of(context)
-                              .serIsIBANError(false);
+                          IbanAddBankAccountStore.of(context).serIsIBANError(false);
 
                           IbanAddBankAccountStore.of(context).checkButton();
                         },
-                        isError:
-                            IbanAddBankAccountStore.of(context).isIBANError,
+                        isError: IbanAddBankAccountStore.of(context).isIBANError,
                         suffixIcons: [
                           SIconButton(
                             onTap: () {
@@ -139,7 +135,14 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
                             pressedIcon: const SPastePressedIcon(),
                           ),
                         ],
-                        maxLines: 3,
+                        inputFormatters: [
+                          MaskTextInputFormatter(
+                            mask: '#### #### #### #### #### #### ####',
+                            filter: {
+                              '#': RegExp('[a-zA-Z0-9]'),
+                            },
+                          ),
+                        ],
                         hideSpace: true,
                       ),
                     ),
@@ -164,8 +167,7 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
                         child: Material(
                           color: colors.grey5,
                           child: SPrimaryButton1(
-                            active: IbanAddBankAccountStore.of(context)
-                                .isButtonActive,
+                            active: IbanAddBankAccountStore.of(context).isButtonActive,
                             name: intl.iban_edit_save_changes,
                             onTap: () {
                               IbanAddBankAccountStore.of(context).editAccount();
@@ -183,22 +185,18 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
                             onTap: () {
                               sShowAlertPopup(
                                 context,
-                                primaryText:
-                                    '${intl.iban_edit_delete_account}?',
-                                secondaryText:
-                                    intl.iban_edit_delete_account_descr,
+                                primaryText: '${intl.iban_edit_delete_account}?',
+                                secondaryText: intl.iban_edit_delete_account_descr,
                                 primaryButtonName: intl.iban_edit_delete,
                                 primaryButtonType: SButtonType.primary3,
                                 onPrimaryButtonTap: () {
                                   Navigator.pop(context);
 
-                                  IbanAddBankAccountStore.of(context)
-                                      .deleteAccount();
+                                  IbanAddBankAccountStore.of(context).deleteAccount();
                                 },
                                 isNeedCancelButton: true,
                                 cancelText: intl.profileDetails_cancel,
-                                onCancelButtonTap: () =>
-                                    {Navigator.pop(context)},
+                                onCancelButtonTap: () => {Navigator.pop(context)},
                               );
                             },
                           ),
@@ -209,8 +207,7 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
                         child: Material(
                           color: colors.grey5,
                           child: SPrimaryButton2(
-                            active: IbanAddBankAccountStore.of(context)
-                                .isButtonActive,
+                            active: IbanAddBankAccountStore.of(context).isButtonActive,
                             name: intl.iban_add_account,
                             onTap: () {
                               sAnalytics.tapOnTheButtonAddAccount();

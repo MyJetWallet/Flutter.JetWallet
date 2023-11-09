@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/services.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -204,6 +205,8 @@ class StartupService {
               ),
         );
 
+        log(info.toJson().toString());
+
         // For verification Screen
         if (!info.toSetupPhone) {
           getIt.get<VerificationStore>().phoneDone();
@@ -212,7 +215,13 @@ class StartupService {
           getIt.get<VerificationStore>().personalDetailDone();
         }
 
-        if (info.toSetupPhone) {
+        print(info.toCheckSelfie);
+
+        if (info.toCheckSelfie) {
+          getIt.get<AppStore>().setAuthorizedStatus(
+                const CheckSelfie(),
+              );
+        } else if (info.toSetupPhone) {
           getIt.get<AppStore>().setAuthorizedStatus(
                 const TwoFaVerification(),
               );
@@ -282,8 +291,8 @@ class StartupService {
       await getIt.isReady<KycProfileCountries>();
       await getIt.isReady<ProfileGetUserCountry>();
 
-      getIt.registerLazySingleton<IbanStore>(
-        () => IbanStore(),
+      getIt.registerSingleton<IbanStore>(
+        IbanStore(),
       );
 
       getIt.registerLazySingleton<SumsubService>(

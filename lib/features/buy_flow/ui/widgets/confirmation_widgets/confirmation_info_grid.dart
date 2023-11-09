@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/buy_flow/store/buy_confirmation_store.dart';
-import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
+import 'package:jetwallet/features/buy_flow/ui/buy_tab_body.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';

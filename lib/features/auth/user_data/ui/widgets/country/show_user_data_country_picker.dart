@@ -3,11 +3,13 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/kyc_profile_countries.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/store/kyc_profile_countries_store.dart';
 import 'package:jetwallet/widgets/empty_search_result.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/wallet_api/models/kyc_profile/country_list_response_model.dart';
 
 import 'country_item/country_profile_item.dart';
 
@@ -28,6 +30,51 @@ void showUserDataCountryPicker(BuildContext context) {
     children: [
       _Countries(
         store: profileCountriesStore,
+      ),
+      const SpaceH24(),
+    ],
+  );
+}
+
+void showCountryOfBank(BuildContext context, Function(Country) onTap) {
+  final countriesList = getIt.get<KycProfileCountries>().profileCountries;
+
+  sShowBasicModalBottomSheet(
+    context: context,
+    scrollable: true,
+    pinned: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SpaceH20(),
+        Text(
+          intl.address_book_country_of_recepients_bank,
+          style: sTextH4Style,
+        ),
+        const SpaceH20(),
+        const SDivider(),
+      ],
+    ),
+    expanded: true,
+    removeBarPadding: true,
+    removePinnedPadding: true,
+    children: [
+      ListView.builder(
+        shrinkWrap: true,
+        padding: EdgeInsets.zero,
+        itemCount: countriesList.countries.length,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return CountryProfileItem(
+            onTap: () {
+              onTap(countriesList.countries[index]);
+
+              sRouter.pop();
+            },
+            countryCode: countriesList.countries[index].countryCode,
+            countryName: countriesList.countries[index].countryName,
+            isBlocked: false,
+          );
+        },
       ),
       const SpaceH24(),
     ],
@@ -75,12 +122,11 @@ class _Countries extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      child: ListView.builder(
+    return ListView.builder(
         shrinkWrap: true,
         padding: EdgeInsets.zero,
         itemCount: store.sortedCountries.length,
+        physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           final country = store.sortedCountries[index];
           if (store.sortedCountries.isEmpty) {
@@ -111,7 +157,6 @@ class _Countries extends StatelessObserverWidget {
             isBlocked: country.isBlocked,
           );
         },
-      ),
     );
   }
 }

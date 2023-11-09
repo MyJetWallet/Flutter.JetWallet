@@ -19,7 +19,7 @@ import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
-@RoutePage()
+@RoutePage(name: 'BuyConfirmationRoute')
 class BuyConfirmationScreen extends StatelessWidget {
   const BuyConfirmationScreen({
     super.key,

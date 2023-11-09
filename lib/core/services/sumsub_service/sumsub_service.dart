@@ -4,6 +4,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:logger/logger.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 
@@ -45,9 +46,27 @@ class SumsubService {
     return request.data;
   }
 
+  Future<String?> getFacecheckToken() async {
+    final countries = getIt.get<KycCountryStore>();
+    final request = await sNetwork.getWalletModule().postFaceSDKToken(
+          countries.activeCountry!.countryCode,
+        );
+
+    if (request.hasError) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: _loggerService,
+            message: 'Get SDK Token error: ${request.error}',
+          );
+    }
+
+    return request.data;
+  }
+
   Future<void> launch({
     VoidCallback? onFinish,
     required bool isBanking,
+    bool needPush = true,
   }) async {
     final countries = getIt.get<KycCountryStore>();
 
@@ -78,24 +97,32 @@ class SumsubService {
           country: countries.activeCountry?.countryName ?? '',
         );
 
-        sRouter.push(
-          SuccessScreenRouter(
-            primaryText: intl.kycChooseDocuments_verifyingNow,
-            secondaryText: intl.kycChooseDocuments_willBeNotified,
-            showPrimaryButton: true,
-            buttonText: intl.previewBuyWithUmlimint_close,
-            onActionButton: () async {
-              navigateToRouter();
+        if (!isBanking) {
+          if (needPush) {
+            sRouter.push(
+              SuccessScreenRouter(
+                primaryText: intl.kycChooseDocuments_verifyingNow,
+                secondaryText: intl.kycChooseDocuments_willBeNotified,
+                showPrimaryButton: true,
+                buttonText: intl.previewBuyWithUmlimint_close,
+                onActionButton: () async {
+                  navigateToRouter();
 
-              if (onFinish != null) onFinish();
-            },
-            onSuccess: (p0) {
-              navigateToRouter();
+                  if (onFinish != null) onFinish();
+                },
+                onSuccess: (p0) {
+                  navigateToRouter();
 
-              if (onFinish != null) onFinish();
-            },
-          ),
-        );
+                  if (onFinish != null) onFinish();
+                },
+              ),
+            );
+          } else {
+            if (onFinish != null) onFinish();
+          }
+        } else {
+          if (onFinish != null) onFinish();
+        }
       }
     }
 
@@ -104,19 +131,27 @@ class SumsubService {
         country: countries.activeCountry?.countryName ?? '',
       );
 
-      sRouter.push(
-        SuccessScreenRouter(
-          primaryText: intl.kycChooseDocuments_verifyingNow,
-          secondaryText: intl.kycChooseDocuments_willBeNotified,
-          showPrimaryButton: true,
-          buttonText: intl.previewBuyWithUmlimint_close,
-          onActionButton: () async {
-            navigateToRouter();
+      if (!isBanking) {
+        if (needPush) {
+          sRouter.push(
+            SuccessScreenRouter(
+              primaryText: intl.kycChooseDocuments_verifyingNow,
+              secondaryText: intl.kycChooseDocuments_willBeNotified,
+              showPrimaryButton: true,
+              buttonText: intl.previewBuyWithUmlimint_close,
+              onActionButton: () async {
+                navigateToRouter();
 
-            if (onFinish != null) onFinish();
-          },
-        ),
-      );
+                if (onFinish != null) onFinish();
+              },
+            ),
+          );
+        } else {
+          if (onFinish != null) onFinish();
+        }
+      } else {
+        if (onFinish != null) onFinish();
+      }
 
       return Future.value(SNSActionResultHandlerReaction.Continue);
     }
@@ -160,5 +195,98 @@ class SumsubService {
         },
       ),
     );
+  }
+
+  Future<void> launchFacecheck() async {
+    final countries = getIt.get<KycCountryStore>();
+
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.info,
+          place: _loggerService,
+          message: 'Launch',
+        );
+
+    onStatusChanged(
+      SNSMobileSDKStatus newStatus,
+      SNSMobileSDKStatus prevStatus,
+    ) async {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.info,
+            place: _loggerService,
+            message: 'The FACE CHECK SDK status was changed: $prevStatus -> $newStatus',
+          );
+      if (newStatus == SNSMobileSDKStatus.Approved ||
+          newStatus == SNSMobileSDKStatus.ActionCompleted ||
+          newStatus == SNSMobileSDKStatus.Pending) {
+        if (!isFaceCheckCheckStatus) {
+          final status = await getFaceCheckStatus();
+
+          if (status == 2) {
+            getIt.get<StartupService>().pinVerified();
+          } else if (status == 0) {}
+        }
+      }
+    }
+
+    Future<SNSActionResultHandlerReaction> onActionResult(SNSMobileSDKActionResult result) async {
+      if (!isFaceCheckCheckStatus) {
+        final status = await getFaceCheckStatus();
+
+        if (status == 2) {
+          getIt.get<StartupService>().pinVerified();
+        } else if (status == 0) {}
+      }
+
+      return Future.value(SNSActionResultHandlerReaction.Continue);
+    }
+
+    final initToken = await getFacecheckToken();
+    isFaceCheckCheckStatus = false;
+
+    try {
+      final snsMobileSDK = SNSMobileSDK.init(initToken ?? '', getFacecheckToken)
+          .withHandlers(
+            onStatusChanged: onStatusChanged,
+            onActionResult: onActionResult,
+          )
+          .withDebug(true)
+          .withLocale(
+            Locale(intl.localeName),
+          )
+          .withAutoCloseOnApprove(0)
+          .build();
+
+      final _ = await snsMobileSDK.launch();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  bool isFaceCheckCheckStatus = false;
+
+  Future<int> getFaceCheckStatus() async {
+    isFaceCheckCheckStatus = true;
+
+    final request = await sNetwork.getWalletModule().postFaceCheckStatus();
+
+    if (request.hasError) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: _loggerService,
+            message: 'The FACE CHECK SDK error: ${request.error}',
+          );
+
+      return 0;
+    } else {
+      if (request.data == 2) {
+        return request.data ?? 2;
+      } else if (request.data == 1) {
+        await Future.delayed(const Duration(seconds: 1));
+
+        return getFaceCheckStatus();
+      } else {
+        return 0;
+      }
+    }
   }
 }

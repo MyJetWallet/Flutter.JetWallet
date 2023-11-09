@@ -46,7 +46,6 @@ class _IBanScreenBodyState extends State<IBanScreen> {
     final kycState = getIt.get<KycService>();
     final countriesList = getIt.get<KycProfileCountries>().profileCountries;
 
-    getIt.get<IbanStore>().initState();
     getIt.get<IbanStore>().getAddressBook();
     getIt.get<IbanStore>().initCountryState(countriesList);
     final kycPassed = checkKycPassed(
@@ -60,9 +59,7 @@ class _IBanScreenBodyState extends State<IBanScreen> {
       (timer) {
         if (getIt<AppRouter>().topRoute.name == 'IBanRouter' &&
             ((store.ibanBic.isEmpty && kycPassed && !store.toSetupAddress) ||
-                store.status == IbanInfoStatusDto.inProcess)) {
-          store.initState();
-        }
+                store.status == IbanInfoStatusDto.inProcess)) {}
       },
     );
   }
@@ -96,8 +93,7 @@ class _IBanScreenBodyState extends State<IBanScreen> {
     final isKyc = !kycPassed && !kycBlocked && !verificationInProgress;
     final isLoading = kycBlocked ||
         verificationInProgress ||
-        (store.status != IbanInfoStatusDto.allow &&
-            store.status != IbanInfoStatusDto.notExist);
+        (store.status != IbanInfoStatusDto.allow && store.status != IbanInfoStatusDto.notExist);
 
     final showEmptyScreen = store.ibanAddress.isEmpty;
 
@@ -126,12 +122,8 @@ class _IBanScreenBodyState extends State<IBanScreen> {
                     sShowAlertPopup(
                       context,
                       primaryText: intl.iban_hold_on,
-                      secondaryText: isKyc
-                          ? intl.iban_please_verify
-                          : intl.iban_please_provide,
-                      primaryButtonName: isKyc
-                          ? intl.iban_start_verification
-                          : intl.iban_provide,
+                      secondaryText: isKyc ? intl.iban_please_verify : intl.iban_please_provide,
+                      primaryButtonName: isKyc ? intl.iban_start_verification : intl.iban_provide,
                       image: Image.asset(
                         phoneChangeAsset,
                         width: 80,
@@ -141,10 +133,8 @@ class _IBanScreenBodyState extends State<IBanScreen> {
                       onPrimaryButtonTap: () {
                         if (isKyc) {
                           Navigator.pop(context);
-                          final isDepositAllow = kycState.depositStatus !=
-                              kycOperationStatus(KycStatus.allowed);
-                          final isWithdrawalAllow = kycState.withdrawalStatus !=
-                              kycOperationStatus(KycStatus.allowed);
+                          final isDepositAllow = kycState.depositStatus != kycOperationStatus(KycStatus.allowed);
+                          final isWithdrawalAllow = kycState.withdrawalStatus != kycOperationStatus(KycStatus.allowed);
 
                           kycAlertHandler.handle(
                             status: isDepositAllow
@@ -155,8 +145,7 @@ class _IBanScreenBodyState extends State<IBanScreen> {
                             isProgress: kycState.verificationInProgress,
                             currentNavigate: () {},
                             requiredDocuments: kycState.requiredDocuments,
-                            requiredVerifications:
-                                kycState.requiredVerifications,
+                            requiredVerifications: kycState.requiredVerifications,
                           );
                         } else {
                           Navigator.pop(context);

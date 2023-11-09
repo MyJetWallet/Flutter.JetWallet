@@ -645,7 +645,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
 
             currenciesList[index] = currency.copyWith(
               lastUpdate: balance.lastUpdate,
-              assetBalance: balance.balance,
+              assetBalance: currency.symbol == 'EUR' ? totalEurWalletBalance : balance.balance,
               assetTotalEarnAmount: balance.totalEarnAmount,
               assetCurrentEarnAmount: balance.currentEarnAmount,
               cardReserve: balance.cardReserve,
@@ -727,12 +727,19 @@ abstract class _SignalRServiceUpdatedBase with Store {
           assetSymbol: currency.symbol,
         );
 
-        final baseBalance = calculateBaseBalance(
-          assetSymbol: currency.symbol,
-          assetBalance: currency.assetBalance,
-          assetPrice: assetPrice,
-          baseCurrencySymbol: baseCurrency.symbol,
-        );
+        final baseBalance = currency.symbol == 'EUR'
+            ? calculateBaseBalance(
+                assetSymbol: currency.symbol,
+                assetBalance: totalEurWalletBalance,
+                assetPrice: assetPrice,
+                baseCurrencySymbol: baseCurrency.symbol,
+              )
+            : calculateBaseBalance(
+                assetSymbol: currency.symbol,
+                assetBalance: currency.assetBalance,
+                assetPrice: assetPrice,
+                baseCurrencySymbol: baseCurrency.symbol,
+              );
 
         final baseTotalEarnAmount = calculateBaseBalance(
           assetSymbol: currency.symbol,

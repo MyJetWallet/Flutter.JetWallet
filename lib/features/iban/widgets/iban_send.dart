@@ -11,6 +11,7 @@ import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 class IbanSend extends StatelessObserverWidget {
   const IbanSend({super.key});
@@ -116,7 +117,7 @@ class IbanSend extends StatelessObserverWidget {
             ListView.builder(
               shrinkWrap: true,
               padding: EdgeInsets.zero,
-              itemCount: store.contacts.length,
+              itemCount: store.allContacts.length,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return SCardRow(
@@ -131,7 +132,7 @@ class IbanSend extends StatelessObserverWidget {
                       onTap: () {
                         sRouter.push(
                           IbanEditBankAccountRouter(
-                            contact: store.contacts[index],
+                            contact: store.allContacts[index],
                           ),
                         );
                       },
@@ -141,9 +142,9 @@ class IbanSend extends StatelessObserverWidget {
                       ),
                     ),
                   ),
-                  name: store.contacts[index].name ?? '',
+                  name: store.allContacts[index].name ?? '',
                   amount: '',
-                  helper: store.contacts[index].iban ?? '',
+                  helper: store.allContacts[index].iban ?? '',
                   description: '',
                   needSpacer: true,
                   onTap: () {
@@ -152,7 +153,9 @@ class IbanSend extends StatelessObserverWidget {
                     getIt<AppRouter>()
                         .push(
                           IbanSendAmountRouter(
-                            contact: store.contacts[index],
+                            contact: store.allContacts[index],
+                            bankingAccount: SimpleBankingAccount(),
+                            isCJ: true,
                           ),
                         )
                         .then(

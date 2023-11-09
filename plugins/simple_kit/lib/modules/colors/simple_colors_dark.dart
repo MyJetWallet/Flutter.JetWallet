@@ -124,5 +124,14 @@ class SColorsDark implements SimpleColors {
   Color purple = const Color(0xFF374CFA);
 
   @override
+  Color blueExtraLight = const Color(0xFFE4E7FF);
+
+  @override
+  Color greenExtraLight = const Color(0xFFE4F9E6);
+
+  @override
+  Color redExtraLight = const Color(0xFFFEE3E9);
+
+  @override
   Color lightPurple = const Color(0xFF9575F3);
 }

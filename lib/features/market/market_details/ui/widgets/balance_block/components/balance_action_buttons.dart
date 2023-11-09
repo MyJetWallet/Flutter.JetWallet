@@ -7,6 +7,7 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/send_options.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
+import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
@@ -73,6 +74,8 @@ class BalanceActionButtons extends StatelessObserverWidget {
           CircleActionButtons(
             isExchangeDisabled: currency.isAssetBalanceEmpty,
             isSendDisabled: currency.isAssetBalanceEmpty,
+            isSellDisabled: currency.isAssetBalanceEmpty,
+            isConvertDisabled: currency.isAssetBalanceEmpty,
             onBuy: () {
               sAnalytics.newBuyTapBuy(
                 source: 'Market - Asset - Buy',
@@ -97,7 +100,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                     context: context,
                     currency: currency,
                   ),
-                  from: BlockingType.trade,
+                  from: [BlockingType.trade],
                 );
               } else if (!isBuyAvaible) {
                 sNotification.showError(
@@ -118,6 +121,14 @@ class BalanceActionButtons extends StatelessObserverWidget {
                 );
               }
             },
+            onSell: () {
+              sRouter.push(
+                AmountRoute(
+                  tab: AmountScreenTab.sell,
+                  asset: currency,
+                ),
+              );
+            },
             onReceive: () {
               sAnalytics.tapOnTheReceiveButton(
                 source: 'Market - Asset - Receive',
@@ -133,7 +144,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                         currency: currency,
                       ),
                     ),
-                    from: BlockingType.deposit,
+                    from: [BlockingType.deposit],
                   );
                 } else if (!currency.supportsCryptoDeposit) {
                   sNotification.showError(
@@ -182,7 +193,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                       fromCurrency: currency,
                     ),
                   ),
-                  from: BlockingType.trade,
+                  from: [BlockingType.trade],
                 );
               } else {
                 handler.handle(
@@ -191,6 +202,33 @@ class BalanceActionButtons extends StatelessObserverWidget {
                   currentNavigate: () => sRouter.push(
                     ConvertRouter(
                       fromCurrency: currency,
+                    ),
+                  ),
+                  requiredDocuments: kycState.requiredDocuments,
+                  requiredVerifications: kycState.requiredVerifications,
+                );
+              }
+            },
+            onConvert: () {
+              if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
+                showSendTimerAlertOr(
+                  context: context,
+                  or: () => sRouter.push(
+                    AmountRoute(
+                      tab: AmountScreenTab.convert,
+                      asset: currency,
+                    ),
+                  ),
+                  from: [BlockingType.trade],
+                );
+              } else {
+                handler.handle(
+                  status: kycState.withdrawalStatus,
+                  isProgress: kycState.verificationInProgress,
+                  currentNavigate: () => sRouter.push(
+                    AmountRoute(
+                      tab: AmountScreenTab.convert,
+                      asset: currency,
                     ),
                   ),
                   requiredDocuments: kycState.requiredDocuments,

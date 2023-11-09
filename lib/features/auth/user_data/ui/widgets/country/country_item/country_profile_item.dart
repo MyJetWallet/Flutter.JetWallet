@@ -9,16 +9,19 @@ import 'components/country_profile_warning.dart';
 class CountryProfileItem extends StatelessObserverWidget {
   const CountryProfileItem({
     super.key,
-    required this.onTap,
+    this.onTap,
     required this.countryCode,
     required this.countryName,
     required this.isBlocked,
+    this.needPadding = true,
   });
 
-  final Function() onTap;
+  final Function()? onTap;
   final String countryCode;
   final String countryName;
   final bool isBlocked;
+
+  final bool needPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +31,10 @@ class CountryProfileItem extends StatelessObserverWidget {
       highlightColor: colors.grey5,
       splashColor: Colors.transparent,
       onTap: onTap,
-      child: SPaddingH24(
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: needPadding ? 24.0 : 0.0,
+        ),
         child: SizedBox(
           height: 64.0,
           child: Column(

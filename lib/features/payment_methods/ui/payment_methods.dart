@@ -13,6 +13,7 @@ import 'package:jetwallet/utils/helpers/is_card_expired.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 @RoutePage(name: 'PaymentMethodsRouter')
 class PaymentMethods extends StatelessWidget {
@@ -21,7 +22,7 @@ class PaymentMethods extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider<PaymentMethodsStore>(
-      create: (context) => PaymentMethodsStore()..getAddressBook(),
+      create: (context) => PaymentMethodsStore(),
       builder: (context, child) => const _PaymentMethodsBody(),
     );
   }
@@ -48,7 +49,7 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
       ),
       child: state.union.maybeWhen(
         success: () {
-          return state.userCards.isEmpty && state.addressBookContacts.isEmpty
+          return state.userCards.isEmpty
               ? ListView(
                   padding: EdgeInsets.zero,
                   children: [
@@ -89,8 +90,7 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                             name: '${card.cardLabel} •••• ${card.last4}',
                             network: card.network,
                             currency: 'EUR',
-                            expirationDate:
-                                'Exp. ${card.expMonth}/${card.expYear}',
+                            expirationDate: 'Exp. ${card.expMonth}/${card.expYear}',
                             expired: isCardExpired(card.expMonth, card.expYear),
                             status: card.status,
                             showDelete: false,
@@ -117,8 +117,7 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                                     const end = Offset.zero;
                                     const curve = Curves.ease;
 
-                                    final tween = Tween(begin: begin, end: end)
-                                        .chain(CurveTween(curve: curve));
+                                    final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
                                     return SlideTransition(
                                       position: animation.drive(tween),
@@ -132,64 +131,6 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                             },
                             removeDivider: state.userCards.last == card,
                             onTap: () {},
-                          ),
-                        ],
-                        if (state.addressBookContacts.isNotEmpty &&
-                            state.isShowAccounts) ...[
-                          MarketSeparator(text: intl.iban_send_accounts),
-                          ListView.builder(
-                            shrinkWrap: true,
-                            padding: EdgeInsets.zero,
-                            itemCount: state.addressBookContacts.length,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return SCardRow(
-                                icon: const SizedBox(
-                                  width: 24,
-                                  height: 24,
-                                  child: SAccountIcon(),
-                                ),
-                                rightIcon: Padding(
-                                  padding: const EdgeInsets.only(top: 9.0),
-                                  child: SIconButton(
-                                    onTap: () {
-                                      sRouter
-                                          .push(
-                                        IbanEditBankAccountRouter(
-                                          contact:
-                                              state.addressBookContacts[index],
-                                        ),
-                                      )
-                                          .then((value) async {
-                                        await state.getAddressBook();
-                                      });
-                                    },
-                                    defaultIcon: const SEditIcon(),
-                                    pressedIcon: const SEditIcon(
-                                      color: Color(0xFFA8B0BA),
-                                    ),
-                                  ),
-                                ),
-                                name:
-                                    state.addressBookContacts[index].name ?? '',
-                                amount: '',
-                                helper:
-                                    state.addressBookContacts[index].iban ?? '',
-                                description: '',
-                                needSpacer: true,
-                                onTap: () {
-                                  getIt<AppRouter>()
-                                      .push(
-                                    IbanSendAmountRouter(
-                                      contact: state.addressBookContacts[index],
-                                    ),
-                                  )
-                                      .then((value) async {
-                                    await state.getAddressBook();
-                                  });
-                                },
-                              );
-                            },
                           ),
                         ],
                       ],

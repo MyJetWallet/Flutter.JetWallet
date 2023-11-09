@@ -21,9 +21,13 @@ import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_preview_withdrawal_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_withdrawal_model.dart';
+import 'package:uuid/uuid.dart';
 
 part 'iban_send_amount_store.g.dart';
 
@@ -50,21 +54,34 @@ abstract class _IbanSendAmountStoreBase with Store {
   AddressBookContactModel? contact;
 
   @observable
+  SimpleBankingAccount? account;
+
+  @observable
   InputError withAmmountInputError = InputError.none;
+
+  @observable
+  bool showAllWithdraw = true;
+
+  var requestId = '';
 
   CardLimitsModel? limits;
 
   StackLoaderStore loader = StackLoaderStore();
 
   @computed
+  ObservableList<CurrencyModel> get _allAssets {
+    return sSignalRModules.currenciesList;
+  }
+
+  @computed
   CurrencyModel get eurCurrency => currencyFrom(
-        sSignalRModules.currenciesList,
+        _allAssets,
         'EUR',
       );
 
   @computed
   Decimal get availableCurrency => Decimal.parse(
-        '''${eurCurrency.assetBalance.toDouble() - eurCurrency.cardReserve.toDouble()}''',
+        '''${account!.balance!.toDouble() - eurCurrency.cardReserve.toDouble()}''',
       );
 
   CurrencyModel usdCurrency = currencyFrom(
@@ -94,8 +111,11 @@ abstract class _IbanSendAmountStoreBase with Store {
       ).maxAmount;
 
   @action
-  void init(AddressBookContactModel value) {
+  void init(AddressBookContactModel value, SimpleBankingAccount bankingAccount) {
     contact = value;
+    account = bankingAccount;
+
+    requestId = const Uuid().v1();
 
     sAnalytics.sendEurAmountScreenView();
 
@@ -121,25 +141,26 @@ abstract class _IbanSendAmountStoreBase with Store {
         leftHours: 0,
       );
     }
-
-    log(eurCurrency.toString());
-    log(usdCurrency.toString());
   }
 
   @action
-  Future<void> loadPreview() async {
+  Future<void> loadPreview(String description, bool isCJ) async {
     loader.startLoadingImmediately();
 
-    final model = IbanWithdrawalModel(
+    final previewModel = BankingWithdrawalPreviewModel(
+      accountId: account?.accountId ?? '',
+      requestId: requestId,
+      toIbanAddress: contact?.iban ?? '',
       assetSymbol: eurCurrency.symbol,
       amount: Decimal.parse(withAmount),
-      lang: intl.localeName,
       contactId: contact?.id ?? '',
-      iban: contact?.iban ?? '',
-      bic: contact?.bic ?? '',
+      beneficiaryBankCode: contact?.bic ?? '',
+      description: description,
+      expressPayment: false,
     );
 
-    final response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postPreviewIbanWithdrawal(model);
+    final response =
+        await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postBankingWithdrawalPreview(previewModel);
 
     loader.finishLoadingImmediately();
 
@@ -148,6 +169,9 @@ abstract class _IbanSendAmountStoreBase with Store {
         IbanSendConfirmRouter(
           data: response.data!,
           contact: contact!,
+          account: account!,
+          previewRequest: previewModel,
+          isCJ: isCJ,
         ),
       );
     } else {
@@ -167,6 +191,12 @@ abstract class _IbanSendAmountStoreBase with Store {
       newInput: value,
       accuracy: eurCurrency.accuracy,
     );
+
+    if (withAmount != zero) {
+      showAllWithdraw = false;
+    } else {
+      showAllWithdraw = true;
+    }
 
     _validateAmount();
     _calculateBaseConversion();
@@ -188,9 +218,9 @@ abstract class _IbanSendAmountStoreBase with Store {
 
   @action
   void _validateAmount() {
-    final error = onGloballyWithdrawInputErrorHandler(
+    final error = onEurWithdrawInputErrorHandler(
       withAmount,
-      eurCurrency,
+      account!.balance!,
       limits,
     );
 

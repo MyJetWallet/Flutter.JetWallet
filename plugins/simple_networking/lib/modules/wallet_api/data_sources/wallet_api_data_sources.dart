@@ -1,5 +1,6 @@
 import 'package:data_channel/data_channel.dart';
 import 'package:dio/dio.dart';
+import 'package:signalr_core/signalr_core.dart';
 import 'package:simple_networking/api_client/api_client.dart';
 import 'package:simple_networking/helpers/handle_api_responses.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -9,6 +10,9 @@ import 'package:simple_networking/modules/wallet_api/models/add_card/add_card_re
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/all_cards/all_cards_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/apple_pay_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_response.dart';
+import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_request.dart';
 import 'package:simple_networking/modules/wallet_api/models/base_asset/get_base_assets_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/base_asset/set_base_assets_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/calculate_earn_offer_apy/calculate_earn_offer_apy_request_model.dart';
@@ -74,6 +78,9 @@ import 'package:simple_networking/modules/wallet_api/models/profile_info/profile
 import 'package:simple_networking/modules/wallet_api/models/recurring_manage/recurring_delete_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/recurring_manage/recurring_manage_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/rewards/reward_spin_response.dart';
+import 'package:simple_networking/modules/wallet_api/models/sell/execute_crypto_sell_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/sell/get_crypto_sell_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/sell/get_crypto_sell_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_gift/gift_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
@@ -813,6 +820,56 @@ class WalletApiDataSources {
     }
   }
 
+  Future<DC<ServerRejectException, GetCryptoSellResponseModel>> postSellCreateRequest(
+    GetCryptoSellRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/trading/sell/create',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse<Map>(
+          responseData,
+        );
+
+        return DC.data(GetCryptoSellResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, GetCryptoSellResponseModel>> postSellExecuteRequest(
+    ExecuteCryptoSellRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/trading/sell/execute',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse<Map>(
+          responseData,
+        );
+
+        return DC.data(GetCryptoSellResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
   Future<DC<ServerRejectException, bool>> postApplePayConfirmRequest(
     String depositId,
     String applePayToken,
@@ -1208,6 +1265,54 @@ class WalletApiDataSources {
 
       try {
         return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, String>> postFaceSDKTokenRequest(String countryCode) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/kyc/verification/face_sdk_token',
+        data: {
+          'countryCode': countryCode,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse(
+          responseData,
+        );
+
+        return DC.data(data['data']['token']);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, int>> postFaceCheckStatusRequest() async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/kyc/verification/face_check_status',
+        data: {},
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse(
+          responseData,
+        );
+
+        return DC.data(data['data']['status']);
       } catch (e) {
         rethrow;
       }
@@ -2166,12 +2271,15 @@ class WalletApiDataSources {
   }
 
   Future<DC<ServerRejectException, AddressBookModel>> getAddressBookRequest(
-    String searchText,
+    int accountType,
   ) async {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/address-book/contacts',
-        data: {},
+        data: {
+          'accountType': accountType,
+          "withIban": true,
+        },
       );
 
       try {
@@ -2191,6 +2299,7 @@ class WalletApiDataSources {
     String name,
     String nickname,
     String iban,
+    String bic,
   ) async {
     try {
       final response = await _apiClient.post(
@@ -2199,6 +2308,65 @@ class WalletApiDataSources {
           'name': name,
           'nickname': nickname,
           'iban': iban,
+          'bic': bic,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(AddressBookContactModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, AddressBookContactModel>> postAddressBookAddSimpleRequest(
+    String name,
+    String iban,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/address-book/add/simple',
+        data: {
+          'name': name,
+          'iban': iban,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(AddressBookContactModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, AddressBookContactModel>> postAddressBookAddPersonalRequest(
+    String name,
+    String iban,
+    String bic,
+    String country,
+    String fullName,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/address-book/add/personal',
+        data: {
+          'name': name,
+          'iban': iban,
+          'bic': bic,
+          'bankCountry': country,
+          'fullName': fullName,
         },
       );
 
@@ -2349,14 +2517,14 @@ class WalletApiDataSources {
 
   // Banking
 
-  Future<DC<ServerRejectException, CreateBankingAccountSimpleResponse>> postAccountCreateRequest() async {
+  Future<DC<ServerRejectException, CreateBankingAccountSimpleResponse>> postAccountCreateRequest(
+    String requestId,
+  ) async {
     try {
-      const reqId = Uuid();
-
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/banking/account/create',
         data: {
-          'requestId': reqId.v1(),
+          'requestId': requestId,
         },
       );
 
@@ -2431,6 +2599,48 @@ class WalletApiDataSources {
         final data = handleFullResponse<Map>(responseData);
 
         return DC.data(data['token']);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, BankingWithdrawalPreviewResponse>> postBankingWithdrawalPreviewRequest(
+    BankingWithdrawalPreviewModel request,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/banking/account/withdrawal-preview',
+        data: request.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(BankingWithdrawalPreviewResponse.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, String>> postBankingWithdrawalRequest(BankingWithdrawalRequest request) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/banking/account/withdrawal',
+        data: request.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(data['operationId']);
       } catch (e) {
         rethrow;
       }

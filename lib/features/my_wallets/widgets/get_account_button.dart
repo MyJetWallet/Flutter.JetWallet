@@ -11,6 +11,7 @@ import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -31,56 +32,68 @@ class GetAccountButton extends StatelessObserverWidget {
       sSignalRModules.currenciesList,
     ).where((element) => element.symbol == 'EUR').first;
 
+    final isButtonSmall =
+        store.buttonStatus == BankingShowState.getAccount || store.buttonStatus == BankingShowState.getAccountBlock;
+
     return Padding(
       padding: EdgeInsets.only(
         top: 8,
         bottom: 10,
         left: 60,
-        right: store.buttonStatus == BankingShowState.getAccount ? 60 : 30,
+        right: isButtonSmall ? 60 : 30,
       ),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
-        width: store.buttonStatus == BankingShowState.getAccount ? null : double.infinity,
+        width: isButtonSmall ? null : double.infinity,
         child: SIconTextButton(
           onTap: () {
             sAnalytics.tapOnTheButtonGetAccountEUROnWalletsScreen();
             onGetAccountClick(store, context, eurCurrency);
           },
           text: store.simpleCardButtonText,
-          mainAxisSize: store.buttonStatus == BankingShowState.getAccount ? MainAxisSize.min : MainAxisSize.max,
-          icon: store.buttonStatus == BankingShowState.getAccount
+          mainAxisSize: isButtonSmall ? MainAxisSize.min : MainAxisSize.max,
+          icon: store.buttonStatus == BankingShowState.inProgress
+              ? SizedBox(
+                  width: 13.3,
+                  height: 13.3,
+                  child: CircularProgressIndicator(
+                    color: sKit.colors.grey1,
+                    strokeWidth: 1,
+                  ),
+                )
+              : store.buttonStatus == BankingShowState.getAccount
               ? SBankMediumIcon(color: sKit.colors.blue)
               : Stack(
-                  children: [
-                    if ((sSignalRModules
-                        .bankingProfileData?.banking
-                        ?.cards?.where(
-                          (element) =>
-                      element.status == AccountStatusCard.active ||
-                          element.status == AccountStatusCard.frozen,
-                    ).toList().length ?? 0) > 0) ...[
-                      const SizedBox(
-                        width: 55,
-                      ),
-                      const Positioned(
-                        left: 19,
-                        child: SWalletCardIcon(width: 36, height: 24,),
-                      ),
-                    ],
-                    Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        color: sKit.colors.blue,
-                        shape: BoxShape.circle,
-                      ),
-                      child: SizedBox(
-                        width: 16,
-                        height: 16,
-                        child: SBankMediumIcon(color: sKit.colors.white),
-                      ),
-                    ),
-                  ],
+            children: [
+              if ((sSignalRModules
+                  .bankingProfileData?.banking
+                  ?.cards?.where(
+                    (element) =>
+                element.status == AccountStatusCard.active ||
+                    element.status == AccountStatusCard.frozen,
+              ).toList().length ?? 0) > 0) ...[
+                const SizedBox(
+                  width: 55,
                 ),
+                const Positioned(
+                  left: 19,
+                  child: SWalletCardIcon(width: 36, height: 24,),
+                ),
+              ],
+              Container(
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  color: sKit.colors.blue,
+                  shape: BoxShape.circle,
+                ),
+                child: SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: SBankMediumIcon(color: sKit.colors.white),
+                ),
+              ),
+            ],
+          ),
           rightIcon: store.buttonStatus == BankingShowState.accountList
               ? SizedBox(
                   width: 20,
@@ -88,7 +101,7 @@ class GetAccountButton extends StatelessObserverWidget {
                   child: SBlueRightArrowIcon(color: sKit.colors.black),
                 )
               : null,
-          textStyle: store.buttonStatus == BankingShowState.getAccount
+          textStyle: isButtonSmall
               ? sTextButtonStyle.copyWith(
                   color: sKit.colors.purple,
                   fontWeight: FontWeight.w600,
@@ -112,29 +125,21 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context, Curre
   final kycState = getIt.get<KycService>();
   final kyc = getIt.get<KycAlertHandler>();
 
-  final kycBlocked = checkKycBlocked(
-    kycState.depositStatus,
-    kycState.tradeStatus,
-    kycState.withdrawalStatus,
-  );
-
-  final anyBlock = sSignalRModules.clientDetail.clientBlockers.isNotEmpty;
-
-  final verificationInProgress = kycState.inVerificationProgress;
-
-  if (verificationInProgress) {
-    kyc.showVerifyingAlert();
-
-    return;
-  }
-
-  if (anyBlock || kycBlocked) {
+  if (store.buttonStatus == BankingShowState.getAccountBlock) {
     sNotification.showError(
       intl.operation_is_unavailable,
       duration: 4,
       id: 1,
       needFeedback: true,
     );
+
+    return;
+  }
+
+  final verificationInProgress = kycState.inVerificationProgress;
+
+  if (verificationInProgress) {
+    kyc.showVerifyingAlert();
 
     return;
   }

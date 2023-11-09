@@ -66,6 +66,7 @@ flutter:
     - assets/icons/light/20x20/cash/
     - assets/icons/light/20x20/simple_card_actions/
     - assets/icons/light/20x20/tick/
+    - assets/icons/light/20x20/checkmark/
     - assets/icons/light/24x24/acccount/
     - assets/icons/light/24x24/index_history/
     - assets/icons/light/24x24/account_status/
@@ -145,7 +146,9 @@ flutter:
     - assets/icons/light/24x24/bank_medium/
     - assets/icons/light/24x24/history_completed/
     - assets/icons/light/24x24/history_declined/
+    - assets/icons/light/24x24/transfer/
     - assets/icons/light/24x24/chevron_down_double/
+    - assets/icons/light/24x24/crypto/
     - assets/icons/light/32x32/market/
     - assets/icons/light/32x32/my_assets/
     - assets/icons/light/32x32/card_bottom/

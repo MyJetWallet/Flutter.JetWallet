@@ -44,8 +44,10 @@ class SLargeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 150,
+    return ConstrainedBox(
+      constraints: const BoxConstraints(
+        minHeight: 150,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

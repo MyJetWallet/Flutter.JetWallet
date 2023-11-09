@@ -1,12 +1,15 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/simple_card/store/simple_card_store.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_header.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
@@ -76,6 +79,16 @@ class _EurWalletBodyState extends State<EurWalletBody> {
     final simpleCardStore = getIt.get<SimpleCardStore>();
 
     final colors = sKit.colors;
+
+    final kycState = getIt.get<KycService>();
+    final kycBlocked = checkKycBlocked(
+      kycState.depositStatus,
+      kycState.tradeStatus,
+      kycState.withdrawalStatus,
+    );
+    final anyBlock = sSignalRModules.clientDetail.clientBlockers.isNotEmpty;
+
+    final isAddButtonDisabled = anyBlock || kycBlocked;
 
     return Stack(
       children: [
@@ -315,20 +328,22 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                           ? intl.eur_wallet_personal_account
                           : intl.create_personal_creating,
                       onTap: () {
-                        sRouter
-                            .push(
-                              CJAccountRouter(
-                                bankingAccount: el,
-                                isCJAccount: false,
-                              ),
-                            )
-                            .then(
-                              (value) => sAnalytics.eurWalletTapBackOnAccountWalletScreen(
-                                isCJ: false,
-                                eurAccountLabel: el.label ?? '',
-                                isHasTransaction: false,
-                              ),
-                            );
+                        if (el.status == AccountStatus.active) {
+                          sRouter
+                              .push(
+                                CJAccountRouter(
+                                  bankingAccount: el,
+                                  isCJAccount: false,
+                                ),
+                              )
+                              .then(
+                                (value) => sAnalytics.eurWalletTapBackOnAccountWalletScreen(
+                                  isCJ: false,
+                                  eurAccountLabel: el.label ?? '',
+                                  isHasTransaction: false,
+                                ),
+                              );
+                        }
                       },
                       description: '',
                       amount: '',
@@ -361,7 +376,9 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: SIconTextButton(
                           onTap: () {
+                            if (isAddButtonDisabled) return;
                             if (bankAccounts.length > 1) return;
+
                             sAnalytics.eurWalletAddAccountEur();
                             sAnalytics.eurWalletPersonalEURAccount();
 
@@ -371,10 +388,18 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                           },
                           text: intl.eur_wallet_add_account,
                           textStyle: sTextButtonStyle.copyWith(
-                            color: bankAccounts.length > 1 ? sKit.colors.grey2 : sKit.colors.blue,
+                            color: isAddButtonDisabled
+                                ? sKit.colors.grey2
+                                : bankAccounts.length > 1
+                                    ? sKit.colors.grey2
+                                    : sKit.colors.blue,
                           ),
                           icon: SPlusIcon(
-                            color: bankAccounts.length > 1 ? sKit.colors.grey2 : sKit.colors.blue,
+                            color: isAddButtonDisabled
+                                ? sKit.colors.grey2
+                                : bankAccounts.length > 1
+                                    ? sKit.colors.grey2
+                                    : sKit.colors.blue,
                           ),
                         ),
                       ),

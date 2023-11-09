@@ -11,6 +11,7 @@ class SActionConfirmText extends StatelessWidget {
     this.valueColor,
     this.valueDescription,
     this.animation,
+    this.icon,
     this.timerLoading = false,
     this.contentLoading = false,
     this.infoIcon = false,
@@ -37,6 +38,7 @@ class SActionConfirmText extends StatelessWidget {
   final String value;
   final double minValueWidth;
   final double maxValueWidth;
+  final Widget? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -104,14 +106,18 @@ class SActionConfirmText extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Expanded(
+                      if (icon != null) ...[
+                        icon!,
+                        const SpaceW8(),
+                      ],
+                      Flexible(
                         child: Text(
                           value,
                           style: sSubtitle3Style.copyWith(
                             color: valueColor ?? SColorsLight().black,
                           ),
                           maxLines: 3,
-                          textAlign: TextAlign.end,
+                          textAlign: icon != null ? TextAlign.start : TextAlign.end,
                         ),
                       ),
                       if (animation != null) ...[

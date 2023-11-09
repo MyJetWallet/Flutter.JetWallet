@@ -12,6 +12,7 @@ import 'package:jetwallet/features/auth/onboarding/ui/onboarding_screen.dart';
 import 'package:jetwallet/features/auth/single_sign_in/ui/sing_in.dart';
 import 'package:jetwallet/features/auth/splash/splash_screen_no_animation.dart';
 import 'package:jetwallet/features/auth/user_data/ui/user_data_screen.dart';
+import 'package:jetwallet/features/face_check/ui/face_check_screen.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/features/pin_screen/ui/pin_screen.dart';
 import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
@@ -96,6 +97,9 @@ class _AppInitRouterState extends State<AppInitRouter> {
           cannotLeave: true,
           displayHeader: false,
         );
+      },
+      checkSelfie: () {
+        return const FaceCheckScreen();
       },
       home: () {
         /*

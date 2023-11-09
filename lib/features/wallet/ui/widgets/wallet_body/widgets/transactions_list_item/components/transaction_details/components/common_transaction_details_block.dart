@@ -7,6 +7,8 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/iban_send_details.dart';
+import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/buy_details.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -34,7 +36,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
         transactionListItem.operationType == OperationType.nftSwap ||
         transactionListItem.operationType == OperationType.nftSell;
 
-    final isLocal = transactionListItem.operationType == OperationType.cryptoInfo &&
+    final isLocal = transactionListItem.operationType == OperationType.cryptoBuy &&
         isOperationLocal(
           transactionListItem.cryptoBuyInfo?.paymentMethod ?? PaymentMethodType.unsupported,
         );
@@ -75,6 +77,11 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             ((transactionListItem.operationType == OperationType.p2pBuy || isLocal) &&
                 transactionListItem.status == Status.inProgress)) ...[
           const SpaceH40(),
+        ] else if (transactionListItem.operationType == OperationType.bankingAccountWithdrawal ||
+            transactionListItem.operationType == OperationType.bankingBuy ||
+            transactionListItem.operationType == OperationType.swap ||
+            transactionListItem.operationType == OperationType.bankingSell) ...[
+          const SpaceH26(),
         ] else ...[
           const SpaceH67(),
         ],
@@ -86,7 +93,18 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
               color: colors.grey2,
             ),
           ),
-        if (!nftTypes.contains(transactionListItem.operationType) || catchingTypes) ...[
+        if (transactionListItem.operationType == OperationType.bankingAccountWithdrawal) ...[
+          IbanSendDetailsHeader(
+            transactionListItem: transactionListItem,
+          ),
+        ],
+        if (transactionListItem.operationType == OperationType.bankingBuy ||
+            transactionListItem.operationType == OperationType.swap ||
+            transactionListItem.operationType == OperationType.bankingSell) ...[
+          BuyDetailsHeader(
+            transactionListItem: transactionListItem,
+          ),
+        ] else if (!nftTypes.contains(transactionListItem.operationType) || catchingTypes) ...[
           SPaddingH24(
             child: AutoSizeText(
               volumeFormat(
@@ -111,8 +129,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
               ),
             ),
           ),
-          if (transactionListItem.operationType == OperationType.ibanSend ||
-              transactionListItem.operationType == OperationType.giftSend ||
+          if (transactionListItem.operationType == OperationType.giftSend ||
               transactionListItem.operationType == OperationType.giftReceive ||
               transactionListItem.status == Status.completed)
             Text(
@@ -126,8 +143,11 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
               ),
             ),
         ],
-        if (isOperationSupportCopy(transactionListItem))
-          //const SpaceH8()
+        if (isOperationSupportCopy(transactionListItem) &&
+                transactionListItem.operationType == OperationType.bankingAccountWithdrawal ||
+            transactionListItem.operationType == OperationType.bankingBuy ||
+            transactionListItem.operationType == OperationType.swap ||
+            transactionListItem.operationType == OperationType.bankingSell)
           const SizedBox.shrink()
         else
           const SpaceH72(),
@@ -187,12 +207,11 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
         context,
       )}'
           ' ${transactionListItem.assetId} ';
-    } else if (transactionListItem.operationType == OperationType.ibanSend) {
-      title = '${operationName(
-        OperationType.ibanSend,
+    } else if (transactionListItem.operationType == OperationType.bankingAccountWithdrawal) {
+      title = operationName(
+        OperationType.bankingAccountWithdrawal,
         context,
-      )}'
-          ' ${transactionListItem.assetId} ';
+      );
     } else if (transactionListItem.operationType == OperationType.giftSend) {
       title = operationName(
         OperationType.giftSend,
@@ -218,11 +237,11 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
 
   Decimal operationAmount(OperationHistoryItem transactionListItem) {
     if (transactionListItem.operationType == OperationType.withdraw ||
-        transactionListItem.operationType == OperationType.ibanSend ||
+        transactionListItem.operationType == OperationType.bankingAccountWithdrawal ||
         transactionListItem.operationType == OperationType.sendGlobally) {
-      return Decimal.parse(
-        '${transactionListItem.withdrawalInfo!.withdrawalAmount}'.replaceAll('-', ''),
-      );
+      return Decimal.tryParse(
+        '${transactionListItem.withdrawalInfo?.withdrawalAmount}'.replaceAll('-', ''),
+      ) ?? Decimal.zero;
     }
 
     if (transactionListItem.operationType == OperationType.transferByPhone) {
@@ -238,7 +257,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
 
   String getOperationAsset(OperationHistoryItem transactionListItem) {
     if (transactionListItem.operationType == OperationType.withdraw ||
-        transactionListItem.operationType == OperationType.ibanSend ||
+        transactionListItem.operationType == OperationType.bankingAccountWithdrawal ||
         transactionListItem.operationType == OperationType.sendGlobally) {
       return transactionListItem.withdrawalInfo?.withdrawalAssetId ?? '';
     }

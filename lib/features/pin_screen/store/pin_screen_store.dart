@@ -335,17 +335,19 @@ abstract class _PinScreenStoreBase with Store {
             verification: () async {
               await _animateSuccess();
 
+              if (onVerificationEnd != null) {
+                onVerificationEnd!();
+
+                return;
+              }
+
               await sUserInfo.setPin(enterPin);
               if (sUserInfo.isJustLogged) {
                 await sRouter.push(
                   BiometricRouter(),
                 );
               } else {
-                if (onVerificationEnd != null) {
-                  onVerificationEnd!();
-                } else {
-                  getIt.get<StartupService>().pinVerified();
-                }
+                getIt.get<StartupService>().pinVerified();
               }
             },
             orElse: () async {

@@ -608,9 +608,15 @@ abstract class _BuyConfirmationStoreBase with Store {
       if (isWaitingSkipped) {
         return;
       }
-      unawaited(_showSuccessScreen(false));
 
-      skippedWaiting();
+      if (account?.accountId == 'clearjuction_account') {
+        unawaited(_showSuccessScreen(false));
+      } else {
+        await _requestPaymentInfo(
+          (_, __, ___, ____, _____) {},
+          '',
+        );
+      }
     } on ServerRejectException catch (error) {
       unawaited(_showFailureScreen(error.cause));
     } catch (error) {

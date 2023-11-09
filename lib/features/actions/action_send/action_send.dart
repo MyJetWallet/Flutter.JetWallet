@@ -9,9 +9,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/send_options.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
-import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
-import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/features/kyc/models/kyc_country_model.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_card_payment_method_store.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
@@ -69,7 +67,7 @@ Future<void> _showSendAction(BuildContext context) async {
             context: context,
             onAllowed: () async {
               Navigator.pop(context);
-             await _showSendActionChooseAsset(context);
+              await _showSendActionChooseAsset(context);
             },
           );
         },
@@ -95,42 +93,6 @@ Future<void> _showSendAction(BuildContext context) async {
         name: intl.global_send_name,
         helper: intl.global_send_helper,
       ),
-      if (isIbanOutActive.isNotEmpty)
-        SCardRow(
-          icon: const SAccountIcon(),
-          onTap: () {
-            Navigator.pop(context);
-
-            sRouter.replaceAll(
-              [
-                HomeRouter(
-                  children: [
-                    IBanRouter(
-                      initIndex: 1,
-                    ),
-                  ],
-                ),
-              ],
-            );
-
-            getIt.get<AppStore>().setHomeTab(2);
-            if (getIt<AppStore>().tabsRouter != null) {
-              getIt<AppStore>().tabsRouter!.setActiveIndex(2);
-
-              if (getIt.get<IbanStore>().ibanTabController != null) {
-                getIt.get<IbanStore>().ibanTabController!.animateTo(
-                      1,
-                    );
-              } else {
-                getIt.get<IbanStore>().setInitTab(1);
-              }
-            }
-          },
-          amount: '',
-          description: '',
-          name: intl.sendOptions_to_bank_account,
-          helper: intl.iban_send_helper,
-        ),
       SCardRow(
         icon: const SGiftSendIcon(),
         onTap: () {

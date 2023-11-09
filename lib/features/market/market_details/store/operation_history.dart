@@ -29,6 +29,7 @@ class OperationHistory extends _OperationHistoryBase with _$OperationHistory {
     super.isRecurring,
     super.jwOperationId,
     super.pendingOnly,
+    super.accountId,
   );
 
   static _OperationHistoryBase of(BuildContext context) => Provider.of<OperationHistory>(context, listen: false);
@@ -41,6 +42,7 @@ abstract class _OperationHistoryBase with Store {
     this.isRecurring,
     this.jwOperationId,
     this.pendingOnly,
+    this.accountId,
   ) {
     getIt<EventBus>().on<GetNewHistoryEvent>().listen((event) {
       refreshHistory(needLoader: false);
@@ -50,6 +52,7 @@ abstract class _OperationHistoryBase with Store {
   final String? assetId;
   final TransactionType? filter;
   final bool? isRecurring;
+  final String? accountId;
 
   // Указывает на конкретную операцию, используем после тапа по пушу
   String? jwOperationId;
@@ -115,6 +118,7 @@ abstract class _OperationHistoryBase with Store {
           assetId: assetId,
           batchSize: 20,
           pendingOnly: pendingOnly,
+          accountId: accountId,
         ),
         needLoader,
       );
@@ -271,7 +275,7 @@ List<oh_resp.OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(
         item.operationType == oh_resp.OperationType.recurringBuy ||
         item.operationType == oh_resp.OperationType.earningDeposit ||
         item.operationType == oh_resp.OperationType.earningWithdrawal ||
-        item.operationType == oh_resp.OperationType.cryptoInfo ||
+        item.operationType == oh_resp.OperationType.cryptoBuy ||
         item.operationType == oh_resp.OperationType.buyApplePay ||
         item.operationType == oh_resp.OperationType.buyGooglePay ||
         item.operationType == oh_resp.OperationType.nftSwap ||
@@ -287,7 +291,11 @@ List<oh_resp.OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(
         item.operationType == oh_resp.OperationType.sendGlobally ||
         item.operationType == oh_resp.OperationType.p2pBuy ||
         item.operationType == oh_resp.OperationType.giftSend ||
-        item.operationType == oh_resp.OperationType.giftReceive,
+        item.operationType == oh_resp.OperationType.bankingBuy ||
+        item.operationType == oh_resp.OperationType.bankingSell ||
+        item.operationType == oh_resp.OperationType.bankingTransfer ||
+        item.operationType == oh_resp.OperationType.bankingAccountDeposit ||
+        item.operationType == oh_resp.OperationType.bankingAccountWithdrawal,
   )
       .map((item) {
     return item.operationType == oh_resp.OperationType.swap
