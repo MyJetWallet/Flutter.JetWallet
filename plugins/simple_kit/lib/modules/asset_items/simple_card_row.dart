@@ -74,30 +74,35 @@ class SCardRow extends StatelessWidget {
                   SizedBox(width: spaceBIandText),
                   SizedBox(
                     height: helper.isNotEmpty ? 46 : 28,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          name,
-                          style: sTextH5Style.copyWith(
-                            color: mainColor,
-                          ),
-                        ),
-                        if (helper.isNotEmpty) ...[
-                          Baseline(
-                            baseline: 14.0,
-                            baselineType: TextBaseline.alphabetic,
-                            child: Text(
-                              helper,
-                              textAlign: TextAlign.start,
-                              maxLines: 3,
-                              style: sCaptionTextStyle.copyWith(
-                                color: SColorsLight().grey1,
-                              ),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width * .4,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            name,
+                            style: sTextH5Style.copyWith(
+                              color: mainColor,
                             ),
                           ),
+                          if (helper.isNotEmpty) ...[
+                            Baseline(
+                              baseline: 14.0,
+                              baselineType: TextBaseline.alphabetic,
+                              child: Text(
+                                helper,
+                                textAlign: TextAlign.start,
+                                maxLines: 3,
+                                style: sCaptionTextStyle.copyWith(
+                                  color: SColorsLight().grey1,
+                                ),
+                              ),
+                            ),
+                          ],
                         ],
-                      ],
+                      ),
                     ),
                   ),
                   if (!needSpacer) ...[
