@@ -141,6 +141,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                         .push(
                       CJAccountLabelRouter(
                         initLabel: label,
+                        accountId: widget.bankingAccount.accountId ?? '',
                       ),
                     )
                         .then((value) {
