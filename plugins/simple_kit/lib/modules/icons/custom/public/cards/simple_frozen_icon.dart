@@ -1,33 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/icons/custom/light/cards/simple_light_card.dart';
+import 'package:simple_kit/modules/icons/custom/light/cards/simple_light_frozen_icon.dart';
 import 'package:simple_kit/utils/enum.dart';
 
-class SCardIcon extends StatelessObserverWidget {
-  const SCardIcon({
+class SFrozenIcon extends StatelessObserverWidget {
+  const SFrozenIcon({
     Key? key,
     this.width,
     this.height,
-    this.color,
   }) : super(key: key);
 
   final double? width;
   final double? height;
-  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return sKit.currentTheme == STheme.dark
-        ? SimpleLightCardIcon(
+        ? SimpleLightFrozenIcon(
             width: width,
             height: height,
-            color: color,
           )
-        : SimpleLightCardIcon(
+        : SimpleLightFrozenIcon(
             width: width,
             height: height,
-            color: color,
           );
   }
 }

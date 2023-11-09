@@ -52,6 +52,7 @@ const recurringBuyPausedImage = 'assets/images/recurring_paused.png';
 
 // Disclaimer
 const disclaimerAsset = 'assets/images/disclaimer.png';
+const mailAsset = 'assets/images/mail-asset.png';
 
 //Market Details
 const signsAfterComma = 2;

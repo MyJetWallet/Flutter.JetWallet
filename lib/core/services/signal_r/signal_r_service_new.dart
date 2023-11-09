@@ -846,6 +846,9 @@ abstract class _SignalRServiceUpdatedBase with Store {
   void setBankingProfileData(BankingProfileModel data) {
     bankingProfileData = data;
     totalEurWalletBalance = Decimal.zero;
+    print('setBankingProfileData');
+    print(data);
+    print(data.banking?.cards);
 
     for (final el in data.banking?.accounts ?? <SimpleBankingAccount>[]) {
       totalEurWalletBalance += el.balance ?? Decimal.zero;

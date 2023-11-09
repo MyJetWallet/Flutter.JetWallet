@@ -177,8 +177,6 @@ class DepositMethodsSerialiser
     } else if (value == 'IbanReceive') {
       return DepositMethods.ibanReceive;
     } else {
-      print('DepositMethods.unsupportedvalue');
-      print(value);
       return DepositMethods.unsupported;
     }
   }

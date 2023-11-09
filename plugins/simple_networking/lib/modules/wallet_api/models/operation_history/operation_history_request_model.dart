@@ -9,6 +9,7 @@ class OperationHistoryRequestModel with _$OperationHistoryRequestModel {
     String? lastDate,
     int? batchSize,
     String? assetId,
+    String? accountId,
     bool? pendingOnly,
   }) = _OperationHistoryRequestModel;
 

@@ -13,6 +13,14 @@ class ApiClient {
     dynamic data,
     CancelToken? cancelToken,
   }) async {
+    print('post data $data');
+    print('post data $path');
+    print(path.contains('sensitive'));
+
+    if (path.contains('sensitive')) {
+      dio.options.headers['Authorization'] = 'Bearer M8/SmRtqXrqe+H2XH6lRM30YrIIeOWlQc/Zq9lSH9JSodskVfJ5LFejjAeZxX9CWGTZKn9oTV8AOEFQnP/Vx0XL/tniS5jvi9EISqPqbwbos0oxw9edNcloi+7xFRxb619r9NUUnCIQpOWeow4j5I95VwyuGTfSegVuFLm5mfAw=';
+    }
+
     return await dio
         .post(
           path,
@@ -20,8 +28,10 @@ class ApiClient {
           cancelToken: cancelToken,
           options: sessionID != null || (sessionID?.isEmpty ?? false)
               ? Options(
+                  // validateStatus: (_) => true,
                   extra: {
                     'sessionID': sessionID,
+                    'isSensitive': path.contains('sensitive') ? 'sensitive' : '',
                   },
                 )
               : null,

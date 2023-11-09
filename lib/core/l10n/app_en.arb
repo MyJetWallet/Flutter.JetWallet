@@ -1280,6 +1280,9 @@
     "my_wallets_create_account": "Creating account...",
     "my_wallets_account": "account",
     "my_wallets_pending_transactions": "Pending transactions...",
+    "my_wallets_card": "card",
+    "my_wallets_cards": "cards",
+    "my_wallets_card_creating": "creating card...",
     "let_us_create_account": "Let us create account for you",
     "wallet_verify_your_account": "Please verify your account",
     "wallet_verify_account": "Verify account",
@@ -1357,6 +1360,7 @@
     "simple_card_password_requirements_description": "It is important to use unique password and do not reuse passwords from other online platforms or applications",
     "simple_card_password_cancel": "Cancel",
     "simple_card_password_create": "Create password",
+    "simple_card_password_working": "Working on your Simple card",
     "simple_card_get_card": "Get card",
     "simple_card_add_cash": "Add cash",
     "simple_card_show_details": "Show details",
@@ -1374,5 +1378,14 @@
     "simple_card_spending_limits": "Spending limits",
     "simple_card_remind_pin": "Remind PIN",
     "simple_card_set_password": "Set password",
-    "simple_card_online_purchases": "For online purchases"
+    "simple_card_online_purchases": "For online purchases",
+    "simple_card_remind_title": "Remind PIN",
+    "simple_card_remind_description": "PIN will be sent to the phone",
+    "simple_card_remind_continue": "Continue",
+    "simple_card_remind_cancel": "Cancel",
+    "simple_card_froze_this_card": "Freeze this card?",
+    "simple_card_froze_description": "After card is set payments and ATM frozen, all withdrawals will be declined. You may always unfreeze you card later.",
+    "simple_card_froze_freeze": "Freeze",
+    "simple_card_froze_cancel": "Cancel",
+    "simple_card_froze_alert": "All card transactions will be declined until card is unfrozen back"
 }

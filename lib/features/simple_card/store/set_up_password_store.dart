@@ -31,7 +31,15 @@ abstract class _SetUpPasswordStoreBase with Store {
   String password = '';
   @action
   void setPassword(String value) {
+    setPasswordError(false);
     password = value;
+  }
+
+  @observable
+  bool hidePassword = true;
+  @action
+  void setHidePassword(bool value) {
+    hidePassword = value;
   }
 
   @observable
@@ -79,6 +87,11 @@ abstract class _SetUpPasswordStoreBase with Store {
         );
 
         await sRouter.pop();
+        sNotification.showError(
+          intl.simple_card_password_working,
+          id: 1,
+          isError: false,
+        );
 
         loader.finishLoadingImmediately();
       } on ServerRejectException catch (error) {

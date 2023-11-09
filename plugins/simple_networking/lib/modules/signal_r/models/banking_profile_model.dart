@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simple_networking/helpers/decimal_serialiser.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 
 part 'banking_profile_model.freezed.dart';
 part 'banking_profile_model.g.dart';
@@ -48,10 +49,30 @@ class SimpleBankingAccount with _$SimpleBankingAccount {
 }
 
 @freezed
+class CardDataModel with _$CardDataModel {
+  const factory CardDataModel({
+    final String? cardId,
+    final String? cardNumberMasked,
+    final String? currency,
+    @DecimalNullSerialiser() final Decimal? balance,
+    final AccountStatusCard? status,
+    final String? nameOnCard,
+    final String? cardType,
+    final String? expiryDate,
+    final bool? isHidden,
+    final String? label,
+    final bool? passwordIsSet,
+  }) = _CardDataModel;
+
+  factory CardDataModel.fromJson(Map<String, dynamic> json) => _$CardDataModelFromJson(json);
+}
+
+@freezed
 class BankingDataModel with _$BankingDataModel {
   const factory BankingDataModel({
     @BankingClientStatusSerialiser() final BankingClientStatus? status,
     final List<SimpleBankingAccount>? accounts,
+    final List<CardDataModel>? cards,
   }) = _BankingDataModel;
 
   factory BankingDataModel.fromJson(Map<String, dynamic> json) => _$BankingDataModelFromJson(json);

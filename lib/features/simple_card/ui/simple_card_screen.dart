@@ -95,7 +95,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                 ),
                 SliverToBoxAdapter(
                   child: CardWidget(
-                    card: simpleCardStore.card!,
+                    card: simpleCardStore.cardFull!,
                     cardSensitive: simpleCardStore.cardSensitiveData!,
                     isFrozen: simpleCardStore.isFrozen,
                     showDetails: simpleCardStore.showDetails,
@@ -132,9 +132,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                     child: SimpleCardActionButtons(
                       isDetailsShown: simpleCardStore.showDetails,
                       isFrozen: simpleCardStore.isFrozen,
-                      isTerminateAvailable:
-                        simpleCardStore.card != null &&
-                        simpleCardStore.card!.balance! == Decimal.zero,
+                      isTerminateAvailable: false,
                       onAddCash: () {},
                       onShowDetails: () {
                         simpleCardStore.setShowDetails(!simpleCardStore.showDetails);
@@ -157,11 +155,11 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                     ),
                   ),
                 ),
-                if (simpleCardStore.card != null &&
-                    simpleCardStore.card!.balance! > Decimal.zero) ...[
+                if (simpleCardStore.cardFull != null) ...[
                   TransactionsList(
                     scrollController: _scrollController,
-                    symbol: simpleCardStore.card!.currency,
+                    symbol: simpleCardStore.cardFull!.currency,
+                    accountId: simpleCardStore.cardFull!.cardId,
                     onItemTapLisener: (symbol) {
 
                     },

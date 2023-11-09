@@ -1,10 +1,12 @@
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit/helpers/biometrics_auth_helpers.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 
 part 'user_info_service.g.dart';
 
@@ -73,8 +75,10 @@ abstract class _UserInfoServiceBase with Store {
   @observable
   bool cardRequested = false;
 
-  @observable
-  bool isSimpleCardAvailable = true;
+  @computed
+  bool get isSimpleCardAvailable => sSignalRModules.assetPaymentMethodsNew?.product?.where(
+    (element) => element.id == AssetPaymentProductsEnum.bankingCardAccount,
+  ).toList().isNotEmpty ?? false;
 
   @observable
   bool isSimpleCardInProgress = false;

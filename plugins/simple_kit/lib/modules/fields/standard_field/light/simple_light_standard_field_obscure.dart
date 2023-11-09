@@ -87,6 +87,7 @@ class _SimpleLightStandardFieldObscureState
       hideIconsIfError: false,
       keyboardType: widget.keyboardType,
       inputFormatters: widget.inputFormatters,
+      maxLines: 1,
       suffixIcons: [
         if (showSuffix)
           InkWell(
@@ -102,6 +103,21 @@ class _SimpleLightStandardFieldObscureState
               child: obscure ? const SEyeOpenIcon() : const SEyeCloseIcon(),
             ),
           ),
+      ],
+      eraseIcon: [
+        if (controller2.text.isNotEmpty) ...[
+          const SpaceW16(),
+          SIconButton(
+            defaultIcon: const SEraseIcon(),
+            pressedIcon: const SErasePressedIcon(),
+            onTap: () {
+              setState(() {
+                controller2.clear();
+                widget.onChanged?.call('');
+              });
+            },
+          ),
+        ],
       ],
       isError: widget.isError,
       validators: widget.validators,

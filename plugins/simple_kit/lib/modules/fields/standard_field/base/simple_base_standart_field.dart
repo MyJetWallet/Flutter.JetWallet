@@ -89,6 +89,9 @@ class _SimpleBaseStandardFieldState extends State<SimpleBaseStandardField> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.suffixIcons);
+    print(!widget.hideIconsIfError || !widget.isError);
+
     return ConstrainedBox(
       constraints: BoxConstraints(
         minHeight: widget.height ?? 88,

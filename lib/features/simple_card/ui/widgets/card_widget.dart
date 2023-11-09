@@ -7,9 +7,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
+import 'package:simple_kit/modules/icons/custom/public/cards/simple_mastercard_big_icon.dart';
 import 'package:simple_kit/modules/icons/custom/public/cards/simple_mastercard_icon.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit/modules/texts/simple_text_styles.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_sevsitive_response.dart';
 
@@ -38,7 +40,7 @@ class CardWidget extends StatefulWidget {
 
   final bool isFrozen;
   final bool showDetails;
-  final SimpleCardModel card;
+  final CardDataModel card;
   final SimpleCardSensitiveResponse cardSensitive;
   final Function() onTap;
 
@@ -130,13 +132,14 @@ class CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
                     builder: (context, child) {
                       final angle = controller.value * -pi;
                       final transform = Matrix4.identity()
-                        ..setEntry(3, 2, 0.001)
+                        ..setEntry(3, 0, 0)
                         ..rotateY(angle);
 
                       return Transform(
                         transform: transform,
                         alignment: Alignment.center,
                         child: Container(
+                          clipBehavior: Clip.antiAlias,
                           padding: const EdgeInsets.only(
                             left: 16,
                             right: 16,
@@ -149,99 +152,117 @@ class CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
                             color: colors.lightPurple,
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: !isFront
+                          child: !isFrontImage(angle.abs())
                             ? Transform(
                                 transform: Matrix4.identity()..rotateY(pi),
                                 alignment: Alignment.center,
-                                child: Column(
-                                children: [
-                                  Row(
+                                child: Container(
+                                  clipBehavior: Clip.antiAlias,
+                                  decoration: const BoxDecoration(),
+                                  child: Column(
                                     children: [
-                                      const Spacer(),
-                                      SvgPicture.asset(
-                                        simpleSmileLogo,
-                                        width: 112,
-                                      ),
-                                    ],
-                                  ),
-                                  const Spacer(),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      CardSensitiveData(
-                                        name: intl.simple_card_card_number,
-                                        value: widget.cardSensitive.cardNumber ?? '',
-                                        onTap: onCopyAction,
-                                      ),
-                                      const SpaceH10(),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
-                                          CardSensitiveData(
-                                            showCopy: false,
-                                            name: intl.simple_card_valid_thru,
-                                            value: widget.cardSensitive.cardExpDate ?? '',
-                                            onTap: onCopyAction,
-                                          ),
-                                          const SpaceW24(),
-                                          CardSensitiveData(
-                                            showCopy: false,
-                                            name: intl.simple_card_cvv,
-                                            value: widget.cardSensitive.cardCvv ?? '',
-                                            onTap: onCopyAction,
+                                          const Spacer(),
+                                          SvgPicture.asset(
+                                            simpleSmileLogo,
+                                            width: 112,
                                           ),
                                         ],
                                       ),
-                                      const SpaceH8(),
+                                      const Spacer(),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          CardSensitiveData(
+                                            name: intl.simple_card_card_number,
+                                            value: widget.cardSensitive.cardNumber ?? '',
+                                            onTap: onCopyAction,
+                                          ),
+                                          const SpaceH10(),
+                                          Row(
+                                            children: [
+                                              CardSensitiveData(
+                                                showCopy: false,
+                                                name: intl.simple_card_valid_thru,
+                                                value: widget.cardSensitive.cardExpDate ?? '',
+                                                onTap: onCopyAction,
+                                              ),
+                                              const SpaceW24(),
+                                              CardSensitiveData(
+                                                showCopy: false,
+                                                name: intl.simple_card_cvv,
+                                                value: widget.cardSensitive.cardCvv ?? '',
+                                                onTap: onCopyAction,
+                                              ),
+                                            ],
+                                          ),
+                                          const SpaceH8(),
+                                        ],
+                                      ),
                                     ],
                                   ),
-                                ],
-                              ),
+                                ),
                             )
-                          : Column(
-                            children: [
-                              Row(
-                                children: [
-                                  const Spacer(),
-                                  SvgPicture.asset(
-                                    simpleSmileLogo,
-                                    width: 112,
-                                  ),
-                                ],
-                              ),
-                              const Spacer(),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    '\u2022 \u2022 8800',
-                                    style: sCaptionTextStyle.copyWith(
-                                      color: colors.white,
+                          : Container(
+                            clipBehavior: Clip.antiAlias,
+                            decoration: const BoxDecoration(),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    const Spacer(),
+                                    SvgPicture.asset(
+                                      simpleSmileLogo,
+                                      width: 112,
                                     ),
-                                  ),
-                                  const Spacer(),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        'debit',
-                                        style: sCaptionTextStyle.copyWith(
-                                          color: colors.white,
+                                  ],
+                                ),
+                                const Spacer(),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    SizedBox(
+                                      width: 48,
+                                      height: 48,
+                                      child: Center(
+                                        child: Text(
+                                          '\u2022 \u2022 '
+                                              '${widget.card.cardNumberMasked
+                                              ?.substring(
+                                            (
+                                                widget.card.cardNumberMasked?.length ?? 0
+                                            ) - 4,)}',
+                                          style: sCaptionTextStyle.copyWith(
+                                            color: colors.white,
+                                          ),
                                         ),
                                       ),
-                                      const SpaceH4(),
-                                      const SizedBox(
-                                        width: 48,
-                                        height: 48,
-                                        child: SMasterCardIcon(
-                                          width: 40,
-                                          height: 25,
+                                    ),
+                                    const Spacer(),
+                                    Column(
+                                      children: [
+                                        Text(
+                                          'debit',
+                                          style: sCaptionTextStyle.copyWith(
+                                            color: colors.white,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
+                                        const SpaceH4(),
+                                        const SizedBox(
+                                          width: 48,
+                                          height: 48,
+                                          child: SMasterCardBigIcon(
+                                            width: 40,
+                                            height: 25,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );

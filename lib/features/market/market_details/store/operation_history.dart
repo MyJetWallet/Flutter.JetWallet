@@ -180,7 +180,7 @@ abstract class _OperationHistoryBase with Store {
 
   // При сколле вниз
   @action
-  Future<void> operationHistory(String? assetId) async {
+  Future<void> operationHistory(String? assetId, {String? accountId}) async {
     if (operationHistoryItems.isEmpty) return;
 
     union = const OperationHistoryUnion.loading();
@@ -192,6 +192,7 @@ abstract class _OperationHistoryBase with Store {
         batchSize: 20,
         lastDate: operationHistoryItems.last.timeStamp,
         pendingOnly: pendingOnly,
+        accountId: accountId,
       ),
       true,
     );

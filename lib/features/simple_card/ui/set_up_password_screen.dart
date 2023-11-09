@@ -38,7 +38,7 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
     return SPageFrame(
       loaderText: intl.loader_please_wait,
       resizeToAvoidBottomInset: false,
-      color: colors.white,
+      color: colors.grey5,
       loading: store.loader,
       header: SPaddingH24(
         child: SSmallHeader(
@@ -54,57 +54,55 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
       ),
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 24,
-              left: 24,
-              right: 24,
-              bottom: 16,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  intl.simple_card_password_description,
-                  style: sBodyText1Style.copyWith(
-                    color: colors.grey1,
+          ColoredBox(
+            color: colors.white,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: 24,
+                left: 24,
+                right: 24,
+                bottom: 16,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    intl.simple_card_password_description,
+                    style: sBodyText1Style.copyWith(
+                      color: colors.grey1,
+                    ),
+                    maxLines: 10,
                   ),
-                  maxLines: 10,
-                ),
-                const SpaceH12(),
-                SLinkButtonText(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  textStyle: sBodyText1Style,
-                  active: true,
-                  name: intl.simple_card_password_requirements,
-                  onTap: () {
-                    showPasswordRequirements(context);
-                  },
-                  activeColor: colors.black,
-                  inactiveColor: colors.grey1,
-                  defaultIcon: SBlueRightArrowIcon(
-                    color: colors.grey3,
+                  const SpaceH12(),
+                  SLinkButtonText(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    textStyle: sBodyText1Style,
+                    active: true,
+                    name: intl.simple_card_password_requirements,
+                    onTap: () {
+                      showPasswordRequirements(context);
+                    },
+                    activeColor: colors.black,
+                    inactiveColor: colors.grey1,
+                    defaultIcon: SBlueRightArrowIcon(
+                      color: colors.grey3,
+                    ),
+                    pressedIcon: SBlueRightArrowIcon(
+                      color: colors.grey3,
+                    ),
+                    inactiveIcon: SBlueRightArrowIcon(
+                      color: colors.grey3,
+                    ),
                   ),
-                  pressedIcon: SBlueRightArrowIcon(
-                    color: colors.grey3,
-                  ),
-                  inactiveIcon: SBlueRightArrowIcon(
-                    color: colors.grey3,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           SFieldDividerFrame(
-            child: SStandardField(
-              maxLines: 1,
-              maxLength: 32,
-              labelText: intl.simple_card_password_create,
-              autofocus: true,
-              isError: store.passwordError,
-              enableInteractiveSelection: false,
-              disableErrorOnChanged: false,
+            child: SStandardFieldObscure(
               controller: store.passwordController,
+              labelText: intl.simple_card_password_create,
+              isError: store.passwordError,
               onChanged: store.setPassword,
             ),
           ),
@@ -130,7 +128,7 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
                         return;
                       }
 
-                      await store.setCardPassword(simpleCardStore.card?.cardId ?? '');
+                      await store.setCardPassword(simpleCardStore.cardFull?.cardId ?? simpleCardStore.card?.cardId ?? '');
                     },
                   ),
                 ),

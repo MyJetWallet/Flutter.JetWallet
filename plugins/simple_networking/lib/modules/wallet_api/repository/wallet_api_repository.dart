@@ -109,6 +109,7 @@ import '../models/iban_info/iban_info_response_model.dart';
 import '../models/profile/profile_set_address_request.dart';
 import '../models/simple_card/simple_card_create_request.dart';
 import '../models/simple_card/simple_card_create_response.dart';
+import '../models/simple_card/simple_card_remind_pin_response.dart';
 import '../models/simple_card/simple_card_sensitive_request.dart';
 import '../models/simple_card/simple_card_set_password_request.dart';
 import '../models/simple_card/simple_card_sevsitive_response.dart';
@@ -841,6 +842,12 @@ class WalletApiRepository {
     return _walletApiDataSources.postSensitiveDataRequest(data);
   }
 
+  Future<DC<ServerRejectException, SimpleCardRemindPinResponse>> postRemindPin({
+    required String cardId,
+  }) async {
+    return _walletApiDataSources.postRemindPinRequest(cardId: cardId);
+  }
+
   Future<DC<ServerRejectException, void>> postCardSetPassword({
     required SimpleCardSetPasswordRequest data,
   }) async {
@@ -856,12 +863,12 @@ class WalletApiRepository {
   Future<DC<ServerRejectException, void>> postCardFreeze({
     required String cardId,
   }) async {
-    return _walletApiDataSources.postCardFreezeRequest(cardId: 'cardId');
+    return _walletApiDataSources.postCardFreezeRequest(cardId: cardId);
   }
 
   Future<DC<ServerRejectException, void>> postCardUnfreeze({
     required String cardId,
   }) async {
-    return _walletApiDataSources.postCardUnfreezeRequest(cardId: 'cardId');
+    return _walletApiDataSources.postCardUnfreezeRequest(cardId: cardId);
   }
 }

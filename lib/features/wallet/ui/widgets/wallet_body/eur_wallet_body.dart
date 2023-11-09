@@ -41,7 +41,9 @@ class _EurWalletBodyState extends State<EurWalletBody> {
     sAnalytics.eurWalletAccountScreen(
       (sSignalRModules.bankingProfileData?.banking?.accounts ?? <SimpleBankingAccount>[]).length,
     );
+    final simpleCardStore = getIt.get<SimpleCardStore>();
 
+    simpleCardStore.initStore();
     _controller.addListener(() {
       if (_controller.position.pixels <= 0) {
         if (!isTopPosition) {
@@ -109,14 +111,30 @@ class _EurWalletBodyState extends State<EurWalletBody> {
             ),
             SliverToBoxAdapter(
               child: SCardRow(
-                icon: const Column(
+                frozenIcon: (simpleCardStore.cardFull == null ||
+                  simpleCardStore.cardFull?.status ==
+                  AccountStatusCard.frozen)
+                    ? const SFrozenIcon(
+                      width: 16,
+                      height: 16,
+                    )
+                    : null,
+                icon: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SpaceH6(),
-                    SCardIcon(
-                      width: 24,
-                      height: 16,
-                    ),
+                    const SpaceH6(),
+                    if (simpleCardStore.cardFull == null ||
+                      simpleCardStore.cardFull?.status ==
+                      AccountStatusCard.frozen)
+                      const SFrozenCardIcon(
+                        width: 24,
+                        height: 16,
+                      )
+                    else
+                      const SCardIcon(
+                        width: 24,
+                        height: 16,
+                      ),
                   ],
                 ),
                 name: intl.eur_wallet_simple_card,
@@ -160,7 +178,11 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                   : null,
               ),
             ),
-            if (userInfo.isSimpleCardAvailable && simpleCardStore.card == null) ...[
+            if (
+              userInfo.isSimpleCardAvailable &&
+              (simpleCardStore.cardFull == null ||
+              simpleCardStore.cardFull?.status == AccountStatusCard.inCreation)
+            ) ...[
               SliverToBoxAdapter(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,7 +195,9 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                         ),
                         child: SIconTextButton(
                           onTap: () {
-                            showCardOptions(context);
+                            if (simpleCardStore.cardFull == null) {
+                              showCardOptions(context);
+                            }
                           },
                           text: intl.simple_card_get_card,
                           textStyle: sTextButtonStyle.copyWith(
@@ -182,6 +206,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                           icon: SActionDepositIcon(
                             color: userInfo.isSimpleCardInProgress ? sKit.colors.grey2 : sKit.colors.blue,
                           ),
+                          disabled: simpleCardStore.cardFull?.status == AccountStatusCard.inCreation,
                         ),
                       ),
                     ),

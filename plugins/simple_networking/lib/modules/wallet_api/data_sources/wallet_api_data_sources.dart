@@ -114,6 +114,7 @@ import '../../../simple_networking.dart';
 import '../models/iban_info/iban_info_response_model.dart';
 import '../models/profile/profile_report_request.dart';
 import '../models/profile/profile_set_address_request.dart';
+import '../models/simple_card/simple_card_remind_pin_response.dart';
 import '../models/simple_card/simple_card_sevsitive_response.dart';
 import '../models/simplex/simplex_payment_response_model.dart';
 
@@ -2464,16 +2465,47 @@ class WalletApiDataSources {
     SimpleCardSensitiveRequest data,
   ) async {
     try {
+      print('SimpleCardSensitiveRequest ${data.toJson()}');
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/banking/card/sensitive',
-        data: data,
+        data: data.toJson(),
+      );
+      print('response ${response}');
+      print('response ${response.statusCode}');
+      print('response ${response.statusMessage}');
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final _ = handleFullResponse<Map>(responseData);
+        print('responseData $responseData');
+
+        return DC.data(SimpleCardSensitiveResponse.fromJson(_));
+      } catch (e) {
+        print('errrrorrrr $e');
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      print('errrrorrrr $e');
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, SimpleCardRemindPinResponse>> postRemindPinRequest({
+    required String cardId,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/banking/card/remind-pin',
+        data: {
+          'cardId': cardId,
+        },
       );
 
       try {
         final responseData = response.data as Map<String, dynamic>;
         final _ = handleFullResponse<Map>(responseData);
 
-        return DC.data(SimpleCardSensitiveResponse.fromJson(_));
+        return DC.data(SimpleCardRemindPinResponse.fromJson(_));
       } catch (e) {
         rethrow;
       }
