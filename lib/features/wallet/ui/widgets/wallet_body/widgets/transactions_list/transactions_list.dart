@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/market/market_details/model/operation_history_union.dart';
 import 'package:jetwallet/features/market/market_details/store/operation_history.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/transaction_list_item.dart';
+import 'package:jetwallet/utils/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -123,14 +124,20 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          intl.transactionsList_noTransactionsYet,
-                          style: sTextH3Style,
+                        Image.asset(
+                          smileAsset,
+                          width: 48,
+                          height: 48,
                         ),
-                        Text(
-                          intl.historyRecurringBuy_text1,
-                          style: sBodyText1Style.copyWith(
-                            color: colors.grey1,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 80),
+                          child: Text(
+                            intl.wallet_simple_account_empty,
+                            textAlign: TextAlign.center,
+                            maxLines: 3,
+                            style: sSubtitle2Style.copyWith(
+                              color: sKit.colors.grey2,
+                            ),
                           ),
                         ),
                       ],
