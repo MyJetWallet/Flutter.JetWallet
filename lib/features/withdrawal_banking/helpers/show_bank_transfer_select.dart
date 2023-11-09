@@ -136,6 +136,7 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             return SCardRow(
+              maxWidth: MediaQuery.of(context).size.width * .7,
               icon: const SizedBox(
                 width: 24,
                 height: 24,

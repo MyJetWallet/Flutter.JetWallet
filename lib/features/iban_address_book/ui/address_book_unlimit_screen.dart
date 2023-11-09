@@ -50,8 +50,8 @@ class _BodyAdressBookUnlimit extends StatelessObserverWidget {
           title: store.isEditMode ? intl.address_book_edit_recipient : intl.address_book_add_recipient,
           showCloseButton: store.isEditMode,
           showBackButton: !store.isEditMode,
-          onBackButtonTap: () => Navigator.pop(context),
-          onCLoseButton: () => Navigator.pop(context),
+          onBackButtonTap: () => Navigator.pop(context, false),
+          onCLoseButton: () => Navigator.pop(context, false),
         ),
       ),
       child: CustomScrollView(

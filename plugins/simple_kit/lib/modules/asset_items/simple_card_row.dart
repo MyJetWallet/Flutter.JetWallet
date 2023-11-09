@@ -16,6 +16,7 @@ class SCardRow extends StatelessWidget {
     this.rightIcon,
     this.spaceBIandText = 18,
     this.needSpacer = false,
+    this.maxWidth,
     required this.icon,
     required this.name,
     required this.amount,
@@ -39,6 +40,7 @@ class SCardRow extends StatelessWidget {
   final String description;
   final VoidCallback onTap;
   final double spaceBIandText;
+  final double? maxWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +78,7 @@ class SCardRow extends StatelessWidget {
                     height: helper.isNotEmpty ? 46 : 28,
                     child: ConstrainedBox(
                       constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width * .4,
+                        maxWidth: maxWidth ?? double.infinity,
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
