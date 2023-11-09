@@ -16,4 +16,5 @@ class RouterUnion with _$RouterUnion {
   const factory RouterUnion.apiSelector() = ApiSelector;
   const factory RouterUnion.crisp() = Crisp;
   const factory RouterUnion.appUpdate() = AppUpdate;
+  const factory RouterUnion.checkSelfie() = CheckSelfie;
 }

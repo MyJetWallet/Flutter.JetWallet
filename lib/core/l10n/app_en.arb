@@ -1380,5 +1380,8 @@
     "address_book_edit_recipient": "Edit recipient",
     "address_book_full_name": "Full name",
     "address_book_country_of_recepients_bank": "Country of recepient’s bank",
-    "iban_reference": "Reference"
+    "iban_reference": "Reference",
+    "face_check_title": "Take a quick selfie",
+    "face_check_subtitle": "We will use it to securely authenticate login to your Simple App. Please find good lighting and make sure nothing is covering your face",
+    "face_check_continue": "Continue"
 }

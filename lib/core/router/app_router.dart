@@ -594,5 +594,9 @@ class AppRouter extends _$AppRouter {
       path: '/convetr_confirmation',
       page: ConvetrConfirmationRoute.page,
     ),
+    AutoRoute(
+      path: '/face_check',
+      page: FaceCheckRoute.page,
+    ),
   ];
 }
