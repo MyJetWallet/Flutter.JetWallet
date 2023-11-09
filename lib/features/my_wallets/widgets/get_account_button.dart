@@ -11,6 +11,7 @@ import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -50,20 +51,29 @@ class GetAccountButton extends StatelessObserverWidget {
           },
           text: store.simpleAccountButtonText,
           mainAxisSize: isButtonSmall ? MainAxisSize.min : MainAxisSize.max,
-          icon: store.buttonStatus == BankingShowState.getAccount
-              ? SBankMediumIcon(color: sKit.colors.blue)
-              : Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    color: sKit.colors.blue,
-                    shape: BoxShape.circle,
+          icon: store.buttonStatus == BankingShowState.inProgress
+              ? SizedBox(
+                  width: 13.3,
+                  height: 13.3,
+                  child: CircularProgressIndicator(
+                    color: sKit.colors.grey1,
+                    strokeWidth: 1,
                   ),
-                  child: SizedBox(
-                    width: 16,
-                    height: 16,
-                    child: SBankMediumIcon(color: sKit.colors.white),
-                  ),
-                ),
+                )
+              : store.buttonStatus == BankingShowState.getAccount
+                  ? SBankMediumIcon(color: sKit.colors.blue)
+                  : Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: sKit.colors.blue,
+                        shape: BoxShape.circle,
+                      ),
+                      child: SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: SBankMediumIcon(color: sKit.colors.white),
+                      ),
+                    ),
           rightIcon: store.buttonStatus == BankingShowState.accountList
               ? SizedBox(
                   width: 20,
