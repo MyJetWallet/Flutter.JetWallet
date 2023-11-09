@@ -66,6 +66,7 @@ class SumsubService {
   Future<void> launch({
     VoidCallback? onFinish,
     required bool isBanking,
+    bool needPush = true,
   }) async {
     final countries = getIt.get<KycCountryStore>();
 
@@ -96,24 +97,32 @@ class SumsubService {
           country: countries.activeCountry?.countryName ?? '',
         );
 
-        sRouter.push(
-          SuccessScreenRouter(
-            primaryText: intl.kycChooseDocuments_verifyingNow,
-            secondaryText: intl.kycChooseDocuments_willBeNotified,
-            showPrimaryButton: true,
-            buttonText: intl.previewBuyWithUmlimint_close,
-            onActionButton: () async {
-              navigateToRouter();
+        if (!isBanking) {
+          if (needPush) {
+            sRouter.push(
+              SuccessScreenRouter(
+                primaryText: intl.kycChooseDocuments_verifyingNow,
+                secondaryText: intl.kycChooseDocuments_willBeNotified,
+                showPrimaryButton: true,
+                buttonText: intl.previewBuyWithUmlimint_close,
+                onActionButton: () async {
+                  navigateToRouter();
 
-              if (onFinish != null) onFinish();
-            },
-            onSuccess: (p0) {
-              navigateToRouter();
+                  if (onFinish != null) onFinish();
+                },
+                onSuccess: (p0) {
+                  navigateToRouter();
 
-              if (onFinish != null) onFinish();
-            },
-          ),
-        );
+                  if (onFinish != null) onFinish();
+                },
+              ),
+            );
+          } else {
+            if (onFinish != null) onFinish();
+          }
+        } else {
+          if (onFinish != null) onFinish();
+        }
       }
     }
 
@@ -122,19 +131,27 @@ class SumsubService {
         country: countries.activeCountry?.countryName ?? '',
       );
 
-      sRouter.push(
-        SuccessScreenRouter(
-          primaryText: intl.kycChooseDocuments_verifyingNow,
-          secondaryText: intl.kycChooseDocuments_willBeNotified,
-          showPrimaryButton: true,
-          buttonText: intl.previewBuyWithUmlimint_close,
-          onActionButton: () async {
-            navigateToRouter();
+      if (!isBanking) {
+        if (needPush) {
+          sRouter.push(
+            SuccessScreenRouter(
+              primaryText: intl.kycChooseDocuments_verifyingNow,
+              secondaryText: intl.kycChooseDocuments_willBeNotified,
+              showPrimaryButton: true,
+              buttonText: intl.previewBuyWithUmlimint_close,
+              onActionButton: () async {
+                navigateToRouter();
 
-            if (onFinish != null) onFinish();
-          },
-        ),
-      );
+                if (onFinish != null) onFinish();
+              },
+            ),
+          );
+        } else {
+          if (onFinish != null) onFinish();
+        }
+      } else {
+        if (onFinish != null) onFinish();
+      }
 
       return Future.value(SNSActionResultHandlerReaction.Continue);
     }

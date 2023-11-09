@@ -47,6 +47,7 @@ void showWalletVerifyAccount(
         await getIt<SumsubService>().launch(
           onFinish: after,
           isBanking: isBanking,
+          needPush: false,
         );
       }
 
