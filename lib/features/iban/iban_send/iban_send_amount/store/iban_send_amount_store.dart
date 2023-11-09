@@ -144,7 +144,7 @@ abstract class _IbanSendAmountStoreBase with Store {
   }
 
   @action
-  Future<void> loadPreview(String description, bool isCJ) async {
+  Future<void> loadPreview(String? description, bool isCJ) async {
     loader.startLoadingImmediately();
 
     final previewModel = BankingWithdrawalPreviewModel(
