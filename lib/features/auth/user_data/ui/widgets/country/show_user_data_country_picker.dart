@@ -122,12 +122,11 @@ class _Countries extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      child: ListView.builder(
+    return ListView.builder(
         shrinkWrap: true,
         padding: EdgeInsets.zero,
         itemCount: store.sortedCountries.length,
+        physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           final country = store.sortedCountries[index];
           if (store.sortedCountries.isEmpty) {
@@ -158,7 +157,6 @@ class _Countries extends StatelessObserverWidget {
             isBlocked: country.isBlocked,
           );
         },
-      ),
     );
   }
 }
