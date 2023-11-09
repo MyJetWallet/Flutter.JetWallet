@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/iban/widgets/iban_terms_container.dart';
@@ -30,7 +31,7 @@ class IbanAddressBookSimpleScreen extends StatelessWidget {
   }
 }
 
-class _BodyAddressBookSimple extends StatelessWidget {
+class _BodyAddressBookSimple extends StatelessObserverWidget {
   const _BodyAddressBookSimple({Key? key}) : super(key: key);
 
   @override
