@@ -1380,5 +1380,6 @@
     "address_book_edit_recipient": "Edit recipient",
     "address_book_full_name": "Full name",
     "address_book_country_of_recepients_bank": "Country of recepient’s bank",
-    "iban_reference": "Reference"
+    "iban_reference": "Reference",
+    "history_with": "with"
 }
