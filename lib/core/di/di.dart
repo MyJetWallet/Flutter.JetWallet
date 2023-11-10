@@ -11,6 +11,7 @@ import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/package_info_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
+import 'package:jetwallet/core/services/session_check_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
@@ -125,6 +126,10 @@ Future<GetIt> getItInit({
 
   getIt.registerLazySingleton<MyWalletsSrore>(
     () => MyWalletsSrore(),
+  );
+
+  getIt.registerLazySingleton<SessionCheckService>(
+    () => SessionCheckService(),
   );
 
   return getIt.init(

@@ -73,7 +73,7 @@ Future<Dio> setupDio() async {
 
   setAuthInterceptor(dio, isImage: false);
   await addProxy(dio);
-  //addLogger(dio);
+  addLogger(dio);
 
   return dio;
 }
