@@ -216,12 +216,14 @@ class SumsubService {
             message: 'The FACE CHECK SDK status was changed: $prevStatus -> $newStatus',
           );
 
-      callback();
+      if (newStatus == SNSMobileSDKStatus.Approved ||
+          newStatus == SNSMobileSDKStatus.ActionCompleted ||
+          newStatus == SNSMobileSDKStatus.Pending) {
+        callback();
+      }
     }
 
     Future<SNSActionResultHandlerReaction> onActionResult(SNSMobileSDKActionResult result) async {
-      callback();
-
       return Future.value(SNSActionResultHandlerReaction.Continue);
     }
 
@@ -233,7 +235,7 @@ class SumsubService {
             onStatusChanged: onStatusChanged,
             onActionResult: onActionResult,
           )
-          .withDebug(true)
+          .withDebug(false)
           .withLocale(
             Locale(intl.localeName),
           )

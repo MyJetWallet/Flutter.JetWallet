@@ -25,7 +25,9 @@ abstract class _FaceCheckStoreBase with Store {
         loader.finishLoadingImmediately();
 
         getIt.get<StartupService>().pinVerified();
-      } else if (status == 0) {}
+      } else if (status == 0) {
+        loader.finishLoadingImmediately();
+      }
     }
   }
 
