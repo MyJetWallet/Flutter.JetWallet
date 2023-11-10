@@ -17,7 +17,6 @@ import 'package:jetwallet/features/account/widgets/help_center_web_view.dart';
 import 'package:jetwallet/features/add_circle_card/ui/add_circle_card.dart';
 import 'package:jetwallet/features/add_circle_card/ui/circle_billing_address/circle_billing_address.dart';
 import 'package:jetwallet/features/app/api_selector_screen/api_selector_screen.dart';
-import 'package:jetwallet/features/app/init_router/app_init_router.dart';
 import 'package:jetwallet/features/auth/biometric/ui/biometric.dart';
 import 'package:jetwallet/features/auth/biometric/ui/components/allow_biometric.dart';
 import 'package:jetwallet/features/auth/email_verification/ui/email_verification_screen.dart';

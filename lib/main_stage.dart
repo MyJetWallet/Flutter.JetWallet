@@ -8,15 +8,17 @@ import 'package:jetwallet/features/app/app_initialization.dart';
 import 'package:logging/logging.dart';
 
 Future<void> main() async {
-  await appInitialization('stage');
+  await runZonedGuarded(
+    () async {
+      await appInitialization('stage');
 
-  runZonedGuarded(
-    () => runApp(
-      const AppScreen(
-        isStageEnv: true,
-        debugShowCheckedModeBanner: false,
-      ),
-    ),
+      runApp(
+        const AppScreen(
+          isStageEnv: true,
+          debugShowCheckedModeBanner: false,
+        ),
+      );
+    },
     (error, stackTrace) {
       Logger.root.log(Level.SEVERE, 'ZonedGuarded', error, stackTrace);
       FirebaseCrashlytics.instance.recordError(error, stackTrace);

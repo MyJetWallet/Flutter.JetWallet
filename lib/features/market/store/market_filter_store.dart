@@ -20,12 +20,10 @@ import '../helper/market_losers.dart';
 
 part 'market_filter_store.g.dart';
 
-class MarketFilterStore extends _MarketFilterStoreBase
-    with _$MarketFilterStore {
+class MarketFilterStore extends _MarketFilterStoreBase with _$MarketFilterStore {
   MarketFilterStore() : super();
 
-  static _MarketFilterStoreBase of(BuildContext context) =>
-      Provider.of<MarketFilterStore>(context, listen: false);
+  static _MarketFilterStoreBase of(BuildContext context) => Provider.of<MarketFilterStore>(context, listen: false);
 }
 
 abstract class _MarketFilterStoreBase with Store {
@@ -52,28 +50,6 @@ abstract class _MarketFilterStoreBase with Store {
   bool isReordable = false;
   @action
   bool setIsReordable(bool value) => isReordable = value;
-
-  @computed
-  List<NftModel> get nftList => sSignalRModules.nftList;
-
-  @computed
-  List<NftModel> get nftListFiltred {
-    final localList = nftList.toList();
-    localList.sort((a, b) => a.order!.compareTo(b.order!));
-
-    if (nftFilterSelected.isEmpty) {
-      return localList;
-    }
-
-    final list = localList
-        .where((element) => nftFilterSelected.contains(element.category));
-
-    return list.toList();
-  }
-
-  @observable
-  ObservableList<NftCollectionCategoryEnum> nftFilterSelected =
-      ObservableList.of([]);
 
   @computed
   List<MarketItemModel> get cryptoList => sSignalRModules.getMarketPrices;
@@ -115,8 +91,7 @@ abstract class _MarketFilterStoreBase with Store {
     final output = <MarketItemModel>[];
 
     for (var i = 0; i < watchListLocal.length; i++) {
-      final obj = cryptoListFiltred
-          .indexWhere((element) => element.symbol == watchListLocal[i]);
+      final obj = cryptoListFiltred.indexWhere((element) => element.symbol == watchListLocal[i]);
       if (obj != -1) {
         output.add(cryptoListFiltred[obj]);
       }
@@ -126,27 +101,12 @@ abstract class _MarketFilterStoreBase with Store {
   }
 
   @action
-  void nftFilterAction(NftCollectionCategoryEnum item) {
-    if (nftFilterSelected.contains(item)) {
-      nftFilterSelected.remove(item);
-    } else {
-      nftFilterSelected.add(item);
-    }
-  }
-
-  @action
-  void nftFilterReset() {
-    nftFilterSelected = ObservableList.of([]);
-  }
-
-  @action
   void cryptoFilterChange(String newFilter) {
     activeFilter = newFilter;
   }
 
   @computed
-  List<String> get watchListIds =>
-      sSignalRModules.keyValue.watchlist?.value ?? [];
+  List<String> get watchListIds => sSignalRModules.keyValue.watchlist?.value ?? [];
 
   @observable
   ObservableList<String> watchListLocal = ObservableList.of([]);

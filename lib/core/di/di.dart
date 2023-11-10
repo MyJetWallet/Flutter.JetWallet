@@ -91,8 +91,9 @@ Future<GetIt> getItInit({
     dependsOn: [RemoteConfig],
   );
 
-  getIt.registerSingleton<SignalRService>(
-    SignalRService(),
+  getIt.registerSingletonWithDependencies<SignalRService>(
+    () => SignalRService(),
+    dependsOn: [RemoteConfig],
   );
 
   getIt.registerLazySingleton<LogoutService>(() => LogoutService());
@@ -125,7 +126,6 @@ Future<GetIt> getItInit({
   getIt.registerLazySingleton<MyWalletsSrore>(
     () => MyWalletsSrore(),
   );
-
 
   return getIt.init(
     environmentFilter: environmentFilter,

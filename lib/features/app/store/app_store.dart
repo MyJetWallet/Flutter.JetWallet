@@ -161,8 +161,6 @@ abstract class _AppStoreBase with Store {
         }
       }
 
-      print(authorizedStatus);
-
       authStatus.when(
         loading: () {},
         authorized: () {

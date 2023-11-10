@@ -257,9 +257,7 @@ class SumsubService {
           .build();
 
       final _ = await snsMobileSDK.launch();
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   bool isFaceCheckCheckStatus = false;

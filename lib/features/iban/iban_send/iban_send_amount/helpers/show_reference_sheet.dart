@@ -120,8 +120,6 @@ class _ReferenceBody extends StatelessObserverWidget {
                         sRouter.pop();
                       } else {
                         store.setError(true);
-
-                        print(store.isError);
                       }
 
                       return;

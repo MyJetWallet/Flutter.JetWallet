@@ -8,12 +8,17 @@ import 'package:jetwallet/features/app/app_initialization.dart';
 import 'package:logging/logging.dart';
 
 Future<void> main() async {
-  await appInitialization('prod');
+  await runZonedGuarded(
+    () async {
+      await appInitialization('prod');
 
-  runZonedGuarded(() => runApp(const AppScreen()), (error, stackTrace) {
-    Logger.root.log(Level.SEVERE, 'ZonedGuarded', error, stackTrace);
-    FirebaseCrashlytics.instance.recordError(error, stackTrace);
-  });
+      runApp(const AppScreen());
+    },
+    (error, stackTrace) {
+      Logger.root.log(Level.SEVERE, 'ZonedGuarded', error, stackTrace);
+      FirebaseCrashlytics.instance.recordError(error, stackTrace);
+    },
+  );
 
   Isolate.current.addErrorListener(
     RawReceivePort((pair) async {}).sendPort,

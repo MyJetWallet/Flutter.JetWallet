@@ -1,13 +1,16 @@
 import 'dart:async';
+import 'dart:developer';
 
+import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:isolator/isolator.dart';
 import 'package:jetwallet/core/di/di.dart';
-import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
-import 'package:jetwallet/core/services/signal_r/helpers/converters.dart';
+import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/helpers/market_references.dart';
+import 'package:jetwallet/core/services/signal_r/signalr_backend.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/kyc/models/kyc_country_model.dart';
@@ -23,8 +26,6 @@ import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/helpers/set_category_for_buy_methods.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/utils/models/nft_model.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
@@ -39,24 +40,16 @@ import 'package:simple_networking/modules/signal_r/models/campaign_response_mode
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/signal_r/models/cards_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
-import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
-import 'package:simple_networking/modules/signal_r/models/earn_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/fireblock_events_model.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/signal_r/models/incoming_gift_model.dart';
 import 'package:simple_networking/modules/signal_r/models/indices_model.dart';
-import 'package:simple_networking/modules/signal_r/models/instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/key_value_model.dart';
 import 'package:simple_networking/modules/signal_r/models/kyc_countries_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/market_info_model.dart';
 import 'package:simple_networking/modules/signal_r/models/market_references_model.dart';
-import 'package:simple_networking/modules/signal_r/models/nft_collections.dart';
-import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
-import 'package:simple_networking/modules/signal_r/models/nft_portfolio.dart';
 import 'package:simple_networking/modules/signal_r/models/period_prices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/price_accuracies.dart';
-import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.dart';
-import 'package:simple_networking/modules/signal_r/models/recurring_buys_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/referral_info_model.dart';
 import 'package:simple_networking/modules/signal_r/models/referral_stats_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
@@ -68,25 +61,50 @@ part 'signal_r_service_new.g.dart';
 
 late SignalRServiceUpdated sSignalRModules;
 
-@JsonSerializable()
 class SignalRServiceUpdated extends _SignalRServiceUpdatedBase with _$SignalRServiceUpdated {
   SignalRServiceUpdated() : super();
-
-  factory SignalRServiceUpdated.fromJson(Map<String, dynamic> json) => _$SignalRServiceUpdatedFromJson(json);
-
-  Map<String, dynamic> toJson() => _$SignalRServiceUpdatedToJson(this);
 }
 
-abstract class _SignalRServiceUpdatedBase with Store {
+abstract class _SignalRServiceUpdatedBase with Frontend, Store {
+  Future<void> launch() async {
+    //await initBackend(initializer: _launch);
+
+    //await run(event: SignalREvents.setIconsApi, data: iconApi);
+  }
+
+  // Isolates
+  static SignalRBackEnd _launch(BackendArgument<void> argument) {
+    return SignalRBackEnd(
+      argument: argument,
+    );
+  }
+
+  @override
+  void initActions() {
+    whenEventCome(SignalREvents.getCurrencyModelsData).run(getCurrencyDataFunc);
+    whenEventCome(SignalREvents.getCurrenciesWithHiddenListModelsData).run(getCurrenciesWithHiddenListDataFunc);
+
+    whenEventCome(SignalREvents.updateAssetsWithdrawalFeesData).run(updateAssetsWithdrawalFeesData);
+    whenEventCome(SignalREvents.updateAssetPaymentMethodsNewData).run(updateAssetPaymentMethodsNewData);
+    whenEventCome(SignalREvents.updateBalancesData).run(updateBalancesData);
+
+    whenEventCome(SignalREvents.updateBasePricesCurrenciesListData).run(updateBasePricesData);
+    whenEventCome(SignalREvents.updateBasePricesHiddenCurrenciesListData).run(updateBasePricesHiddenListData);
+
+    whenEventCome(SignalREvents.updateBlockchainsData).run(updateBlockchainsData);
+  }
+
   @observable
-  //@ObservableSignalRLogsListConverter()
-  @JsonKey(includeFromJson: false, includeToJson: false)
   ObservableList<SignalrLog> signalRLogs = ObservableList.of([]);
 
   @observable
   BaseCurrencyModel baseCurrency = const BaseCurrencyModel();
   @action
-  void setBaseCurrency(BaseCurrencyModel value) => baseCurrency = value;
+  void setBaseCurrency(BaseCurrencyModel value) {
+    baseCurrency = value;
+
+    run(event: SignalREvents.setBaseCurrency, data: value);
+  }
 
   @action
   void updateBaseCurrency() {
@@ -99,6 +117,8 @@ abstract class _SignalRServiceUpdatedBase with Store {
       symbol: clientDetail.baseAssetSymbol,
       accuracy: elements.isEmpty ? 0 : elements.first.accuracy,
     );
+
+    //run(event: SignalREvents.setBaseCurrency, data: baseCurrency);
   }
 
   @observable
@@ -107,46 +127,21 @@ abstract class _SignalRServiceUpdatedBase with Store {
   void setInitFinished(bool value) => initFinished = value;
 
   @observable
-  @JsonKey(includeFromJson: false, includeToJson: false)
   CardsModel cards = const CardsModel(now: 0, cardInfos: []);
   @action
   void setCards(CardsModel value) => cards = value;
 
   @observable
-  @JsonKey(includeFromJson: false, includeToJson: false)
   CardLimitsModel? cardLimitsModel;
   @action
   void setCardLimitModel(CardLimitsModel value) => cardLimitsModel = value;
 
   @observable
-  @JsonKey(includeFromJson: false, includeToJson: false)
   GlobalSendMethodsModel? globalSendMethods;
   @action
   void setGlobalSendMethods(GlobalSendMethodsModel value) => globalSendMethods = value;
 
   @observable
-  @ObservableEarnOfferModelListConverter()
-  ObservableList<EarnOfferModel> earnOffersList = ObservableList.of([]);
-  @action
-  void setEarnOffersList(List<EarnOfferModel> value) => earnOffersList = ObservableList.of(value);
-
-  @observable
-  EarnProfileModel? earnProfile;
-  @action
-  void setEarnProfile(EarnProfileModel value) => earnProfile = value;
-
-  @observable
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  ObservableList<RecurringBuysModel> recurringBuys = ObservableList.of([]);
-  @action
-  void setRecurringBuys(RecurringBuysResponseModel value) {
-    recurringBuys = ObservableList.of(
-      value.recurringBuys,
-    );
-  }
-
-  @observable
-  @ObservableKycCountryModelListConverter()
   ObservableList<KycCountryModel> kycCountries = ObservableList.of([]);
   @action
   void setKYCCountries(KycCountriesResponseModel data) {
@@ -194,24 +189,16 @@ abstract class _SignalRServiceUpdatedBase with Store {
   void setMarketInfo(TotalMarketInfoModel value) => marketInfo = value.marketCapChange24H.round(scale: 2);
 
   @observable
-  @ObservableCampaignModelListConverter()
   ObservableList<CampaignModel> marketCampaigns = ObservableList.of([]);
   @action
   void setMarketCampaigns(CampaignResponseModel value) => marketCampaigns = ObservableList.of(value.campaigns);
 
   @observable
-  @ObservableReferralStatsModelListConverter()
   ObservableList<ReferralStatsModel> referralStats = ObservableList.of([]);
   @action
   void setReferralStats(ReferralStatsResponseModel value) => referralStats = ObservableList.of(value.referralStats);
 
   @observable
-  InstrumentsModel? instruments;
-  @action
-  void setInstruments(InstrumentsModel value) => instruments = value;
-
-  @observable
-  @ObservableMarketItemModelListConverter()
   ObservableList<MarketItemModel> marketItems = ObservableList.of([]);
   @observable
   MarketReferencesModel? marketReferencesModel;
@@ -268,11 +255,6 @@ abstract class _SignalRServiceUpdatedBase with Store {
   }
 
   @observable
-  PeriodPricesModel? periodPrices;
-  @action
-  void setPeriodPrices(PeriodPricesModel value) => periodPrices = value;
-
-  @observable
   ClientDetailModel clientDetail = ClientDetailModel(
     baseAssetSymbol: 'USD',
     walletCreationDate: DateTime.now().toString(),
@@ -305,13 +287,11 @@ abstract class _SignalRServiceUpdatedBase with Store {
   }
 
   @observable
-  @ObservableIndexModelListConverter()
   ObservableList<IndexModel> indicesDetails = ObservableList.of([]);
   @action
   void setIndicesDetails(IndicesModel value) => indicesDetails = ObservableList.of(value.indices);
 
   @observable
-  @ObservablePriceAccuracyListConverter()
   ObservableList<PriceAccuracy> priceAccuracies = ObservableList.of([]);
   @action
   void setPriceAccuracies(PriceAccuracies value) => priceAccuracies = ObservableList.of(value.accuracies);
@@ -327,110 +307,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
   @action
   void setReferralInfo(ReferralInfoModel value) => referralInfo = value;
 
-  @observable
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  ObservableList<NftModel> nftList = ObservableList.of([]);
-  @observable
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  ObservableList<NftMarket> allNftList = ObservableList.of([]);
   @action
-  void setNFTList(NftCollections value) => nftList = ObservableList.of(
-        value.collection
-            .map(
-              (e) => NftModel(
-                id: e.id,
-                name: e.name,
-                description: e.description,
-                category: NftCollectionCategoryEnum.values.firstWhere((x) => x.index == e.category),
-                tags: e.tags,
-                nftList: [],
-                sImage: e.sImage,
-                fImage: e.fImage,
-                totalVolumeUsd: e.totalVolumeUsd,
-                bestOffer: e.bestOffer,
-                bestOfferAsset: e.bestOfferAsset,
-                ownerCount: e.ownerCount,
-                order: e.order,
-              ),
-            )
-            .toList(),
-      );
-
-  @observable
-  NFTMarkets? nFTMarkets;
-  @action
-  void setNFTMarket(NFTMarkets value) {
-    nFTMarkets = value;
-    allNftList.clear();
-    for (var i = 0; i < value.nfts.length; i++) {
-      allNftList.add(value.nfts[i]);
-      final ind = nftList.indexWhere(
-        (element) => element.id == value.nfts[i].collectionId,
-      );
-
-      if (ind != -1) {
-        final localInd = nftList[ind].nftList.indexWhere(
-              (element) => element.symbol == value.nfts[i].symbol,
-            );
-
-        if (localInd != -1) {
-          nftList[ind].nftList[localInd] = nftList[ind].nftList[localInd].copyWith(
-                sellAsset: value.nfts[i].sellAsset,
-                sellPrice: value.nfts[i].sellPrice,
-                collectionId: value.nfts[i].collectionId,
-                buyPrice: value.nfts[i].buyPrice,
-                buyAsset: value.nfts[i].buyAsset,
-                ownerChangedAt: value.nfts[i].ownerChangedAt,
-                tradingAsset: value.nfts[i].tradingAsset,
-                fee: value.nfts[i].fee,
-                onSell: value.nfts[i].onSell,
-              );
-        } else {
-          nftList[ind].nftList.add(value.nfts[i]);
-        }
-      }
-    }
-
-    if (userNFTPortfolio != null) {
-      updateUserNft(userNFTPortfolio!);
-    }
-  }
-
-  @observable
-  NftPortfolio? userNFTPortfolio;
-  @action
-  void setUserNFTPortfolio(NftPortfolio value) {
-    userNFTPortfolio = value;
-
-    updateUserNft(value);
-  }
-
-  @observable
-  @ObservableNftModelListConverter()
-  ObservableList<NftModel> userNFTList = ObservableList.of([]);
-  @action
-  void updateUserNft(NftPortfolio value) {
-    userNFTList = ObservableList.of([]);
-
-    for (var i = 0; i < nftList.length; i++) {
-      final localNft = <NftMarket>[];
-
-      for (var q = 0; q < nftList[i].nftList.length; q++) {
-        if (value.nfts!.contains(nftList[i].nftList[q].symbol)) {
-          localNft.add(nftList[i].nftList[q]);
-        }
-      }
-
-      if (localNft.isNotEmpty) {
-        userNFTList.add(
-          nftList[i].copyWith(
-            nftList: localNft,
-          ),
-        );
-      }
-    }
-  }
-
   void fireblockEventAction(FireblockEventsModel value) {
     if (value.events != null) {
       for (final event in value.events!) {
@@ -454,37 +331,27 @@ abstract class _SignalRServiceUpdatedBase with Store {
   ///
 
   @observable
-  @ObservableCurrencyModelListConverter()
   ObservableList<CurrencyModel> currenciesList = ObservableList.of([]);
   @observable
-  @ObservableCurrencyModelListConverter()
   ObservableList<CurrencyModel> currenciesWithHiddenList = ObservableList.of([]);
 
   @action
-  void setAssets(AssetsModel value) {
+  Future<void> setAssets(AssetsModel value) async {
     currenciesList.clear();
     currenciesWithHiddenList.clear();
 
+    //await run(event: SignalREvents.setAssets, data: value);
+    //await run(event: SignalREvents.getCurrencyModels, data: value);
+    //await run(event: SignalREvents.getCurrenciesWithHiddenListModels, data: value);
+
     for (final asset in value.assets) {
       if (!asset.hideInTerminal) {
-        final depositBlockchains = <BlockchainModel>[];
-        final withdrawalBlockchains = <BlockchainModel>[];
+        final depositBlockchains =
+            asset.depositBlockchains.map((blockchain) => BlockchainModel(id: blockchain)).toList();
 
-        for (final blockchain in asset.depositBlockchains) {
-          depositBlockchains.add(
-            BlockchainModel(
-              id: blockchain,
-            ),
-          );
-        }
+        final withdrawalBlockchains =
+            asset.withdrawalBlockchains.map((blockchain) => BlockchainModel(id: blockchain)).toList();
 
-        for (final blockchain in asset.withdrawalBlockchains) {
-          withdrawalBlockchains.add(
-            BlockchainModel(
-              id: blockchain,
-            ),
-          );
-        }
         // TODO(yaroslav): crearet fromAssetModel factory method
         final currModel = CurrencyModel(
           symbol: asset.symbol,
@@ -496,7 +363,9 @@ abstract class _SignalRServiceUpdatedBase with Store {
           fees: asset.fees,
           depositBlockchains: depositBlockchains,
           withdrawalBlockchains: withdrawalBlockchains,
-          iconUrl: iconUrlFrom(assetSymbol: asset.symbol),
+          iconUrl: iconUrlFrom(
+            assetSymbol: asset.symbol,
+          ),
           selectedIndexIconUrl: iconUrlFrom(
             assetSymbol: asset.symbol,
             selected: true,
@@ -528,18 +397,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
           walletOrder: asset.walletOrder,
         );
 
-        //if (!currenciesList.contains(currModel)) {
-        //  currenciesList.add(currModel);
-        //}
-
-        var contains = false;
-        for (var i = 0; i < currenciesList.length; i++) {
-          if (currenciesList[i].symbol == currModel.symbol) {
-            contains = true;
-          }
-        }
-
-        if (!contains) {
+        if (!currenciesList.any((currency) => currency.symbol == currModel.symbol)) {
           currenciesList.add(currModel);
         }
       }
@@ -553,7 +411,9 @@ abstract class _SignalRServiceUpdatedBase with Store {
           tagType: asset.tagType,
           type: asset.type,
           fees: asset.fees,
-          iconUrl: iconUrlFrom(assetSymbol: asset.symbol),
+          iconUrl: iconUrlFrom(
+            assetSymbol: asset.symbol,
+          ),
           selectedIndexIconUrl: iconUrlFrom(
             assetSymbol: asset.symbol,
             selected: true,
@@ -591,10 +451,6 @@ abstract class _SignalRServiceUpdatedBase with Store {
       updateAssetsWithdrawalFees(assetsWithdrawalFees!);
     }
 
-    if (assetPaymentMethods != null) {
-      updateAssetPaymentMethods(assetPaymentMethods!);
-    }
-
     if (assetPaymentMethodsNew != null) {
       updateAssetPaymentMethodsNew(assetPaymentMethodsNew!);
     }
@@ -604,7 +460,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
     }
 
     if (basePricesModel != null) {
-      updateBasePrices(basePricesModel!);
+      await updateBasePrices(basePricesModel!);
     }
 
     if (blockchainsModel != null) {
@@ -612,58 +468,67 @@ abstract class _SignalRServiceUpdatedBase with Store {
     }
 
     if (currenciesList.isNotEmpty) {
-      if (recurringBuys.isNotEmpty) {
-        for (final element in recurringBuys) {
-          for (final currency in currenciesList) {
-            final index = currenciesList.indexOf(currency);
-            if (currency.symbol == element.toAsset) {
-              currenciesList[index] = currency.copyWith(
-                recurringBuy: element,
-              );
-            }
-          }
-        }
-      }
-    }
-
-    if (currenciesList.isNotEmpty) {
       updateBaseCurrency();
     }
   }
 
-  @observable
-  BalancesModel? balancesModel;
   @action
+  void getCurrencyDataFunc({required SignalREvents event, required List<CurrencyModel> data}) {
+    currenciesList = ObservableList.of(data);
+
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.info,
+          place: 'getCurrencyDataFunc',
+          message: '${data.length}',
+        );
+  }
+
+  @action
+  void getCurrenciesWithHiddenListDataFunc({required SignalREvents event, required List<CurrencyModel> data}) {
+    currenciesWithHiddenList = ObservableList.of(data);
+  }
+
+  BalancesModel? balancesModel;
   void updateBalances(BalancesModel value) {
     balancesModel = value;
 
+    //run(event: SignalREvents.updateBalances, data: value);
+
     if (currenciesList.isNotEmpty) {
       for (final balance in value.balances) {
-        for (final currency in currenciesList) {
-          if (currency.symbol == balance.assetId) {
-            final index = currenciesList.indexOf(currency);
+        final currency = currenciesList.firstWhereOrNull((c) => c.symbol == balance.assetId);
 
-            currenciesList[index] = currency.copyWith(
-              lastUpdate: balance.lastUpdate,
-              assetBalance: currency.symbol == 'EUR' ? totalEurWalletBalance : balance.balance,
-              assetTotalEarnAmount: balance.totalEarnAmount,
-              assetCurrentEarnAmount: balance.currentEarnAmount,
-              cardReserve: balance.cardReserve,
-              nextPaymentDate: balance.nextPaymentDate,
-              apy: balance.apy,
-              apr: balance.apr,
-              depositInProcess: balance.depositInProcess,
-              earnInProcessTotal: balance.earnInProcessTotal,
-              buysInProcessTotal: balance.buysInProcessTotal,
-              transfersInProcessTotal: balance.transfersInProcessTotal,
-              earnInProcessCount: balance.earnInProcessCount,
-              buysInProcessCount: balance.buysInProcessCount,
-              transfersInProcessCount: balance.transfersInProcessCount,
-            );
-          }
+        if (currency != null) {
+          final index = currenciesList.indexOf(currency);
+
+          currenciesList[index] = currency.copyWith(
+            lastUpdate: balance.lastUpdate,
+            assetBalance: currency.symbol == 'EUR' ? totalEurWalletBalance : balance.balance,
+            assetTotalEarnAmount: balance.totalEarnAmount,
+            assetCurrentEarnAmount: balance.currentEarnAmount,
+            cardReserve: balance.cardReserve,
+            nextPaymentDate: balance.nextPaymentDate,
+            apy: balance.apy,
+            apr: balance.apr,
+            depositInProcess: balance.depositInProcess,
+            earnInProcessTotal: balance.earnInProcessTotal,
+            buysInProcessTotal: balance.buysInProcessTotal,
+            transfersInProcessTotal: balance.transfersInProcessTotal,
+            earnInProcessCount: balance.earnInProcessCount,
+            buysInProcessCount: balance.buysInProcessCount,
+            transfersInProcessCount: balance.transfersInProcessCount,
+          );
         }
       }
     }
+  }
+
+  @action
+  void updateBalancesData({required SignalREvents event, required List<CurrencyModel> data}) {
+    currenciesList = ObservableList.of(data);
+
+    log(data.where((element) => element.symbol == 'EUR').first.assetBalance.toJson());
+
     getIt.get<ChangeBaseAssetStore>().finishLoading();
   }
 
@@ -672,6 +537,8 @@ abstract class _SignalRServiceUpdatedBase with Store {
   @action
   void updateBlockchains(BlockchainsModel data) {
     blockchainsModel = data;
+
+    //run(event: SignalREvents.updateBlockchains, data: data);
 
     if (currenciesList.isNotEmpty) {
       for (final currency in currenciesList) {
@@ -712,11 +579,29 @@ abstract class _SignalRServiceUpdatedBase with Store {
     }
   }
 
+  @action
+  void updateBasePricesData({required SignalREvents event, required List<CurrencyModel> data}) {
+    currenciesList = ObservableList.of(data);
+  }
+
+  @action
+  void updateBasePricesHiddenListData({required SignalREvents event, required List<CurrencyModel> data}) {
+    currenciesWithHiddenList = ObservableList.of(data);
+  }
+
+  @action
+  void updateBlockchainsData({required SignalREvents event, required List<CurrencyModel> data}) {
+    currenciesList = ObservableList.of(data);
+  }
+
   @observable
   BasePricesModel? basePricesModel;
   @action
   Future<void> updateBasePrices(BasePricesModel value) async {
     basePricesModel = value;
+
+    //await run(event: SignalREvents.updateBasePricesCurrenciesList, data: value);
+    //await run(event: SignalREvents.updateBasePricesHiddenCurrenciesList, data: value);
 
     if (currenciesList.isNotEmpty) {
       for (final currency in currenciesList) {
@@ -727,12 +612,13 @@ abstract class _SignalRServiceUpdatedBase with Store {
           assetSymbol: currency.symbol,
         );
 
+        //TODO: assetBalance: totalEurWalletBalance,
         final baseBalance = currency.symbol == 'EUR'
             ? calculateBaseBalance(
                 assetSymbol: currency.symbol,
                 assetBalance: totalEurWalletBalance,
                 assetPrice: assetPrice,
-                baseCurrencySymbol: baseCurrency.symbol,
+                baseCurrencySymbol: 'EUR',
               )
             : calculateBaseBalance(
                 assetSymbol: currency.symbol,
@@ -741,28 +627,14 @@ abstract class _SignalRServiceUpdatedBase with Store {
                 baseCurrencySymbol: baseCurrency.symbol,
               );
 
-        final baseTotalEarnAmount = calculateBaseBalance(
-          assetSymbol: currency.symbol,
-          assetBalance: currency.assetTotalEarnAmount,
-          assetPrice: assetPrice,
-          baseCurrencySymbol: baseCurrency.symbol,
-        );
-
-        final baseCurrentEarnAmount = calculateBaseBalance(
-          assetSymbol: currency.symbol,
-          assetBalance: currency.assetCurrentEarnAmount,
-          assetPrice: assetPrice,
-          baseCurrencySymbol: baseCurrency.symbol,
-        );
-
         if (assetPrice.currentPrice != Decimal.zero) {
           currenciesList[index] = currency.copyWith(
             baseBalance: baseBalance,
             currentPrice: assetPrice.currentPrice,
             dayPriceChange: assetPrice.dayPriceChange,
             dayPercentChange: assetPrice.dayPercentChange,
-            baseTotalEarnAmount: baseTotalEarnAmount,
-            baseCurrentEarnAmount: baseCurrentEarnAmount,
+            baseTotalEarnAmount: Decimal.zero,
+            baseCurrentEarnAmount: Decimal.zero,
           );
         }
       }
@@ -781,21 +653,21 @@ abstract class _SignalRServiceUpdatedBase with Store {
           assetSymbol: currency.symbol,
           assetBalance: currency.assetBalance,
           assetPrice: assetPrice,
-          baseCurrencySymbol: sSignalRModules.baseCurrency.symbol,
+          baseCurrencySymbol: baseCurrency.symbol,
         );
 
         final baseTotalEarnAmount = calculateBaseBalance(
           assetSymbol: currency.symbol,
           assetBalance: currency.assetTotalEarnAmount,
           assetPrice: assetPrice,
-          baseCurrencySymbol: sSignalRModules.baseCurrency.symbol,
+          baseCurrencySymbol: baseCurrency.symbol,
         );
 
         final baseCurrentEarnAmount = calculateBaseBalance(
           assetSymbol: currency.symbol,
           assetBalance: currency.assetCurrentEarnAmount,
           assetPrice: assetPrice,
-          baseCurrencySymbol: sSignalRModules.baseCurrency.symbol,
+          baseCurrencySymbol: baseCurrency.symbol,
         );
 
         currenciesWithHiddenList[index] = currency.copyWith(
@@ -808,41 +680,42 @@ abstract class _SignalRServiceUpdatedBase with Store {
         );
       }
     }
-
-    await getIt<LocalCacheService>().saveSignalR(
-      (this as SignalRServiceUpdated).toJson(),
-    );
   }
 
-  @observable
   AssetWithdrawalFeeModel? assetsWithdrawalFees;
-  @action
   void updateAssetsWithdrawalFees(AssetWithdrawalFeeModel value) {
     assetsWithdrawalFees = value;
 
+    //run(event: SignalREvents.updateAssetsWithdrawalFees, data: value);
+
     if (currenciesList.isNotEmpty) {
       for (final assetFee in value.assetFees) {
-        for (final currency in currenciesList) {
-          if (currency.symbol == assetFee.asset) {
-            final index = currenciesList.indexOf(currency);
-            final assetWithdrawalFees = currenciesList[index].assetWithdrawalFees.toList();
+        final currency = currenciesList.firstWhereOrNull((c) => c.symbol == assetFee.asset);
 
-            assetWithdrawalFees.add(assetFee);
-            currenciesList[index] = currency.copyWith(
-              assetWithdrawalFees: assetWithdrawalFees,
-            );
-          }
+        if (currency != null) {
+          final index = currenciesList.indexOf(currency);
+          final assetWithdrawalFees = List.of(currency.assetWithdrawalFees)..add(assetFee);
+
+          currenciesList[index] = currency.copyWith(assetWithdrawalFees: assetWithdrawalFees);
         }
       }
     }
   }
 
+  @action
+  void updateAssetsWithdrawalFeesData({required SignalREvents event, required List<CurrencyModel> data}) {
+    currenciesList = ObservableList.of(data);
+  }
+
+  @action
+  void updateAssetPaymentMethodsNewData({required SignalREvents event, required List<CurrencyModel> data}) {
+    currenciesList = ObservableList.of(data);
+  }
+
   @observable
   RewardsProfileModel? rewardsData;
   @action
-  void rewardsProfileMethods(RewardsProfileModel data) {
-    rewardsData = data;
-  }
+  void rewardsProfileMethods(RewardsProfileModel data) => rewardsData = data;
 
   @observable
   Decimal totalEurWalletBalance = Decimal.zero;
@@ -852,23 +725,19 @@ abstract class _SignalRServiceUpdatedBase with Store {
   @action
   void setBankingProfileData(BankingProfileModel data) {
     bankingProfileData = data;
+
     totalEurWalletBalance = Decimal.zero;
 
-    for (final el in data.banking?.accounts ?? <SimpleBankingAccount>[]) {
-      totalEurWalletBalance += el.balance ?? Decimal.zero;
-    }
+    totalEurWalletBalance +=
+        (data.banking?.accounts ?? []).fold(Decimal.zero, (sum, el) => sum + (el.balance ?? Decimal.zero));
 
-    if (data.simple != null) {
-      totalEurWalletBalance += data.simple?.account?.balance ?? Decimal.zero;
-    }
+    totalEurWalletBalance += data.simple?.account?.balance ?? Decimal.zero;
   }
 
   @observable
   int pendingOperationCount = 0;
   @action
-  void setPendingOperationCount(int count) {
-    pendingOperationCount = count;
-  }
+  void setPendingOperationCount(int count) => pendingOperationCount = count;
 
   @observable
   bool showPaymentsMethods = false;
@@ -878,7 +747,6 @@ abstract class _SignalRServiceUpdatedBase with Store {
   AssetPaymentMethodsNew? assetPaymentMethodsNew;
 
   @observable
-  @JsonKey(includeFromJson: false, includeToJson: false)
   ObservableList<AssetPaymentProducts>? assetProducts = ObservableList.of([]);
   @observable
   List<String> paymentMethods = [];
@@ -887,68 +755,10 @@ abstract class _SignalRServiceUpdatedBase with Store {
   List<SendMethodDto> sendMethods = [];
 
   @observable
-  @JsonKey(includeFromJson: false, includeToJson: false)
   ObservableList<BuyMethodDto> buyMethods = ObservableList.of([]);
 
   @observable
-  @JsonKey(includeFromJson: false, includeToJson: false)
   ObservableList<AssetPaymentProducts>? paymentProducts = ObservableList.of([]);
-
-  @action
-  void updateAssetPaymentMethods(AssetPaymentMethods value) {
-    // showPaymentsMethods = value.showCardsInProfile;
-    // assetPaymentMethods = value;
-    //
-    // if (currenciesList.isNotEmpty) {
-    //   for (final info in value.assets) {
-    //     for (final currency in currenciesList) {
-    //       if (currency.symbol == info.symbol) {
-    //         final index = currenciesList.indexOf(currency);
-    //         final methods = List<PaymentMethod>.from(info.buyMethods);
-    //         final newMethods = List<BuyMethodDto>.from([]);
-    //
-    //         methods.removeWhere((element) {
-    //           return element.type == PaymentMethodType.unsupported;
-    //         });
-    //         for (final method in methods) {
-    //           newMethods.add(BuyMethodDto(
-    //             id: method.type,
-    //             iconUrl: 'iconUrl',
-    //             orderId: 1,
-    //             termsAccepted: false,
-    //             allowedForSymbols: ['ETH', 'BTC'],
-    //             paymentAssets: [
-    //               PaymentAsset(
-    //                 asset: 'EURO',
-    //                 minAmount: Decimal.parse('10'),
-    //                 maxAmount: Decimal.parse('100'),
-    //                 orderId: 2,
-    //               ),
-    //               PaymentAsset(
-    //                 asset: 'USD',
-    //                 minAmount: Decimal.parse('10'),
-    //                 maxAmount: Decimal.parse('100'),
-    //                 orderId: 1,
-    //               ),
-    //             ],
-    //           ));
-    //         }
-    //
-    //         currenciesList[index] = currency.copyWith(
-    //           buyMethods: newMethods,
-    //         );
-    //       }
-    //     }
-    //   }
-    // }
-    //
-    // paymentMethods.clear();
-    // for (final asset in value.assets) {
-    //   for (final method in asset.buyMethods) {
-    //     paymentMethods.add(method.type.toString());
-    //   }
-    // }
-  }
 
   @action
   void updateAssetPaymentMethodsNew(AssetPaymentMethodsNew value) {
@@ -956,50 +766,35 @@ abstract class _SignalRServiceUpdatedBase with Store {
     assetPaymentMethodsNew = value;
     buyMethods = ObservableList.of(value.buy ?? []);
     paymentProducts = ObservableList.of(value.product ?? []);
+    assetProducts = ObservableList.of(value.product ?? []);
+    sendMethods = value.send ?? [];
 
+    //run(event: SignalREvents.updateAssetPaymentMethodsNew, data: value);
     for (final currency in currenciesList) {
-      final index = currenciesList.indexOf(currency);
-      final buyMethodsFull = List<BuyMethodDto>.from(value.buy ?? []);
-      final buyMethods = List<BuyMethodDto>.from([]);
-      final sendMethods = List<SendMethodDto>.from([]);
-      final receiveMethods = List<ReceiveMethodDto>.from([]);
+      final buyMethods = (value.buy ?? [])
+          .where((buyMethod) => buyMethod.allowedForSymbols?.contains(currency.symbol) ?? false)
+          .map(setCategoryForBuyMethods)
+          .toList();
 
-      buyMethodsFull.removeWhere((element) {
-        return element.id == PaymentMethodType.unsupported;
-      });
+      final sendMethods = (value.send ?? [])
+          .where((sendMethod) =>
+              sendMethod.symbolNetworkDetails?.any((element) => element.symbol == currency.symbol) ?? false)
+          .toList();
 
-      for (final buyMethod in buyMethodsFull) {
-        if (buyMethod.allowedForSymbols?.contains(currency.symbol) ?? false) {
-          buyMethods.add(setCategoryForBuyMethods(buyMethod));
-        }
-      }
-      if (value.send != null) {
-        for (final sendMethod in value.send!) {
-          if (sendMethod.symbolNetworkDetails?.any((element) => element.symbol == currency.symbol) ?? false) {
-            sendMethods.add(sendMethod);
-          }
-        }
-      }
-      if (value.receive != null) {
-        for (final receiveMethod in value.receive!) {
-          if (receiveMethod.symbols?.contains(currency.symbol) ?? false) {
-            receiveMethods.add(receiveMethod);
-          }
-        }
-      }
+      final receiveMethods = (value.receive ?? [])
+          .where((receiveMethod) => receiveMethod.symbols?.contains(currency.symbol) ?? false)
+          .toList();
+
       if (buyMethods.isNotEmpty) {
-        buyMethods.sort(
-          (a, b) => (a.orderId ?? 0).compareTo(b.orderId ?? 0),
-        );
+        buyMethods.sort((a, b) => (a.orderId ?? 0).compareTo(b.orderId ?? 0));
       }
-      currenciesList[index] = currency.copyWith(
+
+      currenciesList[currenciesList.indexOf(currency)] = currency.copyWith(
         buyMethods: buyMethods,
         withdrawalMethods: sendMethods,
         depositMethods: receiveMethods,
       );
     }
-
-    assetProducts = ObservableList.of(value.product ?? []);
 
     paymentMethods.clear();
 
@@ -1008,8 +803,12 @@ abstract class _SignalRServiceUpdatedBase with Store {
         paymentMethods.add(asset.id.toString());
       }
     }
-    sendMethods = value.send ?? [];
   }
+
+  @observable
+  PeriodPricesModel? periodPrices;
+  @action
+  void setPeriodPrices(PeriodPricesModel value) => periodPrices = value;
 
   @action
   ReturnRatesModel? getReturnRates(String assetId) {
@@ -1055,7 +854,6 @@ abstract class _SignalRServiceUpdatedBase with Store {
     }
   }
 
-  @action
   void operationHistoryEvent(String operationId) {
     getIt.get<SimpleLoggerService>().log(
           level: Level.info,
@@ -1075,7 +873,6 @@ abstract class _SignalRServiceUpdatedBase with Store {
   @action
   void clearSignalRModule() {
     initFinished = false;
-    earnOffersList = ObservableList.of([]);
     showPaymentsMethods = false;
     clientDetail = ClientDetailModel(
       baseAssetSymbol: 'USD',
@@ -1100,20 +897,12 @@ abstract class _SignalRServiceUpdatedBase with Store {
       referralTerms: [],
       referralCode: '',
     );
-    recurringBuys = ObservableList.of([]);
     cards = const CardsModel(now: 0, cardInfos: []);
-    earnProfile = null;
     indicesDetails = ObservableList.of([]);
     marketInfo = Decimal.zero;
     periodPrices = null;
     marketItems = ObservableList.of([]);
     kycCountries = ObservableList.of([]);
-    nftList = ObservableList.of([]);
-    userNFTList = ObservableList.of([]);
-    instruments = null;
-    allNftList = ObservableList.of([]);
-    nFTMarkets = null;
-    userNFTPortfolio = null;
     currenciesWithHiddenList = ObservableList.of([]);
     balancesModel = null;
     blockchainsModel = null;

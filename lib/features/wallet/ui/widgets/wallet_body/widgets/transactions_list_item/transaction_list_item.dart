@@ -47,11 +47,6 @@ class TransactionListItem extends StatelessObserverWidget {
         : currencies[0];
     final baseCurrency = sSignalRModules.baseCurrency;
 
-    final nftAsset = getNftItem(
-      transactionListItem,
-      sSignalRModules.allNftList,
-    );
-
     return InkWell(
       onTap: () {
         if (fromCJAccount) {
@@ -129,19 +124,17 @@ class TransactionListItem extends StatelessObserverWidget {
                       minWidth: 100,
                     ),
                     child: AutoSizeText(
-                      nftTypes.contains(transactionListItem.operationType)
-                          ? nftAsset.name ?? 'NFT'
-                          : volumeFormat(
-                              decimal: (transactionListItem.operationType == OperationType.withdraw ||
-                                      transactionListItem.operationType == OperationType.ibanSend ||
-                                      transactionListItem.operationType == OperationType.sendGlobally ||
-                                      transactionListItem.operationType == OperationType.transferByPhone ||
-                                      transactionListItem.operationType == OperationType.giftSend)
-                                  ? transactionListItem.balanceChange.abs()
-                                  : transactionListItem.balanceChange,
-                              accuracy: currency.accuracy,
-                              symbol: currency.symbol,
-                            ),
+                      volumeFormat(
+                        decimal: (transactionListItem.operationType == OperationType.withdraw ||
+                                transactionListItem.operationType == OperationType.ibanSend ||
+                                transactionListItem.operationType == OperationType.sendGlobally ||
+                                transactionListItem.operationType == OperationType.transferByPhone ||
+                                transactionListItem.operationType == OperationType.giftSend)
+                            ? transactionListItem.balanceChange.abs()
+                            : transactionListItem.balanceChange,
+                        accuracy: currency.accuracy,
+                        symbol: currency.symbol,
+                      ),
                       textAlign: TextAlign.end,
                       minFontSize: 4.0,
                       maxLines: 1,

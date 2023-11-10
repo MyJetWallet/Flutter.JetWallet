@@ -138,6 +138,8 @@ class RemoteConfig {
       validationApi: flavor.validationApi,
       iconApi: flavor.iconApi,
     );
+
+    iconApi = flavor.iconApi;
   }
 
   void overrideAppConfigValues() {

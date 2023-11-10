@@ -75,12 +75,10 @@ class _MarketNestedScrollViewBody extends StatefulObserverWidget {
   final MarketShowType marketShowType;
 
   @override
-  State<_MarketNestedScrollViewBody> createState() =>
-      __MarketNestedScrollViewBodyState();
+  State<_MarketNestedScrollViewBody> createState() => __MarketNestedScrollViewBodyState();
 }
 
-class __MarketNestedScrollViewBodyState
-    extends State<_MarketNestedScrollViewBody> {
+class __MarketNestedScrollViewBodyState extends State<_MarketNestedScrollViewBody> {
   final ScrollController controller = ScrollController();
   ScrollController marketScrollController = ScrollController();
 
@@ -91,9 +89,7 @@ class __MarketNestedScrollViewBodyState
     controller.addListener(() {
       resetMarketScrollPosition(
         context,
-        MarketFilterStore.of(context).cryptoList.isNotEmpty
-            ? MarketFilterStore.of(context).cryptoList.length
-            : MarketFilterStore.of(context).nftList.length,
+        MarketFilterStore.of(context).cryptoList.length,
         controller,
       );
     });
@@ -141,12 +137,7 @@ class __MarketNestedScrollViewBodyState
               ),
               fadeOutWidget: showPreloader
                   ? MarketHeaderStats(
-                      activeFilters:
-                          widget.marketShowType == MarketShowType.crypto
-                              ? store.activeFilter == 'all'
-                                  ? 0
-                                  : 1
-                              : store.nftFilterSelected.length,
+                      activeFilters: store.activeFilter == 'all' ? 0 : 1,
                       onFilterButtonTap: widget.showFilter
                           ? () {
                               showCryptoFilterModalSheet(
@@ -155,12 +146,11 @@ class __MarketNestedScrollViewBodyState
                               );
                             }
                           : null,
-                      onSearchButtonTap:
-                          widget.marketShowType == MarketShowType.crypto
-                              ? () {
-                                  showCryptoSearch(context);
-                                }
-                              : null,
+                      onSearchButtonTap: widget.marketShowType == MarketShowType.crypto
+                          ? () {
+                              showCryptoSearch(context);
+                            }
+                          : null,
                     )
                   : const MarketHeaderSkeletonStats(),
               permanentWidget: SMarketHeaderClosed(
@@ -229,9 +219,7 @@ class __MarketNestedScrollViewBodyState
       },
       child: ListView(
         padding: EdgeInsets.zero,
-        physics: store.isReordable
-            ? const NeverScrollableScrollPhysics()
-            : const AlwaysScrollableScrollPhysics(),
+        physics: store.isReordable ? const NeverScrollableScrollPhysics() : const AlwaysScrollableScrollPhysics(),
         controller: marketScrollController,
         children: [
           if (store.watchListFiltred.isNotEmpty) ...[
@@ -290,8 +278,7 @@ class __MarketNestedScrollViewBodyState
                               accuracy: item.priceAccuracy,
                             ),
                             ticker: item.symbol,
-                            last: !store.watchListFiltred.isNotEmpty ||
-                                item == store.watchListFiltred.last,
+                            last: !store.watchListFiltred.isNotEmpty || item == store.watchListFiltred.last,
                             percent: item.dayPercentChange,
                             onTap: () {
                               sRouter.push(
