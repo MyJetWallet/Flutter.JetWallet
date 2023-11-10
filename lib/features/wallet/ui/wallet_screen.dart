@@ -6,9 +6,7 @@ import 'package:jetwallet/features/my_wallets/helper/currencies_for_my_wallet.da
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/eur_wallet_body.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/wallet_body.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 @RoutePage(name: 'WalletRouter')
 class Wallet extends StatefulObserverWidget {
@@ -23,7 +21,7 @@ class Wallet extends StatefulObserverWidget {
   State<Wallet> createState() => _WalletState();
 }
 
-class _WalletState extends State<Wallet> with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
+class _WalletState extends State<Wallet> with TickerProviderStateMixin {
   late PageController _pageController;
   late CurrencyModel currentAsset;
   int currentPage = 0;
@@ -58,12 +56,7 @@ class _WalletState extends State<Wallet> with AutomaticKeepAliveClientMixin, Tic
   bool skeepOnPageChanged = false;
 
   @override
-  bool get wantKeepAlive => true;
-
-  @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     final currencies = currenciesForMyWallet(
       sSignalRModules.currenciesList,
       fromWalletsScreen: true,
@@ -89,7 +82,7 @@ class _WalletState extends State<Wallet> with AutomaticKeepAliveClientMixin, Tic
         color: Colors.transparent,
         child: Stack(
           children: [
-            PageView(
+            PageView.builder(
               controller: _pageController,
               onPageChanged: (page) {
                 sAnalytics.eurWalletSwipeBetweenWallets();
@@ -104,21 +97,21 @@ class _WalletState extends State<Wallet> with AutomaticKeepAliveClientMixin, Tic
                   );
                 }
               },
-              children: [
-                for (final currency in currencies)
-                  currency.symbol == 'EUR'
-                      ? EurWalletBody(
-                          key: Key(currency.symbol),
-                          pageController: _pageController,
-                          pageCount: currencies.length,
-                        )
-                      : WalletBody(
-                          key: Key(currency.symbol),
-                          currency: currency,
-                          pageController: _pageController,
-                          pageCount: currencies.length,
-                        ),
-              ],
+              itemCount: currencies.length,
+              itemBuilder: (context, index) {
+                return currencies[index].symbol == 'EUR'
+                    ? EurWalletBody(
+                        key: Key(currencies[index].symbol),
+                        pageController: _pageController,
+                        pageCount: currencies.length,
+                      )
+                    : WalletBody(
+                        key: Key(currencies[index].symbol),
+                        currency: currencies[index],
+                        pageController: _pageController,
+                        pageCount: currencies.length,
+                      );
+              },
             ),
           ],
         ),
