@@ -899,7 +899,13 @@ class WalletApiRepository {
     return _walletApiDataSources.postSensitiveDataRequest(data);
   }
 
-  Future<DC<ServerRejectException, SimpleCardRemindPinResponse>> postRemindPin({
+  Future<DC<ServerRejectException, SimpleCardRemindPinResponse>> postRemindPinPhone({
+    required String cardId,
+  }) async {
+    return _walletApiDataSources.postRemindPinPhoneRequest(cardId: cardId);
+  }
+
+  Future<DC<ServerRejectException, void>> postRemindPin({
     required String cardId,
   }) async {
     return _walletApiDataSources.postRemindPinRequest(cardId: cardId);

@@ -3,30 +3,40 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/features/simple_card/ui/widgets/password_requirements.dart';
+import 'package:jetwallet/features/simple_card/ui/widgets/password_requirement.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/di/di.dart';
+import '../../../core/services/local_storage_service.dart';
 import '../store/set_up_password_store.dart';
 import '../store/simple_card_store.dart';
 
 class SetUpPasswordScreen extends StatelessWidget {
   const SetUpPasswordScreen({
     super.key,
+    required this.isCreatePassword,
   });
+
+  final bool isCreatePassword;
 
   @override
   Widget build(BuildContext context) {
     return Provider<SetUpPasswordStore>(
       create: (context) => SetUpPasswordStore(),
-      builder: (context, child) => const _SetUpPasswordScreenBody(),
+      builder: (context, child) => _SetUpPasswordScreenBody(
+        isCreatePassword: isCreatePassword,
+      ),
     );
   }
 }
 
 class _SetUpPasswordScreenBody extends StatelessObserverWidget {
-  const _SetUpPasswordScreenBody();
+  const _SetUpPasswordScreenBody({
+    required this.isCreatePassword,
+  });
+
+  final bool isCreatePassword;
 
   @override
   Widget build(BuildContext context) {
@@ -73,27 +83,6 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
                     ),
                     maxLines: 10,
                   ),
-                  const SpaceH12(),
-                  SLinkButtonText(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    textStyle: sBodyText1Style,
-                    active: true,
-                    name: intl.simple_card_password_requirements,
-                    onTap: () {
-                      showPasswordRequirements(context);
-                    },
-                    activeColor: colors.black,
-                    inactiveColor: colors.grey1,
-                    defaultIcon: SBlueRightArrowIcon(
-                      color: colors.grey3,
-                    ),
-                    pressedIcon: SBlueRightArrowIcon(
-                      color: colors.grey3,
-                    ),
-                    inactiveIcon: SBlueRightArrowIcon(
-                      color: colors.grey3,
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -106,6 +95,24 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
               onChanged: store.setPassword,
             ),
           ),
+          const SpaceH16(),
+          PasswordRequirement(
+            name: intl.simple_card_password_rule_1,
+            isApproved: store.isBigSymbolsApproved,
+          ),
+          PasswordRequirement(
+            name: intl.simple_card_password_rule_2,
+            isApproved: store.isSmallSymbolsApproved,
+          ),
+          PasswordRequirement(
+            name: intl.simple_card_password_rule_3,
+            isApproved: store.isNumbersApproved,
+          ),
+          PasswordRequirement(
+            name: intl.simple_card_password_rule_4,
+            isApproved: store.isPasswordLengthApproved,
+          ),
+          const SpaceH16(),
           const Spacer(),
           SPaddingH24(
             child: Column(
@@ -128,17 +135,16 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
                         return;
                       }
 
-                      await store.setCardPassword(simpleCardStore.cardFull?.cardId ?? simpleCardStore.card?.cardId ?? '');
+                      if (isCreatePassword) {
+                        final storageService = getIt.get<LocalStorageService>();
+
+                        final pin = await storageService.getValue(pinStatusKey);
+                        await simpleCardStore.createCard(pin ?? '', store.password);
+                      } else {
+                        await store.setCardPassword(simpleCardStore.cardFull?.cardId ?? simpleCardStore.card?.cardId ?? '');
+                      }
                     },
                   ),
-                ),
-                const SpaceH10(),
-                STextButton1(
-                  active: true,
-                  name: intl.simple_card_password_cancel,
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
                 ),
                 const SpaceH42(),
               ],

@@ -57,7 +57,7 @@ class CardDataModel with _$CardDataModel {
     @DecimalNullSerialiser() final Decimal? balance,
     final AccountStatusCard? status,
     final String? nameOnCard,
-    final String? cardType,
+    @SimpleCardNetworkSerialiser() required SimpleCardNetwork ? cardType,
     final String? expiryDate,
     final bool? isHidden,
     final String? label,
@@ -66,6 +66,58 @@ class CardDataModel with _$CardDataModel {
 
   factory CardDataModel.fromJson(Map<String, dynamic> json) => _$CardDataModelFromJson(json);
 }
+
+
+enum SimpleCardNetwork {
+  VISA,
+  MASTERCARD,
+  unsupported,
+}
+
+extension _SimpleCardNetworkExtension on SimpleCardNetwork {
+  String get name {
+    switch (this) {
+      case SimpleCardNetwork.VISA:
+        return 'VISA';
+      case SimpleCardNetwork.MASTERCARD:
+        return 'MASTERCARD';
+      default:
+        return 'unsupported';
+    }
+  }
+
+  String get frontName {
+    switch (this) {
+      case SimpleCardNetwork.VISA:
+        return 'Visa';
+      case SimpleCardNetwork.MASTERCARD:
+        return 'Master Card';
+      default:
+        return 'Other';
+    }
+  }
+}
+
+class SimpleCardNetworkSerialiser implements JsonConverter<SimpleCardNetwork, dynamic> {
+  const SimpleCardNetworkSerialiser();
+
+  @override
+  SimpleCardNetwork fromJson(dynamic json) {
+    final value = json.toString();
+
+    if (value == 'VISA') {
+      return SimpleCardNetwork.VISA;
+    } else if (value == 'MASTERCARD') {
+      return SimpleCardNetwork.MASTERCARD;
+    } else {
+      return SimpleCardNetwork.unsupported;
+    }
+  }
+
+  @override
+  dynamic toJson(SimpleCardNetwork type) => type.name;
+}
+
 
 @freezed
 class BankingDataModel with _$BankingDataModel {

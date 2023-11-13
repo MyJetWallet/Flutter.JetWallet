@@ -2675,32 +2675,49 @@ class WalletApiDataSources {
     SimpleCardSensitiveRequest data,
   ) async {
     try {
-      print('SimpleCardSensitiveRequest ${data.toJson()}');
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/banking/card/sensitive',
         data: data.toJson(),
       );
-      print('response ${response}');
-      print('response ${response.statusCode}');
-      print('response ${response.statusMessage}');
 
       try {
         final responseData = response.data as Map<String, dynamic>;
         final _ = handleFullResponse<Map>(responseData);
-        print('responseData $responseData');
 
         return DC.data(SimpleCardSensitiveResponse.fromJson(_));
       } catch (e) {
-        print('errrrorrrr $e');
         rethrow;
       }
     } on ServerRejectException catch (e) {
-      print('errrrorrrr $e');
       return DC.error(e);
     }
   }
 
-  Future<DC<ServerRejectException, SimpleCardRemindPinResponse>> postRemindPinRequest({
+  Future<DC<ServerRejectException, SimpleCardRemindPinResponse>> postRemindPinPhoneRequest({
+    required String cardId,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/banking/card/remind-pin-phone',
+        data: {
+          'cardId': cardId,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final _ = handleFullResponse<Map>(responseData);
+
+        return DC.data(SimpleCardRemindPinResponse.fromJson(_));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, String>> postRemindPinRequest({
     required String cardId,
   }) async {
     try {
@@ -2715,7 +2732,7 @@ class WalletApiDataSources {
         final responseData = response.data as Map<String, dynamic>;
         final _ = handleFullResponse<Map>(responseData);
 
-        return DC.data(SimpleCardRemindPinResponse.fromJson(_));
+        return DC.data(_['operationId']);
       } catch (e) {
         rethrow;
       }

@@ -129,6 +129,8 @@ export 'modules/icons/20x20/public/deposit_in_progress/simple_deposit_send_icon.
 export 'modules/icons/20x20/public/deposit_in_progress/simple_deposit_earn_icon.dart';
 export 'modules/icons/20x20/public/deposit_in_progress/simple_deposit_total_icon.dart';
 export 'modules/icons/20x20/public/minus/simple_minus_icon.dart';
+export 'modules/icons/20x20/public/list_checkmark/simple_minus_list_icon.dart';
+export 'modules/icons/20x20/public/list_checkmark/simple_check_list_icon.dart';
 export 'modules/icons/20x20/public/plus/simple_plus_icon.dart';
 export 'modules/icons/20x20/public/receive_by_phone/simple_receive_by_phone_icon.dart';
 export 'modules/icons/20x20/public/reward_payment/simple_reward_payment_icon.dart';
@@ -266,6 +268,7 @@ export 'modules/icons/56x56/public/portfolio/simple_portfolio_default_icon.dart'
 export 'modules/icons/56x56/public/profile/simple_profile_active_icon.dart';
 export 'modules/icons/56x56/public/profile/simple_profile_default_icon.dart';
 export 'modules/icons/custom/public/cards/simple_visa_card_icon.dart';
+export 'modules/icons/custom/public/cards/simple_visa_card_big_icon.dart';
 export 'modules/icons/custom/public/cards/simple_mastercard_icon.dart';
 export 'modules/icons/custom/public/cards/simple_google_pay_icon.dart';
 export 'modules/icons/custom/public/stars/simple_stars_icon.dart';

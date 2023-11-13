@@ -2,13 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/simple_card/ui/set_up_password_screen.dart';
-import 'package:jetwallet/utils/constants.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../core/di/di.dart';
-import '../../../../core/router/app_router.dart';
-import '../../../pin_screen/model/pin_flow_union.dart';
-import '../../../pin_screen/ui/pin_screen.dart';
 import '../../store/simple_card_store.dart';
 import 'card_option.dart';
 
@@ -48,7 +44,7 @@ class _CardSettings extends StatelessObserverWidget {
           icon: SEyeOpenIcon(color: colors.blue),
           name: intl.simple_card_remind_pin,
           onTap: () {
-            simpleCardStore.remindPin();
+            simpleCardStore.remindPinPhone();
           },
           hideDescription: true,
         ),
@@ -63,7 +59,9 @@ class _CardSettings extends StatelessObserverWidget {
                 opaque: false,
                 barrierColor: Colors.white,
                 pageBuilder: (BuildContext _, __, ___) {
-                  return const SetUpPasswordScreen();
+                  return const SetUpPasswordScreen(
+                    isCreatePassword: false,
+                  );
                 },
                 transitionsBuilder: (
                     context,

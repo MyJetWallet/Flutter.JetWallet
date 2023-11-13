@@ -14,6 +14,7 @@ class SimpleCardActionButtons extends StatelessObserverWidget {
     this.isDetailsShown = false,
     this.isFrozen = false,
     this.isTerminateAvailable = true,
+    this.isAddCashAvailable = true,
     this.onAddCash,
     this.onShowDetails,
     this.onFreeze,
@@ -24,6 +25,7 @@ class SimpleCardActionButtons extends StatelessObserverWidget {
   final bool isDetailsShown;
   final bool isFrozen;
   final bool isTerminateAvailable;
+  final bool isAddCashAvailable;
   final Function()? onAddCash;
   final Function()? onShowDetails;
   final Function()? onFreeze;
@@ -63,6 +65,7 @@ class SimpleCardActionButtons extends StatelessObserverWidget {
                 onTap: () {
                   onAddCash?.call();
                 },
+                isDisabled: !isAddCashAvailable,
               ),
               if (isDetailsShown)
                 CircleActionHideDetails(

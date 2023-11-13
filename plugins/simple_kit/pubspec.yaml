@@ -62,6 +62,7 @@ flutter:
     - assets/icons/light/20x20/settings/
     - assets/icons/light/20x20/withdrawal_fee/
     - assets/icons/light/20x20/circle_minus/
+    - assets/icons/light/20x20/list_checkmark/
     - assets/icons/light/20x20/rewards/
     - assets/icons/light/20x20/cash/
     - assets/icons/light/20x20/simple_card_actions/

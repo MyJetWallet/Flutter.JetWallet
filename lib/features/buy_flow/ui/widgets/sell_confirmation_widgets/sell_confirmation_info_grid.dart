@@ -18,7 +18,8 @@ class SellConfirmationInfoGrid extends StatefulObserverWidget {
     required this.totalValue,
     required this.paymentCurrency,
     required this.asset,
-    required this.account,
+    this.account,
+    this.simpleCard,
   });
 
   final String? paymentFee;
@@ -27,7 +28,8 @@ class SellConfirmationInfoGrid extends StatefulObserverWidget {
   final String totalValue;
   final CurrencyModel paymentCurrency;
   final CurrencyModel asset;
-  final SimpleBankingAccount account;
+  final SimpleBankingAccount? account;
+  final CardDataModel? simpleCard;
 
   @override
   State<SellConfirmationInfoGrid> createState() => _ConfirmationInfoGridState();
@@ -88,21 +90,44 @@ class _ConfirmationInfoGridState extends State<SellConfirmationInfoGrid> with Si
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SpaceW19(),
-                    Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        color: sKit.colors.blue,
-                        shape: BoxShape.circle,
+                    if (widget.simpleCard != null)
+                      Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: ShapeDecoration(
+                          color: sKit.colors.white,
+                          shape: OvalBorder(
+                            side: BorderSide(
+                              color: sKit.colors.grey4,
+                            ),
+                          ),
+                        ),
+                        child: SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: getSimpleNetworkIcon(widget.simpleCard?.cardType),
+                        ),
+                      )
+                    else
+                      Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: sKit.colors.blue,
+                          shape: BoxShape.circle,
+                        ),
+                        child: SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: SBankMediumIcon(color: sKit.colors.white),
+                        ),
                       ),
-                      child: SizedBox(
-                        width: 16,
-                        height: 16,
-                        child: SBankMediumIcon(color: sKit.colors.white),
-                      ),
-                    ),
                     const SpaceW8(),
                     Text(
-                      widget.account.label ?? '',
+                      widget.account?.label ?? 'Simple ${intl.simple_card_card} '
+                          '**${widget.simpleCard!.cardNumberMasked
+                          ?.substring(
+                        (
+                            widget.simpleCard!.cardNumberMasked?.length ?? 0
+                        ) - 4,)}',
                       overflow: TextOverflow.ellipsis,
                       style: sSubtitle3Style.copyWith(height: 1.5),
                     ),
@@ -285,4 +310,21 @@ void buyConfirmationFeeExplanation({
       ),
     ],
   );
+}
+
+Widget getSimpleNetworkIcon(SimpleCardNetwork? network) {
+  switch (network) {
+    case SimpleCardNetwork.VISA:
+      return const SVisaCardBigIcon(
+        width: 15,
+        height: 9,
+      );
+    case SimpleCardNetwork.MASTERCARD:
+      return const SMasterCardBigIcon(
+        width: 15,
+        height: 9,
+      );
+    default:
+      return const SActionDepositIcon();
+  }
 }

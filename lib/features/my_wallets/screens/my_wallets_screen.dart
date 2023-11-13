@@ -30,6 +30,8 @@ import 'package:simple_networking/modules/signal_r/models/banking_profile_model.
 
 import '../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../core/services/user_info/user_info_service.dart';
+import '../../../utils/helpers/check_kyc_status.dart';
+import '../../kyc/kyc_service.dart';
 import '../../simple_card/ui/widgets/get_card_banner.dart';
 
 @RoutePage(name: 'MyWalletsRouter')
@@ -89,6 +91,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
     final userInfo = getIt.get<UserInfoService>();
+    final kycState = getIt.get<KycService>();
 
     final list = slidableItems();
 
@@ -177,7 +180,12 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                           const SliverToBoxAdapter(child: SpaceH28()),
                           if (
                             userInfo.isSimpleCardAvailable &&
-                            (sSignalRModules.bankingProfileData?.banking?.cards?.length ?? 0) == 0
+                            (sSignalRModules.bankingProfileData?.banking?.cards?.length ?? 0) == 0 &&
+                            checkKycPassed(
+                              kycState.depositStatus,
+                              kycState.tradeStatus,
+                              kycState.withdrawalStatus,
+                            )
                           )
                             const SliverToBoxAdapter(child: GetCardBanner()),
                           if (store.countOfPendingTransactions > 0) ...[

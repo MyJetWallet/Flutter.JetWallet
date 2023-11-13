@@ -10,6 +10,7 @@ class SimpleCardCreateRequest with _$SimpleCardCreateRequest {
   factory SimpleCardCreateRequest({
     required String requestId,
     required String pin,
+    required String password,
   }) = _SimpleCardCreateRequest;
 
   factory SimpleCardCreateRequest.fromJson(Map<String, dynamic> json) =>

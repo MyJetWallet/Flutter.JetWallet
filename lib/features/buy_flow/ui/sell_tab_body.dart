@@ -17,14 +17,17 @@ import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_ic
 import 'package:simple_kit/modules/icons/24x24/public/crypto/simple_crypto_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
 class SellAmountTabBody extends StatefulObserverWidget {
   const SellAmountTabBody({
     this.asset,
+    this.simpleCard,
   });
 
   final CurrencyModel? asset;
+  final CardDataModel? simpleCard;
 
   @override
   State<SellAmountTabBody> createState() => _BuyAmountScreenBodyState();
@@ -41,6 +44,7 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
       create: (context) => SellAmountStore()
         ..init(
           inputAsset: widget.asset,
+          simpleCardNew: widget.simpleCard,
         ),
       builder: (context, child) {
         final store = SellAmountStore.of(context);
@@ -140,9 +144,50 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                         context: context,
                         currency: store.asset,
                         hideCards: true,
-                        onSelected: ({account, inputCard}) {
+                        onSelected: ({account, card}) {
                           store.setNewPayWith(
                             newAccount: account,
+                            newCard: card,
+                          );
+                          Navigator.of(context).pop();
+                        },
+                      );
+                    },
+                  )
+                else if (store.category == PaymentMethodCategory.simpleCard)
+                  BuyOptionWidget(
+                    title: 'Simple ${intl.simple_card_card} '
+                        '**${store.simpleCard!.cardNumberMasked
+                        ?.substring(
+                          (
+                            store.simpleCard!.cardNumberMasked?.length ?? 0
+                          ) - 4,)}',
+                    subTitle: intl.amount_screen_sell_to,
+                    icon: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: ShapeDecoration(
+                        color: sKit.colors.white,
+                        shape: OvalBorder(
+                          side: BorderSide(
+                            color: sKit.colors.grey4,
+                          ),
+                        ),
+                      ),
+                      child: SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: getSimpleNetworkIcon(widget.simpleCard?.cardType),
+                      ),
+                    ),
+                    onTap: () {
+                      showSellPayWithBottomSheet(
+                        context: context,
+                        currency: store.asset,
+                        hideCards: true,
+                        onSelected: ({account, card}) {
+                          store.setNewPayWith(
+                            newAccount: account,
+                            newCard: card,
                           );
                           Navigator.of(context).pop();
                         },
@@ -169,9 +214,10 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                         context: context,
                         currency: store.asset,
                         hideCards: true,
-                        onSelected: ({account, inputCard}) {
+                        onSelected: ({account, card}) {
                           store.setNewPayWith(
                             newAccount: account,
+                            newCard: card,
                           );
                           Navigator.of(context).pop();
                         },
@@ -194,7 +240,8 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                         asset: store.asset!,
                         isFromFixed: !store.isFiatEntering,
                         paymentCurrency: store.buyCurrency,
-                        account: store.account!,
+                        account: store.account,
+                        simpleCard: store.simpleCard,
                         fromAmount: Decimal.parse(store.cryptoInputValue),
                         toAmount: Decimal.parse(store.fiatInputValue),
                       ),
@@ -224,6 +271,24 @@ Widget getNetworkIcon(CircleCardNetwork? network) {
       return const SMasterCardIcon(
         width: 40,
         height: 25,
+      );
+    default:
+      return const SActionDepositIcon();
+  }
+}
+
+
+Widget getSimpleNetworkIcon(SimpleCardNetwork? network) {
+  switch (network) {
+    case SimpleCardNetwork.VISA:
+      return const SVisaCardBigIcon(
+        width: 15,
+        height: 9,
+      );
+    case SimpleCardNetwork.MASTERCARD:
+      return const SMasterCardBigIcon(
+        width: 15,
+        height: 9,
       );
     default:
       return const SActionDepositIcon();

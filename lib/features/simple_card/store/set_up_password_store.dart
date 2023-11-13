@@ -58,8 +58,31 @@ abstract class _SetUpPasswordStoreBase with Store {
   void checkSetter() => savePassword = !savePassword;
 
   @computed
+  bool get isPasswordLengthApproved {
+    return password.length >= 8;
+  }
+
+  @computed
+  bool get isSmallSymbolsApproved {
+    return RegExp(r'^(?=.*?[a-z]).{0,32}$').hasMatch(password);
+  }
+
+  @computed
+  bool get isBigSymbolsApproved {
+    return RegExp(r'^(?=.*?[A-Z]).{0,32}$').hasMatch(password);
+  }
+
+  @computed
+  bool get isNumbersApproved {
+    return RegExp(r'^(?=.*?[0-9]).{0,32}$').hasMatch(password);
+  }
+
+  @computed
   bool get isButtonSaveActive {
-    return password.isNotEmpty;
+    return isNumbersApproved &&
+        isSmallSymbolsApproved &&
+        isBigSymbolsApproved &&
+        isPasswordLengthApproved;
   }
 
   @action

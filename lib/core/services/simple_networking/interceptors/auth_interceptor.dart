@@ -58,9 +58,6 @@ void setAuthInterceptor(
 
           return;
         }
-        if (options.extra.containsKey('isSensitive') && options.extra['isSensitive'] == 'sensitive') {
-          options.headers['Authorization'] = 'Bearer M8/SmRtqXrqe+H2XH6lRM30YrIIeOWlQc/Zq9lSH9JSodskVfJ5LFejjAeZxX9CWGTZKn9oTV8AOEFQnP/Vx0XL/tniS5jvi9EISqPqbwbos0oxw9edNcloi+7xFRxb619r9NUUnCIQpOWeow4j5I95VwyuGTfSegVuFLm5mfAw=';
-        }
 
         options = await setHeaders(options, isImage);
 
@@ -68,15 +65,6 @@ void setAuthInterceptor(
       },
       onError: (dioError, handler) async {
 
-        print('dioError');
-        print(dioError);
-        print(dioError.error);
-        print(dioError.message);
-        print(dioError.requestOptions.data);
-        print(dioError.requestOptions.path);
-        print(dioError.requestOptions.baseUrl);
-        print(dioError.requestOptions.headers);
-        print(dioError.response);
         if (getIt.isRegistered<AppStore>()) {
           if (getIt<AppStore>().appStatus == AppStatus.end) {
             handler.reject(dioError);

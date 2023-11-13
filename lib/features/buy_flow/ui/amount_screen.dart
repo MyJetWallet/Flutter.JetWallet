@@ -19,6 +19,7 @@ class AmountScreen extends StatefulWidget {
     required this.tab,
     required this.asset,
     this.card,
+    this.simpleCard,
     this.account,
   });
 
@@ -26,6 +27,7 @@ class AmountScreen extends StatefulWidget {
   final CurrencyModel asset;
 
   final CircleCard? card;
+  final CardDataModel? simpleCard;
   final SimpleBankingAccount? account;
 
   @override
@@ -107,6 +109,7 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
                 ),
                 SellAmountTabBody(
                   asset: widget.asset,
+                  simpleCard: widget.simpleCard,
                 ),
                 ConvertAmountTabBody(
                   asset: widget.asset,

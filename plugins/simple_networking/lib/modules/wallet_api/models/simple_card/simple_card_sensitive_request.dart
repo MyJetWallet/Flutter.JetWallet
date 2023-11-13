@@ -10,6 +10,8 @@ class SimpleCardSensitiveRequest with _$SimpleCardSensitiveRequest {
   factory SimpleCardSensitiveRequest({
     required String cardId,
     required String publicKey,
+    required String pin,
+    required String timeStamp,
   }) = _SimpleCardSensitiveRequest;
 
   factory SimpleCardSensitiveRequest.fromJson(Map<String, dynamic> json) =>

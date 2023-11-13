@@ -13,9 +13,12 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../core/router/app_router.dart';
 import '../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../utils/helpers/non_indices_with_balance_from.dart';
 import '../../app/store/app_store.dart';
+import '../../buy_flow/ui/amount_screen.dart';
+import '../../buy_flow/ui/sell_choose_asset_bottom_sheet.dart';
 
 const _collapsedCardHeight = 200.0;
 const _expandedCardHeight = 270.0;
@@ -133,7 +136,25 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                       isDetailsShown: simpleCardStore.showDetails,
                       isFrozen: simpleCardStore.isFrozen,
                       isTerminateAvailable: false,
-                      onAddCash: () {},
+                      isAddCashAvailable: sSignalRModules.currenciesList.where((currency) {
+                        return currency.assetBalance != Decimal.zero;
+                      }).toList().isNotEmpty,
+                      onAddCash: () {
+                        showSellChooseAssetBottomSheet(
+                          context: context,
+                          isAddCash: true,
+                          onChooseAsset: (currency) {
+                            Navigator.of(context).pop();
+                            sRouter.push(
+                              AmountRoute(
+                                tab: AmountScreenTab.sell,
+                                asset: currency,
+                                simpleCard: simpleCardStore.cardFull,
+                              ),
+                            );
+                          },
+                        );
+                      },
                       onShowDetails: () {
                         simpleCardStore.setShowDetails(!simpleCardStore.showDetails);
                       },

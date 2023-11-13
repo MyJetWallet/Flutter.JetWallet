@@ -1,13 +1,12 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:decimal/decimal.dart';
+import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:mobx/mobx.dart';
-import 'package:openpgp/openpgp.dart';
+import 'package:pointycastle/asymmetric/api.dart';
+import 'package:rsa_encrypt/rsa_encrypt.dart';
 import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -23,9 +22,9 @@ import '../../../core/l10n/i10n.dart';
 import '../../../core/router/app_router.dart';
 import '../../../core/services/local_storage_service.dart';
 import '../../../core/services/notification_service.dart';
-import '../../../core/services/rsa_service.dart';
 import '../../../utils/constants.dart';
 import '../ui/set_up_password_screen.dart';
+import '../ui/widgets/show_complete_verification_account.dart';
 
 part 'simple_card_store.g.dart';
 
@@ -44,76 +43,85 @@ abstract class _SimpleCardStoreBase with Store {
   Future<void> initStore() async {
     final cards = sSignalRModules.bankingProfileData?.banking?.cards;
     if (cards != null && cards.isNotEmpty) {
-      print('cards[0]');
-      print(cards[0]);
-      setCardFullInfo(cards[0]);
-      isFrozen = cards[0].status == AccountStatusCard.frozen;
+      setCardFullInfo(cards[cards.length - 1]);
+      isFrozen = cards[cards.length - 1].status == AccountStatusCard.frozen;
 
-      final rsaService = getIt.get<RsaService>();
+      try {
 
-      // try {
-      //   rsaService.init();
-      //   await rsaService.savePrivateKey(storageService);
-      //   final publicKey = rsaService.publicKey;
-      //   final model = SimpleCardSensitiveRequest(
-      //     // cardId: cards[0].cardId ?? '',
-      //     cardId: '9a4be417-b5ca-458c-a5c2-6442530875e2',
-      //     publicKey: publicKey
-      //         .replaceAll('\r\n', '')
-      //         .replaceAll('-----BEGIN RSA PUBLIC KEY-----', '')
-      //         .replaceAll('-----END RSA PUBLIC KEY-----', ''),
-      //   );
-      //   print('error model');
-      //   print(model);
-      //
-      //   final response =
-      //       await sNetwork.getWalletModule().postSensitiveData(data: model);
-      //
-      //   response.pick(
-      //     onData: (data) async {
-      //       print('error data');
-      //       log('$data');
-      //       final cardNumber = rsaService.sign(
-      //         data.cardNumber!,
-      //         rsaService.privateKey,
-      //       );
-      //       log('${rsaService.privateKey}');
-      //       final base64Decoded = base64Decode(data.cardNumber!);
-      //       final utf8Decoded = utf8.decode(base64Decoded);
-      //       print(utf8Decoded);
-      //       final encrypted = await OpenPGP.decrypt(
-      //         utf8Decoded,
-      //         rsaService.privateKey,
-      //         'cardnumber'
-      //       );
-      //       print('decrypted');
-      //       print(encrypted);
-      //       print(cardNumber);
-      //     },
-      //     onError: (error) {
-      //       print('error 1');
-      //       print(error);
-      //       sNotification.showError(
-      //         error.cause,
-      //         id: 1,
-      //       );
-      //     },
-      //   );
-      // } on ServerRejectException catch (error) {
-      //   print('error 2');
-      //   print(error);
-      //   sNotification.showError(
-      //     error.cause,
-      //     id: 1,
-      //   );
-      // } catch (error) {
-      //   print('error 3');
-      //   print(error);
-      //   sNotification.showError(
-      //     intl.something_went_wrong,
-      //     id: 1,
-      //   );
-      // }
+        final rsa = RsaKeyHelper();
+        final keyPair = getRsaKeyPair(rsa.getSecureRandom());
+
+        final rsaPublicKey = keyPair.publicKey as RSAPublicKey;
+        final rsaPrivateKey = keyPair.privateKey as RSAPrivateKey;
+        final publicKey = rsa.encodePublicKeyToPemPKCS1(rsaPublicKey);
+        final privateKey = rsa.encodePrivateKeyToPemPKCS1(rsaPrivateKey);
+        final storageService = getIt.get<LocalStorageService>();
+
+        final pin = await storageService.getValue(pinStatusKey);
+        final serverTimeResponse = await getIt
+            .get<SNetwork>()
+            .simpleNetworkingUnathorized
+            .getAuthModule()
+            .getServerTime();
+        final model = SimpleCardSensitiveRequest(
+          cardId: cards[cards.length - 1].cardId ?? '',
+          publicKey: publicKey
+              .replaceAll('\r\n', '')
+              .replaceAll('-----BEGIN RSA PUBLIC KEY-----', '')
+              .replaceAll('-----END RSA PUBLIC KEY-----', ''),
+          pin: pin ?? '',
+          timeStamp: serverTimeResponse.data!.time,
+        );
+
+        final response =
+            await sNetwork.getWalletModule().postSensitiveData(data: model);
+
+        response.pick(
+          onData: (data) async {
+            final encrypter = Encrypter(RSA(publicKey: rsaPublicKey, privateKey: rsaPrivateKey));
+            final cardNumber = encrypter.decrypt(Encrypted.fromBase64(data.cardNumber!));
+            final cardHolder = encrypter.decrypt(Encrypted.fromBase64(data.cardHolderName!));
+            final cardDate = encrypter.decrypt(Encrypted.fromBase64(data.cardExpDate!));
+            final cardCVV = encrypter.decrypt(Encrypted.fromBase64(data.cardCvv!));
+            final text = cardNumber;
+
+            final buffer = StringBuffer();
+            for (var i = 0; i < text.length; i++) {
+              buffer.write(text[i]);
+              final nonZeroIndex = i + 1;
+              if (nonZeroIndex % 4 == 0 && nonZeroIndex != text.length) {
+                buffer.write(' ');
+              }
+            }
+
+            final finalCardNumber = buffer.toString();
+
+            cardSensitiveData = SimpleCardSensitiveResponse(
+              cardExpDate: cardDate,
+              cardCvv: cardCVV,
+              cardHolderName: cardHolder,
+              cardNumber: finalCardNumber,
+            );
+
+          },
+          onError: (error) {
+            sNotification.showError(
+              error.cause,
+              id: 1,
+            );
+          },
+        );
+      } on ServerRejectException catch (error) {
+        sNotification.showError(
+          error.cause,
+          id: 1,
+        );
+      } catch (error) {
+        sNotification.showError(
+          intl.something_went_wrong,
+          id: 1,
+        );
+      }
     }
   }
 
@@ -158,6 +166,9 @@ abstract class _SimpleCardStoreBase with Store {
       setShowDetails(false);
     }
     isFrozen = value;
+    setCardFullInfo(cardFull!.copyWith(
+      status: value ? AccountStatusCard.frozen : AccountStatusCard.active,
+    ),);
     if (value) {
       sNotification.showError(
         intl.simple_card_froze_alert,
@@ -193,10 +204,10 @@ abstract class _SimpleCardStoreBase with Store {
 
   @observable
   SimpleCardSensitiveResponse? cardSensitiveData = SimpleCardSensitiveResponse(
-    cardExpDate: '12/24',
-    cardCvv: '234',
-    cardHolderName: 'Test Test',
-    cardNumber: '2444 4444 4444 4444',
+    cardExpDate: '',
+    cardCvv: '',
+    cardHolderName: '',
+    cardNumber: '',
   );
 
   @observable
@@ -225,7 +236,7 @@ abstract class _SimpleCardStoreBase with Store {
   }
 
   @action
-  Future<void> createCard(String pin) async {
+  Future<void> createCard(String pin, String password) async {
     loader.startLoading();
 
     try {
@@ -233,6 +244,7 @@ abstract class _SimpleCardStoreBase with Store {
         data: SimpleCardCreateRequest(
           requestId: DateTime.now().microsecondsSinceEpoch.toString(),
           pin: pin,
+          password: password,
         ),
       );
 
@@ -240,35 +252,21 @@ abstract class _SimpleCardStoreBase with Store {
         onData: (data) async {
           setCardInfo(data.card);
           final context = getIt.get<AppRouter>().navigatorKey.currentContext;
-          Navigator.pop(context!);
-          await Navigator.push(
-            context,
-            PageRouteBuilder(
-              opaque: false,
-              barrierColor: Colors.white,
-              pageBuilder: (BuildContext _, __, ___) {
-                return const SetUpPasswordScreen();
-              },
-              transitionsBuilder: (
-                  context,
-                  animation,
-                  secondaryAnimation,
-                  child,
-                  ) {
-                const begin = Offset(0.0, 1.0);
-                const end = Offset.zero;
-                const curve = Curves.ease;
+          if (data.bankingKycRequired != null && data.bankingKycRequired!) {
+            void _afterVerification() {
+              sRouter.popUntilRoot();
 
-                final tween = Tween(begin: begin, end: end)
-                    .chain(CurveTween(curve: curve));
-
-                return SlideTransition(
-                  position: animation.drive(tween),
-                  child: child,
-                );
-              },
-            ),
-          ).then((value) async {});
+              sNotification.showError(intl.simple_card_password_working, isError: false);
+            }
+            showCompleteVerificationAccount(
+              context!,
+              loader,
+              _afterVerification,
+            );
+          } else {
+            Navigator.pop(context!);
+            sNotification.showError(intl.simple_card_password_working, isError: false);
+          }
         },
         onError: (error) {
           sNotification.showError(
@@ -303,11 +301,47 @@ abstract class _SimpleCardStoreBase with Store {
   }
 
   @action
-  Future<void> remindPin() async {
+  Future<void> gotToSetup() async {
+    final context = getIt.get<AppRouter>().navigatorKey.currentContext;
+    Navigator.pop(context!);
+    await Navigator.push(
+      context,
+      PageRouteBuilder(
+        opaque: false,
+        barrierColor: Colors.white,
+        pageBuilder: (BuildContext _, __, ___) {
+          return const SetUpPasswordScreen(
+            isCreatePassword: true,
+          );
+        },
+        transitionsBuilder: (
+            context,
+            animation,
+            secondaryAnimation,
+            child,
+            ) {
+          const begin = Offset(0.0, 1.0);
+          const end = Offset.zero;
+          const curve = Curves.ease;
+
+          final tween = Tween(begin: begin, end: end)
+              .chain(CurveTween(curve: curve));
+
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
+          );
+        },
+      ),
+    ).then((value) async {});
+  }
+
+  @action
+  Future<void> remindPinPhone() async {
     try {
       final response =
         await sNetwork.getWalletModule()
-            .postRemindPin(cardId: cardFull?.cardId ?? '');
+            .postRemindPinPhone(cardId: cardFull?.cardId ?? '');
 
       response.pick(
         onData: (SimpleCardRemindPinResponse value) {
@@ -328,11 +362,47 @@ abstract class _SimpleCardStoreBase with Store {
               height: 80,
             ),
             onPrimaryButtonTap: () {
-              Navigator.pop(sRouter.navigatorKey.currentContext!);
+              remindPin();
             },
             onSecondaryButtonTap: () {
               Navigator.pop(sRouter.navigatorKey.currentContext!);
             },
+          );
+        },
+        onError: (error) {
+          sNotification.showError(
+            error.cause,
+            id: 1,
+          );
+        },
+      );
+    } on ServerRejectException catch (error) {
+      sNotification.showError(
+        error.cause,
+        id: 1,
+      );
+    } catch (error) {
+      sNotification.showError(
+        intl.something_went_wrong,
+        id: 1,
+      );
+    }
+  }
+
+  @action
+  Future<void> remindPin() async {
+    try {
+      final response =
+        await sNetwork.getWalletModule()
+            .postRemindPin(cardId: cardFull?.cardId ?? '');
+
+      response.pick(
+        onNoError: (value) {
+          Navigator.pop(sRouter.navigatorKey.currentContext!);
+          sNotification.showError(
+            intl.simple_card_pin_was_send,
+            id: 1,
+            isError: false,
           );
         },
         onError: (error) {

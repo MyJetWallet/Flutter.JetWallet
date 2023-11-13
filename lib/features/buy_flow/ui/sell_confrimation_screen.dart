@@ -26,13 +26,15 @@ class SellConfirmationScreen extends StatelessWidget {
     required this.isFromFixed,
     required this.fromAmount,
     required this.toAmount,
-    required this.account,
+    this.account,
+    this.simpleCard,
   });
 
   final CurrencyModel asset;
   final CurrencyModel paymentCurrency;
 
-  final SimpleBankingAccount account;
+  final SimpleBankingAccount? account;
+  final CardDataModel? simpleCard;
 
   final bool isFromFixed;
   final Decimal fromAmount;
@@ -46,13 +48,14 @@ class SellConfirmationScreen extends StatelessWidget {
           newIsFromFixed: isFromFixed,
           fromAmount: fromAmount,
           fromAsset: asset.symbol,
-          toAsset: account.currency ?? '',
+          toAsset: account?.currency ?? simpleCard?.currency ?? '',
           toAmount: toAmount,
-          newAccountId: account.accountId ?? '',
+          newAccountId: account?.accountId ?? simpleCard?.cardId ?? '',
         ),
       builder: (context, child) => _BuyConfirmationScreenBody(
         paymentCurrency: paymentCurrency,
         account: account,
+        simpleCard: simpleCard,
       ),
       dispose: (context, value) {
         value.cancelTimer();
@@ -65,11 +68,13 @@ class SellConfirmationScreen extends StatelessWidget {
 class _BuyConfirmationScreenBody extends StatelessObserverWidget {
   const _BuyConfirmationScreenBody({
     required this.paymentCurrency,
-    required this.account,
+    this.account,
+    this.simpleCard,
   });
 
   final CurrencyModel paymentCurrency;
-  final SimpleBankingAccount account;
+  final SimpleBankingAccount? account;
+  final CardDataModel? simpleCard;
 
   @override
   Widget build(BuildContext context) {
@@ -140,6 +145,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                   paymentCurrency: store.payCurrency,
                   asset: store.buyCurrency,
                   account: account,
+                  simpleCard: simpleCard,
                 ),
                 SPolicyCheckbox(
                   height: 65,
