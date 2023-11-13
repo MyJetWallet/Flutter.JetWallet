@@ -31,7 +31,7 @@ void showUserDataCountryPicker(BuildContext context) {
       _Countries(
         store: profileCountriesStore,
       ),
-      const SpaceH24(),
+      const SpaceH40(),
     ],
   );
 }
@@ -76,7 +76,7 @@ void showCountryOfBank(BuildContext context, Function(Country) onTap) {
           );
         },
       ),
-      const SpaceH24(),
+      const SpaceH40(),
     ],
   );
 }
@@ -123,40 +123,40 @@ class _Countries extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        shrinkWrap: true,
-        padding: EdgeInsets.zero,
-        itemCount: store.sortedCountries.length,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          final country = store.sortedCountries[index];
-          if (store.sortedCountries.isEmpty) {
-            EmptySearchResult(
-              text: store.countryNameSearch,
-            );
-          }
-
-          return CountryProfileItem(
-            onTap: () {
-              if (country.isBlocked) {
-                sNotification.showError(
-                  intl.user_data_bottom_sheet_country,
-                  id: 1,
-                );
-
-                sAnalytics.signInFlowErrorCountryBlocked(
-                  erroCode: intl.user_data_bottom_sheet_country,
-                );
-              } else {
-                store.pickCountryFromSearch(country);
-
-                sRouter.pop();
-              }
-            },
-            countryCode: country.countryCode,
-            countryName: country.countryName,
-            isBlocked: country.isBlocked,
+      shrinkWrap: true,
+      padding: EdgeInsets.zero,
+      itemCount: store.sortedCountries.length,
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        final country = store.sortedCountries[index];
+        if (store.sortedCountries.isEmpty) {
+          EmptySearchResult(
+            text: store.countryNameSearch,
           );
-        },
+        }
+
+        return CountryProfileItem(
+          onTap: () {
+            if (country.isBlocked) {
+              sNotification.showError(
+                intl.user_data_bottom_sheet_country,
+                id: 1,
+              );
+
+              sAnalytics.signInFlowErrorCountryBlocked(
+                erroCode: intl.user_data_bottom_sheet_country,
+              );
+            } else {
+              store.pickCountryFromSearch(country);
+
+              sRouter.pop();
+            }
+          },
+          countryCode: country.countryCode,
+          countryName: country.countryName,
+          isBlocked: country.isBlocked,
+        );
+      },
     );
   }
 }
