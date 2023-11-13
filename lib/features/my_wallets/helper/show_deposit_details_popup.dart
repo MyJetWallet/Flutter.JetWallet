@@ -149,7 +149,9 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             return SCardRow(
-              maxWidth: MediaQuery.of(context).size.width * .35,
+              maxWidth: bankAccounts[index].status == AccountStatus.active
+                  ? MediaQuery.of(context).size.width * .35
+                  : MediaQuery.of(context).size.width * .5,
               icon: Container(
                 margin: const EdgeInsets.only(top: 3),
                 padding: const EdgeInsets.all(4),
