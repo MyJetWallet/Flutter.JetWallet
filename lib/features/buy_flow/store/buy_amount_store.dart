@@ -8,22 +8,26 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/format_service.dart';
-import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
-import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/card_buy_create/card_buy_create_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
+import 'package:simple_networking/modules/wallet_api/models/limits/buy_limits_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/limits/swap_limits_request_model.dart';
 part 'buy_amount_store.g.dart';
 
 class BuyAmountStore extends _BuyAmountStoreBase with _$BuyAmountStore {
@@ -33,9 +37,6 @@ class BuyAmountStore extends _BuyAmountStoreBase with _$BuyAmountStore {
 }
 
 abstract class _BuyAmountStoreBase with Store {
-  @computed
-  BaseCurrencyModel get baseCurrency => sSignalRModules.baseCurrency;
-
   @computed
   CurrencyModel get buyCurrency => getIt.get<FormatService>().findCurrency(
         findInHideTerminalList: true,
@@ -51,6 +52,11 @@ abstract class _BuyAmountStoreBase with Store {
     } else {
       return PaymentMethodCategory.none;
     }
+  }
+
+  @computed
+  CirclePaymentMethod get circlePaymentMethod {
+    return card != null ? CirclePaymentMethod.bankCard : CirclePaymentMethod.ibanTransferUnlimint;
   }
 
   @observable
@@ -111,12 +117,20 @@ abstract class _BuyAmountStoreBase with Store {
   }
 
   @computed
+  int get primaryAccuracy {
+    return isFiatEntering ? buyCurrency.accuracy : asset?.accuracy ?? 2;
+  }
+
+  @computed
+  int get secondaryAccuracy {
+    return isFiatEntering ? asset?.accuracy ?? 2 : buyCurrency.accuracy;
+  }
+
+  @computed
   String get fiatBalance {
     return category == PaymentMethodCategory.cards ? card?.toString() ?? '' : account?.currency ?? '';
   }
 
-  @computed
-  Decimal get _availablePresentForProcessing => Decimal.one - ((convertMarkup / Decimal.parse('100')).toDecimal());
   @observable
   CardLimitsModel? limitByAsset;
 
@@ -147,14 +161,14 @@ abstract class _BuyAmountStoreBase with Store {
           .firstWhere((element) => element.id == PaymentMethodType.bankCard)
           .paymentAssets
           ?.firstWhere((element) => element.asset == 'EUR');
-
-      _updateLimitModel(paymentAsset!);
     }
 
     loadConversionPrice(
       fiatSymbol,
       cryptoSymbol,
     );
+
+    loadLimits();
 
     Timer(
       const Duration(milliseconds: 500),
@@ -196,6 +210,8 @@ abstract class _BuyAmountStoreBase with Store {
       cryptoSymbol,
     );
 
+    loadLimits();
+
     fiatInputValue = '0';
 
     cryptoInputValue = '0';
@@ -216,8 +232,6 @@ abstract class _BuyAmountStoreBase with Store {
           .firstWhere((element) => element.id == PaymentMethodType.bankCard)
           .paymentAssets
           ?.firstWhere((element) => element.asset == 'EUR');
-
-      _updateLimitModel(paymentAsset!);
     }
     if (newAccount != null) {
       account = newAccount;
@@ -229,6 +243,8 @@ abstract class _BuyAmountStoreBase with Store {
       fiatSymbol,
       cryptoSymbol,
     );
+
+    loadLimits();
 
     fiatInputValue = '0';
 
@@ -338,8 +354,105 @@ abstract class _BuyAmountStoreBase with Store {
   }
 
   @action
+  void swapAssets() {
+    if (account == null && card == null) {
+      return;
+    }
+    isFiatEntering = !isFiatEntering;
+    _validateInput();
+  }
+
+  @observable
+  Decimal _minSellAmount = Decimal.zero;
+
+  @observable
+  Decimal _maxSellAmount = Decimal.zero;
+
+  @observable
+  Decimal _minBuyAmount = Decimal.zero;
+
+  @observable
+  Decimal _maxBuyAmount = Decimal.zero;
+
+  @computed
+  Decimal get minLimit => isFiatEntering ? _minSellAmount : _minBuyAmount;
+
+  @computed
+  Decimal get maxLimit => isFiatEntering ? _maxSellAmount : _maxBuyAmount;
+
+  @action
+  Future<void> loadLimits() async {
+    if (asset == null || (account == null && card == null)) {
+      return;
+    }
+
+    try {
+      if (account?.accountId == 'clearjuction_account') {
+        final model = SwapLimitsRequestModel(
+          fromAsset: fiatSymbol,
+          toAsset: asset?.symbol ?? '',
+        );
+        final response = await sNetwork.getWalletModule().postSwapLimits(model);
+        response.pick(
+          onData: (data) {
+            _minSellAmount = data.minFromAssetVolume;
+            _maxSellAmount = data.maxFromAssetVolume;
+            _minBuyAmount = data.minToAssetVolume;
+            _maxBuyAmount = data.minToAssetVolume;
+          },
+          onError: (error) {
+            sNotification.showError(
+              error.cause,
+              duration: 4,
+              id: 1,
+              needFeedback: true,
+            );
+          },
+        );
+      } else {
+        final model = BuyLimitsRequestModel(
+          paymentAsset: fiatSymbol,
+          buyAsset: asset?.symbol ?? '',
+          paymentMethod: circlePaymentMethod,
+        );
+        final response = await sNetwork.getWalletModule().postBuyLimits(model);
+        response.pick(
+          onData: (data) {
+            _minSellAmount = data.minSellAmount;
+            _maxSellAmount = data.maxSellAmount;
+            _minBuyAmount = data.minBuyAmount;
+            _maxBuyAmount = data.maxBuyAmount;
+          },
+          onError: (error) {
+            sNotification.showError(
+              error.cause,
+              duration: 4,
+              id: 1,
+              needFeedback: true,
+            );
+          },
+        );
+      }
+    } on ServerRejectException catch (error) {
+      sNotification.showError(
+        error.cause,
+        duration: 4,
+        id: 1,
+        needFeedback: true,
+      );
+    } catch (error) {
+      sNotification.showError(
+        intl.something_went_wrong_try_again2,
+        duration: 4,
+        id: 1,
+        needFeedback: true,
+      );
+    }
+  }
+
+  @action
   void _validateInput() {
-    if (Decimal.parse(fiatInputValue) == Decimal.zero) {
+    if (Decimal.parse(primaryAmount) == Decimal.zero) {
       inputValid = true;
       inputError = InputError.none;
       _updatePaymentMethodInputError(null);
@@ -347,73 +460,34 @@ abstract class _BuyAmountStoreBase with Store {
       return;
     }
 
-    if (!isInputValid(fiatInputValue)) {
+    if (!isInputValid(primaryAmount)) {
       inputValid = false;
 
       return;
     }
 
-    final value = Decimal.parse(fiatInputValue);
-    var min = paymentAsset?.minAmount ?? Decimal.zero;
-    var max = (account?.balance ?? paymentAsset?.maxAmount ?? Decimal.zero) * _availablePresentForProcessing;
+    final value = Decimal.parse(primaryAmount);
 
-    if (category == PaymentMethodCategory.account && account?.accountId != 'clearjuction_account') {
-      final tempMin = asset!.buyMethods
-              .firstWhere((element) => element.id == PaymentMethodType.ibanTransferUnlimint)
-              .paymentAssets
-              ?.firstWhere((element) => element.asset == 'EUR')
-              .minAmount ??
-          Decimal.zero;
-      var tempMax = asset!.buyMethods
-              .firstWhere((element) => element.id == PaymentMethodType.ibanTransferUnlimint)
-              .paymentAssets
-              ?.firstWhere((element) => element.asset == 'EUR')
-              .maxAmount ??
-          Decimal.zero;
-      tempMax = tempMax * _availablePresentForProcessing;
+    inputValid = value >= minLimit && value <= maxLimit;
 
-      if (min > tempMin) {
-        min = tempMin;
-      }
-
-      if (max > tempMax) {
-        max = tempMax;
-      }
-    }
-
-    Decimal? limitMax = max;
-
-    if (limitByAsset != null && category == PaymentMethodCategory.cards) {
-      limitMax = limitByAsset!.barInterval == StateBarType.day1
-          ? (limitByAsset!.day1Limit - limitByAsset!.day1Amount)
-          : limitByAsset!.barInterval == StateBarType.day7
-              ? (limitByAsset!.day7Limit - limitByAsset!.day7Amount)
-              : (limitByAsset!.day30Limit - limitByAsset!.day30Amount);
-      limitMax = limitMax * _availablePresentForProcessing;
-    }
-
-    max = limitMax < max ? limitMax : max;
-
-    inputValid = value >= min && value <= max;
-
-    if (max == Decimal.zero) {
+    if (maxLimit == Decimal.zero) {
       _updatePaymentMethodInputError(
         intl.limitIsExceeded,
       );
-    } else if (value < min) {
+    } else if (value < minLimit) {
       _updatePaymentMethodInputError(
         '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
-          decimal: min,
-          accuracy: buyCurrency.accuracy,
-          symbol: buyCurrency.symbol,
+          decimal: minLimit,
+          accuracy: primaryAccuracy,
+          symbol: primarySymbol,
         )}',
       );
-    } else if (value > max) {
+    } else if (value > maxLimit) {
       _updatePaymentMethodInputError(
         '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
-          decimal: max,
-          accuracy: buyCurrency.accuracy,
-          symbol: buyCurrency.symbol,
+          decimal: maxLimit,
+          accuracy: primaryAccuracy,
+          symbol: primarySymbol,
         )}',
       );
     } else {
@@ -443,94 +517,5 @@ abstract class _BuyAmountStoreBase with Store {
       );
     }
     paymentMethodInputError = error;
-  }
-
-  @action
-  void _updateLimitModel(PaymentAsset asset) {
-    int calcPercentage(Decimal first, Decimal second) {
-      if (first == Decimal.zero) {
-        return 0;
-      }
-      final doubleFirst = double.parse('$first');
-      final doubleSecond = double.parse('$second');
-      final doubleFinal = double.parse('${doubleFirst / doubleSecond}');
-
-      return (doubleFinal * 100).round();
-    }
-
-    if (asset.limits != null) {
-      var finalInterval = StateBarType.day1;
-      var finalProgress = 0;
-      var dayState = asset.limits!.dayValue == asset.limits!.dayLimit ? StateLimitType.block : StateLimitType.active;
-      var weekState = asset.limits!.weekValue == asset.limits!.weekLimit ? StateLimitType.block : StateLimitType.active;
-      var monthState =
-          asset.limits!.monthValue == asset.limits!.monthLimit ? StateLimitType.block : StateLimitType.active;
-      if (monthState == StateLimitType.block) {
-        finalProgress = 100;
-        finalInterval = StateBarType.day30;
-        weekState = weekState == StateLimitType.block ? StateLimitType.block : StateLimitType.none;
-        dayState = dayState == StateLimitType.block ? StateLimitType.block : StateLimitType.none;
-      } else if (weekState == StateLimitType.block) {
-        finalProgress = 100;
-        finalInterval = StateBarType.day7;
-        dayState = dayState == StateLimitType.block ? StateLimitType.block : StateLimitType.none;
-        monthState = StateLimitType.none;
-      } else if (dayState == StateLimitType.block) {
-        finalProgress = 100;
-        finalInterval = StateBarType.day1;
-        weekState = StateLimitType.none;
-        monthState = StateLimitType.none;
-      } else {
-        final dayLeft = asset.limits!.dayLimit - asset.limits!.dayValue;
-        final weekLeft = asset.limits!.weekLimit - asset.limits!.weekValue;
-        final monthLeft = asset.limits!.monthLimit - asset.limits!.monthValue;
-        if (dayLeft <= weekLeft && dayLeft <= monthLeft) {
-          finalInterval = StateBarType.day1;
-          finalProgress = calcPercentage(
-            asset.limits!.dayValue,
-            asset.limits!.dayLimit,
-          );
-          dayState = StateLimitType.active;
-          weekState = StateLimitType.none;
-          monthState = StateLimitType.none;
-        } else if (weekLeft <= monthLeft) {
-          finalInterval = StateBarType.day7;
-          finalProgress = calcPercentage(
-            asset.limits!.weekValue,
-            asset.limits!.weekLimit,
-          );
-          dayState = StateLimitType.none;
-          weekState = StateLimitType.active;
-          monthState = StateLimitType.none;
-        } else {
-          finalInterval = StateBarType.day30;
-          finalProgress = calcPercentage(
-            asset.limits!.monthValue,
-            asset.limits!.monthLimit,
-          );
-          dayState = StateLimitType.none;
-          weekState = StateLimitType.none;
-          monthState = StateLimitType.active;
-        }
-      }
-
-      final limitModel = CardLimitsModel(
-        minAmount: asset.minAmount,
-        maxAmount: asset.maxAmount,
-        day1Amount: asset.limits!.dayValue,
-        day1Limit: asset.limits!.dayLimit,
-        day1State: dayState,
-        day7Amount: asset.limits!.weekValue,
-        day7Limit: asset.limits!.weekLimit,
-        day7State: weekState,
-        day30Amount: asset.limits!.monthValue,
-        day30Limit: asset.limits!.monthLimit,
-        day30State: monthState,
-        barInterval: finalInterval,
-        barProgress: finalProgress,
-        leftHours: 0,
-      );
-      limitByAsset = limitModel;
-    }
   }
 }

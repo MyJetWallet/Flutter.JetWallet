@@ -54,20 +54,17 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                 SNewActionPriceField(
                   widgetSize: widgetSizeFrom(deviceSize),
                   primaryAmount: formatCurrencyStringAmount(
-                    value: store.isFromEntering ? store.fromInputValue : store.toInputValue,
+                    value: store.primaryAmount,
                   ),
-                  primarySymbol:
-                      store.isFromEntering ? store.fromAsset?.symbol ?? 'EUR' : store.toAsset?.symbol ?? 'EUR',
+                  primarySymbol: store.primarySymbol,
                   secondaryAmount: store.toAsset != null
-                      ? formatCurrencyStringAmount(
-                          value: store.isFromEntering ? store.toInputValue : store.fromInputValue,
+                      ? volumeFormat(
+                          decimal: Decimal.parse(store.secondaryAmount),
+                          symbol: '',
+                          accuracy: store.secondaryAccuracy,
                         )
                       : null,
-                  secondarySymbol: store.toAsset != null
-                      ? store.isFromEntering
-                          ? store.toAsset?.symbol
-                          : store.fromAsset?.symbol
-                      : null,
+                  secondarySymbol: store.toAsset != null ? store.secondarySymbol : null,
                   onSwap: () {
                     store.swapAssets();
                   },
