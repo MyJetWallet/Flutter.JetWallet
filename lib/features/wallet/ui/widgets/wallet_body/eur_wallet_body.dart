@@ -246,6 +246,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                 children: [
                   if (simpleAccount != null)
                     SCardRow(
+                      maxWidth: MediaQuery.of(context).size.width * .4,
                       icon: Container(
                         margin: const EdgeInsets.only(top: 3),
                         padding: const EdgeInsets.all(4),
@@ -308,6 +309,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                     ),
                   for (final el in bankAccounts)
                     SCardRow(
+                      maxWidth: MediaQuery.of(context).size.width * .4,
                       icon: Container(
                         margin: const EdgeInsets.only(top: 3),
                         padding: const EdgeInsets.all(4),

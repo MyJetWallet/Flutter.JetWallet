@@ -17,6 +17,7 @@ class SCardRow extends StatelessWidget {
     this.frozenIcon,
     this.spaceBIandText = 18,
     this.needSpacer = false,
+    this.maxWidth,
     required this.icon,
     required this.name,
     required this.amount,
@@ -41,6 +42,7 @@ class SCardRow extends StatelessWidget {
   final String description;
   final VoidCallback onTap;
   final double spaceBIandText;
+  final double? maxWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -76,36 +78,41 @@ class SCardRow extends StatelessWidget {
                   SizedBox(width: spaceBIandText),
                   SizedBox(
                     height: helper.isNotEmpty ? 46 : 28,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              name,
-                              style: sTextH5Style.copyWith(
-                                color: mainColor,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: maxWidth ?? double.infinity,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                name,
+                                style: sTextH5Style.copyWith(
+                                  color: mainColor,
+                                ),
                               ),
-                            ),
-                            if (frozenIcon != null) frozenIcon!,
-                          ],
-                        ),
-                        if (helper.isNotEmpty) ...[
-                          Baseline(
-                            baseline: 14.0,
-                            baselineType: TextBaseline.alphabetic,
-                            child: Text(
-                              helper,
-                              textAlign: TextAlign.start,
-                              maxLines: 3,
-                              style: sCaptionTextStyle.copyWith(
-                                color: SColorsLight().grey1,
-                              ),
-                            ),
+                              if (frozenIcon != null) frozenIcon!,
+                            ],
                           ),
+                          if (helper.isNotEmpty) ...[
+                            Baseline(
+                              baseline: 14.0,
+                              baselineType: TextBaseline.alphabetic,
+                              child: Text(
+                                helper,
+                                textAlign: TextAlign.start,
+                                maxLines: 3,
+                                style: sCaptionTextStyle.copyWith(
+                                  color: SColorsLight().grey1,
+                                ),
+                              ),
+                            ),
+                          ],
                         ],
-                      ],
+                      ),
                     ),
                   ),
                   if (!needSpacer) ...[

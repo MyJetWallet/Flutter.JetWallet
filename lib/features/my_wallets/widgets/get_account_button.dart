@@ -61,7 +61,7 @@ class GetAccountButton extends StatelessObserverWidget {
                     strokeWidth: 1,
                   ),
                 )
-              : store.buttonStatus == BankingShowState.getAccount
+              : isButtonSmall
               ? SBankMediumIcon(color: sKit.colors.blue)
               : Stack(
             children: [

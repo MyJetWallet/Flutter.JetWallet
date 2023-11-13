@@ -165,12 +165,16 @@ class IbanSendAmountBody extends StatelessObserverWidget {
                 preset: 'false',
               );
 
-              showReferenceSheet(
-                context,
-                (description) {
-                  store.loadPreview(description, isCJ);
-                },
-              );
+              if (isCJ) {
+                store.loadPreview(null, isCJ);
+              } else {
+                showReferenceSheet(
+                  context,
+                  (description) {
+                    store.loadPreview(description, isCJ);
+                  },
+                );
+              }
             },
           ),
         ],

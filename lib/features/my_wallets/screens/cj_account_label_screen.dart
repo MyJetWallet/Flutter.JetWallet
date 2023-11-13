@@ -15,9 +15,11 @@ class CJAccountLabelScreen extends StatefulObserverWidget {
   const CJAccountLabelScreen({
     super.key,
     required this.initLabel,
+    required this.accountId,
   });
 
   final String initLabel;
+  final String accountId;
 
   @override
   State<CJAccountLabelScreen> createState() => _CJAccountLabelScreenState();
@@ -91,7 +93,7 @@ class _CJAccountLabelScreenState extends State<CJAccountLabelScreen> {
 
                             try {
                               final resp = await sNetwork.getWalletModule().postAccountChangeLabel(
-                                    accountId: sSignalRModules.bankingProfileData?.simple?.account?.accountId ?? '',
+                                    accountId: widget.accountId,
                                     label: labelController.text,
                                   );
 
