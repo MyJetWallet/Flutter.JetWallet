@@ -1071,7 +1071,7 @@
     "iban_send_history_transaction_id": "Transaction ID",
     "iban_send_history_transaction_fee": "Transaction fee",
     "iban_send_history_send_to": "To",
-    "iban_send_history_beneficairy": "Beneficairy",
+    "iban_send_history_benificiary": "Beneficairy",
     "iban_send_history_payment_fee": "Payment fee",
     "iban_send_history_processin_fee": "Processing fee",
     "iban_send_accounts": "Accounts",

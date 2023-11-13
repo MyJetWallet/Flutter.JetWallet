@@ -118,7 +118,7 @@ class IbanSendDetails extends StatelessObserverWidget {
           ),
           const SpaceH18(),
           TransactionDetailsItem(
-            text: intl.iban_send_history_beneficairy,
+            text: intl.iban_send_history_benificiary,
             value: TransactionDetailsValueText(
               text: '${formatDateToDMY(transactionListItem.timeStamp)}'
                   ', ${formatDateToHm(transactionListItem.timeStamp)}',
