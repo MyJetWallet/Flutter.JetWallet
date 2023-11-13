@@ -425,7 +425,7 @@ abstract class _SellAmountStoreBase with Store {
 
     if (maxLimit == Decimal.zero) {
       _updatePaymentMethodInputError(
-        intl.limitIsExceeded,
+        null,
       );
     } else if (value < minLimit) {
       _updatePaymentMethodInputError(
