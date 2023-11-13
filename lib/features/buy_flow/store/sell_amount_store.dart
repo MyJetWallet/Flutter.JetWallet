@@ -55,6 +55,11 @@ abstract class _SellAmountStoreBase with Store {
   @observable
   Decimal? targetConversionPrice;
 
+  @computed
+  bool get isContinueAvaible {
+    return inputValid && primaryAmount != '0' && account != null && asset != null;
+  }
+
   @observable
   InputError inputError = InputError.none;
 

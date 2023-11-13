@@ -153,8 +153,7 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                     store.updateInputValue(value);
                   },
                   buttonType: SButtonType.primary2,
-                  submitButtonActive:
-                      store.inputValid && !store.disableSubmit && !(double.parse(store.primaryAmount) == 0.0),
+                  submitButtonActive: store.isContinueAvaible,
                   submitButtonName: intl.addCircleCard_continue,
                   onSubmitPressed: () {
                     sRouter.push(

@@ -23,7 +23,6 @@ import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
-import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_create/card_buy_create_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/limits/buy_limits_request_model.dart';
@@ -59,10 +58,10 @@ abstract class _BuyAmountStoreBase with Store {
     return card != null ? CirclePaymentMethod.bankCard : CirclePaymentMethod.ibanTransferUnlimint;
   }
 
-  @observable
-  bool disableSubmit = false;
-  @action
-  bool setDisableSubmit(bool value) => disableSubmit = value;
+  @computed
+  bool get isContinueAvaible {
+    return inputValid && primaryAmount != '0' && (account != null || card != null) && asset != null;
+  }
 
   @observable
   String? paymentMethodInputError;
@@ -130,9 +129,6 @@ abstract class _BuyAmountStoreBase with Store {
   String get fiatBalance {
     return category == PaymentMethodCategory.cards ? card?.toString() ?? '' : account?.currency ?? '';
   }
-
-  @observable
-  CardLimitsModel? limitByAsset;
 
   @observable
   PaymentAsset? paymentAsset;
@@ -218,6 +214,8 @@ abstract class _BuyAmountStoreBase with Store {
     errorText = null;
 
     inputValid = false;
+
+    _validateInput();
   }
 
   @action
@@ -250,6 +248,7 @@ abstract class _BuyAmountStoreBase with Store {
 
     cryptoInputValue = '0';
     errorText = null;
+
     _validateInput();
   }
 

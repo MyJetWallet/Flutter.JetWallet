@@ -43,6 +43,11 @@ abstract class _ConvertAmountStoreBase with Store {
   @observable
   String? errorText;
 
+  @computed
+  bool get isContinueAvaible {
+    return inputValid && primaryAmount != '0' && fromAsset != null && targetConversionPrice != null;
+  }
+
   @observable
   bool inputValid = false;
 

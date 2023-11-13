@@ -222,10 +222,7 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                     store.updateInputValue(value);
                   },
                   buttonType: SButtonType.primary2,
-                  submitButtonActive: store.inputValid &&
-                      !store.disableSubmit &&
-                      !(double.parse(store.primaryAmount) == 0.0) &&
-                      store.limitByAsset?.barProgress != 100,
+                  submitButtonActive: store.isContinueAvaible,
                   submitButtonName: intl.addCircleCard_continue,
                   onSubmitPressed: () {
                     sRouter.push(
