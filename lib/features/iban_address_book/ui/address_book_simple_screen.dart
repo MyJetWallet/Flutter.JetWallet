@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
+import 'package:jetwallet/features/iban/widgets/iban_item.dart';
 import 'package:jetwallet/features/iban/widgets/iban_terms_container.dart';
 import 'package:jetwallet/features/iban_address_book/store/iban_address_book_store.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -24,8 +26,8 @@ class IbanAddressBookSimpleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provider<IbanAddressBookStore>(
       create: (context) => IbanAddressBookStore()
-        ..setContact(contact)
-        ..setFlow(true),
+        ..setFlow(true)
+        ..setContact(contact),
       builder: (context, child) => const _BodyAddressBookSimple(),
     );
   }
@@ -88,13 +90,14 @@ class _BodyAddressBookSimple extends StatelessObserverWidget {
                         textInputAction: TextInputAction.next,
                         controller: IbanAddressBookStore.of(context).ibanController,
                         keyboardType: TextInputType.multiline,
+                        hideIconsIfNotEmpty: false,
                         onChanged: (text) {
-                          IbanAddressBookStore.of(context).serIsIBANError(false);
+                          IbanAddressBookStore.of(context).setIsIBANError(false);
 
                           IbanAddressBookStore.of(context).checkButton();
                         },
                         onErase: () {
-                          IbanAddressBookStore.of(context).serIsIBANError(false);
+                          IbanAddressBookStore.of(context).setIsIBANError(false);
 
                           IbanAddressBookStore.of(context).checkButton();
                         },
@@ -102,21 +105,26 @@ class _BodyAddressBookSimple extends StatelessObserverWidget {
                         suffixIcons: [
                           SIconButton(
                             onTap: () {
-                              IbanAddressBookStore.of(context).pasteIban();
+                              if (IbanAddressBookStore.of(context).ibanController.text.isEmpty) {
+                                IbanAddressBookStore.of(context).pasteIban();
+                                IbanAddressBookStore.of(context).checkButton();
+                              } else {
+                                Clipboard.setData(
+                                  ClipboardData(
+                                    text: IbanAddressBookStore.of(context).ibanController.text,
+                                  ),
+                                );
 
-                              IbanAddressBookStore.of(context).checkButton();
+                                onCopyAction();
+                              }
                             },
                             defaultIcon: const SPasteIcon(),
                             pressedIcon: const SPastePressedIcon(),
                           ),
                         ],
                         inputFormatters: [
-                          MaskTextInputFormatter(
-                            mask: '#### #### #### #### #### #### ####',
-                            filter: {
-                              '#': RegExp('[a-zA-Z0-9]'),
-                            },
-                          ),
+                          if (IbanAddressBookStore.of(context).ibanMask != null)
+                            IbanAddressBookStore.of(context).ibanMask!,
                         ],
                         hideSpace: true,
                       ),

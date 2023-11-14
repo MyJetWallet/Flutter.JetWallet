@@ -44,6 +44,7 @@ class SStandardField extends StatelessObserverWidget {
     this.labelText,
     this.hintText,
     this.height,
+    this.weight,
     this.cursorHeight,
   }) : super(key: key);
 
@@ -81,6 +82,7 @@ class SStandardField extends StatelessObserverWidget {
   final int? maxLength;
   final int? maxLines;
   final double? height;
+  final double? weight;
   final double? cursorHeight;
 
   @override
@@ -120,6 +122,7 @@ class SStandardField extends StatelessObserverWidget {
             grayLabel: grayLabel,
             maxLines: maxLines,
             height: height,
+            weight: weight,
             cursorHeight: cursorHeight,
             hintText: hintText,
           )
@@ -157,6 +160,7 @@ class SStandardField extends StatelessObserverWidget {
             grayLabel: grayLabel,
             maxLines: maxLines,
             height: height,
+            weight: weight,
             cursorHeight: cursorHeight,
             hintText: hintText,
           );

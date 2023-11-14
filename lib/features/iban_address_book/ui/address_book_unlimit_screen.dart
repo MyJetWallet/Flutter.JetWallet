@@ -1,10 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/country_item/country_profile_item.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/show_user_data_country_picker.dart';
+import 'package:jetwallet/features/iban/widgets/iban_item.dart';
 import 'package:jetwallet/features/iban_address_book/store/iban_address_book_store.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
@@ -25,8 +27,8 @@ class IbanAdressBookUnlimitScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provider<IbanAddressBookStore>(
       create: (context) => IbanAddressBookStore()
-        ..setContact(contact)
-        ..setFlow(false),
+        ..setFlow(false)
+        ..setContact(contact),
       builder: (context, child) => const _BodyAdressBookUnlimit(),
     );
   }
@@ -41,6 +43,14 @@ class _BodyAdressBookUnlimit extends StatelessObserverWidget {
 
     final colors = sKit.colors;
 
+    final mask = MaskTextInputFormatter(
+      mask: '#### #### #### #### #### #### ####',
+      initialText: IbanAddressBookStore.of(context).ibanController.text,
+      filter: {
+        '#': RegExp('[a-zA-Z0-9]'),
+      },
+    );
+
     return SPageFrame(
       loaderText: intl.loader_please_wait,
       loading: IbanAddressBookStore.of(context).loader,
@@ -48,8 +58,6 @@ class _BodyAdressBookUnlimit extends StatelessObserverWidget {
       header: SPaddingH24(
         child: SSmallHeader(
           title: store.isEditMode ? intl.address_book_edit_recipient : intl.address_book_add_recipient,
-          showCloseButton: store.isEditMode,
-          showBackButton: !store.isEditMode,
           onBackButtonTap: () => Navigator.pop(context, false),
           onCLoseButton: () => Navigator.pop(context, false),
         ),
@@ -75,7 +83,7 @@ class _BodyAdressBookUnlimit extends StatelessObserverWidget {
                           );
                         },
                         child: SizedBox(
-                          height: 88,
+                          height: 80,
                           width: double.infinity,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,6 +93,7 @@ class _BodyAdressBookUnlimit extends StatelessObserverWidget {
                                 Text(
                                   intl.address_book_country_of_recepients_bank,
                                   style: sSubtitle2Style.copyWith(
+                                    fontSize: 12.0,
                                     color: colors.grey2,
                                   ),
                                 )
@@ -92,7 +101,7 @@ class _BodyAdressBookUnlimit extends StatelessObserverWidget {
                                 Text(
                                   intl.address_book_country_of_recepients_bank,
                                   style: sCaptionTextStyle.copyWith(
-                                    fontSize: 16.0,
+                                    fontSize: 12.0,
                                     color: colors.grey2,
                                   ),
                                 ),
@@ -109,60 +118,78 @@ class _BodyAdressBookUnlimit extends StatelessObserverWidget {
                       ),
                     ),
                     SFieldDividerFrame(
-                      child: SStandardField(
-                        labelText: intl.iban_title,
-                        textCapitalization: TextCapitalization.sentences,
-                        textInputAction: TextInputAction.next,
-                        controller: IbanAddressBookStore.of(context).ibanController,
-                        keyboardType: TextInputType.multiline,
-                        onChanged: (text) {
-                          IbanAddressBookStore.of(context).serIsIBANError(false);
+                      child: SizedBox(
+                        child: SStandardField(
+                          height: 80,
+                          labelText: intl.iban_title,
+                          textCapitalization: TextCapitalization.sentences,
+                          textInputAction: TextInputAction.next,
+                          controller: IbanAddressBookStore.of(context).ibanController,
+                          keyboardType: TextInputType.multiline,
+                          onChanged: (text) {
+                            IbanAddressBookStore.of(context).setIsIBANError(false);
+                            IbanAddressBookStore.of(context).checkButton();
+                          },
+                          onErase: () {
+                            IbanAddressBookStore.of(context).setIsIBANError(false);
+                            IbanAddressBookStore.of(context).checkButton();
+                          },
+                          isError: IbanAddressBookStore.of(context).isIBANError,
+                          hideIconsIfNotEmpty: false,
+                          suffixIcons: [
+                            SIconButton(
+                              onTap: () {
+                                if (IbanAddressBookStore.of(context).ibanController.text.isEmpty) {
+                                  IbanAddressBookStore.of(context).pasteIban();
+                                  IbanAddressBookStore.of(context).checkButton();
+                                } else {
+                                  Clipboard.setData(
+                                    ClipboardData(
+                                      text: IbanAddressBookStore.of(context).ibanController.text,
+                                    ),
+                                  );
 
-                          IbanAddressBookStore.of(context).checkButton();
-                        },
-                        onErase: () {
-                          IbanAddressBookStore.of(context).serIsIBANError(false);
-
-                          IbanAddressBookStore.of(context).checkButton();
-                        },
-                        isError: IbanAddressBookStore.of(context).isIBANError,
-                        suffixIcons: [
-                          SIconButton(
-                            onTap: () {
-                              IbanAddressBookStore.of(context).pasteIban();
-
-                              IbanAddressBookStore.of(context).checkButton();
-                            },
-                            defaultIcon: const SPasteIcon(),
-                            pressedIcon: const SPastePressedIcon(),
-                          ),
-                        ],
-                        inputFormatters: [
-                          MaskTextInputFormatter(
-                            mask: '#### #### #### #### #### #### ####',
-                            filter: {
-                              '#': RegExp('[a-zA-Z0-9]'),
-                            },
-                          ),
-                        ],
-                        hideSpace: true,
+                                  onCopyAction();
+                                }
+                              },
+                              defaultIcon: const SPasteIcon(),
+                              pressedIcon: const SPastePressedIcon(),
+                            ),
+                          ],
+                          inputFormatters: [
+                            if (IbanAddressBookStore.of(context).ibanMask != null)
+                              IbanAddressBookStore.of(context).ibanMask!,
+                          ],
+                          hideSpace: true,
+                        ),
                       ),
                     ),
                     SFieldDividerFrame(
                       child: SStandardField(
+                        height: 80,
                         labelText: intl.iban_bic,
                         textInputAction: TextInputAction.next,
                         controller: IbanAddressBookStore.of(context).bicController,
-                        isError: IbanAddressBookStore.of(context).isIBANError,
+                        isError: IbanAddressBookStore.of(context).isBICError,
                         onChanged: (text) {
                           IbanAddressBookStore.of(context).checkButton();
                         },
+                        hideIconsIfNotEmpty: false,
                         suffixIcons: [
                           SIconButton(
                             onTap: () {
-                              IbanAddressBookStore.of(context).pasteBIC();
+                              if (IbanAddressBookStore.of(context).bicController.text.isEmpty) {
+                                IbanAddressBookStore.of(context).pasteBIC();
+                                IbanAddressBookStore.of(context).checkButton();
+                              } else {
+                                Clipboard.setData(
+                                  ClipboardData(
+                                    text: IbanAddressBookStore.of(context).bicController.text,
+                                  ),
+                                );
 
-                              IbanAddressBookStore.of(context).checkButton();
+                                onCopyAction();
+                              }
                             },
                             defaultIcon: const SPasteIcon(),
                             pressedIcon: const SPastePressedIcon(),
@@ -173,19 +200,30 @@ class _BodyAdressBookUnlimit extends StatelessObserverWidget {
                     ),
                     SFieldDividerFrame(
                       child: SStandardField(
+                        height: 80,
                         labelText: intl.address_book_full_name,
                         textInputAction: TextInputAction.next,
                         controller: IbanAddressBookStore.of(context).fullnameController,
-                        isError: IbanAddressBookStore.of(context).isIBANError,
+                        isError: IbanAddressBookStore.of(context).isFullNameError,
                         onChanged: (text) {
                           IbanAddressBookStore.of(context).checkButton();
                         },
+                        hideIconsIfNotEmpty: false,
                         suffixIcons: [
                           SIconButton(
                             onTap: () {
-                              IbanAddressBookStore.of(context).pasteFullName();
+                              if (IbanAddressBookStore.of(context).fullnameController.text.isEmpty) {
+                                IbanAddressBookStore.of(context).pasteFullName();
+                                IbanAddressBookStore.of(context).checkButton();
+                              } else {
+                                Clipboard.setData(
+                                  ClipboardData(
+                                    text: IbanAddressBookStore.of(context).fullnameController.text,
+                                  ),
+                                );
 
-                              IbanAddressBookStore.of(context).checkButton();
+                                onCopyAction();
+                              }
                             },
                             defaultIcon: const SPasteIcon(),
                             pressedIcon: const SPastePressedIcon(),
@@ -196,11 +234,13 @@ class _BodyAdressBookUnlimit extends StatelessObserverWidget {
                     ),
                     SFieldDividerFrame(
                       child: SStandardField(
+                        height: 80,
                         labelText: intl.iban_label,
                         maxLines: 1,
                         maxLength: 30,
                         controller: IbanAddressBookStore.of(context).labelController,
                         textInputAction: TextInputAction.next,
+                        isError: IbanAddressBookStore.of(context).isLabelError,
                         onChanged: (text) {
                           IbanAddressBookStore.of(context).checkButton();
                         },
@@ -222,7 +262,7 @@ class _BodyAdressBookUnlimit extends StatelessObserverWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 8),
                       SPaddingH24(
                         child: Material(
                           color: colors.grey5,
@@ -265,7 +305,7 @@ class _BodyAdressBookUnlimit extends StatelessObserverWidget {
                         ),
                       ),
                     ],
-                    const SpaceH42(),
+                    const SizedBox(height: 48),
                   ],
                 ),
               ),

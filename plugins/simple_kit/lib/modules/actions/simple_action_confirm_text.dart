@@ -102,9 +102,11 @@ class SActionConfirmText extends StatelessWidget {
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       if (icon != null) ...[
                         icon!,
@@ -113,11 +115,12 @@ class SActionConfirmText extends StatelessWidget {
                       Flexible(
                         child: Text(
                           value,
+                          textWidthBasis: TextWidthBasis.longestLine,
                           style: sSubtitle3Style.copyWith(
                             color: valueColor ?? SColorsLight().black,
                           ),
                           maxLines: 3,
-                          textAlign: icon != null ? TextAlign.start : TextAlign.end,
+                          textAlign: TextAlign.end,
                         ),
                       ),
                       if (animation != null) ...[

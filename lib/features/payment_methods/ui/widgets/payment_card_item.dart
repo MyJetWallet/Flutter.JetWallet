@@ -71,13 +71,18 @@ class PaymentCardItem extends StatelessObserverWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Baseline(
-                            baseline: 18.0,
-                            baselineType: TextBaseline.alphabetic,
-                            child: Text(
-                              name,
-                              style: sSubtitle2Style.copyWith(
-                                color: isDisabled ? colors.grey2 : colors.black,
+                          ConstrainedBox(
+                            constraints: BoxConstraints(
+                              maxWidth: MediaQuery.of(context).size.width * .5,
+                            ),
+                            child: Baseline(
+                              baseline: 18.0,
+                              baselineType: TextBaseline.alphabetic,
+                              child: Text(
+                                name,
+                                style: sSubtitle2Style.copyWith(
+                                  color: isDisabled ? colors.grey2 : colors.black,
+                                ),
                               ),
                             ),
                           ),
@@ -127,8 +132,7 @@ class PaymentCardItem extends StatelessObserverWidget {
                                           ? intl.paymentMethod_Failed
                                           : expirationDate,
                                   style: sCaptionTextStyle.copyWith(
-                                    color:
-                                        isDisabled ? colors.red : colors.grey3,
+                                    color: isDisabled ? colors.red : colors.grey3,
                                   ),
                                 ),
                               ),

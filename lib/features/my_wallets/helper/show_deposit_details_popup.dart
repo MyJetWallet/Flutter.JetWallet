@@ -104,18 +104,20 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
                 ? intl.eur_wallet_simple_account
                 : intl.create_simple_creating,
             onTap: () {
-              showDepositDetails(
-                context,
-                () {
-                  sAnalytics.eurWalletTapCloseOnDeposirSheet(
-                    isCJ: true,
-                    eurAccountLabel: simpleAccount.label ?? 'Account 1',
-                    isHasTransaction: true,
-                  );
-                },
-                true,
-                simpleAccount,
-              );
+              if (simpleAccount.status == AccountStatus.active) {
+                showDepositDetails(
+                  context,
+                  () {
+                    sAnalytics.eurWalletTapCloseOnDeposirSheet(
+                      isCJ: true,
+                      eurAccountLabel: simpleAccount.label ?? 'Account 1',
+                      isHasTransaction: true,
+                    );
+                  },
+                  true,
+                  simpleAccount,
+                );
+              }
             },
             description: '',
             amount: '',
@@ -172,18 +174,20 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
                   ? intl.eur_wallet_personal_account
                   : intl.create_personal_creating,
               onTap: () {
-                showDepositDetails(
-                  context,
-                  () {
-                    sAnalytics.eurWalletTapCloseOnDeposirSheet(
-                      isCJ: false,
-                      eurAccountLabel: bankAccounts[index].label ?? 'Account',
-                      isHasTransaction: true,
-                    );
-                  },
-                  false,
-                  bankAccounts[index],
-                );
+                if (bankAccounts[index].status == AccountStatus.active) {
+                  showDepositDetails(
+                    context,
+                    () {
+                      sAnalytics.eurWalletTapCloseOnDeposirSheet(
+                        isCJ: false,
+                        eurAccountLabel: bankAccounts[index].label ?? 'Account',
+                        isHasTransaction: true,
+                      );
+                    },
+                    false,
+                    bankAccounts[index],
+                  );
+                }
               },
               description: '',
               amount: '',
@@ -274,7 +278,7 @@ void showDepositDetails(
         const SpaceH8(),
         IBanItem(
           name: intl.iban_benificiary,
-          text: '${sUserInfo.firstName} ${sUserInfo.lastName}',
+          text: '${bankingAccount.holderFirstName} ${bankingAccount.holderLastName}',
         ),
         IBanItem(
           name: intl.iban_iban,

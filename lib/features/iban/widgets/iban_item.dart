@@ -12,6 +12,14 @@ import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 import '../../../core/l10n/i10n.dart';
 import '../../../core/services/notification_service.dart';
 
+void onCopyAction() {
+  sNotification.showError(
+    intl.copy_message,
+    id: 1,
+    isError: false,
+  );
+}
+
 class IBanItem extends StatelessObserverWidget {
   const IBanItem({
     super.key,
@@ -25,14 +33,6 @@ class IBanItem extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-
-    void onCopyAction() {
-      sNotification.showError(
-        intl.copy_message,
-        id: 1,
-        isError: false,
-      );
-    }
 
     return Column(
       children: [

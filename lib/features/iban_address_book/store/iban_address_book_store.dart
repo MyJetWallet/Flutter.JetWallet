@@ -7,8 +7,8 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/kyc_profile_countries.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
-import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
@@ -42,10 +42,27 @@ abstract class _IbanAddressBookStoreBase with Store {
 
   final loader = StackLoaderStore();
 
+  MaskTextInputFormatter? ibanMask;
+
   @observable
   bool isIBANError = false;
   @action
-  void serIsIBANError(bool val) => isIBANError = val;
+  void setIsIBANError(bool val) => isIBANError = val;
+
+  @observable
+  bool isBICError = false;
+  @action
+  void setIsBICError(bool val) => isBICError = val;
+
+  @observable
+  bool isFullNameError = false;
+  @action
+  void setIsFullNameError(bool val) => isFullNameError = val;
+
+  @observable
+  bool isLabelError = false;
+  @action
+  void setLabelError(bool val) => isLabelError = val;
 
   @observable
   bool isEditMode = false;
@@ -81,6 +98,17 @@ abstract class _IbanAddressBookStoreBase with Store {
       bicController.text = predContactData?.bic ?? '';
       fullnameController.text = predContactData?.fullName ?? '';
 
+      ibanMask = MaskTextInputFormatter(
+        mask: '#### #### #### #### #### #### ####',
+        initialText: ibanController.text,
+        filter: {
+          '#': RegExp('[a-zA-Z0-9]'),
+        },
+        type: MaskAutoCompletionType.eager,
+      );
+
+      ibanController.text = ibanMask!.maskText(ibanController.text);
+
       final countryIndex =
           countriesList.countries.indexWhere((element) => element.countryCode == (predContactData?.bankCountry ?? ''));
       if (countryIndex != -1) {
@@ -95,6 +123,7 @@ abstract class _IbanAddressBookStoreBase with Store {
   Future<void> pasteIban() async {
     final copiedText = await _copiedText();
     ibanController.text = copiedText.replaceAll(' ', '');
+    ibanController.text = ibanMask!.maskText(ibanController.text);
 
     _moveCursorAtTheEnd(ibanController);
 
@@ -162,7 +191,15 @@ abstract class _IbanAddressBookStoreBase with Store {
         getIt<AppRouter>().back();
       },
       onError: (error) {
-        isIBANError = true;
+        if (error.cause == 'invalid iban') {
+          isIBANError = true;
+        }
+        if (error.cause == 'invalid bic') {
+          isBICError = true;
+        }
+        if (error.cause == 'invalid label') {
+          isLabelError = true;
+        }
 
         sNotification.showError(
           response?.error?.cause ?? '',
@@ -188,6 +225,8 @@ abstract class _IbanAddressBookStoreBase with Store {
               name: labelController.text,
               iban: ibanController.text.replaceAll(' ', ''),
               bic: bicController.text,
+              bankCountry: country?.countryCode ?? '',
+              fullName: fullnameController.text,
             ),
           );
 
