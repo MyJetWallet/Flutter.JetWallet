@@ -4,7 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/utils/formatting/base/market_format.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -43,7 +43,7 @@ class BalanceAmountWidget extends StatelessObserverWidget {
       totalBalance += item.baseBalance;
     }
 
-    return marketFormat(
+    return volumeFormat(
       decimal: totalBalance,
       accuracy: baseCurrency.accuracy,
       symbol: baseCurrency.symbol,

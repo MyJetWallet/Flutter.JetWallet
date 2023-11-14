@@ -1,10 +1,10 @@
 name: simple_kit
 description: UI Kit for Simple design
 
-publish_to: 'none'
+publish_to: "none"
 
 environment:
-  sdk: '>=3.1.2 <4.0.0'
+  sdk: ">=3.1.2 <4.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
@@ -46,6 +46,8 @@ flutter:
     - assets/icons/light/16x16/smiles/
     - assets/icons/light/16x16/tick/
     - assets/icons/light/16x16/minus/
+    - assets/icons/light/16x16/reward_history/
+    - assets/icons/light/16x16/gift_history/
     - assets/icons/light/18x18/paid_interest_rate/
     - assets/icons/light/18x18/earn_deposit/
     - assets/icons/light/20x20/deposit/
@@ -150,6 +152,8 @@ flutter:
     - assets/icons/light/24x24/transfer/
     - assets/icons/light/24x24/chevron_down_double/
     - assets/icons/light/24x24/crypto/
+    - assets/icons/light/24x24/add_cash/
+    - assets/icons/light/24x24/withdrawal/
     - assets/icons/light/32x32/market/
     - assets/icons/light/32x32/my_assets/
     - assets/icons/light/32x32/card_bottom/

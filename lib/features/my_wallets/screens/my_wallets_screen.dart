@@ -246,6 +246,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                             itemBuilder: (context, index) {
                               return ReorderableDelayedDragStartListener(
                                 key: list[index].key,
+                                enabled: store.isReordering,
                                 index: index,
                                 child: list[index],
                               );

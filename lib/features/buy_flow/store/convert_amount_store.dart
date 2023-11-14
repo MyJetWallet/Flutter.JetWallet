@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
-import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -14,6 +15,8 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/wallet_api/models/limits/swap_limits_request_model.dart';
 part 'convert_amount_store.g.dart';
 
 class ConvertAmountStore extends _ConvertAmountStoreBase with _$ConvertAmountStore {
@@ -40,6 +43,11 @@ abstract class _ConvertAmountStoreBase with Store {
   @observable
   String? errorText;
 
+  @computed
+  bool get isContinueAvaible {
+    return inputValid && primaryAmount != '0' && fromAsset != null && targetConversionPrice != null;
+  }
+
   @observable
   bool inputValid = false;
 
@@ -59,7 +67,7 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @computed
   String get primarySymbol {
-    return isFromEntering ? fromAsset?.symbol ?? '' : toAsset?.symbol ?? '';
+    return isFromEntering ? fromAsset?.symbol ?? 'EUR' : toAsset?.symbol ?? 'EUR';
   }
 
   @computed
@@ -73,7 +81,14 @@ abstract class _ConvertAmountStoreBase with Store {
   }
 
   @computed
-  Decimal get _availablePresentForProcessing => Decimal.one - ((convertMarkup / Decimal.parse('100')).toDecimal());
+  int get primaryAccuracy {
+    return isFromEntering ? fromAsset?.accuracy ?? 2 : toAsset?.accuracy ?? 2;
+  }
+
+  @computed
+  int get secondaryAccuracy {
+    return isFromEntering ? toAsset?.accuracy ?? 2 : fromAsset?.accuracy ?? 2;
+  }
 
   @observable
   CurrencyModel? fromAsset;
@@ -93,6 +108,7 @@ abstract class _ConvertAmountStoreBase with Store {
     fromAsset = newAsset;
 
     loadConversionPrice();
+    loadLimits();
 
     toInputValue = '0';
     fromInputValue = '0';
@@ -114,6 +130,7 @@ abstract class _ConvertAmountStoreBase with Store {
     toAsset = newAsset;
 
     loadConversionPrice();
+    loadLimits();
 
     toInputValue = '0';
     fromInputValue = '0';
@@ -228,25 +245,74 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @computed
   Decimal get convertAllAmount {
-    return (fromAsset?.assetBalance ?? Decimal.zero) * _availablePresentForProcessing;
+    return fromAsset?.assetBalance ?? Decimal.zero;
   }
 
-  @computed
-  Decimal get minLimit {
-    return (isFromEntering ? fromAsset?.minTradeAmount : toAsset?.minTradeAmount) ?? Decimal.zero;
-  }
+  @observable
+  Decimal _minFromAssetVolume = Decimal.zero;
+
+  @observable
+  Decimal _maxFromAssetVolume = Decimal.zero;
+
+  @observable
+  Decimal _minToAssetVolume = Decimal.zero;
+
+  @observable
+  Decimal _maxToAssetVolume = Decimal.zero;
 
   @computed
-  Decimal get maxLimit {
-    final assetBalance = (isFromEntering ? fromAsset?.assetBalance : toAsset?.assetBalance) ?? Decimal.zero;
-    final maxTradeAmount = (isFromEntering ? fromAsset?.maxTradeAmount : toAsset?.maxTradeAmount) ?? Decimal.zero;
+  Decimal get minLimit => isFromEntering ? _minFromAssetVolume : _minToAssetVolume;
 
-    return (assetBalance < maxTradeAmount ? assetBalance : maxTradeAmount) * _availablePresentForProcessing;
+  @computed
+  Decimal get maxLimit => isFromEntering ? _maxFromAssetVolume : _maxToAssetVolume;
+
+  @action
+  Future<void> loadLimits() async {
+    if (fromAsset == null || toAsset == null) {
+      return;
+    }
+    final model = SwapLimitsRequestModel(
+      fromAsset: fromAsset?.symbol ?? '',
+      toAsset: toAsset?.symbol ?? '',
+    );
+    try {
+      final response = await sNetwork.getWalletModule().postSwapLimits(model);
+      response.pick(
+        onData: (data) {
+          _minFromAssetVolume = data.minFromAssetVolume;
+          _maxFromAssetVolume = data.maxFromAssetVolume;
+          _minToAssetVolume = data.minToAssetVolume;
+          _maxToAssetVolume = data.maxToAssetVolume;
+        },
+        onError: (error) {
+          sNotification.showError(
+            error.cause,
+            duration: 4,
+            id: 1,
+            needFeedback: true,
+          );
+        },
+      );
+    } on ServerRejectException catch (error) {
+      sNotification.showError(
+        error.cause,
+        duration: 4,
+        id: 1,
+        needFeedback: true,
+      );
+    } catch (error) {
+      sNotification.showError(
+        intl.something_went_wrong_try_again2,
+        duration: 4,
+        id: 1,
+        needFeedback: true,
+      );
+    }
   }
 
   @action
   void _validateInput() {
-    if (Decimal.parse(fromInputValue) == Decimal.zero) {
+    if (Decimal.parse(primaryAmount) == Decimal.zero) {
       inputValid = true;
       inputError = InputError.none;
       _updatePaymentMethodInputError(null);
@@ -254,34 +320,34 @@ abstract class _ConvertAmountStoreBase with Store {
       return;
     }
 
-    if (!isInputValid(fromInputValue)) {
+    if (!isInputValid(primaryAmount)) {
       inputValid = false;
 
       return;
     }
 
-    final value = Decimal.parse(fromInputValue);
+    final value = Decimal.parse(primaryAmount);
 
     inputValid = value >= minLimit && value <= maxLimit;
 
     if (maxLimit == Decimal.zero) {
       _updatePaymentMethodInputError(
-        intl.limitIsExceeded,
+        null,
       );
     } else if (value < minLimit) {
       _updatePaymentMethodInputError(
         '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
           decimal: minLimit,
-          accuracy: fromAsset?.accuracy ?? 2,
-          symbol: fromAsset?.symbol ?? '',
+          accuracy: primaryAccuracy,
+          symbol: primarySymbol,
         )}',
       );
     } else if (value > maxLimit) {
       _updatePaymentMethodInputError(
         '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
           decimal: maxLimit,
-          accuracy: fromAsset?.accuracy ?? 2,
-          symbol: fromAsset?.symbol ?? '',
+          accuracy: primaryAccuracy,
+          symbol: primarySymbol,
         )}',
       );
     } else {
@@ -290,7 +356,7 @@ abstract class _ConvertAmountStoreBase with Store {
 
     const error = InputError.none;
 
-    inputError = double.parse(fromInputValue) != 0
+    inputError = double.parse(primaryAmount) != 0
         ? error == InputError.none
             ? paymentMethodInputError == null
                 ? InputError.none

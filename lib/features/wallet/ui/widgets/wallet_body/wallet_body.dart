@@ -152,7 +152,29 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
 
                         final isBuyAvaible = isCardsAvailable || isSimpleAccountAvaible || isBankingAccountsAvaible;
 
-                        if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed) && isBuyAvaible) {
+                        final isDepositBlocker = sSignalRModules.clientDetail.clientBlockers
+                            .any((element) => element.blockingType == BlockingType.deposit);
+
+                        if (kycState.tradeStatus == kycOperationStatus(KycStatus.blocked) && !isBuyAvaible) {
+                          sNotification.showError(
+                            intl.my_wallets_actions_warning,
+                            id: 1,
+                            hideIcon: true,
+                          );
+                        } else if ((kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) &&
+                            !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
+                          sNotification.showError(
+                            intl.my_wallets_actions_warning,
+                            id: 1,
+                            hideIcon: true,
+                          );
+                        } else if (isDepositBlocker) {
+                          sNotification.showError(
+                            intl.my_wallets_actions_warning,
+                            id: 1,
+                            hideIcon: true,
+                          );
+                        } else if (isBuyAvaible) {
                           showSendTimerAlertOr(
                             context: context,
                             or: () => showPayWithBottomSheet(
@@ -160,12 +182,6 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                               currency: actualAsset,
                             ),
                             from: [BlockingType.trade],
-                          );
-                        } else if (!isBuyAvaible) {
-                          sNotification.showError(
-                            intl.my_wallets_actions_warning,
-                            id: 1,
-                            hideIcon: true,
                           );
                         } else {
                           handler.handle(

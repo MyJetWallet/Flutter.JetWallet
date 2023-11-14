@@ -50,6 +50,12 @@ import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_withdrawal_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/check_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/limits/buy_limits_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/limits/buy_limits_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/limits/sell_limits_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/limits/sell_limits_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/limits/swap_limits_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/limits/swap_limits_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_info/market_info_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_info/market_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_news/market_news_request_model.dart';
@@ -886,6 +892,12 @@ class WalletApiRepository {
     return _walletApiDataSources.postBankingWithdrawalRequest(request);
   }
 
+  Future<DC<ServerRejectException, BuyLimitsResponseModel>> postBuyLimits(
+    BuyLimitsRequestModel request,
+  ) async {
+    return _walletApiDataSources.postBuyLimitsRequest(request);
+  }
+
   // simple card
   Future<DC<ServerRejectException, SimpleCardCreateResponse>> postSimpleCardCreate({
     required SimpleCardCreateRequest data,
@@ -933,5 +945,18 @@ class WalletApiRepository {
     required String cardId,
   }) async {
     return _walletApiDataSources.postCardUnfreezeRequest(cardId: cardId);
+  }
+}
+
+  Future<DC<ServerRejectException, SellLimitsResponseModel>> postSellLimits(
+    SellLimitsRequestModel request,
+  ) async {
+    return _walletApiDataSources.postSellLimitsRequest(request);
+  }
+
+  Future<DC<ServerRejectException, SwapLimitsResponseModel>> postSwapLimits(
+    SwapLimitsRequestModel request,
+  ) async {
+    return _walletApiDataSources.postSwapLimitsRequest(request);
   }
 }
