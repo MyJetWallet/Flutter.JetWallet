@@ -58,25 +58,27 @@ void showBuyAction({
       hideIcon: true,
     );
   } else if (isDepositBlocker) {
-    sNotification.showError(
-      intl.my_wallets_actions_warning,
-      id: 1,
-      hideIcon: true,
+    _showAction(
+      context: context,
+      blockingTypeCheck: BlockingType.deposit,
     );
   } else if (isBuyAvaible) {
-    _showAction(context);
+    _showAction(context: context);
   } else {
     handler.handle(
       status: kyc.tradeStatus,
       isProgress: kyc.verificationInProgress,
-      currentNavigate: () => _showAction(context),
+      currentNavigate: () => _showAction(context: context),
       requiredDocuments: kyc.requiredDocuments,
       requiredVerifications: kyc.requiredVerifications,
     );
   }
 }
 
-void _showAction(BuildContext context) {
+void _showAction({
+  required BuildContext context,
+  BlockingType blockingTypeCheck = BlockingType.trade,
+}) {
   sAnalytics.newBuyChooseAssetView();
 
   showSendTimerAlertOr(
@@ -93,6 +95,6 @@ void _showAction(BuildContext context) {
         ),
       );
     },
-    from: [BlockingType.trade],
+    from: [blockingTypeCheck],
   );
 }

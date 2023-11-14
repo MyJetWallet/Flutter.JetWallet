@@ -169,10 +169,13 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                             hideIcon: true,
                           );
                         } else if (isDepositBlocker) {
-                          sNotification.showError(
-                            intl.my_wallets_actions_warning,
-                            id: 1,
-                            hideIcon: true,
+                          showSendTimerAlertOr(
+                            context: context,
+                            or: () => showPayWithBottomSheet(
+                              context: context,
+                              currency: actualAsset,
+                            ),
+                            from: [BlockingType.deposit],
                           );
                         } else if (isBuyAvaible) {
                           showSendTimerAlertOr(
