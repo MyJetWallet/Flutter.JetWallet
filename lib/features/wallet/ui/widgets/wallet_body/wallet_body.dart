@@ -123,8 +123,6 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                 SliverToBoxAdapter(
                   child: Container(
                     padding: const EdgeInsets.only(
-                      left: 24,
-                      right: 24,
                       top: 24,
                       bottom: 28,
                     ),

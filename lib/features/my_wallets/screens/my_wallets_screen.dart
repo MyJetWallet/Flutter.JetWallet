@@ -167,9 +167,9 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                               ),
                             ),
                           const SliverToBoxAdapter(child: BalanceAmountWidget()),
-                          const SliverToBoxAdapter(child: SpaceH32()),
+                          const SliverToBoxAdapter(child: SpaceH24()),
                           const SliverToBoxAdapter(child: ActionsMyWalletsRowWidget()),
-                          const SliverToBoxAdapter(child: SpaceH28()),
+                          const SliverToBoxAdapter(child: SpaceH24()),
                           if (store.countOfPendingTransactions > 0) ...[
                             SliverToBoxAdapter(
                               child: PendingTransactionsWidget(

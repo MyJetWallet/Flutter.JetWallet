@@ -16,29 +16,16 @@ class CircleActionExchange extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    return Expanded(
-      child: Column(
-        children: [
-          SimpleCircleButton(
-            defaultIcon: SActionConvertIcon(
-              color: colors.white,
-            ),
-            pressedIcon: SActionConvertIcon(
-              color: colors.white.withOpacity(0.7),
-            ),
-            onTap: onTap,
-            isDisabled: isDisabled,
-          ),
-          const SpaceH6(),
-          Text(
-            intl.balanceActionButtons_exchange,
-            style: sBodyText2Style.copyWith(
-              fontWeight: FontWeight.w600,
-              color: isDisabled ? colors.grey2 : null,
-            ),
-          ),
-        ],
+    return SimpleCircleButton(
+      defaultIcon: SActionConvertIcon(
+        color: colors.white,
       ),
+      pressedIcon: SActionConvertIcon(
+        color: colors.white.withOpacity(0.7),
+      ),
+      onTap: onTap,
+      isDisabled: isDisabled,
+      name: intl.balanceActionButtons_exchange,
     );
   }
 }

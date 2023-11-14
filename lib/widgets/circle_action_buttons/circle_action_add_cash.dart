@@ -16,29 +16,16 @@ class CircleActionAddCash extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    return Expanded(
-      child: Column(
-        children: [
-          SimpleCircleButton(
-            defaultIcon: SCasheIcon(
-              color: colors.white,
-            ),
-            pressedIcon: SCasheIcon(
-              color: colors.white.withOpacity(0.7),
-            ),
-            onTap: onTap,
-            isDisabled: isDisabled,
-          ),
-          const SpaceH6(),
-          Text(
-            intl.balanceActionButtons_add_cash,
-            style: sBodyText2Style.copyWith(
-              fontWeight: FontWeight.w600,
-              color: isDisabled ? colors.grey2 : null,
-            ),
-          ),
-        ],
+    return SimpleCircleButton(
+      defaultIcon: SCasheIcon(
+        color: colors.white,
       ),
+      pressedIcon: SCasheIcon(
+        color: colors.white.withOpacity(0.7),
+      ),
+      onTap: onTap,
+      isDisabled: isDisabled,
+      name: intl.balanceActionButtons_add_cash,
     );
   }
 }
