@@ -85,16 +85,6 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
 
     final kycState = getIt.get<KycService>();
 
-    final isDepositButtonActive = kycState.depositStatus == kycOperationStatus(KycStatus.allowed) &&
-        (sSignalRModules.clientDetail.clientBlockers
-                .indexWhere((element) => element.blockingType == BlockingType.deposit) ==
-            -1);
-    final isWithdrawButtonActive = kycState.depositStatus == kycOperationStatus(KycStatus.allowed) &&
-        (sSignalRModules.clientDetail.clientBlockers
-                .indexWhere((element) => element.blockingType == BlockingType.withdrawal) ==
-            -1) &&
-        (widget.bankingAccount.balance ?? Decimal.zero) > Decimal.zero;
-
     return SPageFrame(
       loaderText: '',
       child: CustomScrollView(
@@ -141,6 +131,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                         .push(
                       CJAccountLabelRouter(
                         initLabel: label,
+                        accountId: widget.bankingAccount.accountId ?? '',
                       ),
                     )
                         .then((value) {
@@ -200,8 +191,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                       text: intl.wallet_add_cash,
                       type: CircleButtonType.addCash,
                       onTap: () {
-                        if (kycState.depositStatus == kycOperationStatus(KycStatus.blocked) ||
-                            kycState.withdrawalStatus == kycOperationStatus(KycStatus.blocked)) {
+                        if (kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) {
                           sNotification.showError(
                             intl.operation_is_unavailable,
                             duration: 4,
@@ -214,7 +204,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
 
                         showSendTimerAlertOr(
                           context: context,
-                          from: [BlockingType.withdrawal, BlockingType.deposit],
+                          from: [BlockingType.deposit],
                           or: () {
                             sAnalytics.eurWalletTapAddCashEurAccount(
                               isCJ: widget.isCJAccount,

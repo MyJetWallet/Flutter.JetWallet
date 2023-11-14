@@ -185,6 +185,15 @@ abstract class _AppStoreBase with Store {
 
               lastRoute = 'verification_screen';
             },
+            checkSelfie: () {
+              if (lastRoute != 'face_check') {
+                getIt<AppRouter>().replaceAll([
+                  FaceCheckRoute(),
+                ]);
+              }
+
+              lastRoute = 'face_check';
+            },
             phoneVerification: () async {
               if (lastRoute != 'verification_phone_screen') {
                 await initSessionInfo();
@@ -395,6 +404,7 @@ abstract class _AppStoreBase with Store {
     if (!authState.initSessionReceived) {
       final userInfo = getIt.get<UserInfoService>();
       final info = await sNetwork.getWalletModule().getSessionInfo();
+
       final profileInfo = await sNetwork.getWalletModule().getProfileInfo();
       if (info.data != null) {
         userInfo.updateWithValuesFromSessionInfo(

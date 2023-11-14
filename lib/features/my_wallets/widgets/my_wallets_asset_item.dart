@@ -8,6 +8,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/wallet/helper/market_item_from.dart';
 import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
+import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -31,7 +32,14 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
     var secondaryText = '';
 
     if (baseCurrency.symbol != currency.symbol) {
-      secondaryText = getIt<AppStore>().isBalanceHide ? currency.symbol : currency.volumeAssetBalance;
+      secondaryText = getIt<AppStore>().isBalanceHide
+          ? currency.symbol
+          : currency.symbol == 'EUR'
+              ? sSignalRModules.totalEurWalletBalance.toVolumeFormat(
+                  accuracy: currency.accuracy,
+                  symbol: currency.symbol,
+                )
+              : currency.volumeAssetBalance;
     }
 
     return SWalletItem(

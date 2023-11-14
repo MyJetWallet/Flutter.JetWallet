@@ -53,11 +53,6 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
       findInHideTerminalList: true,
     );
 
-    final nftAsset = getNftItem(
-      transactionListItem,
-      sSignalRModules.allNftList,
-    );
-
     final devicePR = MediaQuery.of(context).devicePixelRatio;
 
     return Column(
@@ -67,7 +62,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             transactionListItem,
             currency,
             context,
-            nftAsset.name,
+            null,
             intl,
           ),
         ),
@@ -179,19 +174,6 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
       }
 
       title = operationName(transactionListItem.operationType, context);
-    } else if (transactionListItem.operationType == OperationType.nftBuy ||
-        transactionListItem.operationType == OperationType.nftSwap ||
-        transactionListItem.operationType == OperationType.nftBuyOpposite) {
-      title = '${operationName(OperationType.buy, context)} $nftName';
-    } else if (transactionListItem.operationType == OperationType.nftSell ||
-        transactionListItem.operationType == OperationType.nftSellOpposite) {
-      title = '${operationName(OperationType.sell, context)} $nftName';
-    } else if (transactionListItem.operationType == OperationType.nftWithdrawal) {
-      title = '${intl.operationName_send} $nftName';
-    } else if (transactionListItem.operationType == OperationType.nftWithdrawalFee) {
-      title = '${intl.operationName_send} $nftName';
-    } else if (transactionListItem.operationType == OperationType.nftDeposit) {
-      title = '${intl.operationName_receive} $nftName';
     } else if (transactionListItem.operationType == OperationType.buy ||
         transactionListItem.operationType == OperationType.sell) {
       title = '${operationName(
@@ -240,8 +222,9 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
         transactionListItem.operationType == OperationType.bankingAccountWithdrawal ||
         transactionListItem.operationType == OperationType.sendGlobally) {
       return Decimal.tryParse(
-        '${transactionListItem.withdrawalInfo?.withdrawalAmount}'.replaceAll('-', ''),
-      ) ?? Decimal.zero;
+            '${transactionListItem.withdrawalInfo?.withdrawalAmount}'.replaceAll('-', ''),
+          ) ??
+          Decimal.zero;
     }
 
     if (transactionListItem.operationType == OperationType.transferByPhone) {

@@ -66,3 +66,5 @@ late String countryCode;
 //Sift
 late String siftBeaconKey;
 late String siftAccountId;
+
+late String iconApi;

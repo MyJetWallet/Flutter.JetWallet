@@ -401,6 +401,14 @@ class WalletApiRepository {
     return _walletApiDataSources.postKycStartRequest();
   }
 
+  Future<DC<ServerRejectException, String>> postFaceSDKToken(String countryCode) async {
+    return _walletApiDataSources.postFaceSDKTokenRequest(countryCode);
+  }
+
+  Future<DC<ServerRejectException, int>> postFaceCheckStatus() async {
+    return _walletApiDataSources.postFaceCheckStatusRequest();
+  }
+
   Future<DC<ServerRejectException, void>> postUploadDocuments(
     FormData formData,
     int documentType,

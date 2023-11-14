@@ -1273,6 +1273,54 @@ class WalletApiDataSources {
     }
   }
 
+  Future<DC<ServerRejectException, String>> postFaceSDKTokenRequest(String countryCode) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/kyc/verification/face_sdk_token',
+        data: {
+          'countryCode': countryCode,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse(
+          responseData,
+        );
+
+        return DC.data(data['data']['token']);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, int>> postFaceCheckStatusRequest() async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/kyc/verification/face_check_status',
+        data: {},
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse(
+          responseData,
+        );
+
+        return DC.data(data['data']['status']);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
   Future<DC<ServerRejectException, void>> postUploadDocumentsRequest(
     FormData formData,
     int documentType,

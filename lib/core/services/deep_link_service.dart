@@ -428,9 +428,7 @@ class DeepLinkService {
         [
           HomeRouter(
             children: [
-              MarketRouter(
-                initIndex: 1,
-              ),
+              MarketRouter(),
             ],
           ),
         ],
@@ -441,7 +439,7 @@ class DeepLinkService {
           action: RouteQueryAction.replace,
           query: HomeRouter(
             children: [
-              MarketRouter(initIndex: 1),
+              MarketRouter(),
             ],
           ),
           func: () {
@@ -456,7 +454,6 @@ class DeepLinkService {
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
-
       await getIt<SumsubService>().launch(
         isBanking: false,
       );
@@ -464,7 +461,6 @@ class DeepLinkService {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
           func: () async {
-
             await getIt<SumsubService>().launch(
               isBanking: false,
             );

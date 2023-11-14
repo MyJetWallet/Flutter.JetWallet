@@ -60,9 +60,6 @@ abstract class _PaymentMethodsStoreBase with Store {
   ObservableList<CircleCard> cards = ObservableList.of([]);
 
   @observable
-  ObservableList<AddressBookContactModel> addressBookContacts = ObservableList.of([]);
-
-  @observable
   PaymentMethodsUnion union = const PaymentMethodsUnion.loading();
 
   @computed
@@ -83,6 +80,8 @@ abstract class _PaymentMethodsStoreBase with Store {
     cards = ObservableList.of(sSignalRModules.cards.cardInfos);
 
     cardsLoaded = true;
+
+    _updateUnion(const PaymentMethodsUnion.success());
   }
 
   @action
@@ -99,35 +98,9 @@ abstract class _PaymentMethodsStoreBase with Store {
   }
 
   @action
-  Future<void> getAddressBook() async {
-    addressBookLoaded = false;
-
-    if (isShowAccounts) {
-      final response = await sNetwork.getWalletModule().getAddressBook(0);
-
-      response.pick(
-        onData: (data) {
-          addressBookContacts = ObservableList.of(data.contacts ?? []);
-
-          addressBookContacts.sort((a, b) {
-            return b.weight!.compareTo(a.weight!);
-          });
-
-          addressBookLoaded = true;
-
-          _updateUnion(const PaymentMethodsUnion.success());
-        },
-      );
-    }
-
-    addressBookLoaded = true;
-    _updateUnion(const PaymentMethodsUnion.success());
-  }
-
-  @action
   void _updateUnion(PaymentMethodsUnion newUnion) {
     if (newUnion is Success) {
-      if (cardsLoaded && addressBookLoaded) {
+      if (cardsLoaded) {
         union = newUnion;
       }
     } else {

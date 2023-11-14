@@ -36,6 +36,7 @@ void showCreatePersonalAccount(
 
       await getIt<SumsubService>().launch(
         isBanking: true,
+        needPush: false,
         onFinish: () {
           after();
           loading.finishLoadingImmediately();
