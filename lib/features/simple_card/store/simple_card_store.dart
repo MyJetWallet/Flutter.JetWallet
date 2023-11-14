@@ -1,4 +1,3 @@
-import 'package:decimal/decimal.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
@@ -211,16 +210,7 @@ abstract class _SimpleCardStoreBase with Store {
   );
 
   @observable
-  SimpleCardModel? card = SimpleCardModel(
-    cardId: '',
-    cardPan: '',
-    cardExpDate: '',
-    cardType: 'Virtual card',
-    currency: 'EUR',
-    nameOnCard: '',
-    balance: Decimal.zero,
-    status: AccountStatusCard.active,
-  );
+  SimpleCardModel? card;
 
   @action
   void setCardInfo(SimpleCardModel? cardData) {

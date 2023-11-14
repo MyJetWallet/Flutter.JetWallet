@@ -45,8 +45,11 @@ class _EurWalletBodyState extends State<EurWalletBody> {
       (sSignalRModules.bankingProfileData?.banking?.accounts ?? <SimpleBankingAccount>[]).length,
     );
     final simpleCardStore = getIt.get<SimpleCardStore>();
+    final userInfo = getIt.get<UserInfoService>();
 
-    simpleCardStore.initStore();
+    if (userInfo.isSimpleCardAvailable) {
+      simpleCardStore.initStore();
+    }
     _controller.addListener(() {
       if (_controller.position.pixels <= 0) {
         if (!isTopPosition) {
@@ -124,9 +127,9 @@ class _EurWalletBodyState extends State<EurWalletBody> {
             ),
             SliverToBoxAdapter(
               child: SCardRow(
-                frozenIcon: (simpleCardStore.cardFull == null ||
+                frozenIcon: (userInfo.isSimpleCardAvailable && (simpleCardStore.cardFull == null ||
                   simpleCardStore.cardFull?.status ==
-                  AccountStatusCard.frozen)
+                  AccountStatusCard.frozen))
                     ? const SFrozenIcon(
                       width: 16,
                       height: 16,
@@ -136,9 +139,9 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SpaceH6(),
-                    if (simpleCardStore.cardFull == null ||
+                    if (userInfo.isSimpleCardAvailable && (simpleCardStore.cardFull == null ||
                       simpleCardStore.cardFull?.status ==
-                      AccountStatusCard.frozen)
+                      AccountStatusCard.frozen))
                       const SFrozenCardIcon(
                         width: 24,
                         height: 16,
@@ -153,13 +156,13 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                 name: intl.eur_wallet_simple_card,
                 helper: !userInfo.isSimpleCardAvailable
                     ? intl.eur_wallet_coming_soon
-                    : simpleCardStore.card != null
+                    : simpleCardStore.cardFull != null
                     ? intl.simple_card_type_virtual
                     : '',
                 onTap: () {
                   if (
-                    simpleCardStore.card != null &&
-                    simpleCardStore.card!.status == AccountStatusCard.active
+                    simpleCardStore.cardFull != null &&
+                    simpleCardStore.cardFull!.status == AccountStatusCard.active
                   ) {
                     sRouter.push(const SimpleCardRouter());
                   }
@@ -167,8 +170,8 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                 description: '',
                 amount: '',
                 needSpacer: true,
-                rightIcon: simpleCardStore.card != null &&
-                    simpleCardStore.card!.status == AccountStatusCard.active
+                rightIcon: simpleCardStore.cardFull != null &&
+                    simpleCardStore.cardFull!.status == AccountStatusCard.active
                   ? Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       decoration: ShapeDecoration(
