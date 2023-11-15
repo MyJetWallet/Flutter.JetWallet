@@ -48,6 +48,7 @@ import 'package:jetwallet/features/currency_sell/model/preview_sell_input.dart';
 import 'package:jetwallet/features/currency_sell/ui/currency_sell.dart';
 import 'package:jetwallet/features/currency_sell/ui/preview_sell.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
+import 'package:jetwallet/features/debug_info/debug_history.dart';
 import 'package:jetwallet/features/debug_info/debug_info.dart';
 import 'package:jetwallet/features/debug_info/signalr_debug_info.dart';
 import 'package:jetwallet/features/email_confirmation/ui/email_confirmation_screen.dart';
