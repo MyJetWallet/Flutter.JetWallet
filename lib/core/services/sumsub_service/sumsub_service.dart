@@ -90,6 +90,7 @@ class SumsubService {
             place: _loggerService,
             message: 'The SDK status was changed: $prevStatus -> $newStatus',
           );
+
       if (newStatus == SNSMobileSDKStatus.Approved ||
           newStatus == SNSMobileSDKStatus.ActionCompleted ||
           newStatus == SNSMobileSDKStatus.Pending) {
@@ -163,7 +164,7 @@ class SumsubService {
           onStatusChanged: onStatusChanged,
           onActionResult: onActionResult,
         )
-        .withDebug(true)
+        .withDebug(false)
         .withLocale(
           Locale(intl.localeName),
         )

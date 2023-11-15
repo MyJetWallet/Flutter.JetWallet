@@ -724,6 +724,31 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
   BankingProfileModel? bankingProfileData;
   @action
   void setBankingProfileData(BankingProfileModel data) {
+    /*
+    bankingProfileData = BankingProfileModel(
+      showState: BankingShowState.onlySimple,
+      simple: SimpleBankingModel(
+        status: SimpleAccountStatus.allowed,
+        account: SimpleBankingAccount(
+          label: 'asdasd',
+          balance: Decimal.ten,
+          status: AccountStatus.active,
+        ),
+      ),
+      banking: BankingDataModel(
+        status: BankingClientStatus.allowed,
+        accounts: [
+          SimpleBankingAccount(
+            label: 'asdasd',
+            balance: Decimal.ten,
+            status: AccountStatus.inCreation,
+          ),
+        ],
+      ),
+    );
+    return;
+    */
+
     bankingProfileData = data;
 
     totalEurWalletBalance = Decimal.zero;

@@ -38,6 +38,7 @@ class SimpleBaseStandardField extends StatefulWidget {
     this.labelText,
     this.hintText,
     this.height,
+    this.weight,
     this.cursorHeight,
   }) : super(key: key);
 
@@ -72,6 +73,7 @@ class SimpleBaseStandardField extends StatefulWidget {
   final int? maxLength;
   final int? maxLines;
   final double? height;
+  final double? weight;
   final double? cursorHeight;
 
   @override
@@ -92,7 +94,7 @@ class _SimpleBaseStandardFieldState extends State<SimpleBaseStandardField> {
     return ConstrainedBox(
       constraints: BoxConstraints(
         minHeight: widget.height ?? 88,
-        maxHeight: widget.height ?? double.infinity,
+        //maxHeight: widget.height ?? double.infinity,
       ),
       child: Center(
         child: TextFormField(

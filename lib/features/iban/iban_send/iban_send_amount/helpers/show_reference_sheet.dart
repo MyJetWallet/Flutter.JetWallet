@@ -85,6 +85,7 @@ class _ReferenceBody extends StatelessObserverWidget {
                 autofocus: true,
                 isError: store.isError,
                 labelText: intl.iban_reference,
+                hideIconsIfNotEmpty: false,
                 suffixIcons: [
                   SIconButton(
                     onTap: () {
