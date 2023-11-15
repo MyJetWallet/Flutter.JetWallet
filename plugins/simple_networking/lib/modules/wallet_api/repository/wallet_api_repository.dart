@@ -946,7 +946,6 @@ class WalletApiRepository {
   }) async {
     return _walletApiDataSources.postCardUnfreezeRequest(cardId: cardId);
   }
-}
 
   Future<DC<ServerRejectException, SellLimitsResponseModel>> postSellLimits(
     SellLimitsRequestModel request,

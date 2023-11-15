@@ -18,6 +18,8 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 
+import '../../../core/services/user_info/user_info_service.dart';
+
 class GetAccountButton extends StatelessObserverWidget {
   const GetAccountButton({
     super.key,
@@ -31,6 +33,7 @@ class GetAccountButton extends StatelessObserverWidget {
     final eurCurrency = nonIndicesWithBalanceFrom(
       sSignalRModules.currenciesList,
     ).where((element) => element.symbol == 'EUR').first;
+    final userInfo = getIt.get<UserInfoService>();
 
     final isButtonSmall =
         store.buttonStatus == BankingShowState.getAccount || store.buttonStatus == BankingShowState.getAccountBlock;
@@ -71,7 +74,7 @@ class GetAccountButton extends StatelessObserverWidget {
                     (element) =>
                 element.status == AccountStatusCard.active ||
                     element.status == AccountStatusCard.frozen,
-              ).toList().length ?? 0) > 0) ...[
+              ).toList().length ?? 0) > 0 && userInfo.isSimpleCardAvailable) ...[
                 const SizedBox(
                   width: 55,
                 ),

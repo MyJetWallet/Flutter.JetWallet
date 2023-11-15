@@ -295,7 +295,10 @@ List<oh_resp.OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(
         item.operationType == oh_resp.OperationType.bankingSell ||
         item.operationType == oh_resp.OperationType.bankingTransfer ||
         item.operationType == oh_resp.OperationType.bankingAccountDeposit ||
-        item.operationType == oh_resp.OperationType.bankingAccountWithdrawal,
+        item.operationType == oh_resp.OperationType.bankingAccountWithdrawal ||
+        item.operationType == oh_resp.OperationType.cardPurchase ||
+        item.operationType == oh_resp.OperationType.cardRefund ||
+        item.operationType == oh_resp.OperationType.cardWithdrawal,
   )
       .map((item) {
     return item.operationType == oh_resp.OperationType.swap

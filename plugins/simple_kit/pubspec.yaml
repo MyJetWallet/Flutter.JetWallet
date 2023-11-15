@@ -154,6 +154,8 @@ flutter:
     - assets/icons/light/24x24/crypto/
     - assets/icons/light/24x24/add_cash/
     - assets/icons/light/24x24/withdrawal/
+    - assets/icons/light/24x24/purchase/
+    - assets/icons/light/24x24/refund/
     - assets/icons/light/32x32/market/
     - assets/icons/light/32x32/my_assets/
     - assets/icons/light/32x32/card_bottom/

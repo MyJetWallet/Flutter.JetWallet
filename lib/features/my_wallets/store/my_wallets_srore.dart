@@ -17,6 +17,8 @@ import 'package:simple_networking/modules/signal_r/models/banking_profile_model.
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/wallet/set_active_assets_request_model.dart';
 
+import '../../../core/services/user_info/user_info_service.dart';
+
 part 'my_wallets_srore.g.dart';
 
 class MyWalletsSrore = _MyWalletsSroreBase with _$MyWalletsSrore;
@@ -222,6 +224,7 @@ abstract class _MyWalletsSroreBase with Store {
 
   @computed
   String get simpleCardButtonText {
+    final userInfo = getIt.get<UserInfoService>();
     final preText = simpleAccountButtonText;
     final cardsActiveCount = sSignalRModules
       .bankingProfileData?.banking
@@ -234,7 +237,8 @@ abstract class _MyWalletsSroreBase with Store {
         .bankingProfileData?.banking
         ?.cards?.where((element) => element.status == AccountStatusCard.inCreation)
         .toList().length ?? 0;
-    if (cardsActiveCount == 0 && cardsPendingCount == 0) {
+    if ((cardsActiveCount == 0 && cardsPendingCount == 0) ||
+        !userInfo.isSimpleCardAvailable) {
       return preText;
     } else if (cardsActiveCount > 0 && cardsPendingCount == 0) {
       return cardsActiveCount == 1

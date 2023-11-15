@@ -182,6 +182,12 @@ class TransactionListItem extends StatelessWidget {
         return SSendByPhoneIcon(color: isFailed ? failedColor : null);
       case OperationType.giftReceive:
         return SReceiveByPhoneIcon(color: isFailed ? failedColor : null);
+      case OperationType.cardRefund:
+        return SRefundIcon(color: isFailed ? failedColor : colors.blue);
+      case OperationType.cardPurchase:
+        return SPurchaseIcon(color: isFailed ? failedColor : colors.red);
+      case OperationType.cardWithdrawal:
+        return SWithdrawalIcon(color: isFailed ? failedColor : colors.red);
       case OperationType.bankingBuy:
         return isEurAccount
             ? SMinusIcon(color: isFailed ? failedColor : null)

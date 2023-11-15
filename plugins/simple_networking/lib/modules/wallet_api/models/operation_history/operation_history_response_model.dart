@@ -37,6 +37,9 @@ class OperationHistoryItem with _$OperationHistoryItem {
     IbanDepositInfo? ibanDepositInfo,
     IbanTransferInfo? ibanTransferInfo,
     SellCryptoInfo? sellCryptoInfo,
+    CardWithdrawalInfo? cardWithdrawalInfo,
+    CardRefundInfo? cardRefundInfo,
+    CardPurchaseInfo? cardPurchaseInfo,
     required String operationId,
     @OperationTypeSerialiser() required OperationType operationType,
     @Default('') String assetId,
@@ -94,7 +97,12 @@ enum OperationType {
   bankingAccountWithdrawal,
   bankingTransfer,
   bankingBuy,
-  bankingSell
+  bankingSell,
+  cardPurchase,
+  cardRefund,
+  cardWithdrawal,
+  cardBankingSell,
+  cardBankingBuy
 }
 
 extension _OperationTypeExtension on OperationType {
@@ -186,6 +194,16 @@ extension _OperationTypeExtension on OperationType {
         return 47;
       case OperationType.bankingSell:
         return 48;
+      case OperationType.cardPurchase:
+        return 100;
+      case OperationType.cardRefund:
+        return 101;
+      case OperationType.cardWithdrawal:
+        return 102;
+      case OperationType.cardBankingSell:
+        return 103;
+      case OperationType.cardBankingBuy:
+        return 104;
       default:
         return 0;
     }
@@ -287,6 +305,16 @@ class OperationTypeSerialiser implements JsonConverter<OperationType, dynamic> {
       return OperationType.bankingBuy;
     } else if (value == '48') {
       return OperationType.bankingSell;
+    } else if (value == '100') {
+      return OperationType.cardPurchase;
+    } else if (value == '101') {
+      return OperationType.cardRefund;
+    } else if (value == '102') {
+      return OperationType.cardWithdrawal;
+    } else if (value == '103') {
+      return OperationType.cardBankingSell;
+    } else if (value == '104') {
+      return OperationType.cardBankingBuy;
     } else {
       return OperationType.unknown;
     }
@@ -633,4 +661,55 @@ enum IbanAccountType {
   simple,
   @JsonValue(1)
   banking,
+}
+
+@freezed
+class CardPurchaseInfo with _$CardPurchaseInfo {
+  const factory CardPurchaseInfo({
+    String? description,
+    @DecimalSerialiser() required Decimal rate,
+    String? cardLabel,
+    String? cardType,
+    String? cardLast4,
+    String? transactionId,
+    String? paymentFeeAssetId,
+    @DecimalSerialiser() required Decimal paymentFeeAmount,
+    String? cardId,
+  }) = _CardPurchaseInfo;
+
+  factory CardPurchaseInfo.fromJson(Map<String, dynamic> json) => _$CardPurchaseInfoFromJson(json);
+}
+
+@freezed
+class CardRefundInfo with _$CardRefundInfo {
+  const factory CardRefundInfo({
+    String? description,
+    @DecimalSerialiser() required Decimal rate,
+    String? cardLabel,
+    String? cardType,
+    String? cardLast4,
+    String? transactionId,
+    String? paymentFeeAssetId,
+    @DecimalSerialiser() required Decimal paymentFeeAmount,
+    String? cardId,
+  }) = _CardRefundInfo;
+
+  factory CardRefundInfo.fromJson(Map<String, dynamic> json) => _$CardRefundInfoFromJson(json);
+}
+
+@freezed
+class CardWithdrawalInfo with _$CardWithdrawalInfo {
+  const factory CardWithdrawalInfo({
+    String? description,
+    @DecimalSerialiser() required Decimal rate,
+    String? cardLabel,
+    String? cardType,
+    String? cardLast4,
+    String? transactionId,
+    String? paymentFeeAssetId,
+    @DecimalSerialiser() required Decimal paymentFeeAmount,
+    String? cardId,
+  }) = _CardWithdrawalInfo;
+
+  factory CardWithdrawalInfo.fromJson(Map<String, dynamic> json) => _$CardWithdrawalInfoFromJson(json);
 }

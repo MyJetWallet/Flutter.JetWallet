@@ -42,84 +42,89 @@ abstract class _SimpleCardStoreBase with Store {
   Future<void> initStore() async {
     final cards = sSignalRModules.bankingProfileData?.banking?.cards;
     if (cards != null && cards.isNotEmpty) {
-      setCardFullInfo(cards[cards.length - 1]);
-      isFrozen = cards[cards.length - 1].status == AccountStatusCard.frozen;
+      final activeCard = cards
+          .where((element) => element.status != AccountStatusCard.inactive)
+          .toList();
+      if (activeCard.isNotEmpty) {
+        setCardFullInfo(activeCard[activeCard.length - 1]);
+        isFrozen = activeCard[activeCard.length - 1].status == AccountStatusCard.frozen;
 
-      try {
+        try {
 
-        final rsa = RsaKeyHelper();
-        final keyPair = getRsaKeyPair(rsa.getSecureRandom());
+          final rsa = RsaKeyHelper();
+          final keyPair = getRsaKeyPair(rsa.getSecureRandom());
 
-        final rsaPublicKey = keyPair.publicKey as RSAPublicKey;
-        final rsaPrivateKey = keyPair.privateKey as RSAPrivateKey;
-        final publicKey = rsa.encodePublicKeyToPemPKCS1(rsaPublicKey);
-        final privateKey = rsa.encodePrivateKeyToPemPKCS1(rsaPrivateKey);
-        final storageService = getIt.get<LocalStorageService>();
+          final rsaPublicKey = keyPair.publicKey as RSAPublicKey;
+          final rsaPrivateKey = keyPair.privateKey as RSAPrivateKey;
+          final publicKey = rsa.encodePublicKeyToPemPKCS1(rsaPublicKey);
+          final privateKey = rsa.encodePrivateKeyToPemPKCS1(rsaPrivateKey);
+          final storageService = getIt.get<LocalStorageService>();
 
-        final pin = await storageService.getValue(pinStatusKey);
-        final serverTimeResponse = await getIt
-            .get<SNetwork>()
-            .simpleNetworkingUnathorized
-            .getAuthModule()
-            .getServerTime();
-        final model = SimpleCardSensitiveRequest(
-          cardId: cards[cards.length - 1].cardId ?? '',
-          publicKey: publicKey
-              .replaceAll('\r\n', '')
-              .replaceAll('-----BEGIN RSA PUBLIC KEY-----', '')
-              .replaceAll('-----END RSA PUBLIC KEY-----', ''),
-          pin: pin ?? '',
-          timeStamp: serverTimeResponse.data!.time,
-        );
+          final pin = await storageService.getValue(pinStatusKey);
+          final serverTimeResponse = await getIt
+              .get<SNetwork>()
+              .simpleNetworkingUnathorized
+              .getAuthModule()
+              .getServerTime();
+          final model = SimpleCardSensitiveRequest(
+            cardId: activeCard[activeCard.length - 1].cardId ?? '',
+            publicKey: publicKey
+                .replaceAll('\r\n', '')
+                .replaceAll('-----BEGIN RSA PUBLIC KEY-----', '')
+                .replaceAll('-----END RSA PUBLIC KEY-----', ''),
+            pin: pin ?? '',
+            timeStamp: serverTimeResponse.data!.time,
+          );
 
-        final response =
-            await sNetwork.getWalletModule().postSensitiveData(data: model);
+          final response =
+          await sNetwork.getWalletModule().postSensitiveData(data: model);
 
-        response.pick(
-          onData: (data) async {
-            final encrypter = Encrypter(RSA(publicKey: rsaPublicKey, privateKey: rsaPrivateKey));
-            final cardNumber = encrypter.decrypt(Encrypted.fromBase64(data.cardNumber!));
-            final cardHolder = encrypter.decrypt(Encrypted.fromBase64(data.cardHolderName!));
-            final cardDate = encrypter.decrypt(Encrypted.fromBase64(data.cardExpDate!));
-            final cardCVV = encrypter.decrypt(Encrypted.fromBase64(data.cardCvv!));
-            final text = cardNumber;
+          response.pick(
+            onData: (data) async {
+              final encrypter = Encrypter(RSA(publicKey: rsaPublicKey, privateKey: rsaPrivateKey));
+              final cardNumber = encrypter.decrypt(Encrypted.fromBase64(data.cardNumber!));
+              final cardHolder = encrypter.decrypt(Encrypted.fromBase64(data.cardHolderName!));
+              final cardDate = encrypter.decrypt(Encrypted.fromBase64(data.cardExpDate!));
+              final cardCVV = encrypter.decrypt(Encrypted.fromBase64(data.cardCvv!));
+              final text = cardNumber;
 
-            final buffer = StringBuffer();
-            for (var i = 0; i < text.length; i++) {
-              buffer.write(text[i]);
-              final nonZeroIndex = i + 1;
-              if (nonZeroIndex % 4 == 0 && nonZeroIndex != text.length) {
-                buffer.write(' ');
+              final buffer = StringBuffer();
+              for (var i = 0; i < text.length; i++) {
+                buffer.write(text[i]);
+                final nonZeroIndex = i + 1;
+                if (nonZeroIndex % 4 == 0 && nonZeroIndex != text.length) {
+                  buffer.write(' ');
+                }
               }
-            }
 
-            final finalCardNumber = buffer.toString();
+              final finalCardNumber = buffer.toString();
 
-            cardSensitiveData = SimpleCardSensitiveResponse(
-              cardExpDate: cardDate,
-              cardCvv: cardCVV,
-              cardHolderName: cardHolder,
-              cardNumber: finalCardNumber,
-            );
+              cardSensitiveData = SimpleCardSensitiveResponse(
+                cardExpDate: cardDate,
+                cardCvv: cardCVV,
+                cardHolderName: cardHolder,
+                cardNumber: finalCardNumber,
+              );
 
-          },
-          onError: (error) {
-            sNotification.showError(
-              error.cause,
-              id: 1,
-            );
-          },
-        );
-      } on ServerRejectException catch (error) {
-        sNotification.showError(
-          error.cause,
-          id: 1,
-        );
-      } catch (error) {
-        sNotification.showError(
-          intl.something_went_wrong,
-          id: 1,
-        );
+            },
+            onError: (error) {
+              sNotification.showError(
+                error.cause,
+                id: 1,
+              );
+            },
+          );
+        } on ServerRejectException catch (error) {
+          sNotification.showError(
+            error.cause,
+            id: 1,
+          );
+        } catch (error) {
+          sNotification.showError(
+            intl.something_went_wrong,
+            id: 1,
+          );
+        }
       }
     }
   }

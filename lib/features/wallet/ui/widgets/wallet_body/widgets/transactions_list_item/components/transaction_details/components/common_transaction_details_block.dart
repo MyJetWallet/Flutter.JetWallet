@@ -7,6 +7,9 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/card_purchase_details.dart';
+import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/card_refund_details.dart';
+import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/card_withdrawal_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/iban_send_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/buy_details.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
@@ -35,6 +38,10 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
     final catchingTypes = transactionListItem.operationType == OperationType.nftBuy ||
         transactionListItem.operationType == OperationType.nftSwap ||
         transactionListItem.operationType == OperationType.nftSell;
+
+    final operationWithoutBalanceShow = transactionListItem.operationType == OperationType.cardPurchase ||
+        transactionListItem.operationType == OperationType.cardRefund ||
+        transactionListItem.operationType == OperationType.cardWithdrawal;
 
     final isLocal = transactionListItem.operationType == OperationType.cryptoBuy &&
         isOperationLocal(
@@ -80,7 +87,10 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
         ] else if (transactionListItem.operationType == OperationType.bankingAccountWithdrawal ||
             transactionListItem.operationType == OperationType.bankingBuy ||
             transactionListItem.operationType == OperationType.swap ||
-            transactionListItem.operationType == OperationType.bankingSell) ...[
+            transactionListItem.operationType == OperationType.bankingSell ||
+            transactionListItem.operationType == OperationType.cardPurchase ||
+            transactionListItem.operationType == OperationType.cardWithdrawal ||
+            transactionListItem.operationType == OperationType.cardRefund) ...[
           const SpaceH26(),
         ] else ...[
           const SpaceH67(),
@@ -98,13 +108,31 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             transactionListItem: transactionListItem,
           ),
         ],
+        if (transactionListItem.operationType == OperationType.cardPurchase) ...[
+          CardPurchaseDetailsHeader(
+            transactionListItem: transactionListItem,
+          ),
+        ],
+        if (transactionListItem.operationType == OperationType.cardRefund) ...[
+          CardRefundDetailsHeader(
+            transactionListItem: transactionListItem,
+          ),
+        ],
+        if (transactionListItem.operationType == OperationType.cardWithdrawal) ...[
+          CardWithdrawalDetailsHeader(
+            transactionListItem: transactionListItem,
+          ),
+        ],
         if (transactionListItem.operationType == OperationType.bankingBuy ||
             transactionListItem.operationType == OperationType.swap ||
             transactionListItem.operationType == OperationType.bankingSell) ...[
           BuyDetailsHeader(
             transactionListItem: transactionListItem,
           ),
-        ] else if (!nftTypes.contains(transactionListItem.operationType) || catchingTypes) ...[
+        ] else if (
+          (!nftTypes.contains(transactionListItem.operationType) ||
+            catchingTypes) &&
+            !operationWithoutBalanceShow) ...[
           SPaddingH24(
             child: AutoSizeText(
               volumeFormat(
@@ -147,7 +175,10 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
                 transactionListItem.operationType == OperationType.bankingAccountWithdrawal ||
             transactionListItem.operationType == OperationType.bankingBuy ||
             transactionListItem.operationType == OperationType.swap ||
-            transactionListItem.operationType == OperationType.bankingSell)
+            transactionListItem.operationType == OperationType.bankingSell ||
+            transactionListItem.operationType == OperationType.cardPurchase ||
+            transactionListItem.operationType == OperationType.cardWithdrawal ||
+            transactionListItem.operationType == OperationType.cardRefund)
           const SizedBox.shrink()
         else
           const SpaceH72(),

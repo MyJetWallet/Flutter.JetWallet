@@ -63,6 +63,12 @@ String operationName(
       return intl.operationName_sold;
     case OperationType.swap:
       return intl.operationName_converted;
+    case OperationType.cardPurchase:
+      return intl.operationName_purchase;
+    case OperationType.cardRefund:
+      return intl.operationName_refund;
+    case OperationType.cardWithdrawal:
+      return intl.operationName_cash_withdrawal;
     default:
       return 'Unknown';
   }

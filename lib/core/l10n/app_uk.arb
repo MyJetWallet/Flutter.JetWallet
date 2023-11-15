@@ -1,67 +1,279 @@
 {
     "onboarding_getStarted": "Почати!",
+    "@onboarding_getStarted": {
+        "description": "Начать!",
+        "type": "text"
+    },
     "onboarding_signIn": "Увійдіть у систему",
+    "@onboarding_signIn": {
+        "description": "Войдите в систему",
+        "type": "text"
+    },
     "onboarding_simpleApp": "Simple app",
     "onboarding_forYourFinance": "для ваших фінансів",
+    "@onboarding_forYourFinance": {
+        "description": "для ваших финансов",
+        "type": "text"
+    },
     "onboarding_dontJustBuy": "Не просто купуйте",
+    "@onboarding_dontJustBuy": {
+        "description": "Не просто покупайте",
+        "type": "text"
+    },
     "onboarding_cryptoEarnIt": "криптовалюта, заробляй її",
+    "@onboarding_cryptoEarnIt": {
+        "description": "криптовалюта, зарабатывай ее",
+        "type": "text"
+    },
     "onboarding_tradeTwenty": "Торгівля 20+",
+    "@onboarding_tradeTwenty": {
+        "description": "Торговля 20+",
+        "type": "text"
+    },
     "onboarding_topCryptoAssets": "Найкращі криптоактиви",
+    "@onboarding_topCryptoAssets": {
+        "description": "Лучшие криптоактивы",
+        "type": "text"
+    },
     "onboarding_inviteFriends": "Запросіть друзів",
+    "@onboarding_inviteFriends": {
+        "description": "Пригласите друзей",
+        "type": "text"
+    },
     "onboarding_andEarnMore": "і заробляйте більше",
+    "@onboarding_andEarnMore": {
+        "description": "и зарабатывайте больше",
+        "type": "text"
+    },
     "login_userAgreementText": "Угода користувача",
+    "@login_userAgreementText": {
+        "description": "Пользовательское соглашение",
+        "type": "text"
+    },
     "login_emailTextFieldLabel": "Електронна адреса",
+    "@login_emailTextFieldLabel": {
+        "description": "Электронный адрес",
+        "type": "text"
+    },
     "login_credentialsError": "Введена вами електронна пошта та пароль не відповідають нашим записам. Будь ласка, виправте і спробуйте ще раз.",
+    "@login_credentialsError": {
+        "description": "Введенная вами электронная почта и пароль не соответствуют нашим записям. Пожалуйста, исправьте и попробуйте еще раз.",
+        "type": "text"
+    },
     "login_signIn": "Увійдіть у систему ",
+    "@login_signIn": {
+        "description": "Войдите в систему␣",
+        "type": "text"
+    },
     "login_password": "Пароль",
+    "@login_password": {
+        "description": "Пароль",
+        "type": "text"
+    },
     "login_forgotPassword": "Забули пароль",
+    "@login_forgotPassword": {
+        "description": "Забыли пароль",
+        "type": "text"
+    },
     "login_policyText1": "Увійшовши в систему і продовжуючи користуватися нею, я погоджуюся і даю згоду на",
+    "@login_policyText1": {
+        "description": "Войдя в систему и продолжая пользоваться ею, я соглашаюсь и даю согласие на",
+        "type": "text"
+    },
     "login_policyText2": "Terms and conditions",
     "@login_policyText2": {
         "description": "Privacy Policy Text (part 2)"
     },
     "login_continue": "Продовжити",
+    "@login_continue": {
+        "description": "Продолжить",
+        "type": "text"
+    },
     "login_privacyPolicy": "Privacy Policy",
     "login_andThe": "та",
+    "@login_andThe": {
+        "description": "и",
+        "type": "text"
+    },
     "serverCode0_ok": "OK",
     "pinScreen_setNewPin": "Створіть PIN-код",
+    "@pinScreen_setNewPin": {
+        "description": "Создайте PIN-код",
+        "type": "text"
+    },
     "pinScreen_confirmNewPin": "Підтвердіть PIN-код",
+    "@pinScreen_confirmNewPin": {
+        "description": "Подтвердите PIN-код",
+        "type": "text"
+    },
     "pinScreen_enterYourPIN": "Введіть PIN",
+    "@pinScreen_enterYourPIN": {
+        "description": "Введите PIN-код",
+        "type": "text"
+    },
     "pinScreen_enterPin": "Введіть PIN",
+    "@pinScreen_enterPin": {
+        "description": "Введите PIN-код",
+        "type": "text"
+    },
     "pinScreen_setPin": "Встановити PIN",
+    "@pinScreen_setPin": {
+        "description": "Установить PIN",
+        "type": "text"
+    },
     "pinScreen_changePin": "Змінити PIN-код",
+    "@pinScreen_changePin": {
+        "description": "Изменить PIN-код",
+        "type": "text"
+    },
     "pinScreen_weNeedYouToConfirmYourIdentity": "Нам потрібно, щоб ви підтвердили свою особу",
+    "@pinScreen_weNeedYouToConfirmYourIdentity": {
+        "description": "Нам нужно, чтобы вы подтвердили свою личность",
+        "type": "text"
+    },
     "accountSecurity_changePin": "Змінити PIN-код",
+    "@accountSecurity_changePin": {
+        "description": "Изменить PIN-код",
+        "type": "text"
+    },
     "accountSecurity_accountCategoryButtonTitle1": "Face / Touch ID",
     "accountSecurity_accountCategoryButtonTitle3": "Двофакторна автентифікація",
+    "@accountSecurity_accountCategoryButtonTitle3": {
+        "description": "Двухфакторная аутентификация",
+        "type": "text"
+    },
     "register_enterYourEmail": "Введіть свою електронну адресу",
+    "@register_enterYourEmail": {
+        "description": "Введите свой электронный адрес",
+        "type": "text"
+    },
     "register_invalidEmail": "Неправильний email, перевірте коректність і переконайтеся, що в адресі немає пробілів",
+    "@register_invalidEmail": {
+        "description": "Неправильный email, проверьте корректность и убедитесь, что в адресе нет пробелов",
+        "type": "text"
+    },
     "register_herebyConfirm": "Цим я підтверджую, що мені виповнилося 18 років, погоджуюся і даю згоду на",
+    "@register_herebyConfirm": {
+        "description": "Я подтверждаю, что мне более 18 лет, я согласен и даю свое согласие на",
+        "type": "text"
+    },
     "register_TAndC": "T&C",
     "register_continue": "Продовжити",
+    "@register_continue": {
+        "description": "Продолжить",
+        "type": "text"
+    },
     "register_andThe": "та",
+    "@register_andThe": {
+        "description": "и",
+        "type": "text"
+    },
     "register_privacyPolicy": "Privacy Policy",
     "register_password": "Пароль",
+    "@register_password": {
+        "description": "Пароль",
+        "type": "text"
+    },
     "register_createPassword": "Створіть пароль",
+    "@register_createPassword": {
+        "description": "Создайте пароль",
+        "type": "text"
+    },
     "register_pleaseWait": "Будь ласка, зачекайте",
+    "@register_pleaseWait": {
+        "description": "Пожалуйста, подождите",
+        "type": "text"
+    },
     "emailVerification_emailVerification": "Верифікація електронної пошти",
+    "@emailVerification_emailVerification": {
+        "description": "Верификация электронной почты",
+        "type": "text"
+    },
     "emailVerification_enterCode": "Введіть код, який ми надіслали на вашу електронну пошту",
+    "@emailVerification_enterCode": {
+        "description": "Введите код, который мы прислали на вашу электронную почту",
+        "type": "text"
+    },
     "emailVerification_openEmail": "Відкрити додаток електронної пошти",
+    "@emailVerification_openEmail": {
+        "description": "Открыть приложение электронной почты",
+        "type": "text"
+    },
     "emailVerification_youCanResendIn": "Ви можете надіслати повторно через",
+    "@emailVerification_youCanResendIn": {
+        "description": "Вы можете отправить повторно через",
+        "type": "text"
+    },
     "emailVerification_seconds": "секунди",
+    "@emailVerification_seconds": {
+        "description": "секунды",
+        "type": "text"
+    },
     "emailVerification_didntReceiveTheCode": "Не отримали код",
+    "@emailVerification_didntReceiveTheCode": {
+        "description": "Не получили код",
+        "type": "text"
+    },
     "emailVerification_resend": "Повторно відправити",
+    "@emailVerification_resend": {
+        "description": "Повторно отправить",
+        "type": "text"
+    },
     "emailVerification_failedToResend": "Не вдалося надіслати повторно. Спробуйте ще раз",
+    "@emailVerification_failedToResend": {
+        "description": "Не удалось отправить повторно. Попробуйте еще раз",
+        "type": "text"
+    },
     "passwordValidation_text1": "містити від 8 до 31 символів",
+    "@passwordValidation_text1": {
+        "description": "содержать от 8 до 31 символа",
+        "type": "text"
+    },
     "passwordValidation_text2": "містити хоча б одну літеру (a-z)",
+    "@passwordValidation_text2": {
+        "description": "содержать хотя бы одну букву (a-z)",
+        "type": "text"
+    },
     "passwordValidation_text3": "містити хоча б одну цифру (0-9)",
+    "@passwordValidation_text3": {
+        "description": "содержать хотя бы одну цифру (0-9)",
+        "type": "text"
+    },
     "forgotPassword_forgotPassword": "Забули пароль",
+    "@forgotPassword_forgotPassword": {
+        "description": "Забыли пароль",
+        "type": "text"
+    },
     "forgotPassword_resetPassword": "Скинути пароль",
+    "@forgotPassword_resetPassword": {
+        "description": "Сбросить пароль",
+        "type": "text"
+    },
     "forgotPassword_resettingPassword1": "Скидання забутого пароля призведе до виходу з інших пристроїв, що призведе до",
+    "@forgotPassword_resettingPassword1": {
+        "description": "Сброс забытого пароля приведет к выходу из других устройств, что приведет к",
+        "type": "text"
+    },
     "forgotPassword_resettingPassword2": "-годинне обмеження на всі вихідні перекази",
+    "@forgotPassword_resettingPassword2": {
+        "description": "-часовое ограничение на все исходящие переводы",
+        "type": "text"
+    },
     "forgotPassword_error": "Можливо, ви десь пропустили . або @",
+    "@forgotPassword_error": {
+        "description": "Возможно, вы где-то пропустили . или @",
+        "type": "text"
+    },
     "forgotPassword_buttonName": "Забули пароль",
+    "@forgotPassword_buttonName": {
+        "description": "Забыли пароль",
+        "type": "text"
+    },
     "aboutUs_text1": "У Simple ми бачимо інвестиції інакше.",
+    "@aboutUs_text1": {
+        "description": "В Simple мы видим инвестиции иначе.",
+        "type": "text"
+    },
     "aboutUs_text2": "Сьогоднішня фінансова система є складною, ексклюзивною та дорогою. Ми ж віримо, що вона повинна працювати для всіх!",
     "aboutUs_text3": "Ми створюємо продукт, який переосмислює процес використання криптовалют, спрощує доступ до ринку та пропонує низькі комісії. Це проста у використанні платформа, яка відкриває нові можливості використання вашого капіталу!",
     "aboutUs_text4": "Simple була створена як криптовалютна платформа, проте ми постійно розширяємо її функціонал. Поки ви користуєтесь наявними можливостями додатка, наша команда наполегливо працює над аби ви могли робити всі необхідні фінансові операції в одному простому додатку. Саме це ми й називаємо Simple фінансами.",
@@ -1027,7 +1239,7 @@
     "transactions": "транкзакції",
     "sDocumentRecommendation_primaryTextNew": "Ваше повне ім'я, фотографію, дату народження, термін дії та номер документа.",
     "favorites": "Вибране",
-    "iban_terms_1": "Місцеві депозити в євро",
+    "iban_terms_1": "Зняття коштів у Євро",
     "send_globally_date": "Дата",
     "send_globally_card": "картка",
     "send_globally_con_rate": "Обмінний курс",
@@ -1066,7 +1278,7 @@
     "iban_out_descr_2": "Звичайний переказ SEPA - до 3 робочих днів.",
     "iban_out_descr_3": "Банк-одержувач може стягувати додаткову комісію.",
     "iban_send_history_title": "Надіслати",
-    "iban_send_history_transaction_id": "Txid",
+    "iban_send_history_transaction_id": "ID транзакції",
     "iban_send_history_transaction_fee": "Комісія",
     "iban_send_history_send_to": "Адреса отримувача",
     "iban_send_accounts": "Акаунти",
@@ -1277,10 +1489,10 @@
     "my_wallets_button_done": "Готово",
     "my_wallets_add_wallet": "Додати гаманець",
     "my_wallets_get_account": "Отримати аккаунт",
-    "my_wallets_create_account": "Створення аккаунта...",
+    "my_wallets_create_account": "Створення акаунта...",
     "my_wallets_account": "акаунт",
     "my_wallets_pending_transactions": "Транзакції виконуються...",
-    "let_us_create_account": "Дозвольте нам створити для вас аккаунт",
+    "let_us_create_account": "Дозвольте нам створити для вас акаунт",
     "wallet_verify_your_account": "Будь ласка, верифікуйте свій обліковий запис",
     "wallet_verify_account": "Розпочати",
     "wallet_cancel": "Скасувати",
@@ -1288,7 +1500,7 @@
     "wallet_continue": "Продовжити",
     "wallet_transactions": "Транзакції",
     "wallet_simple_account": "Simple акаунт",
-    "wallet_add_cash": "Депозит",
+    "wallet_add_cash": "Додайте готівку",
     "wallet_withdraw": "Вивести",
     "wallet_simple_account_empty": "Ваші транзакції відобразяться тут",
     "wallet_account_label": "Лейбл",
@@ -1297,7 +1509,7 @@
     "transaction_tab_all": "Всі",
     "transaction_tab_pending": "В процесі",
     "create_banking_add_account": "Додати акаунт",
-    "create_banking_personal_account": "Персональний EUR аккаунт",
+    "create_banking_personal_account": "Персональний EUR акаунт",
     "create_banking_transfer_eur": "Переказуйте євро між банківськими рахунками в ЄС та ЄАВТ",
     "create_banking_conditions_1": "Ви власник цього акаунту",
     "create_banking_conditions_2": "Ви можете відправити EUR будь-кому",
@@ -1338,5 +1550,111 @@
     "my_wallets_actions_warning": "Операція не доступна. Будь ласка, зверніться до підтримки.",
     "buy_confirmation_subtitle": "Купити",
     "cvv_description": "Зазвичай CVV знаходиться на звороті картки",
-    "operation_is_unavailable": "Операція не доступна. Будь ласка, зверніться до підтримки."
+    "operation_is_unavailable": "Операція не доступна. Будь ласка, зверніться до підтримки.",
+    "iban_out_sent_to": "Надсилайте на адресу",
+    "iban_out_benificiary": "Бенефіціар",
+    "iban_out_payment_fee": "Комісія за оплату",
+    "iban_send_history_payment_fee": "Комісія за оплату",
+    "iban_send_history_processin_fee": "Комісія за обробку",
+    "withdrawal_withdrawn": "Виведено",
+    "iban_terms_5": "Ви можете отримувати кошти від будь-кого",
+    "my_wallets_accounts": "акаунти",
+    "binding_phone_dialog_first_part_2": "Щоб завершити зняття",
+    "binding_phone_dialog_second_part_2": "підтвердіть операцію SMS кодом",
+    "message_operation_is_suspended": "Операцію призупинено до",
+    "amount_screen_sell": "Продати",
+    "amount_screen_convert": "Конвертувати",
+    "amount_screen_sell_to": "Продаємо",
+    "amount_screen_convert_to": "Отримуємо",
+    "sell_confirmation_subtitle": "Продати",
+    "sell_confirmation_sell_to": "Продаємо",
+    "sell_confirmation_convert": "Конвертувати",
+    "bankAccountsSelectPopup": "Будь ласка, зверніть увагу, що ви можете відправляти тільки на свої особисті банківські рахунки",
+    "bankAccountsSelectPopupMyAccounts": "Мої акаунти",
+    "bankAccountsSelectPopupRecipients": "Отримувачі",
+    "bankAccountsSelectPopupTitle": "Банківський переказ",
+    "withdrawAll": "Вивести все",
+    "iban_account_number": "IBAN / номер акаунту",
+    "iban_title": "IBAN",
+    "operationName_sold": "Продано",
+    "operationName_converted": "Сконвертовано",
+    "creating": "створення...",
+    "sell_amount_sell_all": "Продати все",
+    "sell_amount_sell_to": "Продаємо",
+    "sell_amount_accounts": "Акаунти",
+    "sell_amount_cryptocurrencies": "Криптовалюти",
+    "sell_success_cryptocurrencies": "Операцію зроблено",
+    "convert_success_in_process": "В процесі",
+    "convert_amount_convert_to": "Отримуємо",
+    "convert_amount_convert": "Конвертувати",
+    "convert_amount_convert_all": "Конвертувати все",
+    "address_book_add_recipient": "Додати отримувача",
+    "address_book_edit_recipient": "Редагувати одержувача",
+    "address_book_full_name": "Повне ім'я",
+    "address_book_country_of_recepients_bank": "Країна банку отримувача",
+    "iban_reference": "Деталі",
+    "face_check_title": "Зробити швидке селфі",
+    "face_check_subtitle": "Ми будемо використовувати його для безпечної автентифікації для входу в ваш Simple App. Будь ласка, знайдіть хороше освітлення і переконайтеся, що ніщо не закриває ваше обличчя",
+    "face_check_continue": "Продовжити",
+    "my_wallets_card": "картка",
+    "my_wallets_cards": "картки",
+    "my_wallets_card_creating": "створення картки...",
+    "simple_card_get_card_now": "Отримати Simple картку зараз",
+    "simple_card_type": "Тип картки",
+    "simple_card_type_virtual": "Віртуальна картка",
+    "simple_card_type_physical": "Фізична картка",
+    "simple_card_type_coming_soon": "Незабаром",
+    "simple_card_password_description": "Будь ласка, встановіть статичний пароль для покупок в інтернеті. Пізніше ви зможете змінити його в налаштуваннях картки.",
+    "simple_card_password_continue": "Продовжити",
+    "simple_card_password_subtitle": "Захистіть свою картку в Інтернеті",
+    "simple_card_password_title": "Встановлення пароля",
+    "simple_card_password_requirements": "Вимоги до пароля",
+    "simple_card_password_requirements_1": "Мінімум 8 символів",
+    "simple_card_password_requirements_2": "Містить принаймні 1 число",
+    "simple_card_password_requirements_3": "Містить принаймні 1 малу літеру",
+    "simple_card_password_requirements_4": "Містить принаймні 1 велику літеру",
+    "simple_card_password_requirements_description": "Важливо використовувати унікальний пароль і не використовувати повторно паролі від інших онлайн-платформ або додатків",
+    "simple_card_password_cancel": "Скасувати",
+    "simple_card_password_create": "Створити пароль",
+    "simple_card_password_working": "Працюємо над вашою карткою Simple",
+    "simple_card_get_card": "Отримати картку",
+    "simple_card_add_cash": "Додайте готівку",
+    "simple_card_show_details": "Показати деталі",
+    "simple_card_hide_details": "Приховати деталі",
+    "simple_card_freeze": "Заморозити",
+    "simple_card_settings": "Налаштування",
+    "simple_card_terminate": "Закрити карту",
+    "simple_card_unfreeze": "Розморозити",
+    "simple_card_card": "картка",
+    "simple_card_card_number": "Номер картки",
+    "simple_card_valid_thru": "Дійсна до",
+    "simple_card_cvv": "CVV",
+    "simple_card_copied": "Скопійовано!",
+    "simple_card_creating_card": "створення картки",
+    "simple_card_spending_limits": "Ліміти витрат",
+    "simple_card_remind_pin": "Нагадати PIN",
+    "simple_card_set_password": "Встановити пароль",
+    "simple_card_online_purchases": "Для онлайн-покупок",
+    "simple_card_remind_title": "Нагадати PIN",
+    "simple_card_remind_description": "PIN-код буде надіслано на телефон",
+    "simple_card_remind_continue": "Продовжити",
+    "simple_card_remind_cancel": "Скасувати",
+    "simple_card_froze_this_card": "Заморозити цю картку?",
+    "simple_card_froze_description": "Після того, як картку буде заблоковано, всі зняття коштів з неї будуть відхилені. Ви завжди можете розморозити картку пізніше.",
+    "simple_card_froze_freeze": "Заморозити",
+    "simple_card_froze_cancel": "Скасувати",
+    "simple_card_froze_alert": "Усі транзакції за карткою будуть відхилені, доки картку не буде розморожено",
+    "simple_card_add_cash_from": "Додайте готівку з",
+    "simple_card_add_cards": "картки",
+    "simple_card_password_rule_1": "1 велика літера (A-Z)",
+    "simple_card_password_rule_2": "1 мала літера (a-z)",
+    "simple_card_password_rule_3": "1 цифра (0-9)",
+    "simple_card_password_rule_4": "Мінімум 8 символів",
+    "simple_card_get_crypto_first": "Спочатку потрібно отримати криптовалюту",
+    "simple_card_pin_was_send": "PIN-код було надіслано в SMS",
+    "simple_card_account_verification": "Будь ласка, пройдіть верифікацію рахунку у нашого партнера-емітента картки",
+    "simple_card_verify_account": "Верифікувати акаунт",
+    "balanceActionButtons_add_cash": "Додайте готівку",
+    "iban_send_history_benificiary": "Бенефіціар",
+    "add_cash_to": "Додайте готівку на"
 }
