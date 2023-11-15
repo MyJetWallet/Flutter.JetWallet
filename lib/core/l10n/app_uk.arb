@@ -1656,5 +1656,17 @@
     "simple_card_verify_account": "Верифікувати акаунт",
     "balanceActionButtons_add_cash": "Додайте готівку",
     "iban_send_history_benificiary": "Бенефіціар",
-    "add_cash_to": "Додайте готівку на"
+    "add_cash_to": "Додайте готівку на",
+    "transactionDetailsStatus_pending": "В процесі",
+    "iban_send_history_beneficairy": "Бенефіціар",
+    "card_history_description": "Опис",
+    "card_history_total_charge": "Загальна cума",
+    "card_history_total_refund": "Загалом повернуто",
+    "card_history_credited_to": "З картки",
+    "card_history_purchase_progress": "Буде автоматично повернуто через 30 днів після покупки, якщо не буде затребувано продавцем",
+    "card_history_purchase_declined": "Продавець скасував цю транзакцію. З вас не було знято жодних платежів.",
+    "operationName_cash_withdrawal": "Зняття готівки",
+    "operationName_refund": "Повернення",
+    "operationName_purchase": "Покупка",
+    "history_with": "Сума"
 }

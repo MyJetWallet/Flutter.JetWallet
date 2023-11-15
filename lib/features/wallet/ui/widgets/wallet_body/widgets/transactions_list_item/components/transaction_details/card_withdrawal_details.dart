@@ -78,6 +78,7 @@ class CardWithdrawalDetails extends StatelessObserverWidget {
             text: intl.card_history_description,
             value: TransactionDetailsNewValueText(
               text: transactionListItem.cardWithdrawalInfo!.description ?? '',
+              maxLines: 2,
             ),
           ),
           if (transactionListItem.cardWithdrawalInfo!.rate != Decimal.one)

@@ -1444,5 +1444,17 @@
     "simple_card_verify_account": "Verificar cuenta",
     "balanceActionButtons_add_cash": "Añadir efectivo",
     "iban_send_history_benificiary": "Beneficiario",
-    "add_cash_to": "Añadir efectivo a"
+    "add_cash_to": "Añadir efectivo a",
+    "transactionDetailsStatus_pending": "Pendiente",
+    "iban_send_history_beneficairy": "Beneficiario",
+    "card_history_description": "Descripción",
+    "card_history_total_charge": "Carga total",
+    "card_history_total_refund": "Reembolso total",
+    "card_history_credited_to": "Atribuido a",
+    "card_history_purchase_progress": "Si no es reclamado por el comerciante, se revertirá automáticamente a los 30 días de la compra.",
+    "card_history_purchase_declined": "El comerciante ha cancelado esta transacción. No se le ha cobrado.",
+    "operationName_cash_withdrawal": "Retirada de efectivo",
+    "operationName_refund": "Reembolso",
+    "operationName_purchase": "Comprar",
+    "history_with": "con"
 }

@@ -78,6 +78,7 @@ class CardPurchaseDetails extends StatelessObserverWidget {
             text: intl.card_history_description,
             value: TransactionDetailsNewValueText(
               text: transactionListItem.cardPurchaseInfo!.description ?? '',
+              maxLines: 2,
             ),
           ),
           if (transactionListItem.cardPurchaseInfo!.rate != Decimal.one)

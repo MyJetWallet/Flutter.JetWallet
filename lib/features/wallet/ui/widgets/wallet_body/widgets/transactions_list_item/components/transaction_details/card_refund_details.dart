@@ -78,6 +78,7 @@ class CardRefundDetails extends StatelessObserverWidget {
             text: intl.card_history_description,
             value: TransactionDetailsNewValueText(
               text: transactionListItem.cardRefundInfo!.description ?? '',
+              maxLines: 2,
             ),
           ),
           if (transactionListItem.cardRefundInfo!.rate != Decimal.one)

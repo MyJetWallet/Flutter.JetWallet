@@ -1444,5 +1444,17 @@
     "simple_card_verify_account": "Zweryfikuj konto",
     "balanceActionButtons_add_cash": "Dodaj gotówkę",
     "iban_send_history_benificiary": "Beneficjent",
-    "add_cash_to": "Dodaj gotówkę do"
+    "add_cash_to": "Dodaj gotówkę do",
+    "transactionDetailsStatus_pending": "Oczekujący",
+    "iban_send_history_beneficairy": "Beneficjent",
+    "card_history_description": "Opis",
+    "card_history_total_charge": "Całkowita opłata",
+    "card_history_total_refund": "Całkowity zwrot kosztów",
+    "card_history_credited_to": "Przypisane do",
+    "card_history_purchase_progress": "Zostanie automatycznie zwrócona po 30 dniach od zakupu, jeśli nie zostanie odebrana przez sprzedawcę",
+    "card_history_purchase_declined": "Sprzedawca anulował tę transakcję. Opłata nie została pobrana.",
+    "operationName_cash_withdrawal": "Wypłata gotówki",
+    "operationName_refund": "Zwrot kosztów",
+    "operationName_purchase": "Zakup",
+    "history_with": "Z"
 }
