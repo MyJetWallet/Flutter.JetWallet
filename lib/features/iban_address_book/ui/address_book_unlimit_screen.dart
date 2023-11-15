@@ -93,7 +93,7 @@ class _BodyAdressBookUnlimit extends StatelessObserverWidget {
                                 Text(
                                   intl.address_book_country_of_recepients_bank,
                                   style: sSubtitle2Style.copyWith(
-                                    fontSize: 12.0,
+                                    fontSize: 16.0,
                                     color: colors.grey2,
                                   ),
                                 )

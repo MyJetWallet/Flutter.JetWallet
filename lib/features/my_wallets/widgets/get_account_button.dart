@@ -7,6 +7,7 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
+import 'package:jetwallet/features/my_wallets/helper/show_wallet_verify_account.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
@@ -119,8 +120,6 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context, Curre
   final verificationInProgress = kycState.inVerificationProgress;
 
   if (verificationInProgress) {
-    kyc.showVerifyingAlert();
-
     return;
   }
 

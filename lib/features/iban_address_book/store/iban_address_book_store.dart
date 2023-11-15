@@ -116,6 +116,15 @@ abstract class _IbanAddressBookStoreBase with Store {
       }
 
       checkButton();
+    } else {
+      ibanMask = MaskTextInputFormatter(
+        mask: '#### #### #### #### #### #### ####',
+        initialText: ibanController.text,
+        filter: {
+          '#': RegExp('[a-zA-Z0-9]'),
+        },
+        type: MaskAutoCompletionType.eager,
+      );
     }
   }
 

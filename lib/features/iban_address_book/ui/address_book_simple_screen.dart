@@ -33,9 +33,14 @@ class IbanAddressBookSimpleScreen extends StatelessWidget {
   }
 }
 
-class _BodyAddressBookSimple extends StatelessObserverWidget {
+class _BodyAddressBookSimple extends StatefulObserverWidget {
   const _BodyAddressBookSimple({Key? key}) : super(key: key);
 
+  @override
+  State<_BodyAddressBookSimple> createState() => _BodyAddressBookSimpleState();
+}
+
+class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
   @override
   Widget build(BuildContext context) {
     final store = IbanAddressBookStore.of(context);
@@ -106,7 +111,7 @@ class _BodyAddressBookSimple extends StatelessObserverWidget {
                           SIconButton(
                             onTap: () {
                               if (IbanAddressBookStore.of(context).ibanController.text.isEmpty) {
-                                IbanAddressBookStore.of(context).pasteIban();
+                                IbanAddressBookStore.of(context).pasteIban().then((value) => setState(() {}));
                                 IbanAddressBookStore.of(context).checkButton();
                               } else {
                                 Clipboard.setData(
