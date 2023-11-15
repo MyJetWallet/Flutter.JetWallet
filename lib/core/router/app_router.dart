@@ -597,5 +597,9 @@ class AppRouter extends _$AppRouter {
       path: '/face_check',
       page: FaceCheckRoute.page,
     ),
+    AutoRoute(
+      path: '/debug_history',
+      page: DebugHistoryRouter.page,
+    ),
   ];
 }
