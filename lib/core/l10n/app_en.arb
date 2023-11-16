@@ -1434,7 +1434,7 @@
     "iban_title": "IBAN",
     "operationName_sold": "Sold",
     "operationName_converted": "Converted",
-    "creating": "creating...",
+    "creating": "Creating...",
     "sell_amount_sell_all": "Sell all",
     "sell_amount_sell_to": "Sell to",
     "sell_amount_accounts": "Accounts",

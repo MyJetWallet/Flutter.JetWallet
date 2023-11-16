@@ -275,665 +275,3257 @@
         "type": "text"
     },
     "aboutUs_text2": "Сьогоднішня фінансова система є складною, ексклюзивною та дорогою. Ми ж віримо, що вона повинна працювати для всіх!",
+    "@aboutUs_text2": {
+        "description": "Сегодняшняя финансовая система является сложной, эксклюзивной и дорогой. Мы же верим, что она должна работать для всех!",
+        "type": "text"
+    },
     "aboutUs_text3": "Ми створюємо продукт, який переосмислює процес використання криптовалют, спрощує доступ до ринку та пропонує низькі комісії. Це проста у використанні платформа, яка відкриває нові можливості використання вашого капіталу!",
+    "@aboutUs_text3": {
+        "description": "Мы создаем продукт, который переосмысливает процесс использования криптовалют, упрощает доступ к рынку и предлагает низкие комиссии. Это простая в использовании платформа, которая открывает новые возможности использования вашего капитала!",
+        "type": "text"
+    },
     "aboutUs_text4": "Simple була створена як криптовалютна платформа, проте ми постійно розширяємо її функціонал. Поки ви користуєтесь наявними можливостями додатка, наша команда наполегливо працює над аби ви могли робити всі необхідні фінансові операції в одному простому додатку. Саме це ми й називаємо Simple фінансами.",
+    "@aboutUs_text4": {
+        "description": "Simple была создана как криптовалютная платформа, однако мы постоянно расширяем ее функционал. Пока вы пользуетесь имеющимися возможностями приложения, наша команда упорно работает над тем, чтобы вы могли делать все необходимые финансовые операции в одном простом приложении. Именно это мы и называем Simple финансами.",
+        "type": "text"
+    },
     "aboutUs_termButton1": "Загальні положення та умови",
+    "@aboutUs_termButton1": {
+        "description": "Общие положения и условия",
+        "type": "text"
+    },
     "aboutUs_termButton2": "Privacy Policy",
     "aboutUs_termButton3": "Політика переадресації",
+    "@aboutUs_termButton3": {
+        "description": "Политика переадресации",
+        "type": "text"
+    },
     "aboutUs_privacyPolicy": "Privacy Policy",
     "sActionItem_description1": "Купуйте криптовалюту банківською карткою",
+    "@sActionItem_description1": {
+        "description": "Покупайте криптовалюту банковской карточкой",
+        "type": "text"
+    },
     "sActionItem_description2": "Купуйте будь-яку криптовалюту, доступну на платформі",
+    "@sActionItem_description2": {
+        "description": "Покупайте любую криптовалюту, доступную на платформе",
+        "type": "text"
+    },
     "sActionItem_description3": "Продайте криптовалюту зі свого портфеля",
+    "@sActionItem_description3": {
+        "description": "Продайте криптовалюту из своего портфеля",
+        "type": "text"
+    },
     "sActionItem_description4": "Швидко обмінюйте одну криптовалюту на іншу",
+    "@sActionItem_description4": {
+        "description": "Быстро обменивайте одну криптовалюту на другую",
+        "type": "text"
+    },
     "sActionItem_description5": "Отримуйте криптовалюту з іншого гаманця",
+    "@sActionItem_description5": {
+        "description": "Получайте криптовалюту с другого кошелька",
+        "type": "text"
+    },
     "sActionItem_description6": "Надіслати криптовалюту на інший гаманець або телефон",
+    "@sActionItem_description6": {
+        "description": "Отправить криптовалюту на другой кошелек или телефон",
+        "type": "text"
+    },
     "resetPassword_password": "Пароль",
+    "@resetPassword_password": {
+        "description": "Пароль",
+        "type": "text"
+    },
     "resetPassword_yourPasswordHasBeenReset": "Ваш пароль було скинуто",
+    "@resetPassword_yourPasswordHasBeenReset": {
+        "description": "Ваш пароль был сброшен",
+        "type": "text"
+    },
     "resetPassword_continue": "Продовжити",
+    "@resetPassword_continue": {
+        "description": "Продолжить",
+        "type": "text"
+    },
     "profileDetails_continue": "Продовжити",
+    "@profileDetails_continue": {
+        "description": "Продолжить",
+        "type": "text"
+    },
     "profileDetails_profileDetails": "Деталі профілю",
+    "@profileDetails_profileDetails": {
+        "description": "Детали профиля",
+        "type": "text"
+    },
     "profileDetails_changePasswordAlert": "При зміні пароля виведення коштів буде заблоковано на␣",
+    "@profileDetails_changePasswordAlert": {
+        "description": "При смене пароля вывод средств будет заблокирован на␣",
+        "type": "text"
+    },
     "profileDetails_changePhoneAlert": "При зміні номера телефону виведення коштів буде заблоковано на␣",
+    "@profileDetails_changePhoneAlert": {
+        "description": "При смене номера телефона вывод средств будет заблокирован на␣",
+        "type": "text"
+    },
     "profileDetails_cancel": "Скасувати",
+    "@profileDetails_cancel": {
+        "description": "Отменить",
+        "type": "text"
+    },
     "profileDetails_email": "Email",
     "profileDetails_payAttention": "Зверніть увагу",
+    "@profileDetails_payAttention": {
+        "description": "Обратите внимание",
+        "type": "text"
+    },
     "profileDetails_changePhoneNumber": "Змінити номер телефону",
+    "@profileDetails_changePhoneNumber": {
+        "description": "Изменить номер телефона",
+        "type": "text"
+    },
     "profileDetails_newPhoneNumberConfirmed": "Підтверджено новий номер телефону",
+    "@profileDetails_newPhoneNumberConfirmed": {
+        "description": "Подтвержден новый номер телефона",
+        "type": "text"
+    },
     "profileDetails_changePassword": "Змінити пароль",
+    "@profileDetails_changePassword": {
+        "description": "Изменить пароль",
+        "type": "text"
+    },
     "profileDetails_defaultCurrency": "Валюта за замовчуванням",
+    "@profileDetails_defaultCurrency": {
+        "description": "Валюта по умолчанию",
+        "type": "text"
+    },
     "showBasicModalBottomSheet_continue": "Продовжити",
+    "@showBasicModalBottomSheet_continue": {
+        "description": "Продолжить",
+        "type": "text"
+    },
     "kycAlertHandler_continue": "Продовжити",
+    "@kycAlertHandler_continue": {
+        "description": "Продолжить",
+        "type": "text"
+    },
     "kycAlertHandler_verifyYourProfile": "Верифікуйте свій профіль",
+    "@kycAlertHandler_verifyYourProfile": {
+        "description": "Верифицируйте свой профиль",
+        "type": "text"
+    },
     "kycAlertHandler_support": "Підтримка",
+    "@kycAlertHandler_support": {
+        "description": "Поддержка",
+        "type": "text"
+    },
     "kycAlertHandler_showKycPopupSecondaryText1": "Щоб завершити верифікацію профілю, ви",
+    "@kycAlertHandler_showKycPopupSecondaryText1": {
+        "description": "Чтобы завершить верификацию профиля, вы",
+        "type": "text"
+    },
     "kycAlertHandler_later": "Пізніше",
+    "@kycAlertHandler_later": {
+        "description": "Позже",
+        "type": "text"
+    },
     "kycAlertHandler_showVerifyingAlertPrimaryText": "Ми зараз перевіряємо",
+    "@kycAlertHandler_showVerifyingAlertPrimaryText": {
+        "description": "Мы сейчас проверяем",
+        "type": "text"
+    },
     "kycAlertHandler_showVerifyingAlertSecondaryText": "Ви отримаєте повідомлення, коли ми завершимо процес",
+    "@kycAlertHandler_showVerifyingAlertSecondaryText": {
+        "description": "Вы получите уведомление, когда мы завершим процесс",
+        "type": "text"
+    },
     "kycAlertHandler_done": "Готово",
+    "@kycAlertHandler_done": {
+        "description": "Готово",
+        "type": "text"
+    },
     "kycAlertHandler_youAreBlocked": "Вас заблоковано",
+    "@kycAlertHandler_youAreBlocked": {
+        "description": "Вас заблокировали",
+        "type": "text"
+    },
     "kycAlertHandler_factorVerificationEnabled": "Увімкнено 2-факторну перевірку",
+    "@kycAlertHandler_factorVerificationEnabled": {
+        "description": "Включена 2-факторная проверка",
+        "type": "text"
+    },
     "kycAlertHandler_verifyYourIdentity": "Підтвердіть свою особу",
+    "@kycAlertHandler_verifyYourIdentity": {
+        "description": "Подтвердите свою личность",
+        "type": "text"
+    },
     "kycAlertHandler_addressVerification": "Верифікація адреси",
+    "@kycAlertHandler_addressVerification": {
+        "description": "Верификация адреса",
+        "type": "text"
+    },
     "kycAlertHandler_proofSourceOfFunds": "Підтвердження джерела фінансування",
+    "@kycAlertHandler_proofSourceOfFunds": {
+        "description": "Подтверждение источника финансирования",
+        "type": "text"
+    },
     "kycAlertHandler_secureYourAccount": "Захистіть свій акаунт",
+    "@kycAlertHandler_secureYourAccount": {
+        "description": "Защитите свой аккаунт",
+        "type": "text"
+    },
     "kycAlertHandler_showKycPopupSecondaryText": "потрібно пройти наступні кроки",
+    "@kycAlertHandler_showKycPopupSecondaryText": {
+        "description": "нужно пройти следующие шаги",
+        "type": "text"
+    },
     "kycAlertHandler_showBlockedAlertSecondaryText1": "Для розблокування зверніться до служби підтримки.",
+    "@kycAlertHandler_showBlockedAlertSecondaryText1": {
+        "description": "Для разблокировки обратитесь в службу поддержки.",
+        "type": "text"
+    },
     "kycAlertHandler_showBlockedAlertSecondaryText2": "ваш акаунт",
+    "@kycAlertHandler_showBlockedAlertSecondaryText2": {
+        "description": "ваш аккаунт",
+        "type": "text"
+    },
     "changePassword_continue": "Продовжити",
+    "@changePassword_continue": {
+        "description": "Продолжить",
+        "type": "text"
+    },
     "changePassword_changePassword": "Змінити пароль",
+    "@changePassword_changePassword": {
+        "description": "Изменить пароль",
+        "type": "text"
+    },
     "changePassword_errorCurrentPassword": "Спробуйте ще раз, це не ваш поточний пароль",
+    "@changePassword_errorCurrentPassword": {
+        "description": "Попробуйте еще раз, это не ваш текущий пароль",
+        "type": "text"
+    },
     "changePassword_enterCurrentPassword": "Введіть поточний Пароль",
+    "@changePassword_enterCurrentPassword": {
+        "description": "Введите текущий Пароль",
+        "type": "text"
+    },
     "changePassword_showErrorText1": "Спробуйте ще раз, це не ваш поточний пароль",
+    "@changePassword_showErrorText1": {
+        "description": "Попробуйте еще раз, это не ваш текущий пароль",
+        "type": "text"
+    },
     "changePassword_pleaseWait": "Будь ласка, зачекайте",
+    "@changePassword_pleaseWait": {
+        "description": "Пожалуйста, подождите",
+        "type": "text"
+    },
     "registerPassword_continue": "Продовжити",
+    "@registerPassword_continue": {
+        "description": "Продолжить",
+        "type": "text"
+    },
     "currencyWithdraw_address": "адресу",
+    "@currencyWithdraw_address": {
+        "description": "адрес",
+        "type": "text"
+    },
     "currencyWithdraw_enter": "Введіть",
+    "@currencyWithdraw_enter": {
+        "description": "Введите",
+        "type": "text"
+    },
     "currencyWithdraw_continue": "Продовжити",
+    "@currencyWithdraw_continue": {
+        "description": "Продолжить",
+        "type": "text"
+    },
     "currencyWithdraw_chooseNetwork": "Виберіть мережу",
+    "@currencyWithdraw_chooseNetwork": {
+        "description": "Выберите сеть",
+        "type": "text"
+    },
     "currencyWithdraw_enterTag": "Введіть тег",
+    "@currencyWithdraw_enterTag": {
+        "description": "Введите тег",
+        "type": "text"
+    },
     "kycVerifyYourProfile_continue": "Продовжити",
+    "@kycVerifyYourProfile_continue": {
+        "description": "Продолжить",
+        "type": "text"
+    },
     "kycVerifyYourProfile_verifyYourProfile": "Підтвердіть свій профіль",
+    "@kycVerifyYourProfile_verifyYourProfile": {
+        "description": "Подтвердите свой профиль",
+        "type": "text"
+    },
     "sendByPhoneInput_continue": "Продовжити",
+    "@sendByPhoneInput_continue": {
+        "description": "Продолжить",
+        "type": "text"
+    },
     "sendByPhoneInput_code": "Код",
+    "@sendByPhoneInput_code": {
+        "description": "Код",
+        "type": "text"
+    },
     "sendByPhoneInput_byPhone": "телефоном",
+    "@sendByPhoneInput_byPhone": {
+        "description": "телефоном",
+        "type": "text"
+    },
     "sendByPhoneInput_phoneNumber": "Номер телефону",
+    "@sendByPhoneInput_phoneNumber": {
+        "description": "Номер телефона",
+        "type": "text"
+    },
     "sendByPhoneInput_send": "Надіслати",
+    "@sendByPhoneInput_send": {
+        "description": "Отправить",
+        "type": "text"
+    },
     "sendByPhoneInput_select": "Вибрати",
+    "@sendByPhoneInput_select": {
+        "description": "Выбрать",
+        "type": "text"
+    },
     "sendByPhoneInput_codeLocalNumber": "Цей контакт має місцевий номер.",
+    "@sendByPhoneInput_codeLocalNumber": {
+        "description": "Этот контакт имеет местный номер.",
+        "type": "text"
+    },
     "sendByPhoneInput_codeSelectCountry": "Будь ласка, оберіть країну",
+    "@sendByPhoneInput_codeSelectCountry": {
+        "description": "Пожалуйста, выберите страну",
+        "type": "text"
+    },
     "sendByPhoneInput_doubleCheckPhone": "Перевірте номер телефону перед тим, як продовжити.",
+    "@sendByPhoneInput_doubleCheckPhone": {
+        "description": "Проверьте номер телефона перед тем, как продолжить.",
+        "type": "text"
+    },
     "sendByPhoneInput_makeSureIsCorrect": "Переконайтеся, що номер телефону правильний",
+    "@sendByPhoneInput_makeSureIsCorrect": {
+        "description": "Убедитесь, что номер телефона правильный",
+        "type": "text"
+    },
     "disclaimer_continue": "Продовжити",
+    "@disclaimer_continue": {
+        "description": "Продолжить",
+        "type": "text"
+    },
     "showSmsAuthWarning_continue": "Продовжити",
+    "@showSmsAuthWarning_continue": {
+        "description": "Продолжить",
+        "type": "text"
+    },
     "showSmsAuthWarning_primaryText": "Ви впевнені, що хочете вимкнути SMS-аутентифікацію",
+    "@showSmsAuthWarning_primaryText": {
+        "description": "Вы уверены, что хотите отключить SMS-аутентификацию",
+        "type": "text"
+    },
     "showSmsAuthWarning_secondaryText": "Я розумію і приймаю всі ризики, пов'язані зі зниженням рівня безпеки акаунта. З міркувань безпеки можливість виведення коштів з акаунта буде призупинено на 24 години",
+    "@showSmsAuthWarning_secondaryText": {
+        "description": "Я понимаю и принимаю все риски, связанные со снижением уровня безопасности аккаунта. Из соображений безопасности возможность вывода средств с аккаунта будет приостановлена на 24 часа",
+        "type": "text"
+    },
     "showSmsAuthWarning_later": "Пізніше",
+    "@showSmsAuthWarning_later": {
+        "description": "Позже",
+        "type": "text"
+    },
     "noReferralCode_havePromoCode": "У мене є промокод",
+    "@noReferralCode_havePromoCode": {
+        "description": "У меня есть промокод",
+        "type": "text"
+    },
     "confirmPassword_checkYourEmail": "Перевірте свою електронну пошту",
+    "@confirmPassword_checkYourEmail": {
+        "description": "Проверьте свою электронную почту",
+        "type": "text"
+    },
     "confirmPassword_recoveryEmail": "Лист для відновлення з інструкцією по скиданню пароля було відправлено на адресу",
+    "@confirmPassword_recoveryEmail": {
+        "description": "Письмо для восстановления с инструкцией по сбросу пароля было отправлено на адрес",
+        "type": "text"
+    },
     "confirmPassword_seeThePasswordRecovery": "Якщо ви не бачите листа для відновлення пароля у вашій поштовій скриньці, перевірте папку Спам",
+    "@confirmPassword_seeThePasswordRecovery": {
+        "description": "Если вы не видите письма для восстановления пароля в вашем почтовом ящике, проверьте папку Спам",
+        "type": "text"
+    },
     "something_went_wrong": "Щось пішло не так",
+    "@something_went_wrong": {
+        "description": "Что-то пошло не так",
+        "type": "text"
+    },
     "something_went_wrong_try_again": "Щось пішло не так. Будь ласка, спробуйте пізніше",
+    "@something_went_wrong_try_again": {
+        "description": "Что-то пошло не так. Пожалуйста, попробуйте позже",
+        "type": "text"
+    },
     "something_went_wrong_try_again2": "Щось пішло не так! Спробуйте ще раз.",
+    "@something_went_wrong_try_again2": {
+        "description": "Что-то пошло не так! Попробуйте еще раз.",
+        "type": "text"
+    },
     "setNewPassword_createPassword": "Створіть пароль",
+    "@setNewPassword_createPassword": {
+        "description": "Создайте пароль",
+        "type": "text"
+    },
     "withdrawalConfirm_your": "Ваш",
+    "@withdrawalConfirm_your": {
+        "description": "Ваш",
+        "type": "text"
+    },
     "withdrawalConfirm_close": "Закрити",
+    "@withdrawalConfirm_close": {
+        "description": "Закрыть",
+        "type": "text"
+    },
     "withdrawalConfirm_failedToResend": "Не вдалося надіслати повторно. Спробуйте ще раз",
+    "@withdrawalConfirm_failedToResend": {
+        "description": "Не удалось отправить повторно. Попробуйте еще раз",
+        "type": "text"
+    },
     "withdrawalConfirm_editOrder": "Редагувати замовлення",
+    "@withdrawalConfirm_editOrder": {
+        "description": "Редактировать заказ",
+        "type": "text"
+    },
     "withdrawalConfirm_failure": "Не вдалося",
+    "@withdrawalConfirm_failure": {
+        "description": "Не получилось",
+        "type": "text"
+    },
     "withdrawalConfirm_requestHasBeenSubmitted": "запит надіслано",
+    "@withdrawalConfirm_requestHasBeenSubmitted": {
+        "description": "запрос отправлен",
+        "type": "text"
+    },
     "withdrawalConfirm_failedTo": "Не вдалося",
+    "@withdrawalConfirm_failedTo": {
+        "description": "Не получилось",
+        "type": "text"
+    },
     "mailingCheckbox_wantSubscibe": "Я хочу підписатися на розсилку маркетингових повідомлень про нові продукти, послуги та можливості компанії Simple",
+    "@mailingCheckbox_wantSubscibe": {
+        "description": "Я хочу подписаться на рассылку маркетинговых сообщений о новых продуктах, услугах и возможностях компании Simple",
+        "type": "text"
+    },
     "invalidReferralCodeLink_invalidReferralCodeLink": "Невірний код рефералу/посилання",
+    "@invalidReferralCodeLink_invalidReferralCodeLink": {
+        "description": "Неверный код реферала/ссылки",
+        "type": "text"
+    },
     "loadingReferralCode_checking": "Перевіряємо",
+    "@loadingReferralCode_checking": {
+        "description": "Проверяем",
+        "type": "text"
+    },
     "withdrawalAddress_address": "Адреса",
+    "@withdrawalAddress_address": {
+        "description": "Адрес",
+        "type": "text"
+    },
     "withdrawalAddress_pushAllowCamera": "Щоб відсканувати QR-код, надайте дозвіл Simple на доступ до камери",
+    "@withdrawalAddress_pushAllowCamera": {
+        "description": "Чтобы отсканировать QR-код, предоставьте разрешение Simple на доступ к камере",
+        "type": "text"
+    },
     "withdrawalAddress_checking": "Перевіряємо",
+    "@withdrawalAddress_checking": {
+        "description": "Проверяем",
+        "type": "text"
+    },
     "withdrawalAddress_invalid": "Недійсна",
+    "@withdrawalAddress_invalid": {
+        "description": "Недействительная",
+        "type": "text"
+    },
     "withdrawalAddress_error": "Помилка",
+    "@withdrawalAddress_error": {
+        "description": "Ошибка",
+        "type": "text"
+    },
     "showReferralCodeLink_enterReferralCodeLink": "Введіть реферальний код/посилання",
+    "@showReferralCodeLink_enterReferralCodeLink": {
+        "description": "Введите реферальный код/ссылку",
+        "type": "text"
+    },
     "showReferralCodeLink_referralCodeLink": "Реферальний код/посилання",
+    "@showReferralCodeLink_referralCodeLink": {
+        "description": "Реферальный код/ссылка",
+        "type": "text"
+    },
     "showReferralCode_pasteReferralLinkOrCode": "Вставте реферальне посилання або код. Рекомендуємо перейти за посиланням або відсканувати QR-код.",
+    "@showReferralCode_pasteReferralLinkOrCode": {
+        "description": "Вставьте реферальную ссылку или код. Рекомендуем перейти по ссылке или отсканировать QR-код.",
+        "type": "text"
+    },
     "validReferralCode_yourReferralCode": "Ваш реферальний код",
+    "@validReferralCode_yourReferralCode": {
+        "description": "Ваш реферальный код",
+        "type": "text"
+    },
     "validReferralCode_validReferralCode": "Дійсний реферальний код",
+    "@validReferralCode_validReferralCode": {
+        "description": "Действующий реферальный код",
+        "type": "text"
+    },
     "passwordReset_pleaseWait": "Будь ласка, зачекайте",
+    "@passwordReset_pleaseWait": {
+        "description": "Пожалуйста, подождите",
+        "type": "text"
+    },
     "passwordReset_passwordReset": "Скидання пароля",
+    "@passwordReset_passwordReset": {
+        "description": "Сброс пароля",
+        "type": "text"
+    },
     "authentication_invalidLoginOrPassword": "Неправильний логін або пароль",
+    "@authentication_invalidLoginOrPassword": {
+        "description": "Неправильный логин или пароль",
+        "type": "text"
+    },
     "uploadKycDocuments_uploadPhotos": "Завантажуйте фотографії",
+    "@uploadKycDocuments_uploadPhotos": {
+        "description": "Загружайте фотографии",
+        "type": "text"
+    },
     "apiSelectorScreen_provideProxy": "Надати довіреність",
+    "@apiSelectorScreen_provideProxy": {
+        "description": "Предоставить доверенность",
+        "type": "text"
+    },
     "apiSelector_justSkip": "Просто пропустіть поле вище, якщо воно вам не потрібне",
+    "@apiSelector_justSkip": {
+        "description": "Просто пропустите поле выше, если оно вам не нужно",
+        "type": "text"
+    },
     "update_timeToUpdate": "Настав час оновити",
+    "@update_timeToUpdate": {
+        "description": "Пришло время обновить",
+        "type": "text"
+    },
     "update_downloadTheLatestVersion": "Щоб користуватися цим додатком, завантажте останню версію",
+    "@update_downloadTheLatestVersion": {
+        "description": "Чтобы пользоваться этим приложением, загрузите последнюю версию",
+        "type": "text"
+    },
     "update_update": "Оновлення",
+    "@update_update": {
+        "description": "Обновление",
+        "type": "text"
+    },
     "update_updateSimple": "Оновити Simple",
+    "@update_updateSimple": {
+        "description": "Обновить Simple",
+        "type": "text"
+    },
     "update_weRecommendUpdateLatestVersion": "Рекомендуємо оновити до останньої версії",
+    "@update_weRecommendUpdateLatestVersion": {
+        "description": "Рекомендуем обновить до последней версии",
+        "type": "text"
+    },
     "update_notNow": "Не зараз",
+    "@update_notNow": {
+        "description": "Не сейчас",
+        "type": "text"
+    },
     "appInitFpod_emailNotFound": "Email не знайдено",
+    "@appInitFpod_emailNotFound": {
+        "description": "Email не найден",
+        "type": "text"
+    },
     "successScreen_success": "Успішно!",
+    "@successScreen_success": {
+        "description": "Успешно!",
+        "type": "text"
+    },
     "successKycScreen_success": "Успішно!",
+    "@successKycScreen_success": {
+        "description": "Успешно!",
+        "type": "text"
+    },
     "successKycScreen_done": "Успішно!",
+    "@successKycScreen_done": {
+        "description": "Успешно!",
+        "type": "text"
+    },
     "recurringSuccessScreen_success": "Успішно!",
+    "@recurringSuccessScreen_success": {
+        "description": "Успешно!",
+        "type": "text"
+    },
     "recurringSuccessScreen_orderProcessing": "Обробка замовлення",
+    "@recurringSuccessScreen_orderProcessing": {
+        "description": "Обработка заказа",
+        "type": "text"
+    },
     "resetRichText_resend": "Повторно відправити",
+    "@resetRichText_resend": {
+        "description": "Повторно отправить",
+        "type": "text"
+    },
     "resetRichText_didntReceiveTheCode": "Не отримали код",
+    "@resetRichText_didntReceiveTheCode": {
+        "description": "Не получили код",
+        "type": "text"
+    },
     "withdrawalConfirm_openEmailApp": "Відкрийте додаток електронної пошти",
+    "@withdrawalConfirm_openEmailApp": {
+        "description": "Откройте приложение электронной почты",
+        "type": "text"
+    },
     "withdrawalConfirm_request": "запит",
+    "@withdrawalConfirm_request": {
+        "description": "запрос",
+        "type": "text"
+    },
     "withdrawalConfirm_confirmYour": "Підтвердіть свій",
+    "@withdrawalConfirm_confirmYour": {
+        "description": "Подтвердите свой",
+        "type": "text"
+    },
     "withdrawalConfirm_confirm": "Підтвердіть",
+    "@withdrawalConfirm_confirm": {
+        "description": "Подтвердите",
+        "type": "text"
+    },
     "withdrawalConfirm_resend": "Повторно відправити",
+    "@withdrawalConfirm_resend": {
+        "description": "Повторно отправить",
+        "type": "text"
+    },
     "withdrawalConfirm_didntReceiveTheCode": "Не отримали код",
+    "@withdrawalConfirm_didntReceiveTheCode": {
+        "description": "Не получили код",
+        "type": "text"
+    },
     "withdrawalConfirm_seconds": "секунди",
+    "@withdrawalConfirm_seconds": {
+        "description": "секунды",
+        "type": "text"
+    },
     "withdrawalConfirm_youCanResendIn": "Ви можете надіслати повторно через",
+    "@withdrawalConfirm_youCanResendIn": {
+        "description": "Вы можете отправить повторно через",
+        "type": "text"
+    },
     "withdrawalConfirm_text": "запит, перейшовши за посиланням в електронному листі, який ми надіслали на адресу",
+    "@withdrawalConfirm_text": {
+        "description": "запрос, перейдя по ссылке в электронном письме, которое мы прислали на адрес",
+        "type": "text"
+    },
     "withdrawalConfirm_cancelRequest": "Скасувати запит",
+    "@withdrawalConfirm_cancelRequest": {
+        "description": "Отменить запрос",
+        "type": "text"
+    },
     "twoFaPhone_youCanResendIn": "Ви можете надіслати повторно через",
+    "@twoFaPhone_youCanResendIn": {
+        "description": "Вы можете отправить повторно через",
+        "type": "text"
+    },
     "twoFaPhone_didntReceiveTheCode": "Не отримали код",
+    "@twoFaPhone_didntReceiveTheCode": {
+        "description": "Не получили код",
+        "type": "text"
+    },
     "twoFaPhone_phoneConfirmation": "Підтвердження телефону",
+    "@twoFaPhone_phoneConfirmation": {
+        "description": "Подтверждение телефона",
+        "type": "text"
+    },
     "twoFaPhone_seconds": "секунди",
+    "@twoFaPhone_seconds": {
+        "description": "секунды",
+        "type": "text"
+    },
     "twoFaPhone_enterSmsCode": "Введіть SMS-код, який ми надіслали на ваш телефон",
+    "@twoFaPhone_enterSmsCode": {
+        "description": "Введите SMS-код, который мы прислали на ваш телефон",
+        "type": "text"
+    },
     "twoFaPhone_errorOccured": "Виникла помилка",
+    "@twoFaPhone_errorOccured": {
+        "description": "Возникла ошибка",
+        "type": "text"
+    },
     "twoFaPhone_resend": "Повторно відправити",
+    "@twoFaPhone_resend": {
+        "description": "Повторно отправить",
+        "type": "text"
+    },
     "confirmPasswordReset_didntReceiveTheCode": "Не отримали код",
+    "@confirmPasswordReset_didntReceiveTheCode": {
+        "description": "Не получили код",
+        "type": "text"
+    },
     "confirmPasswordReset_resend": "Повторно відправити",
+    "@confirmPasswordReset_resend": {
+        "description": "Повторно отправить",
+        "type": "text"
+    },
     "confirmPasswordReset_seconds": "секунди",
+    "@confirmPasswordReset_seconds": {
+        "description": "секунды",
+        "type": "text"
+    },
     "confirmPasswordReset_youCanResendIn": "Ви можете надіслати повторно через",
+    "@confirmPasswordReset_youCanResendIn": {
+        "description": "Вы можете отправить повторно через",
+        "type": "text"
+    },
     "confirmPasswordReset_failedToResend": "Не вдалося надіслати повторно. Спробуйте ще раз",
+    "@confirmPasswordReset_failedToResend": {
+        "description": "Не удалось отправить повторно. Попробуйте еще раз",
+        "type": "text"
+    },
     "sendByPhoneConfirm_resend": "Повторно відправити",
+    "@sendByPhoneConfirm_resend": {
+        "description": "Повторно отправить",
+        "type": "text"
+    },
     "sendByPhoneConfirm_didntReceiveTheCode": "Не отримали код",
+    "@sendByPhoneConfirm_didntReceiveTheCode": {
+        "description": "Не получили код",
+        "type": "text"
+    },
     "sendByPhoneConfirm_seconds": "секунди",
+    "@sendByPhoneConfirm_seconds": {
+        "description": "секунды",
+        "type": "text"
+    },
     "sendByPhoneConfirm_youCanResendIn": "Ви можете надіслати повторно через",
+    "@sendByPhoneConfirm_youCanResendIn": {
+        "description": "Вы можете отправить повторно через",
+        "type": "text"
+    },
     "sendByPhoneConfirm_confirmSendRequest": "Підтвердити запит на Відправку",
+    "@sendByPhoneConfirm_confirmSendRequest": {
+        "description": "Подтвердить запрос на Отправку",
+        "type": "text"
+    },
     "sendByPhoneConfirm_openEmailApp": "Відкрийте додаток електронної пошти",
+    "@sendByPhoneConfirm_openEmailApp": {
+        "description": "Откройте приложение электронной почты",
+        "type": "text"
+    },
     "sendByPhoneConfirm_cancelRequest": "Скасувати запит",
+    "@sendByPhoneConfirm_cancelRequest": {
+        "description": "Отменить запрос",
+        "type": "text"
+    },
     "sendByPhoneConfirm_description": "Підтвердіть свій запит на відправку, перейшовши за посиланням в електронному листі, який ми надіслали на адресу",
+    "@sendByPhoneConfirm_description": {
+        "description": "Подтвердите свой запрос на отправку, перейдя по ссылке в электронном письме, которое мы прислали на адрес",
+        "type": "text"
+    },
     "phoneVerification_enterSmsCode": "Введіть SMS-код, який ми надіслали на ваш телефон",
+    "@phoneVerification_enterSmsCode": {
+        "description": "Введите SMS-код, который мы прислали на ваш телефон",
+        "type": "text"
+    },
     "phoneVerification_seconds": "секунди",
+    "@phoneVerification_seconds": {
+        "description": "секунды",
+        "type": "text"
+    },
     "phoneVerification_youCanResendIn": "Ви можете надіслати повторно через",
+    "@phoneVerification_youCanResendIn": {
+        "description": "Вы можете отправить повторно через",
+        "type": "text"
+    },
     "phoneVerification_pleaseWait": "Будь ласка, зачекайте",
+    "@phoneVerification_pleaseWait": {
+        "description": "Пожалуйста, подождите.",
+        "type": "text"
+    },
     "phoneVerification_phoneConfirmation": "Підтвердження телефону",
+    "@phoneVerification_phoneConfirmation": {
+        "description": "Подтверждение телефона",
+        "type": "text"
+    },
     "phoneVerification_changeNumber": "змінити номер",
+    "@phoneVerification_changeNumber": {
+        "description": "сменить номер",
+        "type": "text"
+    },
     "phoneVerification_pleaseContact": "Якщо у вас немає доступу до цього номера, будь ласка, зверніться до",
+    "@phoneVerification_pleaseContact": {
+        "description": "Если у вас нет доступа к этому номеру, пожалуйста, обратитесь к",
+        "type": "text"
+    },
     "phoneVerification_support": "підтримка",
+    "@phoneVerification_support": {
+        "description": "поддержка",
+        "type": "text"
+    },
     "pushNotification_thisChannelIsUsed": "Цей канал використовується для важливих сповіщень.",
+    "@pushNotification_thisChannelIsUsed": {
+        "description": "Этот канал используется для важных оповещений.",
+        "type": "text"
+    },
     "pushNotification_userDeclined": "Користувач відмовився або не прийняв дозвіл",
+    "@pushNotification_userDeclined": {
+        "description": "Пользователь отказался или не принял разрешение",
+        "type": "text"
+    },
     "appVersionBox_version": "Версія",
+    "@appVersionBox_version": {
+        "description": "Версия",
+        "type": "text"
+    },
     "createBannersList_verifyYourProfile": "Підтвердіть свій профіль",
+    "@createBannersList_verifyYourProfile": {
+        "description": "Подтвердите свой профиль",
+        "type": "text"
+    },
     "createBanners_bannerText1": "Відповідно до Політики KYC та AML, ви зобов'язані пройти процес верифікації.",
+    "@createBanners_bannerText1": {
+        "description": "В соответствии с Политикой KYC и AML, вы обязаны пройти процесс верификации.",
+        "type": "text"
+    },
     "createBanners_bannerText2": "Ви отримаєте повідомлення, коли ми завершимо процес. Зазвичай протягом декількох годин",
+    "@createBanners_bannerText2": {
+        "description": "Вы получите уведомление, когда мы завершим процесс. Обычно в течение нескольких часов",
+        "type": "text"
+    },
     "createBanners_header2": "Документи перевіряються",
+    "@createBanners_header2": {
+        "description": "Документы проверяются",
+        "type": "text"
+    },
     "createBanners_enable2Factor": "Увімкнути 2-факторну",
+    "@createBanners_enable2Factor": {
+        "description": "Включить 2-факторную",
+        "type": "text"
+    },
     "createBanners_bannerText3": "Для захисту вашого облікового запису рекомендується ввімкнути",
+    "@createBanners_bannerText3": {
+        "description": "Для защиты вашей учетной записи рекомендуется включить",
+        "type": "text"
+    },
     "createBanners_bannerText4Part1": "Маєте питання?",
+    "@createBanners_bannerText4Part1": {
+        "description": "Есть вопросы?",
+        "type": "text"
+    },
     "createBanners_header4": "Чат зі службою підтримки",
+    "@createBanners_header4": {
+        "description": "Чат со службой поддержки",
+        "type": "text"
+    },
     "createBanners_authentication": "аутентифікація",
+    "@createBanners_authentication": {
+        "description": "аутентификация",
+        "type": "text"
+    },
     "createBanners_bannerText4Part2": "Ми тут, щоб допомогти",
+    "@createBanners_bannerText4Part2": {
+        "description": "Мы здесь, чтобы помочь",
+        "type": "text"
+    },
     "crispSendMessage_hi": "Привіт",
+    "@crispSendMessage_hi": {
+        "description": "Привет",
+        "type": "text"
+    },
     "crisp_support": "Підтримка",
+    "@crisp_support": {
+        "description": "Поддержка",
+        "type": "text"
+    },
     "helpCenterWebView": "Центр допомоги",
+    "@helpCenterWebView": {
+        "description": "Центр помощи",
+        "type": "text"
+    },
     "account_helpCenter": "Центр допомоги",
+    "@account_helpCenter": {
+        "description": "Центр помощи",
+        "type": "text"
+    },
     "account_profileDetails": "Деталі профілю",
+    "@account_profileDetails": {
+        "description": "Детали профиля",
+        "type": "text"
+    },
     "account_security": "Безпека",
+    "@account_security": {
+        "description": "Безопасность",
+        "type": "text"
+    },
     "account_recurringBuy": "Повторна покупка",
+    "@account_recurringBuy": {
+        "description": "Повторная покупка",
+        "type": "text"
+    },
     "account_paymentMethods": "Методи оплати",
+    "@account_paymentMethods": {
+        "description": "Методы оплаты",
+        "type": "text"
+    },
     "account_history": "Історія",
+    "@account_history": {
+        "description": "История",
+        "type": "text"
+    },
     "account_support": "Підтримка",
+    "@account_support": {
+        "description": "Поддержка",
+        "type": "text"
+    },
     "account_aboutUs": "Про нас",
+    "@account_aboutUs": {
+        "description": "О нас",
+        "type": "text"
+    },
     "account_debugInfo": "Інформація щодо налагодження",
+    "@account_debugInfo": {
+        "description": "Информация о налаживании",
+        "type": "text"
+    },
     "transactionHistory_history": "Історія",
+    "@transactionHistory_history": {
+        "description": "История",
+        "type": "text"
+    },
     "log_out": "Вийти",
+    "@log_out": {
+        "description": "Выйти",
+        "type": "text"
+    },
     "emptyWatchlist_createYourWatchlist": "Створіть свій список спостереження",
+    "@emptyWatchlist_createYourWatchlist": {
+        "description": "Создайте свой список наблюдения",
+        "type": "text"
+    },
     "emptyWatchlist_starAnAsset": "Позначте елемент, щоб додати його до свого списку спостереження",
+    "@emptyWatchlist_starAnAsset": {
+        "description": "Отметьте элемент, чтобы добавить его в свой список наблюдения",
+        "type": "text"
+    },
     "marketNestedScrollView_market": "Ринок",
+    "@marketNestedScrollView_market": {
+        "description": "Рынок",
+        "type": "text"
+    },
     "marketHeaderStats_market": "Ринок",
+    "@marketHeaderStats_market": {
+        "description": "Рынок",
+        "type": "text"
+    },
     "marketHeaderStats_up": "росте",
+    "@marketHeaderStats_up": {
+        "description": "растёт",
+        "type": "text"
+    },
     "marketHeaderStats_down": "падає",
+    "@marketHeaderStats_down": {
+        "description": "падает",
+        "type": "text"
+    },
     "marketHeaderStats_marketIs": "Ринок -",
+    "@marketHeaderStats_marketIs": {
+        "description": "Рынок -",
+        "type": "text"
+    },
     "watchlistTabBarView_market": "Ринок",
+    "@watchlistTabBarView_market": {
+        "description": "Рынок",
+        "type": "text"
+    },
     "market_all": "Всі активи",
+    "@market_all": {
+        "description": "Все активы",
+        "type": "text"
+    },
     "market_bottomTabLabel2": "Список спостереження",
+    "@market_bottomTabLabel2": {
+        "description": "Список наблюдения",
+        "type": "text"
+    },
     "market_bottomTabLabel3": "Крипто-набори",
+    "@market_bottomTabLabel3": {
+        "description": "Крипто-наборы",
+        "type": "text"
+    },
     "market_bottomTabLabel4": "Активи, що дорожчають",
+    "@market_bottomTabLabel4": {
+        "description": "Активы, которые дорожают",
+        "type": "text"
+    },
     "market_bottomTabLabel5": "Активи, що дешевшають",
+    "@market_bottomTabLabel5": {
+        "description": "Активы, которые дешевеют",
+        "type": "text"
+    },
     "market_crypto": "Крипта",
+    "@market_crypto": {
+        "description": "Крипта",
+        "type": "text"
+    },
     "market_nft_items": "пункти",
+    "@market_nft_items": {
+        "description": "пункты",
+        "type": "text"
+    },
     "market_nft_show": "Показувати",
+    "@market_nft_show": {
+        "description": "Показывать",
+        "type": "text"
+    },
     "market_nft_done": "Готово",
+    "@market_nft_done": {
+        "description": "Готово",
+        "type": "text"
+    },
     "operationName_transferByPhone": "Переказ телефоном",
+    "@operationName_transferByPhone": {
+        "description": "Перевод по телефону",
+        "type": "text"
+    },
     "operationName_receiveByPhone": "Отримати по телефону",
+    "@operationName_receiveByPhone": {
+        "description": "Получить по телефону",
+        "type": "text"
+    },
     "operationName_interestRate": "Відсоткова ставка",
+    "@operationName_interestRate": {
+        "description": "Процентная ставка",
+        "type": "text"
+    },
     "operationName_withdrawal": "Відправка",
+    "@operationName_withdrawal": {
+        "description": "Отправка",
+        "type": "text"
+    },
     "operationName_sell": "Продати",
+    "@operationName_sell": {
+        "description": "Продать",
+        "type": "text"
+    },
     "operationName_buy": "Купити",
+    "@operationName_buy": {
+        "description": "Купить",
+        "type": "text"
+    },
     "operationName_deposit": "Отримати",
+    "@operationName_deposit": {
+        "description": "Получить",
+        "type": "text"
+    },
     "operationName_feeSharePayment": "Частка винагороди за реферальною програмою",
+    "@operationName_feeSharePayment": {
+        "description": "Часть вознаграждения по реферальной программе",
+        "type": "text"
+    },
     "operationName_swap": "Swap",
     "operationName_withdrawalFee": "Комісія за зняття коштів",
+    "@operationName_withdrawalFee": {
+        "description": "Комиссия за снятие средств",
+        "type": "text"
+    },
     "operationName_rewardPayment": "Бонус реферальної програми",
+    "@operationName_rewardPayment": {
+        "description": "Бонус реферальной программы",
+        "type": "text"
+    },
     "operationName_simplex": "Simplex",
     "operationName_topped_up": "Поповнено Заробляйте",
+    "@operationName_topped_up": {
+        "description": "Пополнено Зарабатывайте",
+        "type": "text"
+    },
     "operationName_subscribed_to_earn": "Підписався на Earn",
+    "@operationName_subscribed_to_earn": {
+        "description": "Подписался на Earn",
+        "type": "text"
+    },
     "operationName_return_from_earn": "Повернуто з Earn",
+    "@operationName_return_from_earn": {
+        "description": "Возвращено из Earn",
+        "type": "text"
+    },
     "portfolioWithBalance_all": "Усе",
+    "@portfolioWithBalance_all": {
+        "description": "Все",
+        "type": "text"
+    },
     "portfolioWithBalance_crypto": "Крипта",
+    "@portfolioWithBalance_crypto": {
+        "description": "Крипта",
+        "type": "text"
+    },
     "portfolioWithBalance_fiat": "Фіат",
+    "@portfolioWithBalance_fiat": {
+        "description": "Фиат",
+        "type": "text"
+    },
     "emptyWalletBody_all": "Усе",
+    "@emptyWalletBody_all": {
+        "description": "Все",
+        "type": "text"
+    },
     "localizedChartResolutionButton_all": "Усе",
+    "@localizedChartResolutionButton_all": {
+        "description": "Все",
+        "type": "text"
+    },
     "showStartEarnOptions_startEarn": "Почати заробляти",
+    "@showStartEarnOptions_startEarn": {
+        "description": "Начать зарабатывать",
+        "type": "text"
+    },
     "showStartEarnOptions_buyAnyCryptoAvailableOnThePlatform": "Купуйте будь-яку криптовалюту, доступну на платформі",
+    "@showStartEarnOptions_buyAnyCryptoAvailableOnThePlatform": {
+        "description": "Покупайте любую криптовалюту, доступную на платформе",
+        "type": "text"
+    },
     "showStartEarnOptions_depositCryptoFromAnotherWallet": "Поповнити криптовалюту з іншого гаманця",
+    "@showStartEarnOptions_depositCryptoFromAnotherWallet": {
+        "description": "Пополнить криптовалюту с другого кошелька",
+        "type": "text"
+    },
     "showStartEarnOptions_receive": "Отримати",
+    "@showStartEarnOptions_receive": {
+        "description": "Получить",
+        "type": "text"
+    },
     "showStartEarnOptions_buy": "Купити",
+    "@showStartEarnOptions_buy": {
+        "description": "Купить",
+        "type": "text"
+    },
     "news_title": "новини",
+    "@news_title": {
+        "description": "новости",
+        "type": "text"
+    },
     "news_retry": "Спробуйте ще раз",
+    "@news_retry": {
+        "description": "Попробуйте еще раз",
+        "type": "text"
+    },
     "newsList_noNewsYet": "Новин поки що немає",
+    "@newsList_noNewsYet": {
+        "description": "Новостей пока нет",
+        "type": "text"
+    },
     "newsList_text1": "Ваші новини з'являтимуться тут",
+    "@newsList_text1": {
+        "description": "Ваши новости будут появляться здесь",
+        "type": "text"
+    },
     "newsList_wentWrongText": "Щось пішло не так під час завантаження даних",
+    "@newsList_wentWrongText": {
+        "description": "Что-то пошло не так при загрузке данных",
+        "type": "text"
+    },
     "newsList_cryptoPanic": "Крипто-паніка",
+    "@newsList_cryptoPanic": {
+        "description": "Крипто-паника",
+        "type": "text"
+    },
     "transactionsList_retry": "Спробуйте ще раз",
+    "@transactionsList_retry": {
+        "description": "Попробуйте еще раз",
+        "type": "text"
+    },
     "transactionsList_noTransactionsYet": "Ще немає транзакцій",
+    "@transactionsList_noTransactionsYet": {
+        "description": "Еще нет транзакций",
+        "type": "text"
+    },
     "earnAdvantages_tradeAndWithdrawMoneyWithoutLimits": "Торгуйте та знімайте кошти без обмежень",
+    "@earnAdvantages_tradeAndWithdrawMoneyWithoutLimits": {
+        "description": "Торгуйте и снимайте средства без ограничений",
+        "type": "text"
+    },
     "earnAdvantages_noMinimumMonthlyBalance": "Без мінімального щомісячного залишку",
+    "@earnAdvantages_noMinimumMonthlyBalance": {
+        "description": "Без минимального ежемесячного остатка",
+        "type": "text"
+    },
     "earnAdvantages_interestCalculatedEveryDay": "Відсотки нараховуються щодня та",
+    "@earnAdvantages_interestCalculatedEveryDay": {
+        "description": "Проценты начисляются ежедневно и",
+        "type": "text"
+    },
     "earnAdvantages_pricesMayVaryDependingOn": "Тарифи можуть бути змінені в залежності від",
+    "@earnAdvantages_pricesMayVaryDependingOn": {
+        "description": "Тарифы могут быть изменены в зависимости от",
+        "type": "text"
+    },
     "earnAdvantages_paidOnTheFirstDayOfEveryMonth": "виплачується в перший день кожного місяця",
+    "@earnAdvantages_paidOnTheFirstDayOfEveryMonth": {
+        "description": "выплачивается в первый день каждого месяца",
+        "type": "text"
+    },
     "earnAdvantages_theMarketSituation": "ситуація на ринку",
+    "@earnAdvantages_theMarketSituation": {
+        "description": "ситуация на рынке",
+        "type": "text"
+    },
     "earnBodyHeader_upTo": "До",
+    "@earnBodyHeader_upTo": {
+        "description": "До",
+        "type": "text"
+    },
     "earnBodyHeader_text1Part2": "на вкладену криптовалюту",
+    "@earnBodyHeader_text1Part2": {
+        "description": "на вложенную криптовалюту",
+        "type": "text"
+    },
     "earnBodyHeader_text1Part1": "відсоток",
+    "@earnBodyHeader_text1Part1": {
+        "description": "процент",
+        "type": "text"
+    },
     "emptyPortfolioBody_startEarn": "Почніть заробляти",
+    "@emptyPortfolioBody_startEarn": {
+        "description": "Начните зарабатывать",
+        "type": "text"
+    },
     "emptyPortfolioBody_cryptoWorkForYou": "Дозвольте криптовалюті працювати на вас",
+    "@emptyPortfolioBody_cryptoWorkForYou": {
+        "description": "Разрешите криптовалюте работать на вас",
+        "type": "text"
+    },
     "emptyPortfolioBody_text1Part2": "Заробляйте, торгуйте та знімайте кошти без обмежень",
+    "@emptyPortfolioBody_text1Part2": {
+        "description": "Зарабатывайте, торгуйте и снимайте средства без ограничений",
+        "type": "text"
+    },
     "emptyPortfolioBodyTitle_interest": "відсоток",
+    "@emptyPortfolioBodyTitle_interest": {
+        "description": "процент",
+        "type": "text"
+    },
     "emptyPortfolioBodyTitle_upTo": "На актив",
+    "@emptyPortfolioBodyTitle_upTo": {
+        "description": "На актив",
+        "type": "text"
+    },
     "walletCardCollapsed_balanceInProcess": "в процесі",
+    "@walletCardCollapsed_balanceInProcess": {
+        "description": "в процессе",
+        "type": "text"
+    },
     "transactionDetailsStatus_balanceInProcess": "в процесі",
+    "@transactionDetailsStatus_balanceInProcess": {
+        "description": "в процессе",
+        "type": "text"
+    },
     "transactionDetailsStatus_status": "Статус",
+    "@transactionDetailsStatus_status": {
+        "description": "Статус",
+        "type": "text"
+    },
     "transactionDetailsStatus_completed": "Завершено",
+    "@transactionDetailsStatus_completed": {
+        "description": "Завершено",
+        "type": "text"
+    },
     "transactionDetailsStatus_declined": "Відхилено",
+    "@transactionDetailsStatus_declined": {
+        "description": "Отклонено",
+        "type": "text"
+    },
     "balanceInProcess_balanceInProcess": "В процесі",
+    "@balanceInProcess_balanceInProcess": {
+        "description": "В процессе",
+        "type": "text"
+    },
     "transactionListItem_balanceInProcess": "В процесі",
+    "@transactionListItem_balanceInProcess": {
+        "description": "В процессе",
+        "type": "text"
+    },
     "transactionListItem_forText": "Для",
+    "@transactionListItem_forText": {
+        "description": "Для",
+        "type": "text"
+    },
     "walletCard_balanceInProcess": "В процесі",
+    "@walletCard_balanceInProcess": {
+        "description": "В процессе",
+        "type": "text"
+    },
     "portfolioWithBalanceBody_balanceInProcess": "В процесі",
+    "@portfolioWithBalanceBody_balanceInProcess": {
+        "description": "В процессе",
+        "type": "text"
+    },
     "portfolioWithBalanceBody_all": "Усе",
+    "@portfolioWithBalanceBody_all": {
+        "description": "Все",
+        "type": "text"
+    },
     "portfolioWithBalanceBody_deposit": "Депозит",
+    "@portfolioWithBalanceBody_deposit": {
+        "description": "Депозит",
+        "type": "text"
+    },
     "portfolioWithBalanceBody_transactions": "транзакції",
+    "@portfolioWithBalanceBody_transactions": {
+        "description": "транзакции",
+        "type": "text"
+    },
     "portfolioWithBalanceBody_simplex": "Купити - Simplex",
+    "@portfolioWithBalanceBody_simplex": {
+        "description": "Купить - Simplex",
+        "type": "text"
+    },
     "portfolioWithBalanceBody_send": "Відправка",
+    "@portfolioWithBalanceBody_send": {
+        "description": "Отправка",
+        "type": "text"
+    },
     "portfolioWithBalanceBody_showZeroBalanceWallets": "Приховати нульові гаманці",
+    "@portfolioWithBalanceBody_showZeroBalanceWallets": {
+        "description": "Скрыть нулевые кошельки",
+        "type": "text"
+    },
     "portfolioWithBalanceBody_showAllWallets": "Показувати всі гаманці",
+    "@portfolioWithBalanceBody_showAllWallets": {
+        "description": "Показывать все кошельки",
+        "type": "text"
+    },
     "portfolioWithBalanceBody_week": "Тиждень",
+    "@portfolioWithBalanceBody_week": {
+        "description": "Неделя",
+        "type": "text"
+    },
     "portfolioWithBalanceBody_month": "Місяць",
+    "@portfolioWithBalanceBody_month": {
+        "description": "Месяц",
+        "type": "text"
+    },
     "portfolioWithBalanceBody_today": "Сьогодні",
+    "@portfolioWithBalanceBody_today": {
+        "description": "Сегодня",
+        "type": "text"
+    },
     "portfolioWithBalanceBody_portfolio": "Портфель",
+    "@portfolioWithBalanceBody_portfolio": {
+        "description": "Портфель",
+        "type": "text"
+    },
     "portfolioWithBalanceBody_selling_at": "Продаж за адресою",
+    "@portfolioWithBalanceBody_selling_at": {
+        "description": "Продажа по адресу",
+        "type": "text"
+    },
     "portfolioWithBalanceBody_selling": "Продаж",
+    "@portfolioWithBalanceBody_selling": {
+        "description": "Продажа",
+        "type": "text"
+    },
     "portfolioWithBalanceBody_items": "елементи",
+    "@portfolioWithBalanceBody_items": {
+        "description": "элементы",
+        "type": "text"
+    },
     "actionDeposit_fiat": "Фіат",
+    "@actionDeposit_fiat": {
+        "description": "Фиат",
+        "type": "text"
+    },
     "actionDeposit_crypto": "Крипта",
+    "@actionDeposit_crypto": {
+        "description": "Крипта",
+        "type": "text"
+    },
     "actionDeposit_bottomSheetHeaderName1": "Оберіть актив для депозиту",
+    "@actionDeposit_bottomSheetHeaderName1": {
+        "description": "Выберите актив для депозита",
+        "type": "text"
+    },
     "actionDeposit_deposit": "Депозит",
+    "@actionDeposit_deposit": {
+        "description": "Депозит",
+        "type": "text"
+    },
     "actionButton_deposit": "Депозит",
+    "@actionButton_deposit": {
+        "description": "Депозит",
+        "type": "text"
+    },
     "actionButton_receive": "Отримати",
+    "@actionButton_receive": {
+        "description": "Получить",
+        "type": "text"
+    },
     "actionButton_action": "Дія",
+    "@actionButton_action": {
+        "description": "Действие",
+        "type": "text"
+    },
     "returnRateItem_week": "Тиждень",
+    "@returnRateItem_week": {
+        "description": "Неделя",
+        "type": "text"
+    },
     "returnRateItem_month": "Місяць",
+    "@returnRateItem_month": {
+        "description": "Месяц",
+        "type": "text"
+    },
     "curencyBuy_payFrom": "Оплатити за допомогою",
+    "@curencyBuy_payFrom": {
+        "description": "Оплатить с помощью",
+        "type": "text"
+    },
     "curencyBuy_buy": "Купити",
+    "@curencyBuy_buy": {
+        "description": "Купить",
+        "type": "text"
+    },
     "curencyBuy_crypto": "Крипта",
+    "@curencyBuy_crypto": {
+        "description": "Крипта",
+        "type": "text"
+    },
     "curencyBuy_actionItemName": "Банківська картка - Simplex",
+    "@curencyBuy_actionItemName": {
+        "description": "Банковская карта - Simplex",
+        "type": "text"
+    },
     "curencyBuy_actionItemDescription": "Visa, Mastercard, Apple Pay",
     "curencyBuy_NumericKeyboardButtonName2": "Попередній перегляд купівлі",
+    "@curencyBuy_NumericKeyboardButtonName2": {
+        "description": "Предварительный просмотр покупки",
+        "type": "text"
+    },
     "curencyBuy_pleaseWait": "Будь ласка, зачекайте",
+    "@curencyBuy_pleaseWait": {
+        "description": "Пожалуйста, подождите",
+        "type": "text"
+    },
     "currencyBuy_choosePaymentMethod": "Оберість метод оплати",
+    "@currencyBuy_choosePaymentMethod": {
+        "description": "Выберите метод оплаты",
+        "type": "text"
+    },
     "currencyBuy_addBankCard": "Додати банківську картку",
+    "@currencyBuy_addBankCard": {
+        "description": "Добавить банковскую карту",
+        "type": "text"
+    },
     "previewBuyWithCircle_enter": "Введіть",
+    "@previewBuyWithCircle_enter": {
+        "description": "Введите",
+        "type": "text"
+    },
     "previewBuyWithCircle_for": "для",
+    "@previewBuyWithCircle_for": {
+        "description": "для",
+        "type": "text"
+    },
     "previewBuyWithCircle_cvvDescription": "Використовується для верифікації картки",
+    "@previewBuyWithCircle_cvvDescription": {
+        "description": "Используется для верификации карты",
+        "type": "text"
+    },
     "previewBuyWithCircle_payFrom": "Оплачуйте з",
+    "@previewBuyWithCircle_payFrom": {
+        "description": "Оплачивайте с",
+        "type": "text"
+    },
     "previewBuyWithCircle_creditCardFee": "Комісія за операцію з кредитною карткою",
+    "@previewBuyWithCircle_creditCardFee": {
+        "description": "Комиссия за операцию с кредитной картой",
+        "type": "text"
+    },
     "previewBuyWithCircle_description": "Остаточна ціна буде перерахована на основі ринкової ціни на момент, коли ми отримаємо підтвердження вашої оплати",
+    "@previewBuyWithCircle_description": {
+        "description": "Окончательная цена будет пересчитана на основе рыночной цены на момент, когда мы получим подтверждение вашей оплаты",
+        "type": "text"
+    },
     "previewBuyWithCircle_youWillPay": "Ви заплатите",
+    "@previewBuyWithCircle_youWillPay": {
+        "description": "Вы заплатите",
+        "type": "text"
+    },
     "previewBuyWithCircle_buy": "Купити",
+    "@previewBuyWithCircle_buy": {
+        "description": "Купить",
+        "type": "text"
+    },
     "previewBuyWithCircle_youWillGet": "Ви отримаєте",
+    "@previewBuyWithCircle_youWillGet": {
+        "description": "Вы получите",
+        "type": "text"
+    },
     "previewBuyWithCircle_paymentVerification": "Верифікація оплати",
+    "@previewBuyWithCircle_paymentVerification": {
+        "description": "Верификация оплаты",
+        "type": "text"
+    },
     "previewBuyWithCircle_disclaimer": "Я розумію, що кошти з карткових депозитів можна використовувати для торгівлі, як тільки вони зараховані, і їх можна зняти",
+    "@previewBuyWithCircle_disclaimer": {
+        "description": "Я понимаю, что средства с карточных депозитов можно использовать для торговли, как только они зачислены, и их можно снять",
+        "type": "text"
+    },
     "previewBuyWithCircle_disclaimerEnd": "через декілька днів.",
+    "@previewBuyWithCircle_disclaimerEnd": {
+        "description": "через несколько дней.",
+        "type": "text"
+    },
     "buyWithCircle_paymentWillBeProcessed": "Ваш платіж буде оброблений протягом",
+    "@buyWithCircle_paymentWillBeProcessed": {
+        "description": "Ваш платеж будет обработан в течение",
+        "type": "text"
+    },
     "buyWithCircle_minutes": "хвилини",
+    "@buyWithCircle_minutes": {
+        "description": "минуты",
+        "type": "text"
+    },
     "previewBuyWithAsset_youPay": "Ви платите",
+    "@previewBuyWithAsset_youPay": {
+        "description": "Вы платите",
+        "type": "text"
+    },
     "previewBuyWithAsset_nextPayment": "Наступний платіж",
+    "@previewBuyWithAsset_nextPayment": {
+        "description": "Следующий платеж",
+        "type": "text"
+    },
     "previewBuyWithAsset_crypto": "Крипта",
+    "@previewBuyWithAsset_crypto": {
+        "description": "Крипта",
+        "type": "text"
+    },
     "previewBuyWithAsset_youGet": "Ви отримаєте",
+    "@previewBuyWithAsset_youGet": {
+        "description": "Вы получите",
+        "type": "text"
+    },
     "previewBuyWithAsset_exchangeRate": "Обмінний курс",
+    "@previewBuyWithAsset_exchangeRate": {
+        "description": "Обменный курс",
+        "type": "text"
+    },
     "previewBuyWithAsset_confirm": "Підтвердити",
+    "@previewBuyWithAsset_confirm": {
+        "description": "Подтвердить",
+        "type": "text"
+    },
     "portfolioHeader_balance": "Баланс",
+    "@portfolioHeader_balance": {
+        "description": "Баланс",
+        "type": "text"
+    },
     "showNetworkBottomSheet_chooseNetwork": "Оберіть мережу",
+    "@showNetworkBottomSheet_chooseNetwork": {
+        "description": "Оберіть мережу",
+        "type": "text"
+    },
     "emptySearchResult_noResultsFor": "Немає результатів для",
+    "@emptySearchResult_noResultsFor": {
+        "description": "Нет результатов для",
+        "type": "text"
+    },
     "quoteUpdatedDialog_gotIt": "Зрозуміло",
+    "@quoteUpdatedDialog_gotIt": {
+        "description": "Понятно",
+        "type": "text"
+    },
     "quoteUpdatedDialog_alert": "Увага",
+    "@quoteUpdatedDialog_alert": {
+        "description": "Внимание",
+        "type": "text"
+    },
     "quoteUpdatedDialog_quoteUpdated": "Цитату оновлено",
+    "@quoteUpdatedDialog_quoteUpdated": {
+        "description": "Цитата обновлена",
+        "type": "text"
+    },
     "balanceActionButtons_sell": "Продати",
+    "@balanceActionButtons_sell": {
+        "description": "Продать",
+        "type": "text"
+    },
     "balanceActionButtons_buy": "Купити",
+    "@balanceActionButtons_buy": {
+        "description": "Купить",
+        "type": "text"
+    },
     "balanceActionButtons_receive": "Отримати",
+    "@balanceActionButtons_receive": {
+        "description": "Получить",
+        "type": "text"
+    },
     "actionReceive_bottomSheetHeaderName1": "Виберіть актив для отримання",
+    "@actionReceive_bottomSheetHeaderName1": {
+        "description": "Выберите актив для получения",
+        "type": "text"
+    },
     "actionReceive_receive": "Отримати",
+    "@actionReceive_receive": {
+        "description": "Получить",
+        "type": "text"
+    },
     "actionReceive_receive_crypto": "Отримати крипту",
+    "@actionReceive_receive_crypto": {
+        "description": "Получить крипту",
+        "type": "text"
+    },
     "maximum": "Максимум",
+    "@maximum": {
+        "description": "Максимум",
+        "type": "text"
+    },
     "medium": "Середній",
+    "@medium": {
+        "description": "Средний",
+        "type": "text"
+    },
     "minimum": "Мінімум",
+    "@minimum": {
+        "description": "Минимум",
+        "type": "text"
+    },
     "securityProtection_protectionLevel": "рівень захисту",
+    "@securityProtection_protectionLevel": {
+        "description": "уровень защиты",
+        "type": "text"
+    },
     "actionBuy_bottomSheetHeaderName1": "Виберіть актив для купівлі",
+    "@actionBuy_bottomSheetHeaderName1": {
+        "description": "Выберите актив для покупки",
+        "type": "text"
+    },
     "actionBuy_bottomSheetItemTitle1": "Купуйте за готівку",
+    "@actionBuy_bottomSheetItemTitle1": {
+        "description": "Покупайте за наличные",
+        "type": "text"
+    },
     "actionBuy_bottomSheetItemTitle2": "Купуйте кредитною карткою або криптовалютою",
+    "@actionBuy_bottomSheetItemTitle2": {
+        "description": "Покупайте кредитной картой или криптовалютой",
+        "type": "text"
+    },
     "actionBuy_actionWithOutRecurringBuyTitle2": "Купуйте за криптовалюту",
+    "@actionBuy_actionWithOutRecurringBuyTitle2": {
+        "description": "Покупайте за криптовалюту",
+        "type": "text"
+    },
     "actionBuy_kycRequired": "Для виведення коштів потрібен KYC",
+    "@actionBuy_kycRequired": {
+        "description": "Для вывода средств нужен KYC",
+        "type": "text"
+    },
     "actionBuy_gotIt": "Зрозуміло",
+    "@actionBuy_gotIt": {
+        "description": "Понятно",
+        "type": "text"
+    },
     "actionBuy_goToKYC": "Перейдіть до KYC",
+    "@actionBuy_goToKYC": {
+        "description": "Перейдите к KYC",
+        "type": "text"
+    },
     "actionBuy_alertPopup": "Ви можете здійснити лише одну транзакцію на суму до $1000. Для зняття або поповнення рахунку необхідно пройти процедуру KYC.",
+    "@actionBuy_alertPopup": {
+        "description": "Вы можете осуществить только одну транзакцию на сумму до $1000. Для снятия или пополнения счета необходимо пройти процедуру KYC.",
+        "type": "text"
+    },
     "depositOptions_depositWith": "Поповнити рахунок на",
+    "@depositOptions_depositWith": {
+        "description": "Пополнить счет на",
+        "type": "text"
+    },
     "depositOptions_wireTransfer": "Банківський переказ",
+    "@depositOptions_wireTransfer": {
+        "description": "Банковский перевод",
+        "type": "text"
+    },
     "depositOptions_addBankCard": "Додати банківську картку",
+    "@depositOptions_addBankCard": {
+        "description": "Добавить банковскую карту",
+        "type": "text"
+    },
     "depositOptions_actionItemDescription1": "Visa, Mastercard",
     "depositOptions_actionItemDescription2": "Sepa",
     "addButton_addBankCard": "Додати банківську картку",
+    "@addButton_addBankCard": {
+        "description": "Добавить банковскую карту",
+        "type": "text"
+    },
     "fee": "Комісія",
+    "@fee": {
+        "description": "Комиссия",
+        "type": "text"
+    },
     "noFee": "Без комісії",
+    "@noFee": {
+        "description": "Без комиссии",
+        "type": "text"
+    },
     "actionReccuringInfoDetails_amount": "Сума",
+    "@actionReccuringInfoDetails_amount": {
+        "description": "Сумма",
+        "type": "text"
+    },
     "paymentMethod_delete": "Видалити",
+    "@paymentMethod_delete": {
+        "description": "Удалить",
+        "type": "text"
+    },
     "paymentMethod_cancel": "Скасувати",
+    "@paymentMethod_cancel": {
+        "description": "Отменить",
+        "type": "text"
+    },
     "paymentMethod_text": "Додайте банківську картку, щоб зручно купувати криптовалюту",
+    "@paymentMethod_text": {
+        "description": "Добавьте банковскую карту, чтобы удобно покупать криптовалюту",
+        "type": "text"
+    },
     "paymentMethod_showAlertPopupPrimaryText": "Видалити картку",
+    "@paymentMethod_showAlertPopupPrimaryText": {
+        "description": "Удалить карту",
+        "type": "text"
+    },
     "paymentMethod_showAlertPopupSecondaryText": "Ви впевнені, що хочете видалити збережену картку",
+    "@paymentMethod_showAlertPopupSecondaryText": {
+        "description": "Вы уверены, что хотите удалить сохраненную карточку",
+        "type": "text"
+    },
     "actionSell_bottomSheetHeaderName": "Виберіть актив для продажу",
+    "@actionSell_bottomSheetHeaderName": {
+        "description": "Выберите актив для продажи",
+        "type": "text"
+    },
     "sendOptions_sendTo": "Надсилайте на адресу",
+    "@sendOptions_sendTo": {
+        "description": "Отправляйте на адрес",
+        "type": "text"
+    },
     "sendOptions_actionItemName1": "Телефон",
+    "@sendOptions_actionItemName1": {
+        "description": "Телефон",
+        "type": "text"
+    },
     "sendOptions_actionItemDescription1": "Просто виберіть друга з контактів",
+    "@sendOptions_actionItemDescription1": {
+        "description": "Просто выберите друга из контактов",
+        "type": "text"
+    },
     "sendOptions_actionItemName2": "Крипто гаманець",
+    "@sendOptions_actionItemName2": {
+        "description": "Крипто кошелек",
+        "type": "text"
+    },
     "sendOptions_actionItemDescription2": "Надсилайте на будь-який гаманець (адреса обов'язкова)",
+    "@sendOptions_actionItemDescription2": {
+        "description": "Присылайте на любой кошелек (адрес обязателен)",
+        "type": "text"
+    },
     "actionSend_bottomSheetHeaderName": "Виберіть актив для відправки",
+    "@actionSend_bottomSheetHeaderName": {
+        "description": "Выберите актив для отправки",
+        "type": "text"
+    },
     "actionWithdraw_bottomSheetHeaderName": "Виберіть актив для виведення",
+    "@actionWithdraw_bottomSheetHeaderName": {
+        "description": "Выберите актив для вывода",
+        "type": "text"
+    },
     "actionBottomSheetHeader_search": "Пошук",
+    "@actionBottomSheetHeader_search": {
+        "description": "Поиск",
+        "type": "text"
+    },
     "showKycCountryPicker_search": "Пошук",
+    "@showKycCountryPicker_search": {
+        "description": "Поиск",
+        "type": "text"
+    },
     "countrySelectorButton_country": "Країна",
+    "@countrySelectorButton_country": {
+        "description": "Страна",
+        "type": "text"
+    },
     "showDialCodePicker_searchCountry": "Пошук країни",
+    "@showDialCodePicker_searchCountry": {
+        "description": "Поиск страны",
+        "type": "text"
+    },
     "showCountrySelector_searchCountry": "Пошук країни",
+    "@showCountrySelector_searchCountry": {
+        "description": "Поиск страны",
+        "type": "text"
+    },
     "showCountryPhoneNumberPicker_searchCountry": "Пошук країни",
+    "@showCountryPhoneNumberPicker_searchCountry": {
+        "description": "Поиск страны",
+        "type": "text"
+    },
     "circleBillingAddress_billingAddress": "Адреса для виставлення рахунку",
+    "@circleBillingAddress_billingAddress": {
+        "description": "Адрес для выставления счета",
+        "type": "text"
+    },
     "circleBillingAddress_streetAddress": "Адреса вулиці",
+    "@circleBillingAddress_streetAddress": {
+        "description": "Адрес улицы",
+        "type": "text"
+    },
     "circleBillingAddress_optional": "необов'язково",
+    "@circleBillingAddress_optional": {
+        "description": "необязательно",
+        "type": "text"
+    },
     "circleBillingAddress_city": "Місто",
+    "@circleBillingAddress_city": {
+        "description": "Город",
+        "type": "text"
+    },
     "circleBillingAddress_district": "Район",
+    "@circleBillingAddress_district": {
+        "description": "Район",
+        "type": "text"
+    },
     "circleBillingAddress_continue": "Продовжити",
+    "@circleBillingAddress_continue": {
+        "description": "Продолжить",
+        "type": "text"
+    },
     "circleBillingAddress_postalCode": "Індекс",
+    "@circleBillingAddress_postalCode": {
+        "description": "Индекс",
+        "type": "text"
+    },
     "circleBillingAddress_pleaseWait": "Будь ласка, зачекайте",
+    "@circleBillingAddress_pleaseWait": {
+        "description": "Пожалуйста, подождите",
+        "type": "text"
+    },
     "addCircleCard_bigHeaderTitle": "Введіть дані картки",
+    "@addCircleCard_bigHeaderTitle": {
+        "description": "Введите данные карты",
+        "type": "text"
+    },
     "addCircleCard_cardNumber": "Номер картки",
+    "@addCircleCard_cardNumber": {
+        "description": "Номер карты",
+        "type": "text"
+    },
     "addCircleCard_expiryDate": "Термін придатності",
+    "@addCircleCard_expiryDate": {
+        "description": "Срок годности",
+        "type": "text"
+    },
     "addCircleCard_expiryMonth": "Термін дії",
+    "@addCircleCard_expiryMonth": {
+        "description": "Срок действия",
+        "type": "text"
+    },
     "addCircleCard_expiryYear": "Рік закінчення терміну дії",
+    "@addCircleCard_expiryYear": {
+        "description": "Год окончания срока действия",
+        "type": "text"
+    },
     "addCircleCard_saveCard": "Збережіть картку для подальших покупок",
+    "@addCircleCard_saveCard": {
+        "description": "Сохраните карту для дальнейших покупок",
+        "type": "text"
+    },
     "addCircleCard_cardholderName": "Ім'я власника картки",
+    "@addCircleCard_cardholderName": {
+        "description": "Имя владельца карты",
+        "type": "text"
+    },
     "addCircleCard_continue": "Продовжити",
+    "@addCircleCard_continue": {
+        "description": "Продолжить",
+        "type": "text"
+    },
     "addCircleCard_pleaseWait": "Будь ласка, зачекайте",
+    "@addCircleCard_pleaseWait": {
+        "description": "Пожалуйста, подождите",
+        "type": "text"
+    },
     "cardVerification_cardBlocked": "Ваша картка заблокована",
+    "@cardVerification_cardBlocked": {
+        "description": "Ваша карта заблокирована",
+        "type": "text"
+    },
     "cardVerification_cardBlockedDescription": "Будь ласка, додайте іншу картку або оберіть інший метод оплати",
+    "@cardVerification_cardBlockedDescription": {
+        "description": "Пожалуйста, добавьте другую карту или выберите другой метод оплаты",
+        "type": "text"
+    },
     "cardVerification_choosePaymentMethod": "Оберіть метод оплати",
+    "@cardVerification_choosePaymentMethod": {
+        "description": "Выберите метод оплаты",
+        "type": "text"
+    },
     "cardVerification_close": "Закрити",
+    "@cardVerification_close": {
+        "description": "Закрыть",
+        "type": "text"
+    },
     "cardVerification_title": "Верифікація картки",
+    "@cardVerification_title": {
+        "description": "Верификация карты",
+        "type": "text"
+    },
     "cardVerification_providePhoto": "Будь ласка, надайте фотографію, на якій ви тримаєте в руках картку, якою було здійснено оплату.",
+    "@cardVerification_providePhoto": {
+        "description": "Пожалуйста, предоставьте фотографию, на которой вы держите в руках карту, которой была произведена оплата.",
+        "type": "text"
+    },
     "cardVerification_photoShow": "На фото має бути чітко видно",
+    "@cardVerification_photoShow": {
+        "description": "На фото должно быть четко видно",
+        "type": "text"
+    },
     "cardVerification_nameAndDate": "Назва та термін дії",
+    "@cardVerification_nameAndDate": {
+        "description": "Название и срок действия",
+        "type": "text"
+    },
     "cardVerification_digits": "16 цифр",
+    "@cardVerification_digits": {
+        "description": "16 цифр",
+        "type": "text"
+    },
     "cardVerification_creditCard": "Кредитна картка",
+    "@cardVerification_creditCard": {
+        "description": "Кредитная карта",
+        "type": "text"
+    },
     "cardVerification_uploadPhoto": "Завантажити фотографію",
+    "@cardVerification_uploadPhoto": {
+        "description": "Загрузить фотографию",
+        "type": "text"
+    },
     "cardVerification_verifyingNow": "Зараз ми перевіряємо",
+    "@cardVerification_verifyingNow": {
+        "description": "Сейчас мы проверяем",
+        "type": "text"
+    },
     "cardVerification_reviewFailed": "Відгук не пройшов перевірку",
+    "@cardVerification_reviewFailed": {
+        "description": "Отзыв не прошел проверку",
+        "type": "text"
+    },
     "cardVerification_reviewFailedDescription": "Завантажене вами фото не відповідає критеріям. Спробуйте підтвердити картку ще раз",
+    "@cardVerification_reviewFailedDescription": {
+        "description": "Загруженное вами фото не соответствует критериям. Попробуйте подтвердить карту еще раз",
+        "type": "text"
+    },
     "cardVerification_notifyAndSkip": "Повідомте мене, коли картка буде готова",
+    "@cardVerification_notifyAndSkip": {
+        "description": "Сообщите мне, когда карта будет готова",
+        "type": "text"
+    },
     "cardVerification_face": "Ваше обличчя",
+    "@cardVerification_face": {
+        "description": "Ваше лицо",
+        "type": "text"
+    },
     "cardVerification_faceDescription": "Будь ласка, надішліть селфі, на якому ви тримаєте картку, якою було здійснено платіж.",
+    "@cardVerification_faceDescription": {
+        "description": "Пожалуйста, пришлите селфи, на котором вы держите карту, которой был осуществлен платеж.",
+        "type": "text"
+    },
     "cardVerification_takeSelfie": "Зробіть селфі",
+    "@cardVerification_takeSelfie": {
+        "description": "Сделайте селфи",
+        "type": "text"
+    },
     "cardVerification_takePhoto": "Сфотографуйте",
+    "@cardVerification_takePhoto": {
+        "description": "Сфотографируйте",
+        "type": "text"
+    },
     "cardVerification_selfieWithCard": "Селфі з карткою",
+    "@cardVerification_selfieWithCard": {
+        "description": "Селфи с картой",
+        "type": "text"
+    },
     "cardVerification_reviewCompleted": "Огляд завершено",
+    "@cardVerification_reviewCompleted": {
+        "description": "Обзор завершен",
+        "type": "text"
+    },
     "cardVerification_completeOrder": "Тепер ви можете завершити замовлення.",
+    "@cardVerification_completeOrder": {
+        "description": "Теперь вы можете завершить заказ.",
+        "type": "text"
+    },
     "cardVerification_verificationProcess": "Процес верифікації зазвичай займає не більше 15 хвилин",
+    "@cardVerification_verificationProcess": {
+        "description": "Процесс верификации обычно занимает не более 15 минут",
+        "type": "text"
+    },
     "cardVerification_cardInReview": "Ваша картка вже знаходиться на розгляді. Будь ласка, спробуйте ще раз пізніше.",
+    "@cardVerification_cardInReview": {
+        "description": "Ваша карточка уже находится на рассмотрении. Пожалуйста, попробуйте еще раз позже.",
+        "type": "text"
+    },
     "showNoResponseScreen_text": "Немає відповіді від сервера",
+    "@showNoResponseScreen_text": {
+        "description": "Нет ответа от сервера",
+        "type": "text"
+    },
     "showNoResponseScreen_text2": "Не вдалося розмістити замовлення",
+    "@showNoResponseScreen_text2": {
+        "description": "Не удалось разместить заказ",
+        "type": "text"
+    },
     "simplexWeb_editOrder": "Редагувати замовлення",
+    "@simplexWeb_editOrder": {
+        "description": "Редактировать заказ",
+        "type": "text"
+    },
     "withdrawalPreview_editOrder": "Редагувати замовлення",
+    "@withdrawalPreview_editOrder": {
+        "description": "Редактировать заказ",
+        "type": "text"
+    },
     "withdrawalPreview_failure": "Невдача",
+    "@withdrawalPreview_failure": {
+        "description": "Неудача",
+        "type": "text"
+    },
     "withdrawalPreview_close": "Закрити",
+    "@withdrawalPreview_close": {
+        "description": "Закрыть",
+        "type": "text"
+    },
     "sendByPhonePreview_editOrder": "Редагувати замовлення",
+    "@sendByPhonePreview_editOrder": {
+        "description": "Редактировать заказ",
+        "type": "text"
+    },
     "sendByPhonePreview_failure": "Невдача",
+    "@sendByPhonePreview_failure": {
+        "description": "Неудача",
+        "type": "text"
+    },
     "sendByPhonePreview_close": "Закрити",
+    "@sendByPhonePreview_close": {
+        "description": "Закрыть",
+        "type": "text"
+    },
     "simplexWebView_minutes": "хвилини",
+    "@simplexWebView_minutes": {
+        "description": "минуты",
+        "type": "text"
+    },
     "simplexWebView_successScreenSecondaryText1": "Ваш платіж буде оброблений протягом",
+    "@simplexWebView_successScreenSecondaryText1": {
+        "description": "Ваш платеж будет обработан в течение",
+        "type": "text"
+    },
     "simplexWebView_failedToBuy": "Не вдалося купити",
+    "@simplexWebView_failedToBuy": {
+        "description": "Не удалось купить",
+        "type": "text"
+    },
     "simplexWebView_simplex": "Simplex",
     "simplexWebView_failure": "Невдача",
+    "@simplexWebView_failure": {
+        "description": "Неудача",
+        "type": "text"
+    },
     "simplexWebView_close": "Закрити",
+    "@simplexWebView_close": {
+        "description": "Закрыть",
+        "type": "text"
+    },
     "previewConvert_close": "Закрити",
+    "@previewConvert_close": {
+        "description": "Закрыть",
+        "type": "text"
+    },
     "previewConvert_editOrder": "Редагувати замовлення",
+    "@previewConvert_editOrder": {
+        "description": "Редактировать заказ",
+        "type": "text"
+    },
     "previewConvert_orderProcessing": "Обробка замовлення",
+    "@previewConvert_orderProcessing": {
+        "description": "Обработка заказа",
+        "type": "text"
+    },
     "previewConvert_failure": "Невдача",
+    "@previewConvert_failure": {
+        "description": "Неудача",
+        "type": "text"
+    },
     "previewConvert_confirmConvert": "Підтвердити конвертацію",
+    "@previewConvert_confirmConvert": {
+        "description": "Подтвердить конвертацию",
+        "type": "text"
+    },
     "convertRow_available": "Доступно",
+    "@convertRow_available": {
+        "description": "Доступно",
+        "type": "text"
+    },
     "convert_convert": "Конвертувати",
+    "@convert_convert": {
+        "description": "Конвертировать",
+        "type": "text"
+    },
     "convert_previewConvert": "Попередній перегляд конвертації",
+    "@convert_previewConvert": {
+        "description": "Предварительный просмотр конвертации",
+        "type": "text"
+    },
     "previewSell_confirm": "Підтвердити",
+    "@previewSell_confirm": {
+        "description": "Подтвердить",
+        "type": "text"
+    },
     "previewSell_youPay": "Ви платите",
+    "@previewSell_youPay": {
+        "description": "Вы платите",
+        "type": "text"
+    },
     "previewSell_youGet": "Ви отримаєте",
+    "@previewSell_youGet": {
+        "description": "Вы получите",
+        "type": "text"
+    },
     "previewSell_exchangeRate": "Обмінний курс",
+    "@previewSell_exchangeRate": {
+        "description": "Обменный курс",
+        "type": "text"
+    },
     "previewConvert_exchangeRate": "Обмінний курс",
+    "@previewConvert_exchangeRate": {
+        "description": "Обменный курс",
+        "type": "text"
+    },
     "previewConvert_youPay": "Ви платите",
+    "@previewConvert_youPay": {
+        "description": "Вы платите",
+        "type": "text"
+    },
     "previewConvert_youGet": "Ви отримаєте",
+    "@previewConvert_youGet": {
+        "description": "Вы получите",
+        "type": "text"
+    },
     "previewConvert_confirm": "Підтвердити",
+    "@previewConvert_confirm": {
+        "description": "Подтвердить",
+        "type": "text"
+    },
     "expansionPanelWithoutIcon_text1": "Усі значення радіоідентифікаторів панелей розширення мають бути унікальними.",
+    "@expansionPanelWithoutIcon_text1": {
+        "description": "Все значения радиоидентификаторов панелей расширения должны быть уникальными.",
+        "type": "text"
+    },
     "expansionPanelWithoutIcon_text2": "Невірне значення для параметра висоти. Можливі значення параметра kElevationToShadow дивіться у константі kElevationToShadow.",
+    "@expansionPanelWithoutIcon_text2": {
+        "description": "Неверное значение для параметра высоты. Возможные значения параметра kElevationToShadow смотрите в константе kElevationToShadow.",
+        "type": "text"
+    },
     "cryptoDepositWithAddress_walletAddress": "Адреса гаманця",
+    "@cryptoDepositWithAddress_walletAddress": {
+        "description": "Адрес кошелька",
+        "type": "text"
+    },
     "cryptoDepositWithAddress_addressCopied": "Адреса скопійована",
+    "@cryptoDepositWithAddress_addressCopied": {
+        "description": "Адрес скопирован",
+        "type": "text"
+    },
     "cryptoDepositWithAddress_tagCopied": "Тег скопійовано",
+    "@cryptoDepositWithAddress_tagCopied": {
+        "description": "Тег скопирован",
+        "type": "text"
+    },
     "cryptoDepositWithAddressAndTag_walletAddress": "Адреса гаманця",
+    "@cryptoDepositWithAddressAndTag_walletAddress": {
+        "description": "Адрес кошелька",
+        "type": "text"
+    },
     "cryptoDepositWithAddressAndTag_addressCopied": "Адреса скопійована",
+    "@cryptoDepositWithAddressAndTag_addressCopied": {
+        "description": "Адрес скопирован",
+        "type": "text"
+    },
     "tag": "Тег",
+    "@tag": {
+        "description": "Тег",
+        "type": "text"
+    },
     "depositInfo_text": "Переконайтеся, що мережа, яку ви обрали для поповнення рахунку, збігається з мережею для виведення коштів",
+    "@depositInfo_text": {
+        "description": "Убедитесь, что сеть, которую вы выбрали для пополнения счета, совпадает с сетью для вывода средств",
+        "type": "text"
+    },
     "showDepositDisclaimer_primatyText": "на цю депозитну адресу. Отримання будь-якої іншої монети або токена на цю адресу може призвести до втрати суми переказу.",
+    "@showDepositDisclaimer_primatyText": {
+        "description": "на этот депозитный адрес. Получение любой другой монеты или токена на этот адрес может привести к потере суммы перевода.",
+        "type": "text"
+    },
     "showDepositDisclaimer_gotIt": "Зрозуміло",
+    "@showDepositDisclaimer_gotIt": {
+        "description": "Понятно",
+        "type": "text"
+    },
     "showDepositDisclaimer_next": "Далі",
+    "@showDepositDisclaimer_next": {
+        "description": "Дальше",
+        "type": "text"
+    },
     "showDepositDisclaimer_only": "тільки",
+    "@showDepositDisclaimer_only": {
+        "description": "только",
+        "type": "text"
+    },
     "accepted": "прийнято",
+    "@accepted": {
+        "description": "принято",
+        "type": "text"
+    },
     "cryptoDeposit_share": "Поділитися",
+    "@cryptoDeposit_share": {
+        "description": "Поделиться",
+        "type": "text"
+    },
     "deepLinkService_share": "Поділитися",
+    "@deepLinkService_share": {
+        "description": "Поделиться",
+        "type": "text"
+    },
     "cryptoDeposit_my": "Моя",
+    "@cryptoDeposit_my": {
+        "description": "Мой",
+        "type": "text"
+    },
     "cryptoDeposit_network": "Мережа",
+    "@cryptoDeposit_network": {
+        "description": "Сеть",
+        "type": "text"
+    },
     "currencyBuy_paymentInputErrorText1": "Введіть більшу суму. Мін.",
+    "@currencyBuy_paymentInputErrorText1": {
+        "description": "Введите сумму побольше. Мин.",
+        "type": "text"
+    },
     "currencyBuy_paymentInputErrorText2": "Введіть меншу суму. Макс.",
+    "@currencyBuy_paymentInputErrorText2": {
+        "description": "Введите меньшую сумму. Макс.",
+        "type": "text"
+    },
     "previewBuyWithAsset_confirmBuy": "Підтвердити покупку",
+    "@previewBuyWithAsset_confirmBuy": {
+        "description": "Подтвердить покупку",
+        "type": "text"
+    },
     "previewBuyWithAsset_editOrder": "Редагувати замовлення",
+    "@previewBuyWithAsset_editOrder": {
+        "description": "Редактировать заказ",
+        "type": "text"
+    },
     "previewBuyWithAsset_orderProcessing": "Обробка замовлення",
+    "@previewBuyWithAsset_orderProcessing": {
+        "description": "Обработка заказа",
+        "type": "text"
+    },
     "previewBuyWithAsset_failure": "Невдача",
+    "@previewBuyWithAsset_failure": {
+        "description": "Неудача",
+        "type": "text"
+    },
     "previewBuyWithAsset_close": "Закрити",
+    "@previewBuyWithAsset_close": {
+        "description": "Закрыть",
+        "type": "text"
+    },
     "recurringSelector_withOutRecurringBuyTitle": "Повторити цю покупку",
+    "@recurringSelector_withOutRecurringBuyTitle": {
+        "description": "Повторить эту покупку",
+        "type": "text"
+    },
     "buySimplexDetails_payFrom": "Сплачуйте з",
+    "@buySimplexDetails_payFrom": {
+        "description": "Платите из",
+        "type": "text"
+    },
     "previewBuyWith_text1": "буде залежати від ринкової ціни на момент виконання Рекурентної покупки",
+    "@previewBuyWith_text1": {
+        "description": "будет зависеть от рыночной цены на момент выполнения Рекуррентной покупки",
+        "type": "text"
+    },
     "previewBuyWith_theAmountOf": "Сума в розмірі",
+    "@previewBuyWith_theAmountOf": {
+        "description": "Сумма в размере",
+        "type": "text"
+    },
     "previewSell_confirmSell": "Підтвердити Продаж",
+    "@previewSell_confirmSell": {
+        "description": "Подтвердить Продажу",
+        "type": "text"
+    },
     "previewSell_close": "Закрити",
+    "@previewSell_close": {
+        "description": "Закрыть",
+        "type": "text"
+    },
     "previewSell_failure": "Невдача",
+    "@previewSell_failure": {
+        "description": "Неудача",
+        "type": "text"
+    },
     "previewSell_editOrder": "Редагувати замовлення",
+    "@previewSell_editOrder": {
+        "description": "Редактировать заказ",
+        "type": "text"
+    },
     "previewSell_orderProcessing": "Обробка замовлення",
+    "@previewSell_orderProcessing": {
+        "description": "Обработка заказа",
+        "type": "text"
+    },
     "buySellDetails_forText": "Для",
+    "@buySellDetails_forText": {
+        "description": "Для",
+        "type": "text"
+    },
     "currencySell_forText": "Для",
+    "@currencySell_forText": {
+        "description": "Для",
+        "type": "text"
+    },
     "currencySell_available": "Доступно",
+    "@currencySell_available": {
+        "description": "Доступно",
+        "type": "text"
+    },
     "currencySell_sell": "Продати",
+    "@currencySell_sell": {
+        "description": "Продать",
+        "type": "text"
+    },
     "currencySell_chooseDestination": "Виберіть пункт призначення",
+    "@currencySell_chooseDestination": {
+        "description": "Выберите пункт назначения",
+        "type": "text"
+    },
     "currencySell_previewSell": "Попередній перегляд продажу",
+    "@currencySell_previewSell": {
+        "description": "Предварительный просмотр продажи",
+        "type": "text"
+    },
     "localizedActionItems_sell": "Продати",
+    "@localizedActionItems_sell": {
+        "description": "Продать",
+        "type": "text"
+    },
     "localizedActionItems_receive": "Отримати",
+    "@localizedActionItems_receive": {
+        "description": "Получить",
+        "type": "text"
+    },
     "localizedActionItems_buy": "Купити",
+    "@localizedActionItems_buy": {
+        "description": "Купить",
+        "type": "text"
+    },
     "localizedActionItems_send": "Надіслати",
+    "@localizedActionItems_send": {
+        "description": "Отправить",
+        "type": "text"
+    },
     "localizedActionItems_convert": "Конвертувати",
+    "@localizedActionItems_convert": {
+        "description": "Конвертировать",
+        "type": "text"
+    },
     "minimumAmount_noMinimum": "Без мінімуму",
+    "@minimumAmount_noMinimum": {
+        "description": "Без минимума",
+        "type": "text"
+    },
     "min1": "Min",
     "withdraw": "Зняти",
+    "@withdraw": {
+        "description": "Снять",
+        "type": "text"
+    },
     "showDepositDisclaimer_send": "Надсилайте",
+    "@showDepositDisclaimer_send": {
+        "description": "Отправляйте",
+        "type": "text"
+    },
     "referralCodeLink_pushAllowCamera": "Щоб відсканувати QR-код, надайте дозвіл Simple на доступ до камери",
+    "@referralCodeLink_pushAllowCamera": {
+        "description": "Чтобы отсканировать QR-код, предоставьте разрешение Simple на доступ к камере",
+        "type": "text"
+    },
     "valid": "Дійсна",
+    "@valid": {
+        "description": "Действительная",
+        "type": "text"
+    },
     "withdrawHint_text1": "Будь ласка, перевірте правильність адреси. Зверніть увагу, що ми не несемо відповідальності за активи, помилково надіслані на неправильну адресу",
+    "@withdrawHint_text1": {
+        "description": "Пожалуйста, проверьте правильность адреса. Обратите внимание, что мы не несем ответственности за активы, ошибочно отправленные на неправильный адрес",
+        "type": "text"
+    },
     "withdrawHint_text2": "Замість того, щоб вводити адресу та тег, ми рекомендуємо вставити адресу або відсканувати QR-код",
+    "@withdrawHint_text2": {
+        "description": "Вместо того, чтобы вводить адрес и тег, мы рекомендуем вставить адрес или отсканировать QR-код",
+        "type": "text"
+    },
     "showError_youHaveConfirmed": "Ви підтвердили некоректну операцію",
+    "@showError_youHaveConfirmed": {
+        "description": "Вы подтвердили некорректную операцию",
+        "type": "text"
+    },
     "sendByPhoneConfirm_your": "Ваш",
+    "@sendByPhoneConfirm_your": {
+        "description": "Ваш",
+        "type": "text"
+    },
     "sendByPhoneConfirm_editOrder": "Редагувати замовлення",
+    "@sendByPhoneConfirm_editOrder": {
+        "description": "Редактировать заказ",
+        "type": "text"
+    },
     "sendByPhoneConfirm_failedToResend": "Не вдалося надіслати повторно. Спробуйте ще раз",
+    "@sendByPhoneConfirm_failedToResend": {
+        "description": "Не удалось отправить повторно. Попробуйте еще раз",
+        "type": "text"
+    },
     "sendByPhoneConfirm_failure": "Невдача",
+    "@sendByPhoneConfirm_failure": {
+        "description": "Неудача",
+        "type": "text"
+    },
     "sendByPhoneConfirm_close": "Закрити",
+    "@sendByPhoneConfirm_close": {
+        "description": "Закрыть",
+        "type": "text"
+    },
     "sendByPhoneConfirm_send": "Надіслати",
+    "@sendByPhoneConfirm_send": {
+        "description": "Отправить",
+        "type": "text"
+    },
     "sendByPhoneConfirm_requestHasBeenSubmitted": "запит надіслано",
+    "@sendByPhoneConfirm_requestHasBeenSubmitted": {
+        "description": "запрос отправлен",
+        "type": "text"
+    },
     "sendByPhoneConfirm_failedTo": "Не вдалося",
+    "@sendByPhoneConfirm_failedTo": {
+        "description": "Не удалось",
+        "type": "text"
+    },
     "withdrawalAmount_available": "Доступно",
+    "@withdrawalAmount_available": {
+        "description": "Доступно",
+        "type": "text"
+    },
     "withdrawalAmount_enterMoreThan": "Введіть більше, ніж",
+    "@withdrawalAmount_enterMoreThan": {
+        "description": "Введите больше, чем",
+        "type": "text"
+    },
     "withdrawalAmount_youWillReceive": "Ви отримаєте",
+    "@withdrawalAmount_youWillReceive": {
+        "description": "Вы получите",
+        "type": "text"
+    },
     "withdrawalAmount_youWillSend": "Ви надішлете",
+    "@withdrawalAmount_youWillSend": {
+        "description": "Вы отправите",
+        "type": "text"
+    },
     "withdrawalAmount_wallet": "гаманець",
+    "@withdrawalAmount_wallet": {
+        "description": "кошелёк",
+        "type": "text"
+    },
     "withdrawalAmount_preview": "Попередній перегляд",
+    "@withdrawalAmount_preview": {
+        "description": "Предварительный просмотр",
+        "type": "text"
+    },
     "walletBody_wallet": "гаманець",
+    "@walletBody_wallet": {
+        "description": "кошелёк",
+        "type": "text"
+    },
     "balanceBlock_wallet": "гаманець",
+    "@balanceBlock_wallet": {
+        "description": "кошелёк",
+        "type": "text"
+    },
     "emptyWallet_wallet": "гаманець",
+    "@emptyWallet_wallet": {
+        "description": "кошелёк",
+        "type": "text"
+    },
     "withdrawalPreview_youWillReceive": "Ви отримаєте",
+    "@withdrawalPreview_youWillReceive": {
+        "description": "Вы получите",
+        "type": "text"
+    },
     "withdrawalPreview_youWillSend": "Ви надішлете",
+    "@withdrawalPreview_youWillSend": {
+        "description": "Вы отправите",
+        "type": "text"
+    },
     "withdrawalPreview_confirm": "Підтвердити",
+    "@withdrawalPreview_confirm": {
+        "description": "Подтвердить",
+        "type": "text"
+    },
     "withdrawalPreview_total": "Всього",
+    "@withdrawalPreview_total": {
+        "description": "Всего",
+        "type": "text"
+    },
     "openEmailAppButton_openEmailApp": "Відкрити додаток електронної пошти",
+    "@openEmailAppButton_openEmailApp": {
+        "description": "Открыть приложение электронной почты",
+        "type": "text"
+    },
     "uploadKycDocuments_done": "Готово",
+    "@uploadKycDocuments_done": {
+        "description": "Готово",
+        "type": "text"
+    },
     "kycSelfie_done": "Готово",
+    "@kycSelfie_done": {
+        "description": "Готово",
+        "type": "text"
+    },
     "kycOperationStatus_verifyYourIdentity": "Підтвердіть свою особу",
+    "@kycOperationStatus_verifyYourIdentity": {
+        "description": "Подтвердите свою личность",
+        "type": "text"
+    },
     "kycOperationStatus_addressVerification": "Верифікація адреси",
+    "@kycOperationStatus_addressVerification": {
+        "description": "Верификация адреса",
+        "type": "text"
+    },
     "kycOperationStatus_proofSourceOfFunds": "Підтвердження джерела фінансування",
+    "@kycOperationStatus_proofSourceOfFunds": {
+        "description": "Подтверждение источника финансирования",
+        "type": "text"
+    },
     "kycOperationStatus_secureYourAccount": "Захистіть свій обліковий запис",
+    "@kycOperationStatus_secureYourAccount": {
+        "description": "Защитите свою учетную запись",
+        "type": "text"
+    },
     "kycDocumentType_governmentId": "ID card",
     "kycDocumentType_passport": "Закордонний паспорт",
+    "@kycDocumentType_passport": {
+        "description": "Заграничный паспорт",
+        "type": "text"
+    },
     "kycDocumentType_driverLicense": "Посвідчення водія",
+    "@kycDocumentType_driverLicense": {
+        "description": "Водительское удостоверение",
+        "type": "text"
+    },
     "kycDocumentType_residentPermit": "Дозвіл на проживання",
+    "@kycDocumentType_residentPermit": {
+        "description": "Разрешение на жительство",
+        "type": "text"
+    },
     "kycDocumentType_selfieImage": "Зробіть селфі",
+    "@kycDocumentType_selfieImage": {
+        "description": "Сделайте селфи",
+        "type": "text"
+    },
     "kycDocumentType_addressDocument": "Адресний документ",
+    "@kycDocumentType_addressDocument": {
+        "description": "Адресный документ",
+        "type": "text"
+    },
     "kycDocumentType_financialDocument": "Фінансовий документ",
+    "@kycDocumentType_financialDocument": {
+        "description": "Финансовый документ",
+        "type": "text"
+    },
     "uploadKycDocuments_frontSide": "Передня сторона",
+    "@uploadKycDocuments_frontSide": {
+        "description": "Передняя сторона",
+        "type": "text"
+    },
     "uploadKycDocuments_backSide": "Зворотний бік",
+    "@uploadKycDocuments_backSide": {
+        "description": "Обратная сторона",
+        "type": "text"
+    },
     "showContactPermission_goToSettings": "Перейдіть до налаштувань",
+    "@showContactPermission_goToSettings": {
+        "description": "Перейдите к настройкам",
+        "type": "text"
+    },
     "allowCamera_goToSettings": "Перейдіть до налаштувань",
+    "@allowCamera_goToSettings": {
+        "description": "Перейдите к настройкам",
+        "type": "text"
+    },
     "allowCamera_enableCamera": "Увімкнути камеру",
+    "@allowCamera_enableCamera": {
+        "description": "Включить камеру",
+        "type": "text"
+    },
     "allowCamera_text1": "Коли з'явиться відповідний запит, увімкніть доступ до камери, щоб продовжити",
+    "@allowCamera_text1": {
+        "description": "Когда появится соответствующий запрос, включите доступ к камере, чтобы продолжить",
+        "type": "text"
+    },
     "allowCamera_headerTitle1": "Дайте дозвіл на використання камери",
+    "@allowCamera_headerTitle1": {
+        "description": "Дайте разрешение на использование камеры",
+        "type": "text"
+    },
     "allowCamera_headerTitle2": "Дозволити доступ до камери",
+    "@allowCamera_headerTitle2": {
+        "description": "Разрешить доступ к камере",
+        "type": "text"
+    },
     "allowFaceId_headerTitle1": "Дайте дозвіл на використання Face ID",
+    "@allowFaceId_headerTitle1": {
+        "description": "Дайте разрешение на использование Face ID",
+        "type": "text"
+    },
     "allowFaceId_headerTitle2": "Якщо ви хочете використовувати Face ID для розблокування, увімкніть його в налаштуваннях",
+    "@allowFaceId_headerTitle2": {
+        "description": "Если вы хотите использовать Face ID для разблокировки, включите его в настройках",
+        "type": "text"
+    },
     "allowBiometric_headerTitle1": "Дайте дозвіл на використання біометрії",
+    "@allowBiometric_headerTitle1": {
+        "description": "Дайте разрешение на использование биометрии",
+        "type": "text"
+    },
     "allowBiometric_headerTitle2": "Якщо ви хочете використовувати біометрію для розблокування, увімкніть її в налаштуваннях",
+    "@allowBiometric_headerTitle2": {
+        "description": "Если вы хотите использовать биометрию для разблокировки, включите ее в настройках",
+        "type": "text"
+    },
     "kycCountry_countryOfIssue": "Країна резидентства",
+    "@kycCountry_countryOfIssue": {
+        "description": "Страна резидентства",
+        "type": "text"
+    },
     "kycChooseDocuments_scanYourDocument": "Будь ласка, відскануйте свій документ",
+    "@kycChooseDocuments_scanYourDocument": {
+        "description": "Пожалуйста, отсканируйте свой документ",
+        "type": "text"
+    },
     "chooseDocument_chooseDocument": "Виберіть документ",
+    "@chooseDocument_chooseDocument": {
+        "description": "Выберите документ",
+        "type": "text"
+    },
     "chooseDocuments_permissionDescriptionText1": "Ми не можемо верифікувати вас без використання ваших",
+    "@chooseDocuments_permissionDescriptionText1": {
+        "description": "Мы не можем верифицировать вас без использования ваших",
+        "type": "text"
+    },
     "kycSelfie_successKycScreenSecondaryText": "Ви отримаєте повідомлення, коли ми завершимо процес, зазвичай протягом декількох хвилин.",
+    "@kycSelfie_successKycScreenSecondaryText": {
+        "description": "Вы получите уведомление, когда мы завершим процесс, обычно в течение нескольких минут.",
+        "type": "text"
+    },
     "kycSelfie_compareWithYourDocument": "Ми порівняємо його з вашим документом",
+    "@kycSelfie_compareWithYourDocument": {
+        "description": "Мы сравним его с вашим документом",
+        "type": "text"
+    },
     "kycSelfie_selfieShouldClearly": "На селфі має бути чітко видно",
+    "@kycSelfie_selfieShouldClearly": {
+        "description": "На селфи должно быть четко видно",
+        "type": "text"
+    },
     "kycSelfie_faceForwardAndMakeSure": "Поверніться обличчям вперед і переконайтеся, що ваші очі",
+    "@kycSelfie_faceForwardAndMakeSure": {
+        "description": "Повернитесь лицом вперед и убедитесь, что ваши глаза",
+        "type": "text"
+    },
     "kycSelfie_removeYourGlasses": "За необхідності зніміть окуляри",
+    "@kycSelfie_removeYourGlasses": {
+        "description": "При необходимости снимите очки",
+        "type": "text"
+    },
     "kycDocumentType_uploadPhoto": "Завантажте фото",
+    "@kycDocumentType_uploadPhoto": {
+        "description": "Загрузите фото",
+        "type": "text"
+    },
     "aboutBlockText_readMore": "Читати більше",
+    "@aboutBlockText_readMore": {
+        "description": "Читать больше",
+        "type": "text"
+    },
     "marketNewsBlock_readMore": "Читати більше",
+    "@marketNewsBlock_readMore": {
+        "description": "Читать больше",
+        "type": "text"
+    },
     "deepLinkService_readMore": "Читати більше",
+    "@deepLinkService_readMore": {
+        "description": "Читать больше",
+        "type": "text"
+    },
     "aboutBlockText_whitepaper": "Технічний документ",
+    "@aboutBlockText_whitepaper": {
+        "description": "Технический документ",
+        "type": "text"
+    },
     "aboutBlockText_officialWebsite": "Офіційний сайт",
+    "@aboutBlockText_officialWebsite": {
+        "description": "Официальный сайт",
+        "type": "text"
+    },
     "aboutBlock_about": "Інше",
+    "@aboutBlock_about": {
+        "description": "Другое",
+        "type": "text"
+    },
     "indexAllocationBlock_indexAllocation": "Розподіл індексу",
+    "@indexAllocationBlock_indexAllocation": {
+        "description": "Распределение индекса",
+        "type": "text"
+    },
     "indexHistoryBlock_myStats": "Моя статистика",
+    "@indexHistoryBlock_myStats": {
+        "description": "Моя статистика",
+        "type": "text"
+    },
     "indexHistoryBlock_todaysReturn": "Сьогоднішнє повернення",
+    "@indexHistoryBlock_todaysReturn": {
+        "description": "Сегодняшнее возвращение",
+        "type": "text"
+    },
     "indexHistoryBlock_totalReturn": "Загальний дохід",
+    "@indexHistoryBlock_totalReturn": {
+        "description": "Общий доход",
+        "type": "text"
+    },
     "indexHistoryBlock_comingSoon": "Незабаром",
+    "@indexHistoryBlock_comingSoon": {
+        "description": "Вскоре",
+        "type": "text"
+    },
     "indexOverviewBlock_indexOverview": "Огляд індексу",
+    "@indexOverviewBlock_indexOverview": {
+        "description": "Обзор индекса",
+        "type": "text"
+    },
     "indexOverviewBlock_type": "Тип",
+    "@indexOverviewBlock_type": {
+        "description": "Тип",
+        "type": "text"
+    },
     "indexOverviewBlock_equalWeightedIndex": "Рівнозважений індекс",
+    "@indexOverviewBlock_equalWeightedIndex": {
+        "description": "Равновзвешенный индекс",
+        "type": "text"
+    },
     "indexOverviewBlock_rebalancing": "Відновлення балансу",
+    "@indexOverviewBlock_rebalancing": {
+        "description": "Восстановление баланса",
+        "type": "text"
+    },
     "indexOverviewBlock_quarterlyRebalancing": "Щоквартальне перебалансування до рівнозваженого",
+    "@indexOverviewBlock_quarterlyRebalancing": {
+        "description": "Ежеквартальная перебалансировка до равновзвешенного",
+        "type": "text"
+    },
     "marketNewsBlock_readLess": "Детальніше",
+    "@marketNewsBlock_readLess": {
+        "description": "Подробнее",
+        "type": "text"
+    },
     "marketStatsBlock_marketStats": "Статистика ринку",
+    "@marketStatsBlock_marketStats": {
+        "description": "Статистика рынка",
+        "type": "text"
+    },
     "marketStatsBlock_markCap": "Ринкова капіталізація",
+    "@marketStatsBlock_markCap": {
+        "description": "Рыночная капитализация",
+        "type": "text"
+    },
     "marketStatsBlock_circSupply": "Обсяг торгів",
+    "@marketStatsBlock_circSupply": {
+        "description": "Объем торгов",
+        "type": "text"
+    },
     "returnRates_day": "День",
+    "@returnRates_day": {
+        "description": "День",
+        "type": "text"
+    },
     "returnRates_months": "Місяці",
+    "@returnRates_months": {
+        "description": "Месяца",
+        "type": "text"
+    },
     "returnRatesBlock_returnRates": "Динаміка вартості",
+    "@returnRatesBlock_returnRates": {
+        "description": "Динамика стоимости",
+        "type": "text"
+    },
     "paymentMethods_paymentMethods": "Методи оплати",
+    "@paymentMethods_paymentMethods": {
+        "description": "Методы оплаты",
+        "type": "text"
+    },
     "paymentMethods_noSavedCards": "Немає збережених карток",
+    "@paymentMethods_noSavedCards": {
+        "description": "Нет сохраненных карт",
+        "type": "text"
+    },
     "paymentMethods_savedCards": "Збережені картки",
+    "@paymentMethods_savedCards": {
+        "description": "Сохраненные карты",
+        "type": "text"
+    },
     "changeNumberButton_changeNumber": "Змінити номер",
+    "@changeNumberButton_changeNumber": {
+        "description": "Изменить номер",
+        "type": "text"
+    },
     "setNewPassword_newPasswordSet": "Встановлено новий пароль",
+    "@setNewPassword_newPasswordSet": {
+        "description": "Установлен новый пароль",
+        "type": "text"
+    },
     "setNewPassword_createANewPassword": "Створити новий пароль",
+    "@setNewPassword_createANewPassword": {
+        "description": "Создать новый пароль",
+        "type": "text"
+    },
     "setNewPassword_setNewPassword": "Встановити новий пароль",
+    "@setNewPassword_setNewPassword": {
+        "description": "Установить новый пароль",
+        "type": "text"
+    },
     "send_timer_alert_ok": "OK",
+    "@send_timer_alert_ok": {
+        "description": "OK",
+        "type": "text"
+    },
     "send_timer_alert_description": "Виведення коштів недоступне до тих пір, поки",
+    "@send_timer_alert_description": {
+        "description": "Вывод средств недоступен до тех пор, пока",
+        "type": "text"
+    },
     "sendHelperText_text": "Почніть вводити номер телефону або ім'я з телефонної книги",
+    "@sendHelperText_text": {
+        "description": "Начните вводить номер телефона или имя из телефонной книги",
+        "type": "text"
+    },
     "sendInfoText_text": "Я хочу скористатися телефонною книгою",
+    "@sendInfoText_text": {
+        "description": "Я хочу воспользоваться телефонной книгой",
+        "type": "text"
+    },
     "sendAlert_description": "У вас немає криптовалюти для відправки",
+    "@sendAlert_description": {
+        "description": "У вас нет криптовалюты для отправки",
+        "type": "text"
+    },
     "sendAlert_buyText": "Купуйте свою першу криптовалюту за готівку",
+    "@sendAlert_buyText": {
+        "description": "Покупайте свою первую криптовалюту за наличные деньги",
+        "type": "text"
+    },
     "sendAlert_buyButton": "Купуйте криптовалюту за готівку",
+    "@sendAlert_buyButton": {
+        "description": "Покупайте криптовалюту за наличные",
+        "type": "text"
+    },
     "showContactPicker_phoneNumber": "Номер телефону",
+    "@showContactPicker_phoneNumber": {
+        "description": "Номер телефона",
+        "type": "text"
+    },
     "showContactPermission_primaryText": "Надати дозвіл на використання телефонної книги",
+    "@showContactPermission_primaryText": {
+        "description": "Предоставить разрешение на использование телефонной книги",
+        "type": "text"
+    },
     "showUsePhonebookAlert_enterManually": "Введіть вручну",
+    "@showUsePhonebookAlert_enterManually": {
+        "description": "Введите вручную",
+        "type": "text"
+    },
     "showContactPermission_enterManually": "Введіть вручну",
+    "@showContactPermission_enterManually": {
+        "description": "Введите вручную",
+        "type": "text"
+    },
     "showUsePhonebookAlert_usePhonebook": "Використовуйте телефонну книгу",
+    "@showUsePhonebookAlert_usePhonebook": {
+        "description": "Используйте телефонную книгу",
+        "type": "text"
+    },
     "sendByPhoneAmount_send": "Надіслати",
+    "@sendByPhoneAmount_send": {
+        "description": "Отправить",
+        "type": "text"
+    },
     "sendByPhoneAmount_available": "Доступно",
+    "@sendByPhoneAmount_available": {
+        "description": "Доступно",
+        "type": "text"
+    },
     "sendByPhoneAmount_previewSend": "Продовжити",
+    "@sendByPhoneAmount_previewSend": {
+        "description": "Продолжить",
+        "type": "text"
+    },
     "sendByPhoneRecipient_later": "Пізніше",
+    "@sendByPhoneRecipient_later": {
+        "description": "Позже",
+        "type": "text"
+    },
     "sendByPhoneRecipient_headerTitle": "Сповістити одержувача про відправлений лист",
+    "@sendByPhoneRecipient_headerTitle": {
+        "description": "Оповестить получателя об отправленном письме",
+        "type": "text"
+    },
     "sendByPhoneRecipient_text1": "Цей номер телефону не прив'язаний до облікового запису Simple",
+    "@sendByPhoneRecipient_text1": {
+        "description": "Этот номер телефона не привязан к учетной записи Simple",
+        "type": "text"
+    },
     "sendByPhoneRecipient_text2": "Надіслати повідомлення як отримати кошти",
+    "@sendByPhoneRecipient_text2": {
+        "description": "Отправить сообщение как получить средства",
+        "type": "text"
+    },
     "sendByPhoneRecipient_text3": "Я надіслав тобі трохи грошей на",
+    "@sendByPhoneRecipient_text3": {
+        "description": "Я отправил тебе немного денег на",
+        "type": "text"
+    },
     "sendByPhoneRecipient_text4": "Будь ласка, встановіть додаток Simple, щоб отримати їх",
+    "@sendByPhoneRecipient_text4": {
+        "description": "Пожалуйста, установите приложение Simple, чтобы получить их",
+        "type": "text"
+    },
     "sendByPhoneNotifyRecipient_sendAMessage": "Надіслати повідомлення",
+    "@sendByPhoneNotifyRecipient_sendAMessage": {
+        "description": "Отправить сообщение",
+        "type": "text"
+    },
     "sendByPhonePreview_youSendTo": "Ви надсилаєте на адресу",
+    "@sendByPhonePreview_youSendTo": {
+        "description": "Вы отправляете на адрес",
+        "type": "text"
+    },
     "sendByPhonePreview_send": "Надіслати",
+    "@sendByPhonePreview_send": {
+        "description": "Отправить",
+        "type": "text"
+    },
     "sendByPhonePreview_confirm": "Підтвердити",
+    "@sendByPhonePreview_confirm": {
+        "description": "Подтвердить",
+        "type": "text"
+    },
     "sendByPhonePreview_total": "Всього",
+    "@sendByPhonePreview_total": {
+        "description": "Всего",
+        "type": "text"
+    },
     "sendByPhonePreview_amountToSend": "Сума для відправки",
+    "@sendByPhonePreview_amountToSend": {
+        "description": "Сумма для отправки",
+        "type": "text"
+    },
     "sendByPhonePreview_byPhone": "телефоном",
+    "@sendByPhonePreview_byPhone": {
+        "description": "телефоном",
+        "type": "text"
+    },
     "smsAuth_headerTitle": "SMS-автентифікатор",
+    "@smsAuth_headerTitle": {
+        "description": "SMS-аутентификатор",
+        "type": "text"
+    },
     "buySellDetails_rate": "Курс",
+    "@buySellDetails_rate": {
+        "description": "Курс",
+        "type": "text"
+    },
     "transaction1": "транзакція",
+    "@transaction1": {
+        "description": "транзакция",
+        "type": "text"
+    },
     "walletBody_transactions": "транзакції",
+    "@walletBody_transactions": {
+        "description": "транзакции",
+        "type": "text"
+    },
     "transactionItem_copied": "скопійовано",
+    "@transactionItem_copied": {
+        "description": "скопировано",
+        "type": "text"
+    },
     "emailConfirmedSuccessText_yourEmailAddress": "Ваша електронна адреса",
+    "@emailConfirmedSuccessText_yourEmailAddress": {
+        "description": "Ваш электронный адрес",
+        "type": "text"
+    },
     "emailConfirmedSuccessText_isConfirmed": "підтверджено",
+    "@emailConfirmedSuccessText_isConfirmed": {
+        "description": "подтверждено",
+        "type": "text"
+    },
     "withdrawOptions_wallet": "Гаманець",
+    "@withdrawOptions_wallet": {
+        "description": "Кошелек",
+        "type": "text"
+    },
     "withdrawOptions_actionItemDescription1": "Sepa",
     "withdrawOptions_actionItemName1": "Крипто гаманець",
+    "@withdrawOptions_actionItemName1": {
+        "description": "Крипто кошелек",
+        "type": "text"
+    },
     "withdrawOptions_sendTo": "Надсилайте на адресу",
+    "@withdrawOptions_sendTo": {
+        "description": "Отправляйте на адрес",
+        "type": "text"
+    },
     "withdrawOptions_wireTransfer": "Банківський переказ",
+    "@withdrawOptions_wireTransfer": {
+        "description": "Банковский перевод",
+        "type": "text"
+    },
     "cryptoDeposit_address": "Адреса",
+    "@cryptoDeposit_address": {
+        "description": "Адрес",
+        "type": "text"
+    },
     "convertKycDocuments_fileSide": "Фото документу",
+    "@convertKycDocuments_fileSide": {
+        "description": "Фото документа",
+        "type": "text"
+    },
     "uploadKycDocuments_upload": "Завантажити",
+    "@uploadKycDocuments_upload": {
+        "description": "Загрузить",
+        "type": "text"
+    },
     "indexHistoryBlock_avgCost": "Середня вартість",
+    "@indexHistoryBlock_avgCost": {
+        "description": "Средняя стоимость",
+        "type": "text"
+    },
     "transferDetails_transfer": "Переказ",
+    "@transferDetails_transfer": {
+        "description": "Перевод",
+        "type": "text"
+    },
     "withdrawDetails_amount": "Сума",
+    "@withdrawDetails_amount": {
+        "description": "Сумма",
+        "type": "text"
+    },
     "withdrawDetails_internalTransfer": "Внутрішній переказ",
+    "@withdrawDetails_internalTransfer": {
+        "description": "Внутренний перевод",
+        "type": "text"
+    },
     "withdrawDetails_withdrawalTo": "Надсилайте на адресу",
+    "@withdrawDetails_withdrawalTo": {
+        "description": "Отправляйте на адрес",
+        "type": "text"
+    },
     "withdrawDetails_fee": "комісія",
+    "@withdrawDetails_fee": {
+        "description": "комиссия",
+        "type": "text"
+    },
     "sActionConfirm_defaultAlert": "Підключення до сервера... Будь ласка, зачекайте або спробуйте пізніше",
+    "@sActionConfirm_defaultAlert": {
+        "description": "Подключение к серверу... Пожалуйста, подождите или попробуйте позже",
+        "type": "text"
+    },
     "sPaymentSelectEmpty_buyOnlyWithCrypto": "Купуйте тільки за криптовалюту",
+    "@sPaymentSelectEmpty_buyOnlyWithCrypto": {
+        "description": "Покупайте только за криптовалюту",
+        "type": "text"
+    },
     "sLightStandart_bothProvidedText": "Controller та initialValue не можуть бути надані одночасно",
+    "@sLightStandart_bothProvidedText": {
+        "description": "Controller и initialValue не могут быть предоставлены одновременно",
+        "type": "text"
+    },
     "sDocumentRecommendation_primaryText1": "У документі має бути чітко вказано",
+    "@sDocumentRecommendation_primaryText1": {
+        "description": "В документе должно быть четко указано",
+        "type": "text"
+    },
     "sDocumentRecommendation_primaryText2": "Ваше повне ім'я та прізвище",
+    "@sDocumentRecommendation_primaryText2": {
+        "description": "Ваше полное имя и фамилия",
+        "type": "text"
+    },
     "sDocumentRecommendation_primaryText3": "Ваше фото",
+    "@sDocumentRecommendation_primaryText3": {
+        "description": "Ваше фото",
+        "type": "text"
+    },
     "sDocumentRecommendation_primaryText4": "Дата народження",
+    "@sDocumentRecommendation_primaryText4": {
+        "description": "Дата рождения",
+        "type": "text"
+    },
     "sDocumentRecommendation_primaryText5": "Термін придатності",
+    "@sDocumentRecommendation_primaryText5": {
+        "description": "Срок годности",
+        "type": "text"
+    },
     "sDocumentRecommendation_primaryText6": "Номер документа",
+    "@sDocumentRecommendation_primaryText6": {
+        "description": "Номер документа",
+        "type": "text"
+    },
     "marketNewsBlock_discussOn": "Обговоріть на тему",
+    "@marketNewsBlock_discussOn": {
+        "description": "Обсудите на тему",
+        "type": "text"
+    },
     "marketNewsBlock_cryptoPanic": "Крипто-паніка",
+    "@marketNewsBlock_cryptoPanic": {
+        "description": "Крипто-паника",
+        "type": "text"
+    },
     "deepLinkService_referralLinkCopied": "Реферальне посилання скопійовано",
+    "@deepLinkService_referralLinkCopied": {
+        "description": "Реферальная ссылка скопирована",
+        "type": "text"
+    },
     "deepLinkService_referralLink": "Реферальне посилання",
+    "@deepLinkService_referralLink": {
+        "description": "Реферальная ссылка",
+        "type": "text"
+    },
     "rewards_referralStats": "Статистика рефералів",
+    "@rewards_referralStats": {
+        "description": "Статистика рефералов",
+        "type": "text"
+    },
     "rewards_referralsInvited": "Запрошуються реферали",
+    "@rewards_referralsInvited": {
+        "description": "Приглашаются рефералы",
+        "type": "text"
+    },
     "rewards_total": "Всього",
+    "@rewards_total": {
+        "description": "Всего",
+        "type": "text"
+    },
     "rewards_rewards": "Винагороди",
+    "@rewards_rewards": {
+        "description": "Вознаграждения",
+        "type": "text"
+    },
     "rewards_referralActivated": "Реферал активовано",
+    "@rewards_referralActivated": {
+        "description": "Реферал активирован",
+        "type": "text"
+    },
     "rewards_bonusEarned": "Бонус зароблено",
+    "@rewards_bonusEarned": {
+        "description": "Бонус заработан",
+        "type": "text"
+    },
     "rewards_commissionEarned": "Зароблена комісія",
+    "@rewards_commissionEarned": {
+        "description": "Заработанная комиссия",
+        "type": "text"
+    },
     "setPhoneNumber_pleaseWait": "Будь ласка, зачекайте",
+    "@setPhoneNumber_pleaseWait": {
+        "description": "Пожалуйста, подождите",
+        "type": "text"
+    },
     "setPhoneNumber_enterPhoneNumber": "Введіть номер телефону",
+    "@setPhoneNumber_enterPhoneNumber": {
+        "description": "Введите номер телефона",
+        "type": "text"
+    },
     "setPhoneNumber_text1": "Це дозволить вам надсилати та отримувати криптовалюту телефоном",
+    "@setPhoneNumber_text1": {
+        "description": "Это позволит вам отправлять и получать криптовалюту по телефону",
+        "type": "text"
+    },
     "setPhoneNumber_code": "Код",
+    "@setPhoneNumber_code": {
+        "description": "Код",
+        "type": "text"
+    },
     "setPhoneNumber_phoneNumber": "Номер телефону",
+    "@setPhoneNumber_phoneNumber": {
+        "description": "Номер телефона",
+        "type": "text"
+    },
     "setPhoneNumber_continue": "Продовжити",
+    "@setPhoneNumber_continue": {
+        "description": "Продолжить",
+        "type": "text"
+    },
     "kycSelfie_pleaseWait": "Будь ласка, зачекайте",
+    "@kycSelfie_pleaseWait": {
+        "description": "Пожалуйста, подождите",
+        "type": "text"
+    },
     "setNewPassword_pleaseWait": "Будь ласка, зачекайте",
+    "@setNewPassword_pleaseWait": {
+        "description": "Пожалуйста, подождите",
+        "type": "text"
+    },
     "forgotPassword_pleaseWait": "Будь ласка, зачекайте",
+    "@forgotPassword_pleaseWait": {
+        "description": "Пожалуйста, подождите",
+        "type": "text"
+    },
     "paymentMethods_pleaseWait": "Будь ласка, зачекайте",
+    "@paymentMethods_pleaseWait": {
+        "description": "Пожалуйста, подождите",
+        "type": "text"
+    },
     "uploadKycDocuments_pleaseWait": "Будь ласка, зачекайте",
+    "@uploadKycDocuments_pleaseWait": {
+        "description": "Пожалуйста, подождите",
+        "type": "text"
+    },
     "login_pleaseWait": "Будь ласка, зачекайте",
+    "@login_pleaseWait": {
+        "description": "Пожалуйста, подождите",
+        "type": "text"
+    },
     "launchUrl_couldNotLaunch": "Не вдалося запустити",
+    "@launchUrl_couldNotLaunch": {
+        "description": "Не удалось запустить",
+        "type": "text"
+    },
     "portfolioWith_balanceProcess": "У процесі",
     "portfolioWith_zeroWallets": "Приховати нульові гаманці",
     "portfolioWith_showWallets": "Показати всі гаманці",
@@ -1541,7 +4133,7 @@
     "amount_screen_buy": "Купити",
     "amount_screen_pay_with": "Оплатити за допомогою",
     "pay_with_balances": "Баланси",
-    "create_simple_creating": "Створюється EUR акаунт...",
+    "create_simple_creating": "Створюється Simple акаунт...",
     "binding_phone_dialog_first_part": "Для продовження покупки підтвердіть відправку коштів на суму",
     "binding_phone_dialog_second_part": "з вашого банківського рахунку в Unlimit на банківський рахунок на ім'я",
     "binding_phone_dialog_confirm": "Підтвердити",
@@ -1578,7 +4170,7 @@
     "iban_title": "IBAN",
     "operationName_sold": "Продано",
     "operationName_converted": "Сконвертовано",
-    "creating": "створення...",
+    "creating": "Створення...",
     "sell_amount_sell_all": "Продати все",
     "sell_amount_sell_to": "Продаємо",
     "sell_amount_accounts": "Акаунти",
@@ -1598,7 +4190,7 @@
     "face_check_continue": "Продовжити",
     "my_wallets_card": "картка",
     "my_wallets_cards": "картки",
-    "my_wallets_card_creating": "створення картки...",
+    "my_wallets_card_creating": "Створення картки...",
     "simple_card_get_card_now": "Отримати Simple картку зараз",
     "simple_card_type": "Тип картки",
     "simple_card_type_virtual": "Віртуальна картка",
@@ -1630,7 +4222,7 @@
     "simple_card_valid_thru": "Дійсна до",
     "simple_card_cvv": "CVV",
     "simple_card_copied": "Скопійовано!",
-    "simple_card_creating_card": "створення картки",
+    "simple_card_creating_card": "Створення картки",
     "simple_card_spending_limits": "Ліміти витрат",
     "simple_card_remind_pin": "Нагадати PIN",
     "simple_card_set_password": "Встановити пароль",
