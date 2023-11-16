@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/texts/simple_text_styles.dart';
@@ -28,6 +30,13 @@ class SimpleCircleButton extends StatefulWidget {
 class _SimpleCircleButtonState extends State<SimpleCircleButton> {
   bool highlighted = false;
 
+  var isClicked = false;
+  late Timer _timer;
+
+  void _startTimer() {
+    _timer = Timer(const Duration(milliseconds: 999), () => isClicked = false);
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
@@ -42,7 +51,17 @@ class _SimpleCircleButtonState extends State<SimpleCircleButton> {
 
     return Expanded(
       child: InkWell(
-        onTap: !widget.isDisabled ? widget.onTap : null,
+        onTap: !widget.isDisabled
+            ? widget.onTap != null
+                ? () {
+                    if (!isClicked) {
+                      _startTimer();
+                      widget.onTap!();
+                      isClicked = true;
+                    }
+                  }
+                : null
+            : null,
         onHighlightChanged: (value) {
           setState(() {
             highlighted = value;

@@ -129,6 +129,14 @@ class _DebugInfoState extends State<DebugInfo> with SingleTickerProviderStateMix
                     'Logs screen',
                   ),
                 ),
+                TextButton(
+                  onPressed: () async {
+                    await sRouter.push(const DebugHistoryRouter());
+                  },
+                  child: const Text(
+                    'History debug screen',
+                  ),
+                ),
                 // TextButton(
                 //   onPressed: () {
                 //     Navigator.pushReplacement(

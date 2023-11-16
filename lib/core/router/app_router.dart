@@ -48,6 +48,7 @@ import 'package:jetwallet/features/currency_sell/model/preview_sell_input.dart';
 import 'package:jetwallet/features/currency_sell/ui/currency_sell.dart';
 import 'package:jetwallet/features/currency_sell/ui/preview_sell.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
+import 'package:jetwallet/features/debug_info/debug_history.dart';
 import 'package:jetwallet/features/debug_info/debug_info.dart';
 import 'package:jetwallet/features/debug_info/signalr_debug_info.dart';
 import 'package:jetwallet/features/email_confirmation/ui/email_confirmation_screen.dart';
@@ -121,7 +122,6 @@ import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/b
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
-import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_preview_withdrawal_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 
@@ -596,6 +596,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/face_check',
       page: FaceCheckRoute.page,
+    ),
+    AutoRoute(
+      path: '/debug_history',
+      page: DebugHistoryRouter.page,
     ),
   ];
 }
