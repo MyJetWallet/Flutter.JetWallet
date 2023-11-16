@@ -361,13 +361,13 @@ class StartupService {
   }
 
   ///
-  void pinVerified() {
-    void success() {
-      getIt.get<AppStore>().setAuthorizedStatus(
-            const Home(),
-          );
-    }
+  void pushHome() {
+    getIt.get<AppStore>().setAuthorizedStatus(
+          const Home(),
+        );
+  }
 
+  void pinVerified() {
     final info = getIt.get<SessionCheckService>().data;
 
     if (info != null) {
@@ -375,10 +375,10 @@ class StartupService {
         getIt.get<AppStore>().setAuthorizedStatus(const CheckSelfie());
         //success();
       } else {
-        success();
+        pushHome();
       }
     } else {
-      success();
+      pushHome();
     }
 
     getIt.get<AppStore>().checkInitRouter();

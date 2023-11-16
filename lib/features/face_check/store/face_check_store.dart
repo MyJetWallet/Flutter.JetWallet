@@ -15,6 +15,7 @@ abstract class _FaceCheckStoreBase with Store {
   bool isFaceCheckCheckStatus = false;
 
   Future<void> runPreloadLoader() async {
+    isFaceCheckCheckStatus = false;
     loader.startLoadingImmediately();
 
     Future.delayed(const Duration(seconds: 5), () {
@@ -32,7 +33,7 @@ abstract class _FaceCheckStoreBase with Store {
       if (status == 2) {
         loader.finishLoadingImmediately();
 
-        getIt.get<StartupService>().pinVerified();
+        getIt.get<StartupService>().pushHome();
       } else if (status == 0) {
         loader.finishLoadingImmediately();
       }
