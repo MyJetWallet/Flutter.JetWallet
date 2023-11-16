@@ -15,3 +15,17 @@ class SimpleCardSensitiveResponse with _$SimpleCardSensitiveResponse {
   factory SimpleCardSensitiveResponse.fromJson(Map<String, dynamic> json) =>
       _$SimpleCardSensitiveResponseFromJson(json);
 }
+
+@freezed
+class SimpleCardSensitiveWithId with _$SimpleCardSensitiveWithId {
+  factory SimpleCardSensitiveWithId({
+    final String? cardNumber,
+    final String? cardHolderName,
+    final String? cardExpDate,
+    final String? cardCvv,
+    required String cardId,
+  }) = _SimpleCardSensitiveWithId;
+
+  factory SimpleCardSensitiveWithId.fromJson(Map<String, dynamic> json) =>
+      _$SimpleCardSensitiveWithIdFromJson(json);
+}

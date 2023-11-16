@@ -180,7 +180,11 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                           const SliverToBoxAdapter(child: SpaceH28()),
                           if (
                             userInfo.isSimpleCardAvailable &&
-                            (sSignalRModules.bankingProfileData?.banking?.cards?.length ?? 0) == 0 &&
+                            (sSignalRModules.bankingProfileData
+                                ?.banking?.cards
+                                ?.length ?? 0) < (sSignalRModules
+                                .bankingProfileData
+                                ?.availableCardsCount ?? 1) &&
                             checkKycPassed(
                               kycState.depositStatus,
                               kycState.tradeStatus,

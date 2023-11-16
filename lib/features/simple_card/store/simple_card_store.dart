@@ -22,6 +22,7 @@ import '../../../core/router/app_router.dart';
 import '../../../core/services/local_storage_service.dart';
 import '../../../core/services/notification_service.dart';
 import '../../../utils/constants.dart';
+import '../../my_wallets/helper/show_wallet_verify_account.dart';
 import '../ui/set_up_password_screen.dart';
 import '../ui/widgets/show_complete_verification_account.dart';
 
@@ -40,6 +41,9 @@ abstract class _SimpleCardStoreBase with Store {
 
   @action
   Future<void> initStore() async {
+    allCards = sSignalRModules.bankingProfileData
+        ?.banking?.cards
+        ?.where((element) => element.status != AccountStatusCard.inactive).toList();
     final cards = sSignalRModules.bankingProfileData?.banking?.cards;
     if (cards != null && cards.isNotEmpty) {
       final activeCard = cards
@@ -47,82 +51,119 @@ abstract class _SimpleCardStoreBase with Store {
           .toList();
       if (activeCard.isNotEmpty) {
         setCardFullInfo(activeCard[activeCard.length - 1]);
+      }
+    }
+  }
+
+  @action
+  Future<void> initFullCardIn(String cardId) async {
+    cardSensitiveData = SimpleCardSensitiveResponse(
+      cardNumber: '',
+      cardHolderName: '',
+      cardCvv: '',
+      cardExpDate: '',
+    );
+    final cards = sSignalRModules.bankingProfileData?.banking?.cards;
+    if (cards != null && cards.isNotEmpty) {
+      final activeCard = cards
+          .where((element) => element.cardId == cardId)
+          .toList();
+      if (activeCard.isNotEmpty) {
+        setCardFullInfo(activeCard[activeCard.length - 1]);
         isFrozen = activeCard[activeCard.length - 1].status == AccountStatusCard.frozen;
 
-        try {
+        if (allSensitive.where((element) => element.cardId == cardId).toList().isEmpty) {
+          try {
 
-          final rsa = RsaKeyHelper();
-          final keyPair = getRsaKeyPair(rsa.getSecureRandom());
+            final rsa = RsaKeyHelper();
+            final keyPair = getRsaKeyPair(rsa.getSecureRandom());
 
-          final rsaPublicKey = keyPair.publicKey as RSAPublicKey;
-          final rsaPrivateKey = keyPair.privateKey as RSAPrivateKey;
-          final publicKey = rsa.encodePublicKeyToPemPKCS1(rsaPublicKey);
-          final privateKey = rsa.encodePrivateKeyToPemPKCS1(rsaPrivateKey);
-          final storageService = getIt.get<LocalStorageService>();
+            final rsaPublicKey = keyPair.publicKey as RSAPublicKey;
+            final rsaPrivateKey = keyPair.privateKey as RSAPrivateKey;
+            final publicKey = rsa.encodePublicKeyToPemPKCS1(rsaPublicKey);
+            final privateKey = rsa.encodePrivateKeyToPemPKCS1(rsaPrivateKey);
+            final storageService = getIt.get<LocalStorageService>();
 
-          final pin = await storageService.getValue(pinStatusKey);
-          final serverTimeResponse = await getIt
-              .get<SNetwork>()
-              .simpleNetworkingUnathorized
-              .getAuthModule()
-              .getServerTime();
-          final model = SimpleCardSensitiveRequest(
-            cardId: activeCard[activeCard.length - 1].cardId ?? '',
-            publicKey: publicKey
-                .replaceAll('\r\n', '')
-                .replaceAll('-----BEGIN RSA PUBLIC KEY-----', '')
-                .replaceAll('-----END RSA PUBLIC KEY-----', ''),
-            pin: pin ?? '',
-            timeStamp: serverTimeResponse.data!.time,
-          );
+            final pin = await storageService.getValue(pinStatusKey);
+            final serverTimeResponse = await getIt
+                .get<SNetwork>()
+                .simpleNetworkingUnathorized
+                .getAuthModule()
+                .getServerTime();
+            final model = SimpleCardSensitiveRequest(
+              cardId: activeCard[activeCard.length - 1].cardId ?? '',
+              publicKey: publicKey
+                  .replaceAll('\r\n', '')
+                  .replaceAll('-----BEGIN RSA PUBLIC KEY-----', '')
+                  .replaceAll('-----END RSA PUBLIC KEY-----', ''),
+              pin: pin ?? '',
+              timeStamp: serverTimeResponse.data!.time,
+            );
 
-          final response =
-          await sNetwork.getWalletModule().postSensitiveData(data: model);
+            final response =
+            await sNetwork.getWalletModule().postSensitiveData(data: model);
 
-          response.pick(
-            onData: (data) async {
-              final encrypter = Encrypter(RSA(publicKey: rsaPublicKey, privateKey: rsaPrivateKey));
-              final cardNumber = encrypter.decrypt(Encrypted.fromBase64(data.cardNumber!));
-              final cardHolder = encrypter.decrypt(Encrypted.fromBase64(data.cardHolderName!));
-              final cardDate = encrypter.decrypt(Encrypted.fromBase64(data.cardExpDate!));
-              final cardCVV = encrypter.decrypt(Encrypted.fromBase64(data.cardCvv!));
-              final text = cardNumber;
+            response.pick(
+              onData: (data) async {
+                final encrypter = Encrypter(RSA(publicKey: rsaPublicKey, privateKey: rsaPrivateKey));
+                final cardNumber = encrypter.decrypt(Encrypted.fromBase64(data.cardNumber!));
+                final cardHolder = encrypter.decrypt(Encrypted.fromBase64(data.cardHolderName!));
+                final cardDate = encrypter.decrypt(Encrypted.fromBase64(data.cardExpDate!));
+                final cardCVV = encrypter.decrypt(Encrypted.fromBase64(data.cardCvv!));
+                final text = cardNumber;
 
-              final buffer = StringBuffer();
-              for (var i = 0; i < text.length; i++) {
-                buffer.write(text[i]);
-                final nonZeroIndex = i + 1;
-                if (nonZeroIndex % 4 == 0 && nonZeroIndex != text.length) {
-                  buffer.write(' ');
+                final buffer = StringBuffer();
+                for (var i = 0; i < text.length; i++) {
+                  buffer.write(text[i]);
+                  final nonZeroIndex = i + 1;
+                  if (nonZeroIndex % 4 == 0 && nonZeroIndex != text.length) {
+                    buffer.write(' ');
+                  }
                 }
-              }
 
-              final finalCardNumber = buffer.toString();
+                final finalCardNumber = buffer.toString();
 
-              cardSensitiveData = SimpleCardSensitiveResponse(
-                cardExpDate: cardDate,
-                cardCvv: cardCVV,
-                cardHolderName: cardHolder,
-                cardNumber: finalCardNumber,
-              );
+                cardSensitiveData = SimpleCardSensitiveResponse(
+                  cardExpDate: cardDate,
+                  cardCvv: cardCVV,
+                  cardHolderName: cardHolder,
+                  cardNumber: finalCardNumber,
+                );
 
-            },
-            onError: (error) {
-              sNotification.showError(
-                error.cause,
-                id: 1,
-              );
-            },
-          );
-        } on ServerRejectException catch (error) {
-          sNotification.showError(
-            error.cause,
-            id: 1,
-          );
-        } catch (error) {
-          sNotification.showError(
-            intl.something_went_wrong,
-            id: 1,
+                allSensitive.add(SimpleCardSensitiveWithId(
+                  cardExpDate: cardDate,
+                  cardCvv: cardCVV,
+                  cardHolderName: cardHolder,
+                  cardNumber: finalCardNumber,
+                  cardId: cardId,
+                ),);
+
+              },
+              onError: (error) {
+                sNotification.showError(
+                  error.cause,
+                  id: 1,
+                );
+              },
+            );
+          } on ServerRejectException catch (error) {
+            sNotification.showError(
+              error.cause,
+              id: 1,
+            );
+          } catch (error) {
+            sNotification.showError(
+              intl.something_went_wrong,
+              id: 1,
+            );
+          }
+        } else {
+          final cardSens = allSensitive.where((element) => element.cardId == cardId).toList()[0];
+          cardSensitiveData = SimpleCardSensitiveResponse(
+            cardNumber: cardSens.cardNumber,
+            cardHolderName: cardSens.cardHolderName,
+            cardCvv: cardSens.cardCvv,
+            cardExpDate: cardSens.cardExpDate,
           );
         }
       }
@@ -130,9 +171,17 @@ abstract class _SimpleCardStoreBase with Store {
   }
 
   @observable
+  List<CardDataModel>? allCards = sSignalRModules.bankingProfileData
+      ?.banking?.cards
+      ?.where((element) => element.status != AccountStatusCard.inactive).toList();
+
+  @observable
   bool showDetails = false;
   @action
   bool setShowDetails(bool value) => showDetails = value;
+
+  @observable
+  List<SimpleCardSensitiveWithId> allSensitive = [];
 
   @observable
   bool isFrozen = false;
@@ -242,38 +291,46 @@ abstract class _SimpleCardStoreBase with Store {
           password: password,
         ),
       );
+      final context = getIt.get<AppRouter>().navigatorKey.currentContext;
 
-      response.pick(
-        onData: (data) async {
-          setCardInfo(data.card);
-          final context = getIt.get<AppRouter>().navigatorKey.currentContext;
-          if (data.bankingKycRequired != null && data.bankingKycRequired!) {
-            void _afterVerification() {
-              sRouter.popUntilRoot();
+      if (response.hasError) {
+        sNotification.showError(
+          intl.something_went_wrong_try_again,
+          duration: 4,
+          id: 1,
+          needFeedback: true,
+        );
 
-              sNotification.showError(intl.simple_card_password_working, isError: false);
-            }
-            showCompleteVerificationAccount(
-              context!,
-              loader,
-              _afterVerification,
-            );
-          } else {
-            Navigator.pop(context!);
-            sNotification.showError(intl.simple_card_password_working, isError: false);
-          }
-        },
-        onError: (error) {
-          sNotification.showError(
-            error.cause,
-            duration: 4,
-            id: 1,
-            needFeedback: true,
+        Navigator.pop(context!);
+      } else {
+
+
+        void _afterVerification() {
+          Navigator.pop(context!);
+
+          sNotification.showError(intl.simple_card_password_working, isError: false);
+        }
+
+        if (response.data!.simpleKycRequired != null && response.data!.simpleKycRequired!) {
+          Navigator.pop(context!);
+          showWalletVerifyAccount(
+            context,
+            after: _afterVerification,
+            isBanking: false,
           );
+        } else if (response.data!.bankingKycRequired != null && response.data!.bankingKycRequired!) {
+          Navigator.pop(context!);
+          showCompleteVerificationAccount(
+            context,
+            loader,
+            _afterVerification,
+          );
+        } else {
+          Navigator.pop(context!);
+          sNotification.showError(intl.simple_card_password_working, isError: false);
+        }
+      }
 
-          loader.finishLoading();
-        },
-      );
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,

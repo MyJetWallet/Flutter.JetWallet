@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_native_splash/cli_commands.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -125,54 +126,73 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                 ),
               ),
             ),
-            SliverToBoxAdapter(
-              child: SCardRow(
-                frozenIcon: (userInfo.isSimpleCardAvailable && (simpleCardStore.cardFull == null ||
-                  simpleCardStore.cardFull?.status ==
-                  AccountStatusCard.frozen))
-                    ? const SFrozenIcon(
-                      width: 16,
-                      height: 16,
-                    )
-                    : null,
-                icon: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SpaceH6(),
-                    if (userInfo.isSimpleCardAvailable && (simpleCardStore.cardFull == null ||
-                      simpleCardStore.cardFull?.status ==
-                      AccountStatusCard.frozen))
-                      const SFrozenCardIcon(
-                        width: 24,
-                        height: 16,
-                      )
-                    else
-                      const SCardIcon(
+            if (simpleCardStore.allCards == null || simpleCardStore.allCards!.isEmpty || !userInfo.isSimpleCardAvailable)
+              SliverToBoxAdapter(
+                child: SCardRow(
+                  icon: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SpaceH6(),
+                      SCardIcon(
                         width: 24,
                         height: 16,
                       ),
-                  ],
+                    ],
+                  ),
+                  name: intl.eur_wallet_simple_card,
+                  helper: !userInfo.isSimpleCardAvailable
+                      ? intl.eur_wallet_coming_soon
+                      : '',
+                  onTap: () {},
+                  description: '',
+                  amount: '',
+                  needSpacer: true,
                 ),
-                name: intl.eur_wallet_simple_card,
-                helper: !userInfo.isSimpleCardAvailable
-                    ? intl.eur_wallet_coming_soon
-                    : simpleCardStore.cardFull != null
-                    ? intl.simple_card_type_virtual
-                    : '',
-                onTap: () {
-                  if (
-                    simpleCardStore.cardFull != null &&
-                    simpleCardStore.cardFull!.status == AccountStatusCard.active
-                  ) {
-                    sRouter.push(const SimpleCardRouter());
-                  }
-                },
-                description: '',
-                amount: '',
-                needSpacer: true,
-                rightIcon: simpleCardStore.cardFull != null &&
-                    simpleCardStore.cardFull!.status == AccountStatusCard.active
-                  ? Container(
+              ),
+            if (userInfo.isSimpleCardAvailable) ...[
+              for (final el in simpleCardStore.allCards ?? <CardDataModel>[])
+                SliverToBoxAdapter(
+                  child: SCardRow(
+                    frozenIcon: (userInfo.isSimpleCardAvailable && el.status ==
+                        AccountStatusCard.frozen)
+                        ? const SFrozenIcon(
+                      width: 16,
+                      height: 16,
+                    )
+                        : null,
+                    icon: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SpaceH6(),
+                        if (el.status == AccountStatusCard.frozen)
+                          const SFrozenCardIcon(
+                            width: 24,
+                            height: 16,
+                          )
+                        else
+                          const SCardIcon(
+                            width: 24,
+                            height: 16,
+                          ),
+                      ],
+                    ),
+                    name: intl.eur_wallet_simple_card,
+                    helper: el.status == AccountStatusCard.inCreation
+                        ? intl.creating
+                        : intl.simple_card_type_virtual,
+                    onTap: () {
+                      if (
+                        el.status == AccountStatusCard.active
+                      ) {
+                        simpleCardStore.initFullCardIn(el.cardId ?? '');
+                        sRouter.push(const SimpleCardRouter());
+                      }
+                    },
+                    description: '',
+                    amount: '',
+                    needSpacer: true,
+                    rightIcon: el.status == AccountStatusCard.active
+                        ? Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       decoration: ShapeDecoration(
                         shape: RoundedRectangleBorder(
@@ -191,13 +211,14 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                         ),
                       ),
                     )
-                  : null,
-              ),
-            ),
+                        : null,
+                  ),
+                ),
+            ],
             if (
               userInfo.isSimpleCardAvailable &&
-              (simpleCardStore.cardFull == null ||
-              simpleCardStore.cardFull?.status == AccountStatusCard.inCreation)
+              (simpleCardStore.allCards == null || simpleCardStore.allCards!.isEmpty ||
+                  simpleCardStore.allCards![0].status == AccountStatusCard.inCreation)
             ) ...[
               SliverToBoxAdapter(
                 child: Column(
@@ -211,18 +232,23 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                         ),
                         child: SIconTextButton(
                           onTap: () {
-                            if (simpleCardStore.cardFull == null) {
+                            if (simpleCardStore.allCards == null || simpleCardStore.allCards!.isEmpty) {
                               showCardOptions(context);
                             }
                           },
-                          text: intl.simple_card_get_card,
+                          text: intl.simple_card_get_card.capitalize(),
                           textStyle: sTextButtonStyle.copyWith(
-                            color: userInfo.isSimpleCardInProgress ? sKit.colors.grey2 : sKit.colors.blue,
+                            color: simpleCardStore.allCards != null && simpleCardStore.allCards!.isNotEmpty &&
+                                simpleCardStore.allCards![0].status == AccountStatusCard.inCreation
+                                ? sKit.colors.grey2 : sKit.colors.blue,
                           ),
                           icon: SActionDepositIcon(
-                            color: userInfo.isSimpleCardInProgress ? sKit.colors.grey2 : sKit.colors.blue,
+                            color: simpleCardStore.allCards != null && simpleCardStore.allCards!.isNotEmpty &&
+                                simpleCardStore.allCards![0].status == AccountStatusCard.inCreation
+                                ? sKit.colors.grey2 : sKit.colors.blue,
                           ),
-                          disabled: simpleCardStore.cardFull?.status == AccountStatusCard.inCreation,
+                          disabled: simpleCardStore.allCards != null && simpleCardStore.allCards!.isNotEmpty &&
+                              simpleCardStore.allCards![0].status == AccountStatusCard.inCreation,
                         ),
                       ),
                     ),

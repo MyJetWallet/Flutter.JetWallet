@@ -11,6 +11,8 @@ import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_set_password_request.dart';
 
+import '../../../core/di/di.dart';
+
 part 'set_up_password_store.g.dart';
 
 class SetUpPasswordStore extends _SetUpPasswordStoreBase with _$SetUpPasswordStore {
@@ -98,6 +100,7 @@ abstract class _SetUpPasswordStoreBase with Store {
     String cardId,
   ) async {
     passwordError = validPassword(password);
+    final context = getIt.get<AppRouter>().navigatorKey.currentContext;
     if (!passwordError) {
       try {
         loader.startLoadingImmediately();
@@ -109,7 +112,7 @@ abstract class _SetUpPasswordStoreBase with Store {
           ),
         );
 
-        await sRouter.pop();
+        Navigator.pop(context!);
         sNotification.showError(
           intl.simple_card_password_working,
           id: 1,

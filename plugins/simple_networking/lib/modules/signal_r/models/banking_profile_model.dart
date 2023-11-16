@@ -11,6 +11,8 @@ class BankingProfileModel with _$BankingProfileModel {
   factory BankingProfileModel({
     final SimpleBankingModel? simple,
     final BankingDataModel? banking,
+    final int? availableCardsCount,
+    final int? availableAccountsCount,
     @BankingShowStateSerialiser() final BankingShowState? showState,
   }) = _BankingProfileModel;
 

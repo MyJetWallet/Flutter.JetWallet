@@ -49,7 +49,7 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
       loaderText: intl.loader_please_wait,
       resizeToAvoidBottomInset: false,
       color: colors.grey5,
-      loading: store.loader,
+      loading: isCreatePassword ? simpleCardStore.loader : store.loader,
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.simple_card_password_title,
@@ -114,41 +114,46 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
           ),
           const SpaceH16(),
           const Spacer(),
-          SPaddingH24(
-            child: Column(
-              children: [
-                Material(
-                  color: Colors.transparent,
-                  child: SPrimaryButton1(
-                    active: store.isButtonSaveActive,
-                    name: intl.simple_card_password_continue,
-                    onTap: () async {
-                      if (store.canClick) {
-                        store.setCanClick(false);
-                        Timer(
-                          const Duration(
-                            seconds: 2,
-                          ),
-                          () => store.setCanClick(true),
-                        );
-                      } else {
-                        return;
-                      }
+          Observer(
+            builder: (BuildContext context) {
 
-                      if (isCreatePassword) {
-                        final storageService = getIt.get<LocalStorageService>();
+              return SPaddingH24(
+                child: Column(
+                  children: [
+                    Material(
+                      color: Colors.transparent,
+                      child: SPrimaryButton1(
+                        active: store.isButtonSaveActive,
+                        name: intl.simple_card_password_continue,
+                        onTap: () async {
+                          if (store.canClick) {
+                            store.setCanClick(false);
+                            Timer(
+                              const Duration(
+                                seconds: 2,
+                              ),
+                                  () => store.setCanClick(true),
+                            );
+                          } else {
+                            return;
+                          }
 
-                        final pin = await storageService.getValue(pinStatusKey);
-                        await simpleCardStore.createCard(pin ?? '', store.password);
-                      } else {
-                        await store.setCardPassword(simpleCardStore.cardFull?.cardId ?? simpleCardStore.card?.cardId ?? '');
-                      }
-                    },
-                  ),
+                          if (isCreatePassword) {
+                            final storageService = getIt.get<LocalStorageService>();
+
+                            final pin = await storageService.getValue(pinStatusKey);
+                            await simpleCardStore.createCard(pin ?? '', store.password);
+                          } else {
+                            await store.setCardPassword(simpleCardStore.cardFull?.cardId ?? simpleCardStore.card?.cardId ?? '');
+                          }
+                        },
+                      ),
+                    ),
+                    const SpaceH42(),
+                  ],
                 ),
-                const SpaceH42(),
-              ],
-            ),
+              );
+            },
           ),
         ],
       ),
