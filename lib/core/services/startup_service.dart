@@ -226,11 +226,6 @@ class StartupService {
               const PinVerification(),
             );
       }
-
-      // end
-      if (info.toCheckSelfie) {
-        //getIt.get<AppStore>().setAuthorizedStatus(const CheckSelfie());
-      }
     }
 
     unawaited(getIt.get<AppStore>().checkInitRouter());
@@ -377,8 +372,8 @@ class StartupService {
 
     if (info != null) {
       if (info.toCheckSelfie) {
-        //getIt.get<AppStore>().setAuthorizedStatus(const CheckSelfie());
-        success();
+        getIt.get<AppStore>().setAuthorizedStatus(const CheckSelfie());
+        //success();
       } else {
         success();
       }

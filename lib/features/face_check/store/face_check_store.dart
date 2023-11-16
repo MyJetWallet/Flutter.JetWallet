@@ -14,6 +14,14 @@ abstract class _FaceCheckStoreBase with Store {
   @observable
   bool isFaceCheckCheckStatus = false;
 
+  Future<void> runPreloadLoader() async {
+    loader.startLoadingImmediately();
+
+    Future.delayed(const Duration(seconds: 5), () {
+      loader.finishLoadingImmediately();
+    });
+  }
+
   @action
   Future<void> checkStatus() async {
     if (!isFaceCheckCheckStatus) {

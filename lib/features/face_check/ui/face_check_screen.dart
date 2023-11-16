@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -74,6 +76,8 @@ class _FaceCheckScreenState extends State<FaceCheckScreen> {
                 active: true,
                 name: intl.face_check_continue,
                 onTap: () async {
+                  unawaited(store.runPreloadLoader());
+
                   await getIt<SumsubService>().launchFacecheck(store.checkStatus);
                 },
               ),
