@@ -11,6 +11,8 @@ class BankingProfileModel with _$BankingProfileModel {
     final SimpleBankingModel? simple,
     final BankingDataModel? banking,
     @BankingShowStateSerialiser() final BankingShowState? showState,
+    int? availableCardsCount,
+    int? availableAccountsCount,
   }) = _BankingProfileModel;
 
   factory BankingProfileModel.fromJson(Map<String, dynamic> json) => _$BankingProfileModelFromJson(json);

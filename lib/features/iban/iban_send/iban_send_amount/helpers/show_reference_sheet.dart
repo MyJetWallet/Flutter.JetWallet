@@ -56,7 +56,7 @@ void showReferenceSheet(BuildContext context, Function(String) onContinue) {
   );
 }
 
-class _ReferenceBody extends StatelessObserverWidget {
+class _ReferenceBody extends StatefulWidget {
   const _ReferenceBody({
     Key? key,
     required this.store,
@@ -66,6 +66,11 @@ class _ReferenceBody extends StatelessObserverWidget {
   final _ReferenceStore store;
   final Function(String) onContinue;
 
+  @override
+  State<_ReferenceBody> createState() => _ReferenceBodyState();
+}
+
+class _ReferenceBodyState extends State<_ReferenceBody> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -81,15 +86,15 @@ class _ReferenceBody extends StatelessObserverWidget {
           builder: (context) {
             return SPaddingH24(
               child: SStandardField(
-                controller: store.referenceTextField,
+                controller: widget.store.referenceTextField,
                 autofocus: true,
-                isError: store.isError,
+                isError: widget.store.isError,
                 labelText: intl.iban_reference,
                 hideIconsIfNotEmpty: false,
                 suffixIcons: [
                   SIconButton(
                     onTap: () {
-                      store.paste();
+                      widget.store.paste().then((value) => setState(() {}));
                     },
                     defaultIcon: const SPasteIcon(),
                     pressedIcon: const SPastePressedIcon(),
@@ -97,7 +102,7 @@ class _ReferenceBody extends StatelessObserverWidget {
                 ],
                 onErase: () {},
                 onChanged: (value) {
-                  store.setError(false);
+                  widget.store.setError(false);
                 },
               ),
             );
@@ -115,12 +120,12 @@ class _ReferenceBody extends StatelessObserverWidget {
                     active: true,
                     name: intl.withdraw_continue,
                     onTap: () {
-                      if (store.referenceTextField.text.length > 5) {
-                        onContinue(store.referenceTextField.text);
+                      if (widget.store.referenceTextField.text.length > 5) {
+                        widget.onContinue(widget.store.referenceTextField.text);
 
                         sRouter.pop();
                       } else {
-                        store.setError(true);
+                        widget.store.setError(true);
                       }
 
                       return;
