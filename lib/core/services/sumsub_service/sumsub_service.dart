@@ -90,6 +90,7 @@ class SumsubService {
             place: _loggerService,
             message: 'The SDK status was changed: $prevStatus -> $newStatus',
           );
+
       if (newStatus == SNSMobileSDKStatus.Approved ||
           newStatus == SNSMobileSDKStatus.ActionCompleted ||
           newStatus == SNSMobileSDKStatus.Pending) {
@@ -163,7 +164,7 @@ class SumsubService {
           onStatusChanged: onStatusChanged,
           onActionResult: onActionResult,
         )
-        .withDebug(true)
+        .withDebug(false)
         .withLocale(
           Locale(intl.localeName),
         )
@@ -197,9 +198,9 @@ class SumsubService {
     );
   }
 
-  Future<void> launchFacecheck() async {
-    final countries = getIt.get<KycCountryStore>();
-
+  Future<void> launchFacecheck(
+    VoidCallback callback,
+  ) async {
     getIt.get<SimpleLoggerService>().log(
           level: Level.info,
           place: _loggerService,
@@ -215,33 +216,19 @@ class SumsubService {
             place: _loggerService,
             message: 'The FACE CHECK SDK status was changed: $prevStatus -> $newStatus',
           );
+
       if (newStatus == SNSMobileSDKStatus.Approved ||
           newStatus == SNSMobileSDKStatus.ActionCompleted ||
           newStatus == SNSMobileSDKStatus.Pending) {
-        if (!isFaceCheckCheckStatus) {
-          final status = await getFaceCheckStatus();
-
-          if (status == 2) {
-            getIt.get<StartupService>().pinVerified();
-          } else if (status == 0) {}
-        }
+        callback();
       }
     }
 
     Future<SNSActionResultHandlerReaction> onActionResult(SNSMobileSDKActionResult result) async {
-      if (!isFaceCheckCheckStatus) {
-        final status = await getFaceCheckStatus();
-
-        if (status == 2) {
-          getIt.get<StartupService>().pinVerified();
-        } else if (status == 0) {}
-      }
-
       return Future.value(SNSActionResultHandlerReaction.Continue);
     }
 
     final initToken = await getFacecheckToken();
-    isFaceCheckCheckStatus = false;
 
     try {
       final snsMobileSDK = SNSMobileSDK.init(initToken ?? '', getFacecheckToken)
@@ -249,7 +236,7 @@ class SumsubService {
             onStatusChanged: onStatusChanged,
             onActionResult: onActionResult,
           )
-          .withDebug(true)
+          .withDebug(false)
           .withLocale(
             Locale(intl.localeName),
           )
@@ -257,36 +244,6 @@ class SumsubService {
           .build();
 
       final _ = await snsMobileSDK.launch();
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  bool isFaceCheckCheckStatus = false;
-
-  Future<int> getFaceCheckStatus() async {
-    isFaceCheckCheckStatus = true;
-
-    final request = await sNetwork.getWalletModule().postFaceCheckStatus();
-
-    if (request.hasError) {
-      getIt.get<SimpleLoggerService>().log(
-            level: Level.error,
-            place: _loggerService,
-            message: 'The FACE CHECK SDK error: ${request.error}',
-          );
-
-      return 0;
-    } else {
-      if (request.data == 2) {
-        return request.data ?? 2;
-      } else if (request.data == 1) {
-        await Future.delayed(const Duration(seconds: 1));
-
-        return getFaceCheckStatus();
-      } else {
-        return 0;
-      }
-    }
+    } catch (e) {}
   }
 }

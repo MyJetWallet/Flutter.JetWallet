@@ -56,28 +56,12 @@ class CircleActionButton extends StatelessWidget {
       }
     }
 
-    return SizedBox(
-      height: 68,
-      width: 68,
-      child: Column(
-        children: [
-          SimpleCircleButton(
-            height: 40,
-            defaultIcon: getIcon(),
-            pressedIcon: getPressedIcon(),
-            backgroundColor: isDisabled ? sKit.colors.grey4 : sKit.colors.black,
-            onTap: isDisabled ? null : onTap,
-          ),
-          const SpaceH10(),
-          Text(
-            text,
-            style: sCaptionTextStyle.copyWith(
-              color: isDisabled ? sKit.colors.grey2 : sKit.colors.black,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-      ),
+    return SimpleCircleButton(
+      defaultIcon: getIcon(),
+      pressedIcon: getPressedIcon(),
+      backgroundColor: isDisabled ? sKit.colors.grey4 : sKit.colors.black,
+      onTap: isDisabled ? null : onTap,
+      name: text,
     );
   }
 }

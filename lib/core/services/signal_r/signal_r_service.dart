@@ -102,6 +102,11 @@ class SignalRService {
   }
 
   Future<void> _getSignalRModule() async {
+    sSignalRModules = SignalRServiceUpdated();
+
+    await sSignalRModules.launch();
+
+    /*
     try {
       final sRCache = await getIt<LocalCacheService>().getSignalRFromCache();
 
@@ -115,6 +120,7 @@ class SignalRService {
     } catch (e) {
       sSignalRModules = SignalRServiceUpdated();
     }
+    */
   }
 
   Future<SignalRModuleNew> createNewService() async {
@@ -122,15 +128,11 @@ class SignalRService {
       initFinished: sSignalRModules.setInitFinished,
       cards: sSignalRModules.setCards,
       cardLimits: sSignalRModules.setCardLimitModel,
-      earnOffersList: sSignalRModules.setEarnOffersList,
-      earnProfile: sSignalRModules.setEarnProfile,
       operationHistory: sSignalRModules.operationHistoryEvent,
-      recurringBuys: sSignalRModules.setRecurringBuys,
       kycCountries: sSignalRModules.setKYCCountries,
       marketInfo: sSignalRModules.setMarketInfo,
       marketCampaigns: sSignalRModules.setMarketCampaigns,
       referralStats: sSignalRModules.setReferralStats,
-      instruments: sSignalRModules.setInstruments,
       marketItems: sSignalRModules.setMarketItems,
       periodPrices: sSignalRModules.setPeriodPrices,
       clientDetail: sSignalRModules.setClientDetail,
@@ -138,17 +140,12 @@ class SignalRService {
       indicesDetails: sSignalRModules.setIndicesDetails,
       priceAccuracies: sSignalRModules.setPriceAccuracies,
       referralInfo: sSignalRModules.setReferralInfo,
-      nftList: sSignalRModules.setNFTList,
-      nftMarket: sSignalRModules.setNFTMarket,
-      userNFTPortfolio: sSignalRModules.setUserNFTPortfolio,
-      updateUserNft: sSignalRModules.updateUserNft,
       fireblockEventAction: sSignalRModules.fireblockEventAction,
       setAssets: sSignalRModules.setAssets,
       updateBalances: sSignalRModules.updateBalances,
       updateBlockchains: sSignalRModules.updateBlockchains,
       updateBasePrices: sSignalRModules.updateBasePrices,
       updateAssetsWithdrawalFees: sSignalRModules.updateAssetsWithdrawalFees,
-      updateAssetPaymentMethods: sSignalRModules.updateAssetPaymentMethods,
       updateAssetPaymentMethodsNew: sSignalRModules.updateAssetPaymentMethodsNew,
       receiveGifts: sSignalRModules.reciveGiftsEvent,
       rewardsProfile: sSignalRModules.rewardsProfileMethods,

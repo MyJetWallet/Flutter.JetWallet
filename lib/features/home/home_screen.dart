@@ -26,7 +26,7 @@ class HomeScreen extends StatefulObserverWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final bool earnEnabled = sSignalRModules.earnProfile?.earnEnabled ?? false;
+  final bool earnEnabled = false;
 
   @override
   Widget build(BuildContext context) {

@@ -5,12 +5,14 @@ import 'package:simple_kit/modules/icons/24x24/light/network/simple_network_icon
 import 'package:simple_kit/utils/enum.dart';
 
 class SNetworkIcon extends StatelessObserverWidget {
-  const SNetworkIcon({Key? key}) : super(key: key);
+  const SNetworkIcon({Key? key, this.color}) : super(key: key);
+
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return sKit.currentTheme == STheme.dark
-        ? const SimpleLightNetworkIcon()
-        : const SimpleLightNetworkIcon();
+        ? SimpleLightNetworkIcon(color: color)
+        : SimpleLightNetworkIcon(color: color);
   }
 }

@@ -121,22 +121,6 @@ class LocalCacheService {
 
   ///
 
-  Future<void> saveSignalR(Map<String, dynamic> json) async {
-    await instance.setString(signalRCache, jsonEncode(json));
-  }
-
-  Future<SignalRServiceUpdated?> getSignalRFromCache() async {
-    final data = instance.getString(signalRCache);
-
-    return data != null
-        ? SignalRServiceUpdated.fromJson(
-            jsonDecode(data) as Map<String, dynamic>,
-          )
-        : null;
-  }
-
-  ///
-
   Future<void> saveChart(
     String asset,
     Map<String, List<CandleModel>?> candle,
@@ -152,8 +136,7 @@ class LocalCacheService {
 
       final localList = actualCacheModel.data.toList();
 
-      final checkIsHaveAsset =
-          localList.indexWhere((element) => element.asset == asset);
+      final checkIsHaveAsset = localList.indexWhere((element) => element.asset == asset);
       if (checkIsHaveAsset == -1) {
         localList.add(val);
       } else {
@@ -187,12 +170,9 @@ class LocalCacheService {
         jsonDecode(actualCache) as Map<String, dynamic>,
       );
 
-      final checkIsHaveAsset =
-          actualCacheModel.data.indexWhere((element) => element.asset == asset);
+      final checkIsHaveAsset = actualCacheModel.data.indexWhere((element) => element.asset == asset);
 
-      return checkIsHaveAsset != -1
-          ? actualCacheModel.data[checkIsHaveAsset]
-          : null;
+      return checkIsHaveAsset != -1 ? actualCacheModel.data[checkIsHaveAsset] : null;
     } else {
       return null;
     }

@@ -17,10 +17,12 @@ import 'package:jetwallet/core/services/package_info_service.dart';
 import 'package:jetwallet/core/services/push_notification.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/core/services/session_check_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
+import 'package:jetwallet/core/services/zendesk_support_service/zendesk_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
@@ -177,6 +179,8 @@ class StartupService {
 
     final kyc = getIt.get<KycService>();
     sAnalytics.setKYCDepositStatus = kyc.depositStatus;
+
+    await getIt.get<ZenDeskService>().authZenDesk();
   }
 
   Future<bool> checkIsUserAuthorized(String? token) async {
@@ -190,72 +194,44 @@ class StartupService {
   }
 
   Future<void> makeSessionCheck() async {
-    final infoRequest = await sNetwork.getAuthModule().postSessionCheck();
-    infoRequest.pick(
-      onData: (SessionCheckResponseModel info) async {
-        unawaited(
-          getIt.get<SNetwork>().simpleNetworkingUnathorized.getLogsApiModule().postAddLog(
-                AddLogModel(
-                  level: 'info',
-                  message: '$info',
-                  source: 'makeSessionCheck',
-                  process: 'StartupService',
-                  token: await getIt.get<LocalStorageService>().getValue(refreshTokenKey),
-                ),
-              ),
-        );
+    final info = await getIt.get<SessionCheckService>().sessionCheck();
 
-        log(info.toJson().toString());
+    if (info != null) {
+      // For verification Screen
+      if (!info.toSetupPhone) {
+        getIt.get<VerificationStore>().phoneDone();
+      }
+      if (!info.toCheckSimpleKyc) {
+        getIt.get<VerificationStore>().personalDetailDone();
+      }
 
-        // For verification Screen
-        if (!info.toSetupPhone) {
-          getIt.get<VerificationStore>().phoneDone();
+      if (info.toSetupPhone) {
+        getIt.get<AppStore>().setAuthorizedStatus(
+              const TwoFaVerification(),
+            );
+      } else if (info.toVerifyPhone) {
+        getIt.get<AppStore>().setAuthorizedStatus(
+              const PhoneVerification(),
+            );
+      } else if (info.toCheckSimpleKyc) {
+        getIt.get<AppStore>().setAuthorizedStatus(
+              const UserDataVerification(),
+            );
+      } else if (info.toSetupPin) {
+        if (!userInfo.isJustRegistered) {
+          getIt.get<VerificationStore>().setRefreshPin();
         }
-        if (!info.toCheckSimpleKyc) {
-          getIt.get<VerificationStore>().personalDetailDone();
-        }
+        getIt.get<AppStore>().setAuthorizedStatus(
+              const PinSetup(),
+            );
+      } else {
+        getIt.get<AppStore>().setAuthorizedStatus(
+              const PinVerification(),
+            );
+      }
+    }
 
-        print(info.toCheckSelfie);
-
-        if (info.toCheckSelfie) {
-          getIt.get<AppStore>().setAuthorizedStatus(
-                const CheckSelfie(),
-              );
-        } else if (info.toSetupPhone) {
-          getIt.get<AppStore>().setAuthorizedStatus(
-                const TwoFaVerification(),
-              );
-        } else if (info.toVerifyPhone) {
-          getIt.get<AppStore>().setAuthorizedStatus(
-                const PhoneVerification(),
-              );
-        } else if (info.toCheckSimpleKyc) {
-          getIt.get<AppStore>().setAuthorizedStatus(
-                const UserDataVerification(),
-              );
-        } else if (info.toSetupPin) {
-          if (!userInfo.isJustRegistered) {
-            getIt.get<VerificationStore>().setRefreshPin();
-          }
-          getIt.get<AppStore>().setAuthorizedStatus(
-                const PinSetup(),
-              );
-        } else {
-          getIt.get<AppStore>().setAuthorizedStatus(
-                const PinVerification(),
-              );
-        }
-
-        unawaited(getIt.get<AppStore>().checkInitRouter());
-      },
-      onError: (error) {
-        _logger.log(
-          level: Level.error,
-          place: _loggerValue,
-          message: 'Failed to fetch session info: $error',
-        );
-      },
-    );
+    unawaited(getIt.get<AppStore>().checkInitRouter());
   }
 
   void successfullAuthentication({bool needPush = true}) {
@@ -388,10 +364,25 @@ class StartupService {
   }
 
   ///
-  void pinVerified() {
+  void pushHome() {
     getIt.get<AppStore>().setAuthorizedStatus(
           const Home(),
         );
+  }
+
+  void pinVerified() {
+    final info = getIt.get<SessionCheckService>().data;
+
+    if (info != null) {
+      if (info.toCheckSelfie) {
+        getIt.get<AppStore>().setAuthorizedStatus(const CheckSelfie());
+        //pushHome();
+      } else {
+        pushHome();
+      }
+    } else {
+      pushHome();
+    }
 
     getIt.get<AppStore>().checkInitRouter();
   }

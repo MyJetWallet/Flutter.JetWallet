@@ -421,14 +421,22 @@ abstract class IbanStoreBase with Store {
       ibanAdressBookLoaded = false;
     }
 
+    var tempSimpleContacts = <AddressBookContactModel>[];
+    var tempSimpleTopContacts = <AddressBookContactModel>[];
+
+    var tempAllContacts = <AddressBookContactModel>[];
+    var tempAllTopContacts = <AddressBookContactModel>[];
+
     // Simple
     final simpleResponse = await sNetwork.getWalletModule().getAddressBook(0);
     simpleResponse.pick(
       onData: (data) {
-        simpleContacts = ObservableList.of(data.contacts ?? []);
-        simpleTopContacts = ObservableList.of(data.topContacts ?? []);
+        tempSimpleContacts = List.from(data.contacts ?? []);
+        tempSimpleTopContacts = List.from(data.topContacts ?? []);
 
-        ibanAdressBookLoaded = true;
+        tempSimpleContacts.sort((a, b) {
+          return b.weight!.compareTo(a.weight!);
+        });
       },
     );
 
@@ -436,19 +444,31 @@ abstract class IbanStoreBase with Store {
     final unlimitResponse = await sNetwork.getWalletModule().getAddressBook(1);
     unlimitResponse.pick(
       onData: (data) {
-        allContacts = ObservableList.of(data.contacts ?? []);
-        allTopContacts = ObservableList.of(data.topContacts ?? []);
+        tempAllContacts = List.from(data.contacts ?? []);
+        tempAllTopContacts = List.from(data.topContacts ?? []);
 
-        ibanAdressBookLoaded = true;
+        tempAllContacts.sort((a, b) {
+          return b.weight!.compareTo(a.weight!);
+        });
       },
     );
 
-    simpleContacts.sort((a, b) {
-      return b.weight!.compareTo(a.weight!);
-    });
+    simpleContacts = ObservableList.of(tempSimpleContacts);
+    simpleTopContacts = ObservableList.of(tempSimpleTopContacts);
 
-    allContacts.sort((a, b) {
-      return b.weight!.compareTo(a.weight!);
-    });
+    allContacts = ObservableList.of(tempAllContacts);
+    allTopContacts = ObservableList.of(tempAllTopContacts);
+
+    ibanAdressBookLoaded = true;
+  }
+
+  @action
+  void clearData() {
+    simpleContacts = ObservableList.of([]);
+    simpleTopContacts = ObservableList.of([]);
+    allContacts = ObservableList.of([]);
+    allTopContacts = ObservableList.of([]);
+
+    initTab = 0;
   }
 }

@@ -11,9 +11,11 @@ import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/package_info_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
+import 'package:jetwallet/core/services/session_check_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
+import 'package:jetwallet/core/services/zendesk_support_service/zendesk_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/store/kyc_profile_countries_store.dart';
@@ -82,6 +84,11 @@ Future<GetIt> getItInit({
     dependsOn: [PackageInfoService],
   );
 
+  getIt.registerSingletonAsync<ZenDeskService>(
+    () async => ZenDeskService().initZenDesk(),
+    dependsOn: [RemoteConfig],
+  );
+
   getIt.registerSingleton<SNetwork>(
     SNetwork(),
   );
@@ -91,8 +98,9 @@ Future<GetIt> getItInit({
     dependsOn: [RemoteConfig],
   );
 
-  getIt.registerSingleton<SignalRService>(
-    SignalRService(),
+  getIt.registerSingletonWithDependencies<SignalRService>(
+    () => SignalRService(),
+    dependsOn: [RemoteConfig],
   );
 
   getIt.registerLazySingleton<LogoutService>(() => LogoutService());
@@ -126,6 +134,9 @@ Future<GetIt> getItInit({
     () => MyWalletsSrore(),
   );
 
+  getIt.registerLazySingleton<SessionCheckService>(
+    () => SessionCheckService(),
+  );
 
   return getIt.init(
     environmentFilter: environmentFilter,

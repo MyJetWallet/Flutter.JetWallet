@@ -54,20 +54,17 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                 SNewActionPriceField(
                   widgetSize: widgetSizeFrom(deviceSize),
                   primaryAmount: formatCurrencyStringAmount(
-                    value: store.isFromEntering ? store.fromInputValue : store.toInputValue,
+                    value: store.primaryAmount,
                   ),
-                  primarySymbol:
-                      store.isFromEntering ? store.fromAsset?.symbol ?? 'EUR' : store.toAsset?.symbol ?? 'EUR',
+                  primarySymbol: store.primarySymbol,
                   secondaryAmount: store.toAsset != null
-                      ? formatCurrencyStringAmount(
-                          value: store.isFromEntering ? store.toInputValue : store.fromInputValue,
+                      ? volumeFormat(
+                          decimal: Decimal.parse(store.secondaryAmount),
+                          symbol: '',
+                          accuracy: store.secondaryAccuracy,
                         )
                       : null,
-                  secondarySymbol: store.toAsset != null
-                      ? store.isFromEntering
-                          ? store.toAsset?.symbol
-                          : store.fromAsset?.symbol
-                      : null,
+                  secondarySymbol: store.toAsset != null ? store.secondarySymbol : null,
                   onSwap: () {
                     store.swapAssets();
                   },
@@ -156,8 +153,7 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                     store.updateInputValue(value);
                   },
                   buttonType: SButtonType.primary2,
-                  submitButtonActive:
-                      store.inputValid && !store.disableSubmit && !(double.parse(store.primaryAmount) == 0.0),
+                  submitButtonActive: store.isContinueAvaible,
                   submitButtonName: intl.addCircleCard_continue,
                   onSubmitPressed: () {
                     sRouter.push(

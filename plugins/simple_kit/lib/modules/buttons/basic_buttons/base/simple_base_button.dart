@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/shared/simple_paddings.dart';
@@ -6,7 +8,7 @@ import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 
 final _baseButtonRadius = BorderRadius.circular(16.0);
 
-class SimpleBaseButton extends StatelessWidget {
+class SimpleBaseButton extends StatefulWidget {
   const SimpleBaseButton({
     Key? key,
     this.icon,
@@ -33,45 +35,65 @@ class SimpleBaseButton extends StatelessWidget {
   final Color? borderColor;
 
   @override
+  State<SimpleBaseButton> createState() => _SimpleBaseButtonState();
+}
+
+class _SimpleBaseButtonState extends State<SimpleBaseButton> {
+  var isClicked = false;
+  late Timer _timer;
+
+  void _startTimer() {
+    _timer = Timer(const Duration(milliseconds: 999), () => isClicked = false);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
-      onHighlightChanged: onHighlightChanged,
+      onTap: widget.onTap != null
+          ? () {
+              if (!isClicked) {
+                _startTimer();
+                widget.onTap!();
+                isClicked = true;
+              }
+            }
+          : null,
+      onHighlightChanged: widget.onHighlightChanged,
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
       borderRadius: _baseButtonRadius,
       child: Ink(
         height: 56.0,
-        decoration: decoration.copyWith(
+        decoration: widget.decoration.copyWith(
           borderRadius: _baseButtonRadius,
-          border: borderColor != null ? Border.all(color: borderColor!) : null,
+          border: widget.borderColor != null ? Border.all(color: widget.borderColor!) : null,
         ),
         child: Baseline(
-          baseline: baseline,
+          baseline: widget.baseline,
           baselineType: TextBaseline.alphabetic,
           child: SPaddingH24(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                if (icon != null) ...[
+                if (widget.icon != null) ...[
                   Baseline(
                     baselineType: TextBaseline.alphabetic,
                     baseline: 23,
-                    child: icon,
+                    child: widget.icon,
                   ),
                   const SpaceW10(),
                 ],
-                if (addPadding)
+                if (widget.addPadding)
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Flexible(
-                        child: autoSize
+                        child: widget.autoSize
                             ? SizedBox(
                                 width: MediaQuery.of(context).size.width - 132,
                                 child: AutoSizeText(
-                                  name,
+                                  widget.name,
                                   minFontSize: 4.0,
                                   textAlign: TextAlign.center,
                                   maxLines: 1,
@@ -86,27 +108,27 @@ class SimpleBaseButton extends StatelessWidget {
                                     fontSize: 18.0,
                                     fontFamily: 'Gilroy',
                                     fontWeight: FontWeight.w700,
-                                    color: nameColor,
+                                    color: widget.nameColor,
                                   ),
                                 ),
                               )
                             : Text(
-                                name,
+                                widget.name,
                                 style: sButtonTextStyle.copyWith(
-                                  color: nameColor,
+                                  color: widget.nameColor,
                                 ),
                               ),
                       ),
-                      if (icon != null) const SpaceH8(),
+                      if (widget.icon != null) const SpaceH8(),
                     ],
                   )
                 else
                   Flexible(
-                    child: autoSize
+                    child: widget.autoSize
                         ? SizedBox(
                             width: MediaQuery.of(context).size.width - 132,
                             child: AutoSizeText(
-                              name,
+                              widget.name,
                               minFontSize: 4.0,
                               textAlign: TextAlign.center,
                               maxLines: 1,
@@ -121,14 +143,14 @@ class SimpleBaseButton extends StatelessWidget {
                                 fontSize: 18.0,
                                 fontFamily: 'Gilroy',
                                 fontWeight: FontWeight.w700,
-                                color: nameColor,
+                                color: widget.nameColor,
                               ),
                             ),
                           )
                         : Text(
-                            name,
+                            widget.name,
                             style: sButtonTextStyle.copyWith(
-                              color: nameColor,
+                              color: widget.nameColor,
                             ),
                           ),
                   ),

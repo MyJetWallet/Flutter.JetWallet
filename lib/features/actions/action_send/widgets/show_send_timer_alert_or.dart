@@ -61,7 +61,6 @@ void showSendTimerAlertOr({
                 DateTime.now().add(
                   getDurationFromBlocker(clientDetail.clientBlockers[ind].timespanToExpire),
                 ),
-                from,
           )
         : or();
   }
@@ -69,27 +68,11 @@ void showSendTimerAlertOr({
 
 void _showTimerAlert(
   DateTime expireIn,
-  List<BlockingType> from,
 ) {
   final expireFormatted = DateFormat('d MMM y', intl.localeName).format(expireIn);
 
-  String getDescription() {
-    switch (from.first) {
-      case BlockingType.deposit:
-        return intl.deposit_timer_alert_description;
-      case BlockingType.withdrawal:
-        return intl.send_timer_alert_description;
-      case BlockingType.trade:
-        return intl.trade_timer_alert_description;
-      case BlockingType.phoneNumberUpdate:
-        return intl.phone_update_block;
-      default:
-        return intl.send_timer_alert_description;
-    }
-  }
-
   sNotification.showError(
-    '${getDescription()} $expireFormatted',
+    '${intl.message_operation_is_suspended} $expireFormatted',
     id: 1,
     hideIcon: true,
   );

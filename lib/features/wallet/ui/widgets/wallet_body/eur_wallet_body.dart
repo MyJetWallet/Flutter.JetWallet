@@ -159,7 +159,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                 children: [
                   if (simpleAccount != null)
                     SCardRow(
-                      maxWidth: MediaQuery.of(context).size.width * .4,
+                      maxWidth: MediaQuery.of(context).size.width * .35,
                       icon: Container(
                         margin: const EdgeInsets.only(top: 3),
                         padding: const EdgeInsets.all(4),
@@ -220,71 +220,80 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                             )
                           : null,
                     ),
-                  for (final el in bankAccounts)
-                    SCardRow(
-                      maxWidth: MediaQuery.of(context).size.width * .4,
-                      icon: Container(
-                        margin: const EdgeInsets.only(top: 3),
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: sKit.colors.blue,
-                          shape: BoxShape.circle,
-                        ),
-                        child: SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: SBankMediumIcon(
-                            color: sKit.colors.white,
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: bankAccounts.length,
+                    padding: EdgeInsets.zero,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return SCardRow(
+                        maxWidth: bankAccounts[index].status == AccountStatus.active
+                            ? MediaQuery.of(context).size.width * .35
+                            : MediaQuery.of(context).size.width * .5,
+                        icon: Container(
+                          margin: const EdgeInsets.only(top: 3),
+                          padding: const EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            color: sKit.colors.blue,
+                            shape: BoxShape.circle,
+                          ),
+                          child: SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: SBankMediumIcon(
+                              color: sKit.colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                      name: el.label ?? 'Account',
-                      helper: el.status == AccountStatus.active
-                          ? intl.eur_wallet_personal_account
-                          : intl.create_personal_creating,
-                      onTap: () {
-                        if (el.status == AccountStatus.active) {
-                          sRouter
-                              .push(
-                                CJAccountRouter(
-                                  bankingAccount: el,
-                                  isCJAccount: false,
+                        name: bankAccounts[index].label ?? 'Account',
+                        helper: bankAccounts[index].status == AccountStatus.active
+                            ? intl.eur_wallet_personal_account
+                            : intl.create_personal_creating,
+                        onTap: () {
+                          if (bankAccounts[index].status == AccountStatus.active) {
+                            sRouter
+                                .push(
+                                  CJAccountRouter(
+                                    bankingAccount: bankAccounts[index],
+                                    isCJAccount: false,
+                                  ),
+                                )
+                                .then(
+                                  (value) => sAnalytics.eurWalletTapBackOnAccountWalletScreen(
+                                    isCJ: false,
+                                    eurAccountLabel: bankAccounts[index].label ?? '',
+                                    isHasTransaction: false,
+                                  ),
+                                );
+                          }
+                        },
+                        description: '',
+                        amount: '',
+                        needSpacer: true,
+                        rightIcon: bankAccounts[index].status == AccountStatus.active
+                            ? Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                decoration: ShapeDecoration(
+                                  shape: RoundedRectangleBorder(
+                                    side: const BorderSide(color: Color(0xFFF1F4F8)),
+                                    borderRadius: BorderRadius.circular(22),
+                                  ),
+                                ),
+                                child: Text(
+                                  volumeFormat(
+                                    decimal: bankAccounts[index].balance ?? Decimal.zero,
+                                    accuracy: eurCurrency.accuracy,
+                                    symbol: eurCurrency.symbol,
+                                  ),
+                                  style: sSubtitle1Style.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               )
-                              .then(
-                                (value) => sAnalytics.eurWalletTapBackOnAccountWalletScreen(
-                                  isCJ: false,
-                                  eurAccountLabel: el.label ?? '',
-                                  isHasTransaction: false,
-                                ),
-                              );
-                        }
-                      },
-                      description: '',
-                      amount: '',
-                      needSpacer: true,
-                      rightIcon: el.status == AccountStatus.active
-                          ? Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                              decoration: ShapeDecoration(
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(color: Color(0xFFF1F4F8)),
-                                  borderRadius: BorderRadius.circular(22),
-                                ),
-                              ),
-                              child: Text(
-                                volumeFormat(
-                                  decimal: el.balance ?? Decimal.zero,
-                                  accuracy: eurCurrency.accuracy,
-                                  symbol: eurCurrency.symbol,
-                                ),
-                                style: sSubtitle1Style.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            )
-                          : null,
-                    ),
+                            : null,
+                      );
+                    },
+                  ),
                   if (bankAccounts.isEmpty)
                     SPaddingH24(
                       child: Padding(

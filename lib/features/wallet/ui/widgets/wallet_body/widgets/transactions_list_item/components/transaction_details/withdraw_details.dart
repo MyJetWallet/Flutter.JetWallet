@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -7,7 +8,9 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/transaction_details_name_text.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../../../helper/format_date_to_hm.dart';
@@ -30,6 +33,9 @@ class WithdrawDetails extends StatelessObserverWidget {
     return SPaddingH24(
       child: Column(
         children: [
+          _WithdrawDetailsHeader(
+            transactionListItem: transactionListItem,
+          ),
           TransactionDetailsItem(
             text: intl.date,
             value: TransactionDetailsValueText(
@@ -66,19 +72,17 @@ class WithdrawDetails extends StatelessObserverWidget {
               ),
             ),
           ],
-          const SpaceH18(),
           if (transactionListItem.withdrawalInfo!.toAddress != null) ...[
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TransactionDetailsNameText(
                   text: intl.to1,
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.15),
-                //const SpaceW12(),
                 Flexible(
                   child: TransactionDetailsValueText(
                     text: transactionListItem.withdrawalInfo!.toAddress ?? '',
+                    textAlign: TextAlign.right,
                   ),
                 ),
                 const SpaceW8(),
@@ -146,13 +150,71 @@ class WithdrawDetails extends StatelessObserverWidget {
                     },
                   ),
           ),
-          const SpaceH18(),
-          TransactionDetailsStatus(
-            status: transactionListItem.status,
-          ),
           const SpaceH40(),
         ],
       ),
+    );
+  }
+}
+
+class _WithdrawDetailsHeader extends StatelessWidget {
+  const _WithdrawDetailsHeader({
+    required this.transactionListItem,
+  });
+
+  final OperationHistoryItem transactionListItem;
+
+  @override
+  Widget build(BuildContext context) {
+    final paymentAsset = nonIndicesWithBalanceFrom(
+      sSignalRModules.currenciesList,
+    )
+        .where(
+          (element) => element.symbol == (transactionListItem.withdrawalInfo?.withdrawalAssetId ?? 'EUR'),
+        )
+        .first;
+
+    final buyAsset = nonIndicesWithBalanceFrom(
+      sSignalRModules.currenciesList,
+    )
+        .where(
+          (element) => element.symbol == (transactionListItem.withdrawalInfo?.receiveAsset ?? 'EUR'),
+        )
+        .first;
+
+    return Column(
+      children: [
+        WhatToWhatConvertWidget(
+          removeDefaultPaddings: true,
+          isLoading: false,
+          fromAssetIconUrl: paymentAsset.iconUrl,
+          fromAssetDescription: paymentAsset.description,
+          fromAssetValue: volumeFormat(
+            symbol: paymentAsset.symbol,
+            accuracy: paymentAsset.accuracy,
+            decimal: transactionListItem.withdrawalInfo?.withdrawalAmount ?? Decimal.zero,
+          ),
+          toAssetIconUrl: buyAsset.iconUrl,
+          toAssetDescription: buyAsset.description,
+          toAssetValue: volumeFormat(
+            symbol: buyAsset.symbol,
+            accuracy: buyAsset.accuracy,
+            decimal: transactionListItem.withdrawalInfo?.receiveAmount ?? Decimal.zero,
+          ),
+          isError: transactionListItem.status == Status.declined,
+        ),
+        const SizedBox(height: 24),
+        SBadge(
+          status: transactionListItem.status == Status.inProgress
+              ? SBadgeStatus.primary
+              : transactionListItem.status == Status.completed
+                  ? SBadgeStatus.success
+                  : SBadgeStatus.error,
+          text: transactionDetailsStatusText(transactionListItem.status),
+          isLoading: transactionListItem.status == Status.inProgress,
+        ),
+        const SizedBox(height: 24),
+      ],
     );
   }
 }

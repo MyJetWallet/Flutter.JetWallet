@@ -16,29 +16,16 @@ class CircleActionReceive extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    return Expanded(
-      child: Column(
-        children: [
-          SimpleCircleButton(
-            defaultIcon: SArrowDownIcon(
-              color: colors.white,
-            ),
-            pressedIcon: SArrowDownIcon(
-              color: colors.white.withOpacity(0.7),
-            ),
-            onTap: onTap,
-            isDisabled: isDisabled,
-          ),
-          const SpaceH6(),
-          Text(
-            intl.balanceActionButtons_receive,
-            style: sBodyText2Style.copyWith(
-              fontWeight: FontWeight.w600,
-              color: isDisabled ? colors.grey2 : null,
-            ),
-          ),
-        ],
+    return SimpleCircleButton(
+      defaultIcon: SArrowDownIcon(
+        color: colors.white,
       ),
+      pressedIcon: SArrowDownIcon(
+        color: colors.white.withOpacity(0.7),
+      ),
+      onTap: onTap,
+      isDisabled: isDisabled,
+      name: intl.balanceActionButtons_receive,
     );
   }
 }

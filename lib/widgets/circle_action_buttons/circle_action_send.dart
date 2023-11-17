@@ -16,29 +16,16 @@ class CircleActionSend extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    return Expanded(
-      child: Column(
-        children: [
-          SimpleCircleButton(
-            defaultIcon: SArrowUpIcon(
-              color: colors.white,
-            ),
-            pressedIcon: SArrowUpIcon(
-              color: colors.white.withOpacity(0.7),
-            ),
-            onTap: onTap,
-            isDisabled: isDisabled,
-          ),
-          const SpaceH6(),
-          Text(
-            intl.balanceActionButtons_send,
-            style: sBodyText2Style.copyWith(
-              fontWeight: FontWeight.w600,
-              color: isDisabled ? colors.grey2 : null,
-            ),
-          ),
-        ],
+    return SimpleCircleButton(
+      defaultIcon: SArrowUpIcon(
+        color: colors.white,
       ),
+      pressedIcon: SArrowUpIcon(
+        color: colors.white.withOpacity(0.7),
+      ),
+      onTap: onTap,
+      isDisabled: isDisabled,
+      name: intl.balanceActionButtons_send,
     );
   }
 }

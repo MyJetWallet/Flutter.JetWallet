@@ -15,7 +15,7 @@ ObservableList<CurrencyModel> currenciesForMyWallet(
 
   final isShowEUR =
       // ignore: avoid_bool_literals_in_conditional_expressions
-      fromWalletsScreen ? (state == BankingShowState.accountList || state == BankingShowState.onlySimple) : true;
+      fromWalletsScreen ? state == BankingShowState.accountList : true;
 
   activeCurrencies.sort((a, b) => (a.walletOrder ?? 1).compareTo(b.walletOrder ?? 1));
 

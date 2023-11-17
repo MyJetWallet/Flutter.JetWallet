@@ -219,9 +219,14 @@ abstract class _MyWalletsSroreBase with Store {
     }
   }
 
-  Future<void> afterVerification() async {
-    sNotification.showError(intl.let_us_create_account, isError: false);
-    setSimpleAccountStatus(SimpleWalletAccountStatus.creating);
+  void afterVerification() {
+    Future.delayed(const Duration(seconds: 3), () {
+      sNotification.showError(
+        intl.let_us_create_account,
+        isError: false,
+      );
+      setSimpleAccountStatus(SimpleWalletAccountStatus.creating);
+    });
   }
 
   @action

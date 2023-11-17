@@ -31,7 +31,7 @@ abstract class _PaymentMethodStoreBase with Store {
   bool isHideCards = false;
 
   @computed
-  List<CircleCard> get cards => sSignalRModules.cards.cardInfos.toList();
+  List<CircleCard> get cards => sSignalRModules.cards.cardInfos;
   @computed
   List<SimpleBankingAccount> get accounts {
     final accounts = <SimpleBankingAccount>[];

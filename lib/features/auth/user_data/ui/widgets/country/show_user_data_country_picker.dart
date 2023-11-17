@@ -31,7 +31,7 @@ void showUserDataCountryPicker(BuildContext context) {
       _Countries(
         store: profileCountriesStore,
       ),
-      const SpaceH24(),
+      const SpaceH40(),
     ],
   );
 }
@@ -39,44 +39,54 @@ void showUserDataCountryPicker(BuildContext context) {
 void showCountryOfBank(BuildContext context, Function(Country) onTap) {
   final countriesList = getIt.get<KycProfileCountries>().profileCountries;
 
+  final store = KycProfileCountriesStore();
+
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
-    pinned: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SpaceH20(),
-        Text(
-          intl.address_book_country_of_recepients_bank,
-          style: sTextH4Style,
-        ),
-        const SpaceH20(),
-        const SDivider(),
-      ],
+    pinned: _SearchBankPinned(
+      store: store,
     ),
     expanded: true,
     removeBarPadding: true,
     removePinnedPadding: true,
     children: [
-      ListView.builder(
-        shrinkWrap: true,
-        padding: EdgeInsets.zero,
-        itemCount: countriesList.countries.length,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          return CountryProfileItem(
-            onTap: () {
-              onTap(countriesList.countries[index]);
+      Observer(
+        builder: (context) {
+          return ListView.builder(
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            itemCount: store.sortedCountries.length,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              final country = store.sortedCountries[index];
+              if (store.sortedCountries.isEmpty) {
+                EmptySearchResult(
+                  text: store.countryNameSearch,
+                );
+              }
 
-              sRouter.pop();
+              return CountryProfileItem(
+                onTap: () {
+                  onTap(
+                    Country(
+                      countryCode: country.countryCode,
+                      countryName: country.countryName,
+                      isBlocked: country.isBlocked,
+                    ),
+                  );
+
+                  sRouter.pop();
+                },
+                countryCode: country.countryCode,
+                countryName: country.countryName,
+                isBlocked: false,
+              );
             },
-            countryCode: countriesList.countries[index].countryCode,
-            countryName: countriesList.countries[index].countryName,
-            isBlocked: false,
           );
         },
       ),
-      const SpaceH24(),
+      const SpaceH40(),
     ],
   );
 }
@@ -113,6 +123,38 @@ class _SearchPinned extends StatelessObserverWidget {
   }
 }
 
+class _SearchBankPinned extends StatelessObserverWidget {
+  const _SearchBankPinned({
+    required this.store,
+  });
+
+  final KycProfileCountriesStore store;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SpaceH20(),
+        Text(
+          intl.address_book_country_of_recepients_bank,
+          style: sTextH4Style,
+        ),
+        SStandardField(
+          controller: TextEditingController(),
+          autofocus: true,
+          labelText: intl.showKycCountryPicker_search,
+          onChanged: (value) {
+            store.updateCountryNameSearch(value);
+          },
+          maxLines: 1,
+        ),
+        const SDivider(),
+      ],
+    );
+  }
+}
+
 class _Countries extends StatelessObserverWidget {
   const _Countries({
     required this.store,
@@ -123,40 +165,40 @@ class _Countries extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        shrinkWrap: true,
-        padding: EdgeInsets.zero,
-        itemCount: store.sortedCountries.length,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          final country = store.sortedCountries[index];
-          if (store.sortedCountries.isEmpty) {
-            EmptySearchResult(
-              text: store.countryNameSearch,
-            );
-          }
-
-          return CountryProfileItem(
-            onTap: () {
-              if (country.isBlocked) {
-                sNotification.showError(
-                  intl.user_data_bottom_sheet_country,
-                  id: 1,
-                );
-
-                sAnalytics.signInFlowErrorCountryBlocked(
-                  erroCode: intl.user_data_bottom_sheet_country,
-                );
-              } else {
-                store.pickCountryFromSearch(country);
-
-                sRouter.pop();
-              }
-            },
-            countryCode: country.countryCode,
-            countryName: country.countryName,
-            isBlocked: country.isBlocked,
+      shrinkWrap: true,
+      padding: EdgeInsets.zero,
+      itemCount: store.sortedCountries.length,
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        final country = store.sortedCountries[index];
+        if (store.sortedCountries.isEmpty) {
+          EmptySearchResult(
+            text: store.countryNameSearch,
           );
-        },
+        }
+
+        return CountryProfileItem(
+          onTap: () {
+            if (country.isBlocked) {
+              sNotification.showError(
+                intl.user_data_bottom_sheet_country,
+                id: 1,
+              );
+
+              sAnalytics.signInFlowErrorCountryBlocked(
+                erroCode: intl.user_data_bottom_sheet_country,
+              );
+            } else {
+              store.pickCountryFromSearch(country);
+
+              sRouter.pop();
+            }
+          },
+          countryCode: country.countryCode,
+          countryName: country.countryName,
+          isBlocked: country.isBlocked,
+        );
+      },
     );
   }
 }

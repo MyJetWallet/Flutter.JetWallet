@@ -12,10 +12,12 @@ import 'package:simple_kit/simple_kit.dart';
 
 void showWalletVerifyAccount(
   BuildContext context, {
-  required VoidCallback after,
+  required Function() after,
   required bool isBanking,
 }) {
   final kycState = getIt.get<KycService>();
+
+  bool isClick = false;
 
   sShowAlertPopup(
     context,
@@ -29,7 +31,17 @@ void showWalletVerifyAccount(
       package: 'simple_kit',
     ),
     onPrimaryButtonTap: () async {
+      if (isClick) return;
+
       sAnalytics.eurWalletTapOnVerifyAccount();
+
+      Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pop(context);
+
+        isClick = false;
+      });
+
+      isClick = true;
 
       if (kycState.requiredVerifications.contains(RequiredVerified.proofOfPhone)) {
         await sRouter.push(
@@ -50,8 +62,6 @@ void showWalletVerifyAccount(
           needPush: false,
         );
       }
-
-      Navigator.pop(context);
     },
     secondaryButtonName: intl.wallet_cancel,
     onSecondaryButtonTap: () {

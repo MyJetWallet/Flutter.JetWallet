@@ -28,36 +28,57 @@ void showBuyAction({
   final isCardsAvailable = sSignalRModules.buyMethods.any((element) => element.id == PaymentMethodType.bankCard);
 
   final isSimpleAccountAvaible =
-      sSignalRModules.paymentProducts?.any((element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount) ??
-          false;
+      (sSignalRModules.paymentProducts?.any((element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount) ??
+              false) &&
+          sSignalRModules.bankingProfileData?.simple?.account != null;
 
   final isBankingAccountsAvaible =
-      sSignalRModules.paymentProducts?.any((element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount) ??
-          false;
+      (sSignalRModules.paymentProducts?.any((element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount) ??
+              false) &&
+          (sSignalRModules.bankingProfileData?.banking?.accounts ?? []).isNotEmpty;
 
   final isBuyAvaible = isCardsAvailable || isSimpleAccountAvaible || isBankingAccountsAvaible;
 
-  if ((kyc.tradeStatus == kycOperationStatus(KycStatus.allowed)) && isBuyAvaible) {
-    _showAction(context);
-  } else if (!isBuyAvaible) {
+  final isDepositBlocker =
+      sSignalRModules.clientDetail.clientBlockers.any((element) => element.blockingType == BlockingType.deposit);
+
+  if ((kyc.tradeStatus == kycOperationStatus(KycStatus.blocked)) || !isBuyAvaible) {
     if (shouldPop) Navigator.pop(context);
     sNotification.showError(
       intl.my_wallets_actions_warning,
       id: 1,
       hideIcon: true,
     );
+  } else if ((kyc.depositStatus == kycOperationStatus(KycStatus.blocked)) &&
+      !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
+    if (shouldPop) Navigator.pop(context);
+    sNotification.showError(
+      intl.my_wallets_actions_warning,
+      id: 1,
+      hideIcon: true,
+    );
+  } else if (isDepositBlocker) {
+    _showAction(
+      context: context,
+      blockingTypeCheck: BlockingType.deposit,
+    );
+  } else if (isBuyAvaible) {
+    _showAction(context: context);
   } else {
     handler.handle(
       status: kyc.tradeStatus,
       isProgress: kyc.verificationInProgress,
-      currentNavigate: () => _showAction(context),
+      currentNavigate: () => _showAction(context: context),
       requiredDocuments: kyc.requiredDocuments,
       requiredVerifications: kyc.requiredVerifications,
     );
   }
 }
 
-void _showAction(BuildContext context) {
+void _showAction({
+  required BuildContext context,
+  BlockingType blockingTypeCheck = BlockingType.trade,
+}) {
   sAnalytics.newBuyChooseAssetView();
 
   showSendTimerAlertOr(
@@ -74,6 +95,6 @@ void _showAction(BuildContext context) {
         ),
       );
     },
-    from: [BlockingType.trade],
+    from: [blockingTypeCheck],
   );
 }
