@@ -421,14 +421,6 @@ class SignalRModuleNew {
       method: handler.cardLimitsMessageHandler,
     );
     _hubConnection?.off(
-      earnOffersMessage,
-      method: handler.earnOffersMessageHandler,
-    );
-    _hubConnection?.off(
-      recurringBuyMessage,
-      method: handler.recurringBuyMessageHandler,
-    );
-    _hubConnection?.off(
       kycCountriesMessage,
       method: handler.kycCountriesMessageHandler,
     );
@@ -448,10 +440,6 @@ class SignalRModuleNew {
     _hubConnection?.off(
       balancesMessage,
       method: handler.balancesMessageHandler,
-    );
-    _hubConnection?.off(
-      instrumentsMessage,
-      method: handler.instrumentsMessageHandler,
     );
     _hubConnection?.off(
       blockchainsMessage,
@@ -487,10 +475,6 @@ class SignalRModuleNew {
       method: handler.convertPriceSettingsMessageHandler,
     );
     _hubConnection?.off(
-      paymentMethodsMessage,
-      method: handler.paymentMethodsMessageHandler,
-    );
-    _hubConnection?.off(
       paymentMethodsNewMessage,
       method: handler.paymentMethodsNewMessageHandler,
     );
@@ -498,18 +482,7 @@ class SignalRModuleNew {
       referralInfoMessage,
       method: handler.referralInfoMessageHandler,
     );
-    _hubConnection?.off(
-      nftCollectionsMessage,
-      method: handler.nftCollectionsMessageHandler,
-    );
-    _hubConnection?.off(
-      nftMarketMessage,
-      method: handler.nftMarketMessageHandler,
-    );
-    _hubConnection?.off(
-      nftPortfolioMessage,
-      method: handler.nftPortfolioMessageHandler,
-    );
+
     _hubConnection?.off(
       fireblocksMessages,
       method: handler.fireblocksMessagesHandler,
@@ -549,10 +522,6 @@ class SignalRModuleNew {
 
     _hubConnection?.on(cardLimitsMessage, handler.cardLimitsMessageHandler);
 
-    _hubConnection?.on(earnOffersMessage, handler.earnOffersMessageHandler);
-
-    _hubConnection?.on(recurringBuyMessage, handler.recurringBuyMessageHandler);
-
     _hubConnection?.on(kycCountriesMessage, handler.kycCountriesMessageHandler);
 
     _hubConnection?.on(marketInfoMessage, handler.marketInfoMessageHandler);
@@ -570,8 +539,6 @@ class SignalRModuleNew {
     _hubConnection?.on(assetsMessage, handler.assetsMessageHandler);
 
     _hubConnection?.on(balancesMessage, handler.balancesMessageHandler);
-
-    _hubConnection?.on(instrumentsMessage, handler.instrumentsMessageHandler);
 
     _hubConnection?.on(blockchainsMessage, handler.blockchainsMessageHandler);
 
@@ -601,25 +568,11 @@ class SignalRModuleNew {
     );
 
     _hubConnection?.on(
-      paymentMethodsMessage,
-      handler.paymentMethodsMessageHandler,
-    );
-
-    _hubConnection?.on(
       paymentMethodsNewMessage,
       handler.paymentMethodsNewMessageHandler,
     );
 
     _hubConnection?.on(referralInfoMessage, handler.referralInfoMessageHandler);
-
-    _hubConnection?.on(
-      nftCollectionsMessage,
-      handler.nftCollectionsMessageHandler,
-    );
-
-    _hubConnection?.on(nftMarketMessage, handler.nftMarketMessageHandler);
-
-    _hubConnection?.on(nftPortfolioMessage, handler.nftPortfolioMessageHandler);
 
     _hubConnection?.on(fireblocksMessages, handler.fireblocksMessagesHandler);
 

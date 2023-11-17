@@ -98,7 +98,12 @@ class _CJAccountLabelScreenState extends State<CJAccountLabelScreen> {
                                   );
 
                               if (resp.hasError) {
-                                sNotification.showError(intl.something_went_wrong_try_again);
+                                sNotification.showError(
+                                  resp?.error?.cause ?? '',
+                                  duration: 4,
+                                  id: 1,
+                                  needFeedback: true,
+                                );
                                 loader.finishLoadingImmediately();
                               } else {
                                 Navigator.pop(context, labelController.text);

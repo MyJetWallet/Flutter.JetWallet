@@ -291,6 +291,7 @@ List<oh_resp.OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(
         item.operationType == oh_resp.OperationType.sendGlobally ||
         item.operationType == oh_resp.OperationType.p2pBuy ||
         item.operationType == oh_resp.OperationType.giftSend ||
+        item.operationType == oh_resp.OperationType.giftReceive ||
         item.operationType == oh_resp.OperationType.bankingBuy ||
         item.operationType == oh_resp.OperationType.bankingSell ||
         item.operationType == oh_resp.OperationType.bankingTransfer ||
@@ -303,7 +304,7 @@ List<oh_resp.OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(
       .map((item) {
     return item.operationType == oh_resp.OperationType.swap
         ? item.copyWith(
-            operationType: item.swapInfo!.isSell ? oh_resp.OperationType.sell : oh_resp.OperationType.buy,
+            operationType: item.swapInfo!.isSell ? oh_resp.OperationType.swapSell : oh_resp.OperationType.swapBuy,
           )
         : item;
   }).toList();

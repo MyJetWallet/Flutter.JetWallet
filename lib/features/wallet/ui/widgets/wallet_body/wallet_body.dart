@@ -123,8 +123,6 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                 SliverToBoxAdapter(
                   child: Container(
                     padding: const EdgeInsets.only(
-                      left: 24,
-                      right: 24,
                       top: 24,
                       bottom: 28,
                     ),
@@ -169,10 +167,13 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                             hideIcon: true,
                           );
                         } else if (isDepositBlocker) {
-                          sNotification.showError(
-                            intl.my_wallets_actions_warning,
-                            id: 1,
-                            hideIcon: true,
+                          showSendTimerAlertOr(
+                            context: context,
+                            or: () => showPayWithBottomSheet(
+                              context: context,
+                              currency: actualAsset,
+                            ),
+                            from: [BlockingType.deposit],
                           );
                         } else if (isBuyAvaible) {
                           showSendTimerAlertOr(

@@ -25,6 +25,9 @@ class BalancesWidget extends StatelessWidget {
         ),
         for (final account in accounts)
           SCardRow(
+            maxWidth: account.status == AccountStatus.active
+                ? MediaQuery.of(context).size.width * .35
+                : MediaQuery.of(context).size.width * .5,
             icon: Container(
               margin: const EdgeInsets.only(top: 3),
               padding: const EdgeInsets.all(4),

@@ -16,29 +16,16 @@ class CircleActionBuy extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    return Expanded(
-      child: Column(
-        children: [
-          SimpleCircleButton(
-            defaultIcon: STopUpIcon(
-              color: colors.white,
-            ),
-            pressedIcon: STopUpIcon(
-              color: colors.white.withOpacity(0.7),
-            ),
-            onTap: onTap,
-            isDisabled: isDisabled,
-          ),
-          const SpaceH6(),
-          Text(
-            intl.balanceActionButtons_buy,
-            style: sBodyText2Style.copyWith(
-              fontWeight: FontWeight.w600,
-              color: isDisabled ? colors.grey2 : null,
-            ),
-          ),
-        ],
+    return SimpleCircleButton(
+      defaultIcon: STopUpIcon(
+        color: colors.white,
       ),
+      pressedIcon: STopUpIcon(
+        color: colors.white.withOpacity(0.7),
+      ),
+      onTap: onTap,
+      isDisabled: isDisabled,
+      name: intl.balanceActionButtons_buy,
     );
   }
 }

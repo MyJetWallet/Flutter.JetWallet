@@ -11,6 +11,10 @@ import 'package:simple_networking/simple_networking.dart';
 late SimpleNetworking sNetwork;
 
 class SNetwork {
+  Future<SNetwork> initService() async {
+    return this;
+  }
+
   final _logger = getIt.get<SimpleLoggerService>();
   final _loggerValue = 'SimpleNetwork';
 

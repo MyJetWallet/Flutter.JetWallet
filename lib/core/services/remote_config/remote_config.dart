@@ -138,6 +138,8 @@ class RemoteConfig {
       validationApi: flavor.validationApi,
       iconApi: flavor.iconApi,
     );
+
+    iconApi = flavor.iconApi;
   }
 
   void overrideAppConfigValues() {
@@ -178,8 +180,11 @@ class RemoteConfig {
   }
 
   void overrideSupportValues() {
-    faqLink = remoteConfig!.support.faqLink;
-    crispWebsiteId = remoteConfig!.support.crispWebsiteId;
+    faqLink = remoteConfig!.support?.faqLink ?? '';
+    crispWebsiteId = remoteConfig!.support?.crispWebsiteId ?? '';
+    showZendesk = remoteConfig!.support?.showZendesk ?? true;
+    zendeskIOS = remoteConfig!.support?.zendeskIOS ?? '';
+    zendeskAndroid = remoteConfig!.support?.zendeskAndroid ?? '';
   }
 
   void overrideAnalyticsValues() {

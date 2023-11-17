@@ -227,12 +227,12 @@ abstract class _MyWalletsSroreBase with Store {
     final userInfo = getIt.get<UserInfoService>();
     final preText = simpleAccountButtonText;
     final cardsActiveCount = sSignalRModules
-      .bankingProfileData?.banking
-      ?.cards?.where(
-        (element) =>
-          element.status == AccountStatusCard.active ||
+        .bankingProfileData?.banking
+        ?.cards?.where(
+          (element) =>
+      element.status == AccountStatusCard.active ||
           element.status == AccountStatusCard.frozen,
-        ).toList().length ?? 0;
+    ).toList().length ?? 0;
     final cardsPendingCount = sSignalRModules
         .bankingProfileData?.banking
         ?.cards?.where((element) => element.status == AccountStatusCard.inCreation)
@@ -251,9 +251,14 @@ abstract class _MyWalletsSroreBase with Store {
     }
   }
 
-  Future<void> afterVerification() async {
-    sNotification.showError(intl.let_us_create_account, isError: false);
-    setSimpleAccountStatus(SimpleWalletAccountStatus.creating);
+  void afterVerification() {
+    Future.delayed(const Duration(seconds: 3), () {
+      sNotification.showError(
+        intl.let_us_create_account,
+        isError: false,
+      );
+      setSimpleAccountStatus(SimpleWalletAccountStatus.creating);
+    });
   }
 
   @action

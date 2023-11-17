@@ -39,6 +39,7 @@ class SimpleLightStandardField extends StatefulWidget {
     this.labelText,
     this.hintText,
     this.height,
+    this.weight,
     this.cursorHeight,
   })  : assert(
           (controller == null && initialValue != null) ||
@@ -81,6 +82,7 @@ class SimpleLightStandardField extends StatefulWidget {
   final int? maxLength;
   final int? maxLines;
   final double? height;
+  final double? weight;
   final double? cursorHeight;
 
   @override
@@ -145,6 +147,7 @@ class _SimpleLightStandardFieldState extends State<SimpleLightStandardField> {
       isError: widget.isError,
       validators: widget.validators,
       height: widget.height,
+      weight: widget.weight,
       cursorHeight: widget.cursorHeight,
       hintText: widget.hintText,
     );

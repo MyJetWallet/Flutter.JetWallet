@@ -99,7 +99,7 @@ class BuySellDetails extends StatelessObserverWidget {
             ),
           ),
           const SpaceH18(),
-          if (transactionListItem.operationType == OperationType.buy) ...[
+          if (transactionListItem.operationType == OperationType.swapBuy) ...[
             TransactionDetailsItem(
               text: intl.withText,
               value: TransactionDetailsValueText(
@@ -125,7 +125,7 @@ class BuySellDetails extends StatelessObserverWidget {
               ),
             ),
           ],
-          if (transactionListItem.operationType == OperationType.sell) ...[
+          if (transactionListItem.operationType == OperationType.swapSell) ...[
             TransactionDetailsItem(
               text: intl.buySellDetails_forText,
               value: TransactionDetailsValueText(

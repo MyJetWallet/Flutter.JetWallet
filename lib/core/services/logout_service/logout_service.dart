@@ -10,9 +10,11 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
+import 'package:jetwallet/core/services/zendesk_support_service/zendesk_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/auth/verification_reg/store/verification_store.dart';
+import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/auth_api/models/logout/logout_request_moder.dart';
@@ -154,6 +156,8 @@ abstract class _LogoutServiceBase with Store {
     await sLocalStorageService.clearStorage();
     await getIt<LocalCacheService>().clearAllCache();
     getIt<AppStore>().resetAppStore();
+    getIt<IbanStore>().clearData();
+    await getIt.get<ZenDeskService>().logoutZenDesk();
   }
 
   Future<void> pushToFirstPage() async {

@@ -14,6 +14,8 @@ class BankingProfileModel with _$BankingProfileModel {
     final int? availableCardsCount,
     final int? availableAccountsCount,
     @BankingShowStateSerialiser() final BankingShowState? showState,
+    int? availableCardsCount,
+    int? availableAccountsCount,
   }) = _BankingProfileModel;
 
   const BankingProfileModel._();

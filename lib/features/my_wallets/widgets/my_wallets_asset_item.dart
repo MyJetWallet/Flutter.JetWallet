@@ -130,6 +130,8 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
   }
 
   bool checkUserBlock() {
+    return true;
+
     if (sSignalRModules.clientDetail.clientBlockers.isNotEmpty) {
       sNotification.showError(
         intl.operation_is_unavailable,

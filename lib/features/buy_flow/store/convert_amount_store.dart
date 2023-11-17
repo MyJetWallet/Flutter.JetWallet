@@ -6,6 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
@@ -101,6 +102,26 @@ abstract class _ConvertAmountStoreBase with Store {
     CurrencyModel? inputAsset,
   }) {
     toAsset = inputAsset;
+    _checkShowTosts();
+  }
+
+  @action
+  void _checkShowTosts() {
+    final isNoCurrencies = !sSignalRModules.currenciesList.any((currency) {
+      return currency.assetBalance != Decimal.zero;
+    });
+    if (isNoCurrencies) {
+      Timer(
+        const Duration(milliseconds: 200),
+        () {
+          sNotification.showError(
+            intl.tost_convert_message_1,
+            id: 1,
+            hideIcon: true,
+          );
+        },
+      );
+    }
   }
 
   @action

@@ -20,17 +20,26 @@ class OperationHistoryResponseModel with _$OperationHistoryResponseModel {
 @freezed
 class OperationHistoryItem with _$OperationHistoryItem {
   const factory OperationHistoryItem({
+    required String operationId,
+    @OperationTypeSerialiser() required OperationType operationType,
+    @Default('') String assetId,
+    required String timeStamp,
+    @DecimalSerialiser() required Decimal balanceChange,
+    @DecimalSerialiser() required Decimal newBalance,
+    @DecimalSerialiser() required Decimal avgOpenPrice,
+    @DecimalSerialiser() required Decimal assetPriceInUsd,
+    @StatusSerialiser() required Status status,
     DepositInfo? depositInfo,
     WithdrawalInfo? withdrawalInfo,
-    PaymeInfo? paymeInfo,
     SwapInfo? swapInfo,
-    BuyInfo? buyInfo,
     WithdrawalFeeInfo? withdrawalFeeInfo,
-    TransferByPhoneInfo? transferByPhoneInfo,
     ReceiveByPhoneInfo? receiveByPhoneInfo,
+    TransferByPhoneInfo? transferByPhoneInfo,
+    BuyInfo? buyInfo,
     RecurringBuyInfo? recurringBuyInfo,
-    CryptoBuyInfo? cryptoBuyInfo,
     EarnInfo? earnInfo,
+    CryptoBuyInfo? cryptoBuyInfo,
+    PaymeInfo? paymeInfo,
     GiftSendInfo? giftSendInfo,
     GiftReceiveInfo? giftReceiveInfo,
     IbanWithdrawalInfo? ibanWithdrawalInfo,
@@ -40,14 +49,6 @@ class OperationHistoryItem with _$OperationHistoryItem {
     CardWithdrawalInfo? cardWithdrawalInfo,
     CardRefundInfo? cardRefundInfo,
     CardPurchaseInfo? cardPurchaseInfo,
-    required String operationId,
-    @OperationTypeSerialiser() required OperationType operationType,
-    @Default('') String assetId,
-    required String timeStamp,
-    @DecimalSerialiser() required Decimal balanceChange,
-    @DecimalSerialiser() required Decimal newBalance,
-    @DecimalSerialiser() required Decimal assetPriceInUsd,
-    @StatusSerialiser() required Status status,
   }) = _OperationHistoryItem;
 
   factory OperationHistoryItem.fromJson(Map<String, dynamic> json) => _$OperationHistoryItemFromJson(json);
@@ -69,8 +70,8 @@ enum OperationType {
   earningWithdrawal,
   cryptoBuy,
   unknown,
-  buy,
-  sell,
+  swapBuy,
+  swapSell,
   nftSwap,
   nftReserve,
   nftRelease,
@@ -136,9 +137,9 @@ extension _OperationTypeExtension on OperationType {
         return 15;
       case OperationType.cryptoBuy:
         return 17;
-      case OperationType.buy:
+      case OperationType.swapBuy:
         return 0;
-      case OperationType.sell:
+      case OperationType.swapSell:
         return 0;
       case OperationType.nftSwap:
         return 18;
@@ -248,9 +249,9 @@ class OperationTypeSerialiser implements JsonConverter<OperationType, dynamic> {
     } else if (value == 'unknown') {
       return OperationType.unknown;
     } else if (value == 'buy') {
-      return OperationType.buy;
+      return OperationType.swapBuy;
     } else if (value == 'sell') {
-      return OperationType.sell;
+      return OperationType.swapSell;
     } else if (value == '18') {
       return OperationType.nftSwap;
     } else if (value == '19') {
@@ -377,6 +378,8 @@ class DepositInfo with _$DepositInfo {
     String? tag,
     required bool isInternal,
     required double depositAmount,
+    String? feeAssetId,
+    @DecimalSerialiser() required Decimal feeAmount,
   }) = _DepositInfo;
 
   factory DepositInfo.fromJson(Map<String, dynamic> json) => _$DepositInfoFromJson(json);
@@ -387,17 +390,18 @@ class WithdrawalInfo with _$WithdrawalInfo {
   const factory WithdrawalInfo({
     String? txId,
     String? toAddress,
-    String? feeAssetId,
+    String? toTag,
     String? network,
-    String? cardLast4,
-    String? receiveAsset,
-    String? contactName,
-    @DecimalNullSerialiser() Decimal? receiveAmount,
-    @DecimalNullSerialiser() Decimal? receiveRate,
     String? withdrawalAssetId,
     @DecimalSerialiser() required Decimal withdrawalAmount,
+    String? feeAssetId,
     @DecimalSerialiser() required Decimal feeAmount,
     required bool isInternal,
+    String? cardLast4,
+    String? receiveAsset,
+    @DecimalNullSerialiser() Decimal? receiveAmount,
+    @DecimalNullSerialiser() Decimal? receiveRate,
+    String? contactName,
   }) = _WithdrawalInfo;
 
   factory WithdrawalInfo.fromJson(Map<String, dynamic> json) => _$WithdrawalInfoFromJson(json);
@@ -424,14 +428,14 @@ class SwapInfo with _$SwapInfo {
   const factory SwapInfo({
     required bool isSell,
     String? sellAssetId,
-    required String buyAssetId,
-    @Default('') String feeAsset,
     @DecimalSerialiser() required Decimal sellAmount,
+    required String buyAssetId,
     @DecimalSerialiser() required Decimal buyAmount,
     @DecimalSerialiser() required Decimal baseRate,
     @DecimalSerialiser() required Decimal quoteRate,
-    @DecimalSerialiser() required Decimal feeAmount,
     @DecimalSerialiser() @JsonKey(name: 'feePerc') required Decimal feePercent,
+    @DecimalSerialiser() required Decimal feeAmount,
+    @Default('') String feeAsset,
   }) = _SwapInfo;
 
   factory SwapInfo.fromJson(Map<String, dynamic> json) => _$SwapInfoFromJson(json);
@@ -529,6 +533,8 @@ class CryptoBuyInfo with _$CryptoBuyInfo {
     String? cardType,
     @PaymentTypeSerialiser() PaymentMethodType? paymentMethod,
     String? paymentMethodName,
+    String? accountId,
+    String? accountLabel,
   }) = _CryptoBuyInfo;
 
   factory CryptoBuyInfo.fromJson(Map<String, dynamic> json) => _$CryptoBuyInfoFromJson(json);
@@ -563,6 +569,8 @@ class GiftSendInfo with _$GiftSendInfo {
     String? receiverName,
     String? toEmail,
     String? declineReason,
+    @DecimalSerialiser() required Decimal processingFeeAmount,
+    String? processingFeeAssetId,
   }) = _GiftSendInfo;
 
   factory GiftSendInfo.fromJson(Map<String, dynamic> json) => _$GiftSendInfoFromJson(json);
@@ -572,6 +580,8 @@ class GiftSendInfo with _$GiftSendInfo {
 class GiftReceiveInfo with _$GiftReceiveInfo {
   const factory GiftReceiveInfo({
     required String senderName,
+    String? processingFeeAssetId,
+    @DecimalSerialiser() required Decimal processingFeeAmount,
   }) = _GiftReceiveInfo;
 
   factory GiftReceiveInfo.fromJson(Map<String, dynamic> json) => _$GiftReceiveInfoFromJson(json);
@@ -592,6 +602,11 @@ class IbanWithdrawalInfo with _$IbanWithdrawalInfo {
     String? description,
     String? accountId,
     String? contactName,
+    String? paymentFeeAssetId,
+    @DecimalSerialiser() required Decimal paymentFeeAmount,
+    String? processingFeeAssetId,
+    @DecimalSerialiser() required Decimal processingFeeAmount,
+    String? accountLabel,
   }) = _IbanWithdrawalInfo;
 
   factory IbanWithdrawalInfo.fromJson(Map<String, dynamic> json) => _$IbanWithdrawalInfoFromJson(json);
@@ -610,6 +625,11 @@ class IbanDepositInfo with _$IbanDepositInfo {
     String? senderName,
     String? accountId,
     String? contactName,
+    String? paymentFeeAssetId,
+    @DecimalSerialiser() required Decimal paymentFeeAmount,
+    String? processingFeeAssetId,
+    @DecimalSerialiser() required Decimal processingFeeAmount,
+    String? accountLabel,
   }) = _IbanDepositInfo;
 
   factory IbanDepositInfo.fromJson(Map<String, dynamic> json) => _$IbanDepositInfoFromJson(json);
@@ -634,6 +654,8 @@ class IbanTransferInfo with _$IbanTransferInfo {
     String? intermediaryBankAccount,
     String? fromAccountId,
     String? toAccountId,
+    String? toAccountLabel,
+    String? fromAccountLabel,
   }) = _IbanTransferInfo;
 
   factory IbanTransferInfo.fromJson(Map<String, dynamic> json) => _$IbanTransferInfoFromJson(json);
@@ -651,6 +673,9 @@ class SellCryptoInfo with _$SellCryptoInfo {
     @DecimalSerialiser() required Decimal feeAmount,
     String? accountId,
     required IbanAccountType accountType,
+    String? paymentFeeAssetId,
+    @DecimalSerialiser() required Decimal paymentFeeAmount,
+    String? accountLabel,
   }) = _SellCryptoInfo;
 
   factory SellCryptoInfo.fromJson(Map<String, dynamic> json) => _$SellCryptoInfoFromJson(json);

@@ -1,9 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 
-class SIconTextButton extends StatelessWidget {
+class SIconTextButton extends StatefulWidget {
   const SIconTextButton({
     super.key,
     required this.text,
@@ -24,6 +26,18 @@ class SIconTextButton extends StatelessWidget {
   final TextStyle? textStyle;
 
   @override
+  State<SIconTextButton> createState() => _SIconTextButtonState();
+}
+
+class _SIconTextButtonState extends State<SIconTextButton> {
+  var isClicked = false;
+  late Timer _timer;
+
+  void _startTimer() {
+    _timer = Timer(const Duration(milliseconds: 999), () => isClicked = false);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
@@ -31,8 +45,8 @@ class SIconTextButton extends StatelessWidget {
       color: disabled ? sKit.colors.grey2 : sKit.colors.blue,
       height: 1.5,
     );
-    if (textStyle != null) {
-      tStyle = textStyle!;
+    if (widget.textStyle != null) {
+      tStyle = widget.textStyle!;
     }
 
     return TextButton(
@@ -51,21 +65,27 @@ class SIconTextButton extends StatelessWidget {
       ).copyWith(
         overlayColor: MaterialStateProperty.all(colors.grey4),
       ),
-      onPressed: onTap,
+      onPressed: () {
+        if (!isClicked) {
+          _startTimer();
+          widget.onTap();
+          isClicked = true;
+        }
+      },
       child: Row(
-        mainAxisSize: mainAxisSize,
+        mainAxisSize: widget.mainAxisSize,
         children: [
-          if (icon != null) ...[
-            icon!,
+          if (widget.icon != null) ...[
+            widget.icon!,
             const SpaceW8(),
           ],
           Text(
-            text,
+            widget.text,
             style: tStyle,
           ),
-          if (rightIcon != null) ...[
+          if (widget.rightIcon != null) ...[
             const Spacer(),
-            rightIcon!,
+            widget.rightIcon!,
           ],
         ],
       ),

@@ -138,6 +138,37 @@ abstract class _SellAmountStoreBase with Store {
   CardDataModel? simpleCard;
 
   @action
+  void _checkShowTosts() {
+    final isNoCurrencies = !sSignalRModules.currenciesList.any((currency) {
+      return currency.assetBalance != Decimal.zero;
+    });
+    final isNoAccount = !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false);
+    Timer(
+      const Duration(milliseconds: 200),
+      () {
+        if (isNoCurrencies && isNoAccount) {
+          sNotification.showError(
+            intl.tost_sell_message_1,
+            id: 1,
+            hideIcon: true,
+          );
+        } else if (isNoCurrencies) {
+          sNotification.showError(
+            intl.tost_sell_message_2,
+            id: 2,
+            isError: false,
+          );
+        } else if (isNoAccount) {
+          sNotification.showError(
+            intl.tost_sell_message_3,
+            id: 3,
+          );
+        }
+      },
+    );
+  }
+
+  @action
   void init({
     CurrencyModel? inputAsset,
     CardDataModel? simpleCardNew,
@@ -149,6 +180,8 @@ abstract class _SellAmountStoreBase with Store {
       fiatSymbol,
       cryptoSymbol,
     );
+
+    _checkShowTosts();
 
     sAnalytics.newBuyBuyAssetView(
       asset: asset?.symbol ?? '',

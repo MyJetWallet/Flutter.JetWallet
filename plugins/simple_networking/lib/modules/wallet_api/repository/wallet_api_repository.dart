@@ -893,8 +893,8 @@ class WalletApiRepository {
   }
 
   Future<DC<ServerRejectException, BuyLimitsResponseModel>> postBuyLimits(
-    BuyLimitsRequestModel request,
-  ) async {
+      BuyLimitsRequestModel request,
+      ) async {
     return _walletApiDataSources.postBuyLimitsRequest(request);
   }
 
@@ -948,14 +948,14 @@ class WalletApiRepository {
   }
 
   Future<DC<ServerRejectException, SellLimitsResponseModel>> postSellLimits(
-    SellLimitsRequestModel request,
-  ) async {
+      SellLimitsRequestModel request,
+      ) async {
     return _walletApiDataSources.postSellLimitsRequest(request);
   }
 
   Future<DC<ServerRejectException, SwapLimitsResponseModel>> postSwapLimits(
-    SwapLimitsRequestModel request,
-  ) async {
+      SwapLimitsRequestModel request,
+      ) async {
     return _walletApiDataSources.postSwapLimitsRequest(request);
   }
 }
