@@ -11,18 +11,16 @@ import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/price_accuracy.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../../../helper/format_date_to_hm.dart';
 import 'components/transaction_details_item.dart';
 import 'components/transaction_details_status.dart';
 import 'components/transaction_details_value_text.dart';
 
-class BuyDetails extends StatelessObserverWidget {
-  const BuyDetails({
+class SwapDetails extends StatelessObserverWidget {
+  const SwapDetails({
     super.key,
     required this.transactionListItem,
     required this.onCopyAction,
@@ -33,12 +31,11 @@ class BuyDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
     final paymentAsset = nonIndicesWithBalanceFrom(
       sSignalRModules.currenciesList,
     )
         .where(
-          (element) => element.symbol == (transactionListItem.cryptoBuyInfo?.paymentAssetId ?? 'EUR'),
+          (element) => element.symbol == (transactionListItem.swapInfo?.sellAssetId ?? 'EUR'),
         )
         .first;
 
@@ -46,14 +43,14 @@ class BuyDetails extends StatelessObserverWidget {
       sSignalRModules.currenciesList,
     )
         .where(
-          (element) => element.symbol == (transactionListItem.cryptoBuyInfo?.buyAssetId ?? 'EUR'),
+          (element) => element.symbol == (transactionListItem.swapInfo?.buyAssetId ?? 'EUR'),
         )
         .first;
 
     return SPaddingH24(
       child: Column(
         children: [
-          _BuyDetailsHeader(
+          _SwapDetailsHeader(
             transactionListItem: transactionListItem,
           ),
           TransactionDetailsItem(
@@ -96,100 +93,18 @@ class BuyDetails extends StatelessObserverWidget {
             ),
           ),
           const SpaceH18(),
-          TransactionDetailsItem(
-            text: intl.iban_send_history_benificiary,
-            value: TransactionDetailsValueText(
-              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
-                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
-            ),
-          ),
-          const SpaceH18(),
-          TransactionDetailsItem(
-            text: intl.history_paid_with,
-            value: transactionListItem.cryptoBuyInfo?.paymentMethod == PaymentMethodType.bankCard
-                ? Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: ShapeDecoration(
-                          color: sKit.colors.white,
-                          shape: OvalBorder(
-                            side: BorderSide(
-                              color: colors.grey4,
-                            ),
-                          ),
-                        ),
-                        child: SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: getCardIcon(transactionListItem.cryptoBuyInfo?.cardType),
-                        ),
-                      ),
-                      const SpaceW8(),
-                      TransactionDetailsValueText(
-                        text:
-                            '${transactionListItem.cryptoBuyInfo?.cardLabel} •• ${transactionListItem.cryptoBuyInfo?.cardLast4}',
-                      ),
-                    ],
-                  )
-                : Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: sKit.colors.blue,
-                          shape: BoxShape.circle,
-                        ),
-                        child: SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: SBankMediumIcon(color: sKit.colors.white),
-                        ),
-                      ),
-                      const SpaceW8(),
-                      TransactionDetailsValueText(
-                        text: transactionListItem.cryptoBuyInfo?.accountLabel ?? '',
-                      ),
-                    ],
-                  ),
-          ),
-          const SpaceH18(),
           Builder(
             builder: (context) {
               final currency = currencyFrom(
                 sSignalRModules.currenciesList,
-                transactionListItem.cryptoBuyInfo?.paymentAssetId ??
-                    transactionListItem.cryptoBuyInfo?.paymentAssetId ??
-                    '',
-              );
-
-              return TransactionDetailsItem(
-                text: intl.iban_send_history_payment_fee,
-                value: TransactionDetailsValueText(
-                  text: volumeFormat(
-                    decimal: transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero,
-                    accuracy: currency.accuracy,
-                    symbol: currency.symbol,
-                  ),
-                ),
-              );
-            },
-          ),
-          const SpaceH18(),
-          Builder(
-            builder: (context) {
-              final currency = currencyFrom(
-                sSignalRModules.currenciesList,
-                transactionListItem.cryptoBuyInfo?.tradeFeeAsset ??
-                    transactionListItem.cryptoBuyInfo?.paymentAssetId ??
-                    '',
+                transactionListItem.swapInfo?.feeAsset ?? '',
               );
 
               return TransactionDetailsItem(
                 text: intl.iban_send_history_processin_fee,
                 value: TransactionDetailsValueText(
                   text: volumeFormat(
-                    decimal: transactionListItem.cryptoBuyInfo?.tradeFeeAmount ?? Decimal.zero,
+                    decimal: transactionListItem.swapInfo?.feeAmount ?? Decimal.zero,
                     accuracy: currency.accuracy,
                     symbol: currency.symbol,
                   ),
@@ -214,13 +129,13 @@ class BuyDetails extends StatelessObserverWidget {
     );
 
     final base = volumeFormat(
-      decimal: transactionListItem.cryptoBuyInfo!.baseRate,
+      decimal: transactionListItem.swapInfo!.baseRate,
       accuracy: currency1.accuracy,
       symbol: currency1.symbol,
     );
 
     final quote = volumeFormat(
-      decimal: transactionListItem.cryptoBuyInfo!.quoteRate,
+      decimal: transactionListItem.swapInfo!.quoteRate,
       accuracy: accuracy,
       symbol: currency2.symbol,
     );
@@ -229,8 +144,8 @@ class BuyDetails extends StatelessObserverWidget {
   }
 }
 
-class _BuyDetailsHeader extends StatelessWidget {
-  const _BuyDetailsHeader({
+class _SwapDetailsHeader extends StatelessWidget {
+  const _SwapDetailsHeader({
     required this.transactionListItem,
   });
 
@@ -242,7 +157,7 @@ class _BuyDetailsHeader extends StatelessWidget {
       sSignalRModules.currenciesList,
     )
         .where(
-          (element) => element.symbol == (transactionListItem.cryptoBuyInfo?.paymentAssetId ?? 'EUR'),
+          (element) => element.symbol == (transactionListItem.swapInfo?.sellAssetId ?? 'EUR'),
         )
         .first;
 
@@ -250,7 +165,7 @@ class _BuyDetailsHeader extends StatelessWidget {
       sSignalRModules.currenciesList,
     )
         .where(
-          (element) => element.symbol == (transactionListItem.cryptoBuyInfo?.buyAssetId ?? 'EUR'),
+          (element) => element.symbol == (transactionListItem.swapInfo?.buyAssetId ?? 'EUR'),
         )
         .first;
 
@@ -264,14 +179,14 @@ class _BuyDetailsHeader extends StatelessWidget {
           fromAssetValue: volumeFormat(
             symbol: paymentAsset.symbol,
             accuracy: paymentAsset.accuracy,
-            decimal: transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero,
+            decimal: transactionListItem.swapInfo?.sellAmount ?? Decimal.zero,
           ),
           toAssetIconUrl: buyAsset.iconUrl,
           toAssetDescription: buyAsset.description,
           toAssetValue: volumeFormat(
             symbol: buyAsset.symbol,
             accuracy: buyAsset.accuracy,
-            decimal: transactionListItem.cryptoBuyInfo?.buyAmount ?? Decimal.zero,
+            decimal: transactionListItem.swapInfo?.buyAmount ?? Decimal.zero,
           ),
           isError: transactionListItem.status == Status.declined,
         ),

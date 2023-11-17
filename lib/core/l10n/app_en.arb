@@ -1356,7 +1356,7 @@
     "amount_screen_sell_to": "Sell to",
     "amount_screen_convert_to": "Convert to",
     "sell_confirmation_subtitle": "Sell",
-    "sell_confirmation_sell_to" : "Sell to",
+    "sell_confirmation_sell_to": "Sell to",
     "sell_confirmation_convert": "Convert",
     "bankAccountsSelectPopup": "Please be aware that you can send only to your personal bank accounts",
     "bankAccountsSelectPopupMyAccounts": "My accounts",
@@ -1390,5 +1390,13 @@
     "tost_convert_message_1": "Your crypto balance is zero. Please get crypto first",
     "tost_sell_message_1": "You need to create EUR account and get crypto first",
     "tost_sell_message_2": "Your crypto balance is zero",
-    "tost_sell_message_3": "You need to create EUR account first"
+    "tost_sell_message_3": "You need to create EUR account first",
+    "history_for": "for",
+    "history_paid_with": "Paid with",
+    "history_withdrawn": "Withdrawn",
+    "history_added_cash": "Added cash",
+    "history_txhash": "Txhash",
+    "history_sent_gift": "Sent gift",
+    "history_received_gift": "Received gift",
+    "history_sent_globally": "Sent globally"
 }

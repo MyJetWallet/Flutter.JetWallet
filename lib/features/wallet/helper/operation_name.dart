@@ -10,7 +10,7 @@ String operationName(
 }) {
   switch (type) {
     case OperationType.deposit:
-      return '${intl.operationName_received} $asset';
+      return intl.operationName_received;
     case OperationType.ibanDeposit:
       return '${intl.operationName_received} $asset';
     case OperationType.withdraw:
@@ -19,9 +19,9 @@ String operationName(
       return intl.operationName_transferByPhone;
     case OperationType.receiveByPhone:
       return intl.operationName_receiveByPhone;
-    case OperationType.buy:
+    case OperationType.swapBuy:
       return intl.operationName_buy;
-    case OperationType.sell:
+    case OperationType.swapSell:
       return intl.operationName_sell;
     case OperationType.paidInterestRate:
       return intl.operationName_interestRate;
@@ -52,17 +52,21 @@ String operationName(
     case OperationType.ibanSend:
       return intl.withdrawal_withdrawn;
     case OperationType.sendGlobally:
-      return intl.send_globally_history_title;
+      return intl.history_sent_globally;
     case OperationType.giftSend:
-      return intl.gift_history_sent;
+      return intl.history_sent_gift;
     case OperationType.giftReceive:
-      return intl.gift_history_received;
+      return intl.history_received_gift;
     case OperationType.bankingBuy:
       return intl.operationName_bought;
     case OperationType.bankingSell:
       return intl.operationName_sold;
     case OperationType.swap:
       return intl.operationName_converted;
+    case OperationType.bankingAccountWithdrawal:
+      return intl.history_withdrawn;
+    case OperationType.bankingAccountDeposit:
+      return intl.history_added_cash;
     default:
       return 'Unknown';
   }

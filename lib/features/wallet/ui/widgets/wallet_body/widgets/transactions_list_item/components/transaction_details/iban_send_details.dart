@@ -33,6 +33,9 @@ class IbanSendDetails extends StatelessObserverWidget {
     return SPaddingH24(
       child: Column(
         children: [
+          IbanSendDetailsHeader(
+            transactionListItem: transactionListItem,
+          ),
           TransactionDetailsItem(
             text: intl.send_globally_date,
             value: TransactionDetailsValueText(
@@ -83,7 +86,7 @@ class IbanSendDetails extends StatelessObserverWidget {
                       ),
                       child: TransactionDetailsValueText(
                         textAlign: TextAlign.end,
-                        text: (transactionListItem.withdrawalInfo?.contactName ?? '').trim(),
+                        text: (transactionListItem.ibanWithdrawalInfo?.contactName ?? '').trim(),
                       ),
                     ),
                     ConstrainedBox(
@@ -92,7 +95,7 @@ class IbanSendDetails extends StatelessObserverWidget {
                       ),
                       child: TransactionDetailsValueText(
                         textAlign: TextAlign.end,
-                        text: splitIban((transactionListItem.withdrawalInfo?.toAddress ?? '').trim()),
+                        text: splitIban((transactionListItem.ibanWithdrawalInfo?.beneficiaryAddress ?? '').trim()),
                         color: sKit.colors.grey1,
                       ),
                     ),
@@ -104,7 +107,7 @@ class IbanSendDetails extends StatelessObserverWidget {
                     Clipboard.setData(
                       ClipboardData(
                         text:
-                            '''${transactionListItem.withdrawalInfo?.contactName ?? ''}\n${transactionListItem.withdrawalInfo?.toAddress ?? ''}''',
+                            '''${transactionListItem.ibanWithdrawalInfo?.contactName ?? ''}\n${transactionListItem.withdrawalInfo?.toAddress ?? ''}''',
                       ),
                     );
 
@@ -129,8 +132,8 @@ class IbanSendDetails extends StatelessObserverWidget {
             builder: (context) {
               final currency = currencyFrom(
                 sSignalRModules.currenciesList,
-                transactionListItem.withdrawalInfo?.feeAssetId ??
-                    transactionListItem.withdrawalInfo?.withdrawalAssetId ??
+                transactionListItem.ibanWithdrawalInfo?.paymentFeeAssetId ??
+                    transactionListItem.ibanWithdrawalInfo?.processingFeeAssetId ??
                     '',
               );
 
@@ -138,7 +141,7 @@ class IbanSendDetails extends StatelessObserverWidget {
                 text: intl.iban_send_history_payment_fee,
                 value: TransactionDetailsValueText(
                   text: volumeFormat(
-                    decimal: transactionListItem.withdrawalInfo?.feeAmount ?? Decimal.zero,
+                    decimal: transactionListItem.ibanWithdrawalInfo?.paymentFeeAmount ?? Decimal.zero,
                     accuracy: currency.accuracy,
                     symbol: currency.symbol,
                   ),
@@ -151,8 +154,8 @@ class IbanSendDetails extends StatelessObserverWidget {
             builder: (context) {
               final currency = currencyFrom(
                 sSignalRModules.currenciesList,
-                transactionListItem.withdrawalInfo?.feeAssetId ??
-                    transactionListItem.withdrawalInfo?.withdrawalAssetId ??
+                transactionListItem.ibanWithdrawalInfo?.processingFeeAssetId ??
+                    transactionListItem.ibanWithdrawalInfo?.paymentFeeAssetId ??
                     '',
               );
 
@@ -160,7 +163,7 @@ class IbanSendDetails extends StatelessObserverWidget {
                 text: intl.iban_send_history_processin_fee,
                 value: TransactionDetailsValueText(
                   text: volumeFormat(
-                    decimal: transactionListItem.withdrawalInfo?.feeAmount ?? Decimal.zero,
+                    decimal: transactionListItem.ibanWithdrawalInfo?.processingFeeAmount ?? Decimal.zero,
                     accuracy: currency.accuracy,
                     symbol: currency.symbol,
                   ),
@@ -190,47 +193,47 @@ class IbanSendDetailsHeader extends StatelessWidget {
       sSignalRModules.currenciesList,
     )
         .where(
-          (element) => element.symbol == (transactionListItem.withdrawalInfo?.withdrawalAssetId ?? 'EUR'),
+          (element) => element.symbol == (transactionListItem.assetId),
         )
         .first;
 
-    return SPaddingH24(
-      child: Column(
-        children: [
-          WhatToWhatConvertWidget(
-            removeDefaultPaddings: true,
-            isLoading: false,
-            fromAssetIconUrl: '',
-            fromAssetDescription: transactionListItem.withdrawalInfo?.contactName ?? '',
-            fromAssetValue: volumeFormat(
-              symbol: asset.symbol,
-              accuracy: asset.accuracy,
-              decimal: transactionListItem.withdrawalInfo?.withdrawalAmount ?? Decimal.zero,
-            ),
-            fromAssetCustomIcon: const BlueBankIcon(),
-            toAssetIconUrl: asset.iconUrl,
-            toAssetDescription: asset.description,
-            toAssetValue: volumeFormat(
-              symbol: asset.symbol,
-              accuracy: asset.accuracy,
-              decimal: (transactionListItem.withdrawalInfo?.withdrawalAmount ?? Decimal.zero) -
-                  (transactionListItem.withdrawalInfo?.feeAmount ?? Decimal.zero),
-            ),
-            isError: transactionListItem.status == Status.declined,
+    return Column(
+      children: [
+        WhatToWhatConvertWidget(
+          removeDefaultPaddings: true,
+          isLoading: false,
+          fromAssetIconUrl: '',
+          fromAssetDescription: transactionListItem.ibanWithdrawalInfo?.contactName ?? '',
+          fromAssetValue: volumeFormat(
+            symbol: asset.symbol,
+            accuracy: asset.accuracy,
+            decimal: transactionListItem.balanceChange.abs(),
           ),
-          const SizedBox(height: 24),
-          SBadge(
-            status: transactionListItem.status == Status.inProgress
-                ? SBadgeStatus.primary
-                : transactionListItem.status == Status.completed
-                    ? SBadgeStatus.success
-                    : SBadgeStatus.error,
-            text: transactionDetailsStatusText(transactionListItem.status),
-            isLoading: transactionListItem.status == Status.inProgress,
+          fromAssetCustomIcon: const BlueBankIcon(),
+          toAssetIconUrl: asset.iconUrl,
+          toAssetDescription: asset.description,
+          toAssetValue: volumeFormat(
+            symbol: asset.symbol,
+            accuracy: asset.accuracy,
+            //TODO (yaroslav): change when the back will start sending values
+            decimal: (transactionListItem.balanceChange.abs()) -
+                (transactionListItem.ibanWithdrawalInfo?.paymentFeeAmount ?? Decimal.zero) -
+                (transactionListItem.ibanWithdrawalInfo?.processingFeeAmount ?? Decimal.zero),
           ),
-          const SizedBox(height: 24),
-        ],
-      ),
+          isError: transactionListItem.status == Status.declined,
+        ),
+        const SizedBox(height: 24),
+        SBadge(
+          status: transactionListItem.status == Status.inProgress
+              ? SBadgeStatus.primary
+              : transactionListItem.status == Status.completed
+                  ? SBadgeStatus.success
+                  : SBadgeStatus.error,
+          text: transactionDetailsStatusText(transactionListItem.status),
+          isLoading: transactionListItem.status == Status.inProgress,
+        ),
+        const SizedBox(height: 24),
+      ],
     );
   }
 }

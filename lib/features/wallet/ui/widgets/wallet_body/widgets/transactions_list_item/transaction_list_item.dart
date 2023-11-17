@@ -62,7 +62,7 @@ class TransactionListItem extends StatelessWidget {
     final baseCurrency = sSignalRModules.baseCurrency;
 
     return ColoredBox(
-      color: transactionListItem.operationType == OperationType.buyApplePay ? Colors.lime : Colors.transparent,
+      color: transactionListItem.operationType == OperationType.sendGlobally ? Colors.lime : Colors.transparent,
       child: _TransactionBaseItem(
         onTap: () {
           if (fromCJAccount) {
@@ -111,8 +111,8 @@ class TransactionListItem extends StatelessWidget {
     OperationHistoryItem transactionListItem,
   ) {
     switch (transactionListItem.operationType) {
-      case OperationType.buy:
-      case OperationType.sell:
+      case OperationType.swapBuy:
+      case OperationType.swapSell:
         return '${transactionListItem.swapInfo?.sellAssetId} ${intl.operationName_exchangeTo} ${transactionListItem.swapInfo?.buyAssetId}';
       case OperationType.cryptoBuy:
         return '${transactionListItem.cryptoBuyInfo?.paymentAssetId} to ${transactionListItem.cryptoBuyInfo?.buyAssetId}';
@@ -144,9 +144,9 @@ class TransactionListItem extends StatelessWidget {
         return SReceiveByPhoneIcon(color: isFailed ? failedColor : null);
       case OperationType.p2pBuy:
         return SPlusIcon(color: isFailed ? failedColor : null);
-      case OperationType.buy:
+      case OperationType.swapBuy:
         return STransferIcon(color: isFailed ? failedColor : colors.blue);
-      case OperationType.sell:
+      case OperationType.swapSell:
         return STransferIcon(color: isFailed ? failedColor : colors.blue);
       case OperationType.paidInterestRate:
         return SPlusIcon(color: isFailed ? failedColor : null);
@@ -219,11 +219,10 @@ class TransactionListItem extends StatelessWidget {
     required int accuracy,
   }) {
     return volumeFormat(
-      decimal: (transactionListItem.operationType == OperationType.withdraw ||
-              transactionListItem.operationType == OperationType.ibanSend ||
-              transactionListItem.operationType == OperationType.sendGlobally ||
+      decimal: (transactionListItem.operationType == OperationType.ibanSend ||
               transactionListItem.operationType == OperationType.transferByPhone ||
-              transactionListItem.operationType == OperationType.giftSend)
+              transactionListItem.operationType == OperationType.giftSend ||
+              transactionListItem.operationType == OperationType.sendGlobally)
           ? transactionListItem.balanceChange.abs()
           : transactionListItem.balanceChange,
       accuracy: accuracy,
@@ -237,7 +236,7 @@ class TransactionListItem extends StatelessWidget {
     required CurrencyModel paymentCurrency,
     required BaseCurrencyModel baseCurrency,
   }) {
-    if (transactionListItem.operationType == OperationType.sell) {
+    if (transactionListItem.operationType == OperationType.swapSell) {
       return '${intl.transactionListItem_forText} '
           '${volumeFormat(
         decimal: transactionListItem.swapInfo!.buyAmount,
@@ -245,7 +244,7 @@ class TransactionListItem extends StatelessWidget {
         symbol: transactionListItem.swapInfo!.buyAssetId,
       )}';
     }
-    if (transactionListItem.operationType == OperationType.buy) {
+    if (transactionListItem.operationType == OperationType.swapBuy) {
       return '${intl.withText} ${volumeFormat(
         decimal: transactionListItem.swapInfo!.sellAmount,
         accuracy: currency.accuracy,
@@ -293,6 +292,13 @@ class TransactionListItem extends StatelessWidget {
       return '${intl.history_with} ${volumeFormat(
         decimal: transactionListItem.sellCryptoInfo?.sellAmount ?? Decimal.zero,
         symbol: transactionListItem.sellCryptoInfo?.sellAssetId ?? '',
+        accuracy: paymentCurrency.accuracy,
+      )}';
+    }
+    if (transactionListItem.operationType == OperationType.sendGlobally) {
+      return '${intl.history_for} ${volumeFormat(
+        decimal: transactionListItem.withdrawalInfo?.receiveAmount ?? Decimal.zero,
+        symbol: transactionListItem.withdrawalInfo?.receiveAsset ?? '',
         accuracy: paymentCurrency.accuracy,
       )}';
     }
@@ -346,7 +352,7 @@ class _TransactionBaseItem extends StatelessWidget {
                       children: [
                         TransactionListItemHeaderText(
                           text: labele,
-                          color: colors.black,
+                          color: status == Status.declined ? colors.grey2 : colors.black,
                         ),
                         if (labelIcon != null) ...[
                           Padding(
@@ -380,7 +386,7 @@ class _TransactionBaseItem extends StatelessWidget {
                         fontSize: 18.0,
                         fontFamily: 'Gilroy',
                         fontWeight: FontWeight.w600,
-                        color: status == Status.declined ? colors.grey1 : colors.black,
+                        color: status == Status.declined ? colors.grey2 : colors.black,
                         decoration: status == Status.declined ? TextDecoration.lineThrough : null,
                       ),
                     ),
