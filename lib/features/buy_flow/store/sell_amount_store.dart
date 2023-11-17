@@ -7,8 +7,9 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/format_service.dart';
-import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -17,9 +18,12 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/limits/sell_limits_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/limits/swap_limits_request_model.dart';
 part 'sell_amount_store.g.dart';
 
 class SellAmountStore extends _SellAmountStoreBase with _$SellAmountStore {
@@ -50,6 +54,11 @@ abstract class _SellAmountStoreBase with Store {
 
   @observable
   Decimal? targetConversionPrice;
+
+  @computed
+  bool get isContinueAvaible {
+    return inputValid && primaryAmount != '0' && account != null && asset != null;
+  }
 
   @observable
   InputError inputError = InputError.none;
@@ -98,12 +107,19 @@ abstract class _SellAmountStoreBase with Store {
   }
 
   @computed
-  String get fiatBalance {
-    return account?.currency ?? '';
+  int get primaryAccuracy {
+    return isFiatEntering ? buyCurrency.accuracy : asset?.accuracy ?? 2;
   }
 
   @computed
-  Decimal get _availablePresentForProcessing => Decimal.one - ((convertMarkup / Decimal.parse('100')).toDecimal());
+  int get secondaryAccuracy {
+    return isFiatEntering ? asset?.accuracy ?? 2 : buyCurrency.accuracy;
+  }
+
+  @computed
+  String get fiatBalance {
+    return account?.currency ?? '';
+  }
 
   @observable
   PaymentAsset? paymentAsset;
@@ -115,6 +131,37 @@ abstract class _SellAmountStoreBase with Store {
   SimpleBankingAccount? account;
 
   @action
+  void _checkShowTosts() {
+    final isNoCurrencies = !sSignalRModules.currenciesList.any((currency) {
+      return currency.assetBalance != Decimal.zero;
+    });
+    final isNoAccount = !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false);
+    Timer(
+      const Duration(milliseconds: 200),
+      () {
+        if (isNoCurrencies && isNoAccount) {
+          sNotification.showError(
+            intl.tost_sell_message_1,
+            id: 1,
+            hideIcon: true,
+          );
+        } else if (isNoCurrencies) {
+          sNotification.showError(
+            intl.tost_sell_message_2,
+            id: 2,
+            isError: false,
+          );
+        } else if (isNoAccount) {
+          sNotification.showError(
+            intl.tost_sell_message_3,
+            id: 3,
+          );
+        }
+      },
+    );
+  }
+
+  @action
   void init({
     CurrencyModel? inputAsset,
   }) {
@@ -124,6 +171,8 @@ abstract class _SellAmountStoreBase with Store {
       fiatSymbol,
       cryptoSymbol,
     );
+
+    _checkShowTosts();
 
     sAnalytics.newBuyBuyAssetView(
       asset: asset?.symbol ?? '',
@@ -141,6 +190,7 @@ abstract class _SellAmountStoreBase with Store {
       fiatSymbol,
       cryptoSymbol,
     );
+    loadLimits();
 
     fiatInputValue = '0';
 
@@ -161,6 +211,7 @@ abstract class _SellAmountStoreBase with Store {
       fiatSymbol,
       cryptoSymbol,
     );
+    loadLimits();
 
     fiatInputValue = '0';
 
@@ -187,6 +238,7 @@ abstract class _SellAmountStoreBase with Store {
   @action
   void onSwap() {
     isFiatEntering = !isFiatEntering;
+    _validateInput();
   }
 
   @computed
@@ -204,11 +256,16 @@ abstract class _SellAmountStoreBase with Store {
     return sSignalRModules.currenciesList.firstWhere((element) => element.symbol == fiatSymbol).accuracy;
   }
 
+  @computed
+  Decimal get sellAllValue {
+    return asset?.assetBalance ?? Decimal.zero;
+  }
+
   @action
   void onSellAll() {
     cryptoInputValue = responseOnInputAction(
       oldInput: cryptoInputValue,
-      newInput: maxLimit.toString(),
+      newInput: sellAllValue.toString(),
       accuracy: asset?.accuracy ?? 2,
     );
 
@@ -287,19 +344,101 @@ abstract class _SellAmountStoreBase with Store {
     }
   }
 
+  @observable
+  Decimal _minSellAmount = Decimal.zero;
+
+  @observable
+  Decimal _maxSellAmount = Decimal.zero;
+
+  @observable
+  Decimal _minBuyAmount = Decimal.zero;
+
+  @observable
+  Decimal _maxBuyAmount = Decimal.zero;
+
   @computed
   Decimal get minLimit {
-    return Decimal.zero;
+    return isFiatEntering ? _minSellAmount : _minBuyAmount;
   }
 
   @computed
   Decimal get maxLimit {
-    return (asset?.assetBalance ?? Decimal.zero) * _availablePresentForProcessing;
+    return isFiatEntering ? _maxSellAmount : _maxBuyAmount;
+  }
+
+  @action
+  Future<void> loadLimits() async {
+    if (account == null || asset == null) {
+      return;
+    }
+
+    try {
+      if (account?.accountId == 'clearjuction_account') {
+        final model = SwapLimitsRequestModel(
+          fromAsset: asset?.symbol ?? '',
+          toAsset: fiatSymbol,
+        );
+        final response = await sNetwork.getWalletModule().postSwapLimits(model);
+        response.pick(
+          onData: (data) {
+            _minSellAmount = data.minFromAssetVolume;
+            _maxSellAmount = data.maxFromAssetVolume;
+            _minBuyAmount = data.minToAssetVolume;
+            _maxBuyAmount = data.minToAssetVolume;
+          },
+          onError: (error) {
+            sNotification.showError(
+              error.cause,
+              duration: 4,
+              id: 1,
+              needFeedback: true,
+            );
+          },
+        );
+      } else {
+        final model = SellLimitsRequestModel(
+          paymentAsset: asset?.symbol ?? '',
+          buyAsset: account?.currency ?? '',
+          destinationAccountId: account?.accountId ?? '',
+        );
+        final response = await sNetwork.getWalletModule().postSellLimits(model);
+        response.pick(
+          onData: (data) {
+            _minSellAmount = data.minSellAmount;
+            _maxSellAmount = data.maxSellAmount;
+            _minBuyAmount = data.minBuyAmount;
+            _maxBuyAmount = data.maxBuyAmount;
+          },
+          onError: (error) {
+            sNotification.showError(
+              error.cause,
+              duration: 4,
+              id: 1,
+              needFeedback: true,
+            );
+          },
+        );
+      }
+    } on ServerRejectException catch (error) {
+      sNotification.showError(
+        error.cause,
+        duration: 4,
+        id: 1,
+        needFeedback: true,
+      );
+    } catch (error) {
+      sNotification.showError(
+        intl.something_went_wrong_try_again2,
+        duration: 4,
+        id: 1,
+        needFeedback: true,
+      );
+    }
   }
 
   @action
   void _validateInput() {
-    if (Decimal.parse(cryptoInputValue) == Decimal.zero) {
+    if (Decimal.parse(primaryAmount) == Decimal.zero) {
       inputValid = true;
       inputError = InputError.none;
       _updatePaymentMethodInputError(null);
@@ -307,34 +446,34 @@ abstract class _SellAmountStoreBase with Store {
       return;
     }
 
-    if (!isInputValid(cryptoInputValue)) {
+    if (!isInputValid(primaryAmount)) {
       inputValid = false;
 
       return;
     }
 
-    final value = Decimal.parse(cryptoInputValue);
+    final value = Decimal.parse(primaryAmount);
 
     inputValid = value >= minLimit && value <= maxLimit;
 
     if (maxLimit == Decimal.zero) {
       _updatePaymentMethodInputError(
-        intl.limitIsExceeded,
+        null,
       );
     } else if (value < minLimit) {
       _updatePaymentMethodInputError(
         '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
           decimal: minLimit,
-          accuracy: asset?.accuracy ?? 2,
-          symbol: asset?.symbol ?? '',
+          accuracy: primaryAccuracy,
+          symbol: primarySymbol,
         )}',
       );
     } else if (value > maxLimit) {
       _updatePaymentMethodInputError(
         '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
           decimal: maxLimit,
-          accuracy: asset?.accuracy ?? 2,
-          symbol: asset?.symbol ?? '',
+          accuracy: primaryAccuracy,
+          symbol: primarySymbol,
         )}',
       );
     } else {
@@ -343,7 +482,7 @@ abstract class _SellAmountStoreBase with Store {
 
     const error = InputError.none;
 
-    inputError = double.parse(cryptoInputValue) != 0
+    inputError = double.parse(primaryAmount) != 0
         ? error == InputError.none
             ? paymentMethodInputError == null
                 ? InputError.none

@@ -7,7 +7,9 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../../../helper/format_date_to_hm.dart';
@@ -36,6 +38,9 @@ class SendGloballyDetails extends StatelessObserverWidget {
     return SPaddingH24(
       child: Column(
         children: [
+          _BuyDetailsHeader(
+            transactionListItem: transactionListItem,
+          ),
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
@@ -404,13 +409,71 @@ class SendGloballyDetails extends StatelessObserverWidget {
               ),
             ),
           ],
-          const SpaceH18(),
-          TransactionDetailsStatus(
-            status: transactionListItem.status,
-          ),
           const SpaceH45(),
         ],
       ),
+    );
+  }
+}
+
+class _BuyDetailsHeader extends StatelessWidget {
+  const _BuyDetailsHeader({
+    required this.transactionListItem,
+  });
+
+  final OperationHistoryItem transactionListItem;
+
+  @override
+  Widget build(BuildContext context) {
+    final paymentAsset = nonIndicesWithBalanceFrom(
+      sSignalRModules.currenciesWithHiddenList,
+    )
+        .where(
+          (element) => element.symbol == (transactionListItem.assetId),
+        )
+        .first;
+
+    final buyAsset = nonIndicesWithBalanceFrom(
+      sSignalRModules.currenciesWithHiddenList,
+    )
+        .where(
+          (element) => element.symbol == (transactionListItem.withdrawalInfo?.receiveAsset ?? 'EUR'),
+        )
+        .first;
+
+    return Column(
+      children: [
+        WhatToWhatConvertWidget(
+          removeDefaultPaddings: true,
+          isLoading: false,
+          fromAssetIconUrl: paymentAsset.iconUrl,
+          fromAssetDescription: paymentAsset.description,
+          fromAssetValue: volumeFormat(
+            symbol: paymentAsset.symbol,
+            accuracy: paymentAsset.accuracy,
+            decimal: transactionListItem.balanceChange.abs(),
+          ),
+          toAssetIconUrl: buyAsset.iconUrl,
+          toAssetDescription: buyAsset.description,
+          toAssetValue: volumeFormat(
+            symbol: buyAsset.symbol,
+            accuracy: buyAsset.accuracy,
+            decimal: transactionListItem.withdrawalInfo?.receiveAmount ?? Decimal.zero,
+          ),
+          isError: transactionListItem.status == Status.declined,
+        ),
+        const SizedBox(height: 24),
+        SBadge(
+          status: transactionListItem.status == Status.inProgress
+              ? SBadgeStatus.primary
+              : transactionListItem.status == Status.completed
+                  ? SBadgeStatus.success
+                  : SBadgeStatus.error,
+          text: transactionDetailsStatusText(transactionListItem.status),
+          isLoading: transactionListItem.status == Status.inProgress,
+        ),
+        const SizedBox(height: 24),
+      ],
     );
   }
 }

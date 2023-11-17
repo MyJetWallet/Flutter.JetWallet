@@ -123,8 +123,6 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                 SliverToBoxAdapter(
                   child: Container(
                     padding: const EdgeInsets.only(
-                      left: 24,
-                      right: 24,
                       top: 24,
                       bottom: 28,
                     ),
@@ -152,7 +150,32 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
 
                         final isBuyAvaible = isCardsAvailable || isSimpleAccountAvaible || isBankingAccountsAvaible;
 
-                        if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed) && isBuyAvaible) {
+                        final isDepositBlocker = sSignalRModules.clientDetail.clientBlockers
+                            .any((element) => element.blockingType == BlockingType.deposit);
+
+                        if (kycState.tradeStatus == kycOperationStatus(KycStatus.blocked) && !isBuyAvaible) {
+                          sNotification.showError(
+                            intl.my_wallets_actions_warning,
+                            id: 1,
+                            hideIcon: true,
+                          );
+                        } else if ((kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) &&
+                            !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
+                          sNotification.showError(
+                            intl.my_wallets_actions_warning,
+                            id: 1,
+                            hideIcon: true,
+                          );
+                        } else if (isDepositBlocker) {
+                          showSendTimerAlertOr(
+                            context: context,
+                            or: () => showPayWithBottomSheet(
+                              context: context,
+                              currency: actualAsset,
+                            ),
+                            from: [BlockingType.deposit],
+                          );
+                        } else if (isBuyAvaible) {
                           showSendTimerAlertOr(
                             context: context,
                             or: () => showPayWithBottomSheet(
@@ -160,12 +183,6 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                               currency: actualAsset,
                             ),
                             from: [BlockingType.trade],
-                          );
-                        } else if (!isBuyAvaible) {
-                          sNotification.showError(
-                            intl.my_wallets_actions_warning,
-                            id: 1,
-                            hideIcon: true,
                           );
                         } else {
                           handler.handle(

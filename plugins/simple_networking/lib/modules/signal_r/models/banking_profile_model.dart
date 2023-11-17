@@ -15,7 +15,13 @@ class BankingProfileModel with _$BankingProfileModel {
     int? availableAccountsCount,
   }) = _BankingProfileModel;
 
+  const BankingProfileModel._();
+
   factory BankingProfileModel.fromJson(Map<String, dynamic> json) => _$BankingProfileModelFromJson(json);
+
+  bool get isAvaibleAnyAccount {
+    return simple?.account != null && (banking?.accounts ?? []).isNotEmpty;
+  }
 }
 
 @freezed

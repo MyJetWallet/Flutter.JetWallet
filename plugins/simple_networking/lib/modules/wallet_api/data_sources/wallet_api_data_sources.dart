@@ -51,6 +51,12 @@ import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_withdrawal_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/check_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/limits/buy_limits_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/limits/buy_limits_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/limits/sell_limits_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/limits/sell_limits_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/limits/swap_limits_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/limits/swap_limits_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_info/market_info_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_info/market_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_news/market_news_request_model.dart';
@@ -2635,6 +2641,72 @@ class WalletApiDataSources {
         final data = handleFullResponse<Map>(responseData);
 
         return DC.data(data['operationId']);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, BuyLimitsResponseModel>> postBuyLimitsRequest(
+    BuyLimitsRequestModel request,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/trading/buy/limits',
+        data: request.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(BuyLimitsResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, SellLimitsResponseModel>> postSellLimitsRequest(
+    SellLimitsRequestModel request,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/trading/sell/limits',
+        data: request.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(SellLimitsResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, SwapLimitsResponseModel>> postSwapLimitsRequest(
+    SwapLimitsRequestModel request,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/trading/swap/limits',
+        data: request.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(SwapLimitsResponseModel.fromJson(data));
       } catch (e) {
         rethrow;
       }

@@ -66,18 +66,20 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                 SNewActionPriceField(
                   widgetSize: widgetSizeFrom(deviceSize),
                   primaryAmount: formatCurrencyStringAmount(
-                    value: store.isFiatEntering ? store.fiatInputValue : store.cryptoInputValue,
+                    value: store.primaryAmount,
                   ),
-                  primarySymbol: store.isFiatEntering ? store.fiatSymbol : store.cryptoSymbol,
+                  primarySymbol: store.primarySymbol,
                   secondaryAmount: store.asset != null
-                      ? formatCurrencyStringAmount(
-                          value: store.isFiatEntering ? store.cryptoInputValue : store.fiatInputValue,
+                      ? volumeFormat(
+                          decimal: Decimal.parse(store.secondaryAmount) ,
+                          symbol: '',
+                          accuracy: store.secondaryAccuracy,
                         )
                       : null,
                   secondarySymbol:  store.asset != null
-                      ?  store.isFiatEntering ? store.cryptoSymbol : store.fiatSymbol  : null,
+                      ?  store.secondarySymbol  : null,
                   onSwap: () {
-                    store.isFiatEntering = !store.isFiatEntering;
+                    store.swapAssets();
                   },
                   errorText: store.paymentMethodInputError,
                 ),
@@ -220,10 +222,7 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                     store.updateInputValue(value);
                   },
                   buttonType: SButtonType.primary2,
-                  submitButtonActive: store.inputValid &&
-                      !store.disableSubmit &&
-                      !(double.parse(store.primaryAmount) == 0.0) &&
-                      store.limitByAsset?.barProgress != 100,
+                  submitButtonActive: store.isContinueAvaible,
                   submitButtonName: intl.addCircleCard_continue,
                   onSubmitPressed: () {
                     sRouter.push(

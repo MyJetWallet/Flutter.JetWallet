@@ -12,6 +12,7 @@ import 'package:jetwallet/widgets/circle_action_buttons/circle_action_buy.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_receive.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_send.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/modules/shared/simple_paddings.dart';
 
 class ActionsMyWalletsRowWidget extends StatelessWidget {
   const ActionsMyWalletsRowWidget({super.key});
@@ -23,64 +24,66 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
     final currencies = sSignalRModules.currenciesList;
     final isEmptyBalanse = currenciesWithBalanceFrom(currencies).isEmpty;
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        CircleActionBuy(
-          onTap: () {
-            sAnalytics.newBuyTapBuy(
-              source: 'My Assets - Buy',
-            );
-            if (myWalletsSrore.isReordering) {
-              myWalletsSrore.endReorderingImmediately();
-            } else {
-              showBuyAction(
-                shouldPop: false,
-                context: context,
+    return SPaddingH24(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          CircleActionBuy(
+            onTap: () {
+              sAnalytics.newBuyTapBuy(
+                source: 'My Assets - Buy',
               );
-            }
-          },
-        ),
-        CircleActionReceive(
-          onTap: () {
-            sAnalytics.tapOnTheReceiveButton(
-              source: 'My Assets - Receive',
-            );
-            if (myWalletsSrore.isReordering) {
-              myWalletsSrore.endReorderingImmediately();
-            } else {
-              showReceiveAction(context);
-            }
-          },
-        ),
-        CircleActionSend(
-          onTap: () {
-            sAnalytics.tabOnTheSendButton(source: 'My Assets - Send');
-
-            if (myWalletsSrore.isReordering) {
-              myWalletsSrore.endReorderingImmediately();
-            } else {
-              showSendAction(
-                context,
+              if (myWalletsSrore.isReordering) {
+                myWalletsSrore.endReorderingImmediately();
+              } else {
+                showBuyAction(
+                  shouldPop: false,
+                  context: context,
+                );
+              }
+            },
+          ),
+          CircleActionReceive(
+            onTap: () {
+              sAnalytics.tapOnTheReceiveButton(
+                source: 'My Assets - Receive',
               );
-            }
-          },
-          isDisabled: isEmptyBalanse,
-        ),
-        CircleActionAddCash(
-          onTap: () {
-            sAnalytics.tabOnTheSendButton(source: 'My Assets - Add cash');
-
-            if (myWalletsSrore.isReordering) {
-              myWalletsSrore.endReorderingImmediately();
-            } else {
-              showSelectAccountForAddCash(
-                context,
-              );
-            }
-          },
-        ),
-      ],
+              if (myWalletsSrore.isReordering) {
+                myWalletsSrore.endReorderingImmediately();
+              } else {
+                showReceiveAction(context);
+              }
+            },
+          ),
+          CircleActionSend(
+            onTap: () {
+              sAnalytics.tabOnTheSendButton(source: 'My Assets - Send');
+    
+              if (myWalletsSrore.isReordering) {
+                myWalletsSrore.endReorderingImmediately();
+              } else {
+                showSendAction(
+                  context,
+                );
+              }
+            },
+            isDisabled: isEmptyBalanse,
+          ),
+          CircleActionAddCash(
+            onTap: () {
+              sAnalytics.tabOnTheSendButton(source: 'My Assets - Add cash');
+    
+              if (myWalletsSrore.isReordering) {
+                myWalletsSrore.endReorderingImmediately();
+              } else {
+                showSelectAccountForAddCash(
+                  context,
+                );
+              }
+            },
+          ),
+        ],
+      ),
     );
   }
 }

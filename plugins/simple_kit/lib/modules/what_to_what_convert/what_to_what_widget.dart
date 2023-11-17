@@ -10,14 +10,15 @@ class WhatToWhatConvertWidget extends StatelessWidget {
     this.fromAssetCustomIcon,
     required this.fromAssetDescription,
     required this.fromAssetValue,
-    required this.toAssetIconUrl,
+    this.toAssetIconUrl,
     this.toAssetCustomIcon,
-    required this.toAssetDescription,
-    required this.toAssetValue,
+    this.toAssetDescription,
+    this.toAssetValue,
     this.removeDefaultPaddings = false,
     this.isError = false,
     this.fromAssetBaseAmount,
     this.toAssetBaseAmount,
+    this.hasSecondAsset = true,
   });
 
   final bool isLoading;
@@ -26,14 +27,15 @@ class WhatToWhatConvertWidget extends StatelessWidget {
   final String fromAssetDescription;
   final String fromAssetValue;
   final String? fromAssetBaseAmount;
-  final String toAssetIconUrl;
+  final String? toAssetIconUrl;
   final Widget? toAssetCustomIcon;
-  final String toAssetDescription;
-  final String toAssetValue;
+  final String? toAssetDescription;
+  final String? toAssetValue;
   final String? toAssetBaseAmount;
 
   final bool removeDefaultPaddings;
   final bool isError;
+  final bool hasSecondAsset;
 
   @override
   Widget build(BuildContext context) {
@@ -53,28 +55,30 @@ class WhatToWhatConvertWidget extends StatelessWidget {
             isError: isError,
             assetBaseAmount: fromAssetBaseAmount,
           ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            width: 16,
-            height: 16,
-            child: isError
-                ? SCloseIcon(
-                    color: colors.grey2,
-                  )
-                : SChevronDownDoubleIcon(
-                    color: colors.grey2,
-                  ),
-          ),
-          _AssetRowWidget(
-            isLoading: isLoading,
-            assetIconUrl: toAssetIconUrl,
-            assetDescription: toAssetDescription,
-            assetValue: toAssetValue,
-            isSecandary: true,
-            customIcon: toAssetCustomIcon,
-            isError: isError,
-            assetBaseAmount: toAssetBaseAmount,
-          ),
+          if (hasSecondAsset) ...[
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              width: 16,
+              height: 16,
+              child: isError
+                  ? SCloseIcon(
+                      color: colors.grey2,
+                    )
+                  : SChevronDownDoubleIcon(
+                      color: colors.grey2,
+                    ),
+            ),
+            _AssetRowWidget(
+              isLoading: isLoading,
+              assetIconUrl: toAssetIconUrl ?? '',
+              assetDescription: toAssetDescription ?? '',
+              assetValue: toAssetValue ?? '0',
+              isSecandary: true,
+              customIcon: toAssetCustomIcon,
+              isError: isError,
+              assetBaseAmount: toAssetBaseAmount,
+            ),
+          ],
         ],
       ),
     );

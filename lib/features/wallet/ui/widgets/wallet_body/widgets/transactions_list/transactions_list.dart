@@ -158,6 +158,8 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                       transactionListItem: transaction,
                       onItemTapLisener: widget.onItemTapLisener,
                       fromCJAccount: widget.fromCJAccount,
+                      source:
+                          widget.fromCJAccount ? TransactionItemSource.eurAccount : TransactionItemSource.cryptoAccount,
                     );
                   },
                 );
@@ -244,6 +246,9 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                 transactionListItem: transaction,
                                 onItemTapLisener: widget.onItemTapLisener,
                                 fromCJAccount: widget.fromCJAccount,
+                                source: widget.fromCJAccount
+                                    ? TransactionItemSource.eurAccount
+                                    : TransactionItemSource.cryptoAccount,
                               ),
                               Container(
                                 width: double.infinity,
@@ -315,6 +320,9 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                             transactionListItem: transaction,
                             onItemTapLisener: widget.onItemTapLisener,
                             fromCJAccount: widget.fromCJAccount,
+                            source: widget.fromCJAccount
+                                ? TransactionItemSource.eurAccount
+                                : TransactionItemSource.cryptoAccount,
                           );
                   },
                 );
@@ -339,6 +347,9 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                 transactionListItem: transaction,
                                 onItemTapLisener: widget.onItemTapLisener,
                                 fromCJAccount: widget.fromCJAccount,
+                                source: widget.fromCJAccount
+                                    ? TransactionItemSource.eurAccount
+                                    : TransactionItemSource.cryptoAccount,
                               ),
                               const SpaceH24(),
                               Container(
@@ -358,6 +369,9 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                             transactionListItem: transaction,
                             onItemTapLisener: widget.onItemTapLisener,
                             fromCJAccount: widget.fromCJAccount,
+                            source: widget.fromCJAccount
+                                ? TransactionItemSource.eurAccount
+                                : TransactionItemSource.cryptoAccount,
                           );
                   },
                 );

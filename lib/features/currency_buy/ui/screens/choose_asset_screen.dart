@@ -32,9 +32,10 @@ class _ChooseAssetScreenState extends State<ChooseAssetScreen> {
   void initState() {
     super.initState();
 
+    searchStore.searchController = TextEditingController();
+
     final currenciesList = sSignalRModules.currenciesList.where((currency) {
       return currency.buyMethods.any((buyMethod) {
-        
         return buyMethod.id == PaymentMethodType.bankCard || buyMethod.id == PaymentMethodType.ibanTransferUnlimint;
       });
     }).toList();

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:simple_kit/core/simple_kit.dart';
+import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 
 class SimpleCircleButton extends StatefulWidget {
   const SimpleCircleButton({
@@ -9,16 +10,16 @@ class SimpleCircleButton extends StatefulWidget {
     this.onTap,
     this.pressedIcon,
     this.backgroundColor = Colors.black,
-    this.height = 48,
     this.isDisabled = false,
     required this.defaultIcon,
+    required this.name,
   });
 
   final Function()? onTap;
   final Widget? pressedIcon;
   final Widget defaultIcon;
-  final double height;
   final bool isDisabled;
+  final String name;
 
   final Color backgroundColor;
 
@@ -48,13 +49,7 @@ class _SimpleCircleButtonState extends State<SimpleCircleButton> {
             ? widget.backgroundColor.withOpacity(0.8)
             : widget.backgroundColor;
 
-    return Container(
-      height: widget.height,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: currentColor,
-      ),
-      padding: const EdgeInsets.all(12),
+    return Expanded(
       child: InkWell(
         onTap: !widget.isDisabled
             ? widget.onTap != null
@@ -74,7 +69,36 @@ class _SimpleCircleButtonState extends State<SimpleCircleButton> {
         },
         highlightColor: Colors.transparent,
         splashColor: Colors.transparent,
-        child: highlighted ? (widget.pressedIcon ?? widget.defaultIcon) : widget.defaultIcon,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            maxHeight: 68,
+            minWidth: 68,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                height: 40,
+                width: 40,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: currentColor,
+                ),
+                padding: const EdgeInsets.all(12),
+                child: highlighted ? (widget.pressedIcon ?? widget.defaultIcon) : widget.defaultIcon,
+              ),
+              Text(
+                widget.name,
+                style: sCaptionTextStyle.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: widget.isDisabled ? colors.grey2 : null,
+                ),
+                maxLines: 2,
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -11,8 +11,10 @@ import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/price_accuracy.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../../../helper/format_date_to_hm.dart';
 import 'components/transaction_details_item.dart';
@@ -31,6 +33,7 @@ class BuyDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = sKit.colors;
     final paymentAsset = nonIndicesWithBalanceFrom(
       sSignalRModules.currenciesList,
     )
@@ -50,6 +53,9 @@ class BuyDetails extends StatelessObserverWidget {
     return SPaddingH24(
       child: Column(
         children: [
+          _BuyDetailsHeader(
+            transactionListItem: transactionListItem,
+          ),
           TransactionDetailsItem(
             text: intl.send_globally_date,
             value: TransactionDetailsValueText(
@@ -96,6 +102,56 @@ class BuyDetails extends StatelessObserverWidget {
               text: '${formatDateToDMY(transactionListItem.timeStamp)}'
                   ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
+          ),
+          const SpaceH18(),
+          TransactionDetailsItem(
+            text: intl.history_paid_with,
+            value: transactionListItem.cryptoBuyInfo?.paymentMethod == PaymentMethodType.bankCard
+                ? Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: ShapeDecoration(
+                          color: sKit.colors.white,
+                          shape: OvalBorder(
+                            side: BorderSide(
+                              color: colors.grey4,
+                            ),
+                          ),
+                        ),
+                        child: SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: getCardIcon(transactionListItem.cryptoBuyInfo?.cardType),
+                        ),
+                      ),
+                      const SpaceW8(),
+                      TransactionDetailsValueText(
+                        text:
+                            '${transactionListItem.cryptoBuyInfo?.cardLabel} •• ${transactionListItem.cryptoBuyInfo?.cardLast4}',
+                      ),
+                    ],
+                  )
+                : Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: sKit.colors.blue,
+                          shape: BoxShape.circle,
+                        ),
+                        child: SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: SBankMediumIcon(color: sKit.colors.white),
+                        ),
+                      ),
+                      const SpaceW8(),
+                      TransactionDetailsValueText(
+                        text: transactionListItem.cryptoBuyInfo?.accountLabel ?? '',
+                      ),
+                    ],
+                  ),
           ),
           const SpaceH18(),
           Builder(
@@ -173,9 +229,8 @@ class BuyDetails extends StatelessObserverWidget {
   }
 }
 
-class BuyDetailsHeader extends StatelessWidget {
-  const BuyDetailsHeader({
-    super.key,
+class _BuyDetailsHeader extends StatelessWidget {
+  const _BuyDetailsHeader({
     required this.transactionListItem,
   });
 
@@ -199,42 +254,56 @@ class BuyDetailsHeader extends StatelessWidget {
         )
         .first;
 
-    return SPaddingH24(
-      child: Column(
-        children: [
-          WhatToWhatConvertWidget(
-            removeDefaultPaddings: true,
-            isLoading: false,
-            fromAssetIconUrl: paymentAsset.iconUrl,
-            fromAssetDescription: transactionListItem.withdrawalInfo?.contactName ?? '',
-            fromAssetValue: volumeFormat(
-              symbol: paymentAsset.symbol,
-              accuracy: paymentAsset.accuracy,
-              decimal: transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero,
-            ),
-            fromAssetCustomIcon: const BlueBankIcon(),
-            toAssetIconUrl: buyAsset.iconUrl,
-            toAssetDescription: buyAsset.description,
-            toAssetValue: volumeFormat(
-              symbol: buyAsset.symbol,
-              accuracy: buyAsset.accuracy,
-              decimal: transactionListItem.cryptoBuyInfo?.buyAmount ?? Decimal.zero,
-            ),
-            isError: transactionListItem.status == Status.declined,
+    return Column(
+      children: [
+        WhatToWhatConvertWidget(
+          removeDefaultPaddings: true,
+          isLoading: false,
+          fromAssetIconUrl: paymentAsset.iconUrl,
+          fromAssetDescription: paymentAsset.description,
+          fromAssetValue: volumeFormat(
+            symbol: paymentAsset.symbol,
+            accuracy: paymentAsset.accuracy,
+            decimal: transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero,
           ),
-          const SizedBox(height: 24),
-          SBadge(
-            status: transactionListItem.status == Status.inProgress
-                ? SBadgeStatus.primary
-                : transactionListItem.status == Status.completed
-                    ? SBadgeStatus.success
-                    : SBadgeStatus.error,
-            text: transactionDetailsStatusText(transactionListItem.status),
-            isLoading: transactionListItem.status == Status.inProgress,
+          toAssetIconUrl: buyAsset.iconUrl,
+          toAssetDescription: buyAsset.description,
+          toAssetValue: volumeFormat(
+            symbol: buyAsset.symbol,
+            accuracy: buyAsset.accuracy,
+            decimal: transactionListItem.cryptoBuyInfo?.buyAmount ?? Decimal.zero,
           ),
-          const SizedBox(height: 24),
-        ],
-      ),
+          isError: transactionListItem.status == Status.declined,
+        ),
+        const SizedBox(height: 24),
+        SBadge(
+          status: transactionListItem.status == Status.inProgress
+              ? SBadgeStatus.primary
+              : transactionListItem.status == Status.completed
+                  ? SBadgeStatus.success
+                  : SBadgeStatus.error,
+          text: transactionDetailsStatusText(transactionListItem.status),
+          isLoading: transactionListItem.status == Status.inProgress,
+        ),
+        const SizedBox(height: 24),
+      ],
     );
+  }
+}
+
+Widget getCardIcon(String? network) {
+  switch (network?.toUpperCase()) {
+    case 'VISA':
+      return const SVisaCardIcon(
+        width: 40,
+        height: 25,
+      );
+    case 'MASTER CARD':
+      return const SMasterCardIcon(
+        width: 40,
+        height: 25,
+      );
+    default:
+      return const SActionDepositIcon();
   }
 }
