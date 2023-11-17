@@ -182,7 +182,8 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                         : intl.simple_card_type_virtual,
                     onTap: () {
                       if (
-                        el.status == AccountStatusCard.active
+                        el.status == AccountStatusCard.active ||
+                        el.status == AccountStatusCard.frozen
                       ) {
                         simpleCardStore.initFullCardIn(el.cardId ?? '');
                         sRouter.push(const SimpleCardRouter());

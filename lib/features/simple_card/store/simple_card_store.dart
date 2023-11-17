@@ -63,6 +63,7 @@ abstract class _SimpleCardStoreBase with Store {
       cardCvv: '',
       cardExpDate: '',
     );
+    showDetails = false;
     final cards = sSignalRModules.bankingProfileData?.banking?.cards;
     if (cards != null && cards.isNotEmpty) {
       final activeCard = cards
@@ -139,24 +140,9 @@ abstract class _SimpleCardStoreBase with Store {
                 ),);
 
               },
-              onError: (error) {
-                sNotification.showError(
-                  error.cause,
-                  id: 1,
-                );
-              },
+              onError: (error) {},
             );
-          } on ServerRejectException catch (error) {
-            sNotification.showError(
-              error.cause,
-              id: 1,
-            );
-          } catch (error) {
-            sNotification.showError(
-              intl.something_went_wrong,
-              id: 1,
-            );
-          }
+          } catch (error) { }
         } else {
           final cardSens = allSensitive.where((element) => element.cardId == cardId).toList()[0];
           cardSensitiveData = SimpleCardSensitiveResponse(
@@ -222,6 +208,15 @@ abstract class _SimpleCardStoreBase with Store {
     setCardFullInfo(cardFull!.copyWith(
       status: value ? AccountStatusCard.frozen : AccountStatusCard.active,
     ),);
+    final newCards = allCards?.map((e) {
+      return e.cardId == cardFull?.cardId
+          ? e.copyWith(
+            status: value
+              ? AccountStatusCard.frozen
+              : AccountStatusCard.active,
+      ) : e;
+    }).toList();
+    allCards = newCards;
     if (value) {
       sNotification.showError(
         intl.simple_card_froze_alert,
