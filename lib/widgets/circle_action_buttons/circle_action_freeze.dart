@@ -18,22 +18,16 @@ class CircleActionFreeze extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    return Expanded(
-      child: Column(
-        children: [
-          SimpleCircleButton(
-            defaultIcon: SFreezeIcon(
-              color: colors.white,
-            ),
-            pressedIcon: SFreezeIcon(
-              color: colors.white.withOpacity(0.7),
-            ),
-            onTap: onTap,
-            isDisabled: isDisabled,
-            name: isFrozen ? intl.simple_card_unfreeze : intl.simple_card_freeze,
-          ),
-        ],
+    return SimpleCircleButton(
+      defaultIcon: SFreezeIcon(
+        color: colors.white,
       ),
+      pressedIcon: SFreezeIcon(
+        color: colors.white.withOpacity(0.7),
+      ),
+      onTap: onTap,
+      isDisabled: isDisabled,
+      name: isFrozen ? intl.simple_card_unfreeze : intl.simple_card_freeze,
     );
   }
 }

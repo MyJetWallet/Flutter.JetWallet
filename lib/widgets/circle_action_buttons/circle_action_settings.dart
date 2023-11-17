@@ -16,22 +16,16 @@ class CircleActionSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    return Expanded(
-      child: Column(
-        children: [
-          SimpleCircleButton(
-            defaultIcon: SCardSettingsIcon(
-              color: colors.white,
-            ),
-            pressedIcon: SCardSettingsIcon(
-              color: colors.white.withOpacity(0.7),
-            ),
-            onTap: onTap,
-            isDisabled: isDisabled,
-            name: intl.simple_card_settings,
-          ),
-        ],
+    return SimpleCircleButton(
+      defaultIcon: SCardSettingsIcon(
+        color: colors.white,
       ),
+      pressedIcon: SCardSettingsIcon(
+        color: colors.white.withOpacity(0.7),
+      ),
+      onTap: onTap,
+      isDisabled: isDisabled,
+      name: intl.simple_card_settings,
     );
   }
 }

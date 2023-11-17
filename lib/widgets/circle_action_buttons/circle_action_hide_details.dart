@@ -16,22 +16,16 @@ class CircleActionHideDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    return Expanded(
-      child: Column(
-        children: [
-          SimpleCircleButton(
-            defaultIcon: SHideDetailsIcon(
-              color: colors.white,
-            ),
-            pressedIcon: SHideDetailsIcon(
-              color: colors.white.withOpacity(0.7),
-            ),
-            onTap: onTap,
-            isDisabled: isDisabled,
-            name: intl.simple_card_hide_details,
-          ),
-        ],
+    return SimpleCircleButton(
+      defaultIcon: SHideDetailsIcon(
+        color: colors.white,
       ),
+      pressedIcon: SHideDetailsIcon(
+        color: colors.white.withOpacity(0.7),
+      ),
+      onTap: onTap,
+      isDisabled: isDisabled,
+      name: intl.simple_card_hide_details,
     );
   }
 }

@@ -16,22 +16,16 @@ class CircleActionTerminate extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    return Expanded(
-      child: Column(
-        children: [
-          SimpleCircleButton(
-            defaultIcon: STerminateIcon(
-              color: colors.white,
-            ),
-            pressedIcon: STerminateIcon(
-              color: colors.white.withOpacity(0.7),
-            ),
-            onTap: onTap,
-            isDisabled: isDisabled,
-            name: intl.simple_card_terminate,
-          ),
-        ],
+    return SimpleCircleButton(
+      defaultIcon: STerminateIcon(
+        color: colors.white,
       ),
+      pressedIcon: STerminateIcon(
+        color: colors.white.withOpacity(0.7),
+      ),
+      onTap: onTap,
+      isDisabled: isDisabled,
+      name: intl.simple_card_terminate,
     );
   }
 }
