@@ -461,4 +461,14 @@ abstract class IbanStoreBase with Store {
 
     ibanAdressBookLoaded = true;
   }
+
+  @action
+  void clearData() {
+    simpleContacts = ObservableList.of([]);
+    simpleTopContacts = ObservableList.of([]);
+    allContacts = ObservableList.of([]);
+    allTopContacts = ObservableList.of([]);
+
+    initTab = 0;
+  }
 }

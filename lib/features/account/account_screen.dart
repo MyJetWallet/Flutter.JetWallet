@@ -8,6 +8,7 @@ import 'package:jetwallet/core/services/flavor_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
+import 'package:jetwallet/core/services/zendesk_support_service/zendesk_service.dart';
 import 'package:jetwallet/features/account/widgets/account_banner_list.dart';
 import 'package:jetwallet/features/account/widgets/log_out_option.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -134,12 +135,16 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
                   onTwoFaBannerTap: () {
                     sRouter.push(const SmsAuthenticatorRouter());
                   },
-                  onChatBannerTap: () {
-                    sRouter.push(
-                      CrispRouter(
-                        welcomeText: intl.crispSendMessage_hi,
-                      ),
-                    );
+                  onChatBannerTap: () async {
+                    if (showZendesk) {
+                      await getIt.get<ZenDeskService>().showZenDesk();
+                    } else {
+                      await sRouter.push(
+                        CrispRouter(
+                          welcomeText: intl.crispSendMessage_hi,
+                        ),
+                      );
+                    }
                   },
                   onKycBannerTap: () {
                     final isDepositAllow = kycState.depositStatus != kycOperationStatus(KycStatus.allowed);
@@ -232,11 +237,17 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
                       title: intl.account_support,
                       icon: const SSupportIcon(),
                       isSDivider: true,
-                      onTap: () => sRouter.push(
-                        CrispRouter(
-                          welcomeText: intl.crispSendMessage_hi,
-                        ),
-                      ),
+                      onTap: () async {
+                        if (showZendesk) {
+                          await getIt.get<ZenDeskService>().showZenDesk();
+                        } else {
+                          await sRouter.push(
+                            CrispRouter(
+                              welcomeText: intl.crispSendMessage_hi,
+                            ),
+                          );
+                        }
+                      },
                     ),
                     SimpleAccountCategoryButton(
                       title: intl.account_helpCenter,

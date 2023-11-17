@@ -17,6 +17,8 @@ void showWalletVerifyAccount(
 }) {
   final kycState = getIt.get<KycService>();
 
+  bool isClick = false;
+
   sShowAlertPopup(
     context,
     primaryText: '',
@@ -29,11 +31,17 @@ void showWalletVerifyAccount(
       package: 'simple_kit',
     ),
     onPrimaryButtonTap: () async {
+      if (isClick) return;
+
       sAnalytics.eurWalletTapOnVerifyAccount();
 
       Future.delayed(const Duration(seconds: 1), () {
         Navigator.pop(context);
+
+        isClick = false;
       });
+
+      isClick = true;
 
       if (kycState.requiredVerifications.contains(RequiredVerified.proofOfPhone)) {
         await sRouter.push(

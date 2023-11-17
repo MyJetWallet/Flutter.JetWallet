@@ -12,9 +12,11 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
+import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
+import 'package:jetwallet/core/services/zendesk_support_service/zendesk_service.dart';
 import 'package:jetwallet/features/actions/action_deposit/action_deposit.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
@@ -545,18 +547,30 @@ class DeepLinkService {
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
-      await sRouter.push(
-        CrispRouter(
-          welcomeText: intl.crispSendMessage_hi,
-        ),
-      );
+      if (showZendesk) {
+        await getIt.get<ZenDeskService>().showZenDesk();
+      } else {
+        await sRouter.push(
+          CrispRouter(
+            welcomeText: intl.crispSendMessage_hi,
+          ),
+        );
+      }
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
           action: RouteQueryAction.push,
-          query: CrispRouter(
-            welcomeText: intl.crispSendMessage_hi,
-          ),
+          func: () async {
+            if (showZendesk) {
+              await getIt.get<ZenDeskService>().showZenDesk();
+            } else {
+              await sRouter.push(
+                CrispRouter(
+                  welcomeText: intl.crispSendMessage_hi,
+                ),
+              );
+            }
+          },
         ),
       );
     }

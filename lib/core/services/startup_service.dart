@@ -22,6 +22,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
+import 'package:jetwallet/core/services/zendesk_support_service/zendesk_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
@@ -178,6 +179,8 @@ class StartupService {
 
     final kyc = getIt.get<KycService>();
     sAnalytics.setKYCDepositStatus = kyc.depositStatus;
+
+    await getIt.get<ZenDeskService>().authZenDesk();
   }
 
   Future<bool> checkIsUserAuthorized(String? token) async {
@@ -361,24 +364,24 @@ class StartupService {
   }
 
   ///
-  void pinVerified() {
-    void success() {
-      getIt.get<AppStore>().setAuthorizedStatus(
-            const Home(),
-          );
-    }
+  void pushHome() {
+    getIt.get<AppStore>().setAuthorizedStatus(
+          const Home(),
+        );
+  }
 
+  void pinVerified() {
     final info = getIt.get<SessionCheckService>().data;
 
     if (info != null) {
       if (info.toCheckSelfie) {
-        //getIt.get<AppStore>().setAuthorizedStatus(const CheckSelfie());
-        success();
+        getIt.get<AppStore>().setAuthorizedStatus(const CheckSelfie());
+        //pushHome();
       } else {
-        success();
+        pushHome();
       }
     } else {
-      success();
+      pushHome();
     }
 
     getIt.get<AppStore>().checkInitRouter();

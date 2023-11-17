@@ -67,4 +67,9 @@ late String countryCode;
 late String siftBeaconKey;
 late String siftAccountId;
 
+//Support
+late bool showZendesk;
+late String zendeskIOS;
+late String zendeskAndroid;
+
 late String iconApi;
