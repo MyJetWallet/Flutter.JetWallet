@@ -28,14 +28,7 @@ class CircleActionTerminate extends StatelessWidget {
             ),
             onTap: onTap,
             isDisabled: isDisabled,
-          ),
-          const SpaceH6(),
-          Text(
-            intl.simple_card_terminate,
-            style: sBodyText2Style.copyWith(
-              fontWeight: FontWeight.w600,
-              color: isDisabled ? colors.grey2 : null,
-            ),
+            name: intl.simple_card_terminate,
           ),
         ],
       ),

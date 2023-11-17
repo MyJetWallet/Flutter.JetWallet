@@ -30,14 +30,7 @@ class CircleActionFreeze extends StatelessWidget {
             ),
             onTap: onTap,
             isDisabled: isDisabled,
-          ),
-          const SpaceH6(),
-          Text(
-            isFrozen ? intl.simple_card_unfreeze : intl.simple_card_freeze,
-            style: sBodyText2Style.copyWith(
-              fontWeight: FontWeight.w600,
-              color: isDisabled ? colors.grey2 : null,
-            ),
+            name: isFrozen ? intl.simple_card_unfreeze : intl.simple_card_freeze,
           ),
         ],
       ),

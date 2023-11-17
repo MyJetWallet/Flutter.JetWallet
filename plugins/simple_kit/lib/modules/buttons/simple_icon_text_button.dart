@@ -42,7 +42,7 @@ class _SIconTextButtonState extends State<SIconTextButton> {
     final colors = sKit.colors;
 
     TextStyle? tStyle = sTextButtonStyle.copyWith(
-      color: disabled ? sKit.colors.grey2 : sKit.colors.blue,
+      color: widget.disabled ? sKit.colors.grey2 : sKit.colors.blue,
       height: 1.5,
     );
     if (widget.textStyle != null) {

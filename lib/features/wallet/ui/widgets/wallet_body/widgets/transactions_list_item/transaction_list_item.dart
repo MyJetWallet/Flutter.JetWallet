@@ -191,6 +191,12 @@ class TransactionListItem extends StatelessWidget {
         return SWithdrawalIcon(
           color: isFailed ? failedColor : colors.red,
         );
+      case OperationType.cardRefund:
+        return SRefundIcon(color: isFailed ? failedColor : colors.blue);
+      case OperationType.cardPurchase:
+        return SPurchaseIcon(color: isFailed ? failedColor : colors.red);
+      case OperationType.cardWithdrawal:
+        return SWithdrawalIcon(color: isFailed ? failedColor : colors.red);
       default:
         return SPlusIcon(color: isFailed ? failedColor : null);
     }
