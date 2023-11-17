@@ -128,8 +128,6 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context, Curre
 
     return;
   } else if (store.buttonStatus == BankingShowState.inProgress) {
-    kyc.showVerifyingAlert();
-
     return;
   } else if (store.buttonStatus == BankingShowState.accountList) {
     await sRouter
