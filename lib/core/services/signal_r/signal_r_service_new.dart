@@ -725,8 +725,10 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
   @action
   void setBankingProfileData(BankingProfileModel data) {
     /*
+    print(data);
+
     bankingProfileData = BankingProfileModel(
-      showState: BankingShowState.onlySimple,
+      showState: BankingShowState.inProgress,
       simple: SimpleBankingModel(
         status: SimpleAccountStatus.allowed,
         account: SimpleBankingAccount(

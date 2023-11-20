@@ -1,9 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/bank_card/edit_bank_card.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:jetwallet/features/payment_methods/store/payment_methods_store.dart';
@@ -13,7 +11,6 @@ import 'package:jetwallet/utils/helpers/is_card_expired.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 @RoutePage(name: 'PaymentMethodsRouter')
 class PaymentMethods extends StatelessWidget {
@@ -86,51 +83,60 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                       children: [
                         MarketSeparator(text: intl.payment_method_cards),
                         for (final card in state.userCards) ...[
-                          PaymentCardItem(
-                            name: '${card.cardLabel} •••• ${card.last4}',
-                            network: card.network,
-                            currency: 'EUR',
-                            expirationDate: 'Exp. ${card.expMonth}/${card.expYear}',
-                            expired: isCardExpired(card.expMonth, card.expYear),
-                            status: card.status,
-                            showDelete: false,
-                            onDelete: () {},
-                            showEdit: true,
-                            onEdit: () {
-                              Navigator.push(
-                                context,
-                                PageRouteBuilder(
-                                  opaque: false,
-                                  barrierColor: Colors.white,
-                                  pageBuilder: (BuildContext _, __, ___) {
-                                    return EditBankCardScreen(
-                                      card: card,
-                                    );
-                                  },
-                                  transitionsBuilder: (
+                          Builder(
+                            builder: (context) {
+                              var cLabel = card.cardLabel ?? '';
+                              if (cLabel.length > 11) {
+                                cLabel = cLabel.substring(0, 11) + '...';
+                              }
+
+                              return PaymentCardItem(
+                                name: '$cLabel •••• ${card.last4}',
+                                network: card.network,
+                                currency: 'EUR',
+                                expirationDate: 'Exp. ${card.expMonth}/${card.expYear}',
+                                expired: isCardExpired(card.expMonth, card.expYear),
+                                status: card.status,
+                                showDelete: false,
+                                onDelete: () {},
+                                showEdit: true,
+                                onEdit: () {
+                                  Navigator.push(
                                     context,
-                                    animation,
-                                    secondaryAnimation,
-                                    child,
-                                  ) {
-                                    const begin = Offset(0.0, 1.0);
-                                    const end = Offset.zero;
-                                    const curve = Curves.ease;
+                                    PageRouteBuilder(
+                                      opaque: false,
+                                      barrierColor: Colors.white,
+                                      pageBuilder: (BuildContext _, __, ___) {
+                                        return EditBankCardScreen(
+                                          card: card,
+                                        );
+                                      },
+                                      transitionsBuilder: (
+                                        context,
+                                        animation,
+                                        secondaryAnimation,
+                                        child,
+                                      ) {
+                                        const begin = Offset(0.0, 1.0);
+                                        const end = Offset.zero;
+                                        const curve = Curves.ease;
 
-                                    final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                                        final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
-                                    return SlideTransition(
-                                      position: animation.drive(tween),
-                                      child: child,
-                                    );
-                                  },
-                                ),
-                              ).then((value) async {
-                                await state.clearData();
-                              });
+                                        return SlideTransition(
+                                          position: animation.drive(tween),
+                                          child: child,
+                                        );
+                                      },
+                                    ),
+                                  ).then((value) async {
+                                    await state.clearData();
+                                  });
+                                },
+                                removeDivider: state.userCards.last == card,
+                                onTap: () {},
+                              );
                             },
-                            removeDivider: state.userCards.last == card,
-                            onTap: () {},
                           ),
                         ],
                       ],

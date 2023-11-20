@@ -126,9 +126,12 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                 ),
               ),
             ),
-            if (simpleCardStore.allCards == null || simpleCardStore.allCards!.isEmpty || !userInfo.isSimpleCardAvailable)
+            if (simpleCardStore.allCards == null ||
+                simpleCardStore.allCards!.isEmpty ||
+                !userInfo.isSimpleCardAvailable)
               SliverToBoxAdapter(
                 child: SCardRow(
+                  maxWidth: MediaQuery.of(context).size.width * .35,
                   icon: const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -140,9 +143,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                     ],
                   ),
                   name: intl.eur_wallet_simple_card,
-                  helper: !userInfo.isSimpleCardAvailable
-                      ? intl.eur_wallet_coming_soon
-                      : '',
+                  helper: !userInfo.isSimpleCardAvailable ? intl.eur_wallet_coming_soon : '',
                   onTap: () {},
                   description: '',
                   amount: '',
@@ -153,12 +154,12 @@ class _EurWalletBodyState extends State<EurWalletBody> {
               for (final el in simpleCardStore.allCards ?? <CardDataModel>[])
                 SliverToBoxAdapter(
                   child: SCardRow(
-                    frozenIcon: (userInfo.isSimpleCardAvailable && el.status ==
-                        AccountStatusCard.frozen)
+                    maxWidth: MediaQuery.of(context).size.width * .35,
+                    frozenIcon: (userInfo.isSimpleCardAvailable && el.status == AccountStatusCard.frozen)
                         ? const SFrozenIcon(
-                      width: 16,
-                      height: 16,
-                    )
+                            width: 16,
+                            height: 16,
+                          )
                         : null,
                     icon: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,14 +178,9 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                       ],
                     ),
                     name: intl.eur_wallet_simple_card,
-                    helper: el.status == AccountStatusCard.inCreation
-                        ? intl.creating
-                        : intl.simple_card_type_virtual,
+                    helper: el.status == AccountStatusCard.inCreation ? intl.creating : intl.simple_card_type_virtual,
                     onTap: () {
-                      if (
-                        el.status == AccountStatusCard.active ||
-                        el.status == AccountStatusCard.frozen
-                      ) {
+                      if (el.status == AccountStatusCard.active || el.status == AccountStatusCard.frozen) {
                         simpleCardStore.initFullCardIn(el.cardId ?? '');
                         sRouter.push(const SimpleCardRouter());
                       }
@@ -194,33 +190,32 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                     needSpacer: true,
                     rightIcon: el.status == AccountStatusCard.active
                         ? Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          side: const BorderSide(color: Color(0xFFF1F4F8)),
-                          borderRadius: BorderRadius.circular(22),
-                        ),
-                      ),
-                      child: Text(
-                        volumeFormat(
-                          decimal: simpleCardStore.card?.balance ?? Decimal.zero,
-                          accuracy: eurCurrency.accuracy,
-                          symbol: eurCurrency.symbol,
-                        ),
-                        style: sSubtitle1Style.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    )
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            decoration: ShapeDecoration(
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(color: Color(0xFFF1F4F8)),
+                                borderRadius: BorderRadius.circular(22),
+                              ),
+                            ),
+                            child: Text(
+                              volumeFormat(
+                                decimal: simpleCardStore.card?.balance ?? Decimal.zero,
+                                accuracy: eurCurrency.accuracy,
+                                symbol: eurCurrency.symbol,
+                              ),
+                              style: sSubtitle1Style.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          )
                         : null,
                   ),
                 ),
             ],
-            if (
-              userInfo.isSimpleCardAvailable &&
-              (simpleCardStore.allCards == null || simpleCardStore.allCards!.isEmpty ||
-                  simpleCardStore.allCards![0].status == AccountStatusCard.inCreation)
-            ) ...[
+            if (userInfo.isSimpleCardAvailable &&
+                (simpleCardStore.allCards == null ||
+                    simpleCardStore.allCards!.isEmpty ||
+                    simpleCardStore.allCards![0].status == AccountStatusCard.inCreation)) ...[
               SliverToBoxAdapter(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -239,16 +234,21 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                           },
                           text: intl.simple_card_get_card.capitalize(),
                           textStyle: sTextButtonStyle.copyWith(
-                            color: simpleCardStore.allCards != null && simpleCardStore.allCards!.isNotEmpty &&
-                                simpleCardStore.allCards![0].status == AccountStatusCard.inCreation
-                                ? sKit.colors.grey2 : sKit.colors.blue,
+                            color: simpleCardStore.allCards != null &&
+                                    simpleCardStore.allCards!.isNotEmpty &&
+                                    simpleCardStore.allCards![0].status == AccountStatusCard.inCreation
+                                ? sKit.colors.grey2
+                                : sKit.colors.blue,
                           ),
                           icon: SActionDepositIcon(
-                            color: simpleCardStore.allCards != null && simpleCardStore.allCards!.isNotEmpty &&
-                                simpleCardStore.allCards![0].status == AccountStatusCard.inCreation
-                                ? sKit.colors.grey2 : sKit.colors.blue,
+                            color: simpleCardStore.allCards != null &&
+                                    simpleCardStore.allCards!.isNotEmpty &&
+                                    simpleCardStore.allCards![0].status == AccountStatusCard.inCreation
+                                ? sKit.colors.grey2
+                                : sKit.colors.blue,
                           ),
-                          disabled: simpleCardStore.allCards != null && simpleCardStore.allCards!.isNotEmpty &&
+                          disabled: simpleCardStore.allCards != null &&
+                              simpleCardStore.allCards!.isNotEmpty &&
                               simpleCardStore.allCards![0].status == AccountStatusCard.inCreation,
                         ),
                       ),

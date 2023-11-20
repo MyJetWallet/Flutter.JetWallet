@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../../../simple_kit.dart';
@@ -35,6 +37,13 @@ class SimpleBaseLinkButton extends StatefulWidget {
 class _SimpleBaseLinkButtonState extends State<SimpleBaseLinkButton> {
   bool highlighted = false;
 
+  var isClicked = false;
+  late Timer _timer;
+
+  void _startTimer() {
+    _timer = Timer(const Duration(milliseconds: 999), () => isClicked = false);
+  }
+
   @override
   Widget build(BuildContext context) {
     late Color currentColor;
@@ -55,7 +64,15 @@ class _SimpleBaseLinkButtonState extends State<SimpleBaseLinkButton> {
     }
 
     return InkWell(
-      onTap: widget.active ? widget.onTap : null,
+      onTap: widget.active
+          ? () {
+              if (!isClicked) {
+                _startTimer();
+                widget.onTap();
+                isClicked = true;
+              }
+            }
+          : null,
       onHighlightChanged: (value) {
         setState(() {
           highlighted = value;
@@ -73,8 +90,8 @@ class _SimpleBaseLinkButtonState extends State<SimpleBaseLinkButton> {
               child: Text(
                 widget.name,
                 style: widget.textStyle != null
-                  ? widget.textStyle!.copyWith(color: currentColor)
-                  : sButtonTextStyle.copyWith(color: currentColor),
+                    ? widget.textStyle!.copyWith(color: currentColor)
+                    : sButtonTextStyle.copyWith(color: currentColor),
               ),
             ),
             const SpaceW4(),

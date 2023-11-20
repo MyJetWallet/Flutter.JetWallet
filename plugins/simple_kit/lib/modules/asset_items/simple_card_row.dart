@@ -88,10 +88,15 @@ class SCardRow extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text(
-                                name,
-                                style: sTextH5Style.copyWith(
-                                  color: mainColor,
+                              ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  maxWidth: maxWidth ?? double.infinity,
+                                ),
+                                child: Text(
+                                  name,
+                                  style: sTextH5Style.copyWith(
+                                    color: mainColor,
+                                  ),
                                 ),
                               ),
                               if (frozenIcon != null) frozenIcon!,
