@@ -39,6 +39,19 @@ class GetAccountButton extends StatelessObserverWidget {
     final isButtonSmall =
         store.buttonStatus == BankingShowState.getAccount || store.buttonStatus == BankingShowState.getAccountBlock;
 
+    final isAnyBankAccountInCreating = (sSignalRModules.bankingProfileData?.banking?.accounts ?? [])
+        .where((element) => element.status == AccountStatus.inCreation)
+        .isNotEmpty;
+    final isSimpleInCreating = sSignalRModules.bankingProfileData?.simple?.account?.status == AccountStatus.inCreation;
+    final isCardInCreating = (sSignalRModules.bankingProfileData?.banking?.cards ?? [])
+        .where((element) => element.status == AccountStatusCard.inCreation)
+        .isNotEmpty;
+
+    final isLoadingState = store.buttonStatus == BankingShowState.inProgress ||
+        isAnyBankAccountInCreating ||
+        isSimpleInCreating ||
+        isCardInCreating;
+
     return Padding(
       padding: EdgeInsets.only(
         top: 8,
@@ -54,9 +67,9 @@ class GetAccountButton extends StatelessObserverWidget {
             sAnalytics.tapOnTheButtonGetAccountEUROnWalletsScreen();
             onGetAccountClick(store, context, eurCurrency);
           },
-          text: store.simpleCardButtonText,
+          text: isLoadingState ? intl.my_wallets_create_account : store.simpleCardButtonText,
           mainAxisSize: isButtonSmall ? MainAxisSize.min : MainAxisSize.max,
-          icon: store.buttonStatus == BankingShowState.inProgress
+          icon: isLoadingState
               ? SizedBox(
                   width: 13.3,
                   height: 13.3,
@@ -66,38 +79,45 @@ class GetAccountButton extends StatelessObserverWidget {
                   ),
                 )
               : isButtonSmall
-              ? SBankMediumIcon(color: sKit.colors.blue)
-              : Stack(
-            children: [
-              if ((sSignalRModules
-                  .bankingProfileData?.banking
-                  ?.cards?.where(
-                    (element) =>
-                element.status == AccountStatusCard.active ||
-                    element.status == AccountStatusCard.frozen,
-              ).toList().length ?? 0) > 0 && userInfo.isSimpleCardAvailable) ...[
-                const SizedBox(
-                  width: 55,
-                ),
-                const Positioned(
-                  left: 19,
-                  child: SWalletCardIcon(width: 36, height: 24,),
-                ),
-              ],
-              Container(
-                padding: const EdgeInsets.all(4),
-                decoration: BoxDecoration(
-                  color: sKit.colors.blue,
-                  shape: BoxShape.circle,
-                ),
-                child: SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: SBankMediumIcon(color: sKit.colors.white),
-                ),
-              ),
-            ],
-          ),
+                  ? SBankMediumIcon(color: sKit.colors.blue)
+                  : Stack(
+                      children: [
+                        if ((sSignalRModules.bankingProfileData?.banking?.cards
+                                        ?.where(
+                                          (element) =>
+                                              element.status == AccountStatusCard.active ||
+                                              element.status == AccountStatusCard.frozen,
+                                        )
+                                        .toList()
+                                        .length ??
+                                    0) >
+                                0 &&
+                            userInfo.isSimpleCardAvailable) ...[
+                          const SizedBox(
+                            width: 55,
+                          ),
+                          const Positioned(
+                            left: 19,
+                            child: SWalletCardIcon(
+                              width: 36,
+                              height: 24,
+                            ),
+                          ),
+                        ],
+                        Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            color: sKit.colors.blue,
+                            shape: BoxShape.circle,
+                          ),
+                          child: SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: SBankMediumIcon(color: sKit.colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
           rightIcon: store.buttonStatus == BankingShowState.accountList
               ? SizedBox(
                   width: 20,
@@ -110,7 +130,7 @@ class GetAccountButton extends StatelessObserverWidget {
                   color: sKit.colors.purple,
                   fontWeight: FontWeight.w600,
                 )
-              : store.buttonStatus == BankingShowState.inProgress
+              : isLoadingState
                   ? sBodyText2Style.copyWith(
                       color: sKit.colors.grey1,
                       fontWeight: FontWeight.w600,
@@ -132,7 +152,7 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context, Curre
   if (store.buttonStatus == BankingShowState.getAccountBlock) {
     sNotification.showError(
       intl.operation_is_unavailable,
-      duration: 4,
+      duration: 8,
       id: 1,
       needFeedback: true,
     );

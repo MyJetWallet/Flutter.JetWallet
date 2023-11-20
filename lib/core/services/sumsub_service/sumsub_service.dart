@@ -102,6 +102,7 @@ class SumsubService {
           if (needPush) {
             sRouter.push(
               SuccessScreenRouter(
+                time: 6,
                 primaryText: intl.kycChooseDocuments_verifyingNow,
                 secondaryText: intl.kycChooseDocuments_willBeNotified,
                 showPrimaryButton: true,
@@ -136,6 +137,7 @@ class SumsubService {
         if (needPush) {
           sRouter.push(
             SuccessScreenRouter(
+              time: 6,
               primaryText: intl.kycChooseDocuments_verifyingNow,
               secondaryText: intl.kycChooseDocuments_willBeNotified,
               showPrimaryButton: true,
@@ -177,25 +179,30 @@ class SumsubService {
   void simulateSuccess({
     VoidCallback? onFinish,
     required bool isBanking,
+    bool needPush = true,
   }) {
-    sRouter.push(
-      SuccessScreenRouter(
-        primaryText: intl.kycChooseDocuments_verifyingNow,
-        secondaryText: intl.kycChooseDocuments_willBeNotified,
-        showPrimaryButton: true,
-        buttonText: intl.previewBuyWithUmlimint_close,
-        onActionButton: () async {
-          navigateToRouter();
+    if (needPush) {
+      sRouter.push(
+        SuccessScreenRouter(
+          primaryText: intl.kycChooseDocuments_verifyingNow,
+          secondaryText: intl.kycChooseDocuments_willBeNotified,
+          showPrimaryButton: true,
+          buttonText: intl.previewBuyWithUmlimint_close,
+          onActionButton: () async {
+            navigateToRouter();
 
-          if (onFinish != null) onFinish();
-        },
-        onSuccess: (p0) {
-          navigateToRouter();
+            if (onFinish != null) onFinish();
+          },
+          onSuccess: (p0) {
+            navigateToRouter();
 
-          if (onFinish != null) onFinish();
-        },
-      ),
-    );
+            if (onFinish != null) onFinish();
+          },
+        ),
+      );
+    } else {
+      if (onFinish != null) onFinish();
+    }
   }
 
   Future<void> launchFacecheck(

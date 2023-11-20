@@ -49,7 +49,8 @@ class _SimpleCircleButtonState extends State<SimpleCircleButton> {
             ? widget.backgroundColor.withOpacity(0.8)
             : widget.backgroundColor;
 
-    return Expanded(
+    return SizedBox(
+      width: 80,
       child: InkWell(
         onTap: !widget.isDisabled
             ? widget.onTap != null

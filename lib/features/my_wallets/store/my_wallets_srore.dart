@@ -226,19 +226,19 @@ abstract class _MyWalletsSroreBase with Store {
   String get simpleCardButtonText {
     final userInfo = getIt.get<UserInfoService>();
     final preText = simpleAccountButtonText;
-    final cardsActiveCount = sSignalRModules
-        .bankingProfileData?.banking
-        ?.cards?.where(
-          (element) =>
-      element.status == AccountStatusCard.active ||
-          element.status == AccountStatusCard.frozen,
-    ).toList().length ?? 0;
-    final cardsPendingCount = sSignalRModules
-        .bankingProfileData?.banking
-        ?.cards?.where((element) => element.status == AccountStatusCard.inCreation)
-        .toList().length ?? 0;
-    if ((cardsActiveCount == 0 && cardsPendingCount == 0) ||
-        !userInfo.isSimpleCardAvailable) {
+    final cardsActiveCount = sSignalRModules.bankingProfileData?.banking?.cards
+            ?.where(
+              (element) => element.status == AccountStatusCard.active || element.status == AccountStatusCard.frozen,
+            )
+            .toList()
+            .length ??
+        0;
+    final cardsPendingCount = sSignalRModules.bankingProfileData?.banking?.cards
+            ?.where((element) => element.status == AccountStatusCard.inCreation)
+            .toList()
+            .length ??
+        0;
+    if ((cardsActiveCount == 0 && cardsPendingCount == 0) || !userInfo.isSimpleCardAvailable) {
       return preText;
     } else if (cardsActiveCount > 0 && cardsPendingCount == 0) {
       return cardsActiveCount == 1
@@ -252,11 +252,12 @@ abstract class _MyWalletsSroreBase with Store {
   }
 
   void afterVerification() {
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 2), () {
       sNotification.showError(
         intl.let_us_create_account,
         isError: false,
       );
+
       setSimpleAccountStatus(SimpleWalletAccountStatus.creating);
     });
   }

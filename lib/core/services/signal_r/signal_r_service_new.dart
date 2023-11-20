@@ -726,9 +726,8 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
   void setBankingProfileData(BankingProfileModel data) {
     /*
     print(data);
-
     bankingProfileData = BankingProfileModel(
-      showState: BankingShowState.inProgress,
+      showState: BankingShowState.accountList,
       simple: SimpleBankingModel(
         status: SimpleAccountStatus.allowed,
         account: SimpleBankingAccount(
@@ -743,7 +742,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
           SimpleBankingAccount(
             label: 'asdasd',
             balance: Decimal.ten,
-            status: AccountStatus.inCreation,
+            status: AccountStatus.active,
           ),
         ],
       ),
