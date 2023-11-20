@@ -20,10 +20,10 @@ class ZenDeskService {
   }
 
   Future<void> authZenDesk() async {
-    await ZendeskMessaging.loginUser(jwt: getIt.get<AppStore>().authState.token);
+    //await ZendeskMessaging.loginUser(jwt: getIt.get<AppStore>().authState.token);
   }
 
   Future<void> logoutZenDesk() async {
-    await ZendeskMessaging.logoutUser();
+    //await ZendeskMessaging.logoutUser();
   }
 }
