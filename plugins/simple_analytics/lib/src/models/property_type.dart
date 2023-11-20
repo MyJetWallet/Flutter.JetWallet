@@ -60,4 +60,5 @@ class PropertyType {
   static const eurAccountLabel = 'EUR Account label';
   static const isHasTransactions = 'IsHasTransaction';
   static const timeAfterBlock = 'Time after block, sec';
+  static const copyType = 'Copy type';
 }

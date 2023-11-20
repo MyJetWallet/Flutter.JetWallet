@@ -93,7 +93,7 @@ class _BodyAdressBookUnlimit extends StatelessObserverWidget {
                                 Text(
                                   intl.address_book_country_of_recepients_bank,
                                   style: sSubtitle2Style.copyWith(
-                                    fontSize: 16.0,
+                                    fontSize: 18.0,
                                     color: colors.grey2,
                                   ),
                                 )
@@ -295,7 +295,7 @@ class _BodyAdressBookUnlimit extends StatelessObserverWidget {
                           color: colors.grey5,
                           child: SPrimaryButton2(
                             active: IbanAddressBookStore.of(context).isButtonActive,
-                            name: intl.iban_add_account,
+                            name: intl.create_continue,
                             onTap: () {
                               sAnalytics.tapOnTheButtonAddAccount();
 

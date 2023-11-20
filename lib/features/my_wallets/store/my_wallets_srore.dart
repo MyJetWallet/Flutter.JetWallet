@@ -259,6 +259,8 @@ abstract class _MyWalletsSroreBase with Store {
       );
 
       setSimpleAccountStatus(SimpleWalletAccountStatus.creating);
+
+      sAnalytics.eurWalletShowToastLestCreateAccount();
     });
   }
 
@@ -298,7 +300,5 @@ abstract class _MyWalletsSroreBase with Store {
         //accountManualStatus = BankingShowState.accountList;
       }
     }
-
-    sAnalytics.eurWalletShowToastLestCreateAccount();
   }
 }

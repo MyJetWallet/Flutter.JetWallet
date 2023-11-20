@@ -298,7 +298,7 @@ class EventType {
   static const eurWalletEditLabelScreen = "‘Edit label' screen  view";
   static const eurWalletTapSaveChanges = "Tap on the button ‘Save changes' on 'Edit label' screen";
   static const eurWalletTapAddCashEurAccount = "Tap on the button ‘Add cash' on 'EUR account Wallet' screen";
-  static const eurWalletDepositDetailsSheet = "‘Deposit details' sheet  view";
+  static const eurWalletDepositDetailsSheet = "‘Account details' sheet  view ";
   static const eurWalletTapCloseOnDeposirSheet = "Tap on the button ‘Close’ on 'Deposit details' sheet";
   static const eurWalletTapCopyDeposit = "Tap on the button ‘Copy’ on 'Deposit details'  sheet";
   static const eurWalletSwipeHistoryListEURAccount = "‘Swipe history list' on 'EUR account Wallet' screen";

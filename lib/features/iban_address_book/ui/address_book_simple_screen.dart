@@ -196,7 +196,7 @@ class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
                           color: colors.grey5,
                           child: SPrimaryButton2(
                             active: IbanAddressBookStore.of(context).isButtonActive,
-                            name: intl.iban_add_account,
+                            name: intl.create_continue,
                             onTap: () {
                               sAnalytics.tapOnTheButtonAddAccount();
 

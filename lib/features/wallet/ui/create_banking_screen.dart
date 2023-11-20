@@ -127,6 +127,7 @@ class _CreateBankingScreenState extends State<CreateBankingScreen> {
                 sRouter.popUntilRoot();
 
                 sNotification.showError(intl.let_us_create_account, isError: false);
+                sAnalytics.eurWalletShowToastLestCreateAccount();
               }
 
               final resp = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postAccountCreate(requestId);

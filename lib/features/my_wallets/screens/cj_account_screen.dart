@@ -101,12 +101,6 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
               padding: const EdgeInsets.only(left: 24),
               child: SIconButton(
                 onTap: () {
-                  sAnalytics.eurWalletTapBackOnAccountWalletScreen(
-                    isCJ: widget.isCJAccount,
-                    eurAccountLabel: widget.bankingAccount.label ?? 'Account',
-                    isHasTransaction: true,
-                  );
-
                   Navigator.pop(context);
                 },
                 defaultIcon: const SBackIcon(),
@@ -216,6 +210,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                                 isCJ: widget.isCJAccount,
                                 eurAccountLabel: widget.bankingAccount.label ?? 'Account',
                                 isHasTransaction: true,
+                                source: 'EUR wallet',
                               );
 
                               showDepositDetails(
@@ -261,6 +256,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                                 isCJ: widget.isCJAccount,
                                 eurAccountLabel: widget.bankingAccount.label ?? 'Account',
                                 isHasTransaction: true,
+                                copyType: '',
                               );
                             },
                           );
