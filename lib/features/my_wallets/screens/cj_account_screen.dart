@@ -184,6 +184,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                       CircleActionButton(
                         text: intl.wallet_add_cash,
                         type: CircleButtonType.addCash,
+                        isExpanded: false,
                         onTap: () {
                           if (kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) {
                             sNotification.showError(
@@ -233,6 +234,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                       CircleActionButton(
                         text: intl.wallet_withdraw,
                         type: CircleButtonType.withdraw,
+                        isExpanded: false,
                         isDisabled: !((widget.bankingAccount.balance ?? Decimal.zero) > Decimal.zero),
                         onTap: () {
                           if (kycState.withdrawalStatus == kycOperationStatus(KycStatus.blocked)) {

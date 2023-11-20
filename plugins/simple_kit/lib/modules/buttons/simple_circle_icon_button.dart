@@ -11,6 +11,7 @@ class SimpleCircleButton extends StatefulWidget {
     this.pressedIcon,
     this.backgroundColor = Colors.black,
     this.isDisabled = false,
+    this.isExpanded = true,
     required this.defaultIcon,
     required this.name,
   });
@@ -20,6 +21,7 @@ class SimpleCircleButton extends StatefulWidget {
   final Widget defaultIcon;
   final bool isDisabled;
   final String name;
+  final bool isExpanded;
 
   final Color backgroundColor;
 
@@ -49,58 +51,64 @@ class _SimpleCircleButtonState extends State<SimpleCircleButton> {
             ? widget.backgroundColor.withOpacity(0.8)
             : widget.backgroundColor;
 
-    return SizedBox(
-      width: 80,
-      child: InkWell(
-        onTap: !widget.isDisabled
-            ? widget.onTap != null
-                ? () {
-                    if (!isClicked) {
-                      _startTimer();
-                      widget.onTap!();
-                      isClicked = true;
-                    }
+    final button = InkWell(
+      onTap: !widget.isDisabled
+          ? widget.onTap != null
+              ? () {
+                  if (!isClicked) {
+                    _startTimer();
+                    widget.onTap!();
+                    isClicked = true;
                   }
-                : null
-            : null,
-        onHighlightChanged: (value) {
-          setState(() {
-            highlighted = value;
-          });
-        },
-        highlightColor: Colors.transparent,
-        splashColor: Colors.transparent,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxHeight: 68,
-            minWidth: 68,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                height: 40,
-                width: 40,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: currentColor,
-                ),
-                padding: const EdgeInsets.all(12),
-                child: highlighted ? (widget.pressedIcon ?? widget.defaultIcon) : widget.defaultIcon,
+                }
+              : null
+          : null,
+      onHighlightChanged: (value) {
+        setState(() {
+          highlighted = value;
+        });
+      },
+      highlightColor: Colors.transparent,
+      splashColor: Colors.transparent,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+          maxHeight: 68,
+          minWidth: 68,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: currentColor,
               ),
-              Text(
-                widget.name,
-                style: sCaptionTextStyle.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: widget.isDisabled ? colors.grey2 : null,
-                ),
-                maxLines: 2,
-                textAlign: TextAlign.center,
+              padding: const EdgeInsets.all(12),
+              child: highlighted ? (widget.pressedIcon ?? widget.defaultIcon) : widget.defaultIcon,
+            ),
+            Text(
+              widget.name,
+              style: sCaptionTextStyle.copyWith(
+                fontWeight: FontWeight.w600,
+                color: widget.isDisabled ? colors.grey2 : null,
               ),
-            ],
-          ),
+              maxLines: 2,
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       ),
+    );
+
+    if (widget.isExpanded) {
+      return Expanded(child: button);
+    }
+
+    return SizedBox(
+      width: 80,
+      child: button,
     );
   }
 }

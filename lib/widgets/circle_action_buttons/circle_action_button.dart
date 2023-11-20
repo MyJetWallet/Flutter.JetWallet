@@ -10,6 +10,7 @@ class CircleActionButton extends StatelessWidget {
     required this.type,
     required this.onTap,
     this.isDisabled = false,
+    this.isExpanded = true,
   });
 
   final String text;
@@ -17,6 +18,7 @@ class CircleActionButton extends StatelessWidget {
   final Function() onTap;
 
   final bool isDisabled;
+  final bool isExpanded;
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +63,7 @@ class CircleActionButton extends StatelessWidget {
       pressedIcon: getPressedIcon(),
       backgroundColor: isDisabled ? sKit.colors.grey4 : sKit.colors.black,
       onTap: isDisabled ? null : onTap,
+      isExpanded: isExpanded,
       name: text,
     );
   }
