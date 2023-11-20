@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:injectable/injectable.dart';
 import 'package:pointycastle/pointycastle.dart';
 import 'package:rsa_encrypt/rsa_encrypt.dart';
@@ -29,6 +30,7 @@ class RsaService {
   }
 
   Future<void> savePrivateKey(LocalStorageService storageService) async {
+    log(privateKey);
     await storageService.setString(privateKeyKey, privateKey);
   }
 }

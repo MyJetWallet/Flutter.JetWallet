@@ -129,6 +129,7 @@ enum DepositMethods {
   swiftDeposit,
   cardDeposit,
   ibanReceive,
+  bankingCardAccount,
   unsupported,
 }
 
@@ -171,6 +172,8 @@ class DepositMethodsSerialiser
       return DepositMethods.swiftDeposit;
     } else if (value == 'CardDeposit') {
       return DepositMethods.cardDeposit;
+    } else if (value == 'BankingCardAccount') {
+      return DepositMethods.bankingCardAccount;
     } else if (value == 'IbanReceive') {
       return DepositMethods.ibanReceive;
     } else {

@@ -119,6 +119,12 @@ import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/wi
 import '../../../simple_networking.dart';
 import '../models/iban_info/iban_info_response_model.dart';
 import '../models/profile/profile_set_address_request.dart';
+import '../models/simple_card/simple_card_create_request.dart';
+import '../models/simple_card/simple_card_create_response.dart';
+import '../models/simple_card/simple_card_remind_pin_response.dart';
+import '../models/simple_card/simple_card_sensitive_request.dart';
+import '../models/simple_card/simple_card_set_password_request.dart';
+import '../models/simple_card/simple_card_sevsitive_response.dart';
 
 class WalletApiRepository {
   WalletApiRepository(this._apiClient) {
@@ -887,20 +893,69 @@ class WalletApiRepository {
   }
 
   Future<DC<ServerRejectException, BuyLimitsResponseModel>> postBuyLimits(
-    BuyLimitsRequestModel request,
-  ) async {
+      BuyLimitsRequestModel request,
+      ) async {
     return _walletApiDataSources.postBuyLimitsRequest(request);
   }
 
+  // simple card
+  Future<DC<ServerRejectException, SimpleCardCreateResponse>> postSimpleCardCreate({
+    required SimpleCardCreateRequest data,
+  }) async {
+    return _walletApiDataSources.postSimpleCardCreateRequest(data);
+  }
+
+  Future<DC<ServerRejectException, SimpleCardSensitiveResponse>> postSensitiveData({
+    required SimpleCardSensitiveRequest data,
+  }) async {
+    return _walletApiDataSources.postSensitiveDataRequest(data);
+  }
+
+  Future<DC<ServerRejectException, SimpleCardRemindPinResponse>> postRemindPinPhone({
+    required String cardId,
+  }) async {
+    return _walletApiDataSources.postRemindPinPhoneRequest(cardId: cardId);
+  }
+
+  Future<DC<ServerRejectException, void>> postRemindPin({
+    required String cardId,
+  }) async {
+    return _walletApiDataSources.postRemindPinRequest(cardId: cardId);
+  }
+
+  Future<DC<ServerRejectException, void>> postCardSetPassword({
+    required SimpleCardSetPasswordRequest data,
+  }) async {
+    return _walletApiDataSources.postCardSetPasswordRequest(data);
+  }
+
+  Future<DC<ServerRejectException, void>> postCardChangePassword({
+    required SimpleCardSetPasswordRequest data,
+  }) async {
+    return _walletApiDataSources.postCardChangePasswordRequest(data);
+  }
+
+  Future<DC<ServerRejectException, void>> postCardFreeze({
+    required String cardId,
+  }) async {
+    return _walletApiDataSources.postCardFreezeRequest(cardId: cardId);
+  }
+
+  Future<DC<ServerRejectException, void>> postCardUnfreeze({
+    required String cardId,
+  }) async {
+    return _walletApiDataSources.postCardUnfreezeRequest(cardId: cardId);
+  }
+
   Future<DC<ServerRejectException, SellLimitsResponseModel>> postSellLimits(
-    SellLimitsRequestModel request,
-  ) async {
+      SellLimitsRequestModel request,
+      ) async {
     return _walletApiDataSources.postSellLimitsRequest(request);
   }
 
   Future<DC<ServerRejectException, SwapLimitsResponseModel>> postSwapLimits(
-    SwapLimitsRequestModel request,
-  ) async {
+      SwapLimitsRequestModel request,
+      ) async {
     return _walletApiDataSources.postSwapLimitsRequest(request);
   }
 }

@@ -9,8 +9,8 @@ class OperationHistoryRequestModel with _$OperationHistoryRequestModel {
     String? lastDate,
     int? batchSize,
     String? assetId,
-    bool? pendingOnly,
     String? accountId,
+    bool? pendingOnly,
   }) = _OperationHistoryRequestModel;
 
   factory OperationHistoryRequestModel.fromJson(Map<String, dynamic> json) =>

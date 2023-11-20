@@ -67,6 +67,12 @@ String operationName(
       return intl.history_withdrawn;
     case OperationType.bankingAccountDeposit:
       return intl.history_added_cash;
+    case OperationType.cardPurchase:
+      return intl.operationName_purchase;
+    case OperationType.cardRefund:
+      return intl.operationName_refund;
+    case OperationType.cardWithdrawal:
+      return intl.operationName_cash_withdrawal;
     default:
       return 'Unknown';
   }

@@ -44,4 +44,5 @@ abstract class SimpleColors {
   abstract Color purple;
   abstract Color greenExtraLight;
   abstract Color redExtraLight;
+  abstract Color lightPurple;
 }

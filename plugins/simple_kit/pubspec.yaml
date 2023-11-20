@@ -64,8 +64,10 @@ flutter:
     - assets/icons/light/20x20/settings/
     - assets/icons/light/20x20/withdrawal_fee/
     - assets/icons/light/20x20/circle_minus/
+    - assets/icons/light/20x20/list_checkmark/
     - assets/icons/light/20x20/rewards/
     - assets/icons/light/20x20/cash/
+    - assets/icons/light/20x20/simple_card_actions/
     - assets/icons/light/20x20/tick/
     - assets/icons/light/20x20/checkmark/
     - assets/icons/light/24x24/acccount/
@@ -152,6 +154,8 @@ flutter:
     - assets/icons/light/24x24/crypto/
     - assets/icons/light/24x24/add_cash/
     - assets/icons/light/24x24/withdrawal/
+    - assets/icons/light/24x24/purchase/
+    - assets/icons/light/24x24/refund/
     - assets/icons/light/32x32/market/
     - assets/icons/light/32x32/my_assets/
     - assets/icons/light/32x32/card_bottom/

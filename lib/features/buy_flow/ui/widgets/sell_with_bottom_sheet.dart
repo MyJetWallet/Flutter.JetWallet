@@ -5,16 +5,21 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/buy_flow/store/sell_payment_method_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/payment_methods_widgets/balances_widget.dart';
+import 'package:jetwallet/features/buy_flow/ui/widgets/payment_methods_widgets/card_balances_widget.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
+
+import '../../../../core/di/di.dart';
+import '../../../simple_card/store/simple_card_store.dart';
 
 void showSellPayWithBottomSheet({
   required BuildContext context,
   CurrencyModel? currency,
   void Function({
     SimpleBankingAccount? account,
+    CardDataModel? card,
   })? onSelected,
   bool hideCards = false,
 }) {
@@ -46,7 +51,7 @@ void showSellPayWithBottomSheet({
 }
 
 class _PaymentMethodScreenBody extends StatelessObserverWidget {
-  const _PaymentMethodScreenBody({
+  _PaymentMethodScreenBody({
     required this.asset,
     required this.store,
     this.onSelected,
@@ -55,16 +60,36 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
   final CurrencyModel? asset;
   final void Function({
     SimpleBankingAccount? account,
+    CardDataModel? card,
   })? onSelected;
   final SellPaymentMethodStore store;
+
+  final simpleCardStore = getIt.get<SimpleCardStore>();
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
+          if (simpleCardStore.cardFull != null) ...[
+            CardBalancesWidget(
+              onTap: (card) {
+                if (onSelected != null) {
+                  onSelected!(card: card);
+                } else {
+                  sRouter.push(
+                    AmountRoute(
+                      tab: AmountScreenTab.buy,
+                      asset: asset!,
+                      simpleCard: card,
+                    ),
+                  );
+                }
+              },
+              card: simpleCardStore.cardFull!,
+            ),
+          ],
           if (store.accounts.isNotEmpty) ...[
-            const SpaceH24(),
             BalancesWidget(
               onTap: (account) {
                 if (onSelected != null) {

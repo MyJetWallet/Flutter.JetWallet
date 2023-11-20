@@ -41,7 +41,11 @@ abstract class _SellAmountStoreBase with Store {
 
   @computed
   PaymentMethodCategory get category {
-    return account != null ? PaymentMethodCategory.account : PaymentMethodCategory.none;
+    return account != null
+      ? PaymentMethodCategory.account
+      : simpleCard != null
+        ? PaymentMethodCategory.simpleCard
+        : PaymentMethodCategory.none;
   }
 
   @observable
@@ -130,6 +134,9 @@ abstract class _SellAmountStoreBase with Store {
   @observable
   SimpleBankingAccount? account;
 
+  @observable
+  CardDataModel? simpleCard;
+
   @action
   void _checkShowTosts() {
     final isNoCurrencies = !sSignalRModules.currenciesList.any((currency) {
@@ -164,8 +171,10 @@ abstract class _SellAmountStoreBase with Store {
   @action
   void init({
     CurrencyModel? inputAsset,
+    CardDataModel? simpleCardNew,
   }) {
     asset = inputAsset;
+    simpleCard = simpleCardNew;
 
     loadConversionPrice(
       fiatSymbol,
@@ -203,8 +212,10 @@ abstract class _SellAmountStoreBase with Store {
   @action
   void setNewPayWith({
     SimpleBankingAccount? newAccount,
+    CardDataModel? newCard,
   }) {
     account = newAccount;
+    simpleCard = newCard;
     paymentAsset = null;
 
     loadConversionPrice(

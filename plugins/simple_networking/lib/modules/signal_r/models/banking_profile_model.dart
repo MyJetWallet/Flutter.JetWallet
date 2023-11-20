@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simple_networking/helpers/decimal_serialiser.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 
 part 'banking_profile_model.freezed.dart';
 part 'banking_profile_model.g.dart';
@@ -10,9 +11,9 @@ class BankingProfileModel with _$BankingProfileModel {
   factory BankingProfileModel({
     final SimpleBankingModel? simple,
     final BankingDataModel? banking,
+    final int? availableCardsCount,
+    final int? availableAccountsCount,
     @BankingShowStateSerialiser() final BankingShowState? showState,
-    int? availableCardsCount,
-    int? availableAccountsCount,
   }) = _BankingProfileModel;
 
   const BankingProfileModel._();
@@ -56,10 +57,82 @@ class SimpleBankingAccount with _$SimpleBankingAccount {
 }
 
 @freezed
+class CardDataModel with _$CardDataModel {
+  const factory CardDataModel({
+    final String? cardId,
+    final String? cardNumberMasked,
+    final String? currency,
+    @DecimalNullSerialiser() final Decimal? balance,
+    final AccountStatusCard? status,
+    final String? nameOnCard,
+    @SimpleCardNetworkSerialiser() required SimpleCardNetwork ? cardType,
+    final String? expiryDate,
+    final bool? isHidden,
+    final String? label,
+    final bool? passwordIsSet,
+  }) = _CardDataModel;
+
+  factory CardDataModel.fromJson(Map<String, dynamic> json) => _$CardDataModelFromJson(json);
+}
+
+
+enum SimpleCardNetwork {
+  VISA,
+  MASTERCARD,
+  unsupported,
+}
+
+extension _SimpleCardNetworkExtension on SimpleCardNetwork {
+  String get name {
+    switch (this) {
+      case SimpleCardNetwork.VISA:
+        return 'VISA';
+      case SimpleCardNetwork.MASTERCARD:
+        return 'MASTERCARD';
+      default:
+        return 'unsupported';
+    }
+  }
+
+  String get frontName {
+    switch (this) {
+      case SimpleCardNetwork.VISA:
+        return 'Visa';
+      case SimpleCardNetwork.MASTERCARD:
+        return 'Master Card';
+      default:
+        return 'Other';
+    }
+  }
+}
+
+class SimpleCardNetworkSerialiser implements JsonConverter<SimpleCardNetwork, dynamic> {
+  const SimpleCardNetworkSerialiser();
+
+  @override
+  SimpleCardNetwork fromJson(dynamic json) {
+    final value = json.toString();
+
+    if (value == 'VISA') {
+      return SimpleCardNetwork.VISA;
+    } else if (value == 'MASTERCARD') {
+      return SimpleCardNetwork.MASTERCARD;
+    } else {
+      return SimpleCardNetwork.unsupported;
+    }
+  }
+
+  @override
+  dynamic toJson(SimpleCardNetwork type) => type.name;
+}
+
+
+@freezed
 class BankingDataModel with _$BankingDataModel {
   const factory BankingDataModel({
     @BankingClientStatusSerialiser() final BankingClientStatus? status,
     final List<SimpleBankingAccount>? accounts,
+    final List<CardDataModel>? cards,
   }) = _BankingDataModel;
 
   factory BankingDataModel.fromJson(Map<String, dynamic> json) => _$BankingDataModelFromJson(json);

@@ -17,6 +17,9 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
+
+import '../../../core/services/user_info/user_info_service.dart';
 
 class GetAccountButton extends StatelessObserverWidget {
   const GetAccountButton({
@@ -31,6 +34,7 @@ class GetAccountButton extends StatelessObserverWidget {
     final eurCurrency = nonIndicesWithBalanceFrom(
       sSignalRModules.currenciesList,
     ).where((element) => element.symbol == 'EUR').first;
+    final userInfo = getIt.get<UserInfoService>();
 
     final isButtonSmall =
         store.buttonStatus == BankingShowState.getAccount || store.buttonStatus == BankingShowState.getAccountBlock;
@@ -50,7 +54,7 @@ class GetAccountButton extends StatelessObserverWidget {
             sAnalytics.tapOnTheButtonGetAccountEUROnWalletsScreen();
             onGetAccountClick(store, context, eurCurrency);
           },
-          text: store.simpleAccountButtonText,
+          text: store.simpleCardButtonText,
           mainAxisSize: isButtonSmall ? MainAxisSize.min : MainAxisSize.max,
           icon: store.buttonStatus == BankingShowState.inProgress
               ? SizedBox(
@@ -62,19 +66,38 @@ class GetAccountButton extends StatelessObserverWidget {
                   ),
                 )
               : isButtonSmall
-                  ? SBankMediumIcon(color: sKit.colors.blue)
-                  : Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        color: sKit.colors.blue,
-                        shape: BoxShape.circle,
-                      ),
-                      child: SizedBox(
-                        width: 16,
-                        height: 16,
-                        child: SBankMediumIcon(color: sKit.colors.white),
-                      ),
-                    ),
+              ? SBankMediumIcon(color: sKit.colors.blue)
+              : Stack(
+            children: [
+              if ((sSignalRModules
+                  .bankingProfileData?.banking
+                  ?.cards?.where(
+                    (element) =>
+                element.status == AccountStatusCard.active ||
+                    element.status == AccountStatusCard.frozen,
+              ).toList().length ?? 0) > 0 && userInfo.isSimpleCardAvailable) ...[
+                const SizedBox(
+                  width: 55,
+                ),
+                const Positioned(
+                  left: 19,
+                  child: SWalletCardIcon(width: 36, height: 24,),
+                ),
+              ],
+              Container(
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  color: sKit.colors.blue,
+                  shape: BoxShape.circle,
+                ),
+                child: SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: SBankMediumIcon(color: sKit.colors.white),
+                ),
+              ),
+            ],
+          ),
           rightIcon: store.buttonStatus == BankingShowState.accountList
               ? SizedBox(
                   width: 20,

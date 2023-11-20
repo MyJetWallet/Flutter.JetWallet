@@ -14,6 +14,7 @@ class SCardRow extends StatelessWidget {
     this.disabled = false,
     this.lightDivider = false,
     this.rightIcon,
+    this.frozenIcon,
     this.spaceBIandText = 18,
     this.needSpacer = false,
     this.maxWidth,
@@ -35,6 +36,7 @@ class SCardRow extends StatelessWidget {
   final bool needSpacer;
   final Widget icon;
   final Widget? rightIcon;
+  final Widget? frozenIcon;
   final String name;
   final String amount;
   final String description;
@@ -83,11 +85,17 @@ class SCardRow extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            name,
-                            style: sTextH5Style.copyWith(
-                              color: mainColor,
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                name,
+                                style: sTextH5Style.copyWith(
+                                  color: mainColor,
+                                ),
+                              ),
+                              if (frozenIcon != null) frozenIcon!,
+                            ],
                           ),
                           if (helper.isNotEmpty) ...[
                             Baseline(

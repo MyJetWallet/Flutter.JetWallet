@@ -14,7 +14,10 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/wallet/set_active_assets_request_model.dart';
+
+import '../../../core/services/user_info/user_info_service.dart';
 
 part 'my_wallets_srore.g.dart';
 
@@ -216,6 +219,35 @@ abstract class _MyWalletsSroreBase with Store {
         return '1 ${intl.my_wallets_account}';
       default:
         return intl.my_wallets_get_account;
+    }
+  }
+
+  @computed
+  String get simpleCardButtonText {
+    final userInfo = getIt.get<UserInfoService>();
+    final preText = simpleAccountButtonText;
+    final cardsActiveCount = sSignalRModules
+        .bankingProfileData?.banking
+        ?.cards?.where(
+          (element) =>
+      element.status == AccountStatusCard.active ||
+          element.status == AccountStatusCard.frozen,
+    ).toList().length ?? 0;
+    final cardsPendingCount = sSignalRModules
+        .bankingProfileData?.banking
+        ?.cards?.where((element) => element.status == AccountStatusCard.inCreation)
+        .toList().length ?? 0;
+    if ((cardsActiveCount == 0 && cardsPendingCount == 0) ||
+        !userInfo.isSimpleCardAvailable) {
+      return preText;
+    } else if (cardsActiveCount > 0 && cardsPendingCount == 0) {
+      return cardsActiveCount == 1
+          ? '$preText + 1 ${intl.my_wallets_card}'
+          : '$preText + $cardsActiveCount ${intl.my_wallets_cards}';
+    } else if (cardsActiveCount == 0 && cardsPendingCount > 0) {
+      return '$preText + ${intl.my_wallets_card_creating}';
+    } else {
+      return '$preText + $cardsActiveCount ${intl.my_wallets_cards} + ${intl.my_wallets_card_creating}';
     }
   }
 

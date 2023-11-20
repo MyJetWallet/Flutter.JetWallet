@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/icons/20x20/public/checkmark/simple_checkmark_icon.dart';
+import 'package:simple_kit/modules/icons/20x20/public/deposit_in_progress/simple_clock_icon.dart';
 import 'package:simple_kit/modules/icons/24x24/public/erase/simple_erase_market_icon.dart';
 import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 
@@ -8,6 +9,7 @@ enum SBadgeStatus {
   primary,
   success,
   error,
+  pending,
 }
 
 class SBadge extends StatelessWidget {
@@ -48,6 +50,10 @@ class SBadge extends StatelessWidget {
                   ? SEraseMarketIcon(
                       color: getMainColor,
                     )
+                  : status == SBadgeStatus.pending
+                    ? SClockIcon(
+                      color: getMainColor,
+                    )
                   : SCheckmarkIcon(
                       color: getMainColor,
                     ),
@@ -69,6 +75,8 @@ class SBadge extends StatelessWidget {
     switch (status) {
       case SBadgeStatus.primary:
         return SColorsLight().blueExtraLight;
+      case SBadgeStatus.pending:
+        return SColorsLight().grey5;
       case SBadgeStatus.success:
         return SColorsLight().greenExtraLight;
       case SBadgeStatus.error:
@@ -82,6 +90,8 @@ class SBadge extends StatelessWidget {
     switch (status) {
       case SBadgeStatus.primary:
         return SColorsLight().blue;
+      case SBadgeStatus.pending:
+        return SColorsLight().grey1;
       case SBadgeStatus.success:
         return SColorsLight().green;
       case SBadgeStatus.error:

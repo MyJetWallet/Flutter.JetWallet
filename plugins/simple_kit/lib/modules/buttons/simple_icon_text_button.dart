@@ -11,6 +11,7 @@ class SIconTextButton extends StatefulWidget {
     required this.text,
     this.icon,
     this.rightIcon,
+    this.disabled = false,
     required this.onTap,
     this.mainAxisSize = MainAxisSize.min,
     this.textStyle,
@@ -19,6 +20,7 @@ class SIconTextButton extends StatefulWidget {
   final String text;
   final Widget? icon;
   final Widget? rightIcon;
+  final bool disabled;
   final void Function() onTap;
   final MainAxisSize mainAxisSize;
   final TextStyle? textStyle;
@@ -40,7 +42,7 @@ class _SIconTextButtonState extends State<SIconTextButton> {
     final colors = sKit.colors;
 
     TextStyle? tStyle = sTextButtonStyle.copyWith(
-      color: sKit.colors.blue,
+      color: widget.disabled ? sKit.colors.grey2 : sKit.colors.blue,
       height: 1.5,
     );
     if (widget.textStyle != null) {

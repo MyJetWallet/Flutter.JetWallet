@@ -19,18 +19,18 @@ class TransactionsList extends StatelessWidget {
     super.key,
     this.isRecurring = false,
     this.symbol,
+    this.accountId,
     required this.scrollController,
     this.onItemTapLisener,
     this.fromCJAccount = false,
-    this.accountId,
   });
 
   final ScrollController scrollController;
   final String? symbol;
+  final String? accountId;
   final bool isRecurring;
   final void Function(String assetSymbol)? onItemTapLisener;
   final bool fromCJAccount;
-  final String? accountId;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +49,7 @@ class TransactionsList extends StatelessWidget {
         isRecurring: isRecurring,
         onItemTapLisener: onItemTapLisener,
         fromCJAccount: fromCJAccount,
+        accountId: accountId,
       ),
       //dispose: (context, value) => value.stopTimer(),
     );
@@ -59,6 +60,7 @@ class _TransactionsListBody extends StatefulObserverWidget {
   const _TransactionsListBody({
     this.isRecurring = false,
     this.symbol,
+    this.accountId,
     required this.scrollController,
     this.onItemTapLisener,
     this.fromCJAccount = false,
@@ -66,6 +68,7 @@ class _TransactionsListBody extends StatefulObserverWidget {
 
   final ScrollController scrollController;
   final String? symbol;
+  final String? accountId;
   final bool isRecurring;
   final void Function(String assetSymbol)? onItemTapLisener;
   final bool fromCJAccount;
@@ -81,7 +84,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
       if (widget.scrollController.position.maxScrollExtent <= widget.scrollController.offset) {
         if (OperationHistory.of(context).union == const OperationHistoryUnion.loaded() &&
             !OperationHistory.of(context).nothingToLoad) {
-          OperationHistory.of(context).operationHistory(widget.symbol);
+          OperationHistory.of(context).operationHistory(widget.symbol, accountId: widget.accountId);
         }
       }
     });

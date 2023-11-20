@@ -9,10 +9,12 @@ class SCardIcon extends StatelessObserverWidget {
     Key? key,
     this.width,
     this.height,
+    this.color,
   }) : super(key: key);
 
   final double? width;
   final double? height;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +22,12 @@ class SCardIcon extends StatelessObserverWidget {
         ? SimpleLightCardIcon(
             width: width,
             height: height,
+            color: color,
           )
         : SimpleLightCardIcon(
             width: width,
             height: height,
+            color: color,
           );
   }
 }

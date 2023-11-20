@@ -18,6 +18,7 @@ import '../../actions/store/action_search_store.dart';
 void showSellChooseAssetBottomSheet({
   required BuildContext context,
   required void Function(CurrencyModel currency) onChooseAsset,
+  bool isAddCash = false,
 }) {
   final searchStore = getIt.get<ActionSearchStore>();
 
@@ -41,7 +42,7 @@ void showSellChooseAssetBottomSheet({
     context: context,
     scrollable: true,
     pinned: ActionBottomSheetHeader(
-      name: intl.amount_screen_sell,
+      name: isAddCash ? intl.simple_card_add_cash_from : intl.amount_screen_sell,
       showSearch: showSearch,
       onChanged: (String value) {
         searchStore.search(value);

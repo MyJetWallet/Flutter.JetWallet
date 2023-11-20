@@ -1,11 +1,13 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_native_splash/cli_commands.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
+import 'package:jetwallet/features/simple_card/store/simple_card_store.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_header.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
@@ -14,6 +16,11 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
+
+import '../../../../../core/di/di.dart';
+import '../../../../../core/services/user_info/user_info_service.dart';
+import '../../../../simple_card/ui/widgets/card_options.dart';
 
 class EurWalletBody extends StatefulObserverWidget {
   const EurWalletBody({
@@ -38,7 +45,12 @@ class _EurWalletBodyState extends State<EurWalletBody> {
     sAnalytics.eurWalletAccountScreen(
       (sSignalRModules.bankingProfileData?.banking?.accounts ?? <SimpleBankingAccount>[]).length,
     );
+    final simpleCardStore = getIt.get<SimpleCardStore>();
+    final userInfo = getIt.get<UserInfoService>();
 
+    if (userInfo.isSimpleCardAvailable) {
+      simpleCardStore.initStore();
+    }
     _controller.addListener(() {
       if (_controller.position.pixels <= 0) {
         if (!isTopPosition) {
@@ -66,6 +78,9 @@ class _EurWalletBodyState extends State<EurWalletBody> {
 
     final bankAccounts = sSignalRModules.bankingProfileData?.banking?.accounts ?? <SimpleBankingAccount>[];
     final simpleAccount = sSignalRModules.bankingProfileData?.simple?.account;
+
+    final userInfo = getIt.get<UserInfoService>();
+    final simpleCardStore = getIt.get<SimpleCardStore>();
 
     final colors = sKit.colors;
 
@@ -111,35 +126,137 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                 ),
               ),
             ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24.0,
-                  vertical: 16,
+            if (simpleCardStore.allCards == null || simpleCardStore.allCards!.isEmpty || !userInfo.isSimpleCardAvailable)
+              SliverToBoxAdapter(
+                child: SCardRow(
+                  icon: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SpaceH6(),
+                      SCardIcon(
+                        width: 24,
+                        height: 16,
+                      ),
+                    ],
+                  ),
+                  name: intl.eur_wallet_simple_card,
+                  helper: !userInfo.isSimpleCardAvailable
+                      ? intl.eur_wallet_coming_soon
+                      : '',
+                  onTap: () {},
+                  description: '',
+                  amount: '',
+                  needSpacer: true,
                 ),
-                child: Row(
-                  children: [
-                    const SCardIcon(),
-                    const SpaceW12(),
-                    Column(
+              ),
+            if (userInfo.isSimpleCardAvailable) ...[
+              for (final el in simpleCardStore.allCards ?? <CardDataModel>[])
+                SliverToBoxAdapter(
+                  child: SCardRow(
+                    frozenIcon: (userInfo.isSimpleCardAvailable && el.status ==
+                        AccountStatusCard.frozen)
+                        ? const SFrozenIcon(
+                      width: 16,
+                      height: 16,
+                    )
+                        : null,
+                    icon: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          intl.eur_wallet_simple_card,
-                          style: sSubtitle1Style,
-                        ),
-                        Text(
-                          intl.eur_wallet_coming_soon,
-                          style: sBodyText2Style.copyWith(
-                            color: sKit.colors.grey1,
+                        const SpaceH6(),
+                        if (el.status == AccountStatusCard.frozen)
+                          const SFrozenCardIcon(
+                            width: 24,
+                            height: 16,
+                          )
+                        else
+                          const SCardIcon(
+                            width: 24,
+                            height: 16,
                           ),
-                        ),
                       ],
+                    ),
+                    name: intl.eur_wallet_simple_card,
+                    helper: el.status == AccountStatusCard.inCreation
+                        ? intl.creating
+                        : intl.simple_card_type_virtual,
+                    onTap: () {
+                      if (
+                        el.status == AccountStatusCard.active ||
+                        el.status == AccountStatusCard.frozen
+                      ) {
+                        simpleCardStore.initFullCardIn(el.cardId ?? '');
+                        sRouter.push(const SimpleCardRouter());
+                      }
+                    },
+                    description: '',
+                    amount: '',
+                    needSpacer: true,
+                    rightIcon: el.status == AccountStatusCard.active
+                        ? Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                          side: const BorderSide(color: Color(0xFFF1F4F8)),
+                          borderRadius: BorderRadius.circular(22),
+                        ),
+                      ),
+                      child: Text(
+                        volumeFormat(
+                          decimal: simpleCardStore.card?.balance ?? Decimal.zero,
+                          accuracy: eurCurrency.accuracy,
+                          symbol: eurCurrency.symbol,
+                        ),
+                        style: sSubtitle1Style.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    )
+                        : null,
+                  ),
+                ),
+            ],
+            if (
+              userInfo.isSimpleCardAvailable &&
+              (simpleCardStore.allCards == null || simpleCardStore.allCards!.isEmpty ||
+                  simpleCardStore.allCards![0].status == AccountStatusCard.inCreation)
+            ) ...[
+              SliverToBoxAdapter(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SpaceH8(),
+                    SPaddingH24(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          left: 36,
+                        ),
+                        child: SIconTextButton(
+                          onTap: () {
+                            if (simpleCardStore.allCards == null || simpleCardStore.allCards!.isEmpty) {
+                              showCardOptions(context);
+                            }
+                          },
+                          text: intl.simple_card_get_card.capitalize(),
+                          textStyle: sTextButtonStyle.copyWith(
+                            color: simpleCardStore.allCards != null && simpleCardStore.allCards!.isNotEmpty &&
+                                simpleCardStore.allCards![0].status == AccountStatusCard.inCreation
+                                ? sKit.colors.grey2 : sKit.colors.blue,
+                          ),
+                          icon: SActionDepositIcon(
+                            color: simpleCardStore.allCards != null && simpleCardStore.allCards!.isNotEmpty &&
+                                simpleCardStore.allCards![0].status == AccountStatusCard.inCreation
+                                ? sKit.colors.grey2 : sKit.colors.blue,
+                          ),
+                          disabled: simpleCardStore.allCards != null && simpleCardStore.allCards!.isNotEmpty &&
+                              simpleCardStore.allCards![0].status == AccountStatusCard.inCreation,
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
-            ),
+            ],
             const SliverPadding(padding: EdgeInsets.only(top: 24)),
             SliverToBoxAdapter(
               child: Padding(

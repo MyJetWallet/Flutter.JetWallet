@@ -91,6 +91,10 @@ import 'package:simple_networking/modules/wallet_api/models/send_gift/gift_model
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/session_info/session_info_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_request.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_sensitive_request.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_set_password_request.dart';
 import 'package:simple_networking/modules/wallet_api/models/simplex/simplex_payment_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/swap_execute_quote/execute_quote_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/swap_execute_quote/execute_quote_response_model.dart';
@@ -123,6 +127,8 @@ import '../../../simple_networking.dart';
 import '../models/iban_info/iban_info_response_model.dart';
 import '../models/profile/profile_report_request.dart';
 import '../models/profile/profile_set_address_request.dart';
+import '../models/simple_card/simple_card_remind_pin_response.dart';
+import '../models/simple_card/simple_card_sevsitive_response.dart';
 import '../models/simplex/simplex_payment_response_model.dart';
 
 class WalletApiDataSources {
@@ -2648,6 +2654,192 @@ class WalletApiDataSources {
       return DC.error(e);
     }
   }
+
+
+  Future<DC<ServerRejectException, SimpleCardCreateResponse>> postSimpleCardCreateRequest(
+      SimpleCardCreateRequest data,
+      ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/banking/virtual-card/create',
+        data: data,
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final _ = handleFullResponse<Map>(responseData);
+
+        return DC.data(SimpleCardCreateResponse.fromJson(_));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, SimpleCardSensitiveResponse>> postSensitiveDataRequest(
+      SimpleCardSensitiveRequest data,
+      ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/banking/card/sensitive',
+        data: data.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final _ = handleFullResponse<Map>(responseData);
+
+        return DC.data(SimpleCardSensitiveResponse.fromJson(_));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, SimpleCardRemindPinResponse>> postRemindPinPhoneRequest({
+    required String cardId,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/banking/card/remind-pin-phone',
+        data: {
+          'cardId': cardId,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final _ = handleFullResponse<Map>(responseData);
+
+        return DC.data(SimpleCardRemindPinResponse.fromJson(_));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, String>> postRemindPinRequest({
+    required String cardId,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/banking/card/remind-pin',
+        data: {
+          'cardId': cardId,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final _ = handleFullResponse<Map>(responseData);
+
+        return DC.data(_['operationId']);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> postCardSetPasswordRequest(
+      SimpleCardSetPasswordRequest data,
+      ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/banking/card/set-password',
+        data: data,
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final _ = handleFullResponse<Map>(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> postCardChangePasswordRequest(
+      SimpleCardSetPasswordRequest data,
+      ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/banking/card/change-password',
+        data: data,
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final _ = handleFullResponse<Map>(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> postCardFreezeRequest({
+    required String cardId,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/banking/card/freeze',
+        data: {
+          'cardId': cardId,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final _ = handleFullResponse<Map>(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> postCardUnfreezeRequest({
+    required String cardId,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/banking/card/unfreeze',
+        data: {
+          'cardId': cardId,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final _ = handleFullResponse<Map>(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
 
   Future<DC<ServerRejectException, BuyLimitsResponseModel>> postBuyLimitsRequest(
     BuyLimitsRequestModel request,
