@@ -43,6 +43,20 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
               }
             },
           ),
+          CircleActionSend(
+            onTap: () {
+              sAnalytics.tabOnTheSendButton(source: 'My Assets - Send');
+
+              if (myWalletsSrore.isReordering) {
+                myWalletsSrore.endReorderingImmediately();
+              } else {
+                showSendAction(
+                  context,
+                );
+              }
+            },
+            isDisabled: isEmptyBalanse,
+          ),
           CircleActionReceive(
             onTap: () {
               sAnalytics.tapOnTheReceiveButton(
@@ -55,24 +69,10 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
               }
             },
           ),
-          CircleActionSend(
-            onTap: () {
-              sAnalytics.tabOnTheSendButton(source: 'My Assets - Send');
-    
-              if (myWalletsSrore.isReordering) {
-                myWalletsSrore.endReorderingImmediately();
-              } else {
-                showSendAction(
-                  context,
-                );
-              }
-            },
-            isDisabled: isEmptyBalanse,
-          ),
           CircleActionAddCash(
             onTap: () {
               sAnalytics.tabOnTheSendButton(source: 'My Assets - Add cash');
-    
+
               if (myWalletsSrore.isReordering) {
                 myWalletsSrore.endReorderingImmediately();
               } else {
