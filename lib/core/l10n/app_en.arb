@@ -1467,5 +1467,7 @@
     "operationName_cash_withdrawal": "Cash withdrawal",
     "operationName_refund": "Refund",
     "operationName_purchase": "Purchase",
-    "operation_bloked_text": "Operation is unavailable."
+    "operation_bloked_text": "Operation is unavailable.",
+    "gift_kyc_alert_description": "Please verify your account\n to claim your gift",
+    "gift_kyc_verify": "Verify"
 }

@@ -46,7 +46,7 @@ class KycAlertHandler {
     }
 
     if (status == kycOperationStatus(KycStatus.kycRequired) && needGifteExplanationPopup) {
-      _showGeftExplanationAlert(
+      _showGiftExplanationAlert(
         requiredVerifications.isNotEmpty,
         requiredVerifications,
         requiredDocuments,
@@ -144,7 +144,7 @@ class KycAlertHandler {
     );
   }
 
-  void _showGeftExplanationAlert(
+  void _showGiftExplanationAlert(
     bool isRequiredVerifications,
     List<RequiredVerified> requiredVerifications,
     List<KycDocumentType> requiredDocuments,
@@ -155,8 +155,8 @@ class KycAlertHandler {
       context: context,
       imageAsset: verifyYourProfileAsset,
       primaryText: '${intl.kycAlertHandler_verifyYourProfile}!',
-      secondaryText: 'Please verify your account\n to claim your gift',
-      primaryButtonName: 'Verify',
+      secondaryText: intl.gift_kyc_alert_description,
+      primaryButtonName: intl.gift_kyc_verify,
       secondaryButtonName: intl.kycAlertHandler_later,
       onPrimaryButtonTap: () {
         _showKycRequiredAlert(
