@@ -182,7 +182,8 @@ Future<void> handleSendMethodBlockers({
     );
   } else if (!methodIsSuported) {
     sNotification.showError(
-      intl.my_wallets_actions_warning,
+      intl.operation_bloked_text,
+      duration: 4,
       id: 1,
       hideIcon: true,
     );

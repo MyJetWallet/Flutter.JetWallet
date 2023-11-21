@@ -137,7 +137,8 @@ class KycAlertHandler {
     sAnalytics.kycFlowYouBlockedPopup();
 
     sNotification.showError(
-      intl.my_wallets_actions_warning,
+      intl.operation_bloked_text,
+      duration: 4,
       id: 3,
       hideIcon: true,
     );

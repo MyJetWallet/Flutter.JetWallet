@@ -38,7 +38,8 @@ void showReceiveAction(BuildContext context) {
     );
   } else if (!isReceiveMethodsAvailable) {
     sNotification.showError(
-      intl.my_wallets_actions_warning,
+      intl.operation_bloked_text,
+      duration: 4,
       id: 1,
       hideIcon: true,
     );
@@ -147,7 +148,6 @@ class _ActionReceive extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final state = searchStore;
-    final colors = sKit.colors;
     final watchList = sSignalRModules.keyValue.watchlist?.value ?? [];
     sortByBalanceWatchlistAndWeight(state.fCurrencies, watchList);
     var currencyFiltered = List<CurrencyModel>.from(state.fCurrencies);
@@ -156,12 +156,6 @@ class _ActionReceive extends StatelessObserverWidget {
           (element) => element.type == AssetType.crypto && element.supportsCryptoDeposit,
         )
         .toList();
-
-    final cryptoSearchLength = sSignalRModules.currenciesList
-        .where(
-          (element) => element.type == AssetType.crypto && element.supportsCryptoDeposit,
-        )
-        .length;
 
     final showSearch = showReceiveCurrencySearch(context) && state.showCrypto;
 

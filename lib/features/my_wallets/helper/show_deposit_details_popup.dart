@@ -5,7 +5,6 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/iban/widgets/iban_item.dart';
 import 'package:jetwallet/features/iban/widgets/iban_terms_container.dart';
@@ -25,7 +24,7 @@ Future<void> showSelectAccountForAddCash(BuildContext context) async {
 
   if (kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) {
     sNotification.showError(
-      intl.operation_is_unavailable,
+      intl.operation_bloked_text,
       duration: 4,
       id: 1,
       needFeedback: true,
@@ -59,7 +58,7 @@ Future<void> showSelectAccountForAddCash(BuildContext context) async {
 }
 
 class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
-  const _ShowSelectAccountForAddCash({Key? key}) : super(key: key);
+  const _ShowSelectAccountForAddCash();
 
   @override
   Widget build(BuildContext context) {

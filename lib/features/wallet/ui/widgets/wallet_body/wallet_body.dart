@@ -155,14 +155,16 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
 
                         if (kycState.tradeStatus == kycOperationStatus(KycStatus.blocked) && !isBuyAvaible) {
                           sNotification.showError(
-                            intl.my_wallets_actions_warning,
+                            intl.operation_bloked_text,
+                            duration: 4,
                             id: 1,
                             hideIcon: true,
                           );
                         } else if ((kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) &&
                             !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
                           sNotification.showError(
-                            intl.my_wallets_actions_warning,
+                            intl.operation_bloked_text,
+                            duration: 4,
                             id: 1,
                             hideIcon: true,
                           );
@@ -222,7 +224,8 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                           );
                         } else if (!widget.currency.supportsCryptoDeposit) {
                           sNotification.showError(
-                            intl.my_wallets_actions_warning,
+                            intl.operation_bloked_text,
+                            duration: 4,
                             id: 1,
                             hideIcon: true,
                           );

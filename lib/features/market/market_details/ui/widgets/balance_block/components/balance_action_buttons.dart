@@ -59,7 +59,8 @@ class BalanceActionButtons extends StatelessObserverWidget {
                       );
                     } else {
                       sNotification.showError(
-                        intl.my_wallets_actions_warning,
+                        intl.operation_bloked_text,
+                        duration: 4,
                         id: 1,
                         hideIcon: true,
                       );
@@ -98,14 +99,16 @@ class BalanceActionButtons extends StatelessObserverWidget {
 
               if (kycState.tradeStatus == kycOperationStatus(KycStatus.blocked) && !isBuyAvaible) {
                 sNotification.showError(
-                  intl.my_wallets_actions_warning,
+                  intl.operation_bloked_text,
+                  duration: 4,
                   id: 1,
                   hideIcon: true,
                 );
               } else if ((kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) &&
                   !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
                 sNotification.showError(
-                  intl.my_wallets_actions_warning,
+                  intl.operation_bloked_text,
+                  duration: 4,
                   id: 1,
                   hideIcon: true,
                 );
@@ -167,7 +170,8 @@ class BalanceActionButtons extends StatelessObserverWidget {
                   );
                 } else if (!currency.supportsCryptoDeposit) {
                   sNotification.showError(
-                    intl.my_wallets_actions_warning,
+                    intl.operation_bloked_text,
+                    duration: 4,
                     id: 1,
                     hideIcon: true,
                   );
