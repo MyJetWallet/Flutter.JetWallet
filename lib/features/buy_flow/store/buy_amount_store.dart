@@ -60,7 +60,10 @@ abstract class _BuyAmountStoreBase with Store {
 
   @computed
   bool get isContinueAvaible {
-    return inputValid && primaryAmount != '0' && (account != null || card != null) && asset != null;
+    return inputValid &&
+        Decimal.parse(primaryAmount) != Decimal.zero &&
+        (account != null || card != null) &&
+        asset != null;
   }
 
   @observable

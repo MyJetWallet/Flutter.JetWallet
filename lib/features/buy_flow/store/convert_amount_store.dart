@@ -46,7 +46,10 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @computed
   bool get isContinueAvaible {
-    return inputValid && primaryAmount != '0' && fromAsset != null && targetConversionPrice != null;
+    return inputValid &&
+        Decimal.parse(primaryAmount) != Decimal.zero &&
+        fromAsset != null &&
+        targetConversionPrice != null;
   }
 
   @observable
