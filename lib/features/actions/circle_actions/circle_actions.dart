@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_buy.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_convert.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_receive.dart';
@@ -7,20 +6,18 @@ import 'package:jetwallet/widgets/circle_action_buttons/circle_action_sell.dart'
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_send.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class CircleActionButtons extends StatelessObserverWidget {
+class CircleActionButtons extends StatelessWidget {
   const CircleActionButtons({
     super.key,
     this.isBuyDisabled = false,
     this.isSellDisabled = false,
     this.isReceiveDisabled = false,
     this.isSendDisabled = false,
-    this.isExchangeDisabled = false,
     this.isConvertDisabled = false,
     this.onBuy,
     this.onSell,
     this.onReceive,
     this.onSend,
-    this.onExchange,
     this.onConvert,
   });
 
@@ -28,13 +25,11 @@ class CircleActionButtons extends StatelessObserverWidget {
   final bool isSellDisabled;
   final bool isReceiveDisabled;
   final bool isSendDisabled;
-  final bool isExchangeDisabled;
   final bool isConvertDisabled;
   final Function()? onBuy;
   final Function()? onSell;
   final Function()? onReceive;
   final Function()? onSend;
-  final Function()? onExchange;
   final Function()? onConvert;
 
   @override
