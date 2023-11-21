@@ -116,14 +116,6 @@ class AboutUs extends StatelessObserverWidget {
             ),
             const SpaceH20(),
           ],
-          if (nftPolicyLink.isNotEmpty &&
-              sSignalRModules.clientDetail.isNftEnable) ...[
-            const SpaceH20(),
-          ],
-          if (nftTermsLink.isNotEmpty &&
-              sSignalRModules.clientDetail.isNftEnable) ...[
-            const SpaceH20(),
-          ],
           const SpaceH40(),
         ],
       ),

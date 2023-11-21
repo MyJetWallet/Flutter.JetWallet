@@ -2655,10 +2655,9 @@ class WalletApiDataSources {
     }
   }
 
-
   Future<DC<ServerRejectException, SimpleCardCreateResponse>> postSimpleCardCreateRequest(
-      SimpleCardCreateRequest data,
-      ) async {
+    SimpleCardCreateRequest data,
+  ) async {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/banking/virtual-card/create',
@@ -2679,8 +2678,8 @@ class WalletApiDataSources {
   }
 
   Future<DC<ServerRejectException, SimpleCardSensitiveResponse>> postSensitiveDataRequest(
-      SimpleCardSensitiveRequest data,
-      ) async {
+    SimpleCardSensitiveRequest data,
+  ) async {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/banking/card/sensitive',
@@ -2749,8 +2748,8 @@ class WalletApiDataSources {
   }
 
   Future<DC<ServerRejectException, void>> postCardSetPasswordRequest(
-      SimpleCardSetPasswordRequest data,
-      ) async {
+    SimpleCardSetPasswordRequest data,
+  ) async {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/banking/card/set-password',
@@ -2771,8 +2770,8 @@ class WalletApiDataSources {
   }
 
   Future<DC<ServerRejectException, void>> postCardChangePasswordRequest(
-      SimpleCardSetPasswordRequest data,
-      ) async {
+    SimpleCardSetPasswordRequest data,
+  ) async {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/banking/card/change-password',
@@ -2839,7 +2838,6 @@ class WalletApiDataSources {
       return DC.error(e);
     }
   }
-
 
   Future<DC<ServerRejectException, BuyLimitsResponseModel>> postBuyLimitsRequest(
     BuyLimitsRequestModel request,

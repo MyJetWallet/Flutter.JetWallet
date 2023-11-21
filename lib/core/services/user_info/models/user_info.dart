@@ -8,7 +8,6 @@ class UserInfoState with _$UserInfoState {
     String? pin,
     @Default(false) bool chatClosedOnThisSession,
     @Default(false) bool hasDisclaimers,
-    @Default(false) bool hasNftDisclaimers,
 
     /// If after reister/login user disabled a pin.
     /// If pin is disabled manually we don't ask

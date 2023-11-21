@@ -412,7 +412,6 @@ abstract class _AppStoreBase with Store {
           phoneVerifiedValue: info.data!.phoneVerified,
           hasDisclaimersValue: info.data!.hasDisclaimers,
           hasHighYieldDisclaimersValue: info.data!.hasHighYieldDisclaimers,
-          hasNftDisclaimersValue: info.data!.hasNftDisclaimers,
           isTechClientValue: info.data?.isTechClient ?? false,
         );
       }

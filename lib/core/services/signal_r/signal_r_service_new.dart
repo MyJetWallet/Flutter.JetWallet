@@ -259,7 +259,6 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
     baseAssetSymbol: 'USD',
     walletCreationDate: DateTime.now().toString(),
     recivedAt: DateTime.now(),
-    isNftEnable: false,
   );
   @action
   void setClientDetail(ClientDetailModel value) {
@@ -904,7 +903,6 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
       baseAssetSymbol: 'USD',
       walletCreationDate: DateTime.now().toString(),
       recivedAt: DateTime.now(),
-      isNftEnable: false,
     );
     baseCurrency = const BaseCurrencyModel();
     signalRLogs = ObservableList.of([]);

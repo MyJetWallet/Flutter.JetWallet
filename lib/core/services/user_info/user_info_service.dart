@@ -34,9 +34,6 @@ abstract class _UserInfoServiceBase with Store {
   bool hasDisclaimers = false;
 
   @observable
-  bool hasNftDisclaimers = false;
-
-  @observable
   bool pinDisabled = false;
 
   @observable
@@ -76,9 +73,14 @@ abstract class _UserInfoServiceBase with Store {
   bool cardRequested = false;
 
   @computed
-  bool get isSimpleCardAvailable => sSignalRModules.assetPaymentMethodsNew?.product?.where(
-    (element) => element.id == AssetPaymentProductsEnum.bankingCardAccount,
-  ).toList().isNotEmpty ?? false;
+  bool get isSimpleCardAvailable =>
+      sSignalRModules.assetPaymentMethodsNew?.product
+          ?.where(
+            (element) => element.id == AssetPaymentProductsEnum.bankingCardAccount,
+          )
+          .toList()
+          .isNotEmpty ??
+      false;
 
   @observable
   bool isSimpleCardInProgress = false;
@@ -131,14 +133,12 @@ abstract class _UserInfoServiceBase with Store {
     required bool phoneVerifiedValue,
     required bool hasDisclaimersValue,
     required bool hasHighYieldDisclaimersValue,
-    required bool hasNftDisclaimersValue,
     required bool isTechClientValue,
   }) {
     twoFaEnabled = twoFaEnabledValue;
     phoneVerified = phoneVerifiedValue;
     hasDisclaimers = hasDisclaimersValue;
     hasHighYieldDisclaimers = hasHighYieldDisclaimersValue;
-    hasNftDisclaimers = hasNftDisclaimersValue;
     isTechClient = isTechClientValue;
   }
 
@@ -247,8 +247,7 @@ abstract class _UserInfoServiceBase with Store {
     _logger.log(notifier, 'initBiometricStatus');
     final bioStatusFromSetting = await biometricStatus();
 
-    final isBiometricHided =
-        await getIt<LocalCacheService>().getBiometricHided() ?? false;
+    final isBiometricHided = await getIt<LocalCacheService>().getBiometricHided() ?? false;
 
     if (bioStatusFromSetting != BiometricStatus.none &&
         !isBiometricHided &&
