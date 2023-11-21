@@ -19,6 +19,7 @@ class WhatToWhatConvertWidget extends StatelessWidget {
     this.fromAssetBaseAmount,
     this.toAssetBaseAmount,
     this.hasSecondAsset = true,
+    this.isSmallerVersion = false,
   });
 
   final bool isLoading;
@@ -36,6 +37,7 @@ class WhatToWhatConvertWidget extends StatelessWidget {
   final bool removeDefaultPaddings;
   final bool isError;
   final bool hasSecondAsset;
+  final bool isSmallerVersion;
 
   @override
   Widget build(BuildContext context) {
@@ -54,10 +56,11 @@ class WhatToWhatConvertWidget extends StatelessWidget {
             customIcon: fromAssetCustomIcon,
             isError: isError,
             assetBaseAmount: fromAssetBaseAmount,
+            isSmallerVersion: isSmallerVersion,
           ),
           if (hasSecondAsset) ...[
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              margin: EdgeInsets.symmetric(horizontal: isSmallerVersion ? 8 : 12, vertical: isSmallerVersion ? 4 : 8),
               width: 16,
               height: 16,
               child: isError
@@ -77,6 +80,7 @@ class WhatToWhatConvertWidget extends StatelessWidget {
               customIcon: toAssetCustomIcon,
               isError: isError,
               assetBaseAmount: toAssetBaseAmount,
+              isSmallerVersion: isSmallerVersion,
             ),
           ],
         ],
@@ -95,6 +99,7 @@ class _AssetRowWidget extends StatelessWidget {
     this.customIcon,
     this.isError = false,
     this.assetBaseAmount,
+    this.isSmallerVersion = false,
   });
 
   final bool isLoading;
@@ -105,6 +110,7 @@ class _AssetRowWidget extends StatelessWidget {
   final Widget? customIcon;
   final bool isError;
   final String? assetBaseAmount;
+  final bool isSmallerVersion;
 
   @override
   Widget build(BuildContext context) {
@@ -117,8 +123,8 @@ class _AssetRowWidget extends StatelessWidget {
         ] else ...[
           SNetworkSvg(
             url: assetIconUrl,
-            width: 40,
-            height: 40,
+            width: isSmallerVersion ? 32 : 40,
+            height: isSmallerVersion ? 32 : 40,
           ),
         ],
         const SpaceW12(),
@@ -130,6 +136,7 @@ class _AssetRowWidget extends StatelessWidget {
               style: sBodyText2Style.copyWith(
                 color: colors.grey1,
                 fontWeight: FontWeight.w600,
+                fontSize: isSmallerVersion ? 12 : 14,
               ),
             ),
             if (isLoading)
@@ -144,10 +151,11 @@ class _AssetRowWidget extends StatelessWidget {
                 style: sTextH4Style.copyWith(
                   color: isError
                       ? colors.grey1
-                      : isSecandary
+                      : isSecandary && !isSmallerVersion
                           ? colors.purple
                           : null,
                   decoration: isError ? TextDecoration.lineThrough : null,
+                  fontSize: isSmallerVersion ? 20 : 24,
                 ),
               ),
             if (assetBaseAmount != null)

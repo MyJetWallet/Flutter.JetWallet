@@ -7,6 +7,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:jetwallet/widgets/fee_rows/processing_fee_row_widget.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
@@ -86,14 +87,11 @@ class DepositDetails extends StatelessObserverWidget {
             ),
           ],
           const SpaceH18(),
-          TransactionDetailsItem(
-            text: intl.buy_confirmation_processing_fee,
-            value: TransactionDetailsValueText(
-              text: volumeFormat(
-                symbol: feeAsset.symbol,
-                accuracy: feeAsset.accuracy,
-                decimal: transactionListItem.depositInfo?.feeAmount ?? Decimal.zero,
-              ),
+          ProcessingFeeRowWidget(
+            fee: volumeFormat(
+              symbol: feeAsset.symbol,
+              accuracy: feeAsset.accuracy,
+              decimal: transactionListItem.depositInfo?.feeAmount ?? Decimal.zero,
             ),
           ),
           const SpaceH40(),
@@ -132,6 +130,7 @@ class _DepositDetailsHeader extends StatelessWidget {
           ),
           hasSecondAsset: false,
           isError: transactionListItem.status == Status.declined,
+          isSmallerVersion: true,
         ),
         const SizedBox(height: 24),
         SBadge(

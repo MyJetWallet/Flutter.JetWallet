@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
+import 'package:jetwallet/widgets/fee_rows/processing_fee_row_widget.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
@@ -56,18 +57,11 @@ class GiftReceiveDetails extends StatelessObserverWidget {
             ),
           ),
           const SpaceH14(),
-          TransactionDetailsItem(
-            text: intl.buy_confirmation_processing_fee,
-            value: Row(
-              children: [
-                TransactionDetailsValueText(
-                  text: volumeFormat(
-                    decimal: transactionListItem.withdrawalInfo?.feeAmount ?? Decimal.zero,
-                    accuracy: currency.accuracy,
-                    symbol: currency.symbol,
-                  ),
-                ),
-              ],
+          ProcessingFeeRowWidget(
+            fee: volumeFormat(
+              decimal: transactionListItem.withdrawalInfo?.feeAmount ?? Decimal.zero,
+              accuracy: currency.accuracy,
+              symbol: currency.symbol,
             ),
           ),
           const SpaceH42(),
@@ -106,6 +100,7 @@ class _GiftReceiveDetailsHeader extends StatelessWidget {
           ),
           isError: transactionListItem.status == Status.declined,
           hasSecondAsset: false,
+          isSmallerVersion: true,
         ),
         const SizedBox(height: 24),
         SBadge(
