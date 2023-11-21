@@ -334,7 +334,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                         ],
                       )
                     : null,
-                endActionPane: store.currencies[index].isAssetBalanceEmpty
+                endActionPane: store.currencies[index].isAssetBalanceEmpty && store.currencies[index].symbol != 'EUR'
                     ? ActionPane(
                         extentRatio: 0.2,
                         motion: const StretchMotion(),
