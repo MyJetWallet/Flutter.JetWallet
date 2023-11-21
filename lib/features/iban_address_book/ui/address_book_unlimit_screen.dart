@@ -34,9 +34,14 @@ class IbanAdressBookUnlimitScreen extends StatelessWidget {
   }
 }
 
-class _BodyAdressBookUnlimit extends StatelessObserverWidget {
+class _BodyAdressBookUnlimit extends StatefulObserverWidget {
   const _BodyAdressBookUnlimit({Key? key}) : super(key: key);
 
+  @override
+  State<_BodyAdressBookUnlimit> createState() => _BodyAdressBookUnlimitState();
+}
+
+class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
   @override
   Widget build(BuildContext context) {
     final store = IbanAddressBookStore.of(context);
@@ -140,8 +145,10 @@ class _BodyAdressBookUnlimit extends StatelessObserverWidget {
                             SIconButton(
                               onTap: () {
                                 if (IbanAddressBookStore.of(context).ibanController.text.isEmpty) {
-                                  IbanAddressBookStore.of(context).pasteIban();
+                                  IbanAddressBookStore.of(context).pasteIban().then((value) => setState(() {}));
                                   IbanAddressBookStore.of(context).checkButton();
+
+                                  setState(() {});
                                 } else {
                                   Clipboard.setData(
                                     ClipboardData(
@@ -179,8 +186,7 @@ class _BodyAdressBookUnlimit extends StatelessObserverWidget {
                           SIconButton(
                             onTap: () {
                               if (IbanAddressBookStore.of(context).bicController.text.isEmpty) {
-                                IbanAddressBookStore.of(context).pasteBIC();
-                                IbanAddressBookStore.of(context).checkButton();
+                                IbanAddressBookStore.of(context).pasteBIC().then((value) => setState(() {}));
                               } else {
                                 Clipboard.setData(
                                   ClipboardData(
@@ -213,7 +219,7 @@ class _BodyAdressBookUnlimit extends StatelessObserverWidget {
                           SIconButton(
                             onTap: () {
                               if (IbanAddressBookStore.of(context).fullnameController.text.isEmpty) {
-                                IbanAddressBookStore.of(context).pasteFullName();
+                                IbanAddressBookStore.of(context).pasteFullName().then((value) => setState(() {}));
                                 IbanAddressBookStore.of(context).checkButton();
                               } else {
                                 Clipboard.setData(

@@ -160,7 +160,7 @@ class _CreateBankingScreenState extends State<CreateBankingScreen> {
               }
             },
           ),
-          const SpaceH31(),
+          const SpaceH24(),
         ],
       ),
     );

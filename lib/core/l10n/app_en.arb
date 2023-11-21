@@ -1474,5 +1474,6 @@
     "operationName_cash_withdrawal": "Cash withdrawal",
     "operationName_refund": "Refund",
     "operationName_purchase": "Purchase",
-    "history_with": "with"
+    "history_with": "with",
+    "reference_character_minimum": "5 characters or more"
 }
