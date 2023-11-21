@@ -42,10 +42,10 @@ abstract class _SellAmountStoreBase with Store {
   @computed
   PaymentMethodCategory get category {
     return account != null
-      ? PaymentMethodCategory.account
-      : simpleCard != null
-        ? PaymentMethodCategory.simpleCard
-        : PaymentMethodCategory.none;
+        ? PaymentMethodCategory.account
+        : simpleCard != null
+            ? PaymentMethodCategory.simpleCard
+            : PaymentMethodCategory.none;
   }
 
   @observable
@@ -369,12 +369,12 @@ abstract class _SellAmountStoreBase with Store {
 
   @computed
   Decimal get minLimit {
-    return isFiatEntering ? _minSellAmount : _minBuyAmount;
+    return isFiatEntering ? _minBuyAmount : _minSellAmount;
   }
 
   @computed
   Decimal get maxLimit {
-    return isFiatEntering ? _maxSellAmount : _maxBuyAmount;
+    return isFiatEntering ? _maxBuyAmount : _maxSellAmount;
   }
 
   @action
@@ -395,7 +395,7 @@ abstract class _SellAmountStoreBase with Store {
             _minSellAmount = data.minFromAssetVolume;
             _maxSellAmount = data.maxFromAssetVolume;
             _minBuyAmount = data.minToAssetVolume;
-            _maxBuyAmount = data.minToAssetVolume;
+            _maxBuyAmount = data.maxToAssetVolume;
           },
           onError: (error) {
             sNotification.showError(

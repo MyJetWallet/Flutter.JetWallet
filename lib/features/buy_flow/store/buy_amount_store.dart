@@ -397,7 +397,7 @@ abstract class _BuyAmountStoreBase with Store {
             _minSellAmount = data.minFromAssetVolume;
             _maxSellAmount = data.maxFromAssetVolume;
             _minBuyAmount = data.minToAssetVolume;
-            _maxBuyAmount = data.minToAssetVolume;
+            _maxBuyAmount = data.maxToAssetVolume;
           },
           onError: (error) {
             sNotification.showError(
