@@ -256,50 +256,32 @@ abstract class _OperationHistoryBase with Store {
   }
 }
 
-// TODO(Vova): remove when all types will be properly sorted on the backend.
+Set<oh_resp.OperationType> avaibleOperationTypes = {
+  oh_resp.OperationType.deposit,
+  oh_resp.OperationType.withdraw,
+  oh_resp.OperationType.swap,
+  oh_resp.OperationType.rewardPayment,
+  oh_resp.OperationType.cryptoBuy,
+  oh_resp.OperationType.ibanDeposit,
+  oh_resp.OperationType.sendGlobally,
+  oh_resp.OperationType.giftSend,
+  oh_resp.OperationType.giftReceive,
+  oh_resp.OperationType.bankingAccountDeposit,
+  oh_resp.OperationType.bankingAccountWithdrawal,
+  oh_resp.OperationType.bankingTransfer,
+  oh_resp.OperationType.bankingBuy,
+  oh_resp.OperationType.bankingSell,
+  oh_resp.OperationType.cardPurchase,
+  oh_resp.OperationType.cardRefund,
+  oh_resp.OperationType.cardWithdrawal,
+};
+
 List<oh_resp.OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(
   List<oh_resp.OperationHistoryItem> items,
 ) {
   final filteredItems = items
       .where(
-    (item) =>
-        item.operationType == oh_resp.OperationType.deposit ||
-        item.operationType == oh_resp.OperationType.withdraw ||
-        item.operationType == oh_resp.OperationType.swap ||
-        item.operationType == oh_resp.OperationType.transferByPhone ||
-        item.operationType == oh_resp.OperationType.receiveByPhone ||
-        item.operationType == oh_resp.OperationType.paidInterestRate ||
-        item.operationType == oh_resp.OperationType.feeSharePayment ||
-        item.operationType == oh_resp.OperationType.rewardPayment ||
-        item.operationType == oh_resp.OperationType.simplexBuy ||
-        item.operationType == oh_resp.OperationType.recurringBuy ||
-        item.operationType == oh_resp.OperationType.earningDeposit ||
-        item.operationType == oh_resp.OperationType.earningWithdrawal ||
-        item.operationType == oh_resp.OperationType.cryptoBuy ||
-        item.operationType == oh_resp.OperationType.buyApplePay ||
-        item.operationType == oh_resp.OperationType.buyGooglePay ||
-        item.operationType == oh_resp.OperationType.nftSwap ||
-        item.operationType == oh_resp.OperationType.nftBuyOpposite ||
-        item.operationType == oh_resp.OperationType.nftSell ||
-        item.operationType == oh_resp.OperationType.nftSellOpposite ||
-        item.operationType == oh_resp.OperationType.nftDeposit ||
-        item.operationType == oh_resp.OperationType.nftWithdrawal ||
-        item.operationType == oh_resp.OperationType.nftWithdrawalFee ||
-        item.operationType == oh_resp.OperationType.nftBuy ||
-        item.operationType == oh_resp.OperationType.ibanDeposit ||
-        item.operationType == oh_resp.OperationType.ibanSend ||
-        item.operationType == oh_resp.OperationType.sendGlobally ||
-        item.operationType == oh_resp.OperationType.p2pBuy ||
-        item.operationType == oh_resp.OperationType.giftSend ||
-        item.operationType == oh_resp.OperationType.giftReceive ||
-        item.operationType == oh_resp.OperationType.bankingBuy ||
-        item.operationType == oh_resp.OperationType.bankingSell ||
-        item.operationType == oh_resp.OperationType.bankingTransfer ||
-        item.operationType == oh_resp.OperationType.bankingAccountDeposit ||
-        item.operationType == oh_resp.OperationType.bankingAccountWithdrawal ||
-        item.operationType == oh_resp.OperationType.cardPurchase ||
-        item.operationType == oh_resp.OperationType.cardRefund ||
-        item.operationType == oh_resp.OperationType.cardWithdrawal,
+    (item) => avaibleOperationTypes.contains(item.operationType),
   )
       .map((item) {
     return item.operationType == oh_resp.OperationType.swap
