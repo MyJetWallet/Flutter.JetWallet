@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/choose_asset_screen.dart';
@@ -24,13 +22,9 @@ void showBuyChooseAssetBottomSheet({
     fromCard: true,
     searchStore: searchStore,
   );
-  Timer.periodic(
-    const Duration(seconds: 1),
-    (timer) {
-      searchStore.init();
-      sortByBalanceAndWeight(searchStore.filteredCurrencies);
-    },
-  );
+
+  searchStore.init();
+  sortByBalanceAndWeight(searchStore.filteredCurrencies);
 
   sShowBasicModalBottomSheet(
     context: context,
