@@ -91,7 +91,7 @@ class SSmallHeader extends StatelessWidget {
                       title,
                       overflow: TextOverflow.ellipsis,
                       textAlign: titleAlign,
-                      maxLines: 1,
+                      maxLines: 2,
                       style: titleStyle ?? sTextH5Style,
                     ),
                     if (subTitle != null) ...[

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/country_item/country_profile_item.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/show_user_data_country_picker.dart';
 import 'package:jetwallet/features/iban/widgets/iban_item.dart';

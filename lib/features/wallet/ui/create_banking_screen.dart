@@ -62,21 +62,17 @@ class _CreateBankingScreenState extends State<CreateBankingScreen> {
             ),
           ),
           const SpaceH32(),
-          Flexible(
-            child: Text(
-              intl.create_banking_personal_account,
-              maxLines: 6,
-              style: sTextH4Style,
-            ),
+          Text(
+            intl.create_banking_personal_account,
+            maxLines: 6,
+            style: sTextH4Style,
           ),
           const SpaceH8(),
-          Flexible(
-            child: Text(
-              intl.create_banking_transfer_eur,
-              maxLines: 6,
-              style: sSubtitle3Style.copyWith(
-                color: sKit.colors.grey1,
-              ),
+          Text(
+            intl.create_banking_transfer_eur,
+            maxLines: 6,
+            style: sSubtitle3Style.copyWith(
+              color: sKit.colors.grey1,
             ),
           ),
           const SpaceH20(),

@@ -38,7 +38,10 @@ abstract class _IbanAddressBookStoreBase with Store {
   @observable
   Country? country;
   @action
-  void setCountry(Country c) => country = c;
+  void setCountry(Country c) {
+    country = c;
+    checkButton();
+  }
 
   final loader = StackLoaderStore();
 
@@ -132,6 +135,15 @@ abstract class _IbanAddressBookStoreBase with Store {
   Future<void> pasteIban() async {
     final copiedText = await _copiedText();
     ibanController.text = copiedText.replaceAll(' ', '');
+
+    ibanMask = MaskTextInputFormatter(
+      mask: '#### #### #### #### #### #### ####',
+      initialText: ibanController.text,
+      filter: {
+        '#': RegExp('[a-zA-Z0-9]'),
+      },
+      type: MaskAutoCompletionType.eager,
+    );
     ibanController.text = ibanMask!.maskText(ibanController.text);
 
     _moveCursorAtTheEnd(ibanController);
@@ -203,7 +215,7 @@ abstract class _IbanAddressBookStoreBase with Store {
         if (error.errorCode == 'ContactWithThisIbanAlreadyExists') {
           isIBANError = true;
         }
-        if (error.cause == 'invalid bic') {
+        if (error.errorCode == 'InvalidBic') {
           isBICError = true;
         }
         if (error.errorCode == 'ContactWithThisNameAlreadyExists') {
@@ -244,6 +256,10 @@ abstract class _IbanAddressBookStoreBase with Store {
 
         if (response.error?.errorCode == 'ContactWithThisNameAlreadyExists') {
           isLabelError = true;
+
+          return;
+        } else if (response.error?.errorCode == 'InvalidBic') {
+          isBICError = true;
         } else {
           isIBANError = true;
         }

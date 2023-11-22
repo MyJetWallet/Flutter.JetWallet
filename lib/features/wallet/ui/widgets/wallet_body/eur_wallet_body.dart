@@ -128,7 +128,8 @@ class _EurWalletBodyState extends State<EurWalletBody> {
             ),
             if (simpleCardStore.allCards == null ||
                 simpleCardStore.allCards!.isEmpty ||
-                !userInfo.isSimpleCardAvailable)
+                !userInfo.isSimpleCardAvailable) ...[
+              const SliverPadding(padding: EdgeInsets.only(top: 7)),
               SliverToBoxAdapter(
                 child: SCardRow(
                   maxWidth: MediaQuery.of(context).size.width * .35,
@@ -136,9 +137,13 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SpaceH6(),
-                      SCardIcon(
+                      SizedBox(
                         width: 24,
                         height: 16,
+                        child: SCardIcon(
+                          width: 24,
+                          height: 16,
+                        ),
                       ),
                     ],
                   ),
@@ -150,6 +155,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                   needSpacer: true,
                 ),
               ),
+            ],
             if (userInfo.isSimpleCardAvailable) ...[
               for (final el in simpleCardStore.allCards ?? <CardDataModel>[])
                 SliverToBoxAdapter(

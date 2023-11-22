@@ -87,7 +87,7 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                             builder: (context) {
                               var cLabel = card.cardLabel ?? '';
 
-                              var chSize = MediaQuery.of(context).devicePixelRatio == 3.0 ? 11 : 8;
+                              var chSize = MediaQuery.of(context).devicePixelRatio == 3.0 ? 8 : 6;
 
                               if (cLabel.length > chSize) {
                                 cLabel = cLabel.substring(0, chSize) + '...';

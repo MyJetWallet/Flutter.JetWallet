@@ -106,65 +106,76 @@ class _DefaultHeader extends StatelessObserverWidget {
           ],
         ),
         const Spacer(),
-        SizedBox(
-          height: 49,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SIconButton(
-                    defaultIcon: SProfileDetailsIcon(
-                      color: colors.black,
-                    ),
-                    pressedIcon: SProfileDetailsIcon(
-                      color: colors.black.withOpacity(0.7),
-                    ),
-                    onTap: () {
-                      sAnalytics.tapOnTheButtonProfileOnWalletsScreen();
-                      final myWalletsSrore = getIt.get<MyWalletsSrore>();
-                      if (myWalletsSrore.isReordering) {
-                        myWalletsSrore.endReorderingImmediately();
-                      } else {
-                        sRouter.push(const AccountRouter());
-                      }
-                    },
-                  ),
-                  const SpaceW24(),
-                ],
-              ),
-              if (notificationsCount != 0)
-                Positioned(
-                  right: 17,
-                  top: 0,
-                  child: Container(
-                    width: 18,
-                    height: 18,
-                    decoration: ShapeDecoration(
-                      color: colors.purple,
-                      shape: OvalBorder(
-                        side: BorderSide(
-                          width: 3,
-                          strokeAlign: BorderSide.strokeAlignOutside,
-                          color: colors.white,
-                        ),
+        GestureDetector(
+          onTap: () {
+            sAnalytics.tapOnTheButtonProfileOnWalletsScreen();
+            final myWalletsSrore = getIt.get<MyWalletsSrore>();
+            if (myWalletsSrore.isReordering) {
+              myWalletsSrore.endReorderingImmediately();
+            } else {
+              sRouter.push(const AccountRouter());
+            }
+          },
+          child: SizedBox(
+            height: 49,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SIconButton(
+                      defaultIcon: SProfileDetailsIcon(
+                        color: colors.black,
                       ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        notificationsCount.toString(),
-                        textAlign: TextAlign.center,
-                        style: sTextButtonStyle.copyWith(
-                          color: colors.white,
-                          fontSize: 9,
-                          fontWeight: FontWeight.w700,
-                        ),
+                      pressedIcon: SProfileDetailsIcon(
+                        color: colors.black.withOpacity(0.7),
                       ),
+                      onTap: () {
+                        sAnalytics.tapOnTheButtonProfileOnWalletsScreen();
+                        final myWalletsSrore = getIt.get<MyWalletsSrore>();
+                        if (myWalletsSrore.isReordering) {
+                          myWalletsSrore.endReorderingImmediately();
+                        } else {
+                          sRouter.push(const AccountRouter());
+                        }
+                      },
                     ),
-                  ),
+                    const SpaceW24(),
+                  ],
                 ),
-            ],
+                if (notificationsCount != 0)
+                  Positioned(
+                    right: 17,
+                    top: 0,
+                    child: Container(
+                      width: 18,
+                      height: 18,
+                      decoration: ShapeDecoration(
+                        color: colors.purple,
+                        shape: OvalBorder(
+                          side: BorderSide(
+                            width: 3,
+                            strokeAlign: BorderSide.strokeAlignOutside,
+                            color: colors.white,
+                          ),
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          notificationsCount.toString(),
+                          textAlign: TextAlign.center,
+                          style: sTextButtonStyle.copyWith(
+                            color: colors.white,
+                            fontSize: 9,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
       ],

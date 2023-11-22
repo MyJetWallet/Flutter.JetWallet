@@ -147,7 +147,7 @@ class _ReferenceBodyState extends State<_ReferenceBody> {
                     active: store.isCharactersEnough,
                     name: intl.withdraw_continue,
                     onTap: () {
-                      if (store.referenceTextField.text.length > 5) {
+                      if (store.referenceTextField.text.length >= 5) {
                         widget.onContinue(store.referenceTextField.text);
 
                         sRouter.pop();

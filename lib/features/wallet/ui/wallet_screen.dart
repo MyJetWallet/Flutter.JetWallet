@@ -79,7 +79,7 @@ class _WalletState extends State<Wallet> with TickerProviderStateMixin {
 
     return Scaffold(
       body: Material(
-        color: Colors.transparent,
+        color: Colors.white,
         child: Stack(
           children: [
             PageView.builder(
