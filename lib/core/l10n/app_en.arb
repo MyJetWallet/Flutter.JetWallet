@@ -1469,5 +1469,6 @@
     "operationName_purchase": "Purchase",
     "operation_bloked_text": "Operation is unavailable.",
     "gift_kyc_alert_description": "Please verify your account\n to claim your gift",
-    "gift_kyc_verify": "Verify"
+    "gift_kyc_verify": "Verify",
+    "phone_cahange_warning": "Before you proceed please be aware that for security purposes all send and withdraw operations will be blocked for 48 hours after successful update of the phone numbe"
 }
