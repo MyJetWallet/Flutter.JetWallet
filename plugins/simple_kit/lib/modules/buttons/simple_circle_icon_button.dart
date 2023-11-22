@@ -85,7 +85,7 @@ class _SimpleCircleButtonState extends State<SimpleCircleButton> {
                 shape: BoxShape.circle,
                 color: currentColor,
               ),
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(10),
               child: highlighted ? (widget.pressedIcon ?? widget.defaultIcon) : widget.defaultIcon,
             ),
             Text(
