@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -108,8 +109,8 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
                   account: widget.account,
                 ),
                 SellAmountTabBody(
-                  asset: widget.asset,
-                  simpleCard: widget.simpleCard,
+                  asset: widget.asset.assetBalance != Decimal.zero ? widget.asset : null,
+                  account:  widget.account,
                 ),
                 ConvertAmountTabBody(
                   asset: widget.asset,
