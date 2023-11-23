@@ -19,10 +19,12 @@ import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
 class ConvertAmountTabBody extends StatefulObserverWidget {
   const ConvertAmountTabBody({
-    this.asset,
+    this.fromAsset,
+    this.toAsset,
   });
 
-  final CurrencyModel? asset;
+  final CurrencyModel? fromAsset;
+  final CurrencyModel? toAsset;
 
   @override
   State<ConvertAmountTabBody> createState() => _BuyAmountScreenBodyState();
@@ -38,7 +40,8 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
     return Provider<ConvertAmountStore>(
       create: (context) => ConvertAmountStore()
         ..init(
-          inputAsset: widget.asset,
+          newFromAsset: widget.fromAsset,
+          newToAsset: widget.toAsset,
         ),
       builder: (context, child) {
         final store = ConvertAmountStore.of(context);

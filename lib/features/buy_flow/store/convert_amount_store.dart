@@ -102,9 +102,12 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @action
   void init({
-    CurrencyModel? inputAsset,
+    CurrencyModel? newFromAsset,
+    CurrencyModel? newToAsset,
   }) {
-    toAsset = inputAsset;
+    toAsset = newToAsset;
+    fromAsset = newFromAsset;
+    
     _checkShowTosts();
   }
 
