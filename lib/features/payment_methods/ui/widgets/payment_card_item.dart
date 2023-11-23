@@ -13,7 +13,8 @@ class PaymentCardItem extends StatelessObserverWidget {
     this.showEdit = false,
     this.onEdit,
     this.currency,
-    required this.name,
+    required this.lable,
+    required this.last4numbers,
     required this.expirationDate,
     required this.expired,
     required this.onDelete,
@@ -25,7 +26,8 @@ class PaymentCardItem extends StatelessObserverWidget {
   final bool removeDivider;
   final bool showDelete;
   final bool showEdit;
-  final String name;
+  final String lable;
+  final String last4numbers;
   final String expirationDate;
   final String? currency;
   final bool expired;
@@ -68,38 +70,50 @@ class PaymentCardItem extends StatelessObserverWidget {
                   child: Column(
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ConstrainedBox(
-                            constraints: BoxConstraints(
-                              maxWidth: MediaQuery.of(context).size.width * .5,
-                            ),
-                            child: Baseline(
-                              baseline: 18.0,
-                              baselineType: TextBaseline.alphabetic,
-                              child: Text(
-                                name,
-                                style: sSubtitle2Style.copyWith(
-                                  color: isDisabled ? colors.grey2 : colors.black,
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Flexible(
+                                  flex: 1000000,
+                                  child: Text(
+                                    lable,
+                                    style: sSubtitle2Style.copyWith(
+                                      color: isDisabled ? colors.grey2 : colors.black,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                Text(
+                                  ' ••••',
+                                  style: sSubtitle2Style.copyWith(
+                                    color: isDisabled ? colors.grey2 : colors.black,
+                                  ),
+                                ),
+                                Text(
+                                  last4numbers,
+                                  style: sSubtitle2Style.copyWith(
+                                    color: isDisabled ? colors.grey2 : colors.black,
+                                  ),
+                                ),
+                                const SpaceW8(),
+                                if (currency != null)
+                                  Baseline(
+                                    baseline: 16.0,
+                                    baselineType: TextBaseline.alphabetic,
+                                    child: Text(
+                                      currency ?? '',
+                                      style: sOverlineTextStyle.copyWith(
+                                        color: sKit.colors.grey1,
+                                        height: 1.38,
+                                      ),
+                                    ),
+                                  ),
+                              ],
                             ),
                           ),
-                          const SpaceW8(),
-                          if (currency != null)
-                            Baseline(
-                              baseline: 16.0,
-                              baselineType: TextBaseline.alphabetic,
-                              child: Text(
-                                currency ?? '',
-                                style: sOverlineTextStyle.copyWith(
-                                  color: sKit.colors.grey1,
-                                  height: 1.38,
-                                ),
-                              ),
-                            ),
-                          const Spacer(),
                           if (showDelete)
                             Container(
                               transform: Matrix4.translationValues(9, 0, 0),
@@ -108,7 +122,8 @@ class PaymentCardItem extends StatelessObserverWidget {
                                 defaultIcon: const SDeleteIcon(),
                               ),
                             ),
-                          if (showEdit)
+                          if (showEdit) ...[
+                            const SpaceW8(),
                             SIconButton(
                               onTap: onEdit,
                               defaultIcon: const SEditIcon(),
@@ -116,6 +131,7 @@ class PaymentCardItem extends StatelessObserverWidget {
                                 color: Color(0xFFA8B0BA),
                               ),
                             ),
+                          ],
                         ],
                       ),
                       Row(
