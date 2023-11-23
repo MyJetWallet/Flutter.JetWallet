@@ -38,7 +38,7 @@ void showConvertFromChooseAssetBottomSheet({
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
-    expanded: true,
+    expanded: showSearch,
     pinned: ActionBottomSheetHeader(
       name: intl.convert_amount_convert,
       showSearch: showSearch,

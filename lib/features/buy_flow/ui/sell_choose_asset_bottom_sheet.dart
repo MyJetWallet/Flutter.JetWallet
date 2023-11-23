@@ -41,7 +41,7 @@ void showSellChooseAssetBottomSheet({
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
-    expanded: true,
+    expanded: showSearch,
     pinned: ActionBottomSheetHeader(
       name: isAddCash ? intl.simple_card_add_cash_from : intl.amount_screen_sell,
       showSearch: showSearch,
