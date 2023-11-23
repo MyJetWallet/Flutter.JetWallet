@@ -152,7 +152,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                         final isDepositBlocker = sSignalRModules.clientDetail.clientBlockers
                             .any((element) => element.blockingType == BlockingType.deposit);
 
-                        if (kycState.tradeStatus == kycOperationStatus(KycStatus.blocked) && !isBuyAvaible) {
+                        if (kycState.tradeStatus == kycOperationStatus(KycStatus.blocked) || !isBuyAvaible) {
                           sNotification.showError(
                             intl.operation_bloked_text,
                             duration: 4,
