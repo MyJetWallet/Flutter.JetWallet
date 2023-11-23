@@ -159,13 +159,21 @@ class _AssetRowWidget extends StatelessWidget {
                 ),
               ),
             if (assetBaseAmount != null)
-              Text(
-                assetBaseAmount!,
-                style: sBodyText2Style.copyWith(
-                  color: colors.grey1,
-                  height: 1.4,
+              if (isLoading) ...[
+                const SpaceH4(),
+                SSkeletonTextLoader(
+                  width: 80,
+                  height: 16,
+                  borderRadius: BorderRadius.circular(4),
                 ),
-              ),
+              ] else
+                Text(
+                  assetBaseAmount!,
+                  style: sBodyText2Style.copyWith(
+                    color: colors.grey1,
+                    height: 1.4,
+                  ),
+                ),
           ],
         ),
       ],
