@@ -49,14 +49,14 @@ class SNewActionPriceField extends StatelessWidget {
                         TextSpan(
                           text: primaryAmount,
                           style: sTextH0Style.copyWith(
-                            color: double.parse(primaryAmount) == 0 ? colors.grey3 : colors.black,
+                            color: double.parse(primaryAmount.replaceAll(' ', '')) == 0 ? colors.grey3 : colors.black,
                             height: 0.8,
                           ),
                           children: [
                             TextSpan(
                               text: ' $primarySymbol',
                               style: sTextH2Style.copyWith(
-                                color:double.parse(primaryAmount) == 0  ? colors.grey3 : colors.black,
+                                color:double.parse(primaryAmount.replaceAll(' ', '')) == 0  ? colors.grey3 : colors.black,
                               ),
                             ),
                           ],
@@ -68,7 +68,7 @@ class SNewActionPriceField extends StatelessWidget {
                         minFontSize: 4.0,
                         maxLines: 1,
                         style: sTextH3Style.copyWith(
-                          color: double.parse(primaryAmount) != 0  ? colors.grey3 : colors.black,
+                          color: double.parse(primaryAmount.replaceAll(' ', '')) == 0  ? colors.grey3 : colors.black,
                         ),
                       ),
                     const SpaceH4(),
