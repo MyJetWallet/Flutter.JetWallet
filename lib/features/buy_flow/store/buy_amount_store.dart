@@ -416,6 +416,7 @@ abstract class _BuyAmountStoreBase with Store {
           paymentAsset: fiatSymbol,
           buyAsset: asset?.symbol ?? '',
           paymentMethod: circlePaymentMethod,
+          bankingAccountId: account?.accountId ?? '',
         );
         final response = await sNetwork.getWalletModule().postBuyLimits(model);
         response.pick(

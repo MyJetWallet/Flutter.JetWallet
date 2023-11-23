@@ -10,6 +10,7 @@ class BuyLimitsRequestModel with _$BuyLimitsRequestModel {
     @Default('EUR') String paymentAsset,
     required String buyAsset,
     required CirclePaymentMethod paymentMethod,
+    required String bankingAccountId,
   }) = _BuyLimitsRequestModel;
 
   factory BuyLimitsRequestModel.fromJson(Map<String, dynamic> json) =>
