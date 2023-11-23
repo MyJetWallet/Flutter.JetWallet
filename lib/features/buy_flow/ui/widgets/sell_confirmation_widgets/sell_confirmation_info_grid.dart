@@ -19,7 +19,6 @@ class SellConfirmationInfoGrid extends StatefulObserverWidget {
     required this.paymentCurrency,
     required this.asset,
     this.account,
-    this.simpleCard,
   });
 
   final String? paymentFee;
@@ -29,7 +28,6 @@ class SellConfirmationInfoGrid extends StatefulObserverWidget {
   final CurrencyModel paymentCurrency;
   final CurrencyModel asset;
   final SimpleBankingAccount? account;
-  final CardDataModel? simpleCard;
 
   @override
   State<SellConfirmationInfoGrid> createState() => _ConfirmationInfoGridState();
@@ -90,44 +88,21 @@ class _ConfirmationInfoGridState extends State<SellConfirmationInfoGrid> with Si
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SpaceW19(),
-                    if (widget.simpleCard != null)
-                      Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: ShapeDecoration(
-                          color: sKit.colors.white,
-                          shape: OvalBorder(
-                            side: BorderSide(
-                              color: sKit.colors.grey4,
-                            ),
-                          ),
-                        ),
-                        child: SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: getSimpleNetworkIcon(widget.simpleCard?.cardType),
-                        ),
-                      )
-                    else
-                      Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: sKit.colors.blue,
-                          shape: BoxShape.circle,
-                        ),
-                        child: SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: SBankMediumIcon(color: sKit.colors.white),
-                        ),
+                    Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: sKit.colors.blue,
+                        shape: BoxShape.circle,
                       ),
+                      child: SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: SBankMediumIcon(color: sKit.colors.white),
+                      ),
+                    ),
                     const SpaceW8(),
                     Text(
-                      widget.account?.label ?? 'Simple ${intl.simple_card_card} '
-                          '**${widget.simpleCard!.cardNumberMasked
-                          ?.substring(
-                        (
-                            widget.simpleCard!.cardNumberMasked?.length ?? 0
-                        ) - 4,)}',
+                      widget.account?.label ?? '',
                       overflow: TextOverflow.ellipsis,
                       style: sSubtitle3Style.copyWith(height: 1.5),
                     ),

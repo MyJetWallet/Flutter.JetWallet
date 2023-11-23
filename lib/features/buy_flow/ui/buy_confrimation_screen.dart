@@ -54,10 +54,7 @@ class BuyConfirmationScreen extends StatelessWidget {
           inputAccount: account,
           bAmount: toAmount,
         ),
-      builder: (context, child) => _BuyConfirmationScreenBody(
-        paymentCurrency: paymentCurrency,
-        amount: fromAmount ?? '0',
-      ),
+      builder: (context, child) => const _BuyConfirmationScreenBody(),
       dispose: (context, value) {
         value.cancelTimer();
         value.cancelAllRequest();
@@ -67,14 +64,7 @@ class BuyConfirmationScreen extends StatelessWidget {
 }
 
 class _BuyConfirmationScreenBody extends StatelessObserverWidget {
-  const _BuyConfirmationScreenBody({
-    required this.paymentCurrency,
-    required this.amount,
-  });
-
-  final CurrencyModel paymentCurrency;
-
-  final String amount;
+  const _BuyConfirmationScreenBody();
 
   @override
   Widget build(BuildContext context) {
@@ -112,12 +102,12 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
               children: [
                 WhatToWhatConvertWidget(
                   isLoading: !store.isDataLoaded,
-                  fromAssetIconUrl: paymentCurrency.iconUrl,
-                  fromAssetDescription: paymentCurrency.symbol,
+                  fromAssetIconUrl: store.payCurrency.iconUrl,
+                  fromAssetDescription: store.payCurrency.symbol,
                   fromAssetValue: volumeFormat(
-                    symbol: paymentCurrency.symbol,
-                    accuracy: paymentCurrency.accuracy,
-                    decimal: Decimal.parse(amount),
+                    symbol: store.payCurrency.symbol,
+                    accuracy: store.payCurrency.accuracy,
+                    decimal: store.paymentAmount ?? Decimal.zero,
                   ),
                   toAssetIconUrl: store.buyCurrency.iconUrl,
                   toAssetDescription: store.buyCurrency.description,
@@ -139,11 +129,11 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                     symbol: store.tradeFeeCurreny.symbol,
                   ),
                   totalValue: volumeFormat(
-                    symbol: paymentCurrency.symbol,
-                    accuracy: paymentCurrency.accuracy,
-                    decimal: Decimal.parse(amount),
+                    symbol: store.payCurrency.symbol,
+                    accuracy: store.payCurrency.accuracy,
+                    decimal: store.paymentAmount ?? Decimal.zero,
                   ),
-                  paymentCurrency: paymentCurrency,
+                  paymentCurrency: store.payCurrency,
                   asset: store.buyCurrency,
                 ),
                 if (store.category != PaymentMethodCategory.p2p) ...[
