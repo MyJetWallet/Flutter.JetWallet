@@ -54,6 +54,7 @@ void handleResultResponse(
   if (result != 'OK') {
     throw ServerRejectException(
       json['message'],
+      result,
     );
   }
 }
@@ -75,6 +76,7 @@ void _validateFullResponse(
   if (result != 'OK') {
     throw ServerRejectException(
       json['message'],
+      result,
     );
   }
   /*
@@ -144,7 +146,7 @@ void _handleFullNumberResponse(
   Map<String, dynamic> json,
 ) {
   if (result != 'OK') {
-    throw ServerRejectException(json['message']);
+    throw ServerRejectException(json['message'], result);
   }
   /*
   if (result == 'OperationBlocked') {
@@ -165,6 +167,7 @@ void _validateRejectResponse(String rejectCode) {
   if (rejectCode != 'OK' && rejectCode != 'null') {
     throw ServerRejectException(
       errorCodesDescriptionEn[rejectCode] ?? rejectCode,
+      rejectCode,
     );
   }
 }

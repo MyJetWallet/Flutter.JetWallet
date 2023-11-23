@@ -140,6 +140,7 @@ class _SearchBankPinned extends StatelessObserverWidget {
           intl.address_book_country_of_recepients_bank,
           style: sTextH4Style,
         ),
+        const SpaceH25(),
         SStandardField(
           controller: TextEditingController(),
           autofocus: true,

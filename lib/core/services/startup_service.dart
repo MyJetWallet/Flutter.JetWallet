@@ -29,7 +29,9 @@ import 'package:jetwallet/features/app/store/models/authorized_union.dart';
 import 'package:jetwallet/features/auth/verification_reg/store/verification_store.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
+import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
+import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
 import 'package:logger/logger.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -178,7 +180,18 @@ class StartupService {
     await makeSessionCheck();
 
     final kyc = getIt.get<KycService>();
-    sAnalytics.setKYCDepositStatus = kyc.depositStatus;
+
+    var analyticsKyc = 0;
+    if (checkKycPassed(kyc.depositStatus, kyc.tradeStatus, kyc.withdrawalStatus)) {
+      analyticsKyc = 2;
+    }
+    if (kycInProgress(kyc.depositStatus, kyc.tradeStatus, kyc.withdrawalStatus)) {
+      analyticsKyc = 1;
+    }
+    if (checkKycBlocked(kyc.depositStatus, kyc.tradeStatus, kyc.withdrawalStatus)) {
+      analyticsKyc = 4;
+    }
+    sAnalytics.setKYCDepositStatus = analyticsKyc;
 
     await getIt.get<ZenDeskService>().authZenDesk();
   }

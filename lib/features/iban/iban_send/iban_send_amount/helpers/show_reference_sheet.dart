@@ -16,6 +16,13 @@ abstract class __ReferenceStoreBase with Store {
   );
 
   @observable
+  bool isCharactersEnough = true;
+  @action
+  void setCharactersEnough() {
+    isCharactersEnough = referenceTextField.text.length >= 5;
+  }
+
+  @observable
   bool isError = false;
   @action
   void setError(bool value) => isError = value;
@@ -23,9 +30,11 @@ abstract class __ReferenceStoreBase with Store {
   @action
   Future<void> paste() async {
     final copiedText = await _copiedText();
-    referenceTextField.text = copiedText.replaceAll(' ', '');
+    referenceTextField.text = referenceTextField.text + copiedText.replaceAll(' ', '');
 
     _moveCursorAtTheEnd(referenceTextField);
+
+    setCharactersEnough();
   }
 
   Future<String> _copiedText() async {
@@ -43,27 +52,21 @@ abstract class __ReferenceStoreBase with Store {
 }
 
 void showReferenceSheet(BuildContext context, Function(String) onContinue) {
-  final store = _ReferenceStore();
-
   sShowBasicModalBottomSheet(
     context: context,
     children: [
       _ReferenceBody(
-        store: store,
         onContinue: onContinue,
       )
     ],
   );
 }
 
-class _ReferenceBody extends StatefulWidget {
+class _ReferenceBody extends StatefulObserverWidget {
   const _ReferenceBody({
     Key? key,
-    required this.store,
     required this.onContinue,
   }) : super(key: key);
-
-  final _ReferenceStore store;
   final Function(String) onContinue;
 
   @override
@@ -71,9 +74,12 @@ class _ReferenceBody extends StatefulWidget {
 }
 
 class _ReferenceBodyState extends State<_ReferenceBody> {
+  final store = _ReferenceStore();
+
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SPaddingH24(
           child: Text(
@@ -86,15 +92,15 @@ class _ReferenceBodyState extends State<_ReferenceBody> {
           builder: (context) {
             return SPaddingH24(
               child: SStandardField(
-                controller: widget.store.referenceTextField,
+                controller: store.referenceTextField,
                 autofocus: true,
-                isError: widget.store.isError,
+                isError: store.isError,
                 labelText: intl.iban_reference,
                 hideIconsIfNotEmpty: false,
                 suffixIcons: [
                   SIconButton(
                     onTap: () {
-                      widget.store.paste().then((value) => setState(() {}));
+                      store.paste().then((value) => setState(() {}));
                     },
                     defaultIcon: const SPasteIcon(),
                     pressedIcon: const SPastePressedIcon(),
@@ -102,7 +108,11 @@ class _ReferenceBodyState extends State<_ReferenceBody> {
                 ],
                 onErase: () {},
                 onChanged: (value) {
-                  widget.store.setError(false);
+                  store.setError(false);
+
+                  print(store.isCharactersEnough);
+
+                  store.setCharactersEnough();
                 },
               ),
             );
@@ -115,17 +125,34 @@ class _ReferenceBodyState extends State<_ReferenceBody> {
               width: double.infinity,
               child: Column(
                 children: [
+                  const SpaceH16(),
+                  Observer(
+                    builder: (context) {
+                      return Row(
+                        children: [
+                          if (!store.isCharactersEnough) const SMinusListIcon() else const SCheckListIcon(),
+                          const SpaceW12(),
+                          Text(
+                            intl.reference_character_minimum,
+                            style: sBodyText2Style.copyWith(
+                              color: store.isCharactersEnough ? sKit.colors.blue : sKit.colors.black,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                   const SpaceH32(),
                   SPrimaryButton2(
-                    active: true,
+                    active: store.isCharactersEnough,
                     name: intl.withdraw_continue,
                     onTap: () {
-                      if (widget.store.referenceTextField.text.length > 5) {
-                        widget.onContinue(widget.store.referenceTextField.text);
+                      if (store.referenceTextField.text.length >= 5) {
+                        widget.onContinue(store.referenceTextField.text);
 
                         sRouter.pop();
                       } else {
-                        widget.store.setError(true);
+                        store.setError(true);
                       }
 
                       return;
