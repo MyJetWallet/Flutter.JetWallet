@@ -171,7 +171,6 @@ class RemoteConfig {
     refundPolicyLink = remoteConfig!.appConfig.refundPolicyLink;
     cardLimitsLearnMoreLink = remoteConfig!.appConfig.cardLimitsLearnMoreLink;
     p2pTerms = remoteConfig!.appConfig.p2pTerms;
-    convertMarkup = remoteConfig!.appConfig.convertMarkup ?? Decimal.zero;
   }
 
   void overrideVersioningValues() {
