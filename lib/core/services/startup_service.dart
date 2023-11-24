@@ -388,8 +388,8 @@ class StartupService {
 
     if (info != null) {
       if (info.toCheckSelfie) {
-        //getIt.get<AppStore>().setAuthorizedStatus(const CheckSelfie());
-        pushHome();
+        getIt.get<AppStore>().setAuthorizedStatus(const CheckSelfie());
+        // pushHome();
       } else {
         pushHome();
       }
