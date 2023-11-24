@@ -1456,5 +1456,21 @@
     "operationName_cash_withdrawal": "Wypłata gotówki",
     "operationName_refund": "Zwrot kosztów",
     "operationName_purchase": "Zakup",
-    "history_with": "Z"
+    "history_with": "Z",
+    "tost_convert_message_1": "Twoje saldo kryptowalut wynosi zero. Najpierw zdobądź kryptowalutę",
+    "tost_sell_message_1": "Musisz najpierw utworzyć konto EUR i zdobyć kryptowalutę",
+    "tost_sell_message_2": "Saldo kryptowalut wynosi zero",
+    "tost_sell_message_3": "Najpierw należy utworzyć konto EUR",
+    "history_for": "dla",
+    "history_paid_with": "Zapłacono za pomocą",
+    "history_withdrawn": "Wycofany",
+    "history_added_cash": "Dodana gotówka",
+    "history_txhash": "Txhash",
+    "history_sent_gift": "Wysłany prezent",
+    "history_received_gift": "Otrzymany prezent",
+    "history_sent_globally": "Wysyłane globalnie",
+    "operation_bloked_text": "Operacja jest niedostępna.",
+    "gift_kyc_alert_description": "Zweryfikuj swoje konto\n aby odebrać prezent",
+    "gift_kyc_verify": "Weryfikacja",
+    "phone_cahange_warning": "Przed kontynuowaniem należy pamiętać, że ze względów bezpieczeństwa wszystkie operacje wysyłania i wypłacania zostaną zablokowane na 48 godzin po pomyślnej aktualizacji numeru telefonu"
 }

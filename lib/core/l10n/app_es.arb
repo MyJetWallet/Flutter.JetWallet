@@ -1456,5 +1456,21 @@
     "operationName_cash_withdrawal": "Retirada de efectivo",
     "operationName_refund": "Reembolso",
     "operationName_purchase": "Comprar",
-    "history_with": "con"
+    "history_with": "con",
+    "tost_convert_message_1": "Tu saldo de cripto es cero. Por favor, obtenga cripto primero",
+    "tost_sell_message_1": "Primero tienes que crear una cuenta EUR y obtener criptomonedas",
+    "tost_sell_message_2": "Tu saldo de cripto es cero",
+    "tost_sell_message_3": "Primero debe crear una cuenta EUR",
+    "history_for": "para",
+    "history_paid_with": "Pagado con",
+    "history_withdrawn": "Retirada",
+    "history_added_cash": "Efectivo añadido",
+    "history_txhash": "Txhash",
+    "history_sent_gift": "Regalo enviado",
+    "history_received_gift": "Regalo recibido",
+    "history_sent_globally": "Enviado globalmente",
+    "operation_bloked_text": "La operación no está disponible.",
+    "gift_kyc_alert_description": "Verifique su cuenta\n para reclamar su regalo",
+    "gift_kyc_verify": "Verifique",
+    "phone_cahange_warning": "Antes de continuar, tenga en cuenta que, por motivos de seguridad, todas las operaciones de envío y retirada se bloquearán durante 48 horas tras la actualización del número de teléfono"
 }
