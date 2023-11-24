@@ -361,7 +361,17 @@ abstract class _BuyAmountStoreBase with Store {
       return;
     }
     isFiatEntering = !isFiatEntering;
+    _cutUnnecessaryAccuracy();
     _validateInput();
+  }
+
+  @action
+  void _cutUnnecessaryAccuracy() {
+    if (isFiatEntering) {
+      fiatInputValue = Decimal.parse(fiatInputValue).floor(scale: buyCurrency.accuracy).toString();
+    } else {
+      cryptoInputValue = Decimal.parse(cryptoInputValue).floor(scale: asset?.accuracy ?? 2).toString();
+    }
   }
 
   @observable
