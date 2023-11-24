@@ -239,7 +239,12 @@ abstract class _BuyConfirmationStoreBase with Store {
             depositFeeAsset = data.fromAssetSymbol;
             tradeFeeAmount = data.feeAmount;
             tradeFeeAsset = data.feeAsset;
-            rate = data.price;
+            rate = (Decimal.one / data.price).toDecimal(
+              scaleOnInfinitePrecision: data.price.scale,
+              toBigInt: (n) {
+                return n.toBigInt();
+              },
+            );
             paymentId = data.operationId;
             actualTimeInSecond = data.expirationTime;
             deviceBindingRequired = false;
