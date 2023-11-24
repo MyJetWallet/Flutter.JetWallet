@@ -9,6 +9,8 @@ import 'package:jetwallet/features/market/market_details/helper/currency_from.da
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:jetwallet/widgets/fee_rows/payment_fee_row_widget.dart';
+import 'package:jetwallet/widgets/fee_rows/processing_fee_row_widget.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
@@ -102,14 +104,11 @@ class AddCashDetails extends StatelessObserverWidget {
                     '',
               );
 
-              return TransactionDetailsItem(
-                text: intl.iban_send_history_payment_fee,
-                value: TransactionDetailsValueText(
-                  text: volumeFormat(
-                    decimal: transactionListItem.ibanDepositInfo?.paymentFeeAmount ?? Decimal.zero,
-                    accuracy: currency.accuracy,
-                    symbol: currency.symbol,
-                  ),
+              return PaymentFeeRowWidget(
+                fee: volumeFormat(
+                  decimal: transactionListItem.ibanDepositInfo?.paymentFeeAmount ?? Decimal.zero,
+                  accuracy: currency.accuracy,
+                  symbol: currency.symbol,
                 ),
               );
             },
@@ -124,14 +123,11 @@ class AddCashDetails extends StatelessObserverWidget {
                     '',
               );
 
-              return TransactionDetailsItem(
-                text: intl.iban_send_history_processin_fee,
-                value: TransactionDetailsValueText(
-                  text: volumeFormat(
-                    decimal: transactionListItem.ibanDepositInfo?.processingFeeAmount ?? Decimal.zero,
-                    accuracy: currency.accuracy,
-                    symbol: currency.symbol,
-                  ),
+              return ProcessingFeeRowWidget(
+                fee: volumeFormat(
+                  decimal: transactionListItem.ibanDepositInfo?.processingFeeAmount ?? Decimal.zero,
+                  accuracy: currency.accuracy,
+                  symbol: currency.symbol,
                 ),
               );
             },
@@ -176,6 +172,7 @@ class _AddCashDetailsHeader extends StatelessWidget {
           fromAssetCustomIcon: const BlueBankIconDeprecated(),
           isError: transactionListItem.status == Status.declined,
           hasSecondAsset: false,
+          isSmallerVersion: true,
         ),
         const SizedBox(height: 24),
         SBadge(

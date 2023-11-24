@@ -60,7 +60,10 @@ abstract class _BuyAmountStoreBase with Store {
 
   @computed
   bool get isContinueAvaible {
-    return inputValid && primaryAmount != '0' && (account != null || card != null) && asset != null;
+    return inputValid &&
+        Decimal.parse(primaryAmount) != Decimal.zero &&
+        (account != null || card != null) &&
+        asset != null;
   }
 
   @observable
@@ -397,7 +400,7 @@ abstract class _BuyAmountStoreBase with Store {
             _minSellAmount = data.minFromAssetVolume;
             _maxSellAmount = data.maxFromAssetVolume;
             _minBuyAmount = data.minToAssetVolume;
-            _maxBuyAmount = data.minToAssetVolume;
+            _maxBuyAmount = data.maxToAssetVolume;
           },
           onError: (error) {
             sNotification.showError(
@@ -413,6 +416,7 @@ abstract class _BuyAmountStoreBase with Store {
           paymentAsset: fiatSymbol,
           buyAsset: asset?.symbol ?? '',
           paymentMethod: circlePaymentMethod,
+          bankingAccountId: account?.accountId ?? '',
         );
         final response = await sNetwork.getWalletModule().postBuyLimits(model);
         response.pick(

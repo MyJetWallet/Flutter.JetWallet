@@ -1,6 +1,4 @@
-import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:simple_networking/helpers/decimal_serialiser.dart';
 
 part 'remote_config_appconfig_model.freezed.dart';
 part 'remote_config_appconfig_model.g.dart';
@@ -36,7 +34,6 @@ class RemoteConfigAppconfigModel with _$RemoteConfigAppconfigModel {
     required int changePasswordLockHours,
     required int changePhoneLockHours,
     @Default('https://simple.app/terms-and-conditions-p2p/') String p2pTerms,
-    @DecimalNullSerialiser() Decimal? convertMarkup,
   }) = _RemoteConfigAppconfigModel;
 
   factory RemoteConfigAppconfigModel.fromJson(Map<String, dynamic> json) => _$RemoteConfigAppconfigModelFromJson(json);

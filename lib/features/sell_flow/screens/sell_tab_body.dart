@@ -4,10 +4,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
-import 'package:jetwallet/features/buy_flow/store/sell_amount_store.dart';
-import 'package:jetwallet/features/buy_flow/ui/sell_choose_asset_bottom_sheet.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/buy_option_widget.dart';
-import 'package:jetwallet/features/buy_flow/ui/widgets/sell_with_bottom_sheet.dart';
+import 'package:jetwallet/features/sell_flow/store/sell_amount_store.dart';
+import 'package:jetwallet/features/sell_flow/widgets/sell_choose_asset_bottom_sheet.dart';
+import 'package:jetwallet/features/sell_flow/widgets/sell_with_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
@@ -23,11 +23,11 @@ import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 class SellAmountTabBody extends StatefulObserverWidget {
   const SellAmountTabBody({
     this.asset,
-    this.simpleCard,
+    this.account,
   });
 
   final CurrencyModel? asset;
-  final CardDataModel? simpleCard;
+  final SimpleBankingAccount? account;
 
   @override
   State<SellAmountTabBody> createState() => _BuyAmountScreenBodyState();
@@ -44,7 +44,7 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
       create: (context) => SellAmountStore()
         ..init(
           inputAsset: widget.asset,
-          simpleCardNew: widget.simpleCard,
+          newAccount: widget.account,
         ),
       builder: (context, child) {
         final store = SellAmountStore.of(context);
@@ -145,47 +145,6 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                         onSelected: ({account, card}) {
                           store.setNewPayWith(
                             newAccount: account,
-                            newCard: card,
-                          );
-                          Navigator.of(context).pop();
-                        },
-                      );
-                    },
-                  )
-                else if (store.category == PaymentMethodCategory.simpleCard)
-                  BuyOptionWidget(
-                    title: 'Simple ${intl.simple_card_card} '
-                        '**${store.simpleCard!.cardNumberMasked
-                        ?.substring(
-                          (
-                            store.simpleCard!.cardNumberMasked?.length ?? 0
-                          ) - 4,)}',
-                    subTitle: intl.amount_screen_sell_to,
-                    icon: Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: ShapeDecoration(
-                        color: sKit.colors.white,
-                        shape: OvalBorder(
-                          side: BorderSide(
-                            color: sKit.colors.grey4,
-                          ),
-                        ),
-                      ),
-                      child: SizedBox(
-                        width: 16,
-                        height: 16,
-                        child: getSimpleNetworkIcon(widget.simpleCard?.cardType),
-                      ),
-                    ),
-                    onTap: () {
-                      showSellPayWithBottomSheet(
-                        context: context,
-                        currency: store.asset,
-                        hideCards: true,
-                        onSelected: ({account, card}) {
-                          store.setNewPayWith(
-                            newAccount: account,
-                            newCard: card,
                           );
                           Navigator.of(context).pop();
                         },
@@ -215,7 +174,6 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                         onSelected: ({account, card}) {
                           store.setNewPayWith(
                             newAccount: account,
-                            newCard: card,
                           );
                           Navigator.of(context).pop();
                         },
@@ -238,7 +196,6 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                         isFromFixed: !store.isFiatEntering,
                         paymentCurrency: store.buyCurrency,
                         account: store.account,
-                        simpleCard: store.simpleCard,
                         fromAmount: Decimal.parse(store.cryptoInputValue),
                         toAmount: Decimal.parse(store.fiatInputValue),
                       ),
@@ -273,7 +230,6 @@ Widget getNetworkIcon(CircleCardNetwork? network) {
       return const SActionDepositIcon();
   }
 }
-
 
 Widget getSimpleNetworkIcon(SimpleCardNetwork? network) {
   switch (network) {

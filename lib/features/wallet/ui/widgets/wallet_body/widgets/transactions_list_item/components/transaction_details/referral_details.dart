@@ -76,6 +76,7 @@ class _ReferralDetailsHeader extends StatelessWidget {
           ),
           hasSecondAsset: false,
           isError: transactionListItem.status == Status.declined,
+          isSmallerVersion: true,
         ),
         const SizedBox(height: 24),
         SBadge(

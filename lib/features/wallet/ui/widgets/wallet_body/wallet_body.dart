@@ -128,7 +128,6 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                     ),
                     child: CircleActionButtons(
                       isSendDisabled: widget.currency.isAssetBalanceEmpty,
-                      isExchangeDisabled: widget.currency.isAssetBalanceEmpty,
                       isSellDisabled: widget.currency.isAssetBalanceEmpty,
                       isConvertDisabled: widget.currency.isAssetBalanceEmpty,
                       onBuy: () {
@@ -153,16 +152,18 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                         final isDepositBlocker = sSignalRModules.clientDetail.clientBlockers
                             .any((element) => element.blockingType == BlockingType.deposit);
 
-                        if (kycState.tradeStatus == kycOperationStatus(KycStatus.blocked) && !isBuyAvaible) {
+                        if (kycState.tradeStatus == kycOperationStatus(KycStatus.blocked) || !isBuyAvaible) {
                           sNotification.showError(
-                            intl.my_wallets_actions_warning,
+                            intl.operation_bloked_text,
+                            duration: 4,
                             id: 1,
                             hideIcon: true,
                           );
                         } else if ((kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) &&
                             !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
                           sNotification.showError(
-                            intl.my_wallets_actions_warning,
+                            intl.operation_bloked_text,
+                            duration: 4,
                             id: 1,
                             hideIcon: true,
                           );
@@ -222,7 +223,8 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                           );
                         } else if (!widget.currency.supportsCryptoDeposit) {
                           sNotification.showError(
-                            intl.my_wallets_actions_warning,
+                            intl.operation_bloked_text,
+                            duration: 4,
                             id: 1,
                             hideIcon: true,
                           );
@@ -253,32 +255,6 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                           navigateBack: false,
                         );
                       },
-                      onExchange: () {
-                        final actualAsset = widget.currency;
-                        if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
-                          showSendTimerAlertOr(
-                            context: context,
-                            or: () => sRouter.push(
-                              ConvertRouter(
-                                fromCurrency: actualAsset,
-                              ),
-                            ),
-                            from: [BlockingType.trade],
-                          );
-                        } else {
-                          handler.handle(
-                            status: kycState.withdrawalStatus,
-                            isProgress: kycState.verificationInProgress,
-                            currentNavigate: () => sRouter.push(
-                              ConvertRouter(
-                                fromCurrency: actualAsset,
-                              ),
-                            ),
-                            requiredDocuments: kycState.requiredDocuments,
-                            requiredVerifications: kycState.requiredVerifications,
-                          );
-                        }
-                      },
                       onConvert: () {
                         final actualAsset = widget.currency;
                         if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
@@ -293,17 +269,11 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                             from: [BlockingType.trade],
                           );
                         } else {
-                          handler.handle(
-                            status: kycState.withdrawalStatus,
-                            isProgress: kycState.verificationInProgress,
-                            currentNavigate: () => sRouter.push(
-                              AmountRoute(
-                                tab: AmountScreenTab.convert,
-                                asset: actualAsset,
-                              ),
-                            ),
-                            requiredDocuments: kycState.requiredDocuments,
-                            requiredVerifications: kycState.requiredVerifications,
+                          sNotification.showError(
+                            intl.operation_bloked_text,
+                            duration: 4,
+                            id: 1,
+                            hideIcon: true,
                           );
                         }
                       },

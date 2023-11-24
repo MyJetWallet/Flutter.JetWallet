@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +23,6 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
-
-const double _appBarBottomPosition = 120.0;
 
 @RoutePage(name: 'CJAccountRouter')
 class CJAccountScreen extends StatefulObserverWidget {
@@ -133,7 +133,9 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                           setState(() {
                             label = value as String;
                           });
-                        } catch (e) {}
+                        } catch (e) {
+                          log(e.toString());
+                        }
                       }
                     });
                   },
@@ -188,7 +190,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                         onTap: () {
                           if (kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) {
                             sNotification.showError(
-                              intl.operation_is_unavailable,
+                              intl.operation_bloked_text,
                               duration: 4,
                               id: 1,
                               needFeedback: true,
@@ -239,7 +241,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                         onTap: () {
                           if (kycState.withdrawalStatus == kycOperationStatus(KycStatus.blocked)) {
                             sNotification.showError(
-                              intl.operation_is_unavailable,
+                              intl.operation_bloked_text,
                               duration: 4,
                               id: 1,
                               needFeedback: true,

@@ -5,8 +5,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
-import 'package:jetwallet/features/buy_flow/store/sell_confirmation_store.dart';
-import 'package:jetwallet/features/buy_flow/ui/widgets/sell_confirmation_widgets/sell_confirmation_info_grid.dart';
+import 'package:jetwallet/features/sell_flow/store/sell_confirmation_store.dart';
+import 'package:jetwallet/features/sell_flow/widgets/sell_confirmation_info_grid.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
@@ -52,10 +52,8 @@ class SellConfirmationScreen extends StatelessWidget {
           toAmount: toAmount,
           newAccountId: account?.accountId ?? simpleCard?.cardId ?? '',
         ),
-      builder: (context, child) => _BuyConfirmationScreenBody(
-        paymentCurrency: paymentCurrency,
-        account: account,
-        simpleCard: simpleCard,
+      builder: (context, child) =>  _SellConfirmationScreenBody(
+       account: account,
       ),
       dispose: (context, value) {
         value.cancelTimer();
@@ -65,16 +63,13 @@ class SellConfirmationScreen extends StatelessWidget {
   }
 }
 
-class _BuyConfirmationScreenBody extends StatelessObserverWidget {
-  const _BuyConfirmationScreenBody({
-    required this.paymentCurrency,
+class _SellConfirmationScreenBody extends StatelessObserverWidget {
+  const _SellConfirmationScreenBody({
     this.account,
-    this.simpleCard,
   });
 
-  final CurrencyModel paymentCurrency;
   final SimpleBankingAccount? account;
-  final CardDataModel? simpleCard;
+
 
   @override
   Widget build(BuildContext context) {
@@ -138,14 +133,13 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                     symbol: store.tradeFeeCurreny.symbol,
                   ),
                   totalValue: volumeFormat(
-                    symbol: paymentCurrency.symbol,
-                    accuracy: paymentCurrency.accuracy,
+                    symbol: store.payCurrency.symbol,
+                    accuracy: store.payCurrency.accuracy,
                     decimal: store.paymentAmount ?? Decimal.zero,
                   ),
                   paymentCurrency: store.payCurrency,
                   asset: store.buyCurrency,
                   account: account,
-                  simpleCard: simpleCard,
                 ),
                 SPolicyCheckbox(
                   height: 65,

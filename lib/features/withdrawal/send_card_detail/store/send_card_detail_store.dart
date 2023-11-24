@@ -148,7 +148,6 @@ abstract class _SendCardDetailStoreBase with Store {
       final copiedText = await _copiedText();
 
       try {
-        int.parse(copiedText);
         if (copiedText.length == 16) {
           final buffer = StringBuffer();
 

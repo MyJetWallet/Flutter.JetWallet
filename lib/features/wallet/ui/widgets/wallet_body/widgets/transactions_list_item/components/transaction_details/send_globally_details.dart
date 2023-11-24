@@ -9,6 +9,7 @@ import 'package:jetwallet/features/market/market_details/helper/currency_from.da
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:jetwallet/widgets/fee_rows/processing_fee_row_widget.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
@@ -46,14 +47,6 @@ class SendGloballyDetails extends StatelessObserverWidget {
             child: Text(
               intl.global_send_receiver_details,
               style: sTextH5Style,
-            ),
-          ),
-          const SizedBox(height: 18),
-          TransactionDetailsItem(
-            text: intl.send_globally_date,
-            value: TransactionDetailsValueText(
-              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
-                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
           const SizedBox(height: 18),
@@ -346,6 +339,14 @@ class SendGloballyDetails extends StatelessObserverWidget {
               style: sTextH5Style,
             ),
           ),
+          const SizedBox(height: 18),
+          TransactionDetailsItem(
+            text: intl.send_globally_date,
+            value: TransactionDetailsValueText(
+              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
+                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
+            ),
+          ),
           if (transactionListItem.paymeInfo?.methodName != null) ...[
             const SpaceH18(),
             TransactionDetailsItem(
@@ -361,51 +362,21 @@ class SendGloballyDetails extends StatelessObserverWidget {
               ),
             ),
           ],
-          if (transactionListItem.status == Status.completed) ...[
-            const SpaceH18(),
-            TransactionDetailsItem(
-              text: intl.send_globally_con_rate,
-              value: TransactionDetailsValueText(
-                text:
-                    '''1 ${transactionListItem.withdrawalInfo?.feeAssetId ?? transactionListItem.withdrawalInfo?.withdrawalAssetId} = ${transactionListItem.withdrawalInfo!.receiveRate} ${transactionListItem.withdrawalInfo!.receiveAsset}''',
-              ),
-            ),
-          ],
           const SpaceH18(),
           TransactionDetailsItem(
-            text: intl.global_send_history_sent,
+            text: intl.send_globally_con_rate,
             value: TransactionDetailsValueText(
-              text: volumeFormat(
-                decimal: transactionListItem.withdrawalInfo!.withdrawalAmount -
-                    transactionListItem.withdrawalInfo!.feeAmount,
-                accuracy: currency.accuracy,
-                symbol: currency.symbol,
-              ),
+              text:
+                  '''1 ${transactionListItem.withdrawalInfo?.feeAssetId ?? transactionListItem.withdrawalInfo?.withdrawalAssetId} = ${transactionListItem.withdrawalInfo!.receiveRate} ${transactionListItem.withdrawalInfo!.receiveAsset}''',
             ),
           ),
-          if (transactionListItem.status == Status.completed) ...[
-            const SpaceH18(),
-            TransactionDetailsItem(
-              text: '''${intl.send_globally_amount_in}${transactionListItem.withdrawalInfo?.receiveAsset ?? ''}''',
-              value: TransactionDetailsValueText(
-                text: volumeFormat(
-                  decimal: transactionListItem.withdrawalInfo!.receiveAmount ?? Decimal.zero,
-                  accuracy: currency.accuracy,
-                  symbol: transactionListItem.withdrawalInfo?.receiveAsset ?? '',
-                ),
-              ),
-            ),
-          ],
           if (transactionListItem.status != Status.declined) ...[
             const SpaceH18(),
-            TransactionDetailsItem(
-              text: intl.send_globally_processing_fee,
-              value: TransactionDetailsValueText(
-                text: volumeFormat(
-                  decimal: transactionListItem.withdrawalInfo!.feeAmount,
-                  accuracy: currency.accuracy,
-                  symbol: currency.symbol,
-                ),
+            ProcessingFeeRowWidget(
+              fee: volumeFormat(
+                decimal: transactionListItem.withdrawalInfo!.feeAmount,
+                accuracy: currency.accuracy,
+                symbol: currency.symbol,
               ),
             ),
           ],
@@ -461,6 +432,7 @@ class _BuyDetailsHeader extends StatelessWidget {
             decimal: transactionListItem.withdrawalInfo?.receiveAmount ?? Decimal.zero,
           ),
           isError: transactionListItem.status == Status.declined,
+          isSmallerVersion: true,
         ),
         const SizedBox(height: 24),
         SBadge(

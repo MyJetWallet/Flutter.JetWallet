@@ -59,7 +59,8 @@ class BalanceActionButtons extends StatelessObserverWidget {
                       );
                     } else {
                       sNotification.showError(
-                        intl.my_wallets_actions_warning,
+                        intl.operation_bloked_text,
+                        duration: 4,
                         id: 1,
                         hideIcon: true,
                       );
@@ -72,7 +73,6 @@ class BalanceActionButtons extends StatelessObserverWidget {
           ),
         ] else ...[
           CircleActionButtons(
-            isExchangeDisabled: currency.isAssetBalanceEmpty,
             isSendDisabled: currency.isAssetBalanceEmpty,
             isSellDisabled: currency.isAssetBalanceEmpty,
             isConvertDisabled: currency.isAssetBalanceEmpty,
@@ -98,14 +98,16 @@ class BalanceActionButtons extends StatelessObserverWidget {
 
               if (kycState.tradeStatus == kycOperationStatus(KycStatus.blocked) && !isBuyAvaible) {
                 sNotification.showError(
-                  intl.my_wallets_actions_warning,
+                  intl.operation_bloked_text,
+                  duration: 4,
                   id: 1,
                   hideIcon: true,
                 );
               } else if ((kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) &&
                   !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
                 sNotification.showError(
-                  intl.my_wallets_actions_warning,
+                  intl.operation_bloked_text,
+                  duration: 4,
                   id: 1,
                   hideIcon: true,
                 );
@@ -167,7 +169,8 @@ class BalanceActionButtons extends StatelessObserverWidget {
                   );
                 } else if (!currency.supportsCryptoDeposit) {
                   sNotification.showError(
-                    intl.my_wallets_actions_warning,
+                    intl.operation_bloked_text,
+                    duration: 4,
                     id: 1,
                     hideIcon: true,
                   );
@@ -203,31 +206,6 @@ class BalanceActionButtons extends StatelessObserverWidget {
                 navigateBack: false,
               );
             },
-            onExchange: () {
-              if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
-                showSendTimerAlertOr(
-                  context: context,
-                  or: () => sRouter.push(
-                    ConvertRouter(
-                      fromCurrency: currency,
-                    ),
-                  ),
-                  from: [BlockingType.trade],
-                );
-              } else {
-                handler.handle(
-                  status: kycState.withdrawalStatus,
-                  isProgress: kycState.verificationInProgress,
-                  currentNavigate: () => sRouter.push(
-                    ConvertRouter(
-                      fromCurrency: currency,
-                    ),
-                  ),
-                  requiredDocuments: kycState.requiredDocuments,
-                  requiredVerifications: kycState.requiredVerifications,
-                );
-              }
-            },
             onConvert: () {
               if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
                 showSendTimerAlertOr(
@@ -241,17 +219,11 @@ class BalanceActionButtons extends StatelessObserverWidget {
                   from: [BlockingType.trade],
                 );
               } else {
-                handler.handle(
-                  status: kycState.withdrawalStatus,
-                  isProgress: kycState.verificationInProgress,
-                  currentNavigate: () => sRouter.push(
-                    AmountRoute(
-                      tab: AmountScreenTab.convert,
-                      asset: currency,
-                    ),
-                  ),
-                  requiredDocuments: kycState.requiredDocuments,
-                  requiredVerifications: kycState.requiredVerifications,
+                sNotification.showError(
+                  intl.operation_bloked_text,
+                  duration: 4,
+                  id: 1,
+                  hideIcon: true,
                 );
               }
             },

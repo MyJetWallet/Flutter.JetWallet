@@ -41,7 +41,8 @@ Future<void> showSendAction(BuildContext context) async {
 
   if (!(isToCryptoWalletAvaible || isGlobalAvaible || isGiftAvaible)) {
     sNotification.showError(
-      intl.my_wallets_actions_warning,
+      intl.operation_bloked_text,
+      duration: 4,
       id: 1,
       hideIcon: true,
     );

@@ -554,11 +554,36 @@ class PaymeInfo with _$PaymeInfo {
     final String? bankName,
     final String? ifscCode,
     final String? bankAccount,
-    final int? methodType,
+    @Default(MethodType.unknown) MethodType methodType,
     final String? methodName,
   }) = _PaymeInfo;
 
   factory PaymeInfo.fromJson(Map<String, dynamic> json) => _$PaymeInfoFromJson(json);
+}
+
+enum MethodType {
+  @JsonValue(0)
+  cardNumber,
+  @JsonValue(1)
+  iban,
+  @JsonValue(2)
+  mobilePhone,
+  @JsonValue(3)
+  paytm,
+  @JsonValue(4)
+  upi,
+  @JsonValue(5)
+  imps,
+  @JsonValue(6)
+  bankAccount,
+  @JsonValue(7)
+  ibanWithName,
+  @JsonValue(8)
+  bankAccountWithBankName,
+  @JsonValue(9)
+  wise,
+  @JsonValue(-1)
+  unknown,
 }
 
 @freezed
@@ -571,6 +596,8 @@ class GiftSendInfo with _$GiftSendInfo {
     String? declineReason,
     @DecimalSerialiser() required Decimal processingFeeAmount,
     String? processingFeeAssetId,
+    String? receiveAsset,
+    @DecimalSerialiser() required Decimal receiveAmount,
   }) = _GiftSendInfo;
 
   factory GiftSendInfo.fromJson(Map<String, dynamic> json) => _$GiftSendInfoFromJson(json);
@@ -607,6 +634,9 @@ class IbanWithdrawalInfo with _$IbanWithdrawalInfo {
     String? processingFeeAssetId,
     @DecimalSerialiser() required Decimal processingFeeAmount,
     String? accountLabel,
+    String? receiveAsset,
+    @DecimalSerialiser() required Decimal receiveAmount,
+    @DecimalSerialiser() required Decimal receiveRate,
   }) = _IbanWithdrawalInfo;
 
   factory IbanWithdrawalInfo.fromJson(Map<String, dynamic> json) => _$IbanWithdrawalInfoFromJson(json);
@@ -676,6 +706,8 @@ class SellCryptoInfo with _$SellCryptoInfo {
     String? paymentFeeAssetId,
     @DecimalSerialiser() required Decimal paymentFeeAmount,
     String? accountLabel,
+    @DecimalSerialiser() required Decimal baseRate,
+    @DecimalSerialiser() required Decimal quoteRate,
   }) = _SellCryptoInfo;
 
   factory SellCryptoInfo.fromJson(Map<String, dynamic> json) => _$SellCryptoInfoFromJson(json);

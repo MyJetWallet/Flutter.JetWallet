@@ -10,6 +10,8 @@ import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/split_iban.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:jetwallet/widgets/fee_rows/payment_fee_row_widget.dart';
+import 'package:jetwallet/widgets/fee_rows/processing_fee_row_widget.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
@@ -137,14 +139,11 @@ class IbanSendDetails extends StatelessObserverWidget {
                     '',
               );
 
-              return TransactionDetailsItem(
-                text: intl.iban_send_history_payment_fee,
-                value: TransactionDetailsValueText(
-                  text: volumeFormat(
-                    decimal: transactionListItem.ibanWithdrawalInfo?.paymentFeeAmount ?? Decimal.zero,
-                    accuracy: currency.accuracy,
-                    symbol: currency.symbol,
-                  ),
+              return PaymentFeeRowWidget(
+                fee: volumeFormat(
+                  decimal: transactionListItem.ibanWithdrawalInfo?.paymentFeeAmount ?? Decimal.zero,
+                  accuracy: currency.accuracy,
+                  symbol: currency.symbol,
                 ),
               );
             },
@@ -159,14 +158,11 @@ class IbanSendDetails extends StatelessObserverWidget {
                     '',
               );
 
-              return TransactionDetailsItem(
-                text: intl.iban_send_history_processin_fee,
-                value: TransactionDetailsValueText(
-                  text: volumeFormat(
-                    decimal: transactionListItem.ibanWithdrawalInfo?.processingFeeAmount ?? Decimal.zero,
-                    accuracy: currency.accuracy,
-                    symbol: currency.symbol,
-                  ),
+              return ProcessingFeeRowWidget(
+                fee: volumeFormat(
+                  decimal: transactionListItem.ibanWithdrawalInfo?.processingFeeAmount ?? Decimal.zero,
+                  accuracy: currency.accuracy,
+                  symbol: currency.symbol,
                 ),
               );
             },
@@ -213,14 +209,12 @@ class IbanSendDetailsHeader extends StatelessWidget {
           toAssetIconUrl: asset.iconUrl,
           toAssetDescription: asset.description,
           toAssetValue: volumeFormat(
-            symbol: asset.symbol,
+            symbol: transactionListItem.ibanWithdrawalInfo?.receiveAsset ?? '',
             accuracy: asset.accuracy,
-            //TODO (yaroslav): change when the back will start sending values
-            decimal: (transactionListItem.balanceChange.abs()) -
-                (transactionListItem.ibanWithdrawalInfo?.paymentFeeAmount ?? Decimal.zero) -
-                (transactionListItem.ibanWithdrawalInfo?.processingFeeAmount ?? Decimal.zero),
+            decimal: transactionListItem.ibanWithdrawalInfo?.receiveAmount ?? Decimal.zero,
           ),
           isError: transactionListItem.status == Status.declined,
+          isSmallerVersion: true,
         ),
         const SizedBox(height: 24),
         SBadge(

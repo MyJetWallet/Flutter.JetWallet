@@ -1,10 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/buy_flow/ui/buy_tab_body.dart';
-import 'package:jetwallet/features/buy_flow/ui/convert_tab_body.dart';
-import 'package:jetwallet/features/buy_flow/ui/sell_tab_body.dart';
+import 'package:jetwallet/features/convert_flow/screens/convert_tab_body.dart';
+import 'package:jetwallet/features/sell_flow/screens/sell_tab_body.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -108,11 +109,12 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
                   account: widget.account,
                 ),
                 SellAmountTabBody(
-                  asset: widget.asset,
-                  simpleCard: widget.simpleCard,
+                  asset: widget.asset.assetBalance != Decimal.zero ? widget.asset : null,
+                  account: widget.account,
                 ),
                 ConvertAmountTabBody(
-                  asset: widget.asset,
+                  fromAsset: widget.tab == AmountScreenTab.convert ? widget.asset : null,
+                  toAsset: widget.tab == AmountScreenTab.convert ? null : widget.asset,
                 ),
               ],
             ),

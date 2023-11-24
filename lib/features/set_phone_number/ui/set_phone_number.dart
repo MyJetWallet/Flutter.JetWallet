@@ -158,6 +158,17 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
               ],
             ),
           ),
+          if (isChangePhone) ...[
+            const SpaceH20(),
+            SPaddingH24(
+              child: Text(
+                intl.phone_cahange_warning,
+                textAlign: TextAlign.left,
+                maxLines: 10,
+                style: sBodyText1Style.copyWith(color: colors.grey1),
+              ),
+            ),
+          ],
           const Spacer(),
           Observer(
             builder: (context) {

@@ -10,6 +10,7 @@ import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transac
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:jetwallet/widgets/fee_rows/processing_fee_row_widget.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
@@ -73,6 +74,7 @@ class WithdrawDetails extends StatelessObserverWidget {
             ),
           ],
           if (transactionListItem.withdrawalInfo!.toAddress != null) ...[
+            const SpaceH18(),
             Row(
               children: [
                 TransactionDetailsNameText(
@@ -112,43 +114,22 @@ class WithdrawDetails extends StatelessObserverWidget {
             ),
             const SpaceH18(),
           ],
-          TransactionDetailsItem(
-            text: intl.fee,
-            fromStart: transactionListItem.withdrawalInfo!.isInternal,
-            value: transactionListItem.withdrawalInfo!.isInternal
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      TransactionDetailsValueText(
-                        text: intl.noFee,
-                      ),
-                      Text(
-                        intl.withdrawDetails_internalTransfer,
-                        style: const TextStyle(
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SpaceH12(),
-                    ],
-                  )
-                : Builder(
-                    builder: (context) {
-                      final currency = currencyFrom(
-                        sSignalRModules.currenciesList,
-                        transactionListItem.withdrawalInfo!.feeAssetId ??
-                            transactionListItem.withdrawalInfo!.withdrawalAssetId!,
-                      );
+          Builder(
+            builder: (context) {
+              final currency = currencyFrom(
+                sSignalRModules.currenciesList,
+                transactionListItem.withdrawalInfo!.feeAssetId ??
+                    transactionListItem.withdrawalInfo!.withdrawalAssetId!,
+              );
 
-                      return TransactionDetailsValueText(
-                        text: volumeFormat(
-                          decimal: transactionListItem.withdrawalInfo!.feeAmount,
-                          accuracy: currency.accuracy,
-                          symbol: currency.symbol,
-                        ),
-                      );
-                    },
-                  ),
+              return ProcessingFeeRowWidget(
+                fee: volumeFormat(
+                  decimal: transactionListItem.withdrawalInfo!.feeAmount,
+                  accuracy: currency.accuracy,
+                  symbol: currency.symbol,
+                ),
+              );
+            },
           ),
           const SpaceH40(),
         ],
@@ -202,6 +183,7 @@ class _WithdrawDetailsHeader extends StatelessWidget {
             decimal: transactionListItem.withdrawalInfo?.receiveAmount ?? Decimal.zero,
           ),
           isError: transactionListItem.status == Status.declined,
+          isSmallerVersion: true,
         ),
         const SizedBox(height: 24),
         SBadge(

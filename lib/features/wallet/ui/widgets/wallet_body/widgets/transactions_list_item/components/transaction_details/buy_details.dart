@@ -11,6 +11,8 @@ import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/price_accuracy.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/fee_rows/payment_fee_row_widget.dart';
+import 'package:jetwallet/widgets/fee_rows/processing_fee_row_widget.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -158,19 +160,16 @@ class BuyDetails extends StatelessObserverWidget {
             builder: (context) {
               final currency = currencyFrom(
                 sSignalRModules.currenciesList,
-                transactionListItem.cryptoBuyInfo?.paymentAssetId ??
+                transactionListItem.cryptoBuyInfo?.depositFeeAsset ??
                     transactionListItem.cryptoBuyInfo?.paymentAssetId ??
                     '',
               );
 
-              return TransactionDetailsItem(
-                text: intl.iban_send_history_payment_fee,
-                value: TransactionDetailsValueText(
-                  text: volumeFormat(
-                    decimal: transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero,
-                    accuracy: currency.accuracy,
-                    symbol: currency.symbol,
-                  ),
+              return PaymentFeeRowWidget(
+                fee: volumeFormat(
+                  decimal: transactionListItem.cryptoBuyInfo?.depositFeeAmount ?? Decimal.zero,
+                  accuracy: currency.accuracy,
+                  symbol: currency.symbol,
                 ),
               );
             },
@@ -185,14 +184,11 @@ class BuyDetails extends StatelessObserverWidget {
                     '',
               );
 
-              return TransactionDetailsItem(
-                text: intl.iban_send_history_processin_fee,
-                value: TransactionDetailsValueText(
-                  text: volumeFormat(
-                    decimal: transactionListItem.cryptoBuyInfo?.tradeFeeAmount ?? Decimal.zero,
-                    accuracy: currency.accuracy,
-                    symbol: currency.symbol,
-                  ),
+              return ProcessingFeeRowWidget(
+                fee: volumeFormat(
+                  decimal: transactionListItem.cryptoBuyInfo?.tradeFeeAmount ?? Decimal.zero,
+                  accuracy: currency.accuracy,
+                  symbol: currency.symbol,
                 ),
               );
             },
@@ -274,6 +270,7 @@ class _BuyDetailsHeader extends StatelessWidget {
             decimal: transactionListItem.cryptoBuyInfo?.buyAmount ?? Decimal.zero,
           ),
           isError: transactionListItem.status == Status.declined,
+          isSmallerVersion: true,
         ),
         const SizedBox(height: 24),
         SBadge(

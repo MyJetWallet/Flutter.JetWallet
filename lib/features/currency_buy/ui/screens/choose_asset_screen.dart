@@ -53,7 +53,7 @@ class _ChooseAssetScreenState extends State<ChooseAssetScreen> {
       fromCard: true,
       searchStore: searchStore,
     );
-    sortByBalanceAndWeight(searchStore.filteredCurrencies);
+    sortByBalanceAndWeight(searchStore.buyFromCardCurrencies);
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,

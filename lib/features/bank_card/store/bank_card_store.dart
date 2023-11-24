@@ -391,7 +391,7 @@ abstract class _BankCardStoreBase with Store {
                 );
               }
             } else if (newCard.data?.data.status == CardStatus.accepted) {
-              showPreview(
+              await showPreview(
                 cardNumber: cardNumberFinal,
                 amount: amount,
                 cardId: newCard.data?.data.cardId ?? '',
@@ -439,7 +439,7 @@ abstract class _BankCardStoreBase with Store {
   }
 
   @action
-  void showPreview({
+  Future<void> showPreview({
     required String amount,
     required String cardNumber,
     required String cardId,
@@ -448,9 +448,11 @@ abstract class _BankCardStoreBase with Store {
     required int expMonth,
     required int expYear,
     required String cardLabel,
-    required  CircleCardNetwork network,
-  }) {
-    sRouter.pop();
+    required CircleCardNetwork network,
+  }) async {
+    await sRouter.pop();
+    if (saveCard) await sRouter.pop();
+
     Timer(const Duration(milliseconds: 300), () {
       final cardIndex = sSignalRModules.cards.cardInfos.indexWhere(
         (element) => element.id == cardId,

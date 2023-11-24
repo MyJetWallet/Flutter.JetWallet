@@ -9,6 +9,7 @@ import 'package:jetwallet/features/send_gift/widgets/share_gift_result_bottom_sh
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/transaction_details_status.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
+import 'package:jetwallet/widgets/fee_rows/processing_fee_row_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/stack_loader.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
@@ -88,18 +89,11 @@ class GiftSendDetails extends StatelessObserverWidget {
               ),
             ),
             const SpaceH16(),
-            TransactionDetailsItem(
-              text: intl.fee,
-              value: Row(
-                children: [
-                  TransactionDetailsValueText(
-                    text: volumeFormat(
-                      decimal: transactionListItem.withdrawalInfo?.feeAmount ?? Decimal.zero,
-                      accuracy: currency.accuracy,
-                      symbol: currency.symbol,
-                    ),
-                  ),
-                ],
+            ProcessingFeeRowWidget(
+              fee: volumeFormat(
+                decimal: transactionListItem.giftSendInfo?.processingFeeAmount ?? Decimal.zero,
+                accuracy: currency.accuracy,
+                symbol: transactionListItem.giftSendInfo?.processingFeeAssetId ?? '',
               ),
             ),
             if (transactionListItem.status == Status.inProgress) ...[
@@ -192,6 +186,7 @@ class _GiftSendDetailsHeader extends StatelessWidget {
         WhatToWhatConvertWidget(
           removeDefaultPaddings: true,
           isLoading: false,
+          isSmallerVersion: true,
           fromAssetIconUrl: paymentAsset.iconUrl,
           fromAssetDescription: paymentAsset.description,
           fromAssetValue: volumeFormat(
@@ -204,8 +199,7 @@ class _GiftSendDetailsHeader extends StatelessWidget {
           toAssetValue: volumeFormat(
             symbol: buyAsset.symbol,
             accuracy: buyAsset.accuracy,
-            // TODO (yaroslav): change when the back starts sending values
-            decimal: transactionListItem.balanceChange.abs(),
+            decimal: (transactionListItem.giftSendInfo?.receiveAmount ?? Decimal.zero).abs(),
           ),
           isError: transactionListItem.status == Status.declined,
         ),

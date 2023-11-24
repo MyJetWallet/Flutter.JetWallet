@@ -45,7 +45,8 @@ void showBuyAction({
   if ((kyc.tradeStatus == kycOperationStatus(KycStatus.blocked)) || !isBuyAvaible) {
     if (shouldPop) Navigator.pop(context);
     sNotification.showError(
-      intl.my_wallets_actions_warning,
+      intl.operation_bloked_text,
+      duration: 4,
       id: 1,
       hideIcon: true,
     );
@@ -53,7 +54,8 @@ void showBuyAction({
       !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
     if (shouldPop) Navigator.pop(context);
     sNotification.showError(
-      intl.my_wallets_actions_warning,
+      intl.operation_bloked_text,
+      duration: 4,
       id: 1,
       hideIcon: true,
     );

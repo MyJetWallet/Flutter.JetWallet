@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/features/sell_flow/widgets/sell_choose_asset_bottom_sheet.dart';
 import 'package:jetwallet/features/simple_card/store/simple_card_store.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/card_settings.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/card_widget.dart';
@@ -18,7 +19,6 @@ import '../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../utils/helpers/non_indices_with_balance_from.dart';
 import '../../app/store/app_store.dart';
 import '../../buy_flow/ui/amount_screen.dart';
-import '../../buy_flow/ui/sell_choose_asset_bottom_sheet.dart';
 
 const _collapsedCardHeight = 200.0;
 const _expandedCardHeight = 270.0;

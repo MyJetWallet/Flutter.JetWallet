@@ -24,8 +24,7 @@ abstract class _ActionSearchStoreBase with Store {
   ObservableList<MarketItemModel> marketCurrencies = ObservableList.of([]);
 
   @observable
-  ObservableList<MarketItemModel> filteredMarketCurrencies =
-      ObservableList.of([]);
+  ObservableList<MarketItemModel> filteredMarketCurrencies = ObservableList.of([]);
 
   @observable
   ObservableList<CurrencyModel> filteredCurrencies = ObservableList.of([]);
@@ -59,24 +58,20 @@ abstract class _ActionSearchStoreBase with Store {
   ObservableList<CurrencyModel> sendCurrencies = ObservableList.of([]);
 
   @observable
-  ObservableList<CurrencyModel> convertCurrenciesWithBalance =
-      ObservableList.of([]);
+  ObservableList<CurrencyModel> convertCurrenciesWithBalance = ObservableList.of([]);
 
   @observable
-  ObservableList<CurrencyModel> convertCurrenciesWithoutBalance =
-      ObservableList.of([]);
+  ObservableList<CurrencyModel> convertCurrenciesWithoutBalance = ObservableList.of([]);
 
   @observable
   ObservableList<KycCountryModel> globalSendCountries = ObservableList.of([]);
   @observable
-  ObservableList<KycCountryModel> filtredGlobalSendCountries =
-      ObservableList.of([]);
+  ObservableList<KycCountryModel> filtredGlobalSendCountries = ObservableList.of([]);
 
   @observable
   ObservableList<PaymentAsset> newBuyPaymentCurrency = ObservableList.of([]);
   @observable
-  ObservableList<PaymentAsset> filtredNewBuyPaymentCurrency =
-      ObservableList.of([]);
+  ObservableList<PaymentAsset> filtredNewBuyPaymentCurrency = ObservableList.of([]);
 
   @observable
   String searchValue = '';
@@ -93,6 +88,7 @@ abstract class _ActionSearchStoreBase with Store {
   void init({
     List<CurrencyModel>? customCurrencies,
   }) {
+    searchValue = '';
     final tempCurrencies = customCurrencies ?? sSignalRModules.currenciesList;
     final tempBuyFromCardCurrencies = <CurrencyModel>[];
     final tempReceiveCurrencies = <CurrencyModel>[];
@@ -111,8 +107,7 @@ abstract class _ActionSearchStoreBase with Store {
     }
 
     for (final currency in tempCurrencies) {
-      if (currency.isAssetBalanceNotEmpty &&
-          currency.supportsCryptoWithdrawal) {
+      if (currency.isAssetBalanceNotEmpty && currency.supportsCryptoWithdrawal) {
         tempSendCurrencies.add(currency);
       }
     }
@@ -122,6 +117,7 @@ abstract class _ActionSearchStoreBase with Store {
     buyFromCardCurrencies = ObservableList.of(tempBuyFromCardCurrencies);
     receiveCurrencies = ObservableList.of(tempReceiveCurrencies);
     sendCurrencies = ObservableList.of(tempSendCurrencies);
+
     search(searchValue);
   }
 
@@ -138,8 +134,7 @@ abstract class _ActionSearchStoreBase with Store {
     //availablyCurrency.sort((a, b) => a.countryName.compareTo(b.countryName));
 
     newBuyPaymentCurrency = ObservableList.of(availablyCurrency.toList());
-    filtredNewBuyPaymentCurrency =
-        ObservableList.of(availablyCurrency.toList());
+    filtredNewBuyPaymentCurrency = ObservableList.of(availablyCurrency.toList());
   }
 
   @action
@@ -147,8 +142,7 @@ abstract class _ActionSearchStoreBase with Store {
     final search = value.toLowerCase();
 
     if (search.isEmpty) {
-      filtredGlobalSendCountries =
-          ObservableList.of(globalSendCountries.toList());
+      filtredGlobalSendCountries = ObservableList.of(globalSendCountries.toList());
     } else {
       filtredGlobalSendCountries.removeWhere((element) {
         return !element.countryName.toLowerCase().startsWith(search);
@@ -171,8 +165,7 @@ abstract class _ActionSearchStoreBase with Store {
               assetSymbol: element.asset,
             );
 
-        return !element.asset.toLowerCase().startsWith(search) &&
-            !curr.description.toLowerCase().startsWith(search);
+        return !element.asset.toLowerCase().startsWith(search) && !curr.description.toLowerCase().startsWith(search);
       });
     }
   }
@@ -284,8 +277,7 @@ abstract class _ActionSearchStoreBase with Store {
       final tempCurrencies = List<MarketItemModel>.from(marketCurrencies);
 
       tempCurrencies.removeWhere((element) {
-        return !element.name.toLowerCase().startsWith(search) &&
-            !element.symbol.toLowerCase().startsWith(search);
+        return !element.name.toLowerCase().startsWith(search) && !element.symbol.toLowerCase().startsWith(search);
       });
       filteredMarketCurrencies = ObservableList.of(tempCurrencies);
     } else if (value.isEmpty) {

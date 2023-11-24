@@ -160,7 +160,7 @@ abstract class _PhoneVerificationStoreBase with Store {
   @action
   Future<void> verifyCode() async {
     try {
-      loader.startLoading();
+      loader.startLoadingImmediately();
 
       late DC<ServerRejectException, void> response;
 
@@ -265,7 +265,7 @@ abstract class _PhoneVerificationStoreBase with Store {
   @action
   Future<void> verifyFullCode() async {
     try {
-      loader.startLoading();
+      loader.startLoadingImmediately();
 
       late DC<ServerRejectException, void> response;
 

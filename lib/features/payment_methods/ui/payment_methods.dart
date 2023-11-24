@@ -87,14 +87,15 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                             builder: (context) {
                               var cLabel = card.cardLabel ?? '';
 
-                              var chSize = MediaQuery.of(context).devicePixelRatio == 3.0 ? 8 : 6;
+                              final chSize = MediaQuery.of(context).devicePixelRatio == 3.0 ? 8 : 6;
 
                               if (cLabel.length > chSize) {
-                                cLabel = cLabel.substring(0, chSize) + '...';
+                                cLabel = '${cLabel.substring(0, chSize)}...';
                               }
 
                               return PaymentCardItem(
-                                name: '$cLabel •••• ${card.last4}',
+                                lable: card.cardLabel ?? '',
+                                last4numbers: card.last4,
                                 network: card.network,
                                 currency: 'EUR',
                                 expirationDate: 'Exp. ${card.expMonth}/${card.expYear}',

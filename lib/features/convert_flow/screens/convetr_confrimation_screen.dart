@@ -5,8 +5,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/buy_flow/store/convert_confirmation_store.dart';
-import 'package:jetwallet/features/buy_flow/ui/widgets/convert_confirmation_widgets/convert_confirmation_info_grid.dart';
+import 'package:jetwallet/features/convert_flow/store/convert_confirmation_store.dart';
+import 'package:jetwallet/features/convert_flow/widgets/convert_confirmation_info_grid.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
@@ -45,7 +45,7 @@ class ConvetrConfirmationScreen extends StatelessWidget {
           toAsset: toAsset.symbol,
           toAmount: toAmount,
         ),
-      builder: (context, child) => const _BuyConfirmationScreenBody(),
+      builder: (context, child) => const _ConvertConfirmationScreenBody(),
       dispose: (context, value) {
         value.cancelTimer();
         value.cancelAllRequest();
@@ -54,8 +54,8 @@ class ConvetrConfirmationScreen extends StatelessWidget {
   }
 }
 
-class _BuyConfirmationScreenBody extends StatelessObserverWidget {
-  const _BuyConfirmationScreenBody();
+class _ConvertConfirmationScreenBody extends StatelessObserverWidget {
+  const _ConvertConfirmationScreenBody();
 
   @override
   Widget build(BuildContext context) {

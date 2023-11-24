@@ -4,10 +4,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
-import 'package:jetwallet/features/buy_flow/store/convert_amount_store.dart';
-import 'package:jetwallet/features/buy_flow/ui/convert_from_choose_asset_bottom_sheet.dart';
-import 'package:jetwallet/features/buy_flow/ui/convert_to_choose_asset_bottom_sheet.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/buy_option_widget.dart';
+import 'package:jetwallet/features/convert_flow/store/convert_amount_store.dart';
+import 'package:jetwallet/features/convert_flow/widgets/convert_from_choose_asset_bottom_sheet.dart';
+import 'package:jetwallet/features/convert_flow/widgets/convert_to_choose_asset_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
@@ -19,10 +19,12 @@ import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
 class ConvertAmountTabBody extends StatefulObserverWidget {
   const ConvertAmountTabBody({
-    this.asset,
+    this.fromAsset,
+    this.toAsset,
   });
 
-  final CurrencyModel? asset;
+  final CurrencyModel? fromAsset;
+  final CurrencyModel? toAsset;
 
   @override
   State<ConvertAmountTabBody> createState() => _BuyAmountScreenBodyState();
@@ -38,7 +40,8 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
     return Provider<ConvertAmountStore>(
       create: (context) => ConvertAmountStore()
         ..init(
-          inputAsset: widget.asset,
+          newFromAsset: widget.fromAsset,
+          newToAsset: widget.toAsset,
         ),
       builder: (context, child) {
         final store = ConvertAmountStore.of(context);

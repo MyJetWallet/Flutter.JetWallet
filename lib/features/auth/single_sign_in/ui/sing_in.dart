@@ -67,12 +67,14 @@ class _SingInBody extends StatelessObserverWidget {
 
               sNotification.showError(
                 (signInStore.union as Error).error.toString(),
+                hideIcon: true,
               );
             } else if (result is ErrorSrting) {
               signInStore.loader.finishLoading();
 
               sNotification.showError(
                 (signInStore.union as ErrorSrting).error!,
+                hideIcon: true,
               );
             } else if (result is Success) {
               signInStore.loader.finishLoading();

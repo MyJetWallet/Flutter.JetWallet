@@ -41,11 +41,7 @@ abstract class _SellAmountStoreBase with Store {
 
   @computed
   PaymentMethodCategory get category {
-    return account != null
-      ? PaymentMethodCategory.account
-      : simpleCard != null
-        ? PaymentMethodCategory.simpleCard
-        : PaymentMethodCategory.none;
+    return account != null ? PaymentMethodCategory.account : PaymentMethodCategory.none;
   }
 
   @observable
@@ -61,7 +57,7 @@ abstract class _SellAmountStoreBase with Store {
 
   @computed
   bool get isContinueAvaible {
-    return inputValid && primaryAmount != '0' && account != null && asset != null;
+    return inputValid && Decimal.parse(primaryAmount) != Decimal.zero && account != null && asset != null;
   }
 
   @observable
@@ -134,9 +130,6 @@ abstract class _SellAmountStoreBase with Store {
   @observable
   SimpleBankingAccount? account;
 
-  @observable
-  CardDataModel? simpleCard;
-
   @action
   void _checkShowTosts() {
     final isNoCurrencies = !sSignalRModules.currenciesList.any((currency) {
@@ -171,10 +164,10 @@ abstract class _SellAmountStoreBase with Store {
   @action
   void init({
     CurrencyModel? inputAsset,
-    CardDataModel? simpleCardNew,
+    SimpleBankingAccount? newAccount,
   }) {
     asset = inputAsset;
-    simpleCard = simpleCardNew;
+    account = newAccount;
 
     loadConversionPrice(
       fiatSymbol,
@@ -212,10 +205,8 @@ abstract class _SellAmountStoreBase with Store {
   @action
   void setNewPayWith({
     SimpleBankingAccount? newAccount,
-    CardDataModel? newCard,
   }) {
     account = newAccount;
-    simpleCard = newCard;
     paymentAsset = null;
 
     loadConversionPrice(
@@ -369,12 +360,12 @@ abstract class _SellAmountStoreBase with Store {
 
   @computed
   Decimal get minLimit {
-    return isFiatEntering ? _minSellAmount : _minBuyAmount;
+    return isFiatEntering ? _minBuyAmount : _minSellAmount;
   }
 
   @computed
   Decimal get maxLimit {
-    return isFiatEntering ? _maxSellAmount : _maxBuyAmount;
+    return isFiatEntering ? _maxBuyAmount : _maxSellAmount;
   }
 
   @action
@@ -395,7 +386,7 @@ abstract class _SellAmountStoreBase with Store {
             _minSellAmount = data.minFromAssetVolume;
             _maxSellAmount = data.maxFromAssetVolume;
             _minBuyAmount = data.minToAssetVolume;
-            _maxBuyAmount = data.minToAssetVolume;
+            _maxBuyAmount = data.maxToAssetVolume;
           },
           onError: (error) {
             sNotification.showError(
