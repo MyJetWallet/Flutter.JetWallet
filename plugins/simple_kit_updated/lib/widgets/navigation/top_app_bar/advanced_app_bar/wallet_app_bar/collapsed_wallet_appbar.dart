@@ -17,6 +17,7 @@ class CollapsedWalletAppbar extends HookWidget {
     this.showTicker = true,
     this.ticker,
     this.assetIcon,
+    this.hasRightIcon = false,
   }) : super(key: key);
 
   final ScrollController scrollController;
@@ -34,6 +35,7 @@ class CollapsedWalletAppbar extends HookWidget {
 
   final String mainHeaderCollapsedTitle;
   final String? mainHeaderCollapsedSubtitle;
+  final bool hasRightIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +77,7 @@ class CollapsedWalletAppbar extends HookWidget {
         child: GlobalBasicAppBar(
           title: mainHeaderCollapsedTitle,
           subtitle: mainHeaderCollapsedSubtitle,
+          hasRightIcon: hasRightIcon,
         ),
       ),
       crossFadeState: isTopPosition.value ? CrossFadeState.showFirst : CrossFadeState.showSecond,
