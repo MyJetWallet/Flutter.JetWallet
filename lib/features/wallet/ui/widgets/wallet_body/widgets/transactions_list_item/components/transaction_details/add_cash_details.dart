@@ -169,9 +169,7 @@ class _AddCashDetailsHeader extends StatelessWidget {
             accuracy: paymentAsset.accuracy,
             decimal: transactionListItem.balanceChange.abs(),
           ),
-          fromAssetCustomIcon: const BlueBankIcon(
-            size: 32,
-          ),
+          fromAssetCustomIcon: const BlueBankIconDeprecated(),
           isError: transactionListItem.status == Status.declined,
           hasSecondAsset: false,
           isSmallerVersion: true,

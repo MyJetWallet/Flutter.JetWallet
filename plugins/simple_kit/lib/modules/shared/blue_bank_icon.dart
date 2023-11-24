@@ -3,8 +3,8 @@ import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class BlueBankIcon extends StatelessWidget {
-  const BlueBankIcon({
+class BlueBankIconDeprecated extends StatelessWidget {
+  const BlueBankIconDeprecated({
     super.key,
     this.size = 40.0,
   });
