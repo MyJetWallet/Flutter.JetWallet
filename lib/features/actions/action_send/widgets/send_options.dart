@@ -102,41 +102,6 @@ class _SendOptions extends StatelessObserverWidget {
           },
         ),
         SActionItem(
-          icon: const SAccountIcon(),
-          name: intl.sendOptions_to_bank_account,
-          description: intl.iban_send_helper,
-          onTap: () async {
-            Navigator.pop(context);
-
-            sRouter.popUntilRoot();
-
-            await sRouter.replaceAll(
-              [
-                HomeRouter(
-                  children: [
-                    IBanRouter(
-                      initIndex: 1,
-                    ),
-                  ],
-                ),
-              ],
-            );
-
-            if (getIt<AppStore>().tabsRouter != null) {
-              getIt.get<AppStore>().setHomeTab(2);
-              getIt<AppStore>().tabsRouter!.setActiveIndex(2);
-
-              if (getIt.get<IbanStore>().ibanTabController != null) {
-                getIt.get<IbanStore>().ibanTabController!.animateTo(
-                      1,
-                    );
-              } else {
-                getIt.get<IbanStore>().setInitTab(1);
-              }
-            }
-          },
-        ),
-        SActionItem(
           icon: const SGiftSendIcon(),
           name: intl.send_gift,
           description: intl.send_gift_to_simple_wallet,

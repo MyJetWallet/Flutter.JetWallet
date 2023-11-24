@@ -30,7 +30,7 @@ abstract class __ReferenceStoreBase with Store {
   @action
   Future<void> paste() async {
     final copiedText = await _copiedText();
-    referenceTextField.text = referenceTextField.text + copiedText.replaceAll(' ', '');
+    referenceTextField.text = referenceTextField.text + copiedText;
 
     _moveCursorAtTheEnd(referenceTextField);
 
@@ -40,7 +40,7 @@ abstract class __ReferenceStoreBase with Store {
   Future<String> _copiedText() async {
     final data = await Clipboard.getData('text/plain');
 
-    return (data?.text ?? '').replaceAll(' ', '');
+    return data?.text ?? '';
   }
 
   @action

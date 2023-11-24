@@ -83,8 +83,6 @@ class _EurWalletBodyState extends State<EurWalletBody> {
     final userInfo = getIt.get<UserInfoService>();
     final simpleCardStore = getIt.get<SimpleCardStore>();
 
-    final colors = sKit.colors;
-
     final kycState = getIt.get<KycService>();
     final kycBlocked = checkKycBlocked(
       kycState.depositStatus,
