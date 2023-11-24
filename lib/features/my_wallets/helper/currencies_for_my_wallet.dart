@@ -1,13 +1,14 @@
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
-ObservableList<CurrencyModel> currenciesForMyWallet(
-  ObservableList<CurrencyModel> currencies, {
+ObservableList<CurrencyModel> currenciesForMyWallet({
+  ObservableList<CurrencyModel>? currencies,
   bool fromWalletsScreen = false,
   BankingShowState? state,
 }) {
-  var activeCurrencies = currencies
+  var activeCurrencies = (currencies ?? sSignalRModules.currenciesList)
       .where(
         (currency) => currency.walletIsActive,
       )

@@ -7,7 +7,6 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/my_wallets/helper/currencies_for_my_wallet.dart';
-import 'package:jetwallet/features/my_wallets/helper/show_wallet_address_info.dart';
 import 'package:jetwallet/features/my_wallets/helper/show_wallet_verify_account.dart';
 import 'package:jetwallet/utils/enum.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -39,7 +38,7 @@ abstract class _MyWalletsSroreBase with Store {
 
   @computed
   ObservableList<CurrencyModel> get currencies {
-    return isReordering ? reorderingCurrencies : currenciesForMyWallet(_allAssets);
+    return isReordering ? reorderingCurrencies : currenciesForMyWallet(currencies: _allAssets);
   }
 
   @computed

@@ -35,7 +35,7 @@ class _WalletState extends State<Wallet> with TickerProviderStateMixin {
     );
 
     final currencies = currenciesForMyWallet(
-      sSignalRModules.currenciesList,
+      currencies: sSignalRModules.currenciesList,
       fromWalletsScreen: true,
       state: sSignalRModules.bankingProfileData?.showState,
     );
@@ -58,7 +58,7 @@ class _WalletState extends State<Wallet> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final currencies = currenciesForMyWallet(
-      sSignalRModules.currenciesList,
+      currencies: sSignalRModules.currenciesList,
       fromWalletsScreen: true,
       state: sSignalRModules.bankingProfileData?.showState,
     );
