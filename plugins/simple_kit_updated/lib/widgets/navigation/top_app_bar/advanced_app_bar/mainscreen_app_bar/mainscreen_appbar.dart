@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/widgets/navigation/top_app_bar/advanced_app_bar/advanced_app_bar_base.dart';
 import 'package:simple_kit_updated/widgets/navigation/top_app_bar/global_large_alt_appbar.dart';
+import 'package:simple_kit_updated/widgets/shared/icons/user_noty_icon.dart';
 
 class MainScreenAppbar extends StatelessWidget {
   const MainScreenAppbar({
@@ -9,6 +12,9 @@ class MainScreenAppbar extends StatelessWidget {
     required this.child,
     required this.headerTitle,
     this.headerValue,
+    required this.isLabelIconShow,
+    this.onLabelIconTap,
+    this.onProfileTap,
   }) : super(key: key);
 
   final bool showIcon;
@@ -17,9 +23,14 @@ class MainScreenAppbar extends StatelessWidget {
   final String headerTitle;
   final String? headerValue;
 
+  final bool isLabelIconShow;
+  final VoidCallback? onLabelIconTap;
+  final VoidCallback? onProfileTap;
+
   @override
   Widget build(BuildContext context) {
     return AdvancedAppBarBase(
+      isShortVersion: false,
       flow: CollapsedAppBarType.mainScreen,
       child: Column(
         children: [
@@ -27,7 +38,13 @@ class MainScreenAppbar extends StatelessWidget {
             title: headerTitle,
             value: headerValue,
             hasSecondIcon: false,
-            show: showIcon,
+            showLabelIcon: true,
+            labelIcon: isLabelIconShow ? Assets.svg.medium.show.simpleSvg() : Assets.svg.medium.hide.simpleSvg(),
+            onLabelIconTap: onLabelIconTap,
+            rightIcon: UserNotyIcon(
+              onTap: onProfileTap ?? () {},
+              notificationsCount: 0,
+            ),
           ),
           child,
         ],

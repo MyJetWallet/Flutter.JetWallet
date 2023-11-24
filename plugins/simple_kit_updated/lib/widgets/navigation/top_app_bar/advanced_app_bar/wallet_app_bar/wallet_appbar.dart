@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
+import 'package:simple_kit_updated/widgets/navigation/carousel/carousel_widget.dart';
 import 'package:simple_kit_updated/widgets/navigation/top_app_bar/advanced_app_bar/advanced_app_bar_base.dart';
 import 'package:simple_kit_updated/widgets/navigation/top_app_bar/global_basic_appbar.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
@@ -24,6 +25,9 @@ class WalletAppBar extends StatelessWidget {
     this.leftIcon,
     this.hasRightIcon = false,
     this.rightIcon,
+    this.needCarousel = false,
+    this.carouselItemsCount,
+    this.carouselPageIndex,
   }) : super(key: key);
 
   final bool mainBlockCenter;
@@ -45,9 +49,14 @@ class WalletAppBar extends StatelessWidget {
   final bool hasRightIcon;
   final Widget? rightIcon;
 
+  final bool needCarousel;
+  final int? carouselItemsCount;
+  final int? carouselPageIndex;
+
   @override
   Widget build(BuildContext context) {
     return AdvancedAppBarBase(
+      isShortVersion: needCarousel,
       flow: CollapsedAppBarType.wallet,
       child: Column(
         children: [
@@ -107,7 +116,20 @@ class WalletAppBar extends StatelessWidget {
                         color: SColorsLight().gray10,
                       ),
                     ),
-                  )
+                  ),
+                  if (needCarousel) ...[
+                    const Gap(8),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 14,
+                      ),
+                      child: CarouselWidget(
+                        itemsCount: carouselItemsCount ?? 1,
+                        pageIndex: carouselPageIndex ?? 1,
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),

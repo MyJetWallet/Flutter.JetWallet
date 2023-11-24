@@ -28,4 +28,5 @@ export 'widgets/table/account_table/simple_table_account.dart';
 
 export 'widgets/button/specific/specific_button.dart';
 
-export 'widgets/shared/blue_bank_icon.dart';
+export 'widgets/shared/icons/blue_bank_icon.dart';
+export 'widgets/shared/icons/user_noty_icon.dart';

@@ -15,9 +15,11 @@ import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_header.dart';
 import 'package:jetwallet/utils/constants.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
@@ -34,11 +36,13 @@ class WalletBody extends StatefulObserverWidget {
     required this.currency,
     required this.pageController,
     required this.pageCount,
+    required this.indexNow,
   });
 
   final CurrencyModel currency;
   final PageController pageController;
   final int pageCount;
+  final int indexNow;
 
   @override
   State<StatefulWidget> createState() => _WalletBodyState();
@@ -83,289 +87,261 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
 
     return Material(
       color: colors.white,
-      child: NotificationListener<ScrollNotification>(
-        onNotification: (scrollNotification) {
-          if (scrollNotification is ScrollStartNotification) {
-            if (!_scrollingHasAlreadyOccurred) {
-              _scrollingHasAlreadyOccurred = true;
-              sAnalytics.swipeHistoryListOnCryptoFavouriteWalletScreen(
-                openedAsset: widget.currency.symbol,
-              );
-            }
-          } else if (scrollNotification is ScrollEndNotification) {
-            _snapAppbar();
-          }
+      child: Column(
+        children: [
+          CollapsedWalletAppbar(
+            scrollController: _scrollController,
+            assetIcon: SNetworkSvg24(
+              url: widget.currency.iconUrl,
+            ),
+            ticker: widget.currency.symbol,
+            mainTitle: volumeFormat(
+              decimal: sSignalRModules.totalEurWalletBalance,
+              accuracy: widget.currency.accuracy,
+              symbol: widget.currency.symbol,
+            ),
+            mainSubtitle: widget.currency.volumeBaseBalance(sSignalRModules.baseCurrency),
+            mainHeaderTitle: widget.currency.symbol,
+            mainHeaderSubtitle: intl.eur_wallet,
+            mainHeaderCollapsedTitle: volumeFormat(
+              decimal: sSignalRModules.totalEurWalletBalance,
+              accuracy: widget.currency.accuracy,
+              symbol: widget.currency.symbol,
+            ),
+            mainHeaderCollapsedSubtitle: widget.currency.symbol,
+            carouselItemsCount: widget.pageCount,
+            carouselPageIndex: widget.indexNow,
+          ),
+          Expanded(
+            child: NotificationListener<ScrollNotification>(
+              onNotification: (scrollNotification) {
+                if (scrollNotification is ScrollStartNotification) {
+                  if (!_scrollingHasAlreadyOccurred) {
+                    _scrollingHasAlreadyOccurred = true;
+                    sAnalytics.swipeHistoryListOnCryptoFavouriteWalletScreen(
+                      openedAsset: widget.currency.symbol,
+                    );
+                  }
+                } else if (scrollNotification is ScrollEndNotification) {
+                  _snapAppbar();
+                }
 
-          return false;
-        },
-        child: Stack(
-          children: [
-            CustomScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              controller: _scrollController,
-              slivers: [
-                SliverAppBar(
-                  expandedHeight: 226,
-                  collapsedHeight: 64,
-                  pinned: true,
-                  stretch: true,
-                  backgroundColor: sKit.colors.white,
-                  elevation: 0.0,
-                  automaticallyImplyLeading: false,
-                  leadingWidth: 48,
-                  centerTitle: true,
-                  flexibleSpace: WalletHeader(
-                    curr: widget.currency,
-                    pageController: widget.pageController,
-                    pageCount: widget.pageCount,
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: Container(
-                    padding: const EdgeInsets.only(
-                      top: 24,
-                      bottom: 28,
-                    ),
-                    child: CircleActionButtons(
-                      isSendDisabled: widget.currency.isAssetBalanceEmpty,
-                      isSellDisabled: widget.currency.isAssetBalanceEmpty,
-                      isConvertDisabled: widget.currency.isAssetBalanceEmpty,
-                      onBuy: () {
-                        sAnalytics.newBuyTapBuy(
-                          source: 'My Assets - Asset -  Buy',
-                        );
-                        final actualAsset = widget.currency;
-
-                        final isCardsAvailable =
-                            actualAsset.buyMethods.any((element) => element.id == PaymentMethodType.bankCard);
-
-                        final isSimpleAccountAvaible = sSignalRModules.paymentProducts
-                                ?.any((element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount) ??
-                            false;
-
-                        final isBankingAccountsAvaible = sSignalRModules.paymentProducts
-                                ?.any((element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount) ??
-                            false;
-
-                        final isBuyAvaible = isCardsAvailable || isSimpleAccountAvaible || isBankingAccountsAvaible;
-
-                        final isDepositBlocker = sSignalRModules.clientDetail.clientBlockers
-                            .any((element) => element.blockingType == BlockingType.deposit);
-
-                        if (kycState.tradeStatus == kycOperationStatus(KycStatus.blocked) || !isBuyAvaible) {
-                          sNotification.showError(
-                            intl.operation_bloked_text,
-                            duration: 4,
-                            id: 1,
-                            hideIcon: true,
-                          );
-                        } else if ((kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) &&
-                            !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
-                          sNotification.showError(
-                            intl.operation_bloked_text,
-                            duration: 4,
-                            id: 1,
-                            hideIcon: true,
-                          );
-                        } else if (isDepositBlocker) {
-                          showSendTimerAlertOr(
-                            context: context,
-                            or: () => showPayWithBottomSheet(
-                              context: context,
-                              currency: actualAsset,
-                            ),
-                            from: [BlockingType.deposit],
-                          );
-                        } else if (isBuyAvaible) {
-                          showSendTimerAlertOr(
-                            context: context,
-                            or: () => showPayWithBottomSheet(
-                              context: context,
-                              currency: actualAsset,
-                            ),
-                            from: [BlockingType.trade],
-                          );
-                        } else {
-                          handler.handle(
-                            status: kycState.tradeStatus,
-                            isProgress: kycState.verificationInProgress,
-                            currentNavigate: () => showPayWithBottomSheet(
-                              context: context,
-                              currency: actualAsset,
-                            ),
-                            requiredDocuments: kycState.requiredDocuments,
-                            requiredVerifications: kycState.requiredVerifications,
-                          );
-                        }
-                      },
-                      onSell: () {
-                        final actualAsset = widget.currency;
-                        sRouter.push(
-                          AmountRoute(
-                            tab: AmountScreenTab.sell,
-                            asset: actualAsset,
-                          ),
-                        );
-                      },
-                      onReceive: () {
-                        final actualAsset = widget.currency;
-                        if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed) &&
-                            widget.currency.supportsCryptoDeposit) {
-                          showSendTimerAlertOr(
-                            context: context,
-                            or: () => sRouter.navigate(
-                              CryptoDepositRouter(
-                                header: intl.balanceActionButtons_receive,
-                                currency: actualAsset,
-                              ),
-                            ),
-                            from: [BlockingType.deposit],
-                          );
-                        } else if (!widget.currency.supportsCryptoDeposit) {
-                          sNotification.showError(
-                            intl.operation_bloked_text,
-                            duration: 4,
-                            id: 1,
-                            hideIcon: true,
-                          );
-                        } else {
-                          handler.handle(
-                            status: kycState.depositStatus,
-                            isProgress: kycState.verificationInProgress,
-                            currentNavigate: () => sRouter.navigate(
-                              CryptoDepositRouter(
-                                header: intl.balanceActionButtons_receive,
-                                currency: actualAsset,
-                              ),
-                            ),
-                            requiredDocuments: kycState.requiredDocuments,
-                            requiredVerifications: kycState.requiredVerifications,
-                          );
-                        }
-                      },
-                      onSend: () {
-                        sAnalytics.tabOnTheSendButton(
-                          source: 'My Assets - Asset - Send',
-                        );
-
-                        final actualAsset = widget.currency;
-                        showSendOptions(
-                          context,
-                          actualAsset,
-                          navigateBack: false,
-                        );
-                      },
-                      onConvert: () {
-                        final actualAsset = widget.currency;
-                        if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
-                          showSendTimerAlertOr(
-                            context: context,
-                            or: () => sRouter.push(
-                              AmountRoute(
-                                tab: AmountScreenTab.convert,
-                                asset: actualAsset,
-                              ),
-                            ),
-                            from: [BlockingType.trade],
-                          );
-                        } else {
-                          sNotification.showError(
-                            intl.operation_bloked_text,
-                            duration: 4,
-                            id: 1,
-                            hideIcon: true,
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: SPaddingH24(
-                    child: Text(
-                      intl.wallet_transactions,
-                      style: sTextH4Style,
-                    ),
-                  ),
-                ),
-                if (widget.currency.isAssetBalanceNotEmpty) ...[
-                  TransactionsList(
-                    scrollController: _scrollController,
-                    symbol: widget.currency.symbol,
-                    onItemTapLisener: (symbol) {
-                      sAnalytics.tapOnTheButtonAnyHistoryTrxOnCryptoFavouriteWalletScreen(
-                        openedAsset: symbol,
-                      );
-                    },
-                  ),
-                ] else ...[
+                return false;
+              },
+              child: CustomScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                controller: _scrollController,
+                slivers: [
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 80,
-                        vertical: 40,
-                      ),
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            smileAsset,
-                            width: 48,
-                            height: 48,
-                          ),
-                          Text(
-                            intl.wallet_simple_account_empty,
-                            textAlign: TextAlign.center,
-                            maxLines: 3,
-                            style: sSubtitle2Style.copyWith(
-                              color: sKit.colors.grey2,
+                      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+                      child: CircleActionButtons(
+                        isSendDisabled: widget.currency.isAssetBalanceEmpty,
+                        isSellDisabled: widget.currency.isAssetBalanceEmpty,
+                        isConvertDisabled: widget.currency.isAssetBalanceEmpty,
+                        onBuy: () {
+                          sAnalytics.newBuyTapBuy(
+                            source: 'My Assets - Asset -  Buy',
+                          );
+                          final actualAsset = widget.currency;
+
+                          final isCardsAvailable =
+                              actualAsset.buyMethods.any((element) => element.id == PaymentMethodType.bankCard);
+
+                          final isSimpleAccountAvaible = sSignalRModules.paymentProducts
+                                  ?.any((element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount) ??
+                              false;
+
+                          final isBankingAccountsAvaible = sSignalRModules.paymentProducts
+                                  ?.any((element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount) ??
+                              false;
+
+                          final isBuyAvaible = isCardsAvailable || isSimpleAccountAvaible || isBankingAccountsAvaible;
+
+                          final isDepositBlocker = sSignalRModules.clientDetail.clientBlockers
+                              .any((element) => element.blockingType == BlockingType.deposit);
+
+                          if (kycState.tradeStatus == kycOperationStatus(KycStatus.blocked) || !isBuyAvaible) {
+                            sNotification.showError(
+                              intl.operation_bloked_text,
+                              duration: 4,
+                              id: 1,
+                              hideIcon: true,
+                            );
+                          } else if ((kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) &&
+                              !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
+                            sNotification.showError(
+                              intl.operation_bloked_text,
+                              duration: 4,
+                              id: 1,
+                              hideIcon: true,
+                            );
+                          } else if (isDepositBlocker) {
+                            showSendTimerAlertOr(
+                              context: context,
+                              or: () => showPayWithBottomSheet(
+                                context: context,
+                                currency: actualAsset,
+                              ),
+                              from: [BlockingType.deposit],
+                            );
+                          } else if (isBuyAvaible) {
+                            showSendTimerAlertOr(
+                              context: context,
+                              or: () => showPayWithBottomSheet(
+                                context: context,
+                                currency: actualAsset,
+                              ),
+                              from: [BlockingType.trade],
+                            );
+                          } else {
+                            handler.handle(
+                              status: kycState.tradeStatus,
+                              isProgress: kycState.verificationInProgress,
+                              currentNavigate: () => showPayWithBottomSheet(
+                                context: context,
+                                currency: actualAsset,
+                              ),
+                              requiredDocuments: kycState.requiredDocuments,
+                              requiredVerifications: kycState.requiredVerifications,
+                            );
+                          }
+                        },
+                        onSell: () {
+                          final actualAsset = widget.currency;
+                          sRouter.push(
+                            AmountRoute(
+                              tab: AmountScreenTab.sell,
+                              asset: actualAsset,
                             ),
-                          ),
-                        ],
+                          );
+                        },
+                        onReceive: () {
+                          final actualAsset = widget.currency;
+                          if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed) &&
+                              widget.currency.supportsCryptoDeposit) {
+                            showSendTimerAlertOr(
+                              context: context,
+                              or: () => sRouter.navigate(
+                                CryptoDepositRouter(
+                                  header: intl.balanceActionButtons_receive,
+                                  currency: actualAsset,
+                                ),
+                              ),
+                              from: [BlockingType.deposit],
+                            );
+                          } else if (!widget.currency.supportsCryptoDeposit) {
+                            sNotification.showError(
+                              intl.operation_bloked_text,
+                              duration: 4,
+                              id: 1,
+                              hideIcon: true,
+                            );
+                          } else {
+                            handler.handle(
+                              status: kycState.depositStatus,
+                              isProgress: kycState.verificationInProgress,
+                              currentNavigate: () => sRouter.navigate(
+                                CryptoDepositRouter(
+                                  header: intl.balanceActionButtons_receive,
+                                  currency: actualAsset,
+                                ),
+                              ),
+                              requiredDocuments: kycState.requiredDocuments,
+                              requiredVerifications: kycState.requiredVerifications,
+                            );
+                          }
+                        },
+                        onSend: () {
+                          sAnalytics.tabOnTheSendButton(
+                            source: 'My Assets - Asset - Send',
+                          );
+
+                          final actualAsset = widget.currency;
+                          showSendOptions(
+                            context,
+                            actualAsset,
+                            navigateBack: false,
+                          );
+                        },
+                        onConvert: () {
+                          final actualAsset = widget.currency;
+                          if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
+                            showSendTimerAlertOr(
+                              context: context,
+                              or: () => sRouter.push(
+                                AmountRoute(
+                                  tab: AmountScreenTab.convert,
+                                  asset: actualAsset,
+                                ),
+                              ),
+                              from: [BlockingType.trade],
+                            );
+                          } else {
+                            sNotification.showError(
+                              intl.operation_bloked_text,
+                              duration: 4,
+                              id: 1,
+                              hideIcon: true,
+                            );
+                          }
+                        },
                       ),
                     ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: SPaddingH24(
+                      child: Text(
+                        intl.wallet_transactions,
+                        style: sTextH4Style,
+                      ),
+                    ),
+                  ),
+                  if (widget.currency.isAssetBalanceNotEmpty) ...[
+                    TransactionsList(
+                      scrollController: _scrollController,
+                      symbol: widget.currency.symbol,
+                      onItemTapLisener: (symbol) {
+                        sAnalytics.tapOnTheButtonAnyHistoryTrxOnCryptoFavouriteWalletScreen(
+                          openedAsset: symbol,
+                        );
+                      },
+                    ),
+                  ] else ...[
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 80,
+                          vertical: 40,
+                        ),
+                        child: Column(
+                          children: [
+                            Image.asset(
+                              smileAsset,
+                              width: 48,
+                              height: 48,
+                            ),
+                            Text(
+                              intl.wallet_simple_account_empty,
+                              textAlign: TextAlign.center,
+                              maxLines: 3,
+                              style: sSubtitle2Style.copyWith(
+                                color: sKit.colors.grey2,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                  const SliverToBoxAdapter(
+                    child: SpaceH120(),
                   ),
                 ],
-                const SliverToBoxAdapter(
-                  child: SpaceH120(),
-                ),
-              ],
-            ),
-            Align(
-              alignment: Alignment.topCenter,
-              child: AnimatedCrossFade(
-                crossFadeState: isTopPosition ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-                duration: const Duration(milliseconds: 200),
-                firstChild: SPaddingH24(
-                  child: SSmallHeader(
-                    title: widget.currency.description,
-                    subTitle: intl.eur_wallet,
-                    titleStyle: sTextH5Style.copyWith(
-                      color: sKit.colors.black,
-                    ),
-                    subTitleStyle: sBodyText2Style.copyWith(
-                      color: sKit.colors.grey1,
-                    ),
-                  ),
-                ),
-                secondChild: ColoredBox(
-                  color: colors.white,
-                  child: SPaddingH24(
-                    child: SSmallHeader(
-                      title: widget.currency.volumeBaseBalance(getIt.get<FormatService>().baseCurrency),
-                      subTitle: widget.currency.description,
-                      titleStyle: sTextH5Style.copyWith(
-                        color: sKit.colors.black,
-                      ),
-                      subTitleStyle: sBodyText2Style.copyWith(
-                        color: sKit.colors.grey1,
-                      ),
-                    ),
-                  ),
-                ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/widgets/navigation/top_app_bar/advanced_app_bar/account_app_bar/account_appbar.dart';
 import 'package:simple_kit_updated/widgets/navigation/top_app_bar/global_basic_appbar.dart';
 
 class CollapsedAccountAppbar extends HookWidget {
-  const CollapsedAccountAppbar({
-    Key? key,
-    required this.scrollController,
-    this.mainBlockCenter = false,
-    required this.mainTitle,
-    this.mainSubtitle,
-    required this.mainHeaderTitle,
-    this.mainHeaderSubtitle,
-    required this.mainHeaderCollapsedTitle,
-    this.mainHeaderCollapsedSubtitle,
-    this.showTicker = true,
-    this.ticker,
-    this.assetIcon,
-  }) : super(key: key);
+  const CollapsedAccountAppbar(
+      {Key? key,
+      required this.scrollController,
+      this.mainBlockCenter = false,
+      required this.mainTitle,
+      this.mainSubtitle,
+      required this.mainHeaderTitle,
+      this.mainHeaderSubtitle,
+      required this.mainHeaderCollapsedTitle,
+      this.mainHeaderCollapsedSubtitle,
+      this.showTicker = true,
+      this.ticker,
+      this.assetIcon,
+      this.onRightIconTap,})
+      : super(key: key);
 
   final ScrollController scrollController;
   final bool mainBlockCenter;
@@ -34,6 +37,8 @@ class CollapsedAccountAppbar extends HookWidget {
 
   final String mainHeaderCollapsedTitle;
   final String? mainHeaderCollapsedSubtitle;
+
+  final VoidCallback? onRightIconTap;
 
   @override
   Widget build(BuildContext context) {
@@ -69,12 +74,18 @@ class CollapsedAccountAppbar extends HookWidget {
         showTicker: showTicker,
         ticker: ticker,
         assetIcon: assetIcon,
+        hasRightIcon: true,
+        rightIcon: Assets.svg.medium.edit.simpleSvg(),
+        onRightIconTap: onRightIconTap,
       ),
       secondChild: Material(
         color: Colors.white,
         child: GlobalBasicAppBar(
           title: mainHeaderCollapsedTitle,
           subtitle: mainHeaderCollapsedSubtitle,
+          hasRightIcon: true,
+          rightIcon: Assets.svg.medium.edit.simpleSvg(),
+          onRightIconTap: onRightIconTap,
         ),
       ),
       crossFadeState: isTopPosition.value ? CrossFadeState.showFirst : CrossFadeState.showSecond,

@@ -19,7 +19,6 @@ import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 
-import '../../../../../core/di/di.dart';
 import '../../../../../core/services/user_info/user_info_service.dart';
 import '../../../../simple_card/ui/widgets/card_options.dart';
 
@@ -28,10 +27,12 @@ class EurWalletBody extends StatefulObserverWidget {
     super.key,
     required this.pageController,
     required this.pageCount,
+    required this.indexNow,
   });
 
   final PageController pageController;
   final int pageCount;
+  final int indexNow;
 
   @override
   State<EurWalletBody> createState() => _EurWalletBodyState();
@@ -115,6 +116,8 @@ class _EurWalletBodyState extends State<EurWalletBody> {
             symbol: eurCurrency.symbol,
           ),
           mainHeaderCollapsedSubtitle: eurCurrency.symbol,
+          carouselItemsCount: widget.pageCount,
+          carouselPageIndex: widget.indexNow,
         ),
         Expanded(
           child: CustomScrollView(
@@ -142,6 +145,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                 SliverToBoxAdapter(
                   child: SimpleTableAsset(
                     isCard: true,
+                    hasRightValue: false,
                     label: intl.eur_wallet_simple_card,
                     supplement: !userInfo.isSimpleCardAvailable ? intl.eur_wallet_coming_soon : '',
                   ),

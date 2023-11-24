@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:auto_route/auto_route.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
+import 'package:decimal/decimal.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/features/my_wallets/widgets/actions_my_wallets_row_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/add_wallet_bottom_sheet.dart';
@@ -21,11 +23,16 @@ import 'package:jetwallet/features/my_wallets/widgets/my_wallets_asset_item.dart
 import 'package:jetwallet/features/my_wallets/widgets/my_wallets_header.dart';
 import 'package:jetwallet/features/my_wallets/widgets/pending_transactions_widget.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
+import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/delete_asset/simple_delete_asset.dart';
 import 'package:simple_kit/modules/icons/24x24/public/start_reorder/simple_start_reorder_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 import '../../../core/services/signal_r/signal_r_service_new.dart';
@@ -110,8 +117,40 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
             child: Column(
               children: [
                 if (!store.isReordering)
-                  MyWalletsHeader(
-                    isTitleCenter: !store.isReordering && !isTopPosition,
+                  CollapsedMainscreenAppbar(
+                    scrollController: _controller,
+                    mainHeaderValue: !getIt<AppStore>().isBalanceHide
+                        ? _price(
+                            currenciesWithBalanceFrom(sSignalRModules.currenciesList),
+                            sSignalRModules.baseCurrency,
+                          )
+                        : '***** ${sSignalRModules.baseCurrency.symbol}',
+                    mainHeaderTitle: intl.my_wallets_header,
+                    mainHeaderCollapsedTitle: intl.my_wallets_header,
+                    isLabelIconShow: getIt<AppStore>().isBalanceHide,
+                    onLabelIconTap: () {
+                      if (getIt<AppStore>().isBalanceHide) {
+                        getIt<AppStore>().setIsBalanceHide(false);
+                      } else {
+                        getIt<AppStore>().setIsBalanceHide(true);
+                      }
+                      sAnalytics.tapOnTheButtonShowHideBalancesOnWalletsScreen(
+                        isShowNow: !getIt<AppStore>().isBalanceHide,
+                      );
+                    },
+                    onProfileTap: () {
+                      sAnalytics.tapOnTheButtonProfileOnWalletsScreen();
+                      final myWalletsSrore = getIt.get<MyWalletsSrore>();
+                      if (myWalletsSrore.isReordering) {
+                        myWalletsSrore.endReorderingImmediately();
+                      } else {
+                        sRouter.push(const AccountRouter());
+                      }
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 24),
+                      child: ActionsMyWalletsRowWidget(),
+                    ),
                   ),
                 Expanded(
                   child: CustomRefreshIndicator(
@@ -174,23 +213,14 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                                 isTitleCenter: !store.isReordering && !isTopPosition,
                               ),
                             ),
-                          const SliverToBoxAdapter(child: BalanceAmountWidget()),
-                          const SliverToBoxAdapter(child: SpaceH24()),
-                          const SliverToBoxAdapter(child: ActionsMyWalletsRowWidget()),
-                          const SliverToBoxAdapter(child: SpaceH24()),
-                          if (
-                            userInfo.isSimpleCardAvailable &&
-                            (sSignalRModules.bankingProfileData
-                                ?.banking?.cards
-                                ?.length ?? 0) < (sSignalRModules
-                                .bankingProfileData
-                                ?.availableCardsCount ?? 1) &&
-                            checkKycPassed(
-                              kycState.depositStatus,
-                              kycState.tradeStatus,
-                              kycState.withdrawalStatus,
-                            )
-                          )
+                          if (userInfo.isSimpleCardAvailable &&
+                              (sSignalRModules.bankingProfileData?.banking?.cards?.length ?? 0) <
+                                  (sSignalRModules.bankingProfileData?.availableCardsCount ?? 1) &&
+                              checkKycPassed(
+                                kycState.depositStatus,
+                                kycState.tradeStatus,
+                                kycState.withdrawalStatus,
+                              ))
                             const SliverToBoxAdapter(child: GetCardBanner()),
                           if (store.countOfPendingTransactions > 0) ...[
                             SliverToBoxAdapter(
@@ -460,4 +490,21 @@ class _OnlyOnePointerRecognizer extends OneSequenceGestureRecognizer {
       _p = 0;
     }
   }
+}
+
+String _price(
+  List<CurrencyModel> items,
+  BaseCurrencyModel baseCurrency,
+) {
+  var totalBalance = Decimal.zero;
+
+  for (final item in items) {
+    totalBalance += item.baseBalance;
+  }
+
+  return volumeFormat(
+    decimal: totalBalance,
+    accuracy: baseCurrency.accuracy,
+    symbol: baseCurrency.symbol,
+  );
 }

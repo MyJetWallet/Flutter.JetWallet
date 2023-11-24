@@ -102,12 +102,14 @@ class _WalletState extends State<Wallet> with TickerProviderStateMixin {
                     key: Key(currencies[index].symbol),
                     pageController: _pageController,
                     pageCount: currencies.length,
+                    indexNow: currentPage,
                   )
                 : WalletBody(
                     key: Key(currencies[index].symbol),
                     currency: currencies[index],
                     pageController: _pageController,
                     pageCount: currencies.length,
+                    indexNow: currentPage,
                   );
           },
         ),

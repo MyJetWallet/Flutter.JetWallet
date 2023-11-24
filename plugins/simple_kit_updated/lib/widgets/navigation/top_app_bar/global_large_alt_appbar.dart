@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
+import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 class SimpleLargeAltAppbar extends StatelessWidget {
@@ -10,18 +11,22 @@ class SimpleLargeAltAppbar extends StatelessWidget {
     Key? key,
     required this.title,
     this.value,
-    required this.show,
     this.hasSecondIcon = false,
     this.secondIcon,
     this.hasRightIcon = true,
     this.rightIcon,
+    required this.showLabelIcon,
+    this.labelIcon,
+    this.onLabelIconTap,
   }) : super(key: key);
 
   final String title;
 
-  final bool show;
-
   final String? value;
+
+  final bool showLabelIcon;
+  final Widget? labelIcon;
+  final VoidCallback? onLabelIconTap;
 
   final bool hasSecondIcon;
   final Widget? secondIcon;
@@ -58,8 +63,15 @@ class SimpleLargeAltAppbar extends StatelessWidget {
                           ),
                           const Gap(8),
                           Opacity(
-                            opacity: show ? 1 : 0,
-                            child: Assets.svg.medium.hide.simpleSvg(),
+                            opacity: showLabelIcon ? 1 : 0,
+                            child: SafeGesture(
+                              onTap: hasRightIcon
+                                  ? onLabelIconTap != null
+                                      ? () => onLabelIconTap!()
+                                      : null
+                                  : null,
+                              child: labelIcon ?? Assets.svg.medium.show.simpleSvg(),
+                            ),
                           ),
                         ],
                       ),

@@ -4,7 +4,7 @@ import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
-import 'package:simple_kit_updated/widgets/shared/blue_bank_icon.dart';
+import 'package:simple_kit_updated/widgets/shared/icons/blue_bank_icon.dart';
 
 class SpecificButton extends StatelessWidget {
   const SpecificButton({

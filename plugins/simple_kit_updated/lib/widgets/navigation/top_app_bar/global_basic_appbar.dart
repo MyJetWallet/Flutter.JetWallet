@@ -17,6 +17,7 @@ class GlobalBasicAppBar extends StatelessWidget {
     this.leftIcon,
     this.hasRightIcon = true,
     this.rightIcon,
+    this.onRightIconTap,
   }) : super(key: key);
 
   final bool hasTitle;
@@ -31,6 +32,7 @@ class GlobalBasicAppBar extends StatelessWidget {
 
   final bool hasRightIcon;
   final Widget? rightIcon;
+  final VoidCallback? onRightIconTap;
 
   @override
   Widget build(BuildContext context) {
@@ -54,14 +56,24 @@ class GlobalBasicAppBar extends StatelessWidget {
                   ),
                   Opacity(
                     opacity: hasTitle ? 1 : 0,
-                    child: Text(
-                      title ?? '',
-                      style: STStyles.header6,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .7),
+                      child: Text(
+                        title ?? '',
+                        style: STStyles.header6,
+                      ),
                     ),
                   ),
                   Opacity(
                     opacity: hasRightIcon ? 1 : 0,
-                    child: rightIcon ?? Assets.svg.medium.close.simpleSvg(),
+                    child: SafeGesture(
+                      onTap: hasRightIcon
+                          ? onRightIconTap != null
+                              ? () => onRightIconTap!()
+                              : null
+                          : null,
+                      child: rightIcon ?? Assets.svg.medium.close.simpleSvg(),
+                    ),
                   ),
                 ],
               ),
