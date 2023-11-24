@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
+import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 class GlobalBasicAppBar extends StatelessWidget {
@@ -46,7 +47,10 @@ class GlobalBasicAppBar extends StatelessWidget {
                 children: [
                   Opacity(
                     opacity: hasLeftIcon ? 1 : 0,
-                    child: leftIcon ?? Assets.svg.medium.arrowLeft.simpleSvg(),
+                    child: SafeGesture(
+                      onTap: hasLeftIcon ? () => Navigator.pop(context) : null,
+                      child: leftIcon ?? Assets.svg.medium.arrowLeft.simpleSvg(),
+                    ),
                   ),
                   Opacity(
                     opacity: hasTitle ? 1 : 0,
