@@ -174,6 +174,8 @@ abstract class _SellAmountStoreBase with Store {
       cryptoSymbol,
     );
 
+    loadLimits();
+
     _checkShowTosts();
 
     sAnalytics.newBuyBuyAssetView(
