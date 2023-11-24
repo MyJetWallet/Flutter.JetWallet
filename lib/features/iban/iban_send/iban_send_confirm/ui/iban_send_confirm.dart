@@ -126,7 +126,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                       accuracy: eurCurrency.accuracy,
                       decimal: data.amount ?? Decimal.zero,
                     ),
-                    fromAssetCustomIcon: const BlueBankIcon(),
+                    fromAssetCustomIcon: const BlueBankIconDeprecated(),
                     toAssetIconUrl: eurCurrency.iconUrl,
                     toAssetDescription: eurCurrency.description,
                     toAssetValue: volumeFormat(
@@ -138,7 +138,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                   const SDivider(),
                   SActionConfirmText(
                     name: isCJ ? intl.iban_out_label : intl.iban_out_sent_to,
-                    icon: isCJ ? const BlueBankIcon(size: 20) : const BlueBankUnlimitIcon(size: 20),
+                    icon: isCJ ? const BlueBankIconDeprecated(size: 20) : const BlueBankUnlimitIcon(size: 20),
                     value: contact.name ?? '',
                   ),
                   SActionConfirmText(

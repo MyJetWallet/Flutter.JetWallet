@@ -209,7 +209,7 @@ class IbanSendDetailsHeader extends StatelessWidget {
             accuracy: asset.accuracy,
             decimal: transactionListItem.balanceChange.abs(),
           ),
-          fromAssetCustomIcon: const BlueBankIcon(),
+          fromAssetCustomIcon: const BlueBankIconDeprecated(),
           toAssetIconUrl: asset.iconUrl,
           toAssetDescription: asset.description,
           toAssetValue: volumeFormat(

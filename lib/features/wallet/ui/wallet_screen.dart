@@ -80,40 +80,36 @@ class _WalletState extends State<Wallet> with TickerProviderStateMixin {
     return Scaffold(
       body: Material(
         color: Colors.white,
-        child: Stack(
-          children: [
-            PageView.builder(
-              controller: _pageController,
-              onPageChanged: (page) {
-                sAnalytics.eurWalletSwipeBetweenWallets();
+        child: PageView.builder(
+          controller: _pageController,
+          onPageChanged: (page) {
+            sAnalytics.eurWalletSwipeBetweenWallets();
 
-                if (skeepOnPageChanged) {
-                  skeepOnPageChanged = false;
-                } else {
-                  currentAsset = currencies[page];
-                  currentPage = page;
-                  sAnalytics.cryptoFavouriteWalletScreen(
-                    openedAsset: currencies[page].symbol,
+            if (skeepOnPageChanged) {
+              skeepOnPageChanged = false;
+            } else {
+              currentAsset = currencies[page];
+              currentPage = page;
+              sAnalytics.cryptoFavouriteWalletScreen(
+                openedAsset: currencies[page].symbol,
+              );
+            }
+          },
+          itemCount: currencies.length,
+          itemBuilder: (context, index) {
+            return currencies[index].symbol == 'EUR'
+                ? EurWalletBody(
+                    key: Key(currencies[index].symbol),
+                    pageController: _pageController,
+                    pageCount: currencies.length,
+                  )
+                : WalletBody(
+                    key: Key(currencies[index].symbol),
+                    currency: currencies[index],
+                    pageController: _pageController,
+                    pageCount: currencies.length,
                   );
-                }
-              },
-              itemCount: currencies.length,
-              itemBuilder: (context, index) {
-                return currencies[index].symbol == 'EUR'
-                    ? EurWalletBody(
-                        key: Key(currencies[index].symbol),
-                        pageController: _pageController,
-                        pageCount: currencies.length,
-                      )
-                    : WalletBody(
-                        key: Key(currencies[index].symbol),
-                        currency: currencies[index],
-                        pageController: _pageController,
-                        pageCount: currencies.length,
-                      );
-              },
-            ),
-          ],
+          },
         ),
       ),
     );

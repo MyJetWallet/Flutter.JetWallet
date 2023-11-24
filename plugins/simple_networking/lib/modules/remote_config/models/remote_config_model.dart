@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simple_networking/modules/remote_config/models/remote_config_merchant_pay.dart';
-import 'package:simple_networking/modules/remote_config/models/remote_config_nft_model.dart';
 import 'package:simple_networking/modules/remote_config/models/remote_config_sift_model.dart';
 
 import 'remote_config_analytics_model.dart';
@@ -18,7 +17,6 @@ part 'remote_config_model.g.dart';
 @freezed
 class RemoteConfigModel with _$RemoteConfigModel {
   factory RemoteConfigModel({
-    @JsonKey(name: 'NFT') required RemoteConfigNftModel nft,
     @JsonKey(name: 'Analytics') required RemoteConfigAnalyticsModel analytics,
     @JsonKey(name: 'AppConfig') required RemoteConfigAppconfigModel appConfig,
     @JsonKey(name: 'AppsFlyer') required RemoteConfigAppsflyer appsFlyer,

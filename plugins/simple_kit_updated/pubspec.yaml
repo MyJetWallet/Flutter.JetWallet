@@ -1,0 +1,48 @@
+name: simple_kit_updated
+description: UI Kit for Simple design
+
+publish_to: "none"
+
+environment:
+  sdk: '>=3.1.5 <4.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  flutter_svg: ^2.0.7
+  hooks_riverpod: ^2.4.4
+  flutter_hooks: ^0.20.3
+  decimal: ^2.3.3
+  gap: ^3.0.1
+  widgetbook_annotation: ^3.1.0
+  widgetbook: ^3.4.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  build_runner: ^2.4.6
+
+  flutter_gen_runner: ^5.3.1
+
+  import_sorter: ^4.6.0
+  widgetbook_generator: ^3.3.0
+
+flutter_gen:
+  output: lib/gen/
+  line_length: 120
+
+  integrations:
+    flutter_svg: true
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/svg/large/
+    - assets/svg/medium/
+    - assets/svg/small/
+    - assets/svg/payment_methods_cards/simple/
+    - assets/images/

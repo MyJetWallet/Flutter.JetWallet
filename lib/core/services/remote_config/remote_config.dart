@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:decimal/decimal.dart';
 import 'package:dio/dio.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/apps_flyer_service.dart';
@@ -76,7 +77,6 @@ class RemoteConfig {
         overrideSimplexValues();
         overrideAppsFlyerValues();
         overrideCircleValues();
-        overrideNFTValues();
         overrideMerchantPayConfigValues();
         overrideSiftConfigValues();
 
@@ -171,7 +171,7 @@ class RemoteConfig {
     refundPolicyLink = remoteConfig!.appConfig.refundPolicyLink;
     cardLimitsLearnMoreLink = remoteConfig!.appConfig.cardLimitsLearnMoreLink;
     p2pTerms = remoteConfig!.appConfig.p2pTerms;
-    convertMarkup = remoteConfig!.appConfig.convertMarkup;
+    convertMarkup = remoteConfig!.appConfig.convertMarkup ?? Decimal.zero;
   }
 
   void overrideVersioningValues() {
@@ -211,12 +211,6 @@ class RemoteConfig {
 
   void overrideCircleValues() {
     cvvEnabled = remoteConfig!.circle.cvvEnabled;
-  }
-
-  void overrideNFTValues() {
-    shortUrl = remoteConfig!.nft.shortUrl;
-    fullUrl = remoteConfig!.nft.fullUrl;
-    shareLink = remoteConfig!.nft.shareLink;
   }
 
   void overrideMerchantPayConfigValues() {
