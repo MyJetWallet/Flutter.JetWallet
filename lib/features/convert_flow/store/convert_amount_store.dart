@@ -199,6 +199,8 @@ abstract class _ConvertAmountStoreBase with Store {
       accuracy: fromAsset?.accuracy ?? 2,
     );
 
+    isFromEntering = true;
+
     _calculateToConversion();
 
     _validateInput();

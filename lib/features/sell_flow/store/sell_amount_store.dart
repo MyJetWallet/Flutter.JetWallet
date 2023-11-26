@@ -283,6 +283,8 @@ abstract class _SellAmountStoreBase with Store {
       accuracy: asset?.accuracy ?? 2,
     );
 
+    isFiatEntering = false;
+
     _calculateFiatConversion();
 
     _validateInput();
