@@ -22,7 +22,6 @@ class BuyOptionWidget extends StatelessWidget {
     final colors = sKit.colors;
 
     return Container(
-      width: double.infinity,
       height: 56,
       clipBehavior: Clip.antiAlias,
       margin: const EdgeInsetsDirectional.symmetric(horizontal: 24),
@@ -37,46 +36,59 @@ class BuyOptionWidget extends StatelessWidget {
         onTap: onTap,
         child: Row(
           children: [
-            icon,
-            const SpaceW8(),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Flexible(
+              child: Row(
+                children: [
+                  icon,
+                  const SpaceW8(),
+                  Flexible(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          subTitle,
+                          style: sBodyText2Style.copyWith(
+                            color: colors.grey1,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        if (title != null)
+                          Text(
+                            title!,
+                            style: sBodyText2Style.copyWith(
+                              color: colors.black,
+                              fontWeight: FontWeight.w600,
+                              height: 1,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Row(
               children: [
                 Text(
-                  subTitle,
+                  trailing ?? '',
+                  textAlign: TextAlign.right,
                   style: sBodyText2Style.copyWith(
                     color: colors.grey1,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                if (title != null) 
-                Text(
-                  title!,
-                  style: sBodyText2Style.copyWith(
+                const SpaceW8(),
+                SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: SBlueRightArrowIcon(
                     color: colors.black,
-                    fontWeight: FontWeight.w600,
-                    height: 1,
                   ),
                 ),
               ],
-            ),
-            const Spacer(),
-            Text(
-              trailing ?? '',
-              textAlign: TextAlign.right,
-              style: sBodyText2Style.copyWith(
-                color: colors.grey1,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SpaceW8(),
-            SizedBox(
-              width: 20,
-              height: 20,
-              child: SBlueRightArrowIcon(
-                color: colors.black,
-              ),
             ),
           ],
         ),
