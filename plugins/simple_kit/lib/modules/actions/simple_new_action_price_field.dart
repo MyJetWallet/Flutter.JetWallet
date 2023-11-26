@@ -32,91 +32,94 @@ class SNewActionPriceField extends StatelessWidget {
     final colors = sKit.colors;
 
     return SPaddingH24(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (primaryAmount.length <= 6)
-                      AutoSizeText.rich(
-                        maxLines: 1,
-                        minFontSize: 1,
-                        TextSpan(
-                          text: primaryAmount,
-                          style: sTextH0Style.copyWith(
-                            color: primaryAmount == '0' ? colors.grey3 : colors.black,
-                            height: 0.8,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: ' $primarySymbol',
-                              style: sTextH2Style.copyWith(
-                                color: primaryAmount == '0' ? colors.grey3 : colors.black,
-                              ),
+      child: SizedBox(
+        height: 117,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (primaryAmount.length <= 6)
+                        AutoSizeText.rich(
+                          maxLines: 1,
+                          minFontSize: 1,
+                          TextSpan(
+                            text: primaryAmount,
+                            style: sTextH0Style.copyWith(
+                              color: primaryAmount == '0' ? colors.grey3 : colors.black,
+                              height: 0.8,
                             ),
-                          ],
+                            children: [
+                              TextSpan(
+                                text: ' $primarySymbol',
+                                style: sTextH2Style.copyWith(
+                                  color: primaryAmount == '0' ? colors.grey3 : colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      else
+                        AutoSizeText(
+                          '$primaryAmount $primarySymbol',
+                          minFontSize: 4.0,
+                          maxLines: 1,
+                          style: sTextH3Style.copyWith(
+                            color: primaryAmount == '0' ? colors.grey3 : colors.black,
+                          ),
                         ),
-                      )
-                    else
-                      AutoSizeText(
-                        '$primaryAmount $primarySymbol',
-                        minFontSize: 4.0,
-                        maxLines: 1,
-                        style: sTextH3Style.copyWith(
-                          color: primaryAmount == '0' ? colors.grey3 : colors.black,
+                      const SpaceH4(),
+                      if (secondaryAmount != null)
+                        AutoSizeText(
+                          '$secondaryAmount $secondarySymbol',
+                          minFontSize: 4.0,
+                          maxLines: 1,
+                          style: sSubtitle3Style.copyWith(
+                            color: colors.grey1,
+                          ),
                         ),
-                      ),
-                    const SpaceH4(),
-                    if (secondaryAmount != null)
-                      AutoSizeText(
-                        '$secondaryAmount $secondarySymbol',
-                        minFontSize: 4.0,
-                        maxLines: 1,
-                        style: sSubtitle3Style.copyWith(
-                          color: colors.grey1,
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-              const SpaceW24(),
-              SIconButton(
-                onTap: onSwap,
-                defaultIcon: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: colors.grey5,
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                  margin: const EdgeInsets.only(right: 27),
-                  child: SSwapIcon(
-                    color: colors.black,
+                    ],
                   ),
                 ),
+                const SpaceW24(),
+                SIconButton(
+                  onTap: onSwap,
+                  defaultIcon: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: colors.grey5,
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                    margin: const EdgeInsets.only(right: 27),
+                    child: SSwapIcon(
+                      color: colors.black,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            if (optionText != null && optionOnTap != null) ...[
+              const SpaceH20(),
+              SClickableLinkText(
+                text: optionText!,
+                onTap: optionOnTap!,
               ),
+            ] else if (errorText != null) ...[
+              const SpaceH8(),
+              _ErrorWidget(
+                errorText: errorText!,
+              ),
+            ] else ...[
+              const SpaceH28(),
             ],
-          ),
-          if (optionText != null && optionOnTap != null) ...[
-            const SpaceH20(),
-            SClickableLinkText(
-              text: optionText!,
-              onTap: optionOnTap!,
-            ),
-          ] else if (errorText != null) ...[
-            const SpaceH8(),
-            _ErrorWidget(
-              errorText: errorText!,
-            ),
-          ] else ...[
-            const SpaceH28(),
           ],
-        ],
+        ),
       ),
     );
   }
