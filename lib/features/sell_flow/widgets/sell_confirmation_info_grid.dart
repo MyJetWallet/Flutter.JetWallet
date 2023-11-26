@@ -84,29 +84,33 @@ class _ConfirmationInfoGridState extends State<SellConfirmationInfoGrid> with Si
                 style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
               ),
               if (store.isDataLoaded) ...[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SpaceW19(),
-                    Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        color: sKit.colors.blue,
-                        shape: BoxShape.circle,
+                Flexible(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      const SpaceW19(),
+                      Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: sKit.colors.blue,
+                          shape: BoxShape.circle,
+                        ),
+                        child: SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: SBankMediumIcon(color: sKit.colors.white),
+                        ),
                       ),
-                      child: SizedBox(
-                        width: 16,
-                        height: 16,
-                        child: SBankMediumIcon(color: sKit.colors.white),
+                      const SpaceW8(),
+                      Flexible(
+                        child: Text(
+                          widget.account?.label ?? '',
+                          overflow: TextOverflow.ellipsis,
+                          style: sSubtitle3Style.copyWith(height: 1.5),
+                        ),
                       ),
-                    ),
-                    const SpaceW8(),
-                    Text(
-                      widget.account?.label ?? '',
-                      overflow: TextOverflow.ellipsis,
-                      style: sSubtitle3Style.copyWith(height: 1.5),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ] else ...[
                 textPreloader(),
@@ -285,21 +289,4 @@ void buyConfirmationFeeExplanation({
       ),
     ],
   );
-}
-
-Widget getSimpleNetworkIcon(SimpleCardNetwork? network) {
-  switch (network) {
-    case SimpleCardNetwork.VISA:
-      return const SVisaCardBigIcon(
-        width: 15,
-        height: 9,
-      );
-    case SimpleCardNetwork.MASTERCARD:
-      return const SMasterCardBigIcon(
-        width: 15,
-        height: 9,
-      );
-    default:
-      return const SActionDepositIcon();
-  }
 }

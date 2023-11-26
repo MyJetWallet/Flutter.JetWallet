@@ -97,39 +97,56 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
                         ),
                         const SizedBox(width: 8),
                         Flexible(
-                          child: Text(
-                            '${store.card?.cardLabel ?? ''} •• ${store.card?.last4 ?? ''}',
-                            overflow: TextOverflow.ellipsis,
-                            style: sSubtitle3Style,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  store.card?.cardLabel ?? '',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: sSubtitle3Style,
+                                ),
+                              ),
+                              Text(
+                                ' •• ${store.card?.last4 ?? ''}',
+                                overflow: TextOverflow.ellipsis,
+                                style: sSubtitle3Style,
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
                   ),
                 ] else if (store.category == PaymentMethodCategory.account) ...[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SpaceW19(),
-                      Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: sKit.colors.blue,
-                          shape: BoxShape.circle,
+                  Flexible(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        const SpaceW19(),
+                        Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            color: sKit.colors.blue,
+                            shape: BoxShape.circle,
+                          ),
+                          child: SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: SBankMediumIcon(color: sKit.colors.white),
+                          ),
                         ),
-                        child: SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: SBankMediumIcon(color: sKit.colors.white),
+                        const SpaceW8(),
+                        Flexible(
+                          child: Text(
+                            store.account?.label ?? '',
+                            overflow: TextOverflow.ellipsis,
+                            style: sSubtitle3Style.copyWith(height: 1.5),
+                          ),
                         ),
-                      ),
-                      const SpaceW8(),
-                      Text(
-                        store.account?.label ?? '',
-                        overflow: TextOverflow.ellipsis,
-                        style: sSubtitle3Style.copyWith(height: 1.5),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ] else ...[
