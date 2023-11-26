@@ -60,7 +60,7 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                     value: store.primaryAmount,
                   ),
                   primarySymbol: store.primarySymbol,
-                  secondaryAmount: store.toAsset != null
+                  secondaryAmount: store.secondarySymbol != ''
                       ? volumeFormat(
                           decimal: Decimal.parse(store.secondaryAmount),
                           symbol: '',

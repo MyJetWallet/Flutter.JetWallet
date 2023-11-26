@@ -107,7 +107,11 @@ abstract class _ConvertAmountStoreBase with Store {
   }) {
     toAsset = newToAsset;
     fromAsset = newFromAsset;
-    
+
+    if (fromAsset == null && toAsset != null) {
+      isFromEntering = false;
+    }
+
     _checkShowTosts();
   }
 
@@ -145,7 +149,7 @@ abstract class _ConvertAmountStoreBase with Store {
 
   @action
   void swapAssets() {
-    if (toAsset == null) {
+    if (toAsset == null || fromAsset == null) {
       return;
     }
     isFromEntering = !isFromEntering;
