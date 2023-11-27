@@ -26,6 +26,7 @@ class $AssetsSvgGen {
 
   $AssetsSvgLargeGen get large => const $AssetsSvgLargeGen();
   $AssetsSvgMediumGen get medium => const $AssetsSvgMediumGen();
+  $AssetsSvgOtherGen get other => const $AssetsSvgOtherGen();
   $AssetsSvgPaymentMethodsCardsGen get paymentMethodsCards => const $AssetsSvgPaymentMethodsCardsGen();
   $AssetsSvgSmallGen get small => const $AssetsSvgSmallGen();
 }
@@ -315,6 +316,25 @@ class $AssetsSvgMediumGen {
         whatsapp,
         withdrawal
       ];
+}
+
+class $AssetsSvgOtherGen {
+  const $AssetsSvgOtherGen();
+
+  /// File path: assets/svg/other/happy_simple_large.svg
+  SvgGenImage get happySimpleLarge => const SvgGenImage('assets/svg/other/happy_simple_large.svg');
+
+  /// File path: assets/svg/other/happy_simple_small.svg
+  SvgGenImage get happySimpleSmall => const SvgGenImage('assets/svg/other/happy_simple_small.svg');
+
+  /// File path: assets/svg/other/sad_simple_large.svg
+  SvgGenImage get sadSimpleLarge => const SvgGenImage('assets/svg/other/sad_simple_large.svg');
+
+  /// File path: assets/svg/other/sad_simple_small.svg
+  SvgGenImage get sadSimpleSmall => const SvgGenImage('assets/svg/other/sad_simple_small.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [happySimpleLarge, happySimpleSmall, sadSimpleLarge, sadSimpleSmall];
 }
 
 class $AssetsSvgPaymentMethodsCardsGen {

@@ -135,12 +135,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                 if (!silverCollapsed)
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: 24,
-                        right: 24,
-                        top: 24,
-                        bottom: 24,
-                      ),
+                      padding: const EdgeInsets.all(24),
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width - 48,
                         child: Row(
@@ -235,11 +230,9 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                     ),
                   ),
                 SliverToBoxAdapter(
-                  child: SPaddingH24(
-                    child: Text(
-                      intl.wallet_transactions,
-                      style: sTextH4Style,
-                    ),
+                  child: STableHeader(
+                    size: SHeaderSize.m,
+                    title: intl.wallet_transactions,
                   ),
                 ),
                 if (eurCurrency.isAssetBalanceNotEmpty) ...[
@@ -251,28 +244,9 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                   ),
                 ] else ...[
                   SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 80,
-                        vertical: 40,
-                      ),
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            smileAsset,
-                            width: 48,
-                            height: 48,
-                          ),
-                          Text(
-                            intl.wallet_simple_account_empty,
-                            textAlign: TextAlign.center,
-                            maxLines: 3,
-                            style: sSubtitle2Style.copyWith(
-                              color: sKit.colors.grey2,
-                            ),
-                          ),
-                        ],
-                      ),
+                    child: SPlaceholder(
+                      size: SPlaceholderSize.l,
+                      text: intl.wallet_simple_account_empty,
                     ),
                   ),
                 ],

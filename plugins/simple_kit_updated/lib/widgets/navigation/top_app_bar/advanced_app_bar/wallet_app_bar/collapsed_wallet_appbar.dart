@@ -47,7 +47,7 @@ class CollapsedWalletAppbar extends HookWidget {
     final isTopPosition = useState(true);
 
     void onScrollAction() {
-      if (scrollController.position.pixels <= 50) {
+      if (scrollController.position.pixels <= 10) {
         if (!isTopPosition.value) {
           isTopPosition.value = true;
         }
