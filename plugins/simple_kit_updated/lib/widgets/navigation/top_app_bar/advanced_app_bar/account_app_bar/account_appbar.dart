@@ -106,9 +106,13 @@ class AccountAppBar extends StatelessWidget {
                     ),
                   Text(
                     mainTitle,
-                    style: STStyles.header2.copyWith(
-                      color: SColorsLight().black,
-                    ),
+                    style: mainBlockCenter
+                        ? STStyles.header3.copyWith(
+                            color: SColorsLight().black,
+                          )
+                        : STStyles.header2.copyWith(
+                            color: SColorsLight().black,
+                          ),
                   ),
                   Opacity(
                     opacity: mainSubtitle != null ? 1 : 0,
