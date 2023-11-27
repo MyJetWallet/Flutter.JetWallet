@@ -383,14 +383,17 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                 child: MyWalletsAssetItem(
                   isMoving: store.isReordering,
                   currency: store.currencies[index],
+                  store: store,
                 ),
               ),
+              /*
               if (!store.isReordering &&
                   store.currencies[index].symbol == 'EUR' &&
                   store.buttonStatus != BankingShowState.hide)
                 GetAccountButton(
                   store: store,
                 ),
+                */
             ],
           ),
         );
@@ -424,6 +427,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
             child: MyWalletsAssetItem(
               isMoving: true,
               currency: store.currencies[index],
+              store: store,
             ),
           ),
         );

@@ -726,7 +726,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
     /*
     print(data);
     bankingProfileData = BankingProfileModel(
-      showState: BankingShowState.accountList,
+      showState: BankingShowState.getAccount,
       simple: SimpleBankingModel(
         status: SimpleAccountStatus.allowed,
         account: SimpleBankingAccount(

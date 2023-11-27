@@ -47,7 +47,7 @@ class GiftReceiveDetails extends StatelessObserverWidget {
           ),
           const SpaceH18(),
           TransactionDetailsItem(
-            text: 'From',
+            text: intl.gift_receive_history_from,
             value: Row(
               children: [
                 TransactionDetailsValueText(
