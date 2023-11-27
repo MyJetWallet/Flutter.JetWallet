@@ -220,7 +220,9 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                               kycState.tradeStatus,
                               kycState.withdrawalStatus,
                             ))
-                          const SliverToBoxAdapter(child: GetCardBanner()),
+                          const SliverToBoxAdapter(
+                            child: GetCardBanner(),
+                          ),
                         if (store.countOfPendingTransactions > 0) ...[
                           SliverToBoxAdapter(
                             child: PendingTransactionsWidget(

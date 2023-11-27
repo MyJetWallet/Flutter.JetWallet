@@ -52,17 +52,17 @@ class CircleActionButtons extends StatelessWidget {
               },
               isDisabled: isSellDisabled,
             ),
-            CircleActionSend(
-              onTap: () {
-                onSend?.call();
-              },
-              isDisabled: isSendDisabled,
-            ),
             CircleActionReceive(
               onTap: () {
                 onReceive?.call();
               },
               isDisabled: isReceiveDisabled,
+            ),
+            CircleActionSend(
+              onTap: () {
+                onSend?.call();
+              },
+              isDisabled: isSendDisabled,
             ),
             CircleActionConvert(
               onTap: () {
