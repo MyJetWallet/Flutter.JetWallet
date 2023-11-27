@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/widgets/navigation/top_app_bar/advanced_app_bar/mainscreen_app_bar/mainscreen_appbar.dart';
 import 'package:simple_kit_updated/widgets/navigation/top_app_bar/global_basic_appbar.dart';
 import 'package:simple_kit_updated/widgets/shared/icons/user_noty_icon.dart';
@@ -40,6 +38,8 @@ class CollapsedMainscreenAppbar extends HookWidget {
     final isTopPosition = useState(true);
 
     void onScrollAction() {
+      print('${scrollController.position.pixels} ${isTopPosition.value}');
+
       if (scrollController.position.pixels <= 0) {
         if (!isTopPosition.value) {
           isTopPosition.value = true;
