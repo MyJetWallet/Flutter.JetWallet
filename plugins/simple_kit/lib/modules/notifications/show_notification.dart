@@ -7,10 +7,8 @@ import '../../../simple_kit.dart';
 Future showNotification(
   BuildContext context,
   String message, [
-  int duration = 2,
   bool needFeedback = false,
   bool isError = true,
-  bool hideIcon = false,
 ]) {
   if (needFeedback) {
     HapticFeedback.lightImpact();
@@ -18,7 +16,7 @@ Future showNotification(
 
   return showFlash(
     context: context,
-    duration: Duration(seconds: duration),
+    duration: const Duration(seconds: 4),
     persistent: true,
     builder: (_, controller) {
       return Flash(
@@ -28,7 +26,6 @@ Future showNotification(
           child: SNotificationBox(
             text: message,
             isError: isError,
-            hideIcon: hideIcon,
           ),
         ),
       );
