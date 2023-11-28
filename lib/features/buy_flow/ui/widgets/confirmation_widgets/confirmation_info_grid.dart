@@ -83,10 +83,10 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
                 intl.buy_confirmation_paid_with,
                 style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
               ),
+              const SpaceW8(),
               if (store.isDataLoaded) ...[
                 if (store.category == PaymentMethodCategory.cards) ...[
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * .7,
+                  Flexible(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.end,
