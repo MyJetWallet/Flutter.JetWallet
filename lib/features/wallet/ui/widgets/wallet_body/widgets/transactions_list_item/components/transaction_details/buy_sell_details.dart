@@ -1,10 +1,10 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
+import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/price_accuracy.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -82,19 +82,7 @@ class BuySellDetails extends StatelessObserverWidget {
                   text: shortTxhashFrom(transactionListItem.operationId),
                 ),
                 const SpaceW10(),
-                SIconButton(
-                  onTap: () {
-                    Clipboard.setData(
-                      ClipboardData(
-                        text: transactionListItem.operationId,
-                      ),
-                    );
-
-                    onCopyAction('Txid');
-                  },
-                  defaultIcon: const SCopyIcon(),
-                  pressedIcon: const SCopyPressedIcon(),
-                ),
+                HistoryCopyIcon(transactionListItem.operationId),
               ],
             ),
           ),

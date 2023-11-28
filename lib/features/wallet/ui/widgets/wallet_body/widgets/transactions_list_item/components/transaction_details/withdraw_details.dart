@@ -6,6 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
+import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/transaction_details_name_text.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
@@ -56,19 +57,7 @@ class WithdrawDetails extends StatelessObserverWidget {
                     ),
                   ),
                   const SpaceW10(),
-                  SIconButton(
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: transactionListItem.withdrawalInfo!.txId ?? '',
-                        ),
-                      );
-
-                      onCopyAction('Txhash');
-                    },
-                    defaultIcon: const SCopyIcon(),
-                    pressedIcon: const SCopyPressedIcon(),
-                  ),
+                  HistoryCopyIcon(transactionListItem.operationId),
                 ],
               ),
             ),
@@ -88,19 +77,7 @@ class WithdrawDetails extends StatelessObserverWidget {
                   ),
                 ),
                 const SpaceW8(),
-                SIconButton(
-                  onTap: () {
-                    Clipboard.setData(
-                      ClipboardData(
-                        text: transactionListItem.withdrawalInfo!.toAddress ?? '',
-                      ),
-                    );
-
-                    onCopyAction(intl.withdrawDetails_withdrawalTo);
-                  },
-                  defaultIcon: const SCopyIcon(),
-                  pressedIcon: const SCopyPressedIcon(),
-                ),
+                HistoryCopyIcon(transactionListItem.withdrawalInfo!.toAddress ?? ''),
               ],
             ),
             const SpaceH18(),

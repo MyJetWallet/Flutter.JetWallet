@@ -284,10 +284,17 @@ class TransactionListItem extends StatelessWidget {
         accuracy: paymentCurrency.accuracy,
       )}';
     }
-    if (transactionListItem.operationType == OperationType.bankingBuy) {
+    if (transactionListItem.operationType == OperationType.bankingBuy && source != TransactionItemSource.eurAccount) {
       return '${intl.history_with} ${volumeFormat(
         decimal: transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero,
         symbol: transactionListItem.cryptoBuyInfo?.paymentAssetId ?? '',
+        accuracy: paymentCurrency.accuracy,
+      )}';
+    }
+    if (transactionListItem.operationType == OperationType.bankingBuy && source == TransactionItemSource.eurAccount) {
+      return '${intl.history_for} ${volumeFormat(
+        decimal: transactionListItem.cryptoBuyInfo?.buyAmount ?? Decimal.zero,
+        symbol: transactionListItem.cryptoBuyInfo?.buyAssetId ?? '',
         accuracy: paymentCurrency.accuracy,
       )}';
     }
@@ -348,7 +355,11 @@ class _TransactionBaseItem extends StatelessWidget {
               const SpaceH12(),
               Row(
                 children: [
-                  icon,
+                  SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: icon,
+                  ),
                   const SpaceW10(),
                   Expanded(
                     child: Row(
@@ -398,10 +409,10 @@ class _TransactionBaseItem extends StatelessWidget {
               ),
               Row(
                 children: [
-                  const SpaceW30(),
+                  const SpaceW34(),
                   TransactionListItemText(
                     text: '${formatDateToDMY(timeStamp)}, ${formatDateToHm(timeStamp)}',
-                    color: colors.grey2,
+                    color: colors.grey1,
                   ),
                   const Spacer(),
                   if (rightSupplement != null)

@@ -6,6 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
+import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -60,19 +61,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     text: transactionListItem.paymeInfo?.accountNumber ?? '',
                   ),
                   const SpaceW10(),
-                  SIconButton(
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: transactionListItem.paymeInfo?.accountNumber ?? '',
-                        ),
-                      );
-
-                      onCopyAction('');
-                    },
-                    defaultIcon: const SCopyIcon(),
-                    pressedIcon: const SCopyPressedIcon(),
-                  ),
+                  HistoryCopyIcon(transactionListItem.paymeInfo?.accountNumber ?? ''),
                 ],
               ),
             ),
@@ -88,19 +77,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     text: transactionListItem.paymeInfo?.recipientName ?? '',
                   ),
                   const SpaceW10(),
-                  SIconButton(
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: transactionListItem.paymeInfo?.recipientName ?? '',
-                        ),
-                      );
-
-                      onCopyAction('');
-                    },
-                    defaultIcon: const SCopyIcon(),
-                    pressedIcon: const SCopyPressedIcon(),
-                  ),
+                  HistoryCopyIcon(transactionListItem.paymeInfo?.recipientName ?? ''),
                 ],
               ),
             ),
@@ -116,19 +93,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     text: transactionListItem.paymeInfo?.bankName ?? '',
                   ),
                   const SpaceW10(),
-                  SIconButton(
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: transactionListItem.paymeInfo?.bankName ?? '',
-                        ),
-                      );
-
-                      onCopyAction('');
-                    },
-                    defaultIcon: const SCopyIcon(),
-                    pressedIcon: const SCopyPressedIcon(),
-                  ),
+                  HistoryCopyIcon(transactionListItem.paymeInfo?.bankName ?? ''),
                 ],
               ),
             ),
@@ -144,19 +109,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     text: transactionListItem.paymeInfo?.ifscCode ?? '',
                   ),
                   const SpaceW10(),
-                  SIconButton(
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: transactionListItem.paymeInfo?.ifscCode ?? '',
-                        ),
-                      );
-
-                      onCopyAction('');
-                    },
-                    defaultIcon: const SCopyIcon(),
-                    pressedIcon: const SCopyPressedIcon(),
-                  ),
+                  HistoryCopyIcon(transactionListItem.paymeInfo?.ifscCode ?? ''),
                 ],
               ),
             ),
@@ -174,19 +127,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     ),
                   ),
                   const SpaceW10(),
-                  SIconButton(
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: transactionListItem.paymeInfo?.cardNumber ?? '',
-                        ),
-                      );
-
-                      onCopyAction('');
-                    },
-                    defaultIcon: const SCopyIcon(),
-                    pressedIcon: const SCopyPressedIcon(),
-                  ),
+                  HistoryCopyIcon(transactionListItem.paymeInfo?.cardNumber ?? ''),
                 ],
               ),
             ),
@@ -201,19 +142,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     text: transactionListItem.paymeInfo?.iban ?? '',
                   ),
                   const SpaceW10(),
-                  SIconButton(
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: transactionListItem.paymeInfo?.iban ?? '',
-                        ),
-                      );
-
-                      onCopyAction('');
-                    },
-                    defaultIcon: const SCopyIcon(),
-                    pressedIcon: const SCopyPressedIcon(),
-                  ),
+                  HistoryCopyIcon(transactionListItem.paymeInfo?.iban ?? ''),
                 ],
               ),
             ),
@@ -229,19 +158,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     text: transactionListItem.paymeInfo?.phoneNumber ?? '',
                   ),
                   const SpaceW10(),
-                  SIconButton(
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: transactionListItem.paymeInfo?.phoneNumber ?? '',
-                        ),
-                      );
-
-                      onCopyAction('');
-                    },
-                    defaultIcon: const SCopyIcon(),
-                    pressedIcon: const SCopyPressedIcon(),
-                  ),
+                  HistoryCopyIcon(transactionListItem.paymeInfo?.phoneNumber ?? ''),
                 ],
               ),
             ),
@@ -257,19 +174,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     text: transactionListItem.paymeInfo?.panNumber ?? '',
                   ),
                   const SpaceW10(),
-                  SIconButton(
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: transactionListItem.paymeInfo?.panNumber ?? '',
-                        ),
-                      );
-
-                      onCopyAction('');
-                    },
-                    defaultIcon: const SCopyIcon(),
-                    pressedIcon: const SCopyPressedIcon(),
-                  ),
+                  HistoryCopyIcon(transactionListItem.paymeInfo?.panNumber ?? ''),
                 ],
               ),
             ),
@@ -285,19 +190,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     text: transactionListItem.paymeInfo?.upiAddress ?? '',
                   ),
                   const SpaceW10(),
-                  SIconButton(
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: transactionListItem.paymeInfo?.upiAddress ?? '',
-                        ),
-                      );
-
-                      onCopyAction('');
-                    },
-                    defaultIcon: const SCopyIcon(),
-                    pressedIcon: const SCopyPressedIcon(),
-                  ),
+                  HistoryCopyIcon(transactionListItem.paymeInfo?.upiAddress ?? ''),
                 ],
               ),
             ),
@@ -313,19 +206,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     text: transactionListItem.paymeInfo?.bankAccount ?? '',
                   ),
                   const SpaceW10(),
-                  SIconButton(
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: transactionListItem.paymeInfo?.bankAccount ?? '',
-                        ),
-                      );
-
-                      onCopyAction('');
-                    },
-                    defaultIcon: const SCopyIcon(),
-                    pressedIcon: const SCopyPressedIcon(),
-                  ),
+                  HistoryCopyIcon(transactionListItem.paymeInfo?.bankAccount ?? ''),
                 ],
               ),
             ),
