@@ -6,21 +6,21 @@ import 'package:simple_kit_updated/widgets/navigation/top_app_bar/advanced_app_b
 import 'package:simple_kit_updated/widgets/navigation/top_app_bar/global_basic_appbar.dart';
 
 class CollapsedAccountAppbar extends HookWidget {
-  const CollapsedAccountAppbar(
-      {Key? key,
-      required this.scrollController,
-      this.mainBlockCenter = false,
-      required this.mainTitle,
-      this.mainSubtitle,
-      required this.mainHeaderTitle,
-      this.mainHeaderSubtitle,
-      required this.mainHeaderCollapsedTitle,
-      this.mainHeaderCollapsedSubtitle,
-      this.showTicker = true,
-      this.ticker,
-      this.assetIcon,
-      this.onRightIconTap,})
-      : super(key: key);
+  const CollapsedAccountAppbar({
+    Key? key,
+    required this.scrollController,
+    this.mainBlockCenter = false,
+    required this.mainTitle,
+    this.mainSubtitle,
+    required this.mainHeaderTitle,
+    this.mainHeaderSubtitle,
+    required this.mainHeaderCollapsedTitle,
+    this.mainHeaderCollapsedSubtitle,
+    this.showTicker = true,
+    this.ticker,
+    this.assetIcon,
+    this.onRightIconTap,
+  }) : super(key: key);
 
   final ScrollController scrollController;
   final bool mainBlockCenter;
@@ -45,7 +45,7 @@ class CollapsedAccountAppbar extends HookWidget {
     final isTopPosition = useState(true);
 
     void onScrollAction() {
-      if (scrollController.position.pixels <= 50) {
+      if (scrollController.position.pixels <= 10) {
         if (!isTopPosition.value) {
           isTopPosition.value = true;
         }

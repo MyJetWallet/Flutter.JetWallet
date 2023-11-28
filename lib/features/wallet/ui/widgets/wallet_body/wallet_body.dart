@@ -135,7 +135,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                 slivers: [
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+                      padding: const EdgeInsets.symmetric(vertical: 24),
                       child: CircleActionButtons(
                         isSendDisabled: widget.currency.isAssetBalanceEmpty,
                         isSellDisabled: widget.currency.isAssetBalanceEmpty,

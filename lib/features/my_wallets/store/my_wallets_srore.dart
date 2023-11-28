@@ -259,6 +259,13 @@ abstract class _MyWalletsSroreBase with Store {
 
       setSimpleAccountStatus(SimpleWalletAccountStatus.creating);
 
+      sAnalytics.walletsScreenView(
+        favouritesAssetsList: List.generate(
+          currencies.length,
+          (index) => currencies[index].symbol,
+        ),
+      );
+
       sAnalytics.eurWalletShowToastLestCreateAccount();
     });
   }

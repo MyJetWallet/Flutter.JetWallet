@@ -83,8 +83,6 @@ class _WalletState extends State<Wallet> with TickerProviderStateMixin {
         child: PageView.builder(
           controller: _pageController,
           onPageChanged: (page) {
-            sAnalytics.eurWalletSwipeBetweenWallets();
-
             if (skeepOnPageChanged) {
               skeepOnPageChanged = false;
             } else {
@@ -93,6 +91,8 @@ class _WalletState extends State<Wallet> with TickerProviderStateMixin {
               sAnalytics.cryptoFavouriteWalletScreen(
                 openedAsset: currencies[page].symbol,
               );
+
+              sAnalytics.eurWalletSwipeBetweenWallets();
             }
           },
           itemCount: currencies.length,

@@ -126,17 +126,9 @@ class _EurWalletBodyState extends State<EurWalletBody> {
             slivers: [
               const SliverPadding(padding: EdgeInsets.only(top: 16)),
               SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 24.0,
-                    right: 24.0,
-                    top: 16,
-                    bottom: 8,
-                  ),
-                  child: Text(
-                    intl.eur_wallet_cards,
-                    style: STStyles.header5,
-                  ),
+                child: STableHeader(
+                  size: SHeaderSize.m,
+                  title: intl.eur_wallet_cards,
                 ),
               ),
               if (simpleCardStore.allCards == null ||
@@ -259,17 +251,9 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                 ),
               ],
               SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 24.0,
-                    right: 24.0,
-                    top: 16,
-                    bottom: 8,
-                  ),
-                  child: Text(
-                    intl.eur_wallet_accounts,
-                    style: STStyles.header5,
-                  ),
+                child: STableHeader(
+                  size: SHeaderSize.m,
+                  title: intl.eur_wallet_accounts,
                 ),
               ),
               SliverToBoxAdapter(

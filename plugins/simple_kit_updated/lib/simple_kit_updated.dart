@@ -25,6 +25,8 @@ export 'widgets/navigation/top_app_bar/advanced_app_bar/mainscreen_app_bar/mains
 
 export 'widgets/table/account_table/simple_table_asset.dart';
 export 'widgets/table/account_table/simple_table_account.dart';
+export 'widgets/table/heading/simple_header.dart';
+export 'widgets/table/placeholder/simple_placeholder.dart';
 
 export 'widgets/button/specific/specific_button.dart';
 

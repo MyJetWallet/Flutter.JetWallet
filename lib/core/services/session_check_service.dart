@@ -15,6 +15,12 @@ class SessionCheckService {
     final logger = getIt.get<SimpleLoggerService>();
     const loggerValue = 'StartupService';
 
+    logger.log(
+      level: Level.error,
+      place: loggerValue,
+      message: 'sessionCheck GET',
+    );
+
     final infoRequest = await sNetwork.getAuthModule().postSessionCheck();
 
     if (infoRequest.hasError) {

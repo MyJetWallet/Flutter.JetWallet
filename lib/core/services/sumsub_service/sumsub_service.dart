@@ -94,12 +94,12 @@ class SumsubService {
       if (newStatus == SNSMobileSDKStatus.Approved ||
           newStatus == SNSMobileSDKStatus.ActionCompleted ||
           newStatus == SNSMobileSDKStatus.Pending) {
-        sAnalytics.kycFlowVerifyingNowSV(
-          country: countries.activeCountry?.countryName ?? '',
-        );
-
         if (!isBanking) {
           if (needPush) {
+            sAnalytics.kycFlowVerifyingNowSV(
+              country: countries.activeCountry?.countryName ?? '',
+            );
+
             sRouter.push(
               SuccessScreenRouter(
                 time: 6,

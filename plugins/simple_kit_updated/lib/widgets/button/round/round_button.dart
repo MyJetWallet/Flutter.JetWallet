@@ -26,10 +26,14 @@ class RoundButton extends StatelessWidget {
             horizontal: 16,
             vertical: 8,
           ),
-          child: Text(
-            value,
-            style: STStyles.subtitle1.copyWith(
-              color: isDisabled ? SColorsLight().gray6 : SColorsLight().black,
+          child: Center(
+            child: Text(
+              value,
+              style: STStyles.subtitle1.copyWith(
+                height: 1,
+                leadingDistribution: TextLeadingDistribution.even,
+                color: isDisabled ? SColorsLight().gray6 : SColorsLight().black,
+              ),
             ),
           ),
         ),

@@ -220,7 +220,9 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                               kycState.tradeStatus,
                               kycState.withdrawalStatus,
                             ))
-                          const SliverToBoxAdapter(child: GetCardBanner()),
+                          const SliverToBoxAdapter(
+                            child: GetCardBanner(),
+                          ),
                         if (store.countOfPendingTransactions > 0) ...[
                           SliverToBoxAdapter(
                             child: PendingTransactionsWidget(
@@ -383,14 +385,17 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                 child: MyWalletsAssetItem(
                   isMoving: store.isReordering,
                   currency: store.currencies[index],
+                  store: store,
                 ),
               ),
+              /*
               if (!store.isReordering &&
                   store.currencies[index].symbol == 'EUR' &&
                   store.buttonStatus != BankingShowState.hide)
                 GetAccountButton(
                   store: store,
                 ),
+                */
             ],
           ),
         );
@@ -424,6 +429,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
             child: MyWalletsAssetItem(
               isMoving: true,
               currency: store.currencies[index],
+              store: store,
             ),
           ),
         );

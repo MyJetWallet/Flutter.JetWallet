@@ -19,7 +19,10 @@ class SimpleTableAccount extends StatelessWidget {
     this.isButtonLoading = false,
     this.buttonHasCardIcon = false,
     this.buttonHasRightArrow = true,
+    this.isButtonSmall = false,
+    this.isButtonLabelBold = false,
     this.buttonLabel,
+    this.buttonTap,
   }) : super(key: key);
 
   final Widget? assetIcon;
@@ -37,6 +40,9 @@ class SimpleTableAccount extends StatelessWidget {
   final bool isButtonLoading;
   final bool buttonHasCardIcon;
   final bool buttonHasRightArrow;
+  final bool isButtonSmall;
+  final bool isButtonLabelBold;
+  final VoidCallback? buttonTap;
   final String? buttonLabel;
 
   @override
@@ -44,10 +50,11 @@ class SimpleTableAccount extends StatelessWidget {
     return SAccountTableBase(
       hasButton: hasButton,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           SimpleTableAsset(
-            onTableAssetTap: onTableAssetTap ?? null,
+            onTableAssetTap: onTableAssetTap,
             isCard: isCard,
             assetIcon: assetIcon,
             needPadding: false,
@@ -67,7 +74,10 @@ class SimpleTableAccount extends StatelessWidget {
                 isLoading: isButtonLoading,
                 hasCardIcon: buttonHasCardIcon,
                 hasRightArrow: buttonHasRightArrow,
+                isButtonSmall: isButtonSmall,
+                isLabelBold: isButtonLabelBold,
                 label: buttonLabel ?? '',
+                onTap: buttonTap,
               ),
             ),
           ],

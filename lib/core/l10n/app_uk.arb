@@ -1321,7 +1321,7 @@
         "description": "Получить",
         "type": "text"
     },
-    "operationName_feeSharePayment": "Частка винагороди за реферальною програмою",
+    "operationName_feeSharePayment": "Частка нагороди за реферальною програмою",
     "@operationName_feeSharePayment": {
         "description": "Часть вознаграждения по реферальной программе",
         "type": "text"
@@ -2026,7 +2026,7 @@
         "description": "Крипто кошелек",
         "type": "text"
     },
-    "sendOptions_actionItemDescription2": "Надсилайте на будь-який гаманець (адреса обов'язкова)",
+    "sendOptions_actionItemDescription2": "Надсилайте на будь-який гаманець",
     "@sendOptions_actionItemDescription2": {
         "description": "Присылайте на любой кошелек (адрес обязателен)",
         "type": "text"
@@ -3445,7 +3445,7 @@
         "description": "Всего",
         "type": "text"
     },
-    "rewards_rewards": "Винагороди",
+    "rewards_rewards": "Нагороди",
     "@rewards_rewards": {
         "description": "Вознаграждения",
         "type": "text"
@@ -4508,7 +4508,7 @@
         "description": "Выберите актив",
         "type": "text"
     },
-    "actionBuy_cards": "картки",
+    "actionBuy_cards": "Картки",
     "@actionBuy_cards": {
         "description": "карты",
         "type": "text"
@@ -5027,7 +5027,7 @@
         "description": "Мои банковские счета",
         "type": "text"
     },
-    "iban_add_bank_account": "Додати банківський рахунок",
+    "iban_add_bank_account": "Додати рахунок",
     "@iban_add_bank_account": {
         "description": "Добавить банковский счет",
         "type": "text"
@@ -5988,17 +5988,17 @@
         "description": "Для вас и вашего друга после его покупки криптовалюты на сумму 350 евро или более.",
         "type": "text"
     },
-    "rewards_flow_copy_link": "Скопіюйте ваше посилання для запрошення",
+    "rewards_flow_copy_link": "Посилання для запрошення:",
     "@rewards_flow_copy_link": {
         "description": "Скопируйте вашу ссылку для приглашения",
         "type": "text"
     },
-    "rewards_flow_tab_title": "Винагороди",
+    "rewards_flow_tab_title": "Нагороди",
     "@rewards_flow_tab_title": {
         "description": "Вознаграждения",
         "type": "text"
     },
-    "rewards_flow_your_rewards": "Винагороди",
+    "rewards_flow_your_rewards": "Нагороди",
     "@rewards_flow_your_rewards": {
         "description": "Вознаграждения",
         "type": "text"
@@ -6133,7 +6133,7 @@
         "description": "Изменить порядок",
         "type": "text"
     },
-    "my_wallets_move_wallets": "Перемістити гаманці догори або донизу",
+    "my_wallets_move_wallets": "Рухайте вгору або вниз",
     "@my_wallets_move_wallets": {
         "description": "Переместить кошельки вверх или вниз",
         "type": "text"
@@ -6148,7 +6148,7 @@
         "description": "Добавить кошелек",
         "type": "text"
     },
-    "my_wallets_get_account": "Отримати аккаунт",
+    "my_wallets_get_account": "Отримати акаунт",
     "@my_wallets_get_account": {
         "description": "Получить аккаунт",
         "type": "text"
@@ -6208,7 +6208,7 @@
         "description": "Simple аккаунт",
         "type": "text"
     },
-    "wallet_add_cash": "Додайте готівку",
+    "wallet_add_cash": "Поповнити",
     "@wallet_add_cash": {
         "description": "Добавьте наличные",
         "type": "text"
@@ -6689,7 +6689,7 @@
         "description": "карта",
         "type": "text"
     },
-    "my_wallets_cards": "картки",
+    "my_wallets_cards": "Картки",
     "@my_wallets_cards": {
         "description": "карты",
         "type": "text"
@@ -6794,7 +6794,7 @@
         "description": "Получить карту",
         "type": "text"
     },
-    "simple_card_add_cash": "Додайте готівку",
+    "simple_card_add_cash": "Поповнити",
     "@simple_card_add_cash": {
         "description": "Добавьте наличные",
         "type": "text"
@@ -6920,12 +6920,12 @@
         "description": "Все транзакции по карте будут отклонены, пока карта не будет разморожена",
         "type": "text"
     },
-    "simple_card_add_cash_from": "Додайте готівку з",
+    "simple_card_add_cash_from": "Поповнити з",
     "@simple_card_add_cash_from": {
         "description": "Добавьте наличные из",
         "type": "text"
     },
-    "simple_card_add_cards": "картки",
+    "simple_card_add_cards": "Картки",
     "@simple_card_add_cards": {
         "description": "карты",
         "type": "text"
@@ -6970,7 +6970,7 @@
         "description": "Верифицировать аккаунт",
         "type": "text"
     },
-    "balanceActionButtons_add_cash": "Додайте готівку",
+    "balanceActionButtons_add_cash": "Поповнити",
     "@balanceActionButtons_add_cash": {
         "description": "Добавьте наличные",
         "type": "text"
@@ -6980,7 +6980,7 @@
         "description": "Бенефициар",
         "type": "text"
     },
-    "add_cash_to": "Додайте готівку на",
+    "add_cash_to": "Поповнити на",
     "@add_cash_to": {
         "description": "Добавьте наличные на",
         "type": "text"
