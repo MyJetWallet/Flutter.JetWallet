@@ -40,54 +40,67 @@ class GlobalBasicAppBar extends StatelessWidget {
       padding: const EdgeInsets.only(top: 53),
       child: SizedBox(
         height: 64,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+              child: Column(
                 children: [
-                  Opacity(
-                    opacity: hasLeftIcon ? 1 : 0,
-                    child: SafeGesture(
-                      onTap: hasLeftIcon ? () => Navigator.pop(context) : null,
-                      child: leftIcon ?? Assets.svg.medium.arrowLeft.simpleSvg(),
-                    ),
-                  ),
-                  Opacity(
-                    opacity: hasTitle ? 1 : 0,
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .7),
-                      child: Text(
-                        title ?? '',
-                        style: STStyles.header6,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Opacity(
+                        opacity: hasLeftIcon ? 1 : 0,
+                        child: SafeGesture(
+                          onTap: hasLeftIcon ? () => Navigator.pop(context) : null,
+                          child: leftIcon ?? Assets.svg.medium.arrowLeft.simpleSvg(),
+                        ),
                       ),
-                    ),
+                      Opacity(
+                        opacity: hasTitle ? 1 : 0,
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .7),
+                          child: Text(
+                            title ?? '',
+                            style: STStyles.header6,
+                          ),
+                        ),
+                      ),
+                      // Чтобы центрировать блок
+                      Opacity(
+                        opacity: 0,
+                        child: Assets.svg.medium.close.simpleSvg(),
+                      ),
+                    ],
                   ),
                   Opacity(
-                    opacity: hasRightIcon ? 1 : 0,
-                    child: SafeGesture(
-                      onTap: hasRightIcon
-                          ? onRightIconTap != null
-                              ? () => onRightIconTap!()
-                              : null
-                          : null,
-                      child: rightIcon ?? Assets.svg.medium.close.simpleSvg(),
+                    opacity: hasSubtitle ? 1 : 0,
+                    child: Text(
+                      subtitle ?? '',
+                      style: STStyles.body2Medium.copyWith(
+                        color: subtitleTextColor ?? SColorsLight().gray10,
+                      ),
                     ),
                   ),
                 ],
               ),
-              Opacity(
-                opacity: hasSubtitle ? 1 : 0,
-                child: Text(
-                  subtitle ?? '',
-                  style: STStyles.body2Medium.copyWith(
-                    color: subtitleTextColor ?? SColorsLight().gray10,
-                  ),
+            ),
+            Positioned(
+              right: 24,
+              top: 3,
+              child: Opacity(
+                opacity: hasRightIcon ? 1 : 0,
+                child: SafeGesture(
+                  onTap: hasRightIcon
+                      ? onRightIconTap != null
+                          ? () => onRightIconTap!()
+                          : null
+                      : null,
+                  child: rightIcon ?? Assets.svg.medium.close.simpleSvg(),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -15,6 +15,7 @@ class MainScreenAppbar extends StatelessWidget {
     required this.isLabelIconShow,
     this.onLabelIconTap,
     this.onProfileTap,
+    this.profileNotificationsCount = 0,
   }) : super(key: key);
 
   final bool showIcon;
@@ -26,6 +27,8 @@ class MainScreenAppbar extends StatelessWidget {
   final bool isLabelIconShow;
   final VoidCallback? onLabelIconTap;
   final VoidCallback? onProfileTap;
+
+  final int profileNotificationsCount;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +46,7 @@ class MainScreenAppbar extends StatelessWidget {
             onLabelIconTap: onLabelIconTap,
             rightIcon: UserNotyIcon(
               onTap: onProfileTap ?? () {},
-              notificationsCount: 0,
+              notificationsCount: profileNotificationsCount,
             ),
           ),
           child,

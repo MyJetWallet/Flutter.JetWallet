@@ -212,15 +212,9 @@ abstract class _IbanAddressBookStoreBase with Store {
         getIt<AppRouter>().back();
       },
       onError: (error) {
-        if (error.errorCode == 'ContactWithThisIbanAlreadyExists') {
-          isIBANError = true;
-        }
-        if (error.errorCode == 'InvalidBic') {
-          isBICError = true;
-        }
-        if (error.errorCode == 'ContactWithThisNameAlreadyExists') {
-          isLabelError = true;
-        }
+        isIBANError = error.errorCode == 'ContactWithThisIbanAlreadyExists';
+        isBICError = error.errorCode == 'InvalidBic';
+        isLabelError = error.errorCode == 'ContactWithThisNameAlreadyExists';
 
         sNotification.showError(
           response?.error?.cause ?? '',
@@ -254,15 +248,9 @@ abstract class _IbanAddressBookStoreBase with Store {
       if (response.hasError) {
         loader.finishLoadingImmediately();
 
-        if (response.error?.errorCode == 'ContactWithThisNameAlreadyExists') {
-          isLabelError = true;
-
-          return;
-        } else if (response.error?.errorCode == 'InvalidBic') {
-          isBICError = true;
-        } else {
-          isIBANError = true;
-        }
+        isIBANError = response.error?.errorCode == 'ContactWithThisIbanAlreadyExists';
+        isBICError = response.error?.errorCode == 'InvalidBic';
+        isLabelError = response.error?.errorCode == 'ContactWithThisNameAlreadyExists';
 
         sNotification.showError(
           response.error?.cause ?? '',

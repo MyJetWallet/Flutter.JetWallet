@@ -177,7 +177,12 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                         textInputAction: TextInputAction.next,
                         controller: IbanAddressBookStore.of(context).bicController,
                         isError: IbanAddressBookStore.of(context).isBICError,
+                        onErase: () {
+                          IbanAddressBookStore.of(context).setIsBICError(false);
+                          IbanAddressBookStore.of(context).checkButton();
+                        },
                         onChanged: (text) {
+                          IbanAddressBookStore.of(context).setIsBICError(false);
                           IbanAddressBookStore.of(context).checkButton();
                         },
                         hideIconsIfNotEmpty: false,
@@ -246,7 +251,12 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                         controller: IbanAddressBookStore.of(context).labelController,
                         textInputAction: TextInputAction.next,
                         isError: IbanAddressBookStore.of(context).isLabelError,
+                        onErase: () {
+                          IbanAddressBookStore.of(context).setLabelError(false);
+                          IbanAddressBookStore.of(context).checkButton();
+                        },
                         onChanged: (text) {
+                          IbanAddressBookStore.of(context).setLabelError(false);
                           IbanAddressBookStore.of(context).checkButton();
                         },
                         hideSpace: true,
