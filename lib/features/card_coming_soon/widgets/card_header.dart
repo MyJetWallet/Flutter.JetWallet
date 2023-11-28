@@ -22,7 +22,7 @@ class CardHeader extends StatelessObserverWidget {
 
     return Column(
       children: [
-        const SpaceH54(),
+        const SizedBox(height: 58),
         Row(
           children: [
             const SpaceW24(),

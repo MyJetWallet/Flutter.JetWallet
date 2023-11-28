@@ -34,13 +34,25 @@ class _HelpCenterWebViewState extends State<HelpCenterWebView> {
             onBackButtonTap: () => _onWillPop(),
           ),
         ),
-        child: WebView(
-          gestureRecognizers: Set()..add(Factory<VerticalDragGestureRecognizer>(() => VerticalDragGestureRecognizer())),
-          initialUrl: widget.link,
-          gestureNavigationEnabled: true,
-          javascriptMode: JavascriptMode.unrestricted,
-          onWebViewCreated: (controller) {
-            this.controller = controller;
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            double width = 700.0;
+            final height = constraints.maxHeight;
+            width = (constraints.maxWidth > width) ? width : constraints.maxWidth;
+            if (height <= width) {
+              width = height * 0.6;
+            }
+
+            return WebView(
+              gestureRecognizers: Set()
+                ..add(Factory<VerticalDragGestureRecognizer>(() => VerticalDragGestureRecognizer())),
+              initialUrl: widget.link,
+              gestureNavigationEnabled: true,
+              javascriptMode: JavascriptMode.unrestricted,
+              onWebViewCreated: (controller) {
+                this.controller = controller;
+              },
+            );
           },
         ),
       ),

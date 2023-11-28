@@ -19,7 +19,7 @@ abstract class __ReferenceStoreBase with Store {
   bool isCharactersEnough = true;
   @action
   void setCharactersEnough() {
-    isCharactersEnough = referenceTextField.text.length >= 5;
+    isCharactersEnough = referenceTextField.text.length >= 5 && referenceTextField.text.length <= 100;
   }
 
   @observable
@@ -97,6 +97,7 @@ class _ReferenceBodyState extends State<_ReferenceBody> {
                 isError: store.isError,
                 labelText: intl.iban_reference,
                 hideIconsIfNotEmpty: false,
+                maxLength: 100,
                 suffixIcons: [
                   SIconButton(
                     onTap: () {
@@ -109,8 +110,6 @@ class _ReferenceBodyState extends State<_ReferenceBody> {
                 onErase: () {},
                 onChanged: (value) {
                   store.setError(false);
-
-                  print(store.isCharactersEnough);
 
                   store.setCharactersEnough();
                 },

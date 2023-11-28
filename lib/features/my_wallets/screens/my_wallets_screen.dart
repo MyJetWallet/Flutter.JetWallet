@@ -13,12 +13,11 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/kyc/models/kyc_verified_model.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/features/my_wallets/widgets/actions_my_wallets_row_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/add_wallet_bottom_sheet.dart';
-import 'package:jetwallet/features/my_wallets/widgets/balance_amount_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/change_order_widget.dart';
-import 'package:jetwallet/features/my_wallets/widgets/get_account_button.dart';
 import 'package:jetwallet/features/my_wallets/widgets/my_wallets_asset_item.dart';
 import 'package:jetwallet/features/my_wallets/widgets/my_wallets_header.dart';
 import 'package:jetwallet/features/my_wallets/widgets/pending_transactions_widget.dart';
@@ -102,6 +101,18 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
 
     final list = slidableItems();
 
+    final notificationsCount = _profileNotificationLength(
+      KycModel(
+        depositStatus: kycState.depositStatus,
+        sellStatus: kycState.tradeStatus,
+        withdrawalStatus: kycState.withdrawalStatus,
+        requiredDocuments: kycState.requiredDocuments,
+        requiredVerifications: kycState.requiredVerifications,
+        verificationInProgress: kycState.verificationInProgress,
+      ),
+      true,
+    );
+
     return RawGestureDetector(
       gestures: <Type, GestureRecognizerFactory>{
         _OnlyOnePointerRecognizer: GestureRecognizerFactoryWithHandlers<_OnlyOnePointerRecognizer>(
@@ -146,6 +157,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                       sRouter.push(const AccountRouter());
                     }
                   },
+                  profileNotificationsCount: notificationsCount,
                   child: const Padding(
                     padding: EdgeInsets.symmetric(vertical: 24),
                     child: ActionsMyWalletsRowWidget(),
@@ -290,26 +302,22 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                         const SliverToBoxAdapter(child: SpaceH16()),
                         if (store.currenciesForSearch.isNotEmpty && !store.isReordering)
                           SliverToBoxAdapter(
-                            child: Row(
-                              children: [
-                                const SpaceW24(),
-                                SIconTextButton(
-                                  onTap: () {
-                                    sAnalytics.tapOnTheButtonAddWalletOnWalletsScreen();
-                                    showAddWalletBottomSheet(context);
-                                  },
-                                  text: intl.my_wallets_add_wallet,
-                                  icon: SizedBox(
-                                    width: 16,
-                                    child: SPlusIcon(
-                                      color: colors.blue,
-                                    ),
+                            child: SPaddingH24(
+                              child: Row(
+                                children: [
+                                  SButtonContext(
+                                    type: SButtonContextType.iconedSmall,
+                                    text: intl.my_wallets_add_wallet,
+                                    onTap: () {
+                                      sAnalytics.tapOnTheButtonAddWalletOnWalletsScreen();
+                                      showAddWalletBottomSheet(context);
+                                    },
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        const SliverToBoxAdapter(child: SpaceH31()),
+                        const SliverToBoxAdapter(child: SpaceH76()),
                       ],
                     ),
                   ),
@@ -511,4 +519,24 @@ String _price(
     accuracy: baseCurrency.accuracy,
     symbol: baseCurrency.symbol,
   );
+}
+
+int _profileNotificationLength(KycModel kycState, bool twoFaEnable) {
+  var notificationLength = 0;
+
+  final passed = checkKycPassed(
+    kycState.depositStatus,
+    kycState.sellStatus,
+    kycState.withdrawalStatus,
+  );
+
+  if (!passed) {
+    notificationLength += 1;
+  }
+
+  if (!twoFaEnable) {
+    notificationLength += 1;
+  }
+
+  return notificationLength;
 }

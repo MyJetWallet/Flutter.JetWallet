@@ -9,11 +9,15 @@ class SafeGesture extends StatefulWidget {
     required this.child,
     this.onTap,
     this.intervalMs = 500,
+    this.highlightColor,
+    this.radius,
   }) : super(key: key);
 
   final Widget child;
   final GestureTapCallback? onTap;
   final int intervalMs;
+  final Color? highlightColor;
+  final double? radius;
 
   @override
   _SafeGestureState createState() => _SafeGestureState();
@@ -21,6 +25,16 @@ class SafeGesture extends StatefulWidget {
 
 class _SafeGestureState extends State<SafeGesture> {
   int lastTimeClicked = 0;
+  Color hColor = SColorsLight().gray2;
+
+  @override
+  void initState() {
+    if (widget.highlightColor != null) {
+      hColor = widget.highlightColor!;
+    }
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +50,9 @@ class _SafeGestureState extends State<SafeGesture> {
               widget.onTap!();
             }
           : null,
-      highlightColor: SColorsLight().gray2,
-      splashColor: Colors.transparent,
+      borderRadius: widget.radius != null ? BorderRadius.circular(widget.radius!) : null,
+      highlightColor: hColor,
+      overlayColor: MaterialStateProperty.all(hColor),
       child: widget.child,
     );
   }
