@@ -15,6 +15,7 @@ import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.d
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
@@ -136,6 +137,19 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                   paymentCurrency: store.payCurrency,
                   asset: store.buyCurrency,
                 ),
+                if (!(store.account?.isClearjuctionAccount ?? false)) ...[
+                  const SpaceH19(),
+                  Text(
+                    // TODO (yaroslav): take to localization
+                    '''By continuing you confirm sending funds of ${volumeFormat(symbol: store.payCurrency.symbol, accuracy: store.payCurrency.accuracy, decimal: store.paymentAmount ?? Decimal.zero)} from your bank account at Unlimit to the bank account FR14 2004 1010 0505 0001 3M02 606 on the name of Simple Europe UAB''',
+                    style: sCaptionTextStyle.copyWith(
+                      color: SColorsLight().gray8,
+                    ),
+                    maxLines: 20,
+                  ),
+                ],
+                const SpaceH19(),
+                const SDivider(),
                 if (store.category != PaymentMethodCategory.p2p) ...[
                   SPolicyCheckbox(
                     height: 65,

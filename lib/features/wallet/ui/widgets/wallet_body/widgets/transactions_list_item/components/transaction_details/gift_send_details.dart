@@ -9,7 +9,7 @@ import 'package:jetwallet/features/send_gift/widgets/share_gift_result_bottom_sh
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/transaction_details_status.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
-import 'package:jetwallet/widgets/fee_rows/processing_fee_row_widget.dart';
+import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/stack_loader.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';

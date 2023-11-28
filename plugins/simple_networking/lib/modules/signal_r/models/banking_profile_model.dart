@@ -21,7 +21,7 @@ class BankingProfileModel with _$BankingProfileModel {
   factory BankingProfileModel.fromJson(Map<String, dynamic> json) => _$BankingProfileModelFromJson(json);
 
   bool get isAvaibleAnyAccount {
-    return simple?.account != null && (banking?.accounts ?? []).isNotEmpty;
+    return simple?.account != null || (banking?.accounts ?? []).isNotEmpty;
   }
 }
 
@@ -52,6 +52,10 @@ class SimpleBankingAccount with _$SimpleBankingAccount {
     final bool? isHidden,
     final String? label,
   }) = _SimpleBankingAccount;
+
+  const SimpleBankingAccount._();
+
+  bool get isClearjuctionAccount => accountId == 'clearjuction_account';
 
   factory SimpleBankingAccount.fromJson(Map<String, dynamic> json) => _$SimpleBankingAccountFromJson(json);
 }

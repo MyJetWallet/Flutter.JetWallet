@@ -399,7 +399,7 @@ abstract class _BuyAmountStoreBase with Store {
     }
 
     try {
-      if (account?.accountId == 'clearjuction_account') {
+      if (account?.isClearjuctionAccount ?? false) {
         final model = SwapLimitsRequestModel(
           fromAsset: fiatSymbol,
           toAsset: asset?.symbol ?? '',
@@ -446,6 +446,7 @@ abstract class _BuyAmountStoreBase with Store {
           },
         );
       }
+      _validateInput();
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,

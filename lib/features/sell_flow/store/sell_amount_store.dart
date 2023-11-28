@@ -130,9 +130,12 @@ abstract class _SellAmountStoreBase with Store {
   @observable
   SimpleBankingAccount? account;
 
+  @observable
+  bool isNoCurrencies = false;
+
   @action
   void _checkShowTosts() {
-    final isNoCurrencies = !sSignalRModules.currenciesList.any((currency) {
+    isNoCurrencies = !sSignalRModules.currenciesList.any((currency) {
       return currency.assetBalance != Decimal.zero;
     });
     final isNoAccount = !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false);
@@ -435,6 +438,7 @@ abstract class _SellAmountStoreBase with Store {
           },
         );
       }
+      _validateInput();
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,

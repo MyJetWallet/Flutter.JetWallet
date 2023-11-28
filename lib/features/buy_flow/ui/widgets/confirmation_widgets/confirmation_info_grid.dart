@@ -6,6 +6,7 @@ import 'package:jetwallet/features/buy_flow/store/buy_confirmation_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/buy_tab_body.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -196,134 +197,27 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
         ),
         const SizedBox(height: 16),
         if (widget.paymentFee != null) ...[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                intl.buy_confirmation_payment_fee,
-                style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
-              ),
-              const SpaceW5(),
-              GestureDetector(
-                onTap: () {
-                  sAnalytics.newBuyTapPaymentFee();
-
-                  buyConfirmationFeeExplanation(
-                    context: context,
-                    title: intl.buy_confirmation_payment_fee,
-                    fee: widget.paymentFee ?? '',
-                    description: intl.buy_confirmation_payment_fee_description,
-                  );
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: SizedBox(
-                    width: 16,
-                    height: 16,
-                    child: SInfoIcon(color: sKit.colors.grey1),
-                  ),
-                ),
-              ),
-              const Spacer(),
-              if (store.isDataLoaded) ...[
-                Text(
-                  widget.paymentFee ?? '',
-                  style: sSubtitle3Style,
-                ),
-              ] else ...[
-                textPreloader(),
-              ],
-            ],
+          PaymentFeeRowWidget(
+            fee: widget.paymentFee ?? '',
+            onTabListener: () {
+              sAnalytics.newBuyTapPaymentFee();
+              sAnalytics.newBuyFeeView(paymentFee: widget.ourFee ?? '');
+            },
+            isLoaded: store.isDataLoaded,
           ),
         ],
         const SizedBox(height: 16),
         if (widget.ourFee != null) ...[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                intl.buy_confirmation_processing_fee,
-                style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
-              ),
-              const SpaceW5(),
-              GestureDetector(
-                onTap: () {
-                  sAnalytics.newBuyTapPaymentFee();
-
-                  buyConfirmationFeeExplanation(
-                    context: context,
-                    title: intl.buy_confirmation_processing_fee,
-                    fee: widget.ourFee ?? '',
-                    description: intl.buy_confirmation_processing_fee_description,
-                  );
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: SizedBox(
-                    width: 16,
-                    height: 16,
-                    child: SInfoIcon(color: sKit.colors.grey1),
-                  ),
-                ),
-              ),
-              const Spacer(),
-              if (store.isDataLoaded) ...[
-                Text(
-                  widget.ourFee ?? '',
-                  style: sSubtitle3Style,
-                ),
-              ] else ...[
-                textPreloader(),
-              ],
-            ],
+          ProcessingFeeRowWidget(
+            fee: widget.ourFee ?? '',
+            onTabListener: () {
+              sAnalytics.newBuyTapPaymentFee();
+              sAnalytics.newBuyFeeView(paymentFee: widget.ourFee ?? '');
+            },
+            isLoaded: store.isDataLoaded,
           ),
         ],
-        const SizedBox(height: 19),
-        const SDivider(),
       ],
     );
   }
-}
-
-void buyConfirmationFeeExplanation({
-  required BuildContext context,
-  required String title,
-  required String fee,
-  required String description,
-}) {
-  sAnalytics.newBuyFeeView(paymentFee: fee);
-
-  sShowBasicModalBottomSheet(
-    context: context,
-    horizontalPinnedPadding: 24,
-    scrollable: true,
-    pinned: SBottomSheetHeader(
-      name: title,
-    ),
-    children: [
-      SPaddingH24(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SpaceH16(),
-            Text(
-              fee,
-              style: sTextH4Style,
-            ),
-            const SpaceH12(),
-            const SDivider(),
-            const SpaceH12(),
-            Text(
-              description,
-              maxLines: 3,
-              style: sCaptionTextStyle.copyWith(
-                color: sKit.colors.grey3,
-              ),
-            ),
-            const SpaceH64(),
-          ],
-        ),
-      ),
-    ],
-  );
 }

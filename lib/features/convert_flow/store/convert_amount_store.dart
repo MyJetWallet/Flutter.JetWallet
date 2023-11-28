@@ -326,6 +326,7 @@ abstract class _ConvertAmountStoreBase with Store {
           );
         },
       );
+      _validateInput();
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,

@@ -99,7 +99,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
       loading: store.loader,
       header: SPaddingH24(
         child: SBigHeader(
-          title: intl.phoneVerification_phoneConfirmation,
+          title: intl.confirm_with_sms,
           onBackButtonTap: () {
             getIt<AppRouter>().popUntilRoot();
           },
@@ -119,8 +119,8 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                       getIt<AppRouter>().pop();
                     }
                   },
-                  defaultIcon: const SBackIcon(),
-                  pressedIcon: const SBackPressedIcon(),
+                  defaultIcon: const SCloseIcon(),
+                  pressedIcon: const SClosePressedIcon(),
                 )
               : null,
         ),
