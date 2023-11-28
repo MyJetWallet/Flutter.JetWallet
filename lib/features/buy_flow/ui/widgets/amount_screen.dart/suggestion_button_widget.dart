@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 
-class BuyOptionWidget extends StatelessWidget {
-  const BuyOptionWidget({
+class SuggestionButtonWidget extends StatelessWidget {
+  const SuggestionButtonWidget({
     super.key,
     required this.icon,
     this.title,
     required this.subTitle,
     this.trailing,
     required this.onTap,
+    this.isDisabled = false,
   });
 
   final Widget icon;
@@ -16,10 +18,13 @@ class BuyOptionWidget extends StatelessWidget {
   final String subTitle;
   final String? trailing;
   final void Function() onTap;
+  final bool isDisabled;
 
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
+
+    final greyDisabled = SColorsLight().gray8;
 
     return Container(
       height: 56,
@@ -33,7 +38,7 @@ class BuyOptionWidget extends StatelessWidget {
         ),
       ),
       child: InkWell(
-        onTap: onTap,
+        onTap: !isDisabled ? onTap : null,
         child: Row(
           children: [
             Flexible(
@@ -49,7 +54,7 @@ class BuyOptionWidget extends StatelessWidget {
                         Text(
                           subTitle,
                           style: sBodyText2Style.copyWith(
-                            color: colors.grey1,
+                            color: isDisabled ? greyDisabled : colors.grey1,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -57,7 +62,7 @@ class BuyOptionWidget extends StatelessWidget {
                           Text(
                             title!,
                             style: sBodyText2Style.copyWith(
-                              color: colors.black,
+                              color: isDisabled ? greyDisabled : colors.black,
                               fontWeight: FontWeight.w600,
                               height: 1,
                             ),
@@ -76,7 +81,7 @@ class BuyOptionWidget extends StatelessWidget {
                   trailing ?? '',
                   textAlign: TextAlign.right,
                   style: sBodyText2Style.copyWith(
-                    color: colors.grey1,
+                    color: isDisabled ? greyDisabled : colors.grey1,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -85,7 +90,7 @@ class BuyOptionWidget extends StatelessWidget {
                   width: 20,
                   height: 20,
                   child: SBlueRightArrowIcon(
-                    color: colors.black,
+                    color: isDisabled ? greyDisabled : colors.black,
                   ),
                 ),
               ],

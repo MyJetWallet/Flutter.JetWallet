@@ -4,7 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
-import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/buy_option_widget.dart';
+import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/sell_flow/store/sell_amount_store.dart';
 import 'package:jetwallet/features/sell_flow/widgets/sell_choose_asset_bottom_sheet.dart';
 import 'package:jetwallet/features/sell_flow/widgets/sell_with_bottom_sheet.dart';
@@ -84,7 +84,7 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                 ),
                 const Spacer(),
                 if (store.asset != null)
-                  BuyOptionWidget(
+                  SuggestionButtonWidget(
                     title: store.asset?.description,
                     subTitle: intl.amount_screen_sell,
                     trailing: store.asset?.volumeAssetBalance,
@@ -100,9 +100,10 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                         },
                       );
                     },
+                    isDisabled: store.isNoCurrencies,
                   )
                 else
-                  BuyOptionWidget(
+                  SuggestionButtonWidget(
                     subTitle: intl.amount_screen_sell,
                     icon: const SCryptoIcon(),
                     onTap: () {
@@ -114,10 +115,11 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                         },
                       );
                     },
+                    isDisabled: store.isNoCurrencies,
                   ),
                 const SpaceH8(),
                 if (store.category == PaymentMethodCategory.account)
-                  BuyOptionWidget(
+                  SuggestionButtonWidget(
                     title: store.account?.label,
                     subTitle: intl.amount_screen_sell_to,
                     trailing: volumeFormat(
@@ -150,9 +152,10 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                         },
                       );
                     },
+                    isDisabled: store.isNoAccounts,
                   )
                 else
-                  BuyOptionWidget(
+                  SuggestionButtonWidget(
                     subTitle: intl.amount_screen_sell_to,
                     icon: Container(
                       padding: const EdgeInsets.all(4),
@@ -179,6 +182,7 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                         },
                       );
                     },
+                    isDisabled: store.isNoAccounts,
                   ),
                 const SpaceH20(),
                 SNumericKeyboardAmount(

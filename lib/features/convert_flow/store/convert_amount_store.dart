@@ -115,9 +115,12 @@ abstract class _ConvertAmountStoreBase with Store {
     _checkShowTosts();
   }
 
+  @observable
+  bool isNoCurrencies = false;
+
   @action
   void _checkShowTosts() {
-    final isNoCurrencies = !sSignalRModules.currenciesList.any((currency) {
+    isNoCurrencies = !sSignalRModules.currenciesList.any((currency) {
       return currency.assetBalance != Decimal.zero;
     });
     if (isNoCurrencies) {

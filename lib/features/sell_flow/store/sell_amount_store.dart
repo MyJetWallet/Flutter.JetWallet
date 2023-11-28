@@ -133,16 +133,19 @@ abstract class _SellAmountStoreBase with Store {
   @observable
   bool isNoCurrencies = false;
 
+  @observable
+  bool isNoAccounts = false;
+
   @action
   void _checkShowTosts() {
     isNoCurrencies = !sSignalRModules.currenciesList.any((currency) {
       return currency.assetBalance != Decimal.zero;
     });
-    final isNoAccount = !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false);
+    isNoAccounts = !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false);
     Timer(
       const Duration(milliseconds: 200),
       () {
-        if (isNoCurrencies && isNoAccount) {
+        if (isNoCurrencies && isNoAccounts) {
           sNotification.showError(
             intl.tost_sell_message_1,
             id: 1,
@@ -154,7 +157,7 @@ abstract class _SellAmountStoreBase with Store {
             id: 2,
             isError: false,
           );
-        } else if (isNoAccount) {
+        } else if (isNoAccounts) {
           sNotification.showError(
             intl.tost_sell_message_3,
             id: 3,

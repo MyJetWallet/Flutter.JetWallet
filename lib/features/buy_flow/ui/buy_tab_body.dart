@@ -5,7 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/buy_flow/store/buy_amount_store.dart';
-import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/buy_option_widget.dart';
+import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -85,7 +85,7 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                 ),
                 const Spacer(),
                 if (store.asset != null)
-                  BuyOptionWidget(
+                  SuggestionButtonWidget(
                     title: store.asset?.description,
                     subTitle: intl.amount_screen_buy,
                     trailing: store.asset?.volumeAssetBalance,
@@ -103,7 +103,7 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                     },
                   )
                 else
-                  BuyOptionWidget(
+                  SuggestionButtonWidget(
                     subTitle: intl.amount_screen_buy,
                     icon: const SCryptoIcon(),
                     onTap: () {
@@ -118,7 +118,7 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                   ),
                 const SpaceH8(),
                 if (store.category == PaymentMethodCategory.account)
-                  BuyOptionWidget(
+                  SuggestionButtonWidget(
                     title: store.account?.label,
                     subTitle: intl.amount_screen_pay_with,
                     trailing: volumeFormat(
@@ -153,7 +153,7 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                     },
                   )
                 else if (store.category == PaymentMethodCategory.cards)
-                  BuyOptionWidget(
+                  SuggestionButtonWidget(
                     title: store.card?.formatedCardLabel,
                     subTitle: intl.amount_screen_pay_with,
                     icon: Container(
@@ -187,7 +187,7 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                     },
                   )
                 else
-                  BuyOptionWidget(
+                  SuggestionButtonWidget(
                     subTitle: intl.amount_screen_pay_with,
                     icon: Container(
                       padding: const EdgeInsets.all(4),
