@@ -197,6 +197,10 @@ class TransactionListItem extends StatelessWidget {
         return SPurchaseIcon(color: isFailed ? failedColor : colors.red);
       case OperationType.cardWithdrawal:
         return SWithdrawalIcon(color: isFailed ? failedColor : colors.red);
+      case OperationType.bankingSell:
+        return source == TransactionItemSource.cryptoAccount
+            ? SMinusIcon(color: isFailed ? failedColor : null)
+            : SPlusIcon(color: isFailed ? failedColor : null);
       default:
         return SPlusIcon(color: isFailed ? failedColor : null);
     }
@@ -298,10 +302,17 @@ class TransactionListItem extends StatelessWidget {
         accuracy: paymentCurrency.accuracy,
       )}';
     }
-    if (transactionListItem.operationType == OperationType.bankingSell) {
+    if (transactionListItem.operationType == OperationType.bankingSell && source != TransactionItemSource.cryptoAccount) {
       return '${intl.history_with} ${volumeFormat(
         decimal: transactionListItem.sellCryptoInfo?.sellAmount ?? Decimal.zero,
         symbol: transactionListItem.sellCryptoInfo?.sellAssetId ?? '',
+        accuracy: paymentCurrency.accuracy,
+      )}';
+    }
+    if (transactionListItem.operationType == OperationType.bankingSell && source == TransactionItemSource.cryptoAccount) {
+      return '${intl.history_for} ${volumeFormat(
+        decimal: transactionListItem.sellCryptoInfo?.buyAmount ?? Decimal.zero,
+        symbol: transactionListItem.sellCryptoInfo?.buyAssetId ?? '',
         accuracy: paymentCurrency.accuracy,
       )}';
     }
