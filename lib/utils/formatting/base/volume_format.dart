@@ -69,7 +69,7 @@ String _formatNumber(Decimal decimal, int? accuracy, bool onlyFullPart) {
 
   final formatter = NumberFormat.decimalPattern();
 
-  final wholePart2 = int.parse(wholePart.toString());
+  final wholePart2 = int.tryParse(wholePart.toString()) ?? 0;
   final wholePart3 = formatter.format(wholePart2).replaceAll(',', ' ');
 
   return decimalPart.isEmpty || onlyFullPart ? wholePart3 : '$wholePart3.$decimalPart';

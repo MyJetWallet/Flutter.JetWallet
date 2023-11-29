@@ -292,12 +292,14 @@ abstract class _BuyAmountStoreBase with Store {
         oldInput: fiatInputValue,
         newInput: value,
         accuracy: fiatAccuracy,
+        wholePartLenght: maxWholePrartLenght,
       );
     } else {
       cryptoInputValue = responseOnInputAction(
         oldInput: cryptoInputValue,
         newInput: value,
         accuracy: asset?.accuracy ?? 2,
+        wholePartLenght: maxWholePrartLenght,
       );
     }
     if (isFiatEntering) {
@@ -392,6 +394,12 @@ abstract class _BuyAmountStoreBase with Store {
   @computed
   Decimal get maxLimit => isFiatEntering ? _maxSellAmount : _maxBuyAmount;
 
+  @computed
+  int? get maxWholePrartLenght => isBothAssetsSeted ? maxLimit.round().toString().length + 1 : null;
+
+  @computed
+  bool get isBothAssetsSeted => (account != null || card != null) && asset != null;
+
   @action
   Future<void> loadLimits() async {
     if (asset == null || (account == null && card == null)) {
@@ -415,7 +423,6 @@ abstract class _BuyAmountStoreBase with Store {
           onError: (error) {
             sNotification.showError(
               error.cause,
-              duration: 4,
               id: 1,
               needFeedback: true,
             );
@@ -439,7 +446,6 @@ abstract class _BuyAmountStoreBase with Store {
           onError: (error) {
             sNotification.showError(
               error.cause,
-              duration: 4,
               id: 1,
               needFeedback: true,
             );
@@ -450,14 +456,12 @@ abstract class _BuyAmountStoreBase with Store {
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,
-        duration: 4,
         id: 1,
         needFeedback: true,
       );
     } catch (error) {
       sNotification.showError(
         intl.something_went_wrong_try_again2,
-        duration: 4,
         id: 1,
         needFeedback: true,
       );

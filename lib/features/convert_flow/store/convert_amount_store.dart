@@ -130,7 +130,6 @@ abstract class _ConvertAmountStoreBase with Store {
           sNotification.showError(
             intl.tost_convert_message_1,
             id: 1,
-            hideIcon: true,
           );
         },
       );
@@ -216,12 +215,14 @@ abstract class _ConvertAmountStoreBase with Store {
         oldInput: fromInputValue,
         newInput: value,
         accuracy: fromAsset?.accuracy ?? 2,
+        wholePartLenght: maxWholePrartLenght,
       );
     } else {
       toInputValue = responseOnInputAction(
         oldInput: toInputValue,
         newInput: value,
         accuracy: toAsset?.accuracy ?? 2,
+        wholePartLenght: maxWholePrartLenght,
       );
     }
     if (isFromEntering) {
@@ -302,6 +303,12 @@ abstract class _ConvertAmountStoreBase with Store {
   @computed
   Decimal get maxLimit => isFromEntering ? _maxFromAssetVolume : _maxToAssetVolume;
 
+  @computed
+  int? get maxWholePrartLenght => isBothAssetsSeted ? maxLimit.round().toString().length + 1 : null;
+
+  @computed
+  bool get isBothAssetsSeted => fromAsset != null && toAsset != null;
+
   @action
   Future<void> loadLimits() async {
     if (fromAsset == null || toAsset == null) {
@@ -323,7 +330,6 @@ abstract class _ConvertAmountStoreBase with Store {
         onError: (error) {
           sNotification.showError(
             error.cause,
-            duration: 4,
             id: 1,
             needFeedback: true,
           );
@@ -333,14 +339,12 @@ abstract class _ConvertAmountStoreBase with Store {
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,
-        duration: 4,
         id: 1,
         needFeedback: true,
       );
     } catch (error) {
       sNotification.showError(
         intl.something_went_wrong_try_again2,
-        duration: 4,
         id: 1,
         needFeedback: true,
       );
