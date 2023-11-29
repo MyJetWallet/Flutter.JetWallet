@@ -19,22 +19,29 @@ class SNotificationBox extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         const SpaceH60(),
-        Container(
-          decoration: BoxDecoration(
-            color: isError ? SColorsLight().red : SColorsLight().black,
-            borderRadius: BorderRadius.circular(16.0),
-          ),
-          padding: const EdgeInsets.symmetric(
-            horizontal: 20.0,
-            vertical: 12,
-          ),
-          child: Text(
-            text,
-            maxLines: 10,
-            style: sBodyText1Style.copyWith(
-              color: SColorsLight().white,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: isError ? SColorsLight().red : SColorsLight().black,
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 12,
+                ),
+                child: Text(
+                  text,
+                  maxLines: 10,
+                  style: sBodyText1Style.copyWith(
+                    color: SColorsLight().white,
+                  ),
+                ),
+              ),
             ),
-          ),
+          ],
         ),
       ],
     );
