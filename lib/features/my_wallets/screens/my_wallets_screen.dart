@@ -69,7 +69,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
     );
 
     _controller.addListener(() {
-      if (_controller.position.pixels <= 0) {
+      if (_controller.position.pixels <= 50) {
         if (!isTopPosition) {
           setState(() {
             isTopPosition = true;
@@ -91,6 +91,27 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
         curve: Curves.easeIn,
       );
     });
+  }
+
+  void _onLabelIconTap() {
+    if (getIt<AppStore>().isBalanceHide) {
+      getIt<AppStore>().setIsBalanceHide(false);
+    } else {
+      getIt<AppStore>().setIsBalanceHide(true);
+    }
+    sAnalytics.tapOnTheButtonShowHideBalancesOnWalletsScreen(
+      isShowNow: !getIt<AppStore>().isBalanceHide,
+    );
+  }
+
+  void _headerTap() {
+    sAnalytics.tapOnTheButtonProfileOnWalletsScreen();
+    final myWalletsSrore = getIt.get<MyWalletsSrore>();
+    if (myWalletsSrore.isReordering) {
+      myWalletsSrore.endReorderingImmediately();
+    } else {
+      sRouter.push(const AccountRouter());
+    }
   }
 
   @override
@@ -139,23 +160,10 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                   mainHeaderCollapsedTitle: intl.my_wallets_header,
                   isLabelIconShow: getIt<AppStore>().isBalanceHide,
                   onLabelIconTap: () {
-                    if (getIt<AppStore>().isBalanceHide) {
-                      getIt<AppStore>().setIsBalanceHide(false);
-                    } else {
-                      getIt<AppStore>().setIsBalanceHide(true);
-                    }
-                    sAnalytics.tapOnTheButtonShowHideBalancesOnWalletsScreen(
-                      isShowNow: !getIt<AppStore>().isBalanceHide,
-                    );
+                    _onLabelIconTap();
                   },
                   onProfileTap: () {
-                    sAnalytics.tapOnTheButtonProfileOnWalletsScreen();
-                    final myWalletsSrore = getIt.get<MyWalletsSrore>();
-                    if (myWalletsSrore.isReordering) {
-                      myWalletsSrore.endReorderingImmediately();
-                    } else {
-                      sRouter.push(const AccountRouter());
-                    }
+                    _headerTap();
                   },
                   profileNotificationsCount: notificationsCount,
                   child: const Padding(
@@ -220,9 +228,30 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                       slivers: [
                         if (store.isReordering)
                           SliverToBoxAdapter(
-                            child: MyWalletsHeader(
-                              isTitleCenter: !store.isReordering && !isTopPosition,
+                            child: MainScreenAppbar(
+                              headerTitle: intl.my_wallets_header,
+                              headerValue: !getIt<AppStore>().isBalanceHide
+                                  ? _price(
+                                      currenciesWithBalanceFrom(sSignalRModules.currenciesList),
+                                      sSignalRModules.baseCurrency,
+                                    )
+                                  : '***** ${sSignalRModules.baseCurrency.symbol}',
+                              onLabelIconTap: () {
+                                _onLabelIconTap();
+                              },
+                              onProfileTap: () {
+                                _headerTap();
+                              },
+                              isLabelIconShow: getIt<AppStore>().isBalanceHide,
+                              profileNotificationsCount: notificationsCount,
+                              child: const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 24),
+                                child: ActionsMyWalletsRowWidget(),
+                              ),
                             ),
+                            //child: MyWalletsHeader(
+                            //  isTitleCenter: !store.isReordering && !isTopPosition,
+                            //),
                           ),
                         if (userInfo.isSimpleCardAvailable &&
                             (sSignalRModules.bankingProfileData?.banking?.cards?.length ?? 0) <
@@ -276,9 +305,10 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                           SliverPersistentHeader(
                             pinned: store.isReordering,
                             delegate: _SliverAppBarDelegate(
-                              minHeight: 64,
-                              maxHeight: 64,
+                              minHeight: isTopPosition ? 64 : 117,
+                              maxHeight: isTopPosition ? 64 : 117,
                               child: ChangeOrderWidget(
+                                isTopPosition: isTopPosition,
                                 onPressedDone: store.onEndReordering,
                               ),
                             ),
@@ -287,6 +317,13 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                           proxyDecorator: _proxyDecorator,
                           onReorder: (int oldIndex, int newIndex) {
                             store.onReorder(oldIndex, newIndex);
+
+                            //_controller.animateTo(
+                            //  0,
+                            //  duration: const Duration(milliseconds: 200),
+                            //  curve: Curves.ease,
+                            //);
+
                             setState(() {});
                           },
                           itemCount: list.length,

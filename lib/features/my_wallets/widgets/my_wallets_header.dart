@@ -7,9 +7,11 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_verified_model.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
+import 'package:jetwallet/features/my_wallets/widgets/actions_my_wallets_row_widget.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class MyWalletsHeader extends StatefulWidget {
   const MyWalletsHeader({
@@ -27,6 +29,19 @@ class _MyWalletsHeaderState extends State<MyWalletsHeader> with TickerProviderSt
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
+
+    return MainScreenAppbar(
+      headerTitle: 'mainHeaderTitle',
+      headerValue: 'mainHeaderValue',
+      onLabelIconTap: () {},
+      isLabelIconShow: true,
+      onProfileTap: () {},
+      profileNotificationsCount: 5,
+      child: const Padding(
+        padding: EdgeInsets.symmetric(vertical: 24),
+        child: ActionsMyWalletsRowWidget(),
+      ),
+    );
 
     return ColoredBox(
       color: colors.white,

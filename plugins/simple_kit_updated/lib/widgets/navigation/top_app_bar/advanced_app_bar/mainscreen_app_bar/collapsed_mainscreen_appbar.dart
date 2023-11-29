@@ -40,8 +40,6 @@ class CollapsedMainscreenAppbar extends HookWidget {
     final isTopPosition = useState(true);
 
     void onScrollAction() {
-      print('${scrollController.position.pixels} ${isTopPosition.value}');
-
       if (scrollController.position.pixels <= 0) {
         if (!isTopPosition.value) {
           isTopPosition.value = true;
