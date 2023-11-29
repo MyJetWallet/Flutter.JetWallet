@@ -61,45 +61,50 @@ class TransactionListItem extends StatelessWidget {
         : currencies[0];
     final baseCurrency = sSignalRModules.baseCurrency;
 
-    return _TransactionBaseItem(
-      onTap: () {
-        if (fromCJAccount) {
-          sAnalytics.eurWalletTapAnyHistoryTRXEUR(
-            isCJ: true,
-            isHasTransaction: true,
-            eurAccountLabel: '',
-          );
-        }
+    return ColoredBox(
+      color: transactionListItem.operationType == OperationType.nftBuy
+          ? Colors.lime
+          : Colors.transparent,
+      child: _TransactionBaseItem(
+        onTap: () {
+          if (fromCJAccount) {
+            sAnalytics.eurWalletTapAnyHistoryTRXEUR(
+              isCJ: true,
+              isHasTransaction: true,
+              eurAccountLabel: '',
+            );
+          }
 
-        onItemTapLisener?.call(transactionListItem.assetId);
-        showTransactionDetails(
-          context,
+          onItemTapLisener?.call(transactionListItem.assetId);
+          showTransactionDetails(
+            context,
+            transactionListItem,
+            null,
+          );
+        },
+        icon: _transactionItemIcon(
+          type: transactionListItem.operationType,
+          isFailed: transactionListItem.status == Status.declined,
+        ),
+        labele: _transactionItemTitle(
           transactionListItem,
-          null,
-        );
-      },
-      icon: _transactionItemIcon(
-        type: transactionListItem.operationType,
-        isFailed: transactionListItem.status == Status.declined,
-      ),
-      labele: _transactionItemTitle(
-        transactionListItem,
-      ),
-      labelIcon: _transactionLabelIcon(
-        type: transactionListItem.operationType,
-      ),
-      balanceChange: _transactionItemBalanceChange(
-        transactionListItem: transactionListItem,
-        accuracy: currency.accuracy,
-        symbol: currency.symbol,
-      ),
-      status: transactionListItem.status,
-      timeStamp: transactionListItem.timeStamp,
-      rightSupplement: _transactionItemRightSupplement(
-        transactionListItem: transactionListItem,
-        currency: currency,
-        baseCurrency: baseCurrency,
-        paymentCurrency: paymentCurrency,
+        ),
+        labelIcon: _transactionLabelIcon(
+          type: transactionListItem.operationType,
+        ),
+        balanceChange: _transactionItemBalanceChange(
+          transactionListItem: transactionListItem,
+          accuracy: currency.accuracy,
+          symbol: currency.symbol,
+        ),
+        status: transactionListItem.status,
+        timeStamp: transactionListItem.timeStamp,
+        rightSupplement: _transactionItemRightSupplement(
+          transactionListItem: transactionListItem,
+          currency: currency,
+          baseCurrency: baseCurrency,
+          paymentCurrency: paymentCurrency,
+        ),
       ),
     );
   }
@@ -302,14 +307,16 @@ class TransactionListItem extends StatelessWidget {
         accuracy: paymentCurrency.accuracy,
       )}';
     }
-    if (transactionListItem.operationType == OperationType.bankingSell && source != TransactionItemSource.cryptoAccount) {
+    if (transactionListItem.operationType == OperationType.bankingSell &&
+        source != TransactionItemSource.cryptoAccount) {
       return '${intl.history_with} ${volumeFormat(
         decimal: transactionListItem.sellCryptoInfo?.sellAmount ?? Decimal.zero,
         symbol: transactionListItem.sellCryptoInfo?.sellAssetId ?? '',
         accuracy: paymentCurrency.accuracy,
       )}';
     }
-    if (transactionListItem.operationType == OperationType.bankingSell && source == TransactionItemSource.cryptoAccount) {
+    if (transactionListItem.operationType == OperationType.bankingSell &&
+        source == TransactionItemSource.cryptoAccount) {
       return '${intl.history_for} ${volumeFormat(
         decimal: transactionListItem.sellCryptoInfo?.buyAmount ?? Decimal.zero,
         symbol: transactionListItem.sellCryptoInfo?.buyAssetId ?? '',

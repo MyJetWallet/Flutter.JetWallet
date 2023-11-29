@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
@@ -31,6 +32,8 @@ class IbanSendDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userInfo = sUserInfo;
+
     return SPaddingH24(
       child: Column(
         children: [
@@ -84,15 +87,11 @@ class IbanSendDetails extends StatelessObserverWidget {
                       ),
                       child: TransactionDetailsValueText(
                         textAlign: TextAlign.end,
-                        text: splitIban((transactionListItem.ibanWithdrawalInfo?.beneficiaryAddress ?? '').trim()),
+                        text: splitIban((transactionListItem.ibanWithdrawalInfo?.toIban ?? '').trim()),
                         color: sKit.colors.grey1,
                       ),
                     ),
                   ],
-                ),
-                const SpaceW10(),
-                HistoryCopyIcon(
-                  '''${transactionListItem.ibanWithdrawalInfo?.contactName ?? ''}\n${transactionListItem.withdrawalInfo?.toAddress ?? ''}''',
                 ),
               ],
             ),
@@ -101,8 +100,7 @@ class IbanSendDetails extends StatelessObserverWidget {
           TransactionDetailsItem(
             text: intl.iban_send_history_benificiary,
             value: TransactionDetailsValueText(
-              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
-                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
+              text: '${userInfo.firstName} ${userInfo.lastName}',
             ),
           ),
           const SpaceH18(),
