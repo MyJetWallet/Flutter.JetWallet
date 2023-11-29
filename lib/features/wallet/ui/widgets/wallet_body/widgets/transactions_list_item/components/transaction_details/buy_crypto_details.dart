@@ -6,7 +6,6 @@ import 'package:jetwallet/features/market/market_details/helper/currency_from.da
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
-import 'package:jetwallet/utils/helpers/price_accuracy.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
@@ -29,7 +28,6 @@ class BuyCryptoDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final baseCurrency = sSignalRModules.baseCurrency;
     final currenciesFull = sSignalRModules.currenciesWithHiddenList;
     final currentCurrency = currencyFrom(
       currenciesFull,
@@ -52,20 +50,13 @@ class BuyCryptoDetails extends StatelessObserverWidget {
     );
 
     String rateFor() {
-      final accuracy = priceAccuracy(
-        buyCurrency.symbol,
-        baseCurrency.symbol,
-      );
-
       final base = volumeFormat(
         decimal: transactionListItem.cryptoBuyInfo!.baseRate,
-        accuracy: buyCurrency.accuracy,
         symbol: buyCurrency.symbol,
       );
 
       final quote = volumeFormat(
         decimal: transactionListItem.cryptoBuyInfo!.quoteRate,
-        accuracy: accuracy,
         symbol: paymentCurrency.symbol,
       );
 

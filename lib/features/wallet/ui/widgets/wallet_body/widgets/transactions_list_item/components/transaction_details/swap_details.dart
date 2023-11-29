@@ -8,7 +8,6 @@ import 'package:jetwallet/features/market/market_details/helper/currency_from.da
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
-import 'package:jetwallet/utils/helpers/price_accuracy.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
@@ -109,20 +108,13 @@ class SwapDetails extends StatelessObserverWidget {
     CurrencyModel currency1,
     CurrencyModel currency2,
   ) {
-    final accuracy = priceAccuracy(
-      currency1.symbol,
-      currency2.symbol,
-    );
-
     final base = volumeFormat(
       decimal: transactionListItem.swapInfo!.baseRate,
-      accuracy: currency1.accuracy,
       symbol: currency1.symbol,
     );
 
     final quote = volumeFormat(
       decimal: transactionListItem.swapInfo!.quoteRate,
-      accuracy: accuracy,
       symbol: currency2.symbol,
     );
 
