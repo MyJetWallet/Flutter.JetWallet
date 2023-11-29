@@ -76,6 +76,8 @@ class _ChooseAssetBody extends StatelessObserverWidget {
     final baseCurrency = sSignalRModules.baseCurrency;
     final state = searchStore;
 
+    sortByBalanceAndWeight(searchStore.buyFromCardCurrencies);
+
     return Column(
       children: [
         for (final currency in state.buyFromCardCurrencies) ...[
