@@ -61,4 +61,9 @@ class PropertyType {
   static const isHasTransactions = 'IsHasTransaction';
   static const timeAfterBlock = 'Time after block, sec';
   static const copyType = 'Copy type';
+  static const eurAccountFromType = 'EUR Account_From type';
+  static const eurAccountFromIBAN = 'EUR Account_From IBAN';
+  static const eurAccountFromLabel = 'EUR Account_From label';
+  static const enteredAmount = 'Entered amount';
+  static const referenceText = 'Reference_Text';
 }

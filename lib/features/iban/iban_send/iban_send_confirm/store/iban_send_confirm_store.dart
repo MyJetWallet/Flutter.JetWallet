@@ -17,6 +17,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_response.dart';
@@ -63,6 +64,8 @@ abstract class _IbanSendConfirmStoreBase with Store {
     BankingWithdrawalPreviewResponse data,
     AddressBookContactModel contact,
     String pin,
+    SimpleBankingAccount account,
+    bool isCJ,
   ) async {
     if (deviceBindingRequired) {
       var continueBuying = false;
@@ -146,12 +149,30 @@ abstract class _IbanSendConfirmStoreBase with Store {
         failedReason: response.error?.cause ?? '',
       );
 
+      sAnalytics.eurWithdrawFailed(
+        eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+        accountIban: account.iban ?? '',
+        accountLabel: account.label ?? '',
+        eurAccType: contact.iban ?? '',
+        eurAccLabel: contact.name ?? '',
+        enteredAmount: data.amount.toString(),
+      );
+
       await showFailureScreen(response.error?.cause ?? '');
     } else {
       sAnalytics.successSendIBANScreenView(
         asset: 'EUR',
         methodType: '2',
         sendAmount: data.amount.toString(),
+      );
+
+      sAnalytics.eurWithdrawSuccessWithdrawEndSV(
+        eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+        accountIban: account.iban ?? '',
+        accountLabel: account.label ?? '',
+        eurAccType: contact.iban ?? '',
+        eurAccLabel: contact.name ?? '',
+        enteredAmount: data.amount.toString(),
       );
 
       await showSuccessScreen(data.sendAmount);

@@ -3620,4 +3620,528 @@ class SimpleAnalytics {
       },
     );
   }
+
+  //
+
+  void eurWithdrawTapOnTheButtonWithdraw({
+    required String eurAccountType,
+    required String accountIban,
+    required String accountLabel,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWithdrawTapOnTheButtonWithdraw,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '398',
+        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.eurAccountFromIBAN: accountIban,
+        PropertyType.eurAccountFromLabel: accountLabel,
+      },
+    );
+  }
+
+  void eurWithdrawBankTransferWithEurSheet({
+    required String eurAccountType,
+    required String accountIban,
+    required String accountLabel,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWithdrawBankTransferWithEurSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '399',
+        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.eurAccountFromIBAN: accountIban,
+        PropertyType.eurAccountFromLabel: accountLabel,
+      },
+    );
+  }
+
+  void eurWithdrawUserTapsOnButtonEdit({
+    required String eurAccountType,
+    required String accountIban,
+    required String accountLabel,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWithdrawUserTapsOnButtonEdit,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '400',
+        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.eurAccountFromIBAN: accountIban,
+        PropertyType.eurAccountFromLabel: accountLabel,
+      },
+    );
+  }
+
+  void eurWithdrawEditBankAccountWithSV({
+    required String eurAccountType,
+    required String accountIban,
+    required String accountLabel,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWithdrawEditBankAccountWithSV,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '401',
+        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.eurAccountFromIBAN: accountIban,
+        PropertyType.eurAccountFromLabel: accountLabel,
+      },
+    );
+  }
+
+  void eurWithdrawTapSaveChangesEdit({
+    required String eurAccountType,
+    required String accountIban,
+    required String accountLabel,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWithdrawTapSaveChangesEdit,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '402',
+        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.eurAccountFromIBAN: accountIban,
+        PropertyType.eurAccountFromLabel: accountLabel,
+      },
+    );
+  }
+
+  void eurWithdrawTapCloseEdit({
+    required String eurAccountType,
+    required String accountIban,
+    required String accountLabel,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWithdrawTapCloseEdit,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '403',
+        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.eurAccountFromIBAN: accountIban,
+        PropertyType.eurAccountFromLabel: accountLabel,
+      },
+    );
+  }
+
+  void eurWithdrawTapDeleteEdit({
+    required String eurAccountType,
+    required String accountIban,
+    required String accountLabel,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWithdrawTapDeleteEdit,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '404',
+        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.eurAccountFromIBAN: accountIban,
+        PropertyType.eurAccountFromLabel: accountLabel,
+      },
+    );
+  }
+
+  void eurWithdrawTapConfirmDeleteEdit({
+    required String eurAccountType,
+    required String accountIban,
+    required String accountLabel,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWithdrawTapConfirmDeleteEdit,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '405',
+        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.eurAccountFromIBAN: accountIban,
+        PropertyType.eurAccountFromLabel: accountLabel,
+      },
+    );
+  }
+
+  void eurWithdrawTapReceive({
+    required String eurAccountType,
+    required String accountIban,
+    required String accountLabel,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWithdrawTapReceive,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '406',
+        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.eurAccountFromIBAN: accountIban,
+        PropertyType.eurAccountFromLabel: accountLabel,
+      },
+    );
+  }
+
+  void eurWithdrawTapExistingAccount({
+    required String eurAccountType,
+    required String accountIban,
+    required String accountLabel,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWithdrawTapExistingAccount,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '407',
+        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.eurAccountFromIBAN: accountIban,
+        PropertyType.eurAccountFromLabel: accountLabel,
+      },
+    );
+  }
+
+  void eurWithdrawAddReceiving({
+    required String eurAccountType,
+    required String accountIban,
+    required String accountLabel,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWithdrawAddReceiving,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '408',
+        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.eurAccountFromIBAN: accountIban,
+        PropertyType.eurAccountFromLabel: accountLabel,
+      },
+    );
+  }
+
+  void eurWithdrawTapBackReceiving({
+    required String eurAccountType,
+    required String accountIban,
+    required String accountLabel,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWithdrawTapBackReceiving,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '409',
+        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.eurAccountFromIBAN: accountIban,
+        PropertyType.eurAccountFromLabel: accountLabel,
+      },
+    );
+  }
+
+  void eurWithdrawTapContinueAddReceiving({
+    required String eurAccountType,
+    required String accountIban,
+    required String accountLabel,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWithdrawTapContinueAddReceiving,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '410',
+        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.eurAccountFromIBAN: accountIban,
+        PropertyType.eurAccountFromLabel: accountLabel,
+      },
+    );
+  }
+
+  void eurWithdrawEurAmountSV({
+    required String eurAccountType,
+    required String accountIban,
+    required String accountLabel,
+    required String eurAccType,
+    required String eurAccLabel,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWithdrawEurAmountSV,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '411',
+        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.eurAccountFromIBAN: accountIban,
+        PropertyType.eurAccountFromLabel: accountLabel,
+        PropertyType.eurAccountType: eurAccType,
+        PropertyType.eurAccountLabel: eurAccLabel,
+      },
+    );
+  }
+
+  void eurWithdrawBackAmountSV({
+    required String eurAccountType,
+    required String accountIban,
+    required String accountLabel,
+    required String eurAccType,
+    required String eurAccLabel,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWithdrawBackAmountSV,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '412',
+        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.eurAccountFromIBAN: accountIban,
+        PropertyType.eurAccountFromLabel: accountLabel,
+        PropertyType.eurAccountType: eurAccType,
+        PropertyType.eurAccountLabel: eurAccLabel,
+      },
+    );
+  }
+
+  void eurWithdrawErrorShowConvert({
+    required String eurAccountType,
+    required String accountIban,
+    required String accountLabel,
+    required String eurAccType,
+    required String eurAccLabel,
+    required String errorText,
+    required String enteredAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWithdrawErrorShowConvert,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '413',
+        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.eurAccountFromIBAN: accountIban,
+        PropertyType.eurAccountFromLabel: accountLabel,
+        PropertyType.eurAccountType: eurAccType,
+        PropertyType.eurAccountLabel: eurAccLabel,
+        PropertyType.errorText: errorText,
+        PropertyType.enteredAmount: enteredAmount,
+      },
+    );
+  }
+
+  void eurWithdrawContinueFromAmoountB({
+    required String eurAccountType,
+    required String accountIban,
+    required String accountLabel,
+    required String eurAccType,
+    required String eurAccLabel,
+    required String enteredAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWithdrawContinueFromAmoountB,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '414',
+        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.eurAccountFromIBAN: accountIban,
+        PropertyType.eurAccountFromLabel: accountLabel,
+        PropertyType.eurAccountType: eurAccType,
+        PropertyType.eurAccountLabel: eurAccLabel,
+        PropertyType.enteredAmount: enteredAmount,
+      },
+    );
+  }
+
+  void eurWithdrawReferenceSV({
+    required String eurAccountType,
+    required String accountIban,
+    required String accountLabel,
+    required String eurAccType,
+    required String eurAccLabel,
+    required String enteredAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWithdrawReferenceSV,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '424',
+        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.eurAccountFromIBAN: accountIban,
+        PropertyType.eurAccountFromLabel: accountLabel,
+        PropertyType.eurAccountType: eurAccType,
+        PropertyType.eurAccountLabel: eurAccLabel,
+        PropertyType.enteredAmount: enteredAmount,
+      },
+    );
+  }
+
+  void eurWithdrawContinueReferecenceButton({
+    required String eurAccountType,
+    required String accountIban,
+    required String accountLabel,
+    required String eurAccType,
+    required String eurAccLabel,
+    required String enteredAmount,
+    required String referenceText,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWithdrawContinueReferecenceButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '425',
+        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.eurAccountFromIBAN: accountIban,
+        PropertyType.eurAccountFromLabel: accountLabel,
+        PropertyType.eurAccountType: eurAccType,
+        PropertyType.eurAccountLabel: eurAccLabel,
+        PropertyType.enteredAmount: enteredAmount,
+        PropertyType.referenceText: referenceText,
+      },
+    );
+  }
+
+  void eurWithdrawWithdrawOrderSummarySV({
+    required String eurAccountType,
+    required String accountIban,
+    required String accountLabel,
+    required String eurAccType,
+    required String eurAccLabel,
+    required String enteredAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWithdrawWithdrawOrderSummarySV,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '415',
+        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.eurAccountFromIBAN: accountIban,
+        PropertyType.eurAccountFromLabel: accountLabel,
+        PropertyType.eurAccountType: eurAccType,
+        PropertyType.eurAccountLabel: eurAccLabel,
+        PropertyType.enteredAmount: enteredAmount,
+      },
+    );
+  }
+
+  void eurWithdrawTapBackOrderSummary({
+    required String eurAccountType,
+    required String accountIban,
+    required String accountLabel,
+    required String eurAccType,
+    required String eurAccLabel,
+    required String enteredAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWithdrawTapBackOrderSummary,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '416',
+        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.eurAccountFromIBAN: accountIban,
+        PropertyType.eurAccountFromLabel: accountLabel,
+        PropertyType.eurAccountType: eurAccType,
+        PropertyType.eurAccountLabel: eurAccLabel,
+        PropertyType.enteredAmount: enteredAmount,
+      },
+    );
+  }
+
+  void eurWithdrawProcessingFeePopup({
+    required String eurAccountType,
+    required String accountIban,
+    required String accountLabel,
+    required String eurAccType,
+    required String eurAccLabel,
+    required String enteredAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWithdrawProcessingFeePopup,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '417',
+        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.eurAccountFromIBAN: accountIban,
+        PropertyType.eurAccountFromLabel: accountLabel,
+        PropertyType.eurAccountType: eurAccType,
+        PropertyType.eurAccountLabel: eurAccLabel,
+        PropertyType.enteredAmount: enteredAmount,
+      },
+    );
+  }
+
+  void eurWithdrawTapConfirmOrderSummary({
+    required String eurAccountType,
+    required String accountIban,
+    required String accountLabel,
+    required String eurAccType,
+    required String eurAccLabel,
+    required String enteredAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWithdrawTapConfirmOrderSummary,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '418',
+        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.eurAccountFromIBAN: accountIban,
+        PropertyType.eurAccountFromLabel: accountLabel,
+        PropertyType.eurAccountType: eurAccType,
+        PropertyType.eurAccountLabel: eurAccLabel,
+        PropertyType.enteredAmount: enteredAmount,
+      },
+    );
+  }
+
+  void eurWithdrawSuccessWithdrawEndSV({
+    required String eurAccountType,
+    required String accountIban,
+    required String accountLabel,
+    required String eurAccType,
+    required String eurAccLabel,
+    required String enteredAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWithdrawSuccessWithdrawEndSV,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '419',
+        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.eurAccountFromIBAN: accountIban,
+        PropertyType.eurAccountFromLabel: accountLabel,
+        PropertyType.eurAccountType: eurAccType,
+        PropertyType.eurAccountLabel: eurAccLabel,
+        PropertyType.enteredAmount: enteredAmount,
+      },
+    );
+  }
+
+  void eurWithdrawFailed({
+    required String eurAccountType,
+    required String accountIban,
+    required String accountLabel,
+    required String eurAccType,
+    required String eurAccLabel,
+    required String enteredAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.eurWithdrawFailed,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '420',
+        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.eurAccountFromIBAN: accountIban,
+        PropertyType.eurAccountFromLabel: accountLabel,
+        PropertyType.eurAccountType: eurAccType,
+        PropertyType.eurAccountLabel: eurAccLabel,
+        PropertyType.enteredAmount: enteredAmount,
+      },
+    );
+  }
 }
