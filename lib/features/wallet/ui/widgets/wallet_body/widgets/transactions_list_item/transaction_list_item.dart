@@ -117,11 +117,11 @@ class TransactionListItem extends StatelessWidget {
       case OperationType.swapSell:
         return '${transactionListItem.swapInfo?.sellAssetId} ${intl.operationName_exchangeTo} ${transactionListItem.swapInfo?.buyAssetId}';
       case OperationType.cryptoBuy:
-        return '${transactionListItem.cryptoBuyInfo?.paymentAssetId} to ${transactionListItem.cryptoBuyInfo?.buyAssetId}';
+        return '${transactionListItem.cryptoBuyInfo?.paymentAssetId} ${intl.operationName_exchangeTo} ${transactionListItem.cryptoBuyInfo?.buyAssetId}';
       case OperationType.bankingBuy:
-        return '${transactionListItem.cryptoBuyInfo?.paymentAssetId} to ${transactionListItem.cryptoBuyInfo?.buyAssetId}';
+        return '${transactionListItem.cryptoBuyInfo?.paymentAssetId} ${intl.operationName_exchangeTo} ${transactionListItem.cryptoBuyInfo?.buyAssetId}';
       case OperationType.bankingSell:
-        return '${transactionListItem.sellCryptoInfo?.sellAssetId} to ${transactionListItem.sellCryptoInfo?.buyAssetId}';
+        return '${transactionListItem.sellCryptoInfo?.sellAssetId} ${intl.operationName_exchangeTo} ${transactionListItem.sellCryptoInfo?.buyAssetId}';
       default:
         return transactionListItem.assetId;
     }

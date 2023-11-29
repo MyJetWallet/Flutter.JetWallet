@@ -1,6 +1,5 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 
@@ -212,7 +211,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
             ),
             const SpaceH18(),
           ],
-          const SizedBox(height: 32),
+          const SizedBox(height: 20),
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
@@ -248,7 +247,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
             text: intl.send_globally_con_rate,
             value: TransactionDetailsValueText(
               text:
-                  '''1 ${transactionListItem.withdrawalInfo?.feeAssetId ?? transactionListItem.withdrawalInfo?.withdrawalAssetId} = ${transactionListItem.withdrawalInfo!.receiveRate} ${transactionListItem.withdrawalInfo!.receiveAsset}''',
+                  '''1 ${transactionListItem.withdrawalInfo?.feeAssetId ?? transactionListItem.withdrawalInfo?.withdrawalAssetId} = ${volumeFormat(symbol: transactionListItem.withdrawalInfo?.receiveAsset ?? '', decimal: transactionListItem.withdrawalInfo?.receiveRate ?? Decimal.zero)}''',
             ),
           ),
           if (transactionListItem.status != Status.declined) ...[
@@ -258,6 +257,24 @@ class SendGloballyDetails extends StatelessObserverWidget {
                 decimal: transactionListItem.withdrawalInfo!.feeAmount,
                 accuracy: currency.accuracy,
                 symbol: currency.symbol,
+              ),
+            ),
+          ],
+          if (transactionListItem.paymeInfo?.methodName != null) ...[
+            const SpaceH18(),
+            TransactionDetailsItem(
+              text: intl.operationName_sent,
+              value: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.6,
+                ),
+                child: TransactionDetailsValueText(
+                  textAlign: TextAlign.end,
+                  text: volumeFormat(
+                    decimal: transactionListItem.withdrawalInfo?.sendAmount ?? Decimal.zero,
+                    symbol: transactionListItem.withdrawalInfo?.sendAsset ?? '',
+                  ),
+                ),
               ),
             ),
           ],

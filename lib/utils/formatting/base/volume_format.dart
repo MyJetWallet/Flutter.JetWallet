@@ -21,11 +21,11 @@ import 'package:intl/intl.dart';
 /// 8. zero case: 0 => 0, 0.00 => 0
 String volumeFormat({
   required Decimal decimal,
-  required int accuracy,
+  int? accuracy,
   required String symbol,
   bool onlyFullPart = false,
 }) {
-  if (accuracy.isNegative) {
+  if (accuracy?.isNegative ?? false) {
     throw ArgumentError(
       'marketFormat() does not support negative accuracy',
     );
@@ -36,15 +36,17 @@ String volumeFormat({
   late String formattedWithSymbol;
 
   formattedWithSymbol = '$formatted $symbol';
-  //prefix == null ? '$formatted $symbol' : '$prefix $formatted';
 
   return decimal.signum.isNegative ? '-$formattedWithSymbol' : formattedWithSymbol;
 }
 
-String _formatNumber(Decimal decimal, int accuracy, bool onlyFullPart) {
+String _formatNumber(Decimal decimal, int? accuracy, bool onlyFullPart) {
   final absNumber = decimal.abs();
+  var rounded = absNumber;
 
-  final rounded = absNumber.round(scale: accuracy);
+  if (accuracy != null) {
+    rounded = absNumber.round(scale: accuracy);
+  }
 
   final chars = rounded.toString().split('');
 
