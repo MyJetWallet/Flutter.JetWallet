@@ -4,7 +4,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
@@ -30,12 +29,6 @@ class SendGloballyDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currency = currencyFrom(
-      sSignalRModules.currenciesList,
-      transactionListItem.withdrawalInfo?.feeAssetId ??
-          (transactionListItem.withdrawalInfo?.withdrawalAssetId ?? 'EUR'),
-    );
-
     return SPaddingH24(
       child: Column(
         children: [
@@ -227,6 +220,19 @@ class SendGloballyDetails extends StatelessObserverWidget {
                   ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
+          const SpaceH18(),
+          TransactionDetailsItem(
+            text: intl.iban_send_history_transaction_id,
+            value: Row(
+              children: [
+                TransactionDetailsValueText(
+                  text: shortTxhashFrom(transactionListItem.operationId),
+                ),
+                const SpaceW10(),
+                HistoryCopyIcon(transactionListItem.operationId),
+              ],
+            ),
+          ),
           if (transactionListItem.paymeInfo?.methodName != null) ...[
             const SpaceH18(),
             TransactionDetailsItem(
@@ -252,11 +258,19 @@ class SendGloballyDetails extends StatelessObserverWidget {
           ),
           if (transactionListItem.status != Status.declined) ...[
             const SpaceH18(),
-            ProcessingFeeRowWidget(
+            PaymentFeeRowWidget(
               fee: volumeFormat(
-                decimal: transactionListItem.withdrawalInfo!.feeAmount,
-                accuracy: currency.accuracy,
-                symbol: currency.symbol,
+                decimal: transactionListItem.withdrawalInfo?.paymentFeeAmount ?? Decimal.zero,
+                symbol: transactionListItem.withdrawalInfo?.paymentFeeAssetId ?? '',
+              ),
+            ),
+          ],
+          if (transactionListItem.status != Status.declined) ...[
+            const SpaceH18(),
+            PaymentFeeRowWidget(
+              fee: volumeFormat(
+                decimal: transactionListItem.withdrawalInfo?.feeAmount ?? Decimal.zero,
+                symbol: transactionListItem.withdrawalInfo?.feeAssetId ?? '',
               ),
             ),
           ],

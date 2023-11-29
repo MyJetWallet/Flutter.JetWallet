@@ -404,6 +404,8 @@ class WithdrawalInfo with _$WithdrawalInfo {
     @DecimalNullSerialiser() Decimal? receiveAmount,
     @DecimalNullSerialiser() Decimal? receiveRate,
     String? contactName,
+    @DecimalNullSerialiser() Decimal? paymentFeeAmount,
+    String? paymentFeeAssetId,
   }) = _WithdrawalInfo;
 
   factory WithdrawalInfo.fromJson(Map<String, dynamic> json) => _$WithdrawalInfoFromJson(json);
