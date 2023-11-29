@@ -16,7 +16,6 @@ import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 void showBuyAction({
-  bool shouldPop = true,
   bool showRecurring = false,
   Source? from,
   CurrencyModel? currency,
@@ -43,23 +42,17 @@ void showBuyAction({
       sSignalRModules.clientDetail.clientBlockers.any((element) => element.blockingType == BlockingType.deposit);
 
   if ((kyc.tradeStatus == kycOperationStatus(KycStatus.blocked)) || !isBuyAvaible) {
-    if (shouldPop) Navigator.pop(context);
     sNotification.showError(
       intl.operation_bloked_text,
-      duration: 4,
       id: 1,
-      hideIcon: true,
     );
   } else if ((kyc.depositStatus == kycOperationStatus(KycStatus.blocked)) &&
       !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
-    if (shouldPop) Navigator.pop(context);
     sNotification.showError(
       intl.operation_bloked_text,
-      duration: 4,
       id: 1,
-      hideIcon: true,
     );
-  } else if (isDepositBlocker) {
+  } else if (isDepositBlocker && !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
     _showAction(
       context: context,
       blockingTypeCheck: BlockingType.deposit,

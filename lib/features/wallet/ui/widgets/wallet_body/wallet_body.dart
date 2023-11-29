@@ -165,19 +165,16 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                           if (kycState.tradeStatus == kycOperationStatus(KycStatus.blocked) || !isBuyAvaible) {
                             sNotification.showError(
                               intl.operation_bloked_text,
-                              duration: 4,
                               id: 1,
-                              hideIcon: true,
                             );
                           } else if ((kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) &&
                               !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
                             sNotification.showError(
                               intl.operation_bloked_text,
-                              duration: 4,
                               id: 1,
-                              hideIcon: true,
                             );
-                          } else if (isDepositBlocker) {
+                          } else if (isDepositBlocker &&
+                              !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
                             showSendTimerAlertOr(
                               context: context,
                               or: () => showPayWithBottomSheet(
@@ -210,12 +207,24 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                         },
                         onSell: () {
                           final actualAsset = widget.currency;
-                          sRouter.push(
-                            AmountRoute(
-                              tab: AmountScreenTab.sell,
-                              asset: actualAsset,
-                            ),
-                          );
+
+                          if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
+                            showSendTimerAlertOr(
+                              context: context,
+                              or: () => sRouter.push(
+                                AmountRoute(
+                                  tab: AmountScreenTab.sell,
+                                  asset: actualAsset,
+                                ),
+                              ),
+                              from: [BlockingType.trade],
+                            );
+                          } else {
+                            sNotification.showError(
+                              intl.operation_bloked_text,
+                              id: 1,
+                            );
+                          }
                         },
                         onReceive: () {
                           final actualAsset = widget.currency;
@@ -234,9 +243,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                           } else if (!widget.currency.supportsCryptoDeposit) {
                             sNotification.showError(
                               intl.operation_bloked_text,
-                              duration: 4,
                               id: 1,
-                              hideIcon: true,
                             );
                           } else {
                             handler.handle(
@@ -281,9 +288,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                           } else {
                             sNotification.showError(
                               intl.operation_bloked_text,
-                              duration: 4,
                               id: 1,
-                              hideIcon: true,
                             );
                           }
                         },

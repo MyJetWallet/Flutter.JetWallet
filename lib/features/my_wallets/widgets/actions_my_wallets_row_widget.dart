@@ -40,7 +40,6 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
                     myWalletsSrore.endReorderingImmediately();
                   } else {
                     showBuyAction(
-                      shouldPop: false,
                       context: context,
                     );
                   }

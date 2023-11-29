@@ -8,6 +8,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
@@ -40,11 +41,15 @@ Future<void> showSendAction(BuildContext context) async {
   );
 
   if (!(isToCryptoWalletAvaible || isGlobalAvaible || isGiftAvaible)) {
-    sNotification.showError(
-      intl.operation_bloked_text,
-      duration: 4,
-      id: 1,
-      hideIcon: true,
+    showSendTimerAlertOr(
+      context: context,
+      or: () {
+        sNotification.showError(
+          intl.operation_bloked_text,
+          id: 1,
+        );
+      },
+      from: [BlockingType.transfer, BlockingType.withdrawal],
     );
 
     return;
