@@ -1475,5 +1475,8 @@
     "phone_cahange_warning": "Before you proceed please be aware that for security purposes all send and withdraw operations will be blocked for 48 hours after successful update of the phone number",
     "reference_character_minimum": "5 characters or more",
     "gift_receive_history_from": "From",
-    "confirm_with_sms": "Confirm with SMS"
+    "confirm_with_sms": "Confirm with SMS",
+    "buy_confirm_with_unlimit_1_part": "By continuing you confirm sending funds of",
+    "buy_confirm_with_unlimit_2_part": "from your bank account at Unlimit to the bank account",
+    "buy_confirm_with_unlimit_3_part": "on the name of"
 }

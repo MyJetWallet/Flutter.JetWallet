@@ -10,6 +10,7 @@ import 'package:jetwallet/features/buy_flow/ui/widgets/confirmation_widgets/conf
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
+import 'package:jetwallet/utils/helpers/split_iban.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
@@ -139,13 +140,19 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                 ),
                 if (!(store.account?.isClearjuctionAccount ?? false)) ...[
                   const SpaceH19(),
-                  Text(
-                    // TODO (yaroslav): take to localization
-                    '''By continuing you confirm sending funds of ${volumeFormat(symbol: store.payCurrency.symbol, accuracy: store.payCurrency.accuracy, decimal: store.paymentAmount ?? Decimal.zero)} from your bank account at Unlimit to the bank account FR14 2004 1010 0505 0001 3M02 606 on the name of Simple Europe UAB''',
-                    style: sCaptionTextStyle.copyWith(
-                      color: SColorsLight().gray8,
-                    ),
-                    maxLines: 20,
+                  Builder(
+                    builder: (context) {
+                      final text =
+                          '''${intl.buy_confirm_with_unlimit_1_part} ${volumeFormat(symbol: store.payCurrency.symbol, accuracy: store.payCurrency.accuracy, decimal: store.paymentAmount ?? Decimal.zero)} ${intl.buy_confirm_with_unlimit_2_part} ${splitIban((store.ibanBuyDestination).trim())} ${intl.buy_confirm_with_unlimit_3_part} ${store.ibanBuyBeneficiary}''';
+
+                      return Text(
+                        text,
+                        style: sCaptionTextStyle.copyWith(
+                          color: SColorsLight().gray8,
+                        ),
+                        maxLines: 20,
+                      );
+                    },
                   ),
                 ],
                 const SpaceH19(),

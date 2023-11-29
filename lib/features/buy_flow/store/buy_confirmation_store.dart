@@ -122,6 +122,11 @@ abstract class _BuyConfirmationStoreBase with Store {
   bool wasAction = false;
 
   @observable
+  String ibanBuyDestination = '';
+  @observable
+  String ibanBuyBeneficiary = '';
+
+  @observable
   bool isBankTermsChecked = false;
   @observable
   bool firstBuy = false;
@@ -281,6 +286,8 @@ abstract class _BuyConfirmationStoreBase with Store {
             paymentId = data.paymentId ?? '';
             actualTimeInSecond = data.actualTimeInSecond;
             deviceBindingRequired = data.deviceBindingRequired;
+            ibanBuyDestination = data.ibanBuyDestination ?? '';
+            ibanBuyBeneficiary = data.ibanBuyBeneficiary ?? '';
           },
           onError: (error) {
             loader.finishLoadingImmediately();
