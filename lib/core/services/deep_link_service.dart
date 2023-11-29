@@ -24,6 +24,7 @@ import 'package:jetwallet/features/auth/email_verification/store/email_verificat
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
+import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/clickable_underlined_text.dart';
 import 'package:jetwallet/features/send_gift/widgets/share_gift_result_bottom_sheet.dart';
 import 'package:jetwallet/features/withdrawal/model/withdrawal_confirm_model.dart';
@@ -456,15 +457,43 @@ class DeepLinkService {
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
-      await getIt<SumsubService>().launch(
-        isBanking: false,
+      final kycState = getIt.get<KycService>();
+      final kycAlertHandler = getIt.get<KycAlertHandler>();
+
+      final isDepositAllow = kycState.depositStatus != kycOperationStatus(KycStatus.allowed);
+      final isWithdrawalAllow = kycState.withdrawalStatus != kycOperationStatus(KycStatus.allowed);
+
+      kycAlertHandler.handle(
+        status: isDepositAllow
+            ? kycState.depositStatus
+            : isWithdrawalAllow
+                ? kycState.withdrawalStatus
+                : kycState.tradeStatus,
+        isProgress: kycState.verificationInProgress,
+        currentNavigate: () {},
+        requiredDocuments: kycState.requiredDocuments,
+        requiredVerifications: kycState.requiredVerifications,
       );
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
           func: () async {
-            await getIt<SumsubService>().launch(
-              isBanking: false,
+            final kycState = getIt.get<KycService>();
+            final kycAlertHandler = getIt.get<KycAlertHandler>();
+
+            final isDepositAllow = kycState.depositStatus != kycOperationStatus(KycStatus.allowed);
+            final isWithdrawalAllow = kycState.withdrawalStatus != kycOperationStatus(KycStatus.allowed);
+
+            kycAlertHandler.handle(
+              status: isDepositAllow
+                  ? kycState.depositStatus
+                  : isWithdrawalAllow
+                      ? kycState.withdrawalStatus
+                      : kycState.tradeStatus,
+              isProgress: kycState.verificationInProgress,
+              currentNavigate: () {},
+              requiredDocuments: kycState.requiredDocuments,
+              requiredVerifications: kycState.requiredVerifications,
             );
           },
         ),

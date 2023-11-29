@@ -23,6 +23,7 @@ class SimpleTableAccount extends StatelessWidget {
     this.isButtonLabelBold = false,
     this.buttonLabel,
     this.buttonTap,
+    this.customRightWidget,
   }) : super(key: key);
 
   final Widget? assetIcon;
@@ -35,6 +36,7 @@ class SimpleTableAccount extends StatelessWidget {
   final bool hasLabelIcon;
   final bool hasRightValue;
   final String? rightValue;
+  final Widget? customRightWidget;
 
   final bool hasButton;
   final bool isButtonLoading;
@@ -63,6 +65,7 @@ class SimpleTableAccount extends StatelessWidget {
             hasLabelIcon: hasLabelIcon,
             hasRightValue: hasRightValue,
             rightValue: rightValue,
+            customRightWidget: customRightWidget,
           ),
           if (hasButton) ...[
             const Gap(8),

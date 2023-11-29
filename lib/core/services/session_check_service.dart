@@ -16,7 +16,7 @@ class SessionCheckService {
     const loggerValue = 'StartupService';
 
     logger.log(
-      level: Level.error,
+      level: Level.debug,
       place: loggerValue,
       message: 'sessionCheck GET',
     );

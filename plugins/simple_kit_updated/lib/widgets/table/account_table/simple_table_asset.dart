@@ -20,6 +20,7 @@ class SimpleTableAsset extends StatelessWidget {
     this.labelIcon,
     this.hasRightValue = true,
     this.rightValue,
+    this.customRightWidget,
   }) : super(key: key);
 
   final VoidCallback? onTableAssetTap;
@@ -34,6 +35,7 @@ class SimpleTableAsset extends StatelessWidget {
 
   final bool hasRightValue;
   final String? rightValue;
+  final Widget? customRightWidget;
 
   final bool hasLabelIcon;
   final Widget? labelIcon;
@@ -119,9 +121,10 @@ class SimpleTableAsset extends StatelessWidget {
               if (hasRightValue) ...[
                 const Spacer(),
                 Center(
-                  child: RoundButton(
-                    value: rightValue ?? '',
-                  ),
+                  child: customRightWidget ??
+                      RoundButton(
+                        value: rightValue ?? '',
+                      ),
                 ),
               ]
             ],
