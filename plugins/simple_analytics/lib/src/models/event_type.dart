@@ -314,4 +314,32 @@ class EventType {
   static const eurWalletTapBackOnGlobalHS = "Tap on the button ‘Back’ on 'Global transaction history' screen";
 
   static const pinAfterWaiting = "'Pin after waiting' screen view";
+
+  // EUR withdrawal
+  static const eurWithdrawTapOnTheButtonWithdraw = "Tap on the button ‘Withdraw' on 'EUR account Wallet' screen";
+  static const eurWithdrawBankTransferWithEurSheet = "‘Bank transfer withdraw eur' sheet view";
+  static const eurWithdrawUserTapsOnButtonEdit = "Tap on the ‘Edit withdraw contact’ button";
+  static const eurWithdrawEditBankAccountWithSV = "‘Edit bank account withdraw’ screen view";
+  static const eurWithdrawTapSaveChangesEdit =
+      "Tap on the button ‘Save changes’ on 'Edit bank account withdraw' screen";
+  static const eurWithdrawTapCloseEdit = "Tap on the button ‘Close’ on 'Edit bank account withdraw' screen";
+  static const eurWithdrawTapDeleteEdit = "Tap on the button ‘Delete’ on 'Edit bank account withdraw' screen";
+  static const eurWithdrawTapConfirmDeleteEdit = "Tap on the button ‘Confirm delete’ on 'Delete popup' screen";
+  static const eurWithdrawTapReceive = "Tap on the ‘Add receiving account’ button";
+  static const eurWithdrawTapExistingAccount = "Tap on the ‘Any existing account’ button";
+  static const eurWithdrawAddReceiving = "‘Add receiving account' screen view";
+  static const eurWithdrawTapBackReceiving = "Tap on  ‘Back from add receiving account’ button";
+  static const eurWithdrawTapContinueAddReceiving = "Tap on  ‘Continue from add receiving account’ button";
+  static const eurWithdrawEurAmountSV = "‘Withdraw eur amount' screen view";
+  static const eurWithdrawBackAmountSV = "Tap on  ‘Back from Amount EUR withdraw scr’ button";
+  static const eurWithdrawErrorShowConvert = "Error - “Showing error under convert amount”";
+  static const eurWithdrawContinueFromAmoountB = "Tap on  ‘Continue from Amount EUR withdraw scr’ button";
+  static const eurWithdrawReferenceSV = "‘Reference' screen view";
+  static const eurWithdrawContinueReferecenceButton = "Tap on  ‘Continue from Reference’ button";
+  static const eurWithdrawWithdrawOrderSummarySV = "‘Withdraw order summary' screen view";
+  static const eurWithdrawTapBackOrderSummary = "Tap on the ‘Back from Withdraw Order summary ’ button";
+  static const eurWithdrawProcessingFeePopup = "‘Processing fee convert’ popup view";
+  static const eurWithdrawTapConfirmOrderSummary = "Tap on the button ‘Confirm’ on Withdraw order summary";
+  static const eurWithdrawSuccessWithdrawEndSV = "‘Success Withdraw end’ screen view";
+  static const eurWithdrawFailed = "Failed Withdraw end’ screen view";
 }

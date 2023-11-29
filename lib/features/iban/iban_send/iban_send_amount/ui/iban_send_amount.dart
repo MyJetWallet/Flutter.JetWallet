@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_amount/helpers/show_reference_sheet.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_amount/store/iban_send_amount_store.dart';
@@ -32,8 +33,10 @@ class IbanSendAmount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider<IbanSendAmountStore>(
-      create: (context) => IbanSendAmountStore()..init(contact, bankingAccount),
+      create: (context) => IbanSendAmountStore()..init(contact, bankingAccount, isCJ),
       builder: (context, child) => IbanSendAmountBody(
+        contact: contact,
+        bankingAccount: bankingAccount,
         isCJ: isCJ,
       ),
     );
@@ -43,9 +46,13 @@ class IbanSendAmount extends StatelessWidget {
 class IbanSendAmountBody extends StatelessObserverWidget {
   const IbanSendAmountBody({
     super.key,
+    required this.contact,
+    required this.bankingAccount,
     required this.isCJ,
   });
 
+  final AddressBookContactModel contact;
+  final SimpleBankingAccount bankingAccount;
   final bool isCJ;
 
   @override
@@ -69,6 +76,17 @@ class IbanSendAmountBody extends StatelessObserverWidget {
           subTitleStyle: sSubtitle3Style.copyWith(
             color: colors.grey2,
           ),
+          onBackButtonTap: () {
+            sAnalytics.eurWithdrawBackAmountSV(
+              eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+              accountIban: bankingAccount.iban ?? '',
+              accountLabel: bankingAccount.label ?? '',
+              eurAccType: contact.iban ?? '',
+              eurAccLabel: contact.name ?? '',
+            );
+
+            sRouter.back();
+          },
         ),
       ),
       child: Column(
@@ -165,12 +183,40 @@ class IbanSendAmountBody extends StatelessObserverWidget {
                 preset: 'false',
               );
 
+              sAnalytics.eurWithdrawContinueFromAmoountB(
+                eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+                accountIban: bankingAccount.iban ?? '',
+                accountLabel: bankingAccount.label ?? '',
+                eurAccType: contact.iban ?? '',
+                eurAccLabel: contact.name ?? '',
+                enteredAmount: store.withAmount,
+              );
+
               if (isCJ) {
                 store.loadPreview(null, isCJ);
               } else {
+                sAnalytics.eurWithdrawReferenceSV(
+                  eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+                  accountIban: bankingAccount.iban ?? '',
+                  accountLabel: bankingAccount.label ?? '',
+                  eurAccType: contact.iban ?? '',
+                  eurAccLabel: contact.name ?? '',
+                  enteredAmount: store.withAmount,
+                );
+
                 showReferenceSheet(
                   context,
                   (description) {
+                    sAnalytics.eurWithdrawContinueReferecenceButton(
+                      eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+                      accountIban: bankingAccount.iban ?? '',
+                      accountLabel: bankingAccount.label ?? '',
+                      eurAccType: contact.iban ?? '',
+                      eurAccLabel: contact.name ?? '',
+                      enteredAmount: store.withAmount,
+                      referenceText: description,
+                    );
+
                     store.loadPreview(description, isCJ);
                   },
                 );

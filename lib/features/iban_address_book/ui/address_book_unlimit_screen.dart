@@ -11,6 +11,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 
 @RoutePage(name: 'IbanAdressBookUnlimitRoute')
@@ -18,9 +19,11 @@ class IbanAdressBookUnlimitScreen extends StatelessWidget {
   const IbanAdressBookUnlimitScreen({
     Key? key,
     this.contact,
+    this.bankingAccount,
   }) : super(key: key);
 
   final AddressBookContactModel? contact;
+  final SimpleBankingAccount? bankingAccount;
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +31,20 @@ class IbanAdressBookUnlimitScreen extends StatelessWidget {
       create: (context) => IbanAddressBookStore()
         ..setFlow(false)
         ..setContact(contact),
-      builder: (context, child) => const _BodyAdressBookUnlimit(),
+      builder: (context, child) => _BodyAdressBookUnlimit(
+        bankingAccount: bankingAccount,
+      ),
     );
   }
 }
 
 class _BodyAdressBookUnlimit extends StatefulObserverWidget {
-  const _BodyAdressBookUnlimit({Key? key}) : super(key: key);
+  const _BodyAdressBookUnlimit({
+    Key? key,
+    this.bankingAccount,
+  }) : super(key: key);
+
+  final SimpleBankingAccount? bankingAccount;
 
   @override
   State<_BodyAdressBookUnlimit> createState() => _BodyAdressBookUnlimitState();
@@ -272,6 +282,12 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                             active: IbanAddressBookStore.of(context).isButtonActive,
                             name: intl.iban_edit_save_changes,
                             onTap: () {
+                              sAnalytics.eurWithdrawTapSaveChangesEdit(
+                                eurAccountType: 'Unlimit',
+                                accountIban: widget.bankingAccount?.iban ?? '',
+                                accountLabel: widget.bankingAccount?.label ?? '',
+                              );
+
                               IbanAddressBookStore.of(context).editAccount();
                             },
                           ),
@@ -285,6 +301,12 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                             active: true,
                             name: intl.iban_edit_delete_account,
                             onTap: () {
+                              sAnalytics.eurWithdrawTapDeleteEdit(
+                                eurAccountType: 'Unlimit',
+                                accountIban: widget.bankingAccount?.iban ?? '',
+                                accountLabel: widget.bankingAccount?.label ?? '',
+                              );
+
                               sShowAlertPopup(
                                 context,
                                 primaryText: '${intl.iban_edit_delete_account}?',
@@ -292,6 +314,12 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                                 primaryButtonName: intl.iban_edit_delete,
                                 primaryButtonType: SButtonType.primary3,
                                 onPrimaryButtonTap: () {
+                                  sAnalytics.eurWithdrawTapConfirmDeleteEdit(
+                                    eurAccountType: 'Unlimit',
+                                    accountIban: widget.bankingAccount?.iban ?? '',
+                                    accountLabel: widget.bankingAccount?.label ?? '',
+                                  );
+
                                   Navigator.pop(context);
 
                                   IbanAddressBookStore.of(context).deleteAccount();
@@ -312,6 +340,12 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                             active: IbanAddressBookStore.of(context).isButtonActive,
                             name: intl.create_continue,
                             onTap: () {
+                              sAnalytics.eurWithdrawTapContinueAddReceiving(
+                                eurAccountType: 'Unlimit',
+                                accountIban: widget.bankingAccount?.iban ?? '',
+                                accountLabel: widget.bankingAccount?.label ?? '',
+                              );
+
                               sAnalytics.tapOnTheButtonAddAccount();
 
                               IbanAddressBookStore.of(context).addAccount();

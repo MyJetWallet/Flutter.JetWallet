@@ -11,6 +11,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 
 @RoutePage(name: 'IbanAdressBookSimpleRoute')
@@ -18,9 +19,11 @@ class IbanAddressBookSimpleScreen extends StatelessWidget {
   const IbanAddressBookSimpleScreen({
     Key? key,
     this.contact,
+    this.bankingAccount,
   }) : super(key: key);
 
   final AddressBookContactModel? contact;
+  final SimpleBankingAccount? bankingAccount;
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +31,20 @@ class IbanAddressBookSimpleScreen extends StatelessWidget {
       create: (context) => IbanAddressBookStore()
         ..setFlow(true)
         ..setContact(contact),
-      builder: (context, child) => const _BodyAddressBookSimple(),
+      builder: (context, child) => _BodyAddressBookSimple(
+        bankingAccount: bankingAccount,
+      ),
     );
   }
 }
 
 class _BodyAddressBookSimple extends StatefulObserverWidget {
-  const _BodyAddressBookSimple({Key? key}) : super(key: key);
+  const _BodyAddressBookSimple({
+    Key? key,
+    this.bankingAccount,
+  }) : super(key: key);
+
+  final SimpleBankingAccount? bankingAccount;
 
   @override
   State<_BodyAddressBookSimple> createState() => _BodyAddressBookSimpleState();
@@ -158,6 +168,12 @@ class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
                             active: IbanAddressBookStore.of(context).isButtonActive,
                             name: intl.iban_edit_save_changes,
                             onTap: () {
+                              sAnalytics.eurWithdrawTapSaveChangesEdit(
+                                eurAccountType: 'CJ',
+                                accountIban: widget.bankingAccount?.iban ?? '',
+                                accountLabel: widget.bankingAccount?.label ?? '',
+                              );
+
                               IbanAddressBookStore.of(context).editAccount();
                             },
                           ),
@@ -171,6 +187,12 @@ class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
                             active: true,
                             name: intl.iban_edit_delete_account,
                             onTap: () {
+                              sAnalytics.eurWithdrawTapDeleteEdit(
+                                eurAccountType: 'CJ',
+                                accountIban: widget.bankingAccount?.iban ?? '',
+                                accountLabel: widget.bankingAccount?.label ?? '',
+                              );
+
                               sShowAlertPopup(
                                 context,
                                 primaryText: '${intl.iban_edit_delete_account}?',
@@ -178,6 +200,12 @@ class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
                                 primaryButtonName: intl.iban_edit_delete,
                                 primaryButtonType: SButtonType.primary3,
                                 onPrimaryButtonTap: () {
+                                  sAnalytics.eurWithdrawTapConfirmDeleteEdit(
+                                    eurAccountType: 'CJ',
+                                    accountIban: widget.bankingAccount?.iban ?? '',
+                                    accountLabel: widget.bankingAccount?.label ?? '',
+                                  );
+
                                   Navigator.pop(context);
 
                                   IbanAddressBookStore.of(context).deleteAccount();
@@ -201,6 +229,12 @@ class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
                               sAnalytics.tapOnTheButtonAddAccount();
 
                               IbanAddressBookStore.of(context).addAccount();
+
+                              sAnalytics.eurWithdrawTapContinueAddReceiving(
+                                eurAccountType: 'CJ',
+                                accountIban: widget.bankingAccount?.iban ?? '',
+                                accountLabel: widget.bankingAccount?.label ?? '',
+                              );
                             },
                           ),
                         ),

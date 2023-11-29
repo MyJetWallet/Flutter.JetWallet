@@ -54,6 +54,9 @@ abstract class _IbanSendAmountStoreBase with Store {
   AddressBookContactModel? contact;
 
   @observable
+  bool? isCJAcc;
+
+  @observable
   SimpleBankingAccount? account;
 
   @observable
@@ -111,13 +114,22 @@ abstract class _IbanSendAmountStoreBase with Store {
       ).maxAmount;
 
   @action
-  void init(AddressBookContactModel value, SimpleBankingAccount bankingAccount) {
+  void init(AddressBookContactModel value, SimpleBankingAccount bankingAccount, bool isCJ) {
     contact = value;
     account = bankingAccount;
+    isCJAcc = isCJ;
 
     requestId = const Uuid().v1();
 
     sAnalytics.sendEurAmountScreenView();
+
+    sAnalytics.eurWithdrawEurAmountSV(
+      eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+      accountIban: bankingAccount.iban ?? '',
+      accountLabel: bankingAccount.label ?? '',
+      eurAccType: value.iban ?? '',
+      eurAccLabel: value.name ?? '',
+    );
 
     final ibanOutMethodInd = eurCurrency.withdrawalMethods.indexWhere(
       (element) => element.id == WithdrawalMethods.ibanSend,
@@ -165,7 +177,8 @@ abstract class _IbanSendAmountStoreBase with Store {
     loader.finishLoadingImmediately();
 
     if (!response.hasError) {
-      await sRouter.push(
+      await sRouter
+          .push(
         IbanSendConfirmRouter(
           data: response.data!,
           contact: contact!,
@@ -173,7 +186,17 @@ abstract class _IbanSendAmountStoreBase with Store {
           previewRequest: previewModel,
           isCJ: isCJ,
         ),
-      );
+      )
+          .then((value) {
+        sAnalytics.eurWithdrawTapBackOrderSummary(
+          eurAccountType: isCJAcc! ? 'CJ' : 'Unlimit',
+          accountIban: account?.iban ?? '',
+          accountLabel: account?.label ?? '',
+          eurAccType: contact?.iban ?? '',
+          eurAccLabel: contact?.name ?? '',
+          enteredAmount: withAmount,
+        );
+      });
     } else {
       sNotification.showError(
         response.error?.cause ?? '',
@@ -253,6 +276,16 @@ abstract class _IbanSendAmountStoreBase with Store {
     if (error != InputError.none) {
       sAnalytics.errorSendIBANAmount(
         errorCode: withAmmountInputError.toString(),
+      );
+
+      sAnalytics.eurWithdrawErrorShowConvert(
+        eurAccountType: isCJAcc! ? 'CJ' : 'Unlimit',
+        accountIban: account?.iban ?? '',
+        accountLabel: account?.label ?? '',
+        eurAccType: contact?.iban ?? '',
+        eurAccLabel: contact?.name ?? '',
+        errorText: withAmmountInputError.toString(),
+        enteredAmount: withAmount,
       );
     }
 

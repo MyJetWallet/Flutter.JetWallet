@@ -9,7 +9,6 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_confirm/store/iban_send_confirm_store.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
-import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/split_iban.dart';
@@ -27,7 +26,7 @@ import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/b
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_preview_withdrawal_model.dart';
 
 @RoutePage(name: 'IbanSendConfirmRouter')
-class IbanSendConfirm extends StatelessWidget {
+class IbanSendConfirm extends StatefulWidget {
   const IbanSendConfirm({
     super.key,
     required this.contact,
@@ -45,15 +44,34 @@ class IbanSendConfirm extends StatelessWidget {
   final bool isCJ;
 
   @override
+  State<IbanSendConfirm> createState() => _IbanSendConfirmState();
+}
+
+class _IbanSendConfirmState extends State<IbanSendConfirm> {
+  @override
+  void initState() {
+    sAnalytics.eurWithdrawWithdrawOrderSummarySV(
+      eurAccountType: widget.isCJ ? 'CJ' : 'Unlimit',
+      accountIban: widget.account.iban ?? '',
+      accountLabel: widget.account.label ?? '',
+      eurAccType: widget.contact.iban ?? '',
+      eurAccLabel: widget.contact.name ?? '',
+      enteredAmount: widget.data.amount.toString(),
+    );
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Provider<IbanSendConfirmStore>(
-      create: (context) => IbanSendConfirmStore()..init(data),
+      create: (context) => IbanSendConfirmStore()..init(widget.data),
       builder: (context, child) => IbanSendConfirmBody(
-        contact: contact,
-        data: data,
-        previewRequest: previewRequest,
-        account: account,
-        isCJ: isCJ,
+        contact: widget.contact,
+        data: widget.data,
+        previewRequest: widget.previewRequest,
+        account: widget.account,
+        isCJ: widget.isCJ,
       ),
     );
   }
@@ -237,6 +255,15 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                       sendAmount: data.amount.toString(),
                     );
 
+                    sAnalytics.eurWithdrawTapConfirmOrderSummary(
+                      eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+                      accountIban: account.iban ?? '',
+                      accountLabel: account.label ?? '',
+                      eurAccType: contact.iban ?? '',
+                      eurAccLabel: contact.name ?? '',
+                      enteredAmount: data.amount.toString(),
+                    );
+
                     sRouter.push(
                       PinScreenRoute(
                         union: const Change(),
@@ -257,7 +284,14 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                         onChangePhone: (String newPin) {
                           sRouter.pop();
 
-                          state.confirmIbanOut(previewRequest, data, contact, newPin);
+                          state.confirmIbanOut(
+                            previewRequest,
+                            data,
+                            contact,
+                            newPin,
+                            account,
+                            isCJ,
+                          );
                         },
                       ),
                     );

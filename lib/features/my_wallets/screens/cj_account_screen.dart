@@ -197,6 +197,12 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                               isExpanded: false,
                               isDisabled: !((widget.bankingAccount.balance ?? Decimal.zero) > Decimal.zero),
                               onTap: () {
+                                sAnalytics.eurWithdrawTapOnTheButtonWithdraw(
+                                  eurAccountType: widget.isCJAccount ? 'CJ' : 'Unlimit',
+                                  accountIban: widget.bankingAccount.iban ?? '',
+                                  accountLabel: widget.bankingAccount.label ?? '',
+                                );
+
                                 if (kycState.withdrawalStatus == kycOperationStatus(KycStatus.blocked)) {
                                   sNotification.showError(
                                     intl.operation_bloked_text,
@@ -212,6 +218,12 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                                   context: context,
                                   from: [BlockingType.withdrawal],
                                   or: () {
+                                    sAnalytics.eurWithdrawBankTransferWithEurSheet(
+                                      eurAccountType: widget.isCJAccount ? 'CJ' : 'Unlimit',
+                                      accountIban: widget.bankingAccount.iban ?? '',
+                                      accountLabel: widget.bankingAccount.label ?? '',
+                                    );
+
                                     showBankTransforSelect(context, widget.bankingAccount, widget.isCJAccount);
 
                                     sAnalytics.eurWalletWithdrawEURAccountScreen(

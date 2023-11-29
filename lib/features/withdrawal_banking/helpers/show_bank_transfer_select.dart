@@ -146,22 +146,52 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
                 padding: const EdgeInsets.only(top: 9.0),
                 child: SIconButton(
                   onTap: () {
+                    sAnalytics.eurWithdrawUserTapsOnButtonEdit(
+                      eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+                      accountIban: bankingAccount.iban ?? '',
+                      accountLabel: bankingAccount.label ?? '',
+                    );
+
+                    sAnalytics.eurWithdrawEditBankAccountWithSV(
+                      eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+                      accountIban: bankingAccount.iban ?? '',
+                      accountLabel: bankingAccount.label ?? '',
+                    );
+
                     if (isCJ) {
-                      sRouter.push(
+                      sRouter
+                          .push(
                         IbanAdressBookSimpleRoute(
                           contact: (isCJ
                               ? getIt.get<IbanStore>().simpleContacts
                               : getIt.get<IbanStore>().allContacts)[index],
+                          bankingAccount: bankingAccount,
                         ),
-                      );
+                      )
+                          .then((value) {
+                        sAnalytics.eurWithdrawTapCloseEdit(
+                          eurAccountType: 'CJ',
+                          accountIban: bankingAccount.iban ?? '',
+                          accountLabel: bankingAccount.label ?? '',
+                        );
+                      });
                     } else {
-                      sRouter.push(
+                      sRouter
+                          .push(
                         IbanAdressBookUnlimitRoute(
                           contact: (isCJ
                               ? getIt.get<IbanStore>().simpleContacts
                               : getIt.get<IbanStore>().allContacts)[index],
+                          bankingAccount: bankingAccount,
                         ),
-                      );
+                      )
+                          .then((value) {
+                        sAnalytics.eurWithdrawTapCloseEdit(
+                          eurAccountType: 'Unlimit',
+                          accountIban: bankingAccount.iban ?? '',
+                          accountLabel: bankingAccount.label ?? '',
+                        );
+                      });
                     }
                   },
                   defaultIcon: const SEditIcon(),
@@ -178,6 +208,12 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
               description: '',
               needSpacer: true,
               onTap: () {
+                sAnalytics.eurWithdrawTapExistingAccount(
+                  eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+                  accountIban: bankingAccount.iban ?? '',
+                  accountLabel: bankingAccount.label ?? '',
+                );
+
                 getIt<AppRouter>()
                     .push(
                       IbanSendAmountRouter(
@@ -202,13 +238,24 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
               color: colors.blue,
             ),
           ),
-          //rightIcon: const SEditIcon(),
           name: isCJ ? intl.iban_add_bank_account : intl.address_book_add_recipient,
           amount: '',
           helper: intl.iban_local_euro_accounts_only,
           description: '',
           onTap: () {
             sAnalytics.tapOnTheButtonAddBankAccount();
+
+            sAnalytics.eurWithdrawTapReceive(
+              eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+              accountIban: bankingAccount.iban ?? '',
+              accountLabel: bankingAccount.label ?? '',
+            );
+
+            sAnalytics.eurWithdrawAddReceiving(
+              eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+              accountIban: bankingAccount.iban ?? '',
+              accountLabel: bankingAccount.label ?? '',
+            );
 
             if (isCJ) {
               sRouter.push(IbanAdressBookSimpleRoute()).then(
@@ -221,16 +268,21 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
 
                   await getIt<AppRouter>()
                       .push(
-                        IbanSendAmountRouter(
-                          contact:
-                              (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[0],
-                          bankingAccount: bankingAccount,
-                          isCJ: isCJ,
-                        ),
-                      )
-                      .then(
-                        (value) => getIt.get<IbanStore>().getAddressBook(),
-                      );
+                    IbanSendAmountRouter(
+                      contact: (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[0],
+                      bankingAccount: bankingAccount,
+                      isCJ: isCJ,
+                    ),
+                  )
+                      .then((value) {
+                    getIt.get<IbanStore>().getAddressBook();
+
+                    sAnalytics.eurWithdrawTapBackReceiving(
+                      eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+                      accountIban: bankingAccount.iban ?? '',
+                      accountLabel: bankingAccount.label ?? '',
+                    );
+                  });
                 },
               );
             } else {
@@ -244,16 +296,21 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
 
                   await getIt<AppRouter>()
                       .push(
-                        IbanSendAmountRouter(
-                          contact:
-                              (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[0],
-                          bankingAccount: bankingAccount,
-                          isCJ: isCJ,
-                        ),
-                      )
-                      .then(
-                        (value) => getIt.get<IbanStore>().getAddressBook(),
-                      );
+                    IbanSendAmountRouter(
+                      contact: (isCJ ? getIt.get<IbanStore>().simpleContacts : getIt.get<IbanStore>().allContacts)[0],
+                      bankingAccount: bankingAccount,
+                      isCJ: isCJ,
+                    ),
+                  )
+                      .then((value) {
+                    getIt.get<IbanStore>().getAddressBook();
+
+                    sAnalytics.eurWithdrawTapBackReceiving(
+                      eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+                      accountIban: bankingAccount.iban ?? '',
+                      accountLabel: bankingAccount.label ?? '',
+                    );
+                  });
                 },
               );
             }
