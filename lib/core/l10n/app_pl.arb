@@ -1472,5 +1472,7 @@
     "operation_bloked_text": "Operacja jest niedostępna.",
     "gift_kyc_alert_description": "Zweryfikuj swoje konto\n aby odebrać prezent",
     "gift_kyc_verify": "Weryfikacja",
-    "phone_cahange_warning": "Przed kontynuowaniem należy pamiętać, że ze względów bezpieczeństwa wszystkie operacje wysyłania i wypłacania zostaną zablokowane na 48 godzin po pomyślnej aktualizacji numeru telefonu"
+    "phone_cahange_warning": "Przed kontynuowaniem należy pamiętać, że ze względów bezpieczeństwa wszystkie operacje wysyłania i wypłacania zostaną zablokowane na 48 godzin po pomyślnej aktualizacji numeru telefonu",
+    "reference_character_minimum": "",
+    "gift_receive_history_from": "Od"
 }
