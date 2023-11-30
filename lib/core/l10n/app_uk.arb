@@ -6498,7 +6498,7 @@
         "description": "Вы можете получать средства от кого угодно",
         "type": "text"
     },
-    "my_wallets_accounts": "акаунти",
+    "my_wallets_accounts": "акаунт(и)",
     "@my_wallets_accounts": {
         "description": "аккаунты",
         "type": "text"

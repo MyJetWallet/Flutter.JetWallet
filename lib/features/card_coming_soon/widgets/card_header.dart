@@ -20,59 +20,60 @@ class CardHeader extends StatelessObserverWidget {
     final colors = sKit.colors;
     final kycState = getIt.get<KycService>();
 
-    return Column(
-      children: [
-        const SizedBox(height: 58),
-        Row(
-          children: [
-            const SpaceW24(),
-            Text(
-              intl.card_header,
-              style: sTextH4Style,
-            ),
-            const Spacer(),
-            SizedBox(
-              width: 56.0,
-              height: 56.0,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  SIconButton(
-                    defaultIcon: SProfileDetailsIcon(
-                      color: colors.black,
+    return SafeArea(
+      child: Column(
+        children: [
+          Row(
+            children: [
+              const SpaceW24(),
+              Text(
+                intl.card_header,
+                style: sTextH4Style,
+              ),
+              const Spacer(),
+              SizedBox(
+                width: 56.0,
+                height: 56.0,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    SIconButton(
+                      defaultIcon: SProfileDetailsIcon(
+                        color: colors.black,
+                      ),
+                      pressedIcon: SProfileDetailsIcon(
+                        color: colors.black.withOpacity(0.7),
+                      ),
+                      onTap: () {
+                        sRouter.push(const AccountRouter());
+                      },
                     ),
-                    pressedIcon: SProfileDetailsIcon(
-                      color: colors.black.withOpacity(0.7),
-                    ),
-                    onTap: () {
-                      sRouter.push(const AccountRouter());
-                    },
-                  ),
-                  Positioned(
-                    right: 0,
-                    top: -5,
-                    child: NotificationBox(
-                      notifications: _profileNotificationLength(
-                        KycModel(
-                          depositStatus: kycState.depositStatus,
-                          sellStatus: kycState.tradeStatus,
-                          withdrawalStatus: kycState.withdrawalStatus,
-                          requiredDocuments: kycState.requiredDocuments,
-                          requiredVerifications: kycState.requiredVerifications,
-                          verificationInProgress: kycState.verificationInProgress,
+                    Positioned(
+                      right: 0,
+                      top: -5,
+                      child: NotificationBox(
+                        notifications: _profileNotificationLength(
+                          KycModel(
+                            depositStatus: kycState.depositStatus,
+                            sellStatus: kycState.tradeStatus,
+                            withdrawalStatus: kycState.withdrawalStatus,
+                            requiredDocuments: kycState.requiredDocuments,
+                            requiredVerifications: kycState.requiredVerifications,
+                            verificationInProgress: kycState.verificationInProgress,
+                          ),
+                          true,
                         ),
-                        true,
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            const SpaceW8(),
-          ],
-        ),
-        const SpaceH12(),
-      ],
+              const SpaceW8(),
+            ],
+          ),
+          const SpaceH12(),
+        ],
+      ),
     );
   }
 

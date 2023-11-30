@@ -69,7 +69,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
     );
 
     _controller.addListener(() {
-      if (_controller.position.pixels <= 50) {
+      if (_controller.position.pixels <= 195) {
         if (!isTopPosition) {
           setState(() {
             isTopPosition = true;
@@ -112,6 +112,16 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
     } else {
       sRouter.push(const AccountRouter());
     }
+  }
+
+  Future<void> goTop() async {
+    await Future.delayed(const Duration(milliseconds: 110), () {
+      _controller.animateTo(
+        0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+      );
+    });
   }
 
   @override
@@ -173,6 +183,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                 ),
               Expanded(
                 child: CustomRefreshIndicator(
+                  notificationPredicate: !store.isReordering ? (_) => true : (_) => false,
                   offsetToArmed: 75,
                   onRefresh: () => getIt.get<SignalRService>().forceReconnectSignalR(),
                   builder: (
@@ -224,7 +235,8 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                     color: colors.white,
                     child: CustomScrollView(
                       controller: _controller,
-                      physics: const AlwaysScrollableScrollPhysics(),
+                      physics:
+                          store.isReordering ? const ClampingScrollPhysics() : const AlwaysScrollableScrollPhysics(),
                       slivers: [
                         if (store.isReordering)
                           SliverToBoxAdapter(
@@ -309,7 +321,10 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                               maxHeight: isTopPosition ? 64 : 117,
                               child: ChangeOrderWidget(
                                 isTopPosition: isTopPosition,
-                                onPressedDone: store.onEndReordering,
+                                onPressedDone: () {
+                                  store.onEndReordering();
+                                  goTop();
+                                },
                               ),
                             ),
                           ),
@@ -318,14 +333,9 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                           onReorder: (int oldIndex, int newIndex) {
                             store.onReorder(oldIndex, newIndex);
 
-                            //_controller.animateTo(
-                            //  0,
-                            //  duration: const Duration(milliseconds: 200),
-                            //  curve: Curves.ease,
-                            //);
-
                             setState(() {});
                           },
+                          //itemCount: list.length,
                           itemCount: list.length,
                           itemBuilder: (context, index) {
                             return ReorderableDelayedDragStartListener(
@@ -354,7 +364,9 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                               ),
                             ),
                           ),
-                        const SliverToBoxAdapter(child: SpaceH76()),
+                        SliverToBoxAdapter(
+                          child: list.length < 6 ? const SizedBox(height: 160) : const SpaceH76(),
+                        ),
                       ],
                     ),
                   ),
