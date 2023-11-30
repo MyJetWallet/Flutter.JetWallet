@@ -6,6 +6,7 @@ import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_verified_model.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class RewardsHeader extends StatelessWidget {
   const RewardsHeader({super.key});

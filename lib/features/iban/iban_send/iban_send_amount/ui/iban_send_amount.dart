@@ -85,7 +85,7 @@ class IbanSendAmountBody extends StatelessObserverWidget {
               eurAccLabel: contact.name ?? '',
             );
 
-            sRouter.back();
+            Navigator.pop(context);
           },
         ),
       ),

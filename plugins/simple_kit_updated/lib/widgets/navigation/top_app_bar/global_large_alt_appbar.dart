@@ -100,7 +100,7 @@ class SimpleLargeAltAppbar extends StatelessWidget {
               ),
             ),
             Positioned(
-              right: 24,
+              right: 18,
               top: 3,
               child: Opacity(
                 opacity: hasRightIcon ? 1 : 0,
