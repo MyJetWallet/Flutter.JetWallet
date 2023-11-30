@@ -4847,7 +4847,7 @@
         "description": "Комиссия за использование банковской карты",
         "type": "text"
     },
-    "trade_timer_alert_description": "Обмін недоступний до тих пір, поки",
+    "trade_timer_alert_description": "Обмін недоступний до",
     "@trade_timer_alert_description": {
         "description": "Обмен недоступен до тех пор, пока",
         "type": "text"
@@ -5246,7 +5246,7 @@
         "description": "Скопировано",
         "type": "text"
     },
-    "send_globally_cond_text_6": "3. Я розумію, що цей грошовий переказ більшою мірою обробляється через мережу P2P. Організатором P2P-переказів є Payport LLC.",
+    "send_globally_cond_text_6": "3. Я розумію, що цей грошовий переказ обробляється через мережу P2P. Організатором P2P-переказів є Payport LLC.",
     "@send_globally_cond_text_6": {
         "description": "3. Я понимаю, что этот денежный перевод в большей степени обрабатывается через сеть P2P. Организатором P2P-переводов является Payport LLC.",
         "type": "text"
@@ -6498,7 +6498,7 @@
         "description": "Вы можете получать средства от кого угодно",
         "type": "text"
     },
-    "my_wallets_accounts": "акаунт(и)",
+    "my_wallets_accounts": "акаунти",
     "@my_wallets_accounts": {
         "description": "аккаунты",
         "type": "text"
