@@ -155,6 +155,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
         child: SPageFrame(
           color: colors.white,
           loaderText: '',
+          loading: store.loader,
           child: Column(
             children: [
               if (!store.isReordering)

@@ -12,6 +12,7 @@ import 'package:jetwallet/utils/enum.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/wallet/set_active_assets_request_model.dart';
@@ -27,6 +28,8 @@ abstract class _MyWalletsSroreBase with Store {
 
   @observable
   bool isReordering = false;
+
+  StackLoaderStore loader = StackLoaderStore();
 
   @computed
   ObservableList<CurrencyModel> get _allAssets {
@@ -267,44 +270,50 @@ abstract class _MyWalletsSroreBase with Store {
       );
 
       sAnalytics.eurWalletShowToastLestCreateAccount();
+
+      loader.finishLoadingImmediately();
     });
   }
 
   @action
   Future<void> createSimpleAccount() async {
+    loader.startLoadingImmediately();
+
     final context = sRouter.navigatorKey.currentContext!;
 
     //accountManualStatus = BankingShowState.inProgress;
 
     //await Future.delayed(const Duration(seconds: 10));
-    final resp = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postSimpleAccountCreate();
+    try {
+      final resp = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postSimpleAccountCreate();
 
-    if (resp.hasError) {
-      sNotification.showError(
-        intl.something_went_wrong_try_again,
-        duration: 4,
-        id: 1,
-        needFeedback: true,
-      );
-      accountManualStatus = null;
-    } else {
-      if (resp.data!.simpleKycRequired || resp.data!.addressSetupRequired) {
-        sAnalytics.eurWalletVerifyYourAccount();
-
-        showWalletVerifyAccount(
-          context,
-          after: afterVerification,
-          isBanking: false,
+      if (resp.hasError) {
+        sNotification.showError(
+          intl.something_went_wrong_try_again,
+          duration: 4,
+          id: 1,
+          needFeedback: true,
         );
-      } else if (resp.data!.bankingKycRequired) {
-        showWalletVerifyAccount(
-          context,
-          after: afterVerification,
-          isBanking: true,
-        );
+        accountManualStatus = null;
       } else {
-        //accountManualStatus = BankingShowState.accountList;
+        if (resp.data!.simpleKycRequired || resp.data!.addressSetupRequired) {
+          sAnalytics.eurWalletVerifyYourAccount();
+
+          showWalletVerifyAccount(
+            context,
+            after: afterVerification,
+            isBanking: false,
+          );
+        } else if (resp.data!.bankingKycRequired) {
+          showWalletVerifyAccount(
+            context,
+            after: afterVerification,
+            isBanking: true,
+          );
+        } else {
+          //accountManualStatus = BankingShowState.accountList;
+        }
       }
-    }
+    } catch (e) {}
   }
 }
