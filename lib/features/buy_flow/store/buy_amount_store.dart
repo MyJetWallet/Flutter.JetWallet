@@ -395,7 +395,7 @@ abstract class _BuyAmountStoreBase with Store {
   Decimal get maxLimit => isFiatEntering ? _maxSellAmount : _maxBuyAmount;
 
   @computed
-  int? get maxWholePrartLenght => isBothAssetsSeted ? maxLimit.round().toString().length + 1 : null;
+  int get maxWholePrartLenght => isBothAssetsSeted ? maxLimit.round().toString().length + 1 : 15;
 
   @computed
   bool get isBothAssetsSeted => (account != null || card != null) && asset != null;

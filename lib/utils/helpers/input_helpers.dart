@@ -44,7 +44,7 @@ String responseOnInputAction({
   required String oldInput,
   required String newInput,
   required int accuracy,
-  int? wholePartLenght,
+  int wholePartLenght = 15,
 }) {
   if (newInput == backspace) {
     return oldInput.length > 1 ? removeCharsFrom(oldInput, 1) : zero;
@@ -56,7 +56,7 @@ String responseOnInputAction({
     if (oldInput.contains(period) || accuracy == 0) {
       return oldInput;
     }
-  } else if (!oldInput.contains(period) && wholePartLenght != null && oldInput.length >= wholePartLenght) {
+  } else if (!oldInput.contains(period) && oldInput.length >= wholePartLenght) {
     return oldInput;
   } else if (numberOfCharsAfterDecimal(oldInput) >= accuracy) {
     if (accuracy != 0) {

@@ -304,7 +304,7 @@ abstract class _ConvertAmountStoreBase with Store {
   Decimal get maxLimit => isFromEntering ? _maxFromAssetVolume : _maxToAssetVolume;
 
   @computed
-  int? get maxWholePrartLenght => isBothAssetsSeted ? maxLimit.round().toString().length + 1 : null;
+  int get maxWholePrartLenght => isBothAssetsSeted ? maxLimit.round().toString().length + 1 : 15;
 
   @computed
   bool get isBothAssetsSeted => fromAsset != null && toAsset != null;
