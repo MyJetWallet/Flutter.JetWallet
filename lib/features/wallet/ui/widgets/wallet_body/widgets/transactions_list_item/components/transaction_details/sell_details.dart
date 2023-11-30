@@ -11,9 +11,10 @@ import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
-import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../../../helper/format_date_to_hm.dart';
 import 'components/transaction_details_item.dart';
@@ -86,17 +87,8 @@ class SellDetails extends StatelessObserverWidget {
             text: intl.history_paid_with,
             value: Row(
               children: [
-                Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    color: sKit.colors.blue,
-                    shape: BoxShape.circle,
-                  ),
-                  child: SizedBox(
-                    width: 16,
-                    height: 16,
-                    child: SBankMediumIcon(color: sKit.colors.white),
-                  ),
+                Assets.svg.other.medium.bankAccount.simpleSvg(
+                  width: 20,
                 ),
                 const SpaceW8(),
                 TransactionDetailsValueText(
