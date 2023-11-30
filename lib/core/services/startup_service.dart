@@ -431,7 +431,7 @@ class StartupService {
     } catch (e) {
       getIt.get<SimpleLoggerService>().log(
             level: Level.error,
-            place: 'StartupService',
+            place: 'StartupService processPinState',
             message: e.toString(),
           );
     }
@@ -460,7 +460,7 @@ Future<void> getAdvData() async {
   } catch (e) {
     getIt.get<SimpleLoggerService>().log(
           level: Level.error,
-          place: 'StartupService',
+          place: 'StartupService getAdvData',
           message: e.toString(),
         );
   }
