@@ -1,21 +1,20 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
+import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
-import 'package:jetwallet/utils/helpers/price_accuracy.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/widgets/fee_rows/payment_fee_row_widget.dart';
-import 'package:jetwallet/widgets/fee_rows/processing_fee_row_widget.dart';
-import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
+import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../../../helper/format_date_to_hm.dart';
@@ -74,19 +73,7 @@ class BuyDetails extends StatelessObserverWidget {
                   text: shortTxhashFrom(transactionListItem.operationId),
                 ),
                 const SpaceW10(),
-                SIconButton(
-                  onTap: () {
-                    Clipboard.setData(
-                      ClipboardData(
-                        text: transactionListItem.operationId,
-                      ),
-                    );
-
-                    onCopyAction('Txid');
-                  },
-                  defaultIcon: const SCopyIcon(),
-                  pressedIcon: const SCopyPressedIcon(),
-                ),
+                HistoryCopyIcon(transactionListItem.operationId),
               ],
             ),
           ),
@@ -95,14 +82,6 @@ class BuyDetails extends StatelessObserverWidget {
             text: intl.buy_confirmation_price,
             value: TransactionDetailsValueText(
               text: rateFor(buyAsset, paymentAsset),
-            ),
-          ),
-          const SpaceH18(),
-          TransactionDetailsItem(
-            text: intl.iban_send_history_benificiary,
-            value: TransactionDetailsValueText(
-              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
-                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
           const SpaceH18(),
@@ -136,17 +115,8 @@ class BuyDetails extends StatelessObserverWidget {
                   )
                 : Row(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: sKit.colors.blue,
-                          shape: BoxShape.circle,
-                        ),
-                        child: SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: SBankMediumIcon(color: sKit.colors.white),
-                        ),
+                      Assets.svg.other.medium.bankAccount.simpleSvg(
+                        width: 20,
                       ),
                       const SpaceW8(),
                       TransactionDetailsValueText(
@@ -204,20 +174,13 @@ class BuyDetails extends StatelessObserverWidget {
     CurrencyModel currency1,
     CurrencyModel currency2,
   ) {
-    final accuracy = priceAccuracy(
-      currency1.symbol,
-      currency2.symbol,
-    );
-
     final base = volumeFormat(
       decimal: transactionListItem.cryptoBuyInfo!.baseRate,
-      accuracy: currency1.accuracy,
       symbol: currency1.symbol,
     );
 
     final quote = volumeFormat(
       decimal: transactionListItem.cryptoBuyInfo!.quoteRate,
-      accuracy: accuracy,
       symbol: currency2.symbol,
     );
 

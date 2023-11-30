@@ -21,7 +21,8 @@ class BankingProfileModel with _$BankingProfileModel {
   factory BankingProfileModel.fromJson(Map<String, dynamic> json) => _$BankingProfileModelFromJson(json);
 
   bool get isAvaibleAnyAccount {
-    return simple?.account != null && (banking?.accounts ?? []).isNotEmpty;
+    return simple?.account?.status == AccountStatus.active ||
+        (banking?.accounts?.where((element) => element.status == AccountStatus.active) ?? []).isNotEmpty;
   }
 }
 
@@ -53,6 +54,10 @@ class SimpleBankingAccount with _$SimpleBankingAccount {
     final String? label,
   }) = _SimpleBankingAccount;
 
+  const SimpleBankingAccount._();
+
+  bool get isClearjuctionAccount => accountId == 'clearjuction_account';
+
   factory SimpleBankingAccount.fromJson(Map<String, dynamic> json) => _$SimpleBankingAccountFromJson(json);
 }
 
@@ -65,7 +70,7 @@ class CardDataModel with _$CardDataModel {
     @DecimalNullSerialiser() final Decimal? balance,
     final AccountStatusCard? status,
     final String? nameOnCard,
-    @SimpleCardNetworkSerialiser() required SimpleCardNetwork ? cardType,
+    @SimpleCardNetworkSerialiser() required SimpleCardNetwork? cardType,
     final String? expiryDate,
     final bool? isHidden,
     final String? label,
@@ -74,7 +79,6 @@ class CardDataModel with _$CardDataModel {
 
   factory CardDataModel.fromJson(Map<String, dynamic> json) => _$CardDataModelFromJson(json);
 }
-
 
 enum SimpleCardNetwork {
   VISA,
@@ -125,7 +129,6 @@ class SimpleCardNetworkSerialiser implements JsonConverter<SimpleCardNetwork, dy
   @override
   dynamic toJson(SimpleCardNetwork type) => type.name;
 }
-
 
 @freezed
 class BankingDataModel with _$BankingDataModel {

@@ -28,6 +28,8 @@ class CardBuyCreateResponseModel with _$CardBuyCreateResponseModel {
     @DecimalNullSerialiser() Decimal? simpleFeeAmountInPaymentAsset,
     required int actualTimeInSecond,
     required bool deviceBindingRequired,
+    String? ibanBuyDestination,
+    String? ibanBuyBeneficiary,
   }) = _CardBuyCreateResponseModel;
 
   factory CardBuyCreateResponseModel.fromJson(Map<String, dynamic> json) => _$CardBuyCreateResponseModelFromJson(json);

@@ -4,7 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
-import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/buy_option_widget.dart';
+import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/convert_flow/store/convert_amount_store.dart';
 import 'package:jetwallet/features/convert_flow/widgets/convert_from_choose_asset_bottom_sheet.dart';
 import 'package:jetwallet/features/convert_flow/widgets/convert_to_choose_asset_bottom_sheet.dart';
@@ -60,7 +60,7 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                     value: store.primaryAmount,
                   ),
                   primarySymbol: store.primarySymbol,
-                  secondaryAmount: store.toAsset != null
+                  secondaryAmount: store.secondarySymbol != ''
                       ? volumeFormat(
                           decimal: Decimal.parse(store.secondaryAmount),
                           symbol: '',
@@ -81,7 +81,7 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                 ),
                 const Spacer(),
                 if (store.fromAsset != null)
-                  BuyOptionWidget(
+                  SuggestionButtonWidget(
                     title: store.fromAsset?.description,
                     subTitle: intl.amount_screen_convert,
                     trailing: store.fromAsset?.volumeAssetBalance,
@@ -98,9 +98,10 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                         skipAssetSymbol: store.toAsset?.symbol,
                       );
                     },
+                    isDisabled: store.isNoCurrencies,
                   )
                 else
-                  BuyOptionWidget(
+                  SuggestionButtonWidget(
                     subTitle: intl.amount_screen_convert,
                     icon: const SCryptoIcon(),
                     onTap: () {
@@ -113,10 +114,11 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                         skipAssetSymbol: store.toAsset?.symbol,
                       );
                     },
+                    isDisabled: store.isNoCurrencies,
                   ),
                 const SpaceH8(),
                 if (store.toAsset != null)
-                  BuyOptionWidget(
+                  SuggestionButtonWidget(
                     title: store.toAsset?.description,
                     subTitle: intl.convert_amount_convert_to,
                     trailing: store.toAsset?.volumeAssetBalance,
@@ -135,7 +137,7 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                     },
                   )
                 else
-                  BuyOptionWidget(
+                  SuggestionButtonWidget(
                     subTitle: intl.convert_amount_convert_to,
                     icon: const SCryptoIcon(),
                     onTap: () {

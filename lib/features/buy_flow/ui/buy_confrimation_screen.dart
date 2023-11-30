@@ -10,11 +10,13 @@ import 'package:jetwallet/features/buy_flow/ui/widgets/confirmation_widgets/conf
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
+import 'package:jetwallet/utils/helpers/split_iban.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
@@ -136,6 +138,25 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                   paymentCurrency: store.payCurrency,
                   asset: store.buyCurrency,
                 ),
+                if (!(store.account?.isClearjuctionAccount ?? false)) ...[
+                  const SpaceH19(),
+                  Builder(
+                    builder: (context) {
+                      final text =
+                          '''${intl.buy_confirm_with_unlimit_1_part} ${volumeFormat(symbol: store.payCurrency.symbol, accuracy: store.payCurrency.accuracy, decimal: store.paymentAmount ?? Decimal.zero)} ${intl.buy_confirm_with_unlimit_2_part} ${splitIban((store.ibanBuyDestination).trim())} ${intl.buy_confirm_with_unlimit_3_part} ${store.ibanBuyBeneficiary}''';
+
+                      return Text(
+                        text,
+                        style: sCaptionTextStyle.copyWith(
+                          color: SColorsLight().gray8,
+                        ),
+                        maxLines: 20,
+                      );
+                    },
+                  ),
+                ],
+                const SpaceH19(),
+                const SDivider(),
                 if (store.category != PaymentMethodCategory.p2p) ...[
                   SPolicyCheckbox(
                     height: 65,

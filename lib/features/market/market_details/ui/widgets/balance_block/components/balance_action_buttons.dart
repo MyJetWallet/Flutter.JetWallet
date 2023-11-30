@@ -60,9 +60,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                     } else {
                       sNotification.showError(
                         intl.operation_bloked_text,
-                        duration: 4,
                         id: 1,
-                        hideIcon: true,
                       );
                     }
                   },
@@ -96,22 +94,18 @@ class BalanceActionButtons extends StatelessObserverWidget {
               final isDepositBlocker = sSignalRModules.clientDetail.clientBlockers
                   .any((element) => element.blockingType == BlockingType.deposit);
 
-              if (kycState.tradeStatus == kycOperationStatus(KycStatus.blocked) && !isBuyAvaible) {
+              if (kycState.tradeStatus == kycOperationStatus(KycStatus.blocked) || !isBuyAvaible) {
                 sNotification.showError(
                   intl.operation_bloked_text,
-                  duration: 4,
                   id: 1,
-                  hideIcon: true,
                 );
               } else if ((kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) &&
                   !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
                 sNotification.showError(
                   intl.operation_bloked_text,
-                  duration: 4,
                   id: 1,
-                  hideIcon: true,
                 );
-              } else if (isDepositBlocker) {
+              } else if (isDepositBlocker && !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
                 showSendTimerAlertOr(
                   context: context,
                   or: () => showPayWithBottomSheet(
@@ -143,12 +137,23 @@ class BalanceActionButtons extends StatelessObserverWidget {
               }
             },
             onSell: () {
-              sRouter.push(
-                AmountRoute(
-                  tab: AmountScreenTab.sell,
-                  asset: currency,
-                ),
-              );
+              if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
+                showSendTimerAlertOr(
+                  context: context,
+                  or: () => sRouter.push(
+                    AmountRoute(
+                      tab: AmountScreenTab.sell,
+                      asset: currency,
+                    ),
+                  ),
+                  from: [BlockingType.trade],
+                );
+              } else {
+                sNotification.showError(
+                  intl.operation_bloked_text,
+                  id: 1,
+                );
+              }
             },
             onReceive: () {
               sAnalytics.tapOnTheReceiveButton(
@@ -170,9 +175,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                 } else if (!currency.supportsCryptoDeposit) {
                   sNotification.showError(
                     intl.operation_bloked_text,
-                    duration: 4,
                     id: 1,
-                    hideIcon: true,
                   );
                 } else {
                   handler.handle(
@@ -221,9 +224,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
               } else {
                 sNotification.showError(
                   intl.operation_bloked_text,
-                  duration: 4,
                   id: 1,
-                  hideIcon: true,
                 );
               }
             },

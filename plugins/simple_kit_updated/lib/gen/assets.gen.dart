@@ -327,11 +327,16 @@ class $AssetsSvgOtherGen {
   /// File path: assets/svg/other/happy_simple_small.svg
   SvgGenImage get happySimpleSmall => const SvgGenImage('assets/svg/other/happy_simple_small.svg');
 
+  $AssetsSvgOtherLargeGen get large => const $AssetsSvgOtherLargeGen();
+  $AssetsSvgOtherMediumGen get medium => const $AssetsSvgOtherMediumGen();
+
   /// File path: assets/svg/other/sad_simple_large.svg
   SvgGenImage get sadSimpleLarge => const SvgGenImage('assets/svg/other/sad_simple_large.svg');
 
   /// File path: assets/svg/other/sad_simple_small.svg
   SvgGenImage get sadSimpleSmall => const SvgGenImage('assets/svg/other/sad_simple_small.svg');
+
+  $AssetsSvgOtherSmallGen get small => const $AssetsSvgOtherSmallGen();
 
   /// List of all assets
   List<SvgGenImage> get values => [happySimpleLarge, happySimpleSmall, sadSimpleLarge, sadSimpleSmall];
@@ -388,6 +393,73 @@ class $AssetsSvgSmallGen {
   /// List of all assets
   List<SvgGenImage> get values =>
       [bank, bullet, check, checkCircle, clock, info, loading, minusCircle, reorder, user, warning, x, xCricle];
+}
+
+class $AssetsSvgOtherLargeGen {
+  const $AssetsSvgOtherLargeGen();
+
+  /// File path: assets/svg/other/large/maestro.svg
+  SvgGenImage get maestro => const SvgGenImage('assets/svg/other/large/maestro.svg');
+
+  /// File path: assets/svg/other/large/mastercard.svg
+  SvgGenImage get mastercard => const SvgGenImage('assets/svg/other/large/mastercard.svg');
+
+  /// File path: assets/svg/other/large/visa.svg
+  SvgGenImage get visa => const SvgGenImage('assets/svg/other/large/visa.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [maestro, mastercard, visa];
+}
+
+class $AssetsSvgOtherMediumGen {
+  const $AssetsSvgOtherMediumGen();
+
+  /// File path: assets/svg/other/medium/american_express.svg
+  SvgGenImage get americanExpress => const SvgGenImage('assets/svg/other/medium/american_express.svg');
+
+  /// File path: assets/svg/other/medium/apple_pay.svg
+  SvgGenImage get applePay => const SvgGenImage('assets/svg/other/medium/apple_pay.svg');
+
+  /// File path: assets/svg/other/medium/bank_account.svg
+  SvgGenImage get bankAccount => const SvgGenImage('assets/svg/other/medium/bank_account.svg');
+
+  /// File path: assets/svg/other/medium/card.svg
+  SvgGenImage get card => const SvgGenImage('assets/svg/other/medium/card.svg');
+
+  /// File path: assets/svg/other/medium/card_type.svg
+  SvgGenImage get cardType => const SvgGenImage('assets/svg/other/medium/card_type.svg');
+
+  /// File path: assets/svg/other/medium/crypto.svg
+  SvgGenImage get crypto => const SvgGenImage('assets/svg/other/medium/crypto.svg');
+
+  /// File path: assets/svg/other/medium/iban.svg
+  SvgGenImage get iban => const SvgGenImage('assets/svg/other/medium/iban.svg');
+
+  /// File path: assets/svg/other/medium/maestro.svg
+  SvgGenImage get maestro => const SvgGenImage('assets/svg/other/medium/maestro.svg');
+
+  /// File path: assets/svg/other/medium/mastercard.svg
+  SvgGenImage get mastercard => const SvgGenImage('assets/svg/other/medium/mastercard.svg');
+
+  /// File path: assets/svg/other/medium/visa.svg
+  SvgGenImage get visa => const SvgGenImage('assets/svg/other/medium/visa.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values =>
+      [americanExpress, applePay, bankAccount, card, cardType, crypto, iban, maestro, mastercard, visa];
+}
+
+class $AssetsSvgOtherSmallGen {
+  const $AssetsSvgOtherSmallGen();
+
+  /// File path: assets/svg/other/small/gift.svg
+  SvgGenImage get gift => const SvgGenImage('assets/svg/other/small/gift.svg');
+
+  /// File path: assets/svg/other/small/reward.svg
+  SvgGenImage get reward => const SvgGenImage('assets/svg/other/small/reward.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [gift, reward];
 }
 
 class $AssetsSvgPaymentMethodsCardsSimpleGen {

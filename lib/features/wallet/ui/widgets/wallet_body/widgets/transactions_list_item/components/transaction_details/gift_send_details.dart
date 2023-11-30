@@ -1,15 +1,15 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/send_gift/widgets/share_gift_result_bottom_sheet.dart';
+import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/transaction_details_status.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
-import 'package:jetwallet/widgets/fee_rows/processing_fee_row_widget.dart';
+import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/stack_loader.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
@@ -72,19 +72,7 @@ class GiftSendDetails extends StatelessObserverWidget {
                     ),
                   ),
                   const SpaceW10(),
-                  SIconButton(
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: receiverContact,
-                        ),
-                      );
-
-                      onCopyAction('Gift Send');
-                    },
-                    defaultIcon: const SCopyIcon(),
-                    pressedIcon: const SCopyPressedIcon(),
-                  ),
+                  HistoryCopyIcon(transactionListItem.operationId),
                 ],
               ),
             ),

@@ -20,6 +20,7 @@ class CollapsedWalletAppbar extends HookWidget {
     this.hasRightIcon = false,
     this.carouselItemsCount,
     this.carouselPageIndex,
+    this.needCarousel = true,
   }) : super(key: key);
 
   final ScrollController scrollController;
@@ -41,6 +42,7 @@ class CollapsedWalletAppbar extends HookWidget {
 
   final int? carouselItemsCount;
   final int? carouselPageIndex;
+  final bool needCarousel;
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +78,7 @@ class CollapsedWalletAppbar extends HookWidget {
         showTicker: showTicker,
         ticker: ticker,
         assetIcon: assetIcon,
-        needCarousel: true,
+        needCarousel: needCarousel,
         carouselItemsCount: carouselItemsCount,
         carouselPageIndex: carouselPageIndex,
       ),

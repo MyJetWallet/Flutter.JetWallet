@@ -1,15 +1,14 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
+import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
-import 'package:jetwallet/widgets/fee_rows/processing_fee_row_widget.dart';
+import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
@@ -30,12 +29,6 @@ class SendGloballyDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currency = currencyFrom(
-      sSignalRModules.currenciesList,
-      transactionListItem.withdrawalInfo?.feeAssetId ??
-          (transactionListItem.withdrawalInfo?.withdrawalAssetId ?? 'EUR'),
-    );
-
     return SPaddingH24(
       child: Column(
         children: [
@@ -60,19 +53,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     text: transactionListItem.paymeInfo?.accountNumber ?? '',
                   ),
                   const SpaceW10(),
-                  SIconButton(
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: transactionListItem.paymeInfo?.accountNumber ?? '',
-                        ),
-                      );
-
-                      onCopyAction('');
-                    },
-                    defaultIcon: const SCopyIcon(),
-                    pressedIcon: const SCopyPressedIcon(),
-                  ),
+                  HistoryCopyIcon(transactionListItem.paymeInfo?.accountNumber ?? ''),
                 ],
               ),
             ),
@@ -88,19 +69,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     text: transactionListItem.paymeInfo?.recipientName ?? '',
                   ),
                   const SpaceW10(),
-                  SIconButton(
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: transactionListItem.paymeInfo?.recipientName ?? '',
-                        ),
-                      );
-
-                      onCopyAction('');
-                    },
-                    defaultIcon: const SCopyIcon(),
-                    pressedIcon: const SCopyPressedIcon(),
-                  ),
+                  HistoryCopyIcon(transactionListItem.paymeInfo?.recipientName ?? ''),
                 ],
               ),
             ),
@@ -116,19 +85,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     text: transactionListItem.paymeInfo?.bankName ?? '',
                   ),
                   const SpaceW10(),
-                  SIconButton(
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: transactionListItem.paymeInfo?.bankName ?? '',
-                        ),
-                      );
-
-                      onCopyAction('');
-                    },
-                    defaultIcon: const SCopyIcon(),
-                    pressedIcon: const SCopyPressedIcon(),
-                  ),
+                  HistoryCopyIcon(transactionListItem.paymeInfo?.bankName ?? ''),
                 ],
               ),
             ),
@@ -144,19 +101,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     text: transactionListItem.paymeInfo?.ifscCode ?? '',
                   ),
                   const SpaceW10(),
-                  SIconButton(
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: transactionListItem.paymeInfo?.ifscCode ?? '',
-                        ),
-                      );
-
-                      onCopyAction('');
-                    },
-                    defaultIcon: const SCopyIcon(),
-                    pressedIcon: const SCopyPressedIcon(),
-                  ),
+                  HistoryCopyIcon(transactionListItem.paymeInfo?.ifscCode ?? ''),
                 ],
               ),
             ),
@@ -174,19 +119,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     ),
                   ),
                   const SpaceW10(),
-                  SIconButton(
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: transactionListItem.paymeInfo?.cardNumber ?? '',
-                        ),
-                      );
-
-                      onCopyAction('');
-                    },
-                    defaultIcon: const SCopyIcon(),
-                    pressedIcon: const SCopyPressedIcon(),
-                  ),
+                  HistoryCopyIcon(transactionListItem.paymeInfo?.cardNumber ?? ''),
                 ],
               ),
             ),
@@ -201,19 +134,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     text: transactionListItem.paymeInfo?.iban ?? '',
                   ),
                   const SpaceW10(),
-                  SIconButton(
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: transactionListItem.paymeInfo?.iban ?? '',
-                        ),
-                      );
-
-                      onCopyAction('');
-                    },
-                    defaultIcon: const SCopyIcon(),
-                    pressedIcon: const SCopyPressedIcon(),
-                  ),
+                  HistoryCopyIcon(transactionListItem.paymeInfo?.iban ?? ''),
                 ],
               ),
             ),
@@ -229,19 +150,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     text: transactionListItem.paymeInfo?.phoneNumber ?? '',
                   ),
                   const SpaceW10(),
-                  SIconButton(
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: transactionListItem.paymeInfo?.phoneNumber ?? '',
-                        ),
-                      );
-
-                      onCopyAction('');
-                    },
-                    defaultIcon: const SCopyIcon(),
-                    pressedIcon: const SCopyPressedIcon(),
-                  ),
+                  HistoryCopyIcon(transactionListItem.paymeInfo?.phoneNumber ?? ''),
                 ],
               ),
             ),
@@ -257,19 +166,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     text: transactionListItem.paymeInfo?.panNumber ?? '',
                   ),
                   const SpaceW10(),
-                  SIconButton(
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: transactionListItem.paymeInfo?.panNumber ?? '',
-                        ),
-                      );
-
-                      onCopyAction('');
-                    },
-                    defaultIcon: const SCopyIcon(),
-                    pressedIcon: const SCopyPressedIcon(),
-                  ),
+                  HistoryCopyIcon(transactionListItem.paymeInfo?.panNumber ?? ''),
                 ],
               ),
             ),
@@ -285,19 +182,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     text: transactionListItem.paymeInfo?.upiAddress ?? '',
                   ),
                   const SpaceW10(),
-                  SIconButton(
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: transactionListItem.paymeInfo?.upiAddress ?? '',
-                        ),
-                      );
-
-                      onCopyAction('');
-                    },
-                    defaultIcon: const SCopyIcon(),
-                    pressedIcon: const SCopyPressedIcon(),
-                  ),
+                  HistoryCopyIcon(transactionListItem.paymeInfo?.upiAddress ?? ''),
                 ],
               ),
             ),
@@ -313,25 +198,13 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     text: transactionListItem.paymeInfo?.bankAccount ?? '',
                   ),
                   const SpaceW10(),
-                  SIconButton(
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: transactionListItem.paymeInfo?.bankAccount ?? '',
-                        ),
-                      );
-
-                      onCopyAction('');
-                    },
-                    defaultIcon: const SCopyIcon(),
-                    pressedIcon: const SCopyPressedIcon(),
-                  ),
+                  HistoryCopyIcon(transactionListItem.paymeInfo?.bankAccount ?? ''),
                 ],
               ),
             ),
             const SpaceH18(),
           ],
-          const SizedBox(height: 32),
+          const SizedBox(height: 20),
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
@@ -345,6 +218,19 @@ class SendGloballyDetails extends StatelessObserverWidget {
             value: TransactionDetailsValueText(
               text: '${formatDateToDMY(transactionListItem.timeStamp)}'
                   ', ${formatDateToHm(transactionListItem.timeStamp)}',
+            ),
+          ),
+          const SpaceH18(),
+          TransactionDetailsItem(
+            text: intl.iban_send_history_transaction_id,
+            value: Row(
+              children: [
+                TransactionDetailsValueText(
+                  text: shortTxhashFrom(transactionListItem.operationId),
+                ),
+                const SpaceW10(),
+                HistoryCopyIcon(transactionListItem.operationId),
+              ],
             ),
           ),
           if (transactionListItem.paymeInfo?.methodName != null) ...[
@@ -367,16 +253,42 @@ class SendGloballyDetails extends StatelessObserverWidget {
             text: intl.send_globally_con_rate,
             value: TransactionDetailsValueText(
               text:
-                  '''1 ${transactionListItem.withdrawalInfo?.feeAssetId ?? transactionListItem.withdrawalInfo?.withdrawalAssetId} = ${transactionListItem.withdrawalInfo!.receiveRate} ${transactionListItem.withdrawalInfo!.receiveAsset}''',
+                  '''1 ${transactionListItem.withdrawalInfo?.feeAssetId ?? transactionListItem.withdrawalInfo?.withdrawalAssetId} = ${volumeFormat(symbol: transactionListItem.withdrawalInfo?.receiveAsset ?? '', decimal: transactionListItem.withdrawalInfo?.receiveRate ?? Decimal.zero)}''',
             ),
           ),
           if (transactionListItem.status != Status.declined) ...[
             const SpaceH18(),
-            ProcessingFeeRowWidget(
+            PaymentFeeRowWidget(
               fee: volumeFormat(
-                decimal: transactionListItem.withdrawalInfo!.feeAmount,
-                accuracy: currency.accuracy,
-                symbol: currency.symbol,
+                decimal: transactionListItem.withdrawalInfo?.paymentFeeAmount ?? Decimal.zero,
+                symbol: transactionListItem.withdrawalInfo?.paymentFeeAssetId ?? '',
+              ),
+            ),
+          ],
+          if (transactionListItem.status != Status.declined) ...[
+            const SpaceH18(),
+            PaymentFeeRowWidget(
+              fee: volumeFormat(
+                decimal: transactionListItem.withdrawalInfo?.feeAmount ?? Decimal.zero,
+                symbol: transactionListItem.withdrawalInfo?.feeAssetId ?? '',
+              ),
+            ),
+          ],
+          if (transactionListItem.paymeInfo?.methodName != null) ...[
+            const SpaceH18(),
+            TransactionDetailsItem(
+              text: intl.operationName_sent,
+              value: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.6,
+                ),
+                child: TransactionDetailsValueText(
+                  textAlign: TextAlign.end,
+                  text: volumeFormat(
+                    decimal: transactionListItem.withdrawalInfo?.sendAmount ?? Decimal.zero,
+                    symbol: transactionListItem.withdrawalInfo?.sendAsset ?? '',
+                  ),
+                ),
               ),
             ),
           ],

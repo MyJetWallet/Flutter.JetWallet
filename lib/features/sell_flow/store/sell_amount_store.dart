@@ -130,20 +130,25 @@ abstract class _SellAmountStoreBase with Store {
   @observable
   SimpleBankingAccount? account;
 
+  @observable
+  bool isNoCurrencies = false;
+
+  @observable
+  bool isNoAccounts = false;
+
   @action
   void _checkShowTosts() {
-    final isNoCurrencies = !sSignalRModules.currenciesList.any((currency) {
+    isNoCurrencies = !sSignalRModules.currenciesList.any((currency) {
       return currency.assetBalance != Decimal.zero;
     });
-    final isNoAccount = !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false);
+    isNoAccounts = !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false);
     Timer(
       const Duration(milliseconds: 200),
       () {
-        if (isNoCurrencies && isNoAccount) {
+        if (isNoCurrencies && isNoAccounts) {
           sNotification.showError(
             intl.tost_sell_message_1,
             id: 1,
-            hideIcon: true,
           );
         } else if (isNoCurrencies) {
           sNotification.showError(
@@ -151,7 +156,7 @@ abstract class _SellAmountStoreBase with Store {
             id: 2,
             isError: false,
           );
-        } else if (isNoAccount) {
+        } else if (isNoAccounts) {
           sNotification.showError(
             intl.tost_sell_message_3,
             id: 3,
@@ -173,6 +178,8 @@ abstract class _SellAmountStoreBase with Store {
       fiatSymbol,
       cryptoSymbol,
     );
+
+    loadLimits();
 
     _checkShowTosts();
 
@@ -240,7 +247,17 @@ abstract class _SellAmountStoreBase with Store {
   @action
   void onSwap() {
     isFiatEntering = !isFiatEntering;
+    _cutUnnecessaryAccuracy();
     _validateInput();
+  }
+
+  @action
+  void _cutUnnecessaryAccuracy() {
+    if (isFiatEntering) {
+      fiatInputValue = Decimal.parse(fiatInputValue).floor(scale: buyCurrency.accuracy).toString();
+    } else {
+      cryptoInputValue = Decimal.parse(cryptoInputValue).floor(scale: asset?.accuracy ?? 2).toString();
+    }
   }
 
   @computed
@@ -271,6 +288,8 @@ abstract class _SellAmountStoreBase with Store {
       accuracy: asset?.accuracy ?? 2,
     );
 
+    isFiatEntering = false;
+
     _calculateFiatConversion();
 
     _validateInput();
@@ -283,12 +302,14 @@ abstract class _SellAmountStoreBase with Store {
         oldInput: fiatInputValue,
         newInput: value,
         accuracy: fiatAccuracy,
+        wholePartLenght: maxWholePrartLenght,
       );
     } else {
       cryptoInputValue = responseOnInputAction(
         oldInput: cryptoInputValue,
         newInput: value,
         accuracy: asset?.accuracy ?? 2,
+        wholePartLenght: maxWholePrartLenght,
       );
     }
     if (isFiatEntering) {
@@ -368,6 +389,12 @@ abstract class _SellAmountStoreBase with Store {
     return isFiatEntering ? _maxBuyAmount : _maxSellAmount;
   }
 
+  @computed
+  int? get maxWholePrartLenght => isBothAssetsSeted ? maxLimit.round().toString().length + 1 : null;
+
+  @computed
+  bool get isBothAssetsSeted => account != null && asset != null;
+
   @action
   Future<void> loadLimits() async {
     if (account == null || asset == null) {
@@ -391,7 +418,6 @@ abstract class _SellAmountStoreBase with Store {
           onError: (error) {
             sNotification.showError(
               error.cause,
-              duration: 4,
               id: 1,
               needFeedback: true,
             );
@@ -414,24 +440,22 @@ abstract class _SellAmountStoreBase with Store {
           onError: (error) {
             sNotification.showError(
               error.cause,
-              duration: 4,
               id: 1,
               needFeedback: true,
             );
           },
         );
       }
+      _validateInput();
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,
-        duration: 4,
         id: 1,
         needFeedback: true,
       );
     } catch (error) {
       sNotification.showError(
         intl.something_went_wrong_try_again2,
-        duration: 4,
         id: 1,
         needFeedback: true,
       );

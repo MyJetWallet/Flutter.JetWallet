@@ -17,9 +17,7 @@ Future<String> getUserAgent() async {
 
   final deviceInfo = getIt.get<DeviceInfo>();
   final packageInfo = getIt.get<PackageInfoService>().info;
-  // TODO (Yaroslav): uncomment this line before release
-  // final appVersion = packageInfo.version;
-  const appVersion = '3.0.0';
+  final appVersion = packageInfo.version;
   final instllID = await getIt<LocalCacheService>().getInstallID();
 
   if (sRouter.navigatorKey.currentContext != null) {

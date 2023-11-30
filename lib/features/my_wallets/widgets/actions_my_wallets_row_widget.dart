@@ -22,12 +22,12 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final myWalletsSrore = getIt.get<MyWalletsSrore>();
 
-    final currencies = sSignalRModules.currenciesList;
-    final isEmptyBalanse = currenciesWithBalanceFrom(currencies).isEmpty;
-
     return SPaddingH24(
       child: Observer(
         builder: (context) {
+          final currencies = sSignalRModules.currenciesList;
+          final isEmptyBalanse = currenciesWithBalanceFrom(currencies).isEmpty;
+
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -40,7 +40,6 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
                     myWalletsSrore.endReorderingImmediately();
                   } else {
                     showBuyAction(
-                      shouldPop: false,
                       context: context,
                     );
                   }

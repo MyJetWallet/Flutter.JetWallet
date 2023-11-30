@@ -122,6 +122,11 @@ abstract class _BuyConfirmationStoreBase with Store {
   bool wasAction = false;
 
   @observable
+  String ibanBuyDestination = '';
+  @observable
+  String ibanBuyBeneficiary = '';
+
+  @observable
   bool isBankTermsChecked = false;
   @observable
   bool firstBuy = false;
@@ -239,7 +244,12 @@ abstract class _BuyConfirmationStoreBase with Store {
             depositFeeAsset = data.fromAssetSymbol;
             tradeFeeAmount = data.feeAmount;
             tradeFeeAsset = data.feeAsset;
-            rate = data.price;
+            rate = (Decimal.one / data.price).toDecimal(
+              scaleOnInfinitePrecision: data.price.scale,
+              toBigInt: (n) {
+                return n.toBigInt();
+              },
+            );
             paymentId = data.operationId;
             actualTimeInSecond = data.expirationTime;
             deviceBindingRequired = false;
@@ -276,6 +286,8 @@ abstract class _BuyConfirmationStoreBase with Store {
             paymentId = data.paymentId ?? '';
             actualTimeInSecond = data.actualTimeInSecond;
             deviceBindingRequired = data.deviceBindingRequired;
+            ibanBuyDestination = data.ibanBuyDestination ?? '';
+            ibanBuyBeneficiary = data.ibanBuyBeneficiary ?? '';
           },
           onError: (error) {
             loader.finishLoadingImmediately();

@@ -398,10 +398,14 @@ class WithdrawalInfo with _$WithdrawalInfo {
     @DecimalSerialiser() required Decimal feeAmount,
     required bool isInternal,
     String? cardLast4,
+    String? sendAsset,
+    @DecimalSerialiser() required Decimal sendAmount,
     String? receiveAsset,
     @DecimalNullSerialiser() Decimal? receiveAmount,
     @DecimalNullSerialiser() Decimal? receiveRate,
     String? contactName,
+    @DecimalNullSerialiser() Decimal? paymentFeeAmount,
+    String? paymentFeeAssetId,
   }) = _WithdrawalInfo;
 
   factory WithdrawalInfo.fromJson(Map<String, dynamic> json) => _$WithdrawalInfoFromJson(json);

@@ -112,11 +112,11 @@ class TransactionListItem extends StatelessWidget {
       case OperationType.swapSell:
         return '${transactionListItem.swapInfo?.sellAssetId} ${intl.operationName_exchangeTo} ${transactionListItem.swapInfo?.buyAssetId}';
       case OperationType.cryptoBuy:
-        return '${transactionListItem.cryptoBuyInfo?.paymentAssetId} to ${transactionListItem.cryptoBuyInfo?.buyAssetId}';
+        return '${transactionListItem.cryptoBuyInfo?.paymentAssetId} ${intl.operationName_exchangeTo} ${transactionListItem.cryptoBuyInfo?.buyAssetId}';
       case OperationType.bankingBuy:
-        return '${transactionListItem.cryptoBuyInfo?.paymentAssetId} to ${transactionListItem.cryptoBuyInfo?.buyAssetId}';
+        return '${transactionListItem.cryptoBuyInfo?.paymentAssetId} ${intl.operationName_exchangeTo} ${transactionListItem.cryptoBuyInfo?.buyAssetId}';
       case OperationType.bankingSell:
-        return '${transactionListItem.sellCryptoInfo?.sellAssetId} to ${transactionListItem.sellCryptoInfo?.buyAssetId}';
+        return '${transactionListItem.sellCryptoInfo?.sellAssetId} ${intl.operationName_exchangeTo} ${transactionListItem.sellCryptoInfo?.buyAssetId}';
       default:
         return transactionListItem.assetId;
     }
@@ -197,6 +197,10 @@ class TransactionListItem extends StatelessWidget {
         return SPurchaseIcon(color: isFailed ? failedColor : colors.red);
       case OperationType.cardWithdrawal:
         return SWithdrawalIcon(color: isFailed ? failedColor : colors.red);
+      case OperationType.bankingSell:
+        return source == TransactionItemSource.cryptoAccount
+            ? SMinusIcon(color: isFailed ? failedColor : null)
+            : SPlusIcon(color: isFailed ? failedColor : null);
       default:
         return SPlusIcon(color: isFailed ? failedColor : null);
     }
@@ -284,17 +288,33 @@ class TransactionListItem extends StatelessWidget {
         accuracy: paymentCurrency.accuracy,
       )}';
     }
-    if (transactionListItem.operationType == OperationType.bankingBuy) {
+    if (transactionListItem.operationType == OperationType.bankingBuy && source != TransactionItemSource.eurAccount) {
       return '${intl.history_with} ${volumeFormat(
         decimal: transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero,
         symbol: transactionListItem.cryptoBuyInfo?.paymentAssetId ?? '',
         accuracy: paymentCurrency.accuracy,
       )}';
     }
-    if (transactionListItem.operationType == OperationType.bankingSell) {
+    if (transactionListItem.operationType == OperationType.bankingBuy && source == TransactionItemSource.eurAccount) {
+      return '${intl.history_for} ${volumeFormat(
+        decimal: transactionListItem.cryptoBuyInfo?.buyAmount ?? Decimal.zero,
+        symbol: transactionListItem.cryptoBuyInfo?.buyAssetId ?? '',
+        accuracy: paymentCurrency.accuracy,
+      )}';
+    }
+    if (transactionListItem.operationType == OperationType.bankingSell &&
+        source != TransactionItemSource.cryptoAccount) {
       return '${intl.history_with} ${volumeFormat(
         decimal: transactionListItem.sellCryptoInfo?.sellAmount ?? Decimal.zero,
         symbol: transactionListItem.sellCryptoInfo?.sellAssetId ?? '',
+        accuracy: paymentCurrency.accuracy,
+      )}';
+    }
+    if (transactionListItem.operationType == OperationType.bankingSell &&
+        source == TransactionItemSource.cryptoAccount) {
+      return '${intl.history_for} ${volumeFormat(
+        decimal: transactionListItem.sellCryptoInfo?.buyAmount ?? Decimal.zero,
+        symbol: transactionListItem.sellCryptoInfo?.buyAssetId ?? '',
         accuracy: paymentCurrency.accuracy,
       )}';
     }
@@ -348,7 +368,11 @@ class _TransactionBaseItem extends StatelessWidget {
               const SpaceH12(),
               Row(
                 children: [
-                  icon,
+                  SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: icon,
+                  ),
                   const SpaceW10(),
                   Expanded(
                     child: Row(
@@ -398,10 +422,10 @@ class _TransactionBaseItem extends StatelessWidget {
               ),
               Row(
                 children: [
-                  const SpaceW30(),
+                  const SpaceW34(),
                   TransactionListItemText(
                     text: '${formatDateToDMY(timeStamp)}, ${formatDateToHm(timeStamp)}',
-                    color: colors.grey2,
+                    color: colors.grey1,
                   ),
                   const Spacer(),
                   if (rightSupplement != null)

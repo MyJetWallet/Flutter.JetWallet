@@ -292,12 +292,14 @@ abstract class _BuyAmountStoreBase with Store {
         oldInput: fiatInputValue,
         newInput: value,
         accuracy: fiatAccuracy,
+        wholePartLenght: maxWholePrartLenght,
       );
     } else {
       cryptoInputValue = responseOnInputAction(
         oldInput: cryptoInputValue,
         newInput: value,
         accuracy: asset?.accuracy ?? 2,
+        wholePartLenght: maxWholePrartLenght,
       );
     }
     if (isFiatEntering) {
@@ -361,7 +363,17 @@ abstract class _BuyAmountStoreBase with Store {
       return;
     }
     isFiatEntering = !isFiatEntering;
+    _cutUnnecessaryAccuracy();
     _validateInput();
+  }
+
+  @action
+  void _cutUnnecessaryAccuracy() {
+    if (isFiatEntering) {
+      fiatInputValue = Decimal.parse(fiatInputValue).floor(scale: buyCurrency.accuracy).toString();
+    } else {
+      cryptoInputValue = Decimal.parse(cryptoInputValue).floor(scale: asset?.accuracy ?? 2).toString();
+    }
   }
 
   @observable
@@ -382,6 +394,12 @@ abstract class _BuyAmountStoreBase with Store {
   @computed
   Decimal get maxLimit => isFiatEntering ? _maxSellAmount : _maxBuyAmount;
 
+  @computed
+  int? get maxWholePrartLenght => isBothAssetsSeted ? maxLimit.round().toString().length + 1 : null;
+
+  @computed
+  bool get isBothAssetsSeted => (account != null || card != null) && asset != null;
+
   @action
   Future<void> loadLimits() async {
     if (asset == null || (account == null && card == null)) {
@@ -389,7 +407,7 @@ abstract class _BuyAmountStoreBase with Store {
     }
 
     try {
-      if (account?.accountId == 'clearjuction_account') {
+      if (account?.isClearjuctionAccount ?? false) {
         final model = SwapLimitsRequestModel(
           fromAsset: fiatSymbol,
           toAsset: asset?.symbol ?? '',
@@ -405,7 +423,6 @@ abstract class _BuyAmountStoreBase with Store {
           onError: (error) {
             sNotification.showError(
               error.cause,
-              duration: 4,
               id: 1,
               needFeedback: true,
             );
@@ -429,24 +446,22 @@ abstract class _BuyAmountStoreBase with Store {
           onError: (error) {
             sNotification.showError(
               error.cause,
-              duration: 4,
               id: 1,
               needFeedback: true,
             );
           },
         );
       }
+      _validateInput();
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,
-        duration: 4,
         id: 1,
         needFeedback: true,
       );
     } catch (error) {
       sNotification.showError(
         intl.something_went_wrong_try_again2,
-        duration: 4,
         id: 1,
         needFeedback: true,
       );

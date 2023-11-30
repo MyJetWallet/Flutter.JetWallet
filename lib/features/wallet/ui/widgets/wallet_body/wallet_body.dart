@@ -3,7 +3,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
@@ -13,7 +12,6 @@ import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_header.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -34,15 +32,17 @@ class WalletBody extends StatefulObserverWidget {
   const WalletBody({
     super.key,
     required this.currency,
-    required this.pageController,
-    required this.pageCount,
-    required this.indexNow,
+    this.pageController,
+    this.pageCount,
+    this.indexNow,
+    this.isSinglePage = false,
   });
 
   final CurrencyModel currency;
-  final PageController pageController;
-  final int pageCount;
-  final int indexNow;
+  final PageController? pageController;
+  final int? pageCount;
+  final int? indexNow;
+  final bool isSinglePage;
 
   @override
   State<StatefulWidget> createState() => _WalletBodyState();
@@ -111,6 +111,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
             mainHeaderCollapsedSubtitle: widget.currency.symbol,
             carouselItemsCount: widget.pageCount,
             carouselPageIndex: widget.indexNow,
+            needCarousel: !widget.isSinglePage,
           ),
           Expanded(
             child: NotificationListener<ScrollNotification>(
@@ -164,19 +165,16 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                           if (kycState.tradeStatus == kycOperationStatus(KycStatus.blocked) || !isBuyAvaible) {
                             sNotification.showError(
                               intl.operation_bloked_text,
-                              duration: 4,
                               id: 1,
-                              hideIcon: true,
                             );
                           } else if ((kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) &&
                               !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
                             sNotification.showError(
                               intl.operation_bloked_text,
-                              duration: 4,
                               id: 1,
-                              hideIcon: true,
                             );
-                          } else if (isDepositBlocker) {
+                          } else if (isDepositBlocker &&
+                              !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
                             showSendTimerAlertOr(
                               context: context,
                               or: () => showPayWithBottomSheet(
@@ -209,12 +207,24 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                         },
                         onSell: () {
                           final actualAsset = widget.currency;
-                          sRouter.push(
-                            AmountRoute(
-                              tab: AmountScreenTab.sell,
-                              asset: actualAsset,
-                            ),
-                          );
+
+                          if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
+                            showSendTimerAlertOr(
+                              context: context,
+                              or: () => sRouter.push(
+                                AmountRoute(
+                                  tab: AmountScreenTab.sell,
+                                  asset: actualAsset,
+                                ),
+                              ),
+                              from: [BlockingType.trade],
+                            );
+                          } else {
+                            sNotification.showError(
+                              intl.operation_bloked_text,
+                              id: 1,
+                            );
+                          }
                         },
                         onReceive: () {
                           final actualAsset = widget.currency;
@@ -233,9 +243,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                           } else if (!widget.currency.supportsCryptoDeposit) {
                             sNotification.showError(
                               intl.operation_bloked_text,
-                              duration: 4,
                               id: 1,
-                              hideIcon: true,
                             );
                           } else {
                             handler.handle(
@@ -280,9 +288,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                           } else {
                             sNotification.showError(
                               intl.operation_bloked_text,
-                              duration: 4,
                               id: 1,
-                              hideIcon: true,
                             );
                           }
                         },
