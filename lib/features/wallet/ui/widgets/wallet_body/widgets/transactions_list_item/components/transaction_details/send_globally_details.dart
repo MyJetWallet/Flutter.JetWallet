@@ -204,7 +204,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
             ),
             const SpaceH18(),
           ],
-          const SizedBox(height: 20),
+          const SizedBox(height: 8),
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
@@ -267,7 +267,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
           ],
           if (transactionListItem.status != Status.declined) ...[
             const SpaceH18(),
-            PaymentFeeRowWidget(
+            ProcessingFeeRowWidget(
               fee: volumeFormat(
                 decimal: transactionListItem.withdrawalInfo?.feeAmount ?? Decimal.zero,
                 symbol: transactionListItem.withdrawalInfo?.feeAssetId ?? '',
