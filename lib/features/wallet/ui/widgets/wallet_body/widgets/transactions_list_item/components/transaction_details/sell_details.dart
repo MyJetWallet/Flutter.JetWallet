@@ -79,7 +79,7 @@ class SellDetails extends StatelessObserverWidget {
           TransactionDetailsItem(
             text: intl.buy_confirmation_price,
             value: TransactionDetailsValueText(
-              text: rateFor(buyAsset, paymentAsset),
+              text: rateFor(paymentAsset, buyAsset),
             ),
           ),
           const SpaceH18(),
