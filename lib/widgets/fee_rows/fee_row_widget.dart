@@ -149,7 +149,7 @@ class _BasicFeeRowWidget extends StatelessWidget {
                 description,
                 maxLines: 3,
                 style: sCaptionTextStyle.copyWith(
-                  color: sKit.colors.grey3,
+                  color: sKit.colors.grey2,
                 ),
               ),
               const SpaceH64(),

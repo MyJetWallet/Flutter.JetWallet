@@ -431,7 +431,7 @@ class _TransactionBaseItem extends StatelessWidget {
                   if (rightSupplement != null)
                     TransactionListItemText(
                       text: rightSupplement!,
-                      color: colors.grey2,
+                      color: colors.grey1,
                     ),
                   const SpaceW5(),
                   if (status == Status.inProgress)

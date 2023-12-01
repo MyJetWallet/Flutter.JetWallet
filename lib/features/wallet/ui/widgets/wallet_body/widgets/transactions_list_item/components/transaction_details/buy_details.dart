@@ -88,41 +88,54 @@ class BuyDetails extends StatelessObserverWidget {
           TransactionDetailsItem(
             text: intl.history_paid_with,
             value: transactionListItem.cryptoBuyInfo?.paymentMethod == PaymentMethodType.bankCard
-                ? Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: ShapeDecoration(
-                          color: sKit.colors.white,
-                          shape: OvalBorder(
-                            side: BorderSide(
-                              color: colors.grey4,
+                ? Flexible(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: ShapeDecoration(
+                            color: sKit.colors.white,
+                            shape: OvalBorder(
+                              side: BorderSide(
+                                color: colors.grey4,
+                              ),
                             ),
                           ),
+                          child: SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: getCardIcon(transactionListItem.cryptoBuyInfo?.cardType),
+                          ),
                         ),
-                        child: SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: getCardIcon(transactionListItem.cryptoBuyInfo?.cardType),
+                        const SpaceW8(),
+                        Flexible(
+                          child: TransactionDetailsValueText(
+                            text:
+                                '${transactionListItem.cryptoBuyInfo?.cardLabel} •• ${transactionListItem.cryptoBuyInfo?.cardLast4}',
+                            maxLines: 1,
+                          ),
                         ),
-                      ),
-                      const SpaceW8(),
-                      TransactionDetailsValueText(
-                        text:
-                            '${transactionListItem.cryptoBuyInfo?.cardLabel} •• ${transactionListItem.cryptoBuyInfo?.cardLast4}',
-                      ),
-                    ],
+                      ],
+                    ),
                   )
-                : Row(
-                    children: [
-                      Assets.svg.other.medium.bankAccount.simpleSvg(
-                        width: 20,
-                      ),
-                      const SpaceW8(),
-                      TransactionDetailsValueText(
-                        text: transactionListItem.cryptoBuyInfo?.accountLabel ?? '',
-                      ),
-                    ],
+                : Flexible(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        const SpaceW8(),
+                        Assets.svg.other.medium.bankAccount.simpleSvg(
+                          width: 20,
+                        ),
+                        const SpaceW8(),
+                        Flexible(
+                          child: TransactionDetailsValueText(
+                            text: transactionListItem.cryptoBuyInfo?.accountLabel ?? '',
+                            maxLines: 1,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
           ),
           const SpaceH18(),
