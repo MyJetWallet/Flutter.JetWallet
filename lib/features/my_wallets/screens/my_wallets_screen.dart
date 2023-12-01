@@ -19,7 +19,6 @@ import 'package:jetwallet/features/my_wallets/widgets/actions_my_wallets_row_wid
 import 'package:jetwallet/features/my_wallets/widgets/add_wallet_bottom_sheet.dart';
 import 'package:jetwallet/features/my_wallets/widgets/change_order_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/my_wallets_asset_item.dart';
-import 'package:jetwallet/features/my_wallets/widgets/my_wallets_header.dart';
 import 'package:jetwallet/features/my_wallets/widgets/pending_transactions_widget.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
@@ -69,7 +68,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
     );
 
     _controller.addListener(() {
-      if (_controller.position.pixels <= 195) {
+      if (_controller.position.pixels <= 265) {
         if (!isTopPosition) {
           setState(() {
             isTopPosition = true;
@@ -446,14 +445,6 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                   store: store,
                 ),
               ),
-              /*
-              if (!store.isReordering &&
-                  store.currencies[index].symbol == 'EUR' &&
-                  store.buttonStatus != BankingShowState.hide)
-                GetAccountButton(
-                  store: store,
-                ),
-                */
             ],
           ),
         );
