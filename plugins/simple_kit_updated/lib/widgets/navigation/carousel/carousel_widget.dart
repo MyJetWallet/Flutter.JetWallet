@@ -22,7 +22,8 @@ class CarouselWidget extends HookWidget {
           duration: const Duration(milliseconds: 200),
           margin: const EdgeInsets.only(right: 2),
           height: 2,
-          width: 16,
+          // width: 16, NEW CAROUSEL WIDTH
+          width: 8,
           decoration: BoxDecoration(
             color: index == pageIndex ? SColorsLight().black : SColorsLight().black.withOpacity(.1),
           ),
