@@ -5,6 +5,7 @@ import 'package:flutter_native_splash/cli_commands.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/simple_card/store/simple_card_store.dart';
@@ -107,7 +108,9 @@ class _EurWalletBodyState extends State<EurWalletBody> {
             accuracy: eurCurrency.accuracy,
             symbol: eurCurrency.symbol,
           ),
-          mainSubtitle: eurCurrency.volumeBaseBalance(sSignalRModules.baseCurrency),
+          mainSubtitle: getIt.get<FormatService>().baseCurrency.symbol != eurCurrency.symbol
+              ? eurCurrency.volumeBaseBalance(sSignalRModules.baseCurrency)
+              : null,
           mainHeaderTitle: eurCurrency.symbol,
           mainHeaderSubtitle: intl.eur_wallet,
           mainHeaderCollapsedTitle: volumeFormat(
