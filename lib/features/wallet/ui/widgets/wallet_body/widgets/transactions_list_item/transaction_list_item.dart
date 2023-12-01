@@ -252,14 +252,14 @@ class TransactionListItem extends StatelessWidget {
       )}';
     }
     if (transactionListItem.operationType == OperationType.swapBuy) {
-      return '${intl.withText} ${volumeFormat(
+      return '${intl.history_with} ${volumeFormat(
         decimal: transactionListItem.swapInfo!.sellAmount,
         accuracy: currency.accuracy,
         symbol: transactionListItem.swapInfo!.sellAssetId ?? '',
       )}';
     }
     if (transactionListItem.operationType == OperationType.simplexBuy) {
-      return '${intl.withText} '
+      return '${intl.history_with} '
           '${volumeFormat(
         decimal: transactionListItem.buyInfo!.sellAmount,
         symbol: transactionListItem.buyInfo!.sellAssetId,
@@ -267,7 +267,7 @@ class TransactionListItem extends StatelessWidget {
       )}';
     }
     if (transactionListItem.operationType == OperationType.recurringBuy) {
-      return '${intl.withText} ${volumeFormat(
+      return '${intl.history_with} ${volumeFormat(
         decimal: transactionListItem.recurringBuyInfo!.sellAmount,
         accuracy: currency.accuracy,
         symbol: transactionListItem.recurringBuyInfo!.sellAssetId!,

@@ -5512,7 +5512,7 @@
         "description": "Карта Simple",
         "type": "text"
     },
-    "card_claim_card": "Картка-заява Simple",
+    "card_claim_card": "Замовити картку!",
     "@card_claim_card": {
         "description": "Карта-заявление Simple",
         "type": "text"
@@ -7010,7 +7010,7 @@
         "description": "Всего возвращено",
         "type": "text"
     },
-    "card_history_credited_to": "З картки",
+    "card_history_credited_to": "На карту",
     "@card_history_credited_to": {
         "description": "С карты",
         "type": "text"
@@ -7046,7 +7046,15 @@
         "type": "text"
     },
     "tost_convert_message_1": "Ваш криптовалютний баланс нульовий. Будь ласка, спочатку отримайте криптовалюту",
+    "@tost_convert_message_1": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/hEGTlDfYQRxlBf8u4Dp2He90.png",
+        "type": "text"
+    },
     "tost_sell_message_1": "Спочатку потрібно створити обліковий запис в EUR та отримати криптовалюту",
+    "@tost_sell_message_1": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/7AEgpkEaez8zbAkLCNwZB4Ba.png",
+        "type": "text"
+    },
     "tost_sell_message_2": "Ваш криптовалютний баланс нульовий",
     "tost_sell_message_3": "Спочатку вам потрібно створити рахунок в євро",
     "history_for": "Для",
@@ -7061,6 +7069,10 @@
     "gift_kyc_alert_description": "Будь ласка, верифікуйте акаунт \n щоб прийняти подарунок",
     "gift_kyc_verify": "Верифікувати",
     "phone_cahange_warning": "Перш ніж продовжити, будь ласка, зверніть увагу, що в цілях безпеки всі операції надсилання та зняття коштів будуть заблоковані на 48 годин після успішного оновлення номера телефону",
-    "reference_character_minimum": "",
-    "gift_receive_history_from": "Від"
+    "reference_character_minimum": "5 символів або більше",
+    "gift_receive_history_from": "Від",
+    "confirm_with_sms": "Підтвердити через SMS",
+    "buy_confirm_with_unlimit_1_part": "Продовжуючи, ви підтверджуєте відправку коштів у розмірі",
+    "buy_confirm_with_unlimit_2_part": "з вашого банківського рахунку в Unlimit на банківський рахунок",
+    "buy_confirm_with_unlimit_3_part": "на ім'я"
 }
