@@ -23,6 +23,8 @@ class TimerService extends ChangeNotifier {
         getIt.get<AppStore>().authorizedStatus is Home) {
       sAnalytics.pinAfterWaiting(timeAfterBlock: 300);
 
+      getIt.get<AppStore>().setHomeTab(0);
+
       getIt<AppRouter>().replaceAll([
         PinScreenRoute(
           union: const Verification(),

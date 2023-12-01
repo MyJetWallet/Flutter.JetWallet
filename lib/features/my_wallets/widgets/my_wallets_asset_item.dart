@@ -61,10 +61,7 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
           .where((element) => element.status == AccountStatusCard.inCreation)
           .isNotEmpty;
 
-      final isLoadingState = store.buttonStatus == BankingShowState.inProgress ||
-          isAnyBankAccountInCreating ||
-          isSimpleInCreating ||
-          isCardInCreating;
+      final isLoadingState = sSignalRModules.bankingProfileData?.showState == BankingShowState.inProgress;
 
       return SimpleTableAccount(
         assetIcon: SNetworkSvg24(

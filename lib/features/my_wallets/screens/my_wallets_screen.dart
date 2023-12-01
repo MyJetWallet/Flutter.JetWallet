@@ -29,6 +29,7 @@ import 'package:rive/rive.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/delete_asset/simple_delete_asset.dart';
 import 'package:simple_kit/modules/icons/24x24/public/start_reorder/simple_start_reorder_icon.dart';
+import 'package:simple_kit/modules/shared/stack_loader/stack_loader.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -153,7 +154,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
       child: SlidableAutoCloseBehavior(
         child: SPageFrame(
           color: colors.white,
-          loaderText: '',
+          loaderText: intl.loader_please_wait,
           loading: store.loader,
           child: Column(
             children: [

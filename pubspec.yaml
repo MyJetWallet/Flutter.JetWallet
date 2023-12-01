@@ -86,6 +86,7 @@ dependencies:
   custom_refresh_indicator: ^2.0.1
   isolator: ^2.0.8
   zendesk_messaging: ^2.7.7
+  flutter_launcher_icons: ^0.13.1
 
   # NETWORKING:
   http: 0.13.5
@@ -192,6 +193,12 @@ flutter_native_splash:
   image: "assets/images/bg.png"
 
   web: false
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/logo_icon.png"
+
 
 flutter:
   generate: true

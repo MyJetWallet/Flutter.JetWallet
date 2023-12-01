@@ -19,12 +19,10 @@ abstract class _DeleteProfileStoreBase with Store {
   }
 
   @observable
-  ObservableList<ProfileDeleteReasonsModel> deleteReason =
-      ObservableList.of([]);
+  ObservableList<ProfileDeleteReasonsModel> deleteReason = ObservableList.of([]);
 
   @observable
-  ObservableList<ProfileDeleteReasonsModel> selectedDeleteReason =
-      ObservableList.of([]);
+  ObservableList<ProfileDeleteReasonsModel> selectedDeleteReason = ObservableList.of([]);
 
   @observable
   bool confitionCheckbox = false;
@@ -55,8 +53,7 @@ abstract class _DeleteProfileStoreBase with Store {
   @action
   void selectDeleteReason(int index) {
     if (isAlreadySelected(index)) {
-      selectedDeleteReason
-          .removeWhere((element) => element == deleteReason[index]);
+      selectedDeleteReason.removeWhere((element) => element == deleteReason[index]);
 
       selectedDeleteReason = selectedDeleteReason;
     } else {

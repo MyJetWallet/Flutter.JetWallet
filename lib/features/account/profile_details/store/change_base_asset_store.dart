@@ -14,8 +14,7 @@ import 'package:simple_networking/modules/wallet_api/models/base_asset/set_base_
 part 'change_base_asset_store.g.dart';
 
 @lazySingleton
-class ChangeBaseAssetStore = _ChangeBaseAssetStoreBase
-    with _$ChangeBaseAssetStore;
+class ChangeBaseAssetStore = _ChangeBaseAssetStoreBase with _$ChangeBaseAssetStore;
 
 abstract class _ChangeBaseAssetStoreBase with Store {
   _ChangeBaseAssetStoreBase() {
@@ -39,7 +38,7 @@ abstract class _ChangeBaseAssetStoreBase with Store {
 
     if (newAsset != checkedAsset) {
       try {
-        loader!.startLoading();
+        loader!.startLoadingImmediately();
         final model = SetBaseAssetsRequestModel(
           assetSymbol: newAsset,
         );
@@ -60,6 +59,8 @@ abstract class _ChangeBaseAssetStoreBase with Store {
         setBaseAsset(newAsset);
       } catch (e) {
         _logger.log(stateFlow, 'changeBaseAsset', e);
+      } finally {
+        //await finishLoading();
       }
     } else {
       await sRouter.pop();

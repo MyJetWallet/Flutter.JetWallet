@@ -291,8 +291,6 @@ abstract class _MyWalletsSroreBase with Store {
 
     final context = sRouter.navigatorKey.currentContext!;
 
-    //accountManualStatus = BankingShowState.inProgress;
-
     //await Future.delayed(const Duration(seconds: 10));
     try {
       final resp = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postSimpleAccountCreate();
@@ -304,6 +302,7 @@ abstract class _MyWalletsSroreBase with Store {
           needFeedback: true,
         );
         accountManualStatus = null;
+        loader.finishLoadingImmediately();
       } else {
         if (resp.data!.simpleKycRequired || resp.data!.addressSetupRequired) {
           sAnalytics.eurWalletVerifyYourAccount();
@@ -320,9 +319,12 @@ abstract class _MyWalletsSroreBase with Store {
             isBanking: true,
           );
         } else {
+          loader.finishLoadingImmediately();
           //accountManualStatus = BankingShowState.accountList;
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      loader.finishLoadingImmediately();
+    }
   }
 }

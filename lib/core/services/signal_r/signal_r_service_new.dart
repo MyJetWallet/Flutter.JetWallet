@@ -103,7 +103,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
   void setBaseCurrency(BaseCurrencyModel value) {
     baseCurrency = value;
 
-    run(event: SignalREvents.setBaseCurrency, data: value);
+    //run(event: SignalREvents.setBaseCurrency, data: value);
   }
 
   @action
@@ -520,13 +520,15 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
         }
       }
     }
+
+    getIt.get<ChangeBaseAssetStore>().finishLoading();
   }
 
   @action
   void updateBalancesData({required SignalREvents event, required List<CurrencyModel> data}) {
     currenciesList = ObservableList.of(data);
 
-    log(data.where((element) => element.symbol == 'EUR').first.assetBalance.toJson());
+    //log(data.where((element) => element.symbol == 'EUR').first.assetBalance.toJson());
 
     getIt.get<ChangeBaseAssetStore>().finishLoading();
   }
@@ -723,9 +725,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
   BankingProfileModel? bankingProfileData;
   @action
   void setBankingProfileData(BankingProfileModel data) {
-    /*
-    print(data);
-    bankingProfileData = BankingProfileModel(
+    /*bankingProfileData = BankingProfileModel(
       showState: BankingShowState.getAccount,
       simple: SimpleBankingModel(
         status: SimpleAccountStatus.allowed,
@@ -738,15 +738,16 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
       banking: BankingDataModel(
         status: BankingClientStatus.allowed,
         accounts: [
+          /*
           SimpleBankingAccount(
             label: 'asdasd',
             balance: Decimal.ten,
-            status: AccountStatus.active,
+            status: AccountStatus.inCreation,
           ),
+          */
         ],
       ),
     );
-    return;
     */
 
     bankingProfileData = data;
