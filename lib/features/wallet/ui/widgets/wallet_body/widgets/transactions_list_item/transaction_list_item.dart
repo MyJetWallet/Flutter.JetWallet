@@ -228,8 +228,7 @@ class TransactionListItem extends StatelessWidget {
     return volumeFormat(
       decimal: (transactionListItem.operationType == OperationType.ibanSend ||
               transactionListItem.operationType == OperationType.transferByPhone ||
-              transactionListItem.operationType == OperationType.giftSend ||
-              transactionListItem.operationType == OperationType.sendGlobally)
+              transactionListItem.operationType == OperationType.giftSend)
           ? transactionListItem.balanceChange.abs()
           : transactionListItem.balanceChange,
       accuracy: accuracy,
