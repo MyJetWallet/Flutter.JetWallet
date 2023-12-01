@@ -9,6 +9,7 @@ import 'package:jetwallet/core/services/simple_networking/simple_networking.dart
 import 'package:jetwallet/features/my_wallets/helper/currencies_for_my_wallet.dart';
 import 'package:jetwallet/features/my_wallets/helper/show_wallet_verify_account.dart';
 import 'package:jetwallet/utils/enum.dart';
+import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -24,7 +25,10 @@ part 'my_wallets_srore.g.dart';
 class MyWalletsSrore = _MyWalletsSroreBase with _$MyWalletsSrore;
 
 abstract class _MyWalletsSroreBase with Store {
-  _MyWalletsSroreBase();
+  _MyWalletsSroreBase() {
+    currenciesForSearch.addAll(_allAssets);
+    sortByBalanceAndWeight(currenciesForSearch);
+  }
 
   @observable
   bool isReordering = false;
@@ -47,8 +51,8 @@ abstract class _MyWalletsSroreBase with Store {
   @computed
   int get countOfPendingTransactions => sSignalRModules.pendingOperationCount;
 
-  @computed
-  ObservableList<CurrencyModel> get currenciesForSearch => currenciesForSearchInMyWallet(_allAssets);
+  @observable
+  ObservableList<CurrencyModel> currenciesForSearch = ObservableList.of([]);
 
   @action
   void onStartReordering() {
@@ -124,6 +128,7 @@ abstract class _MyWalletsSroreBase with Store {
     currenciesForSearch
       ..clear()
       ..addAll(tempList);
+    sortByBalanceAndWeight(currenciesForSearch);
   }
 
   @action
@@ -150,6 +155,11 @@ abstract class _MyWalletsSroreBase with Store {
     if (!response.hasData) {
       currencies.add(currency);
     }
+
+    currenciesForSearch
+      ..clear()
+      ..addAll(_allAssets);
+    sortByBalanceAndWeight(currenciesForSearch);
   }
 
   @observable
@@ -290,7 +300,6 @@ abstract class _MyWalletsSroreBase with Store {
       if (resp.hasError) {
         sNotification.showError(
           intl.something_went_wrong_try_again,
-          duration: 4,
           id: 1,
           needFeedback: true,
         );
