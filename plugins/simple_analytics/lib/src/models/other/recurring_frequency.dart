@@ -60,3 +60,12 @@ extension GlobalHistoryTabName on GlobalHistoryTab {
     }
   }
 }
+
+enum PaymenthMethodType {
+  card('card'),
+  cjAccount('CJ account'),
+  unlimitAccount('Unlimit account');
+
+  const PaymenthMethodType(this.name);
+  final String name;
+}

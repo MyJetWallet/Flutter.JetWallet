@@ -12,9 +12,10 @@ import 'package:jetwallet/features/bank_card/widgets/bank_card_date_label.dart';
 import 'package:jetwallet/features/bank_card/widgets/bank_card_holdername.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class AddBankCardScreen extends StatelessWidget {
+class AddBankCardScreen extends StatefulWidget {
   const AddBankCardScreen({
     super.key,
     required this.onCardAdded,
@@ -32,15 +33,28 @@ class AddBankCardScreen extends StatelessWidget {
   final CurrencyModel? asset;
 
   @override
+  State<AddBankCardScreen> createState() => _AddBankCardScreenState();
+}
+
+class _AddBankCardScreenState extends State<AddBankCardScreen> {
+  @override
+  void initState() {
+    sAnalytics.addCardDetailsScreenView(
+      destinationWallet: widget.asset?.symbol ?? '',
+    );
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Provider<BankCardStore>(
       create: (context) => BankCardStore()..init(BankCardStoreMode.add),
       builder: (context, child) => _AddBankCardScreenBody(
-        onCardAdded: onCardAdded,
-        amount: amount,
-        isPreview: isPreview,
-        asset: asset,
-        divideDateAndLabel: divideDateAndLabel,
+        onCardAdded: widget.onCardAdded,
+        amount: widget.amount,
+        isPreview: widget.isPreview,
+        asset: widget.asset,
+        divideDateAndLabel: widget.divideDateAndLabel,
       ),
     );
   }
@@ -73,7 +87,9 @@ class _AddBankCardScreenBody extends StatelessObserverWidget {
         child: SSmallHeader(
           title: intl.addCircleCard_bigHeaderTitle,
           showBackButton: false,
-          onCLoseButton: () => sRouter.pop(),
+          onCLoseButton: () {
+            sRouter.pop();
+          },
           showCloseButton: true,
         ),
       ),
@@ -101,6 +117,9 @@ class _AddBankCardScreenBody extends StatelessObserverWidget {
                             children: [
                               SIconButton(
                                 onTap: () {
+                                  sAnalytics.userTapsOnButtonSaveCardForFurtherPurchaseOnAddCardDetailsScreen(
+                                    destinationWallet: asset?.symbol ?? '',
+                                  );
                                   store.checkSetter();
                                 },
                                 defaultIcon: store.saveCard ? const SCheckboxSelectedIcon() : const SCheckboxIcon(),
@@ -129,7 +148,13 @@ class _AddBankCardScreenBody extends StatelessObserverWidget {
                       active: store.isCardDetailsValid,
                       name: intl.addCircleCard_continue,
                       onTap: () async {
+                        sAnalytics.tapOnContinueCrNewCardButton(
+                          destinationWallet: asset?.symbol ?? '',
+                        );
                         if (store.saveCard) {
+                          sAnalytics.addACustomNameScreenView(
+                            destinationWallet: asset?.symbol ?? '',
+                          );
                           await Navigator.push(
                             context,
                             PageRouteBuilder(

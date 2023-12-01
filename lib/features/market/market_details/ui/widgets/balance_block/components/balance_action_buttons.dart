@@ -78,6 +78,9 @@ class BalanceActionButtons extends StatelessObserverWidget {
               sAnalytics.newBuyTapBuy(
                 source: 'Market - Asset - Buy',
               );
+              sAnalytics.userTapsOnButtonBuyWalletFromOneOfAnyScreens(
+                source: 'Wallets - Buy',
+              );
 
               final isCardsAvailable = currency.buyMethods.any((element) => element.id == PaymentMethodType.bankCard);
 
@@ -99,12 +102,14 @@ class BalanceActionButtons extends StatelessObserverWidget {
                   intl.operation_bloked_text,
                   id: 1,
                 );
+                sAnalytics.errorBuyIsUnavailable();
               } else if ((kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) &&
                   !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
                 sNotification.showError(
                   intl.operation_bloked_text,
                   id: 1,
                 );
+                 sAnalytics.errorBuyIsUnavailable();
               } else if (isDepositBlocker && !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
                 showSendTimerAlertOr(
                   context: context,

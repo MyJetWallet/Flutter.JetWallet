@@ -66,4 +66,8 @@ class PropertyType {
   static const eurAccountFromLabel = 'EUR Account_From label';
   static const enteredAmount = 'Entered amount';
   static const referenceText = 'Reference_Text';
+  static const destinationWallet = 'Destination wallet';
+  static const listOfAvailablePMs = 'List of available PM’s';
+  static const buyPM = 'Buy PM';
+  static const pmType = 'PM type';
 }

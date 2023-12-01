@@ -144,6 +144,10 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                           sAnalytics.newBuyTapBuy(
                             source: 'My Assets - Asset -  Buy',
                           );
+                          sAnalytics.userTapsOnButtonBuyWalletFromOneOfAnyScreens(
+                            source: 'Wallets - Buy',
+                          );
+
                           final actualAsset = widget.currency;
 
                           final isCardsAvailable =
@@ -167,12 +171,14 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                               intl.operation_bloked_text,
                               id: 1,
                             );
+                            sAnalytics.errorBuyIsUnavailable();
                           } else if ((kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) &&
                               !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
                             sNotification.showError(
                               intl.operation_bloked_text,
                               id: 1,
                             );
+                            sAnalytics.errorBuyIsUnavailable();
                           } else if (isDepositBlocker &&
                               !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
                             showSendTimerAlertOr(
