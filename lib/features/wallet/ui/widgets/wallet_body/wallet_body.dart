@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
@@ -95,19 +96,29 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
               url: widget.currency.iconUrl,
             ),
             ticker: widget.currency.symbol,
-            mainTitle: volumeFormat(
-              decimal: sSignalRModules.totalEurWalletBalance,
-              accuracy: widget.currency.accuracy,
-              symbol: widget.currency.symbol,
-            ),
-            mainSubtitle: widget.currency.volumeBaseBalance(sSignalRModules.baseCurrency),
+            mainTitle: widget.currency.symbol == 'EUR'
+                ? volumeFormat(
+                    decimal: sSignalRModules.totalEurWalletBalance,
+                    accuracy: widget.currency.accuracy,
+                    symbol: widget.currency.symbol,
+                  )
+                : widget.currency.volumeBaseBalance(
+                    getIt.get<FormatService>().baseCurrency,
+                  ),
+            mainSubtitle: getIt.get<FormatService>().baseCurrency.symbol != widget.currency.symbol
+                ? widget.currency.symbol == 'EUR'
+                    ? widget.currency.volumeBaseBalance(getIt.get<FormatService>().baseCurrency)
+                    : widget.currency.volumeAssetBalance
+                : null,
             mainHeaderTitle: widget.currency.symbol,
             mainHeaderSubtitle: intl.eur_wallet,
-            mainHeaderCollapsedTitle: volumeFormat(
-              decimal: sSignalRModules.totalEurWalletBalance,
-              accuracy: widget.currency.accuracy,
-              symbol: widget.currency.symbol,
-            ),
+            mainHeaderCollapsedTitle: widget.currency.symbol == 'EUR'
+                ? volumeFormat(
+                    decimal: sSignalRModules.totalEurWalletBalance,
+                    accuracy: widget.currency.accuracy,
+                    symbol: widget.currency.symbol,
+                  )
+                : widget.currency.volumeBaseBalance(getIt.get<FormatService>().baseCurrency),
             mainHeaderCollapsedSubtitle: widget.currency.symbol,
             carouselItemsCount: widget.pageCount,
             carouselPageIndex: widget.indexNow,

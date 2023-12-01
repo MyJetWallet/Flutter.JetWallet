@@ -18,11 +18,11 @@ class TransactionDetailsItem extends StatelessWidget {
     return Row(
       crossAxisAlignment:
           fromStart ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         TransactionDetailsNameText(
           text: text,
         ),
-        const Spacer(),
         value,
       ],
     );

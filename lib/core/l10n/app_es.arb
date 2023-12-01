@@ -1473,6 +1473,10 @@
     "gift_kyc_alert_description": "Verifique su cuenta\n para reclamar su regalo",
     "gift_kyc_verify": "Verifique",
     "phone_cahange_warning": "Antes de continuar, tenga en cuenta que, por motivos de seguridad, todas las operaciones de envío y retirada se bloquearán durante 48 horas tras la actualización del número de teléfono",
-    "reference_character_minimum": "",
-    "gift_receive_history_from": "De"
+    "reference_character_minimum": "5 caracteres o más",
+    "gift_receive_history_from": "De",
+    "confirm_with_sms": "Confirmar con SMS",
+    "buy_confirm_with_unlimit_1_part": "Al continuar, confirma el envío de",
+    "buy_confirm_with_unlimit_2_part": "de su cuenta bancaria en Unlimit a la cuenta bancaria",
+    "buy_confirm_with_unlimit_3_part": "a nombre de"
 }

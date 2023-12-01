@@ -14,6 +14,8 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../../../helper/format_date_to_hm.dart';
 import 'components/transaction_details_item.dart';
@@ -179,7 +181,9 @@ class IbanSendDetailsHeader extends StatelessWidget {
             accuracy: asset.accuracy,
             decimal: transactionListItem.balanceChange.abs(),
           ),
-          fromAssetCustomIcon: const BlueBankIconDeprecated(),
+          fromAssetCustomIcon: Assets.svg.other.medium.bankAccount.simpleSvg(
+            width: 32,
+          ),
           toAssetIconUrl: asset.iconUrl,
           toAssetDescription: asset.description,
           toAssetValue: volumeFormat(

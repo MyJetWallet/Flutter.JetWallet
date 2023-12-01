@@ -1144,7 +1144,7 @@
     "withdrawal_successPlaced": "zostało wysłane",
     "bottom_bar_card": "Karta",
     "card_header": "Karta Simple",
-    "card_claim_card": "Zarejestruj kartę Simple",
+    "card_claim_card": "Zamów kartę!",
     "card_main_text": "Karta Simple już wkrótce dostępna",
     "card_description": "Kliknij przycisk, aby odebrać kartę!",
     "card_verify": "Zweryfikuj swoje konto, aby odebrać kartę Simple",
@@ -1473,6 +1473,30 @@
     "gift_kyc_alert_description": "Zweryfikuj swoje konto\n aby odebrać prezent",
     "gift_kyc_verify": "Weryfikacja",
     "phone_cahange_warning": "Przed kontynuowaniem należy pamiętać, że ze względów bezpieczeństwa wszystkie operacje wysyłania i wypłacania zostaną zablokowane na 48 godzin po pomyślnej aktualizacji numeru telefonu",
-    "reference_character_minimum": "",
-    "gift_receive_history_from": "Od"
+    "reference_character_minimum": "5 znaków lub więcej",
+    "@reference_character_minimum": {
+        "description": "5 символов или больше. Для комментария при отправке денег с Unlimint EUR acc через withrraw операцию",
+        "type": "text"
+    },
+    "gift_receive_history_from": "Od",
+    "confirm_with_sms": "Potwierdź SMS-em",
+    "@confirm_with_sms": {
+        "description": "Используется для подтверждения по СМС кода при выводе денег с анлиминта через незабиндженный девайс. \nhttps://s3.eu-west-1.amazonaws.com/po-pub/i/GOw1MmcHbGr5XO1ixbvaniIu.png",
+        "type": "text"
+    },
+    "buy_confirm_with_unlimit_1_part": "Kontynuując, potwierdzasz wysłanie środków w wysokości",
+    "@buy_confirm_with_unlimit_1_part": {
+        "description": "Используется для описания как происходит покупка крипты с анлимит евро счета\n\nhttps://s3.eu-west-1.amazonaws.com/po-pub/i/Bxg5tjiAGNp0BOWJu0yFmmVt.png",
+        "type": "text"
+    },
+    "buy_confirm_with_unlimit_2_part": "ze swojego konta bankowego w Unlimit na konto bankowe",
+    "@buy_confirm_with_unlimit_2_part": {
+        "description": "Используется для описания как происходит покупка крипты с анлимит евро счета",
+        "type": "text"
+    },
+    "buy_confirm_with_unlimit_3_part": "w imieniu",
+    "@buy_confirm_with_unlimit_3_part": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/YKO0MUQGYMvKy3OBV91JKBLy.png",
+        "type": "text"
+    }
 }
