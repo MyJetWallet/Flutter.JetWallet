@@ -16,6 +16,7 @@ import 'package:jetwallet/core/services/remote_config/remote_config_values.dart'
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_bank_card_input.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/show_bank_card_cvv_bottom_sheet.dart';
 import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
@@ -68,8 +69,11 @@ abstract class _BuyConfirmationStoreBase with Store {
   }
 
   final cancelToken = CancelToken();
-  void cancelAllRequest() {
+  Future<void> cancelAllRequest() async {
     cancelToken.cancel('exit');
+
+    getIt<AppStore>().generateNewSessionID();
+    await getIt.get<SNetwork>().init(getIt<AppStore>().sessionID);
 
     getIt.get<SimpleLoggerService>().log(
           level: Level.info,

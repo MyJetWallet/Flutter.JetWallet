@@ -124,7 +124,10 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
   @observable
   bool initFinished = false;
   @action
-  void setInitFinished(bool value) => initFinished = value;
+  void setInitFinished(bool value) {
+    initFinished = value;
+    getIt.get<ChangeBaseAssetStore>().finishLoading();
+  }
 
   @observable
   CardsModel cards = const CardsModel(now: 0, cardInfos: []);
@@ -521,7 +524,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
       }
     }
 
-    getIt.get<ChangeBaseAssetStore>().finishLoading();
+    //getIt.get<ChangeBaseAssetStore>().finishLoading();
   }
 
   @action
