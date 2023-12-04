@@ -167,14 +167,16 @@ class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
                           child: SPrimaryButton1(
                             active: IbanAddressBookStore.of(context).isButtonActive,
                             name: intl.iban_edit_save_changes,
-                            onTap: () {
+                            onTap: () async {
                               sAnalytics.eurWithdrawTapSaveChangesEdit(
                                 eurAccountType: 'CJ',
                                 accountIban: widget.bankingAccount?.iban ?? '',
                                 accountLabel: widget.bankingAccount?.label ?? '',
                               );
 
-                              IbanAddressBookStore.of(context).editAccount();
+                              await IbanAddressBookStore.of(context).editAccount();
+
+                              Navigator.pop(context, true);
                             },
                           ),
                         ),
@@ -225,16 +227,18 @@ class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
                           child: SPrimaryButton2(
                             active: IbanAddressBookStore.of(context).isButtonActive,
                             name: intl.create_continue,
-                            onTap: () {
+                            onTap: () async {
                               sAnalytics.tapOnTheButtonAddAccount();
 
-                              IbanAddressBookStore.of(context).addAccount();
+                              await IbanAddressBookStore.of(context).addAccount();
 
                               sAnalytics.eurWithdrawTapContinueAddReceiving(
                                 eurAccountType: 'CJ',
                                 accountIban: widget.bankingAccount?.iban ?? '',
                                 accountLabel: widget.bankingAccount?.label ?? '',
                               );
+
+                              Navigator.pop(context, true);
                             },
                           ),
                         ),
