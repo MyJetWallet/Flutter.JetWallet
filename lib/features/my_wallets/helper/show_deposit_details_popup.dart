@@ -244,18 +244,50 @@ void showDepositDetails(
         IBanItem(
           name: intl.iban_benificiary,
           text: sSignalRModules.bankingProfileData?.simple?.account?.bankName ?? 'Simple Europe UAB',
+          afterCopy: () {
+            sAnalytics.eurWalletTapCopyDeposit(
+              isCJ: true,
+              eurAccountLabel: bankingAccount.label ?? '',
+              isHasTransaction: false,
+              copyType: intl.iban_benificiary,
+            );
+          },
         ),
         IBanItem(
           name: intl.iban_iban,
           text: sSignalRModules.bankingProfileData?.simple?.account?.iban ?? '',
+          afterCopy: () {
+            sAnalytics.eurWalletTapCopyDeposit(
+              isCJ: true,
+              eurAccountLabel: bankingAccount.label ?? '',
+              isHasTransaction: false,
+              copyType: intl.iban_iban,
+            );
+          },
         ),
         IBanItem(
           name: intl.iban_bic,
           text: sSignalRModules.bankingProfileData?.simple?.account?.bic ?? '',
+          afterCopy: () {
+            sAnalytics.eurWalletTapCopyDeposit(
+              isCJ: true,
+              eurAccountLabel: bankingAccount.label ?? '',
+              isHasTransaction: false,
+              copyType: intl.iban_bic,
+            );
+          },
         ),
         IBanItem(
           name: intl.iban_address,
           text: sSignalRModules.bankingProfileData?.simple?.account?.address ?? '',
+          afterCopy: () {
+            sAnalytics.eurWalletTapCopyDeposit(
+              isCJ: true,
+              eurAccountLabel: bankingAccount.label ?? '',
+              isHasTransaction: false,
+              copyType: intl.iban_address,
+            );
+          },
         ),
         const SpaceH42(),
       ],
@@ -278,18 +310,50 @@ void showDepositDetails(
         IBanItem(
           name: intl.iban_benificiary,
           text: '${bankingAccount.holderFirstName} ${bankingAccount.holderLastName}',
+          afterCopy: () {
+            sAnalytics.eurWalletTapCopyDeposit(
+              isCJ: false,
+              eurAccountLabel: bankingAccount.label ?? '',
+              isHasTransaction: false,
+              copyType: intl.iban_benificiary,
+            );
+          },
         ),
         IBanItem(
           name: intl.iban_iban,
           text: bankingAccount.iban ?? '',
+          afterCopy: () {
+            sAnalytics.eurWalletTapCopyDeposit(
+              isCJ: false,
+              eurAccountLabel: bankingAccount.label ?? '',
+              isHasTransaction: false,
+              copyType: intl.iban_iban,
+            );
+          },
         ),
         IBanItem(
           name: intl.iban_bic,
           text: bankingAccount.bic ?? '',
+          afterCopy: () {
+            sAnalytics.eurWalletTapCopyDeposit(
+              isCJ: false,
+              eurAccountLabel: bankingAccount.label ?? '',
+              isHasTransaction: false,
+              copyType: intl.iban_bic,
+            );
+          },
         ),
         IBanItem(
           name: intl.iban_address,
           text: bankingAccount.address ?? '',
+          afterCopy: () {
+            sAnalytics.eurWalletTapCopyDeposit(
+              isCJ: false,
+              eurAccountLabel: bankingAccount.label ?? '',
+              isHasTransaction: false,
+              copyType: intl.iban_address,
+            );
+          },
         ),
         const SpaceH42(),
       ],

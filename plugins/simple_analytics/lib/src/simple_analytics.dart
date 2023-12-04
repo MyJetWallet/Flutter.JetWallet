@@ -3446,6 +3446,7 @@ class SimpleAnalytics {
     required bool isCJ,
     required String eurAccountLabel,
     required bool isHasTransaction,
+    required String copyType,
   }) {
     _analytics.logEvent(
       EventType.eurWalletTapCopyDeposit,
@@ -3456,6 +3457,7 @@ class SimpleAnalytics {
         PropertyType.eurAccountType: isCJ ? 'CJ' : 'Unlimint',
         PropertyType.eurAccountLabel: eurAccountLabel,
         PropertyType.isHasTransactions: isHasTransaction,
+        PropertyType.copyType: copyType,
       },
     );
   }
