@@ -246,14 +246,12 @@ class TransactionListItem extends StatelessWidget {
       return '${intl.transactionListItem_forText} '
           '${volumeFormat(
         decimal: transactionListItem.swapInfo!.buyAmount,
-        accuracy: currency.accuracy,
         symbol: transactionListItem.swapInfo!.buyAssetId,
       )}';
     }
     if (transactionListItem.operationType == OperationType.swapBuy) {
       return '${intl.history_with} ${volumeFormat(
         decimal: transactionListItem.swapInfo!.sellAmount,
-        accuracy: currency.accuracy,
         symbol: transactionListItem.swapInfo!.sellAssetId ?? '',
       )}';
     }
@@ -262,13 +260,11 @@ class TransactionListItem extends StatelessWidget {
           '${volumeFormat(
         decimal: transactionListItem.buyInfo!.sellAmount,
         symbol: transactionListItem.buyInfo!.sellAssetId,
-        accuracy: paymentCurrency.accuracy,
       )}';
     }
     if (transactionListItem.operationType == OperationType.recurringBuy) {
       return '${intl.history_with} ${volumeFormat(
         decimal: transactionListItem.recurringBuyInfo!.sellAmount,
-        accuracy: currency.accuracy,
         symbol: transactionListItem.recurringBuyInfo!.sellAssetId!,
       )}';
     }
@@ -276,7 +272,6 @@ class TransactionListItem extends StatelessWidget {
         transactionListItem.earnInfo?.totalBalance == transactionListItem.balanceChange.abs()) {
       return ' ${volumeFormat(
         decimal: transactionListItem.earnInfo!.totalBalance * currency.currentPrice,
-        accuracy: baseCurrency.accuracy,
         symbol: baseCurrency.symbol,
       )}';
     }
@@ -284,21 +279,18 @@ class TransactionListItem extends StatelessWidget {
       return '${intl.history_with} ${volumeFormat(
         decimal: transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero,
         symbol: transactionListItem.cryptoBuyInfo?.paymentAssetId ?? '',
-        accuracy: paymentCurrency.accuracy,
       )}';
     }
     if (transactionListItem.operationType == OperationType.bankingBuy && source != TransactionItemSource.eurAccount) {
       return '${intl.history_with} ${volumeFormat(
         decimal: transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero,
         symbol: transactionListItem.cryptoBuyInfo?.paymentAssetId ?? '',
-        accuracy: paymentCurrency.accuracy,
       )}';
     }
     if (transactionListItem.operationType == OperationType.bankingBuy && source == TransactionItemSource.eurAccount) {
       return '${intl.history_for} ${volumeFormat(
         decimal: transactionListItem.cryptoBuyInfo?.buyAmount ?? Decimal.zero,
         symbol: transactionListItem.cryptoBuyInfo?.buyAssetId ?? '',
-        accuracy: paymentCurrency.accuracy,
       )}';
     }
     if (transactionListItem.operationType == OperationType.bankingSell &&
@@ -306,7 +298,6 @@ class TransactionListItem extends StatelessWidget {
       return '${intl.history_with} ${volumeFormat(
         decimal: transactionListItem.sellCryptoInfo?.sellAmount ?? Decimal.zero,
         symbol: transactionListItem.sellCryptoInfo?.sellAssetId ?? '',
-        accuracy: paymentCurrency.accuracy,
       )}';
     }
     if (transactionListItem.operationType == OperationType.bankingSell &&
@@ -314,14 +305,12 @@ class TransactionListItem extends StatelessWidget {
       return '${intl.history_for} ${volumeFormat(
         decimal: transactionListItem.sellCryptoInfo?.buyAmount ?? Decimal.zero,
         symbol: transactionListItem.sellCryptoInfo?.buyAssetId ?? '',
-        accuracy: paymentCurrency.accuracy,
       )}';
     }
     if (transactionListItem.operationType == OperationType.sendGlobally) {
       return '${intl.history_for} ${volumeFormat(
         decimal: transactionListItem.withdrawalInfo?.receiveAmount ?? Decimal.zero,
         symbol: transactionListItem.withdrawalInfo?.receiveAsset ?? '',
-        accuracy: paymentCurrency.accuracy,
       )}';
     }
 
