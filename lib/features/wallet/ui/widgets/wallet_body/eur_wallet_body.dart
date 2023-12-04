@@ -111,7 +111,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
           mainSubtitle: getIt.get<FormatService>().baseCurrency.symbol != eurCurrency.symbol
               ? eurCurrency.volumeBaseBalance(sSignalRModules.baseCurrency)
               : null,
-          mainHeaderTitle: eurCurrency.symbol,
+          mainHeaderTitle: eurCurrency.description,
           mainHeaderSubtitle: intl.eur_wallet,
           mainHeaderCollapsedTitle: volumeFormat(
             decimal: sSignalRModules.totalEurWalletBalance,

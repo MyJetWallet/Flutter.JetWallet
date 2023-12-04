@@ -224,12 +224,8 @@ abstract class _SellConfirmationStoreBase with Store {
             depositFeeAsset = data.fromAssetSymbol;
             tradeFeeAmount = data.feeAmount;
             tradeFeeAsset = data.feeAsset;
-            rate = (Decimal.one / data.price).toDecimal(
-              scaleOnInfinitePrecision: data.price.scale,
-              toBigInt: (n) {
-                return n.toBigInt();
-              },
-            );
+            rate = data.price;
+
             paymentId = data.operationId;
             actualTimeInSecond = data.expirationTime;
             deviceBindingRequired = false;
@@ -262,7 +258,12 @@ abstract class _SellConfirmationStoreBase with Store {
             depositFeeAsset = 'EUR';
             tradeFeeAmount = data.tradeFeeAmount;
             tradeFeeAsset = data.tradeFeeAsset;
-            rate = data.rate;
+            rate = (Decimal.one / data.rate).toDecimal(
+              scaleOnInfinitePrecision: 8,
+              toBigInt: (n) {
+                return n.toBigInt();
+              },
+            );
             paymentId = data.id;
           },
           onError: (error) {
