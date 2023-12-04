@@ -346,10 +346,8 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                             SButtonContext(
                               type: SButtonContextType.iconedSmall,
                               text: intl.eur_wallet_add_account,
+                              isDisabled: isAddButtonDisabled,
                               onTap: () {
-                                if (isAddButtonDisabled) return;
-                                if (bankAccounts.length > 1) return;
-
                                 sAnalytics.eurWalletAddAccountEur();
                                 sAnalytics.eurWalletPersonalEURAccount();
 

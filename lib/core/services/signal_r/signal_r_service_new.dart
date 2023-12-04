@@ -622,7 +622,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
                 assetSymbol: currency.symbol,
                 assetBalance: totalEurWalletBalance,
                 assetPrice: assetPrice,
-                baseCurrencySymbol: 'EUR',
+                baseCurrencySymbol: baseCurrency.symbol,
               )
             : calculateBaseBalance(
                 assetSymbol: currency.symbol,
