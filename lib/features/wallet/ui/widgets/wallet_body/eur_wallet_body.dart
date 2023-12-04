@@ -118,7 +118,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
             accuracy: eurCurrency.accuracy,
             symbol: eurCurrency.symbol,
           ),
-          mainHeaderCollapsedSubtitle: eurCurrency.symbol,
+          mainHeaderCollapsedSubtitle: eurCurrency.description,
           carouselItemsCount: widget.pageCount,
           carouselPageIndex: widget.indexNow,
         ),

@@ -119,7 +119,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                     symbol: widget.currency.symbol,
                   )
                 : widget.currency.volumeBaseBalance(getIt.get<FormatService>().baseCurrency),
-            mainHeaderCollapsedSubtitle: widget.currency.symbol,
+            mainHeaderCollapsedSubtitle: widget.currency.description,
             carouselItemsCount: widget.pageCount,
             carouselPageIndex: widget.indexNow,
             needCarousel: !widget.isSinglePage,
