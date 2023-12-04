@@ -166,7 +166,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                           currenciesWithBalanceFrom(sSignalRModules.currenciesList),
                           sSignalRModules.baseCurrency,
                         )
-                      : '***** ${sSignalRModules.baseCurrency.symbol}',
+                      : '**** ${sSignalRModules.baseCurrency.symbol}',
                   mainHeaderTitle: intl.my_wallets_header,
                   mainHeaderCollapsedTitle: intl.my_wallets_header,
                   isLabelIconShow: getIt<AppStore>().isBalanceHide,
@@ -248,7 +248,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                                       currenciesWithBalanceFrom(sSignalRModules.currenciesList),
                                       sSignalRModules.baseCurrency,
                                     )
-                                  : '***** ${sSignalRModules.baseCurrency.symbol}',
+                                  : '**** ${sSignalRModules.baseCurrency.symbol}',
                               onLabelIconTap: () {
                                 _onLabelIconTap();
                               },
