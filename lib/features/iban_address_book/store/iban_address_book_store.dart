@@ -208,8 +208,6 @@ abstract class _IbanAddressBookStoreBase with Store {
     response.pick(
       onData: (data) {
         getIt<IbanStore>().getAddressBook();
-
-        getIt<AppRouter>().back();
       },
       onError: (error) {
         isIBANError = error.errorCode == 'ContactWithThisIbanAlreadyExists';
@@ -263,7 +261,6 @@ abstract class _IbanAddressBookStoreBase with Store {
       }
 
       await getIt<IbanStore>().getAddressBook();
-      getIt<AppRouter>().back();
 
       sNotification.showError(
         intl.iban_edit_save_noty,

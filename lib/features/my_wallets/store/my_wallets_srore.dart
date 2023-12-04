@@ -26,7 +26,7 @@ class MyWalletsSrore = _MyWalletsSroreBase with _$MyWalletsSrore;
 
 abstract class _MyWalletsSroreBase with Store {
   _MyWalletsSroreBase() {
-    currenciesForSearch.addAll(_allAssets);
+    currenciesForSearch.addAll(_avaibledAssetsForSearch);
     sortByBalanceAndWeight(currenciesForSearch);
   }
 
@@ -38,6 +38,11 @@ abstract class _MyWalletsSroreBase with Store {
   @computed
   ObservableList<CurrencyModel> get _allAssets {
     return sSignalRModules.currenciesList;
+  }
+
+  @computed
+  ObservableList<CurrencyModel> get _avaibledAssetsForSearch {
+    return currenciesForSearchInMyWallet(_allAssets);
   }
 
   @observable
@@ -105,7 +110,10 @@ abstract class _MyWalletsSroreBase with Store {
   @action
   void onDelete(int index) {
     sAnalytics.tapOnTheDeleteButtonOnTheWalletScreen();
+    currenciesForSearch.add(currencies[index]);
     currencies.removeAt(index);
+
+    sortByBalanceAndWeight(currenciesForSearch);
 
     final activeAssets = <ActiveAsset>[];
     for (var index = 0; index < currencies.length; index++) {
@@ -124,7 +132,8 @@ abstract class _MyWalletsSroreBase with Store {
 
   @action
   void onSearch(String text) {
-    final tempList = _allAssets.where((e) => e.description.toLowerCase().contains(text.toLowerCase())).toList();
+    final tempList =
+        _avaibledAssetsForSearch.where((e) => e.description.toLowerCase().contains(text.toLowerCase())).toList();
     currenciesForSearch
       ..clear()
       ..addAll(tempList);
@@ -156,9 +165,11 @@ abstract class _MyWalletsSroreBase with Store {
       currencies.add(currency);
     }
 
+    _avaibledAssetsForSearch.removeWhere((element) => element.symbol == currency.symbol);
+
     currenciesForSearch
       ..clear()
-      ..addAll(_allAssets);
+      ..addAll(_avaibledAssetsForSearch);
     sortByBalanceAndWeight(currenciesForSearch);
   }
 
@@ -291,8 +302,6 @@ abstract class _MyWalletsSroreBase with Store {
 
     final context = sRouter.navigatorKey.currentContext!;
 
-    //accountManualStatus = BankingShowState.inProgress;
-
     //await Future.delayed(const Duration(seconds: 10));
     try {
       final resp = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postSimpleAccountCreate();
@@ -304,6 +313,7 @@ abstract class _MyWalletsSroreBase with Store {
           needFeedback: true,
         );
         accountManualStatus = null;
+        loader.finishLoadingImmediately();
       } else {
         if (resp.data!.simpleKycRequired || resp.data!.addressSetupRequired) {
           sAnalytics.eurWalletVerifyYourAccount();
@@ -320,9 +330,12 @@ abstract class _MyWalletsSroreBase with Store {
             isBanking: true,
           );
         } else {
+          loader.finishLoadingImmediately();
           //accountManualStatus = BankingShowState.accountList;
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      loader.finishLoadingImmediately();
+    }
   }
 }

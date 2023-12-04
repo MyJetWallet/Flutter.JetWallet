@@ -147,8 +147,7 @@ class _ConfirmationInfoGridState extends State<SellConfirmationInfoGrid> with Si
                   decimal: Decimal.one,
                   symbol: widget.paymentCurrency.symbol,
                 )} = ${volumeFormat(
-                  accuracy: store.rate?.scale ?? 0,
-                  decimal: Decimal.parse((1.0 / (store.rate ?? Decimal.zero).toDouble()).toString()),
+                  decimal: store.rate ?? Decimal.zero,
                   symbol: widget.asset.symbol,
                 )}',
                 style: sSubtitle3Style,

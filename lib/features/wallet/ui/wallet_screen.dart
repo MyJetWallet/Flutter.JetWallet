@@ -94,6 +94,7 @@ class _WalletState extends State<Wallet> with TickerProviderStateMixin {
                 openedAsset: currencies[page].symbol,
               );
             }
+            setState(() {});
           },
           itemCount: currencies.length,
           itemBuilder: (context, index) {

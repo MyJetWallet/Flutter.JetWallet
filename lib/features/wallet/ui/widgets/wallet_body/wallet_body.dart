@@ -110,7 +110,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                     ? widget.currency.volumeBaseBalance(getIt.get<FormatService>().baseCurrency)
                     : widget.currency.volumeAssetBalance
                 : null,
-            mainHeaderTitle: widget.currency.symbol,
+            mainHeaderTitle: widget.currency.description,
             mainHeaderSubtitle: intl.eur_wallet,
             mainHeaderCollapsedTitle: widget.currency.symbol == 'EUR'
                 ? volumeFormat(
@@ -119,7 +119,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                     symbol: widget.currency.symbol,
                   )
                 : widget.currency.volumeBaseBalance(getIt.get<FormatService>().baseCurrency),
-            mainHeaderCollapsedSubtitle: widget.currency.symbol,
+            mainHeaderCollapsedSubtitle: widget.currency.description,
             carouselItemsCount: widget.pageCount,
             carouselPageIndex: widget.indexNow,
             needCarousel: !widget.isSinglePage,

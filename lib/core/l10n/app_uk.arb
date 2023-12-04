@@ -871,7 +871,7 @@
         "description": "Повторно отправить",
         "type": "text"
     },
-    "resetRichText_didntReceiveTheCode": "Не отримали код",
+    "resetRichText_didntReceiveTheCode": "Не отримали код?",
     "@resetRichText_didntReceiveTheCode": {
         "description": "Не получили код",
         "type": "text"
@@ -4432,7 +4432,7 @@
         "description": "Закрыть",
         "type": "text"
     },
-    "twoFaPhone_youCanReceive": "Ви можете отримати код за допомогою телефонного дзвінка через",
+    "twoFaPhone_youCanReceive": "Ви можете отримати код повторно через",
     "@twoFaPhone_youCanReceive": {
         "description": "Вы можете получить код с помощью телефонного звонка через",
         "type": "text"
@@ -5661,6 +5661,10 @@
         "type": "text"
     },
     "buy_confirmation_privacy_p2p_checkbox_2": "Simple P2P T&C",
+    "@buy_confirmation_privacy_p2p_checkbox_2": {
+        "description": "Это Terms & Conditions в которых описано как и на каких правах мы работаем с нашим партнером, предоставляющим услуги P2P. Это лучше оставить в оригинале на всех языках.",
+        "type": "text"
+    },
     "buy_confirmation_privacy_p2p_checkbox_3": "3. Я розумію, що грошовий переказ за цю покупку здійснюється через мережу P2P.",
     "@buy_confirmation_privacy_p2p_checkbox_3": {
         "description": "3. Я понимаю, что денежный перевод за эту покупку осуществляется через сеть P2P.",
@@ -5983,7 +5987,7 @@
         "description": "Пригласите друзей и получите \nдо 100 евро в криптовалюте",
         "type": "text"
     },
-    "rewards_flow_card_subtitle": "Для вас і вашого друга після його покупки криптовалюти на суму 350 євро або більше.",
+    "rewards_flow_card_subtitle": "Для вас і ваших друзів після покупки ними криптовалюти на суму 350 євро або більше.",
     "@rewards_flow_card_subtitle": {
         "description": "Для вас и вашего друга после его покупки криптовалюты на сумму 350 евро или более.",
         "type": "text"
@@ -6098,7 +6102,7 @@
         "description": "Я только что получил вознаграждение в размере",
         "type": "text"
     },
-    "reward_share_text_2": "у додатку Simple, перегляньте це тут",
+    "reward_share_text_2": "у додатку Simple, перегляньте тут",
     "@reward_share_text_2": {
         "description": "в приложении Simple, посмотрите это здесь",
         "type": "text"
@@ -6498,7 +6502,7 @@
         "description": "Вы можете получать средства от кого угодно",
         "type": "text"
     },
-    "my_wallets_accounts": "акаунти",
+    "my_wallets_accounts": "акаунт(и)",
     "@my_wallets_accounts": {
         "description": "аккаунты",
         "type": "text"
@@ -7058,6 +7062,10 @@
     "tost_sell_message_2": "Ваш криптовалютний баланс нульовий",
     "tost_sell_message_3": "Спочатку вам потрібно створити рахунок в євро",
     "history_for": "Для",
+    "@history_for": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/IT74UwSR6UxkoVHJyiuBaOyr.png",
+        "type": "text"
+    },
     "history_paid_with": "Оплачується з",
     "history_withdrawn": "Виведено",
     "history_added_cash": "Заведено готівку",
@@ -7068,6 +7076,10 @@
     "operation_bloked_text": "Операція не доступна.",
     "gift_kyc_alert_description": "Будь ласка, верифікуйте акаунт \n щоб прийняти подарунок",
     "gift_kyc_verify": "Верифікувати",
+    "@gift_kyc_verify": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/xrJDHjAnsCOKazdZd9k6SmO8.jpg",
+        "type": "text"
+    },
     "phone_cahange_warning": "Перш ніж продовжити, будь ласка, зверніть увагу, що в цілях безпеки всі операції надсилання та зняття коштів будуть заблоковані на 48 годин після успішного оновлення номера телефону",
     "reference_character_minimum": "5 символів або більше",
     "gift_receive_history_from": "Від",

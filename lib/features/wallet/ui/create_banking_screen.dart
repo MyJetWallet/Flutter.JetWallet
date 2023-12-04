@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -25,6 +27,15 @@ class CreateBankingScreen extends StatefulWidget {
 class _CreateBankingScreenState extends State<CreateBankingScreen> {
   String requestId = '';
 
+  var isClicked = false;
+  final loading = StackLoaderStore();
+
+  late Timer _timer;
+
+  void _startTimer() {
+    _timer = Timer(const Duration(milliseconds: 999), () => isClicked = false);
+  }
+
   @override
   void initState() {
     requestId = const Uuid().v1();
@@ -33,8 +44,6 @@ class _CreateBankingScreenState extends State<CreateBankingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final loading = StackLoaderStore();
-
     return SPageFrameWithPadding(
       loaderText: intl.loader_please_wait,
       loading: loading,
@@ -117,41 +126,56 @@ class _CreateBankingScreenState extends State<CreateBankingScreen> {
             active: true,
             name: intl.create_continue,
             onTap: () async {
-              sAnalytics.eurWalletTapOnContinuePersonalEUR();
+              if (!isClicked) {
+                _startTimer();
+                isClicked = true;
 
-              void _afterVerification() {
-                sRouter.popUntilRoot();
+                loading.startLoadingImmediately();
+                try {
+                  sAnalytics.eurWalletTapOnContinuePersonalEUR();
 
-                sNotification.showError(intl.let_us_create_account, isError: false);
-                sAnalytics.eurWalletShowToastLestCreateAccount();
-              }
+                  void _afterVerification() {
+                    sRouter.popUntilRoot();
 
-              final resp = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postAccountCreate(requestId);
+                    sNotification.showError(intl.let_us_create_account, isError: false);
+                    sAnalytics.eurWalletShowToastLestCreateAccount();
+                  }
 
-              if (resp.hasError) {
-                sNotification.showError(
-                  intl.something_went_wrong_try_again,
-                  duration: 4,
-                  id: 1,
-                  needFeedback: true,
-                );
+                  final resp =
+                      await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postAccountCreate(requestId);
 
-                sRouter.popUntilRoot();
-              } else {
-                if (resp.data!.simpleKycRequired || resp.data!.addressSetupRequired) {
-                  sAnalytics.eurWalletVerifyYourAccount();
+                  isClicked = true;
 
-                  showWalletVerifyAccount(
-                    context,
-                    after: _afterVerification,
-                    isBanking: false,
-                  );
-                } else if (resp.data!.bankingKycRequired) {
-                  showCreatePersonalAccount(
-                    context,
-                    loading,
-                    _afterVerification,
-                  );
+                  if (resp.hasError) {
+                    sNotification.showError(
+                      intl.something_went_wrong_try_again,
+                      duration: 4,
+                      id: 1,
+                      needFeedback: true,
+                    );
+
+                    sRouter.popUntilRoot();
+                  } else {
+                    if (resp.data!.simpleKycRequired || resp.data!.addressSetupRequired) {
+                      sAnalytics.eurWalletVerifyYourAccount();
+
+                      showWalletVerifyAccount(
+                        context,
+                        after: _afterVerification,
+                        isBanking: false,
+                      );
+                    } else if (resp.data!.bankingKycRequired) {
+                      showCreatePersonalAccount(
+                        context,
+                        loading,
+                        _afterVerification,
+                      );
+                    }
+                  }
+                } catch (e) {
+                  sNotification.showError(intl.something_went_wrong_try_again);
+                } finally {
+                  loading.finishLoadingImmediately();
                 }
               }
             },

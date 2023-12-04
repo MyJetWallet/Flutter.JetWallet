@@ -18,8 +18,8 @@ class CarouselWidget extends HookWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(
         itemsCount,
-        (index) => AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
+        (index) => Container(
+          //duration: const Duration(milliseconds: 0),
           margin: const EdgeInsets.only(right: 2),
           height: 2,
           // width: 16, NEW CAROUSEL WIDTH

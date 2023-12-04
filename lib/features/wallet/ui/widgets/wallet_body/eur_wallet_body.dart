@@ -111,14 +111,14 @@ class _EurWalletBodyState extends State<EurWalletBody> {
           mainSubtitle: getIt.get<FormatService>().baseCurrency.symbol != eurCurrency.symbol
               ? eurCurrency.volumeBaseBalance(sSignalRModules.baseCurrency)
               : null,
-          mainHeaderTitle: eurCurrency.symbol,
+          mainHeaderTitle: eurCurrency.description,
           mainHeaderSubtitle: intl.eur_wallet,
           mainHeaderCollapsedTitle: volumeFormat(
             decimal: sSignalRModules.totalEurWalletBalance,
             accuracy: eurCurrency.accuracy,
             symbol: eurCurrency.symbol,
           ),
-          mainHeaderCollapsedSubtitle: eurCurrency.symbol,
+          mainHeaderCollapsedSubtitle: eurCurrency.description,
           carouselItemsCount: widget.pageCount,
           carouselPageIndex: widget.indexNow,
         ),
@@ -346,10 +346,8 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                             SButtonContext(
                               type: SButtonContextType.iconedSmall,
                               text: intl.eur_wallet_add_account,
+                              isDisabled: isAddButtonDisabled,
                               onTap: () {
-                                if (isAddButtonDisabled) return;
-                                if (bankAccounts.length > 1) return;
-
                                 sAnalytics.eurWalletAddAccountEur();
                                 sAnalytics.eurWalletPersonalEURAccount();
 

@@ -19,7 +19,6 @@ import 'package:jetwallet/features/my_wallets/widgets/actions_my_wallets_row_wid
 import 'package:jetwallet/features/my_wallets/widgets/add_wallet_bottom_sheet.dart';
 import 'package:jetwallet/features/my_wallets/widgets/change_order_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/my_wallets_asset_item.dart';
-import 'package:jetwallet/features/my_wallets/widgets/my_wallets_header.dart';
 import 'package:jetwallet/features/my_wallets/widgets/pending_transactions_widget.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
@@ -30,6 +29,7 @@ import 'package:rive/rive.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/delete_asset/simple_delete_asset.dart';
 import 'package:simple_kit/modules/icons/24x24/public/start_reorder/simple_start_reorder_icon.dart';
+import 'package:simple_kit/modules/shared/stack_loader/stack_loader.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -69,7 +69,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
     );
 
     _controller.addListener(() {
-      if (_controller.position.pixels <= 195) {
+      if (_controller.position.pixels <= 265) {
         if (!isTopPosition) {
           setState(() {
             isTopPosition = true;
@@ -154,7 +154,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
       child: SlidableAutoCloseBehavior(
         child: SPageFrame(
           color: colors.white,
-          loaderText: '',
+          loaderText: intl.loader_please_wait,
           loading: store.loader,
           child: Column(
             children: [
@@ -166,7 +166,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                           currenciesWithBalanceFrom(sSignalRModules.currenciesList),
                           sSignalRModules.baseCurrency,
                         )
-                      : '***** ${sSignalRModules.baseCurrency.symbol}',
+                      : '**** ${sSignalRModules.baseCurrency.symbol}',
                   mainHeaderTitle: intl.my_wallets_header,
                   mainHeaderCollapsedTitle: intl.my_wallets_header,
                   isLabelIconShow: getIt<AppStore>().isBalanceHide,
@@ -248,7 +248,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                                       currenciesWithBalanceFrom(sSignalRModules.currenciesList),
                                       sSignalRModules.baseCurrency,
                                     )
-                                  : '***** ${sSignalRModules.baseCurrency.symbol}',
+                                  : '**** ${sSignalRModules.baseCurrency.symbol}',
                               onLabelIconTap: () {
                                 _onLabelIconTap();
                               },
@@ -446,14 +446,6 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                   store: store,
                 ),
               ),
-              /*
-              if (!store.isReordering &&
-                  store.currencies[index].symbol == 'EUR' &&
-                  store.buttonStatus != BankingShowState.hide)
-                GetAccountButton(
-                  store: store,
-                ),
-                */
             ],
           ),
         );

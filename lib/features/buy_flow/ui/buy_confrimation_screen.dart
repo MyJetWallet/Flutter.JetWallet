@@ -138,7 +138,8 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                   paymentCurrency: store.payCurrency,
                   asset: store.buyCurrency,
                 ),
-                if (!(store.account?.isClearjuctionAccount ?? false)) ...[
+                if (!(store.account?.isClearjuctionAccount ?? false) &&
+                    store.category == PaymentMethodCategory.account) ...[
                   const SpaceH19(),
                   Builder(
                     builder: (context) {

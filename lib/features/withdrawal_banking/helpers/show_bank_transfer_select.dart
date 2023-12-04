@@ -14,6 +14,14 @@ void showBankTransforSelect(BuildContext context, SimpleBankingAccount bankingAc
       sRouter.push(IbanAdressBookSimpleRoute()).then((value) async {
         await getIt.get<IbanStore>().getAddressBook();
 
+        if (value == null) {
+          return;
+        }
+
+        if (value != null && !(value as bool)) {
+          return;
+        }
+
         await getIt<AppRouter>()
             .push(
               IbanSendAmountRouter(
@@ -29,6 +37,13 @@ void showBankTransforSelect(BuildContext context, SimpleBankingAccount bankingAc
     } else {
       sRouter.push(IbanAdressBookUnlimitRoute()).then((value) async {
         await getIt.get<IbanStore>().getAddressBook();
+
+        if (value == null) {
+          return;
+        }
+        if (value != null && !(value as bool)) {
+          return;
+        }
 
         await getIt<AppRouter>()
             .push(
@@ -260,6 +275,10 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
             if (isCJ) {
               sRouter.push(IbanAdressBookSimpleRoute()).then(
                 (value) async {
+                  print(value);
+                  if (value == null) {
+                    return;
+                  }
                   if (value != null && !(value as bool)) {
                     return;
                   }
@@ -288,6 +307,9 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
             } else {
               sRouter.push(IbanAdressBookUnlimitRoute()).then(
                 (value) async {
+                  if (value == null) {
+                    return;
+                  }
                   if (value != null && !(value as bool)) {
                     return;
                   }

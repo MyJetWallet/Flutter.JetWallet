@@ -281,14 +281,16 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                           child: SPrimaryButton1(
                             active: IbanAddressBookStore.of(context).isButtonActive,
                             name: intl.iban_edit_save_changes,
-                            onTap: () {
+                            onTap: () async {
                               sAnalytics.eurWithdrawTapSaveChangesEdit(
                                 eurAccountType: 'Unlimit',
                                 accountIban: widget.bankingAccount?.iban ?? '',
                                 accountLabel: widget.bankingAccount?.label ?? '',
                               );
 
-                              IbanAddressBookStore.of(context).editAccount();
+                              await IbanAddressBookStore.of(context).editAccount();
+
+                              Navigator.pop(context, true);
                             },
                           ),
                         ),
@@ -320,7 +322,7 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                                     accountLabel: widget.bankingAccount?.label ?? '',
                                   );
 
-                                  Navigator.pop(context);
+                                  Navigator.pop(context, false);
 
                                   IbanAddressBookStore.of(context).deleteAccount();
                                 },
@@ -339,7 +341,7 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                           child: SPrimaryButton2(
                             active: IbanAddressBookStore.of(context).isButtonActive,
                             name: intl.create_continue,
-                            onTap: () {
+                            onTap: () async {
                               sAnalytics.eurWithdrawTapContinueAddReceiving(
                                 eurAccountType: 'Unlimit',
                                 accountIban: widget.bankingAccount?.iban ?? '',
@@ -348,7 +350,9 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
 
                               sAnalytics.tapOnTheButtonAddAccount();
 
-                              IbanAddressBookStore.of(context).addAccount();
+                              await IbanAddressBookStore.of(context).addAccount();
+
+                              Navigator.pop(context, true);
                             },
                           ),
                         ),

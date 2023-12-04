@@ -12,12 +12,16 @@ import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 import '../../../core/l10n/i10n.dart';
 import '../../../core/services/notification_service.dart';
 
-void onCopyAction() {
+void onCopyAction({VoidCallback? afterCopy}) {
   sNotification.showError(
     intl.copy_message,
     id: 1,
     isError: false,
   );
+
+  if (afterCopy != null) {
+    afterCopy();
+  }
 }
 
 class IBanItem extends StatelessObserverWidget {
@@ -25,10 +29,12 @@ class IBanItem extends StatelessObserverWidget {
     super.key,
     required this.name,
     required this.text,
+    this.afterCopy,
   });
 
   final String name;
   final String text;
+  final VoidCallback? afterCopy;
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +77,7 @@ class IBanItem extends StatelessObserverWidget {
                     ),
                   );
 
-                  onCopyAction();
+                  onCopyAction(afterCopy: afterCopy);
                 },
                 defaultIcon: const SCopyIcon(),
                 pressedIcon: const SCopyPressedIcon(),
