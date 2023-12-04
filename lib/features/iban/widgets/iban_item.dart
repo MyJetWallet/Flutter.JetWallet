@@ -12,7 +12,7 @@ import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 import '../../../core/l10n/i10n.dart';
 import '../../../core/services/notification_service.dart';
 
-void onCopyAction(VoidCallback? afterCopy) {
+void onCopyAction({VoidCallback? afterCopy}) {
   sNotification.showError(
     intl.copy_message,
     id: 1,
@@ -77,7 +77,7 @@ class IBanItem extends StatelessObserverWidget {
                     ),
                   );
 
-                  onCopyAction(afterCopy);
+                  onCopyAction(afterCopy: afterCopy);
                 },
                 defaultIcon: const SCopyIcon(),
                 pressedIcon: const SCopyPressedIcon(),
