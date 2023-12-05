@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/calculate_screen_size.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/button/round/round_button.dart';
@@ -87,7 +88,9 @@ class SimpleTableAsset extends StatelessWidget {
                       children: [
                         ConstrainedBox(
                           constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width * .39,
+                            maxWidth: deviceSizeFrom(MediaQuery.of(context).size.height) == ScreenSizeEnum.small
+                                ? MediaQuery.of(context).size.width * .3
+                                : MediaQuery.of(context).size.width * .39,
                           ),
                           child: Text(
                             label,
