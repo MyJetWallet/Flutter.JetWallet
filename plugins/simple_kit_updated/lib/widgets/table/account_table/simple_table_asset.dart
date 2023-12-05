@@ -76,53 +76,63 @@ class SimpleTableAsset extends StatelessWidget {
                 ),
               ],
               const Gap(12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 28,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxWidth: deviceSizeFrom(MediaQuery.of(context).size.height) == ScreenSizeEnum.small
-                                ? MediaQuery.of(context).size.width * .3
-                                : MediaQuery.of(context).size.width * .39,
-                          ),
-                          child: Text(
-                            label,
-                            style: STStyles.subtitle1,
-                          ),
-                        ),
-                        const Gap(4),
-                        Opacity(
-                          opacity: hasLabelIcon ? 1 : 0,
-                          child: SizedBox(
-                            width: 16,
-                            height: 16,
-                            child: labelIcon ??
-                                Assets.svg.medium.freeze.simpleSvg(
-                                  color: SColorsLight().gray8,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 28,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          /*ConstrainedBox(
+                            constraints: BoxConstraints(
+                                 maxWidth: deviceSizeFrom(MediaQuery.of(context).size.height) == ScreenSizeEnum.small
+                                  ? MediaQuery.of(context).size.width * .3
+                                  : MediaQuery.of(context).size.width * .39,
+                                
                                 ),
+                            child: Text(
+                              label,
+                              style: STStyles.subtitle1,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  if (supplement != null)
-                    Text(
-                      supplement ?? '',
-                      style: STStyles.body2Medium.copyWith(
-                        color: SColorsLight().gray10,
+                          */
+                          Expanded(
+                            child: Text(
+                              label,
+                              style: STStyles.subtitle1,
+                            ),
+                          ),
+                          const Gap(4),
+                          Opacity(
+                            opacity: hasLabelIcon ? 1 : 0,
+                            child: SizedBox(
+                              width: 16,
+                              height: 16,
+                              child: labelIcon ??
+                                  Assets.svg.medium.freeze.simpleSvg(
+                                    color: SColorsLight().gray8,
+                                  ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                ],
+                    if (supplement != null)
+                      Text(
+                        supplement ?? '',
+                        style: STStyles.body2Medium.copyWith(
+                          color: SColorsLight().gray10,
+                        ),
+                      ),
+                  ],
+                ),
               ),
               if (hasRightValue) ...[
-                const Spacer(),
+                //const Spacer(),
                 Center(
                   child: customRightWidget ??
                       RoundButton(
