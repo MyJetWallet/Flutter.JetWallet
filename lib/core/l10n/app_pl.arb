@@ -1498,5 +1498,6 @@
     "@buy_confirm_with_unlimit_3_part": {
         "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/YKO0MUQGYMvKy3OBV91JKBLy.png",
         "type": "text"
-    }
+    },
+    "iban_deposit_text": "Wpłata za pośrednictwem EUR"
 }
