@@ -237,7 +237,7 @@ void showDepositDetails(
       children: [
         const SpaceH12(),
         IbanTermsContainer(
-          text1: intl.iban_terms_1,
+          text1: intl.iban_deposit_text,
           text2: intl.iban_terms_3,
         ),
         const SpaceH8(),
@@ -303,7 +303,7 @@ void showDepositDetails(
       children: [
         const SpaceH12(),
         IbanTermsContainer(
-          text1: intl.iban_terms_1,
+          text1: intl.iban_deposit_text,
           text2: intl.iban_terms_5,
         ),
         const SpaceH8(),

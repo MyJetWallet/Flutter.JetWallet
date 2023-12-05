@@ -1028,6 +1028,7 @@
     "sDocumentRecommendation_primaryTextNew": "Your full name, your photo, date of birth, expiry date and document number.",
     "favorites": "Favourites",
     "iban_terms_1": "Local EUR withdrawals",
+    "iban_deposit_text": "Local EUR deposits",
     "send_globally_date": "Date",
     "send_globally_card": "Card",
     "send_globally_con_rate": "Conversion rate",

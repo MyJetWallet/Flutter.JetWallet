@@ -7086,5 +7086,6 @@
     "confirm_with_sms": "Підтвердити через SMS",
     "buy_confirm_with_unlimit_1_part": "Продовжуючи, ви підтверджуєте відправку коштів у розмірі",
     "buy_confirm_with_unlimit_2_part": "з вашого банківського рахунку в Unlimit на банківський рахунок",
-    "buy_confirm_with_unlimit_3_part": "на ім'я"
+    "buy_confirm_with_unlimit_3_part": "на ім'я",
+    "iban_deposit_text": "Поповнення через EUR"
 }

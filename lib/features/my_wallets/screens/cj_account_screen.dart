@@ -247,21 +247,12 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                     title: intl.wallet_transactions,
                   ),
                 ),
-                if (eurCurrency.isAssetBalanceNotEmpty) ...[
-                  TransactionsList(
-                    scrollController: _transactionScrollController,
-                    symbol: 'EUR',
-                    fromCJAccount: true,
-                    accountId: widget.bankingAccount.accountId,
-                  ),
-                ] else ...[
-                  SliverToBoxAdapter(
-                    child: SPlaceholder(
-                      size: SPlaceholderSize.l,
-                      text: intl.wallet_simple_account_empty,
-                    ),
-                  ),
-                ],
+                TransactionsList(
+                  scrollController: _transactionScrollController,
+                  symbol: 'EUR',
+                  fromCJAccount: true,
+                  accountId: widget.bankingAccount.accountId,
+                ),
               ],
             ),
           ),

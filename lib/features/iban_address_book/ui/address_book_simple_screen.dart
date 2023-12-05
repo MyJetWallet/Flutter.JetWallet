@@ -81,7 +81,7 @@ class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     IbanTermsContainer(
-                      text1: intl.iban_terms_1,
+                      text1: intl.iban_deposit_text,
                       text2: intl.iban_terms_4,
                       addAccount: true,
                     ),

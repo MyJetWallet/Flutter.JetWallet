@@ -49,9 +49,6 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
     }
 
     if (currency.symbol == 'EUR') {
-      final isButtonSmall =
-          store.buttonStatus == BankingShowState.getAccount || store.buttonStatus == BankingShowState.getAccountBlock;
-
       final isAnyBankAccountInCreating = (sSignalRModules.bankingProfileData?.banking?.accounts ?? [])
           .where((element) => element.status == AccountStatus.inCreation)
           .isNotEmpty;
@@ -66,6 +63,10 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
           isSimpleInCreating ||
           isCardInCreating;
 
+      final isButtonSmall = isLoadingState
+          ? false
+          : store.buttonStatus == BankingShowState.getAccount || store.buttonStatus == BankingShowState.getAccountBlock;
+
       return SimpleTableAccount(
         assetIcon: SNetworkSvg24(
           url: currency.iconUrl,
@@ -76,7 +77,7 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
             getIt<AppStore>().isBalanceHide ? '**** ${baseCurrency.symbol}' : currency.volumeBaseBalance(baseCurrency),
         hasButton: !isMoving,
         isButtonLoading: isLoadingState,
-        buttonHasRightArrow: !isLoadingState && !isButtonSmall,
+        buttonHasRightArrow: !isButtonSmall,
         buttonLabel: isLoadingState ? intl.my_wallets_create_account : store.simpleCardButtonText,
         isButtonSmall: isButtonSmall,
         isButtonLabelBold: isButtonSmall,
