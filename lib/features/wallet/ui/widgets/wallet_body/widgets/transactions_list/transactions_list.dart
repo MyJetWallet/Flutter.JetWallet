@@ -13,6 +13,7 @@ import 'package:simple_networking/modules/wallet_api/models/operation_history/op
 import '../../../../../helper/format_date.dart';
 import '../loading_sliver_list.dart';
 import '../transaction_month_separator.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class TransactionsList extends StatelessWidget {
   const TransactionsList({
@@ -120,32 +121,37 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
         loaded: () {
           return listToShow.isEmpty
               ? SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: widget.symbol != null
-                        ? screenHeight - screenHeight * 0.369 - 227
-                        : screenHeight - screenHeight * 0.369,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          smileAsset,
-                          width: 48,
-                          height: 48,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 80),
-                          child: Text(
-                            intl.wallet_simple_account_empty,
-                            textAlign: TextAlign.center,
-                            maxLines: 3,
-                            style: sSubtitle2Style.copyWith(
-                              color: sKit.colors.grey2,
-                            ),
+                  child: widget.fromCJAccount
+                      ? SPlaceholder(
+                          size: SPlaceholderSize.l,
+                          text: intl.wallet_simple_account_empty,
+                        )
+                      : SizedBox(
+                          height: widget.symbol != null
+                              ? screenHeight - screenHeight * 0.369 - 227
+                              : screenHeight - screenHeight * 0.369,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                smileAsset,
+                                width: 48,
+                                height: 48,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 80),
+                                child: Text(
+                                  intl.wallet_simple_account_empty,
+                                  textAlign: TextAlign.center,
+                                  maxLines: 3,
+                                  style: sSubtitle2Style.copyWith(
+                                    color: sKit.colors.grey2,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
                 )
               : SliverGroupedListView<OperationHistoryItem, String>(
                   elements: listToShow,
