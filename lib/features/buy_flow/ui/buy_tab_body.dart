@@ -12,6 +12,7 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/modules/icons/24x24/public/crypto/simple_crypto_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -38,6 +39,24 @@ class BuyAmountTabBody extends StatefulObserverWidget {
 }
 
 class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKeepAliveClientMixin {
+  @override
+  void initState() {
+    super.initState();
+    sAnalytics.buyAmountScreenView(
+      destinationWallet: widget.asset?.symbol ?? '',
+      pmType: widget.card != null
+          ? PaymenthMethodType.card
+          : widget.account?.isClearjuctionAccount ?? false
+              ? PaymenthMethodType.cjAccount
+              : PaymenthMethodType.unlimitAccount,
+      buyPM: widget.card != null
+          ? 'Saved card ${widget.card?.last4}'
+          : widget.account?.isClearjuctionAccount ?? false
+              ? 'CJ  ${widget.account?.balance}'
+              : 'Unlimint  ${widget.account?.balance}',
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -71,15 +90,19 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                   primarySymbol: store.primarySymbol,
                   secondaryAmount: store.asset != null
                       ? volumeFormat(
-                          decimal: Decimal.parse(store.secondaryAmount) ,
+                          decimal: Decimal.parse(store.secondaryAmount),
                           symbol: '',
                           accuracy: store.secondaryAccuracy,
                         )
                       : null,
-                  secondarySymbol:  store.asset != null
-                      ?  store.secondarySymbol  : null,
+                  secondarySymbol: store.asset != null ? store.secondarySymbol : null,
                   onSwap: () {
                     store.swapAssets();
+                    sAnalytics.tapOnTheChooseAssetButton(
+                      pmType: store.pmType,
+                      buyPM: store.buyPM,
+                      sourceCurrency: 'EUR',
+                    );
                   },
                   errorText: store.paymentMethodInputError,
                 ),
@@ -93,6 +116,11 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                       url: store.asset?.iconUrl ?? '',
                     ),
                     onTap: () {
+                      sAnalytics.tapOnTheChooseAssetButton(
+                        pmType: store.pmType,
+                        buyPM: store.buyPM,
+                        sourceCurrency: 'EUR',
+                      );
                       showBuyChooseAssetBottomSheet(
                         context: context,
                         onChooseAsset: (currency) {
@@ -139,6 +167,12 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                       ),
                     ),
                     onTap: () {
+                      sAnalytics.tapOnThePayWithButton(
+                        pmType: store.pmType,
+                        buyPM: store.buyPM,
+                        sourceCurrency: 'EUR',
+                        destinationWallet: store.asset?.symbol ?? '',
+                      );
                       showPayWithBottomSheet(
                         context: context,
                         currency: store.asset,
@@ -173,6 +207,12 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                       ),
                     ),
                     onTap: () {
+                      sAnalytics.tapOnThePayWithButton(
+                        pmType: store.pmType,
+                        buyPM: store.buyPM,
+                        sourceCurrency: 'EUR',
+                        destinationWallet: store.asset?.symbol ?? '',
+                      );
                       showPayWithBottomSheet(
                         context: context,
                         currency: store.asset,
@@ -202,6 +242,12 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                       ),
                     ),
                     onTap: () {
+                      sAnalytics.tapOnThePayWithButton(
+                        pmType: store.pmType,
+                        buyPM: store.buyPM,
+                        sourceCurrency: 'EUR',
+                        destinationWallet: store.asset?.symbol ?? '',
+                      );
                       showPayWithBottomSheet(
                         context: context,
                         currency: store.asset,
@@ -225,6 +271,14 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                   submitButtonActive: store.isContinueAvaible,
                   submitButtonName: intl.addCircleCard_continue,
                   onSubmitPressed: () {
+                    sAnalytics.tapOnTheContinueWithBuyAmountButton(
+                      pmType: store.pmType,
+                      buyPM: store.buyPM,
+                      sourceCurrency: 'EUR',
+                      destinationWallet: store.asset?.symbol ?? '',
+                      sourceBuyAmount: store.fiatInputValue,
+                      destinationBuyAmount: store.cryptoInputValue,
+                    );
                     sRouter.push(
                       BuyConfirmationRoute(
                         asset: store.asset!,

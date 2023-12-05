@@ -14,6 +14,7 @@ import 'package:jetwallet/utils/helpers/split_iban.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
@@ -174,9 +175,25 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                     },
                     onUserAgreementTap: () {
                       launchURL(context, userAgreementLink);
+                      sAnalytics.tapOnTheButtonTermsAndConditionsOnBuyOrderSummary(
+                        pmType: store.pmType,
+                        buyPM: store.buyPM,
+                        sourceCurrency: 'EUR',
+                        destinationWallet: store.buyAsset ?? '',
+                        sourceBuyAmount: store.paymentAmount.toString(),
+                        destinationBuyAmount: store.buyAmount.toString(),
+                      );
                     },
                     onPrivacyPolicyTap: () {
                       launchURL(context, privacyPolicyLink);
+                      sAnalytics.tapOnTheButtonPrivacyPolicyOnBuyOrderSummary(
+                        pmType: store.pmType,
+                        buyPM: store.buyPM,
+                        sourceCurrency: 'EUR',
+                        destinationWallet: store.buyAsset ?? '',
+                        sourceBuyAmount: store.paymentAmount.toString(),
+                        destinationBuyAmount: store.buyAmount.toString(),
+                      );
                     },
                     onActiveTextTap: () {},
                     onActiveText2Tap: () {},
@@ -189,6 +206,14 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                     active: !store.loader.loading && store.getCheckbox,
                     name: intl.previewBuyWithAsset_confirm,
                     onTap: () {
+                      sAnalytics.tapOnTheButtonConfirmOnBuyOrderSummary(
+                        pmType: store.pmType,
+                        buyPM: store.buyPM,
+                        sourceCurrency: 'EUR',
+                        destinationWallet: store.buyAsset ?? '',
+                        sourceBuyAmount: store.paymentAmount.toString(),
+                        destinationBuyAmount: store.buyAmount.toString(),
+                      );
                       store.createPayment();
                     },
                   ),

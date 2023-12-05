@@ -37,6 +37,20 @@ class BuyAmountStore extends _BuyAmountStoreBase with _$BuyAmountStore {
 
 abstract class _BuyAmountStoreBase with Store {
   @computed
+  PaymenthMethodType get pmType => card != null
+      ? PaymenthMethodType.card
+      : account?.isClearjuctionAccount ?? false
+          ? PaymenthMethodType.cjAccount
+          : PaymenthMethodType.unlimitAccount;
+
+  @computed
+  String get buyPM => card != null
+      ? 'Saved card ${card?.last4}'
+      : account?.isClearjuctionAccount ?? false
+          ? 'CJ  ${account?.balance}'
+          : 'Unlimint  ${account?.balance}';
+
+  @computed
   CurrencyModel get buyCurrency => getIt.get<FormatService>().findCurrency(
         findInHideTerminalList: true,
         assetSymbol: fiatSymbol,
@@ -173,6 +187,7 @@ abstract class _BuyAmountStoreBase with Store {
       const Duration(milliseconds: 500),
       () {
         if (inputCard != null && inputCard.showUaAlert) {
+          sAnalytics.unsupportedCurrencyPopupView();
           sShowAlertPopup(
             sRouter.navigatorKey.currentContext!,
             primaryText: intl.currencyBuy_alert,
@@ -185,18 +200,12 @@ abstract class _BuyAmountStoreBase with Store {
               package: 'simple_kit',
             ),
             onPrimaryButtonTap: () {
+              sAnalytics.tapOnTheGotItButtonOnUnsupportedCurrencyScreen();
               Navigator.pop(sRouter.navigatorKey.currentContext!);
             },
           );
         }
       },
-    );
-
-    sAnalytics.newBuyBuyAssetView(
-      asset: asset?.symbol ?? '',
-      paymentMethodType: category.name,
-      paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : 'account',
-      paymentMethodCurrency: buyCurrency.symbol,
     );
   }
 
@@ -525,15 +534,6 @@ abstract class _BuyAmountStoreBase with Store {
 
   @action
   void _updatePaymentMethodInputError(String? error) {
-    if (error != null) {
-      sAnalytics.newBuyErrorLimit(
-        errorCode: error,
-        asset: asset?.symbol ?? '',
-        paymentMethodType: category.name,
-        paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : 'account',
-        paymentMethodCurrency: buyCurrency.symbol,
-      );
-    }
     paymentMethodInputError = error;
   }
 }

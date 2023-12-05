@@ -130,6 +130,13 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
             const SpaceH24(),
             BalancesWidget(
               onTap: (account) {
+                sAnalytics.tapOnTheButtonSomePMForBuyOnPayWithPMSheet(
+                  destinationWallet: asset?.symbol ?? '',
+                  pmType:
+                      account.isClearjuctionAccount ? PaymenthMethodType.cjAccount : PaymenthMethodType.unlimitAccount,
+                  buyPM: account.isClearjuctionAccount ? 'CJ  ${account.balance}' : 'Unlimint  ${account.balance}',
+                );
+                
                 if (onSelected != null) {
                   onSelected!(account: account);
                 } else {

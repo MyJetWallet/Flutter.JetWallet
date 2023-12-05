@@ -69,3 +69,19 @@ enum PaymenthMethodType {
   const PaymenthMethodType(this.name);
   final String name;
 }
+
+enum NowInputType {
+  fiat('Fiat'),
+  crypro('Crypro');
+
+  const NowInputType(this.name);
+  final String name;
+}
+
+enum FeeType {
+  payment('Payment'),
+  processing('Processing');
+
+  const FeeType(this.name);
+  final String name;
+}

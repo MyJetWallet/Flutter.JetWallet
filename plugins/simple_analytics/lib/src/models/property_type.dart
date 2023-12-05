@@ -1,4 +1,6 @@
 /// The data we send together with event
+// ignore_for_file: lines_longer_than_80_chars
+
 class PropertyType {
   static const kycStatus = 'KYCStatus';
   static const techAcc = 'TechAcc';
@@ -70,4 +72,18 @@ class PropertyType {
   static const listOfAvailablePMs = 'List of available PM’s';
   static const buyPM = 'Buy PM';
   static const pmType = 'PM type';
+  static const nowInput = 'Now input';
+  static const sourceBuyAmount = 'Source buy Amount';
+  static const destinationBuyAmount = 'Destination buy amount';
+  static const isCheckboxNowTrue = 'IsCheckboxNowTrue';
+  static const type = 'Type';
+  static const currentFromValueForSell = 'Current From value for sell';
+  static const newSellFromAsset = 'New Sell From asset';
+  static const currentToValueForSell = 'Current To value for sell';
+  static const newSellToMethod = 'New Sell To method';
+  static const sellFromWallet = 'Sell from wallet';
+  static const sellToPMType = 'Sell to PM type';
+  static const cryptoAmount = 'Crypto amount';
+  static const fiatAmount = 'Fiat amount';
+  static const fiatAccountLabel = 'Fiat account label';
 }

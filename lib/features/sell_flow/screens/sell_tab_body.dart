@@ -13,6 +13,7 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/modules/icons/24x24/public/crypto/simple_crypto_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -34,6 +35,12 @@ class SellAmountTabBody extends StatefulObserverWidget {
 }
 
 class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticKeepAliveClientMixin {
+  @override
+  void initState() {
+    super.initState();
+    sAnalytics.sellAmountScreenView();
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -72,6 +79,7 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                       : null,
                   secondarySymbol: store.asset != null ? store.secondarySymbol : null,
                   onSwap: () {
+                    sAnalytics.tapOnTheChangeCurrencySell();
                     store.onSwap();
                   },
                   errorText: store.paymentMethodInputError,
@@ -79,6 +87,7 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                       ? '''${intl.sell_amount_sell_all} ${volumeFormat(decimal: store.sellAllValue, accuracy: store.asset?.accuracy ?? 1, symbol: store.cryptoSymbol)}'''
                       : null,
                   optionOnTap: () {
+                    sAnalytics.tapOnTheSellAll();
                     store.onSellAll();
                   },
                 ),
@@ -92,11 +101,23 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                       url: store.asset?.iconUrl ?? '',
                     ),
                     onTap: () {
+                      sAnalytics.tapOnTheSellFromButton(
+                        currentFromValueForSell: store.asset?.symbol ?? '',
+                      );
+                      sAnalytics.sellFromSheetView();
                       showSellChooseAssetBottomSheet(
                         context: context,
                         onChooseAsset: (currency) {
                           store.setNewAsset(currency);
-                          Navigator.of(context).pop();
+                          Navigator.of(context).pop(true);
+                          sAnalytics.tapOnSelectedNewSellFromAssetButton(
+                            newSellFromAsset: currency.symbol,
+                          );
+                        },
+                        then: (value) {
+                          if (value != true) {
+                            sAnalytics.tapOnCloseSheetFromSellButton();
+                          }
                         },
                       );
                     },
@@ -107,11 +128,20 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                     subTitle: intl.amount_screen_sell,
                     icon: const SCryptoIcon(),
                     onTap: () {
+                      sAnalytics.tapOnTheSellFromButton(
+                        currentFromValueForSell: store.asset?.symbol ?? '',
+                      );
+                      sAnalytics.sellFromSheetView();
                       showSellChooseAssetBottomSheet(
                         context: context,
                         onChooseAsset: (currency) {
                           store.setNewAsset(currency);
-                          Navigator.of(context).pop();
+                          Navigator.of(context).pop(true);
+                        },
+                        then: (value) {
+                          if (value != true) {
+                            sAnalytics.tapOnCloseSheetFromSellButton();
+                          }
                         },
                       );
                     },
@@ -140,6 +170,12 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                       ),
                     ),
                     onTap: () {
+                      sAnalytics.tapOnTheSellToButton(
+                        currentToValueForSell:
+                            store.account?.isClearjuctionAccount ?? false ? 'CJ account' : 'Unlimit account',
+                      );
+                      sAnalytics.sellToSheetView();
+
                       showSellPayWithBottomSheet(
                         context: context,
                         currency: store.asset,
@@ -148,7 +184,15 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                           store.setNewPayWith(
                             newAccount: account,
                           );
-                          Navigator.of(context).pop();
+                          sAnalytics.tapOnSelectedNewSellToButton(
+                            newSellToMethod: account?.isClearjuctionAccount ?? false ? 'CJ account' : 'Unlimit account',
+                          );
+                          Navigator.of(context).pop(true);
+                        },
+                        then: (value) {
+                          if (value != true) {
+                            sAnalytics.tapOnCloseSheetSellToButton();
+                          }
                         },
                       );
                     },
@@ -170,6 +214,13 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                       ),
                     ),
                     onTap: () {
+                      sAnalytics.tapOnTheSellToButton(
+                        currentToValueForSell:
+                            store.account?.isClearjuctionAccount ?? false ? 'CJ account' : 'Unlimit account',
+                      );
+
+                      sAnalytics.sellToSheetView();
+
                       showSellPayWithBottomSheet(
                         context: context,
                         currency: store.asset,
@@ -178,7 +229,15 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                           store.setNewPayWith(
                             newAccount: account,
                           );
-                          Navigator.of(context).pop();
+                          sAnalytics.tapOnSelectedNewSellToButton(
+                            newSellToMethod: account?.isClearjuctionAccount ?? false ? 'CJ account' : 'Unlimit account',
+                          );
+                          Navigator.of(context).pop(true);
+                        },
+                        then: (value) {
+                          if (value != true) {
+                            sAnalytics.tapOnCloseSheetSellToButton();
+                          }
                         },
                       );
                     },
@@ -194,6 +253,15 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                   submitButtonActive: store.isContinueAvaible,
                   submitButtonName: intl.addCircleCard_continue,
                   onSubmitPressed: () {
+                    sAnalytics.tapOnTheContinueWithSellAmountButton(
+                      destinationWallet: 'EUR',
+                      nowInput: store.isFiatEntering ? 'Fiat' : 'Crypro',
+                      sellFromWallet: store.cryptoSymbol,
+                      enteredAmount: store.primaryAmount,
+                      sellToPMType: store.account?.isClearjuctionAccount ?? false
+                          ? PaymenthMethodType.cjAccount
+                          : PaymenthMethodType.unlimitAccount,
+                    );
                     sRouter.push(
                       SellConfirmationRoute(
                         asset: store.asset!,

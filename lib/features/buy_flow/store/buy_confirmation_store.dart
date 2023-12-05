@@ -52,6 +52,20 @@ class BuyConfirmationStore extends _BuyConfirmationStoreBase with _$BuyConfirmat
 }
 
 abstract class _BuyConfirmationStoreBase with Store {
+  @computed
+  PaymenthMethodType get pmType => card != null
+      ? PaymenthMethodType.card
+      : account?.isClearjuctionAccount ?? false
+          ? PaymenthMethodType.cjAccount
+          : PaymenthMethodType.unlimitAccount;
+
+  @computed
+  String get buyPM => card != null
+      ? 'Saved card ${card?.last4}'
+      : account?.isClearjuctionAccount ?? false
+          ? 'CJ  ${account?.balance}'
+          : 'Unlimint  ${account?.balance}';
+
   @observable
   StackLoaderStore loader = StackLoaderStore();
 
@@ -137,6 +151,16 @@ abstract class _BuyConfirmationStoreBase with Store {
   @action
   void setIsBankTermsChecked() {
     isBankTermsChecked = !isBankTermsChecked;
+
+    sAnalytics.tapToAgreeToTheTCAndPrivacyPolicyBuy(
+      pmType: pmType,
+      buyPM: buyPM,
+      sourceCurrency: 'EUR',
+      destinationWallet: buyAsset ?? '',
+      sourceBuyAmount: paymentAmount.toString(),
+      destinationBuyAmount: buyAmount.toString(),
+      isCheckboxNowTrue: isBankTermsChecked,
+    );
   }
 
   @computed
@@ -202,23 +226,15 @@ abstract class _BuyConfirmationStoreBase with Store {
 
     loader.finishLoadingImmediately();
 
-    sAnalytics.newBuyTapContinue(
-      sourceCurrency: depositFeeCurrency.symbol,
-      sourceAmount: paymentAmount.toString(),
-      destinationCurrency: buyAsset ?? '',
-      paymentMethodType: category.name,
-      paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : 'account',
-      paymentMethodCurrency: depositFeeCurrency.symbol,
-      destinationAmount: '$buyAmount',
-      quickAmount: 'false',
-    );
-
     isDataLoaded = true;
 
-    sAnalytics.newBuyOrderSummaryView(
-      paymentMethodType: category.name,
-      paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : 'account',
-      paymentMethodCurrency: depositFeeCurrency.symbol,
+    sAnalytics.buyOrderSummaryScreenView(
+      pmType: pmType,
+      buyPM: buyPM,
+      sourceCurrency: 'EUR',
+      destinationWallet: buyAsset ?? '',
+      sourceBuyAmount: paymentAmount.toString(),
+      destinationBuyAmount: buyAmount.toString(),
     );
   }
 
@@ -359,17 +375,18 @@ abstract class _BuyConfirmationStoreBase with Store {
   Future<void> _showFailureScreen(String error) async {
     loader.finishLoadingImmediately();
 
-    sAnalytics.newBuyFailedView(
-      errorCode: error,
-      firstTimeBuy: '$firstBuy',
-      paymentMethodType: category.name,
-      paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : 'account',
-      paymentMethodCurrency: depositFeeCurrency.symbol,
-    );
-
     if (sRouter.currentPath != '/buy_flow_confirmation') {
       return;
     }
+
+    sAnalytics.failedBuyEndScreenView(
+      pmType: pmType,
+      buyPM: buyPM,
+      sourceCurrency: 'EUR',
+      destinationWallet: buyAsset ?? '',
+      sourceBuyAmount: paymentAmount.toString(),
+      destinationBuyAmount: buyAmount.toString(),
+    );
 
     unawaited(
       sRouter.push(
@@ -378,6 +395,14 @@ abstract class _BuyConfirmationStoreBase with Store {
           secondaryText: error,
           primaryButtonName: intl.previewBuyWithAsset_close,
           onPrimaryButtonTap: () {
+            sAnalytics.tapOnTheCloseButtonOnFailedBuyEndScreen(
+              pmType: pmType,
+              buyPM: buyPM,
+              sourceCurrency: 'EUR',
+              destinationWallet: buyAsset ?? '',
+              sourceBuyAmount: paymentAmount.toString(),
+              destinationBuyAmount: buyAmount.toString(),
+            );
             navigateToRouter();
           },
         ),
@@ -448,28 +473,18 @@ abstract class _BuyConfirmationStoreBase with Store {
 
   @action
   Future<void> createPayment() async {
-    sAnalytics.newBuyTapConfirm(
-      sourceCurrency: depositFeeCurrency.symbol,
-      destinationCurrency: buyAsset ?? '',
-      sourceAmount: '$paymentAmount',
-      destinationAmount: '$buyAmount',
-      exchangeRate: '1 $buyAsset = ${volumeFormat(
-        symbol: depositFeeCurrency.symbol,
-        accuracy: buyCurrency.accuracy,
-        decimal: rate ?? Decimal.zero,
-      )}',
-      paymentFee: '$depositFeeAmount',
-      firstTimeBuy: '$firstBuy',
-      paymentMethodType: category.name,
-      paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : 'account',
-      paymentMethodCurrency: depositFeeCurrency.symbol,
-    );
-
     unawaited(_setIsChecked());
     unawaited(_saveLastPaymentMethod());
 
     if (category == PaymentMethodCategory.cards) {
-      sAnalytics.newBuyEnterCvvView(firstTimeBuy: '$firstBuy');
+      sAnalytics.enterCVVForBuyScreenView(
+        pmType: pmType,
+        buyPM: buyPM,
+        sourceCurrency: 'EUR',
+        destinationWallet: buyAsset ?? '',
+        sourceBuyAmount: paymentAmount.toString(),
+        destinationBuyAmount: buyAmount.toString(),
+      );
 
       showBankCardCvvBottomSheet(
         context: sRouter.navigatorKey.currentContext!,
@@ -483,7 +498,16 @@ abstract class _BuyConfirmationStoreBase with Store {
 
           _requestPaymentCard();
         },
-        onDissmis: () {},
+        onDissmis: () {
+          sAnalytics.tapOnTheCloseOnCVVPopap(
+            pmType: pmType,
+            buyPM: buyPM,
+            sourceCurrency: 'EUR',
+            destinationWallet: buyAsset ?? '',
+            sourceBuyAmount: paymentAmount.toString(),
+            destinationBuyAmount: buyAmount.toString(),
+          );
+        },
         input: PreviewBuyWithBankCardInput(
           amount: paymentAmount.toString(),
           currency: depositFeeCurrency,
@@ -703,6 +727,15 @@ abstract class _BuyConfirmationStoreBase with Store {
             paymentMethodCurrency: depositFeeCurrency.symbol,
           );
 
+          sAnalytics.threeDSecureScreenView(
+            pmType: pmType,
+            buyPM: buyPM,
+            sourceCurrency: 'EUR',
+            destinationWallet: buyAsset ?? '',
+            sourceBuyAmount: paymentAmount.toString(),
+            destinationBuyAmount: buyAmount.toString(),
+          );
+
           sRouter.push(
             Circle3dSecureWebViewRouter(
               title: intl.previewBuyWithCircle_paymentVerification,
@@ -711,7 +744,17 @@ abstract class _BuyConfirmationStoreBase with Store {
               amount: paymentAmount.toString(),
               onSuccess: onSuccess,
               onFailed: onFailed,
-              onCancel: onCancel,
+              onCancel: (text) {
+                sAnalytics.tapOnTheCloseButtonOn3DSecureScreen(
+                  pmType: pmType,
+                  buyPM: buyPM,
+                  sourceCurrency: 'EUR',
+                  destinationWallet: buyAsset ?? '',
+                  sourceBuyAmount: paymentAmount.toString(),
+                  destinationBuyAmount: buyAmount.toString(),
+                );
+                onCancel.call(text);
+              },
               paymentId: paymentId,
             ),
           );
@@ -720,13 +763,6 @@ abstract class _BuyConfirmationStoreBase with Store {
           showProcessing = true;
           wasAction = true;
           loader.startLoadingImmediately();
-
-          sAnalytics.newBuyProcessingView(
-            firstTimeBuy: '$firstBuy',
-            paymentMethodType: category.name,
-            paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : 'account',
-            paymentMethodCurrency: depositFeeCurrency.symbol,
-          );
         },
         '',
       );
@@ -813,11 +849,6 @@ abstract class _BuyConfirmationStoreBase with Store {
                 _requestPaymentInfo(onAction, lastAction);
               },
               (payment) {
-                sAnalytics.paymentWevViewClose(
-                  paymentMethodType: category.name,
-                  paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : 'account',
-                  paymentMethodCurrency: depositFeeCurrency.symbol,
-                );
 
                 if (payment != null) {
                   sRouter.pop();
@@ -845,11 +876,13 @@ abstract class _BuyConfirmationStoreBase with Store {
 
   @action
   Future<void> _showSuccessScreen(bool isGoogle) {
-    sAnalytics.newBuySuccessView(
-      firstTimeBuy: '$firstBuy',
-      paymentMethodType: category.name,
-      paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : 'account',
-      paymentMethodCurrency: depositFeeCurrency.symbol,
+    sAnalytics.successBuyEndScreenView(
+      pmType: pmType,
+      buyPM: buyPM,
+      sourceCurrency: 'EUR',
+      destinationWallet: buyAsset ?? '',
+      sourceBuyAmount: paymentAmount.toString(),
+      destinationBuyAmount: buyAmount.toString(),
     );
 
     return sRouter
@@ -871,6 +904,24 @@ abstract class _BuyConfirmationStoreBase with Store {
                   )}',
             buttonText: intl.previewBuyWithUmlimint_saveCard,
             showProgressBar: true,
+            showCloseButton: true,
+            onCloseButton: () {
+              sAnalytics.tapOnTheCloseButtonOnSuccessBuyEndScreen(
+                pmType: pmType,
+                buyPM: buyPM,
+                sourceCurrency: 'EUR',
+                destinationWallet: buyAsset ?? '',
+                sourceBuyAmount: paymentAmount.toString(),
+                destinationBuyAmount: buyAmount.toString(),
+              );
+              sRouter.replaceAll([
+                const HomeRouter(
+                  children: [
+                    MyWalletsRouter(),
+                  ],
+                ),
+              ]);
+            },
           ),
         )
         .then(

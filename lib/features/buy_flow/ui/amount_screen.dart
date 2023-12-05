@@ -7,6 +7,7 @@ import 'package:jetwallet/features/buy_flow/ui/buy_tab_body.dart';
 import 'package:jetwallet/features/convert_flow/screens/convert_tab_body.dart';
 import 'package:jetwallet/features/sell_flow/screens/sell_tab_body.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
@@ -45,7 +46,29 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
       vsync: this,
       initialIndex: widget.tab.index,
     );
+    tabController.addListener(() {
+      if (tabController.indexIsChanging) return;
+
+      switch (tabController.index) {
+        case 0:
+          sAnalytics.tapOnTheBuyButtonOnBSCSegmentScreen();
+          break;
+        case 1:
+          sAnalytics.userSTapOnSellButtonOnBSCSegmentControl();
+          break;
+        case 2:
+          sAnalytics.userSTapOnConvertButtonOnBSCSegmentControl();
+          break;
+        default:
+      }
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -57,7 +80,32 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
       header: SPaddingH24(
         child: SSmallHeader(
           title: '',
-          onBackButtonTap: () => sRouter.pop(),
+          onBackButtonTap: () {
+            switch (tabController.index) {
+              case 0:
+                sAnalytics.tapOnTheBackFromAmountScreenButton(
+                  destinationWallet: widget.asset.symbol,
+                  pmType: widget.card != null
+                      ? PaymenthMethodType.card
+                      : widget.account?.isClearjuctionAccount ?? false
+                          ? PaymenthMethodType.cjAccount
+                          : PaymenthMethodType.unlimitAccount,
+                  buyPM: widget.card != null
+                      ? 'Saved card ${widget.card?.last4}'
+                      : widget.account?.isClearjuctionAccount ?? false
+                          ? 'CJ  ${widget.account?.balance}'
+                          : 'Unlimint  ${widget.account?.balance}',
+                  sourceCurrency: 'EUR',
+                );
+                break;
+              case 1:
+                sAnalytics.tapOnTheBackFromSellAmountButton();
+                break;
+              default:
+            }
+
+            sRouter.pop();
+          },
         ),
       ),
       child: Column(

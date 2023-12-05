@@ -360,5 +360,59 @@ class EventType {
   static const payWithPMSheetView = '‘Pay with PM’ sheet view';
   static const tapOnTheButtonCloseForClosingSheetOnPayWithPMSheet =
       'Tap on the button ‘Close’ (or tap in empty part of scr for closing sheet) on ‘Pay with PM’ sheet';
-  static const tapOnTheButtonSomePMForBuyOnPayWithPMSheet = 'Tap on the button ‘Some PM for buy’  on ‘Pay with PM’ sheet';
+  static const tapOnTheButtonSomePMForBuyOnPayWithPMSheet =
+      'Tap on the button ‘Some PM for buy’  on ‘Pay with PM’ sheet';
+  static const buyAmountScreenView = '‘Buy amount’ screen view';
+  static const tapOnTheBackFromAmountScreenButton = 'Tap on the ‘Back from amount screen’ button';
+  static const tapOnTheChangeInputBuyButton = 'Tap on the ‘Change input buy’ button';
+  static const tapOnTheChooseAssetButton = 'Tap on the ‘Choose asset’ button';
+  static const tapOnThePayWithButton = 'Tap on the ‘Pay with’ button';
+  static const tapOnTheContinueWithBuyAmountButton = 'Tap on the ‘Continue with buy amount’ button';
+  static const buyOrderSummaryScreenView = '‘Buy order summary` screen view';
+  static const tapToAgreeToTheTCAndPrivacyPolicyBuy = 'Tap to agree to the T&C and Privacy Policy Buy';
+  static const tapOnTheButtonPaymentFeeInfoOnBuyCheckout = 'Tap on the button ‘Payment Fee info’ on buy checkout';
+  static const paymentProcessingFeePopupView = '‘Payment/processing fee’ popup view';
+  static const tapOnTheCloseOnPPopap = 'Tap on the `Close` on p. popap';
+  static const tapOnTheButtonConfirmOnBuyOrderSummary = 'Tap on the button ‘Confirm’ on Buy order summary';
+  static const tapOnTheButtonTermsAndConditionsOnBuyOrderSummary =
+      'Tap on the button ‘Terms and conditions’ on Buy order summary';
+  static const tapOnTheButtonPrivacyPolicyOnBuyOrderSummary = 'Tap on the button ‘Privacy Policy’ on Buy order summary';
+  static const enterCVVForBuyScreenView = '‘Enter CVV for buy’ screen view';
+  static const tapOnTheCloseOnCVVPopap = 'Tap on the `Close` on CVV popap';
+  static const threeDSecureScreenView = '‘3D Secure’ screen view';
+  static const tapOnTheCloseButtonOn3DSecureScreen = 'Tap on the ‘Close` button on `3D Secure’ screen';
+  static const successBuyEndScreenView = '‘Success Buy end’ screen view';
+  static const tapOnTheCloseButtonOnSuccessBuyEndScreen = 'Tap on the ‘Close` button on `Success Buy end’ screen';
+  static const failedBuyEndScreenView = '‘Failed Buy end’ screen view';
+  static const tapOnTheCloseButtonOnFailedBuyEndScreen = 'Tap on the `Close` button on `Failed Buy end` screen';
+  static const unsupportedCurrencyPopupView = '‘Unsupported Currency’ popup view';
+  static const tapOnTheGotItButtonOnUnsupportedCurrencyScreen =
+      'Tap on the ‘Got it` button on `Unsupported Currency’ screen';
+  static const tapOnTheBuyButtonOnBSCSegmentScreen = 'Tap on the ‘Buy` button on `B.S.C.segment’ screen';
+  static const userSTapOnSellButtonOnBSCSegmentControl = 'User’s tap on `Sell` button on `B.S.C.segment` control';
+  static const userSTapOnConvertButtonOnBSCSegmentControl = 'User’s tap on `Convert` button on `B.S.C.segment` control';
+  static const tapOnTheSellButton = 'Tap on the ‘Sell’ button';
+  static const tapOnTheSellAll = 'Tap on the ‘Sell all’';
+  static const tapOnTheChangeCurrencySell = 'Tap on the ‘Change currency sell’';
+  static const sellAmountScreenView = '‘Sell amount’ screen view';
+  static const tapOnTheSellFromButton = 'Tap on the ‘Sell from’ button';
+  static const sellFromSheetView = '‘Sell from’ sheet view';
+  static const tapOnCloseSheetFromSellButton = 'Tap on  ‘Close sheet from sell’ button';
+  static const tapOnSelectedNewSellFromAssetButton = 'Tap on  ‘Selected new Sell From asset’ button';
+  static const tapOnTheSellToButton = 'Tap on the ‘Sell to’ button';
+  static const sellToSheetView = '‘Sell to’ sheet view';
+  static const tapOnCloseSheetSellToButton = 'Tap on  ‘Close sheet sell to’ button';
+  static const tapOnSelectedNewSellToButton = 'Tap on  ‘Selected new Sell To’ button';
+  static const errorYouNeedToCreateEURAccountFirst = 'Error - “You need to create EUR account first”';
+  static const errorShowingErrorUnderSellAmount = 'Error - “Showing error under sell amount”';
+  static const tapOnTheBackFromSellAmountButton = 'Tap on the ‘Back from Sell amount’ button';
+  static const tapOnTheContinueWithSellAmountButton = 'Tap on the ‘Continue with sell amount’ button';
+  static const sellOrderSummaryScreenView = '‘Sell order summary` screen view';
+  static const tapOnTheBackFromConvertAmountButton = 'Tap on the ‘Back from Convert amount’ button';
+  static const tapToAgreeToTheTCAndPrivacyPolicySell = 'Tap to agree to the T&C and Privacy Policy Sell';
+  static const paymentProcessingFeeSellPopupView = '‘Payment/processing fee sell’ popup view';
+    static const 	tapOnTheButtonConfirmOnSellOrderSummary = 'Tap on the button ‘Confirm’ on Sell order summary';
+    static const 	successSellEndScreenView = '‘Success Sell end’ screen view';
+    static const 	failedSellEndScreenView = 'Failed Sell end’ screen view';
+
 }

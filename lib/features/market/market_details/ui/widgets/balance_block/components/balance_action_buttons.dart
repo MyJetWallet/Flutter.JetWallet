@@ -109,7 +109,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                   intl.operation_bloked_text,
                   id: 1,
                 );
-                 sAnalytics.errorBuyIsUnavailable();
+                sAnalytics.errorBuyIsUnavailable();
               } else if (isDepositBlocker && !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
                 showSendTimerAlertOr(
                   context: context,
@@ -142,6 +142,8 @@ class BalanceActionButtons extends StatelessObserverWidget {
               }
             },
             onSell: () {
+              sAnalytics.tapOnTheSellButton();
+
               if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
                 showSendTimerAlertOr(
                   context: context,
