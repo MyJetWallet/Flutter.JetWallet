@@ -176,7 +176,9 @@ class SumsubService {
         .withAutoCloseOnApprove(0)
         .build();
 
-    final _ = await snsMobileSDK.launch();
+    final res = await snsMobileSDK.launch();
+
+    getIt.get<GlobalLoader>().setLoading(false);
   }
 
   void simulateSuccess({

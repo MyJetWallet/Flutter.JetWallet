@@ -147,15 +147,6 @@ class IbanSendAmountBody extends StatelessObserverWidget {
           ],
           const SpaceH20(),
           SPaymentSelectAsset(
-            onTap: () {
-              sAnalytics.tapOnTheButtonLimitsIBAN();
-
-              showIbanSendLimits(
-                context: context,
-                cardLimits: store.limits!,
-                currency: store.eurCurrency,
-              );
-            },
             widgetSize: widgetSizeFrom(deviceSize),
             icon: SAccountIcon(
               color: colors.black,

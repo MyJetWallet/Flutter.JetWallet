@@ -10,6 +10,7 @@ import 'package:jetwallet/core/services/simple_networking/simple_networking.dart
 import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:mobx/mobx.dart';
+import 'package:openpgp/model/bridge_model_generated.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -187,7 +188,7 @@ abstract class _IbanAddressBookStoreBase with Store {
   ///
 
   @action
-  Future<void> addAccount() async {
+  Future<bool> addAccount() async {
     loader.startLoadingImmediately();
 
     final DC<ServerRejectException, AddressBookContactModel>? response;
@@ -208,6 +209,8 @@ abstract class _IbanAddressBookStoreBase with Store {
     response.pick(
       onData: (data) {
         getIt<IbanStore>().getAddressBook();
+
+        return true;
       },
       onError: (error) {
         isIBANError = error.errorCode == 'ContactWithThisIbanAlreadyExists';
@@ -222,14 +225,17 @@ abstract class _IbanAddressBookStoreBase with Store {
         );
 
         loader.finishLoadingImmediately();
+
+        return false;
       },
     );
 
     loader.finishLoadingImmediately();
+    return false;
   }
 
   @action
-  Future<void> editAccount() async {
+  Future<bool> editAccount() async {
     loader.startLoadingImmediately();
 
     try {
@@ -257,7 +263,7 @@ abstract class _IbanAddressBookStoreBase with Store {
           needFeedback: true,
         );
 
-        return;
+        return false;
       }
 
       await getIt<IbanStore>().getAddressBook();
@@ -271,8 +277,12 @@ abstract class _IbanAddressBookStoreBase with Store {
       );
 
       loader.finishLoadingImmediately();
+
+      return true;
     } catch (e) {
       loader.finishLoadingImmediately();
+
+      return false;
     }
   }
 

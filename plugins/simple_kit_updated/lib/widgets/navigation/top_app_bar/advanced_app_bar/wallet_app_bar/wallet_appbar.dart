@@ -108,15 +108,14 @@ class WalletAppBar extends StatelessWidget {
                       color: SColorsLight().black,
                     ),
                   ),
-                  Opacity(
-                    opacity: mainSubtitle != null ? 1 : 0,
-                    child: Text(
+                  if (mainSubtitle != null) ...[
+                    Text(
                       mainSubtitle ?? '',
                       style: STStyles.body2Medium.copyWith(
                         color: SColorsLight().gray10,
                       ),
                     ),
-                  ),
+                  ],
                   if (needCarousel) ...[
                     const Gap(8),
                     Padding(

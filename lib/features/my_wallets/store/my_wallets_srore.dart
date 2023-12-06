@@ -300,6 +300,7 @@ abstract class _MyWalletsSroreBase with Store {
   @action
   Future<void> createSimpleAccount() async {
     //loader.startLoadingImmediately();
+    getIt.get<GlobalLoader>().setLoading(true);
 
     //getIt.get<GlobalLoader>().setLoading(true);
 
@@ -318,6 +319,7 @@ abstract class _MyWalletsSroreBase with Store {
         accountManualStatus = null;
         loader.finishLoadingImmediately();
       } else {
+        getIt.get<GlobalLoader>().setLoading(false);
         if (resp.data!.simpleKycRequired || resp.data!.addressSetupRequired) {
           sAnalytics.eurWalletVerifyYourAccount();
 
@@ -333,12 +335,12 @@ abstract class _MyWalletsSroreBase with Store {
             isBanking: true,
           );
         } else {
-          loader.finishLoadingImmediately();
+          getIt.get<GlobalLoader>().setLoading(false);
           //accountManualStatus = BankingShowState.accountList;
         }
       }
     } catch (e) {
-      loader.finishLoadingImmediately();
+      getIt.get<GlobalLoader>().setLoading(false);
     }
   }
 }
