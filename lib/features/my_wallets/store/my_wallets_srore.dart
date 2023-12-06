@@ -6,6 +6,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:jetwallet/features/my_wallets/helper/currencies_for_my_wallet.dart';
 import 'package:jetwallet/features/my_wallets/helper/show_wallet_verify_account.dart';
 import 'package:jetwallet/utils/enum.dart';
@@ -292,13 +293,15 @@ abstract class _MyWalletsSroreBase with Store {
 
       sAnalytics.eurWalletShowToastLestCreateAccount();
 
-      loader.finishLoadingImmediately();
+      getIt.get<GlobalLoader>().setLoading(false);
     });
   }
 
   @action
   Future<void> createSimpleAccount() async {
-    loader.startLoadingImmediately();
+    //loader.startLoadingImmediately();
+
+    //getIt.get<GlobalLoader>().setLoading(true);
 
     final context = sRouter.navigatorKey.currentContext!;
 

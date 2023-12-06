@@ -17,6 +17,7 @@ import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/core/services/zendesk_support_service/zendesk_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/store/kyc_profile_countries_store.dart';
 import 'package:jetwallet/features/auth/verification_reg/store/verification_store.dart';
@@ -136,6 +137,10 @@ Future<GetIt> getItInit({
 
   getIt.registerLazySingleton<SessionCheckService>(
     () => SessionCheckService(),
+  );
+
+  getIt.registerLazySingleton<GlobalLoader>(
+    () => GlobalLoader(),
   );
 
   return getIt.init(

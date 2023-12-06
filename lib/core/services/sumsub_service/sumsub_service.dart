@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
+import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:logger/logger.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 
@@ -83,6 +84,8 @@ class SumsubService {
       sAnalytics.kycFlowSumsubClose(
         country: countries.activeCountry?.countryName ?? '',
       );
+
+      getIt.get<GlobalLoader>().setLoading(false);
 
       print('The SDK status was changed: $prevStatus -> $newStatus');
       getIt.get<SimpleLoggerService>().log(

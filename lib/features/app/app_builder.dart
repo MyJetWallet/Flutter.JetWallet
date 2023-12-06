@@ -8,6 +8,7 @@ import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/app/timer_service.dart';
 import 'package:jetwallet/features/auth/splash/splash_screen_no_animation.dart';
@@ -117,7 +118,9 @@ class _AppBuilderBodyState extends State<AppBuilderBody> with WidgetsBindingObse
           data: widget.reactiveMediaQuery.copyWith(
             textScaleFactor: 1.0,
           ),
-          child: widget.child,
+          child: GlobalLoaderWidget(
+            child: widget.child,
+          ),
         ),
       ),
     );

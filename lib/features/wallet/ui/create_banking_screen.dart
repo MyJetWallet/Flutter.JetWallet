@@ -7,6 +7,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:jetwallet/features/my_wallets/helper/show_create_personal_account.dart';
 import 'package:jetwallet/features/my_wallets/helper/show_wallet_verify_account.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -137,6 +138,8 @@ class _CreateBankingScreenState extends State<CreateBankingScreen> {
                   void _afterVerification() {
                     sRouter.popUntilRoot();
 
+                    getIt.get<GlobalLoader>().setLoading(false);
+
                     sNotification.showError(intl.let_us_create_account, isError: false);
                     sAnalytics.eurWalletShowToastLestCreateAccount();
                   }
@@ -153,6 +156,8 @@ class _CreateBankingScreenState extends State<CreateBankingScreen> {
                       id: 1,
                       needFeedback: true,
                     );
+
+                    loading.finishLoadingImmediately();
 
                     sRouter.popUntilRoot();
                   } else {
