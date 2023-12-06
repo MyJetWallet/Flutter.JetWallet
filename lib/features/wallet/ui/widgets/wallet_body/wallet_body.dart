@@ -223,7 +223,9 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                           }
                         },
                         onSell: () {
-                          sAnalytics.tapOnTheSellButton();
+                          sAnalytics.tapOnTheSellButton(
+                            source: 'Wallet - Buy',
+                          );
 
                           final actualAsset = widget.currency;
 
@@ -292,7 +294,9 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                           );
                         },
                         onConvert: () {
-                          sAnalytics.tapOnTheConvertButton();
+                          sAnalytics.tapOnTheConvertButton(
+                            source: 'Wallet - Buy',
+                          );
                           final actualAsset = widget.currency;
                           if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
                             showSendTimerAlertOr(

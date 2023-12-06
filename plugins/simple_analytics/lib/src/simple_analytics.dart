@@ -4358,8 +4358,6 @@ class SimpleAnalytics {
         PropertyType.destinationWallet: destinationWallet,
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
-        // TODO (yaroslav): implement this option later
-        // PropertyType.source: 'none',
       },
     );
   }
@@ -4900,13 +4898,16 @@ class SimpleAnalytics {
     );
   }
 
-  void tapOnTheSellButton() {
+  void tapOnTheSellButton({
+    required String source,
+  }) {
     _analytics.logEvent(
       EventType.tapOnTheSellButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '351',
+        PropertyType.source: source,
       },
     );
   }
@@ -4940,8 +4941,6 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '354',
-        // TODO (yaroslav): implement this option later
-        // PropertyType.source: 'none',
       },
     );
   }
@@ -5233,13 +5232,16 @@ class SimpleAnalytics {
     );
   }
 
-  void tapOnTheConvertButton() {
+  void tapOnTheConvertButton({
+    required String source,
+  }) {
     _analytics.logEvent(
       EventType.tapOnTheConvertButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '375',
+        PropertyType.source: source,
       },
     );
   }
@@ -5273,8 +5275,6 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '378',
-        // TODO (yaroslav): implement this option later
-        // PropertyType.source: 'none',
       },
     );
   }

@@ -142,7 +142,9 @@ class BalanceActionButtons extends StatelessObserverWidget {
               }
             },
             onSell: () {
-              sAnalytics.tapOnTheSellButton();
+              sAnalytics.tapOnTheSellButton(
+                source: 'Market - Buy',
+              );
 
               if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
                 showSendTimerAlertOr(
@@ -217,7 +219,9 @@ class BalanceActionButtons extends StatelessObserverWidget {
               );
             },
             onConvert: () {
-              sAnalytics.tapOnTheConvertButton();
+              sAnalytics.tapOnTheConvertButton(
+                source: 'Market - Buy',
+              );
               if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
                 showSendTimerAlertOr(
                   context: context,
