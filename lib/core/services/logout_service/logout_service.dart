@@ -155,9 +155,16 @@ abstract class _LogoutServiceBase with Store {
     // Clear all flutter_secure_storage and shared_preferences
     await sLocalStorageService.clearStorage();
     await getIt<LocalCacheService>().clearAllCache();
-    getIt<AppStore>().resetAppStore();
-    getIt<IbanStore>().clearData();
-    await getIt.get<ZenDeskService>().logoutZenDesk();
+
+    if (getIt.isRegistered<AppStore>()) {
+      getIt<AppStore>().resetAppStore();
+    }
+    if (getIt.isRegistered<IbanStore>()) {
+      getIt<IbanStore>().clearData();
+    }
+    if (getIt.isRegistered<ZenDeskService>()) {
+      await getIt.get<ZenDeskService>().logoutZenDesk();
+    }
   }
 
   Future<void> pushToFirstPage() async {
