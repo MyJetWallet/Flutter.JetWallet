@@ -217,6 +217,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
               );
             },
             onConvert: () {
+              sAnalytics.tapOnTheConvertButton();
               if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
                 showSendTimerAlertOr(
                   context: context,

@@ -86,4 +86,9 @@ class PropertyType {
   static const cryptoAmount = 'Crypto amount';
   static const fiatAmount = 'Fiat amount';
   static const fiatAccountLabel = 'Fiat account label';
+  static const newConvertFromAsset = 'New Convert From asset';
+  static const currentToValueForConvert = 'Current To value for convert';
+  static const newConvertToAsset = 'New Convert To asset';
+  static const convertFromAsset = 'Convert From asset';
+  static const convertToAsset = 'Convert To asset';
 }

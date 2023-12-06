@@ -98,7 +98,7 @@ class _SellConfirmationScreenBody extends StatelessObserverWidget {
           color: colors.grey1,
         ),
         onBackButtonTap: () {
-          sAnalytics.tapOnTheBackFromConvertAmountButton();
+          sAnalytics.tapOnTheBackFromSellConfirmationButton();
           sRouter.pop();
         },
       ),

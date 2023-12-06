@@ -13,6 +13,7 @@ import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -84,7 +85,10 @@ class _ConvertConfirmationScreenBody extends StatelessObserverWidget {
         subTitleStyle: sBodyText2Style.copyWith(
           color: colors.grey1,
         ),
-        onBackButtonTap: () => sRouter.pop(),
+        onBackButtonTap: () {
+          sAnalytics.tapOnTheBackFromCovertOrderSummaryButton();
+          sRouter.pop();
+        },
       ),
       child: CustomScrollView(
         slivers: [
@@ -145,6 +149,12 @@ class _ConvertConfirmationScreenBody extends StatelessObserverWidget {
                     active: !store.loader.loading,
                     name: intl.previewBuyWithAsset_confirm,
                     onTap: () {
+                      sAnalytics.tapOnTheButtonConfirmOnConvertOrderSummary(
+                        enteredAmount: (store.isFromFixed ? store.paymentAmount : store.buyAmount).toString(),
+                        convertFromAsset: store.paymentAsset ?? '',
+                        convertToAsset: store.buyAsset ?? '',
+                        nowInput: store.isFromFixed ? 'ConvertFrom' : 'ConvertTo',
+                      );
                       store.createPayment();
                     },
                   ),

@@ -5125,9 +5125,9 @@ class SimpleAnalytics {
     );
   }
 
-  void tapOnTheBackFromConvertAmountButton() {
+  void tapOnTheBackFromSellConfirmationButton() {
     _analytics.logEvent(
-      EventType.tapOnTheBackFromConvertAmountButton,
+      EventType.tapOnTheBackFromSellConfirmationButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -5229,6 +5229,310 @@ class SimpleAnalytics {
         PropertyType.sellFromWallet: sellFromWallet,
         PropertyType.sellToPMType: sellToPMType.name,
         PropertyType.fiatAccountLabel: fiatAccountLabel,
+      },
+    );
+  }
+
+  void tapOnTheConvertButton() {
+    _analytics.logEvent(
+      EventType.tapOnTheConvertButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '375',
+      },
+    );
+  }
+
+  void tapOnTheConvertAll() {
+    _analytics.logEvent(
+      EventType.tapOnTheConvertAll,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '376',
+      },
+    );
+  }
+
+  void tapOnTheChangeInputAssetConvert() {
+    _analytics.logEvent(
+      EventType.tapOnTheChangeInputAssetConvert,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '377',
+      },
+    );
+  }
+
+  void convertAmountScreenView() {
+    _analytics.logEvent(
+      EventType.convertAmountScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '378',
+        // TODO (yaroslav): implement this option later
+        // PropertyType.source: 'none',
+      },
+    );
+  }
+
+  void tapOnTheConvertFromButton({
+    required String currentFromValueForSell,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheConvertFromButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '379',
+        PropertyType.currentFromValueForSell: currentFromValueForSell,
+      },
+    );
+  }
+
+  void convertFromSheetView() {
+    _analytics.logEvent(
+      EventType.convertFromSheetView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '380',
+      },
+    );
+  }
+
+  void tapOnCloseSheetConvertFromButton() {
+    _analytics.logEvent(
+      EventType.tapOnCloseSheetConvertFromButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '381',
+      },
+    );
+  }
+
+  void tapOnSelectedNewConvertFromAssetButton({
+    required String newConvertFromAsset,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnSelectedNewConvertFromAssetButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '382',
+        PropertyType.newConvertFromAsset: newConvertFromAsset,
+      },
+    );
+  }
+
+  void tapOnTheConvertToButton({
+    required String currentToValueForConvert,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheConvertToButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '383',
+        PropertyType.currentToValueForConvert: currentToValueForConvert,
+      },
+    );
+  }
+
+  void convertToSheetView() {
+    _analytics.logEvent(
+      EventType.convertToSheetView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '384',
+      },
+    );
+  }
+
+  void tapOnCloseSheetConvertToButton() {
+    _analytics.logEvent(
+      EventType.tapOnCloseSheetConvertToButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '385',
+      },
+    );
+  }
+
+  void tapOnSelectedNewConvertToButton({
+    required String newConvertToAsset,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnSelectedNewConvertToButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '386',
+        PropertyType.newConvertToAsset: newConvertToAsset,
+      },
+    );
+  }
+
+  void errorYourCryptoBalanceIsZeroPleaseGetCryptoFirst() {
+    _analytics.logEvent(
+      EventType.errorYourCryptoBalanceIsZeroPleaseGetCryptoFirst,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '387',
+      },
+    );
+  }
+
+  void errorShowingErrorUnderConvertAmount({
+    required String errorText,
+  }) {
+    _analytics.logEvent(
+      EventType.errorShowingErrorUnderConvertAmount,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '389',
+        PropertyType.errorText: errorText,
+      },
+    );
+  }
+
+  void tapOnTheBackFromConvertAmountButton() {
+    _analytics.logEvent(
+      EventType.tapOnTheBackFromConvertAmountButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '390',
+      },
+    );
+  }
+
+  void tapOnTContinueWithConvertAmountCutton({
+    required String enteredAmount,
+    required String convertFromAsset,
+    required String convertToAsset,
+    required String nowInput,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTContinueWithConvertAmountCutton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '391',
+        PropertyType.convertFromAsset: convertFromAsset,
+        PropertyType.convertToAsset: convertToAsset,
+        PropertyType.nowInput: nowInput,
+        PropertyType.enteredAmount: enteredAmount,
+      },
+    );
+  }
+
+  void convertOrderSummaryScreenView({
+    required String enteredAmount,
+    required String convertFromAsset,
+    required String convertToAsset,
+    required String nowInput,
+  }) {
+    _analytics.logEvent(
+      EventType.convertOrderSummaryScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '392',
+        PropertyType.convertFromAsset: convertFromAsset,
+        PropertyType.convertToAsset: convertToAsset,
+        PropertyType.nowInput: nowInput,
+        PropertyType.enteredAmount: enteredAmount,
+      },
+    );
+  }
+
+  void tapOnTheBackFromCovertOrderSummaryButton() {
+    _analytics.logEvent(
+      EventType.tapOnTheBackFromCovertOrderSummaryButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '393',
+      },
+    );
+  }
+
+  void processingFeeConvertPopupView() {
+    _analytics.logEvent(
+      EventType.processingFeeConvertPopupView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '394',
+      },
+    );
+  }
+
+  void tapOnTheButtonConfirmOnConvertOrderSummary({
+    required String enteredAmount,
+    required String convertFromAsset,
+    required String convertToAsset,
+    required String nowInput,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonConfirmOnConvertOrderSummary,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '395',
+        PropertyType.convertFromAsset: convertFromAsset,
+        PropertyType.convertToAsset: convertToAsset,
+        PropertyType.nowInput: nowInput,
+        PropertyType.enteredAmount: enteredAmount,
+      },
+    );
+  }
+
+  void successConvertEndScreenView({
+    required String enteredAmount,
+    required String convertFromAsset,
+    required String convertToAsset,
+    required String nowInput,
+  }) {
+    _analytics.logEvent(
+      EventType.successConvertEndScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '396',
+        PropertyType.convertFromAsset: convertFromAsset,
+        PropertyType.convertToAsset: convertToAsset,
+        PropertyType.nowInput: nowInput,
+        PropertyType.enteredAmount: enteredAmount,
+      },
+    );
+  }
+
+  void failedConvertEndScreenView({
+    required String enteredAmount,
+    required String convertFromAsset,
+    required String convertToAsset,
+    required String nowInput,
+  }) {
+    _analytics.logEvent(
+      EventType.failedConvertEndScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '397',
+        PropertyType.convertFromAsset: convertFromAsset,
+        PropertyType.convertToAsset: convertToAsset,
+        PropertyType.nowInput: nowInput,
+        PropertyType.enteredAmount: enteredAmount,
       },
     );
   }

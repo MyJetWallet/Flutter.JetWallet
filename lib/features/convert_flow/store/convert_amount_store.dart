@@ -124,6 +124,7 @@ abstract class _ConvertAmountStoreBase with Store {
       return currency.assetBalance != Decimal.zero;
     });
     if (isNoCurrencies) {
+      sAnalytics.errorYourCryptoBalanceIsZeroPleaseGetCryptoFirst();
       Timer(
         const Duration(milliseconds: 200),
         () {
@@ -409,12 +410,8 @@ abstract class _ConvertAmountStoreBase with Store {
   @action
   void _updatePaymentMethodInputError(String? error) {
     if (error != null) {
-      sAnalytics.newBuyErrorLimit(
-        errorCode: error,
-        asset: fromAsset?.symbol ?? '',
-        paymentMethodType: 'crypto',
-        paymentMethodName: 'crypto',
-        paymentMethodCurrency: fromAsset?.symbol ?? '',
+      sAnalytics.errorShowingErrorUnderConvertAmount(
+        errorText: error,
       );
     }
     paymentMethodInputError = error;

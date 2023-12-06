@@ -391,6 +391,8 @@ class EventType {
   static const tapOnTheBuyButtonOnBSCSegmentScreen = 'Tap on the ‘Buy` button on `B.S.C.segment’ screen';
   static const userSTapOnSellButtonOnBSCSegmentControl = 'User’s tap on `Sell` button on `B.S.C.segment` control';
   static const userSTapOnConvertButtonOnBSCSegmentControl = 'User’s tap on `Convert` button on `B.S.C.segment` control';
+
+  //Sell flow
   static const tapOnTheSellButton = 'Tap on the ‘Sell’ button';
   static const tapOnTheSellAll = 'Tap on the ‘Sell all’';
   static const tapOnTheChangeCurrencySell = 'Tap on the ‘Change currency sell’';
@@ -408,11 +410,35 @@ class EventType {
   static const tapOnTheBackFromSellAmountButton = 'Tap on the ‘Back from Sell amount’ button';
   static const tapOnTheContinueWithSellAmountButton = 'Tap on the ‘Continue with sell amount’ button';
   static const sellOrderSummaryScreenView = '‘Sell order summary` screen view';
-  static const tapOnTheBackFromConvertAmountButton = 'Tap on the ‘Back from Convert amount’ button';
+  static const tapOnTheBackFromSellConfirmationButton = 'Tap on the ‘Back from Sell confirmation’ button';
   static const tapToAgreeToTheTCAndPrivacyPolicySell = 'Tap to agree to the T&C and Privacy Policy Sell';
   static const paymentProcessingFeeSellPopupView = '‘Payment/processing fee sell’ popup view';
-    static const 	tapOnTheButtonConfirmOnSellOrderSummary = 'Tap on the button ‘Confirm’ on Sell order summary';
-    static const 	successSellEndScreenView = '‘Success Sell end’ screen view';
-    static const 	failedSellEndScreenView = 'Failed Sell end’ screen view';
+  static const tapOnTheButtonConfirmOnSellOrderSummary = 'Tap on the button ‘Confirm’ on Sell order summary';
+  static const successSellEndScreenView = '‘Success Sell end’ screen view';
+  static const failedSellEndScreenView = 'Failed Sell end’ screen view';
 
+  //Convert flow
+  static const tapOnTheConvertButton = 'Tap on the ‘Convert’ button';
+  static const tapOnTheConvertAll = 'Tap on the ‘Convert all’';
+  static const tapOnTheChangeInputAssetConvert = 'Tap on the ‘Change input asset convert’';
+  static const convertAmountScreenView = '‘Convert amount’ screen view';
+  static const tapOnTheConvertFromButton = 'Tap on the ‘Convert from’ button';
+  static const convertFromSheetView = '‘Convert from’ sheet view';
+  static const tapOnCloseSheetConvertFromButton = 'Tap on  ‘Close sheet Convert from ’ button';
+  static const tapOnSelectedNewConvertFromAssetButton = 'Tap on  ‘Selected new Convert From asset’ button';
+  static const tapOnTheConvertToButton = 'Tap on the ‘Convert to’ button';
+  static const convertToSheetView = '‘Convert to’ sheet view';
+  static const tapOnCloseSheetConvertToButton = 'Tap on  ‘Close sheet convert to’ button';
+  static const tapOnSelectedNewConvertToButton = 'Tap on  ‘Selected new Convert To’ button';
+  static const errorYourCryptoBalanceIsZeroPleaseGetCryptoFirst =
+      'Error - “Your crypto balance is zero. Please get crypto first”';
+  static const errorShowingErrorUnderConvertAmount = 'Error - “Showing error under convert amount”';
+  static const tapOnTheBackFromConvertAmountButton = 'Tap on the ‘Back from Convert amount’ button';
+  static const tapOnTContinueWithConvertAmountCutton = 'Tap on the ‘Continue with convert amount’ button';
+  static const convertOrderSummaryScreenView = '‘Convert order summaryґ screen view';
+  static const tapOnTheBackFromCovertOrderSummaryButton = 'Tap on the ‘Back from Covert Order summary ’ button';
+  static const processingFeeConvertPopupView = '‘Processing fee convert’ popup view';
+  static const tapOnTheButtonConfirmOnConvertOrderSummary = 'Tap on the button ‘Confirm’ on Convert order summary';
+  static const successConvertEndScreenView = '‘Success Convert end’ screen view';
+  static const failedConvertEndScreenView = 'Failed Convert end’ screen view';
 }
