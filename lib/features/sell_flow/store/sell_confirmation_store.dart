@@ -150,6 +150,8 @@ abstract class _SellConfirmationStoreBase with Store {
 
   String accountId = '';
 
+  String accountLabel = '';
+
   bool isFromFixed = true;
 
   @action
@@ -160,6 +162,7 @@ abstract class _SellConfirmationStoreBase with Store {
     required Decimal toAmount,
     required bool newIsFromFixed,
     required String newAccountId,
+    required String newAccountLabel,
   }) async {
     isDataLoaded = false;
 
@@ -171,6 +174,7 @@ abstract class _SellConfirmationStoreBase with Store {
     accountId = newAccountId;
     buyAsset = toAsset;
     buyAmount = toAmount;
+    accountLabel = newAccountLabel;
 
     await _isChecked();
 
@@ -178,23 +182,16 @@ abstract class _SellConfirmationStoreBase with Store {
 
     loader.finishLoadingImmediately();
 
-    sAnalytics.newBuyTapContinue(
-      sourceCurrency: depositFeeCurrency.symbol,
-      sourceAmount: paymentAmount.toString(),
-      destinationCurrency: buyAsset ?? '',
-      paymentMethodType: 'account',
-      paymentMethodName: 'account',
-      paymentMethodCurrency: depositFeeCurrency.symbol,
-      destinationAmount: '$buyAmount',
-      quickAmount: 'false',
-    );
-
     isDataLoaded = true;
 
-    sAnalytics.newBuyOrderSummaryView(
-      paymentMethodType: 'account',
-      paymentMethodName: 'account',
-      paymentMethodCurrency: depositFeeCurrency.symbol,
+    sAnalytics.sellOrderSummaryScreenView(
+      destinationWallet: toAsset,
+      cryptoAmount: paymentAmount.toString(),
+      fiatAmount: buyAmount.toString(),
+      sellFromWallet: paymentAsset ?? '',
+      fiatAccountLabel: accountLabel,
+      sellToPMType:
+          accountId == 'clearjuction_account' ? PaymenthMethodType.cjAccount : PaymenthMethodType.unlimitAccount,
     );
   }
 
@@ -292,12 +289,14 @@ abstract class _SellConfirmationStoreBase with Store {
   Future<void> _showFailureScreen(String error) async {
     loader.finishLoadingImmediately();
 
-    sAnalytics.newBuyFailedView(
-      errorCode: error,
-      firstTimeBuy: '$firstBuy',
-      paymentMethodType: 'account',
-      paymentMethodName: 'account',
-      paymentMethodCurrency: depositFeeCurrency.symbol,
+    sAnalytics.failedSellEndScreenView(
+      destinationWallet: 'EUR',
+      cryptoAmount: paymentAmount.toString(),
+      fiatAmount: buyAmount.toString(),
+      sellFromWallet: paymentAsset ?? '',
+      fiatAccountLabel: accountLabel,
+      sellToPMType:
+          accountId == 'clearjuction_account' ? PaymenthMethodType.cjAccount : PaymenthMethodType.unlimitAccount,
     );
 
     if (sRouter.currentPath != '/sell_confirmation') {
@@ -381,21 +380,14 @@ abstract class _SellConfirmationStoreBase with Store {
 
   @action
   Future<void> createPayment() async {
-    sAnalytics.newBuyTapConfirm(
-      sourceCurrency: depositFeeCurrency.symbol,
-      destinationCurrency: buyAsset ?? '',
-      sourceAmount: '$paymentAmount',
-      destinationAmount: '$buyAmount',
-      exchangeRate: '1 $buyAsset = ${volumeFormat(
-        symbol: depositFeeCurrency.symbol,
-        accuracy: buyCurrency.accuracy,
-        decimal: rate ?? Decimal.zero,
-      )}',
-      paymentFee: '$depositFeeAmount',
-      firstTimeBuy: '$firstBuy',
-      paymentMethodType: 'account',
-      paymentMethodName: 'account',
-      paymentMethodCurrency: depositFeeCurrency.symbol,
+    sAnalytics.sellOrderSummaryScreenView(
+      destinationWallet: 'EUR',
+      cryptoAmount: paymentAmount.toString(),
+      fiatAmount: buyAmount.toString(),
+      sellFromWallet: paymentAsset ?? '',
+      fiatAccountLabel: accountLabel,
+      sellToPMType:
+          accountId == 'clearjuction_account' ? PaymenthMethodType.cjAccount : PaymenthMethodType.unlimitAccount,
     );
 
     unawaited(_setIsChecked());
@@ -428,12 +420,6 @@ abstract class _SellConfirmationStoreBase with Store {
       showProcessing = true;
       wasAction = true;
 
-      sAnalytics.newBuyProcessingView(
-        firstTimeBuy: '$firstBuy',
-        paymentMethodType: 'account',
-        paymentMethodName: 'account',
-        paymentMethodCurrency: depositFeeCurrency.symbol,
-      );
       if (deviceBindingRequired) {
         var continueBuying = false;
 
@@ -537,11 +523,14 @@ abstract class _SellConfirmationStoreBase with Store {
 
   @action
   Future<void> _showSuccessScreen(bool isGoogle) {
-    sAnalytics.newBuySuccessView(
-      firstTimeBuy: '$firstBuy',
-      paymentMethodType: 'account',
-      paymentMethodName: 'account',
-      paymentMethodCurrency: depositFeeCurrency.symbol,
+    sAnalytics.successSellEndScreenView(
+      destinationWallet: 'EUR',
+      cryptoAmount: paymentAmount.toString(),
+      fiatAmount: buyAmount.toString(),
+      sellFromWallet: paymentAsset ?? '',
+      fiatAccountLabel: accountLabel,
+      sellToPMType:
+          accountId == 'clearjuction_account' ? PaymenthMethodType.cjAccount : PaymenthMethodType.unlimitAccount,
     );
 
     return sRouter
@@ -604,14 +593,7 @@ abstract class _SellConfirmationStoreBase with Store {
     }
   }
 
-  void skipProcessing() {
-    sAnalytics.newBuyTapCloseProcessing(
-      firstTimeBuy: '$firstBuy',
-      paymentMethodType: 'account',
-      paymentMethodName: 'account',
-      paymentMethodCurrency: depositFeeCurrency.symbol,
-    );
-  }
+  void skipProcessing() {}
 
   Future<void> _saveLastPaymentMethod() async {
     try {

@@ -50,7 +50,7 @@ class WithdrawNftDetails extends StatelessObserverWidget {
                 : Builder(
                     builder: (context) {
                       final currency = currencyFrom(
-                        sSignalRModules.currenciesList,
+                        sSignalRModules.currenciesWithHiddenList,
                         transactionListItem.withdrawalInfo!.feeAssetId ??
                             transactionListItem.withdrawalInfo!.withdrawalAssetId!,
                       );

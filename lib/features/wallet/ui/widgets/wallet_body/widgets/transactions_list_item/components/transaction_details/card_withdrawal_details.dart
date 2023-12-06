@@ -35,7 +35,7 @@ class CardWithdrawalDetails extends StatelessObserverWidget {
       transactionListItem.assetId,
     );
     final currency = currencyFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
       transactionListItem.cardWithdrawalInfo?.paymentFeeAssetId ??
           'EUR',
     );
@@ -157,7 +157,7 @@ class CardWithdrawalDetailsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final asset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
     )
         .where(
           (element) => element.symbol == (transactionListItem.withdrawalInfo?.withdrawalAssetId ?? 'EUR'),

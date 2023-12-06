@@ -46,12 +46,14 @@ void showBuyAction({
       intl.operation_bloked_text,
       id: 1,
     );
+    sAnalytics.errorBuyIsUnavailable();
   } else if ((kyc.depositStatus == kycOperationStatus(KycStatus.blocked)) &&
       !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
     sNotification.showError(
       intl.operation_bloked_text,
       id: 1,
     );
+    sAnalytics.errorBuyIsUnavailable();
   } else if (isDepositBlocker && !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
     _showAction(
       context: context,
@@ -82,6 +84,9 @@ void _showAction({
       sRouter.push(
         ChooseAssetRouter(
           onChooseAsset: (currency) {
+            sAnalytics.tapOnTheAnyWalletForBuyButton(
+              destinationWallet: currency.symbol,
+            );
             showPayWithBottomSheet(
               context: context,
               currency: currency,

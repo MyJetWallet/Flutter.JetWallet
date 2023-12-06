@@ -109,7 +109,7 @@ class IbanSendDetails extends StatelessObserverWidget {
           Builder(
             builder: (context) {
               final currency = currencyFrom(
-                sSignalRModules.currenciesList,
+                sSignalRModules.currenciesWithHiddenList,
                 transactionListItem.ibanWithdrawalInfo?.paymentFeeAssetId ??
                     transactionListItem.ibanWithdrawalInfo?.processingFeeAssetId ??
                     '',
@@ -128,7 +128,7 @@ class IbanSendDetails extends StatelessObserverWidget {
           Builder(
             builder: (context) {
               final currency = currencyFrom(
-                sSignalRModules.currenciesList,
+                sSignalRModules.currenciesWithHiddenList,
                 transactionListItem.ibanWithdrawalInfo?.processingFeeAssetId ??
                     transactionListItem.ibanWithdrawalInfo?.paymentFeeAssetId ??
                     '',
@@ -162,7 +162,7 @@ class IbanSendDetailsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final asset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
     )
         .where(
           (element) => element.symbol == (transactionListItem.assetId),

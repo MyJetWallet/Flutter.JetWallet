@@ -36,6 +36,10 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
                   sAnalytics.newBuyTapBuy(
                     source: 'My Assets - Buy',
                   );
+                  sAnalytics.userTapsOnButtonBuyWalletFromOneOfAnyScreens(
+                    source: 'Wallets - Buy',
+                  );
+
                   if (myWalletsSrore.isReordering) {
                     myWalletsSrore.endReorderingImmediately();
                   } else {

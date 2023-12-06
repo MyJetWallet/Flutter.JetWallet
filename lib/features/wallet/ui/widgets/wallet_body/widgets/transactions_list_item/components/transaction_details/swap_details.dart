@@ -32,7 +32,7 @@ class SwapDetails extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final paymentAsset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
     )
         .where(
           (element) => element.symbol == (transactionListItem.swapInfo?.sellAssetId ?? 'EUR'),
@@ -40,7 +40,7 @@ class SwapDetails extends StatelessObserverWidget {
         .first;
 
     final buyAsset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
     )
         .where(
           (element) => element.symbol == (transactionListItem.swapInfo?.buyAssetId ?? 'EUR'),
@@ -84,7 +84,7 @@ class SwapDetails extends StatelessObserverWidget {
           Builder(
             builder: (context) {
               final currency = currencyFrom(
-                sSignalRModules.currenciesList,
+                sSignalRModules.currenciesWithHiddenList,
                 transactionListItem.swapInfo?.feeAsset ?? '',
               );
 
@@ -132,7 +132,7 @@ class _SwapDetailsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final paymentAsset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
     )
         .where(
           (element) => element.symbol == (transactionListItem.swapInfo?.sellAssetId ?? 'EUR'),
@@ -140,7 +140,7 @@ class _SwapDetailsHeader extends StatelessWidget {
         .first;
 
     final buyAsset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
     )
         .where(
           (element) => element.symbol == (transactionListItem.swapInfo?.buyAssetId ?? 'EUR'),

@@ -36,7 +36,7 @@ class BuyDetails extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
     final paymentAsset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
     )
         .where(
           (element) => element.symbol == (transactionListItem.cryptoBuyInfo?.paymentAssetId ?? 'EUR'),
@@ -44,7 +44,7 @@ class BuyDetails extends StatelessObserverWidget {
         .first;
 
     final buyAsset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
     )
         .where(
           (element) => element.symbol == (transactionListItem.cryptoBuyInfo?.buyAssetId ?? 'EUR'),
@@ -142,7 +142,7 @@ class BuyDetails extends StatelessObserverWidget {
           Builder(
             builder: (context) {
               final currency = currencyFrom(
-                sSignalRModules.currenciesList,
+                sSignalRModules.currenciesWithHiddenList,
                 transactionListItem.cryptoBuyInfo?.depositFeeAsset ??
                     transactionListItem.cryptoBuyInfo?.paymentAssetId ??
                     '',
@@ -161,7 +161,7 @@ class BuyDetails extends StatelessObserverWidget {
           Builder(
             builder: (context) {
               final currency = currencyFrom(
-                sSignalRModules.currenciesList,
+                sSignalRModules.currenciesWithHiddenList,
                 transactionListItem.cryptoBuyInfo?.tradeFeeAsset ??
                     transactionListItem.cryptoBuyInfo?.paymentAssetId ??
                     '',
@@ -211,7 +211,7 @@ class _BuyDetailsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final paymentAsset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
     )
         .where(
           (element) => element.symbol == (transactionListItem.cryptoBuyInfo?.paymentAssetId ?? 'EUR'),
@@ -219,7 +219,7 @@ class _BuyDetailsHeader extends StatelessWidget {
         .first;
 
     final buyAsset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
     )
         .where(
           (element) => element.symbol == (transactionListItem.cryptoBuyInfo?.buyAssetId ?? 'EUR'),

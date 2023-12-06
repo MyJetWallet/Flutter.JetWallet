@@ -22,9 +22,6 @@ void showBankCardCvvBottomSheet({
     pinned: SBottomSheetHeader(
       name: header,
     ),
-    onDissmis: () {
-      if (onDissmis != null) onDissmis();
-    },
     then: (p0) {
       if (onDissmis != null) onDissmis();
     },

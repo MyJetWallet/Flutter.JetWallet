@@ -200,10 +200,29 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
           PaymentFeeRowWidget(
             fee: widget.paymentFee ?? '',
             onTabListener: () {
-              sAnalytics.newBuyTapPaymentFee();
-              sAnalytics.newBuyFeeView(paymentFee: widget.ourFee ?? '');
+              sAnalytics.tapOnTheButtonPaymentFeeInfoOnBuyCheckout();
+              sAnalytics.paymentProcessingFeePopupView(
+                pmType: store.pmType,
+                buyPM: store.buyPM,
+                sourceCurrency: 'EUR',
+                destinationWallet: store.buyAsset ?? '',
+                sourceBuyAmount: store.paymentAmount.toString(),
+                destinationBuyAmount: store.buyAmount.toString(),
+                feeType: FeeType.payment,
+              );
             },
             isLoaded: store.isDataLoaded,
+            onBotomSheetClose: (_) {
+              sAnalytics.tapOnTheCloseOnPPopap(
+                pmType: store.pmType,
+                buyPM: store.buyPM,
+                sourceCurrency: 'EUR',
+                destinationWallet: store.buyAsset ?? '',
+                sourceBuyAmount: store.paymentAmount.toString(),
+                destinationBuyAmount: store.buyAmount.toString(),
+                feeType: FeeType.payment,
+              );
+            },
           ),
         ],
         const SizedBox(height: 16),
@@ -211,10 +230,29 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with Single
           ProcessingFeeRowWidget(
             fee: widget.ourFee ?? '',
             onTabListener: () {
-              sAnalytics.newBuyTapPaymentFee();
-              sAnalytics.newBuyFeeView(paymentFee: widget.ourFee ?? '');
+              sAnalytics.tapOnTheButtonPaymentFeeInfoOnBuyCheckout();
+              sAnalytics.paymentProcessingFeePopupView(
+                pmType: store.pmType,
+                buyPM: store.buyPM,
+                sourceCurrency: 'EUR',
+                destinationWallet: store.buyAsset ?? '',
+                sourceBuyAmount: store.paymentAmount.toString(),
+                destinationBuyAmount: store.buyAmount.toString(),
+                feeType: FeeType.processing,
+              );
             },
             isLoaded: store.isDataLoaded,
+            onBotomSheetClose: (_) {
+              sAnalytics.tapOnTheCloseOnPPopap(
+                pmType: store.pmType,
+                buyPM: store.buyPM,
+                sourceCurrency: 'EUR',
+                destinationWallet: store.buyAsset ?? '',
+                sourceBuyAmount: store.paymentAmount.toString(),
+                destinationBuyAmount: store.buyAmount.toString(),
+                feeType: FeeType.processing,
+              );
+            },
           ),
         ],
       ],

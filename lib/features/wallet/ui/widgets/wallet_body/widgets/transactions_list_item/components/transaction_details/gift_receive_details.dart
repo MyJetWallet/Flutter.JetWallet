@@ -28,7 +28,7 @@ class GiftReceiveDetails extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final currency = currencyFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
       transactionListItem.assetId,
     );
 
@@ -81,7 +81,7 @@ class _GiftReceiveDetailsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final paymentAsset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
     ).firstWhere(
       (element) => element.symbol == (transactionListItem.assetId),
     );

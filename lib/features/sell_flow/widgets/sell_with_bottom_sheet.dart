@@ -22,6 +22,7 @@ void showSellPayWithBottomSheet({
     CardDataModel? card,
   })? onSelected,
   bool hideCards = false,
+  dynamic Function(dynamic)? then,
 }) {
   final store = SellPaymentMethodStore()
     ..init(
@@ -31,7 +32,7 @@ void showSellPayWithBottomSheet({
   if (store.accounts.isNotEmpty) {
     sShowBasicModalBottomSheet(
       context: context,
-      then: (value) {},
+      then: then,
       scrollable: true,
       pinned: ActionBottomSheetHeader(
         name: intl.sell_amount_sell_to,

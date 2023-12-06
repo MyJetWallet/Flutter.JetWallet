@@ -13,6 +13,7 @@ import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
@@ -32,10 +33,34 @@ void showPayWithBottomSheet({
       hideCards: hideCards,
     );
 
+  sAnalytics.payWithPMSheetView(
+    destinationWallet: currency?.symbol ?? '',
+    listOfAvailablePMs: [
+      if (store.isCardsAvailable) ...[
+        'New card',
+        ...List.generate(
+          store.cards.length,
+          (index) => 'Saved card ${store.cards[index].last4}',
+        ),
+      ],
+      if (store.isBankingAccountsAvaible)
+        ...List.generate(
+          store.accounts.length,
+          (index) {
+            return index == 0 ? 'CJ ${store.accounts[index].balance}' : 'Unlimint ${store.accounts[index].balance}';
+          },
+        ),
+    ],
+  );
+
   if (store.cards.isNotEmpty || store.accounts.isNotEmpty) {
     sShowBasicModalBottomSheet(
       context: context,
-      then: (value) {},
+      then: (value) {
+        sAnalytics.tapOnTheButtonCloseForClosingSheetOnPayWithPMSheet(
+          destinationWallet: currency?.symbol ?? '',
+        );
+      },
       scrollable: true,
       pinned: ActionBottomSheetHeader(
         name: intl.amount_screen_pay_with,
@@ -105,6 +130,13 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
             const SpaceH24(),
             BalancesWidget(
               onTap: (account) {
+                sAnalytics.tapOnTheButtonSomePMForBuyOnPayWithPMSheet(
+                  destinationWallet: asset?.symbol ?? '',
+                  pmType:
+                      account.isClearjuctionAccount ? PaymenthMethodType.cjAccount : PaymenthMethodType.unlimitAccount,
+                  buyPM: account.isClearjuctionAccount ? 'CJ  ${account.balance}' : 'Unlimint  ${account.balance}',
+                );
+                
                 if (onSelected != null) {
                   onSelected!(account: account);
                 } else {

@@ -34,7 +34,7 @@ class SellDetails extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final paymentAsset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
     )
         .where(
           (element) => element.symbol == (transactionListItem.sellCryptoInfo?.sellAssetId ?? 'EUR'),
@@ -42,7 +42,7 @@ class SellDetails extends StatelessObserverWidget {
         .first;
 
     final buyAsset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
     )
         .where(
           (element) => element.symbol == (transactionListItem.sellCryptoInfo?.buyAssetId ?? 'EUR'),
@@ -85,23 +85,30 @@ class SellDetails extends StatelessObserverWidget {
           const SpaceH18(),
           TransactionDetailsItem(
             text: intl.history_paid_with,
-            value: Row(
-              children: [
-                Assets.svg.other.medium.bankAccount.simpleSvg(
-                  width: 20,
-                ),
-                const SpaceW8(),
-                TransactionDetailsValueText(
-                  text: transactionListItem.sellCryptoInfo?.accountLabel ?? '',
-                ),
-              ],
+            value: Flexible(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  const SpaceW8(),
+                  Assets.svg.other.medium.bankAccount.simpleSvg(
+                    width: 20,
+                  ),
+                  const SpaceW8(),
+                  Flexible(
+                    child: TransactionDetailsValueText(
+                      text: transactionListItem.sellCryptoInfo?.accountLabel ?? '',
+                      maxLines: 1,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           const SpaceH18(),
           Builder(
             builder: (context) {
               final currency = currencyFrom(
-                sSignalRModules.currenciesList,
+                sSignalRModules.currenciesWithHiddenList,
                 transactionListItem.sellCryptoInfo?.sellAssetId ??
                     transactionListItem.sellCryptoInfo?.sellAssetId ??
                     '',
@@ -120,7 +127,7 @@ class SellDetails extends StatelessObserverWidget {
           Builder(
             builder: (context) {
               final currency = currencyFrom(
-                sSignalRModules.currenciesList,
+                sSignalRModules.currenciesWithHiddenList,
                 transactionListItem.sellCryptoInfo?.paymentFeeAssetId ?? '',
               );
 
@@ -168,7 +175,7 @@ class _SellDetailsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final paymentAsset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
     )
         .where(
           (element) => element.symbol == (transactionListItem.sellCryptoInfo?.sellAssetId ?? 'EUR'),
@@ -176,7 +183,7 @@ class _SellDetailsHeader extends StatelessWidget {
         .first;
 
     final buyAsset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
     )
         .where(
           (element) => element.symbol == (transactionListItem.sellCryptoInfo?.buyAssetId ?? 'EUR'),

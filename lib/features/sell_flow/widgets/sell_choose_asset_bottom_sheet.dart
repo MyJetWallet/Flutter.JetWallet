@@ -19,6 +19,7 @@ void showSellChooseAssetBottomSheet({
   required BuildContext context,
   required void Function(CurrencyModel currency) onChooseAsset,
   bool isAddCash = false,
+  dynamic Function(dynamic)? then,
 }) {
   final searchStore = getIt.get<ActionSearchStore>();
 
@@ -42,6 +43,7 @@ void showSellChooseAssetBottomSheet({
     context: context,
     scrollable: true,
     expanded: showSearch,
+    then: then,
     pinned: ActionBottomSheetHeader(
       name: isAddCash ? intl.simple_card_add_cash_from : intl.amount_screen_sell,
       showSearch: showSearch,

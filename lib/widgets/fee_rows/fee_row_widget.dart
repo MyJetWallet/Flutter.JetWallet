@@ -8,11 +8,13 @@ class ProcessingFeeRowWidget extends StatelessWidget {
     this.isLoaded = true,
     required this.fee,
     this.onTabListener,
+    this.onBotomSheetClose,
   });
 
   final bool isLoaded;
   final String fee;
   final void Function()? onTabListener;
+  final dynamic Function(dynamic)? onBotomSheetClose;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,7 @@ class ProcessingFeeRowWidget extends StatelessWidget {
       fee: fee,
       description: intl.buy_confirmation_processing_fee_description,
       onTabListener: onTabListener,
+      onBotomSheetClose: onBotomSheetClose,
     );
   }
 }
@@ -32,11 +35,13 @@ class PaymentFeeRowWidget extends StatelessWidget {
     this.isLoaded = true,
     required this.fee,
     this.onTabListener,
+    this.onBotomSheetClose,
   });
 
   final bool isLoaded;
   final String fee;
   final void Function()? onTabListener;
+  final dynamic Function(dynamic)? onBotomSheetClose;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +51,7 @@ class PaymentFeeRowWidget extends StatelessWidget {
       fee: fee,
       description: intl.buy_confirmation_payment_fee_description,
       onTabListener: onTabListener,
+      onBotomSheetClose: onBotomSheetClose,
     );
   }
 }
@@ -57,6 +63,7 @@ class _BasicFeeRowWidget extends StatelessWidget {
     required this.title,
     required this.description,
     this.onTabListener,
+    this.onBotomSheetClose,
   });
 
   final bool isLoaded;
@@ -64,6 +71,7 @@ class _BasicFeeRowWidget extends StatelessWidget {
   final String title;
   final String description;
   final void Function()? onTabListener;
+  final dynamic Function(dynamic)? onBotomSheetClose;
 
   @override
   Widget build(BuildContext context) {
@@ -73,8 +81,9 @@ class _BasicFeeRowWidget extends StatelessWidget {
       onTap: () {
         _showFeeExplanation(
           context: context,
+          then: onBotomSheetClose,
         );
-        
+
         onTabListener?.call();
       },
       child: Material(
@@ -124,11 +133,13 @@ class _BasicFeeRowWidget extends StatelessWidget {
 
   void _showFeeExplanation({
     required BuildContext context,
+    dynamic Function(dynamic)? then,
   }) {
     sShowBasicModalBottomSheet(
       context: context,
       horizontalPinnedPadding: 24,
       scrollable: true,
+      then: then,
       pinned: SBottomSheetHeader(
         name: title,
       ),

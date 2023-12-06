@@ -93,7 +93,7 @@ class WithdrawDetails extends StatelessObserverWidget {
           Builder(
             builder: (context) {
               final currency = currencyFrom(
-                sSignalRModules.currenciesList,
+                sSignalRModules.currenciesWithHiddenList,
                 transactionListItem.withdrawalInfo!.feeAssetId ??
                     transactionListItem.withdrawalInfo!.withdrawalAssetId!,
               );
@@ -124,7 +124,7 @@ class _WithdrawDetailsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final paymentAsset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
     )
         .where(
           (element) => element.symbol == (transactionListItem.withdrawalInfo?.withdrawalAssetId ?? 'EUR'),
@@ -132,7 +132,7 @@ class _WithdrawDetailsHeader extends StatelessWidget {
         .first;
 
     final buyAsset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
     )
         .where(
           (element) => element.symbol == (transactionListItem.withdrawalInfo?.receiveAsset ?? 'EUR'),

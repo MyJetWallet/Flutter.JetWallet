@@ -415,7 +415,6 @@ abstract class _BankCardStoreBase with Store {
         onError: (error) {
           sNotification.showError(
             error.cause,
-            duration: 4,
             id: 1,
           );
           loader.finishLoading(onFinish: onError);
@@ -424,14 +423,12 @@ abstract class _BankCardStoreBase with Store {
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,
-        duration: 4,
         id: 1,
       );
       loader.finishLoading(onFinish: onError);
     } catch (error) {
       sNotification.showError(
         intl.something_went_wrong_try_again2,
-        duration: 4,
         id: 1,
       );
       loader.finishLoading(onFinish: onError);
