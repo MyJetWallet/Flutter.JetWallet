@@ -34,7 +34,7 @@ class SellDetails extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final paymentAsset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
     )
         .where(
           (element) => element.symbol == (transactionListItem.sellCryptoInfo?.sellAssetId ?? 'EUR'),
@@ -42,7 +42,7 @@ class SellDetails extends StatelessObserverWidget {
         .first;
 
     final buyAsset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
     )
         .where(
           (element) => element.symbol == (transactionListItem.sellCryptoInfo?.buyAssetId ?? 'EUR'),
@@ -108,7 +108,7 @@ class SellDetails extends StatelessObserverWidget {
           Builder(
             builder: (context) {
               final currency = currencyFrom(
-                sSignalRModules.currenciesList,
+                sSignalRModules.currenciesWithHiddenList,
                 transactionListItem.sellCryptoInfo?.sellAssetId ??
                     transactionListItem.sellCryptoInfo?.sellAssetId ??
                     '',
@@ -127,7 +127,7 @@ class SellDetails extends StatelessObserverWidget {
           Builder(
             builder: (context) {
               final currency = currencyFrom(
-                sSignalRModules.currenciesList,
+                sSignalRModules.currenciesWithHiddenList,
                 transactionListItem.sellCryptoInfo?.paymentFeeAssetId ?? '',
               );
 
@@ -175,7 +175,7 @@ class _SellDetailsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final paymentAsset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
     )
         .where(
           (element) => element.symbol == (transactionListItem.sellCryptoInfo?.sellAssetId ?? 'EUR'),
@@ -183,7 +183,7 @@ class _SellDetailsHeader extends StatelessWidget {
         .first;
 
     final buyAsset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
     )
         .where(
           (element) => element.symbol == (transactionListItem.sellCryptoInfo?.buyAssetId ?? 'EUR'),
