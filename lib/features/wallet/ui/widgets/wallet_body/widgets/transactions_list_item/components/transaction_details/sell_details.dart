@@ -85,16 +85,23 @@ class SellDetails extends StatelessObserverWidget {
           const SpaceH18(),
           TransactionDetailsItem(
             text: intl.history_paid_with,
-            value: Row(
-              children: [
-                Assets.svg.other.medium.bankAccount.simpleSvg(
-                  width: 20,
-                ),
-                const SpaceW8(),
-                TransactionDetailsValueText(
-                  text: transactionListItem.sellCryptoInfo?.accountLabel ?? '',
-                ),
-              ],
+            value: Flexible(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  const SpaceW8(),
+                  Assets.svg.other.medium.bankAccount.simpleSvg(
+                    width: 20,
+                  ),
+                  const SpaceW8(),
+                  Flexible(
+                    child: TransactionDetailsValueText(
+                      text: transactionListItem.sellCryptoInfo?.accountLabel ?? '',
+                      maxLines: 1,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           const SpaceH18(),
