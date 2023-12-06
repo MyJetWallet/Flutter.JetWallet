@@ -75,7 +75,7 @@ class AddCashDetails extends StatelessObserverWidget {
           Builder(
             builder: (context) {
               final currency = currencyFrom(
-                sSignalRModules.currenciesList,
+                sSignalRModules.currenciesWithHiddenList,
                 transactionListItem.ibanDepositInfo?.paymentFeeAssetId ??
                     transactionListItem.ibanDepositInfo?.processingFeeAssetId ??
                     '',
@@ -94,7 +94,7 @@ class AddCashDetails extends StatelessObserverWidget {
           Builder(
             builder: (context) {
               final currency = currencyFrom(
-                sSignalRModules.currenciesList,
+                sSignalRModules.currenciesWithHiddenList,
                 transactionListItem.ibanDepositInfo?.processingFeeAssetId ??
                     transactionListItem.ibanDepositInfo?.paymentFeeAssetId ??
                     '',
@@ -127,7 +127,7 @@ class _AddCashDetailsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final paymentAsset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
     )
         .where(
           (element) => element.symbol == transactionListItem.assetId,

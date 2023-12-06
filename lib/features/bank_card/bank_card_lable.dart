@@ -7,6 +7,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/add_circle_card/ui/widgets/continue_button_frame.dart';
 import 'package:jetwallet/features/bank_card/store/bank_card_store.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 
@@ -39,7 +40,12 @@ class BankCardLabel extends StatelessObserverWidget {
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.bank_card_leable_headet,
-          onBackButtonTap: () => sRouter.pop(),
+          onBackButtonTap: () {
+            sAnalytics.tapOnTheBackFromCardLabelCreationButton(
+              destinationWallet: asset?.symbol ?? '',
+            );
+            sRouter.pop();
+          },
         ),
       ),
       child: Column(
@@ -63,6 +69,9 @@ class BankCardLabel extends StatelessObserverWidget {
               active: store.isLabelValid,
               name: intl.addCircleCard_continue,
               onTap: () async {
+                sAnalytics.tapOnTheContinueSaveCardLabelButton(
+                  destinationWallet: asset?.symbol ?? '',
+                );
                 if (store.canClick) {
                   store.setCanClick(false);
                   Timer(

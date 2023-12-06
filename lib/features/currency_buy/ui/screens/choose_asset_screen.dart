@@ -3,6 +3,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
@@ -44,6 +45,8 @@ class _ChooseAssetScreenState extends State<ChooseAssetScreen> {
       customCurrencies: currenciesList,
     );
     searchStore.refreshSearch();
+
+    sAnalytics.chooseWalletScreenView();
   }
 
   @override
@@ -60,7 +63,10 @@ class _ChooseAssetScreenState extends State<ChooseAssetScreen> {
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.choose_asser_screan_header,
-          onBackButtonTap: () => Navigator.pop(context),
+          onBackButtonTap: () {
+            sAnalytics.tapOnTheBackFromChooseWalletButton();
+            Navigator.pop(context);
+          },
         ),
       ),
       child: SingleChildScrollView(

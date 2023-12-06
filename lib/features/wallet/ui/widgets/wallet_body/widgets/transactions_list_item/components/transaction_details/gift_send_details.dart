@@ -39,7 +39,7 @@ class GiftSendDetails extends StatelessObserverWidget {
     final receiverContact =
         transactionListItem.giftSendInfo?.toEmail ?? transactionListItem.giftSendInfo?.toPhoneNumber ?? '';
     final currency = currencyFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
       transactionListItem.assetId,
     );
 
@@ -154,7 +154,7 @@ class _GiftSendDetailsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final paymentAsset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
     )
         .where(
           (element) => element.symbol == (transactionListItem.assetId),
@@ -162,7 +162,7 @@ class _GiftSendDetailsHeader extends StatelessWidget {
         .first;
 
     final buyAsset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
     )
         .where(
           (element) => element.symbol == (transactionListItem.assetId),

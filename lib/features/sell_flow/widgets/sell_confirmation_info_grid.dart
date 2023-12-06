@@ -159,9 +159,14 @@ class _ConfirmationInfoGridState extends State<SellConfirmationInfoGrid> with Si
         ),
         const SizedBox(height: 16),
         if (widget.paymentFee != null) ...[
-          ProcessingFeeRowWidget(
+          PaymentFeeRowWidget(
             fee: widget.paymentFee ?? '',
             isLoaded: store.isDataLoaded,
+            onTabListener: () {
+              sAnalytics.paymentProcessingFeeSellPopupView(
+                feeType: FeeType.payment,
+              );
+            },
           ),
         ],
         const SizedBox(height: 16),
@@ -169,6 +174,11 @@ class _ConfirmationInfoGridState extends State<SellConfirmationInfoGrid> with Si
           ProcessingFeeRowWidget(
             fee: widget.ourFee ?? '',
             isLoaded: store.isDataLoaded,
+            onTabListener: () {
+              sAnalytics.paymentProcessingFeeSellPopupView(
+                feeType: FeeType.processing,
+              );
+            },
           ),
         ],
         const SizedBox(height: 19),

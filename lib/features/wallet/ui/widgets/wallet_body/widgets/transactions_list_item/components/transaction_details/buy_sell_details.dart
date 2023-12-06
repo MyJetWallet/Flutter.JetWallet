@@ -26,7 +26,7 @@ class BuySellDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencies = sSignalRModules.currenciesList;
+    final currencies = sSignalRModules.currenciesWithHiddenList;
 
     final buyCurrency = currencyFrom(
       currencies,

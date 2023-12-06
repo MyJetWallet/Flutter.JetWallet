@@ -155,6 +155,10 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                           sAnalytics.newBuyTapBuy(
                             source: 'My Assets - Asset -  Buy',
                           );
+                          sAnalytics.userTapsOnButtonBuyWalletFromOneOfAnyScreens(
+                            source: 'Wallets - Buy',
+                          );
+
                           final actualAsset = widget.currency;
 
                           final isCardsAvailable =
@@ -178,12 +182,14 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                               intl.operation_bloked_text,
                               id: 1,
                             );
+                            sAnalytics.errorBuyIsUnavailable();
                           } else if ((kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) &&
                               !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
                             sNotification.showError(
                               intl.operation_bloked_text,
                               id: 1,
                             );
+                            sAnalytics.errorBuyIsUnavailable();
                           } else if (isDepositBlocker &&
                               !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false)) {
                             showSendTimerAlertOr(
@@ -217,6 +223,10 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                           }
                         },
                         onSell: () {
+                          sAnalytics.tapOnTheSellButton(
+                            source: 'Wallet - Buy',
+                          );
+
                           final actualAsset = widget.currency;
 
                           if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
@@ -284,6 +294,9 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                           );
                         },
                         onConvert: () {
+                          sAnalytics.tapOnTheConvertButton(
+                            source: 'Wallet - Buy',
+                          );
                           final actualAsset = widget.currency;
                           if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
                             showSendTimerAlertOr(

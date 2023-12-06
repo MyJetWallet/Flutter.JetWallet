@@ -14,7 +14,6 @@ import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
@@ -155,24 +154,14 @@ abstract class _ConvertConfirmationStoreBase with Store {
 
     loader.finishLoadingImmediately();
 
-    sAnalytics.newBuyTapContinue(
-      sourceCurrency: depositFeeCurrency.symbol,
-      sourceAmount: paymentAmount.toString(),
-      destinationCurrency: buyAsset ?? '',
-      paymentMethodType: 'account',
-      paymentMethodName: 'account',
-      paymentMethodCurrency: depositFeeCurrency.symbol,
-      destinationAmount: '$buyAmount',
-      quickAmount: 'false',
+    sAnalytics.convertOrderSummaryScreenView(
+      enteredAmount: (isFromFixed ? paymentAmount : buyAmount).toString(),
+      convertFromAsset: paymentAsset ?? '',
+      convertToAsset: buyAsset ?? '',
+      nowInput: isFromFixed ? 'ConvertFrom' : 'ConvertTo',
     );
 
     isDataLoaded = true;
-
-    sAnalytics.newBuyOrderSummaryView(
-      paymentMethodType: 'account',
-      paymentMethodName: 'account',
-      paymentMethodCurrency: depositFeeCurrency.symbol,
-    );
   }
 
   @action
@@ -229,12 +218,11 @@ abstract class _ConvertConfirmationStoreBase with Store {
   Future<void> _showFailureScreen(String error) async {
     loader.finishLoadingImmediately();
 
-    sAnalytics.newBuyFailedView(
-      errorCode: error,
-      firstTimeBuy: '$firstBuy',
-      paymentMethodType: 'account',
-      paymentMethodName: 'account',
-      paymentMethodCurrency: depositFeeCurrency.symbol,
+    sAnalytics.failedConvertEndScreenView(
+      enteredAmount: (isFromFixed ? paymentAmount : buyAmount).toString(),
+      convertFromAsset: paymentAsset ?? '',
+      convertToAsset: buyAsset ?? '',
+      nowInput: isFromFixed ? 'ConvertFrom' : 'ConvertTo',
     );
 
     if (sRouter.currentPath != '/convetr_confirmation') {
@@ -318,23 +306,6 @@ abstract class _ConvertConfirmationStoreBase with Store {
 
   @action
   Future<void> createPayment() async {
-    sAnalytics.newBuyTapConfirm(
-      sourceCurrency: depositFeeCurrency.symbol,
-      destinationCurrency: buyAsset ?? '',
-      sourceAmount: '$paymentAmount',
-      destinationAmount: '$buyAmount',
-      exchangeRate: '1 $buyAsset = ${volumeFormat(
-        symbol: depositFeeCurrency.symbol,
-        accuracy: buyCurrency.accuracy,
-        decimal: rate ?? Decimal.zero,
-      )}',
-      paymentFee: '$depositFeeAmount',
-      firstTimeBuy: '$firstBuy',
-      paymentMethodType: 'account',
-      paymentMethodName: 'account',
-      paymentMethodCurrency: depositFeeCurrency.symbol,
-    );
-
     unawaited(_saveLastPaymentMethod());
 
     await _requestPaymentAccaunt();
@@ -347,14 +318,6 @@ abstract class _ConvertConfirmationStoreBase with Store {
 
       showProcessing = true;
       wasAction = true;
-
-      sAnalytics.newBuyProcessingView(
-        firstTimeBuy: '$firstBuy',
-        paymentMethodType: 'account',
-        paymentMethodName: 'account',
-        paymentMethodCurrency: depositFeeCurrency.symbol,
-      );
-
       loader.startLoadingImmediately();
 
       late DC<ServerRejectException, dynamic> resp;
@@ -396,11 +359,11 @@ abstract class _ConvertConfirmationStoreBase with Store {
 
   @action
   Future<void> _showSuccessScreen(bool isGoogle) {
-    sAnalytics.newBuySuccessView(
-      firstTimeBuy: '$firstBuy',
-      paymentMethodType: 'account',
-      paymentMethodName: 'account',
-      paymentMethodCurrency: depositFeeCurrency.symbol,
+    sAnalytics.successConvertEndScreenView(
+      enteredAmount: (isFromFixed ? paymentAmount : buyAmount).toString(),
+      convertFromAsset: paymentAsset ?? '',
+      convertToAsset: buyAsset ?? '',
+      nowInput: isFromFixed ? 'ConvertFrom' : 'ConvertTo',
     );
 
     return sRouter
@@ -427,14 +390,7 @@ abstract class _ConvertConfirmationStoreBase with Store {
     isWaitingSkipped = true;
   }
 
-  void skipProcessing() {
-    sAnalytics.newBuyTapCloseProcessing(
-      firstTimeBuy: '$firstBuy',
-      paymentMethodType: 'account',
-      paymentMethodName: 'account',
-      paymentMethodCurrency: depositFeeCurrency.symbol,
-    );
-  }
+  void skipProcessing() {}
 
   Future<void> _saveLastPaymentMethod() async {
     try {

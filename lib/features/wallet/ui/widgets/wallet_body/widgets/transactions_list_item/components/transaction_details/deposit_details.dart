@@ -29,10 +29,10 @@ class DepositDetails extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final feeAsset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
     ).firstWhere(
       (element) => element.symbol == transactionListItem.depositInfo?.feeAssetId,
-      orElse: () => sSignalRModules.currenciesList.firstWhere((element) => element.symbol == 'EUR'),
+      orElse: () => sSignalRModules.currenciesWithHiddenList.firstWhere((element) => element.symbol == 'EUR'),
     );
 
     return SPaddingH24(
@@ -99,7 +99,7 @@ class _DepositDetailsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final paymentAsset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
     ).firstWhere(
       (element) => element.symbol == transactionListItem.assetId,
     );

@@ -18,6 +18,7 @@ void showConvertFromChooseAssetBottomSheet({
   required BuildContext context,
   required void Function(CurrencyModel currency) onChooseAsset,
   String? skipAssetSymbol,
+  dynamic Function(dynamic)? then,
 }) {
   final searchStore = getIt.get<ActionSearchStore>();
   final currenciesList = sSignalRModules.currenciesList.where((currency) {
@@ -39,6 +40,7 @@ void showConvertFromChooseAssetBottomSheet({
     context: context,
     scrollable: true,
     expanded: showSearch,
+    then: then,
     pinned: ActionBottomSheetHeader(
       name: intl.convert_amount_convert,
       showSearch: showSearch,

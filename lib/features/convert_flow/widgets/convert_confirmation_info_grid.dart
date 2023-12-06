@@ -111,6 +111,9 @@ class _ConfirmationInfoGridState extends State<ConvertConfirmationInfoGrid> with
           ProcessingFeeRowWidget(
             fee: widget.ourFee ?? '',
             isLoaded: store.isDataLoaded,
+            onTabListener: () {
+              sAnalytics.processingFeeConvertPopupView();
+            },
           ),
         ],
         const SizedBox(height: 19),

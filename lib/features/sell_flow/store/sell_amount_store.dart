@@ -161,6 +161,7 @@ abstract class _SellAmountStoreBase with Store {
             intl.tost_sell_message_3,
             id: 3,
           );
+          sAnalytics.errorYouNeedToCreateEURAccountFirst();
         }
       },
     );
@@ -520,13 +521,7 @@ abstract class _SellAmountStoreBase with Store {
   @action
   void _updatePaymentMethodInputError(String? error) {
     if (error != null) {
-      sAnalytics.newBuyErrorLimit(
-        errorCode: error,
-        asset: asset?.symbol ?? '',
-        paymentMethodType: category.name,
-        paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : 'account',
-        paymentMethodCurrency: buyCurrency.symbol,
-      );
+      sAnalytics.errorShowingErrorUnderSellAmount();
     }
     paymentMethodInputError = error;
   }

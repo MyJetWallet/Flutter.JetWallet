@@ -107,6 +107,12 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
                   e.expYear,
                 ),
                 onTap: () {
+                  sAnalytics.tapOnTheButtonSomePMForBuyOnPayWithPMSheet(
+                    destinationWallet: asset?.symbol ?? '',
+                    pmType: PaymenthMethodType.card,
+                    buyPM: 'Saved card  ${e.last4}',
+                  );
+
                   if (!isCardExpired(
                     e.expMonth,
                     e.expYear,
@@ -138,6 +144,12 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
                 ),
                 name: intl.add_card_text,
                 onTap: () {
+                  sAnalytics.tapOnTheButtonSomePMForBuyOnPayWithPMSheet(
+                    destinationWallet: asset?.symbol ?? '',
+                    pmType: PaymenthMethodType.card,
+                    buyPM: 'New card',
+                  );
+
                   sAnalytics.newBuyTapAddCard();
 
                   final kycState = getIt.get<KycService>();

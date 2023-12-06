@@ -318,28 +318,127 @@ class EventType {
   // EUR withdrawal
   static const eurWithdrawTapOnTheButtonWithdraw = "Tap on the button ‘Withdraw' on 'EUR account Wallet' screen";
   static const eurWithdrawBankTransferWithEurSheet = "‘Bank transfer withdraw eur' sheet view";
-  static const eurWithdrawUserTapsOnButtonEdit = "Tap on the ‘Edit withdraw contact’ button";
-  static const eurWithdrawEditBankAccountWithSV = "‘Edit bank account withdraw’ screen view";
+  static const eurWithdrawUserTapsOnButtonEdit = 'Tap on the ‘Edit withdraw contact’ button';
+  static const eurWithdrawEditBankAccountWithSV = '‘Edit bank account withdraw’ screen view';
   static const eurWithdrawTapSaveChangesEdit =
       "Tap on the button ‘Save changes’ on 'Edit bank account withdraw' screen";
   static const eurWithdrawTapCloseEdit = "Tap on the button ‘Close’ on 'Edit bank account withdraw' screen";
   static const eurWithdrawTapDeleteEdit = "Tap on the button ‘Delete’ on 'Edit bank account withdraw' screen";
   static const eurWithdrawTapConfirmDeleteEdit = "Tap on the button ‘Confirm delete’ on 'Delete popup' screen";
-  static const eurWithdrawTapReceive = "Tap on the ‘Add receiving account’ button";
-  static const eurWithdrawTapExistingAccount = "Tap on the ‘Any existing account’ button";
+  static const eurWithdrawTapReceive = 'Tap on the ‘Add receiving account’ button';
+  static const eurWithdrawTapExistingAccount = 'Tap on the ‘Any existing account’ button';
   static const eurWithdrawAddReceiving = "‘Add receiving account' screen view";
-  static const eurWithdrawTapBackReceiving = "Tap on  ‘Back from add receiving account’ button";
-  static const eurWithdrawTapContinueAddReceiving = "Tap on  ‘Continue from add receiving account’ button";
+  static const eurWithdrawTapBackReceiving = 'Tap on  ‘Back from add receiving account’ button';
+  static const eurWithdrawTapContinueAddReceiving = 'Tap on  ‘Continue from add receiving account’ button';
   static const eurWithdrawEurAmountSV = "‘Withdraw eur amount' screen view";
-  static const eurWithdrawBackAmountSV = "Tap on  ‘Back from Amount EUR withdraw scr’ button";
-  static const eurWithdrawErrorShowConvert = "Error - “Showing error under convert amount”";
-  static const eurWithdrawContinueFromAmoountB = "Tap on  ‘Continue from Amount EUR withdraw scr’ button";
+  static const eurWithdrawBackAmountSV = 'Tap on  ‘Back from Amount EUR withdraw scr’ button';
+  static const eurWithdrawErrorShowConvert = 'Error - “Showing error under convert amount”';
+  static const eurWithdrawContinueFromAmoountB = 'Tap on  ‘Continue from Amount EUR withdraw scr’ button';
   static const eurWithdrawReferenceSV = "‘Reference' screen view";
-  static const eurWithdrawContinueReferecenceButton = "Tap on  ‘Continue from Reference’ button";
+  static const eurWithdrawContinueReferecenceButton = 'Tap on  ‘Continue from Reference’ button';
   static const eurWithdrawWithdrawOrderSummarySV = "‘Withdraw order summary' screen view";
-  static const eurWithdrawTapBackOrderSummary = "Tap on the ‘Back from Withdraw Order summary ’ button";
-  static const eurWithdrawProcessingFeePopup = "‘Processing fee convert’ popup view";
-  static const eurWithdrawTapConfirmOrderSummary = "Tap on the button ‘Confirm’ on Withdraw order summary";
-  static const eurWithdrawSuccessWithdrawEndSV = "‘Success Withdraw end’ screen view";
-  static const eurWithdrawFailed = "Failed Withdraw end’ screen view";
+  static const eurWithdrawTapBackOrderSummary = 'Tap on the ‘Back from Withdraw Order summary ’ button';
+  static const eurWithdrawProcessingFeePopup = '‘Processing fee convert’ popup view';
+  static const eurWithdrawTapConfirmOrderSummary = 'Tap on the button ‘Confirm’ on Withdraw order summary';
+  static const eurWithdrawSuccessWithdrawEndSV = '‘Success Withdraw end’ screen view';
+  static const eurWithdrawFailed = 'Failed Withdraw end’ screen view';
+
+  //Buy flow
+  static const userTapsOnButtonBuyWalletFromOneOfAnyScreens =
+      'User taps on button `Buy wallet` from one of any screens';
+  static const errorBuyIsUnavailable = 'Error - Buy is unavailable';
+  static const chooseWalletScreenView = '‘Choose wallet’ screen view';
+  static const tapOnTheBackFromChooseWalletButton = 'Tap on the ‘Back from choose wallet’ button';
+  static const tapOnTheAnyWalletForBuyButton = 'Tap on the ‘Any wallet for buy’ button';
+  static const addCardDetailsScreenView = '‘Add card details’ screen view';
+  static const userTapsOnButtonSaveCardForFurtherPurchaseOnAddCardDetailsScreen =
+      'User taps on button ‘Save card for further purchase` on ‘Add card details’ screen';
+  static const tapOnContinueCrNewCardButton = 'Tap on  ‘Continue(cr.new.card)’ button';
+  static const addACustomNameScreenView = '‘Add a custom name’ screen view';
+  static const tapOnTheBackFromCardLabelCreationButton = 'Tap on the ‘Back from card label creation’ button';
+  static const tapOnTheContinueSaveCardLabelButton = 'Tap on the ‘Continue(save card label)’ button';
+  static const payWithPMSheetView = '‘Pay with PM’ sheet view';
+  static const tapOnTheButtonCloseForClosingSheetOnPayWithPMSheet =
+      'Tap on the button ‘Close’ (or tap in empty part of scr for closing sheet) on ‘Pay with PM’ sheet';
+  static const tapOnTheButtonSomePMForBuyOnPayWithPMSheet =
+      'Tap on the button ‘Some PM for buy’  on ‘Pay with PM’ sheet';
+  static const buyAmountScreenView = '‘Buy amount’ screen view';
+  static const tapOnTheBackFromAmountScreenButton = 'Tap on the ‘Back from amount screen’ button';
+  static const tapOnTheChangeInputBuyButton = 'Tap on the ‘Change input buy’ button';
+  static const tapOnTheChooseAssetButton = 'Tap on the ‘Choose asset’ button';
+  static const tapOnThePayWithButton = 'Tap on the ‘Pay with’ button';
+  static const tapOnTheContinueWithBuyAmountButton = 'Tap on the ‘Continue with buy amount’ button';
+  static const buyOrderSummaryScreenView = '‘Buy order summary` screen view';
+  static const tapToAgreeToTheTCAndPrivacyPolicyBuy = 'Tap to agree to the T&C and Privacy Policy Buy';
+  static const tapOnTheButtonPaymentFeeInfoOnBuyCheckout = 'Tap on the button ‘Payment Fee info’ on buy checkout';
+  static const paymentProcessingFeePopupView = '‘Payment/processing fee’ popup view';
+  static const tapOnTheCloseOnPPopap = 'Tap on the `Close` on p. popap';
+  static const tapOnTheButtonConfirmOnBuyOrderSummary = 'Tap on the button ‘Confirm’ on Buy order summary';
+  static const tapOnTheButtonTermsAndConditionsOnBuyOrderSummary =
+      'Tap on the button ‘Terms and conditions’ on Buy order summary';
+  static const tapOnTheButtonPrivacyPolicyOnBuyOrderSummary = 'Tap on the button ‘Privacy Policy’ on Buy order summary';
+  static const enterCVVForBuyScreenView = '‘Enter CVV for buy’ screen view';
+  static const tapOnTheCloseOnCVVPopap = 'Tap on the `Close` on CVV popap';
+  static const threeDSecureScreenView = '‘3D Secure’ screen view';
+  static const tapOnTheCloseButtonOn3DSecureScreen = 'Tap on the ‘Close` button on `3D Secure’ screen';
+  static const successBuyEndScreenView = '‘Success Buy end’ screen view';
+  static const tapOnTheCloseButtonOnSuccessBuyEndScreen = 'Tap on the ‘Close` button on `Success Buy end’ screen';
+  static const failedBuyEndScreenView = '‘Failed Buy end’ screen view';
+  static const tapOnTheCloseButtonOnFailedBuyEndScreen = 'Tap on the `Close` button on `Failed Buy end` screen';
+  static const unsupportedCurrencyPopupView = '‘Unsupported Currency’ popup view';
+  static const tapOnTheGotItButtonOnUnsupportedCurrencyScreen =
+      'Tap on the ‘Got it` button on `Unsupported Currency’ screen';
+  static const tapOnTheBuyButtonOnBSCSegmentScreen = 'Tap on the ‘Buy` button on `B.S.C.segment’ screen';
+  static const userSTapOnSellButtonOnBSCSegmentControl = 'User’s tap on `Sell` button on `B.S.C.segment` control';
+  static const userSTapOnConvertButtonOnBSCSegmentControl = 'User’s tap on `Convert` button on `B.S.C.segment` control';
+
+  //Sell flow
+  static const tapOnTheSellButton = 'Tap on the ‘Sell’ button';
+  static const tapOnTheSellAll = 'Tap on the ‘Sell all’';
+  static const tapOnTheChangeCurrencySell = 'Tap on the ‘Change currency sell’';
+  static const sellAmountScreenView = '‘Sell amount’ screen view';
+  static const tapOnTheSellFromButton = 'Tap on the ‘Sell from’ button';
+  static const sellFromSheetView = '‘Sell from’ sheet view';
+  static const tapOnCloseSheetFromSellButton = 'Tap on  ‘Close sheet from sell’ button';
+  static const tapOnSelectedNewSellFromAssetButton = 'Tap on  ‘Selected new Sell From asset’ button';
+  static const tapOnTheSellToButton = 'Tap on the ‘Sell to’ button';
+  static const sellToSheetView = '‘Sell to’ sheet view';
+  static const tapOnCloseSheetSellToButton = 'Tap on  ‘Close sheet sell to’ button';
+  static const tapOnSelectedNewSellToButton = 'Tap on  ‘Selected new Sell To’ button';
+  static const errorYouNeedToCreateEURAccountFirst = 'Error - “You need to create EUR account first”';
+  static const errorShowingErrorUnderSellAmount = 'Error - “Showing error under sell amount”';
+  static const tapOnTheBackFromSellAmountButton = 'Tap on the ‘Back from Sell amount’ button';
+  static const tapOnTheContinueWithSellAmountButton = 'Tap on the ‘Continue with sell amount’ button';
+  static const sellOrderSummaryScreenView = '‘Sell order summary` screen view';
+  static const tapOnTheBackFromSellConfirmationButton = 'Tap on the ‘Back from Sell confirmation’ button';
+  static const tapToAgreeToTheTCAndPrivacyPolicySell = 'Tap to agree to the T&C and Privacy Policy Sell';
+  static const paymentProcessingFeeSellPopupView = '‘Payment/processing fee sell’ popup view';
+  static const tapOnTheButtonConfirmOnSellOrderSummary = 'Tap on the button ‘Confirm’ on Sell order summary';
+  static const successSellEndScreenView = '‘Success Sell end’ screen view';
+  static const failedSellEndScreenView = 'Failed Sell end’ screen view';
+
+  //Convert flow
+  static const tapOnTheConvertButton = 'Tap on the ‘Convert’ button';
+  static const tapOnTheConvertAll = 'Tap on the ‘Convert all’';
+  static const tapOnTheChangeInputAssetConvert = 'Tap on the ‘Change input asset convert’';
+  static const convertAmountScreenView = '‘Convert amount’ screen view';
+  static const tapOnTheConvertFromButton = 'Tap on the ‘Convert from’ button';
+  static const convertFromSheetView = '‘Convert from’ sheet view';
+  static const tapOnCloseSheetConvertFromButton = 'Tap on  ‘Close sheet Convert from ’ button';
+  static const tapOnSelectedNewConvertFromAssetButton = 'Tap on  ‘Selected new Convert From asset’ button';
+  static const tapOnTheConvertToButton = 'Tap on the ‘Convert to’ button';
+  static const convertToSheetView = '‘Convert to’ sheet view';
+  static const tapOnCloseSheetConvertToButton = 'Tap on  ‘Close sheet convert to’ button';
+  static const tapOnSelectedNewConvertToButton = 'Tap on  ‘Selected new Convert To’ button';
+  static const errorYourCryptoBalanceIsZeroPleaseGetCryptoFirst =
+      'Error - “Your crypto balance is zero. Please get crypto first”';
+  static const errorShowingErrorUnderConvertAmount = 'Error - “Showing error under convert amount”';
+  static const tapOnTheBackFromConvertAmountButton = 'Tap on the ‘Back from Convert amount’ button';
+  static const tapOnTContinueWithConvertAmountCutton = 'Tap on the ‘Continue with convert amount’ button';
+  static const convertOrderSummaryScreenView = '‘Convert order summaryґ screen view';
+  static const tapOnTheBackFromCovertOrderSummaryButton = 'Tap on the ‘Back from Covert Order summary ’ button';
+  static const processingFeeConvertPopupView = '‘Processing fee convert’ popup view';
+  static const tapOnTheButtonConfirmOnConvertOrderSummary = 'Tap on the button ‘Confirm’ on Convert order summary';
+  static const successConvertEndScreenView = '‘Success Convert end’ screen view';
+  static const failedConvertEndScreenView = 'Failed Convert end’ screen view';
 }

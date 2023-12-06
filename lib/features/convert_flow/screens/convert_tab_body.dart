@@ -13,6 +13,7 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/crypto/simple_crypto_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
@@ -31,6 +32,12 @@ class ConvertAmountTabBody extends StatefulObserverWidget {
 }
 
 class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with AutomaticKeepAliveClientMixin {
+  @override
+  void initState() {
+    super.initState();
+    sAnalytics.convertAmountScreenView();
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -69,6 +76,7 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                       : null,
                   secondarySymbol: store.toAsset != null ? store.secondarySymbol : null,
                   onSwap: () {
+                    sAnalytics.tapOnTheChangeInputAssetConvert();
                     store.swapAssets();
                   },
                   errorText: store.paymentMethodInputError,
@@ -76,6 +84,7 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                       ? '''${intl.convert_amount_convert_all} ${volumeFormat(decimal: store.convertAllAmount, accuracy: store.fromAsset?.accuracy ?? 1, symbol: store.fromAsset?.symbol ?? '')}'''
                       : null,
                   optionOnTap: () {
+                    sAnalytics.tapOnTheConvertAll();
                     store.onConvetrAll();
                   },
                 ),
@@ -89,13 +98,25 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                       url: store.fromAsset?.iconUrl ?? '',
                     ),
                     onTap: () {
+                      sAnalytics.tapOnTheConvertFromButton(
+                        currentFromValueForSell: store.fromAsset?.symbol ?? '',
+                      );
+                      sAnalytics.convertFromSheetView();
                       showConvertFromChooseAssetBottomSheet(
                         context: context,
                         onChooseAsset: (currency) {
                           store.setNewFromAsset(currency);
-                          Navigator.of(context).pop();
+                          sAnalytics.tapOnSelectedNewConvertFromAssetButton(
+                            newConvertFromAsset: currency.symbol,
+                          );
+                          Navigator.of(context).pop(true);
                         },
                         skipAssetSymbol: store.toAsset?.symbol,
+                        then: (value) {
+                          if (value != true) {
+                            sAnalytics.tapOnCloseSheetConvertFromButton();
+                          }
+                        },
                       );
                     },
                     isDisabled: store.isNoCurrencies,
@@ -105,13 +126,25 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                     subTitle: intl.amount_screen_convert,
                     icon: const SCryptoIcon(),
                     onTap: () {
+                      sAnalytics.tapOnTheConvertFromButton(
+                        currentFromValueForSell: store.fromAsset?.symbol ?? '',
+                      );
+                      sAnalytics.convertFromSheetView();
                       showConvertFromChooseAssetBottomSheet(
                         context: context,
                         onChooseAsset: (currency) {
                           store.setNewFromAsset(currency);
-                          Navigator.of(context).pop();
+                          sAnalytics.tapOnSelectedNewConvertFromAssetButton(
+                            newConvertFromAsset: currency.symbol,
+                          );
+                          Navigator.of(context).pop(true);
                         },
                         skipAssetSymbol: store.toAsset?.symbol,
+                        then: (value) {
+                          if (value != true) {
+                            sAnalytics.tapOnCloseSheetConvertFromButton();
+                          }
+                        },
                       );
                     },
                     isDisabled: store.isNoCurrencies,
@@ -126,13 +159,25 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                       url: store.toAsset?.iconUrl ?? '',
                     ),
                     onTap: () {
+                      sAnalytics.tapOnTheConvertToButton(
+                        currentToValueForConvert: store.toAsset?.symbol ?? '',
+                      );
+                      sAnalytics.convertToSheetView();
                       showConvertToChooseAssetBottomSheet(
                         context: context,
                         onChooseAsset: (currency) {
                           store.setNewToAsset(currency);
-                          Navigator.of(context).pop();
+                          sAnalytics.tapOnSelectedNewConvertToButton(
+                            newConvertToAsset: currency.symbol,
+                          );
+                          Navigator.of(context).pop(true);
                         },
                         skipAssetSymbol: store.fromAsset?.symbol,
+                        then: (value) {
+                          if (value != true) {
+                            sAnalytics.tapOnCloseSheetConvertToButton();
+                          }
+                        },
                       );
                     },
                   )
@@ -141,13 +186,25 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                     subTitle: intl.convert_amount_convert_to,
                     icon: const SCryptoIcon(),
                     onTap: () {
+                      sAnalytics.tapOnTheConvertToButton(
+                        currentToValueForConvert: store.toAsset?.symbol ?? '',
+                      );
+                      sAnalytics.convertToSheetView();
                       showConvertToChooseAssetBottomSheet(
                         context: context,
                         onChooseAsset: (currency) {
                           store.setNewToAsset(currency);
-                          Navigator.of(context).pop();
+                          sAnalytics.tapOnSelectedNewConvertToButton(
+                            newConvertToAsset: currency.symbol,
+                          );
+                          Navigator.of(context).pop(true);
                         },
                         skipAssetSymbol: store.fromAsset?.symbol,
+                        then: (value) {
+                          if (value != true) {
+                            sAnalytics.tapOnCloseSheetConvertToButton();
+                          }
+                        },
                       );
                     },
                   ),
@@ -161,6 +218,12 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                   submitButtonActive: store.isContinueAvaible,
                   submitButtonName: intl.addCircleCard_continue,
                   onSubmitPressed: () {
+                    sAnalytics.tapOnTContinueWithConvertAmountCutton(
+                      enteredAmount: store.primaryAmount,
+                      convertFromAsset: store.fromAsset?.symbol ?? '',
+                      convertToAsset: store.toAsset?.symbol ?? '',
+                      nowInput: store.isFromEntering ? 'ConvertFrom' : 'ConvertTo',
+                    );
                     sRouter.push(
                       ConvetrConfirmationRoute(
                         fromAsset: store.fromAsset!,
