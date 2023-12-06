@@ -22,44 +22,43 @@ class GiftPolicyCheckbox extends StatelessWidget {
 
     icon = isChecked ? const SCheckboxSelectedIcon() : const SCheckboxIcon();
 
-    return SizedBox(
-      height: 156,
-      child: Row(
-        children: [
-          Column(
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Column(
+          children: [
+            const SpaceH24(),
+            SIconButton(
+              onTap: onCheckboxTap,
+              defaultIcon: icon,
+              pressedIcon: icon,
+            ),
+          ],
+        ),
+        const SpaceW10(),
+        Flexible(
+          child: Column(
             children: [
-              const SpaceH24(),
-              SIconButton(
-                onTap: onCheckboxTap,
-                defaultIcon: icon,
-                pressedIcon: icon,
+              const SpaceH23(),
+              SimplePolicyRichText(
+                firstText: intl.send_gift_policy,
+                userAgreementText: '',
+                onUserAgreementTap: () {},
+                betweenText: '',
+                privacyPolicyText: '',
+                onPrivacyPolicyTap: () {},
+                secondText: '',
+                activeText: '',
+                onActiveTextTap: () {},
+                thirdText: '',
+                activeText2: '',
+                onActiveText2Tap: () {},
               ),
+              const SpaceH24(),
             ],
           ),
-          const SpaceW10(),
-          Expanded(
-            child: Column(
-              children: [
-                const SpaceH25(),
-                SimplePolicyRichText(
-                  firstText: intl.send_gift_policy,
-                  userAgreementText: '',
-                  onUserAgreementTap: () {},
-                  betweenText: '',
-                  privacyPolicyText: '',
-                  onPrivacyPolicyTap: () {},
-                  secondText: '',
-                  activeText: '',
-                  onActiveTextTap: () {},
-                  thirdText: '',
-                  activeText2: '',
-                  onActiveText2Tap: () {},
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
