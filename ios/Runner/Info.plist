@@ -93,6 +93,8 @@
 	<string>Security and fraud prevention reasons</string>
 	<key>NSUserTrackingUsageDescription</key>
 	<string>Your data will be used by our ad partners to improve and personalize your ad experience</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need your location to provide personalized recommendations and improve your overall experience.</string>
 	<key>UIBackgroundModes</key>
 	<array/>
 	<key>UILaunchStoryboardName</key>
