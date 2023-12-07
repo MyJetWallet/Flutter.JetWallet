@@ -174,9 +174,11 @@ class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
                                 accountLabel: widget.bankingAccount?.label ?? '',
                               );
 
-                              await IbanAddressBookStore.of(context).editAccount();
+                              final result = await IbanAddressBookStore.of(context).editAccount();
 
-                              Navigator.pop(context, true);
+                              if (result) {
+                                Navigator.pop(context, true);
+                              }
                             },
                           ),
                         ),
@@ -230,7 +232,7 @@ class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
                             onTap: () async {
                               sAnalytics.tapOnTheButtonAddAccount();
 
-                              await IbanAddressBookStore.of(context).addAccount();
+                              final result = await IbanAddressBookStore.of(context).addAccount();
 
                               sAnalytics.eurWithdrawTapContinueAddReceiving(
                                 eurAccountType: 'CJ',
@@ -238,7 +240,9 @@ class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
                                 accountLabel: widget.bankingAccount?.label ?? '',
                               );
 
-                              Navigator.pop(context, true);
+                              if (result) {
+                                Navigator.pop(context, true);
+                              }
                             },
                           ),
                         ),

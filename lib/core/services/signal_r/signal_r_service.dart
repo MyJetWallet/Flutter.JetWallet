@@ -35,17 +35,21 @@ class SignalRService {
     }
 
     if (!getIt.isRegistered<SignalRModuleNew>()) {
-      getIt.registerSingletonAsync<SignalRModuleNew>(
-        () async {
-          final service = await createNewService();
-          await service.openConnection();
+      try {
+        getIt.registerSingletonAsync<SignalRModuleNew>(
+          () async {
+            final service = await createNewService();
+            await service.openConnection();
 
-          unawaited(service.checkConnectionTimer());
+            unawaited(service.checkConnectionTimer());
 
-          return service;
-        },
-        instanceName: 'SignalRModuleNew',
-      );
+            return service;
+          },
+          instanceName: 'SignalRModuleNew',
+        );
+      } catch (e) {
+        await forceReconnectSignalR();
+      }
     } else {
       await forceReconnectSignalR();
     }

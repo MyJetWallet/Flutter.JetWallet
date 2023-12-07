@@ -15,8 +15,7 @@ enum UserLocation { app, settings }
 class AllowCameraStore extends _AllowCameraStoreBase with _$AllowCameraStore {
   AllowCameraStore() : super();
 
-  static _AllowCameraStoreBase of(BuildContext context) =>
-      Provider.of<AllowCameraStore>(context, listen: false);
+  static _AllowCameraStoreBase of(BuildContext context) => Provider.of<AllowCameraStore>(context, listen: false);
 }
 
 abstract class _AllowCameraStoreBase with Store {
@@ -31,6 +30,9 @@ abstract class _AllowCameraStoreBase with Store {
 
   @observable
   CameraStatus cameraStatus = CameraStatus.undefined;
+
+  @observable
+  bool isAlreadyPushed = false;
 
   @computed
   bool get permissionDenied {
@@ -74,12 +76,24 @@ abstract class _AllowCameraStoreBase with Store {
     BuildContext context,
     void Function() then,
   ) async {
+    if (isAlreadyPushed) return;
     _logger.log(notifier, 'handleCameraPermissionAfterSettingsChange');
 
     final status = await Permission.camera.status;
 
+    print('handleCameraPermissionAfterSettingsChange');
+
     if (status == PermissionStatus.granted) {
       then();
+
+      isAlreadyPushed = true;
+    } else {
+      final permissionStatus = await Permission.camera.request();
+      if (permissionStatus == PermissionStatus.granted) {
+        then();
+
+        isAlreadyPushed = true;
+      }
     }
 
     updateUserLocation(UserLocation.app);
@@ -104,5 +118,7 @@ abstract class _AllowCameraStoreBase with Store {
   }
 
   @action
-  void dispose() {}
+  void dispose() {
+    isAlreadyPushed = false;
+  }
 }

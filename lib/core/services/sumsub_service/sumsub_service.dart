@@ -164,10 +164,17 @@ class SumsubService {
 
     final initToken = isBanking ? await getBankingToken() : await getSDKToken();
 
+    final SNSEventHandler onEvent = (SNSMobileSDKEvent event) {
+      if (event.eventType == 'ApplicantLoaded') {
+        getIt.get<GlobalLoader>().setLoading(false);
+      }
+    };
+
     final snsMobileSDK = SNSMobileSDK.init(initToken ?? '', getSDKToken)
         .withHandlers(
           onStatusChanged: onStatusChanged,
           onActionResult: onActionResult,
+          onEvent: onEvent,
         )
         .withDebug(false)
         .withLocale(
@@ -176,9 +183,11 @@ class SumsubService {
         .withAutoCloseOnApprove(0)
         .build();
 
-    final res = await snsMobileSDK.launch();
+    final _ = await snsMobileSDK.launch();
 
-    getIt.get<GlobalLoader>().setLoading(false);
+    Future.delayed(const Duration(seconds: 3), () {
+      getIt.get<GlobalLoader>().setLoading(false);
+    });
   }
 
   void simulateSuccess({

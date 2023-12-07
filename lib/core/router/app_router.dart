@@ -101,6 +101,7 @@ import 'package:jetwallet/features/withdrawal/send_card_detail/send_card_detail_
 import 'package:jetwallet/features/withdrawal/send_card_detail/send_card_payment_method_screen.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/send_globally_amount_screen.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/send_globally_confirm_screen.dart';
+import 'package:jetwallet/features/withdrawal/ui/scanner_screen.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_address.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_ammount.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_confirm.dart';
@@ -113,6 +114,7 @@ import 'package:jetwallet/widgets/result_screens/success_screen/success_screen.d
 import 'package:jetwallet/widgets/result_screens/verifying_screen/success_verifying_screen.dart';
 import 'package:jetwallet/widgets/result_screens/verifying_screen/verifying_screen.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -605,6 +607,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/debug_history',
       page: DebugHistoryRouter.page,
+    ),
+    AutoRoute(
+      path: '/scanner_screen',
+      page: ScannerRoute.page,
     ),
   ];
 }

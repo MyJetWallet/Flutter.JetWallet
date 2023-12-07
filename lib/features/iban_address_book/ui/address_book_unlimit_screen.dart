@@ -288,9 +288,9 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                                 accountLabel: widget.bankingAccount?.label ?? '',
                               );
 
-                              var result = await IbanAddressBookStore.of(context).editAccount();
+                              final result = await IbanAddressBookStore.of(context).editAccount();
 
-                              if(result) {
+                              if (result) {
                                 Navigator.pop(context, true);
                               }
                             },
@@ -354,7 +354,9 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
 
                               final result = await IbanAddressBookStore.of(context).addAccount();
 
-                              Navigator.pop(context, result);
+                              if (result) {
+                                Navigator.pop(context, true);
+                              }
                             },
                           ),
                         ),
