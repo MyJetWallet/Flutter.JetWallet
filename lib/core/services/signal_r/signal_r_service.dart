@@ -63,7 +63,14 @@ class SignalRService {
         );
 
     try {
-      if (getIt.isRegistered<SignalRModuleNew>()) {
+      await getIt.unregister<SignalRModuleNew>(
+        instanceName: signalRSingletinName,
+        disposingFunction: (p0) {
+          p0.dispose();
+        },
+      );
+
+      /*if (getIt.isRegistered<SignalRModuleNew>()) {
         await getIt.unregister<SignalRModuleNew>(
           instanceName: signalRSingletinName,
           disposingFunction: (p0) {
@@ -71,6 +78,7 @@ class SignalRService {
           },
         );
       }
+      */
     } catch (e) {
       getIt.get<SimpleLoggerService>().log(
             level: Level.error,
