@@ -133,8 +133,13 @@ abstract class _MyWalletsSroreBase with Store {
 
   @action
   void onSearch(String text) {
-    final tempList =
-        _avaibledAssetsForSearch.where((e) => e.description.toLowerCase().contains(text.toLowerCase())).toList();
+    final tempList = _avaibledAssetsForSearch
+        .where(
+          (e) =>
+              e.description.toLowerCase().contains(text.toLowerCase()) ||
+              e.symbol.toLowerCase().contains(text.toLowerCase()),
+        )
+        .toList();
     currenciesForSearch
       ..clear()
       ..addAll(tempList);
