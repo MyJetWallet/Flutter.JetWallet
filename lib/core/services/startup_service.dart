@@ -193,7 +193,7 @@ class StartupService {
     }
     sAnalytics.setKYCDepositStatus = analyticsKyc;
 
-    await getIt.get<ZenDeskService>().authZenDesk();
+    //await getIt.get<ZenDeskService>().authZenDesk();
   }
 
   Future<bool> checkIsUserAuthorized(String? token) async {
@@ -290,6 +290,8 @@ class StartupService {
 
       userInfo.updateServicesRegistred(true);
 
+      unawaited(getIt<IbanStore>().getAddressBook());
+
       return;
     } catch (e) {
       _logger.log(
@@ -311,6 +313,8 @@ class StartupService {
       if (getIt.isRegistered<ProfileGetUserCountry>()) {
         await getIt<ProfileGetUserCountry>().init();
       }
+
+      unawaited(getIt<IbanStore>().getAddressBook());
     } catch (e) {
       _logger.log(
         level: Level.error,
