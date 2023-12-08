@@ -54,10 +54,10 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
           sAnalytics.tapOnTheBuyButtonOnBSCSegmentScreen();
           break;
         case 1:
-          sAnalytics.userSTapOnSellButtonOnBSCSegmentControl();
+          sAnalytics.tapOnTheSellButtonOnBSCSegmentButton();
           break;
         case 2:
-          sAnalytics.userSTapOnConvertButtonOnBSCSegmentControl();
+          sAnalytics.tapOnTheConvertButtonOnBSCSegmentButton();
           break;
         default:
       }

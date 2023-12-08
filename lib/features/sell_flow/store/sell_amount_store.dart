@@ -183,13 +183,6 @@ abstract class _SellAmountStoreBase with Store {
     loadLimits();
 
     _checkShowTosts();
-
-    sAnalytics.newBuyBuyAssetView(
-      asset: asset?.symbol ?? '',
-      paymentMethodType: category.name,
-      paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : 'account',
-      paymentMethodCurrency: buyCurrency.symbol,
-    );
   }
 
   @action

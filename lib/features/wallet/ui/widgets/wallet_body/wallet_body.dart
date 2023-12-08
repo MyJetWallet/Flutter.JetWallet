@@ -152,11 +152,8 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                         isSellDisabled: widget.currency.isAssetBalanceEmpty,
                         isConvertDisabled: widget.currency.isAssetBalanceEmpty,
                         onBuy: () {
-                          sAnalytics.newBuyTapBuy(
-                            source: 'My Assets - Asset -  Buy',
-                          );
-                          sAnalytics.userTapsOnButtonBuyWalletFromOneOfAnyScreens(
-                            source: 'Wallets - Buy',
+                          sAnalytics.tapOnTheBuyWalletButton(
+                            source: 'Wallets - Wallet - Buy',
                           );
 
                           final actualAsset = widget.currency;

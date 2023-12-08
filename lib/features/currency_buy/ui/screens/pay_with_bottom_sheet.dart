@@ -33,27 +33,27 @@ void showPayWithBottomSheet({
       hideCards: hideCards,
     );
 
-  sAnalytics.payWithPMSheetView(
-    destinationWallet: currency?.symbol ?? '',
-    listOfAvailablePMs: [
-      if (store.isCardsAvailable) ...[
-        'New card',
-        ...List.generate(
-          store.cards.length,
-          (index) => 'Saved card ${store.cards[index].last4}',
-        ),
-      ],
-      if (store.isBankingAccountsAvaible)
-        ...List.generate(
-          store.accounts.length,
-          (index) {
-            return index == 0 ? 'CJ ${store.accounts[index].balance}' : 'Unlimint ${store.accounts[index].balance}';
-          },
-        ),
-    ],
-  );
-
   if (store.cards.isNotEmpty || store.accounts.isNotEmpty) {
+    sAnalytics.payWithPMSheetView(
+      destinationWallet: currency?.symbol ?? '',
+      listOfAvailablePMs: [
+        if (store.isCardsAvailable) ...[
+          'New card',
+          ...List.generate(
+            store.cards.length,
+            (index) => 'Saved card ${store.cards[index].last4}',
+          ),
+        ],
+        if (store.isBankingAccountsAvaible)
+          ...List.generate(
+            store.accounts.length,
+            (index) {
+              return index == 0 ? 'CJ ${store.accounts[index].balance}' : 'Unlimint ${store.accounts[index].balance}';
+            },
+          ),
+      ],
+    );
+
     sShowBasicModalBottomSheet(
       context: context,
       then: (value) {
@@ -136,7 +136,7 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
                       account.isClearjuctionAccount ? PaymenthMethodType.cjAccount : PaymenthMethodType.unlimitAccount,
                   buyPM: account.isClearjuctionAccount ? 'CJ  ${account.balance}' : 'Unlimint  ${account.balance}',
                 );
-                
+
                 if (onSelected != null) {
                   onSelected!(account: account);
                 } else {

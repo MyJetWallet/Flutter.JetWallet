@@ -13,7 +13,6 @@ import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
@@ -53,7 +52,6 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
     late Widget icon;
     final colors = sKit.colors;
     final deviceSize = sDeviceSize;
-    final baseCurrency = sSignalRModules.baseCurrency;
     final uAC = sSignalRModules.cards.cardInfos
         .where(
           (element) => element.integration == IntegrationType.unlimintAlt,
@@ -174,16 +172,6 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                     maxValueWidth: 140,
                     infoIcon: true,
                     infoAction: () {
-                      sAnalytics.newBuyTapPaymentFee();
-                      sAnalytics.newBuyFeeView(
-                        paymentFee: state.depositFeeAmountMax == state.depositFeeAmount
-                            ? volumeFormat(
-                                decimal: state.depositFeeAmount ?? Decimal.zero,
-                                accuracy: baseCurrency.accuracy,
-                                symbol: baseCurrency.symbol,
-                              )
-                            : '${state.depositFeePerc}%',
-                      );
                       showTransactionFeeBottomSheet(
                         context: context,
                         colors: colors,

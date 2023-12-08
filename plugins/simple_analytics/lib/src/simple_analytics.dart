@@ -51,323 +51,6 @@ class SimpleAnalytics {
     _analytics.setUserId(newId);
   }
 
-  /// Buy flow
-  void newBuyZeroScreenView() {
-    if (!newBuyZeroScreenViewSent) {
-      newBuyZeroScreenViewSent = true;
-      _analytics.logEvent(
-        EventType.newBuyZeroScreenView,
-        eventProperties: {
-          PropertyType.techAcc: isTechAcc,
-          PropertyType.eventId: '1',
-          PropertyType.kycStatus: kycDepositStatus,
-        },
-      );
-    }
-  }
-
-  void newBuyTapBuy({
-    required String source,
-  }) {
-    _analytics.logEvent(
-      EventType.newBuyTapBuy,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '2',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.source: source,
-      },
-    );
-  }
-
-  void newBuyChooseAssetView() {
-    _analytics.logEvent(
-      EventType.newBuyChooseAssetView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '3',
-        PropertyType.kycStatus: kycDepositStatus,
-      },
-    );
-  }
-
-  void newBuyNoSavedCard() {
-    _analytics.logEvent(
-      EventType.newBuyNoSavedCard,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '4',
-        PropertyType.kycStatus: kycDepositStatus,
-      },
-    );
-  }
-
-  void newBuyTapAddCard() {
-    _analytics.logEvent(
-      EventType.newBuyTapAddCard,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '5',
-        PropertyType.kycStatus: kycDepositStatus,
-      },
-    );
-  }
-
-  void newBuyTapCardContinue({
-    required String saveCard,
-  }) {
-    _analytics.logEvent(
-      EventType.newBuyTapCardContinue,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '8',
-        PropertyType.saveCard: saveCard,
-        PropertyType.kycStatus: kycDepositStatus,
-      },
-    );
-  }
-
-  void newBuyBuyAssetView({
-    required String asset,
-    required String paymentMethodType,
-    required String paymentMethodName,
-    required String paymentMethodCurrency,
-  }) {
-    _analytics.logEvent(
-      EventType.newBuyBuyAssetView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '9',
-        PropertyType.asset: asset,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.paymentMethodType: paymentMethodType,
-        PropertyType.paymentMethodName: paymentMethodName,
-        PropertyType.paymentMethodCurrency: paymentMethodCurrency,
-      },
-    );
-  }
-
-  void newBuyErrorLimit({
-    required String errorCode,
-    required String asset,
-    required String paymentMethodType,
-    required String paymentMethodName,
-    required String paymentMethodCurrency,
-  }) {
-    _analytics.logEvent(
-      EventType.newBuyErrorLimit,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '10',
-        PropertyType.asset: asset,
-        PropertyType.errorCode: errorCode,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.paymentMethodType: paymentMethodType,
-        PropertyType.paymentMethodName: paymentMethodName,
-        PropertyType.paymentMethodCurrency: paymentMethodCurrency,
-      },
-    );
-  }
-
-  void newBuyTapContinue({
-    required String sourceCurrency,
-    required String destinationCurrency,
-    required String sourceAmount,
-    required String destinationAmount,
-    required String quickAmount,
-    required String paymentMethodType,
-    required String paymentMethodName,
-    required String paymentMethodCurrency,
-  }) {
-    _analytics.logEvent(
-      EventType.newBuyTapContinue,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '15',
-        PropertyType.sourceCurrency: sourceCurrency,
-        PropertyType.destinationCurrency: destinationCurrency,
-        PropertyType.sourceAmount: sourceAmount,
-        PropertyType.destinationAmount: destinationAmount,
-        PropertyType.newBuyPreset: quickAmount,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.paymentMethodType: paymentMethodType,
-        PropertyType.paymentMethodName: paymentMethodName,
-        PropertyType.paymentMethodCurrency: paymentMethodCurrency,
-      },
-    );
-  }
-
-  void newBuyOrderSummaryView({
-    required String paymentMethodType,
-    required String paymentMethodName,
-    required String paymentMethodCurrency,
-  }) {
-    _analytics.logEvent(
-      EventType.newBuyOrderSummaryView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '16',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.paymentMethodType: paymentMethodType,
-        PropertyType.paymentMethodName: paymentMethodName,
-        PropertyType.paymentMethodCurrency: paymentMethodCurrency,
-      },
-    );
-  }
-
-  void newBuyTapConfirm({
-    required String sourceCurrency,
-    required String destinationCurrency,
-    required String sourceAmount,
-    required String destinationAmount,
-    required String exchangeRate,
-    required String paymentFee,
-    required String firstTimeBuy,
-    required String paymentMethodType,
-    required String paymentMethodName,
-    required String paymentMethodCurrency,
-  }) {
-    _analytics.logEvent(
-      EventType.newBuyTapConfirm,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '18',
-        PropertyType.sourceCurrency: sourceCurrency,
-        PropertyType.sourceAmount: sourceAmount,
-        PropertyType.destinationCurrency: destinationCurrency,
-        PropertyType.destinationAmount: destinationAmount,
-        PropertyType.exchangeRate: exchangeRate,
-        PropertyType.paymentFee: paymentFee,
-        PropertyType.firstTimeBuy: firstTimeBuy,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.paymentMethodType: paymentMethodType,
-        PropertyType.paymentMethodName: paymentMethodName,
-        PropertyType.paymentMethodCurrency: paymentMethodCurrency,
-      },
-    );
-  }
-
-  void newBuyTapPaymentFee() {
-    _analytics.logEvent(
-      EventType.newBuyTapPaymentFee,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '19',
-        PropertyType.kycStatus: kycDepositStatus,
-      },
-    );
-  }
-
-  void newBuyFeeView({
-    required String paymentFee,
-  }) {
-    _analytics.logEvent(
-      EventType.newBuyFeeView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '20',
-        PropertyType.paymentFee: paymentFee,
-        PropertyType.kycStatus: kycDepositStatus,
-      },
-    );
-  }
-
-  void newBuyEnterCvvView({
-    required String firstTimeBuy,
-  }) {
-    _analytics.logEvent(
-      EventType.newBuyEnterCvvView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '21',
-        PropertyType.firstTimeBuy: firstTimeBuy,
-        PropertyType.kycStatus: kycDepositStatus,
-      },
-    );
-  }
-
-  void newBuyProcessingView({
-    required String firstTimeBuy,
-    required String paymentMethodType,
-    required String paymentMethodName,
-    required String paymentMethodCurrency,
-  }) {
-    _analytics.logEvent(
-      EventType.newBuyProcessingView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '22',
-        PropertyType.firstTimeBuy: firstTimeBuy,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.paymentMethodType: paymentMethodType,
-        PropertyType.paymentMethodName: paymentMethodName,
-        PropertyType.paymentMethodCurrency: paymentMethodCurrency,
-      },
-    );
-  }
-
-  void newBuyTapCloseProcessing({
-    required String firstTimeBuy,
-    required String paymentMethodType,
-    required String paymentMethodName,
-    required String paymentMethodCurrency,
-  }) {
-    _analytics.logEvent(
-      EventType.newBuyTapCloseProcessing,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '23',
-        PropertyType.firstTimeBuy: firstTimeBuy,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.paymentMethodType: paymentMethodType,
-        PropertyType.paymentMethodName: paymentMethodName,
-        PropertyType.paymentMethodCurrency: paymentMethodCurrency,
-      },
-    );
-  }
-
-  void newBuySuccessView({
-    required String firstTimeBuy,
-    required String paymentMethodType,
-    required String paymentMethodName,
-    required String paymentMethodCurrency,
-  }) {
-    _analytics.logEvent(
-      EventType.newBuySuccessView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '24',
-        PropertyType.firstTimeBuy: firstTimeBuy,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.paymentMethodType: paymentMethodType,
-        PropertyType.paymentMethodName: paymentMethodName,
-        PropertyType.paymentMethodCurrency: paymentMethodCurrency,
-      },
-    );
-  }
-
-  void newBuyFailedView({
-    required String firstTimeBuy,
-    required String errorCode,
-    required String paymentMethodType,
-    required String paymentMethodName,
-    required String paymentMethodCurrency,
-  }) {
-    _analytics.logEvent(
-      EventType.newBuyFailedView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '25',
-        PropertyType.firstTimeBuy: firstTimeBuy,
-        PropertyType.errorCode: errorCode,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.paymentMethodType: paymentMethodType,
-        PropertyType.paymentMethodName: paymentMethodName,
-        PropertyType.paymentMethodCurrency: paymentMethodCurrency,
-      },
-    );
-  }
-
   /// Sign Up & Sign In Flow
 
   void signInFlowWelcomeView() {
@@ -4151,11 +3834,11 @@ class SimpleAnalytics {
 
   //Buy flow
 
-  void userTapsOnButtonBuyWalletFromOneOfAnyScreens({
+  void tapOnTheBuyWalletButton({
     required String source,
   }) {
     _analytics.logEvent(
-      EventType.userTapsOnButtonBuyWalletFromOneOfAnyScreens,
+      EventType.tapOnTheBuyWalletButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -4226,11 +3909,11 @@ class SimpleAnalytics {
     );
   }
 
-  void userTapsOnButtonSaveCardForFurtherPurchaseOnAddCardDetailsScreen({
+  void tapOnSaveCardForFurtherPurchaseButton({
     required String destinationWallet,
   }) {
     _analytics.logEvent(
-      EventType.userTapsOnButtonSaveCardForFurtherPurchaseOnAddCardDetailsScreen,
+      EventType.tapOnSaveCardForFurtherPurchaseButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -4348,6 +4031,7 @@ class SimpleAnalytics {
     required String destinationWallet,
     required PaymenthMethodType pmType,
     required String buyPM,
+    required String sourceCurrency,
   }) {
     _analytics.logEvent(
       EventType.buyAmountScreenView,
@@ -4358,6 +4042,7 @@ class SimpleAnalytics {
         PropertyType.destinationWallet: destinationWallet,
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
+        PropertyType.sourceCurrency: sourceCurrency,
       },
     );
   }
@@ -4876,9 +4561,9 @@ class SimpleAnalytics {
     );
   }
 
-  void userSTapOnSellButtonOnBSCSegmentControl() {
+  void tapOnTheSellButtonOnBSCSegmentButton() {
     _analytics.logEvent(
-      EventType.userSTapOnSellButtonOnBSCSegmentControl,
+      EventType.tapOnTheSellButtonOnBSCSegmentButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -4887,9 +4572,9 @@ class SimpleAnalytics {
     );
   }
 
-  void userSTapOnConvertButtonOnBSCSegmentControl() {
+  void tapOnTheConvertButtonOnBSCSegmentButton() {
     _analytics.logEvent(
-      EventType.userSTapOnConvertButtonOnBSCSegmentControl,
+      EventType.tapOnTheConvertButtonOnBSCSegmentButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,

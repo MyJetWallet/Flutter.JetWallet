@@ -75,11 +75,8 @@ class BalanceActionButtons extends StatelessObserverWidget {
             isSellDisabled: currency.isAssetBalanceEmpty,
             isConvertDisabled: currency.isAssetBalanceEmpty,
             onBuy: () {
-              sAnalytics.newBuyTapBuy(
-                source: 'Market - Asset - Buy',
-              );
-              sAnalytics.userTapsOnButtonBuyWalletFromOneOfAnyScreens(
-                source: 'Wallets - Buy',
+              sAnalytics.tapOnTheBuyWalletButton(
+                source: 'Market - Wallet - Buy',
               );
 
               final isCardsAvailable = currency.buyMethods.any((element) => element.id == PaymentMethodType.bankCard);
