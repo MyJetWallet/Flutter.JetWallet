@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
-import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_client.dart';
@@ -58,6 +57,8 @@ class SignalRService {
           message: 'Force Reconnect SignalR',
         );
 
+    sSignalRModules.setInitFinished(false);
+
     try {
       if (getIt.isRegistered<SignalRModuleNew>()) {
         await getIt.unregister<SignalRModuleNew>(
@@ -78,6 +79,8 @@ class SignalRService {
     await Future.delayed(const Duration(milliseconds: 560), () {
       start(isInit: false);
     });
+
+    sSignalRModules.setInitFinished(true);
   }
 
   Future<void> killSignalR() async {

@@ -17,6 +17,7 @@ class CollapsedMainscreenAppbar extends HookWidget {
     this.onLabelIconTap,
     this.onProfileTap,
     this.profileNotificationsCount = 0,
+    this.isLoading = false,
   }) : super(key: key);
 
   final ScrollController scrollController;
@@ -34,6 +35,8 @@ class CollapsedMainscreenAppbar extends HookWidget {
 
   final VoidCallback? onProfileTap;
   final int profileNotificationsCount;
+
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +70,7 @@ class CollapsedMainscreenAppbar extends HookWidget {
         isLabelIconShow: isLabelIconShow,
         onProfileTap: onProfileTap,
         profileNotificationsCount: profileNotificationsCount,
+        isLoading: isLoading,
         child: child,
       ),
       secondChild: Material(

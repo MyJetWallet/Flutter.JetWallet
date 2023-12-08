@@ -14,6 +14,7 @@ class SimpleCircleButton extends StatefulWidget {
     this.isExpanded = true,
     required this.defaultIcon,
     required this.name,
+    this.isLoading = true,
   });
 
   final Function()? onTap;
@@ -24,6 +25,8 @@ class SimpleCircleButton extends StatefulWidget {
   final bool isExpanded;
 
   final Color backgroundColor;
+
+  final bool isLoading;
 
   @override
   State<SimpleCircleButton> createState() => _SimpleCircleButtonState();
