@@ -3,4 +3,4 @@ flutter_launcher_icons:
   ios: false
   image_path: "assets/images/logo_icon.png"
   adaptive_icon_background: "assets/images/new_logo_bg.png"
-  adaptive_icon_foreground: "assets/images/logo_icon.png"
+  adaptive_icon_foreground: "assets/images/new_logo_smile.png"
