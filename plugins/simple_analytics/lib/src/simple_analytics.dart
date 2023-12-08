@@ -5154,7 +5154,7 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '370',
+        PropertyType.eventId: '371',
         PropertyType.type: feeType.name,
       },
     );
