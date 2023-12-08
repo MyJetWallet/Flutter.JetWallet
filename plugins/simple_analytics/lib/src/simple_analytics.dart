@@ -4912,6 +4912,8 @@ class SimpleAnalytics {
     );
   }
 
+  // Sell flow
+
   void tapOnTheSellAll() {
     _analytics.logEvent(
       EventType.tapOnTheSellAll,
@@ -5231,6 +5233,8 @@ class SimpleAnalytics {
       },
     );
   }
+
+  // Convert flow
 
   void tapOnTheConvertButton({
     required String source,

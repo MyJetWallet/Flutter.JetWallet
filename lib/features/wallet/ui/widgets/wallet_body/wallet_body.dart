@@ -295,7 +295,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                         },
                         onConvert: () {
                           sAnalytics.tapOnTheConvertButton(
-                            source: 'Wallet - Buy',
+                            source: 'Wallet - Convert',
                           );
                           final actualAsset = widget.currency;
                           if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
