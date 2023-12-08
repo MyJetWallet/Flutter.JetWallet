@@ -275,7 +275,6 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
             if (isCJ) {
               sRouter.push(IbanAdressBookSimpleRoute()).then(
                 (value) async {
-                  print(value);
                   if (value == null) {
                     return;
                   }

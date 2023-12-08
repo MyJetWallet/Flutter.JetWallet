@@ -721,8 +721,10 @@ abstract class _WithdrawalStoreBase with Store {
     sRouter.push(
       AllowCameraRoute(
         permissionDescription: intl.withdrawalAddress_pushAllowCamera,
-        then: () {
-          _pushQrView(context: context, fromSettings: true);
+        then: () async {
+          Future.delayed(const Duration(microseconds: 100), () async {
+            await _pushQrView(context: context, fromSettings: false);
+          });
         },
       ),
     );
@@ -733,58 +735,22 @@ abstract class _WithdrawalStoreBase with Store {
     bool fromSettings = false,
     required BuildContext context,
   }) {
-    final colors = sKit.colors;
     isRedirectedFromQr = false;
 
-    final scanWindow = Rect.fromCenter(
-      center: MediaQuery.of(context).size.center(Offset.zero),
-      width: 200,
-      height: 200,
-    );
-
-    final qrPageRoute = MaterialPageRoute(
-      builder: (context) {
-        return Stack(
-          children: [
-            /*
-            QRView(
-              key: qrKey,
-              onQRViewCreated: (c) => _onQRViewCreated(c, context),
-              overlay: QrScannerOverlayShape(),
+    //return fromSettings ? Navigator.push(context, qrPageRoute) : Navigator.push(context, qrPageRoute);
+    return fromSettings
+        ? sRouter.popAndPush(
+            ScannerRoute(
+              qrKey: qrKey,
+              onQRScanned: (c, context) => _onQRScanned(c, context),
             ),
-            */
-            MobileScanner(
-              key: qrKey,
-              scanWindow: scanWindow,
-              onDetect: (c) => _onQRScanned(c, context),
+          )
+        : sRouter.push(
+            ScannerRoute(
+              qrKey: qrKey,
+              onQRScanned: (c, context) => _onQRScanned(c, context),
             ),
-            CustomPaint(
-              painter: ScannerOverlay(scanWindow),
-            ),
-            Positioned(
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(
-                    left: 28.0,
-                    top: 68.0,
-                  ),
-                  width: 24,
-                  height: 24,
-                  child: SCloseIcon(
-                    color: colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-
-    return fromSettings ? Navigator.pushReplacement(context, qrPageRoute) : Navigator.push(context, qrPageRoute);
+          );
   }
 
   /*

@@ -206,32 +206,27 @@ abstract class _IbanAddressBookStoreBase with Store {
               fullnameController.text,
             );
 
-    response.pick(
-      onData: (data) {
-        getIt<IbanStore>().getAddressBook();
+    if (response.hasError) {
+      isIBANError = response.error?.errorCode == 'ContactWithThisIbanAlreadyExists';
+      isIBANError = response.error?.errorCode == 'InvalidIban';
+      isBICError = response.error?.errorCode == 'InvalidBic';
+      isLabelError = response.error?.errorCode == 'ContactWithThisNameAlreadyExists';
 
-        return true;
-      },
-      onError: (error) {
-        isIBANError = error.errorCode == 'ContactWithThisIbanAlreadyExists';
-        isBICError = error.errorCode == 'InvalidBic';
-        isLabelError = error.errorCode == 'ContactWithThisNameAlreadyExists';
+      sNotification.showError(
+        response.error?.cause ?? '',
+        duration: 4,
+        id: 1,
+        needFeedback: true,
+      );
 
-        sNotification.showError(
-          response?.error?.cause ?? '',
-          duration: 4,
-          id: 1,
-          needFeedback: true,
-        );
+      loader.finishLoadingImmediately();
 
-        loader.finishLoadingImmediately();
+      return false;
+    } else {
+      await getIt<IbanStore>().getAddressBook();
 
-        return false;
-      },
-    );
-
-    loader.finishLoadingImmediately();
-    return false;
+      return true;
+    }
   }
 
   @action
@@ -253,6 +248,7 @@ abstract class _IbanAddressBookStoreBase with Store {
         loader.finishLoadingImmediately();
 
         isIBANError = response.error?.errorCode == 'ContactWithThisIbanAlreadyExists';
+        isIBANError = response.error?.errorCode == 'InvalidIban';
         isBICError = response.error?.errorCode == 'InvalidBic';
         isLabelError = response.error?.errorCode == 'ContactWithThisNameAlreadyExists';
 

@@ -46,8 +46,7 @@ class _AllowCameraScreenBody extends StatefulObserverWidget {
   State<_AllowCameraScreenBody> createState() => _AllowCameraScreenBodyState();
 }
 
-class _AllowCameraScreenBodyState extends State<_AllowCameraScreenBody>
-    with WidgetsBindingObserver {
+class _AllowCameraScreenBodyState extends State<_AllowCameraScreenBody> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
@@ -64,19 +63,15 @@ class _AllowCameraScreenBodyState extends State<_AllowCameraScreenBody>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       // If returned from Settings check whether user enabled permission or not
-      if (AllowCameraStore.of(context).userLocation == UserLocation.settings) {
-        AllowCameraStore.of(context).handleCameraPermissionAfterSettingsChange(
-          context,
-          widget.then,
-        );
-      }
+      AllowCameraStore.of(context).handleCameraPermissionAfterSettingsChange(
+        context,
+        widget.then,
+      );
     }
   }
 
   String _headerTitle(bool status, BuildContext context) {
-    return status
-        ? intl.allowCamera_headerTitle1
-        : intl.allowCamera_headerTitle2;
+    return status ? intl.allowCamera_headerTitle1 : intl.allowCamera_headerTitle2;
   }
 
   @override

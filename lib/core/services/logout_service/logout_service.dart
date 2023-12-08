@@ -162,9 +162,9 @@ abstract class _LogoutServiceBase with Store {
     if (getIt.isRegistered<IbanStore>()) {
       getIt<IbanStore>().clearData();
     }
-    if (getIt.isRegistered<ZenDeskService>()) {
-      await getIt.get<ZenDeskService>().logoutZenDesk();
-    }
+    //if (getIt.isRegistered<ZenDeskService>()) {
+    //  await getIt.get<ZenDeskService>().logoutZenDesk();
+    //}
   }
 
   Future<void> pushToFirstPage() async {

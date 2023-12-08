@@ -34,17 +34,21 @@ class SignalRService {
     }
 
     if (!getIt.isRegistered<SignalRModuleNew>()) {
-      getIt.registerSingletonAsync<SignalRModuleNew>(
-        () async {
-          final service = await createNewService();
-          await service.openConnection();
+      try {
+        getIt.registerSingletonAsync<SignalRModuleNew>(
+          () async {
+            final service = await createNewService();
+            await service.openConnection();
 
-          unawaited(service.checkConnectionTimer());
+            unawaited(service.checkConnectionTimer());
 
-          return service;
-        },
-        instanceName: 'SignalRModuleNew',
-      );
+            return service;
+          },
+          instanceName: 'SignalRModuleNew',
+        );
+      } catch (e) {
+        await forceReconnectSignalR();
+      }
     } else {
       await forceReconnectSignalR();
     }
@@ -60,7 +64,14 @@ class SignalRService {
     sSignalRModules.setInitFinished(false);
 
     try {
-      if (getIt.isRegistered<SignalRModuleNew>()) {
+      await getIt.unregister<SignalRModuleNew>(
+        instanceName: signalRSingletinName,
+        disposingFunction: (p0) {
+          p0.dispose();
+        },
+      );
+
+      /*if (getIt.isRegistered<SignalRModuleNew>()) {
         await getIt.unregister<SignalRModuleNew>(
           instanceName: signalRSingletinName,
           disposingFunction: (p0) {
@@ -68,11 +79,12 @@ class SignalRService {
           },
         );
       }
+      */
     } catch (e) {
       getIt.get<SimpleLoggerService>().log(
             level: Level.error,
             place: 'SignalRService',
-            message: 'Force Reconnect Error: $e',
+            message: 'Force Reconnect Error 1: $e',
           );
     }
 
@@ -91,17 +103,19 @@ class SignalRService {
         );
 
     try {
-      await getIt.unregister<SignalRModuleNew>(
-        instanceName: signalRSingletinName,
-        disposingFunction: (p0) {
-          p0.dispose();
-        },
-      );
+      if (getIt.isRegistered<SignalRModuleNew>()) {
+        await getIt.unregister<SignalRModuleNew>(
+          instanceName: signalRSingletinName,
+          disposingFunction: (p0) {
+            p0.dispose();
+          },
+        );
+      }
     } catch (e) {
       getIt.get<SimpleLoggerService>().log(
             level: Level.error,
             place: 'SignalRService',
-            message: 'Force Reconnect Error: $e',
+            message: 'Force Reconnect Error 2: $e',
           );
     }
   }
