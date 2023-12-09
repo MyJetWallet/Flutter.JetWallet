@@ -77,7 +77,7 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
                     ),
                     CircleActionAddCash(
                       onTap: () {
-                        sAnalytics.tabOnTheSendButton(source: 'My Assets - Add cash');
+                        sAnalytics.tapOnTheButtonAddCashWalletsOnWalletsScreen();
                         if (myWalletsSrore.isReordering) {
                           myWalletsSrore.endReorderingImmediately();
                         } else {

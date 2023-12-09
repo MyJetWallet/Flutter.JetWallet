@@ -3688,6 +3688,44 @@ class SimpleAnalytics {
     );
   }
 
+  void tapOnTheButtonAddCashWalletsOnWalletsScreen() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonAddCashWalletsOnWalletsScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '426',
+      },
+    );
+  }
+
+  void addCashToSheetView() {
+    _analytics.logEvent(
+      EventType.addCashToSheetView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '427',
+      },
+    );
+  }
+
+  void tapOnTheButtonEURAccOnAddCashToSheet({
+    required String eurAccType,
+    required String eurAccLabel,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonEURAccOnAddCashToSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '428',
+        PropertyType.eurAccountType: eurAccType,
+        PropertyType.eurAccountLabel: eurAccLabel,
+      },
+    );
+  }
+
   void eurWithdrawWithdrawOrderSummarySV({
     required String eurAccountType,
     required String accountIban,

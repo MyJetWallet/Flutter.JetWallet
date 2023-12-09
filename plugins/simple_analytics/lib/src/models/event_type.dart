@@ -342,6 +342,11 @@ class EventType {
   static const eurWithdrawTapConfirmOrderSummary = 'Tap on the button ‘Confirm’ on Withdraw order summary';
   static const eurWithdrawSuccessWithdrawEndSV = '‘Success Withdraw end’ screen view';
   static const eurWithdrawFailed = 'Failed Withdraw end’ screen view';
+  static const tapOnTheButtonAddCashWalletsOnWalletsScreen =
+      'Tap on the button ‘Add cash wallets` on `Wallets`` screen';
+  static const addCashToSheetView = '‘Add cash to` sheet  view';
+    static const tapOnTheButtonEURAccOnAddCashToSheet = 'Tap on the button ‘EUR acc` on `Add cash to` sheet';
+
 
   //Buy flow
   static const tapOnTheBuyWalletButton = 'Tap on the ‘Buy wallet’ button';
