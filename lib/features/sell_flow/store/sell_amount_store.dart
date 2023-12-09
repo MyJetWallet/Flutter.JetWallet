@@ -384,7 +384,8 @@ abstract class _SellAmountStoreBase with Store {
   }
 
   @computed
-  int get maxWholePrartLenght => isBothAssetsSeted ? maxLimit.round().toString().length + 1 : 15;
+  int get maxWholePrartLenght =>
+      (isBothAssetsSeted && maxLimit != Decimal.zero) ? (maxLimit.round().toString().length + 1) : 15;
 
   @computed
   bool get isBothAssetsSeted => account != null && asset != null;
@@ -394,6 +395,11 @@ abstract class _SellAmountStoreBase with Store {
     if (account == null || asset == null) {
       return;
     }
+
+    _minSellAmount = Decimal.zero;
+    _maxSellAmount = Decimal.zero;
+    _minBuyAmount = Decimal.zero;
+    _maxBuyAmount = Decimal.zero;
 
     try {
       if (account?.accountId == 'clearjuction_account') {
@@ -468,6 +474,14 @@ abstract class _SellAmountStoreBase with Store {
 
     if (!isInputValid(primaryAmount)) {
       inputValid = false;
+
+      return;
+    }
+
+    if (maxLimit == Decimal.zero) {
+      inputValid = true;
+      inputError = InputError.none;
+      _updatePaymentMethodInputError(null);
 
       return;
     }
