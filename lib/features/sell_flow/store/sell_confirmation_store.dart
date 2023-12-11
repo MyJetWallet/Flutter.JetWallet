@@ -255,12 +255,7 @@ abstract class _SellConfirmationStoreBase with Store {
             depositFeeAsset = 'EUR';
             tradeFeeAmount = data.tradeFeeAmount;
             tradeFeeAsset = data.tradeFeeAsset;
-            rate = (Decimal.one / data.rate).toDecimal(
-              scaleOnInfinitePrecision: 8,
-              toBigInt: (n) {
-                return n.toBigInt();
-              },
-            );
+            rate = data.rate;
             paymentId = data.id;
           },
           onError: (error) {
