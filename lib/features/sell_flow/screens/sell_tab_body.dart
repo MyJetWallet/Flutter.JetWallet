@@ -20,6 +20,7 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class SellAmountTabBody extends StatefulObserverWidget {
   const SellAmountTabBody({
@@ -35,12 +36,6 @@ class SellAmountTabBody extends StatefulObserverWidget {
 }
 
 class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticKeepAliveClientMixin {
-  @override
-  void initState() {
-    super.initState();
-    sAnalytics.sellAmountScreenView();
-  }
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -64,32 +59,40 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                   small: () => const SpaceH40(),
                   medium: () => const Spacer(),
                 ),
-                SNewActionPriceField(
-                  widgetSize: widgetSizeFrom(deviceSize),
-                  primaryAmount: formatCurrencyStringAmount(
-                    value: store.primaryAmount,
+                VisibilityDetector(
+                  key: const Key('sell-flow-widget-key'),
+                  onVisibilityChanged: (visibilityInfo) {
+                    if (visibilityInfo.visibleFraction != 1) return;
+
+                    sAnalytics.sellAmountScreenView();
+                  },
+                  child: SNewActionPriceField(
+                    widgetSize: widgetSizeFrom(deviceSize),
+                    primaryAmount: formatCurrencyStringAmount(
+                      value: store.primaryAmount,
+                    ),
+                    primarySymbol: store.primarySymbol,
+                    secondaryAmount: store.asset != null
+                        ? volumeFormat(
+                            decimal: Decimal.parse(store.secondaryAmount),
+                            symbol: '',
+                            accuracy: store.secondaryAccuracy,
+                          )
+                        : null,
+                    secondarySymbol: store.asset != null ? store.secondarySymbol : null,
+                    onSwap: () {
+                      sAnalytics.tapOnTheChangeCurrencySell();
+                      store.onSwap();
+                    },
+                    errorText: store.paymentMethodInputError,
+                    optionText: store.cryptoInputValue == '0' && store.account != null && store.asset != null
+                        ? '''${intl.sell_amount_sell_all} ${volumeFormat(decimal: store.sellAllValue, accuracy: store.asset?.accuracy ?? 1, symbol: store.cryptoSymbol)}'''
+                        : null,
+                    optionOnTap: () {
+                      sAnalytics.tapOnTheSellAll();
+                      store.onSellAll();
+                    },
                   ),
-                  primarySymbol: store.primarySymbol,
-                  secondaryAmount: store.asset != null
-                      ? volumeFormat(
-                          decimal: Decimal.parse(store.secondaryAmount),
-                          symbol: '',
-                          accuracy: store.secondaryAccuracy,
-                        )
-                      : null,
-                  secondarySymbol: store.asset != null ? store.secondarySymbol : null,
-                  onSwap: () {
-                    sAnalytics.tapOnTheChangeCurrencySell();
-                    store.onSwap();
-                  },
-                  errorText: store.paymentMethodInputError,
-                  optionText: store.cryptoInputValue == '0' && store.account != null && store.asset != null
-                      ? '''${intl.sell_amount_sell_all} ${volumeFormat(decimal: store.sellAllValue, accuracy: store.asset?.accuracy ?? 1, symbol: store.cryptoSymbol)}'''
-                      : null,
-                  optionOnTap: () {
-                    sAnalytics.tapOnTheSellAll();
-                    store.onSellAll();
-                  },
                 ),
                 const Spacer(),
                 if (store.asset != null)

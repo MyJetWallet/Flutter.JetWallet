@@ -72,7 +72,7 @@ enum PaymenthMethodType {
 
 enum NowInputType {
   fiat('Fiat'),
-  crypro('Crypro');
+  crypro('Crypto');
 
   const NowInputType(this.name);
   final String name;

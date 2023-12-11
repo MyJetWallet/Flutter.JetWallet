@@ -17,6 +17,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/crypto/simple_crypto_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class ConvertAmountTabBody extends StatefulObserverWidget {
   const ConvertAmountTabBody({
@@ -32,12 +33,6 @@ class ConvertAmountTabBody extends StatefulObserverWidget {
 }
 
 class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with AutomaticKeepAliveClientMixin {
-  @override
-  void initState() {
-    super.initState();
-    sAnalytics.convertAmountScreenView();
-  }
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -61,32 +56,40 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                   small: () => const SpaceH40(),
                   medium: () => const Spacer(),
                 ),
-                SNewActionPriceField(
-                  widgetSize: widgetSizeFrom(deviceSize),
-                  primaryAmount: formatCurrencyStringAmount(
-                    value: store.primaryAmount,
+                VisibilityDetector(
+                  key: const Key('convert-flow-widget-key'),
+                  onVisibilityChanged: (visibilityInfo) {
+                    if (visibilityInfo.visibleFraction != 1) return;
+
+                    sAnalytics.convertAmountScreenView();
+                  },
+                  child: SNewActionPriceField(
+                    widgetSize: widgetSizeFrom(deviceSize),
+                    primaryAmount: formatCurrencyStringAmount(
+                      value: store.primaryAmount,
+                    ),
+                    primarySymbol: store.primarySymbol,
+                    secondaryAmount: store.secondarySymbol != ''
+                        ? volumeFormat(
+                            decimal: Decimal.parse(store.secondaryAmount),
+                            symbol: '',
+                            accuracy: store.secondaryAccuracy,
+                          )
+                        : null,
+                    secondarySymbol: store.toAsset != null ? store.secondarySymbol : null,
+                    onSwap: () {
+                      sAnalytics.tapOnTheChangeInputAssetConvert();
+                      store.swapAssets();
+                    },
+                    errorText: store.paymentMethodInputError,
+                    optionText: store.fromInputValue == '0' && store.fromAsset != null && store.toAsset != null
+                        ? '''${intl.convert_amount_convert_all} ${volumeFormat(decimal: store.convertAllAmount, accuracy: store.fromAsset?.accuracy ?? 1, symbol: store.fromAsset?.symbol ?? '')}'''
+                        : null,
+                    optionOnTap: () {
+                      sAnalytics.tapOnTheConvertAll();
+                      store.onConvetrAll();
+                    },
                   ),
-                  primarySymbol: store.primarySymbol,
-                  secondaryAmount: store.secondarySymbol != ''
-                      ? volumeFormat(
-                          decimal: Decimal.parse(store.secondaryAmount),
-                          symbol: '',
-                          accuracy: store.secondaryAccuracy,
-                        )
-                      : null,
-                  secondarySymbol: store.toAsset != null ? store.secondarySymbol : null,
-                  onSwap: () {
-                    sAnalytics.tapOnTheChangeInputAssetConvert();
-                    store.swapAssets();
-                  },
-                  errorText: store.paymentMethodInputError,
-                  optionText: store.fromInputValue == '0' && store.fromAsset != null && store.toAsset != null
-                      ? '''${intl.convert_amount_convert_all} ${volumeFormat(decimal: store.convertAllAmount, accuracy: store.fromAsset?.accuracy ?? 1, symbol: store.fromAsset?.symbol ?? '')}'''
-                      : null,
-                  optionOnTap: () {
-                    sAnalytics.tapOnTheConvertAll();
-                    store.onConvetrAll();
-                  },
                 ),
                 const Spacer(),
                 if (store.fromAsset != null)

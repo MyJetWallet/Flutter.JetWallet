@@ -63,8 +63,8 @@ abstract class _BuyConfirmationStoreBase with Store {
   String get buyPM => card != null
       ? 'Saved card ${card?.last4}'
       : account?.isClearjuctionAccount ?? false
-          ? 'CJ  ${account?.balance}'
-          : 'Unlimint  ${account?.balance}';
+          ? 'CJ  ${account?.last4IbanCharacters}'
+          : 'Unlimint  ${account?.last4IbanCharacters}';
 
   @observable
   StackLoaderStore loader = StackLoaderStore();
@@ -500,12 +500,13 @@ abstract class _BuyConfirmationStoreBase with Store {
             ' •••• ${card!.last4}',
         onCompleted: (cvvNew) {
           cvv = cvvNew;
-          sRouter.pop();
+          Navigator.of(sRouter.navigatorKey.currentContext!).pop(true);
 
           _requestPaymentCard();
         },
-        onDissmis: () {
-          sAnalytics.tapOnTheCloseOnCVVPopap(
+        onDissmis: (result) {
+          if (result == true) return;
+          sAnalytics.tapOnTheCloseOnCVVPopup(
             pmType: pmType,
             buyPM: buyPM,
             sourceCurrency: 'EUR',
@@ -713,12 +714,6 @@ abstract class _BuyConfirmationStoreBase with Store {
       await _requestPaymentInfo(
         (url, onSuccess, onCancel, onFailed, paymentId) {
           _setIsChecked();
-
-          sAnalytics.paymentWevViewScreenView(
-            paymentMethodType: category.name,
-            paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : 'account',
-            paymentMethodCurrency: depositFeeCurrency.symbol,
-          );
 
           sAnalytics.threeDSecureScreenView(
             pmType: pmType,

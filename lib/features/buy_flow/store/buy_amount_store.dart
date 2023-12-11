@@ -47,8 +47,8 @@ abstract class _BuyAmountStoreBase with Store {
   String get buyPM => card != null
       ? 'Saved card ${card?.last4}'
       : account?.isClearjuctionAccount ?? false
-          ? 'CJ  ${account?.balance}'
-          : 'Unlimint  ${account?.balance}';
+          ? 'CJ  ${account?.last4IbanCharacters}'
+          : 'Unlimint  ${account?.last4IbanCharacters}';
 
   @computed
   CurrencyModel get buyCurrency => getIt.get<FormatService>().findCurrency(

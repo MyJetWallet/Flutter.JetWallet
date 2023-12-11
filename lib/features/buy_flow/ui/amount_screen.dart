@@ -93,8 +93,8 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
                   buyPM: widget.card != null
                       ? 'Saved card ${widget.card?.last4}'
                       : widget.account?.isClearjuctionAccount ?? false
-                          ? 'CJ  ${widget.account?.balance}'
-                          : 'Unlimint  ${widget.account?.balance}',
+                          ? 'CJ  ${widget.account?.last4IbanCharacters}'
+                          : 'Unlimint  ${widget.account?.last4IbanCharacters}',
                   sourceCurrency: 'EUR',
                 );
                 break;

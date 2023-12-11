@@ -48,7 +48,9 @@ void showPayWithBottomSheet({
           ...List.generate(
             store.accounts.length,
             (index) {
-              return index == 0 ? 'CJ ${store.accounts[index].balance}' : 'Unlimint ${store.accounts[index].balance}';
+              return index == 0
+                  ? 'CJ ${store.accounts[index].last4IbanCharacters}'
+                  : 'Unlimint ${store.accounts[index].last4IbanCharacters}';
             },
           ),
       ],
@@ -134,7 +136,9 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
                   destinationWallet: asset?.symbol ?? '',
                   pmType:
                       account.isClearjuctionAccount ? PaymenthMethodType.cjAccount : PaymenthMethodType.unlimitAccount,
-                  buyPM: account.isClearjuctionAccount ? 'CJ  ${account.balance}' : 'Unlimint  ${account.balance}',
+                  buyPM: account.isClearjuctionAccount
+                      ? 'CJ  ${account.last4IbanCharacters}'
+                      : 'Unlimint  ${account.last4IbanCharacters}',
                 );
 
                 if (onSelected != null) {
