@@ -305,7 +305,7 @@ abstract class _ConvertAmountStoreBase with Store {
   Decimal get maxLimit => isFromEntering ? _maxFromAssetVolume : _maxToAssetVolume;
 
   @computed
-  int get maxWholePrartLenght => isBothAssetsSeted ? maxLimit.round().toString().length + 1 : 15;
+  int get maxWholePrartLenght => (isBothAssetsSeted  && maxLimit != Decimal.zero) ? maxLimit.round().toString().length + 1 : 15;
 
   @computed
   bool get isBothAssetsSeted => fromAsset != null && toAsset != null;
@@ -315,6 +315,12 @@ abstract class _ConvertAmountStoreBase with Store {
     if (fromAsset == null || toAsset == null) {
       return;
     }
+
+    _minFromAssetVolume = Decimal.zero;
+    _maxFromAssetVolume = Decimal.zero;
+    _minToAssetVolume = Decimal.zero;
+    _maxToAssetVolume = Decimal.zero;
+
     final model = SwapLimitsRequestModel(
       fromAsset: fromAsset?.symbol ?? '',
       toAsset: toAsset?.symbol ?? '',
@@ -364,6 +370,14 @@ abstract class _ConvertAmountStoreBase with Store {
 
     if (!isInputValid(primaryAmount)) {
       inputValid = false;
+
+      return;
+    }
+
+    if (maxLimit == Decimal.zero) {
+      inputValid = true;
+      inputError = InputError.none;
+      _updatePaymentMethodInputError(null);
 
       return;
     }

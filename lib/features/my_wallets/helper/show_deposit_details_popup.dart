@@ -25,7 +25,6 @@ Future<void> showSelectAccountForAddCash(BuildContext context) async {
   if (kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) {
     sNotification.showError(
       intl.operation_bloked_text,
-      duration: 4,
       id: 1,
       needFeedback: true,
     );
@@ -40,6 +39,7 @@ Future<void> showSelectAccountForAddCash(BuildContext context) async {
       if (getIt.get<MyWalletsSrore>().buttonStatus == BankingShowState.getAccount) {
         await getIt.get<MyWalletsSrore>().createSimpleAccount();
       } else {
+        sAnalytics.addCashToSheetView();
         sShowBasicModalBottomSheet(
           context: context,
           pinned: SBottomSheetHeader(
@@ -103,7 +103,18 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
                 ? intl.eur_wallet_simple_account
                 : intl.create_simple_creating,
             onTap: () {
+              sAnalytics.tapOnTheButtonEURAccOnAddCashToSheet(
+                eurAccLabel: simpleAccount.label ?? 'Account 1',
+                eurAccType: 'CJ',
+              );
               if (simpleAccount.status == AccountStatus.active) {
+                sAnalytics.eurWalletDepositDetailsSheet(
+                  isCJ: true,
+                  eurAccountLabel: simpleAccount.label ?? 'Account 1',
+                  isHasTransaction: true,
+                  source: 'Wallets',
+                );
+
                 showDepositDetails(
                   context,
                   () {
@@ -173,7 +184,18 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
                   ? intl.eur_wallet_personal_account
                   : intl.create_personal_creating,
               onTap: () {
+                sAnalytics.tapOnTheButtonEURAccOnAddCashToSheet(
+                  eurAccLabel: bankAccounts[index].label ?? 'Account 1',
+                  eurAccType: 'Unlimint',
+                );
                 if (bankAccounts[index].status == AccountStatus.active) {
+                  sAnalytics.eurWalletDepositDetailsSheet(
+                    isCJ: false,
+                    eurAccountLabel: bankAccounts[index].label ?? 'Account 1',
+                    isHasTransaction: true,
+                    source: 'Wallets',
+                  );
+
                   showDepositDetails(
                     context,
                     () {

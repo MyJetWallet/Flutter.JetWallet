@@ -380,7 +380,7 @@ abstract class _SellConfirmationStoreBase with Store {
 
   @action
   Future<void> createPayment() async {
-    sAnalytics.sellOrderSummaryScreenView(
+    sAnalytics.tapOnTheButtonConfirmOnSellOrderSummary(
       destinationWallet: 'EUR',
       cryptoAmount: paymentAmount.toString(),
       fiatAmount: buyAmount.toString(),

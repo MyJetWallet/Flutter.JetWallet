@@ -4,7 +4,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/bank_card/add_bank_card.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
@@ -123,7 +122,6 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
 
     if (!analyticSent && isEmptyPaymentCards) {
       analyticSent = true;
-      sAnalytics.newBuyNoSavedCard();
     }
 
     void onAddCardTap() {
@@ -158,7 +156,6 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
     }
 
     void checkKyc() {
-      sAnalytics.newBuyTapAddCard();
       final status = kycOperationStatus(KycStatus.allowed);
       if (kycState.depositStatus == status) {
         onAddCardTap();

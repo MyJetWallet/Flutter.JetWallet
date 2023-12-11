@@ -81,7 +81,7 @@ class BuyDetails extends StatelessObserverWidget {
           TransactionDetailsItem(
             text: intl.buy_confirmation_price,
             value: TransactionDetailsValueText(
-              text: rateFor(paymentAsset, buyAsset),
+              text: rateFor(buyAsset, paymentAsset),
             ),
           ),
           const SpaceH18(),
@@ -130,7 +130,7 @@ class BuyDetails extends StatelessObserverWidget {
                         const SpaceW8(),
                         Flexible(
                           child: TransactionDetailsValueText(
-                            text: transactionListItem.cryptoBuyInfo?.accountLabel ?? '',
+                            text: transactionListItem.cryptoBuyInfo?.accountLabel ?? 'Account 1',
                             maxLines: 1,
                           ),
                         ),

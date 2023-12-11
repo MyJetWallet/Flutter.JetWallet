@@ -152,11 +152,8 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                         isSellDisabled: widget.currency.isAssetBalanceEmpty,
                         isConvertDisabled: widget.currency.isAssetBalanceEmpty,
                         onBuy: () {
-                          sAnalytics.newBuyTapBuy(
-                            source: 'My Assets - Asset -  Buy',
-                          );
-                          sAnalytics.userTapsOnButtonBuyWalletFromOneOfAnyScreens(
-                            source: 'Wallets - Buy',
+                          sAnalytics.tapOnTheBuyWalletButton(
+                            source: 'Wallets - Wallet - Buy',
                           );
 
                           final actualAsset = widget.currency;
@@ -295,7 +292,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                         },
                         onConvert: () {
                           sAnalytics.tapOnTheConvertButton(
-                            source: 'Wallet - Buy',
+                            source: 'Wallet - Convert',
                           );
                           final actualAsset = widget.currency;
                           if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {

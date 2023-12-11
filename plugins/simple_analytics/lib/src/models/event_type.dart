@@ -342,17 +342,20 @@ class EventType {
   static const eurWithdrawTapConfirmOrderSummary = 'Tap on the button ‘Confirm’ on Withdraw order summary';
   static const eurWithdrawSuccessWithdrawEndSV = '‘Success Withdraw end’ screen view';
   static const eurWithdrawFailed = 'Failed Withdraw end’ screen view';
+  static const tapOnTheButtonAddCashWalletsOnWalletsScreen =
+      'Tap on the button ‘Add cash wallets` on `Wallets`` screen';
+  static const addCashToSheetView = '‘Add cash to` sheet  view';
+    static const tapOnTheButtonEURAccOnAddCashToSheet = 'Tap on the button ‘EUR acc` on `Add cash to` sheet';
+
 
   //Buy flow
-  static const userTapsOnButtonBuyWalletFromOneOfAnyScreens =
-      'User taps on button `Buy wallet` from one of any screens';
+  static const tapOnTheBuyWalletButton = 'Tap on the ‘Buy wallet’ button';
   static const errorBuyIsUnavailable = 'Error - Buy is unavailable';
   static const chooseWalletScreenView = '‘Choose wallet’ screen view';
   static const tapOnTheBackFromChooseWalletButton = 'Tap on the ‘Back from choose wallet’ button';
   static const tapOnTheAnyWalletForBuyButton = 'Tap on the ‘Any wallet for buy’ button';
   static const addCardDetailsScreenView = '‘Add card details’ screen view';
-  static const userTapsOnButtonSaveCardForFurtherPurchaseOnAddCardDetailsScreen =
-      'User taps on button ‘Save card for further purchase` on ‘Add card details’ screen';
+  static const tapOnSaveCardForFurtherPurchaseButton = 'Tap on  ‘Save card for further purchase’ button';
   static const tapOnContinueCrNewCardButton = 'Tap on  ‘Continue(cr.new.card)’ button';
   static const addACustomNameScreenView = '‘Add a custom name’ screen view';
   static const tapOnTheBackFromCardLabelCreationButton = 'Tap on the ‘Back from card label creation’ button';
@@ -389,8 +392,8 @@ class EventType {
   static const tapOnTheGotItButtonOnUnsupportedCurrencyScreen =
       'Tap on the ‘Got it` button on `Unsupported Currency’ screen';
   static const tapOnTheBuyButtonOnBSCSegmentScreen = 'Tap on the ‘Buy` button on `B.S.C.segment’ screen';
-  static const userSTapOnSellButtonOnBSCSegmentControl = 'User’s tap on `Sell` button on `B.S.C.segment` control';
-  static const userSTapOnConvertButtonOnBSCSegmentControl = 'User’s tap on `Convert` button on `B.S.C.segment` control';
+  static const tapOnTheSellButtonOnBSCSegmentButton = 'Tap on the ‘Sell` button on `B.S.C.segment` button';
+  static const tapOnTheConvertButtonOnBSCSegmentButton = 'Tap on the ‘Convert` button on `B.S.C.segment` button';
 
   //Sell flow
   static const tapOnTheSellButton = 'Tap on the ‘Sell’ button';

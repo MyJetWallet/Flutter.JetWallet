@@ -54,6 +54,7 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
           : widget.account?.isClearjuctionAccount ?? false
               ? 'CJ  ${widget.account?.balance}'
               : 'Unlimint  ${widget.account?.balance}',
+      sourceCurrency: 'EUR',
     );
   }
 
@@ -98,10 +99,12 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                   secondarySymbol: store.asset != null ? store.secondarySymbol : null,
                   onSwap: () {
                     store.swapAssets();
-                    sAnalytics.tapOnTheChooseAssetButton(
+                    sAnalytics.tapOnTheChangeInputBuyButton(
                       pmType: store.pmType,
                       buyPM: store.buyPM,
                       sourceCurrency: 'EUR',
+                      destinationWallet: store.asset?.symbol ?? '',
+                      nowInput: store.isFiatEntering ? NowInputType.fiat : NowInputType.crypro,
                     );
                   },
                   errorText: store.paymentMethodInputError,

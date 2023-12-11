@@ -150,8 +150,6 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
                     buyPM: 'New card',
                   );
 
-                  sAnalytics.newBuyTapAddCard();
-
                   final kycState = getIt.get<KycService>();
                   final kycHandler = getIt.get<KycAlertHandler>();
 

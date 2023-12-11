@@ -194,8 +194,6 @@ void buyConfirmationFeeExplanation({
   required String fee,
   required String description,
 }) {
-  sAnalytics.newBuyFeeView(paymentFee: fee);
-
   sShowBasicModalBottomSheet(
     context: context,
     horizontalPinnedPadding: 24,

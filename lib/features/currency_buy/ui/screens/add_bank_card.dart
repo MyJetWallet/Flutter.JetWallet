@@ -11,7 +11,6 @@ import 'package:jetwallet/features/add_circle_card/ui/widgets/continue_button_fr
 import 'package:jetwallet/features/currency_buy/store/add_bank_card_store.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../core/di/di.dart';
@@ -72,11 +71,9 @@ class AddBankCardBody extends StatelessObserverWidget {
     final kycState = getIt.get<KycService>();
     final status = kycOperationStatus(KycStatus.kycRequired);
 
-    final isUserVerified = kycState.depositStatus != status &&
-        kycState.tradeStatus != status &&
-        kycState.withdrawalStatus != status;
-    icon =
-        store.saveCard ? const SCheckboxSelectedIcon() : const SCheckboxIcon();
+    final isUserVerified =
+        kycState.depositStatus != status && kycState.tradeStatus != status && kycState.withdrawalStatus != status;
+    icon = store.saveCard ? const SCheckboxSelectedIcon() : const SCheckboxIcon();
 
     var heightOfSpace = MediaQuery.of(context).size.height - 402;
     if (!isUserVerified) {
@@ -118,15 +115,13 @@ class AddBankCardBody extends StatelessObserverWidget {
                             SFieldDividerFrame(
                               child: SStandardField(
                                 controller: TextEditingController(
-                                  text:
-                                      '''${sUserInfo.firstName} ${sUserInfo.lastName}''',
+                                  text: '''${sUserInfo.firstName} ${sUserInfo.lastName}''',
                                 ),
                                 readOnly: true,
                                 enabled: false,
                                 hideClearButton: true,
                                 labelText: intl.addCircleCard_cardholderName,
-                                textCapitalization:
-                                    TextCapitalization.sentences,
+                                textCapitalization: TextCapitalization.sentences,
                                 hideSpace: true,
                                 grayLabel: true,
                               ),
@@ -141,8 +136,7 @@ class AddBankCardBody extends StatelessObserverWidget {
                                 // to avoid \u0020 input from the user
                                 inputFormatters: [
                                   MaskedTextInputFormatter(
-                                    mask:
-                                        '''xxxx\u{2005}xxxx\u{2005}xxxx\u{2005}xxxx''',
+                                    mask: '''xxxx\u{2005}xxxx\u{2005}xxxx\u{2005}xxxx''',
                                     separator: '\u{2005}',
                                   ),
                                   FilteringTextInputFormatter.allow(
@@ -171,15 +165,13 @@ class AddBankCardBody extends StatelessObserverWidget {
                                     },
                                     child: SFieldDividerFrame(
                                       child: SStandardField(
-                                        labelText:
-                                            intl.addCircleCard_expiryMonth,
+                                        labelText: intl.addCircleCard_expiryMonth,
                                         focusNode: store.monthNode,
                                         keyboardType: TextInputType.number,
                                         isError: store.expiryMonthError,
                                         disableErrorOnChanged: false,
                                         inputFormatters: [
-                                          FilteringTextInputFormatter
-                                              .digitsOnly,
+                                          FilteringTextInputFormatter.digitsOnly,
                                           LengthLimitingTextInputFormatter(4),
                                           CardMonthInputFormatter(),
                                         ],
@@ -213,10 +205,8 @@ class AddBankCardBody extends StatelessObserverWidget {
                                 color: colors.white,
                                 child: SPaddingH24(
                                   child: SStandardField(
-                                    labelText:
-                                        intl.addCircleCard_cardholderName,
-                                    textCapitalization:
-                                        TextCapitalization.sentences,
+                                    labelText: intl.addCircleCard_cardholderName,
+                                    textCapitalization: TextCapitalization.sentences,
                                     onChanged: store.updateCardholderName,
                                     controller: store.cardholderNameController,
                                     hideSpace: true,
@@ -249,13 +239,9 @@ class AddBankCardBody extends StatelessObserverWidget {
                                           ),
                                           const SpaceW10(),
                                           SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width -
-                                                82,
+                                            width: MediaQuery.of(context).size.width - 82,
                                             child: SPolicyText(
-                                              firstText:
-                                                  intl.addCircleCard_saveCard,
+                                              firstText: intl.addCircleCard_saveCard,
                                               userAgreementText: '',
                                               betweenText: '',
                                               privacyPolicyText: '',
@@ -465,9 +451,7 @@ class AddBankCardBody extends StatelessObserverWidget {
                           } else {
                             return;
                           }
-                          sAnalytics.newBuyTapCardContinue(
-                            saveCard: '${store.saveCard}',
-                          );
+
                           await store.addCard(
                             onSuccess: onCardAdded,
                             onError: () {},

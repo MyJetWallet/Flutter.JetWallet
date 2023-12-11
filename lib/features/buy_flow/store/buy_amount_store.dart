@@ -404,7 +404,7 @@ abstract class _BuyAmountStoreBase with Store {
   Decimal get maxLimit => isFiatEntering ? _maxSellAmount : _maxBuyAmount;
 
   @computed
-  int get maxWholePrartLenght => isBothAssetsSeted ? maxLimit.round().toString().length + 1 : 15;
+  int get maxWholePrartLenght => (isBothAssetsSeted  && maxLimit != Decimal.zero) ? maxLimit.round().toString().length + 1 : 15;
 
   @computed
   bool get isBothAssetsSeted => (account != null || card != null) && asset != null;
@@ -414,6 +414,11 @@ abstract class _BuyAmountStoreBase with Store {
     if (asset == null || (account == null && card == null)) {
       return;
     }
+
+    _minSellAmount = Decimal.zero;
+    _maxSellAmount = Decimal.zero;
+    _minBuyAmount = Decimal.zero;
+    _maxBuyAmount = Decimal.zero;
 
     try {
       if (account?.isClearjuctionAccount ?? false) {
@@ -489,6 +494,14 @@ abstract class _BuyAmountStoreBase with Store {
 
     if (!isInputValid(primaryAmount)) {
       inputValid = false;
+
+      return;
+    }
+
+    if (maxLimit == Decimal.zero) {
+      inputValid = true;
+      inputError = InputError.none;
+      _updatePaymentMethodInputError(null);
 
       return;
     }

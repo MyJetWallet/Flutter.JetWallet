@@ -18,7 +18,6 @@ import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:rsa_encrypt/rsa_encrypt.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
@@ -305,8 +304,6 @@ abstract class _BankCardStoreBase with Store {
     required CurrencyModel asset,
   }) async {
     loader.startLoadingImmediately();
-
-    sAnalytics.newBuyTapCardContinue(saveCard: saveCard.toString());
 
     try {
       final response = await sNetwork.getWalletModule().encryptionKey();

@@ -76,8 +76,6 @@ void _showAction({
   required BuildContext context,
   BlockingType blockingTypeCheck = BlockingType.trade,
 }) {
-  sAnalytics.newBuyChooseAssetView();
-
   showSendTimerAlertOr(
     context: context,
     or: () {

@@ -22,6 +22,7 @@ Future showNotification(
       return Flash(
         controller: controller,
         position: FlashPosition.top,
+        dismissDirections: FlashDismissDirection.values,
         child: SPaddingH24(
           child: SNotificationBox(
             text: message,

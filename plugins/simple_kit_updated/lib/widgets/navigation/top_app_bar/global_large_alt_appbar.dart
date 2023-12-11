@@ -4,6 +4,7 @@ import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
+import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 class SimpleLargeAltAppbar extends StatelessWidget {
@@ -18,6 +19,7 @@ class SimpleLargeAltAppbar extends StatelessWidget {
     required this.showLabelIcon,
     this.labelIcon,
     this.onLabelIconTap,
+    this.isLoading = false,
   }) : super(key: key);
 
   final String title;
@@ -33,6 +35,8 @@ class SimpleLargeAltAppbar extends StatelessWidget {
 
   final bool hasRightIcon;
   final Widget? rightIcon;
+
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -79,15 +83,22 @@ class SimpleLargeAltAppbar extends StatelessWidget {
                           ),
                         ),
                         const Gap(4),
-                        Opacity(
-                          opacity: value != null ? 1 : 0,
-                          child: Text(
-                            value ?? '',
-                            style: STStyles.header3.copyWith(
-                              color: SColorsLight().black,
+                        if (isLoading)
+                          SSkeletonLoader(
+                            width: 160,
+                            height: 40,
+                            borderRadius: BorderRadius.circular(4),
+                          )
+                        else
+                          Opacity(
+                            opacity: value != null ? 1 : 0,
+                            child: Text(
+                              value ?? '',
+                              style: STStyles.header3.copyWith(
+                                color: SColorsLight().black,
+                              ),
                             ),
                           ),
-                        ),
                       ],
                     ),
                   ),

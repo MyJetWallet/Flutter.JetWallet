@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -14,9 +16,13 @@ import 'package:jetwallet/widgets/circle_action_buttons/circle_action_receive.da
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_send.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/simple_paddings.dart';
+import 'package:simple_kit/modules/shared/simple_spacers.dart';
+import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
 
 class ActionsMyWalletsRowWidget extends StatelessWidget {
-  const ActionsMyWalletsRowWidget({super.key});
+  const ActionsMyWalletsRowWidget({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,69 +34,88 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
           final currencies = sSignalRModules.currenciesList;
           final isEmptyBalanse = currenciesWithBalanceFrom(currencies).isEmpty;
 
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CircleActionBuy(
-                onTap: () {
-                  sAnalytics.newBuyTapBuy(
-                    source: 'My Assets - Buy',
-                  );
-                  sAnalytics.userTapsOnButtonBuyWalletFromOneOfAnyScreens(
-                    source: 'Wallets - Buy',
-                  );
-
-                  if (myWalletsSrore.isReordering) {
-                    myWalletsSrore.endReorderingImmediately();
-                  } else {
-                    showBuyAction(
-                      context: context,
-                    );
-                  }
-                },
-              ),
-              CircleActionSend(
-                onTap: () {
-                  sAnalytics.tabOnTheSendButton(source: 'My Assets - Send');
-
-                  if (myWalletsSrore.isReordering) {
-                    myWalletsSrore.endReorderingImmediately();
-                  } else {
-                    showSendAction(
-                      context,
-                    );
-                  }
-                },
-                isDisabled: isEmptyBalanse,
-              ),
-              CircleActionReceive(
-                onTap: () {
-                  sAnalytics.tapOnTheReceiveButton(
-                    source: 'My Assets - Receive',
-                  );
-                  if (myWalletsSrore.isReordering) {
-                    myWalletsSrore.endReorderingImmediately();
-                  } else {
-                    showReceiveAction(context);
-                  }
-                },
-              ),
-              CircleActionAddCash(
-                onTap: () {
-                  sAnalytics.tabOnTheSendButton(source: 'My Assets - Add cash');
-
-                  if (myWalletsSrore.isReordering) {
-                    myWalletsSrore.endReorderingImmediately();
-                  } else {
-                    showSelectAccountForAddCash(
-                      context,
-                    );
-                  }
-                },
-              ),
-            ],
-          );
+          return myWalletsSrore.isLoading
+              ? const SPaddingH24(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [_LoadingButton(), _LoadingButton(), _LoadingButton(), _LoadingButton()],
+                  ),
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CircleActionBuy(
+                      onTap: () {
+                        sAnalytics.tapOnTheBuyWalletButton(source: 'Wallets - Buy');
+                        if (myWalletsSrore.isReordering) {
+                          myWalletsSrore.endReorderingImmediately();
+                        } else {
+                          showBuyAction(context: context);
+                        }
+                      },
+                    ),
+                    CircleActionSend(
+                      onTap: () {
+                        sAnalytics.tabOnTheSendButton(source: 'My Assets - Send');
+                        if (myWalletsSrore.isReordering) {
+                          myWalletsSrore.endReorderingImmediately();
+                        } else {
+                          showSendAction(context);
+                        }
+                      },
+                      isDisabled: isEmptyBalanse,
+                    ),
+                    CircleActionReceive(
+                      onTap: () {
+                        sAnalytics.tapOnTheReceiveButton(source: 'My Assets - Receive');
+                        if (myWalletsSrore.isReordering) {
+                          myWalletsSrore.endReorderingImmediately();
+                        } else {
+                          showReceiveAction(context);
+                        }
+                      },
+                    ),
+                    CircleActionAddCash(
+                      onTap: () {
+                        sAnalytics.tapOnTheButtonAddCashWalletsOnWalletsScreen();
+                        if (myWalletsSrore.isReordering) {
+                          myWalletsSrore.endReorderingImmediately();
+                        } else {
+                          showSelectAccountForAddCash(context);
+                        }
+                      },
+                    ),
+                  ],
+                );
         },
+      ),
+    );
+  }
+}
+
+class _LoadingButton extends StatelessWidget {
+  const _LoadingButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: SizedBox(
+        height: 68,
+        child: Column(
+          children: [
+            SSkeletonLoader(
+              width: 40,
+              height: 40,
+              borderRadius: BorderRadius.circular(40),
+            ),
+            SpaceH12(),
+            SSkeletonLoader(
+              width: 28,
+              height: 16,
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ],
+        ),
       ),
     );
   }

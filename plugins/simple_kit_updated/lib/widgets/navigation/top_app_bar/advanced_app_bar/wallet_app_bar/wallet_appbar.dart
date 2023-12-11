@@ -85,6 +85,7 @@ class WalletAppBar extends StatelessWidget {
                       height: 28,
                       child: Row(
                         mainAxisAlignment: mainBlockCenter ? MainAxisAlignment.center : MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           SizedBox(
                             height: 24,
@@ -96,6 +97,7 @@ class WalletAppBar extends StatelessWidget {
                             ticker ?? '',
                             style: STStyles.subtitle1.copyWith(
                               color: SColorsLight().black,
+                              height: 1,
                             ),
                           ),
                         ],

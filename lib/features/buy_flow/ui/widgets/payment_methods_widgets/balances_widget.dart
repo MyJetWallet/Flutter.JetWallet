@@ -43,7 +43,7 @@ class BalancesWidget extends StatelessWidget {
                 ),
               ),
             ),
-            name: account.label ?? '',
+            name: account.label ?? 'Account 1',
             helper: account.accountId != 'clearjuction_account'
                 ? intl.eur_wallet_personal_account
                 : intl.eur_wallet_simple_account,

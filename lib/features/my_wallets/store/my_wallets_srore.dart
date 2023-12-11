@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:async';
+
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -31,6 +33,9 @@ abstract class _MyWalletsSroreBase with Store {
     sortByBalanceAndWeight(currenciesForSearch);
   }
 
+  @computed
+  bool get isLoading => !sSignalRModules.initFinished;
+
   @observable
   bool isReordering = false;
 
@@ -51,7 +56,28 @@ abstract class _MyWalletsSroreBase with Store {
 
   @computed
   ObservableList<CurrencyModel> get currencies {
-    return isReordering ? reorderingCurrencies : currenciesForMyWallet(currencies: _allAssets);
+    if (isReordering) {
+      return reorderingCurrencies;
+    } else if (_allAssets.any((element) => element.symbol == justDeletedAsset)) {
+      final a = ObservableList<CurrencyModel>.of([..._allAssets]);
+      a.removeWhere((element) => element.symbol == justDeletedAsset);
+
+      return currenciesForMyWallet(currencies: a);
+    } else if (!_listsAreEqual(reorderingCurrencies, currenciesForMyWallet(currencies: _allAssets))) {
+      return reorderingCurrencies;
+    } else {
+      return currenciesForMyWallet(currencies: _allAssets);
+    }
+  }
+
+  bool _listsAreEqual(List<CurrencyModel> list1, List<CurrencyModel> list2) {
+    var i = -1;
+
+    return list1.every((val) {
+      i++;
+
+      return list2[i].symbol == val.symbol;
+    });
   }
 
   @computed
@@ -89,10 +115,6 @@ abstract class _MyWalletsSroreBase with Store {
 
     isReordering = false;
 
-    currencies
-      ..clear()
-      ..addAll(reorderingCurrencies);
-
     final activeAssets = <ActiveAsset>[];
     for (var index = 0; index < currencies.length; index++) {
       activeAssets.add(
@@ -107,14 +129,15 @@ abstract class _MyWalletsSroreBase with Store {
           model,
         );
   }
+
+  String justDeletedAsset = '';
 
   @action
   void onDelete(int index) {
     sAnalytics.tapOnTheDeleteButtonOnTheWalletScreen();
-    currenciesForSearch.add(currencies[index]);
-    currencies.removeAt(index);
 
-    sortByBalanceAndWeight(currenciesForSearch);
+    justDeletedAsset = currencies[index].symbol;
+    currencies.removeAt(index);
 
     final activeAssets = <ActiveAsset>[];
     for (var index = 0; index < currencies.length; index++) {
@@ -129,12 +152,26 @@ abstract class _MyWalletsSroreBase with Store {
     getIt.get<SNetwork>().simpleNetworking.getWalletModule().setActiveAssets(
           model,
         );
+
+    Timer(
+      const Duration(seconds: 2),
+      () {
+        justDeletedAsset = '';
+        currenciesForSearch.addAll(_avaibledAssetsForSearch);
+        sortByBalanceAndWeight(currenciesForSearch);
+      },
+    );
   }
 
   @action
   void onSearch(String text) {
-    final tempList =
-        _avaibledAssetsForSearch.where((e) => e.description.toLowerCase().contains(text.toLowerCase())).toList();
+    final tempList = _avaibledAssetsForSearch
+        .where(
+          (e) =>
+              e.description.toLowerCase().contains(text.toLowerCase()) ||
+              e.symbol.toLowerCase().contains(text.toLowerCase()),
+        )
+        .toList();
     currenciesForSearch
       ..clear()
       ..addAll(tempList);
@@ -146,6 +183,10 @@ abstract class _MyWalletsSroreBase with Store {
     sAnalytics.tapOnAssetForAddToFavouritesOnAddWalletForFavouritesSheet(
       addedFavouritesAssetName: currency.symbol,
     );
+
+    if (justDeletedAsset == currency.symbol) {
+      justDeletedAsset = '';
+    }
 
     final tempList = currencies + [currency];
     final activeAssets = <ActiveAsset>[];
@@ -172,6 +213,13 @@ abstract class _MyWalletsSroreBase with Store {
       ..clear()
       ..addAll(_avaibledAssetsForSearch);
     sortByBalanceAndWeight(currenciesForSearch);
+
+    Timer(
+      const Duration(seconds: 2),
+      () {
+        reorderingCurrencies = currenciesForMyWallet(currencies: _allAssets);
+      },
+    );
   }
 
   @observable

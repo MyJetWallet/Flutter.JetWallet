@@ -546,12 +546,6 @@ abstract class _BuyConfirmationStoreBase with Store {
       showProcessing = true;
       wasAction = true;
 
-      sAnalytics.newBuyProcessingView(
-        firstTimeBuy: '$firstBuy',
-        paymentMethodType: category.name,
-        paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : 'account',
-        paymentMethodCurrency: depositFeeCurrency.symbol,
-      );
       if (deviceBindingRequired) {
         var continueBuying = false;
 
@@ -692,13 +686,6 @@ abstract class _BuyConfirmationStoreBase with Store {
 
       showProcessing = true;
       wasAction = true;
-
-      sAnalytics.newBuyProcessingView(
-        firstTimeBuy: '$firstBuy',
-        paymentMethodType: category.name,
-        paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : 'account',
-        paymentMethodCurrency: depositFeeCurrency.symbol,
-      );
 
       loader.startLoadingImmediately();
 
@@ -849,7 +836,6 @@ abstract class _BuyConfirmationStoreBase with Store {
                 _requestPaymentInfo(onAction, lastAction);
               },
               (payment) {
-
                 if (payment != null) {
                   sRouter.pop();
                 }
@@ -989,14 +975,7 @@ abstract class _BuyConfirmationStoreBase with Store {
     }
   }
 
-  void skipProcessing() {
-    sAnalytics.newBuyTapCloseProcessing(
-      firstTimeBuy: '$firstBuy',
-      paymentMethodType: category.name,
-      paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : 'account',
-      paymentMethodCurrency: depositFeeCurrency.symbol,
-    );
-  }
+  void skipProcessing() {}
 
   Future<void> _saveLastPaymentMethod() async {
     try {

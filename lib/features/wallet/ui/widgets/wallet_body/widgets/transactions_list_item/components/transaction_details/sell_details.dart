@@ -79,7 +79,7 @@ class SellDetails extends StatelessObserverWidget {
           TransactionDetailsItem(
             text: intl.buy_confirmation_price,
             value: TransactionDetailsValueText(
-              text: rateFor(paymentAsset, buyAsset),
+              text: rateFor(buyAsset, paymentAsset),
             ),
           ),
           const SpaceH18(),
@@ -116,9 +116,9 @@ class SellDetails extends StatelessObserverWidget {
 
               return PaymentFeeRowWidget(
                 fee: volumeFormat(
-                  decimal: transactionListItem.sellCryptoInfo?.sellAmount ?? Decimal.zero,
+                  decimal: transactionListItem.sellCryptoInfo?.paymentFeeAmount ?? Decimal.zero,
                   accuracy: currency.accuracy,
-                  symbol: currency.symbol,
+                  symbol: transactionListItem.sellCryptoInfo?.paymentFeeAssetId ?? '',
                 ),
               );
             },
@@ -133,9 +133,9 @@ class SellDetails extends StatelessObserverWidget {
 
               return ProcessingFeeRowWidget(
                 fee: volumeFormat(
-                  decimal: transactionListItem.sellCryptoInfo?.paymentFeeAmount ?? Decimal.zero,
+                  decimal: transactionListItem.sellCryptoInfo?.feeAmount ?? Decimal.zero,
                   accuracy: currency.accuracy,
-                  symbol: currency.symbol,
+                  symbol: transactionListItem.sellCryptoInfo?.feeAssetId ?? '',
                 ),
               );
             },

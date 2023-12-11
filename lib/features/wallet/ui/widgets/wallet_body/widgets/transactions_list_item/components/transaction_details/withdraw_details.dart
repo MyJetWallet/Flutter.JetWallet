@@ -149,14 +149,14 @@ class _WithdrawDetailsHeader extends StatelessWidget {
           fromAssetValue: volumeFormat(
             symbol: paymentAsset.symbol,
             accuracy: paymentAsset.accuracy,
-            decimal: transactionListItem.withdrawalInfo?.withdrawalAmount ?? Decimal.zero,
+            decimal: transactionListItem.withdrawalInfo?.withdrawalAmount.abs() ?? Decimal.zero,
           ),
           toAssetIconUrl: buyAsset.iconUrl,
           toAssetDescription: buyAsset.description,
           toAssetValue: volumeFormat(
             symbol: buyAsset.symbol,
             accuracy: buyAsset.accuracy,
-            decimal: transactionListItem.withdrawalInfo?.receiveAmount ?? Decimal.zero,
+            decimal: transactionListItem.withdrawalInfo?.receiveAmount?.abs() ?? Decimal.zero,
           ),
           isError: transactionListItem.status == Status.declined,
           isSmallerVersion: true,

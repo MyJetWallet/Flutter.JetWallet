@@ -3,7 +3,6 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 part 'sell_payment_method_store.g.dart';
@@ -56,8 +55,6 @@ abstract class _SellPaymentMethodStoreBase with Store {
   Future<void> init({
     CurrencyModel? asset,
   }) async {
-    sAnalytics.paymentMethodScreenView();
-
     selectedAssset = asset;
   }
 }
