@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
@@ -8,11 +7,11 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:isolator/isolator.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
-import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/helpers/market_references.dart';
 import 'package:jetwallet/core/services/signal_r/signalr_backend.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
+import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_country_model.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/market/market_details/helper/calculate_percent_change.dart';
@@ -22,12 +21,14 @@ import 'package:jetwallet/features/market/store/search_store.dart';
 import 'package:jetwallet/features/receive_gift/receive_gift_bottom_sheet.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
+import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/helpers/set_category_for_buy_methods.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
@@ -276,6 +277,24 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
     }
 
     updateBaseCurrency();
+    updateAnalyticsKYCStatus();
+  }
+
+  @action
+  void updateAnalyticsKYCStatus() {
+    final kyc = getIt.get<KycService>();
+
+    var analyticsKyc = 0;
+    if (checkKycPassed(kyc.depositStatus, kyc.tradeStatus, kyc.withdrawalStatus)) {
+      analyticsKyc = 2;
+    }
+    if (kycInProgress(kyc.depositStatus, kyc.tradeStatus, kyc.withdrawalStatus)) {
+      analyticsKyc = 1;
+    }
+    if (checkKycBlocked(kyc.depositStatus, kyc.tradeStatus, kyc.withdrawalStatus)) {
+      analyticsKyc = 4;
+    }
+    sAnalytics.setKYCDepositStatus = analyticsKyc;
   }
 
   @observable
