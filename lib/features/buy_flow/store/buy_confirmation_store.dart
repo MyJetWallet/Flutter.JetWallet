@@ -375,6 +375,8 @@ abstract class _BuyConfirmationStoreBase with Store {
   Future<void> _showFailureScreen(String error) async {
     loader.finishLoadingImmediately();
 
+    errorHasHeppened = true;
+
     if (sRouter.currentPath != '/buy_flow_confirmation') {
       return;
     }
@@ -448,10 +450,14 @@ abstract class _BuyConfirmationStoreBase with Store {
     timerAnimation!.countdown();
   }
 
+  bool errorHasHeppened = false;
+
   @action
   void _refreshTimer(int initial) {
     _timer.cancel();
     timer = initial;
+
+    if (errorHasHeppened) return;
 
     _timer = Timer.periodic(
       const Duration(seconds: 1),
