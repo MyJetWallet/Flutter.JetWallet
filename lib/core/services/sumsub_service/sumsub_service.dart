@@ -185,8 +185,6 @@ class SumsubService {
 
     final _ = await snsMobileSDK.launch();
 
-    snsMobileSDK.autoCloseOnApprove;
-
     Future.delayed(const Duration(seconds: 3), () {
       getIt.get<GlobalLoader>().setLoading(false);
     });
