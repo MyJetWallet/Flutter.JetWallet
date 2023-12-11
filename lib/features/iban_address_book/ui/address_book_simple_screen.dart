@@ -7,7 +7,6 @@ import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/iban/widgets/iban_item.dart';
 import 'package:jetwallet/features/iban/widgets/iban_terms_container.dart';
 import 'package:jetwallet/features/iban_address_book/store/iban_address_book_store.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -17,10 +16,10 @@ import 'package:simple_networking/modules/wallet_api/models/address_book/address
 @RoutePage(name: 'IbanAdressBookSimpleRoute')
 class IbanAddressBookSimpleScreen extends StatelessWidget {
   const IbanAddressBookSimpleScreen({
-    Key? key,
+    super.key,
     this.contact,
     this.bankingAccount,
-  }) : super(key: key);
+  });
 
   final AddressBookContactModel? contact;
   final SimpleBankingAccount? bankingAccount;
@@ -40,9 +39,8 @@ class IbanAddressBookSimpleScreen extends StatelessWidget {
 
 class _BodyAddressBookSimple extends StatefulObserverWidget {
   const _BodyAddressBookSimple({
-    Key? key,
     this.bankingAccount,
-  }) : super(key: key);
+  });
 
   final SimpleBankingAccount? bankingAccount;
 

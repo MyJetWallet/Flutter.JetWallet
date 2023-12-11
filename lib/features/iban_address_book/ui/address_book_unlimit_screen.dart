@@ -7,7 +7,6 @@ import 'package:jetwallet/features/auth/user_data/ui/widgets/country/country_ite
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/show_user_data_country_picker.dart';
 import 'package:jetwallet/features/iban/widgets/iban_item.dart';
 import 'package:jetwallet/features/iban_address_book/store/iban_address_book_store.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -17,10 +16,10 @@ import 'package:simple_networking/modules/wallet_api/models/address_book/address
 @RoutePage(name: 'IbanAdressBookUnlimitRoute')
 class IbanAdressBookUnlimitScreen extends StatelessWidget {
   const IbanAdressBookUnlimitScreen({
-    Key? key,
+    super.key,
     this.contact,
     this.bankingAccount,
-  }) : super(key: key);
+  });
 
   final AddressBookContactModel? contact;
   final SimpleBankingAccount? bankingAccount;
@@ -40,9 +39,8 @@ class IbanAdressBookUnlimitScreen extends StatelessWidget {
 
 class _BodyAdressBookUnlimit extends StatefulObserverWidget {
   const _BodyAdressBookUnlimit({
-    Key? key,
     this.bankingAccount,
-  }) : super(key: key);
+  });
 
   final SimpleBankingAccount? bankingAccount;
 
@@ -56,14 +54,6 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
     final store = IbanAddressBookStore.of(context);
 
     final colors = sKit.colors;
-
-    final mask = MaskTextInputFormatter(
-      mask: '#### #### #### #### #### #### ####',
-      initialText: IbanAddressBookStore.of(context).ibanController.text,
-      filter: {
-        '#': RegExp('[a-zA-Z0-9]'),
-      },
-    );
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
