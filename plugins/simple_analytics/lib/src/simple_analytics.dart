@@ -2865,17 +2865,6 @@ class SimpleAnalytics {
     );
   }
 
-  void eurWalletTapBackOnAccountsScreen() {
-    _analytics.logEvent(
-      EventType.eurWalletTapBackOnAccountsScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '275',
-      },
-    );
-  }
-
   void eurWalletSwipeBetweenWallets() {
     _analytics.logEvent(
       EventType.eurWalletSwipeBetweenWallets,

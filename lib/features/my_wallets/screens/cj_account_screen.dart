@@ -13,10 +13,8 @@ import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_a
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/my_wallets/helper/show_deposit_details_popup.dart';
-import 'package:jetwallet/features/my_wallets/widgets/cj_header_widget.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
 import 'package:jetwallet/features/withdrawal_banking/helpers/show_bank_transfer_select.dart';
-import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_button.dart';
@@ -149,7 +147,6 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                                 if (kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) {
                                   sNotification.showError(
                                     intl.operation_bloked_text,
-                                    duration: 4,
                                     id: 1,
                                     needFeedback: true,
                                   );
@@ -206,7 +203,6 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                                 if (kycState.withdrawalStatus == kycOperationStatus(KycStatus.blocked)) {
                                   sNotification.showError(
                                     intl.operation_bloked_text,
-                                    duration: 4,
                                     id: 1,
                                     needFeedback: true,
                                   );
@@ -225,13 +221,6 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                                     );
 
                                     showBankTransforSelect(context, widget.bankingAccount, widget.isCJAccount);
-
-                                    sAnalytics.eurWalletWithdrawEURAccountScreen(
-                                      isCJ: widget.isCJAccount,
-                                      eurAccountLabel: widget.bankingAccount.label ?? 'Account',
-                                      isHasTransaction: true,
-                                      copyType: '',
-                                    );
                                   },
                                 );
                               },

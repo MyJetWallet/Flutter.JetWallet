@@ -121,11 +121,17 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
                     } else if (sSignalRModules.bankingProfileData?.showState == BankingShowState.accountList) {
                       sRouter
                           .push(
-                            WalletRouter(
-                              currency: currency,
-                            ),
-                          )
-                          .then((value) => sAnalytics.eurWalletTapBackOnAccountsScreen());
+                        WalletRouter(
+                          currency: currency,
+                        ),
+                      )
+                          .then(
+                        (value) {
+                          sAnalytics.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen(
+                            openedAsset: currency.symbol,
+                          );
+                        },
+                      );
                     }
 
                     return;
@@ -142,8 +148,6 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
                       sAnalytics.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen(
                         openedAsset: currency.symbol,
                       );
-
-                      sAnalytics.eurWalletTapBackOnAccountsScreen();
                     },
                   );
                 }
@@ -187,8 +191,6 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
                       sAnalytics.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen(
                         openedAsset: currency.symbol,
                       );
-
-                      sAnalytics.eurWalletTapBackOnAccountsScreen();
                     },
                   );
                 }
@@ -197,87 +199,5 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
         customRightWidget: isMoving ? Assets.svg.small.reorder.simpleSvg() : null,
       );
     }
-
-    return SWalletItem(
-      height: 80,
-      key: UniqueKey(),
-      isBalanceHide: getIt<AppStore>().isBalanceHide,
-      decline: currency.dayPercentChange.isNegative,
-      icon: SNetworkSvg24(
-        url: currency.iconUrl,
-      ),
-      baseCurrencySymbol: baseCurrency.symbol,
-      primaryText: currency.description,
-      amount: currency.volumeBaseBalance(baseCurrency),
-      secondaryText: secondaryText,
-      onTap: !isMoving
-          ? () {
-              sAnalytics.tapOnFavouriteWalletOnWalletsScreen(
-                openedAsset: currency.symbol,
-              );
-              if (currency.type == AssetType.indices) {
-                sRouter.push(
-                  MarketDetailsRouter(
-                    marketItem: marketItemFrom(
-                      marketItems,
-                      currency.symbol,
-                    ),
-                  ),
-                );
-              } else {
-                if (currency.symbol == 'EUR') {
-                  if (sSignalRModules.bankingProfileData?.showState == BankingShowState.onlySimple) {
-                    sRouter
-                        .push(
-                          CJAccountRouter(
-                            bankingAccount: sSignalRModules.bankingProfileData!.simple!.account!,
-                            isCJAccount: true,
-                          ),
-                        )
-                        .then(
-                          (value) => sAnalytics.eurWalletTapBackOnAccountWalletScreen(
-                            isCJ: true,
-                            eurAccountLabel: sSignalRModules.bankingProfileData!.simple!.account!.label ?? '',
-                            isHasTransaction: false,
-                          ),
-                        );
-                  } else if (sSignalRModules.bankingProfileData?.showState == BankingShowState.inProgress) {
-                    return;
-                  } else if (sSignalRModules.bankingProfileData?.showState == BankingShowState.accountList) {
-                    sRouter
-                        .push(
-                          WalletRouter(
-                            currency: currency,
-                          ),
-                        )
-                        .then((value) => sAnalytics.eurWalletTapBackOnAccountsScreen());
-                  }
-
-                  return;
-                }
-
-                sRouter
-                    .push(
-                  WalletRouter(
-                    currency: currency,
-                  ),
-                )
-                    .then(
-                  (value) {
-                    sAnalytics.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen(
-                      openedAsset: currency.symbol,
-                    );
-
-                    sAnalytics.eurWalletTapBackOnAccountsScreen();
-                  },
-                );
-              }
-            }
-          : null,
-      removeDivider: true,
-      isPendingDeposit: currency.isPendingDeposit,
-      isMoving: isMoving,
-      priceFieldHeight: 44,
-    );
   }
 }
