@@ -31,7 +31,10 @@ abstract class _MyWalletsSroreBase with Store {
   _MyWalletsSroreBase() {
     currenciesForSearch.addAll(_avaibledAssetsForSearch);
     sortByBalanceAndWeight(currenciesForSearch);
+    reorderingCurrencies = currenciesForMyWallet(currencies: _allAssets);
   }
+
+  Duration updateDuration = const Duration(seconds: 5);
 
   @computed
   bool get isLoading => !sSignalRModules.initFinished;
@@ -72,6 +75,8 @@ abstract class _MyWalletsSroreBase with Store {
 
   bool _listsAreEqual(List<CurrencyModel> list1, List<CurrencyModel> list2) {
     var i = -1;
+
+    if (list1.length != list2.length) return false;
 
     return list1.every((val) {
       i++;
@@ -132,12 +137,18 @@ abstract class _MyWalletsSroreBase with Store {
 
   String justDeletedAsset = '';
 
+  Timer? _timer;
+
   @action
   void onDelete(int index) {
     sAnalytics.tapOnTheDeleteButtonOnTheWalletScreen();
 
+    _timer?.cancel();
+
     justDeletedAsset = currencies[index].symbol;
     currencies.removeAt(index);
+
+    reorderingCurrencies = currencies;
 
     final activeAssets = <ActiveAsset>[];
     for (var index = 0; index < currencies.length; index++) {
@@ -153,11 +164,13 @@ abstract class _MyWalletsSroreBase with Store {
           model,
         );
 
-    Timer(
-      const Duration(seconds: 2),
+    _timer = Timer(
+      updateDuration,
       () {
         justDeletedAsset = '';
-        currenciesForSearch.addAll(_avaibledAssetsForSearch);
+        currenciesForSearch
+          ..clear()
+          ..addAll(_avaibledAssetsForSearch);
         sortByBalanceAndWeight(currenciesForSearch);
       },
     );
@@ -214,8 +227,10 @@ abstract class _MyWalletsSroreBase with Store {
       ..addAll(_avaibledAssetsForSearch);
     sortByBalanceAndWeight(currenciesForSearch);
 
+    reorderingCurrencies.add(currency);
+
     Timer(
-      const Duration(seconds: 2),
+      updateDuration,
       () {
         reorderingCurrencies = currenciesForMyWallet(currencies: _allAssets);
       },
@@ -324,25 +339,28 @@ abstract class _MyWalletsSroreBase with Store {
   }
 
   void afterVerification() {
-    Future.delayed(const Duration(seconds: 2), () {
-      sNotification.showError(
-        intl.let_us_create_account,
-        isError: false,
-      );
+    Future.delayed(
+      updateDuration,
+      () {
+        sNotification.showError(
+          intl.let_us_create_account,
+          isError: false,
+        );
 
-      setSimpleAccountStatus(SimpleWalletAccountStatus.creating);
+        setSimpleAccountStatus(SimpleWalletAccountStatus.creating);
 
-      sAnalytics.walletsScreenView(
-        favouritesAssetsList: List.generate(
-          currencies.length,
-          (index) => currencies[index].symbol,
-        ),
-      );
+        sAnalytics.walletsScreenView(
+          favouritesAssetsList: List.generate(
+            currencies.length,
+            (index) => currencies[index].symbol,
+          ),
+        );
 
-      sAnalytics.eurWalletShowToastLestCreateAccount();
+        sAnalytics.eurWalletShowToastLestCreateAccount();
 
-      getIt.get<GlobalLoader>().setLoading(false);
-    });
+        getIt.get<GlobalLoader>().setLoading(false);
+      },
+    );
   }
 
   @action

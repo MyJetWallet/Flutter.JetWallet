@@ -40,7 +40,7 @@ class _WalletState extends State<Wallet> with TickerProviderStateMixin {
       state: sSignalRModules.bankingProfileData?.showState,
     );
 
-    final initialPage = currencies.indexOf(widget.currency);
+    final initialPage = currencies.indexWhere((element) => element.symbol == widget.currency.symbol);
     currentAsset = widget.currency;
     currentPage = initialPage;
 
