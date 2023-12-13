@@ -164,8 +164,8 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
                   account: widget.account,
                 ),
                 ConvertAmountTabBody(
-                  fromAsset: widget.tab == AmountScreenTab.convert ? widget.asset : null,
-                  toAsset: widget.tab == AmountScreenTab.convert ? null : widget.asset,
+                  fromAsset: widget.tab != AmountScreenTab.buy ? widget.asset : null,
+                  toAsset: widget.tab == AmountScreenTab.buy ? widget.asset : null,
                 ),
               ],
             ),
