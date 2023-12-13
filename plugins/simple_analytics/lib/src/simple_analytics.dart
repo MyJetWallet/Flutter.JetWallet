@@ -2865,17 +2865,6 @@ class SimpleAnalytics {
     );
   }
 
-  void eurWalletTapBackOnAccountsScreen() {
-    _analytics.logEvent(
-      EventType.eurWalletTapBackOnAccountsScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '275',
-      },
-    );
-  }
-
   void eurWalletSwipeBetweenWallets() {
     _analytics.logEvent(
       EventType.eurWalletSwipeBetweenWallets,
@@ -4398,7 +4387,7 @@ class SimpleAnalytics {
     );
   }
 
-  void tapOnTheCloseOnCVVPopap({
+  void tapOnTheCloseOnCVVPopup({
     required String destinationWallet,
     required PaymenthMethodType pmType,
     required String buyPM,
@@ -4407,7 +4396,7 @@ class SimpleAnalytics {
     required String destinationBuyAmount,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheCloseOnCVVPopap,
+      EventType.tapOnTheCloseOnCVVPopup,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,

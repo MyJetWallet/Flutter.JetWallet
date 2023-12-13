@@ -25,6 +25,7 @@ import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/delete_asset/simple_delete_asset.dart';
@@ -41,18 +42,33 @@ import '../../kyc/kyc_service.dart';
 import '../../simple_card/ui/widgets/get_card_banner.dart';
 
 @RoutePage(name: 'MyWalletsRouter')
-class MyWalletsScreen extends StatefulObserverWidget {
+class MyWalletsScreen extends StatefulWidget {
   const MyWalletsScreen({super.key});
 
   @override
-  State<MyWalletsScreen> createState() => _PortfolioScreenState();
+  State<MyWalletsScreen> createState() => _MyWalletsScreenState();
 }
 
-class _PortfolioScreenState extends State<MyWalletsScreen> {
+class _MyWalletsScreenState extends State<MyWalletsScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Provider<MyWalletsSrore>(
+      create: (context) => MyWalletsSrore(),
+      builder: (context, child) => const _MyWalletsScreenBody(),
+    );
+  }
+}
+
+class _MyWalletsScreenBody extends StatefulObserverWidget {
+  const _MyWalletsScreenBody();
+
+  @override
+  State<_MyWalletsScreenBody> createState() => __MyWalletsScreenBodyState();
+}
+
+class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
   final _controller = ScrollController();
   bool isTopPosition = true;
-
-  final store = getIt.get<MyWalletsSrore>();
 
   // for analytic
   GlobalHistoryTab historyTab = GlobalHistoryTab.pending;
@@ -61,12 +77,12 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
   void initState() {
     super.initState();
 
-    sAnalytics.walletsScreenView(
-      favouritesAssetsList: List.generate(
-        store.currencies.length,
-        (index) => store.currencies[index].symbol,
-      ),
-    );
+    // sAnalytics.walletsScreenView(
+    //   favouritesAssetsList: List.generate(
+    //     store.currencies.length,
+    //     (index) => store.currencies[index].symbol,
+    //   ),
+    // );
 
     _controller.addListener(() {
       if (_controller.position.pixels <= 265) {
@@ -91,6 +107,10 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
         curve: Curves.easeIn,
       );
     });
+
+    getIt<EventBus>().on<EndReordering>().listen((event) {
+      store.endReorderingImmediately();
+    });
   }
 
   void _onLabelIconTap() {
@@ -106,7 +126,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
 
   void _headerTap() {
     sAnalytics.tapOnTheButtonProfileOnWalletsScreen();
-    final myWalletsSrore = getIt.get<MyWalletsSrore>();
+    final myWalletsSrore = MyWalletsSrore.of(context);
     if (myWalletsSrore.isReordering) {
       myWalletsSrore.endReorderingImmediately();
     } else {
@@ -124,13 +144,17 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
     });
   }
 
+  late MyWalletsSrore store;
+
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
     final userInfo = getIt.get<UserInfoService>();
     final kycState = getIt.get<KycService>();
 
-    final list = slidableItems();
+    store = MyWalletsSrore.of(context) as MyWalletsSrore;
+
+    final list = slidableItems(store);
 
     final notificationsCount = _profileNotificationLength(
       KycModel(
@@ -332,7 +356,14 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                                   ),
                                 ),
                               SliverReorderableList(
-                                proxyDecorator: _proxyDecorator,
+                                proxyDecorator: (child, index, animation) {
+                                  return _proxyDecorator(
+                                    child: child,
+                                    index: index,
+                                    animation: animation,
+                                    store: store,
+                                  );
+                                },
                                 onReorder: (int oldIndex, int newIndex) {
                                   store.onReorder(oldIndex, newIndex);
 
@@ -382,7 +413,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
     );
   }
 
-  List<Widget> slidableItems() {
+  List<Widget> slidableItems(MyWalletsSrore store) {
     final colors = sKit.colors;
     final list = <Widget>[];
 
@@ -457,11 +488,12 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
     return list;
   }
 
-  Widget _proxyDecorator(
-    Widget child,
-    int index,
-    Animation<double> animation,
-  ) {
+  Widget _proxyDecorator({
+    required Widget child,
+    required int index,
+    required Animation<double> animation,
+    required MyWalletsSrore store,
+  }) {
     final colors = sKit.colors;
 
     return AnimatedBuilder(

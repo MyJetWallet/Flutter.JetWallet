@@ -145,10 +145,10 @@ class _ConfirmationInfoGridState extends State<SellConfirmationInfoGrid> with Si
                 '${volumeFormat(
                   accuracy: widget.asset.accuracy,
                   decimal: Decimal.one,
-                  symbol: widget.paymentCurrency.symbol,
+                  symbol: widget.asset.symbol,
                 )} = ${volumeFormat(
                   decimal: store.rate ?? Decimal.zero,
-                  symbol: widget.asset.symbol,
+                  symbol: widget.paymentCurrency.symbol,
                 )}',
                 style: sSubtitle3Style,
               ),

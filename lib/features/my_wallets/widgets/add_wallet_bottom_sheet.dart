@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/features/my_wallets/widgets/wallet_search_item.dart';
@@ -9,7 +8,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 void showAddWalletBottomSheet(BuildContext context) {
-  final store = getIt.get<MyWalletsSrore>();
+  final store = MyWalletsSrore.of(context);
 
   sAnalytics.addWalletForFavouritesScreenView();
 
@@ -35,17 +34,25 @@ void showAddWalletBottomSheet(BuildContext context) {
     horizontalPinnedPadding: 0,
     removePinnedPadding: true,
     horizontalPadding: 0,
-    children: [_AssetsList()],
+    children: [
+      _AssetsList(
+        contextWithMyWalletsSrore: context,
+      ),
+    ],
   );
 }
 
 class _AssetsList extends StatelessObserverWidget {
-  _AssetsList();
+  const _AssetsList({
+    required this.contextWithMyWalletsSrore,
+  });
 
-  final store = getIt.get<MyWalletsSrore>();
+  final BuildContext contextWithMyWalletsSrore;
 
   @override
   Widget build(BuildContext context) {
+    final store = MyWalletsSrore.of(contextWithMyWalletsSrore);
+
     final currencies = store.currenciesForSearch;
 
     return Column(

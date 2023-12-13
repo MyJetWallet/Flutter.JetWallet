@@ -13,17 +13,16 @@ import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/split_iban.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
+import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_response.dart';
-import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_preview_withdrawal_model.dart';
 
 @RoutePage(name: 'IbanSendConfirmRouter')
 class IbanSendConfirm extends StatefulWidget {
@@ -138,7 +137,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                   WhatToWhatConvertWidget(
                     isLoading: false,
                     fromAssetIconUrl: eurCurrency.iconUrl,
-                    fromAssetDescription: contact.name ?? '',
+                    fromAssetDescription: account.label ?? '',
                     fromAssetValue: volumeFormat(
                       symbol: eurCurrency.symbol,
                       accuracy: eurCurrency.accuracy,
@@ -155,7 +154,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                   ),
                   const SDivider(),
                   SActionConfirmText(
-                    name: isCJ ? intl.iban_out_label : intl.iban_out_sent_to,
+                    name: intl.iban_out_sent_to,
                     icon: isCJ ? const BlueBankIconDeprecated(size: 20) : const BlueBankUnlimitIcon(size: 20),
                     value: contact.name ?? '',
                   ),
@@ -177,23 +176,21 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                       value: previewRequest.description ?? '',
                     ),
                   ],
-                  SActionConfirmText(
-                    name: intl.iban_out_payment_fee,
-                    value: volumeFormat(
+                  const SpaceH18(),
+                  PaymentFeeRowWidget(
+                    fee: volumeFormat(
                       decimal: data.feeAmount ?? Decimal.zero,
                       accuracy: state.eurCurrency.accuracy,
                       symbol: state.eurCurrency.symbol,
                     ),
-                    maxValueWidth: 140,
                   ),
-                  SActionConfirmText(
-                    name: intl.iban_out_fee,
-                    value: volumeFormat(
+                  const SpaceH18(),
+                  ProcessingFeeRowWidget(
+                    fee: volumeFormat(
                       decimal: data.simpleFeeAmount ?? Decimal.zero,
                       accuracy: simpleFeeCurrency.accuracy,
                       symbol: simpleFeeCurrency.symbol,
                     ),
-                    maxValueWidth: 140,
                   ),
                   const SpaceH17(),
                   Align(

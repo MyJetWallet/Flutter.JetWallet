@@ -19,6 +19,7 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import 'buy_choose_asset_bottom_sheet.dart';
 
@@ -39,25 +40,6 @@ class BuyAmountTabBody extends StatefulObserverWidget {
 }
 
 class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKeepAliveClientMixin {
-  @override
-  void initState() {
-    super.initState();
-    sAnalytics.buyAmountScreenView(
-      destinationWallet: widget.asset?.symbol ?? '',
-      pmType: widget.card != null
-          ? PaymenthMethodType.card
-          : widget.account?.isClearjuctionAccount ?? false
-              ? PaymenthMethodType.cjAccount
-              : PaymenthMethodType.unlimitAccount,
-      buyPM: widget.card != null
-          ? 'Saved card ${widget.card?.last4}'
-          : widget.account?.isClearjuctionAccount ?? false
-              ? 'CJ  ${widget.account?.balance}'
-              : 'Unlimint  ${widget.account?.balance}',
-      sourceCurrency: 'EUR',
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -83,31 +65,52 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                   small: () => const SpaceH40(),
                   medium: () => const Spacer(),
                 ),
-                SNewActionPriceField(
-                  widgetSize: widgetSizeFrom(deviceSize),
-                  primaryAmount: formatCurrencyStringAmount(
-                    value: store.primaryAmount,
-                  ),
-                  primarySymbol: store.primarySymbol,
-                  secondaryAmount: store.asset != null
-                      ? volumeFormat(
-                          decimal: Decimal.parse(store.secondaryAmount),
-                          symbol: '',
-                          accuracy: store.secondaryAccuracy,
-                        )
-                      : null,
-                  secondarySymbol: store.asset != null ? store.secondarySymbol : null,
-                  onSwap: () {
-                    store.swapAssets();
-                    sAnalytics.tapOnTheChangeInputBuyButton(
-                      pmType: store.pmType,
-                      buyPM: store.buyPM,
-                      sourceCurrency: 'EUR',
+                VisibilityDetector(
+                  key: const Key('buy-flow-widget-key'),
+                  onVisibilityChanged: (visibilityInfo) {
+                    if (visibilityInfo.visibleFraction != 1) return;
+
+                    sAnalytics.buyAmountScreenView(
                       destinationWallet: store.asset?.symbol ?? '',
-                      nowInput: store.isFiatEntering ? NowInputType.fiat : NowInputType.crypro,
+                      pmType: widget.card != null
+                          ? PaymenthMethodType.card
+                          : store.account?.isClearjuctionAccount ?? false
+                              ? PaymenthMethodType.cjAccount
+                              : PaymenthMethodType.unlimitAccount,
+                      buyPM: store.card != null
+                          ? 'Saved card ${store.card?.last4}'
+                          : store.account?.isClearjuctionAccount ?? false
+                              ? 'CJ  ${store.account?.last4IbanCharacters}'
+                              : 'Unlimint  ${store.account?.last4IbanCharacters}',
+                      sourceCurrency: 'EUR',
                     );
                   },
-                  errorText: store.paymentMethodInputError,
+                  child: SNewActionPriceField(
+                    widgetSize: widgetSizeFrom(deviceSize),
+                    primaryAmount: formatCurrencyStringAmount(
+                      value: store.primaryAmount,
+                    ),
+                    primarySymbol: store.primarySymbol,
+                    secondaryAmount: store.asset != null
+                        ? volumeFormat(
+                            decimal: Decimal.parse(store.secondaryAmount),
+                            symbol: '',
+                            accuracy: store.secondaryAccuracy,
+                          )
+                        : null,
+                    secondarySymbol: store.asset != null ? store.secondarySymbol : null,
+                    onSwap: () {
+                      store.swapAssets();
+                      sAnalytics.tapOnTheChangeInputBuyButton(
+                        pmType: store.pmType,
+                        buyPM: store.buyPM,
+                        sourceCurrency: 'EUR',
+                        destinationWallet: store.asset?.symbol ?? '',
+                        nowInput: store.isFiatEntering ? NowInputType.fiat : NowInputType.crypro,
+                      );
+                    },
+                    errorText: store.paymentMethodInputError,
+                  ),
                 ),
                 const Spacer(),
                 if (store.asset != null)

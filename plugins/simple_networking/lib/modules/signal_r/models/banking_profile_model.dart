@@ -58,6 +58,8 @@ class SimpleBankingAccount with _$SimpleBankingAccount {
 
   bool get isClearjuctionAccount => accountId == 'clearjuction_account';
 
+  String get last4IbanCharacters => iban?.substring((iban?.length ?? 4) - 4) ?? '';
+
   factory SimpleBankingAccount.fromJson(Map<String, dynamic> json) => _$SimpleBankingAccountFromJson(json);
 }
 

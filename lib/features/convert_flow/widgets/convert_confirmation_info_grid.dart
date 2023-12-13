@@ -91,13 +91,13 @@ class _ConfirmationInfoGridState extends State<ConvertConfirmationInfoGrid> with
               const SizedBox(width: 8),
               Text(
                 '${volumeFormat(
-                  accuracy: widget.asset.accuracy,
+                  accuracy: store.buyCurrency.accuracy,
                   decimal: Decimal.one,
-                  symbol: store.paymentAsset ?? '',
+                  symbol: store.buyCurrency.symbol,
                 )} = ${volumeFormat(
                   accuracy: store.rate?.scale ?? 0,
                   decimal: store.rate ?? Decimal.zero,
-                  symbol: store.buyCurrency.symbol,
+                  symbol: store.paymentAsset ?? '',
                 )}',
                 style: sSubtitle3Style,
               ),

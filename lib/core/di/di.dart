@@ -131,10 +131,6 @@ Future<GetIt> getItInit({
     () => VerificationStore(),
   );
 
-  getIt.registerLazySingleton<MyWalletsSrore>(
-    () => MyWalletsSrore(),
-  );
-
   getIt.registerLazySingleton<SessionCheckService>(
     () => SessionCheckService(),
   );

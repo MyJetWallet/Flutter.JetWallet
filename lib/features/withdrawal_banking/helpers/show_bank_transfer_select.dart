@@ -273,12 +273,24 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
             );
 
             if (isCJ) {
-              sRouter.push(IbanAdressBookSimpleRoute()).then(
+              sRouter
+                  .push(
+                IbanAdressBookSimpleRoute(
+                  bankingAccount: bankingAccount,
+                ),
+              )
+                  .then(
                 (value) async {
                   if (value == null) {
                     return;
                   }
                   if (value != null && !(value as bool)) {
+                    sAnalytics.eurWithdrawTapBackReceiving(
+                      eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+                      accountIban: bankingAccount.iban ?? '',
+                      accountLabel: bankingAccount.label ?? '',
+                    );
+
                     return;
                   }
 
@@ -304,12 +316,24 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
                 },
               );
             } else {
-              sRouter.push(IbanAdressBookUnlimitRoute()).then(
+              sRouter
+                  .push(
+                IbanAdressBookUnlimitRoute(
+                  bankingAccount: bankingAccount,
+                ),
+              )
+                  .then(
                 (value) async {
                   if (value == null) {
                     return;
                   }
                   if (value != null && !(value as bool)) {
+                    sAnalytics.eurWithdrawTapBackReceiving(
+                      eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+                      accountIban: bankingAccount.iban ?? '',
+                      accountLabel: bankingAccount.label ?? '',
+                    );
+
                     return;
                   }
 

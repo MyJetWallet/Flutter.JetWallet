@@ -381,7 +381,7 @@ class EventType {
       'Tap on the button ‘Terms and conditions’ on Buy order summary';
   static const tapOnTheButtonPrivacyPolicyOnBuyOrderSummary = 'Tap on the button ‘Privacy Policy’ on Buy order summary';
   static const enterCVVForBuyScreenView = '‘Enter CVV for buy’ screen view';
-  static const tapOnTheCloseOnCVVPopap = 'Tap on the `Close` on CVV popap';
+  static const tapOnTheCloseOnCVVPopup = 'Tap on the `Close` on CVV popup';
   static const threeDSecureScreenView = '‘3D Secure’ screen view';
   static const tapOnTheCloseButtonOn3DSecureScreen = 'Tap on the ‘Close` button on `3D Secure’ screen';
   static const successBuyEndScreenView = '‘Success Buy end’ screen view';

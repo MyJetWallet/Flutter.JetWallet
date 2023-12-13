@@ -9,6 +9,7 @@ import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/transaction_details_status.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
+import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/stack_loader.dart';
@@ -61,19 +62,35 @@ class GiftSendDetails extends StatelessObserverWidget {
             ),
             const SpaceH16(),
             TransactionDetailsItem(
-              text: intl.gift_history_to,
+              text: intl.iban_send_history_transaction_id,
               value: Row(
                 children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: TransactionDetailsValueText(
-                      textAlign: TextAlign.right,
-                      text: receiverContact,
-                    ),
+                  TransactionDetailsValueText(
+                    text: shortTxhashFrom(transactionListItem.operationId),
                   ),
                   const SpaceW10(),
                   HistoryCopyIcon(transactionListItem.operationId),
                 ],
+              ),
+            ),
+            const SpaceH16(),
+            TransactionDetailsItem(
+              text: intl.gift_history_to,
+              value: Flexible(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const SpaceW10(),
+                    Flexible(
+                      child: TransactionDetailsValueText(
+                        textAlign: TextAlign.right,
+                        text: receiverContact,
+                      ),
+                    ),
+                    const SpaceW10(),
+                    HistoryCopyIcon(transactionListItem.operationId),
+                  ],
+                ),
               ),
             ),
             const SpaceH16(),
