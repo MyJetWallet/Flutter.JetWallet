@@ -102,6 +102,8 @@ class _EurWalletBodyState extends State<EurWalletBody> {
     );
     final anyBlock = sSignalRModules.clientDetail.clientBlockers.isNotEmpty;
 
+    final isAddButtonDisabled = kycBlocked;
+
     return Column(
       children: [
         CollapsedWalletAppbar(
@@ -354,6 +356,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                             SButtonContext(
                               type: SButtonContextType.iconedSmall,
                               text: intl.eur_wallet_add_account,
+                              isDisabled: isAddButtonDisabled,
                               onTap: () {
                                 sAnalytics.eurWalletAddAccountEur();
                                 sAnalytics.eurWalletPersonalEURAccount();
