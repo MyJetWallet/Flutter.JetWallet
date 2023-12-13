@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -15,6 +16,7 @@ import 'package:jetwallet/utils/enum.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -25,7 +27,11 @@ import '../../../core/services/user_info/user_info_service.dart';
 
 part 'my_wallets_srore.g.dart';
 
-class MyWalletsSrore = _MyWalletsSroreBase with _$MyWalletsSrore;
+class MyWalletsSrore extends _MyWalletsSroreBase with _$MyWalletsSrore {
+  MyWalletsSrore() : super();
+
+  static _MyWalletsSroreBase of(BuildContext context) => Provider.of<MyWalletsSrore>(context, listen: false);
+}
 
 abstract class _MyWalletsSroreBase with Store {
   _MyWalletsSroreBase() {

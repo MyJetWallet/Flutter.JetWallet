@@ -21,3 +21,7 @@ class GetNewHistoryEvent {
 class ResetScrollMyWallets {
   ResetScrollMyWallets();
 }
+
+class EndReordering {
+  EndReordering();
+}

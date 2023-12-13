@@ -126,7 +126,7 @@ class _DefaultHeader extends StatelessObserverWidget {
           GestureDetector(
             onTap: () {
               sAnalytics.tapOnTheButtonProfileOnWalletsScreen();
-              final myWalletsSrore = getIt.get<MyWalletsSrore>();
+              final myWalletsSrore = MyWalletsSrore.of(context);
               if (myWalletsSrore.isReordering) {
                 myWalletsSrore.endReorderingImmediately();
               } else {
@@ -150,7 +150,7 @@ class _DefaultHeader extends StatelessObserverWidget {
                         ),
                         onTap: () {
                           sAnalytics.tapOnTheButtonProfileOnWalletsScreen();
-                          final myWalletsSrore = getIt.get<MyWalletsSrore>();
+                          final myWalletsSrore = MyWalletsSrore.of(context);
                           if (myWalletsSrore.isReordering) {
                             myWalletsSrore.endReorderingImmediately();
                           } else {
@@ -275,7 +275,7 @@ class _ScrollInProgressHeader extends StatelessObserverWidget {
                     ),
                     onTap: () {
                       sAnalytics.tapOnTheButtonProfileOnWalletsScreen();
-                      final myWalletsSrore = getIt.get<MyWalletsSrore>();
+                      final myWalletsSrore = MyWalletsSrore.of(context);
                       if (myWalletsSrore.isReordering) {
                         myWalletsSrore.endReorderingImmediately();
                       } else {

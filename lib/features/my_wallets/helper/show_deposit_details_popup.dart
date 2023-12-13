@@ -36,8 +36,8 @@ Future<void> showSelectAccountForAddCash(BuildContext context) async {
     context: context,
     from: [BlockingType.deposit],
     or: () async {
-      if (getIt.get<MyWalletsSrore>().buttonStatus == BankingShowState.getAccount) {
-        await getIt.get<MyWalletsSrore>().createSimpleAccount();
+      if (MyWalletsSrore.of(context).buttonStatus == BankingShowState.getAccount) {
+        await MyWalletsSrore.of(context).createSimpleAccount();
       } else {
         sAnalytics.addCashToSheetView();
         sShowBasicModalBottomSheet(

@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_buy/action_buy.dart';
 import 'package:jetwallet/features/actions/action_receive/action_receive.dart';
@@ -26,7 +25,7 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final myWalletsSrore = getIt.get<MyWalletsSrore>();
+    final myWalletsSrore = MyWalletsSrore.of(context);
 
     return SPaddingH24(
       child: Observer(

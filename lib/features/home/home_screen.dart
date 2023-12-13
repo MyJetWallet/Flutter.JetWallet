@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/home/widgets/bottom_navigation_menu.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
-import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/bottom_sheets/components/simple_shade_animation_stack.dart';
@@ -85,12 +83,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (val == 4) {
                   sAnalytics.rewardsTapOnTheTabBar();
                 }
-                final myWalletsSrore = getIt.get<MyWalletsSrore>();
-                if (myWalletsSrore.isReordering) {
-                  myWalletsSrore.endReorderingImmediately();
 
-                  return;
-                }
+                getIt.get<EventBus>().fire(EndReordering());
 
                 if (val == 0 && getIt<AppStore>().homeTab == 0) {
                   getIt.get<EventBus>().fire(ResetScrollMyWallets());
