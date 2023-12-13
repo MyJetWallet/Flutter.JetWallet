@@ -73,7 +73,9 @@ abstract class _MyWalletsSroreBase with Store {
 
       return currenciesForMyWallet(currencies: a);
     } else if (!_listsAreEqual(reorderingCurrencies, currenciesForMyWallet(currencies: _allAssets))) {
-      return reorderingCurrencies;
+      return reorderingCurrencies.length != currenciesForMyWallet(currencies: _allAssets).length
+          ? currenciesForMyWallet()
+          : reorderingCurrencies;
     } else {
       return currenciesForMyWallet(currencies: _allAssets);
     }
