@@ -102,8 +102,6 @@ class _EurWalletBodyState extends State<EurWalletBody> {
     );
     final anyBlock = sSignalRModules.clientDetail.clientBlockers.isNotEmpty;
 
-    final isAddButtonDisabled = anyBlock || kycBlocked;
-
     return Column(
       children: [
         CollapsedWalletAppbar(
@@ -343,7 +341,8 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                         );
                       },
                     ),
-                    if (bankAccounts.isEmpty)
+                    //if (bankAccounts.isEmpty)
+                    if ((sSignalRModules.bankingProfileData?.availableAccountsCount ?? 0) != 0)
                       Padding(
                         padding: const EdgeInsets.only(
                           left: 16,
@@ -355,7 +354,6 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                             SButtonContext(
                               type: SButtonContextType.iconedSmall,
                               text: intl.eur_wallet_add_account,
-                              isDisabled: isAddButtonDisabled,
                               onTap: () {
                                 sAnalytics.eurWalletAddAccountEur();
                                 sAnalytics.eurWalletPersonalEURAccount();
