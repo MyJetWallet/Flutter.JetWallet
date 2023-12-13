@@ -780,6 +780,13 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
         (data.banking?.accounts ?? []).fold(Decimal.zero, (sum, el) => sum + (el.balance ?? Decimal.zero));
 
     totalEurWalletBalance += data.simple?.account?.balance ?? Decimal.zero;
+
+    if (basePricesModel != null) {
+      updateBasePrices(basePricesModel!);
+    }
+    if (balancesModel != null) {
+      updateBalances(balancesModel!);
+    }
   }
 
   @observable

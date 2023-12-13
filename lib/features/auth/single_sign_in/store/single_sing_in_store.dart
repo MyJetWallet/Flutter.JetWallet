@@ -19,12 +19,10 @@ import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/auth_api/models/start_email_login/start_email_login_request_model.dart';
 part 'single_sing_in_store.g.dart';
 
-class SingleSingInStore extends _SingleSingInStoreBase
-    with _$SingleSingInStore {
+class SingleSingInStore extends _SingleSingInStoreBase with _$SingleSingInStore {
   SingleSingInStore(super.email);
 
-  static _SingleSingInStoreBase of(BuildContext context) =>
-      Provider.of<SingleSingInStore>(context, listen: false);
+  static _SingleSingInStoreBase of(BuildContext context) => Provider.of<SingleSingInStore>(context, listen: false);
 }
 
 abstract class _SingleSingInStoreBase with Store {
@@ -59,8 +57,7 @@ abstract class _SingleSingInStoreBase with Store {
     final deviceInfoModel = sDeviceInfo;
     final appsFlyerService = getIt.get<AppsFlyerService>();
 
-    final appsFlyerID =
-        await appsFlyerService.appsflyerSdk.getAppsFlyerUID() ?? '';
+    final appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID() ?? '';
     final authInfoN = getIt.get<AppStore>();
 
     final credentials = getIt.get<CredentialsService>();
@@ -94,11 +91,8 @@ abstract class _SingleSingInStoreBase with Store {
         idfa: advID,
       );
 
-      final response = await getIt
-          .get<SNetwork>()
-          .simpleNetworkingUnathorized
-          .getAuthModule()
-          .postStartEmailLogin(model);
+      final response =
+          await getIt.get<SNetwork>().simpleNetworkingUnathorized.getAuthModule().postStartEmailLogin(model);
       sAnalytics.updateUserId(credentials.email);
 
       response.pick(
@@ -113,18 +107,24 @@ abstract class _SingleSingInStoreBase with Store {
                 );
         },
         onError: (error) {
+          print(error);
+
           union = SingleSingInStateUnion.errorString(
             error.cause,
           );
         },
       );
     } on ServerRejectException catch (error) {
+      print(error);
+
       _logger.log(stateFlow, 'singleSingIn', error.cause);
 
       union = error.cause.contains('50') || error.cause.contains('40')
           ? SingleSingInStateUnion.error(intl.something_went_wrong_try_again)
           : SingleSingInStateUnion.error(error.cause);
     } catch (e) {
+      print(e);
+
       _logger.log(stateFlow, 'singleSingIn', e);
 
       union = e.toString().contains('50') || e.toString().contains('40')

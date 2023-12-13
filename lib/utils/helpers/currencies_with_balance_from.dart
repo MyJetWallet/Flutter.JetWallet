@@ -4,8 +4,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 List<CurrencyModel> currenciesWithBalanceFrom(List<CurrencyModel> currencies) {
   final currenciesWithBalance = currencies
       .where(
-        (currency) =>
-            currency.isAssetBalanceNotEmpty || currency.isPendingDeposit,
+        (currency) => currency.isAssetBalanceNotEmpty || currency.isPendingDeposit,
       )
       .toList();
   sortCurrencies(currenciesWithBalance);

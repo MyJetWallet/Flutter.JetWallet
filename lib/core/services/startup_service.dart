@@ -37,7 +37,6 @@ import 'package:logger/logger.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/helpers/models/refresh_token_status.dart';
 import 'package:simple_networking/modules/auth_api/models/install_model.dart';
-import 'package:simple_networking/modules/auth_api/models/session_chek/session_check_response_model.dart';
 import 'package:simple_networking/modules/logs_api/models/add_log_model.dart';
 import 'package:simple_sift/sift.dart';
 import 'package:universal_io/io.dart';
