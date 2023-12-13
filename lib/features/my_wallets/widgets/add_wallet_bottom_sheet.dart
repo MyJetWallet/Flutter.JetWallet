@@ -34,16 +34,24 @@ void showAddWalletBottomSheet(BuildContext context) {
     horizontalPinnedPadding: 0,
     removePinnedPadding: true,
     horizontalPadding: 0,
-    children: [const _AssetsList()],
+    children: [
+      _AssetsList(
+        contextWithMyWalletsSrore: context,
+      ),
+    ],
   );
 }
 
 class _AssetsList extends StatelessObserverWidget {
-  const _AssetsList();
+  const _AssetsList({
+    required this.contextWithMyWalletsSrore,
+  });
+
+  final BuildContext contextWithMyWalletsSrore;
 
   @override
   Widget build(BuildContext context) {
-    final store = MyWalletsSrore.of(context);
+    final store = MyWalletsSrore.of(contextWithMyWalletsSrore);
 
     final currencies = store.currenciesForSearch;
 

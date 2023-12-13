@@ -71,17 +71,17 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                     if (visibilityInfo.visibleFraction != 1) return;
 
                     sAnalytics.buyAmountScreenView(
-                      destinationWallet: widget.asset?.symbol ?? '',
+                      destinationWallet: store.asset?.symbol ?? '',
                       pmType: widget.card != null
                           ? PaymenthMethodType.card
-                          : widget.account?.isClearjuctionAccount ?? false
+                          : store.account?.isClearjuctionAccount ?? false
                               ? PaymenthMethodType.cjAccount
                               : PaymenthMethodType.unlimitAccount,
-                      buyPM: widget.card != null
-                          ? 'Saved card ${widget.card?.last4}'
-                          : widget.account?.isClearjuctionAccount ?? false
-                              ? 'CJ  ${widget.account?.last4IbanCharacters}'
-                              : 'Unlimint  ${widget.account?.last4IbanCharacters}',
+                      buyPM: store.card != null
+                          ? 'Saved card ${store.card?.last4}'
+                          : store.account?.isClearjuctionAccount ?? false
+                              ? 'CJ  ${store.account?.last4IbanCharacters}'
+                              : 'Unlimint  ${store.account?.last4IbanCharacters}',
                       sourceCurrency: 'EUR',
                     );
                   },
