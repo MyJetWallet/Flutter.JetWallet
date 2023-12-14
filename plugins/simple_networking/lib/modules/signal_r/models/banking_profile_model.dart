@@ -70,7 +70,7 @@ class CardDataModel with _$CardDataModel {
     final String? cardNumberMasked,
     final String? currency,
     @DecimalNullSerialiser() final Decimal? balance,
-    final AccountStatusCard? status,
+    @AccountStatusCardSerialiser() final AccountStatusCard? status,
     final String? nameOnCard,
     @SimpleCardNetworkSerialiser() required SimpleCardNetwork? cardType,
     final String? expiryDate,
