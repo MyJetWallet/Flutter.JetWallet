@@ -363,52 +363,6 @@ class SimpleAnalytics {
     );
   }
 
-  void signInFlowPersonalReferralLink() {
-    _analytics.logEvent(
-      EventType.signInFlowPersonalReferralLink,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '59',
-        PropertyType.kycStatus: kycDepositStatus,
-      },
-    );
-  }
-
-  void signInFlowPersonaReferralLinkScreenView() {
-    _analytics.logEvent(
-      EventType.signInFlowPersonaReferralLinkScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '60',
-        PropertyType.kycStatus: kycDepositStatus,
-      },
-    );
-  }
-
-  void signInFlowPersonaReferralLinkError({required String errorCode}) {
-    _analytics.logEvent(
-      EventType.signInFlowPersonaReferralLinkError,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '61',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.errorCode: errorCode,
-      },
-    );
-  }
-
-  void signInFlowPersonaReferralLinkContinue({required String code}) {
-    _analytics.logEvent(
-      EventType.signInFlowPersonaReferralLinkContinue,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '62',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.codeLink: code,
-      },
-    );
-  }
-
   void signInFlowCreatePinView() {
     _analytics.logEvent(
       EventType.signInFlowCreatePinView,
@@ -5249,6 +5203,83 @@ class SimpleAnalytics {
         PropertyType.convertToAsset: convertToAsset,
         PropertyType.nowInput: nowInput,
         PropertyType.enteredAmount: enteredAmount,
+      },
+    );
+  }
+
+  void tapOnAddRefCodeButton() {
+    _analytics.logEvent(
+      EventType.tapOnAddRefCodeButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '306',
+      },
+    );
+  }
+
+  void enterReferralCodeScreenView() {
+    _analytics.logEvent(
+      EventType.enterReferralCodeScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '307',
+      },
+    );
+  }
+
+  void tapOnPasteButtonOnEnterReferralCode() {
+    _analytics.logEvent(
+      EventType.tapOnPasteButtonOnEnterReferralCode,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '308',
+      },
+    );
+  }
+
+  void validReferralCodeScreenView() {
+    _analytics.logEvent(
+      EventType.validReferralCodeScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '309',
+      },
+    );
+  }
+
+  void errorInvalidReferralCode() {
+    _analytics.logEvent(
+      EventType.errorInvalidReferralCode,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '310',
+      },
+    );
+  }
+
+  void tapOnContinueButtonOnEnterReferralCode() {
+    _analytics.logEvent(
+      EventType.tapOnContinueButtonOnEnterReferralCode,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '311',
+      },
+    );
+  }
+
+  void tapOnDeleteRefCodeButton() {
+    _analytics.logEvent(
+      EventType.tapOnDeleteRefCodeButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '312',
       },
     );
   }

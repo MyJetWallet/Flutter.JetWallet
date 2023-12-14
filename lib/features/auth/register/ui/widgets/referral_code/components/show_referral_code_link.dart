@@ -15,7 +15,7 @@ import 'valid_referral_code.dart';
 void showReferralCode(BuildContext context) {
   final colors = sKit.colors;
 
-  sAnalytics.signInFlowPersonaReferralLinkScreenView();
+  sAnalytics.enterReferralCodeScreenView();
 
   sShowBasicModalBottomSheet(
     context: context,
@@ -74,7 +74,10 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
                 onErase: () => getIt.get<ReferallCodeStore>().clearBottomSheetReferralCode(),
                 suffixIcons: [
                   SIconButton(
-                    onTap: () => getIt.get<ReferallCodeStore>().pasteCodeReferralLink(),
+                    onTap: () {
+                      sAnalytics.tapOnPasteButtonOnEnterReferralCode();
+                      getIt.get<ReferallCodeStore>().pasteCodeReferralLink();
+                    },
                     defaultIcon: const SPasteIcon(),
                     pressedIcon: const SPastePressedIcon(),
                   ),
@@ -96,6 +99,8 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
                   );
                 },
                 valid: () {
+                  sAnalytics.validReferralCodeScreenView();
+
                   return const Column(
                     children: [
                       SpaceH24(),
@@ -105,6 +110,8 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
                   );
                 },
                 invalid: () {
+                  sAnalytics.errorInvalidReferralCode();
+
                   return const Column(
                     children: [
                       SpaceH24(),
@@ -153,9 +160,7 @@ class _ReferralCodeBottom extends StatelessObserverWidget {
             active: getIt.get<ReferallCodeStore>().enableContinueButton,
             name: intl.showBasicModalBottomSheet_continue,
             onTap: () {
-              sAnalytics.signInFlowPersonaReferralLinkContinue(
-                code: getIt.get<ReferallCodeStore>().referralCode ?? '',
-              );
+              sAnalytics.tapOnContinueButtonOnEnterReferralCode();
 
               Navigator.pop(context);
             },

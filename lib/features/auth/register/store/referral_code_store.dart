@@ -11,7 +11,6 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/modules/auth_api/models/validate_referral_code/validate_referral_code_request_model.dart';
 
 part 'referral_code_store.g.dart';
@@ -160,17 +159,11 @@ abstract class _ReferallCodeStoreBase with Store {
           referralCodeValidation = const Invalid();
           bottomSheetReferralCodeValidation = const Invalid();
 
-          sAnalytics.signInFlowPersonaReferralLinkError(errorCode: error.cause);
-
           _triggerErrorOfReferralCodeField();
         },
       );
     } catch (error) {
       _logger.log(stateFlow, 'validateReferralCode', error);
-
-      sAnalytics.signInFlowPersonaReferralLinkError(
-        errorCode: error.toString(),
-      );
 
       referralCodeValidation = const Invalid();
       bottomSheetReferralCodeValidation = const Invalid();

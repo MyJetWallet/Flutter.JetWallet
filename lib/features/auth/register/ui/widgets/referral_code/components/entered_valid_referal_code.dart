@@ -5,8 +5,8 @@ import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 
-class EnterdValidReferalCode extends StatelessWidget {
-  const EnterdValidReferalCode({
+class EnteredValidReferalCode extends StatelessWidget {
+  const EnteredValidReferalCode({
     super.key,
     required this.referralCode,
     required this.onDelete,
