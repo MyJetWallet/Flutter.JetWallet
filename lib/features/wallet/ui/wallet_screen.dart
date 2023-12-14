@@ -1,16 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/my_wallets/helper/currencies_for_my_wallet.dart';
+import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/eur_wallet_body.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/wallet_body.dart';
-import 'package:jetwallet/utils/helpers/contains_single_element.dart';
-import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
-import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:simple_kit/simple_kit.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 @RoutePage(name: 'WalletRouter')
 class Wallet extends StatefulObserverWidget {
@@ -25,8 +22,7 @@ class Wallet extends StatefulObserverWidget {
   State<Wallet> createState() => _WalletState();
 }
 
-class _WalletState extends State<Wallet>
-    with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
+class _WalletState extends State<Wallet> with TickerProviderStateMixin {
   late PageController _pageController;
   late CurrencyModel currentAsset;
   int currentPage = 0;
@@ -35,12 +31,17 @@ class _WalletState extends State<Wallet>
   void initState() {
     super.initState();
 
-    final itemsWithBalance = nonIndicesWithBalanceFrom(
-      currenciesWithBalanceFrom(
-        sSignalRModules.currenciesList,
-      ),
+    sAnalytics.cryptoFavouriteWalletScreen(
+      openedAsset: widget.currency.symbol,
     );
-    final initialPage = itemsWithBalance.indexOf(widget.currency);
+
+    final currencies = currenciesForMyWallet(
+      currencies: sSignalRModules.currenciesList,
+      fromWalletsScreen: true,
+      state: sSignalRModules.bankingProfileData?.showState,
+    );
+
+    final initialPage = currencies.indexWhere((element) => element.symbol == widget.currency.symbol);
     currentAsset = widget.currency;
     currentPage = initialPage;
 
@@ -56,25 +57,20 @@ class _WalletState extends State<Wallet>
   bool skeepOnPageChanged = false;
 
   @override
-  bool get wantKeepAlive => true;
-
-  @override
   Widget build(BuildContext context) {
-    super.build(context);
-
-    final colors = sKit.colors;
-    final currencies = sSignalRModules.currenciesList;
-    final currenciesWithBalance = nonIndicesWithBalanceFrom(
-      currenciesWithBalanceFrom(currencies),
+    final currencies = currenciesForMyWallet(
+      currencies: sSignalRModules.currenciesList,
+      fromWalletsScreen: true,
+      state: sSignalRModules.bankingProfileData?.showState,
     );
 
     // These actions are required to handle navigation
     // if the order of assets is changed externally
-    final supposedPage = currenciesWithBalance.indexWhere(
+    final supposedPage = currencies.indexWhere(
       (element) => element.symbol == currentAsset.symbol,
     );
     if (currentPage != supposedPage) {
-      currentAsset = currenciesWithBalance.firstWhere(
+      currentAsset = currencies.firstWhere(
         (element) => element.symbol == currentAsset.symbol,
       );
       currentPage = supposedPage;
@@ -84,56 +80,48 @@ class _WalletState extends State<Wallet>
 
     return Scaffold(
       body: Material(
-        color: Colors.transparent,
-        child: Observer(
-          builder: (context) {
-            return SShadeAnimationStack(
-              showShade: getIt.get<AppStore>().actionMenuActive,
-              //controller: _animationController,
-              child: Stack(
-                children: [
-                  PageView(
-                    controller: _pageController,
-                    onPageChanged: (page) {
-                      if (skeepOnPageChanged) {
-                        skeepOnPageChanged = false;
-                      } else {
-                        currentAsset = currenciesWithBalance[page];
-                        currentPage = page;
-                      }
-                    },
-                    children: [
-                      for (final currency in currenciesWithBalance)
-                        WalletBody(
-                          key: Key(currency.symbol),
-                          currency: currency,
-                        ),
-                    ],
-                  ),
-                  if (!containsSingleElement(currenciesWithBalance))
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 118),
-                        child: SmoothPageIndicator(
-                          controller: _pageController,
-                          count: currenciesWithBalance.length,
-                          effect: ScrollingDotsEffect(
-                            spacing: 2,
-                            radius: 4,
-                            dotWidth: 8,
-                            dotHeight: 2,
-                            maxVisibleDots: 11,
-                            activeDotScale: 1,
-                            dotColor: colors.black.withOpacity(0.1),
-                            activeDotColor: colors.black,
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            );
+        color: Colors.white,
+        child: PageView.builder(
+          controller: _pageController,
+          onPageChanged: (page) {
+            final bankAccountsCount = (sSignalRModules.bankingProfileData?.banking?.accounts ?? [])
+                .where((element) => element.status == AccountStatus.active)
+                .length;
+
+            var allAccountsCount = bankAccountsCount;
+            if (sSignalRModules.bankingProfileData?.simple != null) {
+              if (sSignalRModules.bankingProfileData?.simple?.account?.status == AccountStatus.active)
+                allAccountsCount++;
+            }
+            sAnalytics.eurWalletAccountScreen(allAccountsCount);
+
+            if (skeepOnPageChanged) {
+              skeepOnPageChanged = false;
+            } else {
+              currentAsset = currencies[page];
+              currentPage = page;
+              sAnalytics.cryptoFavouriteWalletScreen(
+                openedAsset: currencies[page].symbol,
+              );
+            }
+            setState(() {});
+          },
+          itemCount: currencies.length,
+          itemBuilder: (context, index) {
+            return currencies[index].symbol == 'EUR'
+                ? EurWalletBody(
+                    key: Key(currencies[index].symbol),
+                    pageController: _pageController,
+                    pageCount: currencies.length,
+                    indexNow: currentPage,
+                  )
+                : WalletBody(
+                    key: Key(currencies[index].symbol),
+                    currency: currencies[index],
+                    pageController: _pageController,
+                    pageCount: currencies.length,
+                    indexNow: currentPage,
+                  );
           },
         ),
       ),

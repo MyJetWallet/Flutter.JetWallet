@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -11,60 +10,54 @@ import 'package:jetwallet/features/buy_flow/ui/widgets/confirmation_widgets/conf
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
+import 'package:jetwallet/utils/helpers/split_iban.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
-@RoutePage()
+@RoutePage(name: 'BuyConfirmationRoute')
 class BuyConfirmationScreen extends StatelessWidget {
   const BuyConfirmationScreen({
     super.key,
     required this.asset,
     required this.paymentCurrency,
-    required this.amount,
-    this.method,
+    required this.isFromFixed,
+    this.fromAmount,
+    this.toAmount,
     this.card,
-    this.cardNumber,
-    this.cardId,
-    this.preset,
+    this.account,
   });
 
   final CurrencyModel asset;
   final CurrencyModel paymentCurrency;
 
-  final BuyMethodDto? method;
-
   final CircleCard? card;
+  final SimpleBankingAccount? account;
 
-  final String? cardNumber;
-  final String? cardId;
-
-  final String amount;
-  final String? preset;
+  final bool isFromFixed;
+  final String? fromAmount;
+  final String? toAmount;
 
   @override
   Widget build(BuildContext context) {
     return Provider<BuyConfirmationStore>(
       create: (context) => BuyConfirmationStore()
         ..loadPreview(
-          amount,
-          asset.symbol,
-          paymentCurrency.symbol,
-          method,
-          card,
-          preset,
+          newIsFromFixed: isFromFixed,
+          pAmount: fromAmount ?? '0',
+          bAsset: asset.symbol,
+          inputCard: card,
+          inputAccount: account,
+          bAmount: toAmount,
         ),
-      builder: (context, child) => _BuyConfirmationScreenBody(
-        asset: asset,
-        paymentCurrency: paymentCurrency,
-        amount: amount,
-        method: method,
-        card: card,
-      ),
+      builder: (context, child) => const _BuyConfirmationScreenBody(),
       dispose: (context, value) {
         value.cancelTimer();
         value.cancelAllRequest();
@@ -74,25 +67,12 @@ class BuyConfirmationScreen extends StatelessWidget {
 }
 
 class _BuyConfirmationScreenBody extends StatelessObserverWidget {
-  const _BuyConfirmationScreenBody({
-    required this.asset,
-    required this.paymentCurrency,
-    required this.amount,
-    this.method,
-    this.card,
-  });
-
-  final CurrencyModel asset;
-  final CurrencyModel paymentCurrency;
-
-  final BuyMethodDto? method;
-  final CircleCard? card;
-
-  final String amount;
+  const _BuyConfirmationScreenBody();
 
   @override
   Widget build(BuildContext context) {
     final store = BuyConfirmationStore.of(context);
+    final colors = sKit.colors;
 
     return SPageFrameWithPadding(
       loading: store.loader,
@@ -111,6 +91,10 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
           : null,
       header: SSmallHeader(
         title: intl.buy_confirmation_title,
+        subTitle: intl.buy_confirmation_subtitle,
+        subTitleStyle: sBodyText2Style.copyWith(
+          color: colors.grey1,
+        ),
         onBackButtonTap: () => sRouter.pop(),
       ),
       child: CustomScrollView(
@@ -119,61 +103,62 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
             hasScrollBody: false,
             child: Column(
               children: [
-                Text(
-                  store.category == PaymentMethodCategory.cards
-                      ? intl.previewBuyWithCircle_youWillGet
-                      : intl.previewBuyWithCircle_youWillGetApproximately,
-                  textAlign: TextAlign.center,
-                  style: sBodyText1Style.copyWith(
-                    color: sKit.colors.grey1,
+                WhatToWhatConvertWidget(
+                  isLoading: !store.isDataLoaded,
+                  fromAssetIconUrl: store.payCurrency.iconUrl,
+                  fromAssetDescription: store.payCurrency.symbol,
+                  fromAssetValue: volumeFormat(
+                    symbol: store.payCurrency.symbol,
+                    accuracy: store.payCurrency.accuracy,
+                    decimal: store.paymentAmount ?? Decimal.zero,
+                  ),
+                  toAssetIconUrl: store.buyCurrency.iconUrl,
+                  toAssetDescription: store.buyCurrency.description,
+                  toAssetValue: volumeFormat(
+                    decimal: store.buyAmount ?? Decimal.zero,
+                    accuracy: store.buyCurrency.accuracy,
+                    symbol: store.buyCurrency.symbol,
                   ),
                 ),
-                if (store.isDataLoaded) ...[
-                  Text(
-                    volumeFormat(
-                      prefix: asset.prefixSymbol,
-                      decimal: store.buyAmount ?? Decimal.zero,
-                      accuracy: asset.accuracy,
-                      symbol: asset.symbol,
-                    ),
-                    textAlign: TextAlign.center,
-                    style: sTextH4Style.copyWith(
-                      color: sKit.colors.blue,
-                    ),
-                  ),
-                ] else ...[
-                  const Baseline(
-                    baseline: 19.0,
-                    baselineType: TextBaseline.alphabetic,
-                    child: SSkeletonTextLoader(
-                      height: 16,
-                      width: 130,
-                    ),
-                  ),
-                ],
-                const SizedBox(height: 25),
                 ConfirmationInfoGrid(
                   paymentFee: volumeFormat(
-                    prefix: store.depositFeeCurrency.prefixSymbol,
                     decimal: store.depositFeeAmount ?? Decimal.zero,
                     accuracy: store.depositFeeCurrency.accuracy,
                     symbol: store.depositFeeCurrency.symbol,
                   ),
                   ourFee: volumeFormat(
-                    prefix: store.tradeFeeCurreny.prefixSymbol,
                     decimal: store.tradeFeeAmount ?? Decimal.zero,
                     accuracy: store.tradeFeeCurreny.accuracy,
                     symbol: store.tradeFeeCurreny.symbol,
                   ),
                   totalValue: volumeFormat(
-                    prefix: paymentCurrency.prefixSymbol,
-                    symbol: paymentCurrency.symbol,
-                    accuracy: paymentCurrency.accuracy,
-                    decimal: Decimal.parse(amount),
+                    symbol: store.payCurrency.symbol,
+                    accuracy: store.payCurrency.accuracy,
+                    decimal: store.paymentAmount ?? Decimal.zero,
                   ),
-                  paymentCurrency: paymentCurrency,
-                  asset: asset,
+                  paymentCurrency: store.payCurrency,
+                  asset: store.buyCurrency,
                 ),
+                if (!(store.account?.isClearjuctionAccount ?? false) &&
+                    store.category == PaymentMethodCategory.account) ...[
+                  const SpaceH19(),
+                  Builder(
+                    builder: (context) {
+                      final text =
+                          '''${intl.buy_confirm_with_unlimit_1_part} ${volumeFormat(symbol: store.payCurrency.symbol, accuracy: store.payCurrency.accuracy, decimal: store.paymentAmount ?? Decimal.zero)} ${intl.buy_confirm_with_unlimit_2_part} ${splitIban((store.ibanBuyDestination).trim())} ${intl.buy_confirm_with_unlimit_3_part} ${store.ibanBuyBeneficiary}''';
+
+                      return Text(
+                        text,
+                        style: sCaptionTextStyle.copyWith(
+                          color: SColorsLight().gray8,
+                        ),
+                        maxLines: 20,
+                      );
+                    },
+                  ),
+                ],
+                const SpaceH19(),
+                const SDivider(),
                 if (store.category != PaymentMethodCategory.p2p) ...[
                   SPolicyCheckbox(
                     height: 65,
@@ -186,108 +171,33 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                     thirdText: '',
                     activeText2: '',
                     onCheckboxTap: () {
-                      store.category == PaymentMethodCategory.cards
-                          ? store.setIsBankTermsChecked()
-                          : store.setIsLocalTermsChecked();
+                      store.setIsBankTermsChecked();
                     },
                     onUserAgreementTap: () {
                       launchURL(context, userAgreementLink);
+                      sAnalytics.tapOnTheButtonTermsAndConditionsOnBuyOrderSummary(
+                        pmType: store.pmType,
+                        buyPM: store.buyPM,
+                        sourceCurrency: 'EUR',
+                        destinationWallet: store.buyAsset ?? '',
+                        sourceBuyAmount: store.paymentAmount.toString(),
+                        destinationBuyAmount: store.buyAmount.toString(),
+                      );
                     },
                     onPrivacyPolicyTap: () {
                       launchURL(context, privacyPolicyLink);
+                      sAnalytics.tapOnTheButtonPrivacyPolicyOnBuyOrderSummary(
+                        pmType: store.pmType,
+                        buyPM: store.buyPM,
+                        sourceCurrency: 'EUR',
+                        destinationWallet: store.buyAsset ?? '',
+                        sourceBuyAmount: store.paymentAmount.toString(),
+                        destinationBuyAmount: store.buyAmount.toString(),
+                      );
                     },
                     onActiveTextTap: () {},
                     onActiveText2Tap: () {},
-                    isChecked: store.category == PaymentMethodCategory.cards
-                        ? store.isBankTermsChecked
-                        : store.isLocalTermsChecked,
-                  ),
-                ] else ...[
-                  SPolicy(
-                    isChecked: store.isP2PTermsChecked,
-                    onCheckboxTap: () {
-                      store.seIsP2PTermsChecked();
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SpaceH22(),
-                        Text(
-                          intl.buy_confirmation_privacy_p2p_checkbox_1,
-                          maxLines: 3,
-                          style: sBodyText2Style.copyWith(
-                            fontFamily: 'Gilroy',
-                            height: 1.42,
-                            color: sKit.colors.black,
-                          ),
-                        ),
-                        const SpaceH8(),
-                        RichText(
-                          text: TextSpan(
-                            text:
-                                intl.buy_confirmation_privacy_p2p_checkbox_1_5,
-                            style: sBodyText2Style.copyWith(
-                              fontFamily: 'Gilroy',
-                              height: 1.42,
-                              color: sKit.colors.black,
-                            ),
-                            children: [
-                              TextSpan(
-                                text: intl
-                                    .buy_confirmation_privacy_p2p_checkbox_2,
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    launchURL(context, p2pTerms);
-                                  },
-                                style: TextStyle(
-                                  color: sKit.colors.blue,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SpaceH8(),
-                        Text(
-                          intl.buy_confirmation_privacy_p2p_checkbox_3,
-                          maxLines: 3,
-                          style: sBodyText2Style.copyWith(
-                            fontFamily: 'Gilroy',
-                            height: 1.42,
-                            color: sKit.colors.black,
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            sShowAlertPopup(
-                              context,
-                              primaryText: '',
-                              secondaryText:
-                                  intl.buy_confirmation_privacy_p2p_popup,
-                              primaryButtonName: intl.global_send_got_it,
-                              image: Image.asset(
-                                infoLightAsset,
-                                height: 80,
-                                width: 80,
-                                package: 'simple_kit',
-                              ),
-                              onPrimaryButtonTap: () =>
-                                  {Navigator.pop(context)},
-                              cancelText: intl.profileDetails_cancel,
-                              onCancelButtonTap: () => {Navigator.pop(context)},
-                            );
-                          },
-                          child: Text(
-                            intl.buy_confirmation_privacy_p2p_heckbox_4,
-                            maxLines: 3,
-                            style: sBodyText2Style.copyWith(
-                              fontFamily: 'Gilroy',
-                              height: 1.42,
-                              color: sKit.colors.blue,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    isChecked: store.isBankTermsChecked,
                   ),
                 ],
                 Padding(
@@ -296,6 +206,14 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                     active: !store.loader.loading && store.getCheckbox,
                     name: intl.previewBuyWithAsset_confirm,
                     onTap: () {
+                      sAnalytics.tapOnTheButtonConfirmOnBuyOrderSummary(
+                        pmType: store.pmType,
+                        buyPM: store.buyPM,
+                        sourceCurrency: 'EUR',
+                        destinationWallet: store.buyAsset ?? '',
+                        sourceBuyAmount: store.paymentAmount.toString(),
+                        destinationBuyAmount: store.buyAmount.toString(),
+                      );
                       store.createPayment();
                     },
                   ),

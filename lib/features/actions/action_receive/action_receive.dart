@@ -3,10 +3,12 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/actions/helpers/show_currency_search.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
+import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -17,47 +19,37 @@ import 'package:simple_networking/modules/signal_r/models/client_detail_model.da
 import '../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../utils/models/currency_model.dart';
 import '../../app/store/app_store.dart';
-import '../../kyc/helper/kyc_alert_handler.dart';
 import '../../kyc/kyc_service.dart';
 import '../../kyc/models/kyc_operation_status_model.dart';
 
-void showReceiveAction(
-  BuildContext context, {
-  bool shouldPop = true,
-  bool checkKYC = false,
-}) {
+void showReceiveAction(BuildContext context) {
   final kyc = getIt.get<KycService>();
   final handler = getIt.get<KycAlertHandler>();
 
-  if (shouldPop) Navigator.pop(context);
+  final isReceiveMethodsAvailable = sSignalRModules.currenciesList.any((element) => element.supportsCryptoDeposit);
 
-  if (checkKYC) {
-    if (kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) {
-      showSendTimerAlertOr(
-        context: context,
-        or: () {
-          _showReceive(context);
-        },
-        from: BlockingType.deposit,
-      );
-    } else {
-      sRouter.pop();
-
-      handler.handle(
-        status: kyc.depositStatus,
-        isProgress: kyc.verificationInProgress,
-        currentNavigate: () => _showReceive(context),
-        requiredDocuments: kyc.requiredDocuments,
-        requiredVerifications: kyc.requiredVerifications,
-      );
-    }
-  } else {
+  if ((kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) && isReceiveMethodsAvailable) {
     showSendTimerAlertOr(
       context: context,
       or: () {
         _showReceive(context);
       },
-      from: BlockingType.deposit,
+      from: [BlockingType.deposit],
+    );
+  } else if (!isReceiveMethodsAvailable) {
+    sNotification.showError(
+      intl.operation_bloked_text,
+      duration: 4,
+      id: 1,
+      hideIcon: true,
+    );
+  } else {
+    handler.handle(
+      status: kyc.depositStatus,
+      isProgress: kyc.verificationInProgress,
+      currentNavigate: () => _showReceive(context),
+      requiredDocuments: kyc.requiredDocuments,
+      requiredVerifications: kyc.requiredVerifications,
     );
   }
 }
@@ -156,132 +148,19 @@ class _ActionReceive extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final state = searchStore;
-    final colors = sKit.colors;
     final watchList = sSignalRModules.keyValue.watchlist?.value ?? [];
     sortByBalanceWatchlistAndWeight(state.fCurrencies, watchList);
     var currencyFiltered = List<CurrencyModel>.from(state.fCurrencies);
     currencyFiltered = currencyFiltered
         .where(
-          (element) =>
-              element.type == AssetType.crypto && element.supportsCryptoDeposit,
+          (element) => element.type == AssetType.crypto && element.supportsCryptoDeposit,
         )
         .toList();
-
-    final cryptoSearchLength = sSignalRModules.currenciesList
-        .where(
-          (element) =>
-              element.type == AssetType.crypto && element.supportsCryptoDeposit,
-        )
-        .length;
-    final showFiatLength = sSignalRModules.currenciesList
-        .where(
-          (element) =>
-              element.type == AssetType.fiat && element.supportsCryptoDeposit,
-        )
-        .length;
 
     final showSearch = showReceiveCurrencySearch(context) && state.showCrypto;
 
     return Column(
       children: [
-        if (cryptoSearchLength != 0 && showFiatLength != 0) ...[
-          Stack(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  state.updateShowCrypto(!state.showCrypto);
-                  state.search('');
-                  state.searchController.text = '';
-                },
-                child: Container(
-                  width: MediaQuery.of(context).size.width - 48,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: colors.grey5,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 9),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: (MediaQuery.of(context).size.width - 48) / 2,
-                          child: Center(
-                            child: Text(
-                              intl.actionDeposit_crypto,
-                              style: sSubtitle3Style.copyWith(
-                                color: colors.grey3,
-                                height: 1,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: (MediaQuery.of(context).size.width - 48) / 2,
-                          child: Center(
-                            child: Text(
-                              intl.actionDeposit_fiat,
-                              style: sSubtitle3Style.copyWith(
-                                color: colors.grey3,
-                                height: 1,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              if (state.showCrypto)
-                Positioned(
-                  left: 0,
-                  child: Container(
-                    width: (MediaQuery.of(context).size.width - 48) / 2,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: colors.black,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 9),
-                      child: Center(
-                        child: Text(
-                          intl.actionDeposit_crypto,
-                          style: sSubtitle3Style.copyWith(
-                            color: colors.white,
-                            height: 1,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              else
-                Positioned(
-                  right: 0,
-                  child: Container(
-                    width: (MediaQuery.of(context).size.width - 48) / 2,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: colors.black,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 9),
-                      child: Center(
-                        child: Text(
-                          intl.actionDeposit_fiat,
-                          style: sSubtitle3Style.copyWith(
-                            color: colors.white,
-                            height: 1,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-            ],
-          ),
-          const SpaceH12(),
-        ],
         if (showSearch) ...[
           SPaddingH24(
             child: SStandardField(
@@ -332,9 +211,7 @@ class _ActionReceive extends StatelessObserverWidget {
                       removeDivider: currency ==
                           state.fCurrencies
                               .where(
-                                (element) =>
-                                    element.type == AssetType.fiat &&
-                                    element.supportsIbanDeposit,
+                                (element) => element.type == AssetType.fiat && element.supportsIbanDeposit,
                               )
                               .last,
                       onTap: () {

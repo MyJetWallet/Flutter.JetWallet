@@ -36,7 +36,11 @@ class SimpleLightStandardField extends StatefulWidget {
     this.validators = const [],
     this.maxLength,
     this.maxLines,
-    required this.labelText,
+    this.labelText,
+    this.hintText,
+    this.height,
+    this.weight,
+    this.cursorHeight,
   })  : assert(
           (controller == null && initialValue != null) ||
               (controller != null && initialValue == null) ||
@@ -68,7 +72,8 @@ class SimpleLightStandardField extends StatefulWidget {
   final bool alignLabelWithHint;
   final bool enabled;
   final bool hideSpace;
-  final String labelText;
+  final String? labelText;
+  final String? hintText;
   final bool isError;
   final bool hasManualError;
   final bool hideLabel;
@@ -76,10 +81,12 @@ class SimpleLightStandardField extends StatefulWidget {
   final List<Validator> validators;
   final int? maxLength;
   final int? maxLines;
+  final double? height;
+  final double? weight;
+  final double? cursorHeight;
 
   @override
-  State<SimpleLightStandardField> createState() =>
-      _SimpleLightStandardFieldState();
+  State<SimpleLightStandardField> createState() => _SimpleLightStandardFieldState();
 }
 
 class _SimpleLightStandardFieldState extends State<SimpleLightStandardField> {
@@ -119,8 +126,7 @@ class _SimpleLightStandardFieldState extends State<SimpleLightStandardField> {
       maxLines: widget.maxLines,
       grayLabel: widget.grayLabel,
       suffixIcons: [
-        if (!widget.hideIconsIfNotEmpty || !controller2.text.isNotEmpty)
-          ...?widget.suffixIcons,
+        if (!widget.hideIconsIfNotEmpty || !controller2.text.isNotEmpty) ...?widget.suffixIcons,
       ],
       eraseIcon: [
         if (controller2.text.isNotEmpty && !widget.hideClearButton) ...[
@@ -140,6 +146,10 @@ class _SimpleLightStandardFieldState extends State<SimpleLightStandardField> {
       ],
       isError: widget.isError,
       validators: widget.validators,
+      height: widget.height,
+      weight: widget.weight,
+      cursorHeight: widget.cursorHeight,
+      hintText: widget.hintText,
     );
   }
 }

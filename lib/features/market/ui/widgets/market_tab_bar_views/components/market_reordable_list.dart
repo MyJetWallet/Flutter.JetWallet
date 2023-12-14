@@ -35,7 +35,6 @@ class MarketReorderableList extends StatelessObserverWidget {
             ),
             name: item.name,
             price: marketFormat(
-              prefix: baseCurrency.prefix,
               decimal: item.lastPrice,
               symbol: baseCurrency.symbol,
               accuracy: item.priceAccuracy,

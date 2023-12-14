@@ -64,7 +64,6 @@ abstract class _PreviewSellStoreBase with Store {
   Decimal? feePercent;
 
   // Will be initialzied on initState of the parent widget
-  @observable
   AnimationController? timerAnimation;
 
   @observable
@@ -236,7 +235,7 @@ abstract class _PreviewSellStoreBase with Store {
         .then(
           (value) => sRouter.navigate(
             const HomeRouter(
-              children: [PortfolioRouter()],
+              children: [MyWalletsRouter()],
             ),
           ),
         );
@@ -252,7 +251,7 @@ abstract class _PreviewSellStoreBase with Store {
         onPrimaryButtonTap: () {
           sRouter.navigate(
             const HomeRouter(
-              children: [PortfolioRouter()],
+              children: [MyWalletsRouter()],
             ),
           );
         },

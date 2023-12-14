@@ -9,7 +9,6 @@ import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_
 class BottomNavigationMenu extends StatefulObserverWidget {
   const BottomNavigationMenu({
     super.key,
-    required this.hideAccount,
     required this.showCard,
     required this.isCardRequested,
     required this.currentIndex,
@@ -18,7 +17,6 @@ class BottomNavigationMenu extends StatefulObserverWidget {
 
   final int currentIndex;
   final Function(int) onChanged;
-  final bool hideAccount;
   final bool showCard;
   final bool isCardRequested;
 
@@ -34,8 +32,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
       cardNotifications: false,
       selectedIndex: widget.currentIndex,
       onChanged: widget.onChanged,
-      hideAccount: widget.hideAccount,
-      myAssetsText: intl.bottom_bar_my_assets,
+      walletsText: intl.bottom_bar_wallets,
       marketText: intl.bottom_bar_market,
       accountText: intl.bottom_bar_account,
       cardText: intl.bottom_bar_card,

@@ -28,10 +28,11 @@ class OperationHistory extends _OperationHistoryBase with _$OperationHistory {
     super.filter,
     super.isRecurring,
     super.jwOperationId,
+    super.pendingOnly,
+    super.accountId,
   );
 
-  static _OperationHistoryBase of(BuildContext context) =>
-      Provider.of<OperationHistory>(context, listen: false);
+  static _OperationHistoryBase of(BuildContext context) => Provider.of<OperationHistory>(context, listen: false);
 }
 
 abstract class _OperationHistoryBase with Store {
@@ -40,6 +41,8 @@ abstract class _OperationHistoryBase with Store {
     this.filter,
     this.isRecurring,
     this.jwOperationId,
+    this.pendingOnly,
+    this.accountId,
   ) {
     getIt<EventBus>().on<GetNewHistoryEvent>().listen((event) {
       refreshHistory(needLoader: false);
@@ -49,6 +52,7 @@ abstract class _OperationHistoryBase with Store {
   final String? assetId;
   final TransactionType? filter;
   final bool? isRecurring;
+  final String? accountId;
 
   // Указывает на конкретную операцию, используем после тапа по пушу
   String? jwOperationId;
@@ -57,8 +61,7 @@ abstract class _OperationHistoryBase with Store {
   ScrollController scrollController = ScrollController();
 
   @observable
-  ObservableList<oh_resp.OperationHistoryItem> operationHistoryItems =
-      ObservableList.of([]);
+  ObservableList<oh_resp.OperationHistoryItem> operationHistoryItems = ObservableList.of([]);
 
   @observable
   OperationHistoryUnion union = const OperationHistoryUnion.loading();
@@ -68,6 +71,9 @@ abstract class _OperationHistoryBase with Store {
 
   @observable
   bool isLoading = false;
+
+  @observable
+  bool pendingOnly = false;
 
   @computed
   List<oh_resp.OperationHistoryItem> get listToShow => isRecurring!
@@ -111,6 +117,8 @@ abstract class _OperationHistoryBase with Store {
         oh_req.OperationHistoryRequestModel(
           assetId: assetId,
           batchSize: 20,
+          pendingOnly: pendingOnly,
+          accountId: accountId,
         ),
         needLoader,
       );
@@ -123,8 +131,7 @@ abstract class _OperationHistoryBase with Store {
       union = const OperationHistoryUnion.loaded();
 
       if (jwOperationId != null) {
-        final item = listToShow
-            .indexWhere((element) => element.operationId == jwOperationId);
+        final item = listToShow.indexWhere((element) => element.operationId == jwOperationId);
 
         if (item != -1) {
           if (detailsShowed) return;
@@ -157,9 +164,7 @@ abstract class _OperationHistoryBase with Store {
 
   @action
   Future<void> getOperationHistoryOperation(String operationID) async {
-    final response = await sNetwork
-        .getWalletModule()
-        .getOperationHistoryOperationID(operationID);
+    final response = await sNetwork.getWalletModule().getOperationHistoryOperationID(operationID);
 
     response.pick(
       onData: (data) {
@@ -179,7 +184,7 @@ abstract class _OperationHistoryBase with Store {
 
   // При сколле вниз
   @action
-  Future<void> operationHistory(String? assetId) async {
+  Future<void> operationHistory(String? assetId, {String? accountId}) async {
     if (operationHistoryItems.isEmpty) return;
 
     union = const OperationHistoryUnion.loading();
@@ -190,6 +195,8 @@ abstract class _OperationHistoryBase with Store {
         assetId: assetId,
         batchSize: 20,
         lastDate: operationHistoryItems.last.timeStamp,
+        pendingOnly: pendingOnly,
+        accountId: accountId,
       ),
       true,
     );
@@ -243,56 +250,43 @@ abstract class _OperationHistoryBase with Store {
       union = const OperationHistoryUnion.loading();
     }
 
-    final response =
-        await sNetwork.getWalletModule().getOperationHistory(model);
+    final response = await sNetwork.getWalletModule().getOperationHistory(model);
 
     return response.data!;
   }
 }
 
-// TODO(Vova): remove when all types will be properly sorted on the backend.
+Set<oh_resp.OperationType> avaibleOperationTypes = {
+  oh_resp.OperationType.deposit,
+  oh_resp.OperationType.withdraw,
+  oh_resp.OperationType.swap,
+  oh_resp.OperationType.rewardPayment,
+  oh_resp.OperationType.cryptoBuy,
+  oh_resp.OperationType.ibanDeposit,
+  oh_resp.OperationType.sendGlobally,
+  oh_resp.OperationType.giftSend,
+  oh_resp.OperationType.giftReceive,
+  oh_resp.OperationType.bankingAccountDeposit,
+  oh_resp.OperationType.bankingAccountWithdrawal,
+  oh_resp.OperationType.bankingTransfer,
+  oh_resp.OperationType.bankingBuy,
+  oh_resp.OperationType.bankingSell,
+  oh_resp.OperationType.cardPurchase,
+  oh_resp.OperationType.cardRefund,
+  oh_resp.OperationType.cardWithdrawal,
+};
+
 List<oh_resp.OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(
   List<oh_resp.OperationHistoryItem> items,
 ) {
   final filteredItems = items
       .where(
-    (item) =>
-        item.operationType == oh_resp.OperationType.deposit ||
-        item.operationType == oh_resp.OperationType.withdraw ||
-        item.operationType == oh_resp.OperationType.swap ||
-        item.operationType == oh_resp.OperationType.transferByPhone ||
-        item.operationType == oh_resp.OperationType.receiveByPhone ||
-        item.operationType == oh_resp.OperationType.paidInterestRate ||
-        item.operationType == oh_resp.OperationType.feeSharePayment ||
-        item.operationType == oh_resp.OperationType.rewardPayment ||
-        item.operationType == oh_resp.OperationType.simplexBuy ||
-        item.operationType == oh_resp.OperationType.recurringBuy ||
-        item.operationType == oh_resp.OperationType.earningDeposit ||
-        item.operationType == oh_resp.OperationType.earningWithdrawal ||
-        item.operationType == oh_resp.OperationType.cryptoInfo ||
-        item.operationType == oh_resp.OperationType.buyApplePay ||
-        item.operationType == oh_resp.OperationType.buyGooglePay ||
-        item.operationType == oh_resp.OperationType.nftSwap ||
-        item.operationType == oh_resp.OperationType.nftBuyOpposite ||
-        item.operationType == oh_resp.OperationType.nftSell ||
-        item.operationType == oh_resp.OperationType.nftSellOpposite ||
-        item.operationType == oh_resp.OperationType.nftDeposit ||
-        item.operationType == oh_resp.OperationType.nftWithdrawal ||
-        item.operationType == oh_resp.OperationType.nftWithdrawalFee ||
-        item.operationType == oh_resp.OperationType.nftBuy ||
-        item.operationType == oh_resp.OperationType.ibanDeposit ||
-        item.operationType == oh_resp.OperationType.ibanSend ||
-        item.operationType == oh_resp.OperationType.sendGlobally ||
-        item.operationType == oh_resp.OperationType.p2pBuy ||
-        item.operationType == oh_resp.OperationType.giftSend ||
-        item.operationType == oh_resp.OperationType.giftReceive,
+    (item) => avaibleOperationTypes.contains(item.operationType),
   )
       .map((item) {
     return item.operationType == oh_resp.OperationType.swap
         ? item.copyWith(
-            operationType: item.swapInfo!.isSell
-                ? oh_resp.OperationType.sell
-                : oh_resp.OperationType.buy,
+            operationType: item.swapInfo!.isSell ? oh_resp.OperationType.swapSell : oh_resp.OperationType.swapBuy,
           )
         : item;
   }).toList();

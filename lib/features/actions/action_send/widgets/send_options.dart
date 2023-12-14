@@ -1,152 +1,156 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_send/action_send.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
-import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
-import 'package:jetwallet/features/iban/store/iban_store.dart';
+import 'package:jetwallet/features/kyc/kyc_service.dart';
+import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
+
+CurrencyModel currentAsset = CurrencyModel.empty();
 
 void showSendOptions(
   BuildContext context,
   CurrencyModel currency, {
   bool navigateBack = true,
 }) {
+  currentAsset = currency;
   if (navigateBack) {
     Navigator.pop(context);
   }
 
+  final isToCryptoWalletAvaible = _checkToCryptoWalletAvaible();
+  final isGlobalAvaible = _checkGlobalAvaible();
+  final isGiftAvaible = _checkGiftAvaible();
+
   sAnalytics.sendToSheetScreenView(
     sendMethods: [
-      if (currency.supportsByAssetWithdrawal) AnalyticsSendMethods.cryptoWallet,
-      if (currency.supporGlobalSendWithdrawal) AnalyticsSendMethods.globally,
-      if (currency.supportIbanSendWithdrawal) AnalyticsSendMethods.bankAccount,
-      if (currency.supportsGiftlSend && currency.type != AssetType.fiat)
-        AnalyticsSendMethods.gift,
+      if (isToCryptoWalletAvaible) AnalyticsSendMethods.cryptoWallet,
+      if (isGlobalAvaible) AnalyticsSendMethods.globally,
+      if (isGiftAvaible) AnalyticsSendMethods.gift,
     ],
   );
 
-  showSendTimerAlertOr(
-    context: context,
-    or: () => sShowBasicModalBottomSheet(
+  if (!(isToCryptoWalletAvaible || isGlobalAvaible || isGiftAvaible)) {
+    showSendTimerAlertOr(
       context: context,
-      then: (value) {},
-      pinned: SBottomSheetHeader(
-        name: intl.sendOptions_send,
-      ),
-      children: [
-        _SendOptions(
-          currency: currency,
-        ),
-      ],
+      or: () {
+        sNotification.showError(
+          intl.operation_bloked_text,
+          id: 1,
+        );
+      },
+      from: [BlockingType.transfer, BlockingType.withdrawal],
+    );
+
+    return;
+  }
+
+  sShowBasicModalBottomSheet(
+    context: context,
+    then: (value) {},
+    pinned: SBottomSheetHeader(
+      name: intl.sendOptions_send,
     ),
-    from: BlockingType.withdrawal,
+    children: [
+      Column(
+        children: [
+          if (isToCryptoWalletAvaible)
+            SActionItem(
+              icon: const SWallet2Icon(),
+              name: intl.sendOptions_to_crypto_wallet,
+              description: intl.sendOptions_actionItemDescription2,
+              onTap: () {
+                Navigator.pop(context);
+                sRouter.push(
+                  WithdrawRouter(
+                    withdrawal: WithdrawalModel(
+                      currency: currency,
+                    ),
+                  ),
+                );
+              },
+            ),
+          if (isGlobalAvaible)
+            SActionItem(
+              icon: const SNetworkIcon(),
+              name: intl.global_send_name,
+              description: intl.global_send_helper,
+              onTap: () {
+                Navigator.pop(context);
+                showSendGlobally(
+                  getIt<AppRouter>().navigatorKey.currentContext!,
+                  currency,
+                );
+              },
+            ),
+          if (isGiftAvaible)
+            SActionItem(
+              icon: const SGiftSendIcon(),
+              name: intl.send_gift,
+              description: intl.send_gift_to_simple_wallet,
+              onTap: () async {
+                sAnalytics.tapOnTheGiftButton();
+                Navigator.pop(context);
+                await sRouter.push(
+                  GiftReceiversDetailsRouter(
+                    sendGiftInfo: SendGiftInfoModel(currency: currency),
+                  ),
+                );
+              },
+            ),
+          const SpaceH40(),
+        ],
+      ),
+    ],
   );
 }
 
-class _SendOptions extends StatelessObserverWidget {
-  const _SendOptions({
-    required this.currency,
-  });
+bool _checkIsBlockerNotContains(BlockingType blockingType) {
+  final clientDetail = sSignalRModules.clientDetail;
 
-  final CurrencyModel currency;
+  final result = clientDetail.clientBlockers.any(
+    (element) => element.blockingType == blockingType,
+  );
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        if (currency.supportsByAssetWithdrawal)
-          SActionItem(
-            icon: const SWallet2Icon(),
-            name: intl.sendOptions_to_crypto_wallet,
-            description: intl.sendOptions_actionItemDescription2,
-            onTap: () {
-              Navigator.pop(context);
+  return !result;
+}
 
-              sRouter.push(
-                WithdrawRouter(
-                  withdrawal: WithdrawalModel(
-                    currency: currency,
-                  ),
-                ),
-              );
-            },
-          ),
-        if (currency.supporGlobalSendWithdrawal)
-          SActionItem(
-            icon: const SNetworkIcon(),
-            name: intl.global_send_name,
-            description: intl.global_send_helper,
-            onTap: () {
-              Navigator.pop(context);
+bool _checkToCryptoWalletAvaible() {
+  final kycState = getIt.get<KycService>();
 
-              showSendGlobally(
-                getIt<AppRouter>().navigatorKey.currentContext!,
-                currency,
-              );
-            },
-          ),
-        if (currency.supportIbanSendWithdrawal)
-          SActionItem(
-            icon: const SAccountIcon(),
-            name: intl.sendOptions_to_bank_account,
-            description: intl.iban_send_helper,
-            onTap: () async {
-              Navigator.pop(context);
+  final isAnySuportedByCurrencies = currentAsset.supportsCryptoWithdrawal && currentAsset.isAssetBalanceNotEmpty;
 
-              sRouter.popUntilRoot();
+  final isNoKycBlocker = kycState.withdrawalStatus == kycOperationStatus(KycStatus.allowed);
+  final isNoClientBlocker = _checkIsBlockerNotContains(BlockingType.withdrawal);
 
-              await sRouter.replaceAll(
-                [
-                  HomeRouter(
-                    children: [
-                      IBanRouter(
-                        initIndex: 1,
-                      ),
-                    ],
-                  ),
-                ],
-              );
+  return isAnySuportedByCurrencies && isNoKycBlocker && isNoClientBlocker;
+}
 
-              if (getIt<AppStore>().tabsRouter != null) {
-                getIt.get<AppStore>().setHomeTab(2);
-                getIt<AppStore>().tabsRouter!.setActiveIndex(2);
+bool _checkGlobalAvaible() {
+  final kycState = getIt.get<KycService>();
 
-                if (getIt.get<IbanStore>().ibanTabController != null) {
-                  getIt.get<IbanStore>().ibanTabController!.animateTo(
-                        1,
-                      );
-                } else {
-                  getIt.get<IbanStore>().setInitTab(1);
-                }
-              }
-            },
-          ),
-        if (currency.supportsGiftlSend && currency.type != AssetType.fiat)
-          SActionItem(
-            icon: const SGiftSendIcon(),
-            name: intl.send_gift,
-            description: intl.send_gift_to_simple_wallet,
-            onTap: () async {
-              sAnalytics.tapOnTheGiftButton();
-              Navigator.pop(context);
-              await sRouter.push(
-                GiftReceiversDetailsRouter(
-                  sendGiftInfo: SendGiftInfoModel(currency: currency),
-                ),
-              );
-            },
-          ),
-        const SpaceH40(),
-      ],
-    );
-  }
+  final isAnySuportedByCurrencies = currentAsset.supportsGlobalSend;
+  final isNoKycBlocker = kycState.withdrawalStatus == kycOperationStatus(KycStatus.allowed);
+  final isNoClientBlocker = _checkIsBlockerNotContains(BlockingType.withdrawal);
+
+  return isAnySuportedByCurrencies && isNoKycBlocker && isNoClientBlocker;
+}
+
+bool _checkGiftAvaible() {
+  final kycState = getIt.get<KycService>();
+
+  final isAnySuportedByCurrencies = currentAsset.supportsGiftlSend && currentAsset.isAssetBalanceNotEmpty;
+  final isNoKycBlocker = kycState.withdrawalStatus == kycOperationStatus(KycStatus.allowed);
+  final isNoClientBlocker = _checkIsBlockerNotContains(BlockingType.transfer);
+
+  return isAnySuportedByCurrencies && isNoKycBlocker && isNoClientBlocker;
 }

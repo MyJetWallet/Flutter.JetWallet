@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
+import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
-import 'package:jetwallet/utils/helpers/price_accuracy.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
@@ -29,7 +28,6 @@ class BuyCryptoDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final baseCurrency = sSignalRModules.baseCurrency;
     final currenciesFull = sSignalRModules.currenciesWithHiddenList;
     final currentCurrency = currencyFrom(
       currenciesFull,
@@ -43,31 +41,22 @@ class BuyCryptoDetails extends StatelessObserverWidget {
 
     final paymentCurrency = currencyFrom(
       currenciesFull,
-      transactionListItem.cryptoBuyInfo!.paymentAssetId,
+      transactionListItem.cryptoBuyInfo!.paymentAssetId ?? '',
     );
 
     final depositCurrency = currencyFrom(
       currenciesFull,
-      transactionListItem.cryptoBuyInfo!.depositFeeAsset,
+      transactionListItem.cryptoBuyInfo!.depositFeeAsset ?? '',
     );
 
     String rateFor() {
-      final accuracy = priceAccuracy(
-        buyCurrency.symbol,
-        baseCurrency.symbol,
-      );
-
       final base = volumeFormat(
-        prefix: buyCurrency.prefixSymbol,
         decimal: transactionListItem.cryptoBuyInfo!.baseRate,
-        accuracy: buyCurrency.accuracy,
         symbol: buyCurrency.symbol,
       );
 
       final quote = volumeFormat(
-        prefix: paymentCurrency.prefixSymbol,
         decimal: transactionListItem.cryptoBuyInfo!.quoteRate,
-        accuracy: accuracy,
         symbol: paymentCurrency.symbol,
       );
 
@@ -94,19 +83,7 @@ class BuyCryptoDetails extends StatelessObserverWidget {
                     text: shortTxhashFrom(transactionListItem.operationId),
                   ),
                   const SpaceW10(),
-                  SIconButton(
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: transactionListItem.operationId,
-                        ),
-                      );
-
-                      onCopyAction('Txid');
-                    },
-                    defaultIcon: const SCopyIcon(),
-                    pressedIcon: const SCopyPressedIcon(),
-                  ),
+                  HistoryCopyIcon(transactionListItem.operationId),
                 ],
               ),
             ),
@@ -117,8 +94,7 @@ class BuyCryptoDetails extends StatelessObserverWidget {
                 text: volumeFormat(
                   decimal: transactionListItem.cryptoBuyInfo!.paymentAmount,
                   accuracy: paymentCurrency.accuracy,
-                  symbol: transactionListItem.cryptoBuyInfo!.paymentAssetId,
-                  prefix: paymentCurrency.prefixSymbol,
+                  symbol: transactionListItem.cryptoBuyInfo!.paymentAssetId ?? '',
                 ),
               ),
             ),
@@ -148,16 +124,14 @@ class BuyCryptoDetails extends StatelessObserverWidget {
             ),
           ],
           if (transactionListItem.cryptoBuyInfo?.paymentMethod != null &&
-              transactionListItem.cryptoBuyInfo?.paymentMethod !=
-                  PaymentMethodType.bankCard) ...[
+              transactionListItem.cryptoBuyInfo?.paymentMethod != PaymentMethodType.bankCard) ...[
             const SpaceH18(),
             TransactionDetailsItem(
               text: intl.history_payment_method,
               value: TransactionDetailsValueText(
                 text: transactionListItem.cryptoBuyInfo?.paymentMethodName ??
                     getLocalOperationName(
-                      transactionListItem.cryptoBuyInfo?.paymentMethod ??
-                          PaymentMethodType.unsupported,
+                      transactionListItem.cryptoBuyInfo?.paymentMethod ?? PaymentMethodType.unsupported,
                     ),
               ),
             ),
@@ -168,7 +142,6 @@ class BuyCryptoDetails extends StatelessObserverWidget {
               text: intl.history_payment_fee,
               value: TransactionDetailsValueText(
                 text: volumeFormat(
-                  prefix: depositCurrency.prefixSymbol,
                   decimal: transactionListItem.cryptoBuyInfo!.depositFeeAmount,
                   accuracy: depositCurrency.accuracy,
                   symbol: depositCurrency.symbol,
@@ -180,7 +153,6 @@ class BuyCryptoDetails extends StatelessObserverWidget {
               text: intl.history_our_fee,
               value: TransactionDetailsValueText(
                 text: volumeFormat(
-                  prefix: currentCurrency.prefixSymbol,
                   decimal: transactionListItem.cryptoBuyInfo!.tradeFeeAmount,
                   accuracy: currentCurrency.accuracy,
                   symbol: currentCurrency.symbol,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../../../simple_kit.dart';
@@ -13,6 +15,8 @@ class SimpleBaseLinkButton extends StatefulWidget {
     this.defaultIcon,
     this.pressedIcon,
     this.inactiveIcon,
+    this.textStyle,
+    this.mainAxisAlignment,
   }) : super(key: key);
 
   final String name;
@@ -23,6 +27,8 @@ class SimpleBaseLinkButton extends StatefulWidget {
   final Widget? defaultIcon;
   final Widget? pressedIcon;
   final Widget? inactiveIcon;
+  final TextStyle? textStyle;
+  final MainAxisAlignment? mainAxisAlignment;
 
   @override
   State<SimpleBaseLinkButton> createState() => _SimpleBaseLinkButtonState();
@@ -30,6 +36,13 @@ class SimpleBaseLinkButton extends StatefulWidget {
 
 class _SimpleBaseLinkButtonState extends State<SimpleBaseLinkButton> {
   bool highlighted = false;
+
+  var isClicked = false;
+  late Timer _timer;
+
+  void _startTimer() {
+    _timer = Timer(const Duration(milliseconds: 999), () => isClicked = false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +64,15 @@ class _SimpleBaseLinkButtonState extends State<SimpleBaseLinkButton> {
     }
 
     return InkWell(
-      onTap: widget.active ? widget.onTap : null,
+      onTap: widget.active
+          ? () {
+              if (!isClicked) {
+                _startTimer();
+                widget.onTap();
+                isClicked = true;
+              }
+            }
+          : null,
       onHighlightChanged: (value) {
         setState(() {
           highlighted = value;
@@ -62,13 +83,15 @@ class _SimpleBaseLinkButtonState extends State<SimpleBaseLinkButton> {
       child: Center(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: widget.mainAxisAlignment ?? MainAxisAlignment.center,
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 1),
               child: Text(
                 widget.name,
-                style: sButtonTextStyle.copyWith(color: currentColor),
+                style: widget.textStyle != null
+                    ? widget.textStyle!.copyWith(color: currentColor)
+                    : sButtonTextStyle.copyWith(color: currentColor),
               ),
             ),
             const SpaceW4(),

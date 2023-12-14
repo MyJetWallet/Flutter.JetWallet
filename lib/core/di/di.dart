@@ -11,13 +11,17 @@ import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/package_info_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
+import 'package:jetwallet/core/services/session_check_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
+import 'package:jetwallet/core/services/zendesk_support_service/zendesk_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/store/kyc_profile_countries_store.dart';
 import 'package:jetwallet/features/auth/verification_reg/store/verification_store.dart';
+import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 
@@ -81,6 +85,11 @@ Future<GetIt> getItInit({
     dependsOn: [PackageInfoService],
   );
 
+  getIt.registerSingletonAsync<ZenDeskService>(
+    () async => ZenDeskService().initZenDesk(),
+    dependsOn: [RemoteConfig],
+  );
+
   getIt.registerSingleton<SNetwork>(
     SNetwork(),
   );
@@ -90,8 +99,9 @@ Future<GetIt> getItInit({
     dependsOn: [RemoteConfig],
   );
 
-  getIt.registerSingleton<SignalRService>(
-    SignalRService(),
+  getIt.registerSingletonWithDependencies<SignalRService>(
+    () => SignalRService(),
+    dependsOn: [RemoteConfig],
   );
 
   getIt.registerLazySingleton<LogoutService>(() => LogoutService());
@@ -119,6 +129,14 @@ Future<GetIt> getItInit({
 
   getIt.registerLazySingleton<VerificationStore>(
     () => VerificationStore(),
+  );
+
+  getIt.registerLazySingleton<SessionCheckService>(
+    () => SessionCheckService(),
+  );
+
+  getIt.registerLazySingleton<GlobalLoader>(
+    () => GlobalLoader(),
   );
 
   return getIt.init(

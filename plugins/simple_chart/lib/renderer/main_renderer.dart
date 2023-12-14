@@ -21,12 +21,9 @@ class MainRenderer extends BaseChartRenderer<CandleModel> {
           scaleX: scaleX,
         ) {
     final diff = maxValue - minValue;
-    final newScaleY = (chartRect!.height - _contentPadding) /
-        diff; //Content area height/difference = new scale
-    final newDiff =
-        chartRect!.height / newScaleY; //High/new ratio = new difference
-    final value = (newDiff - diff) /
-        2; //New difference-difference / 2 = the value to be expanded on the y axis
+    final newScaleY = (chartRect!.height - _contentPadding) / diff; //Content area height/difference = new scale
+    final newDiff = chartRect!.height / newScaleY; //High/new ratio = new difference
+    final value = (newDiff - diff) / 2; //New difference-difference / 2 = the value to be expanded on the y axis
     if (newDiff > diff) {
       scaleY = newScaleY;
       this.maxValue += value;
@@ -47,12 +44,7 @@ class MainRenderer extends BaseChartRenderer<CandleModel> {
       case ChartType.area:
       case ChartType.line:
       case ChartType.candle:
-        TextSpan? span;
-        if (span == null) return;
-        final tp = TextPainter(text: span, textDirection: TextDirection.ltr);
-        tp.layout();
-        tp.paint(canvas, Offset(x, chartRect!.top - topPadding));
-        break;
+        return;
       default:
     }
   }
@@ -160,8 +152,7 @@ class MainRenderer extends BaseChartRenderer<CandleModel> {
 
     canvas.drawPath(
       mAreaPath,
-      mAreaPaint
-        ..strokeWidth = (mAreaLineStrokeWidth / scaleX!).clamp(0.3, 1.0),
+      mAreaPaint..strokeWidth = (mAreaLineStrokeWidth / scaleX!).clamp(0.3, 1.0),
     );
     mAreaPath.reset();
   }

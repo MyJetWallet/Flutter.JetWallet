@@ -56,16 +56,14 @@ class _ActionCryptoSearch extends StatelessObserverWidget {
         if (state.filteredMarketCurrencies.isNotEmpty)
           SPaddingH24(
             child: Text(
-              state.filteredMarketCurrencies.length ==
-                      state.marketCurrencies.length
+              state.filteredMarketCurrencies.length == state.marketCurrencies.length
                   ? intl.market_search_popular
                   : intl.market_search_results,
               style: sTextH4Style,
               textAlign: TextAlign.left,
             ),
           ),
-        if (state.filteredMarketCurrencies.length !=
-            state.marketCurrencies.length)
+        if (state.filteredMarketCurrencies.length != state.marketCurrencies.length)
           for (final currency in state.filteredMarketCurrencies)
             SMarketItem(
               icon: SNetworkSvg24(
@@ -73,7 +71,6 @@ class _ActionCryptoSearch extends StatelessObserverWidget {
               ),
               name: currency.name,
               price: marketFormat(
-                prefix: baseCurrency.prefix,
                 decimal: currency.lastPrice,
                 symbol: baseCurrency.symbol,
                 accuracy: currency.priceAccuracy,

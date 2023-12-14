@@ -12,11 +12,9 @@ import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/utils/models/selected_percent.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/l10n/i10n.dart';
 part 'convert_input_store.g.dart';
@@ -68,12 +66,6 @@ abstract class _ConvertInputStoreBase with Store {
 
   @observable
   Decimal? converstionPrice;
-
-  @observable
-  SKeyboardPreset? selectedPreset;
-
-  @observable
-  String? tappedPreset;
 
   @observable
   String fromAssetAmount = '';
@@ -171,11 +163,6 @@ abstract class _ConvertInputStoreBase with Store {
     inputError = error;
   }
 
-  @action
-  void tapPreset(String presetName) {
-    tappedPreset = presetName;
-  }
-
   /// ConversionPrice can be null if request to API failed
   @action
   void updateConversionPrice(Decimal? price) {
@@ -260,7 +247,6 @@ abstract class _ConvertInputStoreBase with Store {
     );
     _calculateConversion();
     _validateInput();
-    _clearPercent();
   }
 
   @action
@@ -276,7 +262,6 @@ abstract class _ConvertInputStoreBase with Store {
     );
     _calculateConversion();
     _validateInput(isFrom: true);
-    _clearPercent();
   }
 
   @action
@@ -309,44 +294,6 @@ abstract class _ConvertInputStoreBase with Store {
       toAsset!.symbol,
     );
     _validateInput();
-  }
-
-  /// We can select percent only from FromAssetAmount
-  @action
-  void selectPercentFromBalance(SKeyboardPreset preset) {
-    _logger.log(notifier, 'selectPercentFromBalance');
-
-    _updateSelectedPreset(preset);
-
-    final percent = _percentFromPreset(preset);
-
-    if (fromAssetEnabled) {
-      final value = valueBasedOnSelectedPercent(
-        selected: percent,
-        currency: fromAsset!,
-      );
-
-      _updateFromAssetAmount(value);
-      _calculateConversion();
-      _updateAmountsAccordingToAccuracy();
-      _validateInput();
-    }
-  }
-
-  @action
-  void _updateSelectedPreset(SKeyboardPreset preset) {
-    selectedPreset = preset;
-  }
-
-  @action
-  SelectedPercent _percentFromPreset(SKeyboardPreset preset) {
-    if (preset == SKeyboardPreset.preset1) {
-      return SelectedPercent.pct25;
-    } else if (preset == SKeyboardPreset.preset2) {
-      return SelectedPercent.pct50;
-    } else {
-      return SelectedPercent.pct100;
-    }
   }
 
   @action
@@ -485,8 +432,6 @@ abstract class _ConvertInputStoreBase with Store {
       fromAsset!.symbol,
       toAsset!.symbol,
     );
-
-    print(convertValid);
   }
 
   @action
@@ -501,10 +446,5 @@ abstract class _ConvertInputStoreBase with Store {
     final newList = removeCurrencyFromList(fromAsset!, currencies);
 
     toAssetList = newList;
-  }
-
-  @action
-  void _clearPercent() {
-    selectedPreset = null;
   }
 }

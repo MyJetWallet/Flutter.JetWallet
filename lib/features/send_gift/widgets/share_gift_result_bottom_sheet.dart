@@ -77,11 +77,11 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
 
     final String shareText;
     shareText = email != '' && email != null
-        ? '''${intl.send_gift_message_1_part} ${volumeFormat(prefix: currency.prefixSymbol, decimal: amount, accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_share_text_2_part} $appDownloadUrl, ${intl.send_gift_share_text_email_part} $email ${intl.send_gift_share_text_3_part}'''
-        : '''${intl.send_gift_message_1_part} ${volumeFormat(prefix: currency.prefixSymbol, decimal: amount, accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_share_text_2_part} $appDownloadUrl, ${intl.send_gift_share_text_phone_part} $phoneNumber ${intl.send_gift_share_text_3_part}''';
+        ? '''${intl.send_gift_message_1_part} ${volumeFormat(decimal: amount, accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_share_text_2_part} $appDownloadUrl, ${intl.send_gift_share_text_email_part} $email ${intl.send_gift_share_text_3_part}'''
+        : '''${intl.send_gift_message_1_part} ${volumeFormat(decimal: amount, accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_share_text_2_part} $appDownloadUrl, ${intl.send_gift_share_text_phone_part} $phoneNumber ${intl.send_gift_share_text_3_part}''';
 
     final cardMessage =
-        '''${intl.send_gift_message_1_part} ${volumeFormat(prefix: currency.prefixSymbol, decimal: amount, accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_message_2_part}''';
+        '''${intl.send_gift_message_1_part} ${volumeFormat(decimal: amount, accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_message_2_part}''';
 
     final widgetForImageKey = GlobalKey();
 
@@ -127,7 +127,6 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                             const SpaceW4(),
                             Text(
                               volumeFormat(
-                                prefix: currency.prefixSymbol,
                                 decimal: amount,
                                 accuracy: currency.accuracy,
                                 symbol: currency.symbol,
@@ -190,7 +189,6 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                               const SpaceW4(),
                               Text(
                                 volumeFormat(
-                                  prefix: currency.prefixSymbol,
                                   decimal: amount,
                                   accuracy: currency.accuracy,
                                   symbol: currency.symbol,
@@ -243,8 +241,7 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                                       decoration: ShapeDecoration(
                                         color: sColors.white,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(16),
+                                          borderRadius: BorderRadius.circular(16),
                                         ),
                                       ),
                                       child: Row(
@@ -257,22 +254,18 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                                           const SpaceW14(),
                                           Expanded(
                                             child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                               children: [
                                                 Text(
                                                   intl.send_gift_simple,
-                                                  style:
-                                                      sSubtitle3Style.copyWith(
+                                                  style: sSubtitle3Style.copyWith(
                                                     color: sColors.black,
                                                   ),
                                                 ),
                                                 Text(
                                                   intl.send_gift_get_app,
-                                                  style:
-                                                      sHelperTextStyle.copyWith(
+                                                  style: sHelperTextStyle.copyWith(
                                                     color: sColors.grey2,
                                                   ),
                                                   maxLines: 2,
@@ -339,8 +332,7 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                       onTap: () async {
                         sAnalytics.tapOnTheButtonShareOnShareSheet();
 
-                        final boundary = widgetForImageKey.currentContext!
-                            .findRenderObject()! as RenderRepaintBoundary;
+                        final boundary = widgetForImageKey.currentContext!.findRenderObject()! as RenderRepaintBoundary;
 
                         final image = await boundary.toImage(pixelRatio: 3.0);
 

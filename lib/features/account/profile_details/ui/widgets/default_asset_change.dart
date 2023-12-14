@@ -26,63 +26,65 @@ class DefaultAssetChange extends StatelessObserverWidget {
       iterableAssets.add(currencyByAsset);
     }
 
-    return SPageFrame(
-      loaderText: intl.register_pleaseWait,
-      loading: baseAsset.loader,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.profileDetails_baseCurrency,
-          onBackButtonTap: () => Navigator.pop(context),
+    return WillPopScope(
+      onWillPop: () {
+        return Future.value(!baseAsset.loader!.loading);
+      },
+      child: SPageFrame(
+        loaderText: intl.register_pleaseWait,
+        loading: baseAsset.loader,
+        header: SPaddingH24(
+          child: SSmallHeader(
+            title: intl.profileDetails_baseCurrency,
+            onBackButtonTap: () => Navigator.pop(context),
+          ),
         ),
-      ),
-      child: Column(
-        children: [
-          for (final asset in iterableAssets) ...[
-            InkWell(
-              onTap: () {
-                baseAsset.changeBaseAsset(asset.symbol);
-              },
-              splashColor: Colors.transparent,
-              highlightColor: colors.grey5,
-              hoverColor: Colors.transparent,
-              child: SPaddingH24(
-                child: Container(
-                  alignment: Alignment.centerLeft,
-                  width: double.infinity,
-                  height: 64,
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          right: 20,
-                        ),
-                        child: SNetworkSvg24(
-                          url: asset.iconUrl,
-                        ),
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            asset.description,
-                            style: sSubtitle2Style.copyWith(
-                              color: asset.symbol != baseAsset.checkedAsset
-                                  ? colors.black
-                                  : colors.blue,
-                            ),
+        child: Column(
+          children: [
+            for (final asset in iterableAssets) ...[
+              InkWell(
+                onTap: () {
+                  baseAsset.changeBaseAsset(asset.symbol);
+                },
+                splashColor: Colors.transparent,
+                highlightColor: colors.grey5,
+                hoverColor: Colors.transparent,
+                child: SPaddingH24(
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    width: double.infinity,
+                    height: 64,
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            right: 20,
                           ),
-                          const SpaceH4(),
-                        ],
-                      ),
-                    ],
+                          child: SNetworkSvg24(
+                            url: asset.iconUrl,
+                          ),
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              asset.description,
+                              style: sSubtitle2Style.copyWith(
+                                color: asset.symbol != baseAsset.checkedAsset ? colors.black : colors.blue,
+                              ),
+                            ),
+                            const SpaceH4(),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            if (asset != iterableAssets.last)
-              const SPaddingH24(child: SDivider()),
+              if (asset != iterableAssets.last) const SPaddingH24(child: SDivider()),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

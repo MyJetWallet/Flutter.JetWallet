@@ -41,12 +41,10 @@ class _PreviewReturnToWalletBody extends StatefulObserverWidget {
   final PreviewReturnToWalletInput input;
 
   @override
-  State<_PreviewReturnToWalletBody> createState() =>
-      __PreviewReturnToWalletBodyState();
+  State<_PreviewReturnToWalletBody> createState() => __PreviewReturnToWalletBodyState();
 }
 
-class __PreviewReturnToWalletBodyState
-    extends State<_PreviewReturnToWalletBody> {
+class __PreviewReturnToWalletBodyState extends State<_PreviewReturnToWalletBody> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = sDeviceSize;
@@ -101,7 +99,6 @@ class __PreviewReturnToWalletBodyState
                     medium: () => 40,
                   ),
                   value: volumeFormat(
-                    prefix: from.prefixSymbol,
                     accuracy: from.accuracy,
                     decimal: Decimal.parse(widget.input.amount),
                     symbol: from.symbol,
@@ -111,7 +108,6 @@ class __PreviewReturnToWalletBodyState
                   name: intl.preview_return_to_wallet_remaining_balance,
                   baseline: 35.0,
                   value: volumeFormat(
-                    prefix: from.prefixSymbol,
                     accuracy: from.accuracy,
                     decimal: Decimal.parse(widget.input.remainingBalance),
                     symbol: from.symbol,

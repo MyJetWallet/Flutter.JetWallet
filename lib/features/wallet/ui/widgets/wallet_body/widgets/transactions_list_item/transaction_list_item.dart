@@ -1,35 +1,52 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
-import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
+import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/modules/icons/16x16/public/gift_history/simple_gift_history_icon.dart';
+import 'package:simple_kit/modules/icons/16x16/public/reward_history/simple_reward_history_icon.dart';
+import 'package:simple_kit/modules/icons/24x24/public/add_cash/simple_add_cash_icon.dart';
+import 'package:simple_kit/modules/icons/24x24/public/transfer/simple_transfer_icon.dart';
+import 'package:simple_kit/modules/icons/24x24/public/withdrawal/simple_withdrawal_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../helper/format_date_to_hm.dart';
-import '../../../../../helper/nft_by_symbol.dart';
-import '../../../../../helper/nft_types.dart';
 import '../../../../../helper/show_transaction_details.dart';
 import 'components/transaction_list_item_header_text.dart';
 import 'components/transaction_list_item_text.dart';
 
-class TransactionListItem extends StatelessObserverWidget {
-  const TransactionListItem({
+enum TransactionItemSource {
+  history,
+  cryptoAccount,
+  eurAccount,
+}
+
+class TransactionListItem extends StatelessWidget {
+  TransactionListItem({
     super.key,
-    this.removeDivider = false,
     required this.transactionListItem,
-  });
+    required this.source,
+    this.onItemTapLisener,
+    this.fromCJAccount = false,
+  }) {
+    isEurAccount = source == TransactionItemSource.eurAccount;
+  }
 
   final OperationHistoryItem transactionListItem;
-  final bool removeDivider;
+  final void Function(String assetSymbol)? onItemTapLisener;
+  final bool fromCJAccount;
+  final TransactionItemSource source;
+
+  late final bool isEurAccount;
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
     final currencies = sSignalRModules.currenciesWithHiddenList;
     final currency = currencyFrom(
       currencies,
@@ -44,19 +61,290 @@ class TransactionListItem extends StatelessObserverWidget {
         : currencies[0];
     final baseCurrency = sSignalRModules.baseCurrency;
 
-    final nftAsset = getNftItem(
-      transactionListItem,
-      sSignalRModules.allNftList,
-    );
-
-    return InkWell(
+    return _TransactionBaseItem(
       onTap: () {
+        if (fromCJAccount) {
+          sAnalytics.eurWalletTapAnyHistoryTRXEUR(
+            isCJ: true,
+            isHasTransaction: true,
+            eurAccountLabel: '',
+          );
+        }
+
+        onItemTapLisener?.call(transactionListItem.assetId);
         showTransactionDetails(
           context,
           transactionListItem,
           null,
         );
       },
+      icon: _transactionItemIcon(
+        type: transactionListItem.operationType,
+        isFailed: transactionListItem.status == Status.declined,
+      ),
+      labele: _transactionItemTitle(
+        transactionListItem,
+      ),
+      labelIcon: _transactionLabelIcon(
+        type: transactionListItem.operationType,
+      ),
+      balanceChange: _transactionItemBalanceChange(
+        transactionListItem: transactionListItem,
+        accuracy: currency.accuracy,
+        symbol: currency.symbol,
+      ),
+      status: transactionListItem.status,
+      timeStamp: transactionListItem.timeStamp,
+      rightSupplement: _transactionItemRightSupplement(
+        transactionListItem: transactionListItem,
+        currency: currency,
+        baseCurrency: baseCurrency,
+        paymentCurrency: paymentCurrency,
+      ),
+    );
+  }
+
+  String _transactionItemTitle(
+    OperationHistoryItem transactionListItem,
+  ) {
+    switch (transactionListItem.operationType) {
+      case OperationType.swapBuy:
+      case OperationType.swapSell:
+        return '${transactionListItem.swapInfo?.sellAssetId} ${intl.operationName_exchangeTo} ${transactionListItem.swapInfo?.buyAssetId}';
+      case OperationType.cryptoBuy:
+        return '${transactionListItem.cryptoBuyInfo?.paymentAssetId} ${intl.operationName_exchangeTo} ${transactionListItem.cryptoBuyInfo?.buyAssetId}';
+      case OperationType.bankingBuy:
+        return '${transactionListItem.cryptoBuyInfo?.paymentAssetId} ${intl.operationName_exchangeTo} ${transactionListItem.cryptoBuyInfo?.buyAssetId}';
+      case OperationType.bankingSell:
+        return '${transactionListItem.sellCryptoInfo?.sellAssetId} ${intl.operationName_exchangeTo} ${transactionListItem.sellCryptoInfo?.buyAssetId}';
+      default:
+        return transactionListItem.assetId;
+    }
+  }
+
+  Widget _transactionItemIcon({
+    required OperationType type,
+    required bool isFailed,
+  }) {
+    final colors = sKit.colors;
+    final failedColor = colors.grey2;
+    switch (type) {
+      case OperationType.deposit:
+        return SReceiveByPhoneIcon(color: isFailed ? failedColor : null);
+      case OperationType.withdraw:
+        return SSendByPhoneIcon(color: isFailed ? failedColor : null);
+      case OperationType.transferByPhone:
+        return SSendByPhoneIcon(color: isFailed ? failedColor : null);
+      case OperationType.receiveByPhone:
+        return SReceiveByPhoneIcon(color: isFailed ? failedColor : null);
+      case OperationType.ibanDeposit:
+        return SReceiveByPhoneIcon(color: isFailed ? failedColor : null);
+      case OperationType.p2pBuy:
+        return SPlusIcon(color: isFailed ? failedColor : null);
+      case OperationType.swapBuy:
+        return STransferIcon(color: isFailed ? failedColor : colors.blue);
+      case OperationType.swapSell:
+        return STransferIcon(color: isFailed ? failedColor : colors.blue);
+      case OperationType.paidInterestRate:
+        return SPlusIcon(color: isFailed ? failedColor : null);
+      case OperationType.feeSharePayment:
+        return SPlusIcon(color: isFailed ? failedColor : null);
+      case OperationType.withdrawalFee:
+        return SMinusIcon(color: isFailed ? failedColor : null);
+      case OperationType.swap:
+        return const SActionConvertIcon();
+      case OperationType.rewardPayment:
+        return SReceiveByPhoneIcon(color: isFailed ? failedColor : null);
+      case OperationType.simplexBuy:
+        return SPlusIcon(color: isFailed ? failedColor : null);
+      case OperationType.recurringBuy:
+        return SPlusIcon(color: isFailed ? failedColor : null);
+      case OperationType.earningWithdrawal:
+        return SPlusIcon(color: isFailed ? failedColor : null);
+      case OperationType.earningDeposit:
+        return SMinusIcon(color: isFailed ? failedColor : null);
+      case OperationType.unknown:
+        return const SizedBox();
+      case OperationType.cryptoBuy:
+        return SPlusIcon(color: isFailed ? failedColor : null);
+      case OperationType.buyApplePay:
+        return SPlusIcon(color: isFailed ? failedColor : null);
+      case OperationType.buyGooglePay:
+        return SPlusIcon(color: isFailed ? failedColor : null);
+      case OperationType.ibanSend:
+        return SSendByPhoneIcon(color: isFailed ? failedColor : null);
+      case OperationType.sendGlobally:
+        return SNetworkIcon(color: isFailed ? failedColor : null);
+      case OperationType.giftSend:
+        return SSendByPhoneIcon(color: isFailed ? failedColor : null);
+      case OperationType.giftReceive:
+        return SReceiveByPhoneIcon(color: isFailed ? failedColor : null);
+      case OperationType.bankingBuy:
+        return isEurAccount
+            ? SMinusIcon(color: isFailed ? failedColor : null)
+            : SPlusIcon(color: isFailed ? failedColor : null);
+      case OperationType.bankingAccountDeposit:
+        return SAddCashIcon(
+          color: isFailed ? failedColor : colors.green,
+        );
+      case OperationType.bankingAccountWithdrawal:
+        return SWithdrawalIcon(
+          color: isFailed ? failedColor : colors.red,
+        );
+      case OperationType.cardRefund:
+        return SRefundIcon(color: isFailed ? failedColor : colors.blue);
+      case OperationType.cardPurchase:
+        return SPurchaseIcon(color: isFailed ? failedColor : colors.red);
+      case OperationType.cardWithdrawal:
+        return SWithdrawalIcon(color: isFailed ? failedColor : colors.red);
+      case OperationType.bankingSell:
+        return source == TransactionItemSource.cryptoAccount
+            ? SMinusIcon(color: isFailed ? failedColor : null)
+            : SPlusIcon(color: isFailed ? failedColor : null);
+      default:
+        return SPlusIcon(color: isFailed ? failedColor : null);
+    }
+  }
+
+  Widget? _transactionLabelIcon({
+    required OperationType type,
+  }) {
+    switch (type) {
+      case OperationType.giftSend:
+      case OperationType.giftReceive:
+        return const SGiftHistoryIcon();
+      case OperationType.rewardPayment:
+        return const SRewardHistoryIcon();
+      default:
+        return null;
+    }
+  }
+
+  String _transactionItemBalanceChange({
+    required OperationHistoryItem transactionListItem,
+    required String symbol,
+    required int accuracy,
+  }) {
+    return volumeFormat(
+      decimal: (transactionListItem.operationType == OperationType.ibanSend ||
+              transactionListItem.operationType == OperationType.transferByPhone ||
+              transactionListItem.operationType == OperationType.giftSend)
+          ? transactionListItem.balanceChange.abs()
+          : transactionListItem.balanceChange,
+      accuracy: accuracy,
+      symbol: symbol,
+    );
+  }
+
+  String? _transactionItemRightSupplement({
+    required OperationHistoryItem transactionListItem,
+    required CurrencyModel currency,
+    required CurrencyModel paymentCurrency,
+    required BaseCurrencyModel baseCurrency,
+  }) {
+    if (transactionListItem.operationType == OperationType.swapSell) {
+      return '${intl.transactionListItem_forText} '
+          '${volumeFormat(
+        decimal: transactionListItem.swapInfo!.buyAmount,
+        symbol: transactionListItem.swapInfo!.buyAssetId,
+      )}';
+    }
+    if (transactionListItem.operationType == OperationType.swapBuy) {
+      return '${intl.history_with} ${volumeFormat(
+        decimal: transactionListItem.swapInfo!.sellAmount,
+        symbol: transactionListItem.swapInfo!.sellAssetId ?? '',
+      )}';
+    }
+    if (transactionListItem.operationType == OperationType.simplexBuy) {
+      return '${intl.history_with} '
+          '${volumeFormat(
+        decimal: transactionListItem.buyInfo!.sellAmount,
+        symbol: transactionListItem.buyInfo!.sellAssetId,
+      )}';
+    }
+    if (transactionListItem.operationType == OperationType.recurringBuy) {
+      return '${intl.history_with} ${volumeFormat(
+        decimal: transactionListItem.recurringBuyInfo!.sellAmount,
+        symbol: transactionListItem.recurringBuyInfo!.sellAssetId!,
+      )}';
+    }
+    if (transactionListItem.operationType == OperationType.earningDeposit &&
+        transactionListItem.earnInfo?.totalBalance == transactionListItem.balanceChange.abs()) {
+      return ' ${volumeFormat(
+        decimal: transactionListItem.earnInfo!.totalBalance * currency.currentPrice,
+        symbol: baseCurrency.symbol,
+      )}';
+    }
+    if (transactionListItem.operationType == OperationType.cryptoBuy) {
+      return '${intl.history_with} ${volumeFormat(
+        decimal: transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero,
+        symbol: transactionListItem.cryptoBuyInfo?.paymentAssetId ?? '',
+      )}';
+    }
+    if (transactionListItem.operationType == OperationType.bankingBuy && source != TransactionItemSource.eurAccount) {
+      return '${intl.history_with} ${volumeFormat(
+        decimal: transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero,
+        symbol: transactionListItem.cryptoBuyInfo?.paymentAssetId ?? '',
+      )}';
+    }
+    if (transactionListItem.operationType == OperationType.bankingBuy && source == TransactionItemSource.eurAccount) {
+      return '${intl.history_for} ${volumeFormat(
+        decimal: transactionListItem.cryptoBuyInfo?.buyAmount ?? Decimal.zero,
+        symbol: transactionListItem.cryptoBuyInfo?.buyAssetId ?? '',
+      )}';
+    }
+    if (transactionListItem.operationType == OperationType.bankingSell &&
+        source != TransactionItemSource.cryptoAccount) {
+      return '${intl.history_with} ${volumeFormat(
+        decimal: transactionListItem.sellCryptoInfo?.sellAmount ?? Decimal.zero,
+        symbol: transactionListItem.sellCryptoInfo?.sellAssetId ?? '',
+      )}';
+    }
+    if (transactionListItem.operationType == OperationType.bankingSell &&
+        source == TransactionItemSource.cryptoAccount) {
+      return '${intl.history_for} ${volumeFormat(
+        decimal: transactionListItem.sellCryptoInfo?.buyAmount ?? Decimal.zero,
+        symbol: transactionListItem.sellCryptoInfo?.buyAssetId ?? '',
+      )}';
+    }
+    if (transactionListItem.operationType == OperationType.sendGlobally) {
+      return '${intl.history_for} ${volumeFormat(
+        decimal: transactionListItem.withdrawalInfo?.receiveAmount ?? Decimal.zero,
+        symbol: transactionListItem.withdrawalInfo?.receiveAsset ?? '',
+      )}';
+    }
+
+    return null;
+  }
+}
+
+class _TransactionBaseItem extends StatelessWidget {
+  const _TransactionBaseItem({
+    required this.onTap,
+    required this.icon,
+    required this.labele,
+    this.labelIcon,
+    required this.balanceChange,
+    required this.status,
+    required this.timeStamp,
+    this.rightSupplement,
+  });
+
+  final void Function() onTap;
+  final Widget icon;
+  final String labele;
+  final Widget? labelIcon;
+  final String balanceChange;
+  final Status status;
+  final String timeStamp;
+  final String? rightSupplement;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = sKit.colors;
+
+    return InkWell(
+      onTap: onTap,
       splashColor: Colors.transparent,
       highlightColor: colors.grey5,
       hoverColor: Colors.transparent,
@@ -68,58 +356,26 @@ class TransactionListItem extends StatelessObserverWidget {
               const SpaceH12(),
               Row(
                 children: [
-                  _iconFrom(
-                    transactionListItem.operationType,
-                    transactionListItem.status == Status.declined,
-                    colors.grey2,
+                  SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: icon,
                   ),
-                  if (transactionListItem.operationType == OperationType.buy ||
-                      transactionListItem.operationType == OperationType.sell ||
-                      transactionListItem.operationType == OperationType.swap)
-                    const SpaceW6()
-                  else
-                    const SpaceW10(),
+                  const SpaceW10(),
                   Expanded(
                     child: Row(
                       children: [
                         TransactionListItemHeaderText(
-                          text: _transactionItemTitle(
-                            transactionListItem,
-                            context,
-                          ),
-                          color: colors.black,
+                          text: labele,
+                          color: status == Status.declined ? colors.grey2 : colors.black,
                         ),
-                        if (transactionListItem.operationType == OperationType.giftSend ||
-                            transactionListItem.operationType == OperationType.giftReceive) ...[
-                          Container(
-                            height: 16,
-                            margin: const EdgeInsets.only(top: 4),
-                            child: const SGiftSendIcon(),
-                          ),
-                        ],
-                        if (transactionListItem.operationType == OperationType.rewardPayment) ...[
+                        if (labelIcon != null) ...[
                           Padding(
                             padding: const EdgeInsets.only(left: 4, top: 1.5),
                             child: SizedBox(
                               height: 16,
-                              child: SvgPicture.asset(
-                                simpleRewardTrophy,
-                              ),
+                              child: labelIcon,
                             ),
-                          ),
-                        ],
-                        if (transactionListItem.status == Status.declined) ...[
-                          const SpaceW5(),
-                          Column(
-                            children: [
-                              const SpaceH4(),
-                              Text(
-                                intl.transactionDetailsStatus_declined,
-                                style: sBodyText2Style.copyWith(
-                                  color: colors.grey2,
-                                ),
-                              ),
-                            ],
                           ),
                         ],
                       ],
@@ -131,19 +387,7 @@ class TransactionListItem extends StatelessObserverWidget {
                       minWidth: 100,
                     ),
                     child: AutoSizeText(
-                      nftTypes.contains(transactionListItem.operationType)
-                          ? nftAsset.name ?? 'NFT'
-                          : volumeFormat(
-                              decimal: (transactionListItem.operationType == OperationType.withdraw ||
-                                      transactionListItem.operationType == OperationType.ibanSend ||
-                                      transactionListItem.operationType == OperationType.sendGlobally ||
-                                      transactionListItem.operationType == OperationType.transferByPhone ||
-                                      transactionListItem.operationType == OperationType.giftSend)
-                                  ? transactionListItem.balanceChange.abs()
-                                  : transactionListItem.balanceChange,
-                              accuracy: currency.accuracy,
-                              symbol: currency.symbol,
-                            ),
+                      balanceChange,
                       textAlign: TextAlign.end,
                       minFontSize: 4.0,
                       maxLines: 1,
@@ -157,8 +401,8 @@ class TransactionListItem extends StatelessObserverWidget {
                         fontSize: 18.0,
                         fontFamily: 'Gilroy',
                         fontWeight: FontWeight.w600,
-                        color: transactionListItem.status == Status.declined ? colors.grey1 : colors.black,
-                        decoration: transactionListItem.status == Status.declined ? TextDecoration.lineThrough : null,
+                        color: status == Status.declined ? colors.grey2 : colors.black,
+                        decoration: status == Status.declined ? TextDecoration.lineThrough : null,
                       ),
                     ),
                   ),
@@ -166,181 +410,32 @@ class TransactionListItem extends StatelessObserverWidget {
               ),
               Row(
                 children: [
-                  const SpaceW30(),
-                  if (transactionListItem.status != Status.inProgress)
-                    TransactionListItemText(
-                      text: '${formatDateToDMY(
-                        transactionListItem.timeStamp,
-                      )}'
-                          ', ${formatDateToHm(transactionListItem.timeStamp)}',
-                      color: colors.grey2,
-                    ),
-                  if (transactionListItem.status == Status.inProgress)
-                    TransactionListItemText(
-                      text: '${intl.transactionListItem_balanceInProcess}...',
-                      color: colors.grey2,
-                    ),
+                  const SpaceW34(),
+                  TransactionListItemText(
+                    text: '${formatDateToDMY(timeStamp)}, ${formatDateToHm(timeStamp)}',
+                    color: colors.grey1,
+                  ),
                   const Spacer(),
-                  if (transactionListItem.operationType == OperationType.nftSellOpposite ||
-                      transactionListItem.operationType == OperationType.nftBuyOpposite ||
-                      transactionListItem.operationType == OperationType.nftWithdrawalFee)
+                  if (rightSupplement != null)
                     TransactionListItemText(
-                      text: '${intl.transactionListItem_forText} '
-                          '${nftAsset.name}',
-                      color: colors.grey2,
+                      text: rightSupplement!,
+                      color: colors.grey1,
                     ),
-                  if (transactionListItem.operationType == OperationType.sell)
-                    TransactionListItemText(
-                      text: '${intl.transactionListItem_forText} '
-                          '${volumeFormat(
-                        prefix: currency.prefixSymbol,
-                        decimal: transactionListItem.swapInfo!.buyAmount,
-                        accuracy: currencyFrom(
-                          currencies,
-                          transactionListItem.swapInfo!.buyAssetId,
-                        ).accuracy,
-                        symbol: transactionListItem.swapInfo!.buyAssetId,
-                      )}',
-                      color: colors.grey2,
-                    ),
-                  if (transactionListItem.operationType == OperationType.buy)
-                    TransactionListItemText(
-                      text: '${intl.withText} ${volumeFormat(
-                        prefix: currency.prefixSymbol,
-                        decimal: transactionListItem.swapInfo!.sellAmount,
-                        accuracy: currencyFrom(
-                          currencies,
-                          transactionListItem.swapInfo!.sellAssetId,
-                        ).accuracy,
-                        symbol: transactionListItem.swapInfo!.sellAssetId,
-                      )}',
-                      color: colors.grey2,
-                    ),
-                  if (transactionListItem.operationType == OperationType.simplexBuy)
-                    TransactionListItemText(
-                      text: '${intl.withText} '
-                          '${volumeFormat(
-                        decimal: transactionListItem.buyInfo!.sellAmount,
-                        symbol: transactionListItem.buyInfo!.sellAssetId,
-                        prefix: paymentCurrency.prefixSymbol,
-                        accuracy: paymentCurrency.accuracy,
-                      )}',
-                      color: colors.grey2,
-                    ),
-                  if (transactionListItem.operationType == OperationType.recurringBuy)
-                    TransactionListItemText(
-                      text: '${intl.withText} ${volumeFormat(
-                        prefix: currency.prefixSymbol,
-                        decimal: transactionListItem.recurringBuyInfo!.sellAmount,
-                        accuracy: currency.accuracy,
-                        symbol: transactionListItem.recurringBuyInfo!.sellAssetId!,
-                      )}',
-                      color: colors.grey2,
-                    ),
-                  if (transactionListItem.operationType == OperationType.earningDeposit &&
-                      transactionListItem.earnInfo?.totalBalance == transactionListItem.balanceChange.abs())
-                    TransactionListItemText(
-                      text: ' ${volumeFormat(
-                        prefix: baseCurrency.prefix,
-                        decimal: transactionListItem.earnInfo!.totalBalance * currency.currentPrice,
-                        accuracy: baseCurrency.accuracy,
-                        symbol: baseCurrency.symbol,
-                      )}',
+                  const SpaceW5(),
+                  if (status == Status.inProgress)
+                    const SimpleLoader()
+                  else if (status == Status.completed)
+                    const SHistoryCompletedIcon()
+                  else if (status == Status.declined)
+                    SHistoryDeclinedIcon(
                       color: colors.grey2,
                     ),
                 ],
               ),
-              const SpaceH18(),
-              if (!removeDivider) const SDivider(),
             ],
           ),
         ),
       ),
     );
-  }
-
-  String _transactionItemTitle(
-    OperationHistoryItem transactionListItem,
-    BuildContext context,
-  ) {
-    return transactionListItem.operationType == OperationType.buy ||
-            transactionListItem.operationType == OperationType.sell
-        ? '${transactionListItem.swapInfo?.sellAssetId} '
-            '${intl.operationName_exchangeTo} '
-            '${transactionListItem.swapInfo?.buyAssetId}'
-        : transactionListItem.assetId;
-  }
-
-  Widget _iconFrom(OperationType type, bool isFailed, Color color) {
-    switch (type) {
-      case OperationType.deposit:
-        return SReceiveByPhoneIcon(color: isFailed ? color : null);
-      case OperationType.withdraw:
-        return SSendByPhoneIcon(color: isFailed ? color : null);
-      case OperationType.transferByPhone:
-        return SSendByPhoneIcon(color: isFailed ? color : null);
-      case OperationType.receiveByPhone:
-        return SReceiveByPhoneIcon(color: isFailed ? color : null);
-      case OperationType.ibanDeposit:
-        return SReceiveByPhoneIcon(color: isFailed ? color : null);
-      case OperationType.p2pBuy:
-        return SPlusIcon(color: isFailed ? color : null);
-      case OperationType.buy:
-        return const SActionConvertIcon();
-      case OperationType.sell:
-        return const SActionConvertIcon();
-      case OperationType.paidInterestRate:
-        return SPlusIcon(color: isFailed ? color : null);
-      case OperationType.feeSharePayment:
-        return SPlusIcon(color: isFailed ? color : null);
-      case OperationType.withdrawalFee:
-        return SMinusIcon(color: isFailed ? color : null);
-      case OperationType.swap:
-        return const SActionConvertIcon();
-      case OperationType.rewardPayment:
-        return SReceiveByPhoneIcon(color: isFailed ? color : null);
-      case OperationType.simplexBuy:
-        return SPlusIcon(color: isFailed ? color : null);
-      case OperationType.recurringBuy:
-        return SPlusIcon(color: isFailed ? color : null);
-      case OperationType.earningWithdrawal:
-        return SPlusIcon(color: isFailed ? color : null);
-      case OperationType.earningDeposit:
-        return SMinusIcon(color: isFailed ? color : null);
-      case OperationType.unknown:
-        return const SizedBox();
-      case OperationType.cryptoInfo:
-        return SPlusIcon(color: isFailed ? color : null);
-      case OperationType.buyApplePay:
-        return SPlusIcon(color: isFailed ? color : null);
-      case OperationType.buyGooglePay:
-        return SPlusIcon(color: isFailed ? color : null);
-      case OperationType.nftBuy:
-        return SPlusIcon(color: isFailed ? color : null);
-      case OperationType.nftSwap:
-        return SPlusIcon(color: isFailed ? color : null);
-      case OperationType.nftSell:
-        return SMinusIcon(color: isFailed ? color : null);
-      case OperationType.nftSellOpposite:
-        return SPlusIcon(color: isFailed ? color : null);
-      case OperationType.nftBuyOpposite:
-        return SMinusIcon(color: isFailed ? color : null);
-      case OperationType.nftDeposit:
-        return SReceiveByPhoneIcon(color: isFailed ? color : null);
-      case OperationType.nftWithdrawal:
-        return SSendByPhoneIcon(color: isFailed ? color : null);
-      case OperationType.nftWithdrawalFee:
-        return SMinusIcon(color: isFailed ? color : null);
-      case OperationType.ibanSend:
-        return SSendByPhoneIcon(color: isFailed ? color : null);
-      case OperationType.sendGlobally:
-        return SSendByPhoneIcon(color: isFailed ? color : null);
-      case OperationType.giftSend:
-        return SSendByPhoneIcon(color: isFailed ? color : null);
-      case OperationType.giftReceive:
-        return SReceiveByPhoneIcon(color: isFailed ? color : null);
-      default:
-        return SPlusIcon(color: isFailed ? color : null);
-    }
   }
 }

@@ -132,8 +132,9 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
     loader.startLoadingImmediately();
 
     final model = CardBuyCreateRequestModel(
+       buyFixed: true,
       paymentMethod: CirclePaymentMethod.circle,
-      paymentAmount: amountToPay!,
+      paymentAmount: amountToPay,
       buyAsset: input.currency.symbol,
       paymentAsset: input.currencyPayment.symbol,
       circlePaymentData: CirclePaymentDataModel(
@@ -429,7 +430,7 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
           (value) => sRouter.push(
             const HomeRouter(
               children: [
-                PortfolioRouter(),
+                MyWalletsRouter(),
               ],
             ),
           ),

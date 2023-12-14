@@ -1,5 +1,6 @@
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/package_info_service.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 
 enum Flavor {
   prod,
@@ -8,7 +9,18 @@ enum Flavor {
 }
 
 Flavor flavorService() {
-  final packageInfo = getIt.get<PackageInfoService>().info;
+  final env = getIt<AppStore>().env;
+
+  if (env == 'prod') {
+    return Flavor.prod;
+  } else if (env == 'stage') {
+    return Flavor.stage;
+  } else {
+    return Flavor.dev;
+  }
+
+  // old TODO: Временный костыль или нет (?) для демки
+  /*final packageInfo = getIt.get<PackageInfoService>().info;
 
   if (packageInfo.packageName == 'app.simple.com') {
     return Flavor.prod;
@@ -16,5 +28,5 @@ Flavor flavorService() {
     return Flavor.stage;
   } else {
     return Flavor.dev;
-  }
+  }*/
 }

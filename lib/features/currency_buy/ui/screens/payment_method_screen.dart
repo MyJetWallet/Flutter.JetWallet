@@ -4,7 +4,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/bank_card/add_bank_card.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
@@ -105,7 +104,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
         !(state.unlimintCards.isNotEmpty && unlimintIncludes.isNotEmpty) &&
         !(state.unlimintAltCards.isNotEmpty && unlimintAltIncludes.isNotEmpty);
 
-    void showDeleteDisclaimer({required VoidCallback onDelete}) {
+    Future<void> showDeleteDisclaimer({required VoidCallback onDelete}) {
       return sShowAlertPopup(
         context,
         primaryText: '${intl.paymentMethod_showAlertPopupPrimaryText}?',
@@ -123,7 +122,6 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
 
     if (!analyticSent && isEmptyPaymentCards) {
       analyticSent = true;
-      sAnalytics.newBuyNoSavedCard();
     }
 
     void onAddCardTap() {
@@ -158,7 +156,6 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
     }
 
     void checkKyc() {
-      sAnalytics.newBuyTapAddCard();
       final status = kycOperationStatus(KycStatus.allowed);
       if (kycState.depositStatus == status) {
         onAddCardTap();
@@ -295,7 +292,8 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                   );
 
                   return PaymentCardItem(
-                    name: formatted.last4Digits,
+                    lable: card.cardLabel ?? '',
+                    last4numbers: card.last4,
                     network: card.network,
                     expirationDate: card.status == CircleCardStatus.pending
                         ? intl.paymentMethod_CardIsProcessing
@@ -339,7 +337,8 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                   );
 
                   return PaymentCardItem(
-                    name: formatted.last4Digits,
+                    lable: card.cardLabel ?? '',
+                    last4numbers: card.last4,
                     network: card.network,
                     expirationDate: card.status == CircleCardStatus.pending
                         ? intl.paymentMethod_CardIsProcessing
@@ -384,7 +383,8 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                   );
 
                   return PaymentCardItem(
-                    name: formatted.last4Digits,
+                    lable: card.cardLabel ?? '',
+                    last4numbers: card.last4,
                     network: card.network,
                     expirationDate: card.status == CircleCardStatus.pending
                         ? intl.paymentMethod_CardIsProcessing

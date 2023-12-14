@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
@@ -59,21 +60,19 @@ class ProfileDetails extends StatelessObserverWidget {
                   or: () {
                     sRouter.push(
                       SetPhoneNumberRouter(
-                        successText:
-                            intl.profileDetails_newPhoneNumberConfirmed,
+                        successText: intl.profileDetails_newPhoneNumberConfirmed,
                         isChangePhone: true,
                         then: () {
                           sRouter.popUntil(
                             (route) {
-                              return route.settings.name ==
-                                  'ProfileDetailsRouter';
+                              return route.settings.name == 'ProfileDetailsRouter';
                             },
                           );
                         },
                       ),
                     );
                   },
-                  from: BlockingType.phoneNumberUpdate,
+                  from: [BlockingType.phoneNumberUpdate],
                 );
               },
             ),

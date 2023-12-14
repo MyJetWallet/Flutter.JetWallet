@@ -22,6 +22,7 @@ class ApiClient {
               ? Options(
                   extra: {
                     'sessionID': sessionID,
+                    'isSensitive': path.contains('sensitive') ? 'sensitive' : '',
                   },
                 )
               : null,

@@ -19,7 +19,12 @@ import '../../../../core/services/sumsub_service/sumsub_service.dart';
 class KycVerificationSumsub extends StatefulObserverWidget {
   const KycVerificationSumsub({
     super.key,
+    this.onFinish,
+    this.isBanking = false,
   });
+
+  final VoidCallback? onFinish;
+  final bool? isBanking;
 
   @override
   State<KycVerificationSumsub> createState() => _KycVerificationSumsubState();
@@ -85,11 +90,8 @@ class _KycVerificationSumsubState extends State<KycVerificationSumsub> {
                         padding: const EdgeInsets.all(21),
                         child: Column(
                           children: [
-                            for (var index = 0;
-                                index < state.documents.length;
-                                index++) ...[
-                              if (state.documents[index].document !=
-                                  KycDocumentType.selfieImage)
+                            for (var index = 0; index < state.documents.length; index++) ...[
+                              if (state.documents[index].document != KycDocumentType.selfieImage)
                                 Row(
                                   children: [
                                     iconKycDocumentType(
@@ -106,8 +108,7 @@ class _KycVerificationSumsubState extends State<KycVerificationSumsub> {
                                     ),
                                   ],
                                 ),
-                              if (index != (state.documents.length - 1))
-                                const SpaceH16(),
+                              if (index != (state.documents.length - 1)) const SpaceH16(),
                             ],
                           ],
                         ),
@@ -118,8 +119,7 @@ class _KycVerificationSumsubState extends State<KycVerificationSumsub> {
                       child: Column(
                         children: [
                           SDocumentRecommendation(
-                            primaryText:
-                                '${intl.sDocumentRecommendation_primaryText1}:',
+                            primaryText: '${intl.sDocumentRecommendation_primaryText1}:',
                           ),
                           Text(
                             intl.sDocumentRecommendation_primaryTextNew,
@@ -163,7 +163,11 @@ class _KycVerificationSumsubState extends State<KycVerificationSumsub> {
                   country: countries.activeCountry?.countryName ?? '',
                 );
 
-                await getIt<SumsubService>().launch();
+                await getIt<SumsubService>().launch(
+                  onFinish: widget.onFinish,
+                  isBanking: widget.isBanking ?? false,
+                );
+
                 loading.finishLoadingImmediately();
               },
               name: intl.kycVerifyYourProfile_continue,

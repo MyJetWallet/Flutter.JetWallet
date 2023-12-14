@@ -32,7 +32,6 @@ class DeleteProfile extends StatelessObserverWidget {
       totalBalance += item.baseBalance;
     }
     final totalBalanceStr = marketFormat(
-      prefix: baseCurrency.prefix,
       decimal: totalBalance,
       accuracy: baseCurrency.accuracy,
       symbol: baseCurrency.symbol,
@@ -69,7 +68,7 @@ class DeleteProfile extends StatelessObserverWidget {
               sRouter.navigate(
                 const HomeRouter(
                   children: [
-                    PortfolioRouter(),
+                    MyWalletsRouter(),
                   ],
                 ),
               );

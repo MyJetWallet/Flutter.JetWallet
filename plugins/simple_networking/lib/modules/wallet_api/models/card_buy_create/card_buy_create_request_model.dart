@@ -8,16 +8,19 @@ part 'card_buy_create_request_model.g.dart';
 @freezed
 class CardBuyCreateRequestModel with _$CardBuyCreateRequestModel {
   const factory CardBuyCreateRequestModel({
-    @DecimalSerialiser() required Decimal paymentAmount,
-    String? paymentAsset,
-    String? buyAsset,
+    @DecimalNullSerialiser() Decimal? paymentAmount,
+   required String paymentAsset,
+   required String buyAsset,
+    @DecimalNullSerialiser() Decimal? buyAmount,
+    required bool buyFixed,
     required CirclePaymentMethod paymentMethod,
     CirclePaymentDataModel? circlePaymentData,
+    CirclePaymentDataModel? unlimintPaymentData,
     CirclePaymentDataModel? cardPaymentData,
+    IbanPaymentPreview? ibanPaymentData,
   }) = _CardBuyCreateRequestModel;
 
-  factory CardBuyCreateRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$CardBuyCreateRequestModelFromJson(json);
+  factory CardBuyCreateRequestModel.fromJson(Map<String, dynamic> json) => _$CardBuyCreateRequestModelFromJson(json);
 }
 
 @freezed
@@ -26,8 +29,16 @@ class CirclePaymentDataModel with _$CirclePaymentDataModel {
     required String cardId,
   }) = _CirclePaymentDataModel;
 
-  factory CirclePaymentDataModel.fromJson(Map<String, dynamic> json) =>
-      _$CirclePaymentDataModelFromJson(json);
+  factory CirclePaymentDataModel.fromJson(Map<String, dynamic> json) => _$CirclePaymentDataModelFromJson(json);
+}
+
+@freezed
+class IbanPaymentPreview with _$IbanPaymentPreview {
+  const factory IbanPaymentPreview({
+    required String accountId,
+  }) = _IbanPaymentPreview;
+
+  factory IbanPaymentPreview.fromJson(Map<String, dynamic> json) => _$IbanPaymentPreviewFromJson(json);
 }
 
 enum CirclePaymentMethod {
@@ -43,6 +54,8 @@ enum CirclePaymentMethod {
   applePay,
   @JsonValue(5)
   googlePay,
+  @JsonValue(6)
+  ibanTransferUnlimint,
   @JsonValue(102)
   pix,
   @JsonValue(103)

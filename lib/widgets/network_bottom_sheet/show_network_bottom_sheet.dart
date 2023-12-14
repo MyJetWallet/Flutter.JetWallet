@@ -45,9 +45,6 @@ void showNetworkBottomSheet(
     context: context,
     pinned: SBottomSheetHeader(
       name: intl.showNetworkBottomSheet_chooseNetwork,
-      onTap: () {
-        checkOrClose(false);
-      },
     ),
     isDismissible: false,
     then: (p0) => checkOrClose(p0),

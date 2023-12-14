@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
-import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_client.dart';
@@ -35,17 +34,21 @@ class SignalRService {
     }
 
     if (!getIt.isRegistered<SignalRModuleNew>()) {
-      getIt.registerSingletonAsync<SignalRModuleNew>(
-        () async {
-          final service = await createNewService();
-          await service.openConnection();
+      try {
+        getIt.registerSingletonAsync<SignalRModuleNew>(
+          () async {
+            final service = await createNewService();
+            await service.openConnection();
 
-          unawaited(service.checkConnectionTimer());
+            unawaited(service.checkConnectionTimer());
 
-          return service;
-        },
-        instanceName: 'SignalRModuleNew',
-      );
+            return service;
+          },
+          instanceName: 'SignalRModuleNew',
+        );
+      } catch (e) {
+        await forceReconnectSignalR();
+      }
     } else {
       await forceReconnectSignalR();
     }
@@ -58,6 +61,8 @@ class SignalRService {
           message: 'Force Reconnect SignalR',
         );
 
+    sSignalRModules.setInitFinished(false);
+
     try {
       await getIt.unregister<SignalRModuleNew>(
         instanceName: signalRSingletinName,
@@ -65,17 +70,29 @@ class SignalRService {
           p0.dispose();
         },
       );
+
+      /*if (getIt.isRegistered<SignalRModuleNew>()) {
+        await getIt.unregister<SignalRModuleNew>(
+          instanceName: signalRSingletinName,
+          disposingFunction: (p0) {
+            p0.dispose();
+          },
+        );
+      }
+      */
     } catch (e) {
       getIt.get<SimpleLoggerService>().log(
             level: Level.error,
             place: 'SignalRService',
-            message: 'Force Reconnect Error: $e',
+            message: 'Force Reconnect Error 1: $e',
           );
     }
 
     await Future.delayed(const Duration(milliseconds: 560), () {
       start(isInit: false);
     });
+
+    sSignalRModules.setInitFinished(true);
   }
 
   Future<void> killSignalR() async {
@@ -86,22 +103,29 @@ class SignalRService {
         );
 
     try {
-      await getIt.unregister<SignalRModuleNew>(
-        instanceName: signalRSingletinName,
-        disposingFunction: (p0) {
-          p0.dispose();
-        },
-      );
+      if (getIt.isRegistered<SignalRModuleNew>()) {
+        await getIt.unregister<SignalRModuleNew>(
+          instanceName: signalRSingletinName,
+          disposingFunction: (p0) {
+            p0.dispose();
+          },
+        );
+      }
     } catch (e) {
       getIt.get<SimpleLoggerService>().log(
             level: Level.error,
             place: 'SignalRService',
-            message: 'Force Reconnect Error: $e',
+            message: 'Force Reconnect Error 2: $e',
           );
     }
   }
 
   Future<void> _getSignalRModule() async {
+    sSignalRModules = SignalRServiceUpdated();
+
+    await sSignalRModules.launch();
+
+    /*
     try {
       final sRCache = await getIt<LocalCacheService>().getSignalRFromCache();
 
@@ -115,6 +139,7 @@ class SignalRService {
     } catch (e) {
       sSignalRModules = SignalRServiceUpdated();
     }
+    */
   }
 
   Future<SignalRModuleNew> createNewService() async {
@@ -122,15 +147,11 @@ class SignalRService {
       initFinished: sSignalRModules.setInitFinished,
       cards: sSignalRModules.setCards,
       cardLimits: sSignalRModules.setCardLimitModel,
-      earnOffersList: sSignalRModules.setEarnOffersList,
-      earnProfile: sSignalRModules.setEarnProfile,
       operationHistory: sSignalRModules.operationHistoryEvent,
-      recurringBuys: sSignalRModules.setRecurringBuys,
       kycCountries: sSignalRModules.setKYCCountries,
       marketInfo: sSignalRModules.setMarketInfo,
       marketCampaigns: sSignalRModules.setMarketCampaigns,
       referralStats: sSignalRModules.setReferralStats,
-      instruments: sSignalRModules.setInstruments,
       marketItems: sSignalRModules.setMarketItems,
       periodPrices: sSignalRModules.setPeriodPrices,
       clientDetail: sSignalRModules.setClientDetail,
@@ -138,21 +159,17 @@ class SignalRService {
       indicesDetails: sSignalRModules.setIndicesDetails,
       priceAccuracies: sSignalRModules.setPriceAccuracies,
       referralInfo: sSignalRModules.setReferralInfo,
-      nftList: sSignalRModules.setNFTList,
-      nftMarket: sSignalRModules.setNFTMarket,
-      userNFTPortfolio: sSignalRModules.setUserNFTPortfolio,
-      updateUserNft: sSignalRModules.updateUserNft,
       fireblockEventAction: sSignalRModules.fireblockEventAction,
       setAssets: sSignalRModules.setAssets,
       updateBalances: sSignalRModules.updateBalances,
       updateBlockchains: sSignalRModules.updateBlockchains,
       updateBasePrices: sSignalRModules.updateBasePrices,
       updateAssetsWithdrawalFees: sSignalRModules.updateAssetsWithdrawalFees,
-      updateAssetPaymentMethods: sSignalRModules.updateAssetPaymentMethods,
-      updateAssetPaymentMethodsNew:
-          sSignalRModules.updateAssetPaymentMethodsNew,
+      updateAssetPaymentMethodsNew: sSignalRModules.updateAssetPaymentMethodsNew,
       receiveGifts: sSignalRModules.reciveGiftsEvent,
       rewardsProfile: sSignalRModules.rewardsProfileMethods,
+      bankingProfile: sSignalRModules.setBankingProfileData,
+      setPendingOperationCount: sSignalRModules.setPendingOperationCount,
 
       ///
       createNewSessionLog: () {
@@ -178,8 +195,7 @@ class SignalRService {
             ),
           );
 
-          sSignalRModules.signalRLogs.last =
-              sSignalRModules.signalRLogs.last.copyWith(
+          sSignalRModules.signalRLogs.last = sSignalRModules.signalRLogs.last.copyWith(
             logs: temp,
           );
         }
@@ -194,8 +210,7 @@ class SignalRService {
             ),
           );
 
-          sSignalRModules.signalRLogs.last =
-              sSignalRModules.signalRLogs.last.copyWith(
+          sSignalRModules.signalRLogs.last = sSignalRModules.signalRLogs.last.copyWith(
             logs: temp,
           );
         }
@@ -211,8 +226,7 @@ class SignalRService {
             ),
           );
 
-          sSignalRModules.signalRLogs.last =
-              sSignalRModules.signalRLogs.last.copyWith(
+          sSignalRModules.signalRLogs.last = sSignalRModules.signalRLogs.last.copyWith(
             logs: temp,
           );
         }
@@ -223,8 +237,7 @@ class SignalRService {
     _logger.log(
       level: Level.info,
       place: _loggerValue,
-      message:
-          '''CREATE SIGNALR MODULE\nToken: ${getIt.get<AppStore>().authState.token}\n''',
+      message: '''CREATE SIGNALR MODULE\nToken: ${getIt.get<AppStore>().authState.token}\n''',
     );
 
     return SignalRModuleNew(

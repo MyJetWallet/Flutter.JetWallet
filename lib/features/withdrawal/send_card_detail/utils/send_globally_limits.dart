@@ -75,7 +75,6 @@ class _GlobalSendLimits extends StatelessWidget {
             text: intl.paymentMethodsSheet_maxTransaction,
             value: TransactionDetailsValueText(
               text: volumeFormat(
-                prefix: currency.prefixSymbol,
                 decimal: maxAmount,
                 symbol: currency.symbol,
                 accuracy: currency.accuracy,
@@ -87,7 +86,6 @@ class _GlobalSendLimits extends StatelessWidget {
             text: intl.paymentMethodsSheet_minTransaction,
             value: TransactionDetailsValueText(
               text: volumeFormat(
-                prefix: currency.prefixSymbol,
                 decimal: minAmount,
                 symbol: currency.symbol,
                 accuracy: currency.accuracy,

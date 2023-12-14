@@ -2,6 +2,7 @@ import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_withdrawal_fee_model.dart';
 import 'package:simple_networking/modules/signal_r/models/balance_model.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/base_prices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
 import 'package:simple_networking/modules/signal_r/models/campaign_response_model.dart';
@@ -36,15 +37,11 @@ class SignalRTransport {
     required this.initFinished,
     required this.cards,
     required this.cardLimits,
-    required this.earnOffersList,
-    required this.earnProfile,
     required this.operationHistory,
-    required this.recurringBuys,
     required this.kycCountries,
     required this.marketInfo,
     required this.marketCampaigns,
     required this.referralStats,
-    required this.instruments,
     required this.marketItems,
     required this.periodPrices,
     required this.clientDetail,
@@ -52,17 +49,12 @@ class SignalRTransport {
     required this.indicesDetails,
     required this.priceAccuracies,
     required this.referralInfo,
-    required this.nftList,
-    required this.nftMarket,
-    required this.userNFTPortfolio,
-    required this.updateUserNft,
     required this.fireblockEventAction,
     required this.setAssets,
     required this.updateBalances,
     required this.updateBlockchains,
     required this.updateBasePrices,
     required this.updateAssetsWithdrawalFees,
-    required this.updateAssetPaymentMethods,
     required this.updateAssetPaymentMethodsNew,
     required this.createNewSessionLog,
     required this.addToPing,
@@ -71,21 +63,19 @@ class SignalRTransport {
     required this.updateGlobalSendMethods,
     required this.receiveGifts,
     required this.rewardsProfile,
+    required this.bankingProfile,
+    required this.setPendingOperationCount,
   });
 
   final void Function(bool) initFinished;
   final void Function(CardsModel) cards;
   final void Function(CardLimitsModel) cardLimits;
-  final void Function(List<EarnOfferModel>) earnOffersList;
-  final void Function(EarnProfileModel) earnProfile;
   final void Function(String) operationHistory;
 
-  final void Function(RecurringBuysResponseModel) recurringBuys;
   final void Function(KycCountriesResponseModel) kycCountries;
   final void Function(TotalMarketInfoModel) marketInfo;
   final void Function(CampaignResponseModel) marketCampaigns;
   final void Function(ReferralStatsResponseModel) referralStats;
-  final void Function(InstrumentsModel) instruments;
 
   final void Function(MarketReferencesModel) marketItems;
   final void Function(PeriodPricesModel) periodPrices;
@@ -95,10 +85,6 @@ class SignalRTransport {
   final void Function(PriceAccuracies) priceAccuracies;
 
   final void Function(ReferralInfoModel) referralInfo;
-  final void Function(NftCollections) nftList;
-  final void Function(NFTMarkets) nftMarket;
-  final void Function(NftPortfolio) userNFTPortfolio;
-  final void Function(NftPortfolio) updateUserNft;
   final void Function(FireblockEventsModel) fireblockEventAction;
 
   final void Function(AssetsModel) setAssets;
@@ -106,13 +92,16 @@ class SignalRTransport {
   final void Function(BlockchainsModel) updateBlockchains;
   final void Function(BasePricesModel) updateBasePrices;
   final void Function(AssetWithdrawalFeeModel) updateAssetsWithdrawalFees;
-  final void Function(AssetPaymentMethods) updateAssetPaymentMethods;
   final void Function(AssetPaymentMethodsNew) updateAssetPaymentMethodsNew;
 
   final void Function(GlobalSendMethodsModel) updateGlobalSendMethods;
 
   final void Function(IncomingGiftModel) receiveGifts;
   final void Function(RewardsProfileModel) rewardsProfile;
+
+  final void Function(BankingProfileModel) bankingProfile;
+
+  final void Function(int) setPendingOperationCount;
 
   /// Logs
 

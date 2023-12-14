@@ -66,8 +66,7 @@ class SignalRModuleNew {
   static const _checkConnectionTime = 6;
   int connectionCheckCount = 0;
 
-  HubConnectionState get hubStatus =>
-      _hubConnection?.state ?? HubConnectionState.disconnected;
+  HubConnectionState get hubStatus => _hubConnection?.state ?? HubConnectionState.disconnected;
 
   //HubConnection? _hubConnection;
   HubConnection? _hubConnection;
@@ -104,8 +103,7 @@ class SignalRModuleNew {
           log(
             level: lg.Level.info,
             place: _loggerValue,
-            message:
-                'Check connection TIMER count: $connectionCheckCount, status: ${_hubConnection?.state}',
+            message: 'Check connection TIMER count: $connectionCheckCount, status: ${_hubConnection?.state}',
           );
         }
 
@@ -127,8 +125,7 @@ class SignalRModuleNew {
     log(
       level: lg.Level.warning,
       place: _loggerValue,
-      message:
-          'SignalR state: ${_hubConnection?.state} \n isSignalRRestarted: $isSignalRRestarted',
+      message: 'SignalR state: ${_hubConnection?.state} \n isSignalRRestarted: $isSignalRRestarted',
     );
 
     if (isSignalRRestarted) return false;
@@ -391,8 +388,7 @@ class SignalRModuleNew {
     log(
       level: lg.Level.error,
       place: _loggerValue,
-      message:
-          'SignalR Disconnected ${_hubConnection!.state}, Force timer: ${_checkConnectionTimer?.isActive}',
+      message: 'SignalR Disconnected ${_hubConnection!.state}, Force timer: ${_checkConnectionTimer?.isActive}',
     );
   }
 
@@ -425,14 +421,6 @@ class SignalRModuleNew {
       method: handler.cardLimitsMessageHandler,
     );
     _hubConnection?.off(
-      earnOffersMessage,
-      method: handler.earnOffersMessageHandler,
-    );
-    _hubConnection?.off(
-      recurringBuyMessage,
-      method: handler.recurringBuyMessageHandler,
-    );
-    _hubConnection?.off(
       kycCountriesMessage,
       method: handler.kycCountriesMessageHandler,
     );
@@ -452,10 +440,6 @@ class SignalRModuleNew {
     _hubConnection?.off(
       balancesMessage,
       method: handler.balancesMessageHandler,
-    );
-    _hubConnection?.off(
-      instrumentsMessage,
-      method: handler.instrumentsMessageHandler,
     );
     _hubConnection?.off(
       blockchainsMessage,
@@ -491,10 +475,6 @@ class SignalRModuleNew {
       method: handler.convertPriceSettingsMessageHandler,
     );
     _hubConnection?.off(
-      paymentMethodsMessage,
-      method: handler.paymentMethodsMessageHandler,
-    );
-    _hubConnection?.off(
       paymentMethodsNewMessage,
       method: handler.paymentMethodsNewMessageHandler,
     );
@@ -502,18 +482,7 @@ class SignalRModuleNew {
       referralInfoMessage,
       method: handler.referralInfoMessageHandler,
     );
-    _hubConnection?.off(
-      nftCollectionsMessage,
-      method: handler.nftCollectionsMessageHandler,
-    );
-    _hubConnection?.off(
-      nftMarketMessage,
-      method: handler.nftMarketMessageHandler,
-    );
-    _hubConnection?.off(
-      nftPortfolioMessage,
-      method: handler.nftPortfolioMessageHandler,
-    );
+
     _hubConnection?.off(
       fireblocksMessages,
       method: handler.fireblocksMessagesHandler,
@@ -535,6 +504,15 @@ class SignalRModuleNew {
       rewardsProfileMessage,
       method: handler.rewardsProfileHandler,
     );
+    _hubConnection?.off(
+      rewardsProfileMessage,
+      method: handler.rewardsProfileHandler,
+    );
+
+    _hubConnection?.off(
+      pendingOperationCountMessage,
+      method: handler.pendingOperationCountHandler,
+    );
   }
 
   Future<void> setupMessageHandler() async {
@@ -543,10 +521,6 @@ class SignalRModuleNew {
     _hubConnection?.on(cardsMessage, handler.cardsMessageHandler);
 
     _hubConnection?.on(cardLimitsMessage, handler.cardLimitsMessageHandler);
-
-    _hubConnection?.on(earnOffersMessage, handler.earnOffersMessageHandler);
-
-    _hubConnection?.on(recurringBuyMessage, handler.recurringBuyMessageHandler);
 
     _hubConnection?.on(kycCountriesMessage, handler.kycCountriesMessageHandler);
 
@@ -565,8 +539,6 @@ class SignalRModuleNew {
     _hubConnection?.on(assetsMessage, handler.assetsMessageHandler);
 
     _hubConnection?.on(balancesMessage, handler.balancesMessageHandler);
-
-    _hubConnection?.on(instrumentsMessage, handler.instrumentsMessageHandler);
 
     _hubConnection?.on(blockchainsMessage, handler.blockchainsMessageHandler);
 
@@ -596,25 +568,11 @@ class SignalRModuleNew {
     );
 
     _hubConnection?.on(
-      paymentMethodsMessage,
-      handler.paymentMethodsMessageHandler,
-    );
-
-    _hubConnection?.on(
       paymentMethodsNewMessage,
       handler.paymentMethodsNewMessageHandler,
     );
 
     _hubConnection?.on(referralInfoMessage, handler.referralInfoMessageHandler);
-
-    _hubConnection?.on(
-      nftCollectionsMessage,
-      handler.nftCollectionsMessageHandler,
-    );
-
-    _hubConnection?.on(nftMarketMessage, handler.nftMarketMessageHandler);
-
-    _hubConnection?.on(nftPortfolioMessage, handler.nftPortfolioMessageHandler);
 
     _hubConnection?.on(fireblocksMessages, handler.fireblocksMessagesHandler);
 
@@ -634,6 +592,10 @@ class SignalRModuleNew {
       rewardsProfileMessage,
       handler.rewardsProfileHandler,
     );
+
+    _hubConnection?.on(bankingProfileMessage, handler.bankingProfileHandler);
+
+    _hubConnection?.on(pendingOperationCountMessage, handler.pendingOperationCountHandler);
 
     ///
 

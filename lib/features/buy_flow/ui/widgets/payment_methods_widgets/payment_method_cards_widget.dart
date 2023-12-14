@@ -5,7 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/bank_card/add_bank_card.dart';
-import 'package:jetwallet/features/buy_flow/store/payment_method_store.dart';
+import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/currency_buy/helper/formatted_circle_card.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
@@ -17,20 +17,25 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:responsive_grid_list/responsive_grid_list.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
 class PaymentMethodCardsWidget extends StatelessObserverWidget {
   const PaymentMethodCardsWidget({
     super.key,
     required this.title,
     required this.asset,
-    required this.currency,
+    required this.cards,
+    this.onSelected,
   });
 
   final String title;
-  final CurrencyModel asset;
-  final PaymentAsset currency;
+  final CurrencyModel? asset;
+  final List<CircleCard> cards;
+  final void Function({
+    CircleCard? inputCard,
+    SimpleBankingAccount? account,
+  })? onSelected;
 
   void onAddCardTap(BuildContext context) {
     Navigator.push(
@@ -43,14 +48,8 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
             onCardAdded: () {},
             amount: '',
             isPreview: true,
-            currency: currency,
             asset: asset,
-            method: BuyMethodDto(
-              id: PaymentMethodType.bankCard,
-              termsAccepted: true,
-              category: PaymentMethodCategory.cards,
-              paymentAssets: [currency],
-            ),
+            divideDateAndLabel: true,
           );
         },
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -58,8 +57,7 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
           const end = Offset.zero;
           const curve = Curves.ease;
 
-          final tween =
-              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
           return SlideTransition(
             position: animation.drive(tween),
@@ -72,12 +70,13 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final store = PaymentMethodStore.of(context);
-
     return Column(
       children: [
         const SizedBox(height: 8),
-        MarketSeparator(text: title),
+        MarketSeparator(
+          text: title,
+          isNeedDivider: false,
+        ),
         const SpaceH16(),
         ResponsiveGridList(
           horizontalGridSpacing: 12,
@@ -91,7 +90,7 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
             physics: const NeverScrollableScrollPhysics(),
             padding: EdgeInsets.zero,
           ),
-          children: store.unlimintAltCards.map(
+          children: cards.map(
             (e) {
               final formatted = formattedCircleCard(
                 e,
@@ -108,18 +107,27 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
                   e.expYear,
                 ),
                 onTap: () {
+                  sAnalytics.tapOnTheButtonSomePMForBuyOnPayWithPMSheet(
+                    destinationWallet: asset?.symbol ?? '',
+                    pmType: PaymenthMethodType.card,
+                    buyPM: 'Saved card  ${e.last4}',
+                  );
+
                   if (!isCardExpired(
                     e.expMonth,
                     e.expYear,
                   )) {
-                    sRouter.push(
-                      BuyAmountRoute(
-                        asset: asset,
-                        currency: currency,
-                        method: store.getCardBuyMethod(),
-                        card: e,
-                      ),
-                    );
+                    if (onSelected != null) {
+                      onSelected!(inputCard: e);
+                    } else {
+                      sRouter.push(
+                        AmountRoute(
+                          tab: AmountScreenTab.buy,
+                          asset: asset!,
+                          card: e,
+                        ),
+                      );
+                    }
                   }
                 },
               );
@@ -136,7 +144,11 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
                 ),
                 name: intl.add_card_text,
                 onTap: () {
-                  sAnalytics.newBuyTapAddCard();
+                  sAnalytics.tapOnTheButtonSomePMForBuyOnPayWithPMSheet(
+                    destinationWallet: asset?.symbol ?? '',
+                    pmType: PaymenthMethodType.card,
+                    buyPM: 'New card',
+                  );
 
                   final kycState = getIt.get<KycService>();
                   final kycHandler = getIt.get<KycAlertHandler>();

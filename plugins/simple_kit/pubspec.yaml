@@ -1,19 +1,19 @@
 name: simple_kit
 description: UI Kit for Simple design
 
-publish_to: 'none'
+publish_to: "none"
 
 environment:
-  sdk: ">=2.17.5 <3.0.0"
+  sdk: ">=3.1.2 <4.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  flutter_svg: ^1.1.6 # SVG rendering and widget library
+  flutter_svg: ^2.0.7 # SVG rendering and widget library
   local_auth: ^2.1.2 # local authentication via fingerprint, touch ID, face ID, passcode, pin, or pattern
-  flash: ^2.0.5 # alerting library
+  flash: ^3.0.5+1
   rive: 0.11.1 # rive animations
   qr_flutter: 4.1.0 # QR code rendering
   mobx: ^2.1.1
@@ -46,6 +46,8 @@ flutter:
     - assets/icons/light/16x16/smiles/
     - assets/icons/light/16x16/tick/
     - assets/icons/light/16x16/minus/
+    - assets/icons/light/16x16/reward_history/
+    - assets/icons/light/16x16/gift_history/
     - assets/icons/light/18x18/paid_interest_rate/
     - assets/icons/light/18x18/earn_deposit/
     - assets/icons/light/20x20/deposit/
@@ -62,7 +64,12 @@ flutter:
     - assets/icons/light/20x20/settings/
     - assets/icons/light/20x20/withdrawal_fee/
     - assets/icons/light/20x20/circle_minus/
+    - assets/icons/light/20x20/list_checkmark/
     - assets/icons/light/20x20/rewards/
+    - assets/icons/light/20x20/cash/
+    - assets/icons/light/20x20/simple_card_actions/
+    - assets/icons/light/20x20/tick/
+    - assets/icons/light/20x20/checkmark/
     - assets/icons/light/24x24/acccount/
     - assets/icons/light/24x24/index_history/
     - assets/icons/light/24x24/account_status/
@@ -135,6 +142,20 @@ flutter:
     - assets/icons/light/24x24/network/
     - assets/icons/light/24x24/action_buy_with_cash/
     - assets/icons/light/24x24/rewards/
+    - assets/icons/light/24x24/delete_asset/
+    - assets/icons/light/24x24/reorder/
+    - assets/icons/light/24x24/wallets/
+    - assets/icons/light/24x24/start_reorder/
+    - assets/icons/light/24x24/bank_medium/
+    - assets/icons/light/24x24/history_completed/
+    - assets/icons/light/24x24/history_declined/
+    - assets/icons/light/24x24/transfer/
+    - assets/icons/light/24x24/chevron_down_double/
+    - assets/icons/light/24x24/crypto/
+    - assets/icons/light/24x24/add_cash/
+    - assets/icons/light/24x24/withdrawal/
+    - assets/icons/light/24x24/purchase/
+    - assets/icons/light/24x24/refund/
     - assets/icons/light/32x32/market/
     - assets/icons/light/32x32/my_assets/
     - assets/icons/light/32x32/card_bottom/
@@ -144,6 +165,7 @@ flutter:
     - assets/icons/light/36x36/keyboard_erase/
     - assets/icons/light/40x22/delete/
     - assets/icons/light/40x40/convert/
+    - assets/icons/light/40x40/user/
     - assets/icons/light/56x56/action/
     - assets/icons/light/56x56/market/
     - assets/icons/light/56x56/news/

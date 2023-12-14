@@ -1,7 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/features/kyc/helper/show_kyc_popup.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/constants.dart';
@@ -26,7 +31,7 @@ class KycAlertHandler {
     required List<KycDocumentType> requiredDocuments,
   }) {
     if (isProgress) {
-      _showVerifyingAlert();
+      showVerifyingAlert();
 
       return;
     }
@@ -40,9 +45,8 @@ class KycAlertHandler {
       return;
     }
 
-    if (status == kycOperationStatus(KycStatus.kycRequired) &&
-        needGifteExplanationPopup) {
-      _showGeftExplanationAlert(
+    if (status == kycOperationStatus(KycStatus.kycRequired) && needGifteExplanationPopup) {
+      _showGiftExplanationAlert(
         requiredVerifications.isNotEmpty,
         requiredVerifications,
         requiredDocuments,
@@ -58,7 +62,7 @@ class KycAlertHandler {
         size,
       );
     } else if (status == kycOperationStatus(KycStatus.kycInProgress)) {
-      _showVerifyingAlert();
+      showVerifyingAlert();
     } else if (status == kycOperationStatus(KycStatus.allowedWithKycAlert)) {
       _showAllowedWithAlert(
         requiredVerifications,
@@ -67,7 +71,7 @@ class KycAlertHandler {
         navigatePop,
       );
     } else if (status == kycOperationStatus(KycStatus.blocked)) {
-      _showBlockedAlert();
+      showBlockedAlert();
     }
   }
 
@@ -83,7 +87,7 @@ class KycAlertHandler {
     );
   }
 
-  void _showVerifyingAlert() {
+  void showVerifyingAlert() {
     sAnalytics.kycFlowVerifyingNowPopup();
 
     showKycPopup(
@@ -129,30 +133,18 @@ class KycAlertHandler {
     );
   }
 
-  void _showBlockedAlert() {
+  void showBlockedAlert() {
     sAnalytics.kycFlowYouBlockedPopup();
 
-    showKycPopup(
-      context: context,
-      primaryText: '${intl.kycAlertHandler_youAreBlocked}!',
-      secondaryText: '${intl.kycAlertHandler_showBlockedAlertSecondaryText1}\n'
-          '${intl.kycAlertHandler_showBlockedAlertSecondaryText2}',
-      primaryButtonName: intl.kycAlertHandler_support,
-      onPrimaryButtonTap: () {
-        Navigator.pop(context);
-
-        sAnalytics.kycFlowYouBlockedSupportTap();
-
-        sRouter.push(
-          CrispRouter(
-            welcomeText: intl.crispSendMessage_hi,
-          ),
-        );
-      },
+    sNotification.showError(
+      intl.operation_bloked_text,
+      duration: 4,
+      id: 3,
+      hideIcon: true,
     );
   }
 
-  void _showGeftExplanationAlert(
+  void _showGiftExplanationAlert(
     bool isRequiredVerifications,
     List<RequiredVerified> requiredVerifications,
     List<KycDocumentType> requiredDocuments,
@@ -163,8 +155,8 @@ class KycAlertHandler {
       context: context,
       imageAsset: verifyYourProfileAsset,
       primaryText: '${intl.kycAlertHandler_verifyYourProfile}!',
-      secondaryText: 'Please verify your account\n to claim your gift',
-      primaryButtonName: 'Verify',
+      secondaryText: intl.gift_kyc_alert_description,
+      primaryButtonName: intl.gift_kyc_verify,
       secondaryButtonName: intl.kycAlertHandler_later,
       onPrimaryButtonTap: () {
         _showKycRequiredAlert(
@@ -207,8 +199,10 @@ class KycAlertHandler {
         ),
       );
     } else {
-      sRouter.push(
-        const KycVerificationSumsubRouter(),
+      unawaited(
+        getIt<SumsubService>().launch(
+          isBanking: false,
+        ),
       );
     }
   }

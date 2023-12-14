@@ -14,20 +14,16 @@ void showBankCardCvvBottomSheet({
   required String header,
   required void Function(String) onCompleted,
   required PreviewBuyWithBankCardInput input,
-  Function()? onDissmis,
+  dynamic Function(dynamic)? onDissmis,
 }) {
   return sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
     pinned: SBottomSheetHeader(
       name: header,
-      onTap: () {},
     ),
-    onDissmis: () {
-      if (onDissmis != null) onDissmis();
-    },
     then: (p0) {
-      if (onDissmis != null) onDissmis();
+      if (onDissmis != null) onDissmis(p0);
     },
     horizontalPadding: 24,
     horizontalPinnedPadding: 24,
@@ -64,7 +60,7 @@ class CvvBottomSheetBody extends StatelessObserverWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          intl.previewBuyWithCircle_cvvNewDescription,
+          intl.cvv_description,
           style: sBodyText1Style.copyWith(
             color: colors.grey1,
           ),
@@ -106,7 +102,9 @@ class CvvBottomSheetBody extends StatelessObserverWidget {
                   fontSize: (Platform.isIOS) ? 24 : 16,
                 ),
                 onChanged: (_) => {},
-                onCompleted: onCompleted,
+                onCompleted: (s) {
+                  onCompleted(s);
+                },
               ),
             ),
           ),

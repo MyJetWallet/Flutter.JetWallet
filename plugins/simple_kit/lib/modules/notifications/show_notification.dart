@@ -7,7 +7,6 @@ import '../../../simple_kit.dart';
 Future showNotification(
   BuildContext context,
   String message, [
-  int duration = 2,
   bool needFeedback = false,
   bool isError = true,
 ]) {
@@ -17,15 +16,13 @@ Future showNotification(
 
   return showFlash(
     context: context,
-    duration: Duration(seconds: duration),
+    duration: const Duration(seconds: 4),
     persistent: true,
     builder: (_, controller) {
       return Flash(
         controller: controller,
-        backgroundColor: Colors.transparent,
-        behavior: FlashBehavior.fixed,
         position: FlashPosition.top,
-        useSafeArea: false,
+        dismissDirections: FlashDismissDirection.values,
         child: SPaddingH24(
           child: SNotificationBox(
             text: message,

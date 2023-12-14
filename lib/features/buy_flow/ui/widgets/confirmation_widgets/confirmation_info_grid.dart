@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/buy_flow/store/buy_confirmation_store.dart';
-import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
+import 'package:jetwallet/features/buy_flow/ui/buy_tab_body.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
-import 'package:jetwallet/utils/helpers/capitalize_text.dart';
-import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 
@@ -33,8 +33,7 @@ class ConfirmationInfoGrid extends StatefulObserverWidget {
   State<ConfirmationInfoGrid> createState() => _ConfirmationInfoGridState();
 }
 
-class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
-    with SingleTickerProviderStateMixin {
+class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
 
   @override
@@ -54,12 +53,13 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
   }
 
   Widget textPreloader() {
-    return const Baseline(
+    return Baseline(
       baseline: 19.0,
       baselineType: TextBaseline.alphabetic,
       child: SSkeletonTextLoader(
-        height: 16,
-        width: 80,
+        height: 24,
+        width: 120,
+        borderRadius: BorderRadius.circular(4),
       ),
     );
   }
@@ -80,13 +80,13 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                intl.buy_confirmation_payment_method,
+                intl.buy_confirmation_paid_with,
                 style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
               ),
+              const SpaceW8(),
               if (store.isDataLoaded) ...[
                 if (store.category == PaymentMethodCategory.cards) ...[
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * .5,
+                  Flexible(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -98,57 +98,56 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
                         ),
                         const SizedBox(width: 8),
                         Flexible(
-                          child: Text(
-                            store.card?.cardLabel ?? '',
-                            overflow: TextOverflow.ellipsis,
-                            style: sSubtitle3Style,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  store.card?.cardLabel ?? '',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: sSubtitle3Style,
+                                ),
+                              ),
+                              Text(
+                                ' •• ${store.card?.last4 ?? ''}',
+                                overflow: TextOverflow.ellipsis,
+                                style: sSubtitle3Style,
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                ] else ...[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SpaceW19(),
-                      SNetworkCachedSvg(
-                        url: iconForPaymentMethod(
-                          methodId: store.method?.id.name ?? '',
-                        ),
-                        width: 20,
-                        height: 20,
-                        placeholder: ClipOval(
-                          child: Container(
-                            width: 20,
-                            height: 20,
-                            decoration: BoxDecoration(
-                              color: sKit.colors.grey4,
-                            ),
-                            child: Center(
-                              child: Text(
-                                (store.method?.id.name ?? ' ').toUpperCase()[0],
-                                textAlign: TextAlign.center,
-                                style: sSubtitle1Style.copyWith(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  height: 1.41,
-                                ),
-                              ),
-                            ),
+                ] else if (store.category == PaymentMethodCategory.account) ...[
+                  Flexible(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        const SpaceW19(),
+                        Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            color: sKit.colors.blue,
+                            shape: BoxShape.circle,
+                          ),
+                          child: SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: SBankMediumIcon(color: sKit.colors.white),
                           ),
                         ),
-                      ),
-                      const SpaceW8(),
-                      Text(
-                        store.method?.name ??
-                            capitalizeText(
-                              store.method?.id.name ?? '  ',
-                            ),
-                        overflow: TextOverflow.ellipsis,
-                        style: sSubtitle3Style.copyWith(height: 1.5),
-                      ),
-                    ],
+                        const SpaceW8(),
+                        Flexible(
+                          child: Text(
+                            store.account?.label ?? '',
+                            overflow: TextOverflow.ellipsis,
+                            style: sSubtitle3Style.copyWith(height: 1.5),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ] else ...[
@@ -162,33 +161,29 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              intl.buy_confirmation_buy_confirmation,
+              intl.buy_confirmation_price,
               style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
             ),
             const Spacer(),
             if (store.isDataLoaded) ...[
-              if (store.category == PaymentMethodCategory.cards) ...[
-                Padding(
-                  padding: const EdgeInsets.only(top: 4),
-                  child: Baseline(
-                    baseline: 16,
-                    baselineType: TextBaseline.alphabetic,
-                    child: SConfirmActionTimer(
-                      animation: store.timerAnimation!,
-                      loading: store.timerLoading,
-                    ),
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Baseline(
+                  baseline: 16,
+                  baselineType: TextBaseline.alphabetic,
+                  child: SConfirmActionTimer(
+                    animation: store.timerAnimation!,
+                    loading: store.timerLoading,
                   ),
                 ),
-                const SizedBox(width: 8),
-              ],
+              ),
+              const SizedBox(width: 8),
               Text(
                 '${volumeFormat(
-                  prefix: widget.asset.prefixSymbol,
                   accuracy: widget.asset.accuracy,
                   decimal: Decimal.one,
                   symbol: widget.asset.symbol,
                 )} = ${volumeFormat(
-                  prefix: widget.paymentCurrency.prefixSymbol,
                   accuracy: store.rate?.scale ?? 0,
                   decimal: store.rate ?? Decimal.zero,
                   symbol: widget.paymentCurrency.symbol,
@@ -202,155 +197,65 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
         ),
         const SizedBox(height: 16),
         if (widget.paymentFee != null) ...[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                intl.buy_confirmation_payment_fee,
-                style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
-              ),
-              if (store.category == PaymentMethodCategory.cards) ...[
-                const SpaceW5(),
-                GestureDetector(
-                  onTap: () {
-                    sAnalytics.newBuyTapPaymentFee();
-
-                    buyConfirmationShowLimit(
-                      context,
-                      widget.paymentFee ?? '',
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: SizedBox(
-                      width: 16,
-                      height: 16,
-                      child: SInfoIcon(color: sKit.colors.grey1),
-                    ),
-                  ),
-                ),
-              ],
-              const Spacer(),
-              if (store.isDataLoaded) ...[
-                Text(
-                  widget.paymentFee ?? '',
-                  style: sSubtitle3Style,
-                ),
-              ] else ...[
-                textPreloader(),
-              ],
-            ],
+          PaymentFeeRowWidget(
+            fee: widget.paymentFee ?? '',
+            onTabListener: () {
+              sAnalytics.tapOnTheButtonPaymentFeeInfoOnBuyCheckout();
+              sAnalytics.paymentProcessingFeePopupView(
+                pmType: store.pmType,
+                buyPM: store.buyPM,
+                sourceCurrency: 'EUR',
+                destinationWallet: store.buyAsset ?? '',
+                sourceBuyAmount: store.paymentAmount.toString(),
+                destinationBuyAmount: store.buyAmount.toString(),
+                feeType: FeeType.payment,
+              );
+            },
+            isLoaded: store.isDataLoaded,
+            onBotomSheetClose: (_) {
+              sAnalytics.tapOnTheCloseOnPPopap(
+                pmType: store.pmType,
+                buyPM: store.buyPM,
+                sourceCurrency: 'EUR',
+                destinationWallet: store.buyAsset ?? '',
+                sourceBuyAmount: store.paymentAmount.toString(),
+                destinationBuyAmount: store.buyAmount.toString(),
+                feeType: FeeType.payment,
+              );
+            },
           ),
         ],
         const SizedBox(height: 16),
         if (widget.ourFee != null) ...[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                intl.buy_confirmation_out_fee,
-                style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
-              ),
-              if (store.isDataLoaded) ...[
-                Text(
-                  widget.ourFee ?? '',
-                  style: sSubtitle3Style,
-                ),
-              ] else ...[
-                textPreloader(),
-              ],
-            ],
+          ProcessingFeeRowWidget(
+            fee: widget.ourFee ?? '',
+            onTabListener: () {
+              sAnalytics.tapOnTheButtonPaymentFeeInfoOnBuyCheckout();
+              sAnalytics.paymentProcessingFeePopupView(
+                pmType: store.pmType,
+                buyPM: store.buyPM,
+                sourceCurrency: 'EUR',
+                destinationWallet: store.buyAsset ?? '',
+                sourceBuyAmount: store.paymentAmount.toString(),
+                destinationBuyAmount: store.buyAmount.toString(),
+                feeType: FeeType.processing,
+              );
+            },
+            isLoaded: store.isDataLoaded,
+            onBotomSheetClose: (_) {
+              sAnalytics.tapOnTheCloseOnPPopap(
+                pmType: store.pmType,
+                buyPM: store.buyPM,
+                sourceCurrency: 'EUR',
+                destinationWallet: store.buyAsset ?? '',
+                sourceBuyAmount: store.paymentAmount.toString(),
+                destinationBuyAmount: store.buyAmount.toString(),
+                feeType: FeeType.processing,
+              );
+            },
           ),
         ],
-        if (store.category != PaymentMethodCategory.cards) ...[
-          const SizedBox(height: 16),
-          Text(
-            intl.buy_confirmation_local_info,
-            maxLines: 5,
-            style: sCaptionTextStyle.copyWith(
-              color: sKit.colors.grey2,
-            ),
-          ),
-        ],
-        const SizedBox(height: 19),
-        const SDivider(),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                intl.withdrawalPreview_total,
-                style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
-              ),
-              if (store.isDataLoaded) ...[
-                Text(
-                  widget.totalValue,
-                  style: sSubtitle3Style.copyWith(color: sKit.colors.blue),
-                ),
-              ] else ...[
-                textPreloader(),
-              ],
-            ],
-          ),
-        ),
       ],
     );
   }
-}
-
-void buyConfirmationShowLimit(BuildContext context, String fee) {
-  sAnalytics.newBuyFeeView(paymentFee: fee);
-
-  sShowBasicModalBottomSheet(
-    context: context,
-    removePinnedPadding: true,
-    horizontalPinnedPadding: 0,
-    scrollable: true,
-    children: [
-      SPaddingH24(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Text(
-                  intl.buy_confirmation_transaction_fee,
-                  style: sTextH4Style,
-                ),
-                const Spacer(),
-                GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: const SErasePressedIcon(),
-                ),
-              ],
-            ),
-            const SpaceH24(),
-            Text(
-              fee,
-              style: sTextH4Style,
-            ),
-            const SpaceH4(),
-            Text(
-              intl.buy_confirmation_third_party_fee,
-              style: sBodyText2Style.copyWith(
-                color: sKit.colors.grey1,
-              ),
-            ),
-            const SpaceH12(),
-            const SDivider(),
-            const SpaceH12(),
-            Text(
-              intl.buy_confirmation_third_fee_descr,
-              maxLines: 3,
-              style: sCaptionTextStyle.copyWith(
-                color: sKit.colors.grey3,
-              ),
-            ),
-            const SpaceH40(),
-          ],
-        ),
-      ),
-    ],
-  );
 }

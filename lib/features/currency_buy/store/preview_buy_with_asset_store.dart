@@ -73,7 +73,6 @@ abstract class _PreviewBuyWithAssetStoreBase with Store {
   RecurringBuyInfoModel? recurringBuyInfo;
 
   // Will be initialzied on initState of the parent widget
-  @observable
   AnimationController? timerAnimation;
 
   // [true] when requestQuote() takes too long
@@ -258,7 +257,7 @@ abstract class _PreviewBuyWithAssetStoreBase with Store {
             sRouter.push(
               const HomeRouter(
                 children: [
-                  PortfolioRouter(),
+                  MyWalletsRouter(),
                 ],
               ),
             );
@@ -279,7 +278,7 @@ abstract class _PreviewBuyWithAssetStoreBase with Store {
           sRouter.push(
             const HomeRouter(
               children: [
-                PortfolioRouter(),
+                MyWalletsRouter(),
               ],
             ),
           );

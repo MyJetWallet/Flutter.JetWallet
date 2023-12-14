@@ -138,20 +138,6 @@ class ConvertBody extends StatelessObserverWidget {
           ),
           SNumericKeyboardAmount(
             widgetSize: widgetSizeFrom(deviceSize),
-            preset1Name: '25%',
-            preset2Name: '50%',
-            preset3Name: intl.max,
-            selectedPreset: store.selectedPreset,
-            onPresetChanged: (preset) {
-              store.tapPreset(
-                preset.index == 0
-                    ? '25%'
-                    : preset.index == 1
-                        ? '50%'
-                        : 'Max',
-              );
-              store.selectPercentFromBalance(preset);
-            },
             onKeyPressed: (value) {
               if (store.fromAssetEnabled) {
                 store.updateFromAssetAmount(value);

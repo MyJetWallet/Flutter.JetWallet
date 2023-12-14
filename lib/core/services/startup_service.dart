@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/services.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -16,24 +17,28 @@ import 'package:jetwallet/core/services/package_info_service.dart';
 import 'package:jetwallet/core/services/push_notification.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/core/services/session_check_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
+import 'package:jetwallet/core/services/zendesk_support_service/zendesk_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
 import 'package:jetwallet/features/auth/verification_reg/store/verification_store.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
+import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
+import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
 import 'package:logger/logger.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/helpers/models/refresh_token_status.dart';
 import 'package:simple_networking/modules/auth_api/models/install_model.dart';
-import 'package:simple_networking/modules/auth_api/models/session_chek/session_check_response_model.dart';
 import 'package:simple_networking/modules/logs_api/models/add_log_model.dart';
+import 'package:simple_sift/sift.dart';
 import 'package:universal_io/io.dart';
 import 'package:uuid/uuid.dart';
 
@@ -61,6 +66,8 @@ class StartupService {
     }
 
     await getAdvData();
+
+    unawaited(launchSift());
 
     unawaited(initAppFBAnalytic());
     unawaited(initAppsFlyer());
@@ -172,7 +179,20 @@ class StartupService {
     await makeSessionCheck();
 
     final kyc = getIt.get<KycService>();
-    sAnalytics.setKYCDepositStatus = kyc.depositStatus;
+
+    var analyticsKyc = 0;
+    if (checkKycPassed(kyc.depositStatus, kyc.tradeStatus, kyc.withdrawalStatus)) {
+      analyticsKyc = 2;
+    }
+    if (kycInProgress(kyc.depositStatus, kyc.tradeStatus, kyc.withdrawalStatus)) {
+      analyticsKyc = 1;
+    }
+    if (checkKycBlocked(kyc.depositStatus, kyc.tradeStatus, kyc.withdrawalStatus)) {
+      analyticsKyc = 4;
+    }
+    sAnalytics.setKYCDepositStatus = analyticsKyc;
+
+    //await getIt.get<ZenDeskService>().authZenDesk();
   }
 
   Future<bool> checkIsUserAuthorized(String? token) async {
@@ -186,64 +206,44 @@ class StartupService {
   }
 
   Future<void> makeSessionCheck() async {
-    final infoRequest = await sNetwork.getAuthModule().postSessionCheck();
-    infoRequest.pick(
-      onData: (SessionCheckResponseModel info) async {
-        unawaited(
-          getIt.get<SNetwork>().simpleNetworkingUnathorized.getLogsApiModule().postAddLog(
-                AddLogModel(
-                  level: 'info',
-                  message: '$info',
-                  source: 'makeSessionCheck',
-                  process: 'StartupService',
-                  token: await getIt.get<LocalStorageService>().getValue(refreshTokenKey),
-                ),
-              ),
-        );
+    final info = await getIt.get<SessionCheckService>().sessionCheck();
 
-        // For verification Screen
-        if (!info.toSetupPhone) {
-          getIt.get<VerificationStore>().phoneDone();
-        }
-        if (!info.toCheckSimpleKyc) {
-          getIt.get<VerificationStore>().personalDetailDone();
-        }
+    if (info != null) {
+      // For verification Screen
+      if (!info.toSetupPhone) {
+        getIt.get<VerificationStore>().phoneDone();
+      }
+      if (!info.toCheckSimpleKyc) {
+        getIt.get<VerificationStore>().personalDetailDone();
+      }
 
-        if (info.toSetupPhone) {
-          getIt.get<AppStore>().setAuthorizedStatus(
-                const TwoFaVerification(),
-              );
-        } else if (info.toVerifyPhone) {
-          getIt.get<AppStore>().setAuthorizedStatus(
-                const PhoneVerification(),
-              );
-        } else if (info.toCheckSimpleKyc) {
-          getIt.get<AppStore>().setAuthorizedStatus(
-                const UserDataVerification(),
-              );
-        } else if (info.toSetupPin) {
-          if (!userInfo.isJustRegistered) {
-            getIt.get<VerificationStore>().setRefreshPin();
-          }
-          getIt.get<AppStore>().setAuthorizedStatus(
-                const PinSetup(),
-              );
-        } else {
-          getIt.get<AppStore>().setAuthorizedStatus(
-                const PinVerification(),
-              );
+      if (info.toSetupPhone) {
+        getIt.get<AppStore>().setAuthorizedStatus(
+              const TwoFaVerification(),
+            );
+      } else if (info.toVerifyPhone) {
+        getIt.get<AppStore>().setAuthorizedStatus(
+              const PhoneVerification(),
+            );
+      } else if (info.toCheckSimpleKyc) {
+        getIt.get<AppStore>().setAuthorizedStatus(
+              const UserDataVerification(),
+            );
+      } else if (info.toSetupPin) {
+        if (!userInfo.isJustRegistered) {
+          getIt.get<VerificationStore>().setRefreshPin();
         }
+        getIt.get<AppStore>().setAuthorizedStatus(
+              const PinSetup(),
+            );
+      } else {
+        getIt.get<AppStore>().setAuthorizedStatus(
+              const PinVerification(),
+            );
+      }
+    }
 
-        unawaited(getIt.get<AppStore>().checkInitRouter());
-      },
-      onError: (error) {
-        _logger.log(
-          level: Level.error,
-          place: _loggerValue,
-          message: 'Failed to fetch session info: $error',
-        );
-      },
-    );
+    unawaited(getIt.get<AppStore>().checkInitRouter());
   }
 
   void successfullAuthentication({bool needPush = true}) {
@@ -279,8 +279,8 @@ class StartupService {
       await getIt.isReady<KycProfileCountries>();
       await getIt.isReady<ProfileGetUserCountry>();
 
-      getIt.registerLazySingleton<IbanStore>(
-        () => IbanStore(),
+      getIt.registerSingleton<IbanStore>(
+        IbanStore(),
       );
 
       getIt.registerLazySingleton<SumsubService>(
@@ -288,6 +288,8 @@ class StartupService {
       );
 
       userInfo.updateServicesRegistred(true);
+
+      unawaited(getIt<IbanStore>().getAddressBook());
 
       return;
     } catch (e) {
@@ -310,6 +312,8 @@ class StartupService {
       if (getIt.isRegistered<ProfileGetUserCountry>()) {
         await getIt<ProfileGetUserCountry>().init();
       }
+
+      unawaited(getIt<IbanStore>().getAddressBook());
     } catch (e) {
       _logger.log(
         level: Level.error,
@@ -376,10 +380,25 @@ class StartupService {
   }
 
   ///
-  void pinVerified() {
+  void pushHome() {
     getIt.get<AppStore>().setAuthorizedStatus(
           const Home(),
         );
+  }
+
+  void pinVerified() {
+    final info = getIt.get<SessionCheckService>().data;
+
+    if (info != null) {
+      if (info.toCheckSelfie) {
+        getIt.get<AppStore>().setAuthorizedStatus(const CheckSelfie());
+        //pushHome();
+      } else {
+        pushHome();
+      }
+    } else {
+      pushHome();
+    }
 
     getIt.get<AppStore>().checkInitRouter();
   }
@@ -415,11 +434,27 @@ class StartupService {
     } catch (e) {
       getIt.get<SimpleLoggerService>().log(
             level: Level.error,
-            place: 'StartupService',
+            place: 'StartupService processPinState',
             message: e.toString(),
           );
     }
   }
+}
+
+Future<void> launchSift() async {
+  final logger = getIt.get<SimpleLoggerService>();
+  final siftPlugin = SimpleSift();
+
+  final siftStatus = await siftPlugin.setSiftConfig(
+    accountId: siftAccountId,
+    beaconKey: siftBeaconKey,
+  );
+
+  logger.log(
+    level: Level.info,
+    place: 'launchSift',
+    message: 'Sift: $siftStatus',
+  );
 }
 
 Future<void> getAdvData() async {
@@ -428,7 +463,7 @@ Future<void> getAdvData() async {
   } catch (e) {
     getIt.get<SimpleLoggerService>().log(
           level: Level.error,
-          place: 'StartupService',
+          place: 'StartupService getAdvData',
           message: e.toString(),
         );
   }

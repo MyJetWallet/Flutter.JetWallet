@@ -37,6 +37,8 @@ const operationHistoryMessages = 'operation-history';
 const globalSendMethods = 'global-send-methods';
 const incomingGiftsMessage = 'incoming-gifts';
 const rewardsProfileMessage = 'rewards-profile';
+const bankingProfileMessage = 'banking-profile';
+const pendingOperationCountMessage =  'operation-count';
 
 // KeyValue
 const watchlistKey = 'watchlist';

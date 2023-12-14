@@ -5,45 +5,56 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/add_circle_card/ui/widgets/continue_button_frame.dart';
+import 'package:jetwallet/features/bank_card/bank_card_lable.dart';
 import 'package:jetwallet/features/bank_card/store/bank_card_store.dart';
 import 'package:jetwallet/features/bank_card/widgets/bank_card_cardnumber.dart';
 import 'package:jetwallet/features/bank_card/widgets/bank_card_date_label.dart';
 import 'package:jetwallet/features/bank_card/widgets/bank_card_holdername.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 
-class AddBankCardScreen extends StatelessWidget {
+class AddBankCardScreen extends StatefulWidget {
   const AddBankCardScreen({
     super.key,
     required this.onCardAdded,
     required this.amount,
-    this.currency,
     this.isPreview = false,
-    this.method,
     this.asset,
+    this.divideDateAndLabel = false,
   });
 
   final Function() onCardAdded;
   final String amount;
-  final PaymentAsset? currency;
   final bool isPreview;
+  final bool divideDateAndLabel;
 
-  final BuyMethodDto? method;
   final CurrencyModel? asset;
+
+  @override
+  State<AddBankCardScreen> createState() => _AddBankCardScreenState();
+}
+
+class _AddBankCardScreenState extends State<AddBankCardScreen> {
+  @override
+  void initState() {
+    sAnalytics.addCardDetailsScreenView(
+      destinationWallet: widget.asset?.symbol ?? '',
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Provider<BankCardStore>(
       create: (context) => BankCardStore()..init(BankCardStoreMode.add),
       builder: (context, child) => _AddBankCardScreenBody(
-        onCardAdded: onCardAdded,
-        amount: amount,
-        currency: currency,
-        isPreview: isPreview,
-        method: method,
-        asset: asset,
+        onCardAdded: widget.onCardAdded,
+        amount: widget.amount,
+        isPreview: widget.isPreview,
+        asset: widget.asset,
+        divideDateAndLabel: widget.divideDateAndLabel,
       ),
     );
   }
@@ -53,18 +64,16 @@ class _AddBankCardScreenBody extends StatelessObserverWidget {
   const _AddBankCardScreenBody({
     required this.onCardAdded,
     required this.amount,
-    this.currency,
     this.isPreview = false,
-    this.method,
     this.asset,
+    required this.divideDateAndLabel,
   });
 
   final Function() onCardAdded;
   final String amount;
-  final PaymentAsset? currency;
   final bool isPreview;
-  final BuyMethodDto? method;
   final CurrencyModel? asset;
+  final bool divideDateAndLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +87,9 @@ class _AddBankCardScreenBody extends StatelessObserverWidget {
         child: SSmallHeader(
           title: intl.addCircleCard_bigHeaderTitle,
           showBackButton: false,
-          onCLoseButton: () => sRouter.pop(),
+          onCLoseButton: () {
+            sRouter.pop();
+          },
           showCloseButton: true,
         ),
       ),
@@ -88,7 +99,9 @@ class _AddBankCardScreenBody extends StatelessObserverWidget {
           children: [
             const BankCardHolderName(),
             const BankCardCardnumber(),
-            const BankCardDateLabel(),
+            BankCardDateLabel(
+              showLabel: !divideDateAndLabel,
+            ),
             const Spacer(),
             Container(
               color: sKit.colors.grey5,
@@ -104,14 +117,13 @@ class _AddBankCardScreenBody extends StatelessObserverWidget {
                             children: [
                               SIconButton(
                                 onTap: () {
+                                  sAnalytics.tapOnSaveCardForFurtherPurchaseButton(
+                                    destinationWallet: asset?.symbol ?? '',
+                                  );
                                   store.checkSetter();
                                 },
-                                defaultIcon: store.saveCard
-                                    ? const SCheckboxSelectedIcon()
-                                    : const SCheckboxIcon(),
-                                pressedIcon: store.saveCard
-                                    ? const SCheckboxSelectedIcon()
-                                    : const SCheckboxIcon(),
+                                defaultIcon: store.saveCard ? const SCheckboxSelectedIcon() : const SCheckboxIcon(),
+                                pressedIcon: store.saveCard ? const SCheckboxSelectedIcon() : const SCheckboxIcon(),
                               ),
                             ],
                           ),
@@ -136,27 +148,62 @@ class _AddBankCardScreenBody extends StatelessObserverWidget {
                       active: store.isCardDetailsValid,
                       name: intl.addCircleCard_continue,
                       onTap: () async {
-                        if (store.canClick) {
-                          store.setCanClick(false);
-                          Timer(
-                            const Duration(
-                              seconds: 2,
+                        sAnalytics.tapOnContinueCrNewCardButton(
+                          destinationWallet: asset?.symbol ?? '',
+                        );
+                        if (store.saveCard) {
+                          sAnalytics.addACustomNameScreenView(
+                            destinationWallet: asset?.symbol ?? '',
+                          );
+                          await Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              opaque: false,
+                              barrierColor: Colors.white,
+                              pageBuilder: (BuildContext _, __, ___) {
+                                return BankCardLabel(
+                                  contextWithBankCardStore: context,
+                                  amount: amount,
+                                  onCardAdded: onCardAdded,
+                                  asset: asset,
+                                  isPreview: isPreview,
+                                );
+                              },
+                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                const begin = Offset(0.0, 1.0);
+                                const end = Offset.zero;
+                                const curve = Curves.ease;
+
+                                final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+                                return SlideTransition(
+                                  position: animation.drive(tween),
+                                  child: child,
+                                );
+                              },
                             ),
-                            () => store.setCanClick(true),
                           );
                         } else {
-                          return;
-                        }
+                          if (store.canClick) {
+                            store.setCanClick(false);
+                            Timer(
+                              const Duration(
+                                seconds: 2,
+                              ),
+                              () => store.setCanClick(true),
+                            );
+                          } else {
+                            return;
+                          }
 
-                        await store.addCard(
-                          onSuccess: onCardAdded,
-                          onError: () {},
-                          isPreview: isPreview,
-                          amount: amount,
-                          currency: currency,
-                          method: method,
-                          asset: asset!,
-                        );
+                          await store.addCard(
+                            onSuccess: onCardAdded,
+                            onError: () {},
+                            isPreview: isPreview,
+                            amount: amount,
+                            asset: asset!,
+                          );
+                        }
                       },
                     ),
                   ),

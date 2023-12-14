@@ -39,16 +39,17 @@ class PinScreenStore extends _PinScreenStoreBase with _$PinScreenStore {
     bool isChangePin = false,
     Function(String)? onChangePhone,
     Function(String)? onWrongPin,
+    Function()? onVerificationEnd,
   }) : super(
           flowUnionflowUnion,
           isChangePhone,
           isChangePin,
           onChangePhone,
           onWrongPin,
+          onVerificationEnd,
         );
 
-  static _PinScreenStoreBase of(BuildContext context) =>
-      Provider.of<PinScreenStore>(context, listen: false);
+  static _PinScreenStoreBase of(BuildContext context) => Provider.of<PinScreenStore>(context, listen: false);
 }
 
 abstract class _PinScreenStoreBase with Store {
@@ -58,6 +59,7 @@ abstract class _PinScreenStoreBase with Store {
     this.isChangePin,
     this.onChangePhone,
     this.onWrongPin,
+    this.onVerificationEnd,
   );
 
   final PinFlowUnion flowUnion;
@@ -65,14 +67,14 @@ abstract class _PinScreenStoreBase with Store {
   final bool isChangePin;
   final Function(String)? onChangePhone;
   final Function(String)? onWrongPin;
+  final Function()? onVerificationEnd;
 
   static final _logger = Logger('PinScreenStore');
 
   int attemptsLeft = maxPinAttempts;
 
   @computed
-  bool get hideBiometricButton =>
-      getIt.get<UserInfoService>().biometricDisabled;
+  bool get hideBiometricButton => getIt.get<UserInfoService>().biometricDisabled;
 
   StackLoaderStore loader = StackLoaderStore();
 
@@ -333,6 +335,12 @@ abstract class _PinScreenStoreBase with Store {
             verification: () async {
               await _animateSuccess();
 
+              if (onVerificationEnd != null) {
+                onVerificationEnd!();
+
+                return;
+              }
+
               await sUserInfo.setPin(enterPin);
               if (sUserInfo.isJustLogged) {
                 await sRouter.push(
@@ -363,8 +371,7 @@ abstract class _PinScreenStoreBase with Store {
             showForgot = true;
           }
 
-          if (error.cause ==
-              'The code you entered is incorrect, 2 attempts remaining.') {
+          if (error.cause == 'The code you entered is incorrect, 2 attempts remaining.') {
             await _errorFlow();
             _updateNewPin('');
             _updateConfirmPin('');
@@ -663,9 +670,7 @@ abstract class _PinScreenStoreBase with Store {
         return intl.enterPin_enter_current_pin;
       },
       newPin: () {
-        return isChangePin
-            ? intl.enterPin_enter_new_pin
-            : intl.pin_screen_set_new_pin;
+        return isChangePin ? intl.enterPin_enter_new_pin : intl.pin_screen_set_new_pin;
       },
       confirmPin: () {
         sAnalytics.signInFlowConfirmPinView();

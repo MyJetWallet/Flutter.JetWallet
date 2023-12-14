@@ -21,10 +21,8 @@ import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:rsa_encrypt/rsa_encrypt.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_create/card_buy_create_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_execute/card_buy_execute_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_info/card_buy_info_request_model.dart';
@@ -37,8 +35,7 @@ import '../../../core/services/signal_r/signal_r_service_new.dart';
 
 part 'preview_buy_with_bank_card_store.g.dart';
 
-class PreviewBuyWithBankCardStore extends _PreviewBuyWithBankCardStoreBase
-    with _$PreviewBuyWithBankCardStore {
+class PreviewBuyWithBankCardStore extends _PreviewBuyWithBankCardStoreBase with _$PreviewBuyWithBankCardStore {
   PreviewBuyWithBankCardStore(
     super.input,
     super.sendPreview,
@@ -142,16 +139,16 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
     final cardData = CirclePaymentDataModel(cardId: input.cardId ?? '');
 
     final model = CardBuyCreateRequestModel(
+      buyFixed: true,
       paymentMethod: CirclePaymentMethod.bankCard,
-      paymentAmount: amountToPay!,
+      paymentAmount: amountToPay,
       buyAsset: input.currency.symbol,
       paymentAsset: input.currencyPayment.symbol,
       cardPaymentData: cardData,
     );
 
     try {
-      final response =
-          await sNetwork.getWalletModule().postCardBuyCreate(model);
+      final response = await sNetwork.getWalletModule().postCardBuyCreate(model);
 
       response.pick(
         onData: (data) {
@@ -196,23 +193,13 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
     _logger.log(notifier, 'onConfirm');
     final storage = sLocalStorageService;
     storage.setString(checkedBankCard, 'true');
-    final buyMethod = input.currency.buyMethods
-        .where(
-          (element) => element.id == PaymentMethodType.bankCard,
-        )
-        .toList();
-
-    sAnalytics.newBuyEnterCvvView(
-      firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
-    );
 
     final uAC = sSignalRModules.cards.cardInfos
         .where(
           (element) => element.integration == IntegrationType.unlimintAlt,
         )
         .toList();
-    final activeCard =
-        uAC.where((element) => element.id == input.cardId).toList();
+    final activeCard = uAC.where((element) => element.id == input.cardId).toList();
 
     showBankCardCvvBottomSheet(
       context: sRouter.navigatorKey.currentContext!,
@@ -346,12 +333,9 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
               data.status == CardBuyPaymentStatus.waitForPayment;
           final complete = data.status == CardBuyPaymentStatus.success;
           final failed = data.status == CardBuyPaymentStatus.fail;
-          final actionRequired =
-              data.status == CardBuyPaymentStatus.requireAction;
+          final actionRequired = data.status == CardBuyPaymentStatus.requireAction;
 
-          if (pending ||
-              (actionRequired &&
-                  lastAction == data.clientAction!.checkoutUrl)) {
+          if (pending || (actionRequired && lastAction == data.clientAction!.checkoutUrl)) {
             if (isWaitingSkipped) {
               return;
             }
@@ -441,7 +425,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
           (value) => sRouter.replaceAll([
             const HomeRouter(
               children: [
-                PortfolioRouter(),
+                MyWalletsRouter(),
               ],
             ),
           ]),

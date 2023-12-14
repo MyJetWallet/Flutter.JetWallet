@@ -9,16 +9,19 @@ import 'components/country_profile_warning.dart';
 class CountryProfileItem extends StatelessObserverWidget {
   const CountryProfileItem({
     super.key,
-    required this.onTap,
+    this.onTap,
     required this.countryCode,
     required this.countryName,
     required this.isBlocked,
+    this.needPadding = true,
   });
 
-  final Function() onTap;
+  final Function()? onTap;
   final String countryCode;
   final String countryName;
   final bool isBlocked;
+
+  final bool needPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -28,24 +31,34 @@ class CountryProfileItem extends StatelessObserverWidget {
       highlightColor: colors.grey5,
       splashColor: Colors.transparent,
       onTap: onTap,
-      child: SPaddingH24(
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: needPadding ? 24.0 : 0.0,
+        ),
         child: SizedBox(
-          height: 64.0,
+          height: needPadding ? 68 : 29,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.only(
-                      top: 20.0,
+                    padding: EdgeInsets.only(
+                      top: needPadding ? 20.0 : 0,
                     ),
                     child: FlagItem(
                       countryCode: countryCode,
                     ),
                   ),
-                  CountryProfileName(
-                    countryName: countryName,
-                    isBlocked: isBlocked,
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: needPadding ? 18.0 : 0,
+                    ),
+                    child: CountryProfileName(
+                      countryName: countryName,
+                      isBlocked: isBlocked,
+                      needBaseline: false,
+                    ),
                   ),
                   const Spacer(),
                   Visibility(
@@ -54,8 +67,10 @@ class CountryProfileItem extends StatelessObserverWidget {
                   ),
                 ],
               ),
-              const Spacer(),
-              const SDivider(),
+              if (needPadding) ...[
+                const Spacer(),
+                const SDivider(),
+              ],
             ],
           ),
         ),

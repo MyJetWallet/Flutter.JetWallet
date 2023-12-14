@@ -2,12 +2,16 @@ import 'package:data_channel/data_channel.dart';
 import 'package:dio/dio.dart';
 import 'package:simple_networking/api_client/api_client.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/signal_r/models/create_banking_account_simple_response.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/data_sources/wallet_api_data_sources.dart';
 import 'package:simple_networking/modules/wallet_api/models/add_card/add_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/all_cards/all_cards_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/apple_pay_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_response.dart';
+import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_request.dart';
 import 'package:simple_networking/modules/wallet_api/models/base_asset/get_base_assets_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/base_asset/set_base_assets_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/calculate_earn_offer_apy/calculate_earn_offer_apy_request_model.dart';
@@ -46,6 +50,12 @@ import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_withdrawal_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/check_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/limits/buy_limits_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/limits/buy_limits_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/limits/sell_limits_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/limits/sell_limits_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/limits/swap_limits_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/limits/swap_limits_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_info/market_info_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_info/market_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_news/market_news_request_model.dart';
@@ -71,6 +81,9 @@ import 'package:simple_networking/modules/wallet_api/models/profile_info/profile
 import 'package:simple_networking/modules/wallet_api/models/recurring_manage/recurring_delete_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/recurring_manage/recurring_manage_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/rewards/reward_spin_response.dart';
+import 'package:simple_networking/modules/wallet_api/models/sell/execute_crypto_sell_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/sell/get_crypto_sell_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/sell/get_crypto_sell_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_gift/gift_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
@@ -93,6 +106,7 @@ import 'package:simple_networking/modules/wallet_api/models/unlimint/delete_unli
 import 'package:simple_networking/modules/wallet_api/models/validate_address/validate_address_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/validate_address/validate_address_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/wallet/conversion_price_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/wallet/set_active_assets_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/wallet_history/wallet_history_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/wallet_history/wallet_history_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/wire_countries/wire_countries_response_model.dart';
@@ -105,6 +119,12 @@ import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/wi
 import '../../../simple_networking.dart';
 import '../models/iban_info/iban_info_response_model.dart';
 import '../models/profile/profile_set_address_request.dart';
+import '../models/simple_card/simple_card_create_request.dart';
+import '../models/simple_card/simple_card_create_response.dart';
+import '../models/simple_card/simple_card_remind_pin_response.dart';
+import '../models/simple_card/simple_card_sensitive_request.dart';
+import '../models/simple_card/simple_card_set_password_request.dart';
+import '../models/simple_card/simple_card_sevsitive_response.dart';
 
 class WalletApiRepository {
   WalletApiRepository(this._apiClient) {
@@ -114,8 +134,7 @@ class WalletApiRepository {
   final ApiClient _apiClient;
   late final WalletApiDataSources _walletApiDataSources;
 
-  Future<DC<ServerRejectException, DepositAddressResponseModel>>
-      postDepositAddress(
+  Future<DC<ServerRejectException, DepositAddressResponseModel>> postDepositAddress(
     DepositAddressRequestModel model,
   ) async {
     return _walletApiDataSources.postDepositAddressRequest(
@@ -123,13 +142,11 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, DepositAddressResponseModel>>
-      postDepositNFTAddress() async {
+  Future<DC<ServerRejectException, DepositAddressResponseModel>> postDepositNFTAddress() async {
     return _walletApiDataSources.postDepositNFTAddressRequest();
   }
 
-  Future<DC<ServerRejectException, ValidateAddressResponseModel>>
-      postValidateAddress(
+  Future<DC<ServerRejectException, ValidateAddressResponseModel>> postValidateAddress(
     ValidateAddressRequestModel model,
   ) async {
     return _walletApiDataSources.postValidateAddressRequest(
@@ -145,8 +162,7 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, WithdrawalInfoResponseModel>>
-      postWithdrawalInfo(
+  Future<DC<ServerRejectException, WithdrawalInfoResponseModel>> postWithdrawalInfo(
     WithdrawalInfoRequestModel model,
   ) async {
     return _walletApiDataSources.postWithdrawalInfoRequest(
@@ -162,13 +178,18 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, WalletHistoryResponseModel>>
-      getWalletHistory(
+  Future<DC<ServerRejectException, WalletHistoryResponseModel>> getWalletHistory(
     WalletHistoryRequestModel model,
   ) async {
     return _walletApiDataSources.getWalletHistoryRequest(
       model,
     );
+  }
+
+  Future<DC<ServerRejectException, void>> setActiveAssets(
+    SetActiveAssetsRequestModel model,
+  ) async {
+    return _walletApiDataSources.setActiveAssetslRequest(model);
   }
 
   /// Circle API
@@ -192,8 +213,7 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, CreatePaymentResponseModel>>
-      postCreatePayment(
+  Future<DC<ServerRejectException, CreatePaymentResponseModel>> postCreatePayment(
     CreatePaymentRequestModel model,
   ) async {
     return _walletApiDataSources.postCreatePaymentRequest(
@@ -209,8 +229,7 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, EncryptionKeyResponseModel>>
-      getEncryptionKey() async {
+  Future<DC<ServerRejectException, EncryptionKeyResponseModel>> getEncryptionKey() async {
     return _walletApiDataSources.getEncryptionKeyRequest();
   }
 
@@ -222,8 +241,7 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, PaymentPreviewResponseModel>>
-      postPaymentPreview(
+  Future<DC<ServerRejectException, PaymentPreviewResponseModel>> postPaymentPreview(
     PaymentPreviewRequestModel model,
   ) async {
     return _walletApiDataSources.postPaymentPreviewRequest(
@@ -231,18 +249,15 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, WireCountriesResponseModel>>
-      getWireCountries() async {
+  Future<DC<ServerRejectException, WireCountriesResponseModel>> getWireCountries() async {
     return _walletApiDataSources.getWireCountriesRequest();
   }
 
-  Future<DC<ServerRejectException, SessionInfoResponseModel>>
-      getSessionInfo() async {
+  Future<DC<ServerRejectException, SessionInfoResponseModel>> getSessionInfo() async {
     return _walletApiDataSources.getSessionInfoRequest();
   }
 
-  Future<DC<ServerRejectException, ProfileInfoResponseModel>>
-      getProfileInfo() async {
+  Future<DC<ServerRejectException, ProfileInfoResponseModel>> getProfileInfo() async {
     return _walletApiDataSources.getProfileInfoRequest();
   }
 
@@ -250,11 +265,22 @@ class WalletApiRepository {
     return _walletApiDataSources.postCardSoonRequest();
   }
 
-  Future<DC<ServerRejectException, CardBuyCreateResponseModel>>
-      postCardBuyCreate(
+  Future<DC<ServerRejectException, CardBuyCreateResponseModel>> postCardBuyCreate(
     CardBuyCreateRequestModel model,
   ) async {
     return _walletApiDataSources.postCardBuyCreateRequest(model);
+  }
+
+  Future<DC<ServerRejectException, GetCryptoSellResponseModel>> postSellCreate(
+    GetCryptoSellRequestModel model,
+  ) async {
+    return _walletApiDataSources.postSellCreateRequest(model);
+  }
+
+  Future<DC<ServerRejectException, GetCryptoSellResponseModel>> postSellExecute(
+    ExecuteCryptoSellRequestModel model,
+  ) async {
+    return _walletApiDataSources.postSellExecuteRequest(model);
   }
 
   Future<DC<ServerRejectException, bool>> postApplePayConfirm(
@@ -313,18 +339,15 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, DisclaimersResponseModel>>
-      getDisclaimers() async {
+  Future<DC<ServerRejectException, DisclaimersResponseModel>> getDisclaimers() async {
     return _walletApiDataSources.getDisclaimersRequest();
   }
 
-  Future<DC<ServerRejectException, DisclaimersResponseModel>>
-      getNftDisclaimers() async {
+  Future<DC<ServerRejectException, DisclaimersResponseModel>> getNftDisclaimers() async {
     return _walletApiDataSources.getNftDisclaimersRequest();
   }
 
-  Future<DC<ServerRejectException, DisclaimersResponseModel>>
-      getHighYieldDisclaimers() async {
+  Future<DC<ServerRejectException, DisclaimersResponseModel>> getHighYieldDisclaimers() async {
     return _walletApiDataSources.getHighYieldDisclaimersRequest();
   }
 
@@ -336,8 +359,7 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, CalculateEarnOfferApyResponseModel>>
-      postCalculateEarnOfferApy(
+  Future<DC<ServerRejectException, CalculateEarnOfferApyResponseModel>> postCalculateEarnOfferApy(
     CalculateEarnOfferApyRequestModel model,
   ) async {
     return _walletApiDataSources.postCalculateEarnOfferApyRequest(
@@ -385,6 +407,14 @@ class WalletApiRepository {
     return _walletApiDataSources.postKycStartRequest();
   }
 
+  Future<DC<ServerRejectException, String>> postFaceSDKToken(String countryCode) async {
+    return _walletApiDataSources.postFaceSDKTokenRequest(countryCode);
+  }
+
+  Future<DC<ServerRejectException, int>> postFaceCheckStatus() async {
+    return _walletApiDataSources.postFaceCheckStatusRequest();
+  }
+
   Future<DC<ServerRejectException, void>> postUploadDocuments(
     FormData formData,
     int documentType,
@@ -425,23 +455,19 @@ class WalletApiRepository {
     return _walletApiDataSources.postRegisterTokenRequest(model);
   }
 
-  Future<DC<ServerRejectException, OperationHistoryResponseModel>>
-      getOperationHistory(
+  Future<DC<ServerRejectException, OperationHistoryResponseModel>> getOperationHistory(
     OperationHistoryRequestModel model,
   ) async {
     return _walletApiDataSources.getOperationHistoryRequest(model);
   }
 
-  Future<DC<ServerRejectException, OperationHistoryItem>>
-      getOperationHistoryOperationID(
+  Future<DC<ServerRejectException, OperationHistoryItem>> getOperationHistoryOperationID(
     String operationId,
   ) async {
-    return _walletApiDataSources
-        .getOperationHistoryOperationIDRequest(operationId);
+    return _walletApiDataSources.getOperationHistoryOperationIDRequest(operationId);
   }
 
-  Future<DC<ServerRejectException, List<ProfileDeleteReasonsModel>>>
-      postProfileDeleteReasons(
+  Future<DC<ServerRejectException, List<ProfileDeleteReasonsModel>>> postProfileDeleteReasons(
     String localeName,
   ) async {
     return _walletApiDataSources.postProfileDeleteReasonsRequest(localeName);
@@ -487,8 +513,7 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, SimplexPaymentResponseModel>>
-      postSimplexPayment(
+  Future<DC<ServerRejectException, SimplexPaymentResponseModel>> postSimplexPayment(
     SimplexPaymentRequestModel model,
   ) async {
     return _walletApiDataSources.postSimplexPaymentRequest(
@@ -512,8 +537,7 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, TransferByPhoneResponseModel>>
-      postTransferByPhone(
+  Future<DC<ServerRejectException, TransferByPhoneResponseModel>> postTransferByPhone(
     TransferByPhoneRequestModel model,
   ) async {
     return _walletApiDataSources.postTransferByPhoneRequest(
@@ -521,8 +545,7 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, TransferCancelResponseModel>>
-      postTransferCancel(
+  Future<DC<ServerRejectException, TransferCancelResponseModel>> postTransferCancel(
     TransferCancelRequestModel model,
   ) async {
     return _walletApiDataSources.postTransferCancelRequest(
@@ -556,8 +579,7 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, AddUnlimintCardResponseModel>>
-      postAddUnlimintCard(
+  Future<DC<ServerRejectException, AddUnlimintCardResponseModel>> postAddUnlimintCard(
     AddUnlimintCardRequestModel model,
   ) async {
     return _walletApiDataSources.postAddUnlimintCardRequest(
@@ -565,8 +587,7 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, DeleteUnlimintCardResponseModel>>
-      postDeleteUnlimintCard(
+  Future<DC<ServerRejectException, DeleteUnlimintCardResponseModel>> postDeleteUnlimintCard(
     DeleteUnlimintCardRequestModel model,
   ) async {
     return _walletApiDataSources.postDeleteUnlimintCardRequest(
@@ -616,8 +637,7 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, CardVerificationResponseModel>>
-      cardVerification(
+  Future<DC<ServerRejectException, CardVerificationResponseModel>> cardVerification(
     CardVerificationRequestModel model,
   ) async {
     return _walletApiDataSources.cardVerification(
@@ -629,25 +649,22 @@ class WalletApiRepository {
     return _walletApiDataSources.postSDKTokenRequest(country);
   }
 
-  Future<DC<ServerRejectException, EncryptionKeyCardResponseModel>>
-      encryptionKey() async {
+  Future<DC<ServerRejectException, EncryptionKeyCardResponseModel>> encryptionKey() async {
     return _walletApiDataSources.encryptionKey();
   }
 
   /// NFT
 
-  Future<DC<ServerRejectException, NftMarketInfoResponseModel>>
-      getNFTMarketInfo(String symbol) async {
+  Future<DC<ServerRejectException, NftMarketInfoResponseModel>> getNFTMarketInfo(String symbol) async {
     return _walletApiDataSources.getNFTMarketInfoRequest(symbol);
   }
 
-  Future<DC<ServerRejectException, NftMarketIsValidPromoResponseModel>>
-      getNFTMarketIsValidPromo(String promocode) async {
+  Future<DC<ServerRejectException, NftMarketIsValidPromoResponseModel>> getNFTMarketIsValidPromo(
+      String promocode) async {
     return _walletApiDataSources.getNFTMarketIsValidPromoRequest(promocode);
   }
 
-  Future<DC<ServerRejectException, NftMarketPreviewBuyResponseModel>>
-      getNFTMarketPreviewBuy({
+  Future<DC<ServerRejectException, NftMarketPreviewBuyResponseModel>> getNFTMarketPreviewBuy({
     required String symbol,
     String? promocode,
   }) async {
@@ -657,8 +674,8 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, NftMarketPreviewSellResponseModel>>
-      getNFTMarketPreviewSell(String symbol, String assetSymbol) async {
+  Future<DC<ServerRejectException, NftMarketPreviewSellResponseModel>> getNFTMarketPreviewSell(
+      String symbol, String assetSymbol) async {
     return _walletApiDataSources.getNFTMarketPreviewSellRequest(
       symbol,
       assetSymbol,
@@ -685,8 +702,7 @@ class WalletApiRepository {
 
   /// Base asset
 
-  Future<DC<ServerRejectException, GetBaseAssetsResponseModel>>
-      getBaseAssetsList() async {
+  Future<DC<ServerRejectException, GetBaseAssetsResponseModel>> getBaseAssetsList() async {
     return _walletApiDataSources.getBaseAssetsListRequest();
   }
 
@@ -714,8 +730,7 @@ class WalletApiRepository {
     return _walletApiDataSources.sendToBankCardRequest(model);
   }
 
-  Future<DC<ServerRejectException, SendToBankCardResponse>>
-      sendToBankCardPreview(SendToBankRequestModel model) async {
+  Future<DC<ServerRejectException, SendToBankCardResponse>> sendToBankCardPreview(SendToBankRequestModel model) async {
     return _walletApiDataSources.sendToBankCardPreviewRequest(model);
   }
 
@@ -759,21 +774,40 @@ class WalletApiRepository {
   // Address book
 
   Future<DC<ServerRejectException, AddressBookModel>> getAddressBook(
-    String searchText,
+    int accountType,
   ) async {
-    return _walletApiDataSources.getAddressBookRequest(searchText);
+    return _walletApiDataSources.getAddressBookRequest(accountType);
   }
 
   Future<DC<ServerRejectException, AddressBookContactModel>> postAddressBookAdd(
     String name,
     String nickname,
     String iban,
+    String bic,
   ) async {
     return _walletApiDataSources.postAddressBookAddRequest(
       name,
       nickname,
       iban,
+      bic,
     );
+  }
+
+  Future<DC<ServerRejectException, AddressBookContactModel>> postAddressBookAddSimple(
+    String name,
+    String iban,
+  ) async {
+    return _walletApiDataSources.postAddressBookAddSimpleRequest(name, iban);
+  }
+
+  Future<DC<ServerRejectException, AddressBookContactModel>> postAddressBookAddPersonal(
+    String name,
+    String iban,
+    String bic,
+    String country,
+    String fullName,
+  ) async {
+    return _walletApiDataSources.postAddressBookAddPersonalRequest(name, iban, bic, country, fullName);
   }
 
   Future<DC<ServerRejectException, void>> postAddressBookDelete(
@@ -802,8 +836,7 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, IbanPreviewWithdrawalModel>>
-      postPreviewIbanWithdrawal(
+  Future<DC<ServerRejectException, IbanPreviewWithdrawalModel>> postPreviewIbanWithdrawal(
     IbanWithdrawalModel model,
   ) async {
     return _walletApiDataSources.postPreviewIbanWithdrawalRequest(
@@ -821,5 +854,108 @@ class WalletApiRepository {
     required RewardsBalance data,
   }) async {
     return _walletApiDataSources.postRewardClaimRequest(data);
+  }
+
+  // Banking
+
+  Future<DC<ServerRejectException, CreateBankingAccountSimpleResponse>> postAccountCreate(String requestId) async {
+    return _walletApiDataSources.postAccountCreateRequest(requestId);
+  }
+
+  Future<DC<ServerRejectException, CreateBankingAccountSimpleResponse>> postSimpleAccountCreate() async {
+    return _walletApiDataSources.postSimpleAccountCreateRequest();
+  }
+
+  Future<DC<ServerRejectException, void>> postAccountChangeLabel({
+    required String accountId,
+    required String label,
+  }) async {
+    return _walletApiDataSources.postAccountChangeLabelRequest(
+      accountId: accountId,
+      label: label,
+    );
+  }
+
+  Future<DC<ServerRejectException, String>> postBankingKycStart() async {
+    return _walletApiDataSources.postBankingKycStartRequest();
+  }
+
+  Future<DC<ServerRejectException, BankingWithdrawalPreviewResponse>> postBankingWithdrawalPreview(
+    BankingWithdrawalPreviewModel request,
+  ) async {
+    return _walletApiDataSources.postBankingWithdrawalPreviewRequest(request);
+  }
+
+  Future<DC<ServerRejectException, String>> postBankingWithdrawal(
+    BankingWithdrawalRequest request,
+  ) async {
+    return _walletApiDataSources.postBankingWithdrawalRequest(request);
+  }
+
+  Future<DC<ServerRejectException, BuyLimitsResponseModel>> postBuyLimits(
+      BuyLimitsRequestModel request,
+      ) async {
+    return _walletApiDataSources.postBuyLimitsRequest(request);
+  }
+
+  // simple card
+  Future<DC<ServerRejectException, SimpleCardCreateResponse>> postSimpleCardCreate({
+    required SimpleCardCreateRequest data,
+  }) async {
+    return _walletApiDataSources.postSimpleCardCreateRequest(data);
+  }
+
+  Future<DC<ServerRejectException, SimpleCardSensitiveResponse>> postSensitiveData({
+    required SimpleCardSensitiveRequest data,
+  }) async {
+    return _walletApiDataSources.postSensitiveDataRequest(data);
+  }
+
+  Future<DC<ServerRejectException, SimpleCardRemindPinResponse>> postRemindPinPhone({
+    required String cardId,
+  }) async {
+    return _walletApiDataSources.postRemindPinPhoneRequest(cardId: cardId);
+  }
+
+  Future<DC<ServerRejectException, void>> postRemindPin({
+    required String cardId,
+  }) async {
+    return _walletApiDataSources.postRemindPinRequest(cardId: cardId);
+  }
+
+  Future<DC<ServerRejectException, void>> postCardSetPassword({
+    required SimpleCardSetPasswordRequest data,
+  }) async {
+    return _walletApiDataSources.postCardSetPasswordRequest(data);
+  }
+
+  Future<DC<ServerRejectException, void>> postCardChangePassword({
+    required SimpleCardSetPasswordRequest data,
+  }) async {
+    return _walletApiDataSources.postCardChangePasswordRequest(data);
+  }
+
+  Future<DC<ServerRejectException, void>> postCardFreeze({
+    required String cardId,
+  }) async {
+    return _walletApiDataSources.postCardFreezeRequest(cardId: cardId);
+  }
+
+  Future<DC<ServerRejectException, void>> postCardUnfreeze({
+    required String cardId,
+  }) async {
+    return _walletApiDataSources.postCardUnfreezeRequest(cardId: cardId);
+  }
+
+  Future<DC<ServerRejectException, SellLimitsResponseModel>> postSellLimits(
+      SellLimitsRequestModel request,
+      ) async {
+    return _walletApiDataSources.postSellLimitsRequest(request);
+  }
+
+  Future<DC<ServerRejectException, SwapLimitsResponseModel>> postSwapLimits(
+      SwapLimitsRequestModel request,
+      ) async {
+    return _walletApiDataSources.postSwapLimitsRequest(request);
   }
 }

@@ -20,16 +20,21 @@ class SNotificationNotifier extends StateNotifier<Queue<NotificationModel>> {
 
   void showError(
     String message, {
-    int duration = 2,
+    @Deprecated('Now the time is always the same. The parameter is not used') int duration = 2,
     int? id,
     bool needFeedback = false,
     bool isError = true,
+    @Deprecated('Not used with the new design system') bool hideIcon = false,
   }) {
     _addToQueue(
       NotificationModel(
         id: id,
-        show: () =>
-            showNotification(context, message, duration, needFeedback, isError),
+        show: () => showNotification(
+          context,
+          message,
+          needFeedback,
+          isError,
+        ),
       ),
     );
   }

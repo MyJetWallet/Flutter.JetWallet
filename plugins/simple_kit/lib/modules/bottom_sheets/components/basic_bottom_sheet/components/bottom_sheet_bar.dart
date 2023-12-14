@@ -9,13 +9,11 @@ class BottomSheetBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 35.0,
-      height: 4.0,
-      decoration: BoxDecoration(
+      width: 32,
+      height: 6,
+      decoration: ShapeDecoration(
         color: SColorsLight().grey4,
-        borderRadius: const BorderRadius.all(
-          Radius.circular(4.0),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
       ),
     );
   }

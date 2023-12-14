@@ -61,7 +61,7 @@ class _SendAlertBottomSheet extends StatelessObserverWidget {
                     context: context,
                   );
                 },
-                from: BlockingType.deposit,
+                from: [BlockingType.deposit],
               );
             },
           ),

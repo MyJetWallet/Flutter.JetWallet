@@ -14,7 +14,6 @@ import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/utils/models/selected_percent.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -22,28 +21,23 @@ import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_preview_withdrawal_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_withdrawal_model.dart';
+import 'package:uuid/uuid.dart';
 
 part 'iban_send_amount_store.g.dart';
 
-class IbanSendAmountStore extends _IbanSendAmountStoreBase
-    with _$IbanSendAmountStore {
+class IbanSendAmountStore extends _IbanSendAmountStoreBase with _$IbanSendAmountStore {
   IbanSendAmountStore() : super();
 
-  static IbanSendAmountStore of(BuildContext context) =>
-      Provider.of<IbanSendAmountStore>(context, listen: false);
+  static IbanSendAmountStore of(BuildContext context) => Provider.of<IbanSendAmountStore>(context, listen: false);
 }
 
 abstract class _IbanSendAmountStoreBase with Store {
-  @observable
-  SKeyboardPreset? selectedPreset;
-  @observable
-  String? tappedPreset;
-  @action
-  void tapPreset(String preset) => tappedPreset = preset;
-
   @observable
   String withAmount = '0';
 
@@ -60,21 +54,37 @@ abstract class _IbanSendAmountStoreBase with Store {
   AddressBookContactModel? contact;
 
   @observable
+  bool? isCJAcc;
+
+  @observable
+  SimpleBankingAccount? account;
+
+  @observable
   InputError withAmmountInputError = InputError.none;
+
+  @observable
+  bool showAllWithdraw = true;
+
+  var requestId = '';
 
   CardLimitsModel? limits;
 
   StackLoaderStore loader = StackLoaderStore();
 
   @computed
+  ObservableList<CurrencyModel> get _allAssets {
+    return sSignalRModules.currenciesList;
+  }
+
+  @computed
   CurrencyModel get eurCurrency => currencyFrom(
-        sSignalRModules.currenciesList,
+        _allAssets,
         'EUR',
       );
 
   @computed
   Decimal get availableCurrency => Decimal.parse(
-        '''${eurCurrency.assetBalance.toDouble() - eurCurrency.cardReserve.toDouble()}''',
+        '''${account!.balance!.toDouble() - eurCurrency.cardReserve.toDouble()}''',
       );
 
   CurrencyModel usdCurrency = currencyFrom(
@@ -104,10 +114,22 @@ abstract class _IbanSendAmountStoreBase with Store {
       ).maxAmount;
 
   @action
-  void init(AddressBookContactModel value) {
+  void init(AddressBookContactModel value, SimpleBankingAccount bankingAccount, bool isCJ) {
     contact = value;
+    account = bankingAccount;
+    isCJAcc = isCJ;
+
+    requestId = const Uuid().v1();
 
     sAnalytics.sendEurAmountScreenView();
+
+    sAnalytics.eurWithdrawEurAmountSV(
+      eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+      accountIban: bankingAccount.iban ?? '',
+      accountLabel: bankingAccount.label ?? '',
+      eurAccType: value.iban ?? '',
+      eurAccLabel: value.name ?? '',
+    );
 
     final ibanOutMethodInd = eurCurrency.withdrawalMethods.indexWhere(
       (element) => element.id == WithdrawalMethods.ibanSend,
@@ -131,39 +153,50 @@ abstract class _IbanSendAmountStoreBase with Store {
         leftHours: 0,
       );
     }
-
-    log(eurCurrency.toString());
-    log(usdCurrency.toString());
   }
 
   @action
-  Future<void> loadPreview() async {
+  Future<void> loadPreview(String? description, bool isCJ) async {
     loader.startLoadingImmediately();
 
-    final model = IbanWithdrawalModel(
+    final previewModel = BankingWithdrawalPreviewModel(
+      accountId: account?.accountId ?? '',
+      requestId: requestId,
+      toIbanAddress: contact?.iban ?? '',
       assetSymbol: eurCurrency.symbol,
       amount: Decimal.parse(withAmount),
-      lang: intl.localeName,
       contactId: contact?.id ?? '',
-      iban: contact?.iban ?? '',
-      bic: contact?.bic ?? '',
+      beneficiaryBankCode: contact?.bic ?? '',
+      description: description,
+      expressPayment: false,
     );
 
-    final response = await getIt
-        .get<SNetwork>()
-        .simpleNetworking
-        .getWalletModule()
-        .postPreviewIbanWithdrawal(model);
+    final response =
+        await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postBankingWithdrawalPreview(previewModel);
 
     loader.finishLoadingImmediately();
 
     if (!response.hasError) {
-      await sRouter.push(
+      await sRouter
+          .push(
         IbanSendConfirmRouter(
           data: response.data!,
           contact: contact!,
+          account: account!,
+          previewRequest: previewModel,
+          isCJ: isCJ,
         ),
-      );
+      )
+          .then((value) {
+        sAnalytics.eurWithdrawTapBackOrderSummary(
+          eurAccountType: isCJAcc! ? 'CJ' : 'Unlimit',
+          accountIban: account?.iban ?? '',
+          accountLabel: account?.label ?? '',
+          eurAccType: contact?.iban ?? '',
+          eurAccLabel: contact?.name ?? '',
+          enteredAmount: withAmount,
+        );
+      });
     } else {
       sNotification.showError(
         response.error?.cause ?? '',
@@ -175,29 +208,6 @@ abstract class _IbanSendAmountStoreBase with Store {
   }
 
   @action
-  void selectPercentFromBalance(SKeyboardPreset preset) {
-    selectedPreset = preset;
-
-    final percent = _percentFromPreset(preset);
-
-    final value = valueBasedOnSelectedPercent(
-      selected: percent,
-      currency: eurCurrency,
-      availableBalance: Decimal.parse(
-        '''${eurCurrency.assetBalance.toDouble() - eurCurrency.cardReserve.toDouble()}''',
-      ),
-    );
-
-    withAmount = valueAccordingToAccuracy(
-      value,
-      eurCurrency.accuracy,
-    );
-
-    _validateAmount();
-    _calculateBaseConversion();
-  }
-
-  @action
   void updateAmount(String value) {
     withAmount = responseOnInputAction(
       oldInput: withAmount,
@@ -205,9 +215,14 @@ abstract class _IbanSendAmountStoreBase with Store {
       accuracy: eurCurrency.accuracy,
     );
 
+    if (withAmount != zero) {
+      showAllWithdraw = false;
+    } else {
+      showAllWithdraw = true;
+    }
+
     _validateAmount();
     _calculateBaseConversion();
-    selectedPreset = null;
   }
 
   @action
@@ -226,9 +241,9 @@ abstract class _IbanSendAmountStoreBase with Store {
 
   @action
   void _validateAmount() {
-    final error = onGloballyWithdrawInputErrorHandler(
+    final error = onEurWithdrawInputErrorHandler(
       withAmount,
-      eurCurrency,
+      account!.balance!,
       limits,
     );
 
@@ -239,14 +254,12 @@ abstract class _IbanSendAmountStoreBase with Store {
         decimal: _minLimit!,
         accuracy: eurCurrency.accuracy,
         symbol: eurCurrency.symbol,
-        prefix: eurCurrency.prefixSymbol,
       )}';
     } else if (_maxLimit != null && _maxLimit! < value) {
       limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
         decimal: _maxLimit!,
         accuracy: eurCurrency.accuracy,
         symbol: eurCurrency.symbol,
-        prefix: eurCurrency.prefixSymbol,
       )}';
     } else {
       limitError = '';
@@ -264,20 +277,18 @@ abstract class _IbanSendAmountStoreBase with Store {
       sAnalytics.errorSendIBANAmount(
         errorCode: withAmmountInputError.toString(),
       );
+
+      sAnalytics.eurWithdrawErrorShowConvert(
+        eurAccountType: isCJAcc! ? 'CJ' : 'Unlimit',
+        accountIban: account?.iban ?? '',
+        accountLabel: account?.label ?? '',
+        eurAccType: contact?.iban ?? '',
+        eurAccLabel: contact?.name ?? '',
+        errorText: withAmmountInputError.toString(),
+        enteredAmount: withAmount,
+      );
     }
 
-    withValid =
-        withAmmountInputError == InputError.none && isInputValid(withAmount);
-  }
-
-  @action
-  SelectedPercent _percentFromPreset(SKeyboardPreset preset) {
-    if (preset == SKeyboardPreset.preset1) {
-      return SelectedPercent.pct25;
-    } else if (preset == SKeyboardPreset.preset2) {
-      return SelectedPercent.pct50;
-    } else {
-      return SelectedPercent.pct100;
-    }
+    withValid = withAmmountInputError == InputError.none && isInputValid(withAmount);
   }
 }

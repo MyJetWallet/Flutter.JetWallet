@@ -72,8 +72,7 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
       state.tradeFeeAsset ?? '',
     );
 
-    icon =
-        state.isChecked ? const SCheckboxSelectedIcon() : const SCheckboxIcon();
+    icon = state.isChecked ? const SCheckboxSelectedIcon() : const SCheckboxIcon();
 
     return SPageFrameWithPadding(
       loaderText: intl.register_pleaseWait,
@@ -94,9 +93,7 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
         children: [
           ListView(
             padding: EdgeInsets.only(
-              bottom: widgetSizeFrom(deviceSize) == SWidgetSize.small
-                  ? 310.0
-                  : 260.0,
+              bottom: widgetSizeFrom(deviceSize) == SWidgetSize.small ? 310.0 : 260.0,
             ),
             children: [
               Column(
@@ -126,7 +123,6 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
                     name: intl.previewBuyWithCircle_youWillGet,
                     contentLoading: state.loader.loading,
                     value: '≈ ${volumeFormat(
-                      prefix: input.currency.prefixSymbol,
                       symbol: input.currency.symbol,
                       accuracy: input.currency.accuracy,
                       decimal: state.buyAmount ?? Decimal.zero,
@@ -136,7 +132,6 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
                     name: intl.previewBuyWithCircle_rate,
                     contentLoading: state.loader.loading,
                     value: '1 ${input.currency.symbol} = ${volumeFormat(
-                      prefix: input.currencyPayment.prefixSymbol,
                       symbol: input.currencyPayment.symbol,
                       accuracy: input.currencyPayment.accuracy,
                       decimal: state.rate ?? Decimal.zero,
@@ -146,7 +141,6 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
                     name: intl.previewBuyWithCircle_creditCardFee,
                     contentLoading: state.loader.loading,
                     value: volumeFormat(
-                      prefix: transactionFeeCurrency.prefixSymbol,
                       decimal: state.depositFeeAmount ?? Decimal.zero,
                       accuracy: transactionFeeCurrency.accuracy,
                       symbol: transactionFeeCurrency.symbol,
@@ -157,7 +151,6 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
                     name: intl.previewBuyWithCircle_transactionFee,
                     contentLoading: state.loader.loading,
                     value: volumeFormat(
-                      prefix: input.currency.prefixSymbol,
                       decimal: state.tradeFeeAmount ?? Decimal.zero,
                       accuracy: input.currency.accuracy,
                       symbol: input.currency.symbol,
@@ -186,7 +179,6 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
                             contentLoading: state.loader.loading,
                             valueColor: colors.blue,
                             value: volumeFormat(
-                              prefix: input.currencyPayment.prefixSymbol,
                               symbol: input.currencyPayment.symbol,
                               accuracy: input.currencyPayment.accuracy,
                               decimal: state.amountToPay!,
@@ -215,7 +207,6 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
                           contentLoading: state.loader.loading,
                           valueColor: colors.blue,
                           value: volumeFormat(
-                            prefix: input.currencyPayment.prefixSymbol,
                             symbol: input.currencyPayment.symbol,
                             accuracy: input.currencyPayment.accuracy,
                             decimal: state.amountToPay!,
@@ -253,15 +244,11 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
                           if (!hideCheckbox) ...[
                             SPolicyText(
                               firstText: intl.previewBuyWithUmlimint_disclaimer,
-                              userAgreementText:
-                                  ''' ${intl.previewBuyWithUmlimint_disclaimerTerms}''',
+                              userAgreementText: ''' ${intl.previewBuyWithUmlimint_disclaimerTerms}''',
                               betweenText: ', ',
-                              privacyPolicyText:
-                                  intl.previewBuyWithUmlimint_disclaimerPolicy,
-                              onUserAgreementTap: () =>
-                                  launchURL(context, userAgreementLink),
-                              onPrivacyPolicyTap: () =>
-                                  launchURL(context, privacyPolicyLink),
+                              privacyPolicyText: intl.previewBuyWithUmlimint_disclaimerPolicy,
+                              onUserAgreementTap: () => launchURL(context, userAgreementLink),
+                              onPrivacyPolicyTap: () => launchURL(context, privacyPolicyLink),
                             ),
                             const SpaceH14(),
                           ],
@@ -281,8 +268,7 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
                 ),
                 const SpaceH24(),
                 SPrimaryButton2(
-                  active: !state.loader.loading &&
-                      (state.isChecked || hideCheckbox),
+                  active: !state.loader.loading && (state.isChecked || hideCheckbox),
                   name: intl.previewBuyWithAsset_confirm,
                   onTap: () {
                     state.onConfirm();

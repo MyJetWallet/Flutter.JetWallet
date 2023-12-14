@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
+import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
+import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../../../../../utils/formatting/base/volume_format.dart';
@@ -25,13 +28,16 @@ class GiftReceiveDetails extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final currency = currencyFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
       transactionListItem.assetId,
     );
 
     return SPaddingH24(
       child: Column(
         children: [
+          _GiftReceiveDetailsHeader(
+            transactionListItem: transactionListItem,
+          ),
           TransactionDetailsItem(
             text: intl.date,
             value: TransactionDetailsValueText(
@@ -41,7 +47,7 @@ class GiftReceiveDetails extends StatelessObserverWidget {
           ),
           const SpaceH18(),
           TransactionDetailsItem(
-            text: 'From',
+            text: intl.gift_receive_history_from,
             value: Row(
               children: [
                 TransactionDetailsValueText(
@@ -51,29 +57,63 @@ class GiftReceiveDetails extends StatelessObserverWidget {
             ),
           ),
           const SpaceH14(),
-          TransactionDetailsItem(
-            text: intl.fee,
-            value: Row(
-              children: [
-                TransactionDetailsValueText(
-                  text: volumeFormat(
-                    prefix: currency.prefixSymbol,
-                    decimal: transactionListItem.withdrawalInfo?.feeAmount ??
-                        Decimal.zero,
-                    accuracy: currency.accuracy,
-                    symbol: currency.symbol,
-                  ),
-                ),
-              ],
+          ProcessingFeeRowWidget(
+            fee: volumeFormat(
+              decimal: transactionListItem.withdrawalInfo?.feeAmount ?? Decimal.zero,
+              accuracy: currency.accuracy,
+              symbol: currency.symbol,
             ),
-          ),
-          const SpaceH16(),
-          TransactionDetailsStatus(
-            status: transactionListItem.status,
           ),
           const SpaceH42(),
         ],
       ),
+    );
+  }
+}
+
+class _GiftReceiveDetailsHeader extends StatelessWidget {
+  const _GiftReceiveDetailsHeader({
+    required this.transactionListItem,
+  });
+
+  final OperationHistoryItem transactionListItem;
+
+  @override
+  Widget build(BuildContext context) {
+    final paymentAsset = nonIndicesWithBalanceFrom(
+      sSignalRModules.currenciesWithHiddenList,
+    ).firstWhere(
+      (element) => element.symbol == (transactionListItem.assetId),
+    );
+
+    return Column(
+      children: [
+        WhatToWhatConvertWidget(
+          removeDefaultPaddings: true,
+          isLoading: false,
+          fromAssetIconUrl: paymentAsset.iconUrl,
+          fromAssetDescription: paymentAsset.description,
+          fromAssetValue: volumeFormat(
+            symbol: paymentAsset.symbol,
+            accuracy: paymentAsset.accuracy,
+            decimal: transactionListItem.balanceChange.abs(),
+          ),
+          isError: transactionListItem.status == Status.declined,
+          hasSecondAsset: false,
+          isSmallerVersion: true,
+        ),
+        const SizedBox(height: 24),
+        SBadge(
+          status: transactionListItem.status == Status.inProgress
+              ? SBadgeStatus.primary
+              : transactionListItem.status == Status.completed
+                  ? SBadgeStatus.success
+                  : SBadgeStatus.error,
+          text: transactionDetailsStatusText(transactionListItem.status),
+          isLoading: transactionListItem.status == Status.inProgress,
+        ),
+        const SizedBox(height: 24),
+      ],
     );
   }
 }

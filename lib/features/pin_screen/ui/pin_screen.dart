@@ -29,6 +29,7 @@ class PinScreen extends StatelessWidget {
     this.displayHeader = true,
     this.cannotLeave = false,
     this.isChangePhone = false,
+    this.isConfirmCard = false,
     this.isChangePin = false,
     this.fromRegister = true,
     this.isForgotPassword = false,
@@ -36,12 +37,14 @@ class PinScreen extends StatelessWidget {
     this.onWrongPin,
     this.onError,
     this.onBackPressed,
+    this.onVerificationEnd,
     required this.union,
   });
 
   final bool displayHeader;
   final bool cannotLeave;
   final bool isChangePhone;
+  final bool isConfirmCard;
   final bool isChangePin;
   final bool isForgotPassword;
   final Function(String)? onChangePhone;
@@ -50,6 +53,7 @@ class PinScreen extends StatelessWidget {
   final Function(String)? onError;
   final bool fromRegister;
   final void Function()? onBackPressed;
+  final void Function()? onVerificationEnd;
 
   @override
   Widget build(BuildContext context) {
@@ -60,12 +64,14 @@ class PinScreen extends StatelessWidget {
         onChangePhone: onChangePhone,
         isChangePin: isChangePin,
         onWrongPin: onWrongPin,
+        onVerificationEnd: onVerificationEnd,
       )..initDefaultScreen(),
       builder: (context, child) => _PinScreenBody(
         displayHeader: displayHeader,
         fromRegister: fromRegister,
         cannotLeave: cannotLeave,
         isChangePhone: isChangePhone,
+        isConfirmCard: isConfirmCard,
         isForgotPassword: isForgotPassword,
         union: union,
         onBackPressed: onBackPressed,
@@ -80,6 +86,7 @@ class _PinScreenBody extends StatefulObserverWidget {
     this.cannotLeave = false,
     this.isForgotPassword = false,
     this.isChangePhone = false,
+    this.isConfirmCard = false,
     this.onBackPressed,
     required this.fromRegister,
     required this.union,
@@ -89,6 +96,7 @@ class _PinScreenBody extends StatefulObserverWidget {
   final bool cannotLeave;
   final bool isForgotPassword;
   final bool isChangePhone;
+  final bool isConfirmCard;
   final PinFlowUnion union;
   final bool fromRegister;
   final void Function()? onBackPressed;
@@ -141,38 +149,37 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
             children: [
               pin.screenUnion.when(
                 enterPin: () {
-                  if (widget.isChangePhone) {
-                    return SPaddingH24(
-                      child: SSmallHeader(
-                        title: intl.pin_screen_confirm_withPin,
-                        onBackButtonTap: () {
-                          widget.onBackPressed != null
-                              ? widget.onBackPressed?.call()
-                              : sRouter.back();
-                        },
-                      ),
+                  if (widget.isChangePhone && !widget.isConfirmCard) {
+                    return SLargeHeader(
+                      title: intl.pin_screen_confirm_withPin,
+                      onBackButtonTap: () {
+                        widget.onBackPressed != null ? widget.onBackPressed?.call() : sRouter.back();
+                      },
+                      titleStyle: sTextH3Style,
+                    );
+                  }
+                  if (widget.isConfirmCard) {
+                    return SLargeHeader(
+                      title: intl.pin_screen_confirm_withPin,
+                      onBackButtonTap: () {
+                        widget.onBackPressed != null ? widget.onBackPressed?.call() : sRouter.back();
+                      },
+                      titleStyle: sTextH4Style,
+                      hideBackButton: true,
+                      showCloseButton: true,
                     );
                   }
 
                   return widget.displayHeader
-                      ? SAuthHeader(
+                      ? SLargeHeader(
                           title: pin.screenDescription(),
                           hideBackButton: widget.isForgotPassword,
                         )
                       : const SizedBox();
                 },
                 confirmPin: () {
-                  return SAuthHeader(
+                  return SLargeHeader(
                     title: pin.screenDescription(),
-                    /*
-                    customIconButton: SIconButton(
-                      onTap: () {
-                        sRouter.push(const VerificationRouter());
-                      },
-                      defaultIcon: const SCloseIcon(),
-                      pressedIcon: const SClosePressedIcon(),
-                    ),
-                    */
                     onBackButtonTap: () {
                       pin.backToNewFlow();
 
@@ -181,7 +188,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                   );
                 },
                 newPin: () {
-                  return SAuthHeader(
+                  return SLargeHeader(
                     title: pin.screenDescription(),
                     onBackButtonTap: () {
                       onbackButton!();
@@ -225,17 +232,15 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                   ),
                 ),
               const Spacer(),
-              Opacity(
-                opacity: pin.isError ? 1 : 0,
-                child: Text(
-                  (pin.screenUnion == const ConfirmPin() ||
-                          pin.screenUnion == const NewPin())
+              if (pin.isError) ...[
+                Text(
+                  (pin.screenUnion == const ConfirmPin() || pin.screenUnion == const NewPin())
                       ? intl.pinScreen_pinDontMatch
                       : intl.pinScreen_incorrectPIN,
                   style: sSubtitle3Style.copyWith(color: colors.red),
                 ),
-              ),
-              const SpaceH53(),
+                const SpaceH53(),
+              ],
               Observer(
                 builder: (context) {
                   return ShakeWidget(
@@ -254,9 +259,13 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                 },
               ),
               const Spacer(),
-              if (!widget.displayHeader ||
-                  (pin.showForgot &&
-                      pin.screenUnion == const PinScreenUnion.enterPin()))
+              if (!widget.displayHeader || (
+                  !widget.isConfirmCard &&
+                  pin.screenUnion == const PinScreenUnion.enterPin()
+              ) || (widget.isConfirmCard &&
+                  pin.screenUnion == const PinScreenUnion.enterPin() &&
+                  pin.showForgot
+              ))
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -288,8 +297,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                             );
                             Navigator.pop(context);
                           },
-                          secondaryButtonName:
-                              intl.forgot_pass_dialog_btn_cancel,
+                          secondaryButtonName: intl.forgot_pass_dialog_btn_cancel,
                           onSecondaryButtonTap: () {
                             Navigator.pop(context);
                           },
@@ -304,8 +312,6 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                 )
               else
                 const SpaceH24(),
-              if (!widget.displayHeader) const SpaceH34(),
-              if (widget.displayHeader) const SpaceH40(),
               SNumericKeyboardPin(
                 hideBiometricButton: pin.hideBiometricButton,
                 onKeyPressed: (value) async {

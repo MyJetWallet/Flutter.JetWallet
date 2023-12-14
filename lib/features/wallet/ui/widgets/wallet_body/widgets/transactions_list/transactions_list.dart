@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/market/market_details/model/operation_history_union.dart';
 import 'package:jetwallet/features/market/market_details/store/operation_history.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/transaction_list_item.dart';
+import 'package:jetwallet/utils/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -12,18 +13,25 @@ import 'package:simple_networking/modules/wallet_api/models/operation_history/op
 import '../../../../../helper/format_date.dart';
 import '../loading_sliver_list.dart';
 import '../transaction_month_separator.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class TransactionsList extends StatelessWidget {
   const TransactionsList({
     super.key,
     this.isRecurring = false,
     this.symbol,
+    this.accountId,
     required this.scrollController,
+    this.onItemTapLisener,
+    this.fromCJAccount = false,
   });
 
   final ScrollController scrollController;
   final String? symbol;
+  final String? accountId;
   final bool isRecurring;
+  final void Function(String assetSymbol)? onItemTapLisener;
+  final bool fromCJAccount;
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +41,16 @@ class TransactionsList extends StatelessWidget {
         null,
         isRecurring,
         null,
+        false,
+        accountId,
       )..initOperationHistory(),
       builder: (context, child) => _TransactionsListBody(
         scrollController: scrollController,
         symbol: symbol,
         isRecurring: isRecurring,
+        onItemTapLisener: onItemTapLisener,
+        fromCJAccount: fromCJAccount,
+        accountId: accountId,
       ),
       //dispose: (context, value) => value.stopTimer(),
     );
@@ -48,12 +61,18 @@ class _TransactionsListBody extends StatefulObserverWidget {
   const _TransactionsListBody({
     this.isRecurring = false,
     this.symbol,
+    this.accountId,
     required this.scrollController,
+    this.onItemTapLisener,
+    this.fromCJAccount = false,
   });
 
   final ScrollController scrollController;
   final String? symbol;
+  final String? accountId;
   final bool isRecurring;
+  final void Function(String assetSymbol)? onItemTapLisener;
+  final bool fromCJAccount;
 
   @override
   State<StatefulWidget> createState() => _TransactionsListBodyState();
@@ -63,12 +82,10 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
   @override
   void initState() {
     widget.scrollController.addListener(() {
-      if (widget.scrollController.position.maxScrollExtent ==
-          widget.scrollController.offset) {
-        if (OperationHistory.of(context).union ==
-                const OperationHistoryUnion.loaded() &&
+      if (widget.scrollController.position.maxScrollExtent <= widget.scrollController.offset) {
+        if (OperationHistory.of(context).union == const OperationHistoryUnion.loaded() &&
             !OperationHistory.of(context).nothingToLoad) {
-          OperationHistory.of(context).operationHistory(widget.symbol);
+          OperationHistory.of(context).operationHistory(widget.symbol, accountId: widget.accountId);
         }
       }
     });
@@ -97,36 +114,44 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
     return SliverPadding(
       key: UniqueKey(),
       padding: EdgeInsets.only(
-        top: OperationHistory.of(context).union !=
-                const OperationHistoryUnion.error()
-            ? 15
-            : 0,
+        top: OperationHistory.of(context).union != const OperationHistoryUnion.error() ? 15 : 0,
         bottom: _addBottomPadding() ? 72 : 0,
       ),
       sliver: OperationHistory.of(context).union.when(
         loaded: () {
           return listToShow.isEmpty
               ? SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: widget.symbol != null
-                        ? screenHeight - screenHeight * 0.369 - 227
-                        : screenHeight - screenHeight * 0.369,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          intl.transactionsList_noTransactionsYet,
-                          style: sTextH3Style,
-                        ),
-                        Text(
-                          intl.historyRecurringBuy_text1,
-                          style: sBodyText1Style.copyWith(
-                            color: colors.grey1,
+                  child: widget.fromCJAccount
+                      ? SPlaceholder(
+                          size: SPlaceholderSize.l,
+                          text: intl.wallet_simple_account_empty,
+                        )
+                      : SizedBox(
+                          height: widget.symbol != null
+                              ? screenHeight - screenHeight * 0.369 - 227
+                              : screenHeight - screenHeight * 0.369,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                smileAsset,
+                                width: 48,
+                                height: 48,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 80),
+                                child: Text(
+                                  intl.wallet_simple_account_empty,
+                                  textAlign: TextAlign.center,
+                                  maxLines: 3,
+                                  style: sSubtitle2Style.copyWith(
+                                    color: sKit.colors.grey2,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
                 )
               : SliverGroupedListView<OperationHistoryItem, String>(
                   elements: listToShow,
@@ -138,17 +163,12 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                     return TransactionMonthSeparator(text: date);
                   },
                   itemBuilder: (context, transaction) {
-                    final index = listToShow.indexOf(transaction);
-                    final currentDate = formatDate(transaction.timeStamp);
-                    var nextDate = '';
-                    if (index != (listToShow.length - 1)) {
-                      nextDate = formatDate(listToShow[index + 1].timeStamp);
-                    }
-                    final removeDividerForLastInGroup = currentDate != nextDate;
-
                     return TransactionListItem(
                       transactionListItem: transaction,
-                      removeDivider: removeDividerForLastInGroup,
+                      onItemTapLisener: widget.onItemTapLisener,
+                      fromCJAccount: widget.fromCJAccount,
+                      source:
+                          widget.fromCJAccount ? TransactionItemSource.eurAccount : TransactionItemSource.cryptoAccount,
                     );
                   },
                 );
@@ -209,8 +229,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                               active: true,
                               name: intl.transactionsList_retry,
                               onTap: () {
-                                OperationHistory.of(context)
-                                    .initOperationHistory();
+                                OperationHistory.of(context).initOperationHistory();
                               },
                             ),
                           ],
@@ -229,21 +248,16 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                   },
                   groupComparator: (date1, date2) => 0,
                   itemBuilder: (context, transaction) {
-                    final index = listToShow.indexOf(transaction);
-                    final currentDate = formatDate(transaction.timeStamp);
-                    var nextDate = '';
-                    if (index != (listToShow.length - 1)) {
-                      nextDate = formatDate(listToShow[index + 1].timeStamp);
-                    }
-                    final removeDividerForLastInGroup = currentDate != nextDate;
-
-                    return listToShow.indexOf(transaction) ==
-                            listToShow.length - 1
+                    return listToShow.indexOf(transaction) == listToShow.length - 1
                         ? Column(
                             children: [
                               TransactionListItem(
                                 transactionListItem: transaction,
-                                removeDivider: removeDividerForLastInGroup,
+                                onItemTapLisener: widget.onItemTapLisener,
+                                fromCJAccount: widget.fromCJAccount,
+                                source: widget.fromCJAccount
+                                    ? TransactionItemSource.eurAccount
+                                    : TransactionItemSource.cryptoAccount,
                               ),
                               Container(
                                 width: double.infinity,
@@ -264,8 +278,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                 child: Column(
                                   children: [
                                     Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.only(
@@ -286,8 +299,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                               height: 77,
                                               child: Baseline(
                                                 baseline: 38,
-                                                baselineType:
-                                                    TextBaseline.alphabetic,
+                                                baselineType: TextBaseline.alphabetic,
                                                 child: Text(
                                                   intl.newsList_wentWrongText,
                                                   style: sBodyText1Style,
@@ -303,8 +315,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                       active: true,
                                       name: intl.transactionsList_retry,
                                       onTap: () {
-                                        OperationHistory.of(context)
-                                            .operationHistory(
+                                        OperationHistory.of(context).operationHistory(
                                           widget.symbol,
                                         );
                                       },
@@ -316,7 +327,11 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                           )
                         : TransactionListItem(
                             transactionListItem: transaction,
-                            removeDivider: removeDividerForLastInGroup,
+                            onItemTapLisener: widget.onItemTapLisener,
+                            fromCJAccount: widget.fromCJAccount,
+                            source: widget.fromCJAccount
+                                ? TransactionItemSource.eurAccount
+                                : TransactionItemSource.cryptoAccount,
                           );
                   },
                 );
@@ -334,21 +349,16 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                     return TransactionMonthSeparator(text: date);
                   },
                   itemBuilder: (context, transaction) {
-                    final index = listToShow.indexOf(transaction);
-                    final currentDate = formatDate(transaction.timeStamp);
-                    var nextDate = '';
-                    if (index != (listToShow.length - 1)) {
-                      nextDate = formatDate(listToShow[index + 1].timeStamp);
-                    }
-                    final removeDividerForLastInGroup = currentDate != nextDate;
-
-                    return listToShow.indexOf(transaction) ==
-                            listToShow.length - 1
+                    return listToShow.indexOf(transaction) == listToShow.length - 1
                         ? Column(
                             children: [
                               TransactionListItem(
                                 transactionListItem: transaction,
-                                removeDivider: removeDividerForLastInGroup,
+                                onItemTapLisener: widget.onItemTapLisener,
+                                fromCJAccount: widget.fromCJAccount,
+                                source: widget.fromCJAccount
+                                    ? TransactionItemSource.eurAccount
+                                    : TransactionItemSource.cryptoAccount,
                               ),
                               const SpaceH24(),
                               Container(
@@ -366,7 +376,11 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                           )
                         : TransactionListItem(
                             transactionListItem: transaction,
-                            removeDivider: removeDividerForLastInGroup,
+                            onItemTapLisener: widget.onItemTapLisener,
+                            fromCJAccount: widget.fromCJAccount,
+                            source: widget.fromCJAccount
+                                ? TransactionItemSource.eurAccount
+                                : TransactionItemSource.cryptoAccount,
                           );
                   },
                 );
@@ -376,8 +390,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
   }
 
   bool _addBottomPadding() {
-    return (OperationHistory.of(context).union !=
-            const OperationHistoryUnion.error()) &&
+    return (OperationHistory.of(context).union != const OperationHistoryUnion.error()) &&
         !OperationHistory.of(context).nothingToLoad;
   }
 }

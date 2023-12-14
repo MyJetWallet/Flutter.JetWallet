@@ -34,7 +34,7 @@ class RewardsFlowScreen extends StatelessWidget {
 }
 
 class _RewardsFlowScreenBody extends StatefulObserverWidget {
-  const _RewardsFlowScreenBody({super.key});
+  const _RewardsFlowScreenBody();
 
   @override
   State<_RewardsFlowScreenBody> createState() => _RewardsFlowScreenBodyState();
@@ -147,7 +147,6 @@ class _RewardsFlowScreenBodyState extends State<_RewardsFlowScreenBody> {
                 SPaddingH24(
                   child: Text(
                     '${intl.reward_your_reward_subtitle_1} ${volumeFormat(
-                      prefix: getIt.get<FormatService>().baseCurrency.prefix,
                       decimal: store.totalEarnedBaseCurrency,
                       accuracy: getIt.get<FormatService>().baseCurrency.accuracy,
                       symbol: getIt.get<FormatService>().baseCurrency.symbol,

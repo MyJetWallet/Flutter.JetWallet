@@ -26,12 +26,10 @@ import 'package:simple_networking/modules/wallet_api/models/unlimint/delete_unli
 
 part 'payment_methods_store.g.dart';
 
-class PaymentMethodsStore extends _PaymentMethodsStoreBase
-    with _$PaymentMethodsStore {
+class PaymentMethodsStore extends _PaymentMethodsStoreBase with _$PaymentMethodsStore {
   PaymentMethodsStore() : super();
 
-  static _PaymentMethodsStoreBase of(BuildContext context) =>
-      Provider.of<PaymentMethodsStore>(context, listen: false);
+  static _PaymentMethodsStoreBase of(BuildContext context) => Provider.of<PaymentMethodsStore>(context, listen: false);
 }
 
 abstract class _PaymentMethodsStoreBase with Store {
@@ -62,16 +60,11 @@ abstract class _PaymentMethodsStoreBase with Store {
   ObservableList<CircleCard> cards = ObservableList.of([]);
 
   @observable
-  ObservableList<AddressBookContactModel> addressBookContacts =
-      ObservableList.of([]);
-
-  @observable
   PaymentMethodsUnion union = const PaymentMethodsUnion.loading();
 
   @computed
-  bool get isShowAccounts => sSignalRModules.currenciesList
-      .where((element) => element.supportIbanSendWithdrawal)
-      .isNotEmpty;
+  bool get isShowAccounts =>
+      sSignalRModules.currenciesList.where((element) => element.supportIbanSendWithdrawal).isNotEmpty;
 
   @computed
   List<CircleCard> get userCards => sSignalRModules.cards.cardInfos;
@@ -87,6 +80,8 @@ abstract class _PaymentMethodsStoreBase with Store {
     cards = ObservableList.of(sSignalRModules.cards.cardInfos);
 
     cardsLoaded = true;
+
+    _updateUnion(const PaymentMethodsUnion.success());
   }
 
   @action
@@ -103,35 +98,9 @@ abstract class _PaymentMethodsStoreBase with Store {
   }
 
   @action
-  Future<void> getAddressBook() async {
-    addressBookLoaded = false;
-
-    if (isShowAccounts) {
-      final response = await sNetwork.getWalletModule().getAddressBook('');
-
-      response.pick(
-        onData: (data) {
-          addressBookContacts = ObservableList.of(data.contacts ?? []);
-
-          addressBookContacts.sort((a, b) {
-            return b.weight!.compareTo(a.weight!);
-          });
-
-          addressBookLoaded = true;
-
-          _updateUnion(const PaymentMethodsUnion.success());
-        },
-      );
-    }
-
-    addressBookLoaded = true;
-    _updateUnion(const PaymentMethodsUnion.success());
-  }
-
-  @action
   void _updateUnion(PaymentMethodsUnion newUnion) {
     if (newUnion is Success) {
-      if (cardsLoaded && addressBookLoaded) {
+      if (cardsLoaded) {
         union = newUnion;
       }
     } else {
@@ -144,8 +113,7 @@ abstract class _PaymentMethodsStoreBase with Store {
     _logger.log(notifier, 'deleteCard');
 
     try {
-      if (card.integration == IntegrationType.circle ||
-          card.integration == null) {
+      if (card.integration == IntegrationType.circle || card.integration == null) {
         final model = DeleteCardRequestModel(cardId: card.id);
         final _ = sNetwork.getWalletModule().postDeleteCard(model);
       } else if (card.integration == IntegrationType.unlimint) {

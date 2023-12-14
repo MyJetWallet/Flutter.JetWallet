@@ -12,8 +12,11 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
+import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
+import 'package:jetwallet/core/services/zendesk_support_service/zendesk_service.dart';
 import 'package:jetwallet/features/actions/action_deposit/action_deposit.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
@@ -21,6 +24,7 @@ import 'package:jetwallet/features/auth/email_verification/store/email_verificat
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
+import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/clickable_underlined_text.dart';
 import 'package:jetwallet/features/send_gift/widgets/share_gift_result_bottom_sheet.dart';
 import 'package:jetwallet/features/withdrawal/model/withdrawal_confirm_model.dart';
@@ -391,44 +395,24 @@ class DeepLinkService {
     );
 
     //navigateToWallet
-    if (currency.isAssetBalanceEmpty && !currency.isPendingDeposit) {
-      if (getIt.isRegistered<AppStore>() &&
-          getIt.get<AppStore>().remoteConfigStatus is Success &&
-          getIt.get<AppStore>().authorizedStatus is Home) {
-        await sRouter.push(
-          EmptyWalletRouter(
-            currency: currency,
-          ),
-        );
-      } else {
-        getIt<RouteQueryService>().addToQuery(
-          RouteQueryModel(
-            action: RouteQueryAction.push,
-            query: EmptyWalletRouter(
-              currency: currency,
-            ),
-          ),
-        );
-      }
+
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      await sRouter.push(
+        WalletRouter(
+          currency: currency,
+        ),
+      );
     } else {
-      if (getIt.isRegistered<AppStore>() &&
-          getIt.get<AppStore>().remoteConfigStatus is Success &&
-          getIt.get<AppStore>().authorizedStatus is Home) {
-        await sRouter.push(
-          WalletRouter(
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          action: RouteQueryAction.push,
+          query: WalletRouter(
             currency: currency,
           ),
-        );
-      } else {
-        getIt<RouteQueryService>().addToQuery(
-          RouteQueryModel(
-            action: RouteQueryAction.push,
-            query: WalletRouter(
-              currency: currency,
-            ),
-          ),
-        );
-      }
+        ),
+      );
     }
   }
 
@@ -447,9 +431,7 @@ class DeepLinkService {
         [
           HomeRouter(
             children: [
-              MarketRouter(
-                initIndex: 1,
-              ),
+              MarketRouter(),
             ],
           ),
         ],
@@ -460,7 +442,7 @@ class DeepLinkService {
           action: RouteQueryAction.replace,
           query: HomeRouter(
             children: [
-              MarketRouter(initIndex: 1),
+              MarketRouter(),
             ],
           ),
           func: () {
@@ -476,44 +458,43 @@ class DeepLinkService {
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
       final kycState = getIt.get<KycService>();
+      final kycAlertHandler = getIt.get<KycAlertHandler>();
 
-      if (kycState.useSumsub) {
-        unawaited(
-          sRouter.push(
-            const KycVerificationSumsubRouter(),
-          ),
-        );
-      } else {
-        unawaited(
-          sRouter.push(
-            ChooseDocumentsRouter(
-              headerTitle: 'Verify your identity',
-            ),
-          ),
-        );
-      }
-      await sRouter.push(
-        ChooseDocumentsRouter(
-          headerTitle: 'Verify your identity',
-        ),
+      final isDepositAllow = kycState.depositStatus != kycOperationStatus(KycStatus.allowed);
+      final isWithdrawalAllow = kycState.withdrawalStatus != kycOperationStatus(KycStatus.allowed);
+
+      kycAlertHandler.handle(
+        status: isDepositAllow
+            ? kycState.depositStatus
+            : isWithdrawalAllow
+                ? kycState.withdrawalStatus
+                : kycState.tradeStatus,
+        isProgress: kycState.verificationInProgress,
+        currentNavigate: () {},
+        requiredDocuments: kycState.requiredDocuments,
+        requiredVerifications: kycState.requiredVerifications,
       );
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
-          func: () {
+          func: () async {
             final kycState = getIt.get<KycService>();
+            final kycAlertHandler = getIt.get<KycAlertHandler>();
 
-            if (kycState.useSumsub) {
-              sRouter.push(
-                const KycVerificationSumsubRouter(),
-              );
-            } else {
-              sRouter.push(
-                ChooseDocumentsRouter(
-                  headerTitle: 'Verify your identity',
-                ),
-              );
-            }
+            final isDepositAllow = kycState.depositStatus != kycOperationStatus(KycStatus.allowed);
+            final isWithdrawalAllow = kycState.withdrawalStatus != kycOperationStatus(KycStatus.allowed);
+
+            kycAlertHandler.handle(
+              status: isDepositAllow
+                  ? kycState.depositStatus
+                  : isWithdrawalAllow
+                      ? kycState.withdrawalStatus
+                      : kycState.tradeStatus,
+              isProgress: kycState.verificationInProgress,
+              currentNavigate: () {},
+              requiredDocuments: kycState.requiredDocuments,
+              requiredVerifications: kycState.requiredVerifications,
+            );
           },
         ),
       );
@@ -529,44 +510,24 @@ class DeepLinkService {
     );
 
     //navigateToWallet
-    if (currency.isAssetBalanceEmpty && !currency.isPendingDeposit) {
-      if (getIt.isRegistered<AppStore>() &&
-          getIt.get<AppStore>().remoteConfigStatus is Success &&
-          getIt.get<AppStore>().authorizedStatus is Home) {
-        await sRouter.push(
-          EmptyWalletRouter(
-            currency: currency,
-          ),
-        );
-      } else {
-        getIt<RouteQueryService>().addToQuery(
-          RouteQueryModel(
-            action: RouteQueryAction.push,
-            query: EmptyWalletRouter(
-              currency: currency,
-            ),
-          ),
-        );
-      }
+
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      await sRouter.push(
+        WalletRouter(
+          currency: currency,
+        ),
+      );
     } else {
-      if (getIt.isRegistered<AppStore>() &&
-          getIt.get<AppStore>().remoteConfigStatus is Success &&
-          getIt.get<AppStore>().authorizedStatus is Home) {
-        await sRouter.push(
-          WalletRouter(
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          action: RouteQueryAction.push,
+          query: WalletRouter(
             currency: currency,
           ),
-        );
-      } else {
-        getIt<RouteQueryService>().addToQuery(
-          RouteQueryModel(
-            action: RouteQueryAction.push,
-            query: WalletRouter(
-              currency: currency,
-            ),
-          ),
-        );
-      }
+        ),
+      );
     }
   }
 
@@ -615,18 +576,30 @@ class DeepLinkService {
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
-      await sRouter.push(
-        CrispRouter(
-          welcomeText: intl.crispSendMessage_hi,
-        ),
-      );
+      if (showZendesk) {
+        await getIt.get<ZenDeskService>().showZenDesk();
+      } else {
+        await sRouter.push(
+          CrispRouter(
+            welcomeText: intl.crispSendMessage_hi,
+          ),
+        );
+      }
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
           action: RouteQueryAction.push,
-          query: CrispRouter(
-            welcomeText: intl.crispSendMessage_hi,
-          ),
+          func: () async {
+            if (showZendesk) {
+              await getIt.get<ZenDeskService>().showZenDesk();
+            } else {
+              await sRouter.push(
+                CrispRouter(
+                  welcomeText: intl.crispSendMessage_hi,
+                ),
+              );
+            }
+          },
         ),
       );
     }

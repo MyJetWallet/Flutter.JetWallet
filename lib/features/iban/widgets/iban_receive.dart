@@ -52,7 +52,10 @@ class _IbanReceiveState extends State<IbanReceive> {
       child: Column(
         children: [
           const SpaceH12(),
-          const IbanTermsContainer(),
+          IbanTermsContainer(
+            text1: intl.iban_terms_1,
+            text2: intl.iban_terms_3,
+          ),
           const SpaceH24(),
           SPaddingH24(
             child: DecoratedBox(

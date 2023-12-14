@@ -6,13 +6,9 @@ class NotificationBox extends StatelessWidget {
     Key? key,
     required this.notifications,
     this.cardsFailed = false,
-    this.top = -5,
-    this.right = 0,
   }) : super(key: key);
 
   final int notifications;
-  final double top;
-  final double right;
   final bool cardsFailed;
 
   @override
@@ -23,52 +19,46 @@ class NotificationBox extends StatelessWidget {
 
     return notifications == 0 && !cardsFailed
         ? const SizedBox()
-        : Positioned(
-            right: right,
-            top: top,
-            child: Container(
-              margin: const EdgeInsets.only(
-                top: 6.0,
-                right: 6.0,
+        : Container(
+          margin: const EdgeInsets.only(
+            top: 6.0,
+            right: 6.0,
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(2.0),
+            decoration: BoxDecoration(
+              color: SColorsLight().white,
+              borderRadius: BorderRadius.circular(18.0),
+            ),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                minWidth: 18.0,
+                minHeight: 18.0,
               ),
-              child: Container(
-                padding: const EdgeInsets.all(2.0),
+              child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: SColorsLight().white,
+                  color: cardsFailed ? SColorsLight().red : SColorsLight().blue,
                   borderRadius: BorderRadius.circular(18.0),
                 ),
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    minWidth: 18.0,
-                    minHeight: 18.0,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 3.4,
+                    right: 3.4,
                   ),
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: cardsFailed
-                          ? SColorsLight().red
-                          : SColorsLight().blue,
-                      borderRadius: BorderRadius.circular(18.0),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: 3.4,
-                        right: 3.4,
-                      ),
-                      child: Center(
-                        child: Text(
-                          text,
-                          style: TextStyle(
-                            fontSize: 9.0,
-                            color: SColorsLight().white,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
+                  child: Center(
+                    child: Text(
+                      text,
+                      style: TextStyle(
+                        fontSize: 9.0,
+                        color: SColorsLight().white,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
                 ),
               ),
             ),
-          );
+          ),
+        );
   }
 }

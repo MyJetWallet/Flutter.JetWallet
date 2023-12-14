@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
-import 'package:jetwallet/features/rewards_flow/ui/reward_open_screen.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -182,7 +181,7 @@ class RewardClosedCardState extends State<RewardClosedCard> with TickerProviderS
                             height: 16,
                           ),
                         ),
-                      ]
+                      ],
                     ],
                   ),
                 )
@@ -244,7 +243,6 @@ class RewardClosedCardState extends State<RewardClosedCard> with TickerProviderS
             if (widget.spinData != null) ...[
               Text(
                 volumeFormat(
-                  prefix: currency.prefixSymbol,
                   decimal: widget.spinData?.amount ?? Decimal.zero,
                   accuracy: currency.accuracy,
                   symbol: currency.symbol,

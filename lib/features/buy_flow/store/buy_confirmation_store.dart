@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'dart:developer';
 
+import 'package:data_channel/data_channel.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dio/dio.dart';
 import 'package:encrypt/encrypt.dart';
@@ -15,9 +15,14 @@ import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/core/services/user_info/user_info_service.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_bank_card_input.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/show_bank_card_cvv_bottom_sheet.dart';
+import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
+import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/helpers/country_code_by_user_register.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
@@ -29,24 +34,38 @@ import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_create/card_buy_create_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_execute/card_buy_execute_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_info/card_buy_info_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_info/card_buy_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
+import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/swap_execute_quote/execute_quote_request_model.dart';
 
 part 'buy_confirmation_store.g.dart';
 
-class BuyConfirmationStore extends _BuyConfirmationStoreBase
-    with _$BuyConfirmationStore {
+class BuyConfirmationStore extends _BuyConfirmationStoreBase with _$BuyConfirmationStore {
   BuyConfirmationStore() : super();
 
-  static BuyConfirmationStore of(BuildContext context) =>
-      Provider.of<BuyConfirmationStore>(context, listen: false);
+  static BuyConfirmationStore of(BuildContext context) => Provider.of<BuyConfirmationStore>(context, listen: false);
 }
 
 abstract class _BuyConfirmationStoreBase with Store {
+  @computed
+  PaymenthMethodType get pmType => card != null
+      ? PaymenthMethodType.card
+      : account?.isClearjuctionAccount ?? false
+          ? PaymenthMethodType.cjAccount
+          : PaymenthMethodType.unlimitAccount;
+
+  @computed
+  String get buyPM => card != null
+      ? 'Saved card ${card?.last4}'
+      : account?.isClearjuctionAccount ?? false
+          ? 'CJ  ${account?.last4IbanCharacters}'
+          : 'Unlimint  ${account?.last4IbanCharacters}';
+
   @observable
   StackLoaderStore loader = StackLoaderStore();
 
@@ -64,8 +83,11 @@ abstract class _BuyConfirmationStoreBase with Store {
   }
 
   final cancelToken = CancelToken();
-  void cancelAllRequest() {
+  Future<void> cancelAllRequest() async {
     cancelToken.cancel('exit');
+
+    getIt<AppStore>().generateNewSessionID();
+    await getIt.get<SNetwork>().init(getIt<AppStore>().sessionID);
 
     getIt.get<SimpleLoggerService>().log(
           level: Level.info,
@@ -98,9 +120,11 @@ abstract class _BuyConfirmationStoreBase with Store {
   int actualTimeInSecond = 0;
 
   @observable
-  Decimal price = Decimal.zero;
+  bool deviceBindingRequired = false;
 
   @observable
+  Decimal price = Decimal.zero;
+
   AnimationController? timerAnimation;
   @observable
   int timer = 0;
@@ -116,95 +140,85 @@ abstract class _BuyConfirmationStoreBase with Store {
   bool wasAction = false;
 
   @observable
+  String ibanBuyDestination = '';
+  @observable
+  String ibanBuyBeneficiary = '';
+
+  @observable
   bool isBankTermsChecked = false;
   @observable
   bool firstBuy = false;
   @action
   void setIsBankTermsChecked() {
     isBankTermsChecked = !isBankTermsChecked;
-  }
 
-  @observable
-  bool isLocalTermsChecked = false;
-  @action
-  void setIsLocalTermsChecked() {
-    isLocalTermsChecked = !isLocalTermsChecked;
-  }
-
-  @observable
-  bool isP2PTermsChecked = false;
-  @action
-  void seIsP2PTermsChecked() {
-    isP2PTermsChecked = !isP2PTermsChecked;
+    sAnalytics.tapToAgreeToTheTCAndPrivacyPolicyBuy(
+      pmType: pmType,
+      buyPM: buyPM,
+      sourceCurrency: 'EUR',
+      destinationWallet: buyAsset ?? '',
+      sourceBuyAmount: paymentAmount.toString(),
+      destinationBuyAmount: buyAmount.toString(),
+      isCheckboxNowTrue: isBankTermsChecked,
+    );
   }
 
   @computed
-  bool get getCheckbox {
-    switch (category) {
-      case PaymentMethodCategory.cards:
-        return isBankTermsChecked;
-      case PaymentMethodCategory.local:
-        return isLocalTermsChecked;
-      case PaymentMethodCategory.p2p:
-        return isP2PTermsChecked;
-      default:
-        return isBankTermsChecked;
-    }
-  }
+  bool get getCheckbox => isBankTermsChecked;
 
   @observable
   bool showProcessing = false;
 
   @computed
-  CurrencyModel get buyCurrency =>
-      sSignalRModules.currenciesWithHiddenList.firstWhere(
-        (currency) => currency.symbol == (buyAssetSymbol ?? 'BTC'),
+  CurrencyModel get buyCurrency => sSignalRModules.currenciesWithHiddenList.firstWhere(
+        (currency) => currency.symbol == (buyAsset ?? 'BTC'),
         orElse: () => CurrencyModel.empty(),
       );
 
   @computed
-  CurrencyModel get depositFeeCurrency =>
-      sSignalRModules.currenciesWithHiddenList.firstWhere(
+  CurrencyModel get payCurrency => sSignalRModules.currenciesWithHiddenList.firstWhere(
+        (currency) => currency.symbol == 'EUR',
+        orElse: () => CurrencyModel.empty(),
+      );
+
+  @computed
+  CurrencyModel get depositFeeCurrency => sSignalRModules.currenciesWithHiddenList.firstWhere(
         (currency) => currency.symbol == (depositFeeAsset ?? 'BTC'),
         orElse: () => CurrencyModel.empty(),
       );
 
   @computed
-  CurrencyModel get tradeFeeCurreny =>
-      sSignalRModules.currenciesWithHiddenList.firstWhere(
+  CurrencyModel get tradeFeeCurreny => sSignalRModules.currenciesWithHiddenList.firstWhere(
         (currency) => currency.symbol == (tradeFeeAsset ?? 'BTC'),
         orElse: () => CurrencyModel.empty(),
       );
 
   CircleCard? card;
-  BuyMethodDto? method;
-  String? buyAssetSymbol;
-  String payAmount = '';
-  String payAsset = '';
-  String preset = '';
+  SimpleBankingAccount? account;
+  bool isFromFixed = true;
 
   @action
-  Future<void> loadPreview(
-    String pAmount,
-    String bAsset,
-    String pAsset,
-    BuyMethodDto? inputMethod,
+  Future<void> loadPreview({
+    String? pAmount,
+    String? bAmount,
+    required String bAsset,
+    required bool newIsFromFixed,
     CircleCard? inputCard,
-    String? inputPreset,
-  ) async {
+    SimpleBankingAccount? inputAccount,
+  }) async {
     isDataLoaded = false;
 
-    category =
-        card == null ? inputMethod!.category! : PaymentMethodCategory.cards;
+    category = inputCard == null ? PaymentMethodCategory.account : PaymentMethodCategory.cards;
 
     loader.startLoadingImmediately();
 
-    payAmount = pAmount;
-    payAsset = pAsset;
+    isFromFixed = newIsFromFixed;
+    paymentAmount = Decimal.parse(pAmount ?? '0');
+    paymentAsset = account?.currency ?? 'EUR';
     card = inputCard;
-    method = inputMethod;
-    buyAssetSymbol = bAsset;
-    preset = inputPreset ?? 'false';
+    account = inputAccount;
+    buyAsset = bAsset;
+    buyAmount = Decimal.parse(bAmount ?? '0');
 
     await _isChecked();
 
@@ -212,25 +226,15 @@ abstract class _BuyConfirmationStoreBase with Store {
 
     loader.finishLoadingImmediately();
 
-    sAnalytics.newBuyTapContinue(
-      sourceCurrency: depositFeeCurrency.symbol,
-      sourceAmount: paymentAmount.toString(),
-      destinationCurrency: bAsset,
-      paymentMethodType: category.name,
-      paymentMethodName:
-          category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-      paymentMethodCurrency: depositFeeCurrency.symbol,
-      destinationAmount: '$buyAmount',
-      quickAmount: preset,
-    );
-
     isDataLoaded = true;
 
-    sAnalytics.newBuyOrderSummaryView(
-      paymentMethodType: category.name,
-      paymentMethodName:
-          category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-      paymentMethodCurrency: depositFeeCurrency.symbol,
+    sAnalytics.buyOrderSummaryScreenView(
+      pmType: pmType,
+      buyPM: buyPM,
+      sourceCurrency: 'EUR',
+      destinationWallet: buyAsset ?? '',
+      sourceBuyAmount: paymentAmount.toString(),
+      destinationBuyAmount: buyAmount.toString(),
     );
   }
 
@@ -238,37 +242,75 @@ abstract class _BuyConfirmationStoreBase with Store {
   Future<void> getActualData() async {
     if (terminateUpdates) return;
 
-    final model = getModelForCardBuyReq(
-      category,
-      payAmount,
-      buyAssetSymbol ?? '',
-      payAsset,
-    );
-
     try {
-      final response =
-          await sNetwork.getWalletModule().postCardBuyCreate(model);
+      if (account?.accountId == 'clearjuction_account') {
+        final model = GetQuoteRequestModel(
+          isFromFixed: isFromFixed,
+          fromAssetAmount: isFromFixed ? paymentAmount : null,
+          fromAssetSymbol: paymentAsset ?? '',
+          toAssetAmount: isFromFixed ? null : buyAmount,
+          toAssetSymbol: buyAsset ?? '',
+        );
 
-      response.pick(
-        onData: (data) {
-          paymentAmount = data.paymentAmount;
-          paymentAsset = data.paymentAsset;
-          buyAmount = data.buyAmount;
-          buyAsset = data.buyAsset;
-          depositFeeAmount = data.depositFeeAmount;
-          depositFeeAsset = data.depositFeeAsset;
-          tradeFeeAmount = data.tradeFeeAmount;
-          tradeFeeAsset = data.tradeFeeAsset;
-          rate = data.rate;
-          paymentId = data.paymentId ?? '';
-          actualTimeInSecond = data.actualTimeInSecond ?? 15;
-        },
-        onError: (error) {
-          loader.finishLoadingImmediately();
+        final response = await sNetwork.getWalletModule().postGetQuote(model);
 
-          _showFailureScreen(error.cause);
-        },
-      );
+        response.pick(
+          onData: (data) {
+            paymentAmount = data.fromAssetAmount;
+            paymentAsset = data.fromAssetSymbol;
+            buyAmount = data.toAssetAmount;
+            buyAsset = data.toAssetSymbol;
+            depositFeeAmount = Decimal.zero;
+            depositFeeAsset = data.fromAssetSymbol;
+            tradeFeeAmount = data.feeAmount;
+            tradeFeeAsset = data.feeAsset;
+            rate = data.price;
+            paymentId = data.operationId;
+            actualTimeInSecond = data.expirationTime;
+            deviceBindingRequired = false;
+          },
+          onError: (error) {
+            loader.finishLoadingImmediately();
+
+            _showFailureScreen(error.cause);
+          },
+        );
+      } else {
+        final model = getModelForCardBuyReq(
+          category: category,
+          pAmount: paymentAmount,
+          bAmount: buyAmount,
+          bAsset: buyAsset ?? '',
+          pAsset: paymentAsset ?? '',
+          buyFixed: !isFromFixed,
+        );
+
+        final response = await sNetwork.getWalletModule().postCardBuyCreate(model);
+
+        response.pick(
+          onData: (data) {
+            paymentAmount = data.paymentAmount;
+            paymentAsset = data.paymentAsset;
+            buyAmount = data.buyAmount;
+            buyAsset = data.buyAsset;
+            depositFeeAmount = data.depositFeeAmount;
+            depositFeeAsset = data.depositFeeAsset;
+            tradeFeeAmount = data.tradeFeeAmount;
+            tradeFeeAsset = data.tradeFeeAsset;
+            rate = data.rate;
+            paymentId = data.paymentId ?? '';
+            actualTimeInSecond = data.actualTimeInSecond;
+            deviceBindingRequired = data.deviceBindingRequired;
+            ibanBuyDestination = data.ibanBuyDestination ?? '';
+            ibanBuyBeneficiary = data.ibanBuyBeneficiary ?? '';
+          },
+          onError: (error) {
+            loader.finishLoadingImmediately();
+
+            _showFailureScreen(error.cause);
+          },
+        );
+      }
     } on ServerRejectException catch (error) {
       loader.finishLoadingImmediately();
 
@@ -284,32 +326,40 @@ abstract class _BuyConfirmationStoreBase with Store {
     }
   }
 
-  CardBuyCreateRequestModel getModelForCardBuyReq(
-    PaymentMethodCategory category,
-    String pAmount,
-    String bAsset,
-    String pAsset,
-  ) {
+  CardBuyCreateRequestModel getModelForCardBuyReq({
+    required bool buyFixed,
+    required PaymentMethodCategory category,
+    Decimal? pAmount,
+    required String pAsset,
+    Decimal? bAmount,
+    required String bAsset,
+  }) {
     switch (category) {
       case PaymentMethodCategory.cards:
         return CardBuyCreateRequestModel(
-          paymentMethod: convertMethodToCirclePaymentMethod(method!),
-          paymentAmount: Decimal.parse(pAmount),
+          buyFixed: buyFixed,
+          paymentMethod: convertMethodToCirclePaymentMethod(category),
+          paymentAmount: pAmount,
+          buyAmount: buyAmount,
           buyAsset: bAsset,
           paymentAsset: pAsset,
           cardPaymentData: CirclePaymentDataModel(cardId: card!.id),
         );
-      case PaymentMethodCategory.local:
+      case PaymentMethodCategory.account:
         return CardBuyCreateRequestModel(
-          paymentMethod: convertMethodToCirclePaymentMethod(method!),
-          paymentAmount: Decimal.parse(pAmount),
+          buyFixed: buyFixed,
+          paymentMethod: convertMethodToCirclePaymentMethod(category),
+          paymentAmount: pAmount,
+          buyAmount: buyAmount,
           buyAsset: bAsset,
           paymentAsset: pAsset,
+          ibanPaymentData: IbanPaymentPreview(accountId: account?.accountId ?? ''),
         );
       default:
         return CardBuyCreateRequestModel(
-          paymentMethod: convertMethodToCirclePaymentMethod(method!),
-          paymentAmount: Decimal.parse(pAmount),
+          buyFixed: true,
+          paymentMethod: convertMethodToCirclePaymentMethod(category),
+          paymentAmount: pAmount,
           buyAsset: bAsset,
           paymentAsset: pAsset,
         );
@@ -320,18 +370,20 @@ abstract class _BuyConfirmationStoreBase with Store {
   Future<void> _showFailureScreen(String error) async {
     loader.finishLoadingImmediately();
 
-    sAnalytics.newBuyFailedView(
-      errorCode: error,
-      firstTimeBuy: '$firstBuy',
-      paymentMethodType: category.name,
-      paymentMethodName:
-          category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-      paymentMethodCurrency: depositFeeCurrency.symbol,
-    );
+    errorHasHeppened = true;
 
     if (sRouter.currentPath != '/buy_flow_confirmation') {
       return;
     }
+
+    sAnalytics.failedBuyEndScreenView(
+      pmType: pmType,
+      buyPM: buyPM,
+      sourceCurrency: 'EUR',
+      destinationWallet: buyAsset ?? '',
+      sourceBuyAmount: paymentAmount.toString(),
+      destinationBuyAmount: buyAmount.toString(),
+    );
 
     unawaited(
       sRouter.push(
@@ -340,6 +392,14 @@ abstract class _BuyConfirmationStoreBase with Store {
           secondaryText: error,
           primaryButtonName: intl.previewBuyWithAsset_close,
           onPrimaryButtonTap: () {
+            sAnalytics.tapOnTheCloseButtonOnFailedBuyEndScreen(
+              pmType: pmType,
+              buyPM: buyPM,
+              sourceCurrency: 'EUR',
+              destinationWallet: buyAsset ?? '',
+              sourceBuyAmount: paymentAmount.toString(),
+              destinationBuyAmount: buyAmount.toString(),
+            );
             navigateToRouter();
           },
         ),
@@ -352,8 +412,6 @@ abstract class _BuyConfirmationStoreBase with Store {
     if (terminateUpdates) return;
 
     try {
-      await getActualData();
-
       price = await getConversionPrice(
             ConversionPriceInput(
               baseAssetSymbol: buyAsset!,
@@ -362,10 +420,10 @@ abstract class _BuyConfirmationStoreBase with Store {
           ) ??
           Decimal.zero;
 
-      if (category == PaymentMethodCategory.cards) {
-        _refreshTimerAnimation(actualTimeInSecond);
-        _refreshTimer(actualTimeInSecond);
-      }
+      await getActualData();
+
+      _refreshTimerAnimation(actualTimeInSecond);
+      _refreshTimer(actualTimeInSecond);
       timerLoading = false;
     } on ServerRejectException catch (error) {
       await _showFailureScreen(error.cause);
@@ -387,10 +445,14 @@ abstract class _BuyConfirmationStoreBase with Store {
     timerAnimation!.countdown();
   }
 
+  bool errorHasHeppened = false;
+
   @action
   void _refreshTimer(int initial) {
     _timer.cancel();
     timer = initial;
+
+    if (errorHasHeppened) return;
 
     _timer = Timer.periodic(
       const Duration(seconds: 1),
@@ -412,44 +474,42 @@ abstract class _BuyConfirmationStoreBase with Store {
 
   @action
   Future<void> createPayment() async {
-    sAnalytics.newBuyTapConfirm(
-      sourceCurrency: depositFeeCurrency.symbol,
-      destinationCurrency: buyAssetSymbol ?? '',
-      sourceAmount: '$paymentAmount',
-      destinationAmount: '$buyAmount',
-      exchangeRate: '1 $buyAssetSymbol = ${volumeFormat(
-        prefix: depositFeeCurrency.prefixSymbol,
-        symbol: depositFeeCurrency.symbol,
-        accuracy: buyCurrency.accuracy,
-        decimal: rate ?? Decimal.zero,
-      )}',
-      paymentFee: '$depositFeeAmount',
-      firstTimeBuy: '$firstBuy',
-      paymentMethodType: category.name,
-      paymentMethodName:
-          category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-      paymentMethodCurrency: depositFeeCurrency.symbol,
-    );
-
     unawaited(_setIsChecked());
     unawaited(_saveLastPaymentMethod());
 
     if (category == PaymentMethodCategory.cards) {
-      sAnalytics.newBuyEnterCvvView(firstTimeBuy: '$firstBuy');
+      sAnalytics.enterCVVForBuyScreenView(
+        pmType: pmType,
+        buyPM: buyPM,
+        sourceCurrency: 'EUR',
+        destinationWallet: buyAsset ?? '',
+        sourceBuyAmount: paymentAmount.toString(),
+        destinationBuyAmount: buyAmount.toString(),
+      );
 
       showBankCardCvvBottomSheet(
         context: sRouter.navigatorKey.currentContext!,
-        header: '${intl.previewBuyWithCircle_enter} CVV \n'
-            '${intl.previewBuyWithCircle_for} '
+        header: '${intl.previewBuyWithCircle_enter} CVV '
+            '${intl.previewBuyWithCircle_for} \n'
             '${card!.cardLabel}'
             ' •••• ${card!.last4}',
         onCompleted: (cvvNew) {
           cvv = cvvNew;
-          sRouter.pop();
+          Navigator.of(sRouter.navigatorKey.currentContext!).pop(true);
 
           _requestPaymentCard();
         },
-        onDissmis: () {},
+        onDissmis: (result) {
+          if (result == true) return;
+          sAnalytics.tapOnTheCloseOnCVVPopup(
+            pmType: pmType,
+            buyPM: buyPM,
+            sourceCurrency: 'EUR',
+            destinationWallet: buyAsset ?? '',
+            sourceBuyAmount: paymentAmount.toString(),
+            destinationBuyAmount: buyAmount.toString(),
+          );
+        },
         input: PreviewBuyWithBankCardInput(
           amount: paymentAmount.toString(),
           currency: depositFeeCurrency,
@@ -459,116 +519,139 @@ abstract class _BuyConfirmationStoreBase with Store {
           quickAmount: 'false',
         ),
       );
-    } else {
-      await _requestPaymentLocal();
+    } else if (category == PaymentMethodCategory.account) {
+      await _requestPaymentAccaunt();
     }
-
-    //await setLastUsedPaymentMethod();
   }
 
   @action
-  Future<void> _requestPaymentLocal() async {
-    showProcessing = true;
-    wasAction = true;
-
-    loader.startLoadingImmediately();
-
-    termiteUpdate();
-
+  Future<void> _requestPaymentAccaunt() async {
+    var pin = '';
     try {
-      final model = CardBuyExecuteRequestModel(
-        paymentId: paymentId,
-        paymentMethod: convertMethodToCirclePaymentMethod(method!),
-      );
+      termiteUpdate();
 
-      final resp = await sNetwork.getWalletModule().postCardBuyExecute(
-            model,
-            cancelToken: cancelToken,
-          );
-
-      if (resp.hasError) {
-        unawaited(_showFailureScreen(resp.error?.cause ?? ''));
-
-        return;
-      } else {
-        final model = CardBuyInfoRequestModel(
-          paymentId: paymentId,
+      if (account?.accountId != 'clearjuction_account') {
+        await sRouter.push(
+          PinScreenRoute(
+            union: const Change(),
+            isChangePhone: true,
+            onChangePhone: (String newPin) async {
+              pin = newPin;
+              await sRouter.pop();
+            },
+          ),
         );
 
-        final response =
-            await sNetwork.getWalletModule().postCardBuyInfo(model);
-        if (response.hasError) {
-          unawaited(_showFailureScreen(resp.error?.cause ?? ''));
+        if (pin == '') return;
+      }
 
-          return;
-        } else {
-          sAnalytics.paymentWevViewScreenView(
-            paymentMethodType: category.name,
-            paymentMethodName: category == PaymentMethodCategory.cards
-                ? 'card'
-                : method!.id.name,
-            paymentMethodCurrency: depositFeeCurrency.symbol,
-          );
+      showProcessing = true;
+      wasAction = true;
 
-          if (sRouter.currentPath != '/buy_flow_confirmation') {
-            return;
-          }
+      if (deviceBindingRequired) {
+        var continueBuying = false;
 
-          await sRouter.push(
-            Circle3dSecureWebViewRouter(
-              title: '',
-              url: response.data!.clientAction!.checkoutUrl ?? '',
-              asset: depositFeeCurrency.symbol,
-              amount: paymentAmount.toString(),
-              onSuccess: (payment, lastAction) {
-                loader.finishLoadingImmediately();
-                Navigator.pop(sRouter.navigatorKey.currentContext!);
+        final formatedAmaunt = volumeFormat(
+          symbol: paymentAsset ?? '',
+          accuracy: payCurrency.accuracy,
+          decimal: paymentAmount ?? Decimal.zero,
+        );
+        await Future.delayed(const Duration(milliseconds: 500));
+        await sShowAlertPopup(
+          sRouter.navigatorKey.currentContext!,
+          primaryText: '',
+          secondaryText:
+              '${intl.binding_phone_dialog_first_part} $formatedAmaunt ${intl.binding_phone_dialog_second_part} $simpleCompanyName',
+          primaryButtonName: intl.binding_phone_dialog_confirm,
+          secondaryButtonName: intl.binding_phone_dialog_cancel,
+          image: Image.asset(
+            infoLightAsset,
+            width: 80,
+            height: 80,
+            package: 'simple_kit',
+          ),
+          onPrimaryButtonTap: () {
+            continueBuying = true;
+            sRouter.pop();
+          },
+          onSecondaryButtonTap: () {
+            continueBuying = false;
+            sRouter.pop();
+          },
+        );
 
-                loader.startLoadingImmediately();
+        if (!continueBuying) return;
 
-                showProcessing = true;
-                paymentId = payment;
-                wasAction = true;
-
-                sAnalytics.newBuyProcessingView(
-                  firstTimeBuy: '$firstBuy',
-                  paymentMethodType: category.name,
-                  paymentMethodName: category == PaymentMethodCategory.cards
-                      ? 'card'
-                      : method!.id.name,
-                  paymentMethodCurrency: depositFeeCurrency.symbol,
-                );
-
-                loader.startLoadingImmediately();
+        final phoneNumber = countryCodeByUserRegister();
+        var isVerifaierd = false;
+        await sRouter.push(
+          PhoneVerificationRouter(
+            args: PhoneVerificationArgs(
+              isDeviceBinding: true,
+              phoneNumber: sUserInfo.phone,
+              activeDialCode: phoneNumber,
+              onVerified: () {
+                isVerifaierd = true;
+                sRouter.pop();
               },
-              onCancel: (payment) {
-                getIt.get<SimpleLoggerService>().log(
-                      level: Level.info,
-                      place: 'Email Confirmation Store',
-                      message: 'paymentWevViewClose',
-                    );
-
-                sAnalytics.paymentWevViewClose(
-                  paymentMethodType: category.name,
-                  paymentMethodName: category == PaymentMethodCategory.cards
-                      ? 'card'
-                      : method!.id.name,
-                  paymentMethodCurrency: depositFeeCurrency.symbol,
-                );
-
-                if (payment != null) {
-                  sRouter.pop();
-                }
-              },
-              onFailed: (error) {
-                Navigator.pop(sRouter.navigatorKey.currentContext!);
-
-                _showFailureScreen(error);
-              },
-              paymentId: paymentId,
             ),
-          );
-        }
+          ),
+        );
+        if (!isVerifaierd) return;
+      }
+
+      loader.startLoadingImmediately();
+
+      late DC<ServerRejectException, dynamic> resp;
+
+      if (account?.accountId == 'clearjuction_account') {
+        final model = ExecuteQuoteRequestModel(
+          operationId: paymentId,
+          price: price,
+          fromAssetSymbol: paymentAsset!,
+          toAssetSymbol: buyAsset!,
+          fromAssetAmount: paymentAmount,
+          toAssetAmount: buyAmount,
+        );
+
+        resp = await sNetwork.getWalletModule().postExecuteQuote(model);
+      } else {
+        final model = CardBuyExecuteRequestModel(
+          paymentId: paymentId,
+          paymentMethod: convertMethodToCirclePaymentMethod(category),
+          ibanPaymentData: IbanPaymentData(
+            accountId: account?.accountId,
+            pin: pin,
+          ),
+        );
+
+        resp = await sNetwork.getWalletModule().postCardBuyExecute(
+              model,
+              cancelToken: cancelToken,
+            );
+      }
+
+      if (resp.hasError) {
+        await _showFailureScreen(resp.error?.cause ?? '');
+
+        return;
+      }
+
+      if (sRouter.currentPath != '/buy_flow_confirmation') {
+        return;
+      }
+
+      if (isWaitingSkipped) {
+        return;
+      }
+
+      if (account?.accountId == 'clearjuction_account') {
+        unawaited(_showSuccessScreen(false));
+      } else {
+        await _requestPaymentInfo(
+          (_, __, ___, ____, _____) {},
+          '',
+        );
       }
     } on ServerRejectException catch (error) {
       unawaited(_showFailureScreen(error.cause));
@@ -593,11 +676,9 @@ abstract class _BuyConfirmationStoreBase with Store {
       final encryptedCvv = encrypter.encrypt('{"cvv":"$cvv"}');
       final base64EncodedCvv = encryptedCvv.base64;
 
-      log(method!.toString());
-
       final model = CardBuyExecuteRequestModel(
         paymentId: paymentId,
-        paymentMethod: convertMethodToCirclePaymentMethod(method!),
+        paymentMethod: convertMethodToCirclePaymentMethod(category),
         cardPaymentData: BankCardPaymentDataExecuteModel(
           cardId: card?.id,
           encKeyId: response.data?.data.keyId,
@@ -607,14 +688,6 @@ abstract class _BuyConfirmationStoreBase with Store {
 
       showProcessing = true;
       wasAction = true;
-
-      sAnalytics.newBuyProcessingView(
-        firstTimeBuy: '$firstBuy',
-        paymentMethodType: category.name,
-        paymentMethodName:
-            category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-        paymentMethodCurrency: depositFeeCurrency.symbol,
-      );
 
       loader.startLoadingImmediately();
 
@@ -637,12 +710,13 @@ abstract class _BuyConfirmationStoreBase with Store {
         (url, onSuccess, onCancel, onFailed, paymentId) {
           _setIsChecked();
 
-          sAnalytics.paymentWevViewScreenView(
-            paymentMethodType: category.name,
-            paymentMethodName: category == PaymentMethodCategory.cards
-                ? 'card'
-                : method!.id.name,
-            paymentMethodCurrency: depositFeeCurrency.symbol,
+          sAnalytics.threeDSecureScreenView(
+            pmType: pmType,
+            buyPM: buyPM,
+            sourceCurrency: 'EUR',
+            destinationWallet: buyAsset ?? '',
+            sourceBuyAmount: paymentAmount.toString(),
+            destinationBuyAmount: buyAmount.toString(),
           );
 
           sRouter.push(
@@ -653,7 +727,17 @@ abstract class _BuyConfirmationStoreBase with Store {
               amount: paymentAmount.toString(),
               onSuccess: onSuccess,
               onFailed: onFailed,
-              onCancel: onCancel,
+              onCancel: (text) {
+                sAnalytics.tapOnTheCloseButtonOn3DSecureScreen(
+                  pmType: pmType,
+                  buyPM: buyPM,
+                  sourceCurrency: 'EUR',
+                  destinationWallet: buyAsset ?? '',
+                  sourceBuyAmount: paymentAmount.toString(),
+                  destinationBuyAmount: buyAmount.toString(),
+                );
+                onCancel.call(text);
+              },
               paymentId: paymentId,
             ),
           );
@@ -662,15 +746,6 @@ abstract class _BuyConfirmationStoreBase with Store {
           showProcessing = true;
           wasAction = true;
           loader.startLoadingImmediately();
-
-          sAnalytics.newBuyProcessingView(
-            firstTimeBuy: '$firstBuy',
-            paymentMethodType: category.name,
-            paymentMethodName: category == PaymentMethodCategory.cards
-                ? 'card'
-                : method!.id.name,
-            paymentMethodCurrency: depositFeeCurrency.symbol,
-          );
         },
         '',
       );
@@ -717,12 +792,9 @@ abstract class _BuyConfirmationStoreBase with Store {
               data.status == CardBuyPaymentStatus.waitForPayment;
           final complete = data.status == CardBuyPaymentStatus.success;
           final failed = data.status == CardBuyPaymentStatus.fail;
-          final actionRequired =
-              data.status == CardBuyPaymentStatus.requireAction;
+          final actionRequired = data.status == CardBuyPaymentStatus.requireAction;
 
-          if (pending ||
-              (actionRequired &&
-                  lastAction == data.clientAction!.checkoutUrl)) {
+          if (pending || (actionRequired && lastAction == data.clientAction!.checkoutUrl)) {
             if (isWaitingSkipped) {
               return;
             }
@@ -760,14 +832,6 @@ abstract class _BuyConfirmationStoreBase with Store {
                 _requestPaymentInfo(onAction, lastAction);
               },
               (payment) {
-                sAnalytics.paymentWevViewClose(
-                  paymentMethodType: category.name,
-                  paymentMethodName: category == PaymentMethodCategory.cards
-                      ? 'card'
-                      : method!.id.name,
-                  paymentMethodCurrency: depositFeeCurrency.symbol,
-                );
-
                 if (payment != null) {
                   sRouter.pop();
                 }
@@ -794,12 +858,13 @@ abstract class _BuyConfirmationStoreBase with Store {
 
   @action
   Future<void> _showSuccessScreen(bool isGoogle) {
-    sAnalytics.newBuySuccessView(
-      firstTimeBuy: '$firstBuy',
-      paymentMethodType: category.name,
-      paymentMethodName:
-          category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-      paymentMethodCurrency: depositFeeCurrency.symbol,
+    sAnalytics.successBuyEndScreenView(
+      pmType: pmType,
+      buyPM: buyPM,
+      sourceCurrency: 'EUR',
+      destinationWallet: buyAsset ?? '',
+      sourceBuyAmount: paymentAmount.toString(),
+      destinationBuyAmount: buyAmount.toString(),
     );
 
     return sRouter
@@ -821,13 +886,31 @@ abstract class _BuyConfirmationStoreBase with Store {
                   )}',
             buttonText: intl.previewBuyWithUmlimint_saveCard,
             showProgressBar: true,
+            showCloseButton: true,
+            onCloseButton: () {
+              sAnalytics.tapOnTheCloseButtonOnSuccessBuyEndScreen(
+                pmType: pmType,
+                buyPM: buyPM,
+                sourceCurrency: 'EUR',
+                destinationWallet: buyAsset ?? '',
+                sourceBuyAmount: paymentAmount.toString(),
+                destinationBuyAmount: buyAmount.toString(),
+              );
+              sRouter.replaceAll([
+                const HomeRouter(
+                  children: [
+                    MyWalletsRouter(),
+                  ],
+                ),
+              ]);
+            },
           ),
         )
         .then(
           (value) => sRouter.replaceAll([
             const HomeRouter(
               children: [
-                PortfolioRouter(),
+                MyWalletsRouter(),
               ],
             ),
           ]),
@@ -844,28 +927,11 @@ abstract class _BuyConfirmationStoreBase with Store {
     try {
       final storage = sLocalStorageService;
 
-      switch (category) {
-        case PaymentMethodCategory.cards:
-          final status = await storage.getValue(checkedBankCard);
-          if (status != null) {
-            isBankTermsChecked = true;
-          } else {
-            firstBuy = true;
-          }
-          break;
-        case PaymentMethodCategory.local:
-          final status = await storage.getValue(checkedLocalTerms);
-          if (status != null) {
-            isLocalTermsChecked = true;
-          }
-          break;
-        case PaymentMethodCategory.p2p:
-          final status = await storage.getValue(checkedP2PTerms);
-          if (status != null) {
-            isP2PTermsChecked = true;
-          }
-          break;
-        default:
+      final status = await storage.getValue(checkedBankCard);
+      if (status != null) {
+        isBankTermsChecked = true;
+      } else {
+        firstBuy = true;
       }
     } catch (e) {
       getIt.get<SimpleLoggerService>().log(
@@ -881,21 +947,8 @@ abstract class _BuyConfirmationStoreBase with Store {
     try {
       final storage = sLocalStorageService;
 
-      switch (category) {
-        case PaymentMethodCategory.cards:
-          await storage.setString(checkedBankCard, 'true');
-          isBankTermsChecked = true;
-          break;
-        case PaymentMethodCategory.local:
-          await storage.setString(checkedLocalTerms, 'true');
-          isLocalTermsChecked = true;
-          break;
-        case PaymentMethodCategory.p2p:
-          await storage.setString(checkedP2PTerms, 'true');
-          isP2PTermsChecked = true;
-          break;
-        default:
-      }
+      await storage.setString(checkedBankCard, 'true');
+      isBankTermsChecked = true;
     } catch (e) {
       getIt.get<SimpleLoggerService>().log(
             level: Level.error,
@@ -912,22 +965,13 @@ abstract class _BuyConfirmationStoreBase with Store {
         return '';
       case PaymentMethodCategory.local:
         return intl.buy_confirmation_local_p2p_processing_text;
-      case PaymentMethodCategory.p2p:
-        return intl.buy_confirmation_local_p2p_processing_text;
+
       default:
         return '';
     }
   }
 
-  void skipProcessing() {
-    sAnalytics.newBuyTapCloseProcessing(
-      firstTimeBuy: '$firstBuy',
-      paymentMethodType: category.name,
-      paymentMethodName:
-          category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-      paymentMethodCurrency: depositFeeCurrency.symbol,
-    );
-  }
+  void skipProcessing() {}
 
   Future<void> _saveLastPaymentMethod() async {
     try {
@@ -940,18 +984,7 @@ abstract class _BuyConfirmationStoreBase with Store {
             card?.id ?? '',
           );
           break;
-        case PaymentMethodCategory.local:
-          await storage.setString(
-            localLastMethodId,
-            method?.id.toString() ?? '',
-          );
-          break;
-        case PaymentMethodCategory.p2p:
-          await storage.setString(
-            p2pLastMethodId,
-            method?.id.toString() ?? '',
-          );
-          break;
+
         default:
       }
     } catch (e) {
@@ -964,38 +997,12 @@ abstract class _BuyConfirmationStoreBase with Store {
   }
 }
 
-CirclePaymentMethod convertMethodToCirclePaymentMethod(BuyMethodDto method) {
-  switch (method.id) {
-    case PaymentMethodType.bankCard:
+CirclePaymentMethod convertMethodToCirclePaymentMethod(PaymentMethodCategory method) {
+  switch (method) {
+    case PaymentMethodCategory.cards:
       return CirclePaymentMethod.bankCard;
-    case PaymentMethodType.unlimintAlternative:
-      return CirclePaymentMethod.unlimintAlr;
-    case PaymentMethodType.unlimintCard:
-      return CirclePaymentMethod.unlimint;
-    case PaymentMethodType.pix:
-      return CirclePaymentMethod.pix;
-    case PaymentMethodType.picpay:
-      return CirclePaymentMethod.picpay;
-    case PaymentMethodType.convenienceStore:
-      return CirclePaymentMethod.convenienceStore;
-    case PaymentMethodType.codi:
-      return CirclePaymentMethod.codi;
-    case PaymentMethodType.spei:
-      return CirclePaymentMethod.spei;
-    case PaymentMethodType.oxxo:
-      return CirclePaymentMethod.oxxo;
-    case PaymentMethodType.efecty:
-      return CirclePaymentMethod.efecty;
-    case PaymentMethodType.baloto:
-      return CirclePaymentMethod.baloto;
-    case PaymentMethodType.davivienda:
-      return CirclePaymentMethod.davivienda;
-    case PaymentMethodType.pagoEfectivo:
-      return CirclePaymentMethod.pagoEfectivo;
-    case PaymentMethodType.directBankingEurope:
-      return CirclePaymentMethod.directBankingEurope;
-    case PaymentMethodType.paymeP2P:
-      return CirclePaymentMethod.paymeP2P;
+    case PaymentMethodCategory.account:
+      return CirclePaymentMethod.ibanTransferUnlimint;
     default:
       return CirclePaymentMethod.bankCard;
   }

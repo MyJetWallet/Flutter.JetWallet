@@ -45,8 +45,7 @@ String localizedMonth(
 }
 
 bool isEmailValid(String email) {
-  const pattern =
-      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+  const pattern = r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
       r'{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]'
       r'{0,253}[a-zA-Z0-9])?)*$';
 
@@ -60,8 +59,7 @@ bool isPasswordValid(String password) {
 }
 
 bool isPasswordLengthValid(String password) {
-  return password.length >= minAmountOfCharsInPassword &&
-      password.length < maxAmountOfCharsInPassword;
+  return password.length >= minAmountOfCharsInPassword && password.length < maxAmountOfCharsInPassword;
 }
 
 bool isPasswordHasAtLeastOneLetter(String password) {
@@ -200,10 +198,9 @@ bool validWeakPhoneNumber(String value) {
 
 /// Used for input fields on actions
 String formatCurrencyStringAmount({
-  @Deprecated('The parameter is not used')
-  String? prefix,
+  @Deprecated('The parameter is not used') String? prefix,
   required String value,
-  required String symbol,
+  String? symbol,
 }) {
   final chars = value.split('');
 
@@ -227,12 +224,11 @@ String formatCurrencyStringAmount({
   final formatter = NumberFormat.decimalPattern();
 
   final wholePart2 = Decimal.tryParse(wholePart.toString()) ?? Decimal.zero;
-  final wholePart3 =
-      formatter.format(DecimalIntl(wholePart2)).replaceAll(',', ' ');
+  final wholePart3 = formatter.format(DecimalIntl(wholePart2)).replaceAll(',', ' ');
 
   final amountPart = beforeDecimal ? wholePart3 : '$wholePart3.$decimalPart';
 
-  return '$amountPart $symbol';
+  return symbol != null ? '$amountPart $symbol' : amountPart;
 }
 
 String convertToUsd(

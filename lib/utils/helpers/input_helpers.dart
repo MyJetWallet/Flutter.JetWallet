@@ -22,13 +22,11 @@ String valueBasedOnSelectedPercent({
   required CurrencyModel currency,
 }) {
   if (selected == SelectedPercent.pct25) {
-    final value =
-        (availableBalance ?? currency.assetBalance) * Decimal.parse('0.25');
+    final value = (availableBalance ?? currency.assetBalance) * Decimal.parse('0.25');
 
     return '$value';
   } else if (selected == SelectedPercent.pct50) {
-    final value =
-        (availableBalance ?? currency.assetBalance) * Decimal.parse('0.50');
+    final value = (availableBalance ?? currency.assetBalance) * Decimal.parse('0.50');
 
     return '$value';
   } else if (selected == SelectedPercent.pct100) {
@@ -46,6 +44,7 @@ String responseOnInputAction({
   required String oldInput,
   required String newInput,
   required int accuracy,
+  int wholePartLenght = 15,
 }) {
   if (newInput == backspace) {
     return oldInput.length > 1 ? removeCharsFrom(oldInput, 1) : zero;
@@ -57,6 +56,8 @@ String responseOnInputAction({
     if (oldInput.contains(period) || accuracy == 0) {
       return oldInput;
     }
+  } else if (!oldInput.contains(period) && oldInput.length >= wholePartLenght) {
+    return oldInput;
   } else if (numberOfCharsAfterDecimal(oldInput) >= accuracy) {
     if (accuracy != 0) {
       return oldInput;
@@ -172,6 +173,22 @@ InputError onGloballyWithdrawInputErrorHandler(
     final value = Decimal.parse(input);
 
     if (currency.assetBalance < value) {
+      return InputError.notEnoughFunds;
+    }
+  }
+
+  return InputError.none;
+}
+
+InputError onEurWithdrawInputErrorHandler(
+  String input,
+  Decimal balance,
+  CardLimitsModel? limits,
+) {
+  if (input.isNotEmpty) {
+    final value = Decimal.parse(input);
+
+    if (balance < value) {
       return InputError.notEnoughFunds;
     }
   }

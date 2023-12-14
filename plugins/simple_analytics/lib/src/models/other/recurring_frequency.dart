@@ -30,8 +30,7 @@ enum AnalyticsSendMethods {
   gift,
 }
 
-extension AnalyticsSendMethodsAnalyticsSendMethodsCodesExtension
-    on AnalyticsSendMethods {
+extension AnalyticsSendMethodsAnalyticsSendMethodsCodesExtension on AnalyticsSendMethods {
   int get code {
     switch (this) {
       case AnalyticsSendMethods.cryptoWallet:
@@ -44,4 +43,45 @@ extension AnalyticsSendMethodsAnalyticsSendMethodsCodesExtension
         return 3;
     }
   }
+}
+
+enum GlobalHistoryTab {
+  all,
+  pending,
+}
+
+extension GlobalHistoryTabName on GlobalHistoryTab {
+  String get name {
+    switch (this) {
+      case GlobalHistoryTab.all:
+        return 'All';
+      case GlobalHistoryTab.pending:
+        return 'Pending';
+    }
+  }
+}
+
+enum PaymenthMethodType {
+  card('card'),
+  cjAccount('CJ account'),
+  unlimitAccount('Unlimit account');
+
+  const PaymenthMethodType(this.name);
+  final String name;
+}
+
+enum NowInputType {
+  fiat('Fiat'),
+  crypro('Crypto');
+
+  const NowInputType(this.name);
+  final String name;
+}
+
+enum FeeType {
+  payment('Payment'),
+  processing('Processing');
+
+  const FeeType(this.name);
+  final String name;
 }

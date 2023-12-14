@@ -16,8 +16,7 @@ class SimpleMarketHeaderFilter extends StatefulWidget {
   final int activeFilters;
 
   @override
-  State<SimpleMarketHeaderFilter> createState() =>
-      _SimpleMarketHeaderFilterState();
+  State<SimpleMarketHeaderFilter> createState() => _SimpleMarketHeaderFilterState();
 }
 
 class _SimpleMarketHeaderFilterState extends State<SimpleMarketHeaderFilter> {
@@ -46,14 +45,16 @@ class _SimpleMarketHeaderFilterState extends State<SimpleMarketHeaderFilter> {
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    highlighted
-                        ? const SPressedFilterIcon()
-                        : const SFilterIcon(),
+                    highlighted ? const SPressedFilterIcon() : const SFilterIcon(),
                   ],
                 ),
               ),
-              NotificationBox(
-                notifications: widget.activeFilters,
+              Positioned(
+                right: 0,
+                top: -5,
+                child: NotificationBox(
+                  notifications: widget.activeFilters,
+                ),
               ),
             ],
           ),

@@ -1,8 +1,11 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/helpers/icon_url_from.dart';
+import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../../../helper/format_date_to_hm.dart';
@@ -25,6 +28,9 @@ class ReferralDetails extends StatelessObserverWidget {
     return SPaddingH24(
       child: Column(
         children: [
+          _ReferralDetailsHeader(
+            transactionListItem: transactionListItem,
+          ),
           TransactionDetailsItem(
             text: intl.date,
             value: TransactionDetailsValueText(
@@ -32,26 +38,58 @@ class ReferralDetails extends StatelessObserverWidget {
                   ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
-          const SpaceH18(),
-          TransactionDetailsItem(
-            text: intl.reward_history_from,
-            value: Row(
-              children: [
-                TransactionDetailsValueText(
-                  text: intl.rewards_flow_tab_title,
-                ),
-                const SpaceW10(),
-                const SRewardIcon(),
-              ],
-            ),
-          ),
-          const SpaceH18(),
-          TransactionDetailsStatus(
-            status: transactionListItem.status,
-          ),
           const SpaceH42(),
         ],
       ),
+    );
+  }
+}
+
+class _ReferralDetailsHeader extends StatelessWidget {
+  const _ReferralDetailsHeader({
+    required this.transactionListItem,
+  });
+
+  final OperationHistoryItem transactionListItem;
+
+  @override
+  Widget build(BuildContext context) {
+    final paymentAsset = sSignalRModules.currenciesWithHiddenList
+        .where(
+          (element) => element.symbol == transactionListItem.assetId,
+        )
+        .firstOrNull;
+
+    return Column(
+      children: [
+        WhatToWhatConvertWidget(
+          removeDefaultPaddings: true,
+          isLoading: false,
+          fromAssetIconUrl: iconUrlFrom(
+            assetSymbol: transactionListItem.assetId,
+          ),
+          fromAssetDescription: paymentAsset?.description ?? transactionListItem.assetId,
+          fromAssetValue: volumeFormat(
+            symbol: transactionListItem.assetId,
+            accuracy: paymentAsset?.accuracy ?? 1,
+            decimal: transactionListItem.balanceChange,
+          ),
+          hasSecondAsset: false,
+          isError: transactionListItem.status == Status.declined,
+          isSmallerVersion: true,
+        ),
+        const SizedBox(height: 24),
+        SBadge(
+          status: transactionListItem.status == Status.inProgress
+              ? SBadgeStatus.primary
+              : transactionListItem.status == Status.completed
+                  ? SBadgeStatus.success
+                  : SBadgeStatus.error,
+          text: transactionDetailsStatusText(transactionListItem.status),
+          isLoading: transactionListItem.status == Status.inProgress,
+        ),
+        const SizedBox(height: 24),
+      ],
     );
   }
 }

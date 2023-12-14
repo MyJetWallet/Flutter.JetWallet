@@ -5,9 +5,13 @@ import 'package:simple_kit/simple_kit.dart';
 class IbanTermsContainer extends StatelessWidget {
   const IbanTermsContainer({
     super.key,
+    required this.text1,
+    required this.text2,
     this.addAccount = false,
   });
 
+  final String text1;
+  final String text2;
   final bool addAccount;
 
   @override
@@ -32,7 +36,7 @@ class IbanTermsContainer extends StatelessWidget {
               const SBankIcon(),
               const SpaceW14(),
               Text(
-                intl.iban_terms_1,
+                text1,
                 style: sBodyText2Style,
               ),
             ],
@@ -51,7 +55,7 @@ class IbanTermsContainer extends StatelessWidget {
               SizedBox(
                 width: MediaQuery.of(context).size.width - 88,
                 child: Text(
-                  addAccount ? intl.iban_terms_4 : intl.iban_terms_3,
+                  text2,
                   style: sBodyText2Style,
                   maxLines: 15,
                 ),

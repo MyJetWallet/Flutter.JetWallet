@@ -6,35 +6,26 @@ class CircleActionExchange extends StatelessWidget {
   const CircleActionExchange({
     super.key,
     required this.onTap,
+    this.isDisabled = false,
   });
 
   final Function() onTap;
+  final bool isDisabled;
 
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    return Expanded(
-      child: Column(
-        children: [
-          SimpleCircleButton(
-            defaultIcon: SActionConvertIcon(
-              color: colors.white,
-            ),
-            pressedIcon: SActionConvertIcon(
-              color: colors.white.withOpacity(0.7),
-            ),
-            onTap: onTap,
-          ),
-          const SpaceH6(),
-          Text(
-            intl.balanceActionButtons_exchange,
-            style: sBodyText2Style.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
+    return SimpleCircleButton(
+      defaultIcon: SActionConvertIcon(
+        color: colors.white,
       ),
+      pressedIcon: SActionConvertIcon(
+        color: colors.white.withOpacity(0.7),
+      ),
+      onTap: onTap,
+      isDisabled: isDisabled,
+      name: intl.balanceActionButtons_exchange,
     );
   }
 }

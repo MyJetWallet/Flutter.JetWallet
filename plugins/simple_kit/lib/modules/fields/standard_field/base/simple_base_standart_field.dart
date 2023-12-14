@@ -35,7 +35,11 @@ class SimpleBaseStandardField extends StatefulWidget {
     this.hasManualError = false,
     this.hideLabel = false,
     this.grayLabel = false,
-    required this.labelText,
+    this.labelText,
+    this.hintText,
+    this.height,
+    this.weight,
+    this.cursorHeight,
   }) : super(key: key);
 
   final TextEditingController? controller;
@@ -59,7 +63,8 @@ class SimpleBaseStandardField extends StatefulWidget {
   final bool alignLabelWithHint;
   final bool enabled;
   final bool hideSpace;
-  final String labelText;
+  final String? labelText;
+  final String? hintText;
   final bool isError;
   final bool hasManualError;
   final bool grayLabel;
@@ -67,10 +72,12 @@ class SimpleBaseStandardField extends StatefulWidget {
   final List<Validator> validators;
   final int? maxLength;
   final int? maxLines;
+  final double? height;
+  final double? weight;
+  final double? cursorHeight;
 
   @override
-  State<SimpleBaseStandardField> createState() =>
-      _SimpleBaseStandardFieldState();
+  State<SimpleBaseStandardField> createState() => _SimpleBaseStandardFieldState();
 }
 
 class _SimpleBaseStandardFieldState extends State<SimpleBaseStandardField> {
@@ -85,11 +92,13 @@ class _SimpleBaseStandardFieldState extends State<SimpleBaseStandardField> {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: const BoxConstraints(
-        minHeight: 88,
+      constraints: BoxConstraints(
+        minHeight: widget.height ?? 88,
+        //maxHeight: widget.height ?? double.infinity,
       ),
       child: Center(
         child: TextFormField(
+          cursorHeight: widget.cursorHeight,
           onTap: widget.onTap,
           focusNode: focusNode,
           controller: widget.controller,
@@ -101,17 +110,14 @@ class _SimpleBaseStandardFieldState extends State<SimpleBaseStandardField> {
           inputFormatters: widget.inputFormatters,
           autofillHints: widget.autofillHints,
           enableInteractiveSelection: widget.enableInteractiveSelection,
-          textCapitalization:
-              widget.textCapitalization ?? TextCapitalization.none,
+          textCapitalization: widget.textCapitalization ?? TextCapitalization.none,
           enabled: widget.enabled,
           onChanged: (value) {
             widget.onChanged?.call(value);
           },
           maxLength: widget.maxLength,
           maxLines: widget.maxLines,
-          maxLengthEnforcement: widget.maxLength != null
-              ? MaxLengthEnforcement.truncateAfterCompositionEnds
-              : null,
+          maxLengthEnforcement: widget.maxLength != null ? MaxLengthEnforcement.truncateAfterCompositionEnds : null,
           cursorWidth: 3.0,
           cursorColor: SColorsLight().blue,
           cursorRadius: Radius.zero,
@@ -132,6 +138,10 @@ class _SimpleBaseStandardFieldState extends State<SimpleBaseStandardField> {
             return null;
           },
           decoration: InputDecoration(
+            hintText: widget.hintText,
+            hintStyle: sSubtitle2Style.copyWith(
+              color: SColorsLight().grey2,
+            ),
             border: InputBorder.none,
             labelText: widget.labelText,
             alignLabelWithHint: widget.alignLabelWithHint,
@@ -142,8 +152,7 @@ class _SimpleBaseStandardFieldState extends State<SimpleBaseStandardField> {
               fontSize: 16.0,
               color: SColorsLight().grey2,
             ),
-            floatingLabelBehavior:
-                widget.hideLabel ? FloatingLabelBehavior.never : null,
+            floatingLabelBehavior: widget.hideLabel ? FloatingLabelBehavior.never : null,
             counterText: '',
             errorText: null,
             errorMaxLines: null,
@@ -155,18 +164,14 @@ class _SimpleBaseStandardFieldState extends State<SimpleBaseStandardField> {
                   if (widget.suffixIcons != null)
                     for (final icon in widget.suffixIcons!) ...[
                       icon,
-                      if (icon != widget.suffixIcons!.last && !widget.hideSpace)
-                        const SpaceW20(),
+                      if (icon != widget.suffixIcons!.last && !widget.hideSpace) const SpaceW20(),
                     ],
                 if (widget.eraseIcon != null) ...[
                   ...widget.eraseIcon!,
                 ],
                 if (widget.isError) ...[
                   if (widget.eraseIcon == null) ...[
-                    if (!widget.hideIconsIfError)
-                      const SpaceW20()
-                    else
-                      const SpaceW40(),
+                    if (!widget.hideIconsIfError) const SpaceW20() else const SpaceW40(),
                   ] else ...[
                     const SpaceW16(),
                   ],

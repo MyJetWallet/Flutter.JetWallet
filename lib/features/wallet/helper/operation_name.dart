@@ -10,7 +10,7 @@ String operationName(
 }) {
   switch (type) {
     case OperationType.deposit:
-      return '${intl.operationName_received} $asset';
+      return intl.operationName_received;
     case OperationType.ibanDeposit:
       return '${intl.operationName_received} $asset';
     case OperationType.withdraw:
@@ -19,16 +19,14 @@ String operationName(
       return intl.operationName_transferByPhone;
     case OperationType.receiveByPhone:
       return intl.operationName_receiveByPhone;
-    case OperationType.buy:
+    case OperationType.swapBuy:
       return intl.operationName_buy;
-    case OperationType.sell:
+    case OperationType.swapSell:
       return intl.operationName_sell;
     case OperationType.paidInterestRate:
       return intl.operationName_interestRate;
     case OperationType.feeSharePayment:
       return intl.operationName_feeSharePayment;
-    case OperationType.swap:
-      return intl.operationName_exchanged;
     case OperationType.withdrawalFee:
       return intl.operationName_withdrawalFee;
     case OperationType.rewardPayment:
@@ -38,10 +36,8 @@ String operationName(
     case OperationType.recurringBuy:
       return intl.account_recurringBuy;
     case OperationType.earningDeposit:
-      return isToppedUp != null
-          ? intl.operationName_topped_up
-          : intl.operationName_subscribed_to_earn;
-    case OperationType.cryptoInfo:
+      return isToppedUp != null ? intl.operationName_topped_up : intl.operationName_subscribed_to_earn;
+    case OperationType.cryptoBuy:
       return intl.operationName_bought;
     case OperationType.p2pBuy:
       return intl.operationName_bought;
@@ -54,13 +50,29 @@ String operationName(
     case OperationType.unknown:
       return 'Unknown';
     case OperationType.ibanSend:
-      return intl.iban_send_history_title;
+      return intl.withdrawal_withdrawn;
     case OperationType.sendGlobally:
-      return intl.send_globally_history_title;
+      return intl.history_sent_globally;
     case OperationType.giftSend:
-      return intl.gift_history_sent;
+      return intl.history_sent_gift;
     case OperationType.giftReceive:
-      return intl.gift_history_received;
+      return intl.history_received_gift;
+    case OperationType.bankingBuy:
+      return intl.operationName_bought;
+    case OperationType.bankingSell:
+      return intl.operationName_sold;
+    case OperationType.swap:
+      return intl.operationName_converted;
+    case OperationType.bankingAccountWithdrawal:
+      return intl.history_withdrawn;
+    case OperationType.bankingAccountDeposit:
+      return intl.history_added_cash;
+    case OperationType.cardPurchase:
+      return intl.operationName_purchase;
+    case OperationType.cardRefund:
+      return intl.operationName_refund;
+    case OperationType.cardWithdrawal:
+      return intl.operationName_cash_withdrawal;
     default:
       return 'Unknown';
   }

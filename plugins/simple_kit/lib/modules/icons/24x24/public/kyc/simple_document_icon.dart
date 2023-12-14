@@ -5,12 +5,21 @@ import 'package:simple_kit/modules/icons/24x24/light/kyc/simple_light_document_i
 import 'package:simple_kit/utils/enum.dart';
 
 class SDocumentIcon extends StatelessObserverWidget {
-  const SDocumentIcon({Key? key}) : super(key: key);
+  const SDocumentIcon({
+    Key? key,
+    this.color,
+  }) : super(key: key);
+
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return sKit.currentTheme == STheme.dark
-        ? const SimpleLightDocumentIcon()
-        : const SimpleLightDocumentIcon();
+        ? SimpleLightDocumentIcon(
+            color: color,
+          )
+        : SimpleLightDocumentIcon(
+            color: color,
+          );
   }
 }

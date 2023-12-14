@@ -16,10 +16,8 @@ class ClientDetailModel with _$ClientDetailModel {
     @Default(false) bool useSumsub,
     required DateTime recivedAt,
     required String walletCreationDate,
-    required bool isNftEnable,
   }) = _ClientDetailModel;
-  factory ClientDetailModel.fromJson(Map<String, dynamic> json) =>
-      _$ClientDetailModelFromJson(json);
+  factory ClientDetailModel.fromJson(Map<String, dynamic> json) => _$ClientDetailModelFromJson(json);
 }
 
 @Freezed(makeCollectionsUnmodifiable: false)
@@ -30,8 +28,7 @@ class ClientBlockerInfoModel with _$ClientBlockerInfoModel {
     DateTime? expireDateTime,
   }) = _ClientBlockerInfoModel;
 
-  factory ClientBlockerInfoModel.fromJson(Map<String, dynamic> json) =>
-      _$ClientBlockerInfoModelFromJson(json);
+  factory ClientBlockerInfoModel.fromJson(Map<String, dynamic> json) => _$ClientBlockerInfoModelFromJson(json);
 }
 
 enum BlockingType {

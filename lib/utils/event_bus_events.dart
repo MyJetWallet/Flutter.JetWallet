@@ -17,3 +17,11 @@ class ResetScrollCard {
 class GetNewHistoryEvent {
   GetNewHistoryEvent();
 }
+
+class ResetScrollMyWallets {
+  ResetScrollMyWallets();
+}
+
+class EndReordering {
+  EndReordering();
+}

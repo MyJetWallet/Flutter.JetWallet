@@ -1,12 +1,11 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
+import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
-import 'package:jetwallet/utils/helpers/price_accuracy.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -27,7 +26,7 @@ class BuySellDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencies = sSignalRModules.currenciesList;
+    final currencies = sSignalRModules.currenciesWithHiddenList;
 
     final buyCurrency = currencyFrom(
       currencies,
@@ -36,29 +35,20 @@ class BuySellDetails extends StatelessObserverWidget {
 
     final sellCurrency = currencyFrom(
       currencies,
-      transactionListItem.swapInfo!.sellAssetId,
+      transactionListItem.swapInfo!.sellAssetId ?? '',
     );
 
     String rateFor(
       CurrencyModel currency1,
       CurrencyModel currency2,
     ) {
-      final accuracy = priceAccuracy(
-        currency1.symbol,
-        currency2.symbol,
-      );
-
       final base = volumeFormat(
-        prefix: currency1.prefixSymbol,
         decimal: transactionListItem.swapInfo!.baseRate,
-        accuracy: currency1.accuracy,
         symbol: currency1.symbol,
       );
 
       final quote = volumeFormat(
-        prefix: currency2.prefixSymbol,
         decimal: transactionListItem.swapInfo!.quoteRate,
-        accuracy: accuracy,
         symbol: currency2.symbol,
       );
 
@@ -84,29 +74,16 @@ class BuySellDetails extends StatelessObserverWidget {
                   text: shortTxhashFrom(transactionListItem.operationId),
                 ),
                 const SpaceW10(),
-                SIconButton(
-                  onTap: () {
-                    Clipboard.setData(
-                      ClipboardData(
-                        text: transactionListItem.operationId,
-                      ),
-                    );
-
-                    onCopyAction('Txid');
-                  },
-                  defaultIcon: const SCopyIcon(),
-                  pressedIcon: const SCopyPressedIcon(),
-                ),
+                HistoryCopyIcon(transactionListItem.operationId),
               ],
             ),
           ),
           const SpaceH18(),
-          if (transactionListItem.operationType == OperationType.buy) ...[
+          if (transactionListItem.operationType == OperationType.swapBuy) ...[
             TransactionDetailsItem(
               text: intl.withText,
               value: TransactionDetailsValueText(
                 text: volumeFormat(
-                  prefix: sellCurrency.prefixSymbol,
                   decimal: transactionListItem.swapInfo!.sellAmount,
                   accuracy: sellCurrency.accuracy,
                   symbol: sellCurrency.symbol,
@@ -128,12 +105,11 @@ class BuySellDetails extends StatelessObserverWidget {
               ),
             ),
           ],
-          if (transactionListItem.operationType == OperationType.sell) ...[
+          if (transactionListItem.operationType == OperationType.swapSell) ...[
             TransactionDetailsItem(
               text: intl.buySellDetails_forText,
               value: TransactionDetailsValueText(
                 text: volumeFormat(
-                  prefix: buyCurrency.prefixSymbol,
                   decimal: transactionListItem.swapInfo!.buyAmount,
                   accuracy: buyCurrency.accuracy,
                   symbol: buyCurrency.symbol,

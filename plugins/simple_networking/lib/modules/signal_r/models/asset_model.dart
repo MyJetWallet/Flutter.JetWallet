@@ -35,6 +35,8 @@ class AssetModel with _$AssetModel {
     required List<String> withdrawalBlockchains,
     @DecimalNullSerialiser() Decimal? minTradeAmount,
     @DecimalNullSerialiser() Decimal? maxTradeAmount,
+    bool? walletIsActive,
+    int? walletOrder,
   }) = _AssetModel;
 
   factory AssetModel.fromJson(Map<String, dynamic> json) =>
@@ -127,6 +129,7 @@ enum DepositMethods {
   swiftDeposit,
   cardDeposit,
   ibanReceive,
+  bankingCardAccount,
   unsupported,
 }
 
@@ -169,6 +172,8 @@ class DepositMethodsSerialiser
       return DepositMethods.swiftDeposit;
     } else if (value == 'CardDeposit') {
       return DepositMethods.cardDeposit;
+    } else if (value == 'BankingCardAccount') {
+      return DepositMethods.bankingCardAccount;
     } else if (value == 'IbanReceive') {
       return DepositMethods.ibanReceive;
     } else {

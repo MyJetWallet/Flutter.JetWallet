@@ -7,5 +7,5 @@ part 'server_reject_exception.freezed.dart';
 /// the [Map] response. If [result != OK] then we throw [ServerRejectException]
 @freezed
 class ServerRejectException with _$ServerRejectException {
-  const factory ServerRejectException(String cause) = _ServerRejectException;
+  const factory ServerRejectException(String cause, String errorCode) = _ServerRejectException;
 }

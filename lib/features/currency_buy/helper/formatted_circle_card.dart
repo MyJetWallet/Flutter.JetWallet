@@ -9,13 +9,11 @@ FormattedCircleCard formattedCircleCard(
 ) {
   final formattedMin = volumeFormat(
     accuracy: base.accuracy,
-    prefix: base.prefix,
     symbol: base.symbol,
     decimal: card.paymentDetails.minAmount,
   );
   final formattedMax = volumeFormat(
     accuracy: base.accuracy,
-    prefix: base.prefix,
     symbol: base.symbol,
     decimal: card.paymentDetails.maxAmount,
   );

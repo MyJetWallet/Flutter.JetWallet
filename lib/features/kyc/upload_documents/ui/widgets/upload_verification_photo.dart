@@ -98,7 +98,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
             : intl.uploadKycDocuments_pleaseWait,
         loading: store.loader,
         loadSuccess: store.loaderSuccess,
-        header: SAuthHeader(
+        header: SLargeHeader(
           progressValue: isSelfie ? 50 : 100,
           title: intl.cardVerification_title,
         ),

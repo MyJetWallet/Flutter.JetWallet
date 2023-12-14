@@ -62,9 +62,10 @@ class CurrencyModel with _$CurrencyModel {
     @Default(false) bool earnProgramEnabled,
     @DecimalNullSerialiser() Decimal? minTradeAmount,
     @DecimalNullSerialiser() Decimal? maxTradeAmount,
+    @Default(false) bool walletIsActive,
+    int? walletOrder,
   }) = _CurrencyModel;
-  factory CurrencyModel.fromJson(Map<String, dynamic> json) =>
-      _$CurrencyModelFromJson(json);
+  factory CurrencyModel.fromJson(Map<String, dynamic> json) => _$CurrencyModelFromJson(json);
 
   const CurrencyModel._();
 
@@ -101,17 +102,13 @@ class CurrencyModel with _$CurrencyModel {
 
   bool get isSingleTypeInProgress =>
       buysInProcessTotal != Decimal.zero &&
-          (transfersInProcessTotal == Decimal.zero &&
-              earnInProcessTotal == Decimal.zero) ||
+          (transfersInProcessTotal == Decimal.zero && earnInProcessTotal == Decimal.zero) ||
       transfersInProcessTotal != Decimal.zero &&
-          (buysInProcessTotal == Decimal.zero &&
-              earnInProcessTotal == Decimal.zero) ||
+          (buysInProcessTotal == Decimal.zero && earnInProcessTotal == Decimal.zero) ||
       earnInProcessTotal != Decimal.zero &&
-          (buysInProcessTotal == Decimal.zero &&
-              transfersInProcessTotal == Decimal.zero);
+          (buysInProcessTotal == Decimal.zero && transfersInProcessTotal == Decimal.zero);
 
-  Decimal get totalAmountInProcess =>
-      transfersInProcessTotal + earnInProcessTotal + buysInProcessTotal;
+  Decimal get totalAmountInProcess => transfersInProcessTotal + earnInProcessTotal + buysInProcessTotal;
 
   bool get isAssetBalanceEmpty => assetBalance == Decimal.zero;
 
@@ -164,7 +161,6 @@ class CurrencyModel with _$CurrencyModel {
 
   String volumeBaseBalance(BaseCurrencyModel baseCurrency) {
     return baseBalance.toVolumeFormat(
-      prefix: baseCurrency.prefix,
       accuracy: baseCurrency.accuracy,
       symbol: baseCurrency.symbol,
     );
@@ -172,7 +168,6 @@ class CurrencyModel with _$CurrencyModel {
 
   String get volumeAssetBalance {
     return assetBalance.toVolumeFormat(
-      prefix: prefixSymbol,
       accuracy: accuracy,
       symbol: symbol,
     );
@@ -198,35 +193,23 @@ class CurrencyModel with _$CurrencyModel {
 
   bool get supportsCryptoDeposit {
     if (type == AssetType.fiat) {
-      return depositMethods
-          .where((element) => element.id == DepositMethods.ibanReceive)
-          .isNotEmpty;
+      return depositMethods.where((element) => element.id == DepositMethods.ibanReceive).isNotEmpty;
     }
 
-    return depositMethods
-            .where((element) => element.id == DepositMethods.cryptoDeposit)
-            .isNotEmpty ||
-        depositMethods
-            .where((element) => element.id == DepositMethods.blockchainReceive)
-            .isNotEmpty;
+    return depositMethods.where((element) => element.id == DepositMethods.cryptoDeposit).isNotEmpty ||
+        depositMethods.where((element) => element.id == DepositMethods.blockchainReceive).isNotEmpty;
   }
 
   bool get supportsGlobalSend {
-    return withdrawalMethods
-        .where((element) => element.id == WithdrawalMethods.globalSend)
-        .isNotEmpty;
+    return withdrawalMethods.where((element) => element.id == WithdrawalMethods.globalSend).isNotEmpty;
   }
 
   bool get supportsGiftlSend {
-    return withdrawalMethods
-        .where((element) => element.id == WithdrawalMethods.internalSend)
-        .isNotEmpty;
+    return withdrawalMethods.where((element) => element.id == WithdrawalMethods.internalSend).isNotEmpty;
   }
 
   bool get supportsIbanDeposit {
-    return depositMethods
-        .where((element) => element.id == DepositMethods.ibanReceive)
-        .isNotEmpty;
+    return depositMethods.where((element) => element.id == DepositMethods.ibanReceive).isNotEmpty;
   }
 
   bool get supportsCardDeposit {
@@ -263,9 +246,7 @@ class CurrencyModel with _$CurrencyModel {
               (element) => element.id == WithdrawalMethods.cryptoWithdrawal,
             )
             .isNotEmpty ||
-        withdrawalMethods
-            .where((element) => element.id == WithdrawalMethods.blockchainSend)
-            .isNotEmpty;
+        withdrawalMethods.where((element) => element.id == WithdrawalMethods.blockchainSend).isNotEmpty;
   }
 
   bool get supportsByAssetWithdrawal {
@@ -274,15 +255,11 @@ class CurrencyModel with _$CurrencyModel {
               (element) => element.id == WithdrawalMethods.cryptoWithdrawal,
             )
             .isNotEmpty ||
-        withdrawalMethods
-            .where((element) => element.id == WithdrawalMethods.blockchainSend)
-            .isNotEmpty;
+        withdrawalMethods.where((element) => element.id == WithdrawalMethods.blockchainSend).isNotEmpty;
   }
 
   bool get supportsByPhoneNicknameWithdrawal {
-    return withdrawalMethods
-        .where((element) => element.id == WithdrawalMethods.internalSend)
-        .isNotEmpty;
+    return withdrawalMethods.where((element) => element.id == WithdrawalMethods.internalSend).isNotEmpty;
   }
 
   bool get supportsSepaWithdrawal {
@@ -294,15 +271,11 @@ class CurrencyModel with _$CurrencyModel {
   }
 
   bool get supportIbanSendWithdrawal {
-    return withdrawalMethods
-        .where((element) => element.id == WithdrawalMethods.ibanSend)
-        .isNotEmpty;
+    return withdrawalMethods.where((element) => element.id == WithdrawalMethods.ibanSend).isNotEmpty;
   }
 
   bool get supporGlobalSendWithdrawal {
-    return withdrawalMethods
-        .where((element) => element.id == WithdrawalMethods.globalSend)
-        .isNotEmpty;
+    return withdrawalMethods.where((element) => element.id == WithdrawalMethods.globalSend).isNotEmpty;
   }
 
   bool get isSingleNetwork => depositBlockchains.length == 1;
@@ -312,16 +285,14 @@ class CurrencyModel with _$CurrencyModel {
     final blockchainSendMethod = sendMethods.firstWhere(
       (element) => element.id == WithdrawalMethods.blockchainSend,
     );
-    final thisSymbolNetworkDetails =
-        blockchainSendMethod.symbolNetworkDetails?.where(
-              (element) => element.symbol == symbol,
-            ) ??
-            [];
+    final thisSymbolNetworkDetails = blockchainSendMethod.symbolNetworkDetails?.where(
+          (element) => element.symbol == symbol,
+        ) ??
+        [];
     final result = depositBlockchains
         .where(
           (element) => thisSymbolNetworkDetails.any(
-            (symbolNetworkDetails) =>
-                symbolNetworkDetails.network == element.id,
+            (symbolNetworkDetails) => symbolNetworkDetails.network == element.id,
           ),
         )
         .toList();
@@ -329,21 +300,17 @@ class CurrencyModel with _$CurrencyModel {
     return result;
   }
 
-  bool get isSingleNetworkForBlockchainSend =>
-      networksForBlockchainSend.length == 1;
+  bool get isSingleNetworkForBlockchainSend => networksForBlockchainSend.length == 1;
 }
 
-class ObservableCurrencyModelListConverter
-    implements JsonConverter<ObservableList<CurrencyModel>, List<dynamic>> {
+class ObservableCurrencyModelListConverter implements JsonConverter<ObservableList<CurrencyModel>, List<dynamic>> {
   const ObservableCurrencyModelListConverter();
 
   @override
-  ObservableList<CurrencyModel> fromJson(List<dynamic> json) =>
-      ObservableList.of(
+  ObservableList<CurrencyModel> fromJson(List<dynamic> json) => ObservableList.of(
         json.cast<Map<String, dynamic>>().map(CurrencyModel.fromJson),
       );
 
   @override
-  List<Map<String, dynamic>> toJson(ObservableList<CurrencyModel> list) =>
-      list.map((e) => e.toJson()).toList();
+  List<Map<String, dynamic>> toJson(ObservableList<CurrencyModel> list) => list.map((e) => e.toJson()).toList();
 }

@@ -6,7 +6,7 @@ import '../../simple_kit.dart';
 class SCardRow extends StatelessWidget {
   const SCardRow({
     Key? key,
-    this.height = 72,
+    this.height = 80,
     this.helper = '',
     this.isSelected = false,
     this.divider = true,
@@ -14,8 +14,10 @@ class SCardRow extends StatelessWidget {
     this.disabled = false,
     this.lightDivider = false,
     this.rightIcon,
+    this.frozenIcon,
     this.spaceBIandText = 18,
     this.needSpacer = false,
+    this.maxWidth,
     required this.icon,
     required this.name,
     required this.amount,
@@ -34,11 +36,13 @@ class SCardRow extends StatelessWidget {
   final bool needSpacer;
   final Widget icon;
   final Widget? rightIcon;
+  final Widget? frozenIcon;
   final String name;
   final String amount;
   final String description;
-  final Function() onTap;
+  final VoidCallback onTap;
   final double spaceBIandText;
+  final double? maxWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +61,7 @@ class SCardRow extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(
             horizontal: 24.0,
-            vertical: !removeDivider ? 0 : 13,
+            vertical: !removeDivider ? 0 : 16,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -68,38 +72,52 @@ class SCardRow extends StatelessWidget {
                 const SizedBox(height: 20),
               ],
               Row(
-                crossAxisAlignment: helper.isNotEmpty
-                    ? CrossAxisAlignment.start
-                    : CrossAxisAlignment.center,
+                crossAxisAlignment: helper.isNotEmpty ? CrossAxisAlignment.start : CrossAxisAlignment.center,
                 children: [
                   icon,
                   SizedBox(width: spaceBIandText),
                   SizedBox(
                     height: helper.isNotEmpty ? 46 : 28,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          name,
-                          style: sTextH5Style.copyWith(
-                            color: mainColor,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: maxWidth ?? double.infinity,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  maxWidth: maxWidth ?? double.infinity,
+                                ),
+                                child: Text(
+                                  name,
+                                  style: sTextH5Style.copyWith(
+                                    color: mainColor,
+                                  ),
+                                ),
+                              ),
+                              if (frozenIcon != null) frozenIcon!,
+                            ],
                           ),
-                        ),
-                        if (helper.isNotEmpty) ...[
-                          Baseline(
-                            baseline: 14.0,
-                            baselineType: TextBaseline.alphabetic,
-                            child: Text(
-                              helper,
-                              textAlign: TextAlign.start,
-                              maxLines: 3,
-                              style: sCaptionTextStyle.copyWith(
-                                color: SColorsLight().grey3,
+                          if (helper.isNotEmpty) ...[
+                            Baseline(
+                              baseline: 14.0,
+                              baselineType: TextBaseline.alphabetic,
+                              child: Text(
+                                helper,
+                                textAlign: TextAlign.start,
+                                maxLines: 3,
+                                style: sCaptionTextStyle.copyWith(
+                                  color: SColorsLight().grey1,
+                                ),
                               ),
                             ),
-                          ),
+                          ],
                         ],
-                      ],
+                      ),
                     ),
                   ),
                   if (!needSpacer) ...[

@@ -185,6 +185,15 @@ abstract class _AppStoreBase with Store {
 
               lastRoute = 'verification_screen';
             },
+            checkSelfie: () {
+              if (lastRoute != 'face_check') {
+                getIt<AppRouter>().replaceAll([
+                  FaceCheckRoute(),
+                ]);
+              }
+
+              lastRoute = 'face_check';
+            },
             phoneVerification: () async {
               if (lastRoute != 'verification_phone_screen') {
                 await initSessionInfo();
@@ -263,7 +272,7 @@ abstract class _AppStoreBase with Store {
               sRouter.replaceAll([
                 const HomeRouter(
                   children: [
-                    PortfolioRouter(),
+                    MyWalletsRouter(),
                   ],
                 ),
               ]);
@@ -388,14 +397,14 @@ abstract class _AppStoreBase with Store {
   @observable
   TabController? marketController;
   @action
-  TabController? setMarketController(TabController? value) =>
-      marketController = value;
+  TabController? setMarketController(TabController? value) => marketController = value;
 
   @action
   Future<void> initSessionInfo() async {
     if (!authState.initSessionReceived) {
       final userInfo = getIt.get<UserInfoService>();
       final info = await sNetwork.getWalletModule().getSessionInfo();
+
       final profileInfo = await sNetwork.getWalletModule().getProfileInfo();
       if (info.data != null) {
         userInfo.updateWithValuesFromSessionInfo(
@@ -403,8 +412,7 @@ abstract class _AppStoreBase with Store {
           phoneVerifiedValue: info.data!.phoneVerified,
           hasDisclaimersValue: info.data!.hasDisclaimers,
           hasHighYieldDisclaimersValue: info.data!.hasHighYieldDisclaimers,
-          hasNftDisclaimersValue: info.data!.hasNftDisclaimers,
-          isTechClientValue: info.data!.isTechClient,
+          isTechClientValue: info.data?.isTechClient ?? false,
         );
       }
 
@@ -423,11 +431,9 @@ abstract class _AppStoreBase with Store {
           phoneValue: profileInfo.data!.phone ?? '',
           referralLinkValue: profileInfo.data!.referralLink ?? '',
           referralCodeValue: profileInfo.data!.referralCode ?? '',
-          countryOfRegistrationValue:
-              profileInfo.data!.countryOfRegistration ?? '',
+          countryOfRegistrationValue: profileInfo.data!.countryOfRegistration ?? '',
           countryOfResidenceValue: profileInfo.data!.countryOfResidence ?? '',
-          countryOfCitizenshipValue:
-              profileInfo.data!.countryOfCitizenship ?? '',
+          countryOfCitizenshipValue: profileInfo.data!.countryOfCitizenship ?? '',
           firstNameValue: profileInfo.data!.firstName ?? '',
           lastNameValue: profileInfo.data!.lastName ?? '',
         );

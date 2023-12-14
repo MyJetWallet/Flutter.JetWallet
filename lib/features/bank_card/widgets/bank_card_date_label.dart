@@ -7,7 +7,12 @@ import 'package:jetwallet/features/bank_card/store/bank_card_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class BankCardDateLabel extends StatelessObserverWidget {
-  const BankCardDateLabel({super.key});
+  const BankCardDateLabel({
+    super.key,
+    this.showLabel = true,
+  });
+
+  final bool showLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -43,25 +48,27 @@ class BankCardDateLabel extends StatelessObserverWidget {
             ),
           ),
         ),
-        const SDivider(
-          width: 1.0,
-          height: 88.0,
-        ),
-        Expanded(
-          child: SFieldDividerFrame(
-            child: SStandardField(
-              maxLines: 1,
-              maxLength: 30,
-              labelText: intl.addCircleCard_label,
-              focusNode: store.labelNode,
-              isError: store.labelError,
-              enableInteractiveSelection: false,
-              disableErrorOnChanged: false,
-              controller: store.cardLabelController,
-              onChanged: store.setCardLabel,
+        if (showLabel) ...[
+          const SDivider(
+            width: 1.0,
+            height: 88.0,
+          ),
+          Expanded(
+            child: SFieldDividerFrame(
+              child: SStandardField(
+                maxLines: 1,
+                maxLength: 30,
+                labelText: intl.addCircleCard_label,
+                focusNode: store.labelNode,
+                isError: store.labelError,
+                enableInteractiveSelection: false,
+                disableErrorOnChanged: false,
+                controller: store.cardLabelController,
+                onChanged: store.setCardLabel,
+              ),
             ),
           ),
-        ),
+        ],
       ],
     );
   }

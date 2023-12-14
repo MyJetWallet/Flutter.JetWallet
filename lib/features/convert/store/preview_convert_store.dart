@@ -23,12 +23,10 @@ import 'package:simple_networking/modules/wallet_api/models/swap_execute_quote/e
 
 part 'preview_convert_store.g.dart';
 
-class PreviewConvertStore extends _PreviewConvertStoreBase
-    with _$PreviewConvertStore {
+class PreviewConvertStore extends _PreviewConvertStoreBase with _$PreviewConvertStore {
   PreviewConvertStore(super.input);
 
-  static PreviewConvertStore of(BuildContext context) =>
-      Provider.of<PreviewConvertStore>(context, listen: false);
+  static PreviewConvertStore of(BuildContext context) => Provider.of<PreviewConvertStore>(context, listen: false);
 }
 
 abstract class _PreviewConvertStoreBase with Store {
@@ -73,7 +71,6 @@ abstract class _PreviewConvertStoreBase with Store {
   Decimal? feePercent;
 
   // Will be initialzied on initState of the parent widget
-  @observable
   AnimationController? timerAnimation;
 
   // [true] when requestQuote() takes too long

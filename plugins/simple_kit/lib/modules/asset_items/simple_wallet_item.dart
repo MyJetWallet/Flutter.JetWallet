@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/asset_items/components/recurring_icon.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
+import 'package:simple_kit/modules/icons/24x24/public/reorder/simple_reorder_icon.dart';
 
 import '../../simple_kit.dart';
 
@@ -18,7 +19,7 @@ class SWalletItem extends StatelessWidget {
     this.removeDivider = false,
     this.color,
     this.onTap,
-    this.baseCurrPrefix,
+    this.baseCurrencySymbol,
     this.leftBlockTopPadding = 22,
     this.balanceTopMargin = 22,
     this.height = 88,
@@ -28,9 +29,11 @@ class SWalletItem extends StatelessWidget {
     this.isPendingDeposit = false,
     this.isBalanceHide = false,
     this.isRounded = false,
+    this.isMoving = false,
     required this.icon,
     required this.primaryText,
     required this.secondaryText,
+    this.priceFieldHeight,
   }) : super(key: key);
 
   final bool? decline;
@@ -49,13 +52,15 @@ class SWalletItem extends StatelessWidget {
   final double leftBlockTopPadding;
   final double balanceTopMargin;
   final double height;
+  final double? priceFieldHeight;
   final double rightBlockTopPadding;
   final bool showSecondaryText;
   final bool isRecurring;
   final bool isPendingDeposit;
   final bool isBalanceHide;
+  final bool isMoving;
 
-  final String? baseCurrPrefix;
+  final String? baseCurrencySymbol;
 
   @override
   Widget build(BuildContext context) {
@@ -128,36 +133,41 @@ class SWalletItem extends StatelessWidget {
                         SizedBox(
                           height: rightBlockTopPadding,
                         ),
-                        Container(
-                          padding: EdgeInsets.only(
-                            left: 16.0,
-                            right: 16,
-                            top: fullSizeBalance ? 14 : 8,
-                            bottom: fullSizeBalance ? 11.75 : 5.75,
-                          ),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: SColorsLight().grey5,
-                            ),
-                            borderRadius: BorderRadius.circular(22.0),
-                          ),
-                          child: !isBalanceHide
-                              ? Text(
-                                  formattedAmount!,
-                                  style: sSubtitle2Style.copyWith(
-                                    color:
-                                        amountDecimal == 0 ? color : textColor,
-                                    height: 1,
-                                  ),
-                                  softWrap: true,
-                                )
-                              : Text(
-                                  '$baseCurrPrefix******',
-                                  style: sSubtitle2Style.copyWith(
-                                    height: 1,
-                                  ),
+                        isMoving
+                            ? const SReorderIcon()
+                            : Container(
+                                height: priceFieldHeight,
+                                padding: EdgeInsets.only(
+                                  left: 16.0,
+                                  right: 16,
+                                  top: fullSizeBalance ? 14 : 8,
+                                  bottom: fullSizeBalance ? 11.75 : 5.75,
                                 ),
-                        ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: SColorsLight().grey5,
+                                  ),
+                                  borderRadius: BorderRadius.circular(22.0),
+                                ),
+                                alignment: Alignment.center,
+                                child: !isBalanceHide
+                                    ? Text(
+                                        formattedAmount!,
+                                        style: sSubtitle2Style.copyWith(
+                                          color: amountDecimal == 0
+                                              ? color
+                                              : textColor,
+                                          height: 1,
+                                        ),
+                                        softWrap: true,
+                                      )
+                                    : Text(
+                                        '***** $baseCurrencySymbol',
+                                        style: sSubtitle2Style.copyWith(
+                                          height: 1,
+                                        ),
+                                      ),
+                              ),
                       ],
                     ),
                   ],

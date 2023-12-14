@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/core/services/zendesk_support_service/zendesk_service.dart';
 import 'package:jetwallet/features/phone_verification/store/phone_verification_store.dart';
 import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:jetwallet/widgets/pin_code_field.dart';
@@ -23,6 +25,7 @@ class PhoneVerificationArgs {
   PhoneVerificationArgs({
     this.showChangeTextAlert = false,
     this.sendCodeOnInitState = true,
+    this.isDeviceBinding = false,
     required this.phoneNumber,
     required this.onVerified,
     this.activeDialCode,
@@ -30,6 +33,7 @@ class PhoneVerificationArgs {
 
   final bool sendCodeOnInitState;
   final bool showChangeTextAlert;
+  final bool isDeviceBinding;
   final String phoneNumber;
   final void Function() onVerified;
   final SPhoneNumber? activeDialCode;
@@ -85,9 +89,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
     final colors = sKit.colors;
 
     store.focusNode.addListener(() {
-      if (store.focusNode.hasFocus &&
-          store.controller.value.text.length == codeLength &&
-          store.pinFieldError.value) {
+      if (store.focusNode.hasFocus && store.controller.value.text.length == codeLength && store.pinFieldError.value) {
         store.controller.clear();
       }
     });
@@ -97,7 +99,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
       loading: store.loader,
       header: SPaddingH24(
         child: SBigHeader(
-          title: intl.phoneVerification_phoneConfirmation,
+          title: intl.confirm_with_sms,
           onBackButtonTap: () {
             getIt<AppRouter>().popUntilRoot();
           },
@@ -105,16 +107,20 @@ class PhoneVerificationBody extends StatelessObserverWidget {
           customIconButton: args.sendCodeOnInitState
               ? SIconButton(
                   onTap: () {
-                    getIt<LogoutService>().logout(
-                      'TWO FA, logout',
-                      withLoading: false,
-                      callbackAfterSend: () {},
-                    );
+                    if (args.isDeviceBinding) {
+                      getIt<AppRouter>().pop();
+                    } else {
+                      getIt<LogoutService>().logout(
+                        'TWO FA, logout',
+                        withLoading: false,
+                        callbackAfterSend: () {},
+                      );
 
-                    getIt<AppRouter>().pop();
+                      getIt<AppRouter>().pop();
+                    }
                   },
-                  defaultIcon: const SCloseIcon(),
-                  pressedIcon: const SClosePressedIcon(),
+                  defaultIcon: const SBackIcon(),
+                  pressedIcon: const SBackPressedIcon(),
                 )
               : null,
         ),
@@ -152,12 +158,16 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                     TextSpan(
                       text: ' ${intl.phoneVerification_support}',
                       recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          sRouter.push(
-                            CrispRouter(
-                              welcomeText: intl.crispSendMessage_hi,
-                            ),
-                          );
+                        ..onTap = () async {
+                          if (showZendesk) {
+                            await getIt.get<ZenDeskService>().showZenDesk();
+                          } else {
+                            await sRouter.push(
+                              CrispRouter(
+                                welcomeText: intl.crispSendMessage_hi,
+                              ),
+                            );
+                          }
                         },
                       style: sBodyText1Style.copyWith(
                         color: colors.blue,

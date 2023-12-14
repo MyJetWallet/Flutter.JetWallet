@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
+import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/price_accuracy.dart';
@@ -43,12 +43,12 @@ class BuyP2PDetails extends StatelessObserverWidget {
 
     final paymentCurrency = currencyFrom(
       currenciesFull,
-      transactionListItem.cryptoBuyInfo!.paymentAssetId,
+      transactionListItem.cryptoBuyInfo!.paymentAssetId ?? '',
     );
 
     final depositCurrency = currencyFrom(
       currenciesFull,
-      transactionListItem.cryptoBuyInfo!.depositFeeAsset,
+      transactionListItem.cryptoBuyInfo!.depositFeeAsset ?? '',
     );
 
     String rateFor() {
@@ -58,14 +58,12 @@ class BuyP2PDetails extends StatelessObserverWidget {
       );
 
       final base = volumeFormat(
-        prefix: buyCurrency.prefixSymbol,
         decimal: transactionListItem.cryptoBuyInfo!.baseRate,
         accuracy: buyCurrency.accuracy,
         symbol: buyCurrency.symbol,
       );
 
       final quote = volumeFormat(
-        prefix: paymentCurrency.prefixSymbol,
         decimal: transactionListItem.cryptoBuyInfo!.quoteRate,
         accuracy: accuracy,
         symbol: paymentCurrency.symbol,
@@ -94,19 +92,7 @@ class BuyP2PDetails extends StatelessObserverWidget {
                     text: shortTxhashFrom(transactionListItem.operationId),
                   ),
                   const SpaceW10(),
-                  SIconButton(
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: transactionListItem.operationId,
-                        ),
-                      );
-
-                      onCopyAction('Txid');
-                    },
-                    defaultIcon: const SCopyIcon(),
-                    pressedIcon: const SCopyPressedIcon(),
-                  ),
+                  HistoryCopyIcon(transactionListItem.operationId),
                 ],
               ),
             ),
@@ -117,8 +103,7 @@ class BuyP2PDetails extends StatelessObserverWidget {
                 text: volumeFormat(
                   decimal: transactionListItem.cryptoBuyInfo!.paymentAmount,
                   accuracy: paymentCurrency.accuracy,
-                  symbol: transactionListItem.cryptoBuyInfo!.paymentAssetId,
-                  prefix: paymentCurrency.prefixSymbol,
+                  symbol: transactionListItem.cryptoBuyInfo!.paymentAssetId ?? '',
                 ),
               ),
             ),
@@ -137,8 +122,7 @@ class BuyP2PDetails extends StatelessObserverWidget {
               value: TransactionDetailsValueText(
                 text: transactionListItem.cryptoBuyInfo?.paymentMethodName ??
                     getLocalOperationName(
-                      transactionListItem.cryptoBuyInfo?.paymentMethod ??
-                          PaymentMethodType.unsupported,
+                      transactionListItem.cryptoBuyInfo?.paymentMethod ?? PaymentMethodType.unsupported,
                     ),
               ),
             ),
@@ -149,7 +133,6 @@ class BuyP2PDetails extends StatelessObserverWidget {
               text: intl.history_payment_fee,
               value: TransactionDetailsValueText(
                 text: volumeFormat(
-                  prefix: depositCurrency.prefixSymbol,
                   decimal: transactionListItem.cryptoBuyInfo!.depositFeeAmount,
                   accuracy: depositCurrency.accuracy,
                   symbol: depositCurrency.symbol,
@@ -161,7 +144,6 @@ class BuyP2PDetails extends StatelessObserverWidget {
               text: intl.history_our_fee,
               value: TransactionDetailsValueText(
                 text: volumeFormat(
-                  prefix: currentCurrency.prefixSymbol,
                   decimal: transactionListItem.cryptoBuyInfo!.tradeFeeAmount,
                   accuracy: currentCurrency.accuracy,
                   symbol: currentCurrency.symbol,

@@ -7,6 +7,8 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
+import 'package:jetwallet/core/services/zendesk_support_service/zendesk_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -23,8 +25,7 @@ class DebugInfo extends StatefulObserverWidget {
   State<DebugInfo> createState() => _DebugInfoState();
 }
 
-class _DebugInfoState extends State<DebugInfo>
-    with SingleTickerProviderStateMixin {
+class _DebugInfoState extends State<DebugInfo> with SingleTickerProviderStateMixin {
   bool isSlotA = true;
 
   @override
@@ -87,8 +88,7 @@ class _DebugInfoState extends State<DebugInfo>
                         child: Switch(
                           value: isSlotA,
                           onChanged: (bool newValue) {
-                            final storageService =
-                                getIt.get<LocalStorageService>();
+                            final storageService = getIt.get<LocalStorageService>();
                             storageService.setString(
                               activeSlot,
                               newValue ? 'slot a' : 'slot b',
@@ -128,6 +128,14 @@ class _DebugInfoState extends State<DebugInfo>
                   },
                   child: const Text(
                     'Logs screen',
+                  ),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    await sRouter.push(const DebugHistoryRouter());
+                  },
+                  child: const Text(
+                    'History debug screen',
                   ),
                 ),
                 // TextButton(
@@ -225,8 +233,7 @@ class _DebugInfoState extends State<DebugInfo>
                 TextButton(
                   onPressed: () async {
                     try {
-                      final resp =
-                          await sNetwork.getWalletModule().debugError();
+                      final resp = await sNetwork.getWalletModule().debugError();
 
                       if (resp.hasError) {
                         sNotification.showError(
@@ -249,8 +256,7 @@ class _DebugInfoState extends State<DebugInfo>
                 TextButton(
                   onPressed: () async {
                     try {
-                      final resp =
-                          await sNetwork.getWalletModule().debugReject();
+                      final resp = await sNetwork.getWalletModule().debugReject();
 
                       if (resp.hasError) {
                         sNotification.showError(
@@ -272,8 +278,8 @@ class _DebugInfoState extends State<DebugInfo>
 
                 TextButton(
                   onPressed: () async {
-                    await sRouter.push(
-                      const KycVerificationSumsubRouter(),
+                    await getIt<SumsubService>().launch(
+                      isBanking: false,
                     );
                   },
                   child: const Text(
@@ -290,6 +296,14 @@ class _DebugInfoState extends State<DebugInfo>
                   },
                   child: const Text(
                     'Success',
+                  ),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    await getIt.get<ZenDeskService>().showZenDesk();
+                  },
+                  child: const Text(
+                    'Zendesk',
                   ),
                 ),
               ],

@@ -60,8 +60,7 @@ class _ActionButtonState extends State<ActionButton> {
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
     final isDepositAvailable =
-        widget.currency.supportsAtLeastOneFiatDepositMethod ||
-            widget.currency.supportsCryptoDeposit;
+        widget.currency.supportsAtLeastOneFiatDepositMethod || widget.currency.supportsCryptoDeposit;
 
     void updateActionState() {
       setState(() {
@@ -89,8 +88,7 @@ class _ActionButtonState extends State<ActionButton> {
 
     late Color currentNameColor;
 
-    currentNameColor =
-        highlighted ? colors.white.withOpacity(0.8) : colors.white;
+    currentNameColor = highlighted ? colors.white.withOpacity(0.8) : colors.white;
 
     void onBuy(bool fromCard) {
       if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
@@ -99,8 +97,7 @@ class _ActionButtonState extends State<ActionButton> {
         kycAlertHandler.handle(
           status: kycState.depositStatus,
           isProgress: kycState.verificationInProgress,
-          currentNavigate: () =>
-              showBuyPaymentCurrencyBottomSheet(context, widget.currency),
+          currentNavigate: () => showBuyPaymentCurrencyBottomSheet(context, widget.currency),
           requiredDocuments: kycState.requiredDocuments,
           requiredVerifications: kycState.requiredVerifications,
         );
@@ -125,14 +122,10 @@ class _ActionButtonState extends State<ActionButton> {
               height: 56,
               decoration: BoxDecoration(
                 color: Colors.black,
-                borderRadius: actionActive
-                    ? BorderRadius.circular(16)
-                    : BorderRadius.circular(100),
+                borderRadius: actionActive ? BorderRadius.circular(16) : BorderRadius.circular(100),
               ),
               duration: const Duration(milliseconds: 300),
-              curve: actionActive
-                  ? const Cubic(0.42, 0, 0, 0.99)
-                  : const Cubic(1, 0, 0.58, 1),
+              curve: actionActive ? const Cubic(0.42, 0, 0, 0.99) : const Cubic(1, 0, 0.58, 1),
               child: Stack(
                 children: [
                   AnimatedOpacity(
@@ -160,18 +153,13 @@ class _ActionButtonState extends State<ActionButton> {
                           sShowMenuActionSheet(
                             context: context,
                             isBuyAvailable: false,
-                            isBuyFromCardAvailable:
-                                widget.currency.supportsAtLeastOneBuyMethod,
+                            isBuyFromCardAvailable: widget.currency.supportsAtLeastOneBuyMethod,
                             actionItemLocalized: localizedActionItems(context),
-                            isNotEmptyBalance:
-                                widget.currency.isAssetBalanceNotEmpty,
+                            isNotEmptyBalance: widget.currency.isAssetBalanceNotEmpty,
                             isDepositAvailable: isDepositAvailable,
-                            isWithdrawAvailable: widget
-                                .currency.supportsAtLeastOneWithdrawalMethod,
-                            isSendAvailable:
-                                widget.currency.supportsCryptoWithdrawal,
-                            isReceiveAvailable:
-                                widget.currency.supportsCryptoDeposit,
+                            isWithdrawAvailable: widget.currency.supportsAtLeastOneWithdrawalMethod,
+                            isSendAvailable: widget.currency.supportsCryptoWithdrawal,
+                            isReceiveAvailable: widget.currency.supportsCryptoDeposit,
                             isSellAvailable: false,
                             onBuy: () {
                               onBuy(false);
@@ -180,7 +168,7 @@ class _ActionButtonState extends State<ActionButton> {
                               onBuy(true);
                             },
                             onSell: () {
-                              if (kycState.sellStatus ==
+                              if (kycState.tradeStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
@@ -191,7 +179,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 );
                               } else {
                                 kycAlertHandler.handle(
-                                  status: kycState.sellStatus,
+                                  status: kycState.tradeStatus,
                                   isProgress: kycState.verificationInProgress,
                                   currentNavigate: () => sRouter.navigate(
                                     CurrencySellRouter(
@@ -199,13 +187,12 @@ class _ActionButtonState extends State<ActionButton> {
                                     ),
                                   ),
                                   requiredDocuments: kycState.requiredDocuments,
-                                  requiredVerifications:
-                                      kycState.requiredVerifications,
+                                  requiredVerifications: kycState.requiredVerifications,
                                 );
                               }
                             },
                             onConvert: () {
-                              if (kycState.sellStatus ==
+                              if (kycState.tradeStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
@@ -218,11 +205,11 @@ class _ActionButtonState extends State<ActionButton> {
                                       ),
                                     );
                                   },
-                                  from: BlockingType.trade,
+                                  from: [BlockingType.trade],
                                 );
                               } else {
                                 kycAlertHandler.handle(
-                                  status: kycState.sellStatus,
+                                  status: kycState.tradeStatus,
                                   isProgress: kycState.verificationInProgress,
                                   currentNavigate: () => showSendTimerAlertOr(
                                     context: context,
@@ -233,11 +220,10 @@ class _ActionButtonState extends State<ActionButton> {
                                         ),
                                       );
                                     },
-                                    from: BlockingType.trade,
+                                    from: [BlockingType.trade],
                                   ),
                                   requiredDocuments: kycState.requiredDocuments,
-                                  requiredVerifications:
-                                      kycState.requiredVerifications,
+                                  requiredVerifications: kycState.requiredVerifications,
                                 );
                               }
                             },
@@ -259,10 +245,8 @@ class _ActionButtonState extends State<ActionButton> {
                                       context,
                                       widget.currency,
                                     ),
-                                    requiredDocuments:
-                                        kycState.requiredDocuments,
-                                    requiredVerifications:
-                                        kycState.requiredVerifications,
+                                    requiredDocuments: kycState.requiredDocuments,
+                                    requiredVerifications: kycState.requiredVerifications,
                                   );
                                 }
                               } else {
@@ -288,10 +272,8 @@ class _ActionButtonState extends State<ActionButton> {
                                         ),
                                       );
                                     },
-                                    requiredDocuments:
-                                        kycState.requiredDocuments,
-                                    requiredVerifications:
-                                        kycState.requiredVerifications,
+                                    requiredDocuments: kycState.requiredDocuments,
+                                    requiredVerifications: kycState.requiredVerifications,
                                   );
                                 }
                               }
@@ -314,8 +296,7 @@ class _ActionButtonState extends State<ActionButton> {
                                     widget.currency,
                                   ),
                                   requiredDocuments: kycState.requiredDocuments,
-                                  requiredVerifications:
-                                      kycState.requiredVerifications,
+                                  requiredVerifications: kycState.requiredVerifications,
                                 );
                               }
                             },
@@ -338,10 +319,8 @@ class _ActionButtonState extends State<ActionButton> {
                                   status: kycState.withdrawalStatus,
                                   isProgress: kycState.verificationInProgress,
                                   currentNavigate: () {
-                                    if (widget
-                                            .currency.isAssetBalanceNotEmpty &&
-                                        widget.currency
-                                            .supportsCryptoWithdrawal) {
+                                    if (widget.currency.isAssetBalanceNotEmpty &&
+                                        widget.currency.supportsCryptoWithdrawal) {
                                       showSendOptions(
                                         context,
                                         widget.currency,
@@ -355,8 +334,7 @@ class _ActionButtonState extends State<ActionButton> {
                                     );
                                   },
                                   requiredDocuments: kycState.requiredDocuments,
-                                  requiredVerifications:
-                                      kycState.requiredVerifications,
+                                  requiredVerifications: kycState.requiredVerifications,
                                 );
                               }
                             },
@@ -382,8 +360,7 @@ class _ActionButtonState extends State<ActionButton> {
                                     ),
                                   ),
                                   requiredDocuments: kycState.requiredDocuments,
-                                  requiredVerifications:
-                                      kycState.requiredVerifications,
+                                  requiredVerifications: kycState.requiredVerifications,
                                 );
                               }
                             },
@@ -391,8 +368,7 @@ class _ActionButtonState extends State<ActionButton> {
                             whenComplete: () {
                               if (!actionActive) updateActionState();
                             },
-                            transitionAnimationController:
-                                widget.transitionAnimationController,
+                            transitionAnimationController: widget.transitionAnimationController,
                           );
                         } else {
                           Navigator.pop(context);
@@ -414,9 +390,7 @@ class _ActionButtonState extends State<ActionButton> {
                         });
                       },
                       child: Center(
-                        child: highlighted
-                            ? const SActionActiveHighlightedIcon()
-                            : const SActionActiveIcon(),
+                        child: highlighted ? const SActionActiveHighlightedIcon() : const SActionActiveIcon(),
                       ),
                       onTap: () {
                         if (actionActive) {
@@ -424,18 +398,13 @@ class _ActionButtonState extends State<ActionButton> {
                             context: context,
                             isBuyAvailable: false,
                             isSellAvailable: false,
-                            isBuyFromCardAvailable:
-                                widget.currency.supportsAtLeastOneBuyMethod,
+                            isBuyFromCardAvailable: widget.currency.supportsAtLeastOneBuyMethod,
                             actionItemLocalized: localizedActionItems(context),
-                            isNotEmptyBalance:
-                                widget.currency.isAssetBalanceNotEmpty,
+                            isNotEmptyBalance: widget.currency.isAssetBalanceNotEmpty,
                             isDepositAvailable: isDepositAvailable,
-                            isWithdrawAvailable: widget
-                                .currency.supportsAtLeastOneWithdrawalMethod,
-                            isSendAvailable:
-                                widget.currency.supportsCryptoWithdrawal,
-                            isReceiveAvailable:
-                                widget.currency.supportsCryptoDeposit,
+                            isWithdrawAvailable: widget.currency.supportsAtLeastOneWithdrawalMethod,
+                            isSendAvailable: widget.currency.supportsCryptoWithdrawal,
+                            isReceiveAvailable: widget.currency.supportsCryptoDeposit,
                             onBuy: () {
                               onBuy(false);
                             },
@@ -443,7 +412,7 @@ class _ActionButtonState extends State<ActionButton> {
                               onBuy(true);
                             },
                             onSell: () {
-                              if (kycState.sellStatus ==
+                              if (kycState.tradeStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
@@ -455,7 +424,7 @@ class _ActionButtonState extends State<ActionButton> {
                               } else {
                                 Navigator.of(context).pop();
                                 kycAlertHandler.handle(
-                                  status: kycState.sellStatus,
+                                  status: kycState.tradeStatus,
                                   isProgress: kycState.verificationInProgress,
                                   currentNavigate: () {
                                     sRouter.navigate(
@@ -465,13 +434,12 @@ class _ActionButtonState extends State<ActionButton> {
                                     );
                                   },
                                   requiredDocuments: kycState.requiredDocuments,
-                                  requiredVerifications:
-                                      kycState.requiredVerifications,
+                                  requiredVerifications: kycState.requiredVerifications,
                                 );
                               }
                             },
                             onConvert: () {
-                              if (kycState.sellStatus ==
+                              if (kycState.tradeStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
@@ -484,12 +452,12 @@ class _ActionButtonState extends State<ActionButton> {
                                       ),
                                     );
                                   },
-                                  from: BlockingType.trade,
+                                  from: [BlockingType.trade],
                                 );
                               } else {
                                 Navigator.of(context).pop();
                                 kycAlertHandler.handle(
-                                  status: kycState.sellStatus,
+                                  status: kycState.tradeStatus,
                                   isProgress: kycState.verificationInProgress,
                                   navigatePop: true,
                                   currentNavigate: () => showSendTimerAlertOr(
@@ -501,11 +469,10 @@ class _ActionButtonState extends State<ActionButton> {
                                         ),
                                       );
                                     },
-                                    from: BlockingType.trade,
+                                    from: [BlockingType.trade],
                                   ),
                                   requiredDocuments: kycState.requiredDocuments,
-                                  requiredVerifications:
-                                      kycState.requiredVerifications,
+                                  requiredVerifications: kycState.requiredVerifications,
                                 );
                               }
                             },
@@ -529,10 +496,8 @@ class _ActionButtonState extends State<ActionButton> {
                                         widget.currency,
                                       );
                                     },
-                                    requiredDocuments:
-                                        kycState.requiredDocuments,
-                                    requiredVerifications:
-                                        kycState.requiredVerifications,
+                                    requiredDocuments: kycState.requiredDocuments,
+                                    requiredVerifications: kycState.requiredVerifications,
                                   );
                                 }
                               } else {
@@ -559,10 +524,8 @@ class _ActionButtonState extends State<ActionButton> {
                                         ),
                                       );
                                     },
-                                    requiredDocuments:
-                                        kycState.requiredDocuments,
-                                    requiredVerifications:
-                                        kycState.requiredVerifications,
+                                    requiredDocuments: kycState.requiredDocuments,
+                                    requiredVerifications: kycState.requiredVerifications,
                                   );
                                 }
                               }
@@ -585,8 +548,7 @@ class _ActionButtonState extends State<ActionButton> {
                                     widget.currency,
                                   ),
                                   requiredDocuments: kycState.requiredDocuments,
-                                  requiredVerifications:
-                                      kycState.requiredVerifications,
+                                  requiredVerifications: kycState.requiredVerifications,
                                 );
                               }
                             },
@@ -606,7 +568,7 @@ class _ActionButtonState extends State<ActionButton> {
                                         widget.currency,
                                       );
                                     },
-                                    from: BlockingType.withdrawal,
+                                    from: [BlockingType.withdrawal],
                                   );
                                 } else {
                                   sendAlertBottomSheet(context);
@@ -617,25 +579,22 @@ class _ActionButtonState extends State<ActionButton> {
                                   isProgress: kycState.verificationInProgress,
                                   currentNavigate: () {
                                     Navigator.pop(context);
-                                    if (widget
-                                            .currency.isAssetBalanceNotEmpty &&
-                                        widget.currency
-                                            .supportsCryptoWithdrawal) {
+                                    if (widget.currency.isAssetBalanceNotEmpty &&
+                                        widget.currency.supportsCryptoWithdrawal) {
                                       showSendTimerAlertOr(
                                         context: context,
                                         or: () => showSendOptions(
                                           context,
                                           widget.currency,
                                         ),
-                                        from: BlockingType.withdrawal,
+                                        from: [BlockingType.withdrawal],
                                       );
                                     } else {
                                       sendAlertBottomSheet(context);
                                     }
                                   },
                                   requiredDocuments: kycState.requiredDocuments,
-                                  requiredVerifications:
-                                      kycState.requiredVerifications,
+                                  requiredVerifications: kycState.requiredVerifications,
                                 );
                               }
                             },
@@ -661,8 +620,7 @@ class _ActionButtonState extends State<ActionButton> {
                                     ),
                                   ),
                                   requiredDocuments: kycState.requiredDocuments,
-                                  requiredVerifications:
-                                      kycState.requiredVerifications,
+                                  requiredVerifications: kycState.requiredVerifications,
                                 );
                               }
                             },
@@ -670,8 +628,7 @@ class _ActionButtonState extends State<ActionButton> {
                             whenComplete: () {
                               if (!actionActive) updateActionState();
                             },
-                            transitionAnimationController:
-                                widget.transitionAnimationController,
+                            transitionAnimationController: widget.transitionAnimationController,
                           );
                         } else {
                           Navigator.pop(context);

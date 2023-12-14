@@ -1,22 +1,26 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/send_gift/widgets/share_gift_result_bottom_sheet.dart';
+import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
+import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/transaction_details_status.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
+import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/stack_loader.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../../../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../../../../../../../utils/helpers/currency_from.dart';
 import '../../../../../../../helper/format_date_to_hm.dart';
 import 'components/transaction_details_item.dart';
-import 'components/transaction_details_status.dart';
 import 'components/transaction_details_value_text.dart';
 
 class GiftSendDetails extends StatelessObserverWidget {
@@ -33,11 +37,10 @@ class GiftSendDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final receiverContact = transactionListItem.giftSendInfo?.toEmail ??
-        transactionListItem.giftSendInfo?.toPhoneNumber ??
-        '';
+    final receiverContact =
+        transactionListItem.giftSendInfo?.toEmail ?? transactionListItem.giftSendInfo?.toPhoneNumber ?? '';
     final currency = currencyFrom(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
       transactionListItem.assetId,
     );
 
@@ -47,6 +50,9 @@ class GiftSendDetails extends StatelessObserverWidget {
       child: SPaddingH24(
         child: Column(
           children: [
+            _GiftSendDetailsHeader(
+              transactionListItem: transactionListItem,
+            ),
             TransactionDetailsItem(
               text: intl.date,
               value: TransactionDetailsValueText(
@@ -56,54 +62,44 @@ class GiftSendDetails extends StatelessObserverWidget {
             ),
             const SpaceH16(),
             TransactionDetailsItem(
-              text: intl.gift_history_to,
+              text: intl.iban_send_history_transaction_id,
               value: Row(
                 children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: TransactionDetailsValueText(
-                      textAlign: TextAlign.right,
-                      text: receiverContact,
-                    ),
+                  TransactionDetailsValueText(
+                    text: shortTxhashFrom(transactionListItem.operationId),
                   ),
                   const SpaceW10(),
-                  SIconButton(
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: receiverContact,
-                        ),
-                      );
-
-                      onCopyAction('Gift Send');
-                    },
-                    defaultIcon: const SCopyIcon(),
-                    pressedIcon: const SCopyPressedIcon(),
-                  ),
+                  HistoryCopyIcon(transactionListItem.operationId),
                 ],
               ),
             ),
             const SpaceH16(),
             TransactionDetailsItem(
-              text: intl.fee,
-              value: Row(
-                children: [
-                  TransactionDetailsValueText(
-                    text: volumeFormat(
-                      prefix: currency.prefixSymbol,
-                      decimal: transactionListItem.withdrawalInfo?.feeAmount ??
-                          Decimal.zero,
-                      accuracy: currency.accuracy,
-                      symbol: currency.symbol,
+              text: intl.gift_history_to,
+              value: Flexible(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const SpaceW10(),
+                    Flexible(
+                      child: TransactionDetailsValueText(
+                        textAlign: TextAlign.right,
+                        text: receiverContact,
+                      ),
                     ),
-                  ),
-                ],
+                    const SpaceW10(),
+                    HistoryCopyIcon(transactionListItem.operationId),
+                  ],
+                ),
               ),
             ),
             const SpaceH16(),
-            TransactionDetailsStatus(
-              status: transactionListItem.status,
-              reason: transactionListItem.giftSendInfo?.declineReason,
+            ProcessingFeeRowWidget(
+              fee: volumeFormat(
+                decimal: transactionListItem.giftSendInfo?.processingFeeAmount ?? Decimal.zero,
+                accuracy: currency.accuracy,
+                symbol: transactionListItem.giftSendInfo?.processingFeeAssetId ?? '',
+              ),
             ),
             if (transactionListItem.status == Status.inProgress) ...[
               const SpaceH40(),
@@ -116,16 +112,13 @@ class GiftSendDetails extends StatelessObserverWidget {
                   shareGiftResultBottomSheet(
                     context: context,
                     amount: Decimal.parse(
-                      '${transactionListItem.balanceChange}'
-                          .replaceAll('-', ''),
+                      '${transactionListItem.balanceChange}'.replaceAll('-', ''),
                     ),
                     currency: currency,
                     email: transactionListItem.giftSendInfo?.toEmail,
-                    phoneNumber:
-                        transactionListItem.giftSendInfo?.toPhoneNumber,
+                    phoneNumber: transactionListItem.giftSendInfo?.toPhoneNumber,
                     onClose: () {
-                      sAnalytics
-                          .tapOnTheButtonCloseOrTapOnSentHistoryDetailsSheet();
+                      sAnalytics.tapOnTheButtonCloseOrTapOnSentHistoryDetailsSheet();
                     },
                   );
                 },
@@ -135,8 +128,7 @@ class GiftSendDetails extends StatelessObserverWidget {
                 active: true,
                 name: intl.gift_history_cancel_transaction,
                 onTap: () {
-                  sAnalytics
-                      .tapOnTheButtonCancelTransactiononSentHistoryDetails();
+                  sAnalytics.tapOnTheButtonCancelTransactiononSentHistoryDetails();
 
                   sShowAlertPopup(
                     context,
@@ -148,11 +140,7 @@ class GiftSendDetails extends StatelessObserverWidget {
                     onPrimaryButtonTap: () async {
                       store.startLoadingImmediately();
                       Navigator.pop(context);
-                      await getIt
-                          .get<SNetwork>()
-                          .simpleNetworking
-                          .getWalletModule()
-                          .cancelGift(
+                      await getIt.get<SNetwork>().simpleNetworking.getWalletModule().cancelGift(
                             transactionListItem.giftSendInfo?.transferId ?? '',
                           );
                       store.finishLoading();
@@ -169,6 +157,69 @@ class GiftSendDetails extends StatelessObserverWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _GiftSendDetailsHeader extends StatelessWidget {
+  const _GiftSendDetailsHeader({
+    required this.transactionListItem,
+  });
+
+  final OperationHistoryItem transactionListItem;
+
+  @override
+  Widget build(BuildContext context) {
+    final paymentAsset = nonIndicesWithBalanceFrom(
+      sSignalRModules.currenciesWithHiddenList,
+    )
+        .where(
+          (element) => element.symbol == (transactionListItem.assetId),
+        )
+        .first;
+
+    final buyAsset = nonIndicesWithBalanceFrom(
+      sSignalRModules.currenciesWithHiddenList,
+    )
+        .where(
+          (element) => element.symbol == (transactionListItem.assetId),
+        )
+        .first;
+
+    return Column(
+      children: [
+        WhatToWhatConvertWidget(
+          removeDefaultPaddings: true,
+          isLoading: false,
+          isSmallerVersion: true,
+          fromAssetIconUrl: paymentAsset.iconUrl,
+          fromAssetDescription: paymentAsset.description,
+          fromAssetValue: volumeFormat(
+            symbol: paymentAsset.symbol,
+            accuracy: paymentAsset.accuracy,
+            decimal: transactionListItem.balanceChange.abs(),
+          ),
+          toAssetIconUrl: buyAsset.iconUrl,
+          toAssetDescription: buyAsset.description,
+          toAssetValue: volumeFormat(
+            symbol: buyAsset.symbol,
+            accuracy: buyAsset.accuracy,
+            decimal: (transactionListItem.giftSendInfo?.receiveAmount ?? Decimal.zero).abs(),
+          ),
+          isError: transactionListItem.status == Status.declined,
+        ),
+        const SizedBox(height: 24),
+        SBadge(
+          status: transactionListItem.status == Status.inProgress
+              ? SBadgeStatus.primary
+              : transactionListItem.status == Status.completed
+                  ? SBadgeStatus.success
+                  : SBadgeStatus.error,
+          text: transactionDetailsStatusText(transactionListItem.status),
+          isLoading: transactionListItem.status == Status.inProgress,
+        ),
+        const SizedBox(height: 24),
+      ],
     );
   }
 }

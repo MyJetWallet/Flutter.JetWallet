@@ -1,8 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/models/modify_required_model.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/store/kyc_steps_store.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/ui/widgets/verify_step.dart';
@@ -14,9 +15,11 @@ class KycVerifyYourProfile extends StatelessObserverWidget {
   const KycVerifyYourProfile({
     super.key,
     required this.requiredVerifications,
+    this.onFinish,
   });
 
   final List<RequiredVerified> requiredVerifications;
+  final VoidCallback? onFinish;
 
   @override
   Widget build(BuildContext context) {
@@ -45,18 +48,13 @@ class KycVerifyYourProfile extends StatelessObserverWidget {
                         indicator: store.getVerifyComplete(),
                       ),
                       const SpaceH40(),
-                      for (var index = 0;
-                          index < store.requiredVerifications.length;
-                          index++) ...[
-                        if (store.requiredVerifications[index]
-                                .requiredVerified ==
-                            RequiredVerified.proofOfPhone)
+                      for (var index = 0; index < store.requiredVerifications.length; index++) ...[
+                        if (store.requiredVerifications[index].requiredVerified == RequiredVerified.proofOfPhone)
                           VerifyStep(
                             title: '${index + 1}. ${stringRequiredVerified(
                               RequiredVerified.proofOfPhone,
                             )}',
-                            completeIcon:
-                                store.requiredVerifications[index].verifiedDone,
+                            completeIcon: store.requiredVerifications[index].verifiedDone,
                             isSDivider: _dividerVerifyStep(
                               store.requiredVerifications.length,
                               index,
@@ -68,15 +66,12 @@ class KycVerifyYourProfile extends StatelessObserverWidget {
                               store.requiredVerifications,
                             ),
                           ),
-                        if (store.requiredVerifications[index]
-                                .requiredVerified ==
-                            RequiredVerified.proofOfIdentity)
+                        if (store.requiredVerifications[index].requiredVerified == RequiredVerified.proofOfIdentity)
                           VerifyStep(
                             title: '${index + 1}. ${stringRequiredVerified(
                               RequiredVerified.proofOfIdentity,
                             )}',
-                            completeIcon:
-                                store.requiredVerifications[index].verifiedDone,
+                            completeIcon: store.requiredVerifications[index].verifiedDone,
                             isSDivider: _dividerVerifyStep(
                               store.requiredVerifications.length,
                               index,
@@ -88,15 +83,12 @@ class KycVerifyYourProfile extends StatelessObserverWidget {
                               store.requiredVerifications,
                             ),
                           ),
-                        if (store.requiredVerifications[index]
-                                .requiredVerified ==
-                            RequiredVerified.proofOfFunds)
+                        if (store.requiredVerifications[index].requiredVerified == RequiredVerified.proofOfFunds)
                           VerifyStep(
                             title: '${index + 1}. ${stringRequiredVerified(
                               RequiredVerified.proofOfFunds,
                             )}',
-                            completeIcon:
-                                store.requiredVerifications[index].verifiedDone,
+                            completeIcon: store.requiredVerifications[index].verifiedDone,
                             isSDivider: _dividerVerifyStep(
                               store.requiredVerifications.length,
                               index,
@@ -108,15 +100,12 @@ class KycVerifyYourProfile extends StatelessObserverWidget {
                               store.requiredVerifications,
                             ),
                           ),
-                        if (store.requiredVerifications[index]
-                                .requiredVerified ==
-                            RequiredVerified.proofOfAddress)
+                        if (store.requiredVerifications[index].requiredVerified == RequiredVerified.proofOfAddress)
                           VerifyStep(
                             title: '${index + 1}. ${stringRequiredVerified(
                               RequiredVerified.proofOfAddress,
                             )}',
-                            completeIcon:
-                                store.requiredVerifications[index].verifiedDone,
+                            completeIcon: store.requiredVerifications[index].verifiedDone,
                             isSDivider: _dividerVerifyStep(
                               store.requiredVerifications.length,
                               index,
@@ -140,9 +129,10 @@ class KycVerifyYourProfile extends StatelessObserverWidget {
             button: SPrimaryButton2(
               active: true,
               name: intl.kycVerifyYourProfile_continue,
-              onTap: () {
-                sRouter.push(
-                  const KycVerificationSumsubRouter(),
+              onTap: () async {
+                await getIt<SumsubService>().launch(
+                  onFinish: onFinish,
+                  isBanking: false,
                 );
               },
             ),
@@ -173,7 +163,6 @@ class KycVerifyYourProfile extends StatelessObserverWidget {
     int requiredVerificationsLength,
     int index,
   ) {
-    return requiredVerificationsLength > 1 &&
-        index + 1 != requiredVerificationsLength;
+    return requiredVerificationsLength > 1 && index + 1 != requiredVerificationsLength;
   }
 }

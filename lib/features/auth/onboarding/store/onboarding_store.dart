@@ -13,8 +13,7 @@ part 'onboarding_store.g.dart';
 class OnboardingStore extends _OnboardingStoreBase with _$OnboardingStore {
   OnboardingStore() : super();
 
-  static _OnboardingStoreBase of(BuildContext context) =>
-      Provider.of<OnboardingStore>(context, listen: false);
+  static _OnboardingStoreBase of(BuildContext context) => Provider.of<OnboardingStore>(context, listen: false);
 }
 
 abstract class _OnboardingStoreBase with Store {
@@ -29,7 +28,6 @@ abstract class _OnboardingStoreBase with Store {
   @observable
   PageController? pageController;
 
-  @observable
   AnimationController? sliderController;
 
   @observable

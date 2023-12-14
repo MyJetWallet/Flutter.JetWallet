@@ -125,7 +125,7 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       loading: verification.loader,
-      header: SAuthHeader(
+      header: SLargeHeader(
         title: intl.emailVerification_emailVerification,
         customIconButton: SIconButton(
           onTap: () {

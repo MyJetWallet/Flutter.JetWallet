@@ -8,6 +8,7 @@ import 'package:jetwallet/core/services/flavor_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
+import 'package:jetwallet/core/services/zendesk_support_service/zendesk_service.dart';
 import 'package:jetwallet/features/account/widgets/account_banner_list.dart';
 import 'package:jetwallet/features/account/widgets/log_out_option.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -15,6 +16,7 @@ import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../core/services/deep_link_service.dart';
@@ -30,9 +32,11 @@ class AccountScreen extends StatefulObserverWidget {
   State<AccountScreen> createState() => _AccountScreenState();
 }
 
-class _AccountScreenState extends State<AccountScreen>
-    with SingleTickerProviderStateMixin {
+class _AccountScreenState extends State<AccountScreen> with SingleTickerProviderStateMixin {
   int debugTapCounter = 0;
+
+  // for analytic
+  GlobalHistoryTab historyTab = GlobalHistoryTab.all;
 
   @override
   Widget build(BuildContext context) {
@@ -95,11 +99,10 @@ class _AccountScreenState extends State<AccountScreen>
               userEmail: authInfo.email,
               userFirstName: userInfo.firstName,
               userLastName: userInfo.lastName,
-              showUserName:
-                  userInfo.firstName.isNotEmpty && userInfo.lastName.isNotEmpty,
+              showUserName: userInfo.firstName.isNotEmpty && userInfo.lastName.isNotEmpty,
               isVerified: checkKycPassed(
                 kycState.depositStatus,
-                kycState.sellStatus,
+                kycState.tradeStatus,
                 kycState.withdrawalStatus,
               ),
               icon: Image.asset(
@@ -118,12 +121,12 @@ class _AccountScreenState extends State<AccountScreen>
                 AccountBannerList(
                   kycPassed: checkKycPassed(
                     kycState.depositStatus,
-                    kycState.sellStatus,
+                    kycState.tradeStatus,
                     kycState.withdrawalStatus,
                   ),
                   kycBlocked: checkKycBlocked(
                     kycState.depositStatus,
-                    kycState.sellStatus,
+                    kycState.tradeStatus,
                     kycState.withdrawalStatus,
                   ),
                   verificationInProgress: kycState.inVerificationProgress,
@@ -132,25 +135,27 @@ class _AccountScreenState extends State<AccountScreen>
                   onTwoFaBannerTap: () {
                     sRouter.push(const SmsAuthenticatorRouter());
                   },
-                  onChatBannerTap: () {
-                    sRouter.push(
-                      CrispRouter(
-                        welcomeText: intl.crispSendMessage_hi,
-                      ),
-                    );
+                  onChatBannerTap: () async {
+                    if (showZendesk) {
+                      await getIt.get<ZenDeskService>().showZenDesk();
+                    } else {
+                      await sRouter.push(
+                        CrispRouter(
+                          welcomeText: intl.crispSendMessage_hi,
+                        ),
+                      );
+                    }
                   },
                   onKycBannerTap: () {
-                    final isDepositAllow = kycState.depositStatus !=
-                        kycOperationStatus(KycStatus.allowed);
-                    final isWithdrawalAllow = kycState.withdrawalStatus !=
-                        kycOperationStatus(KycStatus.allowed);
+                    final isDepositAllow = kycState.depositStatus != kycOperationStatus(KycStatus.allowed);
+                    final isWithdrawalAllow = kycState.withdrawalStatus != kycOperationStatus(KycStatus.allowed);
 
                     kycAlertHandler.handle(
                       status: isDepositAllow
                           ? kycState.depositStatus
                           : isWithdrawalAllow
                               ? kycState.withdrawalStatus
-                              : kycState.sellStatus,
+                              : kycState.tradeStatus,
                       isProgress: kycState.verificationInProgress,
                       currentNavigate: () {},
                       requiredDocuments: kycState.requiredDocuments,
@@ -208,19 +213,41 @@ class _AccountScreenState extends State<AccountScreen>
                       title: intl.account_transactionHistory,
                       icon: const SIndexHistoryIcon(),
                       isSDivider: true,
-                      onTap: () => sRouter.push(
-                        TransactionHistoryRouter(),
-                      ),
+                      onTap: () {
+                        historyTab = GlobalHistoryTab.all;
+                        sRouter.push(
+                          TransactionHistoryRouter(
+                            onTabChanged: (index) {
+                              final result = index == 0 ? GlobalHistoryTab.all : GlobalHistoryTab.pending;
+                              setState(() {
+                                historyTab = result;
+                              });
+                            },
+                          ),
+                        ).then(
+                          (value) {
+                            sAnalytics.tapOnTheButtonBackOnGlobalTransactionHistoryScreen(
+                              globalHistoryTab: historyTab,
+                            );
+                          },
+                        );
+                      },
                     ),
                     SimpleAccountCategoryButton(
                       title: intl.account_support,
                       icon: const SSupportIcon(),
                       isSDivider: true,
-                      onTap: () => sRouter.push(
-                        CrispRouter(
-                          welcomeText: intl.crispSendMessage_hi,
-                        ),
-                      ),
+                      onTap: () async {
+                        if (showZendesk) {
+                          await getIt.get<ZenDeskService>().showZenDesk();
+                        } else {
+                          await sRouter.push(
+                            CrispRouter(
+                              welcomeText: intl.crispSendMessage_hi,
+                            ),
+                          );
+                        }
+                      },
                     ),
                     SimpleAccountCategoryButton(
                       title: intl.account_helpCenter,

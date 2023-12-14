@@ -35,6 +35,7 @@ analyzer:
   # possible options:
   # ignore, info, warning, error
   errors:
+    todo: info
     must_be_immutable: error
     missing_required_param: error
     missing_return: error

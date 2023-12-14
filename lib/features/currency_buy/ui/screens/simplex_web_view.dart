@@ -40,7 +40,7 @@ class _SimplexWebViewState extends State<SimplexWebView> {
           )
           .then(
             (value) =>
-                sRouter.push(const HomeRouter(children: [PortfolioRouter()])),
+                sRouter.push(const HomeRouter(children: [MyWalletsRouter()])),
           );
     }
 

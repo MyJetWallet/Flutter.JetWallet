@@ -1,10 +1,12 @@
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit/helpers/biometrics_auth_helpers.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 
 part 'user_info_service.g.dart';
 
@@ -30,9 +32,6 @@ abstract class _UserInfoServiceBase with Store {
 
   @observable
   bool hasDisclaimers = false;
-
-  @observable
-  bool hasNftDisclaimers = false;
 
   @observable
   bool pinDisabled = false;
@@ -72,6 +71,19 @@ abstract class _UserInfoServiceBase with Store {
 
   @observable
   bool cardRequested = false;
+
+  @computed
+  bool get isSimpleCardAvailable =>
+      sSignalRModules.assetPaymentMethodsNew?.product
+          ?.where(
+            (element) => element.id == AssetPaymentProductsEnum.bankingCardAccount,
+          )
+          .toList()
+          .isNotEmpty ??
+      false;
+
+  @observable
+  bool isSimpleCardInProgress = false;
 
   @observable
   String email = '';
@@ -121,14 +133,12 @@ abstract class _UserInfoServiceBase with Store {
     required bool phoneVerifiedValue,
     required bool hasDisclaimersValue,
     required bool hasHighYieldDisclaimersValue,
-    required bool hasNftDisclaimersValue,
     required bool isTechClientValue,
   }) {
     twoFaEnabled = twoFaEnabledValue;
     phoneVerified = phoneVerifiedValue;
     hasDisclaimers = hasDisclaimersValue;
     hasHighYieldDisclaimers = hasHighYieldDisclaimersValue;
-    hasNftDisclaimers = hasNftDisclaimersValue;
     isTechClient = isTechClientValue;
   }
 
@@ -237,8 +247,7 @@ abstract class _UserInfoServiceBase with Store {
     _logger.log(notifier, 'initBiometricStatus');
     final bioStatusFromSetting = await biometricStatus();
 
-    final isBiometricHided =
-        await getIt<LocalCacheService>().getBiometricHided() ?? false;
+    final isBiometricHided = await getIt<LocalCacheService>().getBiometricHided() ?? false;
 
     if (bioStatusFromSetting != BiometricStatus.none &&
         !isBiometricHided &&

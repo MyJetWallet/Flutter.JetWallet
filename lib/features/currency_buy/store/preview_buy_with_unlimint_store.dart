@@ -116,8 +116,9 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
     loader.startLoadingImmediately();
 
     final model = CardBuyCreateRequestModel(
+       buyFixed: true,
       paymentMethod: CirclePaymentMethod.unlimint,
-      paymentAmount: amountToPay!,
+      paymentAmount: amountToPay,
       buyAsset: input.currency.symbol,
       paymentAsset: input.currencyPayment.symbol,
     );
@@ -389,7 +390,7 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
           sRouter.push(
             const HomeRouter(
               children: [
-                PortfolioRouter(),
+                MyWalletsRouter(),
               ],
             ),
           );

@@ -46,6 +46,9 @@ enum PaymentMethodCategory {
   p2p,
   cards,
   local,
+  account,
+  simpleCard,
+  none,
 }
 
 enum PaymentMethodType {
@@ -56,6 +59,7 @@ enum PaymentMethodType {
   unlimintAlternative,
   bankCard,
   applePay,
+  ibanTransferUnlimint,
   googlePay,
   globalSend,
   depositExpressBrasil,
@@ -94,6 +98,8 @@ extension _PaymentMethodTypeExtension on PaymentMethodType {
         return 'UnlimintApplePay';
       case PaymentMethodType.googlePay:
         return 'UnlimintGooglePay';
+      case PaymentMethodType.ibanTransferUnlimint:
+        return 'IbanTransferUnlimint';
       case PaymentMethodType.globalSend:
         return 'GlobalSend';
       case PaymentMethodType.depositExpressBrasil:
@@ -160,7 +166,9 @@ class PaymentTypeSerialiser
       return PaymentMethodType.applePay;
     } else if (value == 'UnlimintGooglePay') {
       return PaymentMethodType.googlePay;
-    } else if (value == 'GlobalSend') {
+    } else if (value == 'IbanTransferUnlimint') {
+      return PaymentMethodType.ibanTransferUnlimint;
+    }  else if (value == 'GlobalSend') {
       return PaymentMethodType.globalSend;
     } else if (value == 'DepositExpressBrasil') {
       return PaymentMethodType.depositExpressBrasil;

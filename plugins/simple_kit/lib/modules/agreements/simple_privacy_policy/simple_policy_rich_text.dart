@@ -45,15 +45,10 @@ class SimplePolicyRichText extends StatelessWidget {
       textAlign: TextAlign.start,
       text: TextSpan(
         text: firstText,
-        style: (isSendGlobal != null && isSendGlobal!)
-            ? sBodyText2Style.copyWith(
-                fontFamily: 'Gilroy',
-                color: SColorsLight().black,
-              )
-            : sCaptionTextStyle.copyWith(
-                fontFamily: 'Gilroy',
-                color: SColorsLight().black,
-              ),
+        style: sBodyText2Style.copyWith(
+          fontFamily: 'Gilroy',
+          color: SColorsLight().black,
+        ),
         children: [
           if (isSendGlobal != null && isSendGlobal!) ...[
             const TextSpan(

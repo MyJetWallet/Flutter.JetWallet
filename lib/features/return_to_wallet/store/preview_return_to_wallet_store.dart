@@ -14,8 +14,7 @@ import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/models/earn_offer_withdrawal/earn_offer_withdrawal_request_model.dart';
 part 'preview_return_to_wallet_store.g.dart';
 
-class PreviewReturnToWalletStore extends _PreviewReturnToWalletStoreBase
-    with _$PreviewReturnToWalletStore {
+class PreviewReturnToWalletStore extends _PreviewReturnToWalletStoreBase with _$PreviewReturnToWalletStore {
   PreviewReturnToWalletStore(super.input);
 
   static _PreviewReturnToWalletStoreBase of(BuildContext context) =>
@@ -54,15 +53,13 @@ abstract class _PreviewReturnToWalletStoreBase with Store {
   Decimal? feePercent;
 
   // Will be initialzied on initState of the parent widget
-  @observable
   AnimationController? timerAnimation;
 
   @observable
   bool connectingToServer = false;
 
   @observable
-  PreviewReturnToWalletUnion union =
-      const PreviewReturnToWalletUnion.quoteLoading();
+  PreviewReturnToWalletUnion union = const PreviewReturnToWalletUnion.quoteLoading();
 
   @observable
   int timer = 0;
@@ -117,6 +114,7 @@ abstract class _PreviewReturnToWalletStoreBase with Store {
       _showFailureScreen(
         ServerRejectException(
           intl.preview_return_to_wallet_error,
+          '',
         ),
       );
     }

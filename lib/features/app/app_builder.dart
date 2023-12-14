@@ -8,7 +8,9 @@ import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
+import 'package:jetwallet/features/app/timer_service.dart';
 import 'package:jetwallet/features/auth/splash/splash_screen_no_animation.dart';
 import 'package:logger/logger.dart';
 
@@ -66,8 +68,7 @@ class AppBuilderBody extends StatefulWidget {
   State<AppBuilderBody> createState() => _AppBuilderBodyState();
 }
 
-class _AppBuilderBodyState extends State<AppBuilderBody>
-    with WidgetsBindingObserver {
+class _AppBuilderBodyState extends State<AppBuilderBody> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
@@ -79,8 +80,7 @@ class _AppBuilderBodyState extends State<AppBuilderBody>
             message: 'AppLifecycleState RESUMED',
           );
 
-      if (getIt.get<AppStore>().authStatus ==
-          const AuthorizationUnion.authorized()) {
+      if (getIt.get<AppStore>().authStatus == const AuthorizationUnion.authorized()) {
         refreshToken(
           isResumed: true,
         );
@@ -110,11 +110,19 @@ class _AppBuilderBodyState extends State<AppBuilderBody>
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery(
-      data: widget.reactiveMediaQuery.copyWith(
-        textScaleFactor: 1.0,
+    return TimerServiceProvider(
+      service: TimerService(),
+      child: SimpleActivityDetector(
+        onShoulNavigate: (_) {},
+        child: MediaQuery(
+          data: widget.reactiveMediaQuery.copyWith(
+            textScaleFactor: 1.0,
+          ),
+          child: GlobalLoaderWidget(
+            child: widget.child,
+          ),
+        ),
       ),
-      child: widget.child,
     );
   }
 }

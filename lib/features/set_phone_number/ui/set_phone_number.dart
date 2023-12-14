@@ -89,154 +89,174 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
               : null,
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Material(
-            color: colors.white,
-            child: Row(
+      child: CustomScrollView(
+        shrinkWrap: true,
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  margin: const EdgeInsets.only(
-                    left: 24,
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      right: BorderSide(
-                        color: colors.grey4,
-                      ),
-                    ),
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      showCountryPhoneNumberPicker(context);
-                    },
-                    child: SizedBox(
-                      width: 76,
-                      child: AbsorbPointer(
-                        child: SStandardField(
-                          labelText: intl.setPhoneNumber_code,
-                          readOnly: true,
-                          hideClearButton: true,
-                          focusNode: store.dialFocusNode,
-                          controller: store.dialCodeController,
+                Material(
+                  color: colors.white,
+                  child: Row(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(
+                          left: 24,
                         ),
-                      ),
-                    ),
-                  ),
-                ),
-                Observer(
-                  builder: (context) {
-                    return Expanded(
-                      child: SPaddingH24(
-                        child: SStandardField(
-                          labelText: intl.setPhoneNumber_phoneNumber,
-                          focusNode: store.focusNode,
-                          autofillHints: const [
-                            AutofillHints.telephoneNumber,
-                          ],
-                          keyboardType: TextInputType.phone,
-                          textInputAction: TextInputAction.next,
-                          onChanged: (String phone) {
-                            store.updatePhoneNumber(phone);
+                        decoration: BoxDecoration(
+                          border: Border(
+                            right: BorderSide(
+                              color: colors.grey4,
+                            ),
+                          ),
+                        ),
+                        child: GestureDetector(
+                          onTap: () {
+                            showCountryPhoneNumberPicker(context);
                           },
-                          controller: store.phoneNumberController,
-                          suffixIcons: store.phoneInput.isNotEmpty
-                              ? [
-                                  SIconButton(
-                                    onTap: () => store.clearPhone(),
-                                    defaultIcon: const SEraseIcon(),
-                                    pressedIcon: const SErasePressedIcon(),
-                                  ),
-                                ]
-                              : null,
+                          child: SizedBox(
+                            width: 76,
+                            child: AbsorbPointer(
+                              child: SStandardField(
+                                labelText: intl.setPhoneNumber_code,
+                                readOnly: true,
+                                hideClearButton: true,
+                                focusNode: store.dialFocusNode,
+                                controller: store.dialCodeController,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-          const Spacer(),
-          Observer(
-            builder: (context) {
-              return SPaddingH24(
-                child: SPrimaryButton4(
-                  active: store.isButtonActive,
-                  name: intl.setPhoneNumber_continue,
-                  onTap: () {
-                    sAnalytics.signInFlowPhoneNumberContinue();
-
-                    //FocusScope.of(context).unfocus();
-                    if (sUserInfo.phone == store.phoneNumber()) {
-                      sRouter.pop();
-
-                      return;
-                    }
-
-                    if (store.canCLick) {
-                      store.toggleClick(false);
-
-                      Timer(
-                        const Duration(
-                          seconds: 2,
-                        ),
-                        () => store.toggleClick(true),
-                      );
-                    } else {
-                      return;
-                    }
-
-                    void finalSend({required String newPin}) {
-                      store.updatePin(newPin);
-                      store.sendCode(
-                        then: () {
-                          sRouter.push(
-                            PhoneVerificationRouter(
-                              args: PhoneVerificationArgs(
-                                phoneNumber: store.phoneNumber(),
-                                activeDialCode: store.activeDialCode,
-                                sendCodeOnInitState: false,
-                                onVerified: () {
-                                  final userInfoN = sUserInfo;
-
-                                  userInfoN.updatePhoneVerified(
-                                    phoneVerifiedValue: true,
-                                  );
-                                  userInfoN.updateTwoFaStatus(enabled: true);
-                                  userInfoN.updatePhone(store.phoneNumber());
-
-                                  store.phoneNumberController.text = '';
-
-                                  then!();
+                      Observer(
+                        builder: (context) {
+                          return Expanded(
+                            child: SPaddingH24(
+                              child: SStandardField(
+                                labelText: intl.setPhoneNumber_phoneNumber,
+                                focusNode: store.focusNode,
+                                autofillHints: const [
+                                  AutofillHints.telephoneNumber,
+                                ],
+                                keyboardType: TextInputType.phone,
+                                textInputAction: TextInputAction.next,
+                                onChanged: (String phone) {
+                                  store.updatePhoneNumber(phone);
                                 },
+                                controller: store.phoneNumberController,
+                                suffixIcons: store.phoneInput.isNotEmpty
+                                    ? [
+                                        SIconButton(
+                                          onTap: () => store.clearPhone(),
+                                          defaultIcon: const SEraseIcon(),
+                                          pressedIcon: const SErasePressedIcon(),
+                                        ),
+                                      ]
+                                    : null,
                               ),
                             ),
                           );
                         },
-                      );
-                    }
+                      ),
+                    ],
+                  ),
+                ),
+                if (isChangePhone) ...[
+                  const SpaceH20(),
+                  SPaddingH24(
+                    child: Text(
+                      intl.phone_cahange_warning,
+                      textAlign: TextAlign.left,
+                      maxLines: 10,
+                      style: sBodyText1Style.copyWith(color: colors.grey1),
+                    ),
+                  ),
+                  const SpaceH20(),
+                ],
+                const Spacer(),
+                Observer(
+                  builder: (context) {
+                    return SPaddingH24(
+                      child: SPrimaryButton4(
+                        active: store.isButtonActive,
+                        name: intl.setPhoneNumber_continue,
+                        onTap: () {
+                          sAnalytics.signInFlowPhoneNumberContinue();
 
-                    if (isChangePhone) {
-                      sRouter.push(
-                        PinScreenRoute(
-                          union: const Change(),
-                          isChangePhone: true,
-                          onChangePhone: (String newPin) {
-                            finalSend(newPin: newPin);
-                          },
-                        ),
-                      );
-                    } else {
-                      finalSend(newPin: '');
-                    }
+                          //FocusScope.of(context).unfocus();
+                          if (sUserInfo.phone == store.phoneNumber()) {
+                            sRouter.pop();
+
+                            return;
+                          }
+
+                          if (store.canCLick) {
+                            store.toggleClick(false);
+
+                            Timer(
+                              const Duration(
+                                seconds: 2,
+                              ),
+                              () => store.toggleClick(true),
+                            );
+                          } else {
+                            return;
+                          }
+
+                          void finalSend({required String newPin}) {
+                            store.updatePin(newPin);
+                            store.sendCode(
+                              then: () {
+                                sRouter.push(
+                                  PhoneVerificationRouter(
+                                    args: PhoneVerificationArgs(
+                                      phoneNumber: store.phoneNumber(),
+                                      activeDialCode: store.activeDialCode,
+                                      sendCodeOnInitState: false,
+                                      onVerified: () {
+                                        final userInfoN = sUserInfo;
+
+                                        userInfoN.updatePhoneVerified(
+                                          phoneVerifiedValue: true,
+                                        );
+                                        userInfoN.updateTwoFaStatus(enabled: true);
+                                        userInfoN.updatePhone(store.phoneNumber());
+
+                                        store.phoneNumberController.text = '';
+
+                                        then!();
+                                      },
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          }
+
+                          if (isChangePhone) {
+                            sRouter.push(
+                              PinScreenRoute(
+                                union: const Change(),
+                                isChangePhone: true,
+                                onChangePhone: (String newPin) {
+                                  finalSend(newPin: newPin);
+                                },
+                              ),
+                            );
+                          } else {
+                            finalSend(newPin: '');
+                          }
+                        },
+                      ),
+                    );
                   },
                 ),
-              );
-            },
+                const SpaceH42(),
+              ],
+            ),
           ),
-          const SpaceH42(),
         ],
       ),
     );

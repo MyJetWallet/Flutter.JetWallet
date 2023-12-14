@@ -65,6 +65,12 @@ final sBodyText1Style = _basicTextStyle.copyWith(
   height: 1.50,
 );
 
+final sTextButtonStyle = _basicTextStyle.copyWith(
+  fontSize: 16,
+  fontWeight: FontWeight.w700,
+  height: 1,
+);
+
 final sBodyText2Style = _basicTextStyle.copyWith(
   fontSize: 14.0,
   fontWeight: FontWeight.w500,

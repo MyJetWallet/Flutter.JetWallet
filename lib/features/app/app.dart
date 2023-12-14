@@ -66,6 +66,7 @@ class _AppScreenState extends State<AppScreen> {
       restorationScopeId: 'app',
       debugShowCheckedModeBanner: widget.debugShowCheckedModeBanner,
       locale: widget.locale,
+      title: 'Simple',
       supportedLocales: const [
         Locale('en'),
         Locale('pl'),

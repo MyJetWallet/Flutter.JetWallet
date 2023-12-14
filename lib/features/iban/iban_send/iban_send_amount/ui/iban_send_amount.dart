@@ -2,7 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
+import 'package:jetwallet/features/iban/iban_send/iban_send_amount/helpers/show_reference_sheet.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_amount/store/iban_send_amount_store.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_limits/iban_send_limits.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
@@ -12,6 +14,7 @@ import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 
 @RoutePage(name: 'IbanSendAmountRouter')
@@ -19,21 +22,38 @@ class IbanSendAmount extends StatelessWidget {
   const IbanSendAmount({
     super.key,
     required this.contact,
+    required this.bankingAccount,
+    required this.isCJ,
   });
 
   final AddressBookContactModel contact;
+  final SimpleBankingAccount bankingAccount;
+  final bool isCJ;
 
   @override
   Widget build(BuildContext context) {
     return Provider<IbanSendAmountStore>(
-      create: (context) => IbanSendAmountStore()..init(contact),
-      builder: (context, child) => const IbanSendAmountBody(),
+      create: (context) => IbanSendAmountStore()..init(contact, bankingAccount, isCJ),
+      builder: (context, child) => IbanSendAmountBody(
+        contact: contact,
+        bankingAccount: bankingAccount,
+        isCJ: isCJ,
+      ),
     );
   }
 }
 
 class IbanSendAmountBody extends StatelessObserverWidget {
-  const IbanSendAmountBody({super.key});
+  const IbanSendAmountBody({
+    super.key,
+    required this.contact,
+    required this.bankingAccount,
+    required this.isCJ,
+  });
+
+  final AddressBookContactModel contact;
+  final SimpleBankingAccount bankingAccount;
+  final bool isCJ;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +67,7 @@ class IbanSendAmountBody extends StatelessObserverWidget {
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: '${intl.iban_out_send} ${store.eurCurrency.symbol}',
+          title: intl.withdraw,
           subTitle: '${intl.withdrawalAmount_available}: ${volumeFormat(
             decimal: store.availableCurrency,
             accuracy: store.eurCurrency.accuracy,
@@ -56,6 +76,17 @@ class IbanSendAmountBody extends StatelessObserverWidget {
           subTitleStyle: sSubtitle3Style.copyWith(
             color: colors.grey2,
           ),
+          onBackButtonTap: () {
+            sAnalytics.eurWithdrawBackAmountSV(
+              eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+              accountIban: bankingAccount.iban ?? '',
+              accountLabel: bankingAccount.label ?? '',
+              eurAccType: contact.iban ?? '',
+              eurAccLabel: contact.name ?? '',
+            );
+
+            Navigator.pop(context);
+          },
         ),
       ),
       child: Column(
@@ -72,7 +103,6 @@ class IbanSendAmountBody extends StatelessObserverWidget {
                 child: SActionPriceField(
                   widgetSize: widgetSizeFrom(deviceSize),
                   price: formatCurrencyStringAmount(
-                    prefix: store.eurCurrency.prefixSymbol,
                     value: store.withAmount,
                     symbol: store.eurCurrency.symbol,
                   ),
@@ -80,34 +110,43 @@ class IbanSendAmountBody extends StatelessObserverWidget {
                   error: store.withAmmountInputError == InputError.limitError
                       ? store.limitError
                       : store.withAmmountInputError.value(),
-                  isErrorActive: store.withAmmountInputError.isActive,
+                  //isErrorActive: store.withAmmountInputError.isActive,
+                  isErrorActive: false,
                 ),
               ),
             ],
           ),
           const Spacer(),
-          /*SPaymentSelectCreditCard(
-            widgetSize: widgetSizeFrom(deviceSize),
-            icon: SAccountIcon(
-              color: colors.black,
+          if (!store.withAmmountInputError.isActive) ...[
+            if (store.showAllWithdraw)
+              STransparentInkWell(
+                onTap: () {
+                  store.updateAmount(store.availableCurrency.toString());
+                },
+                child: Text(
+                  '${intl.withdrawAll} ${volumeFormat(
+                    decimal: store.availableCurrency,
+                    accuracy: store.eurCurrency.accuracy,
+                    symbol: store.eurCurrency.symbol,
+                  )}',
+                  style: sBodyText1Style.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: colors.blue,
+                  ),
+                ),
+              ),
+          ] else ...[
+            Text(
+              store.withAmmountInputError == InputError.limitError
+                  ? store.limitError
+                  : store.withAmmountInputError.value(),
+              style: sBodyText2Style.copyWith(
+                color: colors.red,
+              ),
             ),
-            name: store.contact?.name ?? '',
-            description: store.contact?.iban ?? '',
-            //limit: isLimitBlock ? 100 : state.limitByAsset?.barProgress ?? 0,
-            limit: 0,
-            onTap: () => showLimits(),
-          ),
-          */
+          ],
+          const SpaceH20(),
           SPaymentSelectAsset(
-            onTap: () {
-              sAnalytics.tapOnTheButtonLimitsIBAN();
-
-              showIbanSendLimits(
-                context: context,
-                cardLimits: store.limits!,
-                currency: store.eurCurrency,
-              );
-            },
             widgetSize: widgetSizeFrom(deviceSize),
             icon: SAccountIcon(
               color: colors.black,
@@ -121,20 +160,6 @@ class IbanSendAmountBody extends StatelessObserverWidget {
           ),
           SNumericKeyboardAmount(
             widgetSize: widgetSizeFrom(deviceSize),
-            preset1Name: '25%',
-            preset2Name: '50%',
-            preset3Name: intl.max,
-            selectedPreset: store.selectedPreset,
-            onPresetChanged: (preset) {
-              store.tapPreset(
-                preset.index == 0
-                    ? '25%'
-                    : preset.index == 1
-                        ? '50%'
-                        : 'Max',
-              );
-              store.selectPercentFromBalance(preset);
-            },
             onKeyPressed: (value) {
               store.updateAmount(value);
             },
@@ -146,10 +171,47 @@ class IbanSendAmountBody extends StatelessObserverWidget {
                 asset: 'EUR',
                 methodType: '2',
                 sendAmount: store.withAmount,
-                preset: store.tappedPreset ?? 'false',
+                preset: 'false',
               );
 
-              store.loadPreview();
+              sAnalytics.eurWithdrawContinueFromAmoountB(
+                eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+                accountIban: bankingAccount.iban ?? '',
+                accountLabel: bankingAccount.label ?? '',
+                eurAccType: contact.iban ?? '',
+                eurAccLabel: contact.name ?? '',
+                enteredAmount: store.withAmount,
+              );
+
+              if (isCJ) {
+                store.loadPreview(null, isCJ);
+              } else {
+                sAnalytics.eurWithdrawReferenceSV(
+                  eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+                  accountIban: bankingAccount.iban ?? '',
+                  accountLabel: bankingAccount.label ?? '',
+                  eurAccType: contact.iban ?? '',
+                  eurAccLabel: contact.name ?? '',
+                  enteredAmount: store.withAmount,
+                );
+
+                showReferenceSheet(
+                  context,
+                  (description) {
+                    sAnalytics.eurWithdrawContinueReferecenceButton(
+                      eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+                      accountIban: bankingAccount.iban ?? '',
+                      accountLabel: bankingAccount.label ?? '',
+                      eurAccType: contact.iban ?? '',
+                      eurAccLabel: contact.name ?? '',
+                      enteredAmount: store.withAmount,
+                      referenceText: description,
+                    );
+
+                    store.loadPreview(description, isCJ);
+                  },
+                );
+              }
             },
           ),
         ],

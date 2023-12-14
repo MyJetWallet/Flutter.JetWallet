@@ -64,7 +64,6 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
                         ),
                         Text(
                           volumeFormat(
-                            prefix: sendGiftStore.currency.prefixSymbol,
                             decimal: sendGiftStore.amount,
                             accuracy: sendGiftStore.currency.accuracy,
                             symbol: sendGiftStore.currency.symbol,
@@ -98,10 +97,7 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
                     SActionConfirmText(
                       name: intl.fee,
                       value: volumeFormat(
-                        prefix: sendGiftStore.currency.prefixSymbol,
-                        decimal:
-                            sendGiftStore.currency.fees.withdrawalFee?.size ??
-                                Decimal.zero,
+                        decimal: sendGiftStore.currency.fees.withdrawalFee?.size ?? Decimal.zero,
                         accuracy: sendGiftStore.currency.accuracy,
                         symbol: sendGiftStore.currency.symbol,
                       ),
@@ -113,7 +109,6 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
                     SActionConfirmText(
                       name: intl.send_gift_total_pay,
                       value: volumeFormat(
-                        prefix: sendGiftStore.currency.prefixSymbol,
                         decimal: sendGiftStore.amount,
                         accuracy: sendGiftStore.currency.accuracy,
                         symbol: sendGiftStore.currency.symbol,
@@ -131,10 +126,7 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
                           asset: sendGiftStore.currency.symbol,
                           totalSendAmount: sendGiftStore.amount.toString(),
                           paymentFee: volumeFormat(
-                            prefix: sendGiftStore.currency.prefixSymbol,
-                            decimal: sendGiftStore
-                                    .currency.fees.withdrawalFee?.size ??
-                                Decimal.zero,
+                            decimal: sendGiftStore.currency.fees.withdrawalFee?.size ?? Decimal.zero,
                             accuracy: sendGiftStore.currency.accuracy,
                             symbol: sendGiftStore.currency.symbol,
                           ),
@@ -153,8 +145,7 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
                             onWrongPin: (error) {
                               sAnalytics.errorWrongPin(
                                 asset: sendGiftStore.currency.symbol,
-                                giftSubmethod:
-                                    sendGiftStore.selectedContactType.name,
+                                giftSubmethod: sendGiftStore.selectedContactType.name,
                                 errorText: error,
                                 sendMethod: AnalyticsSendMethods.gift,
                               );

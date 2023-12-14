@@ -89,14 +89,10 @@ class _IBanHeaderState extends State<IBanHeader> with TickerProviderStateMixin {
                       color: widget.isShareActive ? colors.black : colors.grey3,
                     ),
                     pressedIcon: SShareIcon(
-                      color: widget.isShareActive
-                          ? colors.black.withOpacity(0.7)
-                          : colors.grey3,
+                      color: widget.isShareActive ? colors.black.withOpacity(0.7) : colors.grey3,
                     ),
                     onTap: () {
-                      if (widget.isShareActive &&
-                          widget.textForShare != null &&
-                          canTapShare) {
+                      if (widget.isShareActive && widget.textForShare != null && canTapShare) {
                         setState(() {
                           canTapShare = false;
                         });
@@ -119,8 +115,12 @@ class _IBanHeaderState extends State<IBanHeader> with TickerProviderStateMixin {
                       }
                     },
                   ),
-                  const NotificationBox(
-                    notifications: 0,
+                  const Positioned(
+                    right: 0,
+                    top: -5,
+                    child: NotificationBox(
+                      notifications: 0,
+                    ),
                   ),
                 ],
               ),
@@ -142,17 +142,21 @@ class _IBanHeaderState extends State<IBanHeader> with TickerProviderStateMixin {
                       sRouter.push(const AccountRouter());
                     },
                   ),
-                  NotificationBox(
-                    notifications: _profileNotificationLength(
-                      KycModel(
-                        depositStatus: kycState.depositStatus,
-                        sellStatus: kycState.sellStatus,
-                        withdrawalStatus: kycState.withdrawalStatus,
-                        requiredDocuments: kycState.requiredDocuments,
-                        requiredVerifications: kycState.requiredVerifications,
-                        verificationInProgress: kycState.verificationInProgress,
+                  Positioned(
+                    right: 0,
+                    top: -5,
+                    child: NotificationBox(
+                      notifications: _profileNotificationLength(
+                        KycModel(
+                          depositStatus: kycState.depositStatus,
+                          sellStatus: kycState.tradeStatus,
+                          withdrawalStatus: kycState.withdrawalStatus,
+                          requiredDocuments: kycState.requiredDocuments,
+                          requiredVerifications: kycState.requiredVerifications,
+                          verificationInProgress: kycState.verificationInProgress,
+                        ),
+                        true,
                       ),
-                      true,
                     ),
                   ),
                 ],

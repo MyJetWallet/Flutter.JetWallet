@@ -12,12 +12,12 @@ import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:rsa_encrypt/rsa_encrypt.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
@@ -36,8 +36,7 @@ enum BankCardStoreMode { add, edit }
 class BankCardStore extends _BankCardStoreBase with _$BankCardStore {
   BankCardStore() : super();
 
-  static _BankCardStoreBase of(BuildContext context) =>
-      Provider.of<BankCardStore>(context, listen: false);
+  static _BankCardStoreBase of(BuildContext context) => Provider.of<BankCardStore>(context, listen: false);
 }
 
 abstract class _BankCardStoreBase with Store {
@@ -119,15 +118,11 @@ abstract class _BankCardStoreBase with Store {
 
   @computed
   bool get isCardDetailsValid {
-    if ((expiryYear.length != 4 && expiryYear.length != 2) ||
-        expiryMonth.length < 2) {
+    if ((expiryYear.length != 4 && expiryYear.length != 2) || expiryMonth.length < 2) {
       return false;
     }
 
-    return isCardNumberValid &&
-        isExpiryMonthValid &&
-        isExpiryYearValid &&
-        isLabelValid;
+    return isCardNumberValid && isExpiryMonthValid && isExpiryYearValid;
   }
 
   @computed
@@ -177,6 +172,19 @@ abstract class _BankCardStoreBase with Store {
       expiryMonthError = !isExpiryMonthValid;
       expiryYearError = !isExpiryYearValid;
     }
+    if (mode == BankCardStoreMode.add) {
+      var tempCardLabel = 'Card 1';
+      final cards = sSignalRModules.cards.cardInfos;
+      for (var index = 1; index <= cards.length; index++) {
+        if (cards.any((element) => element.cardLabel == tempCardLabel)) {
+          tempCardLabel = 'Card ${index + 1}';
+        } else {
+          break;
+        }
+      }
+      cardLabelController = TextEditingController(text: tempCardLabel);
+      cardLabel = tempCardLabel;
+    }
   }
 
   @action
@@ -215,9 +223,7 @@ abstract class _BankCardStoreBase with Store {
         for (var i = 0; i < code.length; i++) {
           buffer.write(code[i]);
           final nonZeroIndex = i + 1;
-          if (nonZeroIndex % 4 == 0 &&
-              nonZeroIndex != code.length &&
-              nonZeroIndex != (code.length - 1)) {
+          if (nonZeroIndex % 4 == 0 && nonZeroIndex != code.length && nonZeroIndex != (code.length - 1)) {
             buffer.write(' ');
           }
         }
@@ -246,8 +252,7 @@ abstract class _BankCardStoreBase with Store {
       }
       expiryMonthError = false;
 
-      expiryMonthController.selection =
-          TextSelection.collapsed(offset: expiryMonthController.text.length);
+      expiryMonthController.selection = TextSelection.collapsed(offset: expiryMonthController.text.length);
     }
 
     if (expiryDate.length >= 5) {
@@ -256,11 +261,9 @@ abstract class _BankCardStoreBase with Store {
       expiryMonth = sp.first;
       expiryYear = sp[1];
 
-      monthNode.nextFocus();
       labelNode.requestFocus();
 
-      if ((expiryYear.length == 4 || expiryYear.length == 2) &&
-          expiryYear != '20') {
+      if ((expiryYear.length == 4 || expiryYear.length == 2) && expiryYear != '20') {
         expiryMonthError = !isExpiryMonthValid;
         expiryYearError = !isExpiryYearValid;
       } else {
@@ -298,18 +301,14 @@ abstract class _BankCardStoreBase with Store {
     required bool isPreview,
     PaymentAsset? currency,
     required String amount,
-    BuyMethodDto? method,
     required CurrencyModel asset,
   }) async {
     loader.startLoadingImmediately();
 
-    sAnalytics.newBuyTapCardContinue(saveCard: saveCard.toString());
-
     try {
       final response = await sNetwork.getWalletModule().encryptionKey();
 
-      final cardNumberString =
-          cardNumber.replaceAll('\u{2005}', '').replaceAll(' ', '');
+      final cardNumberString = cardNumber.replaceAll('\u{2005}', '').replaceAll(' ', '');
 
       final rsa = RsaKeyHelper();
       final key = '-----BEGIN RSA PUBLIC KEY-----\r\n'
@@ -319,6 +318,10 @@ abstract class _BankCardStoreBase with Store {
       final encrypter = Encrypter(RSA(publicKey: key1));
       final encrypted = encrypter.encrypt('{"cardNumber":"$cardNumberString"}');
       final base64Encoded = encrypted.base64;
+
+      if (!saveCard) {
+        cardLabel = '';
+      }
 
       final model = CardAddRequestModel(
         encKeyId: response.data?.data.keyId ?? '',
@@ -330,7 +333,7 @@ abstract class _BankCardStoreBase with Store {
         ),
         isActive: !isPreview || saveCard,
         cardLabel: cardLabel.isEmpty ? null : cardLabel,
-        cardAssetSymbol: currency?.asset ?? '',
+        cardAssetSymbol: currency?.asset,
       );
 
       final newCard = await sNetwork.getWalletModule().cardAdd(model);
@@ -340,31 +343,28 @@ abstract class _BankCardStoreBase with Store {
           if (isPreview) {
             final cardNumberFinal = cardNumber.replaceAll('\u{2005}', '');
             if (newCard.data?.data.status == CardStatus.verificationRequired) {
-              if (newCard.data?.data.requiredVerification ==
-                  CardVerificationType.cardCheck) {
+              if (newCard.data?.data.requiredVerification == CardVerificationType.cardCheck) {
                 await sRouter.push(
                   UploadVerificationPhotoRouter(
                     cardId: newCard.data?.data.cardId ?? '',
                     onSuccess: () {
                       showPreview(
                         cardNumber: cardNumberFinal,
-                        currency: currency!,
                         amount: amount,
                         cardId: newCard.data?.data.cardId ?? '',
                         showUaAlert: newCard.data?.data.showUaAlert ?? false,
-                        method: method,
                         asset: asset,
                         expMonth: int.parse(expiryMonth),
                         expYear: int.parse(
                           expiryYear.length == 4 ? expiryYear : '20$expiryYear',
                         ),
                         cardLabel: cardLabel.isEmpty ? '' : cardLabel,
+                        network: data.data.network,
                       );
                     },
                   ),
                 );
-              } else if (newCard.data?.data.requiredVerification ==
-                  CardVerificationType.cardWithSelfieCheck) {
+              } else if (newCard.data?.data.requiredVerification == CardVerificationType.cardWithSelfieCheck) {
                 await sRouter.push(
                   UploadVerificationPhotoRouter(
                     isSelfie: true,
@@ -372,47 +372,46 @@ abstract class _BankCardStoreBase with Store {
                     onSuccess: () {
                       showPreview(
                         cardNumber: cardNumberFinal,
-                        currency: currency!,
                         amount: amount,
                         cardId: newCard.data?.data.cardId ?? '',
                         showUaAlert: newCard.data?.data.showUaAlert ?? false,
-                        method: method,
                         asset: asset,
                         expMonth: int.parse(expiryMonth),
                         expYear: int.parse(
                           expiryYear.length == 4 ? expiryYear : '20$expiryYear',
                         ),
                         cardLabel: cardLabel.isEmpty ? '' : cardLabel,
+                        network: data.data.network,
                       );
                     },
                   ),
                 );
               }
             } else if (newCard.data?.data.status == CardStatus.accepted) {
-              showPreview(
+              await showPreview(
                 cardNumber: cardNumberFinal,
-                currency: currency!,
                 amount: amount,
                 cardId: newCard.data?.data.cardId ?? '',
                 showUaAlert: newCard.data?.data.showUaAlert ?? false,
-                method: method,
                 asset: asset,
                 expMonth: int.parse(expiryMonth),
                 expYear: int.parse(
                   expiryYear.length == 4 ? expiryYear : '20$expiryYear',
                 ),
                 cardLabel: cardLabel.isEmpty ? '' : cardLabel,
+                network: data.data.network,
               );
             } else {
               _showFailureScreen();
             }
           }
-          loader.finishLoading(onFinish: () => onSuccess());
+
+          loader.finishLoadingImmediately();
+          onSuccess();
         },
         onError: (error) {
           sNotification.showError(
             error.cause,
-            duration: 4,
             id: 1,
           );
           loader.finishLoading(onFinish: onError);
@@ -421,14 +420,12 @@ abstract class _BankCardStoreBase with Store {
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,
-        duration: 4,
         id: 1,
       );
       loader.finishLoading(onFinish: onError);
     } catch (error) {
       sNotification.showError(
         intl.something_went_wrong_try_again2,
-        duration: 4,
         id: 1,
       );
       loader.finishLoading(onFinish: onError);
@@ -436,19 +433,20 @@ abstract class _BankCardStoreBase with Store {
   }
 
   @action
-  void showPreview({
+  Future<void> showPreview({
     required String amount,
-    required PaymentAsset currency,
     required String cardNumber,
     required String cardId,
-    BuyMethodDto? method,
     required CurrencyModel asset,
     bool showUaAlert = false,
     required int expMonth,
     required int expYear,
     required String cardLabel,
-  }) {
-    sRouter.pop();
+    required CircleCardNetwork network,
+  }) async {
+    await sRouter.pop();
+    if (saveCard) await sRouter.pop();
+
     Timer(const Duration(milliseconds: 300), () {
       final cardIndex = sSignalRModules.cards.cardInfos.indexWhere(
         (element) => element.id == cardId,
@@ -458,12 +456,11 @@ abstract class _BankCardStoreBase with Store {
       CircleCard? card;
 
       card = cardIndex != -1
-          ? sSignalRModules.cards.cardInfos
-              .firstWhere((element) => element.id == cardId)
+          ? sSignalRModules.cards.cardInfos.firstWhere((element) => element.id == cardId)
           : CircleCard(
               id: cardId,
               last4: finalCardNumber,
-              network: getCardNetworkNumber(cardNumber),
+              network: network,
               expMonth: expMonth,
               expYear: expYear,
               status: CircleCardStatus.complete,
@@ -484,13 +481,10 @@ abstract class _BankCardStoreBase with Store {
           );
 
       sRouter.push(
-        BuyAmountRoute(
+        AmountRoute(
+          tab: AmountScreenTab.buy,
           asset: asset,
-          currency: currency,
-          method: method,
           card: card,
-          cardNumber: finalCardNumber,
-          cardId: cardId,
         ),
       );
     });
@@ -536,14 +530,12 @@ abstract class _BankCardStoreBase with Store {
     try {
       loader.startLoadingImmediately();
 
-      if (card.integration == IntegrationType.circle ||
-          card.integration == null) {
+      if (card.integration == IntegrationType.circle || card.integration == null) {
         final model = DeleteCardRequestModel(cardId: card.id);
         final _ = await sNetwork.getWalletModule().postDeleteCard(model);
       } else if (card.integration == IntegrationType.unlimint) {
         final model = DeleteUnlimintCardRequestModel(cardId: card.id);
-        final _ =
-            await sNetwork.getWalletModule().postDeleteUnlimintCard(model);
+        final _ = await sNetwork.getWalletModule().postDeleteUnlimintCard(model);
       } else if (card.integration == IntegrationType.unlimintAlt) {
         final model = CardRemoveRequestModel(cardId: card.id);
         final _ = await sNetwork.getWalletModule().cardRemove(model);
@@ -581,19 +573,5 @@ abstract class _BankCardStoreBase with Store {
         onPrimaryButtonTap: () => sRouter.popUntilRoot(),
       ),
     );
-  }
-
-  static CircleCardNetwork getCardNetworkNumber(String input) {
-    CircleCardNetwork cardType;
-
-    if (RegExp(r'^4[0-9]{12}(?:[0-9]{3})?$').hasMatch(input)) {
-      cardType = CircleCardNetwork.MASTERCARD;
-    } else if (RegExp(r'^5[1-5][0-9]{14}$').hasMatch(input)) {
-      cardType = CircleCardNetwork.VISA;
-    } else {
-      cardType = CircleCardNetwork.unsupported;
-    }
-
-    return cardType;
   }
 }

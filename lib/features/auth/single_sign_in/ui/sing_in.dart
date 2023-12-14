@@ -67,12 +67,14 @@ class _SingInBody extends StatelessObserverWidget {
 
               sNotification.showError(
                 (signInStore.union as Error).error.toString(),
+                hideIcon: true,
               );
             } else if (result is ErrorSrting) {
               signInStore.loader.finishLoading();
 
               sNotification.showError(
                 (signInStore.union as ErrorSrting).error!,
+                hideIcon: true,
               );
             } else if (result is Success) {
               signInStore.loader.finishLoading();
@@ -91,7 +93,7 @@ class _SingInBody extends StatelessObserverWidget {
             loaderText: intl.register_pleaseWait,
             color: colors.grey5,
             loading: signInStore.loader,
-            header: SAuthHeader(
+            header: SLargeHeader(
               title: intl.register_enterYourEmail,
             ),
             child: CustomScrollView(
@@ -126,13 +128,11 @@ class _SingInBody extends StatelessObserverWidget {
                                       credentials.updateAndValidateEmail(value);
 
                                       if (value.isEmpty) {
-                                        SingleSingInStore.of(context)
-                                            .setIsEmailError(false);
+                                        SingleSingInStore.of(context).setIsEmailError(false);
                                       }
                                     },
                                     onErase: () {
-                                      SingleSingInStore.of(context)
-                                          .setIsEmailError(false);
+                                      SingleSingInStore.of(context).setIsEmailError(false);
                                     },
                                     hideClearButton: credentials.email.isEmpty,
                                     onErrorIconTap: () {
@@ -140,8 +140,7 @@ class _SingInBody extends StatelessObserverWidget {
                                         intl.register_invalidEmail,
                                       );
                                     },
-                                    isError: SingleSingInStore.of(context)
-                                        .isEmailError,
+                                    isError: SingleSingInStore.of(context).isEmailError,
                                   );
                                 },
                               ),
@@ -153,7 +152,6 @@ class _SingInBody extends StatelessObserverWidget {
                           color: colors.grey5,
                           child: SPaddingH24(
                             child: SPolicyCheckbox(
-                              height: 77,
                               firstText: '${intl.register_herebyConfirm} ',
                               userAgreementText: intl.register_TAndC,
                               betweenText: ' ${intl.register_andThe} ',
@@ -179,7 +177,7 @@ class _SingInBody extends StatelessObserverWidget {
                             ),
                           ),
                         ),
-                        const SpaceH16(),
+                        const SpaceH20(),
                         SPaddingH24(
                           child: SPrimaryButton4(
                             active: credentials.emailIsNotEmptyAndPolicyChecked,
@@ -190,11 +188,9 @@ class _SingInBody extends StatelessObserverWidget {
 
                                 signInStore.singleSingIn();
                               } else {
-                                SingleSingInStore.of(context)
-                                    .setIsEmailError(true);
+                                SingleSingInStore.of(context).setIsEmailError(true);
 
-                                sNotification
-                                    .showError(intl.register_invalidEmail);
+                                sNotification.showError(intl.register_invalidEmail);
                               }
                             },
                           ),

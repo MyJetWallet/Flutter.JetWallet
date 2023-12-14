@@ -52,6 +52,7 @@ const recurringBuyPausedImage = 'assets/images/recurring_paused.png';
 
 // Disclaimer
 const disclaimerAsset = 'assets/images/disclaimer.png';
+const mailAsset = 'assets/images/mail-asset.png';
 
 //Market Details
 const signsAfterComma = 2;
@@ -113,6 +114,7 @@ const flagsAsset = 'assets/images/flags.png';
 
 // Card page
 const simpleCardAsset = 'assets/images/card_example.png';
+const simpleCardBannerAsset = 'assets/images/simple_card_banner.png';
 
 // Send gift
 const shareGiftBackgroundAsset = 'assets/images/share_gift_background.png';
@@ -126,3 +128,7 @@ const simpleSmileLogo = 'assets/images/smile_logo.svg';
 const simpleCheckboxLogo = 'assets/images/reward_checkbox.png';
 const simpleRewardTrophy = 'assets/images/trophy.svg';
 const simpleRewardSmallStar = 'assets/images/reward_small_star.png';
+const simpleCardMask = 'assets/images/card_mask.png';
+
+const simpleWalletShape = 'assets/images/wallet_shape.png';
+const simpleWalletCircle = 'assets/images/wallet_circle.png';

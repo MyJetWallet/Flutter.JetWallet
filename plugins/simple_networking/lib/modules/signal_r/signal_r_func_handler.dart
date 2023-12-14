@@ -2,31 +2,25 @@ import 'dart:developer';
 
 import 'package:simple_networking/config/constants.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_withdrawal_fee_model.dart';
 import 'package:simple_networking/modules/signal_r/models/balance_model.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/base_prices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
 import 'package:simple_networking/modules/signal_r/models/campaign_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/signal_r/models/cards_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
-import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
 import 'package:simple_networking/modules/signal_r/models/fireblock_events_model.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/signal_r/models/indices_model.dart';
-import 'package:simple_networking/modules/signal_r/models/instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/key_value_model.dart';
 import 'package:simple_networking/modules/signal_r/models/kyc_countries_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/market_info_model.dart';
 import 'package:simple_networking/modules/signal_r/models/market_references_model.dart';
-import 'package:simple_networking/modules/signal_r/models/nft_collections.dart';
-import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
-import 'package:simple_networking/modules/signal_r/models/nft_portfolio.dart';
 import 'package:simple_networking/modules/signal_r/models/period_prices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/price_accuracies.dart';
-import 'package:simple_networking/modules/signal_r/models/recurring_buys_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/referral_info_model.dart';
 import 'package:simple_networking/modules/signal_r/models/referral_stats_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
@@ -81,40 +75,6 @@ class SignalRFuncHandler {
       SignalRModuleNew.handlePackage();
     } catch (e) {
       instance.handleError(cardLimitsMessage, e);
-    }
-  }
-
-  void earnOffersMessageHandler(List<Object?>? data) {
-    if (data != null) {
-      final list = data.toList();
-      try {
-        final finalData = EarnFullModel.fromJson(_json(list));
-        sTransport.earnOffersList(finalData.earnOffers);
-
-        if (finalData.earnProfile != null) {
-          sTransport.earnProfile(finalData.earnProfile!);
-        }
-
-        SignalRModuleNew.handlePackage();
-      } catch (e) {
-        instance.handleError(earnOffersMessage, e);
-      }
-    }
-  }
-
-  void recurringBuyMessageHandler(List<Object?>? data) {
-    if (data != null) {
-      final list = data.toList();
-      try {
-        final recurringBuys = RecurringBuysResponseModel.fromJson(
-          _json(list),
-        );
-        sTransport.recurringBuys(recurringBuys);
-
-        SignalRModuleNew.handlePackage();
-      } catch (e) {
-        instance.handleError(recurringBuyMessage, e);
-      }
     }
   }
 
@@ -182,17 +142,6 @@ class SignalRFuncHandler {
       SignalRModuleNew.handlePackage();
     } catch (e) {
       instance.handleError(balancesMessage, e);
-    }
-  }
-
-  void instrumentsMessageHandler(List<Object?>? data) {
-    try {
-      final instruments = InstrumentsModel.fromJson(_json(data));
-      sTransport.instruments(instruments);
-
-      SignalRModuleNew.handlePackage();
-    } catch (e) {
-      instance.handleError(instrumentsMessage, e);
     }
   }
 
@@ -305,17 +254,6 @@ class SignalRFuncHandler {
     }
   }
 
-  void paymentMethodsMessageHandler(List<Object?>? data) {
-    try {
-      final info = AssetPaymentMethods.fromJson(_json(data));
-      sTransport.updateAssetPaymentMethods(info);
-
-      SignalRModuleNew.handlePackage();
-    } catch (e) {
-      instance.handleError(paymentMethodsMessage, e);
-    }
-  }
-
   void paymentMethodsNewMessageHandler(List<Object?>? data) {
     try {
       final info = AssetPaymentMethodsNew.fromJson(_json(data));
@@ -335,39 +273,6 @@ class SignalRFuncHandler {
       SignalRModuleNew.handlePackage();
     } catch (e) {
       instance.handleError(referralInfoMessage, e);
-    }
-  }
-
-  void nftCollectionsMessageHandler(List<Object?>? data) {
-    try {
-      final collection = NftCollections.fromJson(_json(data));
-      sTransport.nftList(collection);
-
-      SignalRModuleNew.handlePackage();
-    } catch (e) {
-      instance.handleError(nftCollectionsMessage, e);
-    }
-  }
-
-  void nftMarketMessageHandler(List<Object?>? data) {
-    try {
-      final market = NFTMarkets.fromJson(_json(data));
-      sTransport.nftMarket(market);
-
-      SignalRModuleNew.handlePackage();
-    } catch (e) {
-      instance.handleError(nftMarketMessage, e);
-    }
-  }
-
-  void nftPortfolioMessageHandler(List<Object?>? data) {
-    try {
-      final nft = NftPortfolio.fromJson(_json(data));
-      sTransport.userNFTPortfolio(nft);
-
-      SignalRModuleNew.handlePackage();
-    } catch (e) {
-      instance.handleError(nftPortfolioMessage, e);
     }
   }
 
@@ -425,6 +330,30 @@ class SignalRFuncHandler {
       SignalRModuleNew.handlePackage();
     } catch (e) {
       instance.handleError(rewardsProfileMessage, e);
+    }
+  }
+
+  void bankingProfileHandler(List<Object?>? data) {
+    try {
+      final bankingProfileModel = BankingProfileModel.fromJson(_json(data));
+
+      sTransport.bankingProfile(bankingProfileModel);
+
+      SignalRModuleNew.handlePackage();
+    } catch (e) {
+      instance.handleError(bankingProfileMessage, e);
+    }
+  }
+
+  void pendingOperationCountHandler(List<Object?>? data) {
+    try {
+      final int count = _json(data)['count'];
+
+      sTransport.setPendingOperationCount(count);
+
+      SignalRModuleNew.handlePackage();
+    } catch (e) {
+      instance.handleError(bankingProfileMessage, e);
     }
   }
 

@@ -7,11 +7,13 @@ class TransactionDetailsValueText extends StatelessWidget {
     this.color,
     this.textAlign,
     required this.text,
+    this.maxLines = 5,
   });
 
   final String text;
   final Color? color;
   final TextAlign? textAlign;
+  final int? maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,8 @@ class TransactionDetailsValueText extends StatelessWidget {
       style: sSubtitle3Style.copyWith(
         color: color,
       ),
-      maxLines: 5,
+      overflow: TextOverflow.ellipsis,
+      maxLines: maxLines,
     );
   }
 }

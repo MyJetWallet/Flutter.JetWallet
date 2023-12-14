@@ -59,14 +59,12 @@ class _SendIbanLimits extends StatelessWidget {
             value: TransactionDetailsValueText(
               text: currency == null
                   ? volumeFormat(
-                      prefix: baseCurrency.prefix,
                       decimal: cardLimit.minAmount,
                       symbol: baseCurrency.symbol,
                       accuracy: baseCurrency.accuracy,
                       onlyFullPart: true,
                     )
                   : volumeFormat(
-                      prefix: currency!.prefixSymbol,
                       decimal: cardLimit.minAmount,
                       symbol: currency!.symbol,
                       accuracy: currency!.accuracy,
@@ -80,14 +78,12 @@ class _SendIbanLimits extends StatelessWidget {
             value: TransactionDetailsValueText(
               text: currency == null
                   ? volumeFormat(
-                      prefix: baseCurrency.prefix,
                       decimal: cardLimit.maxAmount,
                       symbol: baseCurrency.symbol,
                       accuracy: baseCurrency.accuracy,
                       onlyFullPart: true,
                     )
                   : volumeFormat(
-                      prefix: currency!.prefixSymbol,
                       decimal: cardLimit.maxAmount,
                       symbol: currency!.symbol,
                       accuracy: currency!.accuracy,

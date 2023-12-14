@@ -5,12 +5,15 @@ import 'package:simple_kit/modules/icons/24x24/light/back/simple_light_back_icon
 import 'package:simple_kit/utils/enum.dart';
 
 class SBackIcon extends StatelessObserverWidget {
-  const SBackIcon({Key? key}) : super(key: key);
+  const SBackIcon({
+    Key? key,
+    this.color,
+  }) : super(key: key);
+
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightBackIcon()
-        : const SimpleLightBackIcon();
+    return sKit.currentTheme == STheme.dark ? SimpleLightBackIcon(color: color) : SimpleLightBackIcon(color: color);
   }
 }

@@ -5,7 +5,6 @@ import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/buttons/simple_icon_button.dart';
 import 'package:simple_kit/modules/icons/24x24/public/copy/simple_copy_icon.dart';
 import 'package:simple_kit/modules/icons/24x24/public/copy/simple_copy_pressed_icon.dart';
-import 'package:simple_kit/modules/shared/simple_divider.dart';
 import 'package:simple_kit/modules/shared/simple_paddings.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit/modules/texts/simple_text_styles.dart';
@@ -13,27 +12,33 @@ import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 import '../../../core/l10n/i10n.dart';
 import '../../../core/services/notification_service.dart';
 
+void onCopyAction({VoidCallback? afterCopy}) {
+  sNotification.showError(
+    intl.copy_message,
+    id: 1,
+    isError: false,
+  );
+
+  if (afterCopy != null) {
+    afterCopy();
+  }
+}
+
 class IBanItem extends StatelessObserverWidget {
   const IBanItem({
     super.key,
     required this.name,
     required this.text,
+    this.afterCopy,
   });
 
   final String name;
   final String text;
+  final VoidCallback? afterCopy;
 
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-
-    void onCopyAction() {
-      sNotification.showError(
-        intl.copy_message,
-        id: 1,
-        isError: false,
-      );
-    }
 
     return Column(
       children: [
@@ -72,7 +77,7 @@ class IBanItem extends StatelessObserverWidget {
                     ),
                   );
 
-                  onCopyAction();
+                  onCopyAction(afterCopy: afterCopy);
                 },
                 defaultIcon: const SCopyIcon(),
                 pressedIcon: const SCopyPressedIcon(),
@@ -80,7 +85,6 @@ class IBanItem extends StatelessObserverWidget {
             ],
           ),
         ),
-        const SDivider(),
       ],
     );
   }
