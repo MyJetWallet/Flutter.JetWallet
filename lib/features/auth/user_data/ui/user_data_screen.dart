@@ -86,23 +86,20 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                               color: colors.white,
                               child: SPaddingH24(
                                 child: SStandardField(
-                                  controller: UserDataStore.of(context)
-                                      .firstNameController,
+                                  controller: UserDataStore.of(context).firstNameController,
                                   labelText: intl.user_data_first_name,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.deny(
                                       RegExp('[ ]'),
                                     ),
                                   ],
-                                  isError:
-                                      UserDataStore.of(context).firstNameError,
+                                  isError: UserDataStore.of(context).firstNameError,
                                   textCapitalization: TextCapitalization.words,
                                   onErase: () {
                                     UserDataStore.of(context).clearNameError();
                                   },
                                   onChanged: (val) {
-                                    UserDataStore.of(context)
-                                        .updateFirstName(val.trim());
+                                    UserDataStore.of(context).updateFirstName(val.trim());
                                   },
                                 ),
                               ),
@@ -114,20 +111,17 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                               color: colors.white,
                               child: SPaddingH24(
                                 child: SStandardField(
-                                  controller: UserDataStore.of(context)
-                                      .lastNameController,
+                                  controller: UserDataStore.of(context).lastNameController,
                                   labelText: intl.user_data_last_name,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.deny(
                                       RegExp('[ ]'),
                                     ),
                                   ],
-                                  isError:
-                                      UserDataStore.of(context).lastNameError,
+                                  isError: UserDataStore.of(context).lastNameError,
                                   textCapitalization: TextCapitalization.words,
                                   onChanged: (val) {
-                                    UserDataStore.of(context)
-                                        .updateLastName(val.trim());
+                                    UserDataStore.of(context).updateLastName(val.trim());
                                   },
                                 ),
                               ),
@@ -159,7 +153,6 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                   ),
                   const SpaceH1(),
                   const CountryProfileField(),
-                  const SpaceH22(),
                   const ReferralCode(),
                   const Spacer(),
                   const SpaceH8(),
@@ -169,9 +162,7 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                       onTap: () {
                         sAnalytics.signInFlowPersonalContinue();
                         sAnalytics.signInFlowCreatePinView();
-                        getIt
-                            .get<UserInfoService>()
-                            .updateIsJustRegistered(value: true);
+                        getIt.get<UserInfoService>().updateIsJustRegistered(value: true);
 
                         UserDataStore.of(context).saveUserData(
                           birthDateInfo.loader,

@@ -6,7 +6,32 @@ import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 
-enum SButtonContextType { basic, basicInverted, iconedSmall, iconedMedium, iconedLarge }
+enum SButtonContextType {
+  basic,
+  basicInverted,
+  iconedSmall,
+  iconedSmallInverted,
+  iconedMedium,
+  iconedMediumInverted,
+  iconedLarge,
+  iconedLargeInverted,
+}
+
+Set<SButtonContextType> _invertedButtonContextTypes = {
+  SButtonContextType.basicInverted,
+  SButtonContextType.iconedSmallInverted,
+  SButtonContextType.iconedMediumInverted,
+  SButtonContextType.iconedLargeInverted,
+};
+
+Set<SButtonContextType> _withIconButtonContextTypes = {
+  SButtonContextType.iconedLarge,
+  SButtonContextType.iconedMedium,
+  SButtonContextType.iconedSmall,
+  SButtonContextType.iconedLargeInverted,
+  SButtonContextType.iconedMediumInverted,
+  SButtonContextType.iconedSmallInverted,
+};
 
 class SButtonContext extends StatelessWidget {
   const SButtonContext({
@@ -15,12 +40,16 @@ class SButtonContext extends StatelessWidget {
     required this.text,
     this.onTap,
     this.isDisabled = false,
+    this.contentColor,
+    this.icon,
   }) : super(key: key);
 
   final SButtonContextType type;
   final String text;
   final VoidCallback? onTap;
   final bool isDisabled;
+  final Color? contentColor;
+  final Widget? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +121,7 @@ class SButtonContext extends StatelessWidget {
         child: Ink(
           height: getHeightOnType(),
           decoration: BoxDecoration(
-            color: type == SButtonContextType.basicInverted ? Colors.transparent : SColorsLight().gray2,
+            color: _invertedButtonContextTypes.contains(type) ? Colors.transparent : SColorsLight().gray2,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Padding(
@@ -100,15 +129,14 @@ class SButtonContext extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (type == SButtonContextType.iconedLarge ||
-                    type == SButtonContextType.iconedMedium ||
-                    type == SButtonContextType.iconedSmall) ...[
+                if (_withIconButtonContextTypes.contains(type)) ...[
                   SizedBox(
                     width: type == SButtonContextType.iconedLarge ? 24 : 20,
                     height: type == SButtonContextType.iconedLarge ? 24 : 20,
-                    child: Assets.svg.medium.add.simpleSvg(
-                      color: isDisabled ? SColorsLight().gray8 : SColorsLight().blue,
-                    ),
+                    child: icon ??
+                        Assets.svg.medium.add.simpleSvg(
+                          color: isDisabled ? SColorsLight().gray8 : SColorsLight().blue,
+                        ),
                   ),
                   const Gap(8),
                 ],
@@ -116,10 +144,10 @@ class SButtonContext extends StatelessWidget {
                   text,
                   style: type == SButtonContextType.iconedLarge
                       ? STStyles.button.copyWith(
-                          color: isDisabled ? SColorsLight().gray8 : SColorsLight().blue,
+                          color: contentColor ?? (isDisabled ? SColorsLight().gray8 : SColorsLight().blue),
                         )
                       : STStyles.body1Bold.copyWith(
-                          color: isDisabled ? SColorsLight().gray8 : SColorsLight().blue,
+                          color: contentColor ?? (isDisabled ? SColorsLight().gray8 : SColorsLight().blue),
                         ),
                 ),
               ],

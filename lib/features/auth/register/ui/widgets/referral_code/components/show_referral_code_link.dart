@@ -22,7 +22,7 @@ void showReferralCode(BuildContext context) {
     expanded: true,
     color: colors.white,
     pinned: ActionBottomSheetHeader(
-      name: intl.showReferralCodeLink_enterReferralCodeLink,
+      name: intl.showReferralCode_enterReferralCode,
     ),
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
@@ -50,9 +50,7 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
     final colors = sKit.colors;
 
     return Container(
-      height: MediaQuery.of(context).size.height -
-          MediaQuery.of(context).viewInsets.bottom -
-          140,
+      height: MediaQuery.of(context).size.height - MediaQuery.of(context).viewInsets.bottom - 140,
       color: colors.grey5,
       child: Column(
         children: [
@@ -63,9 +61,8 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
               child: SStandardField(
                 autofocus: true,
                 isError: getIt.get<ReferallCodeStore>().isInputError,
-                labelText: intl.showReferralCodeLink_referralCodeLink,
-                controller:
-                    getIt.get<ReferallCodeStore>().referralCodeController,
+                labelText: intl.showReferralCode_referralCode,
+                controller: getIt.get<ReferallCodeStore>().referralCodeController,
                 onChanged: (value) {
                   getIt.get<ReferallCodeStore>().updateReferralCode(
                         value,
@@ -73,21 +70,13 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
                       );
                 },
                 hideIconsIfError: false,
-                onErase: () => getIt
-                    .get<ReferallCodeStore>()
-                    .clearBottomSheetReferralCode(),
+                maxLines: 1,
+                onErase: () => getIt.get<ReferallCodeStore>().clearBottomSheetReferralCode(),
                 suffixIcons: [
                   SIconButton(
-                    onTap: () =>
-                        getIt.get<ReferallCodeStore>().pasteCodeReferralLink(),
+                    onTap: () => getIt.get<ReferallCodeStore>().pasteCodeReferralLink(),
                     defaultIcon: const SPasteIcon(),
                     pressedIcon: const SPastePressedIcon(),
-                  ),
-                  SIconButton(
-                    onTap: () =>
-                        getIt.get<ReferallCodeStore>().scanAddressQr(context),
-                    defaultIcon: const SQrCodeIcon(),
-                    pressedIcon: const SQrCodePressedIcon(),
                   ),
                 ],
               ),
@@ -96,10 +85,7 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
           Material(
             color: colors.grey5,
             child: SPaddingH24(
-              child: getIt
-                  .get<ReferallCodeStore>()
-                  .bottomSheetReferralCodeValidation
-                  .maybeWhen(
+              child: getIt.get<ReferallCodeStore>().bottomSheetReferralCodeValidation.maybeWhen(
                 loading: () {
                   return const Column(
                     children: [
@@ -140,7 +126,7 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
               vertical: 11.0,
             ),
             child: Text(
-              intl.showReferralCode_pasteReferralLinkOrCode,
+              intl.showReferralCode_pasteReferralCode,
               style: sCaptionTextStyle.copyWith(color: colors.grey6),
               maxLines: 3,
             ),
@@ -168,7 +154,8 @@ class _ReferralCodeBottom extends StatelessObserverWidget {
             name: intl.showBasicModalBottomSheet_continue,
             onTap: () {
               sAnalytics.signInFlowPersonaReferralLinkContinue(
-                  code: getIt.get<ReferallCodeStore>().referralCode ?? '',);
+                code: getIt.get<ReferallCodeStore>().referralCode ?? '',
+              );
 
               Navigator.pop(context);
             },
