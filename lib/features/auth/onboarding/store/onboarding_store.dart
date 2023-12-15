@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -18,12 +17,18 @@ class OnboardingStore extends _OnboardingStoreBase with _$OnboardingStore {
 
 abstract class _OnboardingStoreBase with Store {
   final _slidesAnimationDuration = const Duration(seconds: 4);
+  
   final _onboardingImages = const [
-    simpleAppImageAsset,
-    buyCryptoImageAsset,
-    cryptoIndeciesImageAsset,
-    inviteFriendsImageAsset,
+    onboardingStep1,
+    onboardingStep2,
+    onboardingStep3,
   ];
+
+  @observable
+  ObservableList<String> slidesLabeles = ObservableList.of([]);
+
+  @observable
+  ObservableList<String> slidesDescrictions = ObservableList.of([]);
 
   @observable
   PageController? pageController;
@@ -35,8 +40,7 @@ abstract class _OnboardingStoreBase with Store {
   @action
   int setCurrentIndex(int value) => currentIndex = value;
 
-  @observable
-  ObservableList<String> slides = ObservableList.of([]);
+  
 
   @action
   void init(AnimationController controller) {
@@ -44,11 +48,16 @@ abstract class _OnboardingStoreBase with Store {
 
     restartAnimation();
 
-    slides = ObservableList.of([
-      intl.onboarding_simpleApp,
-      intl.onboarding_buy_crypto,
-      intl.onboarding_free_worldwide_transfers,
-      intl.onboarding_exchange_any_crypto,
+    slidesLabeles = ObservableList.of([
+      'Finance\nis Simple',
+      'Cryptois\nSimple',
+      'Sending\nmoneyGlobally',
+    ]);
+
+    slidesDescrictions = ObservableList.of([
+      'Gain seamless control over your personal finances and crypto portfolio',
+      'Ease your crypto transactions for smooth buying and exchanging',
+      'Effortlessly transfer funds worldwide with speed and security',
     ]);
 
     sliderController!.addStatusListener(sliderListener);
@@ -58,7 +67,7 @@ abstract class _OnboardingStoreBase with Store {
 
   void sliderListener(AnimationStatus status) {
     if (status == AnimationStatus.completed) {
-      if (currentIndex + 1 < slides.length) {
+      if (currentIndex + 1 < slidesLabeles.length) {
         currentIndex += 1;
         restartAnimation();
       } else {
@@ -123,7 +132,7 @@ abstract class _OnboardingStoreBase with Store {
 
   @action
   void nextSlider() {
-    if (currentIndex + 1 < slides.length) {
+    if (currentIndex + 1 < slidesLabeles.length) {
       currentIndex += 1;
       restartAnimation();
     }

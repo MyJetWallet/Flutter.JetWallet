@@ -34,10 +34,8 @@ class OnboardingScreenBody extends StatefulObserverWidget {
   State<OnboardingScreenBody> createState() => _OnboardingScreenBodyState();
 }
 
-class _OnboardingScreenBodyState extends State<OnboardingScreenBody>
-    with TickerProviderStateMixin {
-  late final AnimationController _slidesAnimationController =
-      AnimationController(
+class _OnboardingScreenBodyState extends State<OnboardingScreenBody> with TickerProviderStateMixin {
+  late final AnimationController _slidesAnimationController = AnimationController(
     vsync: this,
   );
 
@@ -67,9 +65,7 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody>
     final deviceSize = getIt.get<DeviceSize>().size;
 
     return OnboardingFullScreenGradient(
-      backgroundColor: OnboardingStore.of(context).backgroundColor(
-        sKit.colors,
-      ),
+      backgroundColor: sKit.colors.white,
       onTapNext: OnboardingStore.of(context).nextSlider,
       onTapBack: OnboardingStore.of(context).prevSlider,
       onLongPress: OnboardingStore.of(context).stopSlider,
@@ -84,62 +80,6 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SpaceH60(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: OnboardingStore.of(context)
-                      .slides
-                      .asMap()
-                      .map(
-                        (i, value) => MapEntry(
-                          i,
-                          AnimatedOnboardingSlide(
-                            position: i,
-                            currentIndex:
-                                OnboardingStore.of(context).currentIndex,
-                            animationController: _slidesAnimationController,
-                          ),
-                        ),
-                      )
-                      .values
-                      .toList(),
-                ),
-                deviceSize.when(
-                  small: () {
-                    return const SpaceH20();
-                  },
-                  medium: () {
-                    return const SpaceH40();
-                  },
-                ),
-                deviceSize.when(
-                  small: () {
-                    return Baseline(
-                      baselineType: TextBaseline.alphabetic,
-                      baseline: 38,
-                      child: Text(
-                        OnboardingStore.of(context)
-                            .slides[OnboardingStore.of(context).currentIndex],
-                        maxLines: 3,
-                        textAlign: TextAlign.center,
-                        style: sTextH2Style,
-                      ),
-                    );
-                  },
-                  medium: () {
-                    return Baseline(
-                      baselineType: TextBaseline.alphabetic,
-                      baseline: 38,
-                      child: Text(
-                        OnboardingStore.of(context)
-                            .slides[OnboardingStore.of(context).currentIndex],
-                        maxLines: 4,
-                        textAlign: TextAlign.center,
-                        style: sTextH1Style,
-                      ),
-                    );
-                  },
-                ),
-                const Spacer(),
                 deviceSize.when(
                   small: () {
                     return Image.asset(
@@ -157,6 +97,85 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody>
                       height: size.width,
                     );
                   },
+                ),
+                deviceSize.when(
+                  small: () {
+                    return const SpaceH20();
+                  },
+                  medium: () {
+                    return const SpaceH40();
+                  },
+                ),
+                deviceSize.when(
+                  small: () {
+                    return Baseline(
+                      baselineType: TextBaseline.alphabetic,
+                      baseline: 38,
+                      child: Text(
+                        OnboardingStore.of(context).slidesLabeles[OnboardingStore.of(context).currentIndex],
+                        maxLines: 3,
+                        textAlign: TextAlign.center,
+                        style: sTextH2Style,
+                      ),
+                    );
+                  },
+                  medium: () {
+                    return Baseline(
+                      baselineType: TextBaseline.alphabetic,
+                      baseline: 38,
+                      child: Text(
+                        OnboardingStore.of(context).slidesLabeles[OnboardingStore.of(context).currentIndex],
+                        maxLines: 4,
+                        textAlign: TextAlign.center,
+                        style: sTextH1Style,
+                      ),
+                    );
+                  },
+                ),
+                deviceSize.when(
+                  small: () {
+                    return Baseline(
+                      baselineType: TextBaseline.alphabetic,
+                      baseline: 38,
+                      child: Text(
+                        OnboardingStore.of(context).slidesDescrictions[OnboardingStore.of(context).currentIndex],
+                        maxLines: 3,
+                        textAlign: TextAlign.center,
+                        style: sSubtitle2Style.copyWith(),
+                      ),
+                    );
+                  },
+                  medium: () {
+                    return Baseline(
+                      baselineType: TextBaseline.alphabetic,
+                      baseline: 38,
+                      child: Text(
+                        OnboardingStore.of(context).slidesDescrictions[OnboardingStore.of(context).currentIndex],
+                        maxLines: 4,
+                        textAlign: TextAlign.center,
+                        style: sSubtitle2Style.copyWith(),
+                      ),
+                    );
+                  },
+                ),
+                const Spacer(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: OnboardingStore.of(context)
+                      .slidesLabeles
+                      .asMap()
+                      .map(
+                        (i, value) => MapEntry(
+                          i,
+                          AnimatedOnboardingSlide(
+                            position: i,
+                            currentIndex: OnboardingStore.of(context).currentIndex,
+                            animationController: _slidesAnimationController,
+                          ),
+                        ),
+                      )
+                      .values
+                      .toList(),
                 ),
                 const Spacer(),
                 SPrimaryButton1(
