@@ -162,7 +162,7 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody> with Ticker
             ),
             if (getIt<AppStore>().env == 'stage') ...[
               SizedBox(
-                height: 56,
+                height: 58,
                 child: STextButton1(
                   active: true,
                   name: 'Logs',
@@ -174,7 +174,7 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody> with Ticker
                 ),
               ),
             ] else ...[
-              const SpaceH56(),
+              const SpaceH58(),
             ],
           ],
         ),
