@@ -31,9 +31,7 @@ part 'simple_card_store.g.dart';
 @lazySingleton
 class SimpleCardStore = _SimpleCardStoreBase with _$SimpleCardStore;
 
-
 abstract class _SimpleCardStoreBase with Store {
-
   @observable
   StackLoaderStore loader = StackLoaderStore();
 
@@ -41,14 +39,12 @@ abstract class _SimpleCardStoreBase with Store {
 
   @action
   Future<void> initStore() async {
-    allCards = sSignalRModules.bankingProfileData
-        ?.banking?.cards
-        ?.where((element) => element.status != AccountStatusCard.inactive).toList();
+    allCards = sSignalRModules.bankingProfileData?.banking?.cards
+        ?.where((element) => element.status != AccountStatusCard.inactive)
+        .toList();
     final cards = sSignalRModules.bankingProfileData?.banking?.cards;
     if (cards != null && cards.isNotEmpty) {
-      final activeCard = cards
-          .where((element) => element.status != AccountStatusCard.inactive)
-          .toList();
+      final activeCard = cards.where((element) => element.status != AccountStatusCard.inactive).toList();
       if (activeCard.isNotEmpty) {
         setCardFullInfo(activeCard[activeCard.length - 1]);
       }
@@ -66,16 +62,13 @@ abstract class _SimpleCardStoreBase with Store {
     showDetails = false;
     final cards = sSignalRModules.bankingProfileData?.banking?.cards;
     if (cards != null && cards.isNotEmpty) {
-      final activeCard = cards
-          .where((element) => element.cardId == cardId)
-          .toList();
+      final activeCard = cards.where((element) => element.cardId == cardId).toList();
       if (activeCard.isNotEmpty) {
         setCardFullInfo(activeCard[activeCard.length - 1]);
         isFrozen = activeCard[activeCard.length - 1].status == AccountStatusCard.frozen;
 
         if (allSensitive.where((element) => element.cardId == cardId).toList().isEmpty) {
           try {
-
             final rsa = RsaKeyHelper();
             final keyPair = getRsaKeyPair(rsa.getSecureRandom());
 
@@ -86,11 +79,8 @@ abstract class _SimpleCardStoreBase with Store {
             final storageService = getIt.get<LocalStorageService>();
 
             final pin = await storageService.getValue(pinStatusKey);
-            final serverTimeResponse = await getIt
-                .get<SNetwork>()
-                .simpleNetworkingUnathorized
-                .getAuthModule()
-                .getServerTime();
+            final serverTimeResponse =
+                await getIt.get<SNetwork>().simpleNetworkingUnathorized.getAuthModule().getServerTime();
             final model = SimpleCardSensitiveRequest(
               cardId: activeCard[activeCard.length - 1].cardId ?? '',
               publicKey: publicKey
@@ -101,8 +91,7 @@ abstract class _SimpleCardStoreBase with Store {
               timeStamp: serverTimeResponse.data!.time,
             );
 
-            final response =
-            await sNetwork.getWalletModule().postSensitiveData(data: model);
+            final response = await sNetwork.getWalletModule().postSensitiveData(data: model);
 
             response.pick(
               onData: (data) async {
@@ -131,18 +120,19 @@ abstract class _SimpleCardStoreBase with Store {
                   cardNumber: finalCardNumber,
                 );
 
-                allSensitive.add(SimpleCardSensitiveWithId(
-                  cardExpDate: cardDate,
-                  cardCvv: cardCVV,
-                  cardHolderName: cardHolder,
-                  cardNumber: finalCardNumber,
-                  cardId: cardId,
-                ),);
-
+                allSensitive.add(
+                  SimpleCardSensitiveWithId(
+                    cardExpDate: cardDate,
+                    cardCvv: cardCVV,
+                    cardHolderName: cardHolder,
+                    cardNumber: finalCardNumber,
+                    cardId: cardId,
+                  ),
+                );
               },
               onError: (error) {},
             );
-          } catch (error) { }
+          } catch (error) {}
         } else {
           final cardSens = allSensitive.where((element) => element.cardId == cardId).toList()[0];
           cardSensitiveData = SimpleCardSensitiveResponse(
@@ -157,9 +147,11 @@ abstract class _SimpleCardStoreBase with Store {
   }
 
   @observable
-  List<CardDataModel>? allCards = sSignalRModules.bankingProfileData
-      ?.banking?.cards
-      ?.where((element) => element.status != AccountStatusCard.inactive).toList();
+  List<CardDataModel>? allCards = sSignalRModules.bankingProfileData?.banking?.cards
+      ?.where(
+        (element) => element.status != AccountStatusCard.inactive && element.status != AccountStatusCard.unsupported,
+      )
+      .toList();
 
   @observable
   bool showDetails = false;
@@ -205,16 +197,17 @@ abstract class _SimpleCardStoreBase with Store {
       setShowDetails(false);
     }
     isFrozen = value;
-    setCardFullInfo(cardFull!.copyWith(
-      status: value ? AccountStatusCard.frozen : AccountStatusCard.active,
-    ),);
+    setCardFullInfo(
+      cardFull!.copyWith(
+        status: value ? AccountStatusCard.frozen : AccountStatusCard.active,
+      ),
+    );
     final newCards = allCards?.map((e) {
       return e.cardId == cardFull?.cardId
           ? e.copyWith(
-            status: value
-              ? AccountStatusCard.frozen
-              : AccountStatusCard.active,
-      ) : e;
+              status: value ? AccountStatusCard.frozen : AccountStatusCard.active,
+            )
+          : e;
     }).toList();
     allCards = newCards;
     if (value) {
@@ -280,12 +273,12 @@ abstract class _SimpleCardStoreBase with Store {
 
     try {
       final response = await sNetwork.getWalletModule().postSimpleCardCreate(
-        data: SimpleCardCreateRequest(
-          requestId: DateTime.now().microsecondsSinceEpoch.toString(),
-          pin: pin,
-          password: password,
-        ),
-      );
+            data: SimpleCardCreateRequest(
+              requestId: DateTime.now().microsecondsSinceEpoch.toString(),
+              pin: pin,
+              password: password,
+            ),
+          );
       final context = getIt.get<AppRouter>().navigatorKey.currentContext;
 
       if (response.hasError) {
@@ -298,8 +291,6 @@ abstract class _SimpleCardStoreBase with Store {
 
         Navigator.pop(context!);
       } else {
-
-
         void _afterVerification() {
           Navigator.pop(context!);
 
@@ -325,7 +316,6 @@ abstract class _SimpleCardStoreBase with Store {
           sNotification.showError(intl.simple_card_password_working, isError: false);
         }
       }
-
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,
@@ -362,17 +352,16 @@ abstract class _SimpleCardStoreBase with Store {
           );
         },
         transitionsBuilder: (
-            context,
-            animation,
-            secondaryAnimation,
-            child,
-            ) {
+          context,
+          animation,
+          secondaryAnimation,
+          child,
+        ) {
           const begin = Offset(0.0, 1.0);
           const end = Offset.zero;
           const curve = Curves.ease;
 
-          final tween = Tween(begin: begin, end: end)
-              .chain(CurveTween(curve: curve));
+          final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
           return SlideTransition(
             position: animation.drive(tween),
@@ -386,9 +375,7 @@ abstract class _SimpleCardStoreBase with Store {
   @action
   Future<void> remindPinPhone() async {
     try {
-      final response =
-        await sNetwork.getWalletModule()
-            .postRemindPinPhone(cardId: cardFull?.cardId ?? '');
+      final response = await sNetwork.getWalletModule().postRemindPinPhone(cardId: cardFull?.cardId ?? '');
 
       response.pick(
         onData: (SimpleCardRemindPinResponse value) {
@@ -398,9 +385,7 @@ abstract class _SimpleCardStoreBase with Store {
             context!,
             primaryText: intl.simple_card_remind_title,
             secondaryText: '${intl.simple_card_remind_description} '
-              '${value.phoneNumber != null
-                ? '**${value.phoneNumber!.substring(value.phoneNumber!.length - 4)}'
-                : ''}',
+                '${value.phoneNumber != null ? '**${value.phoneNumber!.substring(value.phoneNumber!.length - 4)}' : ''}',
             primaryButtonName: intl.simple_card_remind_continue,
             secondaryButtonName: intl.simple_card_remind_cancel,
             image: Image.asset(
@@ -439,9 +424,7 @@ abstract class _SimpleCardStoreBase with Store {
   @action
   Future<void> remindPin() async {
     try {
-      final response =
-        await sNetwork.getWalletModule()
-            .postRemindPin(cardId: cardFull?.cardId ?? '');
+      final response = await sNetwork.getWalletModule().postRemindPin(cardId: cardFull?.cardId ?? '');
 
       response.pick(
         onNoError: (value) {
@@ -471,5 +454,4 @@ abstract class _SimpleCardStoreBase with Store {
       );
     }
   }
-
 }
