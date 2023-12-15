@@ -190,7 +190,12 @@ dependency_overrides:
 
 flutter_native_splash:
   color: "#FFFFFF"
-  image: "assets/images/bg.png"
+  image: assets/images/bg.png
+
+  android_12:
+    image: assets/images/bg.png
+    color: "#FFFFFF"
+    icon_background_color: "#FFFFFF"
 
   web: false
 
