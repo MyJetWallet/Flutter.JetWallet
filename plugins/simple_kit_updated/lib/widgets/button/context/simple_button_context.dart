@@ -41,6 +41,7 @@ class SButtonContext extends StatelessWidget {
     this.onTap,
     this.isDisabled = false,
     this.contentColor,
+    this.backgroundColor,
     this.icon,
   }) : super(key: key);
 
@@ -49,6 +50,7 @@ class SButtonContext extends StatelessWidget {
   final VoidCallback? onTap;
   final bool isDisabled;
   final Color? contentColor;
+  final Color? backgroundColor;
   final Widget? icon;
 
   @override
@@ -121,7 +123,8 @@ class SButtonContext extends StatelessWidget {
         child: Ink(
           height: getHeightOnType(),
           decoration: BoxDecoration(
-            color: _invertedButtonContextTypes.contains(type) ? Colors.transparent : SColorsLight().gray2,
+            color: backgroundColor ??
+                (_invertedButtonContextTypes.contains(type) ? Colors.transparent : SColorsLight().gray2),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Padding(

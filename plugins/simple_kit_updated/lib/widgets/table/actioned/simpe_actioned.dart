@@ -10,20 +10,14 @@ class SActioned extends StatelessWidget {
     this.icon,
     required this.label,
     this.supplement,
-    required this.buttonLabale,
-    this.buttonContentCollor,
-    this.buttonIcon,
-    this.opPress,
+    required this.button,
     this.type = SActionedType.basic,
   });
 
   final Widget? icon;
   final String label;
   final String? supplement;
-  final String buttonLabale;
-  final Color? buttonContentCollor;
-  final Widget? buttonIcon;
-  final void Function()? opPress;
+  final SButtonContext button;
   final SActionedType type;
 
   @override
@@ -76,21 +70,7 @@ class SActioned extends StatelessWidget {
                     const SizedBox(
                       width: 12,
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: type == SActionedType.basic ? Colors.transparent : SColorsLight().white,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: SButtonContext(
-                        text: buttonLabale,
-                        onTap: opPress,
-                        contentColor: buttonContentCollor,
-                        icon: buttonIcon,
-                        type: type == SActionedType.basic
-                            ? SButtonContextType.iconedSmall
-                            : SButtonContextType.iconedSmallInverted,
-                      ),
-                    ),
+                    button,
                   ],
                 )
               ],

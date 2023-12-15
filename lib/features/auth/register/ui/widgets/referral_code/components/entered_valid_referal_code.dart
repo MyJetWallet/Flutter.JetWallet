@@ -22,13 +22,17 @@ class EnteredValidReferalCode extends StatelessWidget {
     return SActioned(
       label: referralCode,
       supplement: intl.validReferralCode_yourReferralCode,
-      buttonLabale: intl.validReferralCode_delete,
-      buttonContentCollor: colors.red,
-      buttonIcon: Assets.svg.medium.delete.simpleSvg(
-        color: colors.red,
+      button: SButtonContext(
+        text: intl.validReferralCode_delete,
+        onTap: onDelete,
+        contentColor: colors.red,
+        icon: Assets.svg.medium.delete.simpleSvg(
+          color: colors.red,
+        ),
+        type: SButtonContextType.iconedSmallInverted,
+        backgroundColor: SColorsLight().white,
       ),
       icon: Assets.svg.medium.referral.simpleSvg(),
-      opPress: onDelete,
       type: SActionedType.inverted,
     );
   }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/widgets/button/context/simple_button_context.dart';
+import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 import 'package:simple_kit_updated/widgets/table/actioned/simpe_actioned.dart';
 
 class NoReferralCode extends StatelessWidget {
@@ -16,9 +18,13 @@ class NoReferralCode extends StatelessWidget {
   Widget build(BuildContext context) {
     return SActioned(
       label: intl.referralCode_have_a_referral_code,
-      buttonLabale: intl.referralCode_add,
+      button: SButtonContext(
+        text: intl.referralCode_add,
+        onTap: onAddPressed,
+        type: SButtonContextType.basic,
+        backgroundColor: SColorsLight().white,
+      ),
       icon: Assets.svg.medium.referral.simpleSvg(),
-      opPress: onAddPressed,
       type: SActionedType.inverted,
     );
   }
