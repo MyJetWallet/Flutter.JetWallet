@@ -60,8 +60,6 @@ abstract class _OnboardingStoreBase with Store {
     ]);
 
     sliderController!.addStatusListener(sliderListener);
-
-    sAnalytics.signInFlowOnboardingFirstScreenView();
   }
 
   void sliderListener(AnimationStatus status) {
@@ -69,9 +67,11 @@ abstract class _OnboardingStoreBase with Store {
       if (currentIndex + 1 < slidesLabeles.length) {
         currentIndex += 1;
         restartAnimation();
+        onSliderChange();
       } else {
         Timer(const Duration(seconds: 5), () {
           startAnimation();
+          onSliderChange();
         });
       }
     }
@@ -141,13 +141,11 @@ abstract class _OnboardingStoreBase with Store {
 
   void onSliderChange() {
     if (currentIndex == 0) {
-      sAnalytics.signInFlowOnboardingFirstScreenView();
+      sAnalytics.onboardingFinanceIsSimpleScreenView();
     } else if (currentIndex == 1) {
-      sAnalytics.signInFlowOnboardingSecondScreenView();
+      sAnalytics.onboardingCryptoIsSimpleScreenView();
     } else if (currentIndex == 2) {
-      sAnalytics.signInFlowOnboardingThirdScreenView();
-    } else if (currentIndex == 3) {
-      sAnalytics.signInFlowOnboardingFourScreenView();
+      sAnalytics.onboardingSendMoneyGloballyScreenView();
     }
   }
 
