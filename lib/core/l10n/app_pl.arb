@@ -1499,5 +1499,13 @@
         "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/YKO0MUQGYMvKy3OBV91JKBLy.png",
         "type": "text"
     },
-    "iban_deposit_text": "Wpłata za pośrednictwem EUR"
+    "iban_deposit_text": "Wpłata za pośrednictwem EUR",
+    "validReferralCode_delete": "Usuń",
+    "invalidReferralCode_invalidReferralCode": "Nieprawidłowy kod polecający",
+    "checkingReferralCode_checking": "Sprawdzanie...",
+    "referralCode_have_a_referral_code": "Masz kod polecający?",
+    "referralCode_add": "Dodaj",
+    "showReferralCode_enterReferralCode": "Wprowadź kod polecający",
+    "showReferralCode_referralCode": "Kod polecenia",
+    "showReferralCode_pasteReferralCode": "Wklej kod polecający lub kliknij łącze podane przez znajomego."
 }
