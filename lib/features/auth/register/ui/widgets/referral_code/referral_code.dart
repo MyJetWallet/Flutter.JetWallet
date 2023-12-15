@@ -60,7 +60,18 @@ class _ReferralCodeState extends State<ReferralCode> {
               );
             },
             invalid: () {
-              return const InvalidReferralCode();
+              return InkWell(
+                onTap: () {
+                  referallStore.resetBottomSheetReferralCodeValidation(
+                    isOpening: true,
+                  );
+                  showReferralCode(context);
+                },
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 14),
+                  child: InvalidReferralCode(),
+                ),
+              );
             },
             orElse: () {
               return const SizedBox();
