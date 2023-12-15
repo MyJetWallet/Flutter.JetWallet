@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +18,7 @@ class OnboardingStore extends _OnboardingStoreBase with _$OnboardingStore {
 
 abstract class _OnboardingStoreBase with Store {
   final _slidesAnimationDuration = const Duration(seconds: 4);
-  
+
   final _onboardingImages = const [
     onboardingStep1,
     onboardingStep2,
@@ -40,8 +41,6 @@ abstract class _OnboardingStoreBase with Store {
   @action
   int setCurrentIndex(int value) => currentIndex = value;
 
-  
-
   @action
   void init(AnimationController controller) {
     sliderController = controller;
@@ -49,15 +48,15 @@ abstract class _OnboardingStoreBase with Store {
     restartAnimation();
 
     slidesLabeles = ObservableList.of([
-      'Finance\nis Simple',
-      'Cryptois\nSimple',
-      'Sending\nmoneyGlobally',
+      intl.onboarding_title_1,
+      intl.onboarding_title_2,
+      intl.onboarding_title_3,
     ]);
 
     slidesDescrictions = ObservableList.of([
-      'Gain seamless control over your personal finances and crypto portfolio',
-      'Ease your crypto transactions for smooth buying and exchanging',
-      'Effortlessly transfer funds worldwide with speed and security',
+      intl.onboarding_descriction_1,
+      intl.onboarding_descriction_1,
+      intl.onboarding_descriction_1,
     ]);
 
     sliderController!.addStatusListener(sliderListener);

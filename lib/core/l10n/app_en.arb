@@ -1479,5 +1479,11 @@
     "buy_confirm_with_unlimit_1_part": "By continuing you confirm sending funds of",
     "buy_confirm_with_unlimit_2_part": "from your bank account at Unlimit to the bank account",
     "buy_confirm_with_unlimit_3_part": "on the name of",
-    "iban_deposit_text": "Local EUR deposits"
+    "iban_deposit_text": "Local EUR deposits",
+    "onboarding_title_1": "Finance\nis Simple",
+    "onboarding_title_2": "Crypto\nis Simple",
+    "onboarding_title_3": "Sending\nmoney Globally",
+    "onboarding_descriction_1": "Gain seamless control over your personal finances and crypto portfolio",
+    "onboarding_descriction_2": "Ease your crypto transactions for smooth buying and exchanging",
+    "onboarding_descriction_3": "Effortlessly transfer funds worldwide with speed and security"
 }

@@ -4,7 +4,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/auth/onboarding/store/onboarding_store.dart';
 import 'package:jetwallet/features/auth/onboarding/ui/widgets/animated_slide.dart';
@@ -62,150 +61,122 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody> with Ticker
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final deviceSize = getIt.get<DeviceSize>().size;
+
+    final colors = sKit.colors;
+
+    final onboardingStore = OnboardingStore.of(context);
 
     return OnboardingFullScreenGradient(
-      backgroundColor: sKit.colors.white,
-      onTapNext: OnboardingStore.of(context).nextSlider,
-      onTapBack: OnboardingStore.of(context).prevSlider,
-      onLongPress: OnboardingStore.of(context).stopSlider,
-      onLongPressEnd: OnboardingStore.of(context).forwardSlider,
-      onPanEnd: OnboardingStore.of(context).onPanEnd,
+      backgroundColor: colors.grey5,
+      onTapNext: onboardingStore.nextSlider,
+      onTapBack: onboardingStore.prevSlider,
+      onLongPress: onboardingStore.stopSlider,
+      onLongPressEnd: onboardingStore.forwardSlider,
+      onPanEnd: onboardingStore.onPanEnd,
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: SingleChildScrollView(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SpaceH60(),
-                deviceSize.when(
-                  small: () {
+        body: Column(
+          children: [
+            const SpaceH53(),
+            Expanded(
+              child: Center(
+                child: Builder(
+                  builder: (context) {
+                    late double imageSize;
+                    switch (onboardingStore.currentIndex) {
+                      case 0:
+                        imageSize = 300;
+                        break;
+                      case 1:
+                        imageSize = 252.38;
+                        break;
+                      case 2:
+                        imageSize = 240;
+                        break;
+                      default:
+                        imageSize = size.width * 0.7;
+                    }
+            
                     return Image.asset(
-                      OnboardingStore.of(context).showImages(
-                        OnboardingStore.of(context).currentIndex,
+                      onboardingStore.showImages(
+                        onboardingStore.currentIndex,
                       ),
-                      height: size.width * 0.7,
-                    );
-                  },
-                  medium: () {
-                    return Image.asset(
-                      OnboardingStore.of(context).showImages(
-                        OnboardingStore.of(context).currentIndex,
-                      ),
-                      height: size.width,
+                      height: imageSize,
                     );
                   },
                 ),
-                deviceSize.when(
-                  small: () {
-                    return const SpaceH20();
-                  },
-                  medium: () {
-                    return const SpaceH40();
-                  },
-                ),
-                deviceSize.when(
-                  small: () {
-                    return Baseline(
-                      baselineType: TextBaseline.alphabetic,
-                      baseline: 38,
-                      child: Text(
-                        OnboardingStore.of(context).slidesLabeles[OnboardingStore.of(context).currentIndex],
-                        maxLines: 3,
-                        textAlign: TextAlign.center,
-                        style: sTextH2Style,
-                      ),
-                    );
-                  },
-                  medium: () {
-                    return Baseline(
-                      baselineType: TextBaseline.alphabetic,
-                      baseline: 38,
-                      child: Text(
-                        OnboardingStore.of(context).slidesLabeles[OnboardingStore.of(context).currentIndex],
-                        maxLines: 4,
-                        textAlign: TextAlign.center,
-                        style: sTextH1Style,
-                      ),
-                    );
-                  },
-                ),
-                deviceSize.when(
-                  small: () {
-                    return Baseline(
-                      baselineType: TextBaseline.alphabetic,
-                      baseline: 38,
-                      child: Text(
-                        OnboardingStore.of(context).slidesDescrictions[OnboardingStore.of(context).currentIndex],
-                        maxLines: 3,
-                        textAlign: TextAlign.center,
-                        style: sSubtitle2Style.copyWith(),
-                      ),
-                    );
-                  },
-                  medium: () {
-                    return Baseline(
-                      baselineType: TextBaseline.alphabetic,
-                      baseline: 38,
-                      child: Text(
-                        OnboardingStore.of(context).slidesDescrictions[OnboardingStore.of(context).currentIndex],
-                        maxLines: 4,
-                        textAlign: TextAlign.center,
-                        style: sSubtitle2Style.copyWith(),
-                      ),
-                    );
-                  },
-                ),
-                const Spacer(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: OnboardingStore.of(context)
-                      .slidesLabeles
-                      .asMap()
-                      .map(
-                        (i, value) => MapEntry(
-                          i,
-                          AnimatedOnboardingSlide(
-                            position: i,
-                            currentIndex: OnboardingStore.of(context).currentIndex,
-                            animationController: _slidesAnimationController,
-                          ),
-                        ),
-                      )
-                      .values
-                      .toList(),
-                ),
-                const Spacer(),
-                SPrimaryButton1(
-                  active: true,
-                  name: intl.onboarding_getStarted,
-                  onTap: () {
-                    sAnalytics.signInFlowTapGetStarted();
-                    sAnalytics.signInFlowEnterEmailView();
-                    sRouter.push(
-                      SingInRouter(),
-                    );
-                  },
-                ),
-                if (getIt<AppStore>().env == 'stage') ...[
-                  const SpaceH12(),
-                  STextButton1(
-                    active: true,
-                    name: 'Logs',
-                    onTap: () {
-                      sRouter.push(
-                        const LogsRouter(),
-                      );
-                    },
-                  ),
-                ] else ...[
-                  const SpaceH24(),
-                ],
-              ],
+              ),
             ),
-          ),
+            Baseline(
+              baselineType: TextBaseline.alphabetic,
+              baseline: 38,
+              child: Text(
+                onboardingStore.slidesLabeles[onboardingStore.currentIndex],
+                maxLines: 4,
+                textAlign: TextAlign.center,
+                style: sTextH2Style,
+              ),
+            ),
+            const SpaceH16(),
+            Baseline(
+              baselineType: TextBaseline.alphabetic,
+              baseline: 38,
+              child: Text(
+                onboardingStore.slidesDescrictions[onboardingStore.currentIndex],
+                maxLines: 3,
+                textAlign: TextAlign.center,
+                style: sSubtitle2Style.copyWith(
+                  color: colors.grey1,
+                ),
+              ),
+            ),
+            const SpaceH32(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: onboardingStore.slidesLabeles
+                  .asMap()
+                  .map(
+                    (i, value) => MapEntry(
+                      i,
+                      AnimatedOnboardingSlide(
+                        position: i,
+                        currentIndex: onboardingStore.currentIndex,
+                        animationController: _slidesAnimationController,
+                      ),
+                    ),
+                  )
+                  .values
+                  .toList(),
+            ),
+            const SpaceH24(),
+            SPrimaryButton1(
+              active: true,
+              name: intl.onboarding_getStarted,
+              onTap: () {
+                sAnalytics.signInFlowTapGetStarted();
+                sAnalytics.signInFlowEnterEmailView();
+                sRouter.push(
+                  SingInRouter(),
+                );
+              },
+            ),
+            if (getIt<AppStore>().env == 'stage') ...[
+              SizedBox(
+                height: 56,
+                child: STextButton1(
+                  active: true,
+                  name: 'Logs',
+                  onTap: () {
+                    sRouter.push(
+                      const LogsRouter(),
+                    );
+                  },
+                ),
+              ),
+            ] else ...[
+              const SpaceH56(),
+            ],
+          ],
         ),
       ),
     );
