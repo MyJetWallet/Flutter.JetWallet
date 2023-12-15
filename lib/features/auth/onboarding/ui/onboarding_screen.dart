@@ -96,7 +96,7 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody> with Ticker
                       default:
                         imageSize = size.width * 0.7;
                     }
-            
+
                     return Image.asset(
                       onboardingStore.showImages(
                         onboardingStore.currentIndex,

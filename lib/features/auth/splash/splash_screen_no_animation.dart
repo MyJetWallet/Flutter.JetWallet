@@ -1,25 +1,19 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/utils/constants.dart';
-import 'package:jetwallet/widgets/splash_screen_gradient.dart';
-import 'package:rive/rive.dart';
 
 @RoutePage(name: 'SplashNoAnimationRoute')
 class SplashScreenNoAnimation extends StatefulWidget {
   const SplashScreenNoAnimation({super.key});
 
   @override
-  State<SplashScreenNoAnimation> createState() =>
-      _SplashScreenNoAnimationState();
+  State<SplashScreenNoAnimation> createState() => _SplashScreenNoAnimationState();
 }
 
 class _SplashScreenNoAnimationState extends State<SplashScreenNoAnimation> {
-  late RiveAnimationController _controller;
-
   @override
   void initState() {
     super.initState();
-    _controller = SimpleAnimation('idle', autoplay: false);
   }
 
   @override
@@ -34,15 +28,12 @@ class _SplashScreenNoAnimationState extends State<SplashScreenNoAnimation> {
 
   @override
   Widget build(BuildContext context) {
-    return OnboardingFullScreenGradient(
+    return ColoredBox(
+      color: Colors.white,
       child: Center(
-        child: SizedBox(
-          width: 160.0,
-          height: 160.0,
-          child: RiveAnimation.asset(
-            splashAnimationAsset,
-            controllers: [_controller],
-          ),
+        child: Image.asset(
+          splashSimpleLogoAsset,
+          height: 62.53,
         ),
       ),
     );

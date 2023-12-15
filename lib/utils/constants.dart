@@ -29,6 +29,7 @@ const simpleLogoAsset = 'assets/images/logo.png';
 const onboardingStep1 = 'assets/images/step_01.png';
 const onboardingStep2 = 'assets/images/step_02.png';
 const onboardingStep3 = 'assets/images/step_03.png';
+const splashSimpleLogoAsset = 'assets/images/splash_simple_logo.png';
 
 // KYC
 const verifyYourProfileAsset = 'assets/images/verify_your_profile.png';

@@ -189,7 +189,7 @@ dependency_overrides:
   quiver: ^3.2.1
 
 flutter_native_splash:
-  background_image: "assets/images/bg.png"
+  color: "#FFFFFF"
   image: "assets/images/bg.png"
 
   web: false
