@@ -55,8 +55,8 @@ abstract class _OnboardingStoreBase with Store {
 
     slidesDescrictions = ObservableList.of([
       intl.onboarding_descriction_1,
-      intl.onboarding_descriction_1,
-      intl.onboarding_descriction_1,
+      intl.onboarding_descriction_2,
+      intl.onboarding_descriction_3,
     ]);
 
     sliderController!.addStatusListener(sliderListener);
