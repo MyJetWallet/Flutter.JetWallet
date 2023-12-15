@@ -181,8 +181,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                             ),
                         ],
                       ),
-                      name: el.status.toString().replaceAll('AccountStatusCard', ''),
-                      //name: el.label ?? intl.eur_wallet_simple_card,
+                      name: el.label ?? intl.eur_wallet_simple_card,
                       helper: el.status == AccountStatusCard.inCreation ? intl.creating : intl.simple_card_type_virtual,
                       onTap: () {
                         if (el.status == AccountStatusCard.active || el.status == AccountStatusCard.frozen) {
