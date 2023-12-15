@@ -6798,7 +6798,7 @@
         "description": "Получить карту",
         "type": "text"
     },
-    "simple_card_add_cash": "Поповнити",
+    "simple_card_add_cash": "Поповнити картку",
     "@simple_card_add_cash": {
         "description": "Добавьте наличные",
         "type": "text"
@@ -6813,12 +6813,12 @@
         "description": "Скрыть детали",
         "type": "text"
     },
-    "simple_card_freeze": "Заморозити",
+    "simple_card_freeze": "Заморозити картку",
     "@simple_card_freeze": {
         "description": "Заморозить",
         "type": "text"
     },
-    "simple_card_settings": "Налаштування",
+    "simple_card_settings": "Налаштування картки",
     "@simple_card_settings": {
         "description": "Настройки",
         "type": "text"
@@ -6909,7 +6909,7 @@
         "description": "После того, как карта будет заблокирована, все снятия средств с нее будут отклонены. Вы всегда можете разморозить карту позже.",
         "type": "text"
     },
-    "simple_card_froze_freeze": "Заморозити",
+    "simple_card_froze_freeze": "Заморозити картку",
     "@simple_card_froze_freeze": {
         "description": "Заморозить",
         "type": "text"

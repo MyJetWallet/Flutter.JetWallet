@@ -1481,11 +1481,43 @@
     "buy_confirm_with_unlimit_3_part": "on the name of",
     "iban_deposit_text": "Local EUR deposits",
     "validReferralCode_delete": "Delete",
+    "@validReferralCode_delete": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/Hsjxx7YVuMO0M1GtbasGuJFP.png",
+        "type": "text"
+    },
     "invalidReferralCode_invalidReferralCode": "Invalid referral code",
+    "@invalidReferralCode_invalidReferralCode": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/BiGDnvm1U7Gcwz9r4u4GuWAT.png",
+        "type": "text"
+    },
     "checkingReferralCode_checking": "Checking...",
+    "@checkingReferralCode_checking": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/mG2HQVWlUh64Dt97gn0RarvI.png",
+        "type": "text"
+    },
     "referralCode_have_a_referral_code": "Have a referral code?",
+    "@referralCode_have_a_referral_code": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/ogvtwNLRj6YkyE10zcom5ggL.png",
+        "type": "text"
+    },
     "referralCode_add": "Add",
+    "@referralCode_add": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/u3mViN51thOmGmeXBBjg98qb.png",
+        "type": "text"
+    },
     "showReferralCode_enterReferralCode": "Enter referral code",
+    "@showReferralCode_enterReferralCode": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/FKC2L3DlnBZh9Kv0wPvf4wyC.png",
+        "type": "text"
+    },
     "showReferralCode_referralCode": "Referral code",
-    "showReferralCode_pasteReferralCode": "Paste referral code or click on the link that a friend gave you."
+    "@showReferralCode_referralCode": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/FKC2L3DlnBZh9Kv0wPvf4wyC.png",
+        "type": "text"
+    },
+    "showReferralCode_pasteReferralCode": "Paste referral code or click on the link that a friend gave you.",
+    "@showReferralCode_pasteReferralCode": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/FKC2L3DlnBZh9Kv0wPvf4wyC.png",
+        "type": "text"
+    }
 }
