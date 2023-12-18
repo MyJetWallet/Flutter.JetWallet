@@ -188,12 +188,6 @@ dependency_overrides:
   intl: 0.18.0
   quiver: ^3.2.1
 
-flutter_native_splash:
-  background_image: "assets/images/white.png"
-  image: "assets/images/bg.png"
-
-  web: false
-
 flutter:
   generate: true
   uses-material-design: true
