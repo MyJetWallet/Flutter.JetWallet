@@ -88,6 +88,8 @@ import 'package:simple_networking/modules/wallet_api/models/send_gift/gift_model
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/session_info/session_info_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_terminate_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_terminate_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simplex/simplex_payment_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simplex/simplex_payment_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/swap_execute_quote/execute_quote_request_model.dart';
@@ -945,6 +947,12 @@ class WalletApiRepository {
     required String cardId,
   }) async {
     return _walletApiDataSources.postCardUnfreezeRequest(cardId: cardId);
+  }
+
+  Future<DC<ServerRejectException, SimpleCardTerminateResponseModel>> postCardTerminate({
+    required SimpleCardTerminateRequestModel model,
+  }) async {
+    return _walletApiDataSources.postCardTerminateRequest(model);
   }
 
   Future<DC<ServerRejectException, SellLimitsResponseModel>> postSellLimits(

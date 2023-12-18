@@ -73,169 +73,176 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
 
     final simpleCardStore = getIt.get<SimpleCardStore>();
 
-    return Material(
-      color: colors.white,
-      child: NotificationListener<ScrollNotification>(
-        onNotification: (scrollNotification) {
-          if (scrollNotification is ScrollStartNotification) {
-            if (!_scrollingHasAlreadyOccurred) {
-              _scrollingHasAlreadyOccurred = true;
+    return SPageFrame(
+      loaderText: intl.loader_please_wait,
+      loading: simpleCardStore.loader,
+      child: Material(
+        color: colors.white,
+        child: NotificationListener<ScrollNotification>(
+          onNotification: (scrollNotification) {
+            if (scrollNotification is ScrollStartNotification) {
+              if (!_scrollingHasAlreadyOccurred) {
+                _scrollingHasAlreadyOccurred = true;
+              }
+            } else if (scrollNotification is ScrollEndNotification) {
+              _snapAppbar();
             }
-          } else if (scrollNotification is ScrollEndNotification) {
-            _snapAppbar();
-          }
 
-          return false;
-        },
-        child: Stack(
-          children: [
-            CustomScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              controller: _scrollController,
-              slivers: [
-                const SliverToBoxAdapter(
-                  child: SpaceH120(),
-                ),
-                SliverToBoxAdapter(
-                  child: CardWidget(
-                    card: simpleCardStore.cardFull!,
-                    cardSensitive: simpleCardStore.cardSensitiveData!,
-                    isFrozen: simpleCardStore.isFrozen,
-                    showDetails: simpleCardStore.showDetails,
-                    onTap: () {
-                      simpleCardStore.setShowDetails(!simpleCardStore.showDetails);
-                    },
+            return false;
+          },
+          child: Stack(
+            children: [
+              CustomScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                controller: _scrollController,
+                slivers: [
+                  const SliverToBoxAdapter(
+                    child: SpaceH120(),
                   ),
-                ),
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 8,
-                    ),
-                    child: Center(
-                      child: Text(
-                        getIt<AppStore>().isBalanceHide
-                          ? '***** ${eurCurrency.symbol}'
-                          : volumeFormat(
-                            decimal: simpleCardStore.card?.balance ?? Decimal.zero,
-                            accuracy: eurCurrency.accuracy,
-                            symbol: eurCurrency.symbol,
-                          ),
-                        style: sTextH2Style,
-                      ),
-                    ),
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 24,
-                    ),
-                    child: SimpleCardActionButtons(
-                      isDetailsShown: simpleCardStore.showDetails,
+                  SliverToBoxAdapter(
+                    child: CardWidget(
+                      card: simpleCardStore.cardFull!,
+                      cardSensitive: simpleCardStore.cardSensitiveData!,
                       isFrozen: simpleCardStore.isFrozen,
-                      isTerminateAvailable: false,
-                      isAddCashAvailable: sSignalRModules.currenciesList.where((currency) {
-                        return currency.assetBalance != Decimal.zero;
-                      }).toList().isNotEmpty,
-                      onAddCash: () {
-                        showSellChooseAssetBottomSheet(
-                          context: context,
-                          isAddCash: true,
-                          onChooseAsset: (currency) {
-                            Navigator.of(context).pop();
-                            sRouter.push(
-                              AmountRoute(
-                                tab: AmountScreenTab.sell,
-                                asset: currency,
-                                simpleCard: simpleCardStore.cardFull,
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      onShowDetails: () {
+                      showDetails: simpleCardStore.showDetails,
+                      onTap: () {
                         simpleCardStore.setShowDetails(!simpleCardStore.showDetails);
                       },
-                      onFreeze: () {
-                        simpleCardStore.setFrozen(!simpleCardStore.isFrozen);
-                      },
-                      onSettings: () {
-                        showCardSettings(context);
-                      },
-                      onTerminate: () {},
                     ),
                   ),
-                ),
-                SliverToBoxAdapter(
-                  child: SPaddingH24(
-                    child: Text(
-                      intl.wallet_transactions,
-                      style: sTextH4Style,
-                    ),
-                  ),
-                ),
-                if (simpleCardStore.cardFull != null) ...[
-                  TransactionsList(
-                    scrollController: _scrollController,
-                    symbol: simpleCardStore.cardFull!.currency,
-                    accountId: simpleCardStore.cardFull!.cardId,
-                    onItemTapLisener: (symbol) {
-
-                    },
-                  ),
-                ] else ...[
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 80,
-                        vertical: 40,
+                        horizontal: 24,
+                        vertical: 8,
                       ),
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            smileAsset,
-                            width: 48,
-                            height: 48,
-                          ),
-                          Text(
-                            intl.wallet_simple_account_empty,
-                            textAlign: TextAlign.center,
-                            maxLines: 3,
-                            style: sSubtitle2Style.copyWith(
-                              color: sKit.colors.grey2,
-                            ),
-                          ),
-                        ],
+                      child: Center(
+                        child: Text(
+                          getIt<AppStore>().isBalanceHide
+                              ? '***** ${eurCurrency.symbol}'
+                              : volumeFormat(
+                                  decimal: simpleCardStore.card?.balance ?? Decimal.zero,
+                                  accuracy: eurCurrency.accuracy,
+                                  symbol: eurCurrency.symbol,
+                                ),
+                          style: sTextH2Style,
+                        ),
                       ),
                     ),
                   ),
-                ],
-                const SliverToBoxAdapter(
-                  child: SpaceH120(),
-                ),
-              ],
-            ),
-            Align(
-              alignment: Alignment.topCenter,
-              child: ColoredBox(
-                color: colors.white,
-                child: SPaddingH24(
-                  child: SSmallHeader(
-                    title: 'Simple ${intl.simple_card_card}',
-                    subTitle: intl.simple_card_type_virtual,
-                    titleStyle: sTextH5Style.copyWith(
-                      color: sKit.colors.black,
+                  SliverToBoxAdapter(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 24,
+                      ),
+                      child: SimpleCardActionButtons(
+                        isDetailsShown: simpleCardStore.showDetails,
+                        isFrozen: simpleCardStore.isFrozen,
+                        isTerminateAvailable: simpleCardStore.isFrozen,
+                        isAddCashAvailable: sSignalRModules.currenciesList
+                            .where((currency) {
+                              return currency.assetBalance != Decimal.zero;
+                            })
+                            .toList()
+                            .isNotEmpty,
+                        onAddCash: () {
+                          showSellChooseAssetBottomSheet(
+                            context: context,
+                            isAddCash: true,
+                            onChooseAsset: (currency) {
+                              Navigator.of(context).pop();
+                              sRouter.push(
+                                AmountRoute(
+                                  tab: AmountScreenTab.sell,
+                                  asset: currency,
+                                  simpleCard: simpleCardStore.cardFull,
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        onShowDetails: () {
+                          simpleCardStore.setShowDetails(!simpleCardStore.showDetails);
+                        },
+                        onFreeze: () {
+                          simpleCardStore.setFrozen(!simpleCardStore.isFrozen);
+                        },
+                        onSettings: () {
+                          showCardSettings(context);
+                        },
+                        onTerminate: () {
+                          simpleCardStore.terminateCard();
+                        },
+                      ),
                     ),
-                    subTitleStyle: sBodyText2Style.copyWith(
-                      color: sKit.colors.grey1,
+                  ),
+                  SliverToBoxAdapter(
+                    child: SPaddingH24(
+                      child: Text(
+                        intl.wallet_transactions,
+                        style: sTextH4Style,
+                      ),
+                    ),
+                  ),
+                  if (simpleCardStore.cardFull != null) ...[
+                    TransactionsList(
+                      scrollController: _scrollController,
+                      symbol: simpleCardStore.cardFull!.currency,
+                      accountId: simpleCardStore.cardFull!.cardId,
+                      onItemTapLisener: (symbol) {},
+                    ),
+                  ] else ...[
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 80,
+                          vertical: 40,
+                        ),
+                        child: Column(
+                          children: [
+                            Image.asset(
+                              smileAsset,
+                              width: 48,
+                              height: 48,
+                            ),
+                            Text(
+                              intl.wallet_simple_account_empty,
+                              textAlign: TextAlign.center,
+                              maxLines: 3,
+                              style: sSubtitle2Style.copyWith(
+                                color: sKit.colors.grey2,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                  const SliverToBoxAdapter(
+                    child: SpaceH120(),
+                  ),
+                ],
+              ),
+              Align(
+                alignment: Alignment.topCenter,
+                child: ColoredBox(
+                  color: colors.white,
+                  child: SPaddingH24(
+                    child: SSmallHeader(
+                      title: 'Simple ${intl.simple_card_card}',
+                      subTitle: intl.simple_card_type_virtual,
+                      titleStyle: sTextH5Style.copyWith(
+                        color: sKit.colors.black,
+                      ),
+                      subTitleStyle: sBodyText2Style.copyWith(
+                        color: sKit.colors.grey1,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

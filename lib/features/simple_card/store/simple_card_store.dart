@@ -1,13 +1,19 @@
+import 'dart:developer';
+
+import 'package:decimal/decimal.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/core/services/user_info/user_info_service.dart';
+import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
+import 'package:jetwallet/utils/helpers/country_code_by_user_register.dart';
 import 'package:mobx/mobx.dart';
 import 'package:pointycastle/asymmetric/api.dart';
 import 'package:rsa_encrypt/rsa_encrypt.dart';
-import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_request.dart';
@@ -15,6 +21,7 @@ import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_c
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_remind_pin_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_sensitive_request.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_sevsitive_response.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_terminate_request_model.dart';
 
 import '../../../core/di/di.dart';
 import '../../../core/l10n/i10n.dart';
@@ -75,7 +82,6 @@ abstract class _SimpleCardStoreBase with Store {
             final rsaPublicKey = keyPair.publicKey as RSAPublicKey;
             final rsaPrivateKey = keyPair.privateKey as RSAPrivateKey;
             final publicKey = rsa.encodePublicKeyToPemPKCS1(rsaPublicKey);
-            final privateKey = rsa.encodePrivateKeyToPemPKCS1(rsaPrivateKey);
             final storageService = getIt.get<LocalStorageService>();
 
             final pin = await storageService.getValue(pinStatusKey);
@@ -132,7 +138,9 @@ abstract class _SimpleCardStoreBase with Store {
               },
               onError: (error) {},
             );
-          } catch (error) {}
+          } catch (error) {
+            log(error.toString(), error: error);
+          }
         } else {
           final cardSens = allSensitive.where((element) => element.cardId == cardId).toList()[0];
           cardSensitiveData = SimpleCardSensitiveResponse(
@@ -284,7 +292,6 @@ abstract class _SimpleCardStoreBase with Store {
       if (response.hasError) {
         sNotification.showError(
           intl.something_went_wrong_try_again,
-          duration: 4,
           id: 1,
           needFeedback: true,
         );
@@ -319,7 +326,6 @@ abstract class _SimpleCardStoreBase with Store {
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,
-        duration: 4,
         id: 1,
         needFeedback: true,
       );
@@ -328,7 +334,6 @@ abstract class _SimpleCardStoreBase with Store {
     } catch (error) {
       sNotification.showError(
         intl.something_went_wrong_try_again2,
-        duration: 4,
         id: 1,
         needFeedback: true,
       );
@@ -452,6 +457,108 @@ abstract class _SimpleCardStoreBase with Store {
         intl.something_went_wrong,
         id: 1,
       );
+    }
+  }
+
+  @action
+  Future<void> terminateCard() async {
+    try {
+      final context = sRouter.navigatorKey.currentContext!;
+
+      if ((card?.balance ?? Decimal.zero) != Decimal.zero) {
+        await sShowAlertPopup(
+          context,
+          primaryText: intl.simple_card_terminate_card,
+          secondaryText: intl.simple_card_terminate_only_available_alert,
+          primaryButtonName: intl.simple_card_terminate_got_it,
+          onPrimaryButtonTap: () {
+            sRouter.pop();
+          },
+        );
+
+        return;
+      }
+
+      var continueBuying = false;
+
+      await sShowAlertPopup(
+        context,
+        primaryText: intl.simple_card_terminate_terminate_card_question,
+        secondaryText:
+            '${intl.simple_card_terminate_terminate_warning_1} ** ${cardSensitiveData?.last4NumberCharacters} ${intl.simple_card_terminate_terminate_warning_2}',
+        primaryButtonName: intl.simple_card_terminate_confirm,
+        onPrimaryButtonTap: () {
+          continueBuying = true;
+          sRouter.pop();
+        },
+        primaryButtonType: SButtonType.primary3,
+        secondaryButtonName: intl.simple_card_terminate_cancel,
+        onSecondaryButtonTap: () {
+          continueBuying = true;
+          sRouter.pop();
+        },
+      );
+
+      if (!continueBuying) return;
+
+      final phoneNumber = countryCodeByUserRegister();
+      var isVerifaierd = false;
+
+      await sRouter.push(
+        PhoneVerificationRouter(
+          args: PhoneVerificationArgs(
+            isDeviceBinding: true,
+            phoneNumber: sUserInfo.phone,
+            activeDialCode: phoneNumber,
+            onVerified: () {
+              isVerifaierd = true;
+              sRouter.pop();
+            },
+          ),
+        ),
+      );
+      if (!isVerifaierd) return;
+
+      loader.startLoading();
+
+      final response = await sNetwork.getWalletModule().postCardTerminate(
+            model: SimpleCardTerminateRequestModel(cardId: card?.cardId ?? ''),
+          );
+
+      loader.finishLoading();
+
+      response.pick(
+        onData: (data) {
+          sRouter.pop();
+          sNotification.showError(
+            '${intl.simple_card_terminate_success_1} •• ${cardSensitiveData?.last4NumberCharacters} ${intl.simple_card_terminate_success_1}',
+            id: 1,
+            isError: false,
+          );
+        },
+        onError: (error) {
+          sNotification.showError(
+            error.cause,
+            id: 3,
+          );
+        },
+      );
+    } on ServerRejectException catch (error) {
+      sNotification.showError(
+        error.cause,
+        id: 4,
+        needFeedback: true,
+      );
+
+      loader.finishLoading();
+    } catch (error) {
+      sNotification.showError(
+        intl.something_went_wrong_try_again2,
+        id: 5,
+        needFeedback: true,
+      );
+
+      loader.finishLoading();
     }
   }
 }

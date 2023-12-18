@@ -12,6 +12,14 @@ class SimpleCardSensitiveResponse with _$SimpleCardSensitiveResponse {
     final String? cardCvv,
   }) = _SimpleCardSensitiveResponse;
 
+  const SimpleCardSensitiveResponse._();
+
+  String get last4NumberCharacters {
+    return (cardNumber?.length ?? 0) < 4
+        ? cardNumber ?? ''
+        : cardNumber?.substring((cardNumber?.length ?? 4) - 4) ?? '';
+  }
+
   factory SimpleCardSensitiveResponse.fromJson(Map<String, dynamic> json) =>
       _$SimpleCardSensitiveResponseFromJson(json);
 }
@@ -26,6 +34,5 @@ class SimpleCardSensitiveWithId with _$SimpleCardSensitiveWithId {
     required String cardId,
   }) = _SimpleCardSensitiveWithId;
 
-  factory SimpleCardSensitiveWithId.fromJson(Map<String, dynamic> json) =>
-      _$SimpleCardSensitiveWithIdFromJson(json);
+  factory SimpleCardSensitiveWithId.fromJson(Map<String, dynamic> json) => _$SimpleCardSensitiveWithIdFromJson(json);
 }
