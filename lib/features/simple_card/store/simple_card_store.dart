@@ -507,7 +507,6 @@ abstract class _SimpleCardStoreBase with Store {
       await sRouter.push(
         PhoneVerificationRouter(
           args: PhoneVerificationArgs(
-            isDeviceBinding: true,
             phoneNumber: sUserInfo.phone,
             activeDialCode: phoneNumber,
             onVerified: () {
@@ -522,7 +521,7 @@ abstract class _SimpleCardStoreBase with Store {
       loader.startLoading();
 
       final response = await sNetwork.getWalletModule().postCardTerminate(
-            model: SimpleCardTerminateRequestModel(cardId: card?.cardId ?? ''),
+            model: SimpleCardTerminateRequestModel(cardId: cardFull?.cardId ?? ''),
           );
 
       loader.finishLoading();
