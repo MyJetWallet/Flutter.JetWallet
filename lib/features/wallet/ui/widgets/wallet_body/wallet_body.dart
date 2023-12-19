@@ -165,9 +165,8 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                                   ?.any((element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount) ??
                               false;
 
-                          final isBankingAccountsAvaible = sSignalRModules.paymentProducts
-                                  ?.any((element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount) ??
-                              false;
+                          final isBankingAccountsAvaible = actualAsset.buyMethods
+                              .any((element) => element.id == PaymentMethodType.ibanTransferUnlimint);
 
                           final isBuyAvaible = isCardsAvailable || isSimpleAccountAvaible || isBankingAccountsAvaible;
 

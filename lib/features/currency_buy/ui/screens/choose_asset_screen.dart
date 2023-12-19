@@ -46,10 +46,10 @@ class _ChooseAssetScreenState extends State<ChooseAssetScreen> {
   Widget build(BuildContext context) {
     final showSearch = showBuyCurrencySearch(
       context,
-      fromCard: true,
+      fromCard: false,
       searchStore: searchStore,
     );
-    sortByBalanceAndWeight(searchStore.buyFromCardCurrencies);
+    sortByBalanceAndWeight(searchStore.currencies);
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
@@ -111,12 +111,12 @@ class ChooseAssetBody extends StatelessObserverWidget {
     final baseCurrency = sSignalRModules.baseCurrency;
     final state = searchStore;
 
-    sortByBalanceAndWeight(state.buyFromCardCurrencies);
+    sortByBalanceAndWeight(state.currencies);
 
     return Column(
       children: [
-        for (final currency in state.buyFromCardCurrencies) ...[
-          if (currency.supportsAtLeastOneBuyMethod && currency.type == AssetType.crypto)
+        for (final currency in state.currencies) ...[
+          if (currency.type == AssetType.crypto)
             SMarketItem(
               icon: SNetworkSvg24(
                 url: currency.iconUrl,
