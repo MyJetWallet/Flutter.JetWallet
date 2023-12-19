@@ -6,7 +6,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 
 import '../../../../core/di/di.dart';
 import '../../../../core/services/signal_r/signal_r_service_new.dart';
@@ -35,14 +34,8 @@ class _ChooseAssetScreenState extends State<ChooseAssetScreen> {
 
     searchStore.searchController = TextEditingController();
 
-    final currenciesList = sSignalRModules.currenciesList.where((currency) {
-      return currency.buyMethods.any((buyMethod) {
-        return buyMethod.id == PaymentMethodType.bankCard || buyMethod.id == PaymentMethodType.ibanTransferUnlimint;
-      });
-    }).toList();
-
     searchStore.init(
-      customCurrencies: currenciesList,
+      customCurrencies: sSignalRModules.currenciesList,
     );
     searchStore.refreshSearch();
 
