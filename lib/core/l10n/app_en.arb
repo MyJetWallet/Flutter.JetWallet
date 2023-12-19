@@ -1519,5 +1519,11 @@
     "@showReferralCode_pasteReferralCode": {
         "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/FKC2L3DlnBZh9Kv0wPvf4wyC.png",
         "type": "text"
-    }
+    },
+    "onboarding_title_1": "Finance\nis Simple",
+    "onboarding_title_2": "Crypto\nis Simple",
+    "onboarding_title_3": "Sending\nmoney Globally",
+    "onboarding_descriction_1": "Gain seamless control over your personal finances and crypto portfolio",
+    "onboarding_descriction_2": "Ease your crypto transactions for smooth buying and exchanging",
+    "onboarding_descriction_3": "Effortlessly transfer funds worldwide with speed and security"
 }

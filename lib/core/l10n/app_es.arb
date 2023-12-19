@@ -1483,9 +1483,39 @@
     "validReferralCode_delete": "Eliminar",
     "invalidReferralCode_invalidReferralCode": "Código de referencia no válido",
     "checkingReferralCode_checking": "Comprobando...",
-    "referralCode_have_a_referral_code": "¿Tiene un código de referencia?",
+    "referralCode_have_a_referral_code": "¿Código de referencia?",
     "referralCode_add": "Añadir",
-    "showReferralCode_enterReferralCode": "Introduzca el código de referencia",
+    "showReferralCode_enterReferralCode": "Introduce código de referencia",
     "showReferralCode_referralCode": "Código de referencia",
-    "showReferralCode_pasteReferralCode": "Pega el código de referencia o haz clic en el enlace que te ha dado un amigo."
+    "showReferralCode_pasteReferralCode": "Pega el código de referencia o haz clic en el enlace que te ha dado un amigo.",
+    "onboarding_title_1": "Las finanzas son simples",
+    "@onboarding_title_1": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/LjuCROWbJ87rjCf01TclARh8.png",
+        "type": "text"
+    },
+    "onboarding_title_2": "Las criptomonedas son simples",
+    "@onboarding_title_2": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/w2pxBRT7arSQBmwZqjJvSswF.png",
+        "type": "text"
+    },
+    "onboarding_title_3": "Envío de dinero a nivel mundial",
+    "@onboarding_title_3": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/AE862AV9fgUvrPTroda19Nbq.png",
+        "type": "text"
+    },
+    "onboarding_descriction_1": "Obtenga un control perfecto sobre sus finanzas personales y su cartera de criptomonedas",
+    "@onboarding_descriction_1": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/AzCrMmz4n9TEmdrdoYfvSxSp.png",
+        "type": "text"
+    },
+    "onboarding_descriction_2": "Facilite sus transacciones de cripto para comprar e intercambiar sin problemas",
+    "@onboarding_descriction_2": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/AGaomf59hzPcCouhrmMpY6o7.png",
+        "type": "text"
+    },
+    "onboarding_descriction_3": "Transfiera fondos a todo el mundo sin esfuerzo, con rapidez y seguridad",
+    "@onboarding_descriction_3": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/HkSzZvz3b8Sa7llkH13Ya4gm.png",
+        "type": "text"
+    }
 }
