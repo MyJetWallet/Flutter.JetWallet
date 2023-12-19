@@ -324,6 +324,16 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                       ),
                     ),
                   ),
+                  TransactionsList(
+                    scrollController: _scrollController,
+                    symbol: widget.currency.symbol,
+                    onItemTapLisener: (symbol) {
+                      sAnalytics.tapOnTheButtonAnyHistoryTrxOnCryptoFavouriteWalletScreen(
+                        openedAsset: symbol,
+                      );
+                    },
+                  ),
+                  /*
                   if (widget.currency.isAssetBalanceNotEmpty) ...[
                     TransactionsList(
                       scrollController: _scrollController,
@@ -361,6 +371,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                       ),
                     ),
                   ],
+                  */
                   const SliverToBoxAdapter(
                     child: SpaceH120(),
                   ),
