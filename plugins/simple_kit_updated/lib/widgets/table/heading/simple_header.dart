@@ -11,6 +11,7 @@ class STableHeader extends StatelessWidget {
     this.subtitle,
     this.isCenter = false,
     this.size = SHeaderSize.s,
+    this.needHorizontalPadding = true,
   }) : super(key: key);
 
   final String title;
@@ -18,6 +19,8 @@ class STableHeader extends StatelessWidget {
 
   final SHeaderSize size;
   final bool isCenter;
+
+  final bool needHorizontalPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -84,8 +87,8 @@ class STableHeader extends StatelessWidget {
     return SizedBox(
       height: subtitle != null ? getHeightBaseOnSize() : getCollapsedHeightBaseOnSize(),
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 24,
+        padding: EdgeInsets.symmetric(
+          horizontal: needHorizontalPadding ? 24 : 0,
         ),
         child: Column(
           crossAxisAlignment: isCenter ? CrossAxisAlignment.center : CrossAxisAlignment.start,
