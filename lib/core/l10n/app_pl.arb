@@ -1507,5 +1507,11 @@
     "referralCode_add": "Dodaj",
     "showReferralCode_enterReferralCode": "Wprowadź kod polecający",
     "showReferralCode_referralCode": "Kod polecenia",
-    "showReferralCode_pasteReferralCode": "Wklej kod polecający lub kliknij łącze podane przez znajomego."
+    "showReferralCode_pasteReferralCode": "Wklej kod polecający lub kliknij łącze podane przez znajomego.",
+    "onboarding_title_1": "Finanse są proste",
+    "onboarding_title_2": "Kryptowaluty są proste",
+    "onboarding_title_3": "Wysyłaj pieniądze bez przeszkód",
+    "onboarding_descriction_1": "Osiągnij bezproblemową kontrolę nad swoimi finansami osobistymi oraz portfelem kryptowalut",
+    "onboarding_descriction_2": "Ułatw swoje transakcje kryptowalutowe, aby łatwo kupować i wymieniać",
+    "onboarding_descriction_3": "Bez wysiłku przekazuj środki na całym świecie z szybkością i bezpieczeństwem"
 }

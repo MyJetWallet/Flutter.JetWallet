@@ -7095,5 +7095,11 @@
     "referralCode_add": "Додати",
     "showReferralCode_enterReferralCode": "Ввести реферальний код",
     "showReferralCode_referralCode": "Реферальний код",
-    "showReferralCode_pasteReferralCode": "Вставте реферальний код або перейдіть за посиланням, яке вам дав друг."
+    "showReferralCode_pasteReferralCode": "Вставте реферальний код або перейдіть за посиланням, яке вам дав друг.",
+    "onboarding_title_1": "Фінанси - це просто",
+    "onboarding_title_2": "Криптовалюта - це легко",
+    "onboarding_title_3": "Надсилайте гроші без перешкод",
+    "onboarding_descriction_1": "Отримайте повний контроль над особистими фінансами та криптовалютним портфелем",
+    "onboarding_descriction_2": "Спростіть свої криптовалютні транзакції для зручної купівлі та обміну",
+    "onboarding_descriction_3": "Швидко та безпечно переказуйте кошти по всьому світу без зайвих зусиль"
 }
