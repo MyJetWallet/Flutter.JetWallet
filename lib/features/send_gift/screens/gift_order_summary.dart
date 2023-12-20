@@ -2,12 +2,18 @@ import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:intl/intl.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/helpers/date_helper.dart';
+import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/l10n/i10n.dart';
 import '../../pin_screen/model/pin_flow_union.dart';
@@ -47,76 +53,63 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
             onSkip: () {},
           ),
           header: SSmallHeader(
-            title: intl.send_gift_summary,
+            title: intl.buy_confirmation_title,
+            subTitle: intl.send_gift_title,
+            subTitleStyle: sBodyText2Style.copyWith(
+              color: sKit.colors.grey1,
+            ),
           ),
           child: CustomScrollView(
             slivers: [
               SliverToBoxAdapter(
                 child: Column(
                   children: [
-                    Column(
-                      children: [
-                        Text(
-                          intl.send_gift_your_gift,
-                          style: sBodyText1Style.copyWith(
-                            color: sColors.grey1,
-                          ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 24),
+                      child: AssetRowWidget(
+                        isLoading: false,
+                        assetIconUrl: sendGiftStore.currency.iconUrl,
+                        assetDescription: sendGiftStore.currency.description,
+                        assetValue: volumeFormat(
+                          decimal: sendGiftStore.amount,
+                          accuracy: sendGiftStore.currency.accuracy,
+                          symbol: sendGiftStore.currency.symbol,
                         ),
-                        Text(
-                          volumeFormat(
-                            decimal: sendGiftStore.amount,
-                            accuracy: sendGiftStore.currency.accuracy,
-                            symbol: sendGiftStore.currency.symbol,
-                          ),
-                          style: sTextH4Style.copyWith(
-                            color: sColors.purple,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                    const SpaceH24(),
                     const SDivider(),
-                    const SpaceH19(),
-                    SActionConfirmText(
-                      name: intl.to1,
+                    const SpaceH16(),
+                    TwoColumnCell(
+                      label: intl.date,
+                      value: DateFormat('dd.MM.yyyy, hh:mm').format(DateTime.now()),
+                      needHorizontalPadding: false,
+                    ),
+                    TwoColumnCell(
+                      label: intl.to1,
                       value: sendGiftStore.receiverContact,
-                      baseline: 24,
+                      needHorizontalPadding: false,
                     ),
-                    const SpaceH16(),
-                    SActionConfirmTextWiyhIcon(
-                      name: intl.send_gift_payment_method,
-                      value: intl.send_gift_simple_gift,
-                      baseline: 24,
-                      icon: const SizedBox(
-                        width: 16,
-                        height: 16,
-                        child: SGiftSendIcon(),
-                      ),
-                    ),
-                    const SpaceH16(),
-                    SActionConfirmText(
-                      name: intl.fee,
-                      value: volumeFormat(
-                        decimal: sendGiftStore.currency.fees.withdrawalFee?.size ?? Decimal.zero,
-                        accuracy: sendGiftStore.currency.accuracy,
-                        symbol: sendGiftStore.currency.symbol,
-                      ),
-                      baseline: 24,
-                    ),
-                    const SpaceH19(),
-                    const SDivider(),
-                    const SpaceH19(),
-                    SActionConfirmText(
-                      name: intl.send_gift_total_pay,
+                    TwoColumnCell(
+                      label: intl.operationName_sent,
                       value: volumeFormat(
                         decimal: sendGiftStore.amount,
                         accuracy: sendGiftStore.currency.accuracy,
                         symbol: sendGiftStore.currency.symbol,
                       ),
-                      baseline: 24,
-                      valueColor: sColors.purple,
+                      needHorizontalPadding: false,
                     ),
-                    const SpaceH56(),
+                    TwoColumnCell(
+                      label: intl.send_globally_processing_fee,
+                      value: volumeFormat(
+                        decimal: sendGiftStore.currency.fees.withdrawalFee?.size ?? Decimal.zero,
+                        accuracy: sendGiftStore.currency.accuracy,
+                        symbol: sendGiftStore.currency.symbol,
+                      ),
+                      needHorizontalPadding: false,
+                    ),
+                    const SpaceH16(),
+                    const SDivider(),
+                    const SpaceH32(),
                     SPrimaryButton2(
                       active: true,
                       name: intl.previewBuyWithAsset_confirm,
