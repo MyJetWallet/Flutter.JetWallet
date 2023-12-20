@@ -89,7 +89,6 @@ import 'package:simple_networking/modules/wallet_api/models/send_globally/send_t
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/session_info/session_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_terminate_request_model.dart';
-import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_terminate_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simplex/simplex_payment_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simplex/simplex_payment_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/swap_execute_quote/execute_quote_request_model.dart';
@@ -949,7 +948,7 @@ class WalletApiRepository {
     return _walletApiDataSources.postCardUnfreezeRequest(cardId: cardId);
   }
 
-  Future<DC<ServerRejectException, SimpleCardTerminateResponseModel>> postCardTerminate({
+  Future<DC<ServerRejectException, void>> postCardTerminate({
     required SimpleCardTerminateRequestModel model,
   }) async {
     return _walletApiDataSources.postCardTerminateRequest(model);

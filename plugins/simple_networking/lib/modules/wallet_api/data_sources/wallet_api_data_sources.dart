@@ -96,7 +96,6 @@ import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_c
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_sensitive_request.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_set_password_request.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_terminate_request_model.dart';
-import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_terminate_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simplex/simplex_payment_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/swap_execute_quote/execute_quote_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/swap_execute_quote/execute_quote_response_model.dart';
@@ -123,7 +122,6 @@ import 'package:simple_networking/modules/wallet_api/models/withdraw/withdraw_re
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/withdrawal_resend_request.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../simple_networking.dart';
 import '../models/iban_info/iban_info_response_model.dart';
@@ -2841,7 +2839,7 @@ class WalletApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, SimpleCardTerminateResponseModel>> postCardTerminateRequest(
+  Future<DC<ServerRejectException, void>> postCardTerminateRequest(
     SimpleCardTerminateRequestModel model,
   ) async {
     try {
@@ -2853,9 +2851,9 @@ class WalletApiDataSources {
       try {
         final responseData = response.data as Map<String, dynamic>;
 
-        final data = handleFullResponse<Map>(responseData);
+        final _ = handleFullResponse<Map>(responseData);
 
-        return DC.data(SimpleCardTerminateResponseModel.fromJson(data));
+        return DC.data(null);
       } catch (e) {
         rethrow;
       }

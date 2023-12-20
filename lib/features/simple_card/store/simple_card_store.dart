@@ -518,19 +518,21 @@ abstract class _SimpleCardStoreBase with Store {
       );
       if (!isVerifaierd) return;
 
-      loader.startLoading();
+      loader.startLoadingImmediately();
 
       final response = await sNetwork.getWalletModule().postCardTerminate(
             model: SimpleCardTerminateRequestModel(cardId: cardFull?.cardId ?? ''),
           );
 
-      loader.finishLoading();
+      loader.finishLoadingImmediately();
 
       response.pick(
-        onData: (data) {
+        onNoError: (data) {
+          allCards?.removeWhere((element) => element.cardId == cardFull?.cardId);
+
           sRouter.pop();
           sNotification.showError(
-            '${intl.simple_card_terminate_success_1} •• ${cardSensitiveData?.last4NumberCharacters} ${intl.simple_card_terminate_success_1}',
+            '${intl.simple_card_terminate_success_1} •• ${cardSensitiveData?.last4NumberCharacters} ${intl.simple_card_terminate_success_2}',
             id: 1,
             isError: false,
           );
