@@ -36,12 +36,21 @@ class _CardSettings extends StatelessObserverWidget {
 
     return Column(
       children: [
-        // CardOption(
-        //   icon: SAccountIcon(color: colors.blue),
-        //   name: intl.simple_card_spending_limits,
-        //   onTap: () {},
-        //   hideDescription: true,
-        // ),
+        CardOption(
+          icon: Assets.svg.medium.document.simpleSvg(
+            color: colors.blue,
+          ),
+          name: intl.simple_card_spending_limits,
+          onTap: () {
+            sRouter.push(
+              SimpleCardLimitsRouter(
+                cardId: simpleCardStore.cardFull?.cardId ?? '',
+                cardLable: simpleCardStore.cardFull?.label ?? '',
+              ),
+            );
+          },
+          hideDescription: true,
+        ),
         CardOption(
           icon: SEyeOpenIcon(color: colors.blue),
           name: intl.simple_card_remind_pin,

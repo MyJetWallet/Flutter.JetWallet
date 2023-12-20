@@ -88,6 +88,8 @@ import 'package:simple_networking/modules/wallet_api/models/send_gift/gift_model
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/session_info/session_info_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_limits_request.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_limits_responce.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_terminate_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simplex/simplex_payment_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simplex/simplex_payment_response_model.dart';
@@ -894,9 +896,15 @@ class WalletApiRepository {
   }
 
   Future<DC<ServerRejectException, BuyLimitsResponseModel>> postBuyLimits(
-      BuyLimitsRequestModel request,
-      ) async {
+    BuyLimitsRequestModel request,
+  ) async {
     return _walletApiDataSources.postBuyLimitsRequest(request);
+  }
+
+  Future<DC<ServerRejectException, SimpleCardLimitsResponceModel>> postCardLimits(
+    SimpleCardLimitsRequestModel request,
+  ) async {
+    return _walletApiDataSources.postCardLimitsRequest(request);
   }
 
   // simple card
@@ -955,14 +963,14 @@ class WalletApiRepository {
   }
 
   Future<DC<ServerRejectException, SellLimitsResponseModel>> postSellLimits(
-      SellLimitsRequestModel request,
-      ) async {
+    SellLimitsRequestModel request,
+  ) async {
     return _walletApiDataSources.postSellLimitsRequest(request);
   }
 
   Future<DC<ServerRejectException, SwapLimitsResponseModel>> postSwapLimits(
-      SwapLimitsRequestModel request,
-      ) async {
+    SwapLimitsRequestModel request,
+  ) async {
     return _walletApiDataSources.postSwapLimitsRequest(request);
   }
 }

@@ -30,6 +30,7 @@ export 'widgets/table/placeholder/simple_placeholder.dart';
 export 'widgets/table/cells/two_column_cell.dart';
 
 export 'widgets/button/specific/specific_button.dart';
+export 'widgets/button/limits/limits_button.dart';
 
 export 'widgets/shared/icons/blue_bank_icon.dart';
 export 'widgets/shared/icons/user_noty_icon.dart';
