@@ -479,7 +479,7 @@ abstract class _SimpleCardStoreBase with Store {
         return;
       }
 
-      var continueBuying = false;
+      var continueTrminate = false;
 
       await sShowAlertPopup(
         context,
@@ -488,18 +488,18 @@ abstract class _SimpleCardStoreBase with Store {
             '${intl.simple_card_terminate_terminate_warning_1} ** ${cardSensitiveData?.last4NumberCharacters} ${intl.simple_card_terminate_terminate_warning_2}',
         primaryButtonName: intl.simple_card_terminate_confirm,
         onPrimaryButtonTap: () {
-          continueBuying = true;
+          continueTrminate = true;
           sRouter.pop();
         },
         primaryButtonType: SButtonType.primary3,
         secondaryButtonName: intl.simple_card_terminate_cancel,
         onSecondaryButtonTap: () {
-          continueBuying = true;
+          continueTrminate = false;
           sRouter.pop();
         },
       );
 
-      if (!continueBuying) return;
+      if (!continueTrminate) return;
 
       final phoneNumber = countryCodeByUserRegister();
       var isVerifaierd = false;
