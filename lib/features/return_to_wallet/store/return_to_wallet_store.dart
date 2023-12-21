@@ -192,6 +192,17 @@ abstract class _ReturnToWalletStoreBase with Store {
   }
 
   @action
+  void pasteValue(String value) {
+    _logger.log(notifier, 'pasteValue');
+
+    _updateInputValue(value);
+
+    _validateInput();
+    _calculateTargetConversion();
+    _calculateBaseConversion();
+  }
+
+  @action
   void updateTargetConversionPrice(Decimal? price) {
     _logger.log(notifier, 'updateTargetConversionPrice');
 

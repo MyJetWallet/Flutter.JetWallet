@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -170,6 +171,16 @@ class _CurrencySellBodyState extends State<CurrencySellBody> {
               helper: store.conversionText(),
               error: store.inputError.value(),
               isErrorActive: store.inputError.isActive,
+              pasteLabel: intl.paste,
+              onPaste: () async {
+                final data = await Clipboard.getData('text/plain');
+                if (data?.text != null) {
+                  final n = int.tryParse(data!.text!);
+                  if (n != null) {
+                    store.pasteValue(n.toString().trim());
+                  }
+                }
+              },
             ),
           ),
           Baseline(

@@ -33,7 +33,6 @@ class SendGloballyAmountStore extends _SendGloballyAmountStoreBase with _$SendGl
 }
 
 abstract class _SendGloballyAmountStoreBase with Store {
-
   @observable
   String? sendCurrencyAsset;
   @computed
@@ -186,6 +185,14 @@ abstract class _SendGloballyAmountStoreBase with Store {
       newInput: value,
       accuracy: sendCurrency!.accuracy,
     );
+
+    _validateAmount();
+    _calculateBaseConversion();
+  }
+
+  @action
+  void pasteAmount(String value) {
+    withAmount = value;
 
     _validateAmount();
     _calculateBaseConversion();

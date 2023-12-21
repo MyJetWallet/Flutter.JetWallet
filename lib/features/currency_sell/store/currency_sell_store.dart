@@ -140,6 +140,16 @@ abstract class _CirrencySellStoreBase with Store {
   }
 
   @action
+  void pasteValue(String value) {
+    _logger.log(notifier, 'pasteValue');
+
+    _updateInputValue(value);
+    _validateInput();
+    _calculateTargetConversion();
+    _calculateBaseConversion();
+  }
+
+  @action
   Future<void> setUpdateTargetConversionPrice(
     String symbol,
     String selectedCurrencySymbol,

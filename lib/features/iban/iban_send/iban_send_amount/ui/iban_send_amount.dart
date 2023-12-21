@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -112,6 +113,16 @@ class IbanSendAmountBody extends StatelessObserverWidget {
                       : store.withAmmountInputError.value(),
                   //isErrorActive: store.withAmmountInputError.isActive,
                   isErrorActive: false,
+                  pasteLabel: intl.paste,
+                  onPaste: () async {
+                    final data = await Clipboard.getData('text/plain');
+                    if (data?.text != null) {
+                      final n = int.tryParse(data!.text!);
+                      if (n != null) {
+                        store.pasteAmount(n.toString().trim());
+                      }
+                    }
+                  },
                 ),
               ),
             ],

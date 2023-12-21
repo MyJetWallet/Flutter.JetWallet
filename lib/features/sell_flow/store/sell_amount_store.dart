@@ -316,6 +316,22 @@ abstract class _SellAmountStoreBase with Store {
   }
 
   @action
+  void pasteValue(String value) {
+    if (isFiatEntering) {
+      fiatInputValue = value;
+    } else {
+      cryptoInputValue = value;
+    }
+    if (isFiatEntering) {
+      _calculateCryptoConversion();
+    } else {
+      _calculateFiatConversion();
+    }
+
+    _validateInput();
+  }
+
+  @action
   void _calculateCryptoConversion() {
     if (targetConversionPrice != null && fiatInputValue != '0') {
       final amount = Decimal.parse(fiatInputValue);

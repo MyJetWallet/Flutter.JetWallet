@@ -1479,5 +1479,6 @@
     "buy_confirm_with_unlimit_1_part": "By continuing you confirm sending funds of",
     "buy_confirm_with_unlimit_2_part": "from your bank account at Unlimit to the bank account",
     "buy_confirm_with_unlimit_3_part": "on the name of",
-    "iban_deposit_text": "Local EUR deposits"
+    "iban_deposit_text": "Local EUR deposits",
+    "paste": "Paste"
 }
