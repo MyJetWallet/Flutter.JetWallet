@@ -106,30 +106,22 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody> with Ticker
                 ),
               ),
             ),
-            Baseline(
-              baselineType: TextBaseline.alphabetic,
-              baseline: 38,
-              child: Text(
-                onboardingStore.slidesLabeles[onboardingStore.currentIndex],
-                maxLines: 4,
-                textAlign: TextAlign.center,
-                style: sTextH2Style,
-              ),
+            Text(
+              onboardingStore.slidesLabeles[onboardingStore.currentIndex],
+              maxLines: 4,
+              textAlign: TextAlign.center,
+              style: sTextH2Style,
             ),
             const SpaceH16(),
-            Baseline(
-              baselineType: TextBaseline.alphabetic,
-              baseline: 38,
-              child: Text(
-                onboardingStore.slidesDescrictions[onboardingStore.currentIndex],
-                maxLines: 3,
-                textAlign: TextAlign.center,
-                style: sSubtitle2Style.copyWith(
-                  color: colors.grey1,
-                ),
+            Text(
+              onboardingStore.slidesDescrictions[onboardingStore.currentIndex],
+              maxLines: 3,
+              textAlign: TextAlign.center,
+              style: sSubtitle2Style.copyWith(
+                color: colors.grey1,
               ),
             ),
-            const SpaceH32(),
+            const SpaceH46(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: onboardingStore.slidesLabeles
@@ -147,7 +139,7 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody> with Ticker
                   .values
                   .toList(),
             ),
-            const SpaceH24(),
+            const SpaceH38(),
             SPrimaryButton1(
               active: true,
               name: intl.onboarding_getStarted,
