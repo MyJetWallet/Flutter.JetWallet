@@ -50,7 +50,7 @@ class TransactionListLoadingItem extends StatelessWidget {
                   SpaceW30(),
                   SSkeletonTextLoader(
                     height: 10,
-                    width: 109,
+                    width: 32,
                   ),
                   Spacer(),
                   SSkeletonTextLoader(
