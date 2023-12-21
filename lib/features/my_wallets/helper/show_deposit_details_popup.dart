@@ -7,6 +7,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
+import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/iban/widgets/iban_item.dart';
 import 'package:jetwallet/features/iban/widgets/iban_terms_container.dart';
@@ -17,9 +18,11 @@ import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
@@ -259,6 +262,12 @@ void showAccountDepositSelector(
       )
       .toList();
 
+  final isAccountAvaible = isCJAccount
+      ? (sSignalRModules.paymentProducts?.any((element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount) ??
+              false) &&
+          sSignalRModules.bankingProfileData?.simple?.account != null
+      : sSignalRModules.sellMethods.any((element) => element.id == SellMethodsId.ibanSell);
+
   sShowBasicModalBottomSheet(
     context: context,
     pinned: SBottomSheetHeader(
@@ -293,7 +302,7 @@ void showAccountDepositSelector(
           );
         },
       ),
-      if (currencyFiltered.isNotEmpty) ...[
+      if (currencyFiltered.isNotEmpty && isAccountAvaible) ...[
         SActionItem(
           icon: const BlueBankIconDeprecated(
             size: 20,
@@ -330,47 +339,73 @@ void showAccountDetailsFromSelector(
 ) {
   final baseCurrency = sSignalRModules.baseCurrency;
 
-  var currencyFiltered = List<CurrencyModel>.from(sSignalRModules.currenciesList);
+  final searchStore = ActionSearchStore();
+
+  var currencyFiltered = List<CurrencyModel>.from(searchStore.fCurrencies);
   currencyFiltered = currencyFiltered
       .where(
         (element) => element.isAssetBalanceNotEmpty,
       )
       .toList();
 
+  final showSearch = currencyFiltered.length >= 7;
+
   sShowBasicModalBottomSheet(
     context: context,
-    pinned: SBottomSheetHeader(
+    pinned: ActionBottomSheetHeader(
       name: intl.add_cash_from,
+      showSearch: showSearch,
+      onChanged: (String value) {
+        searchStore.search(value);
+      },
     ),
     scrollable: true,
+    horizontalPinnedPadding: 0.0,
+    removePinnedPadding: true,
     onDissmis: onClose,
     children: [
+      const SpaceH16(),
       MarketSeparator(
         text: intl.sell_amount_cryptocurrencies,
         isNeedDivider: false,
       ),
-      for (final currency in currencyFiltered)
-        if (currency.isAssetBalanceNotEmpty)
-          SWalletItem(
-            decline: currency.dayPercentChange.isNegative,
-            icon: SNetworkSvg24(
-              url: currency.iconUrl,
-            ),
-            primaryText: currency.description,
-            removeDivider: currency == currencyFiltered.last,
-            amount: currency.volumeBaseBalance(baseCurrency),
-            secondaryText: currency.volumeAssetBalance,
-            onTap: () {
-              Navigator.pop(context);
-              sRouter.push(
-                AmountRoute(
-                  tab: AmountScreenTab.sell,
-                  asset: currency,
-                  account: bankingAccount,
-                ),
-              );
-            },
-          ),
+      Observer(
+        builder: (context) {
+          var currencyFiltered = List<CurrencyModel>.from(searchStore.fCurrencies);
+          currencyFiltered = currencyFiltered
+              .where(
+                (element) => element.isAssetBalanceNotEmpty,
+              )
+              .toList();
+
+          return Column(
+            children: [
+              for (final currency in currencyFiltered)
+                if (currency.isAssetBalanceNotEmpty)
+                  SWalletItem(
+                    decline: currency.dayPercentChange.isNegative,
+                    icon: SNetworkSvg24(
+                      url: currency.iconUrl,
+                    ),
+                    primaryText: currency.description,
+                    removeDivider: true,
+                    amount: currency.volumeBaseBalance(baseCurrency),
+                    secondaryText: currency.volumeAssetBalance,
+                    onTap: () {
+                      Navigator.pop(context);
+                      sRouter.push(
+                        AmountRoute(
+                          tab: AmountScreenTab.sell,
+                          asset: currency,
+                          account: bankingAccount,
+                        ),
+                      );
+                    },
+                  ),
+            ],
+          );
+        },
+      ),
       const SpaceH42(),
     ],
   );
