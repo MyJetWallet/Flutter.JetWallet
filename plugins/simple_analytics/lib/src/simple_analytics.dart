@@ -51,6 +51,11 @@ class SimpleAnalytics {
     _analytics.setUserId(newId);
   }
 
+  // ignore: use_setters_to_change_properties
+  void updateisTechAcc({required bool techAcc}) {
+    isTechAcc = techAcc;
+  }
+
   /// Sign Up & Sign In Flow
 
   void signInFlowWelcomeView() {

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/auth/register/ui/widgets/referral_code/referral_code.dart';
 import 'package:jetwallet/features/auth/user_data/store/user_data_store.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/birth_date/show_birrth_date_picker.dart';
@@ -20,8 +21,23 @@ import '../../../../core/services/user_info/user_info_service.dart';
 import 'widgets/birth_date/store/selected_date_store.dart';
 
 @RoutePage(name: 'UserDataScreenRouter')
-class UserDataScreen extends StatelessWidget {
+class UserDataScreen extends StatefulWidget {
   const UserDataScreen({super.key});
+
+  @override
+  State<UserDataScreen> createState() => _UserDataScreenState();
+}
+
+class _UserDataScreenState extends State<UserDataScreen> {
+  @override
+  void initState() {
+    super.initState();
+    sNetwork.getWalletModule().getSessionInfo().then((value) {
+      final techAcc = value.data?.isTechClient ?? false;
+      sAnalytics.updateisTechAcc(techAcc: techAcc);
+      sAnalytics.signInFlowPersonalDetailsView();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
