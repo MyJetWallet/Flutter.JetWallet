@@ -8,6 +8,8 @@ class LimitsButton extends StatelessWidget {
   const LimitsButton({
     super.key,
     this.isLoading = false,
+    this.hasSecondItem = true,
+    this.hasHeader = true,
     this.title = '',
     this.subtitle = '',
     this.icon,
@@ -23,6 +25,8 @@ class LimitsButton extends StatelessWidget {
   });
 
   final bool isLoading;
+  final bool hasSecondItem;
+  final bool hasHeader;
 
   final String title;
   final String subtitle;
@@ -46,7 +50,7 @@ class LimitsButton extends StatelessWidget {
     return isLoading
         ? const _LoadingStateWidget()
         : Container(
-            height: 203,
+            //height: 203,
             width: double.infinity,
             padding: const EdgeInsets.all(24),
             decoration: ShapeDecoration(
@@ -60,39 +64,42 @@ class LimitsButton extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          title,
-                          style: STStyles.header6,
-                        ),
-                        Text(
-                          subtitle,
-                          style: STStyles.body1Bold.copyWith(
-                            color: colors.gray10,
+                if (hasHeader) ...[
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            title,
+                            style: STStyles.header6,
                           ),
-                        ),
-                      ],
-                    ),
-                    if (icon != null)
-                      IconButton(
-                        onPressed: onIconPressed,
-                        icon: icon!,
-                        padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(),
-                      )
-                    else
-                      const SizedBox()
-                  ],
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
+                          if (subtitle != '')
+                            Text(
+                              subtitle,
+                              style: STStyles.body1Bold.copyWith(
+                                color: colors.gray10,
+                              ),
+                            ),
+                        ],
+                      ),
+                      if (icon != null)
+                        IconButton(
+                          onPressed: onIconPressed,
+                          icon: icon!,
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(),
+                        )
+                      else
+                        const SizedBox()
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                ],
                 Row(
                   children: [
                     Expanded(
@@ -103,17 +110,19 @@ class LimitsButton extends StatelessWidget {
                         indicationLable: indicationLable1,
                       ),
                     ),
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    Expanded(
-                      child: _LimitBlocWidget(
-                        title: indicationTitle2,
-                        progress: progress2,
-                        value: indicationValue2,
-                        indicationLable: indicationLable2,
+                    if (hasSecondItem) ...[
+                      const SizedBox(
+                        width: 16,
                       ),
-                    ),
+                      Expanded(
+                        child: _LimitBlocWidget(
+                          title: indicationTitle2,
+                          progress: progress2,
+                          value: indicationValue2,
+                          indicationLable: indicationLable2,
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ],
@@ -147,7 +156,9 @@ class _LimitBlocWidget extends StatelessWidget {
         ),
         Text(
           value,
-          style: STStyles.header6,
+          style: STStyles.header6.copyWith(
+            color: progress == 1 ? colors.red : colors.black,
+          ),
         ),
         const SizedBox(
           height: 8,

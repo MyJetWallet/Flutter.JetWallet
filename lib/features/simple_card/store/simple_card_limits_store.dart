@@ -71,7 +71,7 @@ abstract class _SimpleCardLimitsStoreBase with Store {
           dailyWithdrawalProgress =
               ((data.dailyWithdrawalValue ?? Decimal.zero) / (data.dailyWithdrawalLimit ?? Decimal.zero)).toDouble();
 
-          monthlyLimitsData = DateFormat('dd MMMM yyyy').format(data.monthlyLimitsReset ?? DateTime.now());
+          monthlyLimitsData = DateFormat('MMMM yyyy').format(data.monthlyLimitsReset ?? DateTime.now());
           monthlySpendingValue = volumeFormat(
             decimal: data.monthlySpendingValue ?? Decimal.zero,
             symbol: 'EUR',

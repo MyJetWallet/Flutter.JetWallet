@@ -13,10 +13,12 @@ class SimpleCardLimitsScreen extends StatelessWidget {
     super.key,
     required this.cardLable,
     required this.cardId,
+    this.isVirtual = true,
   });
 
   final String cardLable;
   final String cardId;
+  final bool isVirtual;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,7 @@ class SimpleCardLimitsScreen extends StatelessWidget {
       create: (context) => SimpleCardLimitsStore()..init(cardId),
       child: _SimpleCardLimitsScreenBody(
         cardLable: cardLable,
+        isVirtual: isVirtual,
       ),
     );
   }
@@ -32,9 +35,11 @@ class SimpleCardLimitsScreen extends StatelessWidget {
 class _SimpleCardLimitsScreenBody extends StatelessWidget {
   const _SimpleCardLimitsScreenBody({
     required this.cardLable,
+    this.isVirtual = true,
   });
 
   final String cardLable;
+  final bool isVirtual;
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +59,7 @@ class _SimpleCardLimitsScreenBody extends StatelessWidget {
               const SpaceH16(),
               LimitsButton(
                 isLoading: store.isLoading,
+                hasSecondItem: !isVirtual,
                 title: intl.simple_card_limits_daily_limits,
                 subtitle: store.dailyLimitsData,
                 indicationTitle1: intl.simple_card_limits_monthly_spending,
@@ -68,6 +74,7 @@ class _SimpleCardLimitsScreenBody extends StatelessWidget {
               const SpaceH16(),
               LimitsButton(
                 isLoading: store.isLoading,
+                hasSecondItem: !isVirtual,
                 title: intl.simple_card_limits_monthly_limits,
                 subtitle: store.monthlyLimitsData,
                 indicationTitle1: intl.simple_card_limits_monthly_spending,
