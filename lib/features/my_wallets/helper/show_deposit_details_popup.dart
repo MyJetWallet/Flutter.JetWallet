@@ -22,6 +22,7 @@ import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
@@ -258,7 +259,7 @@ void showAccountDepositSelector(
   var currencyFiltered = List<CurrencyModel>.from(sSignalRModules.currenciesList);
   currencyFiltered = currencyFiltered
       .where(
-        (element) => element.isAssetBalanceNotEmpty,
+        (element) => element.isAssetBalanceNotEmpty && element.type == AssetType.crypto,
       )
       .toList();
 
@@ -344,7 +345,7 @@ void showAccountDetailsFromSelector(
   var currencyFiltered = List<CurrencyModel>.from(searchStore.fCurrencies);
   currencyFiltered = currencyFiltered
       .where(
-        (element) => element.isAssetBalanceNotEmpty,
+        (element) => element.isAssetBalanceNotEmpty && element.type == AssetType.crypto,
       )
       .toList();
 
@@ -374,7 +375,7 @@ void showAccountDetailsFromSelector(
           var currencyFiltered = List<CurrencyModel>.from(searchStore.fCurrencies);
           currencyFiltered = currencyFiltered
               .where(
-                (element) => element.isAssetBalanceNotEmpty,
+                (element) => element.isAssetBalanceNotEmpty && element.type == AssetType.crypto,
               )
               .toList();
 
