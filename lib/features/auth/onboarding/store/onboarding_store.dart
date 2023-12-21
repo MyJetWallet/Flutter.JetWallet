@@ -43,6 +43,8 @@ abstract class _OnboardingStoreBase with Store {
 
   @action
   void init(AnimationController controller) {
+     sAnalytics.onboardingFinanceIsSimpleScreenView();
+     
     sliderController = controller;
 
     restartAnimation();
