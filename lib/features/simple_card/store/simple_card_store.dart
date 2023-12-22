@@ -6,9 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
-import 'package:jetwallet/core/services/user_info/user_info_service.dart';
-import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
-import 'package:jetwallet/utils/helpers/country_code_by_user_register.dart';
+import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
+import 'package:jetwallet/features/pin_screen/ui/pin_screen.dart';
 import 'package:mobx/mobx.dart';
 import 'package:pointycastle/asymmetric/api.dart';
 import 'package:rsa_encrypt/rsa_encrypt.dart';
@@ -501,21 +500,16 @@ abstract class _SimpleCardStoreBase with Store {
 
       if (!continueTrminate) return;
 
-      final phoneNumber = countryCodeByUserRegister();
       var isVerifaierd = false;
 
-      await sRouter.push(
-        PhoneVerificationRouter(
-          args: PhoneVerificationArgs(
-            phoneNumber: sUserInfo.phone,
-            activeDialCode: phoneNumber,
-            onVerified: () {
-              isVerifaierd = true;
-              sRouter.pop();
-            },
-          ),
-        ),
+      await showPinScreen(
+        context: context,
+        onCompled: () {
+          isVerifaierd = true;
+          sRouter.pop();
+        },
       );
+
       if (!isVerifaierd) return;
 
       loader.startLoadingImmediately();
@@ -561,5 +555,44 @@ abstract class _SimpleCardStoreBase with Store {
 
       loader.finishLoading();
     }
+  }
+
+  Future<void> showPinScreen({
+    required void Function() onCompled,
+    required BuildContext context,
+  }) async {
+    await Navigator.push(
+      context,
+      PageRouteBuilder(
+        opaque: false,
+        barrierColor: Colors.white,
+        pageBuilder: (BuildContext context, _, __) {
+          return PinScreen(
+            union: const Change(),
+            isConfirmCard: true,
+            isChangePhone: true,
+            onChangePhone: (String newPin) {
+              onCompled();
+            },
+            onBackPressed: () {
+              Navigator.pop(context);
+            },
+            onWrongPin: (String error) {},
+          );
+        },
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(0.0, 1.0);
+          const end = Offset.zero;
+          const curve = Curves.ease;
+
+          final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
+          );
+        },
+      ),
+    );
   }
 }
