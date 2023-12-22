@@ -9,12 +9,14 @@ class ProcessingFeeRowWidget extends StatelessWidget {
     required this.fee,
     this.onTabListener,
     this.onBotomSheetClose,
+    this.needPadding = false,
   });
 
   final bool isLoaded;
   final String fee;
   final void Function()? onTabListener;
   final dynamic Function(dynamic)? onBotomSheetClose;
+  final bool needPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,7 @@ class ProcessingFeeRowWidget extends StatelessWidget {
       description: intl.buy_confirmation_processing_fee_description,
       onTabListener: onTabListener,
       onBotomSheetClose: onBotomSheetClose,
+      needPadding: needPadding,
     );
   }
 }
@@ -52,6 +55,7 @@ class PaymentFeeRowWidget extends StatelessWidget {
       description: intl.buy_confirmation_payment_fee_description,
       onTabListener: onTabListener,
       onBotomSheetClose: onBotomSheetClose,
+      needPadding: false,
     );
   }
 }
@@ -62,6 +66,7 @@ class _BasicFeeRowWidget extends StatelessWidget {
     required this.fee,
     required this.title,
     required this.description,
+    required this.needPadding,
     this.onTabListener,
     this.onBotomSheetClose,
   });
@@ -72,48 +77,52 @@ class _BasicFeeRowWidget extends StatelessWidget {
   final String description;
   final void Function()? onTabListener;
   final dynamic Function(dynamic)? onBotomSheetClose;
+  final bool needPadding;
 
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    return InkWell(
-      onTap: () {
-        _showFeeExplanation(
-          context: context,
-          then: onBotomSheetClose,
-        );
+    return Padding(
+      padding: needPadding ? const EdgeInsets.symmetric(vertical: 8) : EdgeInsets.zero,
+      child: InkWell(
+        onTap: () {
+          _showFeeExplanation(
+            context: context,
+            then: onBotomSheetClose,
+          );
 
-        onTabListener?.call();
-      },
-      child: Material(
-        color: colors.white,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              title,
-              style: sBodyText2Style.copyWith(color: colors.grey1),
-            ),
-            const SpaceW5(),
-            Padding(
-              padding: const EdgeInsets.only(top: 5),
-              child: SizedBox(
-                width: 16,
-                height: 16,
-                child: SInfoIcon(color: colors.grey1),
-              ),
-            ),
-            const Spacer(),
-            if (isLoaded) ...[
+          onTabListener?.call();
+        },
+        child: Material(
+          color: colors.white,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
               Text(
-                fee,
-                style: sSubtitle3Style,
+                title,
+                style: sBodyText2Style.copyWith(color: colors.grey1),
               ),
-            ] else ...[
-              _textPreloader(),
+              const SpaceW5(),
+              Padding(
+                padding: const EdgeInsets.only(top: 5),
+                child: SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: SInfoIcon(color: colors.grey1),
+                ),
+              ),
+              const Spacer(),
+              if (isLoaded) ...[
+                Text(
+                  fee,
+                  style: sSubtitle3Style,
+                ),
+              ] else ...[
+                _textPreloader(),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );

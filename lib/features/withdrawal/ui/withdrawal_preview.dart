@@ -11,6 +11,7 @@ import 'package:jetwallet/features/market/market_details/helper/currency_from.da
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
@@ -91,7 +92,11 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                     assetIconUrl: store.withdrawalInputModel!.currency!.iconUrl,
                     assetDescription: store.withdrawalInputModel!.currency!.description,
                     assetValue: store.addressIsInternal
-                        ? store.withAmount
+                        ? volumeFormat(
+                            decimal: Decimal.parse(store.withAmount),
+                            accuracy: store.withdrawalInputModel!.currency!.accuracy,
+                            symbol: store.withdrawalInputModel!.currency!.symbol,
+                          )
                         : volumeFormat(
                             decimal: Decimal.parse(store.withAmount) -
                                 store.withdrawalInputModel!.currency!.withdrawalFeeSize(
@@ -125,14 +130,15 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                       '''${store.withAmount} ${store.withdrawalType == WithdrawalType.asset ? store.withdrawalInputModel!.currency!.symbol : store.withdrawalInputModel!.nft!.name}''',
                   needHorizontalPadding: false,
                 ),
-                TwoColumnCell(
-                  label: intl.send_globally_processing_fee,
-                  value: store.addressIsInternal
+                ProcessingFeeRowWidget(
+                  fee: store.addressIsInternal
                       ? intl.noFee
                       : store.withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
                           store.networkController.text,
                         ),
-                  needHorizontalPadding: false,
+                  onTabListener: () {},
+                  onBotomSheetClose: (_) {},
+                  needPadding: true,
                 ),
                 const SpaceH16(),
                 const SDivider(),

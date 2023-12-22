@@ -3,13 +3,17 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/date_helper.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
+import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
+import 'package:logger/logger.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -43,6 +47,8 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
   Widget build(BuildContext context) {
     final sColors = sKit.colors;
 
+    final formatService = getIt.get<FormatService>();
+
     return Observer(
       builder: (context) {
         return SPageFrameWithPadding(
@@ -54,7 +60,7 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
           ),
           header: SSmallHeader(
             title: intl.buy_confirmation_title,
-            subTitle: intl.send_gift_title,
+            subTitle: intl.send_gift_small_title,
             subTitleStyle: sBodyText2Style.copyWith(
               color: sKit.colors.grey1,
             ),
@@ -74,6 +80,17 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
                           decimal: sendGiftStore.amount,
                           accuracy: sendGiftStore.currency.accuracy,
                           symbol: sendGiftStore.currency.symbol,
+                        ),
+                        assetBaseAmount: volumeFormat(
+                          decimal: formatService.convertOneCurrencyToAnotherOne(
+                            fromCurrency: sendGiftStore.currency.symbol,
+                            fromCurrencyAmmount: sendGiftStore.amount,
+                            toCurrency: sSignalRModules.baseCurrency.symbol,
+                            baseCurrency: sSignalRModules.baseCurrency.symbol,
+                            isMin: false,
+                          ),
+                          accuracy: sSignalRModules.baseCurrency.accuracy,
+                          symbol: sSignalRModules.baseCurrency.symbol,
                         ),
                       ),
                     ),
@@ -98,14 +115,15 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
                       ),
                       needHorizontalPadding: false,
                     ),
-                    TwoColumnCell(
-                      label: intl.send_globally_processing_fee,
-                      value: volumeFormat(
+                    ProcessingFeeRowWidget(
+                      fee: volumeFormat(
                         decimal: sendGiftStore.currency.fees.withdrawalFee?.size ?? Decimal.zero,
                         accuracy: sendGiftStore.currency.accuracy,
                         symbol: sendGiftStore.currency.symbol,
                       ),
-                      needHorizontalPadding: false,
+                      onTabListener: () {},
+                      onBotomSheetClose: (_) {},
+                      needPadding: true,
                     ),
                     const SpaceH16(),
                     const SDivider(),
