@@ -288,7 +288,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                     onPaste: () async {
                       final data = await Clipboard.getData('text/plain');
                       if (data?.text != null) {
-                        final n = int.tryParse(data!.text!);
+                        final n = double.tryParse(data!.text!);
                         if (n != null) {
                           state.pasteValue(n.toString().trim());
                         }
