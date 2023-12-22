@@ -26,7 +26,7 @@ class ChooseAssetScreen extends StatefulObserverWidget {
 }
 
 class _ChooseAssetScreenState extends State<ChooseAssetScreen> {
-  final searchStore = getIt.get<ActionSearchStore>();
+  final searchStore = ActionSearchStore();
 
   @override
   void initState() {
@@ -111,11 +111,13 @@ class ChooseAssetBody extends StatelessObserverWidget {
     final baseCurrency = sSignalRModules.baseCurrency;
     final state = searchStore;
 
-    sortByBalanceAndWeight(state.currencies);
+    final list = state.fCurrencies;
+
+    sortByBalanceAndWeight(list);
 
     return Column(
       children: [
-        for (final currency in state.currencies) ...[
+        for (final currency in list) ...[
           if (currency.type == AssetType.crypto)
             SMarketItem(
               icon: SNetworkSvg24(

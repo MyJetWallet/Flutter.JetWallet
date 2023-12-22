@@ -28,6 +28,7 @@ class CurrencyModel with _$CurrencyModel {
     @Default(AssetType.crypto) AssetType type,
     @Default(AssetFeesModel()) AssetFeesModel fees,
     @Default([]) List<BuyMethodDto> buyMethods,
+    @Default([]) List<SellMethodDto> sellMethods,
     @Default([]) List<ReceiveMethodDto> depositMethods,
     @Default([]) List<SendMethodDto> withdrawalMethods,
     @Default([]) List<BlockchainModel> depositBlockchains,
