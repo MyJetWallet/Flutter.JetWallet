@@ -148,9 +148,11 @@ class SButtonContext extends StatelessWidget {
                   style: type == SButtonContextType.iconedLarge
                       ? STStyles.button.copyWith(
                           color: contentColor ?? (isDisabled ? SColorsLight().gray8 : SColorsLight().blue),
+                          height: 1,
                         )
                       : STStyles.body1Bold.copyWith(
                           color: contentColor ?? (isDisabled ? SColorsLight().gray8 : SColorsLight().blue),
+                          height: 1,
                         ),
                 ),
               ],

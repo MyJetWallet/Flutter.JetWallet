@@ -11,7 +11,7 @@ class InvalidReferralCode extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Assets.svg.small.warning.simpleSvg(
+        Assets.svg.small.info.simpleSvg(
           width: 20,
           color: sKit.colors.red,
         ),

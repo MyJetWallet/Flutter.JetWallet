@@ -27,55 +27,62 @@ class SActioned extends StatelessWidget {
       height: 64,
       color: type == SActionedType.basic ? colors.white : Colors.transparent,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Row(
-                    children: [
-                      if (icon != null) ...[
-                        icon!,
-                        const SizedBox(
-                          width: 12,
+            child: Center(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Row(
+                      children: [
+                        if (icon != null) ...[
+                          icon!,
+                          const SizedBox(
+                            width: 12,
+                          ),
+                        ],
+                        Flexible(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                label,
+                                style: STStyles.subtitle2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              if (supplement != null)
+                                Text(
+                                  supplement ?? '',
+                                  style: STStyles.body2Medium.copyWith(color: colors.gray10),
+                                  overflow: TextOverflow.ellipsis,
+                                )
+                            ],
+                          ),
                         ),
                       ],
-                      Flexible(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              label,
-                              style: STStyles.subtitle2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            if (supplement != null)
-                              Text(
-                                supplement ?? '',
-                                style: STStyles.body2Medium.copyWith(color: colors.gray10),
-                                overflow: TextOverflow.ellipsis,
-                              )
-                          ],
-                        ),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 12,
                       ),
+                      button,
                     ],
                   ),
-                ),
-                Row(
-                  children: [
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    button,
-                  ],
-                )
-              ],
+                  const SizedBox(
+                        height: 47,
+                      ),
+                ],
+              ),
             ),
           ),
+          
           Container(
             height: 1,
             color: colors.gray4,
