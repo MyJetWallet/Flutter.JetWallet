@@ -1513,5 +1513,80 @@
     "onboarding_title_3": "Wysyłaj pieniądze bez przeszkód",
     "onboarding_descriction_1": "Osiągnij bezproblemową kontrolę nad swoimi finansami osobistymi oraz portfelem kryptowalut",
     "onboarding_descriction_2": "Ułatw swoje transakcje kryptowalutowe, aby łatwo kupować i wymieniać",
-    "onboarding_descriction_3": "Bez wysiłku przekazuj środki na całym świecie z szybkością i bezpieczeństwem"
+    "onboarding_descriction_3": "Bez wysiłku przekazuj środki na całym świecie z szybkością i bezpieczeństwem",
+    "simple_card_terminate_card": "Terminuj kartę",
+    "@simple_card_terminate_card": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/RDRyov6ihR0eGdDvBhlL2Mh3.png",
+        "type": "text"
+    },
+    "simple_card_terminate_only_available_alert": "Dostępne tylko przy zerowym saldzie kart",
+    "@simple_card_terminate_only_available_alert": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/RDRyov6ihR0eGdDvBhlL2Mh3.png",
+        "type": "text"
+    },
+    "simple_card_terminate_got_it": "Zrozumiane",
+    "@simple_card_terminate_got_it": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/RDRyov6ihR0eGdDvBhlL2Mh3.png",
+        "type": "text"
+    },
+    "simple_card_terminate_terminate_card_question": "Zakończyć kartę?",
+    "@simple_card_terminate_terminate_card_question": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/Ag5r30oSsqci4HMKkl34Cfmg.png",
+        "type": "text"
+    },
+    "simple_card_terminate_terminate_warning_1": "Karta zostanie natychmiast zamknięta",
+    "@simple_card_terminate_terminate_warning_1": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/yJQ9M7cz4LiG61k321nDjZ5r.png",
+        "type": "text"
+    },
+    "simple_card_terminate_terminate_warning_2": "Po anulowaniu wszystkie dalsze transakcje zostaną odrzucone. Nie można cofnąć wypowiedzenia karty.",
+    "@simple_card_terminate_terminate_warning_2": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/SMuc3osdeimBlusYaouHOpsM.png",
+        "type": "text"
+    },
+    "simple_card_terminate_confirm": "Potwierdź",
+    "@simple_card_terminate_confirm": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/I0GAHkN2zn2DpgRA3VHmSgHt.png",
+        "type": "text"
+    },
+    "simple_card_terminate_cancel": "Anuluj",
+    "@simple_card_terminate_cancel": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/ITQimVBgxOchHJQWJ4ukC7NK.png",
+        "type": "text"
+    },
+    "simple_card_terminate_success_1": "Karta",
+    "@simple_card_terminate_success_1": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/CIIIdp9FJ2axElKODjA0FcuH.png",
+        "type": "text"
+    },
+    "simple_card_terminate_success_2": "Została zakończona",
+    "@simple_card_terminate_success_2": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/xglak5fyEQyBa50L3kmNeEgY.png",
+        "type": "text"
+    },
+    "simple_card_limits_daily_limits": "Dzienny limit",
+    "@simple_card_limits_daily_limits": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/lZMTjWUdZvB4FfGkNjoaaaNM.png",
+        "type": "text"
+    },
+    "simple_card_limits_monthly_limits": "Miesięczne limity",
+    "@simple_card_limits_monthly_limits": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/q9lY694fcnwZolzhXLpEOkdi.png",
+        "type": "text"
+    },
+    "simple_card_limits_monthly_spending": "Wydawanie",
+    "@simple_card_limits_monthly_spending": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/V0zvhBZI2zca0a8lYf8KICPh.png",
+        "type": "text"
+    },
+    "simple_card_limits_monthly_atm_withdrawals": "Wypłaty z bankomatów",
+    "@simple_card_limits_monthly_atm_withdrawals": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/7TLOTnlbGCjhGLg7h2jw3JUp.png",
+        "type": "text"
+    },
+    "external_transfer": "Przelew zewnętrzny",
+    "internal_exchange": "Wewnętrzna wymiana ",
+    "deposit_by": "Depozyt przez",
+    "methods": "Metody",
+    "add_cash_from": "Doładowanie z"
 }

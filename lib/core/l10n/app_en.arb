@@ -1531,7 +1531,7 @@
     "simple_card_terminate_got_it": "Got it",
     "simple_card_terminate_terminate_card_question": "Terminate card?",
     "simple_card_terminate_terminate_warning_1": "We will terminate card",
-    "simple_card_terminate_terminate_warning_2": "immediately. After termination, all further transactions will be declined. Card termination cannot be reverted.",
+    "simple_card_terminate_terminate_warning_2": "immediately. After termination all further transactions will be declined. Card termination cannot be reverted.",
     "simple_card_terminate_confirm": "Confirm",
     "simple_card_terminate_cancel": "Cancel",
     "simple_card_terminate_success_1": "The card",
@@ -1539,5 +1539,10 @@
     "simple_card_limits_daily_limits": "Daily limits",
     "simple_card_limits_monthly_limits": "Monthly limits",
     "simple_card_limits_monthly_spending": "Spending",
-    "simple_card_limits_monthly_atm_withdrawals": "ATM withdrawals"
+    "simple_card_limits_monthly_atm_withdrawals": "ATM withdrawals",
+    "external_transfer": "External transfer",
+    "internal_exchange": "Internal exchange",
+    "deposit_by": "Deposit by",
+    "methods": "Methods",
+    "add_cash_from": "Add cash from"
 }
