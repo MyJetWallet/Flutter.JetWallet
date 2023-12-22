@@ -89,7 +89,7 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
             ),
           ),
           SizedBox(
-            height: 128,
+            height: 130,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
