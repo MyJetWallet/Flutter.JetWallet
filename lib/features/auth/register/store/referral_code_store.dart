@@ -156,7 +156,7 @@ abstract class _ReferallCodeStoreBase with Store {
           _moveCursorAtTheEnd(referralCodeController);
         },
         onError: (error) {
-          referralCodeValidation = const Invalid();
+          referralCodeValidation = const Input();
           bottomSheetReferralCodeValidation = const Invalid();
 
           _triggerErrorOfReferralCodeField();
@@ -165,7 +165,7 @@ abstract class _ReferallCodeStoreBase with Store {
     } catch (error) {
       _logger.log(stateFlow, 'validateReferralCode', error);
 
-      referralCodeValidation = const Invalid();
+      referralCodeValidation = const Input();
       bottomSheetReferralCodeValidation = const Invalid();
 
       _triggerErrorOfReferralCodeField();
