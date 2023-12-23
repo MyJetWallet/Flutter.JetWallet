@@ -24,10 +24,7 @@ class NoReferralCode extends StatelessWidget {
         type: SButtonContextType.basic,
         backgroundColor: SColorsLight().white,
       ),
-      icon: Padding(
-        padding: const EdgeInsets.only(top: 11),
-        child: Assets.svg.medium.referral.simpleSvg(),
-      ),
+      icon: Assets.svg.medium.referral.simpleSvg(),
       type: SActionedType.inverted,
     );
   }

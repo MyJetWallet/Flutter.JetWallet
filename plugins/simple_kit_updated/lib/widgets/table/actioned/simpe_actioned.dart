@@ -52,13 +52,18 @@ class SActioned extends StatelessWidget {
                             children: [
                               Text(
                                 label,
-                                style: STStyles.subtitle2,
+                                style: STStyles.subtitle2.copyWith(
+                                  leadingDistribution: TextLeadingDistribution.even,
+                                ),
                                 overflow: TextOverflow.ellipsis,
                               ),
                               if (supplement != null)
                                 Text(
                                   supplement ?? '',
-                                  style: STStyles.body2Medium.copyWith(color: colors.gray10),
+                                  style: STStyles.body2Medium.copyWith(
+                                    color: colors.gray10,
+                                    leadingDistribution: TextLeadingDistribution.even,
+                                  ),
                                   overflow: TextOverflow.ellipsis,
                                 )
                             ],
@@ -76,13 +81,12 @@ class SActioned extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(
-                        height: 47,
-                      ),
+                    height: 47,
+                  ),
                 ],
               ),
             ),
           ),
-          
           Container(
             height: 1,
             color: colors.gray4,
