@@ -11,11 +11,10 @@ class InvalidReferralCode extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Transform.scale(
-          scale: 0.83,
-          child: Assets.svg.small.info.simpleSvg(
-            color: sKit.colors.red,
-          ),
+        Assets.svg.small.info.simpleSvg(
+          height: 20,
+          width: 20,
+          color: sKit.colors.red,
         ),
         const SpaceW10(),
         Text(
