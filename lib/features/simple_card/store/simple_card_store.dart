@@ -259,14 +259,6 @@ abstract class _SimpleCardStoreBase with Store {
   );
 
   @observable
-  SimpleCardModel? card;
-
-  @action
-  void setCardInfo(SimpleCardModel? cardData) {
-    card = cardData;
-  }
-
-  @observable
   CardDataModel? cardFull;
 
   @action
@@ -464,7 +456,7 @@ abstract class _SimpleCardStoreBase with Store {
     try {
       final context = sRouter.navigatorKey.currentContext!;
 
-      if ((card?.balance ?? Decimal.zero) != Decimal.zero) {
+      if ((cardFull?.balance ?? Decimal.zero) != Decimal.zero) {
         await sShowAlertPopup(
           context,
           primaryText: intl.simple_card_terminate_card,
@@ -484,7 +476,7 @@ abstract class _SimpleCardStoreBase with Store {
         context,
         primaryText: intl.simple_card_terminate_terminate_card_question,
         secondaryText:
-            '${intl.simple_card_terminate_terminate_warning_1} ** ${cardSensitiveData?.last4NumberCharacters} ${intl.simple_card_terminate_terminate_warning_2}',
+            '${intl.simple_card_terminate_terminate_warning_1} ** ${cardFull?.last4NumberCharacters} ${intl.simple_card_terminate_terminate_warning_2}',
         primaryButtonName: intl.simple_card_terminate_confirm,
         onPrimaryButtonTap: () {
           continueTrminate = true;
