@@ -106,7 +106,7 @@ class _CardSettings extends StatelessObserverWidget {
           },
           hideDescription: true,
         ),
-        const SpaceH40(),
+        const SpaceH60(),
       ],
     );
   }
