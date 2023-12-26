@@ -26,6 +26,10 @@ const cryptoIndeciesImageAsset = 'assets/images/crypto_indecies.png';
 const inviteFriendsImageAsset = 'assets/images/invite_friends.png';
 const simpleAppImageAsset = 'assets/images/simple_app.png';
 const simpleLogoAsset = 'assets/images/logo.png';
+const onboardingStep1 = 'assets/images/step_01.png';
+const onboardingStep2 = 'assets/images/step_02.png';
+const onboardingStep3 = 'assets/images/step_03.png';
+const splashSimpleLogoAsset = 'assets/images/splash_simple_logo.png';
 
 // KYC
 const verifyYourProfileAsset = 'assets/images/verify_your_profile.png';

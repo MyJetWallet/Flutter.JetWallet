@@ -443,6 +443,7 @@ class EventType {
   static const tapOnTheButtonConfirmOnConvertOrderSummary = 'Tap on the button ‘Confirm’ on Convert order summary';
   static const successConvertEndScreenView = '‘Success Convert end’ screen view';
   static const failedConvertEndScreenView = 'Failed Convert end’ screen view';
+
   static const tapOnAddRefCodeButton = 'Tap on ‘Add ref code’ button';
   static const enterReferralCodeScreenView = '‘Enter referral code’ screen view';
   static const tapOnPasteButtonOnEnterReferralCode = 'Tap on ‘Paste’ button on `Enter referral code`';
@@ -450,4 +451,9 @@ class EventType {
   static const errorInvalidReferralCode = 'Error - ‘Invalid referral code’';
   static const tapOnContinueButtonOnEnterReferralCode = 'Tap on ‘Continue’ button on `Enter referral code`';
   static const tapOnDeleteRefCodeButton = 'Tap on ‘Delete ref code’ button';
+
+  static const onboardingFinanceIsSimpleScreenView = '‘Onboarding - Finance is Simple’ screen view';
+  static const onboardingCryptoIsSimpleScreenView = '‘Onboarding - Crypto is Simple’ screen view';
+  static const onboardingSendMoneyGloballyScreenView = '‘Onboarding - Send money Globally’ screen view';
+  static const tapOnTheOnboardingGetStartedButton = 'Tap on the ‘Onboarding - Get started`  button';
 }
