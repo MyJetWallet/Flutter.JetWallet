@@ -487,8 +487,9 @@ class DeepLinkService {
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
-          action: RouteQueryAction.push,
           func: () async {
+            await Future.delayed(const Duration(milliseconds: 356));
+
             final kycState = getIt.get<KycService>();
             final kycAlertHandler = getIt.get<KycAlertHandler>();
 
@@ -563,7 +564,7 @@ class DeepLinkService {
     final jwOperationId = parameters['jw_symbol'];
 
     Future<void> openMarket() async {
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 650));
 
       if (getIt.get<AppStore>().authStatus == const AuthorizationUnion.authorized()) {
         if (jwOperationId != null) {
