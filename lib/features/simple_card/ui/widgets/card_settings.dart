@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/simple_card/ui/set_up_password_screen.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
@@ -42,12 +43,19 @@ class _CardSettings extends StatelessObserverWidget {
           ),
           name: intl.simple_card_spending_limits,
           onTap: () {
-            sRouter.push(
+            sAnalytics.tapOnTheSpendingVirtualCardLimitsButton(cardID: simpleCardStore.cardFull?.cardId ?? '');
+            sRouter
+                .push(
               SimpleCardLimitsRouter(
                 cardId: simpleCardStore.cardFull?.cardId ?? '',
                 cardLable: simpleCardStore.cardFull?.label ?? '',
               ),
-            );
+            )
+                .then((value) {
+              sAnalytics.tapOnTheBackFromSpendingVirtualCardLimitsButton(
+                cardID: simpleCardStore.cardFull?.cardId ?? '',
+              );
+            });
           },
           hideDescription: true,
         ),

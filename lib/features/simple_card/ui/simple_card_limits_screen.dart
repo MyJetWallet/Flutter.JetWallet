@@ -6,6 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/simple_card/store/simple_card_limits_store.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
@@ -23,6 +24,8 @@ class SimpleCardLimitsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    sAnalytics.spendingVirtualCardLimitsScreenView(cardID: cardId);
+    
     return Provider(
       create: (context) => SimpleCardLimitsStore()..init(cardId),
       child: _SimpleCardLimitsScreenBody(

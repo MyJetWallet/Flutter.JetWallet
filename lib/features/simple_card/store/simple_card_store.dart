@@ -11,6 +11,7 @@ import 'package:jetwallet/features/pin_screen/ui/pin_screen.dart';
 import 'package:mobx/mobx.dart';
 import 'package:pointycastle/asymmetric/api.dart';
 import 'package:rsa_encrypt/rsa_encrypt.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -453,10 +454,13 @@ abstract class _SimpleCardStoreBase with Store {
 
   @action
   Future<void> terminateCard() async {
+    sAnalytics.tapOnTheTerminateButton(cardID: cardFull?.cardId ?? '');
     try {
       final context = sRouter.navigatorKey.currentContext!;
 
       if ((cardFull?.balance ?? Decimal.zero) != Decimal.zero) {
+        sAnalytics.terminateWithBalancePopupScreenView(cardID: cardFull?.cardId ?? '');
+
         await sShowAlertPopup(
           context,
           primaryText: intl.simple_card_terminate_card,
@@ -472,6 +476,8 @@ abstract class _SimpleCardStoreBase with Store {
 
       var continueTrminate = false;
 
+      sAnalytics.approveTerminatePopupScreenView(cardID: cardFull?.cardId ?? '');
+
       await sShowAlertPopup(
         context,
         primaryText: intl.simple_card_terminate_terminate_card_question,
@@ -479,12 +485,14 @@ abstract class _SimpleCardStoreBase with Store {
             '${intl.simple_card_terminate_terminate_warning_1} ** ${cardFull?.last4NumberCharacters} ${intl.simple_card_terminate_terminate_warning_2}',
         primaryButtonName: intl.simple_card_terminate_confirm,
         onPrimaryButtonTap: () {
+          sAnalytics.tapOnTheConfirmTerminateButton(cardID: cardFull?.cardId ?? '');
           continueTrminate = true;
           sRouter.pop();
         },
         primaryButtonType: SButtonType.primary3,
         secondaryButtonName: intl.simple_card_terminate_cancel,
         onSecondaryButtonTap: () {
+          sAnalytics.tapOnTheCancelTerminateButton(cardID: cardFull?.cardId ?? '');
           continueTrminate = false;
           sRouter.pop();
         },
@@ -493,6 +501,8 @@ abstract class _SimpleCardStoreBase with Store {
       if (!continueTrminate) return;
 
       var isVerifaierd = false;
+
+      sAnalytics.confirmTerminateWithPinScreenView(cardID: cardFull?.cardId ?? '');
 
       await showPinScreen(
         context: context,
@@ -506,6 +516,8 @@ abstract class _SimpleCardStoreBase with Store {
 
       loader.startLoadingImmediately();
 
+      sAnalytics.pleaseWaitLoaderOnCardTerminateLoadingView(cardID: cardFull?.cardId ?? '');
+
       final response = await sNetwork.getWalletModule().postCardTerminate(
             model: SimpleCardTerminateRequestModel(cardId: cardFull?.cardId ?? ''),
           );
@@ -517,8 +529,11 @@ abstract class _SimpleCardStoreBase with Store {
           allCards?.removeWhere((element) => element.cardId == cardFull?.cardId);
 
           sRouter.pop();
+
+          sAnalytics.theCardHasBeenTerminateToastView(cardID: cardFull?.cardId ?? '');
+
           sNotification.showError(
-            '${intl.simple_card_terminate_success_1} •• ${cardSensitiveData?.last4NumberCharacters} ${intl.simple_card_terminate_success_2}',
+            '${intl.simple_card_terminate_success_1} •• ${cardFull?.last4NumberCharacters} ${intl.simple_card_terminate_success_2}',
             id: 1,
             isError: false,
           );

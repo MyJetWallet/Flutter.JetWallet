@@ -345,8 +345,7 @@ class EventType {
   static const tapOnTheButtonAddCashWalletsOnWalletsScreen =
       'Tap on the button ‘Add cash wallets` on `Wallets`` screen';
   static const addCashToSheetView = '‘Add cash to` sheet  view';
-    static const tapOnTheButtonEURAccOnAddCashToSheet = 'Tap on the button ‘EUR acc` on `Add cash to` sheet';
-
+  static const tapOnTheButtonEURAccOnAddCashToSheet = 'Tap on the button ‘EUR acc` on `Add cash to` sheet';
 
   //Buy flow
   static const tapOnTheBuyWalletButton = 'Tap on the ‘Buy wallet’ button';
@@ -444,4 +443,20 @@ class EventType {
   static const tapOnTheButtonConfirmOnConvertOrderSummary = 'Tap on the button ‘Confirm’ on Convert order summary';
   static const successConvertEndScreenView = '‘Success Convert end’ screen view';
   static const failedConvertEndScreenView = 'Failed Convert end’ screen view';
+
+  //Terminate Simple Card
+  static const tapOnTheTerminateButton = 'Tap on the ‘Terminate’ button';
+  static const terminateWithBalancePopupScreenView = '‘Terminate with balance’ popup screen view';
+  static const approveTerminatePopupScreenView = '‘Approve terminate’ popup screen view';
+  static const tapOnTheCancelTerminateButton = 'Tap on the ‘Cancel terminate’ button';
+  static const tapOnTheConfirmTerminateButton = 'Tap on the ‘Confirm terminate’ button';
+  static const confirmTerminateWithPinScreenView = '‘Confirm terminate with pin’  screen view';
+  static const pleaseWaitLoaderOnCardTerminateLoadingView = '‘Please wait loader on card terminate’ loading view';
+  static const theCardHasBeenTerminateToastView = '`The card has been terminate` toast view';
+
+  //Limits Simple Card
+  static const tapOnTheSpendingVirtualCardLimitsButton = 'Tap on the ‘Spending virtual card limits’ button';
+  static const spendingVirtualCardLimitsScreenView = '‘Spending virtual card limits’ screen view';
+  static const tapOnTheBackFromSpendingVirtualCardLimitsButton =
+      'Tap on the ‘Back from Spending virtual card  limits’ button';
 }
