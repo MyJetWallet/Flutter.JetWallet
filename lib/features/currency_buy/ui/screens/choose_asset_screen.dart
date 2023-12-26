@@ -7,7 +7,6 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
-import '../../../../core/di/di.dart';
 import '../../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../../utils/formatting/base/market_format.dart';
 import '../../../../utils/helpers/currencies_helpers.dart';
@@ -111,13 +110,11 @@ class ChooseAssetBody extends StatelessObserverWidget {
     final baseCurrency = sSignalRModules.baseCurrency;
     final state = searchStore;
 
-    final list = state.fCurrencies;
-
-    sortByBalanceAndWeight(list);
+    sortByBalanceAndWeight(state.searchCurrencies);
 
     return Column(
       children: [
-        for (final currency in list) ...[
+        for (final currency in state.searchCurrencies) ...[
           if (currency.type == AssetType.crypto)
             SMarketItem(
               icon: SNetworkSvg24(
