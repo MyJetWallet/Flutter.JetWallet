@@ -3,9 +3,11 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
@@ -60,6 +62,8 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
     final isUserEnoughMaticForWithdraw =
         store.withdrawalType != WithdrawalType.nft || matic.assetBalance > (store.nftInfo?.feeAmount ?? Decimal.zero);
 
+    final formatService = getIt.get<FormatService>();
+
     return SPageFrameWithPadding(
       loaderText: intl.register_pleaseWait,
       loading: store.previewLoader,
@@ -105,6 +109,22 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                             accuracy: store.withdrawalInputModel!.currency!.accuracy,
                             symbol: store.withdrawalInputModel!.currency!.symbol,
                           ),
+                    assetBaseAmount: volumeFormat(
+                      decimal: formatService.convertOneCurrencyToAnotherOne(
+                        fromCurrency: store.withdrawalInputModel!.currency!.symbol,
+                        fromCurrencyAmmount: store.addressIsInternal
+                            ? Decimal.parse(store.withAmount)
+                            : Decimal.parse(store.withAmount) -
+                                store.withdrawalInputModel!.currency!.withdrawalFeeSize(
+                                  store.networkController.text,
+                                ),
+                        toCurrency: sSignalRModules.baseCurrency.symbol,
+                        baseCurrency: sSignalRModules.baseCurrency.symbol,
+                        isMin: false,
+                      ),
+                      accuracy: sSignalRModules.baseCurrency.accuracy,
+                      symbol: sSignalRModules.baseCurrency.symbol,
+                    ),
                   ),
                 ),
                 const SDivider(),
