@@ -18,12 +18,18 @@ class OnboardingStore extends _OnboardingStoreBase with _$OnboardingStore {
 
 abstract class _OnboardingStoreBase with Store {
   final _slidesAnimationDuration = const Duration(seconds: 4);
+
   final _onboardingImages = const [
-    simpleAppImageAsset,
-    buyCryptoImageAsset,
-    cryptoIndeciesImageAsset,
-    inviteFriendsImageAsset,
+    onboardingStep1,
+    onboardingStep2,
+    onboardingStep3,
   ];
+
+  @observable
+  ObservableList<String> slidesLabeles = ObservableList.of([]);
+
+  @observable
+  ObservableList<String> slidesDescrictions = ObservableList.of([]);
 
   @observable
   PageController? pageController;
@@ -35,35 +41,39 @@ abstract class _OnboardingStoreBase with Store {
   @action
   int setCurrentIndex(int value) => currentIndex = value;
 
-  @observable
-  ObservableList<String> slides = ObservableList.of([]);
-
   @action
   void init(AnimationController controller) {
+     sAnalytics.onboardingFinanceIsSimpleScreenView();
+     
     sliderController = controller;
 
     restartAnimation();
 
-    slides = ObservableList.of([
-      intl.onboarding_simpleApp,
-      intl.onboarding_buy_crypto,
-      intl.onboarding_free_worldwide_transfers,
-      intl.onboarding_exchange_any_crypto,
+    slidesLabeles = ObservableList.of([
+      intl.onboarding_title_1,
+      intl.onboarding_title_2,
+      intl.onboarding_title_3,
+    ]);
+
+    slidesDescrictions = ObservableList.of([
+      intl.onboarding_descriction_1,
+      intl.onboarding_descriction_2,
+      intl.onboarding_descriction_3,
     ]);
 
     sliderController!.addStatusListener(sliderListener);
-
-    sAnalytics.signInFlowOnboardingFirstScreenView();
   }
 
   void sliderListener(AnimationStatus status) {
     if (status == AnimationStatus.completed) {
-      if (currentIndex + 1 < slides.length) {
+      if (currentIndex + 1 < slidesLabeles.length) {
         currentIndex += 1;
         restartAnimation();
+        onSliderChange();
       } else {
         Timer(const Duration(seconds: 5), () {
           startAnimation();
+          onSliderChange();
         });
       }
     }
@@ -123,7 +133,7 @@ abstract class _OnboardingStoreBase with Store {
 
   @action
   void nextSlider() {
-    if (currentIndex + 1 < slides.length) {
+    if (currentIndex + 1 < slidesLabeles.length) {
       currentIndex += 1;
       restartAnimation();
     }
@@ -133,13 +143,11 @@ abstract class _OnboardingStoreBase with Store {
 
   void onSliderChange() {
     if (currentIndex == 0) {
-      sAnalytics.signInFlowOnboardingFirstScreenView();
+      sAnalytics.onboardingFinanceIsSimpleScreenView();
     } else if (currentIndex == 1) {
-      sAnalytics.signInFlowOnboardingSecondScreenView();
+      sAnalytics.onboardingCryptoIsSimpleScreenView();
     } else if (currentIndex == 2) {
-      sAnalytics.signInFlowOnboardingThirdScreenView();
-    } else if (currentIndex == 3) {
-      sAnalytics.signInFlowOnboardingFourScreenView();
+      sAnalytics.onboardingSendMoneyGloballyScreenView();
     }
   }
 
