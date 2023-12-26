@@ -1579,7 +1579,7 @@
         "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/V0zvhBZI2zca0a8lYf8KICPh.png",
         "type": "text"
     },
-    "simple_card_limits_monthly_atm_withdrawals": "Wypłaty z bankomatów",
+    "simple_card_limits_monthly_atm_withdrawals": "Wypłaty z ATM",
     "@simple_card_limits_monthly_atm_withdrawals": {
         "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/7TLOTnlbGCjhGLg7h2jw3JUp.png",
         "type": "text"

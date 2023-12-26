@@ -1531,7 +1531,7 @@
     "simple_card_limits_daily_limits": "Límites diarios",
     "simple_card_limits_monthly_limits": "Límites mensuales",
     "simple_card_limits_monthly_spending": "Gastos",
-    "simple_card_limits_monthly_atm_withdrawals": "Retiros de cajero automático",
+    "simple_card_limits_monthly_atm_withdrawals": "Retiros en ATM",
     "external_transfer": "Transferencia externa",
     "internal_exchange": "Intercambio interno",
     "deposit_by": "Depósito por",

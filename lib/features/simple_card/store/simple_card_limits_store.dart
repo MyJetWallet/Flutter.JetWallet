@@ -118,7 +118,7 @@ abstract class _SimpleCardLimitsStoreBase with Store {
   }
 
   void _parseData(SimpleCardLimitsResponceModel data) {
-    dailyLimitsData = DateFormat('dd MMMM yyyy').format(data.dailyLimitsReset ?? DateTime.now());
+    dailyLimitsData = DateFormat('dd MMMM yyyy', intl.localeName).format(data.dailyLimitsReset ?? DateTime.now());
     dailySpendingValue = volumeFormat(
       decimal: data.dailySpendingValue ?? Decimal.zero,
       symbol: 'EUR',
@@ -140,7 +140,7 @@ abstract class _SimpleCardLimitsStoreBase with Store {
     dailyWithdrawalProgress =
         ((data.dailyWithdrawalValue ?? Decimal.zero) / (data.dailyWithdrawalLimit ?? Decimal.one)).toDouble();
 
-    monthlyLimitsData = DateFormat('MMMM yyyy').format(data.monthlyLimitsReset ?? DateTime.now());
+    monthlyLimitsData = _formatMMMMyyyy(data.monthlyLimitsReset ?? DateTime.now());
     monthlySpendingValue = volumeFormat(
       decimal: data.monthlySpendingValue ?? Decimal.zero,
       symbol: 'EUR',
@@ -161,5 +161,9 @@ abstract class _SimpleCardLimitsStoreBase with Store {
         ((data.monthlySpendingValue ?? Decimal.zero) / (data.monthlySpendingLimit ?? Decimal.one)).toDouble();
     monthlyWithdrawalProgress =
         ((data.monthlyWithdrawalValue ?? Decimal.zero) / (data.monthlyWithdrawalLimit ?? Decimal.one)).toDouble();
+  }
+
+  String _formatMMMMyyyy(DateTime date) {
+    return '${toBeginningOfSentenceCase(DateFormat('MMMM', intl.localeName).format(date)) ?? ''} ${DateFormat('yyyy', intl.localeName).format(date)}';
   }
 }
