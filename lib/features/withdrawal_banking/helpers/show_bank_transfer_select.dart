@@ -258,8 +258,6 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
           helper: intl.iban_local_euro_accounts_only,
           description: '',
           onTap: () {
-            sAnalytics.tapOnTheButtonAddBankAccount();
-
             sAnalytics.eurWithdrawTapReceive(
               eurAccountType: isCJ ? 'CJ' : 'Unlimit',
               accountIban: bankingAccount.iban ?? '',

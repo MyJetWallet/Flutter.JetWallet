@@ -240,18 +240,6 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                   active: true,
                   name: intl.previewBuyWithAsset_confirm,
                   onTap: () {
-                    sAnalytics.tapOnTheButtonConfirmSendIban(
-                      asset: 'EUR',
-                      methodType: '2',
-                      sendAmount: data.amount.toString(),
-                    );
-
-                    sAnalytics.ibanConfirmWithPINScreenView(
-                      asset: 'EUR',
-                      methodType: '2',
-                      sendAmount: data.amount.toString(),
-                    );
-
                     sAnalytics.eurWithdrawTapConfirmOrderSummary(
                       eurAccountType: isCJ ? 'CJ' : 'Unlimit',
                       accountIban: account.iban ?? '',
@@ -266,12 +254,6 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                         union: const Change(),
                         isChangePhone: true,
                         onWrongPin: (String error) {
-                          sAnalytics.errorWrongPinSend(
-                            asset: 'EUR',
-                            methodType: '2',
-                            sendAmount: data.amount.toString(),
-                            errorCode: error,
-                          );
                           sAnalytics.errorWrongPin(
                             asset: 'EUR',
                             errorText: error,

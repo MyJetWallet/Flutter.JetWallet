@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context) {
         final screens = <PageRouteInfo<dynamic>>[
           const MyWalletsRouter(),
-          MarketRouter(),
+          const MarketRouter(),
         ];
 
         if (sUserInfo.cardAvailable) {
@@ -76,8 +76,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 if (val == 2) {
                   getIt<IbanStore>().getAddressBook();
-
-                  sAnalytics.accountTabScreenView();
                 }
 
                 if (val == 4) {

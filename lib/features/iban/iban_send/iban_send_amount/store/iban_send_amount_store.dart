@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -25,8 +23,6 @@ import 'package:simple_networking/modules/signal_r/models/banking_profile_model.
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_model.dart';
-import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_preview_withdrawal_model.dart';
-import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_withdrawal_model.dart';
 import 'package:uuid/uuid.dart';
 
 part 'iban_send_amount_store.g.dart';
@@ -121,8 +117,6 @@ abstract class _IbanSendAmountStoreBase with Store {
 
     requestId = const Uuid().v1();
 
-    sAnalytics.sendEurAmountScreenView();
-
     sAnalytics.eurWithdrawEurAmountSV(
       eurAccountType: isCJ ? 'CJ' : 'Unlimit',
       accountIban: bankingAccount.iban ?? '',
@@ -200,7 +194,6 @@ abstract class _IbanSendAmountStoreBase with Store {
     } else {
       sNotification.showError(
         response.error?.cause ?? '',
-        duration: 4,
         id: 1,
         needFeedback: true,
       );
@@ -274,9 +267,6 @@ abstract class _IbanSendAmountStoreBase with Store {
         : InputError.none;
 
     if (error != InputError.none) {
-      sAnalytics.errorSendIBANAmount(
-        errorCode: withAmmountInputError.toString(),
-      );
 
       sAnalytics.eurWithdrawErrorShowConvert(
         eurAccountType: isCJAcc! ? 'CJ' : 'Unlimit',
