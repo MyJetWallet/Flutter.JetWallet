@@ -13,14 +13,16 @@ class LoadingReferralCode extends StatelessWidget {
           width: 16.0,
           height: 16.0,
           child: CircularProgressIndicator(
-            color: sKit.colors.black,
+            color: sKit.colors.grey1,
             strokeWidth: 2.0,
           ),
         ),
-        const SpaceW10(),
+        const SpaceW12(),
         Text(
-          intl.loadingReferralCode_checking,
-          style: sCaptionTextStyle,
+         intl.checkingReferralCode_checking,
+          style: sBodyText2Style.copyWith(
+            color: sKit.colors.grey1,
+          ),
         ),
       ],
     );

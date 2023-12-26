@@ -345,8 +345,7 @@ class EventType {
   static const tapOnTheButtonAddCashWalletsOnWalletsScreen =
       'Tap on the button ‘Add cash wallets` on `Wallets`` screen';
   static const addCashToSheetView = '‘Add cash to` sheet  view';
-    static const tapOnTheButtonEURAccOnAddCashToSheet = 'Tap on the button ‘EUR acc` on `Add cash to` sheet';
-
+  static const tapOnTheButtonEURAccOnAddCashToSheet = 'Tap on the button ‘EUR acc` on `Add cash to` sheet';
 
   //Buy flow
   static const tapOnTheBuyWalletButton = 'Tap on the ‘Buy wallet’ button';
@@ -444,6 +443,15 @@ class EventType {
   static const tapOnTheButtonConfirmOnConvertOrderSummary = 'Tap on the button ‘Confirm’ on Convert order summary';
   static const successConvertEndScreenView = '‘Success Convert end’ screen view';
   static const failedConvertEndScreenView = 'Failed Convert end’ screen view';
+
+  static const tapOnAddRefCodeButton = 'Tap on ‘Add ref code’ button';
+  static const enterReferralCodeScreenView = '‘Enter referral code’ screen view';
+  static const tapOnPasteButtonOnEnterReferralCode = 'Tap on ‘Paste’ button on `Enter referral code`';
+  static const validReferralCodeScreenView = '‘Valid referral code` screen view';
+  static const errorInvalidReferralCode = 'Error - ‘Invalid referral code’';
+  static const tapOnContinueButtonOnEnterReferralCode = 'Tap on ‘Continue’ button on `Enter referral code`';
+  static const tapOnDeleteRefCodeButton = 'Tap on ‘Delete ref code’ button';
+
   static const onboardingFinanceIsSimpleScreenView = '‘Onboarding - Finance is Simple’ screen view';
   static const onboardingCryptoIsSimpleScreenView = '‘Onboarding - Crypto is Simple’ screen view';
   static const onboardingSendMoneyGloballyScreenView = '‘Onboarding - Send money Globally’ screen view';
