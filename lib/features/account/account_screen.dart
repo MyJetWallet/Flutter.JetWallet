@@ -160,6 +160,7 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
                       currentNavigate: () {},
                       requiredDocuments: kycState.requiredDocuments,
                       requiredVerifications: kycState.requiredVerifications,
+                      customBlockerText: intl.profile_kyc_bloked_alert,
                     );
                   },
                 ),
