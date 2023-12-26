@@ -5219,8 +5219,10 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '312',
-      }
-      
+      },
+    );
+  }
+
   void onboardingFinanceIsSimpleScreenView() {
     _analytics.logEvent(
       EventType.onboardingFinanceIsSimpleScreenView,
@@ -5261,7 +5263,6 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '492',
-
       },
     );
   }
