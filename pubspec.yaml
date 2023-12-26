@@ -1,12 +1,12 @@
 name: jetwallet
 description: A new Flutter project.
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 3.0.0+1
 
 environment:
-  sdk: '>=3.1.2 <4.0.0'
+  sdk: ">=3.1.2 <4.0.0"
 
 dependencies:
   flutter:
@@ -43,7 +43,7 @@ dependencies:
   store_redirect: 2.0.1 # Redirect to AppStore or GooglePlay
   crisp: ^0.3.1 # Library for support chart and knowledge base
   flutter_webview_pro: ^3.0.1+4 # provides a WebView widget on Android and iOS
-  appsflyer_sdk: 6.9.3  # plugin for AppsFlyer SDK with Android and iOS support
+  appsflyer_sdk: 6.9.3 # plugin for AppsFlyer SDK with Android and iOS support
   credit_card_validator: ^2.0.1 # Credit card validation helpers
   #facebook_app_events: # ^0.18.0
   #  git:
@@ -181,19 +181,12 @@ dev_dependencies:
 dependency_overrides:
   dart_style: 2.3.2
   #flutter_inappwebview:
- #  git:
- #     url: https://github.com/vixez/flutter_inappwebview.git
+  #  git:
+  #     url: https://github.com/vixez/flutter_inappwebview.git
   #    ref: fix-xcode-17
   #analyzer: 5.9.0
   intl: 0.18.0
   quiver: ^3.2.1
-
-flutter_native_splash:
-  background_image: "assets/images/bg.png"
-  image: "assets/images/bg.png"
-
-  web: false
-
 
 flutter:
   generate: true

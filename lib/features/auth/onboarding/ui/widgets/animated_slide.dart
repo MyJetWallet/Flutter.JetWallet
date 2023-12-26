@@ -27,7 +27,7 @@ class AnimatedOnboardingSlide extends StatelessWidget {
             return Stack(
               children: <Widget>[
                 SlideContainer(
-                  width: 24.0,
+                  width: 16,
                   color: position < currentIndex
                       ? sColors.black
                       : sColors.black.withOpacity(0.3),
@@ -37,7 +37,7 @@ class AnimatedOnboardingSlide extends StatelessWidget {
                     animation: animationController,
                     builder: (context, child) {
                       return SlideContainer(
-                        width: 24.0 * animationController.value,
+                        width: 16 * animationController.value,
                         color: sColors.black,
                       );
                     },

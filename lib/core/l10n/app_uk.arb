@@ -6803,12 +6803,12 @@
         "description": "Добавьте наличные",
         "type": "text"
     },
-    "simple_card_show_details": "Показати деталі",
+    "simple_card_show_details": "Деталі",
     "@simple_card_show_details": {
         "description": "Показать детали",
         "type": "text"
     },
-    "simple_card_hide_details": "Приховати деталі",
+    "simple_card_hide_details": "Деталі",
     "@simple_card_hide_details": {
         "description": "Скрыть детали",
         "type": "text"
@@ -6818,7 +6818,7 @@
         "description": "Заморозить",
         "type": "text"
     },
-    "simple_card_settings": "Налаштування",
+    "simple_card_settings": "Налаштувати",
     "@simple_card_settings": {
         "description": "Настройки",
         "type": "text"
@@ -7087,5 +7087,19 @@
     "buy_confirm_with_unlimit_1_part": "Продовжуючи, ви підтверджуєте відправку коштів у розмірі",
     "buy_confirm_with_unlimit_2_part": "з вашого банківського рахунку в Unlimit на банківський рахунок",
     "buy_confirm_with_unlimit_3_part": "на ім'я",
-    "iban_deposit_text": "Поповнення через EUR"
+    "iban_deposit_text": "Поповнення через EUR",
+    "validReferralCode_delete": "Видалити",
+    "invalidReferralCode_invalidReferralCode": "Невірний код рефералу",
+    "checkingReferralCode_checking": "Перевірка...",
+    "referralCode_have_a_referral_code": "Маєте реферальний код?",
+    "referralCode_add": "Додати",
+    "showReferralCode_enterReferralCode": "Ввести реферальний код",
+    "showReferralCode_referralCode": "Реферальний код",
+    "showReferralCode_pasteReferralCode": "Вставте реферальний код або перейдіть за посиланням, яке вам дав друг.",
+    "onboarding_title_1": "Фінанси - це просто",
+    "onboarding_title_2": "Криптовалюта - це легко",
+    "onboarding_title_3": "Надсилайте гроші без перешкод",
+    "onboarding_descriction_1": "Отримайте повний контроль над особистими фінансами та криптовалютним портфелем",
+    "onboarding_descriction_2": "Спростіть свої криптовалютні транзакції для зручної купівлі та обміну",
+    "onboarding_descriction_3": "Швидко та безпечно переказуйте кошти по всьому світу без зайвих зусиль"
 }

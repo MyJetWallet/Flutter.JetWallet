@@ -11,7 +11,7 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/app/timer_service.dart';
-import 'package:jetwallet/features/auth/splash/splash_screen_no_animation.dart';
+import 'package:jetwallet/features/auth/splash/splash_screen.dart';
 import 'package:logger/logger.dart';
 
 import '../../core/services/remote_config/models/remote_config_union.dart';
@@ -46,9 +46,9 @@ class AppBuilder extends StatelessObserverWidget {
         return getIt.get<AppStore>().remoteConfigStatus is Success
             ? AppBuilderBody(
                 reactiveMediaQuery: reactiveMediaQuery,
-                child: child ?? const SplashScreenNoAnimation(),
+                child: child ?? const SplashScreen(),
               )
-            : const SplashScreenNoAnimation();
+            : const SplashScreen();
       },
     );
   }
