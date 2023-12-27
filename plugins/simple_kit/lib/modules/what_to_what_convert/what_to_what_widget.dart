@@ -48,7 +48,7 @@ class WhatToWhatConvertWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _AssetRowWidget(
+          AssetRowWidget(
             isLoading: isLoading,
             assetIconUrl: fromAssetIconUrl,
             assetDescription: fromAssetDescription,
@@ -71,7 +71,7 @@ class WhatToWhatConvertWidget extends StatelessWidget {
                       color: colors.grey2,
                     ),
             ),
-            _AssetRowWidget(
+            AssetRowWidget(
               isLoading: isLoading,
               assetIconUrl: toAssetIconUrl ?? '',
               assetDescription: toAssetDescription ?? '',
@@ -89,8 +89,8 @@ class WhatToWhatConvertWidget extends StatelessWidget {
   }
 }
 
-class _AssetRowWidget extends StatelessWidget {
-  const _AssetRowWidget({
+class AssetRowWidget extends StatelessWidget {
+  const AssetRowWidget({
     required this.isLoading,
     required this.assetIconUrl,
     required this.assetDescription,

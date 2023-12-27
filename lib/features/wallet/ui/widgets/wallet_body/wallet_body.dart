@@ -165,9 +165,8 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                                   ?.any((element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount) ??
                               false;
 
-                          final isBankingAccountsAvaible = sSignalRModules.paymentProducts
-                                  ?.any((element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount) ??
-                              false;
+                          final isBankingAccountsAvaible = actualAsset.buyMethods
+                              .any((element) => element.id == PaymentMethodType.ibanTransferUnlimint);
 
                           final isBuyAvaible = isCardsAvailable || isSimpleAccountAvaible || isBankingAccountsAvaible;
 
@@ -324,6 +323,16 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                       ),
                     ),
                   ),
+                  TransactionsList(
+                    scrollController: _scrollController,
+                    symbol: widget.currency.symbol,
+                    onItemTapLisener: (symbol) {
+                      sAnalytics.tapOnTheButtonAnyHistoryTrxOnCryptoFavouriteWalletScreen(
+                        openedAsset: symbol,
+                      );
+                    },
+                  ),
+                  /*
                   if (widget.currency.isAssetBalanceNotEmpty) ...[
                     TransactionsList(
                       scrollController: _scrollController,
@@ -361,6 +370,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                       ),
                     ),
                   ],
+                  */
                   const SliverToBoxAdapter(
                     child: SpaceH120(),
                   ),

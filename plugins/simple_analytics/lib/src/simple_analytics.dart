@@ -444,65 +444,6 @@ class SimpleAnalytics {
     );
   }
 
-  void paymentMethodScreenView() {
-    _analytics.logEvent(
-      EventType.paymentMethodScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '74',
-        PropertyType.kycStatus: kycDepositStatus,
-      },
-    );
-  }
-
-  void paymentCurrencyPopupScreenView(String currency) {
-    _analytics.logEvent(
-      EventType.paymentCurrencyPopupScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '75',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.paymentMethodCurrency: currency,
-      },
-    );
-  }
-
-  void paymentWevViewScreenView({
-    required String paymentMethodType,
-    required String paymentMethodName,
-    required String paymentMethodCurrency,
-  }) {
-    _analytics.logEvent(
-      EventType.paymentWevViewScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '76',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.paymentMethodType: paymentMethodType,
-        PropertyType.paymentMethodName: paymentMethodName,
-        PropertyType.paymentMethodCurrency: paymentMethodCurrency,
-      },
-    );
-  }
-
-  void paymentWevViewClose({
-    required String paymentMethodType,
-    required String paymentMethodName,
-    required String paymentMethodCurrency,
-  }) {
-    _analytics.logEvent(
-      EventType.paymentWevViewClose,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '77',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.paymentMethodType: paymentMethodType,
-        PropertyType.paymentMethodName: paymentMethodName,
-        PropertyType.paymentMethodCurrency: paymentMethodCurrency,
-      },
-    );
-  }
-
   void verificationProfileScreenView() {
     _analytics.logEvent(
       EventType.verificationProfileScreenView,
@@ -1201,115 +1142,7 @@ class SimpleAnalytics {
     );
   }
 
-  // Iban Send
-
-  void accountTabScreenView() {
-    _analytics.logEvent(
-      EventType.accountTabScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '154',
-        PropertyType.kycStatus: kycDepositStatus,
-      },
-    );
-  }
-
-  void tapOnTheButtonAddBankAccount() {
-    _analytics.logEvent(
-      EventType.tapOnTheButtonAddBankAccount,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '155',
-        PropertyType.kycStatus: kycDepositStatus,
-      },
-    );
-  }
-
-  void tapOnTheButtonAddAccount() {
-    _analytics.logEvent(
-      EventType.tapOnTheButtonAddAccount,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '156',
-        PropertyType.kycStatus: kycDepositStatus,
-      },
-    );
-  }
-
-  void tapOnTheButtonWithAnyExistAccount() {
-    _analytics.logEvent(
-      EventType.tapOnTheButtonWithAnyExistAccount,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '157',
-        PropertyType.kycStatus: kycDepositStatus,
-      },
-    );
-  }
-
-  void sendEurAmountScreenView() {
-    _analytics.logEvent(
-      EventType.sendEurAmountScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '158',
-        PropertyType.kycStatus: kycDepositStatus,
-      },
-    );
-  }
-
-  void tapOnTheButtonLimitsIBAN() {
-    _analytics.logEvent(
-      EventType.tapOnTheButtonLimitsIBAN,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '159',
-        PropertyType.kycStatus: kycDepositStatus,
-      },
-    );
-  }
-
-  void sendLimitsIBANScreenView() {
-    _analytics.logEvent(
-      EventType.sendLimitsIBANScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '160',
-        PropertyType.kycStatus: kycDepositStatus,
-      },
-    );
-  }
-
-  void errorSendIBANAmount({required String errorCode}) {
-    _analytics.logEvent(
-      EventType.errorSendIBANAmount,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '161',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.errorCode: errorCode,
-      },
-    );
-  }
-
-  void tapOnTheButtonContSendIbanAmount({
-    required String asset,
-    required String methodType,
-    required String sendAmount,
-    required String preset,
-  }) {
-    _analytics.logEvent(
-      EventType.tapOnTheButtonContSendIbanAmount,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '162',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.asset: asset,
-        PropertyType.sendMethodsType: methodType,
-        PropertyType.sendAmount: sendAmount,
-      },
-    );
-  }
+  
 
   void sendGiftAmountScreenView({
     required String giftSubmethod,
@@ -1383,24 +1216,6 @@ class SimpleAnalytics {
     );
   }
 
-  void tapOnTheButtonConfirmSendIban({
-    required String asset,
-    required String methodType,
-    required String sendAmount,
-  }) {
-    _analytics.logEvent(
-      EventType.tapOnTheButtonConfirmSendIban,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '164',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.asset: asset,
-        PropertyType.sendMethodsType: methodType,
-        PropertyType.sendAmount: sendAmount,
-      },
-    );
-  }
-
   void tapOnTheButtonConfirmOrderSummarySend({
     required String giftSubmethod,
     required String asset,
@@ -1433,44 +1248,6 @@ class SimpleAnalytics {
     );
   }
 
-  void ibanConfirmWithPINScreenView({
-    required String asset,
-    required String methodType,
-    required String sendAmount,
-  }) {
-    _analytics.logEvent(
-      EventType.confirmWithPINScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '165',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.asset: asset,
-        PropertyType.sendMethodsType: methodType,
-        PropertyType.sendAmount: sendAmount,
-      },
-    );
-  }
-
-  void errorWrongPinSend({
-    required String asset,
-    required String methodType,
-    required String sendAmount,
-    required String errorCode,
-  }) {
-    _analytics.logEvent(
-      EventType.errorWrongPinSend,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '166',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.asset: asset,
-        PropertyType.sendMethodsType: methodType,
-        PropertyType.sendAmount: sendAmount,
-        PropertyType.errorCode: errorCode,
-      },
-    );
-  }
-
   void errorWrongPin({
     required String asset,
     required String errorText,
@@ -1491,24 +1268,6 @@ class SimpleAnalytics {
     );
   }
 
-  void successSendIBANScreenView({
-    required String asset,
-    required String methodType,
-    required String sendAmount,
-  }) {
-    _analytics.logEvent(
-      EventType.successSendIBANScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '167',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.asset: asset,
-        PropertyType.sendMethodsType: methodType,
-        PropertyType.sendAmount: sendAmount,
-      },
-    );
-  }
-
   void processingSendScreenView({
     required String asset,
     required String giftSubmethod,
@@ -1522,25 +1281,6 @@ class SimpleAnalytics {
         PropertyType.asset: asset,
         PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
         PropertyType.giftSendSubmethod: giftSubmethod,
-      },
-    );
-  }
-
-  void failedSendIBANScreenView({
-    required String asset,
-    required String methodType,
-    required String sendAmount,
-    required String failedReason,
-  }) {
-    _analytics.logEvent(
-      EventType.failedSendIBANScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '168',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.asset: asset,
-        PropertyType.sendMethodsType: methodType,
-        PropertyType.sendAmount: sendAmount,
       },
     );
   }
@@ -2228,24 +1968,6 @@ class SimpleAnalytics {
         PropertyType.eventId: '115',
         PropertyType.giftAmount: giftAmount,
         PropertyType.giftFrom: giftFrom,
-      },
-    );
-  }
-
-  void orderSummarySendIBANScreenView({
-    required String asset,
-    required String methodType,
-    required String sendAmount,
-  }) {
-    _analytics.logEvent(
-      EventType.orderSummarySendIBANScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '163',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.asset: asset,
-        PropertyType.sendMethodsType: methodType,
-        PropertyType.sendAmount: sendAmount,
       },
     );
   }

@@ -12,6 +12,7 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
@@ -70,9 +71,12 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
     return SPageFrameWithPadding(
       loading: state.loader,
       loaderText: intl.register_pleaseWait,
-      header: const SSmallHeader(
-        isShortVersion: true,
-        title: '',
+      header: SSmallHeader(
+        title: intl.previewBuy_orderSummary,
+        subTitle: intl.send,
+        subTitleStyle: sSubtitle3Style.copyWith(
+          color: colors.grey2,
+        ),
       ),
       child: Stack(
         children: [
@@ -99,7 +103,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                     toAssetIconUrl: receiveAsset.iconUrl,
                     toAssetDescription: receiveAsset.symbol,
                     toAssetValue: volumeFormat(
-                      decimal: data.estimatedPrice ?? Decimal.zero,
+                      decimal: data.estimatedReceiveAmount ?? Decimal.zero,
                       accuracy: receiveAsset.accuracy,
                       symbol: receiveAsset.symbol,
                     ),
@@ -143,13 +147,18 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                     needHorizontalPadding: false,
                   ),
                   TwoColumnCell(
+                    label: intl.global_send_payment_method_title,
+                    value: method.name,
+                    needHorizontalPadding: false,
+                  ),
+                  TwoColumnCell(
                     label: intl.send_globally_con_rate,
                     value:
                         '''${state.sendCurrency!.prefixSymbol ?? ''} 1 ${state.sendCurrency!.prefixSymbol == null ? state.sendCurrency!.symbol : ''} = ${data.estimatedPrice} ${data.receiveAsset}''',
                     needHorizontalPadding: false,
                   ),
                   TwoColumnCell(
-                    label: intl.global_send_you_send,
+                    label: intl.global_send_history_sent,
                     value: volumeFormat(
                       decimal: (data.amount ?? Decimal.zero) - (data.feeAmount ?? Decimal.zero),
                       accuracy: state.sendCurrency!.accuracy,
@@ -157,14 +166,15 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                     ),
                     needHorizontalPadding: false,
                   ),
-                  TwoColumnCell(
-                    label: intl.send_globally_processing_fee,
-                    value: volumeFormat(
+                  ProcessingFeeRowWidget(
+                    fee: volumeFormat(
                       decimal: data.feeAmount ?? Decimal.zero,
                       accuracy: state.sendCurrency!.accuracy,
                       symbol: state.sendCurrency!.symbol,
                     ),
-                    needHorizontalPadding: false,
+                    onTabListener: () {},
+                    onBotomSheetClose: (_) {},
+                    needPadding: true,
                   ),
                   const SpaceH17(),
                   Align(
@@ -179,28 +189,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                     ),
                   ),
                   const SpaceH15(),
-                  deviceSize.when(
-                    small: () {
-                      return const SizedBox();
-                    },
-                    medium: () {
-                      return Column(
-                        children: [
-                          const SDivider(),
-                          SActionConfirmText(
-                            name: intl.global_send_total_pay,
-                            contentLoading: state.loader.loading,
-                            valueColor: colors.blue,
-                            value: volumeFormat(
-                              decimal: data.amount ?? Decimal.zero,
-                              accuracy: state.sendCurrency!.accuracy,
-                              symbol: state.sendCurrency!.symbol,
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
+                  const SDivider(),
                   const SpaceH20(),
                 ],
               ),

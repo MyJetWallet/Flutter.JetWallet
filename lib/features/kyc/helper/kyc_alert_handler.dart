@@ -29,6 +29,7 @@ class KycAlertHandler {
     required bool isProgress,
     required List<RequiredVerified> requiredVerifications,
     required List<KycDocumentType> requiredDocuments,
+    String? customBlockerText,
   }) {
     if (isProgress) {
       showVerifyingAlert();
@@ -71,7 +72,7 @@ class KycAlertHandler {
         navigatePop,
       );
     } else if (status == kycOperationStatus(KycStatus.blocked)) {
-      showBlockedAlert();
+      showBlockedAlert(customBlockerText: customBlockerText);
     }
   }
 
@@ -133,14 +134,14 @@ class KycAlertHandler {
     );
   }
 
-  void showBlockedAlert() {
+  void showBlockedAlert({
+    String? customBlockerText,
+  }) {
     sAnalytics.kycFlowYouBlockedPopup();
 
     sNotification.showError(
-      intl.operation_bloked_text,
-      duration: 4,
+      customBlockerText ?? intl.operation_bloked_text,
       id: 3,
-      hideIcon: true,
     );
   }
 

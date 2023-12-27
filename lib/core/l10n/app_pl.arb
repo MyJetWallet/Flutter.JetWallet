@@ -1588,5 +1588,10 @@
     "internal_exchange": "Wewnętrzna wymiana ",
     "deposit_by": "Depozyt przez",
     "methods": "Metody",
-    "add_cash_from": "Doładowanie z"
+    "add_cash_from": "Doładowanie z",
+    "profile_kyc_bloked_alert": "Twoje konto zostało zawieszone. Prosimy o kontakt z wsparciem.",
+    "@profile_kyc_bloked_alert": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/JQtEks0Kj0WY4feeFPOT4IRD.png",
+        "type": "text"
+    }
 }

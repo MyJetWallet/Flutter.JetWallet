@@ -236,6 +236,22 @@ abstract class _ConvertAmountStoreBase with Store {
   }
 
   @action
+  void pasteValue(String value) {
+    if (isFromEntering) {
+      fromInputValue = value;
+    } else {
+      toInputValue = value;
+    }
+    if (isFromEntering) {
+      _calculateToConversion();
+    } else {
+      _calculateFromConversion();
+    }
+
+    _validateInput();
+  }
+
+  @action
   void _calculateToConversion() {
     if (targetConversionPrice != null && fromInputValue != '0') {
       final amount = Decimal.parse(fromInputValue);
@@ -305,7 +321,8 @@ abstract class _ConvertAmountStoreBase with Store {
   Decimal get maxLimit => isFromEntering ? _maxFromAssetVolume : _maxToAssetVolume;
 
   @computed
-  int get maxWholePrartLenght => (isBothAssetsSeted  && maxLimit != Decimal.zero) ? maxLimit.round().toString().length + 1 : 15;
+  int get maxWholePrartLenght =>
+      (isBothAssetsSeted && maxLimit != Decimal.zero) ? maxLimit.round().toString().length + 1 : 15;
 
   @computed
   bool get isBothAssetsSeted => fromAsset != null && toAsset != null;

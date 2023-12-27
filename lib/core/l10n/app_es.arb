@@ -1536,5 +1536,6 @@
     "internal_exchange": "Intercambio interno",
     "deposit_by": "Depósito por",
     "methods": "Métodos",
-    "add_cash_from": "Depositar desde"
+    "add_cash_from": "Depositar desde",
+    "profile_kyc_bloked_alert": "Su cuenta ha sido suspendida. Contacte soporte, por favor."
 }

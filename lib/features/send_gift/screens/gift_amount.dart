@@ -1,6 +1,7 @@
 import 'package:auto_route/annotations.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
@@ -91,6 +92,16 @@ class _GiftAmountState extends State<GiftAmount> {
                       ? geftSendAmountStore.limitError
                       : geftSendAmountStore.withAmmountInputError.value(),
                   isErrorActive: geftSendAmountStore.withAmmountInputError.isActive,
+                  pasteLabel: intl.paste,
+                  onPaste: () async {
+                    final data = await Clipboard.getData('text/plain');
+                    if (data?.text != null) {
+                      final n = double.tryParse(data!.text!);
+                      if (n != null) {
+                        geftSendAmountStore.pasteAmount(n.toString().trim());
+                      }
+                    }
+                  },
                 );
               },
             ),

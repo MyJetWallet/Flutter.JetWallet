@@ -13,6 +13,8 @@ class SActionPriceField extends StatelessWidget {
     required this.error,
     required this.isErrorActive,
     required this.widgetSize,
+    required this.pasteLabel,
+    required this.onPaste,
   }) : super(key: key);
 
   final String price;
@@ -21,6 +23,8 @@ class SActionPriceField extends StatelessWidget {
   final bool isErrorActive;
   final SWidgetSize widgetSize;
   final Widget? additionalWidget;
+  final String pasteLabel;
+  final VoidCallback onPaste;
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +39,40 @@ class SActionPriceField extends StatelessWidget {
               child: additionalWidget == null
                   ? FittedBox(
                       fit: BoxFit.scaleDown,
-                      child: Text(
-                        price,
-                        maxLines: 1,
-                        style: sTextH1Style.copyWith(
-                          color: isErrorActive
-                              ? SColorsLight().red
-                              : SColorsLight().black,
+                      child: Theme(
+                        data: ThemeData(
+                          textSelectionTheme: const TextSelectionThemeData(
+                            cursorColor: Colors.transparent,
+                            selectionColor: Colors.transparent,
+                            selectionHandleColor: Colors.transparent,
+                          ),
+                        ),
+                        child: SelectableText(
+                          price,
+                          cursorColor: Colors.transparent,
+                          contextMenuBuilder: (context, editableTextState) {
+                            final List<ContextMenuButtonItem> buttonItems = [];
+                            buttonItems.insert(
+                              0,
+                              ContextMenuButtonItem(
+                                label: pasteLabel,
+                                onPressed: () {
+                                  ContextMenuController.removeAny();
+
+                                  onPaste!();
+                                },
+                              ),
+                            );
+
+                            return AdaptiveTextSelectionToolbar.buttonItems(
+                              anchors: editableTextState.contextMenuAnchors,
+                              buttonItems: buttonItems,
+                            );
+                          },
+                          maxLines: 1,
+                          style: sTextH1Style.copyWith(
+                            color: isErrorActive ? SColorsLight().red : SColorsLight().black,
+                          ),
                         ),
                       ),
                     )
@@ -53,13 +84,39 @@ class SActionPriceField extends StatelessWidget {
                         const SpaceW8(),
                         FittedBox(
                           fit: BoxFit.scaleDown,
-                          child: Text(
-                            price,
-                            maxLines: 1,
-                            style: sTextH1Style.copyWith(
-                              color: isErrorActive
-                                  ? SColorsLight().red
-                                  : SColorsLight().black,
+                          child: Theme(
+                            data: ThemeData(
+                              textSelectionTheme: const TextSelectionThemeData(
+                                cursorColor: Colors.transparent,
+                                selectionColor: Colors.transparent,
+                                selectionHandleColor: Colors.transparent,
+                              ),
+                            ),
+                            child: SelectableText(
+                              price,
+                              maxLines: 1,
+                              style: sTextH1Style.copyWith(
+                                color: isErrorActive ? SColorsLight().red : SColorsLight().black,
+                              ),
+                              contextMenuBuilder: (context, editableTextState) {
+                                final List<ContextMenuButtonItem> buttonItems = [];
+                                buttonItems.insert(
+                                  0,
+                                  ContextMenuButtonItem(
+                                    label: pasteLabel,
+                                    onPressed: () {
+                                      ContextMenuController.removeAny();
+
+                                      onPaste!();
+                                    },
+                                  ),
+                                );
+
+                                return AdaptiveTextSelectionToolbar.buttonItems(
+                                  anchors: editableTextState.contextMenuAnchors,
+                                  buttonItems: buttonItems,
+                                );
+                              },
                             ),
                           ),
                         ),
@@ -88,8 +145,7 @@ class SActionPriceField extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                   height: 1.50,
                   fontFamily: 'Gilroy',
-                  color:
-                      isErrorActive ? SColorsLight().red : SColorsLight().grey1,
+                  color: isErrorActive ? SColorsLight().red : SColorsLight().grey1,
                 ),
               ),
             ),
