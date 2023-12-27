@@ -91,4 +91,5 @@ class PropertyType {
   static const newConvertToAsset = 'New Convert To asset';
   static const convertFromAsset = 'Convert From asset';
   static const convertToAsset = 'Convert To asset';
+  static const cardID = 'Card ID';
 }

@@ -93,8 +93,11 @@ import 'package:simple_networking/modules/wallet_api/models/send_globally/send_t
 import 'package:simple_networking/modules/wallet_api/models/session_info/session_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_request.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_limits_request.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_limits_responce.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_sensitive_request.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_set_password_request.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_terminate_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simplex/simplex_payment_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/swap_execute_quote/execute_quote_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/swap_execute_quote/execute_quote_response_model.dart';
@@ -121,7 +124,6 @@ import 'package:simple_networking/modules/wallet_api/models/withdraw/withdraw_re
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/withdrawal_resend_request.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../simple_networking.dart';
 import '../models/iban_info/iban_info_response_model.dart';
@@ -2831,6 +2833,51 @@ class WalletApiDataSources {
         final _ = handleFullResponse<Map>(responseData);
 
         return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> postCardTerminateRequest(
+    SimpleCardTerminateRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/banking/card/terminate',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final _ = handleFullResponse<Map>(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, SimpleCardLimitsResponceModel>> postCardLimitsRequest(
+    SimpleCardLimitsRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/banking/card/limits',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(SimpleCardLimitsResponceModel.fromJson(data));
       } catch (e) {
         rethrow;
       }

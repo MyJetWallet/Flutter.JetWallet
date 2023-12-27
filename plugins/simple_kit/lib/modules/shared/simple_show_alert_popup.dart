@@ -79,12 +79,17 @@ Future<void> sShowAlertPopup(
                     ],
                     const SpaceH7(),
                     if (secondaryText != null)
-                      Text(
-                        secondaryText,
-                        maxLines: 12,
-                        textAlign: TextAlign.center,
-                        style: sBodyText1Style.copyWith(
-                          color: SColorsLight().grey1,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0,
+                        ),
+                        child: Text(
+                          secondaryText,
+                          maxLines: 12,
+                          textAlign: TextAlign.center,
+                          style: sBodyText1Style.copyWith(
+                            color: SColorsLight().grey1,
+                          ),
                         ),
                       ),
                     if (isNeedPrimaryButton) ...[

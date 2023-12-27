@@ -79,6 +79,14 @@ class CardDataModel with _$CardDataModel {
     final bool? passwordIsSet,
   }) = _CardDataModel;
 
+  const CardDataModel._();
+
+  String get last4NumberCharacters {
+    return (cardNumberMasked?.length ?? 0) < 4
+        ? cardNumberMasked ?? ''
+        : cardNumberMasked?.substring((cardNumberMasked?.length ?? 4) - 4) ?? '';
+  }
+
   factory CardDataModel.fromJson(Map<String, dynamic> json) => _$CardDataModelFromJson(json);
 }
 

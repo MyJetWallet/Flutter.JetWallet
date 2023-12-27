@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/modules/shared/simple_divider.dart';
 import 'package:simple_kit/modules/shared/simple_paddings.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 
 class CardOption extends StatelessWidget {
   const CardOption({
-    Key? key,
+    super.key,
     this.isSelected = false,
     this.hideDescription = false,
     this.isDisabled = false,
@@ -15,7 +14,7 @@ class CardOption extends StatelessWidget {
     required this.name,
     required this.onTap,
     this.description,
-  }) : super(key: key);
+  });
 
   final bool isSelected;
   final bool hideDescription;

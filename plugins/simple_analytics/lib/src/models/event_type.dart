@@ -444,6 +444,23 @@ class EventType {
   static const successConvertEndScreenView = '‘Success Convert end’ screen view';
   static const failedConvertEndScreenView = 'Failed Convert end’ screen view';
 
+  //Terminate Simple Card
+  static const tapOnTheTerminateButton = 'Tap on the ‘Terminate’ button';
+  static const terminateWithBalancePopupScreenView = '‘Terminate with balance’ popup screen view';
+  static const approveTerminatePopupScreenView = '‘Approve terminate’ popup screen view';
+  static const tapOnTheCancelTerminateButton = 'Tap on the ‘Cancel terminate’ button';
+  static const tapOnTheConfirmTerminateButton = 'Tap on the ‘Confirm terminate’ button';
+  static const confirmTerminateWithPinScreenView = '‘Confirm terminate with pin’  screen view';
+  static const pleaseWaitLoaderOnCardTerminateLoadingView = '‘Please wait loader on card terminate’ loading view';
+  static const theCardHasBeenTerminateToastView = '`The card has been terminate` toast view';
+
+  //Limits Simple Card
+  static const tapOnTheSpendingVirtualCardLimitsButton = 'Tap on the ‘Spending virtual card limits’ button';
+  static const spendingVirtualCardLimitsScreenView = '‘Spending virtual card limits’ screen view';
+  static const tapOnTheBackFromSpendingVirtualCardLimitsButton =
+      'Tap on the ‘Back from Spending virtual card  limits’ button';
+
+  //Ref code
   static const tapOnAddRefCodeButton = 'Tap on ‘Add ref code’ button';
   static const enterReferralCodeScreenView = '‘Enter referral code’ screen view';
   static const tapOnPasteButtonOnEnterReferralCode = 'Tap on ‘Paste’ button on `Enter referral code`';
@@ -452,6 +469,7 @@ class EventType {
   static const tapOnContinueButtonOnEnterReferralCode = 'Tap on ‘Continue’ button on `Enter referral code`';
   static const tapOnDeleteRefCodeButton = 'Tap on ‘Delete ref code’ button';
 
+  //Onboarding
   static const onboardingFinanceIsSimpleScreenView = '‘Onboarding - Finance is Simple’ screen view';
   static const onboardingCryptoIsSimpleScreenView = '‘Onboarding - Crypto is Simple’ screen view';
   static const onboardingSendMoneyGloballyScreenView = '‘Onboarding - Send money Globally’ screen view';
