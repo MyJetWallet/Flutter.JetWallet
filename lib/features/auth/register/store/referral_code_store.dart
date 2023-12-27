@@ -3,32 +3,22 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jetwallet/core/di/di.dart';
-import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/credentials_service/credentials_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/auth/register/models/referral_code_link_union.dart';
-import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
-import 'package:jetwallet/utils/enum.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:mobx/mobx.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/auth_api/models/validate_referral_code/validate_referral_code_request_model.dart';
 
 part 'referral_code_store.g.dart';
 
-class ReferallCodeStore extends _ReferallCodeStoreBase
-    with _$ReferallCodeStore {
+class ReferallCodeStore extends _ReferallCodeStoreBase with _$ReferallCodeStore {
   ReferallCodeStore() : super();
 
-  static _ReferallCodeStoreBase of(BuildContext context) =>
-      Provider.of<ReferallCodeStore>(context, listen: false);
+  static _ReferallCodeStoreBase of(BuildContext context) => Provider.of<ReferallCodeStore>(context, listen: false);
 }
 
 abstract class _ReferallCodeStoreBase with Store {
@@ -56,9 +46,6 @@ abstract class _ReferallCodeStoreBase with Store {
 
   @observable
   bool isInputError = false;
-
-  @observable
-  Key qrKey = GlobalKey();
 
   @computed
   bool get enableContinueButton {
@@ -140,37 +127,6 @@ abstract class _ReferallCodeStoreBase with Store {
   }
 
   @action
-  Future<void> scanAddressQr(BuildContext context) async {
-    _logger.log(notifier, 'scanAddressQr');
-
-    final status = await _checkCameraStatusAction();
-
-    if (status == CameraStatus.permanentlyDenied) {
-      if (context.mounted) {
-        _pushAllowCamera(context);
-      }
-    } else if (status == CameraStatus.granted) {
-      if (context.mounted) {
-        final result = await _pushQrView(
-          context: context,
-        );
-
-        if (result is Barcode) {
-          final command = _refCode(result.rawValue ?? '');
-
-          referralCodeController.text = command ?? '';
-
-          _moveCursorAtTheEnd(referralCodeController);
-
-          bottomSheetReferralCode = referralCodeController.text;
-
-          await updateReferralCode(command!, null);
-        }
-      }
-    }
-  }
-
-  @action
   Future<void> _validateReferralCode(String code, String? jwCode) async {
     referralCodeValidation = const Loading();
     bottomSheetReferralCodeValidation = const Loading();
@@ -180,11 +136,7 @@ abstract class _ReferallCodeStoreBase with Store {
         referralCode: code,
       );
 
-      final request = await getIt
-          .get<SNetwork>()
-          .simpleNetworking
-          .getAuthModule()
-          .postValidateReferralCode(model);
+      final request = await getIt.get<SNetwork>().simpleNetworking.getAuthModule().postValidateReferralCode(model);
 
       request.pick(
         onData: (data) {
@@ -192,25 +144,20 @@ abstract class _ReferallCodeStoreBase with Store {
 
           referralCodeValidation = const Valid();
           bottomSheetReferralCodeValidation = const Valid();
-          referralCode =
-              shortCode?.replaceFirst('https://join.simple.app/', '');
+          referralCode = shortCode?.replaceFirst('https://join.simple.app/', '');
 
           getIt.get<CredentialsService>().setReferralCode(shortCode ?? '');
 
-          if (bottomSheetReferralCodeValidation is Valid &&
-              (jwCode != null || code.isNotEmpty)) {
+          if (bottomSheetReferralCodeValidation is Valid && (jwCode != null || code.isNotEmpty)) {
             isInputError = false;
-            referralCodeController.text =
-                shortCode!.replaceFirst('https://join.simple.app/', '');
+            referralCodeController.text = shortCode!.replaceFirst('https://join.simple.app/', '');
           }
 
           _moveCursorAtTheEnd(referralCodeController);
         },
         onError: (error) {
-          referralCodeValidation = const Invalid();
+          referralCodeValidation = const Input();
           bottomSheetReferralCodeValidation = const Invalid();
-
-          sAnalytics.signInFlowPersonaReferralLinkError(errorCode: error.cause);
 
           _triggerErrorOfReferralCodeField();
         },
@@ -218,10 +165,7 @@ abstract class _ReferallCodeStoreBase with Store {
     } catch (error) {
       _logger.log(stateFlow, 'validateReferralCode', error);
 
-      sAnalytics.signInFlowPersonaReferralLinkError(
-          errorCode: error.toString(),);
-
-      referralCodeValidation = const Invalid();
+      referralCodeValidation = const Input();
       bottomSheetReferralCodeValidation = const Invalid();
 
       _triggerErrorOfReferralCodeField();
@@ -243,109 +187,16 @@ abstract class _ReferallCodeStoreBase with Store {
   }
 
   @action
-  void _pushAllowCamera(BuildContext context) {
-    getIt.get<AppRouter>().push(
-          AllowCameraRoute(
-            permissionDescription: intl.referralCodeLink_pushAllowCamera,
-            then: () {
-              _pushQrView(context: context, fromSettings: true);
-            },
-          ),
-        );
-  }
-
-  @action
-  Future _pushQrView({
-    bool fromSettings = false,
-    required BuildContext context,
-  }) {
-    final colors = sKit.colors;
-    isRedirectedFromQr = false;
-
-    final scanWindow = Rect.fromCenter(
-      center: MediaQuery.of(context).size.center(Offset.zero),
-      width: 200,
-      height: 200,
-    );
-
-    final qrPageRoute = MaterialPageRoute(
-      builder: (context) {
-        return Stack(
-          children: [
-            MobileScanner(
-              key: qrKey,
-              scanWindow: scanWindow,
-              onDetect: (c) => _onQRScanned(c, context),
-            ),
-            CustomPaint(
-              painter: ScannerOverlay(scanWindow),
-            ),
-            Positioned(
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(
-                    left: 28.0,
-                    top: 68.0,
-                  ),
-                  width: 24,
-                  height: 24,
-                  child: SCloseIcon(
-                    color: colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-
-    return fromSettings
-        ? Navigator.pushReplacement(context, qrPageRoute)
-        : Navigator.push(context, qrPageRoute);
-  }
-
-  var isRedirectedFromQr = false;
-  @action
-  void _onQRScanned(BarcodeCapture capture, BuildContext context) {
-    if (isRedirectedFromQr) return;
-
-    isRedirectedFromQr = true;
-    Navigator.pop(context, capture.barcodes.first);
-  }
-
-  @action
-  Future<CameraStatus> _checkCameraStatusAction() async {
-    final storage = getIt.get<LocalStorageService>();
-    final storageStatus = await storage.getValue(cameraStatusKey);
-
-    final permissionStatus = await Permission.camera.request();
-
-    if (permissionStatus == PermissionStatus.denied ||
-        permissionStatus == PermissionStatus.permanentlyDenied) {
-      if (storageStatus != null) {
-        return CameraStatus.permanentlyDenied;
-      }
-    } else if (permissionStatus == PermissionStatus.granted) {
-      return CameraStatus.granted;
-    }
-
-    await storage.setString(
-      cameraStatusKey,
-      'triggered',
-    );
-
-    return CameraStatus.denied;
-  }
-
-  @action
   void clearBottomSheetReferralCode() {
     bottomSheetReferralCode = null;
     updateReferralCode('', null);
     resetBottomSheetReferralCodeValidation();
+  }
+
+  @action
+  void clearReferralCode() {
+    referralCode = null;
+    updateReferralCode('', null);
   }
 
   Future<String> _copiedText() async {

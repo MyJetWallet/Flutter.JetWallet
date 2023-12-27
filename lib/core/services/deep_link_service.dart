@@ -118,6 +118,12 @@ class DeepLinkService {
 
     final command = parameters[_command];
 
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.info,
+          place: 'DeepLinkService GET',
+          message: '$command $parameters. $path',
+        );
+
     if (command == _confirmEmail) {
       _confirmEmailCommand(parameters);
     } else if (command == _confirmWithdraw) {
@@ -472,36 +478,14 @@ class DeepLinkService {
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
-      final kycState = getIt.get<KycService>();
-      final kycAlertHandler = getIt.get<KycAlertHandler>();
-
-      kycAlertHandler.handle(
-        status: kycState.depositStatus,
-        isProgress: kycState.verificationInProgress,
-        currentNavigate: () => sRouter.push(
-          const AccountRouter(),
-        ),
-        requiredVerifications: kycState.requiredVerifications,
-        requiredDocuments: kycState.requiredDocuments,
+      await sRouter.push(
+        const AccountRouter(),
       );
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
           action: RouteQueryAction.push,
-          func: () async {
-            final kycState = getIt.get<KycService>();
-            final kycAlertHandler = getIt.get<KycAlertHandler>();
-
-            kycAlertHandler.handle(
-              status: kycState.depositStatus,
-              isProgress: kycState.verificationInProgress,
-              currentNavigate: () => sRouter.push(
-                const AccountRouter(),
-              ),
-              requiredVerifications: kycState.requiredVerifications,
-              requiredDocuments: kycState.requiredDocuments,
-            );
-          },
+          query: const AccountRouter(),
         ),
       );
     }
@@ -563,7 +547,7 @@ class DeepLinkService {
     final jwOperationId = parameters['jw_symbol'];
 
     Future<void> openMarket() async {
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 650));
 
       if (getIt.get<AppStore>().authStatus == const AuthorizationUnion.authorized()) {
         if (jwOperationId != null) {

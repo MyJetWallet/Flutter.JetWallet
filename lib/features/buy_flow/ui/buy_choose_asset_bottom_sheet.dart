@@ -19,7 +19,7 @@ void showBuyChooseAssetBottomSheet({
   searchStore.refreshSearch();
   final showSearch = showBuyCurrencySearch(
     context,
-    fromCard: true,
+    fromCard: false,
     searchStore: searchStore,
   );
 

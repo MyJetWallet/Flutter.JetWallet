@@ -1480,5 +1480,9 @@
     "buy_confirm_with_unlimit_2_part": "from your bank account at Unlimit to the bank account",
     "buy_confirm_with_unlimit_3_part": "on the name of",
     "iban_deposit_text": "Local EUR deposits",
-    "paste": "Paste"
+    "external_transfer": "External transfer",
+    "internal_exchange": "Internal exchange",
+    "deposit_by": "Deposit by",
+    "methods": "Methods",
+    "add_cash_from": "Add cash from"
 }
