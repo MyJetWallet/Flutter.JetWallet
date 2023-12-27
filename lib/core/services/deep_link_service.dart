@@ -54,7 +54,6 @@ const _action = 'action';
 
 const jw_deposit_successful = 'jw_deposit_successful';
 const jw_support_page = 'jw_support_page';
-const jw_kyc_documents_declined = 'jw_kyc_documents_declined';
 
 // gift
 const jw_gift_incoming = 'jw_gift_incoming';
@@ -146,8 +145,6 @@ class DeepLinkService {
       pushDepositSuccess(parameters);
     } else if (command == jw_support_page) {
       pushSupportPage(parameters);
-    } else if (command == jw_kyc_documents_declined) {
-      pushDocumentNotVerified(parameters);
     } else if (command == jw_gift_incoming) {
       //just open the application
     } else if (command == jw_gift_remind) {
