@@ -340,8 +340,6 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                                 accountLabel: widget.bankingAccount?.label ?? '',
                               );
 
-                              sAnalytics.tapOnTheButtonAddAccount();
-
                               final result = await IbanAddressBookStore.of(context).addAccount();
 
                               if (result) {

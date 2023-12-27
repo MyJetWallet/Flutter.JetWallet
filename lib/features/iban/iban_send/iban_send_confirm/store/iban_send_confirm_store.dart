@@ -50,12 +50,6 @@ abstract class _IbanSendConfirmStoreBase with Store {
     deviceBindingRequired = data.deviceBindingRequired ?? false;
 
     requestId = const Uuid().v1();
-
-    sAnalytics.orderSummarySendIBANScreenView(
-      asset: eurCurrency.symbol,
-      methodType: '2',
-      sendAmount: data.amount.toString() ?? '0',
-    );
   }
 
   @action
@@ -142,13 +136,6 @@ abstract class _IbanSendConfirmStoreBase with Store {
     loader.finishLoadingImmediately();
 
     if (response.hasError) {
-      sAnalytics.failedSendIBANScreenView(
-        asset: 'EUR',
-        methodType: '2',
-        sendAmount: data.amount.toString(),
-        failedReason: response.error?.cause ?? '',
-      );
-
       sAnalytics.eurWithdrawFailed(
         eurAccountType: isCJ ? 'CJ' : 'Unlimit',
         accountIban: account.iban ?? '',
@@ -160,11 +147,6 @@ abstract class _IbanSendConfirmStoreBase with Store {
 
       await showFailureScreen(response.error?.cause ?? '');
     } else {
-      sAnalytics.successSendIBANScreenView(
-        asset: 'EUR',
-        methodType: '2',
-        sendAmount: data.amount.toString(),
-      );
 
       sAnalytics.eurWithdrawSuccessWithdrawEndSV(
         eurAccountType: isCJ ? 'CJ' : 'Unlimit',

@@ -9,7 +9,6 @@ import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/compon
 import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
@@ -148,13 +147,11 @@ class IbanSend extends StatelessObserverWidget {
                   description: '',
                   needSpacer: true,
                   onTap: () {
-                    sAnalytics.tapOnTheButtonWithAnyExistAccount();
-
                     getIt<AppRouter>()
                         .push(
                           IbanSendAmountRouter(
                             contact: store.allContacts[index],
-                            bankingAccount: SimpleBankingAccount(),
+                            bankingAccount: const SimpleBankingAccount(),
                             isCJ: true,
                           ),
                         )
@@ -179,8 +176,6 @@ class IbanSend extends StatelessObserverWidget {
               helper: intl.iban_local_euro_accounts_only,
               description: '',
               onTap: () {
-                sAnalytics.tapOnTheButtonAddBankAccount();
-
                 sRouter.push(IbanAddBankAccountRouter()).then(
                       (value) => store.getAddressBook(),
                     );
