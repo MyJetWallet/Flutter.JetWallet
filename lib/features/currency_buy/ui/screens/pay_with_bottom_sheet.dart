@@ -3,6 +3,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/bank_card/add_bank_card.dart';
 import 'package:jetwallet/features/buy_flow/store/payment_method_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
@@ -15,6 +17,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
@@ -82,8 +85,15 @@ void showPayWithBottomSheet({
     final kycState = getIt.get<KycService>();
     final kycHandler = getIt.get<KycAlertHandler>();
 
+    final isCardsAvailable = sSignalRModules.buyMethods.any((element) => element.id == PaymentMethodType.bankCard);
+
     final status = kycOperationStatus(KycStatus.allowed);
-    if (kycState.depositStatus == status) {
+    if (!isCardsAvailable) {
+      sNotification.showError(
+        intl.operation_bloked_text,
+        id: 1,
+      );
+    } else if (kycState.depositStatus == status) {
       _onAddCardTap(context, currency);
     } else {
       kycHandler.handle(

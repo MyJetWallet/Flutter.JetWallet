@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -88,6 +89,16 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                     optionOnTap: () {
                       sAnalytics.tapOnTheConvertAll();
                       store.onConvetrAll();
+                    },
+                    pasteLabel: intl.paste,
+                    onPaste: () async {
+                      final data = await Clipboard.getData('text/plain');
+                      if (data?.text != null) {
+                        final n = double.tryParse(data!.text!);
+                        if (n != null) {
+                          store.pasteValue(n.toString().trim());
+                        }
+                      }
                     },
                   ),
                 ),

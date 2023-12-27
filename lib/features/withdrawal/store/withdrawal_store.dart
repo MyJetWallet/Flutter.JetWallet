@@ -791,6 +791,14 @@ abstract class _WithdrawalStoreBase with Store {
   }
 
   @action
+  void pasteAmount(String value) {
+    withAmount = value;
+
+    _validateAmount();
+    _calculateBaseConversion();
+  }
+
+  @action
   void _validateAmount() {
     final error = onWithdrawInputErrorHandler(
       withAmount,

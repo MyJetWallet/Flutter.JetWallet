@@ -12,7 +12,6 @@ import 'package:jetwallet/features/buy_flow/store/payment_method_store.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
@@ -62,8 +61,6 @@ void showBuyPaymentCurrencyBottomSheet(
       return (a.orderId ?? 0).compareTo(b.orderId ?? 0);
     },
   );
-
-  sAnalytics.paymentCurrencyPopupScreenView(currency.symbol);
 
   final searchStore = ActionSearchStore();
   searchStore.newBuySearchInit(availableCurrency);

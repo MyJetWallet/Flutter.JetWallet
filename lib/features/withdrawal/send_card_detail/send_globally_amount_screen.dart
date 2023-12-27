@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
@@ -120,6 +121,16 @@ class _SendGloballyAmountScreenBodyState extends State<SendGloballyAmountScreenB
                   ? store.limitError
                   : store.withAmmountInputError.value(),
               isErrorActive: store.withAmmountInputError.isActive,
+              pasteLabel: intl.paste,
+              onPaste: () async {
+                final data = await Clipboard.getData('text/plain');
+                if (data?.text != null) {
+                  final n = double.tryParse(data!.text!);
+                  if (n != null) {
+                    store.pasteAmount(n.toString().trim());
+                  }
+                }
+              },
             ),
           ),
           const Spacer(),

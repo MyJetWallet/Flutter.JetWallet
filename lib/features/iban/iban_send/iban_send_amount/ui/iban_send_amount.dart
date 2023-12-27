@@ -1,12 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_amount/helpers/show_reference_sheet.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_amount/store/iban_send_amount_store.dart';
-import 'package:jetwallet/features/iban/iban_send/iban_send_limits/iban_send_limits.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -112,6 +111,16 @@ class IbanSendAmountBody extends StatelessObserverWidget {
                       : store.withAmmountInputError.value(),
                   //isErrorActive: store.withAmmountInputError.isActive,
                   isErrorActive: false,
+                  pasteLabel: intl.paste,
+                  onPaste: () async {
+                    final data = await Clipboard.getData('text/plain');
+                    if (data?.text != null) {
+                      final n = double.tryParse(data!.text!);
+                      if (n != null) {
+                        store.pasteAmount(n.toString().trim());
+                      }
+                    }
+                  },
                 ),
               ),
             ],
@@ -167,13 +176,6 @@ class IbanSendAmountBody extends StatelessObserverWidget {
             submitButtonActive: store.withValid,
             submitButtonName: intl.addCircleCard_continue,
             onSubmitPressed: () {
-              sAnalytics.tapOnTheButtonContSendIbanAmount(
-                asset: 'EUR',
-                methodType: '2',
-                sendAmount: store.withAmount,
-                preset: 'false',
-              );
-
               sAnalytics.eurWithdrawContinueFromAmoountB(
                 eurAccountType: isCJ ? 'CJ' : 'Unlimit',
                 accountIban: bankingAccount.iban ?? '',

@@ -813,6 +813,9 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
   ObservableList<BuyMethodDto> buyMethods = ObservableList.of([]);
 
   @observable
+  ObservableList<SellMethodDto> sellMethods = ObservableList.of([]);
+
+  @observable
   ObservableList<AssetPaymentProducts>? paymentProducts = ObservableList.of([]);
 
   @action
@@ -823,6 +826,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
     paymentProducts = ObservableList.of(value.product ?? []);
     assetProducts = ObservableList.of(value.product ?? []);
     sendMethods = value.send ?? [];
+    sellMethods = ObservableList.of(value.sell ?? []);
 
     //run(event: SignalREvents.updateAssetPaymentMethodsNew, data: value);
     for (final currency in currenciesList) {
@@ -840,6 +844,9 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
           .where((receiveMethod) => receiveMethod.symbols?.contains(currency.symbol) ?? false)
           .toList();
 
+      final sellMethods =
+          (value.sell ?? []).where((sellMethod) => sellMethod.symbols?.contains(currency.symbol) ?? false).toList();
+
       if (buyMethods.isNotEmpty) {
         buyMethods.sort((a, b) => (a.orderId ?? 0).compareTo(b.orderId ?? 0));
       }
@@ -848,6 +855,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
         buyMethods: buyMethods,
         withdrawalMethods: sendMethods,
         depositMethods: receiveMethods,
+        sellMethods: sellMethods,
       );
     }
 

@@ -60,16 +60,13 @@ class SMarketHeader extends StatelessWidget {
                 Text(
                   ' ${isPositive ? '+' : ''} $percent%',
                   style: sSubtitle2Style.copyWith(
-                    color:
-                        isPositive ? SColorsLight().green : SColorsLight().red,
+                    color: isPositive ? SColorsLight().green : SColorsLight().red,
                   ),
                 ),
                 Baseline(
                   baseline: 27.4,
                   baselineType: TextBaseline.alphabetic,
-                  child: isPositive
-                      ? const SBigArrowPositiveIcon()
-                      : const SBigArrowNegativeIcon(),
+                  child: isPositive ? const SBigArrowPositiveIcon() : const SBigArrowNegativeIcon(),
                 ),
               ],
             ),
@@ -78,9 +75,18 @@ class SMarketHeader extends StatelessWidget {
             const SizedBox(
               height: 18,
             ),
-            const SSkeletonTextLoader(
-              height: 16,
-              width: 159,
+            const Row(
+              children: [
+                SSkeletonTextLoader(
+                  height: 24,
+                  width: 112,
+                ),
+                SizedBox(width: 8),
+                SSkeletonTextLoader(
+                  height: 24,
+                  width: 68,
+                ),
+              ],
             ),
           ],
         ],

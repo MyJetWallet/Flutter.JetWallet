@@ -81,7 +81,7 @@ class _ChooseAssetBody extends StatelessObserverWidget {
     final baseCurrency = sSignalRModules.baseCurrency;
     final state = searchStore;
 
-    sortByBalanceAndWeight(searchStore.buyFromCardCurrencies);
+    sortByBalanceAndWeight(searchStore.searchCurrencies);
 
     return Column(
       children: [
@@ -89,7 +89,7 @@ class _ChooseAssetBody extends StatelessObserverWidget {
           text: intl.sell_amount_cryptocurrencies,
           isNeedDivider: false,
         ),
-        for (final currency in state.buyFromCardCurrencies) ...[
+        for (final currency in state.searchCurrencies) ...[
           if (currency.type == AssetType.crypto)
             Builder(
               builder: (context) {

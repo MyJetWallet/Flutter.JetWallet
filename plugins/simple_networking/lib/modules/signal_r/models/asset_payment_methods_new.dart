@@ -15,6 +15,7 @@ class AssetPaymentMethodsNew with _$AssetPaymentMethodsNew {
     List<SendMethodDto>? send,
     List<ReceiveMethodDto>? receive,
     List<AssetPaymentProducts>? product,
+    List<SellMethodDto>? sell,
     @Default(false) bool showCardsInProfile,
     @Default(false) bool showBanksInProfile,
   }) = _AssetPaymentMethodsNew;
@@ -147,4 +148,39 @@ enum AssetPaymentProductsEnum {
   bankingCardAccount,
   @JsonValue('SimpleIbanAccount')
   simpleIbanAccount
+}
+
+@freezed
+class SellMethodDto with _$SellMethodDto {
+  const factory SellMethodDto({
+    @SellMethodsIdSerialiser() @JsonKey(name: 'id') required SellMethodsId id,
+    String? iconUrl,
+    int? orderId,
+    List<String>? symbols,
+  }) = _SellMethodDto;
+
+  factory SellMethodDto.fromJson(Map<String, dynamic> json) => _$SellMethodDtoFromJson(json);
+}
+
+enum SellMethodsId {
+  ibanSell,
+  unknown,
+}
+
+class SellMethodsIdSerialiser implements JsonConverter<SellMethodsId, dynamic> {
+  const SellMethodsIdSerialiser();
+
+  @override
+  SellMethodsId fromJson(dynamic json) {
+    final value = json.toString();
+
+    if (value == 'IbanSell') {
+      return SellMethodsId.ibanSell;
+    } else {
+      return SellMethodsId.unknown;
+    }
+  }
+
+  @override
+  dynamic toJson(SellMethodsId type) => type.name;
 }
