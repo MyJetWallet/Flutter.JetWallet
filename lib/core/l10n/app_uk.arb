@@ -6803,12 +6803,12 @@
         "description": "Добавьте наличные",
         "type": "text"
     },
-    "simple_card_show_details": "Показати деталі",
+    "simple_card_show_details": "Деталі",
     "@simple_card_show_details": {
         "description": "Показать детали",
         "type": "text"
     },
-    "simple_card_hide_details": "Приховати деталі",
+    "simple_card_hide_details": "Деталі",
     "@simple_card_hide_details": {
         "description": "Скрыть детали",
         "type": "text"
@@ -6818,7 +6818,7 @@
         "description": "Заморозить",
         "type": "text"
     },
-    "simple_card_settings": "Налаштування",
+    "simple_card_settings": "Налаштувати",
     "@simple_card_settings": {
         "description": "Настройки",
         "type": "text"
@@ -7087,5 +7087,61 @@
     "buy_confirm_with_unlimit_1_part": "Продовжуючи, ви підтверджуєте відправку коштів у розмірі",
     "buy_confirm_with_unlimit_2_part": "з вашого банківського рахунку в Unlimit на банківський рахунок",
     "buy_confirm_with_unlimit_3_part": "на ім'я",
-    "iban_deposit_text": "Поповнення через EUR"
+    "iban_deposit_text": "Поповнення через EUR",
+    "validReferralCode_delete": "Видалити",
+    "invalidReferralCode_invalidReferralCode": "Невірний код рефералу",
+    "checkingReferralCode_checking": "Перевірка...",
+    "referralCode_have_a_referral_code": "Маєте реферальний код?",
+    "referralCode_add": "Додати",
+    "showReferralCode_enterReferralCode": "Ввести реферальний код",
+    "showReferralCode_referralCode": "Реферальний код",
+    "showReferralCode_pasteReferralCode": "Вставте реферальний код або перейдіть за посиланням, яке вам дав друг.",
+    "onboarding_title_1": "Фінанси - це просто",
+    "onboarding_title_2": "Криптовалюта - це легко",
+    "onboarding_title_3": "Надсилайте гроші без перешкод",
+    "onboarding_descriction_1": "Отримайте повний контроль над особистими фінансами та криптовалютним портфелем",
+    "onboarding_descriction_2": "Спростіть свої криптовалютні транзакції для зручної купівлі та обміну",
+    "onboarding_descriction_3": "Швидко та безпечно переказуйте кошти по всьому світу без зайвих зусиль",
+    "simple_card_terminate_card": "Закрити картку",
+    "simple_card_terminate_only_available_alert": "Доступно тільки при нульовому балансі карти",
+    "simple_card_terminate_got_it": "Зрозуміло",
+    "simple_card_terminate_terminate_card_question": "Закрити картку?",
+    "simple_card_terminate_terminate_warning_1": "Ми закриємо картку",
+    "simple_card_terminate_terminate_warning_2": "негайно. Після закриття всі подальші транзакції будуть відхилені. Скасування закриття картки неможливо.",
+    "simple_card_terminate_confirm": "Підтвердити",
+    "simple_card_terminate_cancel": "Скасувати",
+    "simple_card_terminate_success_1": "Карта",
+    "simple_card_terminate_success_2": "була закрита",
+    "simple_card_limits_daily_limits": "Денні ліміти",
+    "simple_card_limits_monthly_limits": "Місячні ліміти",
+    "simple_card_limits_monthly_spending": "Витрати",
+    "simple_card_limits_monthly_atm_withdrawals": "Зняття готівки",
+    "external_transfer": "Зовнішній переказ",
+    "@external_transfer": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/JcykYjuBkTMfU7lObToDQbSc.png",
+        "type": "text"
+    },
+    "internal_exchange": "Внутрішній переказ",
+    "@internal_exchange": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/JcykYjuBkTMfU7lObToDQbSc.png",
+        "type": "text"
+    },
+    "deposit_by": "Поповнити через",
+    "@deposit_by": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/JcykYjuBkTMfU7lObToDQbSc.png",
+        "type": "text"
+    },
+    "methods": "Методи",
+    "@methods": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/zw1GgqI4B9bZ2WxZikdk7FH5.png",
+        "type": "text"
+    },
+    "add_cash_from": "Поповнити через",
+    "@add_cash_from": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/yYlJ6RvPBIj4DRNPU58CnQxt.png",
+        "type": "text"
+    },
+    "profile_kyc_bloked_alert": "Ваш акаунт заблоковано. Будь ласка, зверніться до служби підтримки.",
+    "send_gift_small_title": "Відправка подарунку",
+    "send": "Відправка"
 }
