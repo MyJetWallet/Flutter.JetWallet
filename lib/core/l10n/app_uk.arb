@@ -7141,5 +7141,7 @@
         "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/yYlJ6RvPBIj4DRNPU58CnQxt.png",
         "type": "text"
     },
-    "profile_kyc_bloked_alert": "Ваш акаунт заблоковано. Будь ласка, зверніться до служби підтримки."
+    "profile_kyc_bloked_alert": "Ваш акаунт заблоковано. Будь ласка, зверніться до служби підтримки.",
+    "send_gift_small_title": "Відправка подарунку",
+    "send": "Відправка"
 }

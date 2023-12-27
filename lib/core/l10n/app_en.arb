@@ -1545,5 +1545,7 @@
     "deposit_by": "Deposit by",
     "methods": "Methods",
     "add_cash_from": "Add cash from",
-    "profile_kyc_bloked_alert": "Your account has been suspended. Please contact support for more info."
+    "profile_kyc_bloked_alert": "Your account has been suspended. Please contact support for more info.",
+    "send_gift_small_title": "Send gift",
+    "send": "Send"
 }

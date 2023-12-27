@@ -1593,5 +1593,15 @@
     "@profile_kyc_bloked_alert": {
         "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/JQtEks0Kj0WY4feeFPOT4IRD.png",
         "type": "text"
+    },
+    "send_gift_small_title": "Wysłać prezent",
+    "@send_gift_small_title": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/6n4ASxgJT8SSBkGPRLaBVqLP.png",
+        "type": "text"
+    },
+    "send": "Wypłata",
+    "@send": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/VquePNdyGiobH1rva29XutbP.png",
+        "type": "text"
     }
 }
