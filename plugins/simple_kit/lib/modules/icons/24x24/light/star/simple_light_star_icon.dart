@@ -18,21 +18,3 @@ class SimpleLightStarIcon extends StatelessWidget {
     );
   }
 }
-
-
-class SimpleFullLightStarIcon extends StatelessWidget {
-  const SimpleFullLightStarIcon({
-    Key? key,
-    this.color,
-  }) : super(key: key);
-
-  final Color? color;
-
-  @override
-  Widget build(BuildContext context) {
-    return SimpleBaseSvg24X24(
-      assetName: 'assets/icons/light/24x24/star/star_full.svg',
-      color: color,
-    );
-  }
-}

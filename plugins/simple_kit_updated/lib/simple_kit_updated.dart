@@ -27,7 +27,6 @@ export 'widgets/table/account_table/simple_table_asset.dart';
 export 'widgets/table/account_table/simple_table_account.dart';
 export 'widgets/table/heading/simple_header.dart';
 export 'widgets/table/placeholder/simple_placeholder.dart';
-export 'widgets/table/cells/two_column_cell.dart';
 
 export 'widgets/button/specific/specific_button.dart';
 

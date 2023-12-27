@@ -116,8 +116,7 @@ class __MarketNestedScrollViewBodyState extends State<_MarketNestedScrollViewBod
     final colors = sKit.colors;
     final store = MarketFilterStore.of(context);
 
-    //final showPreloader = store.cryptoList.isNotEmpty;
-    final showPreloader = sSignalRModules.initFinished;
+    final showPreloader = store.cryptoList.isNotEmpty;
 
     return NestedScrollView(
       controller: controller,
@@ -345,6 +344,74 @@ class __MarketNestedScrollViewBodyState extends State<_MarketNestedScrollViewBod
               );
             },
           ),
+          /*GroupedListView<MarketItemModel, String>(
+            elements: store.cryptoListFiltred,
+            groupBy: (item) {
+              final isInWatchlist = store.watchListLocal.contains(
+                item.associateAsset,
+              );
+    
+              return isInWatchlist ? intl.favorite : intl.assets;
+            },
+            padding: EdgeInsets.zero,
+            sort: false,
+            groupSeparatorBuilder: (String text) {
+              return MarketSeparator(text: text);
+            },
+            itemBuilder: (context, item) {
+              final isInWatchlist = store.watchListLocal.contains(
+                item.associateAsset,
+              );
+    
+              return SMarketItem(
+                key: Key(
+                  item.associateAsset,
+                ),
+                showFavoriteIcon: true,
+                isStarActive: isInWatchlist,
+                onStarButtonTap: () {
+                  if (isInWatchlist) {
+                    store.removeFromWatchlist(
+                      item.associateAsset,
+                    );
+                  } else {
+                    sAnalytics.addToWatchlist(
+                      item.name,
+                    );
+                    store.addToWatchlist(
+                      item.associateAsset,
+                    );
+                  }
+                },
+                icon: SNetworkSvg24(
+                  url: item.iconUrl,
+                ),
+                name: item.name,
+                price: marketFormat(
+                  prefix: baseCurrency.prefix,
+                  decimal: item.lastPrice,
+                  symbol: baseCurrency.symbol,
+                  accuracy: item.priceAccuracy,
+                ),
+                ticker: item.symbol,
+                last: item == store.cryptoListFiltred.last ||
+                        store.watchListLocal != null
+                    ? store.watchListLocal.isNotEmpty
+                        ? item.symbol == (store.watchListLocal.last)
+                        : false
+                    : false,
+                percent: item.dayPercentChange,
+                onTap: () {
+                  sRouter.push(
+                    MarketDetailsRouter(
+                      marketItem: item,
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+          */
         ],
       ),
     );

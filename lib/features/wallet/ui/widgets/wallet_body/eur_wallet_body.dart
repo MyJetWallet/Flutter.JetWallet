@@ -154,8 +154,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                 ),
               ],
               if (userInfo.isSimpleCardAvailable) ...[
-                for (final el in (simpleCardStore.allCards ?? <CardDataModel>[])
-                    .where((element) => element.status != AccountStatusCard.unsupported))
+                for (final el in simpleCardStore.allCards ?? <CardDataModel>[])
                   SliverToBoxAdapter(
                     child: SCardRow(
                       maxWidth: MediaQuery.of(context).size.width * .35,
@@ -181,7 +180,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                             ),
                         ],
                       ),
-                      name: el.label ?? intl.eur_wallet_simple_card,
+                      name: intl.eur_wallet_simple_card,
                       helper: el.status == AccountStatusCard.inCreation ? intl.creating : intl.simple_card_type_virtual,
                       onTap: () {
                         if (el.status == AccountStatusCard.active || el.status == AccountStatusCard.frozen) {
@@ -203,8 +202,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                               ),
                               child: Text(
                                 volumeFormat(
-                                  //decimal: simpleCardStore.card?.balance ?? Decimal.zero,
-                                  decimal: el.balance ?? Decimal.zero,
+                                  decimal: simpleCardStore.card?.balance ?? Decimal.zero,
                                   accuracy: eurCurrency.accuracy,
                                   symbol: eurCurrency.symbol,
                                 ),
