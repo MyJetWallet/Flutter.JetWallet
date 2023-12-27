@@ -321,6 +321,22 @@ abstract class _BuyAmountStoreBase with Store {
   }
 
   @action
+  void pasteValue(String value) {
+    if (isFiatEntering) {
+      fiatInputValue = value;
+    } else {
+      cryptoInputValue = value;
+    }
+    if (isFiatEntering) {
+      _calculateCryptoConversion();
+    } else {
+      _calculateFiatConversion();
+    }
+
+    _validateInput();
+  }
+
+  @action
   void _calculateCryptoConversion() {
     if (targetConversionPrice != null && fiatInputValue != '0') {
       final amount = Decimal.parse(fiatInputValue);
@@ -404,7 +420,8 @@ abstract class _BuyAmountStoreBase with Store {
   Decimal get maxLimit => isFiatEntering ? _maxSellAmount : _maxBuyAmount;
 
   @computed
-  int get maxWholePrartLenght => (isBothAssetsSeted  && maxLimit != Decimal.zero) ? maxLimit.round().toString().length + 1 : 15;
+  int get maxWholePrartLenght =>
+      (isBothAssetsSeted && maxLimit != Decimal.zero) ? maxLimit.round().toString().length + 1 : 15;
 
   @computed
   bool get isBothAssetsSeted => (account != null || card != null) && asset != null;
