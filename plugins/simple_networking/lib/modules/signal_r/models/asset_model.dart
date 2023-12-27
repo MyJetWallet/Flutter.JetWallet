@@ -12,8 +12,7 @@ class AssetsModel with _$AssetsModel {
     required List<AssetModel> assets,
   }) = _AssetsModel;
 
-  factory AssetsModel.fromJson(Map<String, dynamic> json) =>
-      _$AssetsModelFromJson(json);
+  factory AssetsModel.fromJson(Map<String, dynamic> json) => _$AssetsModelFromJson(json);
 }
 
 @freezed
@@ -39,8 +38,7 @@ class AssetModel with _$AssetModel {
     int? walletOrder,
   }) = _AssetModel;
 
-  factory AssetModel.fromJson(Map<String, dynamic> json) =>
-      _$AssetModelFromJson(json);
+  factory AssetModel.fromJson(Map<String, dynamic> json) => _$AssetModelFromJson(json);
 }
 
 @freezed
@@ -49,8 +47,7 @@ class AssetFeesModel with _$AssetFeesModel {
     WithdrawalFeeModel? withdrawalFee,
   }) = _AssetFees;
 
-  factory AssetFeesModel.fromJson(Map<String, dynamic> json) =>
-      _$AssetFeesModelFromJson(json);
+  factory AssetFeesModel.fromJson(Map<String, dynamic> json) => _$AssetFeesModelFromJson(json);
 }
 
 @freezed
@@ -61,8 +58,7 @@ class WithdrawalFeeModel with _$WithdrawalFeeModel {
     @JsonKey(name: 'asset') required String assetSymbol,
   }) = _WithdrawalFeeModel;
 
-  factory WithdrawalFeeModel.fromJson(Map<String, dynamic> json) =>
-      _$WithdrawalFeeModelFromJson(json);
+  factory WithdrawalFeeModel.fromJson(Map<String, dynamic> json) => _$WithdrawalFeeModelFromJson(json);
 }
 
 enum TagType {
@@ -154,8 +150,7 @@ extension _DepositMethodsExtension on DepositMethods {
   }
 }
 
-class DepositMethodsSerialiser
-    implements JsonConverter<DepositMethods, dynamic> {
+class DepositMethodsSerialiser implements JsonConverter<DepositMethods, dynamic> {
   const DepositMethodsSerialiser();
 
   @override
@@ -221,8 +216,7 @@ extension _WithdrawalMethodsExtension on WithdrawalMethods {
   }
 }
 
-class WithdrawalMethodsSerialiser
-    implements JsonConverter<WithdrawalMethods, dynamic> {
+class WithdrawalMethodsSerialiser implements JsonConverter<WithdrawalMethods, dynamic> {
   const WithdrawalMethodsSerialiser();
 
   @override

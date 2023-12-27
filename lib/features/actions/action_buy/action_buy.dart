@@ -32,8 +32,7 @@ void showBuyAction({
           sSignalRModules.bankingProfileData?.simple?.account != null;
 
   final isBankingAccountsAvaible =
-      (sSignalRModules.paymentProducts?.any((element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount) ??
-              false) &&
+      (sSignalRModules.buyMethods.any((element) => element.id == PaymentMethodType.ibanTransferUnlimint)) &&
           (sSignalRModules.bankingProfileData?.banking?.accounts ?? []).isNotEmpty;
 
   final isBuyAvaible = isCardsAvailable || isSimpleAccountAvaible || isBankingAccountsAvaible;

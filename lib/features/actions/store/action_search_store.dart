@@ -49,6 +49,9 @@ abstract class _ActionSearchStoreBase with Store {
   ObservableList<CurrencyModel> currencies = ObservableList.of([]);
 
   @observable
+  ObservableList<CurrencyModel> searchCurrencies = ObservableList.of([]);
+
+  @observable
   ObservableList<CurrencyModel> buyFromCardCurrencies = ObservableList.of([]);
 
   @observable
@@ -113,6 +116,7 @@ abstract class _ActionSearchStoreBase with Store {
     }
 
     currencies = ObservableList.of(tempCurrencies);
+    searchCurrencies = ObservableList.of(tempCurrencies);
     filteredCurrencies = ObservableList.of(tempCurrencies);
     buyFromCardCurrencies = ObservableList.of(tempBuyFromCardCurrencies);
     receiveCurrencies = ObservableList.of(tempReceiveCurrencies);
@@ -213,6 +217,8 @@ abstract class _ActionSearchStoreBase with Store {
         }
       }
 
+      searchCurrencies = ObservableList.of(tempCurrencies);
+
       //fCurrencies = ObservableList.of(_currencies);
       buyFromCardCurrencies = ObservableList.of(tempBuyFromCardCurrencies);
     } else if (value.isEmpty) {
@@ -226,6 +232,8 @@ abstract class _ActionSearchStoreBase with Store {
           tempBuyFromCardCurrencies.add(element);
         }
       }
+
+      searchCurrencies = ObservableList.of(tempCurrencies);
 
       //fCurrencies = ObservableList.of(_currencies);
       buyFromCardCurrencies = ObservableList.of(tempBuyFromCardCurrencies);
