@@ -1603,5 +1603,6 @@
     "@send": {
         "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/VquePNdyGiobH1rva29XutbP.png",
         "type": "text"
-    }
+    },
+    "paste": "Wkleić"
 }
