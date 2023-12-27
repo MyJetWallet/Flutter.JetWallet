@@ -57,8 +57,7 @@ class CurrencyBuyStore extends _CurrencyBuyStoreBase with _$CurrencyBuyStore {
     super.showUaAlert,
   );
 
-  static _CurrencyBuyStoreBase of(BuildContext context) =>
-      Provider.of<CurrencyBuyStore>(context, listen: false);
+  static _CurrencyBuyStoreBase of(BuildContext context) => Provider.of<CurrencyBuyStore>(context, listen: false);
 }
 
 abstract class _CurrencyBuyStoreBase with Store {
@@ -213,23 +212,17 @@ abstract class _CurrencyBuyStoreBase with Store {
 
   @computed
   String get inputErrorValue {
-    return paymentMethodInputError != null
-        ? paymentMethodInputError!
-        : inputError.value();
+    return paymentMethodInputError != null ? paymentMethodInputError! : inputError.value();
   }
 
   @computed
   String get selectedCurrencySymbol {
-    return paymentCurrency == null
-        ? baseCurrency!.symbol
-        : paymentCurrency!.symbol;
+    return paymentCurrency == null ? baseCurrency!.symbol : paymentCurrency!.symbol;
   }
 
   @computed
   int get selectedCurrencyAccuracy {
-    return paymentCurrency == null
-        ? baseCurrency!.accuracy
-        : paymentCurrency!.accuracy;
+    return paymentCurrency == null ? baseCurrency!.accuracy : paymentCurrency!.accuracy;
   }
 
   @action
@@ -296,8 +289,7 @@ abstract class _CurrencyBuyStoreBase with Store {
 
             dataCards.removeWhere(
               (card) {
-                return isCardExpired(card.expMonth, card.expYear) ||
-                    card.status == CircleCardStatus.failed;
+                return isCardExpired(card.expMonth, card.expYear) || card.status == CircleCardStatus.failed;
               },
             );
 
@@ -338,13 +330,11 @@ abstract class _CurrencyBuyStoreBase with Store {
         )
         .toList();
 
-    if (paymentMethod == PaymentMethodType.simplex &&
-        isSimplexCanUse.isNotEmpty) {
+    if (paymentMethod == PaymentMethodType.simplex && isSimplexCanUse.isNotEmpty) {
       updateSelectedPaymentMethod(
         isSimplexCanUse[0],
       );
-    } else if (paymentMethod == PaymentMethodType.circleCard &&
-        isCircleCanUse.isNotEmpty) {
+    } else if (paymentMethod == PaymentMethodType.circleCard && isCircleCanUse.isNotEmpty) {
       if (circleCard != null) {
         updateSelectedCircleCard(
           circleCard!,
@@ -354,8 +344,7 @@ abstract class _CurrencyBuyStoreBase with Store {
           isCircleCanUse[0],
         );
       }
-    } else if (paymentMethod == PaymentMethodType.unlimintCard &&
-        isUnlimintCanUse.isNotEmpty) {
+    } else if (paymentMethod == PaymentMethodType.unlimintCard && isUnlimintCanUse.isNotEmpty) {
       if (unlimintCard != null) {
         updateSelectedUnlimintCard(
           unlimintCard!,
@@ -365,8 +354,7 @@ abstract class _CurrencyBuyStoreBase with Store {
           isUnlimintCanUse[0],
         );
       }
-    } else if (paymentMethod == PaymentMethodType.bankCard &&
-        isBankCardCanUse.isNotEmpty) {
+    } else if (paymentMethod == PaymentMethodType.bankCard && isBankCardCanUse.isNotEmpty) {
       if (bankCard != null) {
         updateSelectedAltUnlimintCard(
           bankCard!,
@@ -407,10 +395,9 @@ abstract class _CurrencyBuyStoreBase with Store {
           (element) => element.asset == baseCurrency!.symbol,
         )
         .toList();
-    selectedPaymentAsset =
-        baseCurrencyInPayment != null && baseCurrencyInPayment.isNotEmpty
-            ? baseCurrencyInPayment[0]
-            : selectedPaymentMethod?.paymentAssets?[0];
+    selectedPaymentAsset = baseCurrencyInPayment != null && baseCurrencyInPayment.isNotEmpty
+        ? baseCurrencyInPayment[0]
+        : selectedPaymentMethod?.paymentAssets?[0];
     selectedPaymentAsset ??= PaymentAsset(
       asset: baseCurrency!.symbol,
       minAmount: Decimal.zero,
@@ -452,30 +439,19 @@ abstract class _CurrencyBuyStoreBase with Store {
     if (asset.limits != null) {
       var finalInterval = StateBarType.day1;
       var finalProgress = 0;
-      var dayState = asset.limits!.dayValue == asset.limits!.dayLimit
-          ? StateLimitType.block
-          : StateLimitType.active;
-      var weekState = asset.limits!.weekValue == asset.limits!.weekLimit
-          ? StateLimitType.block
-          : StateLimitType.active;
-      var monthState = asset.limits!.monthValue == asset.limits!.monthLimit
-          ? StateLimitType.block
-          : StateLimitType.active;
+      var dayState = asset.limits!.dayValue == asset.limits!.dayLimit ? StateLimitType.block : StateLimitType.active;
+      var weekState = asset.limits!.weekValue == asset.limits!.weekLimit ? StateLimitType.block : StateLimitType.active;
+      var monthState =
+          asset.limits!.monthValue == asset.limits!.monthLimit ? StateLimitType.block : StateLimitType.active;
       if (monthState == StateLimitType.block) {
         finalProgress = 100;
         finalInterval = StateBarType.day30;
-        weekState = weekState == StateLimitType.block
-            ? StateLimitType.block
-            : StateLimitType.none;
-        dayState = dayState == StateLimitType.block
-            ? StateLimitType.block
-            : StateLimitType.none;
+        weekState = weekState == StateLimitType.block ? StateLimitType.block : StateLimitType.none;
+        dayState = dayState == StateLimitType.block ? StateLimitType.block : StateLimitType.none;
       } else if (weekState == StateLimitType.block) {
         finalProgress = 100;
         finalInterval = StateBarType.day7;
-        dayState = dayState == StateLimitType.block
-            ? StateLimitType.block
-            : StateLimitType.none;
+        dayState = dayState == StateLimitType.block ? StateLimitType.block : StateLimitType.none;
         monthState = StateLimitType.none;
       } else if (dayState == StateLimitType.block) {
         finalProgress = 100;
@@ -658,6 +634,16 @@ abstract class _CurrencyBuyStoreBase with Store {
   }
 
   @action
+  void pasteValue(String value) {
+    _logger.log(notifier, 'pasteValue');
+
+    _updateInputValue(value);
+    _validateInput();
+    _calculateTargetConversion();
+    _calculateBaseConversion();
+  }
+
+  @action
   Future<void> setUpdateTargetConversionPrice(
     String symbol,
     String selectedCurrencySymbol,
@@ -709,8 +695,7 @@ abstract class _CurrencyBuyStoreBase with Store {
         if (baseCurrency != null && paymentCurrency != null) {
           if (baseCurrency!.symbol != paymentCurrency!.symbol) {
             conversion = Decimal.parse(
-              (conversion * paymentCurrency!.currentPrice)
-                  .toStringAsFixed(accuracy),
+              (conversion * paymentCurrency!.currentPrice).toStringAsFixed(accuracy),
             );
           }
         }
@@ -834,16 +819,13 @@ abstract class _CurrencyBuyStoreBase with Store {
           limitMax = limitByAsset!.barInterval == StateBarType.day1
               ? (limitByAsset!.day1Limit - limitByAsset!.day1Amount).toDouble()
               : limitByAsset!.barInterval == StateBarType.day7
-                  ? (limitByAsset!.day7Limit - limitByAsset!.day7Amount)
-                      .toDouble()
-                  : (limitByAsset!.day30Limit - limitByAsset!.day30Amount)
-                      .toDouble();
+                  ? (limitByAsset!.day7Limit - limitByAsset!.day7Amount).toDouble()
+                  : (limitByAsset!.day30Limit - limitByAsset!.day30Amount).toDouble();
         }
         if (selectedPaymentMethod?.id == PaymentMethodType.circleCard) {
           limitMax = pickedCircleCard?.paymentDetails.maxAmount.toDouble();
           min = pickedCircleCard?.paymentDetails.minAmount.toDouble() ?? 0;
-          max = (limitMax ?? 0) <
-                  (pickedCircleCard?.paymentDetails.maxAmount.toDouble() ?? 0)
+          max = (limitMax ?? 0) < (pickedCircleCard?.paymentDetails.maxAmount.toDouble() ?? 0)
               ? limitMax ?? 0
               : pickedCircleCard?.paymentDetails.maxAmount.toDouble() ?? 0;
         }
@@ -869,8 +851,7 @@ abstract class _CurrencyBuyStoreBase with Store {
           )}',
         );
       } else if (value > max) {
-        if (selectedPaymentMethod?.id == PaymentMethodType.circleCard &&
-            pickedCircleCard == null) {
+        if (selectedPaymentMethod?.id == PaymentMethodType.circleCard && pickedCircleCard == null) {
           return;
         }
         _updatePaymentMethodInputError(
@@ -932,8 +913,7 @@ abstract class _CurrencyBuyStoreBase with Store {
     );
 
     try {
-      final response =
-          await sNetwork.getWalletModule().postSimplexPayment(model);
+      final response = await sNetwork.getWalletModule().postSimplexPayment(model);
 
       if (response.error != null) {
         _logger.log(stateFlow, 'makeSimplexRequest', response.error!.cause);

@@ -85,9 +85,8 @@ class BalanceActionButtons extends StatelessObserverWidget {
                       ?.any((element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount) ??
                   false;
 
-              final isBankingAccountsAvaible = sSignalRModules.paymentProducts
-                      ?.any((element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount) ??
-                  false;
+              final isBankingAccountsAvaible =
+                  currency.buyMethods.any((element) => element.id == PaymentMethodType.ibanTransferUnlimint);
 
               final isBuyAvaible = isCardsAvailable || isSimpleAccountAvaible || isBankingAccountsAvaible;
 

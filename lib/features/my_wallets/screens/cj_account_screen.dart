@@ -171,7 +171,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                                       source: 'EUR wallet',
                                     );
 
-                                    showDepositDetails(
+                                    showAccountDepositSelector(
                                       context,
                                       () {
                                         sAnalytics.eurWalletTapCloseOnDeposirSheet(

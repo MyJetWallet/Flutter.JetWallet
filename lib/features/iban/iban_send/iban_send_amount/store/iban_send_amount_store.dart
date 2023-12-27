@@ -226,6 +226,20 @@ abstract class _IbanSendAmountStoreBase with Store {
   }
 
   @action
+  void pasteAmount(String value) {
+    withAmount = value;
+
+    if (withAmount != zero) {
+      showAllWithdraw = false;
+    } else {
+      showAllWithdraw = true;
+    }
+
+    _validateAmount();
+    _calculateBaseConversion();
+  }
+
+  @action
   void _calculateBaseConversion() {
     if (withAmount.isNotEmpty) {
       final baseValue = calculateBaseBalanceWithReader(
