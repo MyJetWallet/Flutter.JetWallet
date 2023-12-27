@@ -6,13 +6,17 @@ import 'package:intl/intl.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_globally_confirm_store.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 
@@ -58,6 +62,11 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
 
     final state = SendGloballyConfirmStore.of(context);
 
+    final receiveAsset = currencyFrom(
+      sSignalRModules.currenciesWithHiddenList,
+      data.receiveAsset!,
+    );
+
     return SPageFrameWithPadding(
       loading: state.loader,
       loaderText: intl.register_pleaseWait,
@@ -78,58 +87,30 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                     small: () => const SpaceH8(),
                     medium: () => const SpaceH3(),
                   ),
-                  Center(
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          disclaimerAsset,
-                          width: 80,
-                          height: 80,
-                        ),
-                        const SpaceH16(),
-                        Text(
-                          intl.previewBuy_orderSummary,
-                          style: sTextH5Style,
-                        ),
-                        const SpaceH34(),
-                      ],
+                  WhatToWhatConvertWidget(
+                    isLoading: false,
+                    fromAssetIconUrl: state.sendCurrency!.iconUrl,
+                    fromAssetDescription: state.sendCurrency!.symbol,
+                    fromAssetValue: volumeFormat(
+                      symbol: state.sendCurrency!.symbol,
+                      accuracy: state.sendCurrency!.accuracy,
+                      decimal: data.amount ?? Decimal.zero,
+                    ),
+                    toAssetIconUrl: receiveAsset.iconUrl,
+                    toAssetDescription: receiveAsset.symbol,
+                    toAssetValue: volumeFormat(
+                      decimal: data.estimatedPrice ?? Decimal.zero,
+                      accuracy: receiveAsset.accuracy,
+                      symbol: receiveAsset.symbol,
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      color: colors.blueLight,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const SizedBox(
-                            width: 16,
-                            height: 16,
-                            child: SProfileDetailsIcon(),
-                          ),
-                          const SizedBox(width: 8),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 3),
-                            child: Text(
-                              '''${intl.global_send_est_amount}: ${data.estimatedReceiveAmount!} ${data.receiveAsset}''',
-                              style: sSubtitle3Style,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SpaceH40(),
+                  const SDivider(),
+                  const SpaceH16(),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                      intl.global_send_receiver_details,
-                      style: sTextH5Style,
+                    child: STableHeader(
+                      needHorizontalPadding: false,
+                      title: intl.global_send_receiver_details,
                     ),
                   ),
                   ListView.builder(
@@ -138,50 +119,52 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: state.receiverDetails.length,
                     itemBuilder: (context, index) {
-                      return SActionConfirmText(
-                        name: state.receiverDetails[index].info.fieldName ?? '',
+                      return TwoColumnCell(
+                        label: state.receiverDetails[index].info.fieldName ?? '',
                         value: state.receiverDetails[index].info.fieldId == FieldInfoId.cardNumber
                             ? getCardTypeMask(
                                 state.receiverDetails[index].value,
                               )
                             : state.receiverDetails[index].value,
+                        needHorizontalPadding: false,
                       );
                     },
                   ),
-                  const SpaceH20(),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                      intl.global_send_payment_details,
-                      style: sTextH5Style,
+                    child: STableHeader(
+                      needHorizontalPadding: false,
+                      title: intl.global_send_payment_details,
                     ),
                   ),
-                  SActionConfirmText(
-                    name: intl.send_globally_date,
+                  TwoColumnCell(
+                    label: intl.send_globally_date,
                     value: DateFormat('dd.MM.y, HH:mm').format(DateTime.now()),
+                    needHorizontalPadding: false,
                   ),
-                  SActionConfirmText(
-                    name: intl.send_globally_con_rate,
-                    contentLoading: state.loader.loading,
+                  TwoColumnCell(
+                    label: intl.send_globally_con_rate,
                     value:
                         '''${state.sendCurrency!.prefixSymbol ?? ''} 1 ${state.sendCurrency!.prefixSymbol == null ? state.sendCurrency!.symbol : ''} = ${data.estimatedPrice} ${data.receiveAsset}''',
+                    needHorizontalPadding: false,
                   ),
-                  SActionConfirmText(
-                    name: intl.global_send_you_send,
+                  TwoColumnCell(
+                    label: intl.global_send_you_send,
                     value: volumeFormat(
                       decimal: (data.amount ?? Decimal.zero) - (data.feeAmount ?? Decimal.zero),
                       accuracy: state.sendCurrency!.accuracy,
                       symbol: state.sendCurrency!.symbol,
                     ),
+                    needHorizontalPadding: false,
                   ),
-                  SActionConfirmText(
-                    name: intl.send_globally_processing_fee,
+                  TwoColumnCell(
+                    label: intl.send_globally_processing_fee,
                     value: volumeFormat(
                       decimal: data.feeAmount ?? Decimal.zero,
                       accuracy: state.sendCurrency!.accuracy,
                       symbol: state.sendCurrency!.symbol,
                     ),
-                    maxValueWidth: 140,
+                    needHorizontalPadding: false,
                   ),
                   const SpaceH17(),
                   Align(

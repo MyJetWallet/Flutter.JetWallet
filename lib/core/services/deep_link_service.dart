@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -19,6 +20,7 @@ import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/core/services/zendesk_support_service/zendesk_service.dart';
 import 'package:jetwallet/features/actions/action_deposit/action_deposit.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
 import 'package:jetwallet/features/auth/email_verification/store/email_verification_store.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
@@ -34,6 +36,7 @@ import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:logger/logger.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 
 import 'local_storage_service.dart';
 import 'notification_service.dart';
@@ -48,7 +51,6 @@ const _email = 'jw_email';
 
 // when parameters come in "/" format as part of the link
 const _action = 'action';
-const jw_promo_code = 'jw_promo_code';
 
 const jw_deposit_successful = 'jw_deposit_successful';
 const jw_support_page = 'jw_support_page';
@@ -62,22 +64,19 @@ const jw_gift_expired = 'jw_gift_expired';
 
 /// Commands
 const _confirmEmail = 'ConfirmEmail';
-const _login = 'Login';
 const _confirmWithdraw = 'VerifyWithdrawal';
 const _inviteFriend = 'InviteFriend';
 const _referralRedirect = 'ReferralRedirect';
 const _depositStart = 'DepositStart';
 const _kycVerification = 'KycVerification';
-const _tradingStart = 'TradingStart';
+const _marketsScreen = 'MarketsScreen';
 
 // Push Notification
 
 const _jwSwap = 'jw_operation_history';
 const _jwTransferByPhoneSend = 'jw_transfer_by_phone_send';
-const _jwKycDocumentsApproved = 'jw_kyc_documents_approved';
-const _jwKycDocumentsDeclined = 'jw_kyc_documents_declined';
-const _jwKycBanned = 'jw_kyc_banned';
 const _jwCrypto_withdrawal_decline = 'jw_crypto_withdrawal_decline';
+const _jwKycBanned = 'jw_kyc_banned';
 
 const String _loggerService = 'DeepLinkService';
 
@@ -119,32 +118,28 @@ class DeepLinkService {
 
     final command = parameters[_command];
 
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.info,
+          place: 'DeepLinkService GET',
+          message: '$command $parameters. $path',
+        );
+
     if (command == _confirmEmail) {
       _confirmEmailCommand(parameters);
-    } else if (command == _login) {
-      _loginCommand(parameters);
     } else if (command == _confirmWithdraw) {
       _confirmWithdrawCommand(parameters);
     } else if (command == _inviteFriend) {
-      _inviteFriendCommand(source);
+      _inviteFriendCommand();
     } else if (command == _referralRedirect) {
       _referralRedirectCommand(parameters);
     } else if (command == _kycVerification) {
       _kycVerificationCommand();
-    } else if (command == _tradingStart) {
-      _tradingStartCommand(source);
     } else if (command == _depositStart) {
       _depositStartCommand(source);
     } else if (command == _jwSwap) {
       pushCryptoHistory(parameters);
     } else if (command == _jwTransferByPhoneSend) {
       pushCryptoWithdrawal(parameters);
-    } else if (command == _jwKycDocumentsApproved) {
-      pushKycDocumentsApproved();
-    } else if (command == _jwKycDocumentsDeclined) {
-      pushKycDocumentsDeclined();
-    } else if (command == _jwKycBanned) {
-      pushKycDocumentsApproved();
     } else if (command == _jwCrypto_withdrawal_decline) {
       pushWithrawalDecline(parameters);
     } else if (command == jw_deposit_successful) {
@@ -157,6 +152,10 @@ class DeepLinkService {
       //just open the application
     } else if (command == jw_gift_remind) {
       pushRemindGiftBottomSheet(parameters);
+    } else if (command == _marketsScreen) {
+      pushMarketsScreen(parameters);
+    } else if (command == _jwKycBanned) {
+      pushDocumentNotVerified(parameters);
     } else {
       if (parameters.containsKey('jw_operation_id')) {
         pushCryptoHistory(parameters);
@@ -176,50 +175,58 @@ class DeepLinkService {
     }
   }
 
-  void _tradingStartCommand(SourceScreen? source) {
-    if (source == SourceScreen.bannerOnMarket) {
-      sRouter.push(RewardsRouter(actualRewards: const []));
-    } else if (source == SourceScreen.bannerOnRewards) {
-      sRouter.navigate(
-        HomeRouter(
-          children: [MarketRouter()],
+  void _kycVerificationCommand() {
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      final kycState = getIt.get<KycService>();
+      final kycAlertHandler = getIt.get<KycAlertHandler>();
+
+      final isDepositAllow = kycState.depositStatus != kycOperationStatus(KycStatus.allowed);
+      final isWithdrawalAllow = kycState.withdrawalStatus != kycOperationStatus(KycStatus.allowed);
+
+      kycAlertHandler.handle(
+        status: isDepositAllow
+            ? kycState.depositStatus
+            : isWithdrawalAllow
+                ? kycState.withdrawalStatus
+                : kycState.tradeStatus,
+        isProgress: kycState.verificationInProgress,
+        currentNavigate: () {},
+        requiredDocuments: kycState.requiredDocuments,
+        requiredVerifications: kycState.requiredVerifications,
+      );
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            final kycState = getIt.get<KycService>();
+            final kycAlertHandler = getIt.get<KycAlertHandler>();
+
+            final isDepositAllow = kycState.depositStatus != kycOperationStatus(KycStatus.allowed);
+            final isWithdrawalAllow = kycState.withdrawalStatus != kycOperationStatus(KycStatus.allowed);
+
+            kycAlertHandler.handle(
+              status: isDepositAllow
+                  ? kycState.depositStatus
+                  : isWithdrawalAllow
+                      ? kycState.withdrawalStatus
+                      : kycState.tradeStatus,
+              isProgress: kycState.verificationInProgress,
+              currentNavigate: () {},
+              requiredDocuments: kycState.requiredDocuments,
+              requiredVerifications: kycState.requiredVerifications,
+            );
+          },
         ),
       );
-      sRouter.pop();
     }
-  }
-
-  void _kycVerificationCommand() {
-    final kycState = getIt.get<KycService>();
-    final context = sRouter.navigatorKey.currentContext!;
-    final kycAlertHandler = getIt.get<KycAlertHandler>();
-
-    kycAlertHandler.handle(
-      status: kycState.depositStatus,
-      isProgress: kycState.verificationInProgress,
-      currentNavigate: () => showDepositAction(context),
-      requiredVerifications: kycState.requiredVerifications,
-      requiredDocuments: kycState.requiredDocuments,
-    );
   }
 
   void _confirmEmailCommand(Map<String, String> parameters) {
     getIt.get<EmailVerificationStore>().updateCode(
           parameters[_code],
         );
-  }
-
-  void _loginCommand(Map<String, String> parameters) {
-    getIt.get<LogoutService>().logout(
-          'DEEPLINK logincommand',
-          callbackAfterSend: () {},
-        );
-
-    sRouter.push(
-      SingInRouter(
-        email: parameters[_email],
-      ),
-    );
   }
 
   void _confirmWithdrawCommand(Map<String, String> parameters) {
@@ -231,101 +238,39 @@ class DeepLinkService {
     getIt.get<EventBus>().fire(WithdrawalConfirmModel(code: code, operationID: id));
   }
 
-  void _inviteFriendCommand(SourceScreen? source) {
-    final context = sRouter.navigatorKey.currentContext!;
-    final referralInfo = sSignalRModules.referralInfo;
-    final logoSize = MediaQuery.of(context).size.width * 0.2;
+  void _inviteFriendCommand() {
+    Future<void> openRewards() async {
+      await Future.delayed(const Duration(seconds: 1));
 
-    sShowBasicModalBottomSheet(
-      context: context,
-      removePinnedPadding: true,
-      horizontalPinnedPadding: 0,
-      scrollable: true,
-      color: Colors.white,
-      pinned: SPaddingH24(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width - 147,
-              child: Baseline(
-                baseline: 34.0,
-                baselineType: TextBaseline.alphabetic,
-                child: Text(
-                  referralInfo.title,
-                  maxLines: 3,
-                  style: sTextH3Style,
-                ),
-              ),
-            ),
-            if (referralInfo.descriptionLink.isNotEmpty)
-              Container(
-                alignment: Alignment.bottomCenter,
-                child: Column(
-                  children: [
-                    ClickableUnderlinedText(
-                      text: intl.deepLinkService_readMore,
-                      onTap: () {
-                        sRouter.push(
-                          InfoWebViewRouter(
-                            link: referralInfo.descriptionLink,
-                            title: intl.rewards_rewards,
-                          ),
-                        );
-                      },
-                    ),
-                    const SpaceH10(),
-                  ],
-                ),
-              ),
-          ],
-        ),
-      ),
-      pinnedBottom: Column(
-        children: [
-          SAddressFieldWithCopy(
-            afterCopyText: intl.deepLinkService_referralLinkCopied,
-            value: referralInfo.referralLink,
-            header: intl.deepLinkService_referralLink,
-            then: () {
-              sNotification.showError(intl.copy_message, id: 1, isError: false);
-            },
-          ),
-          SReferralInviteBottomPinned(
-            text: intl.deepLinkService_share,
-            onShare: () {
-              try {
-                Share.share(referralInfo.referralLink);
-              } catch (e) {
-                getIt.get<SimpleLoggerService>().log(
-                      level: Level.error,
-                      place: 'DeepLinkService',
-                      message: e.toString(),
-                    );
-              }
-            },
-          ),
-        ],
-      ),
-      children: [
-        SReferralInviteBody(
-          primaryText: referralInfo.title,
-          referralLink: referralInfo.referralLink,
-          conditions: referralInfo.referralTerms,
-          showReadMore: referralInfo.descriptionLink.isNotEmpty,
-          copiedText: intl.deepLinkService_referralLinkCopied,
-          referralText: intl.deepLinkService_referralLink,
-          logoSize: logoSize,
-          onReadMoreTap: () {
-            launchURL(
-              context,
-              referralInfo.descriptionLink,
-            );
+      if (getIt.get<AppStore>().authStatus == const AuthorizationUnion.authorized() &&
+          (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
+              .where((element) => element.id == AssetPaymentProductsEnum.rewardsOnboardingProgram)
+              .isNotEmpty) {
+        getIt<AppStore>().setHomeTab(3);
+        if (getIt<AppStore>().tabsRouter != null) {
+          getIt<AppStore>().tabsRouter!.setActiveIndex(3);
+        }
+      } else {
+        getIt<AppStore>().setHomeTab(0);
+        if (getIt<AppStore>().tabsRouter != null) {
+          getIt<AppStore>().tabsRouter!.setActiveIndex(0);
+        }
+      }
+    }
+
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      openRewards();
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            await openRewards();
           },
         ),
-      ],
-    );
+      );
+    }
   }
 
   Future<void> _referralRedirectCommand(Map<String, String> parameters) async {
@@ -416,104 +361,19 @@ class DeepLinkService {
     }
   }
 
-  Future<void> pushKycDocumentsApproved() async {
-    if (getIt.isRegistered<AppStore>() &&
-        getIt.get<AppStore>().remoteConfigStatus is Success &&
-        getIt.get<AppStore>().authorizedStatus is Home) {
-      getIt.get<AppStore>().setHomeTab(1);
-      if (getIt.get<AppStore>().tabsRouter != null) {
-        getIt.get<AppStore>().tabsRouter!.setActiveIndex(1);
-      }
-
-      sRouter.popUntilRoot();
-
-      await sRouter.replaceAll(
-        [
-          HomeRouter(
-            children: [
-              MarketRouter(),
-            ],
-          ),
-        ],
-      );
-    } else {
-      getIt<RouteQueryService>().addToQuery(
-        RouteQueryModel(
-          action: RouteQueryAction.replace,
-          query: HomeRouter(
-            children: [
-              MarketRouter(),
-            ],
-          ),
-          func: () {
-            getIt.get<AppStore>().setHomeTab(1);
-          },
-        ),
-      );
-    }
-  }
-
-  Future<void> pushKycDocumentsDeclined() async {
-    if (getIt.isRegistered<AppStore>() &&
-        getIt.get<AppStore>().remoteConfigStatus is Success &&
-        getIt.get<AppStore>().authorizedStatus is Home) {
-      final kycState = getIt.get<KycService>();
-      final kycAlertHandler = getIt.get<KycAlertHandler>();
-
-      final isDepositAllow = kycState.depositStatus != kycOperationStatus(KycStatus.allowed);
-      final isWithdrawalAllow = kycState.withdrawalStatus != kycOperationStatus(KycStatus.allowed);
-
-      kycAlertHandler.handle(
-        status: isDepositAllow
-            ? kycState.depositStatus
-            : isWithdrawalAllow
-                ? kycState.withdrawalStatus
-                : kycState.tradeStatus,
-        isProgress: kycState.verificationInProgress,
-        currentNavigate: () {},
-        requiredDocuments: kycState.requiredDocuments,
-        requiredVerifications: kycState.requiredVerifications,
-      );
-    } else {
-      getIt<RouteQueryService>().addToQuery(
-        RouteQueryModel(
-          func: () async {
-            final kycState = getIt.get<KycService>();
-            final kycAlertHandler = getIt.get<KycAlertHandler>();
-
-            final isDepositAllow = kycState.depositStatus != kycOperationStatus(KycStatus.allowed);
-            final isWithdrawalAllow = kycState.withdrawalStatus != kycOperationStatus(KycStatus.allowed);
-
-            kycAlertHandler.handle(
-              status: isDepositAllow
-                  ? kycState.depositStatus
-                  : isWithdrawalAllow
-                      ? kycState.withdrawalStatus
-                      : kycState.tradeStatus,
-              isProgress: kycState.verificationInProgress,
-              currentNavigate: () {},
-              requiredDocuments: kycState.requiredDocuments,
-              requiredVerifications: kycState.requiredVerifications,
-            );
-          },
-        ),
-      );
-    }
-  }
-
   Future<void> pushWithrawalDecline(
     Map<String, String> parameters,
   ) async {
-    final currency = currencyFrom(
-      sSignalRModules.currenciesList,
-      parameters['asset'] ?? 'BTC',
-    );
-
     //navigateToWallet
 
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
+      final currency = currencyFrom(
+        sSignalRModules.currenciesList,
+        parameters['jw_asset'] ?? 'BTC',
+      );
+
       await sRouter.push(
         WalletRouter(
           currency: currency,
@@ -522,10 +382,17 @@ class DeepLinkService {
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
-          action: RouteQueryAction.push,
-          query: WalletRouter(
-            currency: currency,
-          ),
+          func: () async {
+            final currency = currencyFrom(
+              sSignalRModules.currenciesList,
+              parameters['jw_asset'] ?? 'BTC',
+            );
+            await sRouter.push(
+              WalletRouter(
+                currency: currency,
+              ),
+            );
+          },
         ),
       );
     }
@@ -608,18 +475,20 @@ class DeepLinkService {
   Future<void> pushDocumentNotVerified(
     Map<String, String> parameters,
   ) async {
-    final kycState = getIt.get<KycService>();
-    final kycAlertHandler = getIt.get<KycAlertHandler>();
-
-    kycAlertHandler.handle(
-      status: kycState.depositStatus,
-      isProgress: kycState.verificationInProgress,
-      currentNavigate: () => sRouter.push(
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      await sRouter.push(
         const AccountRouter(),
-      ),
-      requiredVerifications: kycState.requiredVerifications,
-      requiredDocuments: kycState.requiredDocuments,
-    );
+      );
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          action: RouteQueryAction.push,
+          query: const AccountRouter(),
+        ),
+      );
+    }
   }
 
   Future<void> pushRemindGiftBottomSheet(
@@ -666,6 +535,53 @@ class DeepLinkService {
                 currency: currency,
               );
             }
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> pushMarketsScreen(
+    Map<String, String> parameters,
+  ) async {
+    final jwOperationId = parameters['jw_symbol'];
+
+    Future<void> openMarket() async {
+      await Future.delayed(const Duration(milliseconds: 650));
+
+      if (getIt.get<AppStore>().authStatus == const AuthorizationUnion.authorized()) {
+        if (jwOperationId != null) {
+          final marketItem = sSignalRModules.getMarketPrices.indexWhere((element) => element.symbol == jwOperationId);
+          if (marketItem != -1) {
+            await sRouter.push(
+              MarketDetailsRouter(
+                marketItem: sSignalRModules.getMarketPrices[marketItem],
+              ),
+            );
+          } else {
+            getIt<AppStore>().setHomeTab(1);
+            if (getIt<AppStore>().tabsRouter != null) {
+              getIt<AppStore>().tabsRouter!.setActiveIndex(1);
+            }
+          }
+        } else {
+          getIt<AppStore>().setHomeTab(1);
+          if (getIt<AppStore>().tabsRouter != null) {
+            getIt<AppStore>().tabsRouter!.setActiveIndex(1);
+          }
+        }
+      }
+    }
+
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      await openMarket();
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            await openMarket();
           },
         ),
       );
