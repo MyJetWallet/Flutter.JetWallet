@@ -33,6 +33,7 @@ class PinScreen extends StatelessWidget {
     this.isChangePin = false,
     this.fromRegister = true,
     this.isForgotPassword = false,
+    this.alwaysShowForgotPassword = false,
     this.onChangePhone,
     this.onWrongPin,
     this.onError,
@@ -47,6 +48,7 @@ class PinScreen extends StatelessWidget {
   final bool isConfirmCard;
   final bool isChangePin;
   final bool isForgotPassword;
+  final bool alwaysShowForgotPassword;
   final Function(String)? onChangePhone;
   final Function(String)? onWrongPin;
   final PinFlowUnion union;
@@ -73,6 +75,7 @@ class PinScreen extends StatelessWidget {
         isChangePhone: isChangePhone,
         isConfirmCard: isConfirmCard,
         isForgotPassword: isForgotPassword,
+        alwaysShowForgotPassword: alwaysShowForgotPassword,
         union: union,
         onBackPressed: onBackPressed,
       ),
@@ -87,6 +90,7 @@ class _PinScreenBody extends StatefulObserverWidget {
     this.isForgotPassword = false,
     this.isChangePhone = false,
     this.isConfirmCard = false,
+    this.alwaysShowForgotPassword = false,
     this.onBackPressed,
     required this.fromRegister,
     required this.union,
@@ -97,6 +101,7 @@ class _PinScreenBody extends StatefulObserverWidget {
   final bool isForgotPassword;
   final bool isChangePhone;
   final bool isConfirmCard;
+  final bool alwaysShowForgotPassword;
   final PinFlowUnion union;
   final bool fromRegister;
   final void Function()? onBackPressed;
@@ -259,13 +264,10 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                 },
               ),
               const Spacer(),
-              if (!widget.displayHeader || (
-                  !widget.isConfirmCard &&
-                  pin.screenUnion == const PinScreenUnion.enterPin()
-              ) || (widget.isConfirmCard &&
-                  pin.screenUnion == const PinScreenUnion.enterPin() &&
-                  pin.showForgot
-              ))
+              if (widget.alwaysShowForgotPassword ||
+                  !widget.displayHeader ||
+                  (!widget.isConfirmCard && pin.screenUnion == const PinScreenUnion.enterPin()) ||
+                  (widget.isConfirmCard && pin.screenUnion == const PinScreenUnion.enterPin() && pin.showForgot))
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
