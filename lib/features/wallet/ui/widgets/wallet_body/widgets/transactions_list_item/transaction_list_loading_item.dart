@@ -8,10 +8,12 @@ class TransactionListLoadingItem extends StatelessWidget {
     super.key,
     required this.opacity,
     this.removeDivider = false,
+    this.fromMarket = false,
   });
 
   final bool removeDivider;
   final double opacity;
+  final bool fromMarket;
 
   @override
   Widget build(BuildContext context) {
@@ -23,45 +25,52 @@ class TransactionListLoadingItem extends StatelessWidget {
           child: Column(
             children: [
               const SpaceH18(),
-              const Row(
+              Row(
                 children: [
-                  SpaceW2(),
-                  SSkeletonTextLoader(
+                  const SpaceW2(),
+                  const SSkeletonTextLoader(
                     height: 16,
                     width: 16,
                   ),
-                  SpaceW12(),
-                  SSkeletonTextLoader(
+                  const SpaceW12(),
+                  const SSkeletonTextLoader(
                     height: 16,
                     width: 80,
                   ),
-                  Spacer(),
-                  SSkeletonTextLoader(
+                  const Spacer(),
+                  const SSkeletonTextLoader(
                     height: 16,
                     width: 80,
                   ),
-                  SpaceW8(),
-                  SimpleFullLightStarIcon(),
+                  if (fromMarket) ...[
+                    const SpaceW8(),
+                    Opacity(
+                      opacity: fromMarket ? 1 : 0,
+                      child: const SimpleFullLightStarIcon(),
+                    ),
+                  ],
                 ],
               ),
               const SpaceH12(),
-              const Row(
+              Row(
                 children: [
-                  SpaceW30(),
-                  SSkeletonTextLoader(
+                  const SpaceW30(),
+                  const SSkeletonTextLoader(
                     height: 10,
                     width: 32,
                   ),
-                  Spacer(),
-                  SSkeletonTextLoader(
+                  const Spacer(),
+                  const SSkeletonTextLoader(
                     height: 10,
                     width: 60,
                   ),
-                  SpaceW8(),
-                  Opacity(
-                    opacity: 0,
-                    child: SimpleLightStarIcon(),
-                  ),
+                  if (fromMarket) ...[
+                    const SpaceW8(),
+                    const Opacity(
+                      opacity: 0,
+                      child: SimpleLightStarIcon(),
+                    ),
+                  ],
                 ],
               ),
               const Spacer(),

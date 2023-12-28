@@ -16,19 +16,24 @@ class MarketNotLoaded extends StatelessWidget {
         children: [
           TransactionListLoadingItem(
             opacity: 1,
+            fromMarket: true,
           ),
           TransactionListLoadingItem(
             opacity: 0.8,
+            fromMarket: true,
           ),
           TransactionListLoadingItem(
             opacity: 0.6,
+            fromMarket: true,
           ),
           TransactionListLoadingItem(
             opacity: 0.4,
+            fromMarket: true,
           ),
           TransactionListLoadingItem(
             opacity: 0.2,
             removeDivider: true,
+            fromMarket: true,
           ),
         ],
       ),
