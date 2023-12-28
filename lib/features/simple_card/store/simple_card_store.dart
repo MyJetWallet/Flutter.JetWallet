@@ -578,6 +578,7 @@ abstract class _SimpleCardStoreBase with Store {
             union: const Change(),
             isConfirmCard: true,
             isChangePhone: true,
+            alwaysShowForgotPassword: true,
             onChangePhone: (String newPin) {
               onCompled();
             },

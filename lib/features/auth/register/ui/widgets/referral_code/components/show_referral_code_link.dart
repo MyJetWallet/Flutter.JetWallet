@@ -80,7 +80,7 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
                       getIt.get<ReferallCodeStore>().pasteCodeReferralLink();
                     },
                     defaultIcon: Assets.svg.medium.copyAlt.simpleSvg(
-                      width: 20,
+                      width: 24,
                       color: sKit.colors.grey3,
                     ),
                   ),
