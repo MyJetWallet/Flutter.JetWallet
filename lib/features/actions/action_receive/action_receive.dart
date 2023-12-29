@@ -153,7 +153,7 @@ class _ActionReceive extends StatelessObserverWidget {
         )
         .toList();
 
-    final showSearch = showReceiveCurrencySearch(context) && state.showCrypto;
+    final showSearch = showReceiveCurrencySearch(context);
 
     return Column(
       children: [
