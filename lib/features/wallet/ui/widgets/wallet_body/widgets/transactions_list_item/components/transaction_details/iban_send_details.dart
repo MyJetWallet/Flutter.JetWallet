@@ -104,6 +104,7 @@ class IbanSendDetails extends StatelessObserverWidget {
             fromStart: true,
             value: Flexible(
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   const SpaceW8(),
                   Flexible(
