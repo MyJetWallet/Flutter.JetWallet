@@ -57,7 +57,7 @@ class SNewActionPriceField extends StatelessWidget {
                               selectionHandleColor: Colors.transparent,
                             ),
                           ),
-                          child: SelectableText.rich(
+                          child: AutoSizeText.rich(
                             maxLines: 1,
                             TextSpan(
                               text: primaryAmount,
@@ -74,24 +74,24 @@ class SNewActionPriceField extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            contextMenuBuilder: (context, editableTextState) {
-                              final List<ContextMenuButtonItem> buttonItems = [];
-                              buttonItems.insert(
-                                0,
-                                ContextMenuButtonItem(
-                                  label: pasteLabel,
-                                  onPressed: () {
-                                    ContextMenuController.removeAny();
-                                    onPaste!();
-                                  },
-                                ),
-                              );
+                            // contextMenuBuilder: (context, editableTextState) {
+                            //   final List<ContextMenuButtonItem> buttonItems = [];
+                            //   buttonItems.insert(
+                            //     0,
+                            //     ContextMenuButtonItem(
+                            //       label: pasteLabel,
+                            //       onPressed: () {
+                            //         ContextMenuController.removeAny();
+                            //         onPaste!();
+                            //       },
+                            //     ),
+                            //   );
 
-                              return AdaptiveTextSelectionToolbar.buttonItems(
-                                anchors: editableTextState.contextMenuAnchors,
-                                buttonItems: buttonItems,
-                              );
-                            },
+                            //   return AdaptiveTextSelectionToolbar.buttonItems(
+                            //     anchors: editableTextState.contextMenuAnchors,
+                            //     buttonItems: buttonItems,
+                            //   );
+                            // },
                           ),
                         )
                       else
@@ -103,30 +103,30 @@ class SNewActionPriceField extends StatelessWidget {
                               selectionHandleColor: Colors.transparent,
                             ),
                           ),
-                          child: SelectableText(
+                          child: AutoSizeText(
                             '$primaryAmount $primarySymbol',
                             maxLines: 1,
                             style: sTextH3Style.copyWith(
                               color: primaryAmount == '0' ? colors.grey3 : colors.black,
                             ),
-                            contextMenuBuilder: (context, editableTextState) {
-                              final List<ContextMenuButtonItem> buttonItems = [];
-                              buttonItems.insert(
-                                0,
-                                ContextMenuButtonItem(
-                                  label: pasteLabel,
-                                  onPressed: () {
-                                    ContextMenuController.removeAny();
-                                    onPaste!();
-                                  },
-                                ),
-                              );
+                            // contextMenuBuilder: (context, editableTextState) {
+                            //   final List<ContextMenuButtonItem> buttonItems = [];
+                            //   buttonItems.insert(
+                            //     0,
+                            //     ContextMenuButtonItem(
+                            //       label: pasteLabel,
+                            //       onPressed: () {
+                            //         ContextMenuController.removeAny();
+                            //         onPaste!();
+                            //       },
+                            //     ),
+                            //   );
 
-                              return AdaptiveTextSelectionToolbar.buttonItems(
-                                anchors: editableTextState.contextMenuAnchors,
-                                buttonItems: buttonItems,
-                              );
-                            },
+                            //   return AdaptiveTextSelectionToolbar.buttonItems(
+                            //     anchors: editableTextState.contextMenuAnchors,
+                            //     buttonItems: buttonItems,
+                            //   );
+                            // },
                           ),
                         ),
                       const SpaceH4(),
