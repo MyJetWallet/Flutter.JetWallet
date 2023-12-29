@@ -74,7 +74,6 @@ class TransactionListLoadingItem extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              if (!removeDivider) const SDivider(),
             ],
           ),
         ),
