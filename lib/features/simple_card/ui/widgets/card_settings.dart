@@ -12,9 +12,10 @@ import '../../../../core/di/di.dart';
 import '../../store/simple_card_store.dart';
 import 'card_option.dart';
 
-void showCardSettings(
-  BuildContext context,
-) {
+void showCardSettings({
+  required BuildContext context,
+  required void Function() onChangeLableTap,
+}) {
   sShowBasicModalBottomSheet(
     context: context,
     then: (value) {},
@@ -22,13 +23,19 @@ void showCardSettings(
       name: intl.simple_card_settings,
     ),
     children: [
-      const _CardSettings(),
+      _CardSettings(
+        onChangeLableTap: onChangeLableTap,
+      ),
     ],
   );
 }
 
 class _CardSettings extends StatelessObserverWidget {
-  const _CardSettings();
+  const _CardSettings({
+    required this.onChangeLableTap,
+  });
+
+  final void Function() onChangeLableTap;
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +109,14 @@ class _CardSettings extends StatelessObserverWidget {
               ),
             ).then((value) async {});
           },
+        ),
+        CardOption(
+          icon: Assets.svg.medium.edit.simpleSvg(
+            color: colors.blue,
+          ),
+          name: 'Change label',
+          onTap: onChangeLableTap,
+          hideDescription: true,
         ),
         CardOption(
           icon: Assets.svg.medium.delete.simpleSvg(

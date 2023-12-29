@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_add_cash.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/widgets/circle_action_buttons/circle_action_button.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_freeze.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_hide_details.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_settings.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_show_details.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_terminate.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -59,33 +57,27 @@ class SimpleCardActionButtons extends StatelessObserverWidget {
               const SizedBox(
                 width: 75,
               ),
-            ]
-            else ...[
-              CircleActionAddCash(
+            ] else ...[
+              CircleActionButton(
+                text: intl.wallet_add_cash,
+                type: CircleButtonType.addCash,
                 onTap: () {
                   onAddCash?.call();
                 },
-                isDisabled: !isAddCashAvailable,
               ),
-              if (isDetailsShown)
-                CircleActionHideDetails(
-                  onTap: () {
-                    onShowDetails?.call();
-                  },
-                )
-              else
-                CircleActionShowDetails(
-                  onTap: () {
-                    onShowDetails?.call();
-                  },
-                ),
-              CircleActionFreeze(
-                isFrozen: isFrozen,
-                onTap: () {
-                  onFreeze?.call();
-                },
+              CircleActionButton(
+                text: intl.wallet_withdraw,
+                type: CircleButtonType.withdraw,
+                onTap: () {},
               ),
-              CircleActionSettings(
+              CircleActionButton(
+                text: 'Exchange',
+                type: CircleButtonType.exchange,
+                onTap: () {},
+              ),
+              CircleActionButton(
+                text: 'Settings',
+                type: CircleButtonType.settings,
                 onTap: () {
                   onSettings?.call();
                 },

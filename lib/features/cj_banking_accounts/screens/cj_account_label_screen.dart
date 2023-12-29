@@ -2,9 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
@@ -99,8 +97,7 @@ class _CJAccountLabelScreenState extends State<CJAccountLabelScreen> {
 
                               if (resp.hasError) {
                                 sNotification.showError(
-                                  resp?.error?.cause ?? '',
-                                  duration: 4,
+                                  resp.error?.cause ?? '',
                                   id: 1,
                                   needFeedback: true,
                                 );

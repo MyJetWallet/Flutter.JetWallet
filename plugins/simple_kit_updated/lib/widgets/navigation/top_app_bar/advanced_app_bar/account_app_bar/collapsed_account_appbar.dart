@@ -19,6 +19,7 @@ class CollapsedAccountAppbar extends HookWidget {
     this.showTicker = true,
     this.ticker,
     this.assetIcon,
+    this.hasRightIcon = true,
     this.onRightIconTap,
   }) : super(key: key);
 
@@ -38,6 +39,7 @@ class CollapsedAccountAppbar extends HookWidget {
   final String mainHeaderCollapsedTitle;
   final String? mainHeaderCollapsedSubtitle;
 
+  final bool hasRightIcon; 
   final VoidCallback? onRightIconTap;
 
   @override
@@ -74,7 +76,7 @@ class CollapsedAccountAppbar extends HookWidget {
         showTicker: showTicker,
         ticker: ticker,
         assetIcon: assetIcon,
-        hasRightIcon: true,
+        hasRightIcon: hasRightIcon,
         rightIcon: Assets.svg.medium.edit.simpleSvg(),
         onRightIconTap: onRightIconTap,
       ),
@@ -83,7 +85,7 @@ class CollapsedAccountAppbar extends HookWidget {
         child: GlobalBasicAppBar(
           title: mainHeaderCollapsedTitle,
           subtitle: mainHeaderCollapsedSubtitle,
-          hasRightIcon: true,
+          hasRightIcon: hasRightIcon,
           rightIcon: Assets.svg.medium.edit.simpleSvg(),
           onRightIconTap: onRightIconTap,
         ),

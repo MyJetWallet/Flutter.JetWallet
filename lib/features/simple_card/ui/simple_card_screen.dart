@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_route/annotations.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -168,7 +170,28 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                           simpleCardStore.setFrozen(!simpleCardStore.isFrozen);
                         },
                         onSettings: () {
-                          showCardSettings(context);
+                          showCardSettings(
+                            context: context,
+                            onChangeLableTap: () {
+                              sRouter
+                                  .push(
+                                CJAccountLabelRouter(
+                                  initLabel: simpleCardStore.cardFull?.label ?? '',
+                                  accountId: simpleCardStore.cardFull?.cardId ?? '',
+                                ),
+                              )
+                                  .then((value) {
+                                sRouter.pop();
+                                if (value is String) {
+                                  try {
+                                    simpleCardStore.localUpdateCardLable(value);
+                                  } catch (e) {
+                                    log(e.toString());
+                                  }
+                                }
+                              });
+                            },
+                          );
                         },
                         onTerminate: () {
                           simpleCardStore.terminateCard();
@@ -229,7 +252,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                   color: colors.white,
                   child: SPaddingH24(
                     child: SSmallHeader(
-                      title: 'Simple ${intl.simple_card_card}',
+                      title: simpleCardStore.cardFull?.label ?? 'Simple card',
                       subTitle: intl.simple_card_type_virtual,
                       titleStyle: sTextH5Style.copyWith(
                         color: sKit.colors.black,

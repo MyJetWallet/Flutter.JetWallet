@@ -290,12 +290,6 @@ abstract class _SimpleCardStoreBase with Store {
 
         Navigator.pop(context!);
       } else {
-        void _afterVerification() {
-          Navigator.pop(context!);
-
-          sNotification.showError(intl.simple_card_password_working, isError: false);
-        }
-
         if (response.data!.simpleKycRequired != null && response.data!.simpleKycRequired!) {
           Navigator.pop(context!);
           showWalletVerifyAccount(
@@ -332,6 +326,12 @@ abstract class _SimpleCardStoreBase with Store {
 
       loader.finishLoading();
     }
+  }
+
+  void _afterVerification() {
+    final context = getIt.get<AppRouter>().navigatorKey.currentContext;
+    Navigator.pop(context!);
+    sNotification.showError(intl.simple_card_password_working, isError: false);
   }
 
   @action
@@ -601,6 +601,12 @@ abstract class _SimpleCardStoreBase with Store {
           );
         },
       ),
+    );
+  }
+
+  void localUpdateCardLable(String newLabel) {
+    cardFull = cardFull?.copyWith(
+      label: newLabel,
     );
   }
 }
