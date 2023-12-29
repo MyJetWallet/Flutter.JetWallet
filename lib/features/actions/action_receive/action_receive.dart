@@ -7,7 +7,6 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/actions/helpers/show_currency_search.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
-import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
@@ -18,7 +17,6 @@ import 'package:simple_networking/modules/signal_r/models/client_detail_model.da
 
 import '../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../utils/models/currency_model.dart';
-import '../../app/store/app_store.dart';
 import '../../kyc/kyc_service.dart';
 import '../../kyc/models/kyc_operation_status_model.dart';
 
@@ -39,9 +37,7 @@ void showReceiveAction(BuildContext context) {
   } else if (!isReceiveMethodsAvailable) {
     sNotification.showError(
       intl.operation_bloked_text,
-      duration: 4,
       id: 1,
-      hideIcon: true,
     );
   } else {
     handler.handle(
@@ -172,64 +168,29 @@ class _ActionReceive extends StatelessObserverWidget {
           ),
           const SDivider(),
         ],
-        if (state.showCrypto) ...[
-          Column(
-            children: [
-              for (final currency in state.fCurrencies)
-                if (currency.type == AssetType.crypto)
-                  if (currency.supportsCryptoDeposit)
-                    SWalletItem(
-                      icon: SNetworkSvg24(
-                        url: currency.iconUrl,
-                      ),
-                      primaryText: currency.description,
-                      secondaryText: currency.symbol,
-                      removeDivider: currency == currencyFiltered.last,
-                      onTap: () {
-                        getIt.get<AppRouter>().push(
-                              CryptoDepositRouter(
-                                header: intl.actionReceive_receive,
-                                currency: currency,
-                              ),
-                            );
-                      },
+        Column(
+          children: [
+            for (final currency in state.fCurrencies)
+              if (currency.type == AssetType.crypto)
+                if (currency.supportsCryptoDeposit)
+                  SWalletItem(
+                    icon: SNetworkSvg24(
+                      url: currency.iconUrl,
                     ),
-            ],
-          ),
-        ] else ...[
-          Column(
-            children: [
-              for (final currency in state.fCurrencies)
-                if (currency.type == AssetType.fiat)
-                  if (currency.supportsIbanDeposit)
-                    SWalletItem(
-                      icon: SNetworkSvg24(
-                        url: currency.iconUrl,
-                      ),
-                      primaryText: currency.description,
-                      secondaryText: currency.symbol,
-                      removeDivider: currency ==
-                          state.fCurrencies
-                              .where(
-                                (element) => element.type == AssetType.fiat && element.supportsIbanDeposit,
-                              )
-                              .last,
-                      onTap: () {
-                        sRouter.popUntilRoot();
-                        getIt<AppStore>().setHomeTab(2);
-                        if (getIt<AppStore>().tabsRouter != null) {
-                          getIt<AppStore>().tabsRouter!.setActiveIndex(2);
-                        }
-
-                        if (getIt<IbanStore>().ibanTabController != null) {
-                          getIt<IbanStore>().ibanTabController!.animateTo(0);
-                        }
-                      },
-                    ),
-              const SpaceH42(),
-            ],
-          ),
-        ],
+                    primaryText: currency.description,
+                    secondaryText: currency.symbol,
+                    removeDivider: currency == currencyFiltered.last,
+                    onTap: () {
+                      getIt.get<AppRouter>().push(
+                            CryptoDepositRouter(
+                              header: intl.actionReceive_receive,
+                              currency: currency,
+                            ),
+                          );
+                    },
+                  ),
+          ],
+        ),
         const SpaceH42(),
       ],
     );
