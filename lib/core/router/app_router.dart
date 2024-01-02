@@ -89,6 +89,7 @@ import 'package:jetwallet/features/rewards_flow/ui/rewards_flow_screen.dart';
 import 'package:jetwallet/features/sell_flow/screens/sell_confrimation_screen.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/features/set_phone_number/ui/set_phone_number.dart';
+import 'package:jetwallet/features/simple_card/ui/simple_card_label_screen.dart';
 import 'package:jetwallet/features/simple_card/ui/simple_card_limits_screen.dart';
 import 'package:jetwallet/features/simple_card/ui/simple_card_screen.dart';
 import 'package:jetwallet/features/sms_autheticator/sms_authenticator.dart';
@@ -606,6 +607,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/simple_card_limits',
       page: SimpleCardLimitsRouter.page,
+    ),
+    AutoRoute(
+      path: '/simple_card_label',
+      page: SimpleCardLabelRouter.page,
     ),
   ];
 }

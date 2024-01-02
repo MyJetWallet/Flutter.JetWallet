@@ -608,5 +608,14 @@ abstract class _SimpleCardStoreBase with Store {
     cardFull = cardFull?.copyWith(
       label: newLabel,
     );
+
+    final newCards = allCards?.map((e) {
+      return e.cardId == cardFull?.cardId
+          ? e.copyWith(
+              label: newLabel,
+            )
+          : e;
+    }).toList();
+    allCards = newCards;
   }
 }

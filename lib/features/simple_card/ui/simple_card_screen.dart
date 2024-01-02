@@ -175,7 +175,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                             onChangeLableTap: () {
                               sRouter
                                   .push(
-                                CJAccountLabelRouter(
+                                SimpleCardLabelRouter(
                                   initLabel: simpleCardStore.cardFull?.label ?? '',
                                   accountId: simpleCardStore.cardFull?.cardId ?? '',
                                 ),
