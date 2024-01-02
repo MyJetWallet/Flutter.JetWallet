@@ -191,6 +191,9 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                                 }
                               });
                             },
+                            onFreezeTap: () {
+                              simpleCardStore.setFrozen(!simpleCardStore.isFrozen);
+                            },
                           );
                         },
                         onTerminate: () {

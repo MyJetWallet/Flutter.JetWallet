@@ -71,12 +71,12 @@ class SimpleCardActionButtons extends StatelessObserverWidget {
                 onTap: () {},
               ),
               CircleActionButton(
-                text: 'Exchange',
+                text: intl.simple_card_actions_exchange,
                 type: CircleButtonType.exchange,
                 onTap: () {},
               ),
               CircleActionButton(
-                text: 'Settings',
+                text: intl.simple_card_actions_settings,
                 type: CircleButtonType.settings,
                 onTap: () {
                   onSettings?.call();

@@ -122,18 +122,14 @@ class ActionsAccountRowWidget extends StatelessWidget {
                 },
               ),
               CircleActionButton(
-                text: 'Exchange',
+                text: intl.account_actions_exchange,
                 type: CircleButtonType.exchange,
                 onTap: () {
-                  sNotification.showError(
-                    'There is nothing we can do..',
-                    id: 1,
-                    needFeedback: true,
-                  );
+                  //TODO (yaroslav): add rout to Exchange screen
                 },
               ),
               CircleActionButton(
-                text: 'Settings',
+                text: intl.account_actions_settings,
                 type: CircleButtonType.settings,
                 onTap: () {
                   showAccountSettings(

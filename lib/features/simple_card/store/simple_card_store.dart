@@ -175,6 +175,7 @@ abstract class _SimpleCardStoreBase with Store {
   Future<void> setFrozen(bool value) async {
     if (value) {
       final context = getIt.get<AppRouter>().navigatorKey.currentContext;
+      Navigator.pop(sRouter.navigatorKey.currentContext!);
       await sShowAlertPopup(
         context!,
         primaryText: intl.simple_card_froze_this_card,

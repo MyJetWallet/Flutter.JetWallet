@@ -39,7 +39,7 @@ class _CardSettings extends StatelessObserverWidget {
           icon: Assets.svg.medium.document.simpleSvg(
             color: colors.blue,
           ),
-          name: 'Account requisites',
+          name: intl.account_settings_account_requisites,
           onTap: () {},
           hideDescription: true,
         ),
@@ -47,7 +47,7 @@ class _CardSettings extends StatelessObserverWidget {
           icon: Assets.svg.medium.edit.simpleSvg(
             color: colors.blue,
           ),
-          name: 'Change label',
+          name: intl.account_settings_change_label,
           onTap: onChangeLableTap,
           hideDescription: true,
         ),

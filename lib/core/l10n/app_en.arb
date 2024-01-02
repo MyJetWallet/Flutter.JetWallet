@@ -1548,5 +1548,13 @@
     "profile_kyc_bloked_alert": "Your account has been suspended. Please contact support for more info.",
     "send_gift_small_title": "Send gift",
     "send": "Send",
-    "paste": "Paste"
+    "paste": "Paste",
+    "account_actions_exchange": "Exchange",
+    "account_actions_settings": "Settings",
+    "account_settings_account_requisites": "Account requisites",
+    "account_settings_change_label": "Change label",
+    "simple_card_settings_change_label": "Change label",
+    "simple_card_settings_freeze_card": "Freeze card",
+    "simple_card_actions_exchange": "Exchange",
+    "simple_card_actions_settings": "Settings"
 }

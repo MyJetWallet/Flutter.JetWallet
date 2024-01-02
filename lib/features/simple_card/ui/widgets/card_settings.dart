@@ -15,6 +15,7 @@ import 'card_option.dart';
 void showCardSettings({
   required BuildContext context,
   required void Function() onChangeLableTap,
+  required void Function() onFreezeTap,
 }) {
   sShowBasicModalBottomSheet(
     context: context,
@@ -25,6 +26,7 @@ void showCardSettings({
     children: [
       _CardSettings(
         onChangeLableTap: onChangeLableTap,
+        onFreezeTap: onFreezeTap,
       ),
     ],
   );
@@ -33,9 +35,11 @@ void showCardSettings({
 class _CardSettings extends StatelessObserverWidget {
   const _CardSettings({
     required this.onChangeLableTap,
+    required this.onFreezeTap,
   });
 
   final void Function() onChangeLableTap;
+  final void Function() onFreezeTap;
 
   @override
   Widget build(BuildContext context) {
@@ -114,8 +118,16 @@ class _CardSettings extends StatelessObserverWidget {
           icon: Assets.svg.medium.edit.simpleSvg(
             color: colors.blue,
           ),
-          name: 'Change label',
+          name: intl.simple_card_settings_change_label,
           onTap: onChangeLableTap,
+          hideDescription: true,
+        ),
+        CardOption(
+          icon: Assets.svg.medium.freeze.simpleSvg(
+            color: colors.blue,
+          ),
+          name: intl.simple_card_settings_freeze_card,
+          onTap: onFreezeTap,
           hideDescription: true,
         ),
         CardOption(
