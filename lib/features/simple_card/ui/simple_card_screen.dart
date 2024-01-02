@@ -14,6 +14,7 @@ import 'package:jetwallet/features/simple_card/ui/widgets/simple_card_circle_act
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/router/app_router.dart';
@@ -173,21 +174,35 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                           showCardSettings(
                             context: context,
                             onChangeLableTap: () {
+                              final catdId = simpleCardStore.cardFull?.cardId ?? '';
+                              sAnalytics.tapOnTheEditVirtualCardLabelButton(
+                                cardID: catdId,
+                              );
+                              sAnalytics.editVirtualCardLabelScreenView(
+                                cardID: catdId,
+                              );
                               sRouter
                                   .push(
                                 SimpleCardLabelRouter(
                                   initLabel: simpleCardStore.cardFull?.label ?? '',
-                                  accountId: simpleCardStore.cardFull?.cardId ?? '',
+                                  accountId: catdId,
                                 ),
                               )
                                   .then((value) {
                                 sRouter.pop();
                                 if (value is String) {
                                   try {
+                                    sAnalytics.tapOnTheSaveChangesFromEditVirtualCardLabelButton(
+                                      cardID: catdId,
+                                    );
                                     simpleCardStore.localUpdateCardLable(value);
                                   } catch (e) {
                                     log(e.toString());
                                   }
+                                } else {
+                                  sAnalytics.tapOnTheBackFromEditVirtualCardLabelButton(
+                                    cardID: catdId,
+                                  );
                                 }
                               });
                             },

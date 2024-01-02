@@ -1142,8 +1142,6 @@ class SimpleAnalytics {
     );
   }
 
-  
-
   void sendGiftAmountScreenView({
     required String giftSubmethod,
     required String asset,
@@ -5141,6 +5139,63 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '492',
+      },
+    );
+  }
+
+  // Edit Simple card lable
+  void tapOnTheEditVirtualCardLabelButton({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheEditVirtualCardLabelButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '484',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+
+  void editVirtualCardLabelScreenView({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.editVirtualCardLabelScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '485',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+
+  void tapOnTheBackFromEditVirtualCardLabelButton({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheBackFromEditVirtualCardLabelButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '486',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+
+  void tapOnTheSaveChangesFromEditVirtualCardLabelButton({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheSaveChangesFromEditVirtualCardLabelButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '487',
+        PropertyType.cardID: cardID,
       },
     );
   }
