@@ -101,8 +101,20 @@ class IbanSendDetails extends StatelessObserverWidget {
           const SpaceH18(),
           TransactionDetailsItem(
             text: intl.iban_send_history_benificiary,
-            value: TransactionDetailsValueText(
-              text: '${userInfo.firstName} ${userInfo.lastName}',
+            fromStart: true,
+            value: Flexible(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  const SpaceW8(),
+                  Flexible(
+                    child: TransactionDetailsValueText(
+                      text: transactionListItem.ibanWithdrawalInfo?.beneficiaryName ??
+                          '${userInfo.firstName} ${userInfo.lastName}',
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           const SpaceH18(),

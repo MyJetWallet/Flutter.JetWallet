@@ -57,23 +57,7 @@ class SNewActionPriceField extends StatelessWidget {
                               selectionHandleColor: Colors.transparent,
                             ),
                           ),
-                          child: SelectableText.rich(
-                            maxLines: 1,
-                            TextSpan(
-                              text: primaryAmount,
-                              style: sTextH0Style.copyWith(
-                                color: primaryAmount == '0' ? colors.grey3 : colors.black,
-                                height: 0.8,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: ' $primarySymbol',
-                                  style: sTextH2Style.copyWith(
-                                    color: primaryAmount == '0' ? colors.grey3 : colors.black,
-                                  ),
-                                ),
-                              ],
-                            ),
+                          child: SelectionArea(
                             contextMenuBuilder: (context, editableTextState) {
                               final List<ContextMenuButtonItem> buttonItems = [];
                               buttonItems.insert(
@@ -92,6 +76,24 @@ class SNewActionPriceField extends StatelessWidget {
                                 buttonItems: buttonItems,
                               );
                             },
+                            child: AutoSizeText.rich(
+                              maxLines: 1,
+                              TextSpan(
+                                text: primaryAmount,
+                                style: sTextH0Style.copyWith(
+                                  color: primaryAmount == '0' ? colors.grey3 : colors.black,
+                                  height: 0.8,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: ' $primarySymbol',
+                                    style: sTextH2Style.copyWith(
+                                      color: primaryAmount == '0' ? colors.grey3 : colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         )
                       else
@@ -103,12 +105,7 @@ class SNewActionPriceField extends StatelessWidget {
                               selectionHandleColor: Colors.transparent,
                             ),
                           ),
-                          child: SelectableText(
-                            '$primaryAmount $primarySymbol',
-                            maxLines: 1,
-                            style: sTextH3Style.copyWith(
-                              color: primaryAmount == '0' ? colors.grey3 : colors.black,
-                            ),
+                          child: SelectionArea(
                             contextMenuBuilder: (context, editableTextState) {
                               final List<ContextMenuButtonItem> buttonItems = [];
                               buttonItems.insert(
@@ -127,6 +124,13 @@ class SNewActionPriceField extends StatelessWidget {
                                 buttonItems: buttonItems,
                               );
                             },
+                            child: AutoSizeText(
+                              '$primaryAmount $primarySymbol',
+                              maxLines: 1,
+                              style: sTextH3Style.copyWith(
+                                color: primaryAmount == '0' ? colors.grey3 : colors.black,
+                              ),
+                            ),
                           ),
                         ),
                       const SpaceH4(),

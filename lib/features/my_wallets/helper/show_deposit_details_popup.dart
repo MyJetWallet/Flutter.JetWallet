@@ -269,6 +269,12 @@ void showAccountDepositSelector(
           sSignalRModules.bankingProfileData?.simple?.account != null
       : sSignalRModules.sellMethods.any((element) => element.id == SellMethodsId.ibanSell);
 
+  final kycState = getIt.get<KycService>();
+
+  final tradeStatus = kycState.tradeStatus == kycOperationStatus(KycStatus.allowed);
+  final isTradeBlocker =
+      sSignalRModules.clientDetail.clientBlockers.any((element) => element.blockingType == BlockingType.trade);
+
   sShowBasicModalBottomSheet(
     context: context,
     pinned: SBottomSheetHeader(
@@ -303,29 +309,31 @@ void showAccountDepositSelector(
           );
         },
       ),
-      if (currencyFiltered.isNotEmpty && isAccountAvaible) ...[
-        SActionItem(
-          icon: const BlueBankIconDeprecated(
-            size: 20,
+      if (tradeStatus && !isTradeBlocker) ...[
+        if (currencyFiltered.isNotEmpty && isAccountAvaible) ...[
+          SActionItem(
+            icon: const BlueBankIconDeprecated(
+              size: 20,
+            ),
+            name: intl.market_crypto,
+            description: intl.internal_exchange,
+            onTap: () {
+              Navigator.pop(context);
+              showAccountDetailsFromSelector(
+                context,
+                () {
+                  sAnalytics.eurWalletTapCloseOnDeposirSheet(
+                    isCJ: isCJAccount,
+                    eurAccountLabel: bankingAccount.label ?? 'Account',
+                    isHasTransaction: true,
+                  );
+                },
+                isCJAccount,
+                bankingAccount,
+              );
+            },
           ),
-          name: intl.market_crypto,
-          description: intl.internal_exchange,
-          onTap: () {
-            Navigator.pop(context);
-            showAccountDetailsFromSelector(
-              context,
-              () {
-                sAnalytics.eurWalletTapCloseOnDeposirSheet(
-                  isCJ: isCJAccount,
-                  eurAccountLabel: bankingAccount.label ?? 'Account',
-                  isHasTransaction: true,
-                );
-              },
-              isCJAccount,
-              bankingAccount,
-            );
-          },
-        ),
+        ],
       ],
       const SpaceH42(),
     ],
