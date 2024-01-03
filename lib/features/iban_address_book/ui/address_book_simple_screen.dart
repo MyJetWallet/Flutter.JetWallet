@@ -228,8 +228,6 @@ class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
                             active: IbanAddressBookStore.of(context).isButtonActive,
                             name: intl.create_continue,
                             onTap: () async {
-                              sAnalytics.tapOnTheButtonAddAccount();
-
                               final result = await IbanAddressBookStore.of(context).addAccount();
 
                               sAnalytics.eurWithdrawTapContinueAddReceiving(

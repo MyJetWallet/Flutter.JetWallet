@@ -1479,5 +1479,74 @@
     "buy_confirm_with_unlimit_1_part": "By continuing you confirm sending funds of",
     "buy_confirm_with_unlimit_2_part": "from your bank account at Unlimit to the bank account",
     "buy_confirm_with_unlimit_3_part": "on the name of",
-    "iban_deposit_text": "Local EUR deposits"
+    "iban_deposit_text": "Local EUR deposits",
+    "validReferralCode_delete": "Delete",
+    "@validReferralCode_delete": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/Hsjxx7YVuMO0M1GtbasGuJFP.png",
+        "type": "text"
+    },
+    "invalidReferralCode_invalidReferralCode": "Invalid referral code",
+    "@invalidReferralCode_invalidReferralCode": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/BiGDnvm1U7Gcwz9r4u4GuWAT.png",
+        "type": "text"
+    },
+    "checkingReferralCode_checking": "Checking...",
+    "@checkingReferralCode_checking": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/mG2HQVWlUh64Dt97gn0RarvI.png",
+        "type": "text"
+    },
+    "referralCode_have_a_referral_code": "Have a referral code?",
+    "@referralCode_have_a_referral_code": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/ogvtwNLRj6YkyE10zcom5ggL.png",
+        "type": "text"
+    },
+    "referralCode_add": "Add",
+    "@referralCode_add": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/u3mViN51thOmGmeXBBjg98qb.png",
+        "type": "text"
+    },
+    "showReferralCode_enterReferralCode": "Enter referral code",
+    "@showReferralCode_enterReferralCode": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/FKC2L3DlnBZh9Kv0wPvf4wyC.png",
+        "type": "text"
+    },
+    "showReferralCode_referralCode": "Referral code",
+    "@showReferralCode_referralCode": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/FKC2L3DlnBZh9Kv0wPvf4wyC.png",
+        "type": "text"
+    },
+    "showReferralCode_pasteReferralCode": "Paste referral code or click on the link that a friend gave you.",
+    "@showReferralCode_pasteReferralCode": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/FKC2L3DlnBZh9Kv0wPvf4wyC.png",
+        "type": "text"
+    },
+    "onboarding_title_1": "Finance\nis Simple",
+    "onboarding_title_2": "Crypto\nis Simple",
+    "onboarding_title_3": "Sending\nmoney Globally",
+    "onboarding_descriction_1": "Gain seamless control over your personal finances and crypto portfolio",
+    "onboarding_descriction_2": "Ease your crypto transactions for smooth buying and exchanging",
+    "onboarding_descriction_3": "Effortlessly transfer funds worldwide with speed and security",
+    "simple_card_terminate_card": "Terminate card",
+    "simple_card_terminate_only_available_alert": "Only available when card has zero balance",
+    "simple_card_terminate_got_it": "Got it",
+    "simple_card_terminate_terminate_card_question": "Terminate card?",
+    "simple_card_terminate_terminate_warning_1": "We will terminate card",
+    "simple_card_terminate_terminate_warning_2": "immediately. After termination all further transactions will be declined. Card termination cannot be reverted.",
+    "simple_card_terminate_confirm": "Confirm",
+    "simple_card_terminate_cancel": "Cancel",
+    "simple_card_terminate_success_1": "The card",
+    "simple_card_terminate_success_2": " has been terminated",
+    "simple_card_limits_daily_limits": "Daily limits",
+    "simple_card_limits_monthly_limits": "Monthly limits",
+    "simple_card_limits_monthly_spending": "Spending",
+    "simple_card_limits_monthly_atm_withdrawals": "ATM withdrawals",
+    "external_transfer": "External transfer",
+    "internal_exchange": "Internal exchange",
+    "deposit_by": "Deposit by",
+    "methods": "Methods",
+    "add_cash_from": "Add cash from",
+    "profile_kyc_bloked_alert": "Your account has been suspended. Please contact support for more info.",
+    "send_gift_small_title": "Send gift",
+    "send": "Send",
+    "paste": "Paste"
 }

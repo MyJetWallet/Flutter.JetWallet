@@ -1,6 +1,4 @@
-import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:simple_networking/helpers/decimal_serialiser.dart';
 
 part 'simple_card_sensitive_request.freezed.dart';
 part 'simple_card_sensitive_request.g.dart';

@@ -13,8 +13,7 @@ class SimpleCardCreateResponse with _$SimpleCardCreateResponse {
     final SimpleCardModel? card,
   }) = _SimpleCardCreateResponse;
 
-  factory SimpleCardCreateResponse.fromJson(Map<String, dynamic> json) =>
-      _$SimpleCardCreateResponseFromJson(json);
+  factory SimpleCardCreateResponse.fromJson(Map<String, dynamic> json) => _$SimpleCardCreateResponseFromJson(json);
 }
 
 @freezed
@@ -26,21 +25,52 @@ class SimpleCardModel with _$SimpleCardModel {
     final String? cardType,
     final String? currency,
     final String? nameOnCard,
-    final AccountStatusCard? status,
+    @AccountStatusCardSerialiser() AccountStatusCard? status,
     @DecimalSerialiser() Decimal? balance,
   }) = _SimpleCardModel;
 
-  factory SimpleCardModel.fromJson(Map<String, dynamic> json) =>
-      _$SimpleCardModelFromJson(json);
+  factory SimpleCardModel.fromJson(Map<String, dynamic> json) => _$SimpleCardModelFromJson(json);
 }
 
-enum AccountStatusCard {
-  @JsonValue(0)
-  inCreation,
-  @JsonValue(1)
-  active,
-  @JsonValue(2)
-  frozen,
-  @JsonValue(3)
-  inactive,
+enum AccountStatusCard { inCreation, active, frozen, inactive, unsupported }
+
+extension _AccountStatusCardExtension on AccountStatusCard {
+  String get name {
+    switch (this) {
+      case AccountStatusCard.inCreation:
+        return 'inCreation';
+      case AccountStatusCard.active:
+        return 'active';
+      case AccountStatusCard.frozen:
+        return 'frozen';
+      case AccountStatusCard.inactive:
+        return 'inactive';
+      default:
+        return 'Unsupported';
+    }
+  }
+}
+
+class AccountStatusCardSerialiser implements JsonConverter<AccountStatusCard, dynamic> {
+  const AccountStatusCardSerialiser();
+
+  @override
+  AccountStatusCard fromJson(dynamic json) {
+    final value = json.toString();
+
+    if (value == '0') {
+      return AccountStatusCard.inCreation;
+    } else if (value == '1') {
+      return AccountStatusCard.active;
+    } else if (value == '2') {
+      return AccountStatusCard.frozen;
+    } else if (value == '3') {
+      return AccountStatusCard.inactive;
+    } else {
+      return AccountStatusCard.unsupported;
+    }
+  }
+
+  @override
+  dynamic toJson(AccountStatusCard type) => type.name;
 }

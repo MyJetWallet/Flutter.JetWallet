@@ -22,7 +22,6 @@ import 'package:jetwallet/features/auth/biometric/ui/components/allow_biometric.
 import 'package:jetwallet/features/auth/email_verification/ui/email_verification_screen.dart';
 import 'package:jetwallet/features/auth/onboarding/ui/onboarding_screen.dart';
 import 'package:jetwallet/features/auth/single_sign_in/ui/sing_in.dart';
-import 'package:jetwallet/features/auth/splash/splash_screen.dart';
 import 'package:jetwallet/features/auth/user_data/ui/user_data_screen.dart';
 import 'package:jetwallet/features/auth/verification_reg/verification_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
@@ -90,6 +89,7 @@ import 'package:jetwallet/features/rewards_flow/ui/rewards_flow_screen.dart';
 import 'package:jetwallet/features/sell_flow/screens/sell_confrimation_screen.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/features/set_phone_number/ui/set_phone_number.dart';
+import 'package:jetwallet/features/simple_card/ui/simple_card_limits_screen.dart';
 import 'package:jetwallet/features/simple_card/ui/simple_card_screen.dart';
 import 'package:jetwallet/features/sms_autheticator/sms_authenticator.dart';
 import 'package:jetwallet/features/transaction_history/ui/transaction_hisotry_screen.dart';
@@ -128,7 +128,7 @@ import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 
-import '../../features/auth/splash/splash_screen_no_animation.dart';
+import '../../features/auth/splash/splash_screen.dart';
 import '../../features/currency_buy/models/preview_buy_with_bank_card_input.dart';
 import '../../features/currency_buy/models/preview_buy_with_circle_input.dart';
 import '../../features/currency_buy/ui/screens/choose_asset_screen.dart';
@@ -162,18 +162,9 @@ class AppRouter extends _$AppRouter {
 
   @override
   final List<AutoRoute> routes = [
-    /*AutoRoute(
-      path: '/',
-      page: AppInitRoute.page,
-    ),
-    */
     AutoRoute(
       path: '/',
       page: SplashRoute.page,
-    ),
-    AutoRoute(
-      path: '/splash',
-      page: SplashNoAnimationRoute.page,
     ),
     AutoRoute(
       path: '/splash_screen',
@@ -611,6 +602,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/scanner_screen',
       page: ScannerRoute.page,
+    ),
+    AutoRoute(
+      path: '/simple_card_limits',
+      page: SimpleCardLimitsRouter.page,
     ),
   ];
 }

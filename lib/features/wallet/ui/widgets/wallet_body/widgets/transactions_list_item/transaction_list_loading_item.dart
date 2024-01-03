@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:simple_kit/modules/icons/24x24/light/star/simple_light_star_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
 
 class TransactionListLoadingItem extends StatelessWidget {
   const TransactionListLoadingItem({
     super.key,
     required this.opacity,
     this.removeDivider = false,
+    this.fromMarket = false,
   });
 
   final bool removeDivider;
   final double opacity;
+  final bool fromMarket;
 
   @override
   Widget build(BuildContext context) {
@@ -21,42 +25,55 @@ class TransactionListLoadingItem extends StatelessWidget {
           child: Column(
             children: [
               const SpaceH18(),
-              const Row(
+              Row(
                 children: [
-                  SpaceW2(),
-                  SSkeletonTextLoader(
+                  const SpaceW2(),
+                  const SSkeletonTextLoader(
                     height: 16,
                     width: 16,
                   ),
-                  SpaceW12(),
-                  SSkeletonTextLoader(
+                  const SpaceW12(),
+                  const SSkeletonTextLoader(
                     height: 16,
                     width: 80,
                   ),
-                  Spacer(),
-                  SSkeletonTextLoader(
+                  const Spacer(),
+                  const SSkeletonTextLoader(
                     height: 16,
                     width: 80,
                   ),
+                  if (fromMarket) ...[
+                    const SpaceW8(),
+                    Opacity(
+                      opacity: fromMarket ? 1 : 0,
+                      child: const SimpleFullLightStarIcon(),
+                    ),
+                  ],
                 ],
               ),
               const SpaceH12(),
-              const Row(
+              Row(
                 children: [
-                  SpaceW30(),
-                  SSkeletonTextLoader(
+                  const SpaceW30(),
+                  const SSkeletonTextLoader(
                     height: 10,
-                    width: 109,
+                    width: 32,
                   ),
-                  Spacer(),
-                  SSkeletonTextLoader(
+                  const Spacer(),
+                  const SSkeletonTextLoader(
                     height: 10,
                     width: 60,
                   ),
+                  if (fromMarket) ...[
+                    const SpaceW8(),
+                    const Opacity(
+                      opacity: 0,
+                      child: SimpleLightStarIcon(),
+                    ),
+                  ],
                 ],
               ),
               const Spacer(),
-              if (!removeDivider) const SDivider(),
             ],
           ),
         ),

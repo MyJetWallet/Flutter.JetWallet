@@ -95,12 +95,21 @@ abstract class _GeftSendAmountStoreBase with Store {
     _calculateBaseConversion();
   }
 
+  @action
   void updateAmount(String value) {
     withAmount = responseOnInputAction(
       oldInput: withAmount,
       newInput: value,
       accuracy: selectedCurrency.accuracy,
     );
+
+    _validateAmount();
+    _calculateBaseConversion();
+  }
+
+  @action
+  void pasteAmount(String value) {
+    withAmount = value;
 
     _validateAmount();
     _calculateBaseConversion();

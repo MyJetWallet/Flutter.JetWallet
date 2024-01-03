@@ -15,6 +15,8 @@ class SNewActionPriceField extends StatelessWidget {
     this.errorText,
     this.optionText,
     this.optionOnTap,
+    required this.pasteLabel,
+    required this.onPaste,
   }) : super(key: key);
 
   final String primaryAmount;
@@ -26,6 +28,8 @@ class SNewActionPriceField extends StatelessWidget {
   final SWidgetSize widgetSize;
   final String? optionText;
   final Function()? optionOnTap;
+  final String pasteLabel;
+  final VoidCallback onPaste;
 
   @override
   Widget build(BuildContext context) {
@@ -45,32 +49,88 @@ class SNewActionPriceField extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (primaryAmount.length <= 6)
-                        AutoSizeText.rich(
-                          maxLines: 1,
-                          minFontSize: 1,
-                          TextSpan(
-                            text: primaryAmount,
-                            style: sTextH0Style.copyWith(
-                              color: primaryAmount == '0' ? colors.grey3 : colors.black,
-                              height: 0.8,
+                        Theme(
+                          data: ThemeData(
+                            textSelectionTheme: const TextSelectionThemeData(
+                              cursorColor: Colors.transparent,
+                              selectionColor: Colors.transparent,
+                              selectionHandleColor: Colors.transparent,
                             ),
-                            children: [
-                              TextSpan(
-                                text: ' $primarySymbol',
-                                style: sTextH2Style.copyWith(
-                                  color: primaryAmount == '0' ? colors.grey3 : colors.black,
+                          ),
+                          child: SelectionArea(
+                            contextMenuBuilder: (context, editableTextState) {
+                              final List<ContextMenuButtonItem> buttonItems = [];
+                              buttonItems.insert(
+                                0,
+                                ContextMenuButtonItem(
+                                  label: pasteLabel,
+                                  onPressed: () {
+                                    ContextMenuController.removeAny();
+                                    onPaste!();
+                                  },
                                 ),
+                              );
+
+                              return AdaptiveTextSelectionToolbar.buttonItems(
+                                anchors: editableTextState.contextMenuAnchors,
+                                buttonItems: buttonItems,
+                              );
+                            },
+                            child: AutoSizeText.rich(
+                              maxLines: 1,
+                              TextSpan(
+                                text: primaryAmount,
+                                style: sTextH0Style.copyWith(
+                                  color: primaryAmount == '0' ? colors.grey3 : colors.black,
+                                  height: 0.8,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: ' $primarySymbol',
+                                    style: sTextH2Style.copyWith(
+                                      color: primaryAmount == '0' ? colors.grey3 : colors.black,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
                         )
                       else
-                        AutoSizeText(
-                          '$primaryAmount $primarySymbol',
-                          minFontSize: 4.0,
-                          maxLines: 1,
-                          style: sTextH3Style.copyWith(
-                            color: primaryAmount == '0' ? colors.grey3 : colors.black,
+                        Theme(
+                          data: ThemeData(
+                            textSelectionTheme: const TextSelectionThemeData(
+                              cursorColor: Colors.transparent,
+                              selectionColor: Colors.transparent,
+                              selectionHandleColor: Colors.transparent,
+                            ),
+                          ),
+                          child: SelectionArea(
+                            contextMenuBuilder: (context, editableTextState) {
+                              final List<ContextMenuButtonItem> buttonItems = [];
+                              buttonItems.insert(
+                                0,
+                                ContextMenuButtonItem(
+                                  label: pasteLabel,
+                                  onPressed: () {
+                                    ContextMenuController.removeAny();
+                                    onPaste!();
+                                  },
+                                ),
+                              );
+
+                              return AdaptiveTextSelectionToolbar.buttonItems(
+                                anchors: editableTextState.contextMenuAnchors,
+                                buttonItems: buttonItems,
+                              );
+                            },
+                            child: AutoSizeText(
+                              '$primaryAmount $primarySymbol',
+                              maxLines: 1,
+                              style: sTextH3Style.copyWith(
+                                color: primaryAmount == '0' ? colors.grey3 : colors.black,
+                              ),
+                            ),
                           ),
                         ),
                       const SpaceH4(),

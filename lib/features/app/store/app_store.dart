@@ -297,7 +297,6 @@ abstract class _AppStoreBase with Store {
             },
             userDataVerification: () {
               if (lastRoute != 'userDataVerification') {
-                sAnalytics.signInFlowPersonalDetailsView();
                 getIt<AppRouter>().replaceAll([
                   const UserDataScreenRouter(),
                 ]);

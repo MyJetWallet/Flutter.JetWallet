@@ -3,19 +3,19 @@ import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/buttons/simple_icon_button.dart';
 import 'package:simple_kit/modules/icons/24x24/public/copy/simple_copy_icon.dart';
 import 'package:simple_kit/modules/icons/24x24/public/copy/simple_copy_pressed_icon.dart';
-import 'package:simple_kit/modules/shared/simple_skeleton_text_loader.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit/modules/texts/simple_text_styles.dart';
+import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
 
 class CardSensitiveData extends StatelessWidget {
   const CardSensitiveData({
-    Key? key,
+    super.key,
     required this.name,
     required this.value,
     required this.onTap,
     required this.loaderWidth,
     this.showCopy = true,
-  }) : super(key: key);
+  });
 
   final String name;
   final String value;
@@ -40,9 +40,10 @@ class CardSensitiveData extends StatelessWidget {
         Row(
           children: [
             if (value == '')
-              SSkeletonTextLoader(
+              SSkeletonLoader(
                 height: 18,
                 width: loaderWidth,
+                borderRadius: BorderRadius.circular(4),
               )
             else
               Text(

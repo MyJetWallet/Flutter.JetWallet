@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/auth/register/ui/widgets/referral_code/referral_code.dart';
 import 'package:jetwallet/features/auth/user_data/store/user_data_store.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/birth_date/show_birrth_date_picker.dart';
@@ -20,8 +21,23 @@ import '../../../../core/services/user_info/user_info_service.dart';
 import 'widgets/birth_date/store/selected_date_store.dart';
 
 @RoutePage(name: 'UserDataScreenRouter')
-class UserDataScreen extends StatelessWidget {
+class UserDataScreen extends StatefulWidget {
   const UserDataScreen({super.key});
+
+  @override
+  State<UserDataScreen> createState() => _UserDataScreenState();
+}
+
+class _UserDataScreenState extends State<UserDataScreen> {
+  @override
+  void initState() {
+    super.initState();
+    sNetwork.getWalletModule().getSessionInfo().then((value) {
+      final techAcc = value.data?.isTechClient ?? false;
+      sAnalytics.updateisTechAcc(techAcc: techAcc);
+      sAnalytics.signInFlowPersonalDetailsView();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,23 +102,20 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                               color: colors.white,
                               child: SPaddingH24(
                                 child: SStandardField(
-                                  controller: UserDataStore.of(context)
-                                      .firstNameController,
+                                  controller: UserDataStore.of(context).firstNameController,
                                   labelText: intl.user_data_first_name,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.deny(
                                       RegExp('[ ]'),
                                     ),
                                   ],
-                                  isError:
-                                      UserDataStore.of(context).firstNameError,
+                                  isError: UserDataStore.of(context).firstNameError,
                                   textCapitalization: TextCapitalization.words,
                                   onErase: () {
                                     UserDataStore.of(context).clearNameError();
                                   },
                                   onChanged: (val) {
-                                    UserDataStore.of(context)
-                                        .updateFirstName(val.trim());
+                                    UserDataStore.of(context).updateFirstName(val.trim());
                                   },
                                 ),
                               ),
@@ -114,20 +127,17 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                               color: colors.white,
                               child: SPaddingH24(
                                 child: SStandardField(
-                                  controller: UserDataStore.of(context)
-                                      .lastNameController,
+                                  controller: UserDataStore.of(context).lastNameController,
                                   labelText: intl.user_data_last_name,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.deny(
                                       RegExp('[ ]'),
                                     ),
                                   ],
-                                  isError:
-                                      UserDataStore.of(context).lastNameError,
+                                  isError: UserDataStore.of(context).lastNameError,
                                   textCapitalization: TextCapitalization.words,
                                   onChanged: (val) {
-                                    UserDataStore.of(context)
-                                        .updateLastName(val.trim());
+                                    UserDataStore.of(context).updateLastName(val.trim());
                                   },
                                 ),
                               ),
@@ -159,7 +169,6 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                   ),
                   const SpaceH1(),
                   const CountryProfileField(),
-                  const SpaceH22(),
                   const ReferralCode(),
                   const Spacer(),
                   const SpaceH8(),
@@ -169,9 +178,7 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                       onTap: () {
                         sAnalytics.signInFlowPersonalContinue();
                         sAnalytics.signInFlowCreatePinView();
-                        getIt
-                            .get<UserInfoService>()
-                            .updateIsJustRegistered(value: true);
+                        getIt.get<UserInfoService>().updateIsJustRegistered(value: true);
 
                         UserDataStore.of(context).saveUserData(
                           birthDateInfo.loader,

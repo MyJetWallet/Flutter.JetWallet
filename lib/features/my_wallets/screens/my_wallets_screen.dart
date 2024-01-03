@@ -203,7 +203,7 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                   profileNotificationsCount: notificationsCount,
                   isLoading: store.isLoading,
                   child: const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 24),
+                    padding: EdgeInsets.symmetric(vertical: 20),
                     child: ActionsMyWalletsRowWidget(),
                   ),
                 ),

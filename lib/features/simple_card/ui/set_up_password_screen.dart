@@ -116,7 +116,6 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
           const Spacer(),
           Observer(
             builder: (BuildContext context) {
-
               return SPaddingH24(
                 child: Column(
                   children: [
@@ -132,7 +131,7 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
                               const Duration(
                                 seconds: 2,
                               ),
-                                  () => store.setCanClick(true),
+                              () => store.setCanClick(true),
                             );
                           } else {
                             return;
@@ -144,7 +143,7 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
                             final pin = await storageService.getValue(pinStatusKey);
                             await simpleCardStore.createCard(pin ?? '', store.password);
                           } else {
-                            await store.setCardPassword(simpleCardStore.cardFull?.cardId ?? simpleCardStore.card?.cardId ?? '');
+                            await store.setCardPassword(simpleCardStore.cardFull?.cardId ?? '');
                           }
                         },
                       ),

@@ -14,24 +14,26 @@ class MarketNotLoaded extends StatelessWidget {
       child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SPaddingH24(
-            child: SSkeletonTextLoader(
-              height: 120,
-              width: 327,
-            ),
-          ),
-          SizedBox(
-            height: 36,
-          ),
           TransactionListLoadingItem(
             opacity: 1,
+            fromMarket: true,
+          ),
+          TransactionListLoadingItem(
+            opacity: 0.8,
+            fromMarket: true,
           ),
           TransactionListLoadingItem(
             opacity: 0.6,
+            fromMarket: true,
+          ),
+          TransactionListLoadingItem(
+            opacity: 0.4,
+            fromMarket: true,
           ),
           TransactionListLoadingItem(
             opacity: 0.2,
             removeDivider: true,
+            fromMarket: true,
           ),
         ],
       ),

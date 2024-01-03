@@ -1,13 +1,19 @@
+import 'dart:developer';
+
+import 'package:decimal/decimal.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
+import 'package:jetwallet/features/pin_screen/ui/pin_screen.dart';
 import 'package:mobx/mobx.dart';
 import 'package:pointycastle/asymmetric/api.dart';
 import 'package:rsa_encrypt/rsa_encrypt.dart';
-import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_request.dart';
@@ -15,6 +21,7 @@ import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_c
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_remind_pin_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_sensitive_request.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_sevsitive_response.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_terminate_request_model.dart';
 
 import '../../../core/di/di.dart';
 import '../../../core/l10n/i10n.dart';
@@ -31,9 +38,7 @@ part 'simple_card_store.g.dart';
 @lazySingleton
 class SimpleCardStore = _SimpleCardStoreBase with _$SimpleCardStore;
 
-
 abstract class _SimpleCardStoreBase with Store {
-
   @observable
   StackLoaderStore loader = StackLoaderStore();
 
@@ -41,14 +46,12 @@ abstract class _SimpleCardStoreBase with Store {
 
   @action
   Future<void> initStore() async {
-    allCards = sSignalRModules.bankingProfileData
-        ?.banking?.cards
-        ?.where((element) => element.status != AccountStatusCard.inactive).toList();
+    allCards = sSignalRModules.bankingProfileData?.banking?.cards
+        ?.where((element) => element.status != AccountStatusCard.inactive)
+        .toList();
     final cards = sSignalRModules.bankingProfileData?.banking?.cards;
     if (cards != null && cards.isNotEmpty) {
-      final activeCard = cards
-          .where((element) => element.status != AccountStatusCard.inactive)
-          .toList();
+      final activeCard = cards.where((element) => element.status != AccountStatusCard.inactive).toList();
       if (activeCard.isNotEmpty) {
         setCardFullInfo(activeCard[activeCard.length - 1]);
       }
@@ -66,31 +69,24 @@ abstract class _SimpleCardStoreBase with Store {
     showDetails = false;
     final cards = sSignalRModules.bankingProfileData?.banking?.cards;
     if (cards != null && cards.isNotEmpty) {
-      final activeCard = cards
-          .where((element) => element.cardId == cardId)
-          .toList();
+      final activeCard = cards.where((element) => element.cardId == cardId).toList();
       if (activeCard.isNotEmpty) {
         setCardFullInfo(activeCard[activeCard.length - 1]);
         isFrozen = activeCard[activeCard.length - 1].status == AccountStatusCard.frozen;
 
         if (allSensitive.where((element) => element.cardId == cardId).toList().isEmpty) {
           try {
-
             final rsa = RsaKeyHelper();
             final keyPair = getRsaKeyPair(rsa.getSecureRandom());
 
             final rsaPublicKey = keyPair.publicKey as RSAPublicKey;
             final rsaPrivateKey = keyPair.privateKey as RSAPrivateKey;
             final publicKey = rsa.encodePublicKeyToPemPKCS1(rsaPublicKey);
-            final privateKey = rsa.encodePrivateKeyToPemPKCS1(rsaPrivateKey);
             final storageService = getIt.get<LocalStorageService>();
 
             final pin = await storageService.getValue(pinStatusKey);
-            final serverTimeResponse = await getIt
-                .get<SNetwork>()
-                .simpleNetworkingUnathorized
-                .getAuthModule()
-                .getServerTime();
+            final serverTimeResponse =
+                await getIt.get<SNetwork>().simpleNetworkingUnathorized.getAuthModule().getServerTime();
             final model = SimpleCardSensitiveRequest(
               cardId: activeCard[activeCard.length - 1].cardId ?? '',
               publicKey: publicKey
@@ -101,8 +97,7 @@ abstract class _SimpleCardStoreBase with Store {
               timeStamp: serverTimeResponse.data!.time,
             );
 
-            final response =
-            await sNetwork.getWalletModule().postSensitiveData(data: model);
+            final response = await sNetwork.getWalletModule().postSensitiveData(data: model);
 
             response.pick(
               onData: (data) async {
@@ -131,18 +126,21 @@ abstract class _SimpleCardStoreBase with Store {
                   cardNumber: finalCardNumber,
                 );
 
-                allSensitive.add(SimpleCardSensitiveWithId(
-                  cardExpDate: cardDate,
-                  cardCvv: cardCVV,
-                  cardHolderName: cardHolder,
-                  cardNumber: finalCardNumber,
-                  cardId: cardId,
-                ),);
-
+                allSensitive.add(
+                  SimpleCardSensitiveWithId(
+                    cardExpDate: cardDate,
+                    cardCvv: cardCVV,
+                    cardHolderName: cardHolder,
+                    cardNumber: finalCardNumber,
+                    cardId: cardId,
+                  ),
+                );
               },
               onError: (error) {},
             );
-          } catch (error) { }
+          } catch (error) {
+            log(error.toString(), error: error);
+          }
         } else {
           final cardSens = allSensitive.where((element) => element.cardId == cardId).toList()[0];
           cardSensitiveData = SimpleCardSensitiveResponse(
@@ -157,9 +155,11 @@ abstract class _SimpleCardStoreBase with Store {
   }
 
   @observable
-  List<CardDataModel>? allCards = sSignalRModules.bankingProfileData
-      ?.banking?.cards
-      ?.where((element) => element.status != AccountStatusCard.inactive).toList();
+  List<CardDataModel>? allCards = sSignalRModules.bankingProfileData?.banking?.cards
+      ?.where(
+        (element) => element.status != AccountStatusCard.inactive && element.status != AccountStatusCard.unsupported,
+      )
+      .toList();
 
   @observable
   bool showDetails = false;
@@ -205,16 +205,17 @@ abstract class _SimpleCardStoreBase with Store {
       setShowDetails(false);
     }
     isFrozen = value;
-    setCardFullInfo(cardFull!.copyWith(
-      status: value ? AccountStatusCard.frozen : AccountStatusCard.active,
-    ),);
+    setCardFullInfo(
+      cardFull!.copyWith(
+        status: value ? AccountStatusCard.frozen : AccountStatusCard.active,
+      ),
+    );
     final newCards = allCards?.map((e) {
       return e.cardId == cardFull?.cardId
           ? e.copyWith(
-            status: value
-              ? AccountStatusCard.frozen
-              : AccountStatusCard.active,
-      ) : e;
+              status: value ? AccountStatusCard.frozen : AccountStatusCard.active,
+            )
+          : e;
     }).toList();
     allCards = newCards;
     if (value) {
@@ -259,14 +260,6 @@ abstract class _SimpleCardStoreBase with Store {
   );
 
   @observable
-  SimpleCardModel? card;
-
-  @action
-  void setCardInfo(SimpleCardModel? cardData) {
-    card = cardData;
-  }
-
-  @observable
   CardDataModel? cardFull;
 
   @action
@@ -280,26 +273,23 @@ abstract class _SimpleCardStoreBase with Store {
 
     try {
       final response = await sNetwork.getWalletModule().postSimpleCardCreate(
-        data: SimpleCardCreateRequest(
-          requestId: DateTime.now().microsecondsSinceEpoch.toString(),
-          pin: pin,
-          password: password,
-        ),
-      );
+            data: SimpleCardCreateRequest(
+              requestId: DateTime.now().microsecondsSinceEpoch.toString(),
+              pin: pin,
+              password: password,
+            ),
+          );
       final context = getIt.get<AppRouter>().navigatorKey.currentContext;
 
       if (response.hasError) {
         sNotification.showError(
           intl.something_went_wrong_try_again,
-          duration: 4,
           id: 1,
           needFeedback: true,
         );
 
         Navigator.pop(context!);
       } else {
-
-
         void _afterVerification() {
           Navigator.pop(context!);
 
@@ -325,11 +315,9 @@ abstract class _SimpleCardStoreBase with Store {
           sNotification.showError(intl.simple_card_password_working, isError: false);
         }
       }
-
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,
-        duration: 4,
         id: 1,
         needFeedback: true,
       );
@@ -338,7 +326,6 @@ abstract class _SimpleCardStoreBase with Store {
     } catch (error) {
       sNotification.showError(
         intl.something_went_wrong_try_again2,
-        duration: 4,
         id: 1,
         needFeedback: true,
       );
@@ -362,17 +349,16 @@ abstract class _SimpleCardStoreBase with Store {
           );
         },
         transitionsBuilder: (
-            context,
-            animation,
-            secondaryAnimation,
-            child,
-            ) {
+          context,
+          animation,
+          secondaryAnimation,
+          child,
+        ) {
           const begin = Offset(0.0, 1.0);
           const end = Offset.zero;
           const curve = Curves.ease;
 
-          final tween = Tween(begin: begin, end: end)
-              .chain(CurveTween(curve: curve));
+          final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
           return SlideTransition(
             position: animation.drive(tween),
@@ -386,9 +372,7 @@ abstract class _SimpleCardStoreBase with Store {
   @action
   Future<void> remindPinPhone() async {
     try {
-      final response =
-        await sNetwork.getWalletModule()
-            .postRemindPinPhone(cardId: cardFull?.cardId ?? '');
+      final response = await sNetwork.getWalletModule().postRemindPinPhone(cardId: cardFull?.cardId ?? '');
 
       response.pick(
         onData: (SimpleCardRemindPinResponse value) {
@@ -398,9 +382,7 @@ abstract class _SimpleCardStoreBase with Store {
             context!,
             primaryText: intl.simple_card_remind_title,
             secondaryText: '${intl.simple_card_remind_description} '
-              '${value.phoneNumber != null
-                ? '**${value.phoneNumber!.substring(value.phoneNumber!.length - 4)}'
-                : ''}',
+                '${value.phoneNumber != null ? '**${value.phoneNumber!.substring(value.phoneNumber!.length - 4)}' : ''}',
             primaryButtonName: intl.simple_card_remind_continue,
             secondaryButtonName: intl.simple_card_remind_cancel,
             image: Image.asset(
@@ -439,9 +421,7 @@ abstract class _SimpleCardStoreBase with Store {
   @action
   Future<void> remindPin() async {
     try {
-      final response =
-        await sNetwork.getWalletModule()
-            .postRemindPin(cardId: cardFull?.cardId ?? '');
+      final response = await sNetwork.getWalletModule().postRemindPin(cardId: cardFull?.cardId ?? '');
 
       response.pick(
         onNoError: (value) {
@@ -472,4 +452,155 @@ abstract class _SimpleCardStoreBase with Store {
     }
   }
 
+  @action
+  Future<void> terminateCard() async {
+    sAnalytics.tapOnTheTerminateButton(cardID: cardFull?.cardId ?? '');
+    try {
+      final context = sRouter.navigatorKey.currentContext!;
+
+      if ((cardFull?.balance ?? Decimal.zero) != Decimal.zero) {
+        sAnalytics.terminateWithBalancePopupScreenView(cardID: cardFull?.cardId ?? '');
+
+        await sShowAlertPopup(
+          context,
+          primaryText: intl.simple_card_terminate_card,
+          secondaryText: intl.simple_card_terminate_only_available_alert,
+          primaryButtonName: intl.simple_card_terminate_got_it,
+          onPrimaryButtonTap: () {
+            sRouter.pop();
+          },
+        );
+
+        return;
+      }
+
+      var continueTrminate = false;
+
+      sAnalytics.approveTerminatePopupScreenView(cardID: cardFull?.cardId ?? '');
+
+      await sShowAlertPopup(
+        context,
+        primaryText: intl.simple_card_terminate_terminate_card_question,
+        secondaryText:
+            '${intl.simple_card_terminate_terminate_warning_1} ** ${cardFull?.last4NumberCharacters} ${intl.simple_card_terminate_terminate_warning_2}',
+        primaryButtonName: intl.simple_card_terminate_confirm,
+        onPrimaryButtonTap: () {
+          sAnalytics.tapOnTheConfirmTerminateButton(cardID: cardFull?.cardId ?? '');
+          continueTrminate = true;
+          sRouter.pop();
+        },
+        primaryButtonType: SButtonType.primary3,
+        secondaryButtonName: intl.simple_card_terminate_cancel,
+        onSecondaryButtonTap: () {
+          sAnalytics.tapOnTheCancelTerminateButton(cardID: cardFull?.cardId ?? '');
+          continueTrminate = false;
+          sRouter.pop();
+        },
+      );
+
+      if (!continueTrminate) return;
+
+      var isVerifaierd = false;
+
+      sAnalytics.confirmTerminateWithPinScreenView(cardID: cardFull?.cardId ?? '');
+
+      await showPinScreen(
+        context: context,
+        onCompled: () {
+          isVerifaierd = true;
+          sRouter.pop();
+        },
+      );
+
+      if (!isVerifaierd) return;
+
+      loader.startLoadingImmediately();
+
+      sAnalytics.pleaseWaitLoaderOnCardTerminateLoadingView(cardID: cardFull?.cardId ?? '');
+
+      final response = await sNetwork.getWalletModule().postCardTerminate(
+            model: SimpleCardTerminateRequestModel(cardId: cardFull?.cardId ?? ''),
+          );
+
+      loader.finishLoadingImmediately();
+
+      response.pick(
+        onNoError: (data) {
+          allCards?.removeWhere((element) => element.cardId == cardFull?.cardId);
+
+          sRouter.pop();
+
+          sAnalytics.theCardHasBeenTerminateToastView(cardID: cardFull?.cardId ?? '');
+
+          sNotification.showError(
+            '${intl.simple_card_terminate_success_1} •• ${cardFull?.last4NumberCharacters} ${intl.simple_card_terminate_success_2}',
+            id: 1,
+            isError: false,
+          );
+        },
+        onError: (error) {
+          sNotification.showError(
+            error.cause,
+            id: 3,
+          );
+        },
+      );
+    } on ServerRejectException catch (error) {
+      sNotification.showError(
+        error.cause,
+        id: 4,
+        needFeedback: true,
+      );
+
+      loader.finishLoading();
+    } catch (error) {
+      sNotification.showError(
+        intl.something_went_wrong_try_again2,
+        id: 5,
+        needFeedback: true,
+      );
+
+      loader.finishLoading();
+    }
+  }
+
+  Future<void> showPinScreen({
+    required void Function() onCompled,
+    required BuildContext context,
+  }) async {
+    await Navigator.push(
+      context,
+      PageRouteBuilder(
+        opaque: false,
+        barrierColor: Colors.white,
+        pageBuilder: (BuildContext context, _, __) {
+          return PinScreen(
+            union: const Change(),
+            isConfirmCard: true,
+            isChangePhone: true,
+            alwaysShowForgotPassword: true,
+            onChangePhone: (String newPin) {
+              onCompled();
+            },
+            onBackPressed: () {
+              Navigator.pop(context);
+            },
+            onWrongPin: (String error) {},
+          );
+        },
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(0.0, 1.0);
+          const end = Offset.zero;
+          const curve = Curves.ease;
+
+          final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
+          );
+        },
+      ),
+    );
+  }
 }

@@ -75,20 +75,20 @@ class _SimpleCircleButtonState extends State<SimpleCircleButton> {
       splashColor: Colors.transparent,
       child: ConstrainedBox(
         constraints: const BoxConstraints(
-          maxHeight: 68,
-          minWidth: 68,
+          maxHeight: 76,
+          minWidth: 76,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              height: 40,
-              width: 40,
+              height: 48,
+              width: 48,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: currentColor,
               ),
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(12),
               child: highlighted ? (widget.pressedIcon ?? widget.defaultIcon) : widget.defaultIcon,
             ),
             Text(

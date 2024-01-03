@@ -73,7 +73,7 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                       children: [
                         const SpaceH11(),
                         if (widget.selectedIndex == 0) const SWalletsActiveIcon() else const SWalletsIcon(),
-                         const SpaceH4(),
+                        const SpaceH4(),
                         Text(
                           widget.walletsText,
                           style: sBodyText2Style.copyWith(
@@ -172,7 +172,7 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                         ),
                       ),
                       Positioned(
-                        right: (MediaQuery.of(context).size.width - 48) / 8 - 36,
+                        right: (MediaQuery.of(context).size.width - 48) / 8 - 28,
                         top: -2,
                         child: NotificationBox(
                           notifications: widget.rewardCount,

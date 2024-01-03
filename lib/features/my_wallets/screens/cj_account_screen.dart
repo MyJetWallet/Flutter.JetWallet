@@ -171,7 +171,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                                       source: 'EUR wallet',
                                     );
 
-                                    showDepositDetails(
+                                    showAccountDepositSelector(
                                       context,
                                       () {
                                         sAnalytics.eurWalletTapCloseOnDeposirSheet(
@@ -237,7 +237,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                   ),
                 ),
                 TransactionsList(
-                  scrollController: _transactionScrollController,
+                  scrollController: _controller,
                   symbol: 'EUR',
                   fromCJAccount: true,
                   accountId: widget.bankingAccount.accountId,
