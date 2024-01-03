@@ -68,6 +68,8 @@ dependencies:
   collection: ^1.17.1
   animated_background: ^2.0.0
 
+  uni_links: ^0.5.1
+
   # RESPONSIVE UI
   device_preview: ^1.1.0
   pixel_perfect: ^1.1.1 # Mock designs
@@ -122,7 +124,7 @@ dependencies:
   # FIREBASE
   firebase_core: 2.18.0
   firebase_messaging: 14.7.0
-  firebase_dynamic_links: 5.4.0
+  #firebase_dynamic_links: 5.4.0
   firebase_crashlytics: 3.4.0
   firebase_analytics: 10.6.0
 

@@ -53,7 +53,8 @@
 
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-
+                
+                <data android:host="link.simple.app" android:scheme="https"/>
                 <data android:host="simple.app" android:scheme="https"/>
                 <data android:host="mobile.simple.app" android:scheme="https"/>
                 <data android:host="mobile.simple-spot.biz" android:scheme="https"/>
