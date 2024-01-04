@@ -10,6 +10,7 @@
 		<string>applinks:mobile.simple-spot.biz</string>
 		<string>applinks:mobile.simple.app</string>
 		<string>applinks:link.simple.app</string>
+		<string>applinks:link-uat.simple-spot.biz</string>
 	</array>
 </dict>
 </plist>
