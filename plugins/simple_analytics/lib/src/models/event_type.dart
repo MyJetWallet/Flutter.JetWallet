@@ -474,7 +474,6 @@ class EventType {
   static const onboardingCryptoIsSimpleScreenView = '‘Onboarding - Crypto is Simple’ screen view';
   static const onboardingSendMoneyGloballyScreenView = '‘Onboarding - Send money Globally’ screen view';
   static const tapOnTheOnboardingGetStartedButton = 'Tap on the ‘Onboarding - Get started`  button';
-<<<<<<< HEAD
 
   // Edit Simple card lable
   static const tapOnTheEditVirtualCardLabelButton = 'Tap on the ‘Edit virtual card label’ button';
@@ -482,6 +481,4 @@ class EventType {
   static const tapOnTheBackFromEditVirtualCardLabelButton = 'Tap on the ‘Back from edit virtual card label’ button';
   static const tapOnTheSaveChangesFromEditVirtualCardLabelButton =
       'Tap on the ‘Save changes from edit virtual card label’ button';
-=======
->>>>>>> aff38c4713fa1692de36d4381ab98b3f4840c61e
 }

@@ -62,7 +62,7 @@ abstract class _AccountDepositByStoreBase with Store {
     return accounts;
   }
 
-  @computed
+  @action
   void init({
     required SimpleBankingAccount bankingAccount,
   }) {
