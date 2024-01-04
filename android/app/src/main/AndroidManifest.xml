@@ -53,14 +53,28 @@
 
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                
-                <data android:host="link.simple.app" android:scheme="https"/>
-                <data android:host="link-uat.simple-spot.biz" android:scheme="https"/>
-                <data android:host="simple.app" android:scheme="https"/>
-                <data android:host="mobile.simple.app" android:scheme="https"/>
-                <data android:host="mobile.simple-spot.biz" android:scheme="https"/>
-                <data android:host="promo.simple.app" android:scheme="https"/>
-                <data android:host="simple-uat.simple-spot.biz" android:scheme="http"/>
+
+
+                <data android:scheme="https" />
+                <data android:host="link-uat.simple.app" />
+
+                <data android:scheme="https" />
+                <data android:host="link-uat.simple-spot.biz" />
+
+                <data android:scheme="https" />
+                <data android:host="simple.app" />
+
+                <data android:scheme="https" />
+                <data android:host="mobile.simple.app" />
+
+                <data android:scheme="https" />
+                <data android:host="mobile.simple-spot.biz" />
+
+                <data android:scheme="https" />
+                <data android:host="promo.simple.app" />
+
+                <data android:scheme="https" />
+                <data android:host="simple-uat.simple-spot.biz" />
             </intent-filter>
 
 

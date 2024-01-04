@@ -35,13 +35,19 @@ class DynamicLinkService {
     _sub = uriLinkStream.listen((Uri? uri) {
       getIt.get<SimpleLoggerService>().log(
         level: Level.warning,
-        place: 'DynamicLinkService',
+        place: 'DynamicLinkService listen',
         message: '_handleDynamicLink: $uri',
       );
 
       getIt.get<DeepLinkService>().handle(uri!, fromBG: true);
 
     }, onError: (err) {
+      getIt.get<SimpleLoggerService>().log(
+        level: Level.error,
+        place: 'DynamicLinkService listen',
+        message: '_handleDynamicLink: $err',
+      );
+
       // Handle exception by warning the user their action did not succeed
     });
 
