@@ -1,0 +1,5 @@
+NSCameraUsageDescription = "Щоб робити знімки та виявляти ваше обличчя";
+NSPhotoLibraryUsageDescription = "З міркувань безпеки та запобігання шахрайству";
+NSContactsUsageDescription = "Додаток потребує доступу до контактів для коректної роботи";
+NSFaceIDUsageDescription = "Нам потрібен ваш ідентифікатор обличчя";
+NSUserTrackingUsageDescription = "Ваші дані будуть використовуватися нашими рекламними партнерами для покращення та персоналізації вашого рекламного досвіду.";
