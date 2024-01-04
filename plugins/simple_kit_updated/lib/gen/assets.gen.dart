@@ -24,11 +24,19 @@ class $AssetsImagesGen {
 class $AssetsSvgGen {
   const $AssetsSvgGen();
 
+  $AssetsSvgAssetsGen get assets => const $AssetsSvgAssetsGen();
   $AssetsSvgLargeGen get large => const $AssetsSvgLargeGen();
   $AssetsSvgMediumGen get medium => const $AssetsSvgMediumGen();
   $AssetsSvgOtherGen get other => const $AssetsSvgOtherGen();
   $AssetsSvgPaymentMethodsCardsGen get paymentMethodsCards => const $AssetsSvgPaymentMethodsCardsGen();
   $AssetsSvgSmallGen get small => const $AssetsSvgSmallGen();
+}
+
+class $AssetsSvgAssetsGen {
+  const $AssetsSvgAssetsGen();
+
+  $AssetsSvgAssetsCryptoGen get crypto => const $AssetsSvgAssetsCryptoGen();
+  $AssetsSvgAssetsFiatGen get fiat => const $AssetsSvgAssetsFiatGen();
 }
 
 class $AssetsSvgLargeGen {
@@ -393,6 +401,35 @@ class $AssetsSvgSmallGen {
   /// List of all assets
   List<SvgGenImage> get values =>
       [bank, bullet, check, checkCircle, clock, info, loading, minusCircle, reorder, user, warning, x, xCricle];
+}
+
+class $AssetsSvgAssetsCryptoGen {
+  const $AssetsSvgAssetsCryptoGen();
+
+  /// File path: assets/svg/assets/crypto/default_placeholder.svg
+  SvgGenImage get defaultPlaceholder => const SvgGenImage('assets/svg/assets/crypto/default_placeholder.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [defaultPlaceholder];
+}
+
+class $AssetsSvgAssetsFiatGen {
+  const $AssetsSvgAssetsFiatGen();
+
+  /// File path: assets/svg/assets/fiat/account.svg
+  SvgGenImage get account => const SvgGenImage('assets/svg/assets/fiat/account.svg');
+
+  /// File path: assets/svg/assets/fiat/alt_method.svg
+  SvgGenImage get altMethod => const SvgGenImage('assets/svg/assets/fiat/alt_method.svg');
+
+  /// File path: assets/svg/assets/fiat/card.svg
+  SvgGenImage get card => const SvgGenImage('assets/svg/assets/fiat/card.svg');
+
+  /// File path: assets/svg/assets/fiat/external_transfer.svg
+  SvgGenImage get externalTransfer => const SvgGenImage('assets/svg/assets/fiat/external_transfer.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [account, altMethod, card, externalTransfer];
 }
 
 class $AssetsSvgOtherLargeGen {

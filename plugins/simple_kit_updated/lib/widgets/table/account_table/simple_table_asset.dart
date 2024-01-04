@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/calculate_screen_size.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/button/round/round_button.dart';
@@ -12,7 +11,7 @@ class SimpleTableAsset extends StatelessWidget {
   const SimpleTableAsset({
     Key? key,
     this.onTableAssetTap,
-    required this.isCard,
+    this.isCard = false,
     this.assetIcon,
     this.needPadding = true,
     required this.label,

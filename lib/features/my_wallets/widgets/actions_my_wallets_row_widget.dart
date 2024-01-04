@@ -1,12 +1,10 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_buy/action_buy.dart';
 import 'package:jetwallet/features/actions/action_receive/action_receive.dart';
 import 'package:jetwallet/features/actions/action_send/action_send.dart';
-import 'package:jetwallet/features/my_wallets/helper/show_deposit_details_popup.dart';
+import 'package:jetwallet/features/my_wallets/helper/show_select_account_for_add_cash.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_add_cash.dart';
@@ -107,7 +105,7 @@ class _LoadingButton extends StatelessWidget {
               height: 40,
               borderRadius: BorderRadius.circular(40),
             ),
-            SpaceH12(),
+            const SpaceH12(),
             SSkeletonLoader(
               width: 28,
               height: 16,

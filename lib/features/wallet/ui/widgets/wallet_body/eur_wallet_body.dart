@@ -274,7 +274,6 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                   children: [
                     if (simpleAccount != null)
                       SimpleTableAsset(
-                        isCard: false,
                         onTableAssetTap: () {
                           sRouter
                               .push(
@@ -292,7 +291,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                               );
                         },
                         assetIcon: const BlueBankIcon(),
-                        label: simpleAccount!.label ?? 'Account 1',
+                        label: simpleAccount.label ?? 'Account 1',
                         supplement: simpleAccount.status == AccountStatus.active
                             ? intl.eur_wallet_simple_account
                             : intl.create_simple_creating,
