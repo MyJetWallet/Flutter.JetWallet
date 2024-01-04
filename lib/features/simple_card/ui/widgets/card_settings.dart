@@ -12,11 +12,17 @@ import '../../../../core/di/di.dart';
 import '../../store/simple_card_store.dart';
 import 'card_option.dart';
 
+<<<<<<< HEAD
 void showCardSettings({
   required BuildContext context,
   required void Function() onChangeLableTap,
   required void Function() onFreezeTap,
 }) {
+=======
+void showCardSettings(
+  BuildContext context,
+) {
+>>>>>>> aff38c4713fa1692de36d4381ab98b3f4840c61e
   sShowBasicModalBottomSheet(
     context: context,
     then: (value) {},
@@ -115,6 +121,7 @@ class _CardSettings extends StatelessObserverWidget {
           },
         ),
         CardOption(
+<<<<<<< HEAD
           icon: Assets.svg.medium.edit.simpleSvg(
             color: colors.blue,
           ),
@@ -131,6 +138,8 @@ class _CardSettings extends StatelessObserverWidget {
           hideDescription: true,
         ),
         CardOption(
+=======
+>>>>>>> aff38c4713fa1692de36d4381ab98b3f4840c61e
           icon: Assets.svg.medium.delete.simpleSvg(
             color: colors.red,
           ),

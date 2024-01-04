@@ -171,6 +171,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                           simpleCardStore.setFrozen(!simpleCardStore.isFrozen);
                         },
                         onSettings: () {
+<<<<<<< HEAD
                           showCardSettings(
                             context: context,
                             onChangeLableTap: () {
@@ -210,6 +211,9 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                               simpleCardStore.setFrozen(!simpleCardStore.isFrozen);
                             },
                           );
+=======
+                          showCardSettings(context);
+>>>>>>> aff38c4713fa1692de36d4381ab98b3f4840c61e
                         },
                         onTerminate: () {
                           simpleCardStore.terminateCard();
@@ -270,7 +274,11 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                   color: colors.white,
                   child: SPaddingH24(
                     child: SSmallHeader(
+<<<<<<< HEAD
                       title: simpleCardStore.cardFull?.label ?? 'Simple card',
+=======
+                      title: 'Simple ${intl.simple_card_card}',
+>>>>>>> aff38c4713fa1692de36d4381ab98b3f4840c61e
                       subTitle: intl.simple_card_type_virtual,
                       titleStyle: sTextH5Style.copyWith(
                         color: sKit.colors.black,

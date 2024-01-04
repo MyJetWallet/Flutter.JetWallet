@@ -1142,6 +1142,11 @@ class SimpleAnalytics {
     );
   }
 
+<<<<<<< HEAD
+=======
+  
+
+>>>>>>> aff38c4713fa1692de36d4381ab98b3f4840c61e
   void sendGiftAmountScreenView({
     required String giftSubmethod,
     required String asset,
@@ -5142,6 +5147,7 @@ class SimpleAnalytics {
       },
     );
   }
+<<<<<<< HEAD
 
   // Edit Simple card lable
   void tapOnTheEditVirtualCardLabelButton({
@@ -5199,4 +5205,6 @@ class SimpleAnalytics {
       },
     );
   }
+=======
+>>>>>>> aff38c4713fa1692de36d4381ab98b3f4840c61e
 }

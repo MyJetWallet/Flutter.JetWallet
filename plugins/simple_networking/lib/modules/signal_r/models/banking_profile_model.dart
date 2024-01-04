@@ -91,10 +91,13 @@ class CardDataModel with _$CardDataModel {
         : cardNumberMasked?.substring((cardNumberMasked?.length ?? 4) - 4) ?? '';
   }
 
+<<<<<<< HEAD
   bool get isNotEmptyBalance {
     return (balance ?? Decimal.zero) > Decimal.zero;
   }
 
+=======
+>>>>>>> aff38c4713fa1692de36d4381ab98b3f4840c61e
   factory CardDataModel.fromJson(Map<String, dynamic> json) => _$CardDataModelFromJson(json);
 }
 

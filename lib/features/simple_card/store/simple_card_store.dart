@@ -291,6 +291,15 @@ abstract class _SimpleCardStoreBase with Store {
 
         Navigator.pop(context!);
       } else {
+<<<<<<< HEAD
+=======
+        void _afterVerification() {
+          Navigator.pop(context!);
+
+          sNotification.showError(intl.simple_card_password_working, isError: false);
+        }
+
+>>>>>>> aff38c4713fa1692de36d4381ab98b3f4840c61e
         if (response.data!.simpleKycRequired != null && response.data!.simpleKycRequired!) {
           Navigator.pop(context!);
           showWalletVerifyAccount(
@@ -604,6 +613,7 @@ abstract class _SimpleCardStoreBase with Store {
       ),
     );
   }
+<<<<<<< HEAD
 
   void localUpdateCardLable(String newLabel) {
     cardFull = cardFull?.copyWith(
@@ -619,4 +629,6 @@ abstract class _SimpleCardStoreBase with Store {
     }).toList();
     allCards = newCards;
   }
+=======
+>>>>>>> aff38c4713fa1692de36d4381ab98b3f4840c61e
 }
