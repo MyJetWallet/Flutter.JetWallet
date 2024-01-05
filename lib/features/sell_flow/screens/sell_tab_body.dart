@@ -328,6 +328,7 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                         isFromFixed: !store.isFiatEntering,
                         paymentCurrency: store.buyCurrency,
                         account: store.account,
+                        simpleCard: store.card,
                         fromAmount: Decimal.parse(store.cryptoInputValue),
                         toAmount: Decimal.parse(store.fiatInputValue),
                       ),

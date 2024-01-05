@@ -30,7 +30,7 @@ abstract class _SimpleCardDepositByStoreBase with Store {
   List<CardDataModel> get cards =>
       sSignalRModules.bankingProfileData?.banking?.cards
           ?.where(
-            (element) => element.status == AccountStatusCard.active,
+            (element) => element.status == AccountStatusCard.active && element.isNotEmptyBalance,
           )
           .toList() ??
       [];

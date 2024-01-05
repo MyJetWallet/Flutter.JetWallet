@@ -7,8 +7,9 @@ import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 class SellConfirmationInfoGrid extends StatefulObserverWidget {
@@ -20,6 +21,7 @@ class SellConfirmationInfoGrid extends StatefulObserverWidget {
     required this.paymentCurrency,
     required this.asset,
     this.account,
+    this.simpleCard,
   });
 
   final String? paymentFee;
@@ -29,6 +31,7 @@ class SellConfirmationInfoGrid extends StatefulObserverWidget {
   final CurrencyModel paymentCurrency;
   final CurrencyModel asset;
   final SimpleBankingAccount? account;
+  final CardDataModel? simpleCard;
 
   @override
   State<SellConfirmationInfoGrid> createState() => _ConfirmationInfoGridState();
@@ -90,22 +93,18 @@ class _ConfirmationInfoGridState extends State<SellConfirmationInfoGrid> with Si
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       const SpaceW19(),
-                      Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: sKit.colors.blue,
-                          shape: BoxShape.circle,
+                      if (widget.simpleCard != null)
+                        Assets.svg.other.medium.card.simpleSvg(
+                          width: 24,
+                        )
+                      else
+                        Assets.svg.other.medium.bankAccount.simpleSvg(
+                          width: 24,
                         ),
-                        child: SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: SBankMediumIcon(color: sKit.colors.white),
-                        ),
-                      ),
                       const SpaceW8(),
                       Flexible(
                         child: Text(
-                          widget.account?.label ?? '',
+                          widget.account?.label ?? widget.simpleCard?.label ?? '',
                           overflow: TextOverflow.ellipsis,
                           style: sSubtitle3Style.copyWith(height: 1.5),
                         ),
