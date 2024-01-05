@@ -198,7 +198,6 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                       showSellPayWithBottomSheet(
                         context: context,
                         currency: store.asset,
-                        hideCards: true,
                         onSelected: ({account, card}) {
                           store.setNewPayWith(
                             newAccount: account,
@@ -220,7 +219,7 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                   )
                 else if (store.category == PaymentMethodCategory.simpleCard)
                   SuggestionButtonWidget(
-                    title: store.card?.label,
+                    title: store.card?.label ?? 'Simple card',
                     subTitle: intl.amount_screen_sell_to,
                     trailing: volumeFormat(
                       decimal: store.card?.balance ?? Decimal.zero,
@@ -240,10 +239,10 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                       showSellPayWithBottomSheet(
                         context: context,
                         currency: store.asset,
-                        hideCards: true,
                         onSelected: ({account, card}) {
                           store.setNewPayWith(
                             newAccount: account,
+                            newCard: card,
                           );
                           sAnalytics.tapOnSelectedNewSellToButton(
                             newSellToMethod: account?.isClearjuctionAccount ?? false ? 'CJ account' : 'Unlimit account',
@@ -285,10 +284,10 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                       showSellPayWithBottomSheet(
                         context: context,
                         currency: store.asset,
-                        hideCards: true,
                         onSelected: ({account, card}) {
                           store.setNewPayWith(
                             newAccount: account,
+                            newCard: card,
                           );
                           sAnalytics.tapOnSelectedNewSellToButton(
                             newSellToMethod: account?.isClearjuctionAccount ?? false ? 'CJ account' : 'Unlimit account',

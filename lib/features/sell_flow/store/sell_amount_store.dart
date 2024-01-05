@@ -220,8 +220,16 @@ abstract class _SellAmountStoreBase with Store {
     SimpleBankingAccount? newAccount,
     CardDataModel? newCard,
   }) {
-    account = newAccount;
-    card = newCard;
+    if (newAccount != null) {
+      account = newAccount;
+      card = null;
+    }
+
+    if (newCard != null) {
+      account = null;
+      card = newCard;
+    }
+
     paymentAsset = null;
 
     loadConversionPrice(
@@ -459,7 +467,7 @@ abstract class _SellAmountStoreBase with Store {
       } else {
         final model = SellLimitsRequestModel(
           paymentAsset: asset?.symbol ?? '',
-          buyAsset: fiatSymbol ,
+          buyAsset: fiatSymbol,
           destinationAccountId: accountId,
         );
         final response = await sNetwork.getWalletModule().postSellLimits(model);

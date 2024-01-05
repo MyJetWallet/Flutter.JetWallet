@@ -1,18 +1,18 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/payment_methods_widgets/balances_widget.dart';
-import 'package:jetwallet/features/buy_flow/ui/widgets/payment_methods_widgets/card_balances_widget.dart';
+import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:jetwallet/features/sell_flow/store/sell_payment_method_store.dart';
-import 'package:jetwallet/features/simple_card/store/simple_card_store.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
-
-import '../../../../core/di/di.dart';
 
 void showSellPayWithBottomSheet({
   required BuildContext context,
@@ -21,7 +21,6 @@ void showSellPayWithBottomSheet({
     SimpleBankingAccount? account,
     CardDataModel? card,
   })? onSelected,
-  bool hideCards = false,
   dynamic Function(dynamic)? then,
 }) {
   final store = SellPaymentMethodStore()
@@ -65,31 +64,11 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
   })? onSelected;
   final SellPaymentMethodStore store;
 
-  final simpleCardStore = getIt.get<SimpleCardStore>();
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
-          if (simpleCardStore.cardFull != null) ...[
-            CardBalancesWidget(
-              onTap: (card) {
-                if (onSelected != null) {
-                  onSelected!(card: card);
-                } else {
-                  sRouter.push(
-                    AmountRoute(
-                      tab: AmountScreenTab.buy,
-                      asset: asset!,
-                      simpleCard: card,
-                    ),
-                  );
-                }
-              },
-              card: simpleCardStore.cardFull!,
-            ),
-          ],
           if (store.accounts.isNotEmpty) ...[
             BalancesWidget(
               onTap: (account) {
@@ -107,6 +86,36 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
               },
               accounts: store.accounts,
             ),
+          ],
+          if (store.isCardsAvaible) ...[
+            const MarketSeparator(
+              text: 'Cards',
+              isNeedDivider: false,
+            ),
+            for (final card in store.cards)
+              SimpleTableAsset(
+                label: card.label ?? 'Simple card',
+                supplement: '${card.cardType?.frontName} ••• ${card.last4NumberCharacters}',
+                rightValue: volumeFormat(
+                  decimal: card.balance ?? Decimal.zero,
+                  accuracy: 2,
+                  symbol: card.currency ?? 'EUR',
+                ),
+                isCard: true,
+                onTableAssetTap: () {
+                  if (onSelected != null) {
+                    onSelected!(card: card);
+                  } else {
+                    sRouter.push(
+                      AmountRoute(
+                        tab: AmountScreenTab.buy,
+                        asset: asset!,
+                        simpleCard: card,
+                      ),
+                    );
+                  }
+                },
+              ),
           ],
           const SpaceH45(),
         ],
