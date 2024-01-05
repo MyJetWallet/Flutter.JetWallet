@@ -5,7 +5,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
-import 'package:jetwallet/features/cj_banking_accounts/widgets/show_deposit_bottom_by_sheet.dart';
+import 'package:jetwallet/features/cj_banking_accounts/widgets/show_account_deposit_by_bottom_sheet.dart';
 import 'package:jetwallet/features/cj_banking_accounts/widgets/show_setting_bottom_sheet.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
@@ -120,13 +120,14 @@ class ActionsAccountRowWidget extends StatelessWidget {
                   );
                 },
               ),
-              CircleActionButton(
-                text: intl.account_actions_exchange,
-                type: CircleButtonType.exchange,
-                onTap: () {
-                  //TODO (yaroslav): add rout to Exchange screen
-                },
-              ),
+              if (bankingAccount.isClearjuctionAccount)
+                CircleActionButton(
+                  text: intl.account_actions_exchange,
+                  type: CircleButtonType.exchange,
+                  onTap: () {
+                    //TODO (yaroslav): add rout to Exchange screen
+                  },
+                ),
               CircleActionButton(
                 text: intl.account_actions_settings,
                 type: CircleButtonType.settings,

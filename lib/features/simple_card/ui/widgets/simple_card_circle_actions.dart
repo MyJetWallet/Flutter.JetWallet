@@ -71,11 +71,6 @@ class SimpleCardActionButtons extends StatelessObserverWidget {
                 onTap: () {},
               ),
               CircleActionButton(
-                text: intl.simple_card_actions_exchange,
-                type: CircleButtonType.exchange,
-                onTap: () {},
-              ),
-              CircleActionButton(
                 text: intl.simple_card_actions_settings,
                 type: CircleButtonType.settings,
                 onTap: () {

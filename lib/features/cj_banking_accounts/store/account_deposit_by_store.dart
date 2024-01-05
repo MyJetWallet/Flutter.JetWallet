@@ -28,7 +28,7 @@ abstract class _AccountDepositByStoreBase with Store {
   bool isCardsAvaible = true;
 
   @observable
-  late SimpleBankingAccount account;
+  SimpleBankingAccount? account;
 
   @observable
   bool isCJAccount = false;

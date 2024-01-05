@@ -1,8 +1,8 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/widgets.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/features/cj_banking_accounts/screens/show_account_details_screen.dart';
 import 'package:jetwallet/features/cj_banking_accounts/store/account_deposit_by_store.dart';
-import 'package:jetwallet/features/cj_banking_accounts/widgets/show_account_details_bottom_sheet.dart';
 import 'package:jetwallet/features/cj_banking_accounts/widgets/show_add_cash_from_bottom_sheet.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
@@ -57,17 +57,16 @@ class _DepositByBody extends StatelessWidget {
             width: 24,
           ),
           onTableAssetTap: () {
-            showDepositDetails(
-              context,
-              () {
+            showAccountDetails(
+              context: context,
+              onClose: () {
                 sAnalytics.eurWalletTapCloseOnDeposirSheet(
                   isCJ: store.isCJAccount,
-                  eurAccountLabel: store.account.label ?? 'Account',
+                  eurAccountLabel: store.account?.label ?? 'Account',
                   isHasTransaction: true,
                 );
               },
-              store.isCJAccount,
-              store.account,
+              bankingAccount: store.account!,
             );
           },
         ),
@@ -84,11 +83,11 @@ class _DepositByBody extends StatelessWidget {
                 onClose: () {
                   sAnalytics.eurWalletTapCloseOnDeposirSheet(
                     isCJ: store.isCJAccount,
-                    eurAccountLabel: store.account.label ?? 'Account',
+                    eurAccountLabel: store.account?.label ?? 'Account',
                     isHasTransaction: true,
                   );
                 },
-                bankingAccount: store.account,
+                bankingAccount: store.account!,
               );
             },
           ),

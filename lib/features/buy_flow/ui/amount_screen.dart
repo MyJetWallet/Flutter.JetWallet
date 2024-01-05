@@ -162,6 +162,7 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
                 SellAmountTabBody(
                   asset: widget.asset.assetBalance != Decimal.zero ? widget.asset : null,
                   account: widget.account,
+                  simpleCard: widget.simpleCard,
                 ),
                 ConvertAmountTabBody(
                   fromAsset: widget.tab != AmountScreenTab.buy ? widget.asset : null,

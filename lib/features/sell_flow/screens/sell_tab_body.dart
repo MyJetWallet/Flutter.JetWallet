@@ -18,6 +18,8 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/modules/icons/24x24/public/crypto/simple_crypto_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
@@ -27,10 +29,12 @@ class SellAmountTabBody extends StatefulObserverWidget {
   const SellAmountTabBody({
     this.asset,
     this.account,
+    this.simpleCard,
   });
 
   final CurrencyModel? asset;
   final SimpleBankingAccount? account;
+  final CardDataModel? simpleCard;
 
   @override
   State<SellAmountTabBody> createState() => _BuyAmountScreenBodyState();
@@ -48,6 +52,7 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
         ..init(
           inputAsset: widget.asset,
           newAccount: widget.account,
+          newCard: widget.simpleCard,
         ),
       builder: (context, child) {
         final store = SellAmountStore.of(context);
@@ -182,6 +187,48 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                         height: 16,
                         child: SBankMediumIcon(color: sKit.colors.white),
                       ),
+                    ),
+                    onTap: () {
+                      sAnalytics.tapOnTheSellToButton(
+                        currentToValueForSell:
+                            store.account?.isClearjuctionAccount ?? false ? 'CJ account' : 'Unlimit account',
+                      );
+                      sAnalytics.sellToSheetView();
+
+                      showSellPayWithBottomSheet(
+                        context: context,
+                        currency: store.asset,
+                        hideCards: true,
+                        onSelected: ({account, card}) {
+                          store.setNewPayWith(
+                            newAccount: account,
+                            newCard: card,
+                          );
+                          sAnalytics.tapOnSelectedNewSellToButton(
+                            newSellToMethod: account?.isClearjuctionAccount ?? false ? 'CJ account' : 'Unlimit account',
+                          );
+                          Navigator.of(context).pop(true);
+                        },
+                        then: (value) {
+                          if (value != true) {
+                            sAnalytics.tapOnCloseSheetSellToButton();
+                          }
+                        },
+                      );
+                    },
+                    isDisabled: store.isNoAccounts,
+                  )
+                else if (store.category == PaymentMethodCategory.simpleCard)
+                  SuggestionButtonWidget(
+                    title: store.card?.label,
+                    subTitle: intl.amount_screen_sell_to,
+                    trailing: volumeFormat(
+                      decimal: store.card?.balance ?? Decimal.zero,
+                      accuracy: store.asset?.accuracy ?? 1,
+                      symbol: store.card?.currency ?? '',
+                    ),
+                    icon: Assets.svg.other.medium.card.simpleSvg(
+                      width: 24,
                     ),
                     onTap: () {
                       sAnalytics.tapOnTheSellToButton(

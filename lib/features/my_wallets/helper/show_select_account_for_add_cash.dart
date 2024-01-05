@@ -6,7 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
-import 'package:jetwallet/features/cj_banking_accounts/widgets/show_account_details_bottom_sheet.dart';
+import 'package:jetwallet/features/cj_banking_accounts/screens/show_account_details_screen.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
@@ -114,17 +114,16 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
                   source: 'Wallets',
                 );
 
-                showDepositDetails(
-                  context,
-                  () {
+                showAccountDetails(
+                  context: context,
+                  onClose: () {
                     sAnalytics.eurWalletTapCloseOnDeposirSheet(
                       isCJ: true,
                       eurAccountLabel: simpleAccount.label ?? 'Account 1',
                       isHasTransaction: true,
                     );
                   },
-                  true,
-                  simpleAccount,
+                  bankingAccount: simpleAccount,
                 );
               }
             },
@@ -195,17 +194,16 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
                     source: 'Wallets',
                   );
 
-                  showDepositDetails(
-                    context,
-                    () {
+                  showAccountDetails(
+                    context: context,
+                    onClose: () {
                       sAnalytics.eurWalletTapCloseOnDeposirSheet(
                         isCJ: false,
                         eurAccountLabel: bankAccounts[index].label ?? 'Account',
                         isHasTransaction: true,
                       );
                     },
-                    false,
-                    bankAccounts[index],
+                    bankingAccount: bankAccounts[index],
                   );
                 }
               },

@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/features/sell_flow/widgets/sell_choose_asset_bottom_sheet.dart';
 import 'package:jetwallet/features/simple_card/store/simple_card_store.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/card_settings.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/card_widget.dart';
+import 'package:jetwallet/features/simple_card/ui/widgets/show_simple_card_deposit_by_bottom_sheet.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/simple_card_circle_actions.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
 import 'package:jetwallet/utils/constants.dart';
@@ -21,7 +21,6 @@ import '../../../core/router/app_router.dart';
 import '../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../utils/helpers/non_indices_with_balance_from.dart';
 import '../../app/store/app_store.dart';
-import '../../buy_flow/ui/amount_screen.dart';
 
 const _collapsedCardHeight = 200.0;
 const _expandedCardHeight = 270.0;
@@ -149,19 +148,10 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                             .toList()
                             .isNotEmpty,
                         onAddCash: () {
-                          showSellChooseAssetBottomSheet(
+                          showSimpleCardDepositBySelector(
                             context: context,
-                            isAddCash: true,
-                            onChooseAsset: (currency) {
-                              Navigator.of(context).pop();
-                              sRouter.push(
-                                AmountRoute(
-                                  tab: AmountScreenTab.sell,
-                                  asset: currency,
-                                  simpleCard: simpleCardStore.cardFull,
-                                ),
-                              );
-                            },
+                            onClose: () {},
+                            card: simpleCardStore.cardFull!,
                           );
                         },
                         onShowDetails: () {
