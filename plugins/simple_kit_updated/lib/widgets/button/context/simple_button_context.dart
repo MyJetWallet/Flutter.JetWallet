@@ -51,7 +51,7 @@ class SButtonContext extends StatelessWidget {
   final bool isDisabled;
   final Color? contentColor;
   final Color? backgroundColor;
-  final Widget? icon;
+  final SvgGenImage? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +136,9 @@ class SButtonContext extends StatelessWidget {
                   SizedBox(
                     width: type == SButtonContextType.iconedLarge ? 24 : 20,
                     height: type == SButtonContextType.iconedLarge ? 24 : 20,
-                    child: icon ??
+                    child: icon?.simpleSvg(
+                          color: isDisabled ? SColorsLight().gray8 : SColorsLight().blue,
+                        ) ??
                         Assets.svg.medium.add.simpleSvg(
                           color: isDisabled ? SColorsLight().gray8 : SColorsLight().blue,
                         ),

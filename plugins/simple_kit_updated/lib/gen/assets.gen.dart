@@ -242,6 +242,9 @@ class $AssetsSvgMediumGen {
   /// File path: assets/svg/medium/user_alt.svg
   SvgGenImage get userAlt => const SvgGenImage('assets/svg/medium/user_alt.svg');
 
+  /// File path: assets/svg/medium/verify.svg
+  SvgGenImage get verify => const SvgGenImage('assets/svg/medium/verify.svg');
+
   /// File path: assets/svg/medium/wallet.svg
   SvgGenImage get wallet => const SvgGenImage('assets/svg/medium/wallet.svg');
 
@@ -312,6 +315,7 @@ class $AssetsSvgMediumGen {
         twitter,
         user,
         userAlt,
+        verify,
         wallet,
         whatsapp,
         withdrawal
