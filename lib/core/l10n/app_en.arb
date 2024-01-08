@@ -1555,5 +1555,6 @@
     "account_settings_change_label": "Change label",
     "simple_card_settings_change_label": "Change label",
     "simple_card_settings_freeze_card": "Freeze card",
-    "simple_card_actions_settings": "Settings"
+    "simple_card_actions_settings": "Settings",
+    "amount_screen_tab_transfer": "Transfer"
 }

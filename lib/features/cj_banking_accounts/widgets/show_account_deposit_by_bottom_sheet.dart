@@ -1,6 +1,8 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/widgets.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/cj_banking_accounts/screens/show_account_details_screen.dart';
 import 'package:jetwallet/features/cj_banking_accounts/store/account_deposit_by_store.dart';
 import 'package:jetwallet/features/cj_banking_accounts/widgets/show_add_cash_from_bottom_sheet.dart';
@@ -110,7 +112,13 @@ class _DepositByBody extends StatelessWidget {
                 width: 24,
               ),
               onTableAssetTap: () {
-                //TODO (yaroslav): add routing somewhere
+                sRouter.push(
+                    AmountRoute(
+                      tab: AmountScreenTab.transfer,
+                        toAccount: store.account,
+                        fromAccount: account,
+                    ),
+                  );
               },
             ),
         ],
@@ -130,7 +138,13 @@ class _DepositByBody extends StatelessWidget {
               ),
               isCard: true,
               onTableAssetTap: () {
-                //TODO (yaroslav): add routing somewhere
+                sRouter.push(
+                    AmountRoute(
+                      tab: AmountScreenTab.transfer,
+                        toAccount: store.account,
+                        fromCard: card,
+                    ),
+                  );
               },
             ),
         ],

@@ -6,31 +6,42 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/buy_flow/ui/buy_tab_body.dart';
 import 'package:jetwallet/features/convert_flow/screens/convert_tab_body.dart';
 import 'package:jetwallet/features/sell_flow/screens/sell_tab_body.dart';
+import 'package:jetwallet/features/transfer_flow/screens/transfer_tab_body.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
-enum AmountScreenTab { buy, sell, convert }
+enum AmountScreenTab { buy, sell, convert, transfer }
 
 @RoutePage(name: 'AmountRoute')
 class AmountScreen extends StatefulWidget {
   const AmountScreen({
     super.key,
     required this.tab,
-    required this.asset,
+    this.asset,
     this.card,
     this.simpleCard,
     this.account,
+    this.fromCard,
+    this.toCard,
+    this.fromAccount,
+    this.toAccount,
   });
 
   final AmountScreenTab tab;
-  final CurrencyModel asset;
+  final CurrencyModel? asset;
 
   final CircleCard? card;
   final CardDataModel? simpleCard;
   final SimpleBankingAccount? account;
+
+  // for transfer
+  final CardDataModel? fromCard;
+  final CardDataModel? toCard;
+  final SimpleBankingAccount? fromAccount;
+  final SimpleBankingAccount? toAccount;
 
   @override
   State<AmountScreen> createState() => _AmountScreenState();
@@ -42,7 +53,7 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
   @override
   void initState() {
     tabController = TabController(
-      length: 3,
+      length: 4,
       vsync: this,
       initialIndex: widget.tab.index,
     );
@@ -84,7 +95,7 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
             switch (tabController.index) {
               case 0:
                 sAnalytics.tapOnTheBackFromAmountScreenButton(
-                  destinationWallet: widget.asset.symbol,
+                  destinationWallet: widget.asset?.symbol ?? '',
                   pmType: widget.card != null
                       ? PaymenthMethodType.card
                       : widget.account?.isClearjuctionAccount ?? false
@@ -144,6 +155,9 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
                       Tab(
                         text: intl.amount_screen_tab_convert,
                       ),
+                      Tab(
+                        text: intl.amount_screen_tab_transfer,
+                      ),
                     ],
                   ),
                 ),
@@ -160,13 +174,19 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
                   account: widget.account,
                 ),
                 SellAmountTabBody(
-                  asset: widget.asset.assetBalance != Decimal.zero ? widget.asset : null,
+                  asset: widget.asset?.assetBalance != Decimal.zero ? widget.asset : null,
                   account: widget.account,
                   simpleCard: widget.simpleCard,
                 ),
                 ConvertAmountTabBody(
                   fromAsset: widget.tab != AmountScreenTab.buy ? widget.asset : null,
                   toAsset: widget.tab == AmountScreenTab.buy ? widget.asset : null,
+                ),
+                TransferAmountTabBody(
+                  fromCard: widget.fromCard,
+                  toCard: widget.toCard,
+                  fromAccount: widget.fromAccount,
+                  toAccount: widget.toAccount,
                 ),
               ],
             ),

@@ -1,11 +1,8 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/widgets.dart';
-import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
-import 'package:jetwallet/features/sell_flow/widgets/sell_choose_asset_bottom_sheet.dart';
-import 'package:jetwallet/features/simple_card/store/simple_card_deposit_by_store.dart';
+import 'package:jetwallet/features/transfer_flow/store/transfer_from_to_store.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
@@ -13,68 +10,44 @@ import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
-void showSimpleCardDepositBySelector({
+void showTransferFromToBottomSheet({
   required BuildContext context,
-  required VoidCallback onClose,
-  required CardDataModel card,
+  required void Function({CardDataModel? newCard, SimpleBankingAccount? newAccount}) onSelected,
+  required bool isFrom,
 }) {
-  final store = SimpleCardDepositByStore()..init(newCard: card);
+  final store = TransferFromToStore()..init(isFrom: isFrom);
 
   sShowBasicModalBottomSheet(
     context: context,
     pinned: SBottomSheetHeader(
-      name: intl.deposit_by,
+      name: isFrom ? 'Transfer from' : 'Transfer to',
     ),
     scrollable: true,
-    onDissmis: onClose,
     children: [
-      _DepositByBody(
+      _TransferFromToBody(
+        onSelected: onSelected,
         store: store,
       ),
     ],
   );
 }
 
-class _DepositByBody extends StatelessWidget {
-  const _DepositByBody({
+class _TransferFromToBody extends StatelessWidget {
+  const _TransferFromToBody({
+    required this.onSelected,
     required this.store,
   });
 
-  final SimpleCardDepositByStore store;
+  final void Function({
+    CardDataModel? newCard,
+    SimpleBankingAccount? newAccount,
+  }) onSelected;
+  final TransferFromToStore store;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        MarketSeparator(
-          text: intl.methods,
-          isNeedDivider: false,
-        ),
-        if (store.isCryptoAvaible) ...[
-          SimpleTableAsset(
-            label: intl.market_crypto,
-            supplement: intl.internal_exchange,
-            assetIcon: Assets.svg.assets.crypto.defaultPlaceholder.simpleSvg(
-              width: 24,
-            ),
-            onTableAssetTap: () {
-              showSellChooseAssetBottomSheet(
-                context: context,
-                isAddCash: true,
-                onChooseAsset: (currency) {
-                  Navigator.of(context).pop();
-                  sRouter.push(
-                    AmountRoute(
-                      tab: AmountScreenTab.sell,
-                      asset: currency,
-                      simpleCard: store.card,
-                    ),
-                  );
-                },
-              );
-            },
-          ),
-        ],
         if (store.isAccountsAvaible) ...[
           const MarketSeparator(
             text: 'Accounts',
@@ -93,13 +66,8 @@ class _DepositByBody extends StatelessWidget {
                 width: 24,
               ),
               onTableAssetTap: () {
-                sRouter.push(
-                  AmountRoute(
-                    tab: AmountScreenTab.transfer,
-                    toCard: store.card,
-                    fromAccount: account,
-                  ),
-                );
+                sRouter.pop();
+                onSelected(newAccount: account);
               },
             ),
         ],
@@ -119,13 +87,8 @@ class _DepositByBody extends StatelessWidget {
               ),
               isCard: true,
               onTableAssetTap: () {
-                sRouter.push(
-                  AmountRoute(
-                    tab: AmountScreenTab.transfer,
-                    toCard: store.card,
-                    fromCard: card,
-                  ),
-                );
+                sRouter.pop();
+                onSelected(newCard: card);
               },
             ),
         ],
