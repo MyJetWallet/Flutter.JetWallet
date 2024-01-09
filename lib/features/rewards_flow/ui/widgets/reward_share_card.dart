@@ -87,22 +87,16 @@ class _RewardShareCardState extends State<RewardShareCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SpaceH8(),
-            Padding(
-              padding: const EdgeInsets.only(right: 60),
-              child: Text(
-                sSignalRModules.rewardsData?.titleText ?? '',
-                style: sTextH4Style,
-                maxLines: 6,
-              ),
+            Text(
+              sSignalRModules.rewardsData?.titleText ?? '',
+              style: sTextH4Style,
+              maxLines: 6,
             ),
             const SpaceH16(),
-            Padding(
-              padding: const EdgeInsets.only(right: 60),
-              child: Text(
-                sSignalRModules.rewardsData?.descriptionText ?? '',
-                style: sBodyText1Style,
-                maxLines: 6,
-              ),
+            Text(
+              sSignalRModules.rewardsData?.descriptionText ?? '',
+              style: sBodyText1Style,
+              maxLines: 6,
             ),
             Stack(
               children: [
