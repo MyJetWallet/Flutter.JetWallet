@@ -87,123 +87,119 @@ class _SingInBody extends StatelessObserverWidget {
           fireImmediately: true,
         );
       },
-      child: Observer(
-        builder: (context) {
-          return SPageFrame(
-            loaderText: intl.register_pleaseWait,
-            color: colors.grey5,
-            loading: signInStore.loader,
-            header: SLargeHeader(
-              title: intl.register_enterYourEmail,
-            ),
-            child: CustomScrollView(
-              physics: const ClampingScrollPhysics(),
-              controller: controller,
-              slivers: [
-                SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: AutofillGroup(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ColoredBox(
-                          color: colors.white,
-                          child: SPaddingH24(
-                            child: AutofillGroup(
-                              child: Observer(
-                                builder: (context) {
-                                  return SStandardField(
-                                    controller: signInStore.emailController,
-                                    labelText: intl.login_emailTextFieldLabel,
-                                    autofocus: true,
-                                    initialValue: email,
-                                    autofillHints: const [AutofillHints.email],
-                                    keyboardType: TextInputType.emailAddress,
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.deny(
-                                        RegExp('[ ]'),
-                                      ),
-                                    ],
-                                    onChanged: (value) {
-                                      credentials.updateAndValidateEmail(value);
+      child: SPageFrame(
+        loaderText: intl.register_pleaseWait,
+        color: colors.grey5,
+        loading: signInStore.loader,
+        header: SLargeHeader(
+          title: intl.register_enterYourEmail,
+        ),
+        child: CustomScrollView(
+          physics: const ClampingScrollPhysics(),
+          controller: controller,
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: AutofillGroup(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ColoredBox(
+                      color: colors.white,
+                      child: SPaddingH24(
+                        child: AutofillGroup(
+                          child: Observer(
+                            builder: (context) {
+                              return SStandardField(
+                                controller: signInStore.emailController,
+                                labelText: intl.login_emailTextFieldLabel,
+                                autofocus: true,
+                                initialValue: email,
+                                autofillHints: const [AutofillHints.email],
+                                keyboardType: TextInputType.emailAddress,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.deny(
+                                    RegExp('[ ]'),
+                                  ),
+                                ],
+                                onChanged: (value) {
+                                  credentials.updateAndValidateEmail(value);
 
-                                      if (value.isEmpty) {
-                                        SingleSingInStore.of(context).setIsEmailError(false);
-                                      }
-                                    },
-                                    onErase: () {
-                                      SingleSingInStore.of(context).setIsEmailError(false);
-                                    },
-                                    hideClearButton: credentials.email.isEmpty,
-                                    onErrorIconTap: () {
-                                      sNotification.showError(
-                                        intl.register_invalidEmail,
-                                      );
-                                    },
-                                    isError: SingleSingInStore.of(context).isEmailError,
+                                  if (value.isEmpty) {
+                                    SingleSingInStore.of(context).setIsEmailError(false);
+                                  }
+                                },
+                                onErase: () {
+                                  SingleSingInStore.of(context).setIsEmailError(false);
+                                },
+                                hideClearButton: credentials.email.isEmpty,
+                                onErrorIconTap: () {
+                                  sNotification.showError(
+                                    intl.register_invalidEmail,
                                   );
                                 },
-                              ),
-                            ),
-                          ),
-                        ),
-                        const Spacer(),
-                        ColoredBox(
-                          color: colors.grey5,
-                          child: SPaddingH24(
-                            child: SPolicyCheckbox(
-                              firstText: '${intl.register_herebyConfirm} ',
-                              userAgreementText: intl.register_TAndC,
-                              betweenText: ' ${intl.register_andThe} ',
-                              privacyPolicyText: intl.register_privacyPolicy,
-                              isChecked: credentials.policyChecked,
-                              onCheckboxTap: () {
-                                controller.animateTo(
-                                  controller.position.maxScrollExtent,
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.ease,
-                                );
-
-                                credentials.setPolicyChecked();
-
-                                sAnalytics.signInFlowTapToAgreeTCPP();
-                              },
-                              onUserAgreementTap: () {
-                                launchURL(context, userAgreementLink);
-                              },
-                              onPrivacyPolicyTap: () {
-                                launchURL(context, privacyPolicyLink);
-                              },
-                            ),
-                          ),
-                        ),
-                        const SpaceH20(),
-                        SPaddingH24(
-                          child: SPrimaryButton4(
-                            active: credentials.emailIsNotEmptyAndPolicyChecked,
-                            name: intl.register_continue,
-                            onTap: () {
-                              if (credentials.emailValid) {
-                                sAnalytics.signInFlowEmailContinue();
-
-                                signInStore.singleSingIn();
-                              } else {
-                                SingleSingInStore.of(context).setIsEmailError(true);
-
-                                sNotification.showError(intl.register_invalidEmail);
-                              }
+                                isError: SingleSingInStore.of(context).isEmailError,
+                              );
                             },
                           ),
                         ),
-                        const SpaceH42(),
-                      ],
+                      ),
                     ),
-                  ),
+                    const Spacer(),
+                    ColoredBox(
+                      color: colors.grey5,
+                      child: SPaddingH24(
+                        child: SPolicyCheckbox(
+                          firstText: '${intl.register_herebyConfirm} ',
+                          userAgreementText: intl.register_TAndC,
+                          betweenText: ' ${intl.register_andThe} ',
+                          privacyPolicyText: intl.register_privacyPolicy,
+                          isChecked: credentials.policyChecked,
+                          onCheckboxTap: () {
+                            controller.animateTo(
+                              controller.position.maxScrollExtent,
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.ease,
+                            );
+
+                            credentials.setPolicyChecked();
+
+                            sAnalytics.signInFlowTapToAgreeTCPP();
+                          },
+                          onUserAgreementTap: () {
+                            launchURL(context, userAgreementLink);
+                          },
+                          onPrivacyPolicyTap: () {
+                            launchURL(context, privacyPolicyLink);
+                          },
+                        ),
+                      ),
+                    ),
+                    const SpaceH20(),
+                    SPaddingH24(
+                      child: SPrimaryButton4(
+                        active: credentials.emailIsNotEmptyAndPolicyChecked,
+                        name: intl.register_continue,
+                        onTap: () {
+                          if (credentials.emailValid) {
+                            sAnalytics.signInFlowEmailContinue();
+
+                            signInStore.singleSingIn();
+                          } else {
+                            SingleSingInStore.of(context).setIsEmailError(true);
+
+                            sNotification.showError(intl.register_invalidEmail);
+                          }
+                        },
+                      ),
+                    ),
+                    const SpaceH42(),
+                  ],
                 ),
-              ],
+              ),
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }

@@ -15,7 +15,7 @@ dependencies:
   # TOOLKIT
   cupertino_icons: ^1.0.5 # IOS icons
   universal_io: 2.0.4 # Cross-platform 'dart:io' that works in all platforms
-  url_launcher: 6.1.7 # plugin for launching a URL
+  url_launcher: ^6.2.3 # plugin for launching a URL
   pin_code_fields: 7.4.0 # Generate pin code fields
   qr_flutter: 4.1.0 # QR code rendering
   grouped_list: 5.1.2 # List with grouped items
