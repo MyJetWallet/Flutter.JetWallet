@@ -1548,5 +1548,9 @@
     "profile_kyc_bloked_alert": "Your account has been suspended. Please contact support for more info.",
     "send_gift_small_title": "Send gift",
     "send": "Send",
-    "paste": "Paste"
+    "paste": "Paste",
+    "rate_title": "Finding us simply amazing?",
+    "rate_subtitle": "Let us know by rating our app on the App Store. Your feedback is invaluable!",
+    "rate_submit_button": "Leave a review",
+    "rate_cancel_button": "Cancel"
 }
