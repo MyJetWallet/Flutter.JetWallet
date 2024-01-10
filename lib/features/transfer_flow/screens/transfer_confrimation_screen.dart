@@ -98,7 +98,7 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
                     decimal: store.fromAmount,
                   ),
                   fromAssetCustomIcon: store.fromType == CredentialsType.unlimitCard
-                      ? Assets.svg.other.medium.card.simpleSvg(
+                      ? Assets.svg.assets.fiat.cardAlt.simpleSvg(
                           width: 40,
                         )
                       : Assets.svg.other.medium.bankAccount.simpleSvg(

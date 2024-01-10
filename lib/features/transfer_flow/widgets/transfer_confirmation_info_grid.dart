@@ -62,7 +62,7 @@ class TransferConfirmationInfoGrid extends StatelessWidget {
                     children: [
                       const SpaceW19(),
                       if (isToCard)
-                        Assets.svg.other.medium.card.simpleSvg(
+                        Assets.svg.assets.fiat.cardAlt.simpleSvg(
                           width: 24,
                         )
                       else

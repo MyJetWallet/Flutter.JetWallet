@@ -94,7 +94,7 @@ class _ConfirmationInfoGridState extends State<SellConfirmationInfoGrid> with Si
                     children: [
                       const SpaceW19(),
                       if (widget.simpleCard != null)
-                        Assets.svg.other.medium.card.simpleSvg(
+                        Assets.svg.assets.fiat.cardAlt.simpleSvg(
                           width: 24,
                         )
                       else

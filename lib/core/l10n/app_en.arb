@@ -1558,5 +1558,7 @@
     "simple_card_actions_settings": "Settings",
     "amount_screen_tab_transfer": "Transfer",
     "deposit_by_accounts": "Accounts",
-    "deposit_by_cards": "Cards"
+    "deposit_by_cards": "Cards",
+    "transfer_transfer_from": "Transfer from",
+    "transfer_transfer_to": "Transfer to"
 }

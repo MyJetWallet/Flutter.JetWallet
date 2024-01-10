@@ -226,7 +226,7 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                       accuracy: store.asset?.accuracy ?? 1,
                       symbol: store.card?.currency ?? '',
                     ),
-                    icon: Assets.svg.other.medium.card.simpleSvg(
+                    icon: Assets.svg.assets.fiat.cardAlt.simpleSvg(
                       width: 24,
                     ),
                     onTap: () {

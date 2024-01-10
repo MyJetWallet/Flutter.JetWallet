@@ -425,11 +425,14 @@ class $AssetsSvgAssetsFiatGen {
   /// File path: assets/svg/assets/fiat/card.svg
   SvgGenImage get card => const SvgGenImage('assets/svg/assets/fiat/card.svg');
 
+  /// File path: assets/svg/assets/fiat/card_alt.svg
+  SvgGenImage get cardAlt => const SvgGenImage('assets/svg/assets/fiat/card_alt.svg');
+
   /// File path: assets/svg/assets/fiat/external_transfer.svg
   SvgGenImage get externalTransfer => const SvgGenImage('assets/svg/assets/fiat/external_transfer.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [account, altMethod, card, externalTransfer];
+  List<SvgGenImage> get values => [account, altMethod, card, cardAlt, externalTransfer];
 }
 
 class $AssetsSvgOtherLargeGen {

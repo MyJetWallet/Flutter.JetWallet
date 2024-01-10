@@ -17,12 +17,17 @@ abstract class _TransferFromToStoreBase with Store {
   @observable
   bool isCardsAvaible = true;
 
+  String? _skipId;
+
   @computed
   List<CardDataModel> get cards {
     return _isFrom
         ? sSignalRModules.bankingProfileData?.banking?.cards
                 ?.where(
-                  (element) => element.status == AccountStatusCard.active && element.isNotEmptyBalance,
+                  (element) =>
+                      element.status == AccountStatusCard.active &&
+                      element.isNotEmptyBalance &&
+                      element.cardId != _skipId,
                 )
                 .toList() ??
             []
@@ -40,17 +45,28 @@ abstract class _TransferFromToStoreBase with Store {
 
     final simpleAccount = sSignalRModules.bankingProfileData?.simple?.account;
 
-    if (simpleAccount != null) {
-      accounts.add(simpleAccount);
+    if (simpleAccount != null && simpleAccount.accountId != _skipId) {
+      if (_isFrom) {
+        if (simpleAccount.isNotEmptyBalance) {
+          accounts.add(simpleAccount);
+        }
+      } else {
+        accounts.add(simpleAccount);
+      }
     }
 
     final bankingAccounts = _isFrom
         ? sSignalRModules.bankingProfileData?.banking?.accounts
-                ?.where((element) => element.isNotEmptyBalance && !(element.isHidden ?? false))
+                ?.where(
+                  (element) =>
+                      element.isNotEmptyBalance && !(element.isHidden ?? false) && element.accountId != _skipId,
+                )
                 .toList() ??
             <SimpleBankingAccount>[]
         : sSignalRModules.bankingProfileData?.banking?.accounts
-                ?.where((element) => !(element.isHidden ?? false))
+                ?.where(
+                  (element) => !(element.isHidden ?? false) && element.accountId != _skipId,
+                )
                 .toList() ??
             <SimpleBankingAccount>[];
 
@@ -60,7 +76,11 @@ abstract class _TransferFromToStoreBase with Store {
   }
 
   @action
-  void init({required bool isFrom}) {
+  void init({
+    required bool isFrom,
+    String? skipId,
+  }) {
     _isFrom = isFrom;
+    _skipId = skipId;
   }
 }

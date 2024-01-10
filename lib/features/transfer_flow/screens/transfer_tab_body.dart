@@ -112,6 +112,7 @@ class _TrancferBody extends StatelessWidget {
                       newFromAccount: newAccount,
                     );
                   },
+                  skipId: store.toAccount?.accountId ?? store.toCard?.cardId,
                 );
               },
               isFrom: true,
@@ -130,6 +131,7 @@ class _TrancferBody extends StatelessWidget {
                       newToAccount: newAccount,
                     );
                   },
+                  skipId: store.fromAccount?.accountId ?? store.fromCard?.cardId,
                 );
               },
               isFrom: false,
@@ -179,7 +181,7 @@ class _AsssetWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SuggestionButtonWidget(
       title: account?.label ?? card?.label,
-      subTitle: isFrom ? 'From' : 'To',
+      subTitle: isFrom ? intl.from : intl.to1,
       trailing: account == null && card == null
           ? null
           : volumeFormat(
@@ -192,7 +194,7 @@ class _AsssetWidget extends StatelessWidget {
               width: 24,
             )
           : card != null
-              ? Assets.svg.other.medium.card.simpleSvg(
+              ? Assets.svg.assets.fiat.cardAlt.simpleSvg(
                   width: 24,
                 )
               : Container(

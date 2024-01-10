@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/widgets.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:jetwallet/features/transfer_flow/store/transfer_from_to_store.dart';
@@ -14,13 +15,14 @@ void showTransferFromToBottomSheet({
   required BuildContext context,
   required void Function({CardDataModel? newCard, SimpleBankingAccount? newAccount}) onSelected,
   required bool isFrom,
+  String? skipId,
 }) {
-  final store = TransferFromToStore()..init(isFrom: isFrom);
+  final store = TransferFromToStore()..init(isFrom: isFrom, skipId: skipId);
 
   sShowBasicModalBottomSheet(
     context: context,
     pinned: SBottomSheetHeader(
-      name: isFrom ? 'Transfer from' : 'Transfer to',
+      name: isFrom ? intl.transfer_transfer_from : intl.transfer_transfer_to,
     ),
     scrollable: true,
     children: [
@@ -48,15 +50,16 @@ class _TransferFromToBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (store.isAccountsAvaible) ...[
-          const MarketSeparator(
-            text: 'Accounts',
+        if (store.isAccountsAvaible && store.accounts.isNotEmpty) ...[
+          MarketSeparator(
+            text: intl.deposit_by_accounts,
             isNeedDivider: false,
           ),
           for (final account in store.accounts)
             SimpleTableAsset(
               label: account.label ?? 'Account 1',
-              supplement: 'Simple account',
+              supplement:
+                  account.isClearjuctionAccount ? intl.eur_wallet_simple_account : intl.eur_wallet_personal_account,
               rightValue: volumeFormat(
                 decimal: account.balance ?? Decimal.zero,
                 accuracy: 2,
@@ -71,14 +74,14 @@ class _TransferFromToBody extends StatelessWidget {
               },
             ),
         ],
-        if (store.isCardsAvaible) ...[
-          const MarketSeparator(
-            text: 'Cards',
+        if (store.isCardsAvaible && store.cards.isNotEmpty) ...[
+          MarketSeparator(
+            text: intl.deposit_by_cards,
             isNeedDivider: false,
           ),
           for (final card in store.cards)
             SimpleTableAsset(
-              label: card.label ?? '',
+              label: card.label ?? 'Simple card',
               supplement: '${card.cardType?.frontName} ••• ${card.last4NumberCharacters}',
               rightValue: volumeFormat(
                 decimal: card.balance ?? Decimal.zero,
