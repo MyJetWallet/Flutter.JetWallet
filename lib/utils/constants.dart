@@ -133,6 +133,9 @@ const simpleCheckboxLogo = 'assets/images/reward_checkbox.png';
 const simpleRewardTrophy = 'assets/images/trophy.svg';
 const simpleRewardSmallStar = 'assets/images/reward_small_star.png';
 const simpleCardMask = 'assets/images/card_mask.png';
+const simpleRewardCardFront = 'assets/images/reward_card_front.png';
+const simpleRewardCardRevers = 'assets/images/reward_card_revers.png';
+const simpleGlitter = 'assets/images/glitter.svg';
 
 const simpleWalletShape = 'assets/images/wallet_shape.png';
 const simpleWalletCircle = 'assets/images/wallet_circle.png';
