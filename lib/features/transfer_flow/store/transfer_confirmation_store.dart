@@ -288,12 +288,13 @@ abstract class _TransferConfirmationStoreBase with Store {
     return sRouter
         .push(
           SuccessScreenRouter(
-            secondaryText: 'You have transferred '
-                '${volumeFormat(
-              decimal: fromAmount,
-              accuracy: eurCurrency.accuracy,
-              symbol: eurCurrency.symbol,
-            )}',
+            secondaryText: intl.transfet_success_text(
+              volumeFormat(
+                decimal: fromAmount,
+                accuracy: eurCurrency.accuracy,
+                symbol: eurCurrency.symbol,
+              ),
+            ),
             buttonText: intl.previewBuyWithUmlimint_saveCard,
             showProgressBar: true,
             showCloseButton: true,

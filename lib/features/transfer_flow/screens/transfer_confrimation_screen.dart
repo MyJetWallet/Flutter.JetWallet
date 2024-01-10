@@ -72,7 +72,7 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
       ),
       header: SSmallHeader(
         title: intl.buy_confirmation_title,
-        subTitle: 'Transfer',
+        subTitle: intl.amount_screen_tab_transfer,
         subTitleStyle: sBodyText2Style.copyWith(
           color: colors.grey1,
         ),
@@ -82,6 +82,7 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
         },
       ),
       child: CustomScrollView(
+       physics: const ClampingScrollPhysics(),
         slivers: [
           SliverFillRemaining(
             hasScrollBody: false,
@@ -123,13 +124,14 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  '''SEPA Instant – up to 2 hours.\nRegular SEPA transfer – up to 3 business days.\nReceiving bank may charge additional fee.''',
+                  intl.transfer_confirmation_time_to_transaction,
                   style: sCaptionTextStyle.copyWith(
                     color: sKit.colors.grey1,
                   ),
                 ),
                 const SizedBox(height: 16),
                 const SDivider(),
+                const Spacer(),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24),
                   child: SPrimaryButton2(
@@ -140,6 +142,7 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
                     },
                   ),
                 ),
+                const SizedBox(height: 8),
               ],
             ),
           ),

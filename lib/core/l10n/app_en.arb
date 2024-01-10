@@ -1560,5 +1560,18 @@
     "deposit_by_accounts": "Accounts",
     "deposit_by_cards": "Cards",
     "transfer_transfer_from": "Transfer from",
-    "transfer_transfer_to": "Transfer to"
+    "transfer_transfer_to": "Transfer to",
+    "transfet_success_text": "You have transferred {amount}",
+    "@hello": {
+        "placeholders": {
+            "amount": {
+                "type": "String",
+                "example": "200 EUR"
+            }
+        }
+    },
+    "transfer_confirmation_send_to": "Send to",
+    "transfer_confirmation_benificiary": "Benificiary",
+    "transfer_confirmation_reference": "Reference",
+    "transfer_confirmation_time_to_transaction": "SEPA Instant – up to 2 hours.\nRegular SEPA transfer – up to 3 business days.\nReceiving bank may charge additional fee."
 }

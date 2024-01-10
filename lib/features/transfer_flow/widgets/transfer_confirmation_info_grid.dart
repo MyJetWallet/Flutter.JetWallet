@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -52,7 +53,7 @@ class TransferConfirmationInfoGrid extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                'Send to',
+                intl.transfer_confirmation_send_to,
                 style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
               ),
               if (isDataLoaded) ...[
@@ -87,16 +88,16 @@ class TransferConfirmationInfoGrid extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        if (isDataLoaded && benificiary.trim().isNotEmpty) ...[
+        if (!isDataLoaded || benificiary.trim().isNotEmpty) ...[
           _FieldRowWidget(
-            lable: 'Benificiary',
+            lable: intl.transfer_confirmation_benificiary,
             value: benificiary,
             isDataLoaded: isDataLoaded,
           ),
           const SizedBox(height: 16),
         ],
         _FieldRowWidget(
-          lable: 'Reference',
+          lable: intl.transfer_confirmation_reference,
           value: reference,
           isDataLoaded: isDataLoaded,
         ),
