@@ -83,7 +83,7 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
           SPaddingH24(
             child: SimpleAccountCategoryHeader(
               onIconTap: () {
-                if (debugTapCounter >= 4) {
+                if (debugTapCounter >= 30) {
                   sRouter.push(
                     const DebugInfoRouter(),
                   );
