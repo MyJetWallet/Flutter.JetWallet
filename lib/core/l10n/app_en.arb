@@ -1556,5 +1556,7 @@
     "simple_card_settings_change_label": "Change label",
     "simple_card_settings_freeze_card": "Freeze card",
     "simple_card_actions_settings": "Settings",
-    "amount_screen_tab_transfer": "Transfer"
+    "amount_screen_tab_transfer": "Transfer",
+    "deposit_by_accounts": "Accounts",
+    "deposit_by_cards": "Cards"
 }

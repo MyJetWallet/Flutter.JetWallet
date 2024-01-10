@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
-import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
+import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
-import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 void showAddCashFromBottomSheet({
   required BuildContext context,
   required VoidCallback onClose,
-  required SimpleBankingAccount bankingAccount,
+  required void Function(CurrencyModel currency) onChooseAsset,
 }) {
   final baseCurrency = sSignalRModules.baseCurrency;
 
@@ -54,43 +52,57 @@ void showAddCashFromBottomSheet({
         text: intl.sell_amount_cryptocurrencies,
         isNeedDivider: false,
       ),
-      Observer(
-        builder: (context) {
-          var currencyFiltered = List<CurrencyModel>.from(searchStore.fCurrencies);
-          currencyFiltered = currencyFiltered
-              .where(
-                (element) => element.isAssetBalanceNotEmpty && element.type == AssetType.crypto,
-              )
-              .toList();
+      if (currenciesWithBalance(sSignalRModules.currenciesList).isEmpty)
+        Builder(
+          builder: (context) {
+            final currency = sSignalRModules.currenciesList.firstWhere((element) => element.symbol == 'USDT');
 
-          return Column(
-            children: [
-              for (final currency in currencyFiltered)
-                if (currency.isAssetBalanceNotEmpty)
-                  SWalletItem(
-                    decline: currency.dayPercentChange.isNegative,
-                    icon: SNetworkSvg24(
-                      url: currency.iconUrl,
+            return SWalletItem(
+              decline: currency.dayPercentChange.isNegative,
+              icon: SNetworkSvg24(
+                url: currency.iconUrl,
+              ),
+              primaryText: currency.description,
+              removeDivider: true,
+              amount: currency.volumeBaseBalance(baseCurrency),
+              secondaryText: currency.volumeAssetBalance,
+              onTap: () {
+                onChooseAsset(currency);
+              },
+            );
+          },
+        )
+      else
+        Observer(
+          builder: (context) {
+            var currencyFiltered = List<CurrencyModel>.from(searchStore.fCurrencies);
+            currencyFiltered = currencyFiltered
+                .where(
+                  (element) => element.isAssetBalanceNotEmpty && element.type == AssetType.crypto,
+                )
+                .toList();
+
+            return Column(
+              children: [
+                for (final currency in currencyFiltered)
+                  if (currency.isAssetBalanceNotEmpty)
+                    SWalletItem(
+                      decline: currency.dayPercentChange.isNegative,
+                      icon: SNetworkSvg24(
+                        url: currency.iconUrl,
+                      ),
+                      primaryText: currency.description,
+                      removeDivider: true,
+                      amount: currency.volumeBaseBalance(baseCurrency),
+                      secondaryText: currency.volumeAssetBalance,
+                      onTap: () {
+                        onChooseAsset(currency);
+                      },
                     ),
-                    primaryText: currency.description,
-                    removeDivider: true,
-                    amount: currency.volumeBaseBalance(baseCurrency),
-                    secondaryText: currency.volumeAssetBalance,
-                    onTap: () {
-                      Navigator.pop(context);
-                      sRouter.push(
-                        AmountRoute(
-                          tab: AmountScreenTab.sell,
-                          asset: currency,
-                          account: bankingAccount,
-                        ),
-                      );
-                    },
-                  ),
-            ],
-          );
-        },
-      ),
+              ],
+            );
+          },
+        ),
       const SpaceH42(),
     ],
   );

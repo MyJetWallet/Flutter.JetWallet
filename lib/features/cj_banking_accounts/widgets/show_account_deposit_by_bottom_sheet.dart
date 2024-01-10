@@ -89,20 +89,30 @@ class _DepositByBody extends StatelessWidget {
                     isHasTransaction: true,
                   );
                 },
-                bankingAccount: store.account!,
+                onChooseAsset: (currency) {
+                  Navigator.pop(context);
+                  sRouter.push(
+                    AmountRoute(
+                      tab: AmountScreenTab.sell,
+                      asset: currency,
+                      account: store.account,
+                    ),
+                  );
+                },
               );
             },
           ),
         ],
         if (store.isAccountsAvaible) ...[
-          const MarketSeparator(
-            text: 'Accounts',
+          MarketSeparator(
+            text: intl.deposit_by_accounts,
             isNeedDivider: false,
           ),
           for (final account in store.accounts)
             SimpleTableAsset(
               label: account.label ?? 'Account 1',
-              supplement: 'Simple account',
+              supplement:
+                  account.isClearjuctionAccount ? intl.eur_wallet_simple_account : intl.eur_wallet_personal_account,
               rightValue: volumeFormat(
                 decimal: account.balance ?? Decimal.zero,
                 accuracy: 2,
@@ -113,18 +123,18 @@ class _DepositByBody extends StatelessWidget {
               ),
               onTableAssetTap: () {
                 sRouter.push(
-                    AmountRoute(
-                      tab: AmountScreenTab.transfer,
-                        toAccount: store.account,
-                        fromAccount: account,
-                    ),
-                  );
+                  AmountRoute(
+                    tab: AmountScreenTab.transfer,
+                    toAccount: store.account,
+                    fromAccount: account,
+                  ),
+                );
               },
             ),
         ],
         if (store.isCardsAvaible) ...[
-          const MarketSeparator(
-            text: 'Cards',
+          MarketSeparator(
+            text: intl.deposit_by_cards,
             isNeedDivider: false,
           ),
           for (final card in store.cards)
@@ -139,12 +149,12 @@ class _DepositByBody extends StatelessWidget {
               isCard: true,
               onTableAssetTap: () {
                 sRouter.push(
-                    AmountRoute(
-                      tab: AmountScreenTab.transfer,
-                        toAccount: store.account,
-                        fromCard: card,
-                    ),
-                  );
+                  AmountRoute(
+                    tab: AmountScreenTab.transfer,
+                    toAccount: store.account,
+                    fromCard: card,
+                  ),
+                );
               },
             ),
         ],

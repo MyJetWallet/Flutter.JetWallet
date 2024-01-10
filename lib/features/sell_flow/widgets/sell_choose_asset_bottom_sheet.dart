@@ -18,7 +18,6 @@ import '../../actions/store/action_search_store.dart';
 void showSellChooseAssetBottomSheet({
   required BuildContext context,
   required void Function(CurrencyModel currency) onChooseAsset,
-  bool isAddCash = false,
   dynamic Function(dynamic)? then,
 }) {
   final searchStore = getIt.get<ActionSearchStore>();
@@ -45,7 +44,7 @@ void showSellChooseAssetBottomSheet({
     expanded: showSearch,
     then: then,
     pinned: ActionBottomSheetHeader(
-      name: isAddCash ? intl.simple_card_add_cash_from : intl.amount_screen_sell,
+      name: intl.amount_screen_sell,
       showSearch: showSearch,
       onChanged: (String value) {
         searchStore.search(value);

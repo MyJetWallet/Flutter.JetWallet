@@ -3,7 +3,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_button.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_freeze.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_terminate.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class SimpleCardActionButtons extends StatelessObserverWidget {
@@ -39,23 +38,11 @@ class SimpleCardActionButtons extends StatelessObserverWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             if (isFrozen) ...[
-              const SizedBox(
-                width: 75,
-              ),
               CircleActionFreeze(
                 isFrozen: isFrozen,
                 onTap: () {
                   onFreeze?.call();
                 },
-              ),
-              CircleActionTerminate(
-                onTap: () {
-                  onTerminate?.call();
-                },
-                isDisabled: !isTerminateAvailable,
-              ),
-              const SizedBox(
-                width: 75,
               ),
             ] else ...[
               CircleActionButton(

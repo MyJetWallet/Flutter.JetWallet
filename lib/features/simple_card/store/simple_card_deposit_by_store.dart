@@ -18,7 +18,7 @@ abstract class _SimpleCardDepositByStoreBase with Store {
   bool isAccountsAvaible = true;
 
   @observable
-  bool isCardsAvaible = true;
+  bool isCardsAvaible = false;
 
   @observable
   CardDataModel? card;
