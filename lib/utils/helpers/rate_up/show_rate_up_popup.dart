@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 Future<void> shopRateUpPopup(BuildContext context) async {
+  final storageService = sLocalStorageService;
+
+  final status = await storageService.getValue(showRateUp);
+  if (status != null) {
+    return;
+  }
+
   await sShowAlertPopup(
     context,
     primaryText: intl.rate_title,
@@ -21,6 +29,8 @@ Future<void> shopRateUpPopup(BuildContext context) async {
       final inAppReview = InAppReview.instance;
 
       if (await inAppReview.isAvailable()) {
+        await storageService.setString(showRateUp, 'true');
+
         await inAppReview.requestReview();
       }
 
