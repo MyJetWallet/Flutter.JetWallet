@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:decimal/decimal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
@@ -14,6 +16,7 @@ import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_re
 
 import '../../../../core/di/di.dart';
 import '../../../../core/l10n/i10n.dart';
+import '../../../../core/services/notification_service.dart';
 import '../../../../utils/formatting/base/volume_format.dart';
 import '../../ui/invests/data_line.dart';
 import '../../ui/widgets/invest_alert_bottom_sheet.dart';
@@ -185,6 +188,7 @@ abstract class _InvestPositionsStoreBase with Store {
 
   @action
   void closeAllActive(BuildContext context, String? id) {
+    loader!.startLoading();
     var positions = List.of(activeList);
     if (id != null) {
       positions = positions.where((element) => element.symbol == id).toList();
@@ -193,19 +197,25 @@ abstract class _InvestPositionsStoreBase with Store {
       try {
         sNetwork.getWalletModule().closeActivePosition(positionId: position.id ?? '');
         if (position.id == positions.last.id) {
-          Navigator.pop(context);
-          showInvestInfoBottomSheet(
-            context: context,
-            type: 'success',
-            onPrimaryButtonTap: () {
+          checkClosedPosition(
+            position.id!,
+            () {
               Navigator.pop(context);
-              Navigator.pop(context);
+              showInvestInfoBottomSheet(
+                context: context,
+                type: 'success',
+                onPrimaryButtonTap: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+                primaryButtonName: intl.invest_alert_got_it,
+                title: intl.invest_alert_success_close,
+              );
             },
-            primaryButtonName: intl.invest_alert_got_it,
-            title: intl.invest_alert_success_close,
           );
         }
       } catch (e) {
+        loader!.finishLoading();
         Navigator.pop(context);
         showInvestInfoBottomSheet(
           context: context,
@@ -306,6 +316,7 @@ abstract class _InvestPositionsStoreBase with Store {
 
   @action
   void cancelAllPending(BuildContext context, String? id) {
+    loader!.startLoading();
     var positions = List.of(pendingList);
     if (id != null) {
       positions = positions.where((element) => element.symbol == id).toList();
@@ -314,17 +325,23 @@ abstract class _InvestPositionsStoreBase with Store {
       try {
         sNetwork.getWalletModule().cancelPendingPosition(positionId: position.id ?? '');
         if (position == positions.last) {
-          Navigator.pop(context);
-          showInvestInfoBottomSheet(
-            context: context,
-            type: 'success',
-            onPrimaryButtonTap: () => Navigator.pop(context),
-            primaryButtonName: intl.invest_alert_got_it,
-            title: intl.invest_alert_success_delete,
+          checkClosedPosition(
+            position.id!,
+            () {
+              Navigator.pop(context);
+              showInvestInfoBottomSheet(
+                context: context,
+                type: 'success',
+                onPrimaryButtonTap: () => Navigator.pop(context),
+                primaryButtonName: intl.invest_alert_got_it,
+                title: intl.invest_alert_success_delete,
+              );
+            },
           );
         }
       } catch (e) {
         Navigator.pop(context);
+        loader!.finishLoading();
         showInvestInfoBottomSheet(
           context: context,
           type: 'error',
@@ -336,4 +353,49 @@ abstract class _InvestPositionsStoreBase with Store {
       }
     }
   }
+
+  @action
+  Future<void> checkClosedPosition(
+    String id,
+    Function() onClose,
+  ) async {
+    try {
+      final response = await getIt
+          .get<SNetwork>()
+          .simpleNetworking
+          .getWalletModule()
+          .getPosition(positionId: id);
+
+      if (response.hasError) {
+        sNotification.showError(
+          response.error?.cause ?? '',
+          duration: 4,
+          id: 1,
+          needFeedback: true,
+        );
+        loader!.finishLoading();
+      } else {
+        if (
+          response.data?.position?.status == PositionStatus.closing ||
+          response.data?.position?.status == PositionStatus.cancelling
+        ) {
+          Timer(
+            const Duration(seconds: 1),
+            () {
+              checkClosedPosition(id, onClose);
+            },
+          );
+        } else {
+          loader!.finishLoading();
+          onClose();
+        }
+      }
+    } catch (e) {
+      sNotification.showError(
+        intl.something_went_wrong,
+      );
+      loader!.finishLoading();
+    }
+  }
+
 }
