@@ -43,6 +43,7 @@ class SButtonContext extends StatelessWidget {
     this.contentColor,
     this.backgroundColor,
     this.icon,
+    this.iconCustomColor,
   }) : super(key: key);
 
   final SButtonContextType type;
@@ -52,6 +53,7 @@ class SButtonContext extends StatelessWidget {
   final Color? contentColor;
   final Color? backgroundColor;
   final SvgGenImage? icon;
+  final Color? iconCustomColor;
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +139,7 @@ class SButtonContext extends StatelessWidget {
                     width: type == SButtonContextType.iconedLarge ? 24 : 20,
                     height: type == SButtonContextType.iconedLarge ? 24 : 20,
                     child: icon?.simpleSvg(
-                          color: isDisabled ? SColorsLight().gray8 : SColorsLight().blue,
+                          color: isDisabled ? SColorsLight().gray8 : iconCustomColor ?? SColorsLight().blue,
                         ) ??
                         Assets.svg.medium.add.simpleSvg(
                           color: isDisabled ? SColorsLight().gray8 : SColorsLight().blue,
@@ -149,11 +151,13 @@ class SButtonContext extends StatelessWidget {
                   text,
                   style: type == SButtonContextType.iconedLarge
                       ? STStyles.button.copyWith(
-                          color: contentColor ?? (isDisabled ? SColorsLight().gray8 : SColorsLight().blue),
+                          color: contentColor ??
+                              (isDisabled ? SColorsLight().gray8 : iconCustomColor ?? SColorsLight().blue),
                           height: 1,
                         )
                       : STStyles.body1Bold.copyWith(
-                          color: contentColor ?? (isDisabled ? SColorsLight().gray8 : SColorsLight().blue),
+                          color: contentColor ??
+                              (isDisabled ? SColorsLight().gray8 : iconCustomColor ?? SColorsLight().blue),
                           height: 1,
                         ),
                 ),

@@ -105,7 +105,7 @@ class SegmentControl extends HookWidget {
                   height: 16,
                 ) ??
                 Assets.svg.medium.add.simpleSvg(
-                  color: SColorsLight().white,
+                  color: tabController.index == index ? SColorsLight().white : SColorsLight().gray6,
                 ),
             const Gap(8),
             Text(
@@ -132,7 +132,9 @@ class SegmentControl extends HookWidget {
               width: 16,
               height: 16,
             ) ??
-            Assets.svg.medium.add.simpleSvg();
+            Assets.svg.medium.add.simpleSvg(
+              color: tabController.index == index ? SColorsLight().white : SColorsLight().gray6,
+            );
     }
   }
 }

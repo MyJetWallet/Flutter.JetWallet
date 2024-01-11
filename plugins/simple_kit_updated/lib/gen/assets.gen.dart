@@ -325,6 +325,9 @@ class $AssetsSvgMediumGen {
 class $AssetsSvgOtherGen {
   const $AssetsSvgOtherGen();
 
+  /// File path: assets/svg/other/btc.svg
+  SvgGenImage get btc => const SvgGenImage('assets/svg/other/btc.svg');
+
   /// File path: assets/svg/other/happy_simple_large.svg
   SvgGenImage get happySimpleLarge => const SvgGenImage('assets/svg/other/happy_simple_large.svg');
 
@@ -343,7 +346,7 @@ class $AssetsSvgOtherGen {
   $AssetsSvgOtherSmallGen get small => const $AssetsSvgOtherSmallGen();
 
   /// List of all assets
-  List<SvgGenImage> get values => [happySimpleLarge, happySimpleSmall, sadSimpleLarge, sadSimpleSmall];
+  List<SvgGenImage> get values => [btc, happySimpleLarge, happySimpleSmall, sadSimpleLarge, sadSimpleSmall];
 }
 
 class $AssetsSvgPaymentMethodsCardsGen {

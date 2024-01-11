@@ -6,8 +6,8 @@ import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 
-class ByttonChipAssist extends StatelessWidget {
-  const ByttonChipAssist({
+class ButtonChipAssist extends StatelessWidget {
+  const ButtonChipAssist({
     Key? key,
     required this.leftIcon,
     required this.text,
