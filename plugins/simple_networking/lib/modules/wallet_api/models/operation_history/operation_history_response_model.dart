@@ -706,7 +706,7 @@ class SellCryptoInfo with _$SellCryptoInfo {
     String? feeAssetId,
     @DecimalSerialiser() required Decimal feeAmount,
     String? accountId,
-    required IbanAccountType accountType,
+    @JsonKey(unknownEnumValue: IbanAccountType.unknown) required IbanAccountType accountType,
     String? paymentFeeAssetId,
     @DecimalSerialiser() required Decimal paymentFeeAmount,
     String? accountLabel,
@@ -722,6 +722,10 @@ enum IbanAccountType {
   simple,
   @JsonValue(1)
   banking,
+  @JsonValue(2)
+  bankCard,
+  @JsonValue(3)
+  unknown,
 }
 
 @freezed
