@@ -12,22 +12,26 @@ class SimpleCardActionButtons extends StatelessObserverWidget {
     this.isFrozen = false,
     this.isTerminateAvailable = true,
     this.isAddCashAvailable = true,
+    this.isWithdrawAvailable = true,
     this.onAddCash,
     this.onShowDetails,
     this.onFreeze,
     this.onSettings,
     this.onTerminate,
+   this.onWithdraw,
   });
 
   final bool isDetailsShown;
   final bool isFrozen;
   final bool isTerminateAvailable;
   final bool isAddCashAvailable;
+  final bool isWithdrawAvailable;
   final Function()? onAddCash;
   final Function()? onShowDetails;
   final Function()? onFreeze;
   final Function()? onSettings;
   final Function()? onTerminate;
+  final Function()? onWithdraw;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +59,10 @@ class SimpleCardActionButtons extends StatelessObserverWidget {
               CircleActionButton(
                 text: intl.wallet_withdraw,
                 type: CircleButtonType.withdraw,
-                onTap: () {},
+                isDisabled: !isWithdrawAvailable,
+                onTap: () {
+                  onWithdraw?.call();
+                },
               ),
               CircleActionButton(
                 text: intl.simple_card_actions_settings,

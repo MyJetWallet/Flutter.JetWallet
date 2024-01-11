@@ -9,10 +9,10 @@ import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_a
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/buy_choose_asset_bottom_sheet.dart';
 import 'package:jetwallet/features/cj_banking_accounts/widgets/show_account_deposit_by_bottom_sheet.dart';
+import 'package:jetwallet/features/cj_banking_accounts/widgets/show_account_withdraw_to_bottom_sheet.dart';
 import 'package:jetwallet/features/cj_banking_accounts/widgets/show_setting_bottom_sheet.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
-import 'package:jetwallet/features/withdrawal_banking/helpers/show_bank_transfer_select.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_button.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -92,34 +92,10 @@ class ActionsAccountRowWidget extends StatelessWidget {
                 type: CircleButtonType.withdraw,
                 isDisabled: !((bankingAccount.balance ?? Decimal.zero) > Decimal.zero),
                 onTap: () {
-                  sAnalytics.eurWithdrawTapOnTheButtonWithdraw(
-                    eurAccountType: isCJAccount ? 'CJ' : 'Unlimit',
-                    accountIban: bankingAccount.iban ?? '',
-                    accountLabel: bankingAccount.label ?? '',
-                  );
-
-                  if (kycState.withdrawalStatus == kycOperationStatus(KycStatus.blocked)) {
-                    sNotification.showError(
-                      intl.operation_bloked_text,
-                      id: 1,
-                      needFeedback: true,
-                    );
-
-                    return;
-                  }
-
-                  showSendTimerAlertOr(
+                  showAccountWithdrawToSelector(
                     context: context,
-                    from: [BlockingType.withdrawal],
-                    or: () {
-                      sAnalytics.eurWithdrawBankTransferWithEurSheet(
-                        eurAccountType: isCJAccount ? 'CJ' : 'Unlimit',
-                        accountIban: bankingAccount.iban ?? '',
-                        accountLabel: bankingAccount.label ?? '',
-                      );
-
-                      showBankTransforSelect(context, bankingAccount, isCJAccount);
-                    },
+                    onClose: () {},
+                    bankingAccount: bankingAccount,
                   );
                 },
               ),

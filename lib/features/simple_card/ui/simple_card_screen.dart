@@ -10,6 +10,7 @@ import 'package:jetwallet/features/simple_card/store/simple_card_store.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/card_settings.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/card_widget.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/show_simple_card_deposit_by_bottom_sheet.dart';
+import 'package:jetwallet/features/simple_card/ui/widgets/show_simple_card_withdraw_to_bottom_sheet.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/simple_card_circle_actions.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
 import 'package:jetwallet/utils/constants.dart';
@@ -154,6 +155,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                             card: simpleCardStore.cardFull!,
                           );
                         },
+                        isWithdrawAvailable: simpleCardStore.cardFull?.isNotEmptyBalance ?? false,
                         onShowDetails: () {
                           simpleCardStore.setShowDetails(!simpleCardStore.showDetails);
                         },
@@ -203,6 +205,13 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                         },
                         onTerminate: () {
                           simpleCardStore.terminateCard();
+                        },
+                        onWithdraw: () {
+                          showSimpleCardWithdrawToSelector(
+                            context: context,
+                            onClose: () {},
+                            card: simpleCardStore.cardFull!,
+                          );
                         },
                       ),
                     ),
