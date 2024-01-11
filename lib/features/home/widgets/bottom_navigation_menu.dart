@@ -43,6 +43,8 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
       showReward: (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
           .where((element) => element.id == AssetPaymentProductsEnum.rewardsOnboardingProgram)
           .isNotEmpty,
+      investText: intl.bottom_bar_invest,
+      showInvest: true,
     );
   }
 }

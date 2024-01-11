@@ -39,9 +39,15 @@ const incomingGiftsMessage = 'incoming-gifts';
 const rewardsProfileMessage = 'rewards-profile';
 const bankingProfileMessage = 'banking-profile';
 const pendingOperationCountMessage =  'operation-count';
+const investAllActivePositionsMessage = 'invest-positions';
+const investInstrumentsMessage = 'invest-instruments';
+const investPricesMessage = 'invest-current-prices';
+const investSectorsMessage = 'invest-sectors';
+const investWalletMessage = 'invest-wallet-profile';
 
 // KeyValue
 const watchlistKey = 'watchlist';
+const favoritesInstrumentsKey = 'favoritesInstruments';
 const viewedRewardsKey = 'viewedRewards';
 const cardsKey = 'cards';
 const lastUsedPaymentMethod = 'lastUsedPaymentMethod';

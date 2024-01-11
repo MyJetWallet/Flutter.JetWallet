@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:simple_networking/api_client/api_client.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/create_banking_account_simple_response.dart';
+import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/data_sources/wallet_api_data_sources.dart';
 import 'package:simple_networking/modules/wallet_api/models/add_card/add_card_request_model.dart';
@@ -48,6 +49,7 @@ import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_
 import 'package:simple_networking/modules/wallet_api/models/google_pay/google_pay_confirm_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_preview_withdrawal_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_withdrawal_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/check_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/limits/buy_limits_request_model.dart';
@@ -972,5 +974,66 @@ class WalletApiRepository {
     SwapLimitsRequestModel request,
   ) async {
     return _walletApiDataSources.postSwapLimitsRequest(request);
+  }
+
+  // invest
+
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> createActivePosition(NewInvestRequestModel request) async {
+    return _walletApiDataSources.createActivePositionRequest(model: request);
+  }
+
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> createPendingLimitPosition(NewInvestOrderRequestModel request) async {
+    return _walletApiDataSources.createPendingLimitPositionRequest(model: request);
+  }
+
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> createPendingStopPosition(NewInvestOrderRequestModel request) async {
+    return _walletApiDataSources.createPendingStopPositionRequest(model: request);
+  }
+
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> closeActivePosition({
+    required String positionId,
+  }) async {
+    return _walletApiDataSources.closeActivePositionRequest(positionId: positionId);
+  }
+
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> getPosition({
+    required String positionId,
+  }) async {
+    return _walletApiDataSources.getPositionRequest(positionId: positionId);
+  }
+
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> cancelPendingPosition({
+    required String positionId,
+  }) async {
+    return _walletApiDataSources.cancelPendingPositionRequest(positionId: positionId);
+  }
+
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> setPositionTPSL({
+    required TPSLPositionModel data,
+  }) async {
+    return _walletApiDataSources.setPositionTPSLRequest(data: data);
+  }
+
+  Future<DC<ServerRejectException, List<NewInvestJournalModel>>> getPositionHistory({
+    required String id,
+    required String skip,
+    required String take,
+  }) async {
+    return _walletApiDataSources.getPositionHistoryRequest(id: id, skip: skip, take: take);
+  }
+
+  Future<DC<ServerRejectException, List<NewInvestJournalModel>>> getPositionHistoryRollover({
+    required String id,
+    required String skip,
+    required String take,
+  }) async {
+    return _walletApiDataSources.getPositionHistoryRolloverRequest(id: id, skip: skip, take: take);
+  }
+
+  Future<DC<ServerRejectException, List<InvestPositionModel>>> getInvestHistory({
+    required String skip,
+    required String take,
+  }) async {
+    return _walletApiDataSources.getInvestHistoryRequest(skip: skip, take: take);
   }
 }

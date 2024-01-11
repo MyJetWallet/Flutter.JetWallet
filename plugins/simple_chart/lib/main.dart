@@ -25,6 +25,9 @@ class Chart extends StatefulWidget {
     this.chartType = ChartType.line,
     this.walletCreationDate,
     this.selectedCandlePadding,
+    this.isInvestChart = false,
+    this.isLongInvest = false,
+    this.isFullInvestChart = false,
     this.accuracy = 3,
   }) : super(key: key);
 
@@ -32,10 +35,10 @@ class Chart extends StatefulWidget {
   final void Function(ChartType) onChartTypeChanged;
   final void Function(ChartInfoModel?) onCandleSelected;
   final String Function({
-    String? prefix,
-    required Decimal decimal,
-    required int accuracy,
-    required String symbol,
+  required bool onlyFullPart,
+  required Decimal decimal,
+  required int accuracy,
+  required String symbol,
   }) formatPrice;
   final List<CandleModel>? candles;
   final ChartType chartType;
@@ -46,6 +49,9 @@ class Chart extends StatefulWidget {
   final double chartHeight;
   final double chartWidgetHeight;
   final bool isAssetChart;
+  final bool isInvestChart;
+  final bool isLongInvest;
+  final bool isFullInvestChart;
   final Widget loader;
   final List<String> localizedChartResolutionButton;
   final int accuracy;
@@ -84,8 +90,20 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final chartWidth = screenWidth - 24;
+    final screenWidth = widget.isFullInvestChart
+        ? MediaQuery.of(context).size.width
+        : widget.isLongInvest
+        ? 130.0
+        : widget.isInvestChart
+        ? 106.0
+        : MediaQuery.of(context).size.width;
+    final chartWidth = widget.isFullInvestChart
+        ? screenWidth
+        : widget.isLongInvest
+        ? 130.0
+        : widget.isInvestChart
+        ? 106.0
+        : screenWidth - 24;
     var candleWidth = 0.0;
     if (widget.candles != null) {
       candleWidth = chartWidth / widget.candles!.length;
@@ -147,6 +165,9 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                       candleWidth: candleWidth,
                       candleResolution: widget.candleResolution,
                       onCandleSelected: (ChartInfoModel? chartInfo) {
+                        if (widget.isInvestChart) {
+                          return;
+                        }
                         WidgetsBinding.instance.addPostFrameCallback((_) {
                           _chartInfo = chartInfo;
                           widget.onCandleSelected(_chartInfo);
@@ -160,80 +181,83 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                       formatPrice: widget.formatPrice,
                       selectedCandlePadding: widget.selectedCandlePadding,
                       isAssetChart: widget.isAssetChart,
+                      isInvestChart: widget.isInvestChart,
                       chartWidth: chartWidth,
                       prefix: widget.prefix,
                       accuracy: widget.accuracy,
                     ),
-                    SlideTransition(
-                      position: _offsetAnimation,
-                      child: Container(
-                        color: Colors.white,
-                        height: widget.isAssetChart ? 230 : 190,
-                        width: screenWidth,
-                      ),
-                    ),
+                    // SlideTransition(
+                    //   position: _offsetAnimation,
+                    //   child: Container(
+                    //     color: Colors.white,
+                    //     height: widget.isAssetChart ? 230 : 190,
+                    //     width: screenWidth,
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                height: 37,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ResolutionButton(
-                      text: '1${widget.localizedChartResolutionButton[0]}',
-                      showUnderline: widget.candleResolution == Period.day,
-                      onTap: widget.candleResolution == Period.day
-                          ? null
-                          : () {
-                              widget.onResolutionChanged(Period.day);
-                            },
-                    ),
-                    if (showWeek)
-                      ResolutionButton(
-                        text: '1${widget.localizedChartResolutionButton[1]}',
-                        showUnderline: widget.candleResolution == Period.week,
-                        onTap: widget.candleResolution == Period.week
-                            ? null
-                            : () {
-                                widget.onResolutionChanged(Period.week);
-                              },
-                      ),
-                    if (showMonth)
-                      ResolutionButton(
-                        text: '1${widget.localizedChartResolutionButton[2]}',
-                        showUnderline: widget.candleResolution == Period.month,
-                        onTap: widget.candleResolution == Period.month
-                            ? null
-                            : () {
-                                widget.onResolutionChanged(Period.month);
-                              },
-                      ),
-                    if (showYear)
-                      ResolutionButton(
-                        text: '1${widget.localizedChartResolutionButton[3]}',
-                        showUnderline: widget.candleResolution == Period.year,
-                        onTap: widget.candleResolution == Period.year
-                            ? null
-                            : () {
-                                widget.onResolutionChanged(Period.year);
-                              },
-                      ),
-                    ResolutionButton(
-                      text: widget.localizedChartResolutionButton[4],
-                      showUnderline: widget.candleResolution == Period.all,
-                      onTap: widget.candleResolution == Period.all
-                          ? null
-                          : () {
-                              widget.onResolutionChanged(Period.all);
-                            },
-                    ),
-                  ],
+              if (!widget.isInvestChart) ...[
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
+                SizedBox(
+                  height: 37,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ResolutionButton(
+                        text: '1${widget.localizedChartResolutionButton[0]}',
+                        showUnderline: widget.candleResolution == Period.day,
+                        onTap: widget.candleResolution == Period.day
+                            ? null
+                            : () {
+                          widget.onResolutionChanged(Period.day);
+                        },
+                      ),
+                      if (showWeek)
+                        ResolutionButton(
+                          text: '1${widget.localizedChartResolutionButton[1]}',
+                          showUnderline: widget.candleResolution == Period.week,
+                          onTap: widget.candleResolution == Period.week
+                              ? null
+                              : () {
+                            widget.onResolutionChanged(Period.week);
+                          },
+                        ),
+                      if (showMonth)
+                        ResolutionButton(
+                          text: '1${widget.localizedChartResolutionButton[2]}',
+                          showUnderline: widget.candleResolution == Period.month,
+                          onTap: widget.candleResolution == Period.month
+                              ? null
+                              : () {
+                            widget.onResolutionChanged(Period.month);
+                          },
+                        ),
+                      if (showYear)
+                        ResolutionButton(
+                          text: '1${widget.localizedChartResolutionButton[3]}',
+                          showUnderline: widget.candleResolution == Period.year,
+                          onTap: widget.candleResolution == Period.year
+                              ? null
+                              : () {
+                            widget.onResolutionChanged(Period.year);
+                          },
+                        ),
+                      ResolutionButton(
+                        text: widget.localizedChartResolutionButton[4],
+                        showUnderline: widget.candleResolution == Period.all,
+                        onTap: widget.candleResolution == Period.all
+                            ? null
+                            : () {
+                          widget.onResolutionChanged(Period.all);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ],
           ),
         ),

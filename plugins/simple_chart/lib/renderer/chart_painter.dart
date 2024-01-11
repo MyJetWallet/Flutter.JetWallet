@@ -34,16 +34,16 @@ class ChartPainter extends BaseChartPainter {
     required this.formatPrice,
     this.accuracy,
   }) : super(
-          datas: datas,
-          scaleX: scaleX,
-          scrollX: scrollX,
-          isLongPress: isLongPass,
-          selectX: selectX,
-          candleType: candleType,
-          candleWidth: candleWidth,
-          resolution: resolution,
-          prefix: prefix,
-        );
+    datas: datas,
+    scaleX: scaleX,
+    scrollX: scrollX,
+    isLongPress: isLongPass,
+    selectX: selectX,
+    candleType: candleType,
+    candleWidth: candleWidth,
+    resolution: resolution,
+    prefix: prefix,
+  );
 
   static double get maxScrollX => BaseChartPainter.maxScrollX;
   BaseChartRenderer? mMainRenderer;
@@ -52,14 +52,15 @@ class ChartPainter extends BaseChartPainter {
   double opacity;
   final Function(ChartInfoModel) onCandleSelected;
   final String Function({
-    String? prefix,
-    required Decimal decimal,
-    required int accuracy,
-    required String symbol,
+  required bool onlyFullPart,
+  required Decimal decimal,
+  required int accuracy,
+  required String symbol,
   }) formatPrice;
   final bool isAssetChart;
   final double chartWidth;
   late Color chartColor;
+  late Color chartColorBg;
   final int? accuracy;
 
   @override
@@ -71,7 +72,14 @@ class ChartPainter extends BaseChartPainter {
       if (datas.isNotEmpty) {
         chartColor = datas.first.close > datas.last.close
             ? ChartColors.negativeChartColor
+            : datas.first.close == datas.last.close
+            ? ChartColors.equalChartColor
             : ChartColors.positiveChartColor;
+        chartColorBg = datas.first.close > datas.last.close
+            ? ChartColors.negativeChartBgColor
+            : datas.first.close == datas.last.close
+            ? ChartColors.equalChartBgColor
+            : ChartColors.positiveChartBgColor;
       }
     }
 
@@ -83,6 +91,7 @@ class ChartPainter extends BaseChartPainter {
       candleType,
       candleWidth,
       chartColor,
+      chartColorBg,
       scaleX,
     );
   }
@@ -295,7 +304,7 @@ class ChartPainter extends BaseChartPainter {
           formatPrice(
             accuracy: accuracy ?? 3,
             decimal: Decimal.parse(mMainLowMinValue.toString()),
-            prefix: prefix,
+            onlyFullPart: false,
             symbol: '',
           ),
           color: ChartColors.maxMinTextColor,
@@ -306,7 +315,7 @@ class ChartPainter extends BaseChartPainter {
           formatPrice(
             accuracy: accuracy ?? 3,
             decimal: Decimal.parse(mMainLowMinValue.toString()),
-            prefix: prefix,
+            onlyFullPart: false,
             symbol: '',
           ),
           color: ChartColors.maxMinTextColor,
@@ -320,7 +329,7 @@ class ChartPainter extends BaseChartPainter {
           formatPrice(
             accuracy: accuracy ?? 3,
             decimal: Decimal.parse(mMainHighMaxValue.toString()),
-            prefix: prefix,
+            onlyFullPart: false,
             symbol: '',
           ),
           color: ChartColors.maxMinTextColor,
@@ -331,7 +340,7 @@ class ChartPainter extends BaseChartPainter {
           formatPrice(
             accuracy: accuracy ?? 3,
             decimal: Decimal.parse(mMainHighMaxValue.toString()),
-            prefix: prefix,
+            onlyFullPart: false,
             symbol: '',
           ),
           color: ChartColors.maxMinTextColor,

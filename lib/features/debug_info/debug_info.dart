@@ -118,6 +118,14 @@ class _DebugInfoState extends State<DebugInfo> with SingleTickerProviderStateMix
                   ),
                 ),
                 TextButton(
+                  onPressed: () {
+                    getIt<AppRouter>().push(const InvestUIKITRouter());
+                  },
+                  child: const Text(
+                    'Invest UI KIT',
+                  ),
+                ),
+                TextButton(
                   onPressed: () async {
                     /*getIt.get<DeepLinkService>().handle(
                           Uri.parse(

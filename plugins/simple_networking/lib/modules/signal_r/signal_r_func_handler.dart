@@ -15,6 +15,9 @@ import 'package:simple_networking/modules/signal_r/models/client_detail_model.da
 import 'package:simple_networking/modules/signal_r/models/fireblock_events_model.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/signal_r/models/indices_model.dart';
+import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
+import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
+import 'package:simple_networking/modules/signal_r/models/invest_prices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/key_value_model.dart';
 import 'package:simple_networking/modules/signal_r/models/kyc_countries_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/market_info_model.dart';
@@ -28,6 +31,8 @@ import 'package:simple_networking/modules/signal_r/signal_r_new.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_transport.dart';
 
 import 'models/incoming_gift_model.dart';
+import 'models/invest_sectors_model.dart';
+import 'models/invest_wallet_model.dart';
 
 class SignalRFuncHandler {
   SignalRFuncHandler({
@@ -354,6 +359,68 @@ class SignalRFuncHandler {
       SignalRModuleNew.handlePackage();
     } catch (e) {
       instance.handleError(bankingProfileMessage, e);
+    }
+  }
+
+  void investAllActivePositionsMessageHandler(List<Object?>? data) {
+    try {
+
+      final investPositionsModel = InvestPositionsModel.fromJson(_json(data));
+
+      sTransport.investPositions(investPositionsModel);
+
+      SignalRModuleNew.handlePackage();
+    } catch (e) {
+      instance.handleError(investAllActivePositionsMessage, e);
+    }
+  }
+
+  void investInstrumentsMessageHandler(List<Object?>? data) {
+    try {
+
+      final investInstrumentsModel = InvestInstrumentsModel.fromJson(_json(data));
+
+      sTransport.investInstruments(investInstrumentsModel);
+
+      SignalRModuleNew.handlePackage();
+    } catch (e) {
+      instance.handleError(investInstrumentsMessage, e);
+    }
+  }
+
+  void investPricesMessageHandler(List<Object?>? data) {
+    try {
+      final investPricesModel = InvestPricesModel.fromJson(_json(data));
+
+      sTransport.investPrices(investPricesModel);
+
+      SignalRModuleNew.handlePackage();
+    } catch (e) {
+      instance.handleError(investPricesMessage, e);
+    }
+  }
+
+  void investSectorsMessageHandler(List<Object?>? data) {
+    try {
+      final investSectorsModel = InvestSectorsModel.fromJson(_json(data));
+
+      sTransport.investSectors(investSectorsModel);
+
+      SignalRModuleNew.handlePackage();
+    } catch (e) {
+      instance.handleError(investSectorsMessage, e);
+    }
+  }
+
+  void investWalletMessageHandler(List<Object?>? data) {
+    try {
+      final investWalletModel = InvestWalletModel.fromJson(_json(data));
+
+      sTransport.investWallet(investWalletModel);
+
+      SignalRModuleNew.handlePackage();
+    } catch (e) {
+      instance.handleError(investWalletMessage, e);
     }
   }
 

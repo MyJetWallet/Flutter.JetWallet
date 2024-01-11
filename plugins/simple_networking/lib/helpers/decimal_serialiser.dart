@@ -24,3 +24,24 @@ class DecimalNullSerialiser implements JsonConverter<Decimal?, dynamic> {
     return decimal?.toDouble();
   }
 }
+
+class DecimalListSerialiser implements JsonConverter<List<Decimal>?, dynamic> {
+  const DecimalListSerialiser();
+
+  @override
+  List<Decimal>? fromJson(dynamic json) {
+    var decimalList = [];
+    if(json != null) {
+      final doubleList = List.from([...json]);
+      decimalList = doubleList.map((e) => Decimal.fromJson('$e')).toList();
+    }
+
+    return decimalList as List<Decimal>;
+  }
+
+  @override
+  dynamic toJson(List<Decimal>? list) {
+    return list != null ? List.from(list).toString() : null;
+  }
+}
+

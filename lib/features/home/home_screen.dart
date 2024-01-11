@@ -40,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
         final screens = <PageRouteInfo<dynamic>>[
           const MyWalletsRouter(),
           const MarketRouter(),
+          const InvestPageRouter(),
         ];
 
         if (sUserInfo.cardAvailable) {
