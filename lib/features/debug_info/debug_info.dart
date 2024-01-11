@@ -13,6 +13,7 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_new.dart';
+import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 
 import '../../core/di/di.dart';
 import '../../core/services/local_storage_service.dart';
@@ -304,6 +305,14 @@ class _DebugInfoState extends State<DebugInfo> with SingleTickerProviderStateMix
                   },
                   child: const Text(
                     'Zendesk',
+                  ),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    await shopRateUpPopup(context);
+                  },
+                  child: const Text(
+                    'Rate up',
                   ),
                 ),
               ],
