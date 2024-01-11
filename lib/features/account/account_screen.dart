@@ -172,14 +172,6 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
                       icon: const SProfileDetailsIcon(),
                       isSDivider: true,
                       onTap: () {
-                        shopRateUpPopup(context);
-                      },
-                    ),
-                    SimpleAccountCategoryButton(
-                      title: intl.account_profileDetails,
-                      icon: const SProfileDetailsIcon(),
-                      isSDivider: true,
-                      onTap: () {
                         sRouter.push(
                           const ProfileDetailsRouter(),
                         );

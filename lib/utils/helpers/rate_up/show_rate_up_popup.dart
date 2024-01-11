@@ -12,32 +12,42 @@ Future<void> shopRateUpPopup(BuildContext context) async {
     return;
   }
 
-  await sShowAlertPopup(
-    context,
-    primaryText: intl.rate_title,
-    secondaryText: intl.rate_subtitle,
-    primaryButtonName: intl.rate_submit_button,
-    cancelText: intl.rate_cancel_button,
-    image: Image.asset(
-      ratingAsset,
-      width: 80,
-      height: 80,
-      package: 'simple_kit',
-    ),
-    isNeedCancelButton: true,
-    onPrimaryButtonTap: () async {
-      final inAppReview = InAppReview.instance;
+  final rateCount = await storageService.getValue(rateUpCount);
 
-      if (await inAppReview.isAvailable()) {
-        await storageService.setString(showRateUp, 'true');
+  var rCount = 0;
+  rCount = rateCount == null ? 0 : int.tryParse(rateCount) ?? 0;
 
-        await inAppReview.requestReview();
-      }
+  rCount++;
+  await storageService.setString(rateUpCount, rCount.toString());
 
-      Navigator.pop(context);
-    },
-    onCancelButtonTap: () {
-      Navigator.pop(context);
-    },
-  );
+  if (rCount == 1 || rCount == 5 || rCount == 10) {
+    await sShowAlertPopup(
+      context,
+      primaryText: intl.rate_title,
+      secondaryText: intl.rate_subtitle,
+      primaryButtonName: intl.rate_submit_button,
+      cancelText: intl.rate_cancel_button,
+      image: Image.asset(
+        ratingAsset,
+        width: 80,
+        height: 80,
+        package: 'simple_kit',
+      ),
+      isNeedCancelButton: true,
+      onPrimaryButtonTap: () async {
+        final inAppReview = InAppReview.instance;
+
+        if (await inAppReview.isAvailable()) {
+          await storageService.setString(showRateUp, 'true');
+
+          await inAppReview.requestReview();
+        }
+
+        Navigator.pop(context);
+      },
+      onCancelButtonTap: () {
+        Navigator.pop(context);
+      },
+    );
+  }
 }
