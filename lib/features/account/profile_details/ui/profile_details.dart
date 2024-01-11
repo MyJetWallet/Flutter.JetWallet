@@ -7,7 +7,6 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
-import 'package:jetwallet/features/account/profile_details/utils/change_languages_popup.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -17,14 +16,9 @@ import '../../../../utils/helpers/country_code_by_user_register.dart';
 import '../../../market/market_details/helper/currency_from_all.dart';
 
 @RoutePage(name: 'ProfileDetailsRouter')
-class ProfileDetails extends StatefulObserverWidget {
+class ProfileDetails extends StatelessObserverWidget {
   const ProfileDetails({super.key});
 
-  @override
-  State<ProfileDetails> createState() => _ProfileDetailsState();
-}
-
-class _ProfileDetailsState extends State<ProfileDetails> {
   @override
   Widget build(BuildContext context) {
     final baseAsset = sSignalRModules.baseCurrency;
@@ -83,6 +77,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
               },
             ),
           SProfileDetailsButton(
+            isDivider: false,
             showIcon: true,
             label: intl.profileDetails_baseCurrency,
             value: baseCurrency.description,
@@ -90,19 +85,6 @@ class _ProfileDetailsState extends State<ProfileDetails> {
               sRouter.push(
                 const DefaultAssetChangeRouter(),
               );
-            },
-          ),
-          SProfileDetailsButton(
-            isDivider: false,
-            showIcon: true,
-            label: intl.preferred_language,
-            value: availableLanguages
-                .firstWhere((element) => element.langCode == getIt.get<AppStore>().locale?.languageCode)
-                .label,
-            onTap: () async {
-              await changeLanguagePopup(context);
-
-              setState(() {});
             },
           ),
           const Spacer(),

@@ -1548,7 +1548,5 @@
     "profile_kyc_bloked_alert": "Your account has been suspended. Please contact support for more info.",
     "send_gift_small_title": "Send gift",
     "send": "Send",
-    "paste": "Paste",
-    "preferred_language": "Preferred language",
-    "lang_change_alert": "The application language will be changed the next time the application is launched!"
+    "paste": "Paste"
 }
