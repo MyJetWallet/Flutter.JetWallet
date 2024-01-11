@@ -13,7 +13,6 @@ import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_re
 import '../../../../core/l10n/i10n.dart';
 import '../../../../utils/formatting/base/volume_format.dart';
 import '../../../../utils/helpers/icon_url_from.dart';
-import '../../../wallet/helper/operation_name.dart';
 import '../../helpers/operation_name.dart';
 import 'instrument_data_line.dart';
 
@@ -50,7 +49,7 @@ class JournalItem extends StatelessObserverWidget {
               return const SAssetPlaceholderIcon();
             },
           ),
-          mainText: instrument.symbol!,
+          mainText: instrument.name!,
           secondaryText: operationPositionName(item.auditEvent, position, item.closeReason),
         ),
         const SpaceH8(),
@@ -59,7 +58,7 @@ class JournalItem extends StatelessObserverWidget {
             mainText: intl.invest_close_price,
             secondaryText: marketFormat(
               decimal: item.closePrice,
-              accuracy: 2,
+              accuracy: instrument.priceAccuracy ?? 2,
               symbol: '',
             ),
           ),
@@ -70,7 +69,7 @@ class JournalItem extends StatelessObserverWidget {
             mainText: intl.invest_open_price,
             secondaryText: marketFormat(
               decimal: item.openPrice,
-              accuracy: 2,
+              accuracy: instrument.priceAccuracy ?? 2,
               symbol: '',
             ),
           ),

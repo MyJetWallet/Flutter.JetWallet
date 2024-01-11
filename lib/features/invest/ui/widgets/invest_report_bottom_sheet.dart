@@ -226,7 +226,7 @@ class _InvestListScreenState extends State<InvestList> {
                 mainText: '${intl.invest_report_volume} ${widget.instrument.name}',
                 secondaryText: marketFormat(
                   decimal: widget.position.volumeBase ?? Decimal.zero,
-                  accuracy: 2,
+                  accuracy: widget.instrument.priceAccuracy ?? 2,
                   symbol: '',
                 ),
               ),
@@ -264,7 +264,7 @@ class _InvestListScreenState extends State<InvestList> {
                 mainText: intl.invest_report_so_price,
                 secondaryText: marketFormat(
                   decimal: widget.position.stopOutPrice ?? Decimal.zero,
-                  accuracy: 2,
+                  accuracy: widget.instrument.priceAccuracy ?? 2,
                   symbol: '',
                 ),
               ),

@@ -174,7 +174,7 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
                         const SpaceH16(),
                         DataLine(
                           mainText: intl.invest_price,
-                          secondaryText: volumeFormat(
+                          secondaryText: marketFormat(
                             decimal: investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
                             accuracy: widget.instrument.priceAccuracy ?? 2,
                             symbol: '',
@@ -191,7 +191,7 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
                                 decimal: (investNewStore.position!.volumeBase ?? Decimal.zero) *
                                     investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? '') *
                                     (widget.instrument.closeFee ?? Decimal.zero),
-                                accuracy: widget.instrument.priceAccuracy ?? 2,
+                                accuracy: 2,
                                 symbol: 'USDT',
                               )}',
                             ),
@@ -328,7 +328,7 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
               mainText: intl.invest_open_price,
               secondaryText: marketFormat(
                 decimal: investNewStore.position!.openPrice ?? Decimal.zero,
-                accuracy: 2,
+                accuracy: widget.instrument.priceAccuracy ?? 2,
                 symbol: '',
               ),
             ),
@@ -337,7 +337,7 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
               mainText: intl.invest_s_o_price,
               secondaryText: marketFormat(
                 decimal: investNewStore.position!.stopOutPrice ?? Decimal.zero,
-                accuracy: 2,
+                accuracy: widget.instrument.priceAccuracy ?? 2,
                 symbol: '',
               ),
             ),
