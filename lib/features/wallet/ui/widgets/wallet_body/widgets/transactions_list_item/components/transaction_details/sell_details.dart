@@ -84,7 +84,7 @@ class SellDetails extends StatelessObserverWidget {
           ),
           const SpaceH18(),
           TransactionDetailsItem(
-            text: intl.history_paid_with,
+            text: intl.history_sold_to,
             value: Flexible(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
