@@ -147,7 +147,9 @@ enum AssetPaymentProductsEnum {
   @JsonValue('BankingCardAccount')
   bankingCardAccount,
   @JsonValue('SimpleIbanAccount')
-  simpleIbanAccount
+  simpleIbanAccount,
+  @JsonValue('InvestProgram')
+  investProgram
 }
 
 @freezed
