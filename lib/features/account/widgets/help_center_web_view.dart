@@ -11,9 +11,11 @@ class HelpCenterWebView extends StatefulWidget {
   const HelpCenterWebView({
     super.key,
     required this.link,
+    this.title,
   });
 
   final String link;
+  final String? title;
 
   @override
   State<HelpCenterWebView> createState() => _HelpCenterWebViewState();
@@ -30,7 +32,7 @@ class _HelpCenterWebViewState extends State<HelpCenterWebView> {
         loaderText: intl.register_pleaseWait,
         header: SPaddingH24(
           child: SSmallHeader(
-            title: intl.helpCenterWebView,
+            title: widget.title ?? intl.helpCenterWebView,
             onBackButtonTap: () => _onWillPop(),
           ),
         ),
