@@ -9,12 +9,14 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/dio_proxy_service.dart';
 import 'package:jetwallet/core/services/force_update_service.dart';
 import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
+import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
+import 'package:jetwallet/features/account/profile_details/utils/change_languages_popup.dart';
 import 'package:jetwallet/features/app/init_router/router_union.dart';
 import 'package:jetwallet/features/app/store/models/auth_info_state.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
@@ -88,6 +90,20 @@ abstract class _AppStoreBase with Store {
   @action
   void setEnv(String val) {
     env = val;
+  }
+
+  @observable
+  Locale? locale;
+  @action
+  void setLocale(Locale val) => locale = val;
+  @action
+  Future<void> initLocale() async {
+    final storage = sLocalStorageService;
+
+    final lang = await storage.getValue(userLocale);
+    if (lang != null) {
+      locale = Locale.fromSubtags(languageCode: lang);
+    }
   }
 
   @observable

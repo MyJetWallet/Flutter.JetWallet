@@ -46,7 +46,11 @@ class SimpleTableAsset extends StatelessWidget {
     return SafeGesture(
       onTap: onTableAssetTap,
       child: SizedBox(
-        height: needPadding ? 80 : 48,
+        height: needPadding
+            ? supplement == null
+                ? 64
+                : 80
+            : 48,
         child: Padding(
           padding: needPadding
               ? const EdgeInsets.symmetric(
