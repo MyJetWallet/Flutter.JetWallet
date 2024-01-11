@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
+import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
+import 'package:jetwallet/features/buy_flow/ui/buy_choose_asset_bottom_sheet.dart';
 import 'package:jetwallet/features/cj_banking_accounts/widgets/show_account_deposit_by_bottom_sheet.dart';
 import 'package:jetwallet/features/cj_banking_accounts/widgets/show_setting_bottom_sheet.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
@@ -125,7 +128,19 @@ class ActionsAccountRowWidget extends StatelessWidget {
                   text: intl.account_actions_exchange,
                   type: CircleButtonType.exchange,
                   onTap: () {
-                    //TODO (yaroslav): add rout to Exchange screen
+                    showBuyChooseAssetBottomSheet(
+                      context: context,
+                      onChooseAsset: (currency) {
+                        sRouter.pop();
+                        sRouter.push(
+                          AmountRoute(
+                            tab: AmountScreenTab.buy,
+                            asset: currency,
+                            account: bankingAccount,
+                          ),
+                        );
+                      },
+                    );
                   },
                 ),
               CircleActionButton(

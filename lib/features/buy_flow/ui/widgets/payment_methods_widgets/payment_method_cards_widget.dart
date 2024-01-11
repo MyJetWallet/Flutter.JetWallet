@@ -123,7 +123,7 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
                       sRouter.push(
                         AmountRoute(
                           tab: AmountScreenTab.buy,
-                          asset: asset!,
+                          asset: asset,
                           card: e,
                         ),
                       );
