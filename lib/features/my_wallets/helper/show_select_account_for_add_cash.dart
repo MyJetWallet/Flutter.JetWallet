@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
@@ -113,6 +114,7 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
                   isHasTransaction: true,
                   source: 'Wallets',
                 );
+                sRouter.pop();
 
                 showAccountDetails(
                   context: context,
@@ -193,6 +195,7 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
                     isHasTransaction: true,
                     source: 'Wallets',
                   );
+                  sRouter.pop();
 
                   showAccountDetails(
                     context: context,

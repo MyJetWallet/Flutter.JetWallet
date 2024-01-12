@@ -59,6 +59,8 @@ class _DepositByBody extends StatelessWidget {
             width: 24,
           ),
           onTableAssetTap: () {
+            sRouter.pop();
+            
             showAccountDetails(
               context: context,
               onClose: () {
