@@ -18,10 +18,10 @@ class ResolutionButton extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const SizedBox(
-          height: 12.5,
+          height: 10,
         ),
         Container(
-          width: 36,
+          width: 44,
           margin: const EdgeInsets.symmetric(
             horizontal: 5,
           ),
@@ -45,7 +45,7 @@ class ResolutionButton extends StatelessWidget {
         ),
         if (showUnderline)
           Container(
-            width: 36,
+            width: 44,
             height: 3,
             margin: const EdgeInsets.only(
               top: 5,
