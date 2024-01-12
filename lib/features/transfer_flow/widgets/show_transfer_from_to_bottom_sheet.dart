@@ -10,14 +10,23 @@ import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/transfer/account_transfer_preview_request_model.dart';
 
 void showTransferFromToBottomSheet({
   required BuildContext context,
   required void Function({CardDataModel? newCard, SimpleBankingAccount? newAccount}) onSelected,
   required bool isFrom,
   String? skipId,
+  CredentialsType? fromType,
+  CredentialsType? toType,
 }) {
-  final store = TransferFromToStore()..init(isFrom: isFrom, skipId: skipId);
+  final store = TransferFromToStore()
+    ..init(
+      isFrom: isFrom,
+      skipId: skipId,
+      fromType: fromType,
+      toType: toType,
+    );
 
   sShowBasicModalBottomSheet(
     context: context,

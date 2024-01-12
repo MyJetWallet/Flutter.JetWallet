@@ -6,6 +6,7 @@ import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/transfer/account_transfer_preview_request_model.dart';
 
 part 'transfer_amount_store.g.dart';
 
@@ -41,6 +42,28 @@ abstract class _TransfetAmountStoreBase with Store {
 
   @observable
   SimpleBankingAccount? toAccount;
+
+  @computed
+  CredentialsType? get fromType {
+    if (fromCard != null) {
+      return CredentialsType.unlimitCard;
+    } else if (fromAccount?.isClearjuctionAccount ?? false) {
+      return CredentialsType.clearjunctionAccount;
+    } else {
+      return CredentialsType.unlimitAccount;
+    }
+  }
+
+  @computed
+  CredentialsType? get toType {
+    if (toCard != null) {
+      return CredentialsType.unlimitCard;
+    } else if (toAccount?.isClearjuctionAccount ?? false) {
+      return CredentialsType.clearjunctionAccount;
+    } else {
+      return CredentialsType.unlimitAccount;
+    }
+  }
 
   @action
   void init({

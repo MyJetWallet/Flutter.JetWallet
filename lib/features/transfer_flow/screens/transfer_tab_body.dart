@@ -118,6 +118,8 @@ class _TrancferBody extends StatelessWidget {
                     );
                   },
                   skipId: store.toAccount?.accountId ?? store.toCard?.cardId,
+                  fromType: store.fromType,
+                  toType: store.toType,
                 );
               },
               isFrom: true,
@@ -137,6 +139,8 @@ class _TrancferBody extends StatelessWidget {
                     );
                   },
                   skipId: store.fromAccount?.accountId ?? store.fromCard?.cardId,
+                  fromType: store.fromType,
+                  toType: store.toType,
                 );
               },
               isFrom: false,
