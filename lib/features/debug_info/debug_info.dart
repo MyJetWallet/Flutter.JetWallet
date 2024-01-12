@@ -309,7 +309,7 @@ class _DebugInfoState extends State<DebugInfo> with SingleTickerProviderStateMix
                 ),
                 TextButton(
                   onPressed: () async {
-                    await shopRateUpPopup(context);
+                    await shopRateUpPopup(context, force: true);
                   },
                   child: const Text(
                     'Rate up',

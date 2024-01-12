@@ -4,23 +4,28 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-Future<void> shopRateUpPopup(BuildContext context) async {
+Future<void> shopRateUpPopup(
+  BuildContext context, {
+  bool force = false,
+}) async {
   final storageService = sLocalStorageService;
+  var rCount = 0;
 
-  final status = await storageService.getValue(showRateUp);
-  if (status != null) {
-    return;
+  if (!force) {
+    final status = await storageService.getValue(showRateUp);
+    if (status != null) {
+      return;
+    }
+
+    final rateCount = await storageService.getValue(rateUpCount);
+
+    rCount = rateCount == null ? 0 : int.tryParse(rateCount) ?? 0;
+
+    rCount++;
+    await storageService.setString(rateUpCount, rCount.toString());
   }
 
-  final rateCount = await storageService.getValue(rateUpCount);
-
-  var rCount = 0;
-  rCount = rateCount == null ? 0 : int.tryParse(rateCount) ?? 0;
-
-  rCount++;
-  await storageService.setString(rateUpCount, rCount.toString());
-
-  if (rCount == 1 || rCount == 5 || rCount == 10) {
+  if (rCount == 0 || rCount == 4 || rCount == 9) {
     await sShowAlertPopup(
       context,
       primaryText: intl.rate_title,
