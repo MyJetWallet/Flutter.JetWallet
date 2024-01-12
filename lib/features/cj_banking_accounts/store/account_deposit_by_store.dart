@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
@@ -48,7 +49,7 @@ abstract class _AccountDepositByStoreBase with Store {
 
     final simpleAccount = sSignalRModules.bankingProfileData?.simple?.account;
 
-    if (simpleAccount != null) {
+    if (simpleAccount != null && simpleAccount.balance != Decimal.zero) {
       accounts.add(simpleAccount);
     }
 
