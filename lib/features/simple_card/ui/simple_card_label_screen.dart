@@ -61,15 +61,19 @@ class _CJAccountLabelScreenState extends State<SimpleCardLabelScreen> {
                   children: [
                     SFieldDividerFrame(
                       child: SStandardField(
-                        labelText: 'Card label',
+                        labelText: intl.edit_card_lable_card_label,
                         maxLines: 1,
                         maxLength: 30,
                         controller: labelController,
                         textInputAction: TextInputAction.next,
                         onChanged: (text) {
-                          if (text.isNotEmpty) {
+                          if (text.isNotEmpty && text.length <= 20) {
                             setState(() {
                               isButtonActive = true;
+                            });
+                          } else {
+                            setState(() {
+                              isButtonActive = false;
                             });
                           }
                         },
@@ -90,7 +94,7 @@ class _CJAccountLabelScreenState extends State<SimpleCardLabelScreen> {
                             try {
                               final resp = await sNetwork.getWalletModule().postAccountChangeLabel(
                                     accountId: widget.accountId,
-                                    label: labelController.text,
+                                    label: labelController.text.trim(),
                                   );
 
                               if (resp.hasError) {
@@ -101,7 +105,7 @@ class _CJAccountLabelScreenState extends State<SimpleCardLabelScreen> {
                                 );
                                 loader.finishLoadingImmediately();
                               } else {
-                                Navigator.pop(context, labelController.text);
+                                Navigator.pop(context, labelController.text.trim());
                               }
                             } catch (e) {
                               sNotification.showError(intl.something_went_wrong_try_again);

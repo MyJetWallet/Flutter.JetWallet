@@ -1578,5 +1578,6 @@
     "withdraw_to": "Withdraw to",
     "external_method": "External method",
     "history_sold_to": "Sold to",
-    "transfer_amount_transfer_all": "Transfer all"
+    "transfer_amount_transfer_all": "Transfer all",
+    "edit_card_lable_card_label": "Card label"
 }
