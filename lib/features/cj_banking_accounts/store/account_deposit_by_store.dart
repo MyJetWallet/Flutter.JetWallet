@@ -96,5 +96,7 @@ abstract class _AccountDepositByStoreBase with Store {
         sSignalRModules.clientDetail.clientBlockers.any((element) => element.blockingType == BlockingType.trade);
 
     isCryptoAvaible = tradeStatus && !isTradeBlocker && currencyFiltered.isNotEmpty && isAccountAvaible;
+
+    isCardsAvaible = !(account?.isClearjuctionAccount ?? false);
   }
 }
