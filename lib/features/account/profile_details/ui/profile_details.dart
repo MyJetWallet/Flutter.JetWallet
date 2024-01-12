@@ -40,6 +40,13 @@ class _ProfileDetailsState extends State<ProfileDetails> {
       );
     }
 
+    String getTextLocale() {
+      final langIndex =
+          availableLanguages.indexWhere((element) => element.langCode == getIt.get<AppStore>().locale?.languageCode);
+
+      return langIndex != -1 ? availableLanguages[langIndex].label : availableLanguages[0].label;
+    }
+
     return SPageFrame(
       loaderText: intl.loader_please_wait,
       header: SPaddingH24(
@@ -96,9 +103,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
             isDivider: false,
             showIcon: true,
             label: intl.preferred_language,
-            value: availableLanguages
-                .firstWhere((element) => element.langCode == getIt.get<AppStore>().locale?.languageCode)
-                .label,
+            value: getTextLocale(),
             onTap: () async {
               await changeLanguagePopup(context);
 
