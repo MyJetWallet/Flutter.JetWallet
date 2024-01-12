@@ -126,6 +126,7 @@ class ActionsAccountRowWidget extends StatelessWidget {
                   showAccountSettings(
                     context: context,
                     onChangeLableTap: onChangeLableTap,
+                    bankingAccount: bankingAccount,
                   );
                 },
               ),
