@@ -82,7 +82,7 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
         },
       ),
       child: CustomScrollView(
-       physics: const ClampingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         slivers: [
           SliverFillRemaining(
             hasScrollBody: false,
@@ -115,7 +115,7 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
                 ),
                 TransferConfirmationInfoGrid(
                   isDataLoaded: store.isDataLoaded,
-                  isToCard: true,
+                  isToCard: store.toType == CredentialsType.unlimitCard,
                   sendToLable: store.toLable,
                   benificiary: store.benificiary,
                   reference: store.reference,
@@ -126,7 +126,7 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
                 Text(
                   intl.transfer_confirmation_time_to_transaction,
                   style: sCaptionTextStyle.copyWith(
-                    color: sKit.colors.grey1,
+                    color: sKit.colors.grey2,
                   ),
                 ),
                 const SizedBox(height: 16),
