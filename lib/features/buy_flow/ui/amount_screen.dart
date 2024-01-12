@@ -171,7 +171,7 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
                 BuyAmountTabBody(
                   asset: widget.asset,
                   card: widget.card,
-                  account: widget.account,
+                  account: (widget.account?.isNotEmptyBalance ?? false) ? widget.account : null,
                 ),
                 SellAmountTabBody(
                   asset: widget.asset?.assetBalance != Decimal.zero ? widget.asset : null,

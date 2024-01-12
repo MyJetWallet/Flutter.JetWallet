@@ -103,6 +103,7 @@ class ActionsAccountRowWidget extends StatelessWidget {
                 CircleActionButton(
                   text: intl.account_actions_exchange,
                   type: CircleButtonType.exchange,
+                  isDisabled: !bankingAccount.isNotEmptyBalance,
                   onTap: () {
                     showBuyChooseAssetBottomSheet(
                       context: context,
