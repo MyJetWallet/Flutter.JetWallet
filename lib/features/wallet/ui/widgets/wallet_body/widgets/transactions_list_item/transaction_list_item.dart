@@ -15,6 +15,8 @@ import 'package:simple_kit/modules/icons/24x24/public/add_cash/simple_add_cash_i
 import 'package:simple_kit/modules/icons/24x24/public/transfer/simple_transfer_icon.dart';
 import 'package:simple_kit/modules/icons/24x24/public/withdrawal/simple_withdrawal_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../helper/format_date_to_hm.dart';
 import '../../../../../helper/show_transaction_details.dart';
@@ -25,6 +27,7 @@ enum TransactionItemSource {
   history,
   cryptoAccount,
   eurAccount,
+  simpleCard,
 }
 
 class TransactionListItem extends StatelessWidget {
@@ -81,6 +84,7 @@ class TransactionListItem extends StatelessWidget {
       icon: _transactionItemIcon(
         type: transactionListItem.operationType,
         isFailed: transactionListItem.status == Status.declined,
+        transactionListItem: transactionListItem,
       ),
       labele: _transactionItemTitle(
         transactionListItem,
@@ -125,6 +129,7 @@ class TransactionListItem extends StatelessWidget {
   Widget _transactionItemIcon({
     required OperationType type,
     required bool isFailed,
+    required OperationHistoryItem transactionListItem,
   }) {
     final colors = sKit.colors;
     final failedColor = colors.grey2;
@@ -201,6 +206,17 @@ class TransactionListItem extends StatelessWidget {
         return source == TransactionItemSource.cryptoAccount
             ? SMinusIcon(color: isFailed ? failedColor : null)
             : SPlusIcon(color: isFailed ? failedColor : null);
+      case OperationType.bankingTransfer:
+        return transactionListItem.balanceChange > Decimal.zero
+            ? Assets.svg.medium.addCash.simpleSvg(
+                width: 24,
+                color: isFailed ? failedColor : colors.green,
+              )
+            : Assets.svg.medium.withdrawal.simpleSvg(
+                width: 24,
+                color: isFailed ? failedColor : colors.red,
+              );
+
       default:
         return SPlusIcon(color: isFailed ? failedColor : null);
     }

@@ -1,9 +1,18 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
+import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../../../helper/format_date_to_hm.dart';
 import 'components/transaction_details_item.dart';
@@ -22,18 +31,14 @@ class TransferDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
-    final receiverName =
-        transactionListItem.transferByPhoneInfo!.receiverName ?? '';
-
-    final toPhone =
-        transactionListItem.transferByPhoneInfo?.toPhoneNumber ?? '';
-
     return SPaddingH24(
       child: Column(
         children: [
+          _TransferDetailsHeader(
+            transactionListItem: transactionListItem,
+          ),
           TransactionDetailsItem(
-            text: intl.date,
+            text: intl.send_globally_date,
             value: TransactionDetailsValueText(
               text: '${formatDateToDMY(transactionListItem.timeStamp)}'
                   ', ${formatDateToHm(transactionListItem.timeStamp)}',
@@ -41,7 +46,7 @@ class TransferDetails extends StatelessObserverWidget {
           ),
           const SpaceH18(),
           TransactionDetailsItem(
-            text: 'Txid',
+            text: intl.iban_send_history_transaction_id,
             value: Row(
               children: [
                 TransactionDetailsValueText(
@@ -54,29 +59,110 @@ class TransferDetails extends StatelessObserverWidget {
           ),
           const SpaceH18(),
           TransactionDetailsItem(
-            text: intl.to1,
-            value: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                TransactionDetailsValueText(
-                  text: toPhone,
-                ),
-                if (receiverName.isNotEmpty) ...[
-                  Text(
-                    receiverName,
-                    style: sBodyText2Style.copyWith(color: colors.grey1),
+            text: transactionListItem.balanceChange > Decimal.zero ? intl.from : intl.to1,
+            value: Flexible(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Flexible(
+                    child: TransactionDetailsValueText(
+                      text: transactionListItem.balanceChange > Decimal.zero
+                          ? transactionListItem.ibanTransferInfo?.fromAccountLabel ?? 'Account 1'
+                          : transactionListItem.ibanTransferInfo?.toAccountLabel ?? 'Account 1',
+                      maxLines: 1,
+                    ),
                   ),
                 ],
-              ],
+              ),
             ),
           ),
-          const SpaceH14(),
-          TransactionDetailsStatus(
-            status: transactionListItem.status,
+          const SpaceH18(),
+          PaymentFeeRowWidget(
+            fee: volumeFormat(
+              decimal: transactionListItem.ibanTransferInfo?.paymentFeeAmount ?? Decimal.zero,
+              symbol: transactionListItem.ibanTransferInfo?.paymentFeeAssetId ?? 'EUR',
+            ),
           ),
+          const SpaceH18(),
+          ProcessingFeeRowWidget(
+            fee: volumeFormat(
+              decimal: transactionListItem.ibanTransferInfo?.simpleFeeAmount ?? Decimal.zero,
+              symbol: transactionListItem.ibanTransferInfo?.simpleFeeAssetId ?? 'EUR',
+            ),
+          ),
+          const SpaceH18(),
           const SpaceH40(),
         ],
       ),
+    );
+  }
+}
+
+class _TransferDetailsHeader extends StatelessWidget {
+  const _TransferDetailsHeader({
+    required this.transactionListItem,
+  });
+
+  final OperationHistoryItem transactionListItem;
+
+  @override
+  Widget build(BuildContext context) {
+    final euroAsset = nonIndicesWithBalanceFrom(
+      sSignalRModules.currenciesWithHiddenList,
+    )
+        .where(
+          (element) => element.symbol == (transactionListItem.ibanTransferInfo?.withdrawalAssetId ?? 'EUR'),
+        )
+        .first;
+
+    return Column(
+      children: [
+        WhatToWhatConvertWidget(
+          removeDefaultPaddings: true,
+          isLoading: false,
+          fromAssetIconUrl: euroAsset.iconUrl,
+          fromAssetDescription: transactionListItem.ibanTransferInfo?.fromAccountLabel ?? 'Account 1',
+          fromAssetValue: volumeFormat(
+            symbol: euroAsset.symbol,
+            accuracy: euroAsset.accuracy,
+            decimal: transactionListItem.ibanTransferInfo?.withdrawalAmount?.abs() ?? Decimal.zero,
+          ),
+          fromAssetCustomIcon: transactionListItem.ibanTransferInfo?.fromAccountType == IbanAccountType.bankCard
+              ? Assets.svg.assets.fiat.card.simpleSvg(
+                  width: 32,
+                )
+              : Assets.svg.other.medium.bankAccount.simpleSvg(
+                  width: 32,
+                ),
+          toAssetIconUrl: euroAsset.iconUrl,
+          toAssetDescription: transactionListItem.ibanTransferInfo?.toAccountLabel ?? 'Account 1',
+          toAssetValue: volumeFormat(
+            symbol: euroAsset.symbol,
+            accuracy: euroAsset.accuracy,
+            decimal: transactionListItem.ibanTransferInfo?.receiveAmount?.abs() ?? Decimal.zero,
+          ),
+          toAssetCustomIcon: transactionListItem.ibanTransferInfo?.toAccountType == IbanAccountType.bankCard
+              ? Assets.svg.assets.fiat.card.simpleSvg(
+                  width: 32,
+                )
+              : Assets.svg.other.medium.bankAccount.simpleSvg(
+                  width: 32,
+                ),
+          isError: transactionListItem.status == Status.declined,
+          isSmallerVersion: true,
+        ),
+        const SizedBox(height: 24),
+        SBadge(
+          status: transactionListItem.status == Status.inProgress
+              ? SBadgeStatus.primary
+              : transactionListItem.status == Status.completed
+                  ? SBadgeStatus.success
+                  : SBadgeStatus.error,
+          text: transactionDetailsStatusText(transactionListItem.status),
+          isLoading: transactionListItem.status == Status.inProgress,
+        ),
+        const SizedBox(height: 24),
+      ],
     );
   }
 }

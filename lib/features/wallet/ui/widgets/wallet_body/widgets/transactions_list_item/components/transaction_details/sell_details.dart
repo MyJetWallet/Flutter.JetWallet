@@ -90,13 +90,18 @@ class SellDetails extends StatelessObserverWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   const SpaceW8(),
-                  Assets.svg.other.medium.bankAccount.simpleSvg(
-                    width: 20,
-                  ),
+                  if (transactionListItem.sellCryptoInfo?.accountType == IbanAccountType.bankCard)
+                    Assets.svg.assets.fiat.card.simpleSvg(
+                      width: 20,
+                    )
+                  else
+                    Assets.svg.other.medium.bankAccount.simpleSvg(
+                      width: 20,
+                    ),
                   const SpaceW8(),
                   Flexible(
                     child: TransactionDetailsValueText(
-                      text: transactionListItem.sellCryptoInfo?.accountLabel ?? '',
+                      text: transactionListItem.sellCryptoInfo?.accountLabel ?? 'Account 1',
                       maxLines: 1,
                     ),
                   ),

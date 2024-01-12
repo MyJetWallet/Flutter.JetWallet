@@ -122,7 +122,8 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                     widget.transactionListItem.operationType == OperationType.sendGlobally ||
                     widget.transactionListItem.operationType == OperationType.cardPurchase ||
                     widget.transactionListItem.operationType == OperationType.cardWithdrawal ||
-                    widget.transactionListItem.operationType == OperationType.cardRefund) ...[
+                    widget.transactionListItem.operationType == OperationType.cardRefund ||
+                    widget.transactionListItem.operationType == OperationType.bankingTransfer) ...[
                   const SizedBox.shrink(),
                 ] else if (widget.transactionListItem.operationType != OperationType.sendGlobally) ...[
                   if (isOperationSupportCopy(widget.transactionListItem))
@@ -312,21 +313,6 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                     ),
                   ),
                 ],
-                if (widget.transactionListItem.operationType == OperationType.transferByPhone) ...[
-                  Material(
-                    color: colors.white,
-                    child: TransferDetails(
-                      transactionListItem: widget.transactionListItem,
-                      onCopyAction: (String text) {
-                        setState(() {
-                          copiedText = text;
-                        });
-
-                        onCopyAction();
-                      },
-                    ),
-                  ),
-                ],
                 if (widget.transactionListItem.operationType == OperationType.receiveByPhone) ...[
                   Material(
                     color: colors.white,
@@ -467,6 +453,21 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                   Material(
                     color: colors.white,
                     child: GiftReceiveDetails(
+                      transactionListItem: widget.transactionListItem,
+                      onCopyAction: (String text) {
+                        setState(() {
+                          copiedText = text;
+                        });
+
+                        onCopyAction();
+                      },
+                    ),
+                  ),
+                ],
+                if (widget.transactionListItem.operationType == OperationType.bankingTransfer) ...[
+                  Material(
+                    color: colors.white,
+                    child: TransferDetails(
                       transactionListItem: widget.transactionListItem,
                       onCopyAction: (String text) {
                         setState(() {
