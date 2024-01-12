@@ -28,6 +28,7 @@ import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:uuid/uuid.dart';
+import 'dart:io';
 
 import '../../../utils/helpers/country_code_by_user_register.dart';
 import '../../phone_verification/ui/phone_verification.dart';
@@ -103,6 +104,8 @@ abstract class _AppStoreBase with Store {
     final lang = await storage.getValue(userLocale);
     if (lang != null) {
       locale = Locale.fromSubtags(languageCode: lang);
+    } else {
+      locale = Localizations.localeOf(sRouter.navigatorKey.currentContext!);
     }
   }
 
