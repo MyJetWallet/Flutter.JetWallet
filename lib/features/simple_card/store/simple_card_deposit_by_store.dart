@@ -1,4 +1,3 @@
-import 'package:decimal/decimal.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -31,7 +30,10 @@ abstract class _SimpleCardDepositByStoreBase with Store {
   List<CardDataModel> get cards =>
       sSignalRModules.bankingProfileData?.banking?.cards
           ?.where(
-            (element) => element.status == AccountStatusCard.active && element.isNotEmptyBalance,
+            (element) =>
+                element.status == AccountStatusCard.active &&
+                element.isNotEmptyBalance &&
+                element.cardId != card?.cardId,
           )
           .toList() ??
       [];
@@ -42,7 +44,7 @@ abstract class _SimpleCardDepositByStoreBase with Store {
 
     final simpleAccount = sSignalRModules.bankingProfileData?.simple?.account;
 
-    if (simpleAccount != null && simpleAccount.balance != Decimal.zero) {
+    if (simpleAccount != null && simpleAccount.isNotEmptyBalance) {
       accounts.add(simpleAccount);
     }
 
