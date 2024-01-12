@@ -98,6 +98,17 @@ abstract class _TransfetAmountStoreBase with Store {
     _validateInput();
   }
 
+  @action
+  void onTransfetAll() {
+    inputValue = responseOnInputAction(
+      oldInput: inputValue,
+      newInput: maxLimit.toString(),
+      accuracy: 2,
+    );
+
+    _validateInput();
+  }
+
   @computed
   int get maxWholePrartLenght =>
       (isBothAssetsSeted && maxLimit != Decimal.zero) ? (maxLimit.round().toString().length + 1) : 15;

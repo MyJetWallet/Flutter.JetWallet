@@ -1577,5 +1577,6 @@
     "device_binding_required_text": "To confirm the transfer of funds you need to verify the payment via SMS",
     "withdraw_to": "Withdraw to",
     "external_method": "External method",
-    "history_sold_to": "Sold to"
+    "history_sold_to": "Sold to",
+    "transfer_amount_transfer_all": "Transfer all"
 }

@@ -85,7 +85,6 @@ class _TrancferBody extends StatelessWidget {
                 primarySymbol: 'EUR',
                 errorText: store.errorText,
                 onSwap: () {},
-                optionOnTap: () {},
                 pasteLabel: intl.paste,
                 onPaste: () async {
                   final data = await Clipboard.getData('text/plain');
@@ -95,6 +94,12 @@ class _TrancferBody extends StatelessWidget {
                       store.pasteValue(n.toString());
                     }
                   }
+                },
+                optionText: store.inputValue == '0' && store.isBothAssetsSeted
+                    ? '''${intl.transfer_amount_transfer_all} ${volumeFormat(decimal: store.maxLimit, symbol: 'EUR')}'''
+                    : null,
+                optionOnTap: () {
+                  store.onTransfetAll();
                 },
               ),
             ),
