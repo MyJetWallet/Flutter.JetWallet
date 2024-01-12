@@ -75,7 +75,7 @@ class _DepositByBody extends StatelessWidget {
             },
           ),
         ],
-        if (store.isAccountsAvaible) ...[
+        if (store.isAccountsAvaible && store.accounts.isNotEmpty) ...[
           MarketSeparator(
             text: intl.deposit_by_accounts,
             isNeedDivider: false,
@@ -104,7 +104,7 @@ class _DepositByBody extends StatelessWidget {
               },
             ),
         ],
-        if (store.isCardsAvaible) ...[
+        if (store.isCardsAvaible && store.cards.isNotEmpty) ...[
           MarketSeparator(
             text: intl.deposit_by_cards,
             isNeedDivider: false,
