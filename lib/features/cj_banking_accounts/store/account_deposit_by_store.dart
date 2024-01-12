@@ -73,7 +73,7 @@ abstract class _AccountDepositByStoreBase with Store {
     var currencyFiltered = List<CurrencyModel>.from(sSignalRModules.currenciesList);
     currencyFiltered = currencyFiltered
         .where(
-          (element) => element.isAssetBalanceNotEmpty && element.type == AssetType.crypto,
+          (element) => element.type == AssetType.crypto,
         )
         .toList();
 
