@@ -58,9 +58,10 @@ class _DepositByBody extends StatelessWidget {
           assetIcon: Assets.svg.assets.fiat.externalTransfer.simpleSvg(
             width: 24,
           ),
+          hasRightValue: false,
           onTableAssetTap: () {
             sRouter.pop();
-            
+
             showAccountDetails(
               context: context,
               onClose: () {
@@ -81,6 +82,7 @@ class _DepositByBody extends StatelessWidget {
             assetIcon: Assets.svg.assets.crypto.defaultPlaceholder.simpleSvg(
               width: 24,
             ),
+            hasRightValue: false,
             onTableAssetTap: () {
               showAddCashFromBottomSheet(
                 context: context,

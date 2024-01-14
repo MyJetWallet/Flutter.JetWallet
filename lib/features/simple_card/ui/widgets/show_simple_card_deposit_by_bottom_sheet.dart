@@ -57,6 +57,7 @@ class _DepositByBody extends StatelessWidget {
             assetIcon: Assets.svg.assets.crypto.defaultPlaceholder.simpleSvg(
               width: 24,
             ),
+            hasRightValue: false,
             onTableAssetTap: () {
               showAddCashFromBottomSheet(
                 context: context,
