@@ -34,10 +34,13 @@ class SChipSuggestion extends HookWidget {
 
     return SafeGesture(
       onTap: callback,
+      radius: 12,
+      highlightColor: SColorsLight().gray4,
       onHighlightChanged: (p0) {
         isHighlated.value = p0;
       },
       child: Container(
+        width: 327,
         height: 56,
         decoration: BoxDecoration(
           color: isHighlated.value ? SColorsLight().gray4 : SColorsLight().gray2,
@@ -69,7 +72,7 @@ class SChipSuggestion extends HookWidget {
                   child: Text(
                     subTitle,
                     style: STStyles.body2Semibold.copyWith(
-                      color: SColorsLight().gray10,
+                      color: callback == null ? SColorsLight().gray8 : SColorsLight().gray10,
                     ),
                   ),
                 ),
@@ -81,7 +84,8 @@ class SChipSuggestion extends HookWidget {
                   child: Text(
                     title,
                     style: STStyles.body1Semibold.copyWith(
-                      color: SColorsLight().black,
+                      height: 1.4,
+                      color: callback == null ? SColorsLight().gray8 : SColorsLight().black,
                     ),
                   ),
                 ),
@@ -91,15 +95,15 @@ class SChipSuggestion extends HookWidget {
             Text(
               rightValue,
               style: STStyles.body2Semibold.copyWith(
-                color: SColorsLight().gray10,
+                color: callback == null ? SColorsLight().gray8 : SColorsLight().gray10,
               ),
             ),
             const Gap(8),
             rightIcon?.simpleSvg(
-                  color: SColorsLight().black,
+                  color: callback == null ? SColorsLight().gray8 : SColorsLight().black,
                 ) ??
                 Assets.svg.medium.shevronRight.simpleSvg(
-                  color: SColorsLight().black,
+                  color: callback == null ? SColorsLight().gray8 : SColorsLight().black,
                 )
           ],
         ),

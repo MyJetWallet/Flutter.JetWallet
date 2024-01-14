@@ -51,15 +51,27 @@ class SButton extends HookWidget {
   Color backgroundColor() {
     switch (type) {
       case ButtonType.blue:
-        return callback != null ? SColorsLight().blue : SColorsLight().blueLight;
+        return callback != null
+            ? isLoading
+                ? SColorsLight().blueDark
+                : SColorsLight().blue
+            : SColorsLight().blueLight;
       case ButtonType.black:
-        return callback != null ? SColorsLight().black : SColorsLight().gray4;
+        return callback != null
+            ? isLoading
+                ? SColorsLight().gray10
+                : SColorsLight().black
+            : SColorsLight().gray4;
       case ButtonType.red:
-        return callback != null ? SColorsLight().red : SColorsLight().redLight;
+        return callback != null
+            ? isLoading
+                ? SColorsLight().redDark
+                : SColorsLight().red
+            : SColorsLight().redExtralight;
       case ButtonType.text:
-        return Colors.transparent;
+        return isLoading ? SColorsLight().gray2 : Colors.transparent;
       case ButtonType.outlined:
-        return Colors.transparent;
+        return isLoading ? SColorsLight().gray2 : Colors.transparent;
     }
   }
 

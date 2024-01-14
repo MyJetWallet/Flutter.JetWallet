@@ -55,7 +55,11 @@ class SBadge extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Assets.svg.medium.checkmarkAlt.simpleSvg(color: getIconColorByType()),
+            Assets.svg.medium.checkmarkAlt.simpleSvg(
+              color: getIconColorByType(),
+              width: 20,
+              height: 20,
+            ),
             const Spacer(),
             Text(
               text,

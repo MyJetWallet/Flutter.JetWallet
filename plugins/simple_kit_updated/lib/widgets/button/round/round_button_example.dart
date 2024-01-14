@@ -11,5 +11,6 @@ RoundButton simpleStatusBlueButton(BuildContext context) {
   return RoundButton(
     value: context.knobs.string(label: 'Text', initialValue: '0.00 EUR'),
     isDisabled: context.knobs.boolean(label: 'Is Disabled', initialValue: false),
+    onTap: () {},
   );
 }

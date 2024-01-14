@@ -55,7 +55,7 @@ class SegmentControl extends HookWidget {
             labelPadding: EdgeInsets.zero,
             indicatorPadding: EdgeInsets.zero,
             indicatorWeight: 0,
-            dividerHeight: 0,
+            //dividerHeight: 0,
             dividerColor: Colors.transparent,
             isScrollable: true,
             tabs: items

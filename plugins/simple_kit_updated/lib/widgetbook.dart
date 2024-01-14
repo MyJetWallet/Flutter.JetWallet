@@ -17,20 +17,6 @@ class WidgetbookApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Widgetbook.material(
       directories: directories,
-      /*directories: [
-        WidgetbookComponent(
-          name: 'Navigation',
-          useCases: [
-            WidgetbookUseCase(
-              name: 'with green color',
-              builder: (context) => const GlobalBasicAppBar(
-                title: 'Title',
-                subtitle: 'Subtitle',
-              ),
-            ),
-          ],
-        ),
-      ],*/
       addons: [],
       integrations: [],
     );

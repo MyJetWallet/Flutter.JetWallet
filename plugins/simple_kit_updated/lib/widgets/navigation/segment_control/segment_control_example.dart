@@ -13,17 +13,17 @@ import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 Column simpleSegmentControlExample(BuildContext context) {
   return Column(
     children: [
-      _SegmentControlDemo1(),
+      SegmentControlDemo1(),
       const Gap(20),
-      _SegmentControlDemo2(),
+      SegmentControlDemo2(),
       const Gap(20),
-      _SegmentControlDemo3(),
+      SegmentControlDemo3(),
     ],
   );
 }
 
-class _SegmentControlDemo1 extends HookWidget {
-  const _SegmentControlDemo1({Key? key}) : super(key: key);
+class SegmentControlDemo1 extends HookWidget {
+  const SegmentControlDemo1({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +41,8 @@ class _SegmentControlDemo1 extends HookWidget {
   }
 }
 
-class _SegmentControlDemo2 extends HookWidget {
-  const _SegmentControlDemo2({Key? key}) : super(key: key);
+class SegmentControlDemo2 extends HookWidget {
+  const SegmentControlDemo2({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +59,8 @@ class _SegmentControlDemo2 extends HookWidget {
   }
 }
 
-class _SegmentControlDemo3 extends HookWidget {
-  const _SegmentControlDemo3({Key? key}) : super(key: key);
+class SegmentControlDemo3 extends HookWidget {
+  const SegmentControlDemo3({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

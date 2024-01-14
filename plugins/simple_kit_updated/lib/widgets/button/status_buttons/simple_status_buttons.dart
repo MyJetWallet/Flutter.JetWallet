@@ -64,7 +64,7 @@ class SStatusButtons extends StatelessWidget {
       case SStatusButtonsType.blue:
         return SColorsLight().blue;
       case SStatusButtonsType.yellow:
-        return SColorsLight().yellow;
+        return SColorsLight().yellowDark;
       case SStatusButtonsType.green:
         return SColorsLight().green;
       case SStatusButtonsType.red:

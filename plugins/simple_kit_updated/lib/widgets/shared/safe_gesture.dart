@@ -56,7 +56,10 @@ class _SafeGestureState extends State<SafeGesture> {
       onHighlightChanged: widget.onHighlightChanged,
       borderRadius: widget.radius != null ? BorderRadius.circular(widget.radius!) : null,
       highlightColor: hColor,
-      overlayColor: MaterialStateProperty.all(hColor),
+      hoverColor: Colors.transparent,
+      splashColor: Colors.transparent,
+      focusColor: Colors.transparent,
+      overlayColor: MaterialStateProperty.all(Colors.transparent),
       child: widget.child,
     );
   }

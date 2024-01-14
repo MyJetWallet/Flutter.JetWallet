@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
@@ -33,7 +34,7 @@ Set<SButtonContextType> _withIconButtonContextTypes = {
   SButtonContextType.iconedSmallInverted,
 };
 
-class SButtonContext extends StatelessWidget {
+class SButtonContext extends HookWidget {
   const SButtonContext({
     Key? key,
     required this.type,
@@ -43,7 +44,6 @@ class SButtonContext extends StatelessWidget {
     this.contentColor,
     this.backgroundColor,
     this.icon,
-    this.iconCustomColor,
   }) : super(key: key);
 
   final SButtonContextType type;
@@ -53,10 +53,11 @@ class SButtonContext extends StatelessWidget {
   final Color? contentColor;
   final Color? backgroundColor;
   final SvgGenImage? icon;
-  final Color? iconCustomColor;
 
   @override
   Widget build(BuildContext context) {
+    final isHighlated = useState(false);
+
     double getHeightOnType() {
       switch (type) {
         case SButtonContextType.basic:
@@ -65,9 +66,15 @@ class SButtonContext extends StatelessWidget {
           return 40;
         case SButtonContextType.iconedSmall:
           return 40;
+        case SButtonContextType.iconedSmallInverted:
+          return 40;
         case SButtonContextType.iconedMedium:
           return 48;
+        case SButtonContextType.iconedMediumInverted:
+          return 48;
         case SButtonContextType.iconedLarge:
+          return 56;
+        case SButtonContextType.iconedLargeInverted:
           return 56;
         default:
           return 40;
@@ -89,23 +96,44 @@ class SButtonContext extends StatelessWidget {
         case SButtonContextType.iconedSmall:
           return const EdgeInsets.only(
             top: 8,
-            bottom: 8,
             left: 16,
             right: 20,
+            bottom: 8,
+          );
+        case SButtonContextType.iconedSmallInverted:
+          return const EdgeInsets.only(
+            top: 8,
+            left: 16,
+            right: 20,
+            bottom: 8,
           );
         case SButtonContextType.iconedMedium:
           return const EdgeInsets.only(
-            top: 16,
-            bottom: 16,
+            top: 12,
             left: 16,
-            right: 24,
+            right: 20,
+            bottom: 12,
+          );
+        case SButtonContextType.iconedMediumInverted:
+          return const EdgeInsets.only(
+            top: 12,
+            left: 16,
+            right: 20,
+            bottom: 12,
           );
         case SButtonContextType.iconedLarge:
           return const EdgeInsets.only(
-            top: 12,
-            bottom: 12,
+            top: 16,
             left: 16,
-            right: 20,
+            right: 24,
+            bottom: 16,
+          );
+        case SButtonContextType.iconedLargeInverted:
+          return const EdgeInsets.only(
+            top: 16,
+            left: 16,
+            right: 24,
+            bottom: 16,
           );
         default:
           return const EdgeInsets.symmetric(
@@ -121,12 +149,21 @@ class SButtonContext extends StatelessWidget {
       child: SafeGesture(
         radius: 12,
         onTap: isDisabled ? null : onTap,
-        highlightColor: SColorsLight().gray4,
+        highlightColor: _invertedButtonContextTypes.contains(type) ? SColorsLight().gray2 : SColorsLight().gray4,
+        onHighlightChanged: (p0) {
+          isHighlated.value = p0;
+        },
         child: Ink(
           height: getHeightOnType(),
           decoration: BoxDecoration(
             color: backgroundColor ??
-                (_invertedButtonContextTypes.contains(type) ? Colors.transparent : SColorsLight().gray2),
+                (_invertedButtonContextTypes.contains(type)
+                    ? isHighlated.value
+                        ? SColorsLight().gray2
+                        : Colors.transparent
+                    : isHighlated.value
+                        ? SColorsLight().gray4
+                        : SColorsLight().gray2),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Padding(
@@ -136,10 +173,14 @@ class SButtonContext extends StatelessWidget {
               children: [
                 if (_withIconButtonContextTypes.contains(type)) ...[
                   SizedBox(
-                    width: type == SButtonContextType.iconedLarge ? 24 : 20,
-                    height: type == SButtonContextType.iconedLarge ? 24 : 20,
+                    width: (type == SButtonContextType.iconedLarge || type == SButtonContextType.iconedLargeInverted)
+                        ? 24
+                        : 20,
+                    height: (type == SButtonContextType.iconedLarge || type == SButtonContextType.iconedLargeInverted)
+                        ? 24
+                        : 20,
                     child: icon?.simpleSvg(
-                          color: isDisabled ? SColorsLight().gray8 : iconCustomColor ?? SColorsLight().blue,
+                          color: isDisabled ? SColorsLight().gray8 : SColorsLight().blue,
                         ) ??
                         Assets.svg.medium.add.simpleSvg(
                           color: isDisabled ? SColorsLight().gray8 : SColorsLight().blue,
@@ -149,15 +190,13 @@ class SButtonContext extends StatelessWidget {
                 ],
                 Text(
                   text,
-                  style: type == SButtonContextType.iconedLarge
+                  style: (type == SButtonContextType.iconedLarge || type == SButtonContextType.iconedLargeInverted)
                       ? STStyles.button.copyWith(
-                          color: contentColor ??
-                              (isDisabled ? SColorsLight().gray8 : iconCustomColor ?? SColorsLight().blue),
+                          color: contentColor ?? (isDisabled ? SColorsLight().gray8 : SColorsLight().blue),
                           height: 1,
                         )
                       : STStyles.body1Bold.copyWith(
-                          color: contentColor ??
-                              (isDisabled ? SColorsLight().gray8 : iconCustomColor ?? SColorsLight().blue),
+                          color: contentColor ?? (isDisabled ? SColorsLight().gray8 : SColorsLight().blue),
                           height: 1,
                         ),
                 ),
