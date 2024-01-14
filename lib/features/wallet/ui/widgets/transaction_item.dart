@@ -21,6 +21,7 @@ import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transac
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/transfer_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/withdraw_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/withdraw_nft_details.dart';
+import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/transaction_list_item.dart';
 import 'package:jetwallet/utils/helpers/find_blockchain_by_descr.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
@@ -38,9 +39,11 @@ class TransactionItem extends StatefulWidget {
   const TransactionItem({
     super.key,
     required this.transactionListItem,
+    required this.source,
   });
 
   final OperationHistoryItem transactionListItem;
+  final TransactionItemSource source;
 
   @override
   State<TransactionItem> createState() => _TransactionItemState();
@@ -102,6 +105,7 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
       children: [
         CommonTransactionDetailsBlock(
           transactionListItem: widget.transactionListItem,
+          source: widget.source,
         ),
         Stack(
           children: [

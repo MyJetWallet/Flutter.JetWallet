@@ -59,16 +59,31 @@ class TransferDetails extends StatelessObserverWidget {
           ),
           const SpaceH18(),
           TransactionDetailsItem(
-            text: transactionListItem.balanceChange > Decimal.zero ? intl.from : intl.to1,
+            text: intl.from,
             value: Flexible(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Flexible(
                     child: TransactionDetailsValueText(
-                      text: transactionListItem.balanceChange > Decimal.zero
-                          ? transactionListItem.ibanTransferInfo?.fromAccountLabel ?? 'Account 1'
-                          : transactionListItem.ibanTransferInfo?.toAccountLabel ?? 'Account 1',
+                      text: transactionListItem.ibanTransferInfo?.fromAccountLabel ?? 'Account 1',
+                      maxLines: 1,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SpaceH18(),
+          TransactionDetailsItem(
+            text: intl.to1,
+            value: Flexible(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Flexible(
+                    child: TransactionDetailsValueText(
+                      text: transactionListItem.ibanTransferInfo?.toAccountLabel ?? 'Account 1',
                       maxLines: 1,
                     ),
                   ),

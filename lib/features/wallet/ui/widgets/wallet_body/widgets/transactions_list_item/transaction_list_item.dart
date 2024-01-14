@@ -76,9 +76,9 @@ class TransactionListItem extends StatelessWidget {
 
         onItemTapLisener?.call(transactionListItem.assetId);
         showTransactionDetails(
-          context,
-          transactionListItem,
-          null,
+          context: context,
+          transactionListItem: transactionListItem,
+          source: source,
         );
       },
       icon: _transactionItemIcon(
@@ -207,15 +207,23 @@ class TransactionListItem extends StatelessWidget {
             ? SMinusIcon(color: isFailed ? failedColor : null)
             : SPlusIcon(color: isFailed ? failedColor : null);
       case OperationType.bankingTransfer:
-        return transactionListItem.balanceChange > Decimal.zero
-            ? Assets.svg.medium.addCash.simpleSvg(
-                width: 24,
-                color: isFailed ? failedColor : colors.green,
-              )
-            : Assets.svg.medium.withdrawal.simpleSvg(
-                width: 24,
-                color: isFailed ? failedColor : colors.red,
-              );
+        if (source == TransactionItemSource.history) {
+          // TODO (yaroslav): Replace the icon when Transferʼs design for global history appears
+          return Assets.svg.medium.swap.simpleSvg(
+            width: 24,
+            color: isFailed ? failedColor : colors.blue,
+          );
+        } else if (transactionListItem.balanceChange > Decimal.zero) {
+          return Assets.svg.medium.addCash.simpleSvg(
+            width: 24,
+            color: isFailed ? failedColor : colors.green,
+          );
+        } else {
+          return Assets.svg.medium.withdrawal.simpleSvg(
+            width: 24,
+            color: isFailed ? failedColor : colors.red,
+          );
+        }
 
       default:
         return SPlusIcon(color: isFailed ? failedColor : null);
@@ -241,12 +249,16 @@ class TransactionListItem extends StatelessWidget {
     required String symbol,
     required int accuracy,
   }) {
+    final amount = (transactionListItem.operationType == OperationType.ibanSend ||
+            transactionListItem.operationType == OperationType.transferByPhone ||
+            transactionListItem.operationType == OperationType.giftSend ||
+            ((transactionListItem.operationType == OperationType.bankingTransfer) &&
+                (source == TransactionItemSource.history)))
+        ? transactionListItem.balanceChange.abs()
+        : transactionListItem.balanceChange;
+
     return volumeFormat(
-      decimal: (transactionListItem.operationType == OperationType.ibanSend ||
-              transactionListItem.operationType == OperationType.transferByPhone ||
-              transactionListItem.operationType == OperationType.giftSend)
-          ? transactionListItem.balanceChange.abs()
-          : transactionListItem.balanceChange,
+      decimal: amount,
       accuracy: accuracy,
       symbol: symbol,
     );

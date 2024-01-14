@@ -9,6 +9,7 @@ import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/card_purchase_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/card_refund_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/card_withdrawal_details.dart';
+import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/transaction_list_item.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -24,9 +25,11 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
   const CommonTransactionDetailsBlock({
     super.key,
     required this.transactionListItem,
+    required this.source,
   });
 
   final OperationHistoryItem transactionListItem;
+  final TransactionItemSource source;
 
   @override
   Widget build(BuildContext context) {
@@ -237,7 +240,13 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
         context,
       );
     } else if (transactionListItem.operationType == OperationType.bankingTransfer) {
-      title = transactionListItem.balanceChange > Decimal.zero ? intl.history_added_cash : intl.history_withdrawn;
+      if (source == TransactionItemSource.history) {
+        title = intl.transferDetails_transfer;
+      } else if (transactionListItem.balanceChange > Decimal.zero) {
+        title = intl.history_added_cash;
+      } else {
+        title = intl.history_withdrawn;
+      }
     } else {
       title = operationName(
         transactionListItem.operationType,
