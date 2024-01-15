@@ -67,7 +67,7 @@ class _CardSettings extends StatelessObserverWidget {
           onTap: onChangeLableTap,
           hideDescription: true,
         ),
-        const SpaceH60(),
+        const SpaceH65(),
       ],
     );
   }
