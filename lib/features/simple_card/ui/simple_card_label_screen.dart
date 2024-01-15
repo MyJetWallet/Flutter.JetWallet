@@ -63,7 +63,7 @@ class _CJAccountLabelScreenState extends State<SimpleCardLabelScreen> {
                       child: SStandardField(
                         labelText: intl.edit_card_lable_card_label,
                         maxLines: 1,
-                        maxLength: 30,
+                        maxLength: 20,
                         controller: labelController,
                         textInputAction: TextInputAction.next,
                         onChanged: (text) {

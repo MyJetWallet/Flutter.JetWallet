@@ -64,7 +64,7 @@ class _CJAccountLabelScreenState extends State<CJAccountLabelScreen> {
                       child: SStandardField(
                         labelText: intl.wallet_account_label_input,
                         maxLines: 1,
-                        maxLength: 30,
+                        maxLength: 20,
                         controller: labelController,
                         textInputAction: TextInputAction.next,
                         onChanged: (text) {
