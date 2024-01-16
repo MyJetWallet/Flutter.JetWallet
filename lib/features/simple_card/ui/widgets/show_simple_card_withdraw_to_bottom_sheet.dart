@@ -45,7 +45,7 @@ class _WithdrawToBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (store.isAccountsAvaible) ...[
+        if (store.isAccountsAvaible && store.accounts.isNotEmpty) ...[
           MarketSeparator(
             text: intl.deposit_by_accounts,
             isNeedDivider: false,
@@ -74,7 +74,7 @@ class _WithdrawToBody extends StatelessWidget {
               },
             ),
         ],
-        if (store.isCardsAvaible) ...[
+        if (store.isCardsAvaible && store.cards.isNotEmpty) ...[
           MarketSeparator(
             text: intl.deposit_by_cards,
             isNeedDivider: false,
