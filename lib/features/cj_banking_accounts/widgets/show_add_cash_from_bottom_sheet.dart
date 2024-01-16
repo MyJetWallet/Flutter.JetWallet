@@ -4,7 +4,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
-import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -52,7 +51,9 @@ void showAddCashFromBottomSheet({
         text: intl.sell_amount_cryptocurrencies,
         isNeedDivider: false,
       ),
-      if (currenciesWithBalance(sSignalRModules.currenciesList).isEmpty)
+      if (sSignalRModules.currenciesList
+          .where((element) => element.symbol != 'EUR' && element.isAssetBalanceNotEmpty)
+          .isEmpty)
         Builder(
           builder: (context) {
             final currency = sSignalRModules.currenciesList.firstWhere((element) => element.symbol == 'USDT');
