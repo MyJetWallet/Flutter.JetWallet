@@ -39,6 +39,9 @@ abstract class _TransferConfirmationStoreBase with Store {
   bool isDataLoaded = false;
 
   @observable
+  bool showProcessing = true;
+
+  @observable
   String fromLable = '';
   @observable
   Decimal fromAmount = Decimal.zero;
@@ -108,6 +111,8 @@ abstract class _TransferConfirmationStoreBase with Store {
 
   Future<void> _createPayment() async {
     try {
+      showProcessing = false;
+      loader.startLoadingImmediately();
       final model = AccountTransferPreviewRequestModel(
         requestId: requestId,
         fromAssetSymbol: eurCurrency.symbol,
@@ -153,9 +158,11 @@ abstract class _TransferConfirmationStoreBase with Store {
     } catch (error) {
       unawaited(_showFailureScreen(intl.something_went_wrong));
     } finally {
-      loader.finishLoading();
+      loader.finishLoadingImmediately();
 
       isDataLoaded = true;
+
+      showProcessing = true;
     }
   }
 
@@ -198,20 +205,20 @@ abstract class _TransferConfirmationStoreBase with Store {
           _showSuccessScreen();
         },
         onError: (error) {
-          loader.finishLoadingImmediately();
+          loader.finishLoading();
           _showFailureScreen(error.cause);
         },
       );
     } on ServerRejectException catch (error) {
-      loader.finishLoadingImmediately();
+      loader.finishLoading();
 
       unawaited(_showFailureScreen(error.cause));
     } catch (error) {
-      loader.finishLoadingImmediately();
+      loader.finishLoading();
 
       unawaited(_showFailureScreen(intl.something_went_wrong));
     } finally {
-      loader.finishLoadingImmediately();
+      loader.finishLoading();
 
       isDataLoaded = true;
     }
