@@ -94,7 +94,8 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             transactionListItem.operationType == OperationType.cardPurchase ||
             transactionListItem.operationType == OperationType.cardWithdrawal ||
             transactionListItem.operationType == OperationType.cardRefund ||
-            transactionListItem.operationType == OperationType.bankingTransfer) ...[
+            transactionListItem.operationType == OperationType.bankingTransfer ||
+            transactionListItem.operationType == OperationType.cardBankingSell) ...[
           const SpaceH26(),
         ] else ...[
           const SpaceH67(),
@@ -135,7 +136,8 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             transactionListItem.operationType == OperationType.rewardPayment ||
             transactionListItem.operationType == OperationType.deposit ||
             transactionListItem.operationType == OperationType.sendGlobally ||
-            transactionListItem.operationType == OperationType.bankingTransfer)
+            transactionListItem.operationType == OperationType.bankingTransfer ||
+            transactionListItem.operationType == OperationType.cardBankingSell)
           const SizedBox()
         else if ((!nftTypes.contains(transactionListItem.operationType) || catchingTypes) &&
             !operationWithoutBalanceShow) ...[
@@ -181,7 +183,8 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             transactionListItem.operationType == OperationType.cardPurchase ||
             transactionListItem.operationType == OperationType.cardWithdrawal ||
             transactionListItem.operationType == OperationType.cardRefund ||
-            transactionListItem.operationType == OperationType.bankingTransfer)
+            transactionListItem.operationType == OperationType.bankingTransfer ||
+            transactionListItem.operationType == OperationType.cardBankingSell)
           const SizedBox.shrink()
         else
           const SpaceH72(),

@@ -9,6 +9,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/cj_banking_accounts/widgets/actions_account_row_widget.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
+import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/transaction_list_item.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -137,6 +138,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                   symbol: 'EUR',
                   fromCJAccount: true,
                   accountId: widget.bankingAccount.accountId,
+                  source: TransactionItemSource.eurAccount,
                 ),
               ],
             ),

@@ -274,6 +274,7 @@ Set<oh_resp.OperationType> avaibleOperationTypes = {
   oh_resp.OperationType.cardPurchase,
   oh_resp.OperationType.cardRefund,
   oh_resp.OperationType.cardWithdrawal,
+  oh_resp.OperationType.cardBankingSell,
 };
 
 List<oh_resp.OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(

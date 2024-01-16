@@ -120,6 +120,7 @@ class TransactionListItem extends StatelessWidget {
       case OperationType.bankingBuy:
         return '${transactionListItem.cryptoBuyInfo?.paymentAssetId} ${intl.operationName_exchangeTo} ${transactionListItem.cryptoBuyInfo?.buyAssetId}';
       case OperationType.bankingSell:
+      case OperationType.cardBankingSell:
         return '${transactionListItem.sellCryptoInfo?.sellAssetId} ${intl.operationName_exchangeTo} ${transactionListItem.sellCryptoInfo?.buyAssetId}';
       default:
         return transactionListItem.assetId;
@@ -203,6 +204,7 @@ class TransactionListItem extends StatelessWidget {
       case OperationType.cardWithdrawal:
         return SWithdrawalIcon(color: isFailed ? failedColor : colors.red);
       case OperationType.bankingSell:
+      case OperationType.cardBankingSell:
         return source == TransactionItemSource.cryptoAccount
             ? SMinusIcon(color: isFailed ? failedColor : null)
             : SPlusIcon(color: isFailed ? failedColor : null);
@@ -308,14 +310,16 @@ class TransactionListItem extends StatelessWidget {
         symbol: transactionListItem.cryptoBuyInfo?.buyAssetId ?? '',
       )}';
     }
-    if (transactionListItem.operationType == OperationType.bankingSell &&
+    if ((transactionListItem.operationType == OperationType.bankingSell ||
+            transactionListItem.operationType == OperationType.cardBankingSell) &&
         source != TransactionItemSource.cryptoAccount) {
       return '${intl.history_with} ${volumeFormat(
         decimal: transactionListItem.sellCryptoInfo?.sellAmount ?? Decimal.zero,
         symbol: transactionListItem.sellCryptoInfo?.sellAssetId ?? '',
       )}';
     }
-    if (transactionListItem.operationType == OperationType.bankingSell &&
+    if ((transactionListItem.operationType == OperationType.bankingSell ||
+            transactionListItem.operationType == OperationType.cardBankingSell) &&
         source == TransactionItemSource.cryptoAccount) {
       return '${intl.history_for} ${volumeFormat(
         decimal: transactionListItem.sellCryptoInfo?.buyAmount ?? Decimal.zero,
