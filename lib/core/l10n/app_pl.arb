@@ -1604,5 +1604,42 @@
         "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/VquePNdyGiobH1rva29XutbP.png",
         "type": "text"
     },
-    "paste": "Wkleić"
+    "paste": "Wkleić",
+    "account_actions_exchange": "Wymiana",
+    "account_actions_settings": "Ustawienia",
+    "account_settings_account_requisites": "Dane konta",
+    "account_settings_change_label": "Zmień etykietę",
+    "simple_card_settings_change_label": "Zmień etykietę",
+    "simple_card_settings_freeze_card": "Zablokuj kartę",
+    "simple_card_actions_settings": "Ustawienia",
+    "amount_screen_tab_transfer": "Przelew",
+    "deposit_by_accounts": "Konta",
+    "deposit_by_cards": "Karty",
+    "transfer_transfer_from": "Przelew z",
+    "transfer_transfer_to": "Przelew do",
+    "transfet_success_text": "Przelano {amount}",
+    "@transfet_success_text": {
+        "placeholders": {
+            "amount": {
+                "type": "String",
+                "example": "200 EUR"
+            }
+        }
+    },
+    "transfer_confirmation_send_to": "Wyślij do",
+    "transfer_confirmation_benificiary": "Beneficjent",
+    "transfer_confirmation_reference": "Referencja",
+    "transfer_confirmation_time_to_transaction": "SEPA Instan – do 2 godz.\nZwykły SEPA – do 3 dni rob.\nOpłata banku odbiorcy",
+    "device_binding_required_text": "Aby potwierdzić przelew, zweryfikuj płatność przez SMS",
+    "withdraw_to": "Wypłać do",
+    "external_method": "Metoda zewn",
+    "history_sold_to": "Sprzedano do",
+    "transfer_amount_transfer_all": "Przelej wszystko",
+    "edit_card_lable_card_label": "Etykieta karty",
+    "preferred_language": "Wybrany język",
+    "lang_change_alert": "Język zmieni się przy nast. uruchomieniu!",
+    "rate_title": "Uważasz nas za niesamowitych?",
+    "rate_subtitle": "Podziel się opinią, oceniając nas w App Store. Bardzo cenimy Twoje uwagi!",
+    "rate_submit_button": "Zostaw recenzję",
+    "rate_cancel_button": "Anuluj"
 }

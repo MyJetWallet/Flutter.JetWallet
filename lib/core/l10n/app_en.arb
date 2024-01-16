@@ -1571,13 +1571,23 @@
         }
     },
     "transfer_confirmation_send_to": "Send to",
-    "transfer_confirmation_benificiary": "Benificiary",
+    "transfer_confirmation_benificiary": "Beneficiary",
     "transfer_confirmation_reference": "Reference",
     "transfer_confirmation_time_to_transaction": "SEPA Instant – up to 2 hours.\nRegular SEPA transfer – up to 3 business days.\nReceiving bank may charge additional fee.",
-    "device_binding_required_text": "To confirm the transfer of funds you need to verify the payment via SMS",
+    "@transfer_confirmation_time_to_transaction": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/kIalgGpjFJRTQbbBQMdUfkMI.png",
+        "type": "text"
+    },
+    "device_binding_required_text": "To confirm the fund transfer, please verify the payment via SMS",
     "withdraw_to": "Withdraw to",
     "external_method": "External method",
     "history_sold_to": "Sold to",
     "transfer_amount_transfer_all": "Transfer all",
-    "edit_card_lable_card_label": "Card label"
+    "edit_card_lable_card_label": "Card label",
+    "preferred_language": "Preferred language",
+    "lang_change_alert": "The application language will be changed the next time the application is launched!",
+    "rate_title": "Finding us simply amazing?",
+    "rate_subtitle": "Share your thoughts by rating us on the App Store. We greatly value your feedback!",
+    "rate_submit_button": "Leave a review",
+    "rate_cancel_button": "Cancel"
 }

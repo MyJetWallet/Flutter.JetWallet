@@ -2006,7 +2006,7 @@
         "description": "Выберите актив для продажи",
         "type": "text"
     },
-    "sendOptions_sendTo": "Надсилайте на адресу",
+    "sendOptions_sendTo": "Відправити на адресу",
     "@sendOptions_sendTo": {
         "description": "Отправляйте на адрес",
         "type": "text"
@@ -3310,7 +3310,7 @@
         "description": "Крипто кошелек",
         "type": "text"
     },
-    "withdrawOptions_sendTo": "Надсилайте на адресу",
+    "withdrawOptions_sendTo": "Відправити на адресу",
     "@withdrawOptions_sendTo": {
         "description": "Отправляйте на адрес",
         "type": "text"
@@ -3355,7 +3355,7 @@
         "description": "Внутренний перевод",
         "type": "text"
     },
-    "withdrawDetails_withdrawalTo": "Надсилайте на адресу",
+    "withdrawDetails_withdrawalTo": "Відправити на адресу",
     "@withdrawDetails_withdrawalTo": {
         "description": "Отправляйте на адрес",
         "type": "text"
@@ -6467,7 +6467,7 @@
         "description": "Операция недоступна. Пожалуйста, обратитесь в службу поддержки.",
         "type": "text"
     },
-    "iban_out_sent_to": "Надсилайте на адресу",
+    "iban_out_sent_to": "Відправити на адресу",
     "@iban_out_sent_to": {
         "description": "Отправляйте на адрес",
         "type": "text"
@@ -7144,5 +7144,134 @@
     "profile_kyc_bloked_alert": "Ваш акаунт заблоковано. Будь ласка, зверніться до служби підтримки.",
     "send_gift_small_title": "Відправка подарунку",
     "send": "Відправка",
-    "paste": "Вставити"
+    "paste": "Вставити",
+    "account_actions_exchange": "Обмін",
+    "@account_actions_exchange": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/8tQXmNOIY9Ldui3pjG5DfYBW.png",
+        "type": "text"
+    },
+    "account_actions_settings": "Налаштування",
+    "@account_actions_settings": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/5eZtB0xA6Zj9OuoDQ9XUopsD.png",
+        "type": "text"
+    },
+    "account_settings_account_requisites": "Реквізити",
+    "@account_settings_account_requisites": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/z6teRdw5Gd7L2iJ8FaVKD2Lj.png",
+        "type": "text"
+    },
+    "account_settings_change_label": "Змінити назву",
+    "@account_settings_change_label": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/iZMqs29phvDRqqlftBSzFQKF.png",
+        "type": "text"
+    },
+    "simple_card_settings_change_label": "Змінити назву",
+    "@simple_card_settings_change_label": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/8bCT5VlpV0pzhPDdpUrAgEV1.png",
+        "type": "text"
+    },
+    "simple_card_settings_freeze_card": "Заморозити картку",
+    "@simple_card_settings_freeze_card": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/8bCT5VlpV0pzhPDdpUrAgEV1.png",
+        "type": "text"
+    },
+    "simple_card_actions_settings": "Налаштування",
+    "@simple_card_actions_settings": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/8bCT5VlpV0pzhPDdpUrAgEV1.png",
+        "type": "text"
+    },
+    "amount_screen_tab_transfer": "Переказ",
+    "@amount_screen_tab_transfer": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/vloS0jqOH4k9hOelVIaVhffV.png",
+        "type": "text"
+    },
+    "deposit_by_accounts": "Рахунки",
+    "@deposit_by_accounts": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/mqR0qeCb2X0CxNB6AIPk4Pi8.png",
+        "type": "text"
+    },
+    "deposit_by_cards": "Картки",
+    "@deposit_by_cards": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/EhzgETAW31YvZtbKGOjtptfY.png",
+        "type": "text"
+    },
+    "transfer_transfer_from": "Переказ з",
+    "@transfer_transfer_from": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/nW8sFsZYE4fsza0BBUbCwci4.png",
+        "type": "text"
+    },
+    "transfer_transfer_to": "Переказ на",
+    "@transfer_transfer_to": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/GNaGjp3nl04nh8nVPU6kNRvy.png",
+        "type": "text"
+    },
+    "transfet_success_text": "Переказано {amount}",
+    "@transfet_success_text": {
+        "placeholders": {
+            "amount": {
+                "type": "String",
+                "example": "200 EUR"
+            }
+        }
+    },
+    "transfer_confirmation_send_to": "Відправити на адресу",
+    "@transfer_confirmation_send_to": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/ZgUdLne2tseIsAhBtGmL0ndr.png",
+        "type": "text"
+    },
+    "transfer_confirmation_benificiary": "Одержувач",
+    "@transfer_confirmation_benificiary": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/fz1L8TmyzmWaZu5KQdmBN6hN.png",
+        "type": "text"
+    },
+    "transfer_confirmation_reference": "Призначення",
+    "@transfer_confirmation_reference": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/rVuCKIXsw2DHGitx7bcMNAtG.png",
+        "type": "text"
+    },
+    "transfer_confirmation_time_to_transaction": "SEPA Instant - до 2 год.\nЗвичайний SEPA-переказ - до 3 днів.\nМоже бути стягена комісія банку-одержувача",
+    "device_binding_required_text": "Щоб підтвердити переказ коштів, будь ласка, верифікуйте платіж через SMS",
+    "@device_binding_required_text": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/KAIanxEpZvGFLFhEEYSbYPmm.png",
+        "type": "text"
+    },
+    "withdraw_to": "Вивести на",
+    "@withdraw_to": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/GfPGE1XW8ctYpplJBV6DJ8Qg.png",
+        "type": "text"
+    },
+    "external_method": "Зовнішній спосіб",
+    "@external_method": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/GfPGE1XW8ctYpplJBV6DJ8Qg.png",
+        "type": "text"
+    },
+    "history_sold_to": "Продано",
+    "@history_sold_to": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/zlplN2yOhXdkraXg2z3TegHh.png",
+        "type": "text"
+    },
+    "transfer_amount_transfer_all": "Переказати все",
+    "@transfer_amount_transfer_all": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/B4QbhDLL0HGCN1dQnx1ReYQG.png",
+        "type": "text"
+    },
+    "edit_card_lable_card_label": "Назва картки",
+    "@edit_card_lable_card_label": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/Kzotw8CnclI4Tu3gMaoc8kIh.png",
+        "type": "text"
+    },
+    "preferred_language": "Обрана мова",
+    "@preferred_language": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/bjzUPLi4pFW92enMMXK6dJnJ.png",
+        "type": "text"
+    },
+    "lang_change_alert": "Мова зміниться при наступному запуску!",
+    "@lang_change_alert": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/EaVUjqRxOm8B0ox0N9WO0EPe.png",
+        "type": "text"
+    },
+    "rate_title": "Вам подобається додаток?",
+    "rate_subtitle": "Поділіться думками, оцінивши нас в App Store. Ми цінуємо ваш відгук!",
+    "rate_submit_button": "Залишити відгук",
+    "rate_cancel_button": "Скасувати"
 }
