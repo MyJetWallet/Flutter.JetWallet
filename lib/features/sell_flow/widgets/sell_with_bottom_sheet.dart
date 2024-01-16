@@ -51,7 +51,7 @@ void showSellPayWithBottomSheet({
 }
 
 class _PaymentMethodScreenBody extends StatelessObserverWidget {
-  _PaymentMethodScreenBody({
+  const _PaymentMethodScreenBody({
     required this.asset,
     required this.store,
     this.onSelected,
@@ -78,7 +78,7 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
                   sRouter.push(
                     AmountRoute(
                       tab: AmountScreenTab.buy,
-                      asset: asset!,
+                      asset: asset,
                       account: account,
                     ),
                   );
@@ -87,9 +87,9 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
               accounts: store.accounts,
             ),
           ],
-          if (store.isCardsAvaible) ...[
-            const MarketSeparator(
-              text: 'Cards',
+          if (store.isCardsAvaible && store.cards.isNotEmpty) ...[
+            MarketSeparator(
+              text: intl.deposit_by_cards,
               isNeedDivider: false,
             ),
             for (final card in store.cards)
@@ -109,7 +109,7 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
                     sRouter.push(
                       AmountRoute(
                         tab: AmountScreenTab.buy,
-                        asset: asset!,
+                        asset: asset,
                         simpleCard: card,
                       ),
                     );
