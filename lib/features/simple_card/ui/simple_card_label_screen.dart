@@ -67,7 +67,7 @@ class _CJAccountLabelScreenState extends State<SimpleCardLabelScreen> {
                         controller: labelController,
                         textInputAction: TextInputAction.next,
                         onChanged: (text) {
-                          if (text.isNotEmpty && text.length <= 20) {
+                          if (text.trim().isNotEmpty && text.trim().length <= 20) {
                             setState(() {
                               isButtonActive = true;
                             });
