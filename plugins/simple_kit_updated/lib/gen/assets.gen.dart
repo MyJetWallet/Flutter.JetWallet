@@ -79,6 +79,9 @@ class $AssetsSvgMediumGen {
   /// File path: assets/svg/medium/add_cash.svg
   SvgGenImage get addCash => const SvgGenImage('assets/svg/medium/add_cash.svg');
 
+  /// File path: assets/svg/medium/alt_deposit.svg
+  SvgGenImage get altDeposit => const SvgGenImage('assets/svg/medium/alt_deposit.svg');
+
   /// File path: assets/svg/medium/arrow_down.svg
   SvgGenImage get arrowDown => const SvgGenImage('assets/svg/medium/arrow_down.svg');
 
@@ -263,6 +266,7 @@ class $AssetsSvgMediumGen {
   List<SvgGenImage> get values => [
         add,
         addCash,
+        altDeposit,
         arrowDown,
         arrowLeft,
         arrowRight,

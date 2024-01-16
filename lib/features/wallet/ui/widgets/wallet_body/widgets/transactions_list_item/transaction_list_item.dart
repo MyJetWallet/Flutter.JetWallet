@@ -207,23 +207,10 @@ class TransactionListItem extends StatelessWidget {
             ? SMinusIcon(color: isFailed ? failedColor : null)
             : SPlusIcon(color: isFailed ? failedColor : null);
       case OperationType.bankingTransfer:
-        if (source == TransactionItemSource.history) {
-          // TODO (yaroslav): Replace the icon when Transferʼs design for global history appears
-          return Assets.svg.medium.swap.simpleSvg(
-            width: 24,
-            color: isFailed ? failedColor : colors.blue,
-          );
-        } else if (transactionListItem.balanceChange > Decimal.zero) {
-          return Assets.svg.medium.addCash.simpleSvg(
-            width: 24,
-            color: isFailed ? failedColor : colors.green,
-          );
-        } else {
-          return Assets.svg.medium.withdrawal.simpleSvg(
-            width: 24,
-            color: isFailed ? failedColor : colors.red,
-          );
-        }
+        return Assets.svg.medium.altDeposit.simpleSvg(
+          width: 24,
+          color: isFailed ? failedColor : colors.blue,
+        );
 
       default:
         return SPlusIcon(color: isFailed ? failedColor : null);
