@@ -127,7 +127,7 @@ abstract class _BankCardStoreBase with Store {
 
   @computed
   bool get isEditButtonSaveActive {
-    return cardLabel.isNotEmpty && isExpiryMonthValid && isExpiryYearValid;
+    return cardLabel.trim().isNotEmpty && isExpiryMonthValid && isExpiryYearValid;
   }
 
   @computed
