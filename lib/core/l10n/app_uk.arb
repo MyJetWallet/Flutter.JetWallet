@@ -6818,7 +6818,7 @@
         "description": "Заморозить",
         "type": "text"
     },
-    "simple_card_settings": "Налаштувати",
+    "simple_card_settings": "Параметри",
     "@simple_card_settings": {
         "description": "Настройки",
         "type": "text"
@@ -7150,7 +7150,7 @@
         "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/8tQXmNOIY9Ldui3pjG5DfYBW.png",
         "type": "text"
     },
-    "account_actions_settings": "Налаштування",
+    "account_actions_settings": "Параметри",
     "@account_actions_settings": {
         "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/5eZtB0xA6Zj9OuoDQ9XUopsD.png",
         "type": "text"
@@ -7175,7 +7175,7 @@
         "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/8bCT5VlpV0pzhPDdpUrAgEV1.png",
         "type": "text"
     },
-    "simple_card_actions_settings": "Налаштування",
+    "simple_card_actions_settings": "Параметри",
     "@simple_card_actions_settings": {
         "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/8bCT5VlpV0pzhPDdpUrAgEV1.png",
         "type": "text"
