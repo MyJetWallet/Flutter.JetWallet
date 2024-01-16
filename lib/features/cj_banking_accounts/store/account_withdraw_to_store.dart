@@ -48,12 +48,19 @@ abstract class _AccountWithdrawToStoreBase with Store {
 
     final simpleAccount = sSignalRModules.bankingProfileData?.simple?.account;
 
-    if (simpleAccount != null && simpleAccount.accountId != account?.accountId) {
+    if (simpleAccount != null &&
+        simpleAccount.accountId != account?.accountId &&
+        (simpleAccount.status == AccountStatus.active)) {
       accounts.add(simpleAccount);
     }
 
     final bankingAccounts = sSignalRModules.bankingProfileData?.banking?.accounts
-            ?.where((element) => !(element.isHidden ?? false) && element.accountId != account?.accountId)
+            ?.where(
+              (element) =>
+                  element.status == AccountStatus.active &&
+                  !(element.isHidden ?? false) &&
+                  element.accountId != account?.accountId,
+            )
             .toList() ??
         <SimpleBankingAccount>[];
 
