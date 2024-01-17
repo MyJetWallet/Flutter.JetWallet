@@ -98,14 +98,21 @@ abstract class _AppStoreBase with Store {
   @action
   void setLocale(Locale val) => locale = val;
   @action
-  Future<void> initLocale() async {
+  Future<void> initLocale({BuildContext? context}) async {
     final storage = sLocalStorageService;
 
     final lang = await storage.getValue(userLocale);
-    if (lang != null) {
-      locale = Locale.fromSubtags(languageCode: lang);
-    } else {
-      locale = Localizations.localeOf(sRouter.navigatorKey.currentContext!);
+
+    try {
+      if (lang != null) {
+        locale = Locale.fromSubtags(languageCode: lang);
+      } else {
+        if (context != null) {
+          locale = Localizations.localeOf(context);
+        }
+      }
+    } catch (e) {
+      locale = Locale.fromSubtags(languageCode: 'Platform.localeName');
     }
   }
 

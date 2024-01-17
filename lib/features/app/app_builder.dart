@@ -37,10 +37,12 @@ class AppBuilder extends StatelessObserverWidget {
         /// Register AppLocalizations, register here, because we need context
         if (!getIt.isRegistered<AppLocalizations>()) {
           getIt.registerSingleton<AppLocalizations>(
-            AppLocalizations.of(
-              context,
-            )!,
+            AppLocalizations.of(context)!,
           );
+
+          if (getIt.isRegistered<AppStore>()) {
+            getIt.get<AppStore>().initLocale(context: context);
+          }
         }
 
         return getIt.get<AppStore>().remoteConfigStatus is Success
