@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/buy_flow/ui/buy_tab_body.dart';
 import 'package:jetwallet/features/convert_flow/screens/convert_tab_body.dart';
 import 'package:jetwallet/features/sell_flow/screens/sell_tab_body.dart';
@@ -12,6 +15,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 
 enum AmountScreenTab { buy, sell, convert, transfer }
 
@@ -50,12 +54,17 @@ class AmountScreen extends StatefulWidget {
 class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMixin {
   late TabController tabController;
 
+  int countOfTabs = 4;
+
   @override
   void initState() {
+    final isShowTransferTab = checkNeedForTransferTab();
+
+    countOfTabs = isShowTransferTab ? 4 : 3;
     tabController = TabController(
-      length: 4,
+      length: countOfTabs,
       vsync: this,
-      initialIndex: widget.tab.index,
+      initialIndex: min(widget.tab.index, countOfTabs),
     );
     tabController.addListener(() {
       if (tabController.indexIsChanging) return;
@@ -74,6 +83,25 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
       }
     });
     super.initState();
+  }
+
+  bool checkNeedForTransferTab() {
+    var cardsCount = sSignalRModules.bankingProfileData?.banking?.cards
+            ?.where((element) => element.status == AccountStatusCard.active)
+            .length ??
+        0;
+
+    final simpleAccount = sSignalRModules.bankingProfileData?.simple?.account;
+
+    if (simpleAccount?.status == AccountStatus.active) {
+      cardsCount++;
+    }
+
+    final accountsCount = sSignalRModules.bankingProfileData?.banking?.accounts?.length ?? 0;
+
+    final summary = cardsCount + accountsCount;
+
+    return summary > 1;
   }
 
   @override
@@ -155,9 +183,10 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
                       Tab(
                         text: intl.amount_screen_tab_convert,
                       ),
-                      Tab(
-                        text: intl.amount_screen_tab_transfer,
-                      ),
+                      if (countOfTabs >= 4)
+                        Tab(
+                          text: intl.amount_screen_tab_transfer,
+                        ),
                     ],
                   ),
                 ),
@@ -182,12 +211,13 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
                   fromAsset: widget.tab != AmountScreenTab.buy ? widget.asset : null,
                   toAsset: widget.tab == AmountScreenTab.buy ? widget.asset : null,
                 ),
-                TransferAmountTabBody(
-                  fromCard: widget.fromCard,
-                  toCard: widget.toCard,
-                  fromAccount: widget.fromAccount,
-                  toAccount: widget.toAccount,
-                ),
+                if (countOfTabs >= 4)
+                  TransferAmountTabBody(
+                    fromCard: widget.fromCard,
+                    toCard: widget.toCard,
+                    fromAccount: widget.fromAccount,
+                    toAccount: widget.toAccount,
+                  ),
               ],
             ),
           ),
