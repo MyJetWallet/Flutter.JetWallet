@@ -35,7 +35,7 @@ class ActionsAccountRowWidget extends StatelessWidget {
     final kycState = getIt.get<KycService>();
 
     return Padding(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
       child: Observer(
         builder: (context) {
           return Row(

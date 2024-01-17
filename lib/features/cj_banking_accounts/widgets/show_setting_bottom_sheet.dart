@@ -3,10 +3,9 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/cj_banking_accounts/screens/show_account_details_screen.dart';
-import 'package:jetwallet/features/simple_card/ui/widgets/card_option.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 void showAccountSettings({
@@ -44,12 +43,13 @@ class _CardSettings extends StatelessObserverWidget {
 
     return Column(
       children: [
-        CardOption(
-          icon: Assets.svg.medium.document.simpleSvg(
+        SimpleTableAsset(
+          assetIcon: Assets.svg.medium.document.simpleSvg(
             color: colors.blue,
           ),
-          name: intl.account_settings_account_requisites,
-          onTap: () {
+          label: intl.account_settings_account_requisites,
+          hasRightValue: false,
+          onTableAssetTap: () {
             sRouter.pop();
             showAccountDetails(
               context: context,
@@ -57,15 +57,14 @@ class _CardSettings extends StatelessObserverWidget {
               bankingAccount: bankingAccount,
             );
           },
-          hideDescription: true,
         ),
-        CardOption(
-          icon: Assets.svg.medium.edit.simpleSvg(
+        SimpleTableAsset(
+          assetIcon: Assets.svg.medium.edit.simpleSvg(
             color: colors.blue,
           ),
-          name: intl.account_settings_change_label,
-          onTap: onChangeLableTap,
-          hideDescription: true,
+          label: intl.account_settings_change_label,
+          hasRightValue: false,
+          onTableAssetTap: onChangeLableTap,
         ),
         const SpaceH65(),
       ],

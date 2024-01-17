@@ -6,11 +6,10 @@ import 'package:jetwallet/features/simple_card/ui/set_up_password_screen.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../../core/di/di.dart';
 import '../../store/simple_card_store.dart';
-import 'card_option.dart';
 
 void showCardSettings({
   required BuildContext context,
@@ -48,12 +47,13 @@ class _CardSettings extends StatelessObserverWidget {
 
     return Column(
       children: [
-        CardOption(
-          icon: Assets.svg.medium.document.simpleSvg(
+        SimpleTableAsset(
+          assetIcon: Assets.svg.medium.document.simpleSvg(
             color: colors.blue,
           ),
-          name: intl.simple_card_spending_limits,
-          onTap: () {
+          label: intl.simple_card_spending_limits,
+          hasRightValue: false,
+          onTableAssetTap: () {
             sAnalytics.tapOnTheSpendingVirtualCardLimitsButton(cardID: simpleCardStore.cardFull?.cardId ?? '');
             sRouter
                 .push(
@@ -68,21 +68,21 @@ class _CardSettings extends StatelessObserverWidget {
               );
             });
           },
-          hideDescription: true,
         ),
-        CardOption(
-          icon: SEyeOpenIcon(color: colors.blue),
-          name: intl.simple_card_remind_pin,
-          onTap: () {
+        SimpleTableAsset(
+          assetIcon: SEyeOpenIcon(color: colors.blue),
+          label: intl.simple_card_remind_pin,
+          hasRightValue: false,
+          onTableAssetTap: () {
             simpleCardStore.remindPinPhone();
           },
-          hideDescription: true,
         ),
-        CardOption(
-          icon: SSecurityIcon(color: colors.blue),
-          name: intl.simple_card_set_password,
-          description: intl.simple_card_online_purchases,
-          onTap: () {
+        SimpleTableAsset(
+          assetIcon: SSecurityIcon(color: colors.blue),
+          label: intl.simple_card_set_password,
+          supplement: intl.simple_card_online_purchases,
+          hasRightValue: false,
+          onTableAssetTap: () {
             Navigator.push(
               context,
               PageRouteBuilder(
@@ -114,32 +114,32 @@ class _CardSettings extends StatelessObserverWidget {
             ).then((value) async {});
           },
         ),
-        CardOption(
-          icon: Assets.svg.medium.edit.simpleSvg(
+        SimpleTableAsset(
+          assetIcon: Assets.svg.medium.edit.simpleSvg(
             color: colors.blue,
           ),
-          name: intl.simple_card_settings_change_label,
-          onTap: onChangeLableTap,
-          hideDescription: true,
+          label: intl.simple_card_settings_change_label,
+          hasRightValue: false,
+          onTableAssetTap: onChangeLableTap,
         ),
-        CardOption(
-          icon: Assets.svg.medium.freeze.simpleSvg(
+        SimpleTableAsset(
+          assetIcon: Assets.svg.medium.freeze.simpleSvg(
             color: colors.blue,
           ),
-          name: intl.simple_card_settings_freeze_card,
-          onTap: onFreezeTap,
-          hideDescription: true,
+          label: intl.simple_card_settings_freeze_card,
+          hasRightValue: false,
+          onTableAssetTap: onFreezeTap,
         ),
-        CardOption(
-          icon: Assets.svg.medium.delete.simpleSvg(
+        SimpleTableAsset(
+          assetIcon: Assets.svg.medium.delete.simpleSvg(
             color: colors.red,
           ),
-          name: intl.simple_card_terminate_card,
-          onTap: () {
+          label: intl.simple_card_terminate_card,
+          hasRightValue: false,
+          onTableAssetTap: () {
             sRouter.pop();
             simpleCardStore.terminateCard();
           },
-          hideDescription: true,
         ),
         const SpaceH63(),
       ],
