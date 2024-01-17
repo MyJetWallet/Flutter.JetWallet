@@ -72,6 +72,7 @@ class _AppScreenState extends State<AppScreen> {
         Locale('pl'),
         Locale('uk'),
         Locale('es'),
+        Locale('fr'),
       ],
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       routeInformationParser: getIt.get<AppRouter>().defaultRouteParser(),
