@@ -86,18 +86,21 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
   }
 
   bool checkNeedForTransferTab() {
-    var cardsCount = sSignalRModules.bankingProfileData?.banking?.cards
+    final cardsCount = sSignalRModules.bankingProfileData?.banking?.cards
             ?.where((element) => element.status == AccountStatusCard.active)
+            .length ??
+        0;
+
+    var accountsCount = sSignalRModules.bankingProfileData?.banking?.accounts
+            ?.where((element) => element.status == AccountStatus.active)
             .length ??
         0;
 
     final simpleAccount = sSignalRModules.bankingProfileData?.simple?.account;
 
     if (simpleAccount?.status == AccountStatus.active) {
-      cardsCount++;
+      accountsCount++;
     }
-
-    final accountsCount = sSignalRModules.bankingProfileData?.banking?.accounts?.length ?? 0;
 
     final summary = cardsCount + accountsCount;
 

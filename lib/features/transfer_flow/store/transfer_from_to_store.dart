@@ -55,7 +55,7 @@ abstract class _TransferFromToStoreBase with Store {
 
     final simpleAccount = sSignalRModules.bankingProfileData?.simple?.account;
 
-    if (simpleAccount != null && simpleAccount.accountId != _skipId) {
+    if (simpleAccount != null && simpleAccount.accountId != _skipId && simpleAccount.status == AccountStatus.active) {
       if (_isFrom) {
         if (simpleAccount.isNotEmptyBalance) {
           accounts.add(simpleAccount);
@@ -69,13 +69,19 @@ abstract class _TransferFromToStoreBase with Store {
         ? sSignalRModules.bankingProfileData?.banking?.accounts
                 ?.where(
                   (element) =>
-                      element.isNotEmptyBalance && !(element.isHidden ?? false) && element.accountId != _skipId,
+                      element.isNotEmptyBalance &&
+                      !(element.isHidden ?? false) &&
+                      element.accountId != _skipId &&
+                      element.status == AccountStatus.active,
                 )
                 .toList() ??
             <SimpleBankingAccount>[]
         : sSignalRModules.bankingProfileData?.banking?.accounts
                 ?.where(
-                  (element) => !(element.isHidden ?? false) && element.accountId != _skipId,
+                  (element) =>
+                      !(element.isHidden ?? false) &&
+                      element.accountId != _skipId &&
+                      element.status == AccountStatus.active,
                 )
                 .toList() ??
             <SimpleBankingAccount>[];
