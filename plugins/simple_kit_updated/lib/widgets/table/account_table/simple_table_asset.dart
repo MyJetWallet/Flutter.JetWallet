@@ -20,7 +20,10 @@ class SimpleTableAsset extends StatelessWidget {
     this.labelIcon,
     this.hasRightValue = true,
     this.rightValue,
+    this.rightMarketValue,
     this.customRightWidget,
+    this.isRightValueMarket = false,
+    this.rightValueMarketPositive = true,
   }) : super(key: key);
 
   final VoidCallback? onTableAssetTap;
@@ -35,7 +38,10 @@ class SimpleTableAsset extends StatelessWidget {
 
   final bool hasRightValue;
   final String? rightValue;
+  final String? rightMarketValue;
   final Widget? customRightWidget;
+  final bool isRightValueMarket;
+  final bool rightValueMarketPositive;
 
   final bool hasLabelIcon;
   final Widget? labelIcon;
@@ -45,7 +51,11 @@ class SimpleTableAsset extends StatelessWidget {
     return SafeGesture(
       onTap: onTableAssetTap,
       child: SizedBox(
-        height: needPadding ? 80 : 48,
+        height: needPadding
+            ? supplement == null
+                ? 64
+                : 80
+            : 48,
         child: Padding(
           padding: needPadding
               ? const EdgeInsets.symmetric(
@@ -132,12 +142,51 @@ class SimpleTableAsset extends StatelessWidget {
               ),
               if (hasRightValue) ...[
                 //const Spacer(),
-                Center(
-                  child: customRightWidget ??
-                      RoundButton(
-                        value: rightValue ?? '',
+                if (customRightWidget != null)
+                  ...[]
+                else ...[
+                  if (isRightValueMarket) ...[
+                    SizedBox(
+                      height: 48,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            rightValue ?? '',
+                            style: STStyles.subtitle1,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                rightMarketValue ?? '',
+                                style: STStyles.body2Semibold.copyWith(
+                                  color: rightValueMarketPositive ? SColorsLight().green : SColorsLight().red,
+                                ),
+                              ),
+                              const Gap(2),
+                              rightValueMarketPositive
+                                  ? Assets.svg.medium.arrowUp.simpleSvg(
+                                      width: 16,
+                                      height: 16,
+                                      color: SColorsLight().green,
+                                    )
+                                  : Assets.svg.medium.arrowDown.simpleSvg(
+                                      width: 16,
+                                      height: 16,
+                                      color: SColorsLight().red,
+                                    ),
+                            ],
+                          ),
+                        ],
                       ),
-                ),
+                    )
+                  ] else ...[
+                    RoundButton(
+                      value: rightValue ?? '',
+                    )
+                  ],
+                ],
               ]
             ],
           ),
