@@ -55,16 +55,14 @@ void showAddCashFromBottomSheet({
           builder: (context) {
             final currency = sSignalRModules.currenciesList.firstWhere((element) => element.symbol == 'USDT');
 
-            return SWalletItem(
-              decline: currency.dayPercentChange.isNegative,
-              icon: SNetworkSvg24(
+            return SimpleTableAccount(
+              assetIcon: SNetworkSvg24(
                 url: currency.iconUrl,
               ),
-              primaryText: currency.description,
-              removeDivider: true,
-              amount: currency.volumeBaseBalance(baseCurrency),
-              secondaryText: currency.volumeAssetBalance,
-              onTap: () {
+              label: currency.description,
+              supplement: currency.volumeAssetBalance,
+              rightValue: currency.volumeBaseBalance(baseCurrency),
+              onTableAssetTap: () {
                 onChooseAsset(currency);
               },
             );
@@ -82,21 +80,20 @@ void showAddCashFromBottomSheet({
 
             return Column(
               children: [
-                for (final currency in currencyFiltered)
+                for (final currency in currencyFiltered) ...[
                   if (currency.isAssetBalanceNotEmpty)
-                    SWalletItem(
-                      decline: currency.dayPercentChange.isNegative,
-                      icon: SNetworkSvg24(
+                    SimpleTableAccount(
+                      assetIcon: SNetworkSvg24(
                         url: currency.iconUrl,
                       ),
-                      primaryText: currency.description,
-                      removeDivider: true,
-                      amount: currency.volumeBaseBalance(baseCurrency),
-                      secondaryText: currency.volumeAssetBalance,
-                      onTap: () {
+                      label: currency.description,
+                      supplement: currency.volumeAssetBalance,
+                      rightValue: currency.volumeBaseBalance(baseCurrency),
+                      onTableAssetTap: () {
                         onChooseAsset(currency);
                       },
                     ),
+                ],
               ],
             );
           },

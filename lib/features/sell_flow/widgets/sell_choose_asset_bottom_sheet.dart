@@ -96,24 +96,17 @@ class _ChooseAssetBody extends StatelessObserverWidget {
                   secondaryText = getIt<AppStore>().isBalanceHide ? currency.symbol : currency.volumeAssetBalance;
                 }
 
-                return SWalletItem(
-                  height: 80,
+                return SimpleTableAsset(
                   key: UniqueKey(),
-                  isBalanceHide: getIt<AppStore>().isBalanceHide,
-                  decline: currency.dayPercentChange.isNegative,
-                  icon: SNetworkSvg24(
+                  assetIcon: SNetworkSvg24(
                     url: currency.iconUrl,
                   ),
-                  baseCurrencySymbol: baseCurrency.symbol,
-                  primaryText: currency.description,
-                  amount: currency.volumeBaseBalance(baseCurrency),
-                  secondaryText: secondaryText,
-                  onTap: () {
+                  label: currency.description,
+                  rightValue: currency.volumeBaseBalance(baseCurrency),
+                  supplement: secondaryText,
+                  onTableAssetTap: () {
                     onChooseAsset(currency);
                   },
-                  removeDivider: true,
-                  isPendingDeposit: currency.isPendingDeposit,
-                  priceFieldHeight: 44,
                 );
               },
             ),

@@ -15,6 +15,7 @@ import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/transfer/account_transfer_preview_request_model.dart';
 
@@ -128,7 +129,7 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
                 Text(
                   intl.transfer_confirmation_time_to_transaction,
                   style: sCaptionTextStyle.copyWith(
-                    color: sKit.colors.grey2,
+                    color: SColorsLight().gray8,
                   ),
                 ),
                 const SizedBox(height: 16),
