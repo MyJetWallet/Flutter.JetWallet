@@ -72,7 +72,7 @@ class ActiveInvestList extends StatelessObserverWidget {
       return Decimal.fromJson('${(Decimal.fromInt(100) * profit / amount).toDouble()}');
     }
 
-    int getGroupedLeverage (String symbol) {
+    Decimal getGroupedLeverage (String symbol) {
       final groupedPositions = investPositionsStore.activeList.where(
         (element) => element.symbol == symbol,
       ).toList();
@@ -81,7 +81,7 @@ class ActiveInvestList extends StatelessObserverWidget {
         leverage += groupedPositions[i].multiplicator ?? 0;
       }
 
-      return leverage ~/ groupedPositions.length;
+      return Decimal.fromJson('${(Decimal.fromInt(leverage) / Decimal.fromInt(groupedPositions.length)).toDouble()}');
     }
 
     Decimal getGroupedAmount (String symbol) {
@@ -258,7 +258,7 @@ class ActiveInvestList extends StatelessObserverWidget {
                           operationType: position.direction ?? Direction.undefined,
                           isPending: false,
                           amount: position.amount ?? Decimal.zero,
-                          leverage: position.multiplicator ?? 0,
+                          leverage: Decimal.fromInt(position.multiplicator ?? 0),
                           isGroup: false,
                           historyCount: 1,
                           profit: investStore.getProfitByPosition(position),
@@ -378,7 +378,7 @@ class ActiveInvestList extends StatelessObserverWidget {
                         operationType: position.direction ?? Direction.undefined,
                         isPending: false,
                         amount: position.amount ?? Decimal.zero,
-                        leverage: position.multiplicator ?? 0,
+                        leverage: Decimal.fromInt(position.multiplicator ?? 0),
                         isGroup: false,
                         historyCount: 1,
                         profit: investStore.getProfitByPosition(position),

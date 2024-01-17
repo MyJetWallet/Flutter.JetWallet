@@ -1642,6 +1642,15 @@
     "invest_report_volume": "Volume",
     "invest_report_market_pl": "Market PL",
     "invest_report_open_fee": "Open Fee",
+    "invest_report_close_fee": "Close Fee",
+    "invest_report_close_price": "Close Price",
+    "invest_report_close_date": "Close Date",
+    "invest_report_close_time": "Close Time",
+    "invest_report_order_price": "Order Price",
+    "invest_report_order_date": "Order Date",
+    "invest_report_order_time": "Order Time",
+    "invest_report_delete_date": "Delete Date",
+    "invest_report_delete_time": "Delete Time",
     "invest_report_rollover": "Rollover",
     "invest_report_so_price": "S/O Price",
     "invest_report_journal": "Journal",
@@ -1656,5 +1665,10 @@
     "invest_opening": "Opening",
     "invest_closing": "Closing",
     "invest_delete": "Delete",
-    "invest_stop_out": "Stop Out"
+    "invest_stop_out": "Stop Out",
+    "invest_period": "Period",
+    "invest_period_description": "You can search and view transaction history only within the 90-day range",
+    "invest_period_days": "days",
+    "invest_confirm": "Confirm",
+    "invest_history_pending": "History Pending"
 }

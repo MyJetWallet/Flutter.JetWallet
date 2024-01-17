@@ -18,6 +18,7 @@ import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_
 
 import '../../../../core/di/di.dart';
 import '../../../../core/services/key_value_service.dart';
+import '../../../../utils/enum.dart';
 import '../../../../utils/formatting/base/volume_format.dart';
 import '../../../../utils/helpers/currency_from.dart';
 
@@ -79,6 +80,14 @@ abstract class _InvestDashboardStoreBase with Store {
         ),
       ],
     );
+  }
+
+  @observable
+  InvestHistoryPeriod period = InvestHistoryPeriod.week;
+
+  @action
+  void updatePeriod(InvestHistoryPeriod newValue) {
+    period = newValue;
   }
 
   @computed

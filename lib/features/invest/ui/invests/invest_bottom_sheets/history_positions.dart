@@ -3,177 +3,175 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_positions_store.dart';
 import 'package:jetwallet/features/invest/ui/invests/above_list_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/secondary_switch.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_history_list.dart';
-import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
-import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
-import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
+import 'package:jetwallet/features/invest/ui/widgets/invest_history_pending_list.dart';
+import 'package:jetwallet/features/invest/ui/widgets/invest_history_summary_list.dart';
+import 'package:simple_kit/core/simple_kit.dart';
+import 'package:simple_kit/modules/icons/custom/public/invest/simple_invest_arrow.dart';
+import 'package:simple_kit/modules/icons/custom/public/invest/simple_invest_calendar.dart';
+import 'package:simple_kit/modules/shared/simple_spacers.dart';
+import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 
 import '../../../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../../../utils/helpers/currency_from.dart';
-import '../invest_line.dart';
+import '../../../helpers/invest_period_info.dart';
+import '../../../stores/dashboard/invest_dashboard_store.dart';
+import '../../widgets/invest_period_bottom_sheet.dart';
 import '../main_invest_block.dart';
 
 class HistoryInvestList extends StatelessObserverWidget {
-  HistoryInvestList();
+  const HistoryInvestList();
 
   @override
   Widget build(BuildContext context) {
+    final colors = sKit.colors;
     final investPositionsStore = getIt.get<InvestPositionsStore>();
     final investStore = getIt.get<InvestDashboardStore>();
     final currencies = sSignalRModules.currenciesList;
     final currency = currencyFrom(currencies, 'USDT');
-    final ScrollController _scrollController = ScrollController();
-    final ScrollController scrollController = ScrollController();
-
-    int getGroupedLength (String symbol) {
-      final groupedPositions = investPositionsStore.closedList.where(
-        (element) => element.symbol == symbol,
-      );
-
-      return groupedPositions.length;
-    }
-
-    Decimal getGroupedProfit (String symbol) {
-      final groupedPositions = investPositionsStore.closedList.where(
-        (element) => element.symbol == symbol,
-      ).toList();
-      var profit = Decimal.zero;
-      for (var i = 0; i < groupedPositions.length; i++) {
-        profit += investStore.getProfitByPosition(groupedPositions[i]);
-      }
-
-      return profit;
-    }
-
-    Decimal getGroupedProfitPercent (String symbol) {
-      final groupedPositions = investPositionsStore.closedList.where(
-        (element) => element.symbol == symbol,
-      ).toList();
-      var profit = Decimal.zero;
-      var amount = Decimal.zero;
-      for (var i = 0; i < groupedPositions.length; i++) {
-        profit += investStore.getProfitByPosition(groupedPositions[i]);
-        amount += groupedPositions[i].amount ?? Decimal.zero;
-      }
-
-      return Decimal.fromJson('${(Decimal.fromInt(100) * profit / amount).toDouble()}');
-    }
-
-    int getGroupedLeverage (String symbol) {
-      final groupedPositions = investPositionsStore.closedList.where(
-        (element) => element.symbol == symbol,
-      ).toList();
-      var leverage = 0;
-      for (var i = 0; i < groupedPositions.length; i++) {
-        leverage += groupedPositions[i].multiplicator ?? 0;
-      }
-
-      return leverage ~/ groupedPositions.length;
-    }
-
-    Decimal getGroupedAmount (String symbol) {
-      final groupedPositions = investPositionsStore.closedList.where(
-        (element) => element.symbol == symbol,
-      ).toList();
-      var amount = Decimal.zero;
-      for (var i = 0; i < groupedPositions.length; i++) {
-        amount += groupedPositions[i].amount ?? Decimal.zero;
-      }
-
-      return amount;
-    }
-
-    InvestPositionModel getPosition (String symbol) {
-      final groupedPositions = investPositionsStore.closedList.where(
-        (element) => element.symbol == symbol,
-      ).toList();
-
-      return groupedPositions[0];
-    }
-
-    InvestInstrumentModel getInstrumentBySymbol (String symbol) {
-      final instrument = investPositionsStore.instrumentsList.where(
-        (element) => element.symbol == symbol,
-      ).toList();
-
-      return instrument[0];
-    }
 
     return Observer(
       builder: (BuildContext context) {
-        var amountSum = Decimal.zero;
-        var profitSum = Decimal.zero;
-        if (sSignalRModules.investPositionsData != null) {
-          final activePositions = sSignalRModules.investPositionsData!
-              .positions.where(
-                (element) => element.status == PositionStatus.opened,
-          ).toList();
-          for (var i = 0; i < activePositions.length; i++) {
-            amountSum += activePositions[i].amount!;
-            profitSum += investStore.getProfitByPosition(activePositions[i]);
-          }
-        }
 
         return Column(
           children: [
-            MainInvestBlock(
-              pending: Decimal.zero,
-              amount: amountSum,
-              balance: profitSum,
-              percent: Decimal.fromJson('${(Decimal.fromInt(100) * profitSum / amountSum).toDouble()}'),
-              onShare: () {},
-              currency: currency,
-              title: intl.invest_history_invest,
-            ),
+            const SpaceH12(),
             Observer(
               builder: (BuildContext context) {
-                return SecondarySwitch(
-                  onChangeTab: investPositionsStore.setHistoryTab,
-                  activeTab: investPositionsStore.historyTab,
-                  tabs: [
-                    intl.invest_history_tab_invest,
-                    intl.invest_history_tab_pending,
+                if (investPositionsStore.historyTab == 1) {
+                  return Column(
+                    children: [
+                      Row(
+                        children: [
+                          const Spacer(),
+                          Observer(
+                            builder: (BuildContext context) {
+                              return SecondarySwitch(
+                                onChangeTab: investPositionsStore.setHistoryTab,
+                                activeTab: investPositionsStore.historyTab,
+                                fullWidth: false,
+                                tabs: [
+                                  intl.invest_history_tab_invest,
+                                  intl.invest_history_tab_pending,
+                                ],
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      MainInvestBlock(
+                        pending: Decimal.zero,
+                        amount: investPositionsStore.totalAmount,
+                        balance: investPositionsStore.totalProfit,
+                        percent: investPositionsStore.totalProfitPercent,
+                        onShare: () {},
+                        currency: currency,
+                        showPercent: false,
+                        showAmount: false,
+                        showShare: false,
+                        showBalance: false,
+                        title: intl.invest_history_pending,
+                      ),
+                      const SpaceH4(),
+                      AboveListLine(
+                        mainColumn: intl.invest_list_instrument,
+                        secondaryColumn: '${intl.invest_list_amount} (${currency.symbol})',
+                        lastColumn: intl.invest_price,
+                        onCheckboxTap: investPositionsStore.setIsHistoryGrouped,
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height - 304,
+                        child: const InvestHistoryPendingList(),
+                      ),
+                    ],
+                  );
+                }
+
+                if (investPositionsStore.isHistoryGrouped) {
+                  return const InvestHistorySummaryList();
+                }
+
+                return Column(
+                  children: [
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: () {},
+                          child: Row(
+                            children: [
+                              SICalendarIcon(
+                                width: 16,
+                                height: 16,
+                                color: colors.black,
+                              ),
+                              const SpaceW4(),
+                              Text(
+                                '${getDaysByPeriod(investStore.period)} ${intl.invest_period_days}',
+                                style: sBody1InvestSMStyle,
+                              ),
+                              const SpaceW4(),
+                              SIArrowIcon(
+                                width: 14,
+                                height: 14,
+                                color: colors.black,
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Spacer(),
+                        Observer(
+                          builder: (BuildContext context) {
+                            return SecondarySwitch(
+                              onChangeTab: investPositionsStore.setHistoryTab,
+                              activeTab: investPositionsStore.historyTab,
+                              fullWidth: false,
+                              tabs: [
+                                intl.invest_history_tab_invest,
+                                intl.invest_history_tab_pending,
+                              ],
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                    MainInvestBlock(
+                      pending: Decimal.zero,
+                      amount: investPositionsStore.totalAmount,
+                      balance: investPositionsStore.totalProfit,
+                      percent: investPositionsStore.totalProfitPercent,
+                      onShare: () {},
+                      currency: currency,
+                      title: intl.invest_history_invest,
+                    ),
+                    const SpaceH4(),
+                    if (investPositionsStore.historyTab == 0)
+                      AboveListLine(
+                        mainColumn: intl.invest_group,
+                        secondaryColumn: '${intl.invest_list_amount} (${currency.symbol})',
+                        lastColumn: '${intl.invest_list_pl} (${currency.symbol})',
+                        withCheckbox: true,
+                        checked: investPositionsStore.isHistoryGrouped,
+                        onCheckboxTap: investPositionsStore.setIsHistoryGrouped,
+                        sortState: investPositionsStore.historySortState,
+                        onSortTap: investPositionsStore.setHistorySort,
+                      )
+                    else
+                      AboveListLine(
+                        mainColumn: intl.invest_list_instrument,
+                        secondaryColumn: '${intl.invest_list_amount} (${currency.symbol})',
+                        lastColumn: intl.invest_price,
+                        onCheckboxTap: investPositionsStore.setIsHistoryGrouped,
+                      ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height - 304,
+                      child: const InvestHistoryList(),
+                    ),
                   ],
                 );
               },
-            ),
-            if (investPositionsStore.historyTab == 0)
-              AboveListLine(
-                mainColumn: intl.invest_group,
-                secondaryColumn: '${intl.invest_list_amount} (${currency.symbol})',
-                lastColumn: '${intl.invest_list_pl} (${currency.symbol})',
-                withCheckbox: true,
-                withSort: true,
-                checked: investPositionsStore.isHistoryGrouped,
-                onCheckboxTap: investPositionsStore.setIsHistoryGrouped,
-                sortState: investPositionsStore.historySortState,
-                onSortTap: investPositionsStore.setHistorySort,
-              )
-            else
-              AboveListLine(
-                mainColumn: intl.invest_list_instrument,
-                secondaryColumn: '${intl.invest_list_amount} (${currency.symbol})',
-                lastColumn: intl.invest_price,
-                onCheckboxTap: investPositionsStore.setIsHistoryGrouped,
-              ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height - 284,
-              child: Observer(
-                builder: (BuildContext context) {
-                  return CustomScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    controller: _scrollController,
-                    slivers: [
-                      InvestHistoryList(scrollController: scrollController),
-                    ],
-                  );
-                },
-              ),
             ),
           ],
         );

@@ -1033,7 +1033,23 @@ class WalletApiRepository {
   Future<DC<ServerRejectException, List<InvestPositionModel>>> getInvestHistory({
     required String skip,
     required String take,
+    String? symbol,
   }) async {
-    return _walletApiDataSources.getInvestHistoryRequest(skip: skip, take: take);
+    return _walletApiDataSources.getInvestHistoryRequest(skip: skip, take: take, symbol: symbol);
+  }
+
+  Future<DC<ServerRejectException, List<InvestPositionModel>>> getInvestHistoryCanceled({
+    required String skip,
+    required String take,
+    String? symbol,
+  }) async {
+    return _walletApiDataSources.getInvestHistoryCanceledRequest(skip: skip, take: take, symbol: symbol);
+  }
+
+  Future<DC<ServerRejectException, List<InvestSummaryModel>>> getInvestHistorySummary({
+    required String dateFrom,
+    required String dateTo,
+  }) async {
+    return _walletApiDataSources.getInvestHistorySummaryRequest(dateFrom: dateFrom, dateTo: dateTo);
   }
 }

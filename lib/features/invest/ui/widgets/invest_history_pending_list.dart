@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/features/invest/stores/dashboard/invest_positions_store.dart';
 import 'package:jetwallet/features/market/market_details/model/operation_history_union.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
@@ -24,14 +23,15 @@ import '../../../wallet/helper/format_date.dart';
 import '../../../wallet/ui/widgets/wallet_body/widgets/loading_sliver_list.dart';
 import '../../../wallet/ui/widgets/wallet_body/widgets/transaction_month_separator.dart';
 import '../../stores/dashboard/invest_dashboard_store.dart';
+import '../../stores/dashboard/invest_positions_store.dart';
 import '../../stores/history/invest_history_store.dart';
 import '../invests/invest_line.dart';
 import 'invest_empty_screen.dart';
 import 'invest_market_watch_bottom_sheet.dart';
 import 'invest_report_bottom_sheet.dart';
 
-class InvestHistoryList extends StatelessWidget {
-  const InvestHistoryList({
+class InvestHistoryPendingList extends StatelessWidget {
+  const InvestHistoryPendingList({
     super.key,
     this.instrument,
   });
@@ -42,9 +42,8 @@ class InvestHistoryList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provider<InvestHistory>(
       create: (context) {
-        InvestHistory().initInvestHistorySummary();
 
-        return InvestHistory()..initInvestHistory(symbol: instrument);
+        return InvestHistory()..initInvestPending(symbol: instrument);
       },
       builder: (context, child) => _TransactionsListBody(instrument: instrument),
     );
@@ -69,9 +68,9 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
     scrollController = ScrollController();
     scrollController.addListener(() {
       if (scrollController.position.maxScrollExtent <= scrollController.offset) {
-        if (InvestHistory.of(context).union == const OperationHistoryUnion.loaded() &&
-            !InvestHistory.of(context).nothingToLoad) {
-          InvestHistory.of(context).investHistory(widget.instrument);
+        if (InvestHistory.of(context).unionPending == const OperationHistoryUnion.loaded() &&
+            !InvestHistory.of(context).nothingToLoadPending) {
+          InvestHistory.of(context).investHistoryPending(widget.instrument);
         }
       }
     });
@@ -87,7 +86,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    final listToShow = InvestHistory.of(context).investHistoryItems;
+    final listToShow = InvestHistory.of(context).investPendingItems;
     final currencies = sSignalRModules.currenciesList;
     final currency = currencyFrom(currencies, 'USDT');
     final investStore = getIt.get<InvestDashboardStore>();
@@ -112,10 +111,10 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
         SliverPadding(
           key: UniqueKey(),
           padding: EdgeInsets.only(
-            top: InvestHistory.of(context).union != const OperationHistoryUnion.error() ? 15 : 0,
+            top: InvestHistory.of(context).unionPending != const OperationHistoryUnion.error() ? 15 : 0,
             bottom: 72,
           ),
-          sliver: InvestHistory.of(context).union.when(
+          sliver: InvestHistory.of(context).unionPending.when(
             loaded: () {
               return listToShow.isEmpty
                   ? SliverToBoxAdapter(
@@ -185,7 +184,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                     currency: currencyFrom(currencies, getInstrumentBySymbol(position.symbol ?? '')?.name ?? ''),
                     price: position.profitLoss ?? Decimal.zero,
                     operationType: position.direction ?? Direction.undefined,
-                    isPending: false,
+                    isPending: true,
                     amount: position.amount ?? Decimal.zero,
                     leverage: Decimal.fromInt(position.multiplicator ?? 0),
                     isGroup: false,
@@ -257,7 +256,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                             active: true,
                             name: intl.transactionsList_retry,
                             onTap: () {
-                              InvestHistory.of(context).initInvestHistory();
+                              InvestHistory.of(context).initInvestPending(symbol: widget.instrument);
                             },
                           ),
                         ],
@@ -283,7 +282,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                         currency: currencyFrom(currencies, getInstrumentBySymbol(position.symbol ?? '')?.name ?? ''),
                         price: position.profitLoss ?? Decimal.zero,
                         operationType: position.direction ?? Direction.undefined,
-                        isPending: false,
+                        isPending: true,
                         amount: position.amount ?? Decimal.zero,
                         leverage: Decimal.fromInt(position.multiplicator ?? 0),
                         isGroup: false,
@@ -352,7 +351,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                               active: true,
                               name: intl.transactionsList_retry,
                               onTap: () {
-                                InvestHistory.of(context).investHistory(widget.instrument);
+                                InvestHistory.of(context).investHistoryPending(widget.instrument);
                               },
                             ),
                           ],
@@ -364,7 +363,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                     currency: currencyFrom(currencies, getInstrumentBySymbol(position.symbol ?? '')?.name ?? ''),
                     price: position.profitLoss ?? Decimal.zero,
                     operationType: position.direction ?? Direction.undefined,
-                    isPending: false,
+                    isPending: true,
                     amount: position.amount ?? Decimal.zero,
                     leverage: Decimal.fromInt(position.multiplicator ?? 0),
                     isGroup: false,
@@ -400,7 +399,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                         currency: currencyFrom(currencies, getInstrumentBySymbol(position.symbol ?? '')?.name ?? ''),
                         price: position.profitLoss ?? Decimal.zero,
                         operationType: position.direction ?? Direction.undefined,
-                        isPending: false,
+                        isPending: true,
                         amount: position.amount ?? Decimal.zero,
                         leverage: Decimal.fromInt(position.multiplicator ?? 0),
                         isGroup: false,
@@ -431,7 +430,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                     currency: currencyFrom(currencies, getInstrumentBySymbol(position.symbol ?? '')?.name ?? ''),
                     price: position.profitLoss ?? Decimal.zero,
                     operationType: position.direction ?? Direction.undefined,
-                    isPending: false,
+                    isPending: true,
                     amount: position.amount ?? Decimal.zero,
                     leverage: Decimal.fromInt(position.multiplicator ?? 0),
                     isGroup: false,

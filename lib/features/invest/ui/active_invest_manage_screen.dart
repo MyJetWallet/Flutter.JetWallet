@@ -66,7 +66,6 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
     final investPositionStore = getIt.get<InvestPositionsStore>();
     investNewStore.setPosition(widget.position);
     investPositionStore.initPosition(widget.position);
-    print(widget.instrument.nextRollOverTime);
     final a = DateTime.parse('${widget.instrument.nextRollOverTime}');
     final b = DateTime.now();
     final difference = a.difference(b);
@@ -162,7 +161,7 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
                           operationType: investNewStore.position!.direction ?? Direction.undefined,
                           isPending: false,
                           amount: investNewStore.position!.amount ?? Decimal.zero,
-                          leverage: investNewStore.position!.multiplicator ?? 0,
+                          leverage: Decimal.fromInt(investNewStore.position!.multiplicator ?? 0),
                           isGroup: false,
                           historyCount: 1,
                           profit: investStore.getProfitByPosition(investNewStore.position!),
@@ -304,7 +303,7 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
               operationType: investNewStore.position!.direction ?? Direction.undefined,
               isPending: false,
               amount: investNewStore.position!.amount ?? Decimal.zero,
-              leverage: investNewStore.position!.multiplicator ?? 0,
+              leverage: Decimal.fromInt(investNewStore.position!.multiplicator ?? 0),
               isGroup: false,
               historyCount: 1,
               profit: investStore.getProfitByPosition(investNewStore.position!),

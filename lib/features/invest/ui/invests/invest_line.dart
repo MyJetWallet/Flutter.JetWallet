@@ -6,9 +6,9 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
 
+import '../../../../utils/formatting/base/volume_format.dart';
 import '../../../../utils/models/currency_model.dart';
 import '../../helpers/percent_info.dart';
 
@@ -37,7 +37,7 @@ class InvestLine extends StatelessObserverWidget {
   final bool isPending;
   final bool isGroup;
   final Decimal amount;
-  final int leverage;
+  final Decimal leverage;
   final int historyCount;
   final int accuracy;
   final Function() onTap;
@@ -60,7 +60,7 @@ class InvestLine extends StatelessObserverWidget {
         child: Row(
           children: [
             SizedBox(
-              width: 80,
+              width: 100,
               child: Row(
                 children: [
                   SvgPicture.network(
@@ -158,7 +158,7 @@ class InvestLine extends StatelessObserverWidget {
                   ),
                   const SpaceH2(),
                   Text(
-                    'x$leverage',
+                    'x${volumeFormat(decimal: leverage, accuracy: 2, symbol: '').replaceAll(' ', '')}',
                     style: sBody3InvestMStyle.copyWith(
                       color: colors.grey2,
                     ),

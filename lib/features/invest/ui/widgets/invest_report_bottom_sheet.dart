@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ import '../../../../utils/formatting/base/market_format.dart';
 import '../../../../utils/helpers/currency_from.dart';
 import '../../stores/dashboard/invest_new_store.dart';
 import '../../stores/dashboard/invest_positions_store.dart';
+import '../dashboard/invest_header.dart';
 import '../dashboard/new_invest_header.dart';
 import '../invests/invest_line.dart';
 import '../invests/journal_item.dart';
@@ -37,7 +39,8 @@ void showInvestReportBottomSheet(
     context: context,
     scrollable: true,
     expanded: true,
-    pinnedBottom: Material(
+    pinnedBottom: (position.status != PositionStatus.cancelled &&
+        position.status != PositionStatus.closed) ? Material(
       color: SColorsLight().white,
       child: Observer(
         builder: (BuildContext context) {
@@ -71,7 +74,7 @@ void showInvestReportBottomSheet(
           );
         },
       ),
-    ),
+    ) : null,
     horizontalPinnedPadding: 0,
     removePinnedPadding: true,
     horizontalPadding: 0,
@@ -140,6 +143,7 @@ class _InvestListScreenState extends State<InvestList> {
     final investPositionStore = getIt.get<InvestPositionsStore>();
     final currencies = sSignalRModules.currenciesList;
     final colors = sKit.colors;
+    log('${widget.position}');
 
     return SPaddingH24(
       child: Observer(
@@ -147,21 +151,34 @@ class _InvestListScreenState extends State<InvestList> {
           return Column(
             children: [
 
-              Observer(
-                builder: (BuildContext context) {
-                  return RolloverLine(
-                    mainText: intl.invest_next_rollover,
-                    secondaryText: '${widget.position.rollOver}% / $timerUpdated',
-                  );
-                },
-              ),
+              if (widget.position.status != PositionStatus.cancelled &&
+                  widget.position.status != PositionStatus.closed)
+                Observer(
+                  builder: (BuildContext context) {
+                    return RolloverLine(
+                      mainText: intl.invest_next_rollover,
+                      secondaryText: '${widget.position.rollOver}% / $timerUpdated',
+                    );
+                  },
+                )
+              else
+                InvestHeader(
+                  currency: currencyFrom(currencies, widget.instrument.name ?? ''),
+                  hideWallet: true,
+                  withBackBlock: true,
+                  withBigPadding: false,
+                  withDivider: false,
+                  onBackButton: () {
+                    Navigator.pop(context);
+                  },
+                ),
               InvestLine(
                 currency: currencyFrom(currencies, widget.instrument.name ?? ''),
                 price: investStore.getProfitByPosition(widget.position),
                 operationType: widget.position.direction ?? Direction.undefined,
-                isPending: false,
+                isPending: widget.position.status == PositionStatus.cancelled,
                 amount: widget.position.amount ?? Decimal.zero,
-                leverage: widget.position.multiplicator ?? 0,
+                leverage: Decimal.fromInt(widget.position.multiplicator ?? 0),
                 isGroup: false,
                 historyCount: 1,
                 profit: investStore.getProfitByPosition(widget.position),
@@ -178,24 +195,45 @@ class _InvestListScreenState extends State<InvestList> {
               const SpaceH8(),
               const SDivider(),
               const SpaceH8(),
-              DataLine(
-                mainText: intl.invest_open_price,
-                secondaryText: marketFormat(
-                  decimal: widget.position.openPrice ?? Decimal.zero,
-                  accuracy: 2,
-                  symbol: '',
+              if (widget.position.status != PositionStatus.cancelled) ...[
+                DataLine(
+                  mainText: intl.invest_open_price,
+                  secondaryText: marketFormat(
+                    decimal: widget.position.openPrice ?? Decimal.zero,
+                    accuracy: widget.instrument.priceAccuracy ?? 2,
+                    symbol: '',
+                  ),
                 ),
-              ),
-              const SpaceH8(),
-              DataLine(
-                mainText: intl.invest_report_open_data,
-                secondaryText: DateFormat('dd.MM.yyyy').format(widget.position.openTimestamp!),
-              ),
-              const SpaceH8(),
-              DataLine(
-                mainText: intl.invest_report_open_time,
-                secondaryText: DateFormat('hh:mm:ss').format(widget.position.openTimestamp!),
-              ),
+                const SpaceH8(),
+                DataLine(
+                  mainText: intl.invest_report_open_data,
+                  secondaryText: DateFormat('dd.MM.yyyy').format(widget.position.openTimestamp!),
+                ),
+                const SpaceH8(),
+                DataLine(
+                  mainText: intl.invest_report_open_time,
+                  secondaryText: DateFormat('hh:mm:ss').format(widget.position.openTimestamp!),
+                ),
+              ] else ...[
+                DataLine(
+                  mainText: intl.invest_report_order_price,
+                  secondaryText: marketFormat(
+                    decimal: widget.position.pendingPrice ?? Decimal.zero,
+                    accuracy: widget.instrument.priceAccuracy ?? 2,
+                    symbol: '',
+                  ),
+                ),
+                const SpaceH8(),
+                DataLine(
+                  mainText: intl.invest_report_order_date,
+                  secondaryText: DateFormat('dd.MM.yyyy').format(widget.position.creationTimestamp!),
+                ),
+                const SpaceH8(),
+                DataLine(
+                  mainText: intl.invest_report_order_time,
+                  secondaryText: DateFormat('hh:mm:ss').format(widget.position.creationTimestamp!),
+                ),
+              ],
               const SpaceH8(),
               const SDivider(),
               const SpaceH8(),
@@ -221,54 +259,110 @@ class _InvestListScreenState extends State<InvestList> {
                   symbol: '',
                 ),
               ),
-              const SpaceH8(),
-              DataLine(
-                mainText: '${intl.invest_report_volume} ${widget.instrument.name}',
-                secondaryText: marketFormat(
-                  decimal: widget.position.volumeBase ?? Decimal.zero,
-                  accuracy: widget.instrument.priceAccuracy ?? 2,
-                  symbol: '',
+              if (widget.position.status != PositionStatus.cancelled) ...[
+                const SpaceH8(),
+                DataLine(
+                  mainText: '${intl.invest_report_volume} ${widget.instrument.name}',
+                  secondaryText: marketFormat(
+                    decimal: widget.position.volumeBase ?? Decimal.zero,
+                    accuracy: widget.instrument.priceAccuracy ?? 2,
+                    symbol: '',
+                  ),
                 ),
-              ),
-              const SpaceH8(),
-              const SDivider(),
-              const SpaceH8(),
-              DataLine(
-                mainText: intl.invest_report_market_pl,
-                secondaryText: marketFormat(
-                  decimal: investStore.getProfitByPosition(widget.position),
-                  accuracy: 2,
-                  symbol: 'USDT',
+              ],
+
+              if (widget.position.status != PositionStatus.cancelled) ...[
+                const SpaceH8(),
+                if (widget.position.status == PositionStatus.closed) ...[
+                  const SDivider(),
+                  const SpaceH8(),
+                  DataLine(
+                    mainText: intl.invest_report_close_price,
+                    secondaryText: marketFormat(
+                      decimal: widget.position.closePrice ?? Decimal.zero,
+                      accuracy: widget.instrument.priceAccuracy ?? 2,
+                      symbol: '',
+                    ),
+                  ),
+                  const SpaceH8(),
+                  DataLine(
+                    mainText: intl.invest_report_close_date,
+                    secondaryText: DateFormat('dd.MM.yyyy').format(widget.position.closeTimestamp!),
+                  ),
+                  const SpaceH8(),
+                  DataLine(
+                    mainText: intl.invest_report_close_time,
+                    secondaryText: DateFormat('hh:mm:ss').format(widget.position.closeTimestamp!),
+                  ),
+                  const SpaceH8(),
+                ],
+                const SDivider(),
+                const SpaceH8(),
+                DataLine(
+                  mainText: intl.invest_report_market_pl,
+                  secondaryText: marketFormat(
+                    decimal: investStore.getProfitByPosition(widget.position),
+                    accuracy: 2,
+                    symbol: 'USDT',
+                  ),
                 ),
-              ),
-              const SpaceH8(),
-              DataLine(
-                mainText: intl.invest_report_open_fee,
-                secondaryText: marketFormat(
-                  decimal: widget.position.openFee ?? Decimal.zero,
-                  accuracy: 2,
-                  symbol: 'USDT',
+                const SpaceH8(),
+                DataLine(
+                  mainText: intl.invest_report_open_fee,
+                  secondaryText: marketFormat(
+                    decimal: widget.position.openFee ?? Decimal.zero,
+                    accuracy: 2,
+                    symbol: 'USDT',
+                  ),
                 ),
-              ),
-              const SpaceH8(),
-              DataLine(
-                mainText: intl.invest_report_rollover,
-                secondaryText: marketFormat(
-                  decimal: widget.position.rollOver ?? Decimal.zero,
-                  accuracy: 2,
-                  symbol: 'USDT',
+                const SpaceH8(),
+                if (widget.position.status == PositionStatus.closed) ...[
+                  DataLine(
+                    mainText: intl.invest_report_close_fee,
+                    secondaryText: marketFormat(
+                      decimal: widget.position.closeFee ?? Decimal.zero,
+                      accuracy: widget.instrument.priceAccuracy ?? 2,
+                      symbol: '',
+                    ),
+                  ),
+                  const SpaceH8(),
+                ],
+                DataLine(
+                  mainText: intl.invest_report_rollover,
+                  secondaryText: marketFormat(
+                    decimal: widget.position.rollOver ?? Decimal.zero,
+                    accuracy: 2,
+                    symbol: 'USDT',
+                  ),
                 ),
-              ),
-              const SpaceH8(),
-              DataLine(
-                mainText: intl.invest_report_so_price,
-                secondaryText: marketFormat(
-                  decimal: widget.position.stopOutPrice ?? Decimal.zero,
-                  accuracy: widget.instrument.priceAccuracy ?? 2,
-                  symbol: '',
+                const SpaceH8(),
+                if (widget.position.status != PositionStatus.cancelled &&
+                    widget.position.status != PositionStatus.closed) ...[
+                  DataLine(
+                    mainText: intl.invest_report_so_price,
+                    secondaryText: marketFormat(
+                      decimal: widget.position.stopOutPrice ?? Decimal.zero,
+                      accuracy: widget.instrument.priceAccuracy ?? 2,
+                      symbol: '',
+                    ),
+                  ),
+                  const SpaceH8(),
+                ],
+              ] else ...[
+                const SpaceH8(),
+                const SDivider(),
+                const SpaceH8(),
+                DataLine(
+                  mainText: intl.invest_report_delete_date,
+                  secondaryText: DateFormat('dd.MM.yyyy').format(widget.position.closeTimestamp!),
                 ),
-              ),
-              const SpaceH8(),
+                const SpaceH8(),
+                DataLine(
+                  mainText: intl.invest_report_delete_time,
+                  secondaryText: DateFormat('hh:mm:ss').format(widget.position.closeTimestamp!),
+                ),
+                const SpaceH8(),
+              ],
 
 
               if (
@@ -341,6 +435,7 @@ class _InvestListScreenState extends State<InvestList> {
                     position: widget.position,
                   ),
               ],
+              const SpaceH34(),
             ],
           );
         },

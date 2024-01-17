@@ -266,7 +266,7 @@ class InvestList extends StatelessObserverWidget {
           } else if (investPositionsStore.activeTab == 1) {
             return PendingInvestList();
           } else if (investPositionsStore.activeTab == 2) {
-            return HistoryInvestList();
+            return const HistoryInvestList();
           }
 
           return ActiveInvestList();

@@ -148,3 +148,19 @@ enum PositionAuditEvent
   @JsonValue(12)
   rollOverReCalc,
 }
+
+@freezed
+class InvestSummaryModel with _$InvestSummaryModel {
+  const factory InvestSummaryModel({
+    String? symbol,
+    @DecimalNullSerialiser() Decimal? qty,
+    @DecimalNullSerialiser() Decimal? amount,
+    @DecimalNullSerialiser() Decimal? amountPl,
+    @DecimalNullSerialiser() Decimal? averageMultiplicator,
+    @DecimalNullSerialiser() Decimal? percentPl,
+  }) = _InvestSummaryModel;
+
+  factory InvestSummaryModel.fromJson(Map<String, dynamic> json) =>
+      _$InvestSummaryModelFromJson(json);
+}
+

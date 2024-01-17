@@ -22,6 +22,7 @@ class MainInvestBlock extends StatelessObserverWidget {
     this.showAmount = true,
     this.showPercent = true,
     this.showShare = true,
+    this.showBalance = true,
   });
 
   final Decimal pending;
@@ -33,6 +34,7 @@ class MainInvestBlock extends StatelessObserverWidget {
   final bool showAmount;
   final bool showPercent;
   final bool showShare;
+  final bool showBalance;
   final String title;
 
   @override
@@ -113,25 +115,26 @@ class MainInvestBlock extends StatelessObserverWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Row(
-              children: [
-                SvgPicture.network(
-                  currency.iconUrl,
-                  width: 16.0,
-                  height: 16.0,
-                  placeholderBuilder: (_) {
-                    return const SAssetPlaceholderIcon();
-                  },
-                ),
-                const SpaceW4(),
-                Text(
-                  marketFormat(decimal: balance, accuracy: 2, symbol: ''),
-                  style: sTextH3InvestStyle.copyWith(
-                    color: colors.black,
+            if (showBalance)
+              Row(
+                children: [
+                  SvgPicture.network(
+                    currency.iconUrl,
+                    width: 16.0,
+                    height: 16.0,
+                    placeholderBuilder: (_) {
+                      return const SAssetPlaceholderIcon();
+                    },
                   ),
-                ),
-              ],
-            ),
+                  const SpaceW4(),
+                  Text(
+                    marketFormat(decimal: balance, accuracy: 2, symbol: ''),
+                    style: sTextH3InvestStyle.copyWith(
+                      color: colors.black,
+                    ),
+                  ),
+                ],
+              ),
             if (showPercent) ...[
               const SpaceH2(),
               Row(

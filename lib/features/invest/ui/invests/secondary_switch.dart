@@ -3,8 +3,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_carousel.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../core/l10n/i10n.dart';
-
 class SecondarySwitch extends StatelessObserverWidget {
   const SecondarySwitch({
     super.key,
@@ -41,42 +39,72 @@ class SecondarySwitch extends StatelessObserverWidget {
             ? MainAxisAlignment.end
             : MainAxisAlignment.start,
           children: [
-            if (fullWidth)
-              InvestCarousel(
-                height: 24,
-                margin: 0,
-                isSwitch: true,
-                children: [
-                  for (var i = 0; i < tabs.length; i++) ...[
-                    InkWell(
-                      splashColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      hoverColor: Colors.transparent,
-                      onTap: () {
-                        changeActiveTab(i);
-                      },
-                      child: Container(
-                        height: 24,
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(24),
-                          color: activeTab == i ? colors.grey5 : colors.white,
-                        ),
-                        child: Center(
-                          child: Text(
-                            tabs[i],
-                            style: sBody2InvestSMStyle.copyWith(
-                              color: activeTab == i ? colors.black : colors.grey1,
-                              height: 1,
+            if (fullWidth) ...[
+              if (tabs.length > 3)
+                InvestCarousel(
+                  height: 24,
+                  margin: 0,
+                  isSwitch: true,
+                  children: [
+                    for (var i = 0; i < tabs.length; i++) ...[
+                      InkWell(
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        onTap: () {
+                          changeActiveTab(i);
+                        },
+                        child: Container(
+                          height: 24,
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(24),
+                            color: activeTab == i ? colors.grey5 : colors.white,
+                          ),
+                          child: Center(
+                            child: Text(
+                              tabs[i],
+                              style: sBody2InvestSMStyle.copyWith(
+                                color: activeTab == i ? colors.black : colors.grey1,
+                                height: 1,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
+                    ],
                   ],
+                )
+              else ...[
+                for (var i = 0; i < tabs.length; i++) ...[
+                  InkWell(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    onTap: () {
+                      changeActiveTab(i);
+                    },
+                    child: Container(
+                      height: 24,
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(24),
+                        color: activeTab == i ? colors.grey5 : colors.white,
+                      ),
+                      child: Center(
+                        child: Text(
+                          tabs[i],
+                          style: sBody2InvestSMStyle.copyWith(
+                            color: activeTab == i ? colors.black : colors.grey1,
+                            height: 1,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
-              )
-            else ...[
+              ],
+            ] else ...[
               for (var i = 0; i < tabs.length; i++) ...[
                 InkWell(
                   splashColor: Colors.transparent,

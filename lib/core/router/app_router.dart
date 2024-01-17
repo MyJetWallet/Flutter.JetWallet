@@ -145,6 +145,7 @@ import '../../features/iban/iban_screen.dart';
 import '../../features/iban/widgets/iban_billing_address.dart';
 import '../../features/invest/invest_screen.dart';
 import '../../features/invest/ui/new_invest_screen.dart';
+import '../../features/invest/ui/invest_history_screen.dart';
 import '../../features/send_gift/screens/gift_amount.dart';
 import '../../features/send_gift/screens/gift_order_summary.dart';
 import '../../features/send_gift/screens/gift_receivers_details_screen.dart';
@@ -627,6 +628,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/new_invest',
       page: NewInvestPageRouter.page,
+    ),
+    AutoRoute(
+      path: '/invest_history',
+      page: InvestHistoryPageRouter.page,
     ),
     AutoRoute(
       path: '/new_invest_confirmation',

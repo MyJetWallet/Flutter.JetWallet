@@ -63,6 +63,36 @@ abstract class _InvestPositionsStoreBase with Store {
   @observable
   List<NewInvestJournalModel> rolloverList = [];
 
+  @observable
+  List<InvestSummaryModel> allSummary = [];
+
+  @action
+  void setSummary(
+    List<InvestSummaryModel> summary,
+  ) {
+    allSummary = summary;
+  }
+
+  @observable
+  Decimal totalAmount = Decimal.zero;
+
+  @observable
+  Decimal totalProfit = Decimal.zero;
+
+  @observable
+  Decimal totalProfitPercent = Decimal.zero;
+
+  @action
+  void setTotals(
+    Decimal amount,
+    Decimal profit,
+    Decimal percent,
+  ) {
+    totalAmount = amount;
+    totalProfit = profit;
+    totalProfitPercent = percent;
+  }
+
   @action
   Future<void> initPosition(InvestPositionModel position) async {
     final response = await sNetwork.getWalletModule().getPositionHistory(id: position.id!, skip: '0', take: '20');

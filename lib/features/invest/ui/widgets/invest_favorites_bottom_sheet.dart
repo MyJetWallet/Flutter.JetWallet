@@ -18,7 +18,6 @@ import '../../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../../utils/helpers/currency_from.dart';
 
 void showInvestFavoritesBottomSheet(BuildContext context) {
-  final investPositionsStore = getIt.get<InvestPositionsStore>();
   final investStore = getIt.get<InvestDashboardStore>();
   final currencies = sSignalRModules.currenciesList;
   final currency = currencyFrom(currencies, 'USDT');
@@ -212,6 +211,7 @@ class InstrumentsList extends StatelessObserverWidget {
                   ),
                   const SDivider(),
                 ],
+                const SpaceH34(),
               ] else ...[
                 AboveListLine(
                   mainColumn: intl.invest_favorites_instrument,

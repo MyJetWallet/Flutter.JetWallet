@@ -9,7 +9,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
 import 'package:jetwallet/features/invest/ui/invests/data_line.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_button.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
@@ -156,21 +155,23 @@ class _InvestListScreenState extends State<InvestList> {
                   Navigator.pop(context);
                 },
               ),
-              Observer(
-                builder: (BuildContext context) {
-                  return RolloverLine(
-                    mainText: intl.invest_next_rollover,
-                    secondaryText: '${widget.position.rollOver}% / $timerUpdated',
-                  );
-                },
-              ),
+              if (widget.position.status != PositionStatus.cancelled &&
+                  widget.position.status != PositionStatus.closed)
+                Observer(
+                  builder: (BuildContext context) {
+                    return RolloverLine(
+                      mainText: intl.invest_next_rollover,
+                      secondaryText: '${widget.position.rollOver}% / $timerUpdated',
+                    );
+                  },
+                ),
               InvestLine(
                 currency: currencyFrom(currencies, widget.instrument.name ?? ''),
                 price: investStore.getProfitByPosition(widget.position),
                 operationType: widget.position.direction ?? Direction.undefined,
                 isPending: false,
                 amount: widget.position.amount ?? Decimal.zero,
-                leverage: widget.position.multiplicator ?? 0,
+                leverage: Decimal.fromInt(widget.position.multiplicator ?? 0),
                 isGroup: false,
                 historyCount: 1,
                 profit: investStore.getProfitByPosition(widget.position),

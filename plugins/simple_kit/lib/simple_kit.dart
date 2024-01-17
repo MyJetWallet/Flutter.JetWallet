@@ -279,6 +279,7 @@ export 'modules/icons/custom/public/invest/simple_invest_asset_placeholder.dart'
 export 'modules/icons/custom/public/invest/simple_invest_buy.dart';
 export 'modules/icons/custom/public/invest/simple_invest_chart_candles.dart';
 export 'modules/icons/custom/public/invest/simple_invest_chart_line.dart';
+export 'modules/icons/custom/public/invest/simple_invest_calendar.dart';
 export 'modules/icons/custom/public/invest/simple_invest_check.dart';
 export 'modules/icons/custom/public/invest/simple_invest_checked.dart';
 export 'modules/icons/custom/public/invest/simple_invest_close.dart';

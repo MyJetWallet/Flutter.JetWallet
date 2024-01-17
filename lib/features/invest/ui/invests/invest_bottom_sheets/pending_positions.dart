@@ -164,7 +164,7 @@ class PendingInvestList extends StatelessObserverWidget {
                         operationType: position.direction ?? Direction.undefined,
                         isPending: true,
                         amount: position.amount ?? Decimal.zero,
-                        leverage: position.multiplicator ?? 0,
+                        leverage: Decimal.fromInt(position.multiplicator ?? 0),
                         isGroup: false,
                         historyCount: 1,
                         profit: investStore.getProfitByPosition(position),
