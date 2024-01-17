@@ -13,6 +13,9 @@ import 'package:jetwallet/features/transfer_flow/screens/transfer_tab_body.dart'
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/widgets/navigation/segment_control/models/segment_control_data.dart';
+import 'package:simple_kit_updated/widgets/navigation/segment_control/segment_control.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
@@ -56,6 +59,8 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
 
   int countOfTabs = 4;
 
+  int _currentTabIndex = 0;
+
   @override
   void initState() {
     final isShowTransferTab = checkNeedForTransferTab();
@@ -66,8 +71,15 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
       vsync: this,
       initialIndex: min(widget.tab.index, countOfTabs),
     );
+
+    _currentTabIndex = tabController.index;
+
     tabController.addListener(() {
       if (tabController.indexIsChanging) return;
+
+      setState(() {
+        _currentTabIndex = tabController.index;
+      });
 
       switch (tabController.index) {
         case 0:
@@ -115,8 +127,6 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
-
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
@@ -158,40 +168,32 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
           Row(
             children: [
               SPaddingH24(
-                child: Container(
-                  height: 32,
-                  decoration: BoxDecoration(
-                    color: colors.grey5,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: TabBar(
-                    controller: tabController,
-                    indicator: BoxDecoration(
-                      color: colors.black,
-                      borderRadius: BorderRadius.circular(16),
+                child: SegmentControl(
+                  tabController: tabController,
+                  shrinkWrap: true,
+                  items: [
+                    SegmentControlData(
+                      type: _currentTabIndex == 0 ? SegmentControlType.iconText : SegmentControlType.icon,
+                      text: intl.amount_screen_tab_buy,
+                      icon: Assets.svg.medium.add,
                     ),
-                    labelColor: colors.white,
-                    labelStyle: sSubtitle3Style,
-                    unselectedLabelColor: colors.grey1,
-                    unselectedLabelStyle: sSubtitle3Style,
-                    splashBorderRadius: BorderRadius.circular(16),
-                    isScrollable: true,
-                    tabs: [
-                      Tab(
-                        text: intl.amount_screen_tab_buy,
+                    SegmentControlData(
+                      type: _currentTabIndex == 1 ? SegmentControlType.iconText : SegmentControlType.icon,
+                      text: intl.amount_screen_tab_sell,
+                      icon: Assets.svg.medium.remove,
+                    ),
+                    SegmentControlData(
+                      type: _currentTabIndex == 2 ? SegmentControlType.iconText : SegmentControlType.icon,
+                      text: intl.amount_screen_tab_convert,
+                      icon: Assets.svg.medium.transfer,
+                    ),
+                    if (countOfTabs >= 4)
+                      SegmentControlData(
+                        type: _currentTabIndex == 3 ? SegmentControlType.iconText : SegmentControlType.icon,
+                        text: intl.amount_screen_tab_transfer,
+                        icon: Assets.svg.medium.altDeposit,
                       ),
-                      Tab(
-                        text: intl.amount_screen_tab_sell,
-                      ),
-                      Tab(
-                        text: intl.amount_screen_tab_convert,
-                      ),
-                      if (countOfTabs >= 4)
-                        Tab(
-                          text: intl.amount_screen_tab_transfer,
-                        ),
-                    ],
-                  ),
+                  ],
                 ),
               ),
             ],
