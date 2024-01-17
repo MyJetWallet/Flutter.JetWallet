@@ -3,10 +3,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
-import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
 void showAddCashFromBottomSheet({
@@ -47,10 +47,7 @@ void showAddCashFromBottomSheet({
     expanded: showSearch,
     children: [
       const SpaceH16(),
-      MarketSeparator(
-        text: intl.sell_amount_cryptocurrencies,
-        isNeedDivider: false,
-      ),
+      STextDivider(intl.sell_amount_cryptocurrencies),
       if (sSignalRModules.currenciesList
           .where((element) => element.symbol != 'EUR' && element.isAssetBalanceNotEmpty)
           .isEmpty)

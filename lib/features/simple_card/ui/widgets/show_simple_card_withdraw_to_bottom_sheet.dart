@@ -3,12 +3,10 @@ import 'package:flutter/widgets.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
-import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:jetwallet/features/simple_card/store/simple_card_withdraw_to_store.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
@@ -46,10 +44,7 @@ class _WithdrawToBody extends StatelessWidget {
     return Column(
       children: [
         if (store.isAccountsAvaible && store.accounts.isNotEmpty) ...[
-          MarketSeparator(
-            text: intl.deposit_by_accounts,
-            isNeedDivider: false,
-          ),
+          STextDivider(intl.deposit_by_accounts),
           for (final account in store.accounts)
             SimpleTableAsset(
               label: account.label ?? 'Account 1',
@@ -75,10 +70,7 @@ class _WithdrawToBody extends StatelessWidget {
             ),
         ],
         if (store.isCardsAvaible && store.cards.isNotEmpty) ...[
-          MarketSeparator(
-            text: intl.deposit_by_cards,
-            isNeedDivider: false,
-          ),
+          STextDivider(intl.deposit_by_cards),
           for (final card in store.cards)
             SimpleTableAsset(
               label: card.label ?? 'Simple card',

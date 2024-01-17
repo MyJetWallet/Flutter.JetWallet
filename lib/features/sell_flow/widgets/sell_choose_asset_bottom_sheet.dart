@@ -4,9 +4,9 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
 import '../../../core/di/di.dart';
@@ -84,9 +84,8 @@ class _ChooseAssetBody extends StatelessObserverWidget {
 
     return Column(
       children: [
-        MarketSeparator(
-          text: intl.sell_amount_cryptocurrencies,
-          isNeedDivider: false,
+        STextDivider(
+          intl.sell_amount_cryptocurrencies,
         ),
         for (final currency in state.searchCurrencies) ...[
           if (currency.type == AssetType.crypto)

@@ -5,7 +5,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/payment_methods_widgets/balances_widget.dart';
-import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:jetwallet/features/sell_flow/store/sell_payment_method_store.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -88,10 +87,7 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
             ),
           ],
           if (store.isCardsAvaible && store.cards.isNotEmpty) ...[
-            MarketSeparator(
-              text: intl.deposit_by_cards,
-              isNeedDivider: false,
-            ),
+            STextDivider(intl.deposit_by_cards),
             for (final card in store.cards)
               SimpleTableAsset(
                 label: card.label ?? 'Simple card',

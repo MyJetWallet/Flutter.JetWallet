@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 class BalancesWidget extends StatelessWidget {
@@ -19,10 +19,7 @@ class BalancesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        MarketSeparator(
-          text: intl.sell_amount_accounts,
-          isNeedDivider: false,
-        ),
+        STextDivider(intl.sell_amount_accounts),
         for (final account in accounts)
           SCardRow(
             maxWidth: account.status == AccountStatus.active
