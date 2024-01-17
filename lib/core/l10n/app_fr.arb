@@ -1268,7 +1268,7 @@
     "reward_share_text": "Je viens de recevoir une récompense de",
     "reward_share_text_2": "Découvrez Simple App, notre application crypto conviviale et simple.",
     "reward_email_subject": "Invitation lancée !",
-    "reward_share_main_text": "Obtenez jusqu'à 100 EUR en crypto :\n1. Inscrivez-vous sur Simple App avec mon lien d'invitation\n2. Achetez pour 350 EUR de crypto ou plus\n3. Recevez une récompense !\nConditions générales applicables",
+    "reward_share_main_text": "Obtenez jusqu'à 100 EUR en crypto :\n1. Inscrivez-vous sur Simple App avec mon lien d'invitation\n2. Achetez de la crypto avec une carte pour €350+\n3. Recevez une récompense !\nT&C applicables",
     "reward_history_from": "De",
     "bottom_bar_wallets": "Wallets",
     "my_wallets_header": "Wallets",
@@ -1516,5 +1516,42 @@
     "profile_kyc_bloked_alert": "Votre compte a été suspendu. Contactez le support pour plus d'infos.",
     "send_gift_small_title": "Envoyer un cadeau",
     "send": "Envoyer",
-    "paste": "Collez"
+    "paste": "Collez",
+    "account_actions_exchange": "Échange",
+    "account_actions_settings": "Paramètres",
+    "account_settings_account_requisites": "Requis de compte",
+    "account_settings_change_label": "Changer étiquette",
+    "simple_card_settings_change_label": "Changer étiquette",
+    "simple_card_settings_freeze_card": "Geler carte",
+    "simple_card_actions_settings": "Paramètres",
+    "amount_screen_tab_transfer": "Transférer",
+    "deposit_by_accounts": "Comptes",
+    "deposit_by_cards": "Cartes",
+    "transfer_transfer_from": "Transférer de",
+    "transfer_transfer_to": "Transférer à",
+    "transfet_success_text": "Vous avez viré {amount}",
+    "@transfet_success_text": {
+        "placeholders": {
+            "amount": {
+                "type": "String",
+                "example": "200 EUR"
+            }
+        }
+    },
+    "transfer_confirmation_send_to": "Envoyer à",
+    "transfer_confirmation_benificiary": "Bénéficiaire",
+    "transfer_confirmation_reference": "Référence",
+    "transfer_confirmation_time_to_transaction": "SEPA Instant – jusqu'à 2h.\nSEPA ordinaire – jusqu'à 3 jours ouvr.\n Frais suppl. possibles.",
+    "device_binding_required_text": "Pour confirmer le transfert de fonds, vérifiez le paiement par SMS",
+    "withdraw_to": "Retirer vers",
+    "external_method": "Méthode externe",
+    "history_sold_to": "Vendu à",
+    "transfer_amount_transfer_all": "Tout transférer",
+    "edit_card_lable_card_label": " Étiquette carte",
+    "preferred_language": "Langue préférée",
+    "lang_change_alert": "Langue appli changera au prochain lancement!",
+    "rate_title": "Trouvez-nous incroyable?",
+    "rate_subtitle": "Partagez votre avis en nous notant sur l'App Store. Nous apprécions grandement vos retours !",
+    "rate_submit_button": "Laissez un avis",
+    "rate_cancel_button": "Annuler"
 }
