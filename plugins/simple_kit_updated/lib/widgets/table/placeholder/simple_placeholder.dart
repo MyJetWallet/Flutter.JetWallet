@@ -101,7 +101,7 @@ class SPlaceholder extends StatelessWidget {
     }
 
     return SizedBox(
-      //height: getHeightBaseOnSize(),
+      height: getHeightBaseOnSize(),
       child: Padding(
         padding: getPaddingBaseOnSize(),
         child: Column(
