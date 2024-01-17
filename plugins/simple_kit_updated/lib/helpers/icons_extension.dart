@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:flutter/foundation.dart';
 
 extension GetSvg on SvgGenImage {
   SvgPicture simpleSvg({double? height, double? width, Color? color}) {
@@ -13,7 +14,7 @@ extension GetSvg on SvgGenImage {
               color,
               BlendMode.srcIn,
             ),
-      package: 'simple_kit_updated',
+      package: kIsWeb ? null : 'simple_kit_updated',
     );
   }
 }

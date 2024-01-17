@@ -130,7 +130,7 @@
         "description": "Изменить PIN-код",
         "type": "text"
     },
-    "pinScreen_weNeedYouToConfirmYourIdentity": "Нам потрібно, щоб ви підтвердили свою особу",
+    "pinScreen_weNeedYouToConfirmYourIdentity": "Ми просимо вас підтвердити свою особу",
     "@pinScreen_weNeedYouToConfirmYourIdentity": {
         "description": "Нам нужно, чтобы вы подтвердили свою личность",
         "type": "text"
@@ -151,7 +151,7 @@
         "description": "Введите свой электронный адрес",
         "type": "text"
     },
-    "register_invalidEmail": "Неправильний email, перевірте коректність і переконайтеся, що в адресі немає пробілів",
+    "register_invalidEmail": "Недійсний електронний лист, будь ласка, перевірте правильність і переконайтеся, що немає пробілів",
     "@register_invalidEmail": {
         "description": "Неправильный email, проверьте корректность и убедитесь, что в адресе нет пробелов",
         "type": "text"
@@ -446,7 +446,7 @@
         "description": "Готово",
         "type": "text"
     },
-    "kycAlertHandler_youAreBlocked": "Вас заблоковано",
+    "kycAlertHandler_youAreBlocked": "Рахунок заблоковано",
     "@kycAlertHandler_youAreBlocked": {
         "description": "Вас заблокировали",
         "type": "text"
@@ -481,12 +481,12 @@
         "description": "нужно пройти следующие шаги",
         "type": "text"
     },
-    "kycAlertHandler_showBlockedAlertSecondaryText1": "Для розблокування зверніться до служби підтримки.",
+    "kycAlertHandler_showBlockedAlertSecondaryText1": "Ваш рахунок було заблоковано. ",
     "@kycAlertHandler_showBlockedAlertSecondaryText1": {
         "description": "Для разблокировки обратитесь в службу поддержки.",
         "type": "text"
     },
-    "kycAlertHandler_showBlockedAlertSecondaryText2": "ваш акаунт",
+    "kycAlertHandler_showBlockedAlertSecondaryText2": "Будь ласка, зверніться до підтримки за додатковою інформацією.",
     "@kycAlertHandler_showBlockedAlertSecondaryText2": {
         "description": "ваш аккаунт",
         "type": "text"
@@ -501,7 +501,7 @@
         "description": "Изменить пароль",
         "type": "text"
     },
-    "changePassword_errorCurrentPassword": "Спробуйте ще раз, це не ваш поточний пароль",
+    "changePassword_errorCurrentPassword": "Будь ласка, спробуйте знову, пароль не співпадає",
     "@changePassword_errorCurrentPassword": {
         "description": "Попробуйте еще раз, это не ваш текущий пароль",
         "type": "text"
@@ -511,7 +511,7 @@
         "description": "Введите текущий Пароль",
         "type": "text"
     },
-    "changePassword_showErrorText1": "Спробуйте ще раз, це не ваш поточний пароль",
+    "changePassword_showErrorText1": "Будь ласка, спробуйте знову, пароль не співпадає",
     "@changePassword_showErrorText1": {
         "description": "Попробуйте еще раз, это не ваш текущий пароль",
         "type": "text"
@@ -651,7 +651,7 @@
         "description": "Письмо для восстановления с инструкцией по сбросу пароля было отправлено на адрес",
         "type": "text"
     },
-    "confirmPassword_seeThePasswordRecovery": "Якщо ви не бачите листа для відновлення пароля у вашій поштовій скриньці, перевірте папку Спам",
+    "confirmPassword_seeThePasswordRecovery": "Якщо ви не бачите листа для відновлення пароля у поштовій скринці, перевірте папку зі спамом",
     "@confirmPassword_seeThePasswordRecovery": {
         "description": "Если вы не видите письма для восстановления пароля в вашем почтовом ящике, проверьте папку Спам",
         "type": "text"
@@ -666,7 +666,7 @@
         "description": "Что-то пошло не так. Пожалуйста, попробуйте позже",
         "type": "text"
     },
-    "something_went_wrong_try_again2": "Щось пішло не так! Спробуйте ще раз.",
+    "something_went_wrong_try_again2": "Щось пішло не так! Будь ласка, спробуйте знову",
     "@something_went_wrong_try_again2": {
         "description": "Что-то пошло не так! Попробуйте еще раз.",
         "type": "text"
@@ -2221,7 +2221,7 @@
         "description": "Отзыв не прошел проверку",
         "type": "text"
     },
-    "cardVerification_reviewFailedDescription": "Завантажене вами фото не відповідає критеріям. Спробуйте підтвердити картку ще раз",
+    "cardVerification_reviewFailedDescription": "Завантажене вами фото не відповідає критеріям. Будь ласка, спробуйте підтвердити картку ще раз",
     "@cardVerification_reviewFailedDescription": {
         "description": "Загруженное вами фото не соответствует критериям. Попробуйте подтвердить карту еще раз",
         "type": "text"
@@ -2703,7 +2703,7 @@
         "description": "Редактировать заказ",
         "type": "text"
     },
-    "sendByPhoneConfirm_failedToResend": "Не вдалося надіслати повторно. Спробуйте ще раз",
+    "sendByPhoneConfirm_failedToResend": "Не вдалося надіслати повторно. Будь ласка, спробуйте ще раз",
     "@sendByPhoneConfirm_failedToResend": {
         "description": "Не удалось отправить повторно. Попробуйте еще раз",
         "type": "text"
@@ -2889,7 +2889,7 @@
         "description": "Включить камеру",
         "type": "text"
     },
-    "allowCamera_text1": "Коли з'явиться відповідний запит, увімкніть доступ до камери, щоб продовжити",
+    "allowCamera_text1": "Коли з'явиться запит, будь ласка, увімкніть доступ до камери, щоб продовжити",
     "@allowCamera_text1": {
         "description": "Когда появится соответствующий запрос, включите доступ к камере, чтобы продолжить",
         "type": "text"
@@ -4892,12 +4892,12 @@
         "description": "Вознаграждение за реферала",
         "type": "text"
     },
-    "currencyBuy_alert": "Непідтримувана валюта",
+    "currencyBuy_alert": "Будь ласка, зауважте",
     "@currencyBuy_alert": {
         "description": "Неподдерживаемая валюта",
         "type": "text"
     },
-    "currencyBuy_alertDescription": "Будь ласка, зверніть увагу, що ми підтримуємо лише картки в доларах США та євро для купівлі криптовалют. Покупки за допомогою карток, номінованих в інших валютах, будуть відхилені",
+    "currencyBuy_alertDescription": "Покупка буде здійснена лише у разі наявності EUR або USD картки, або якщо ваш банк підтримує конвертацію валюти за потреби",
     "@currencyBuy_alertDescription": {
         "description": "Пожалуйста, обратите внимание, что мы поддерживаем только карты в долларах США и евро для покупки криптовалют. Покупки с помощью карт, номинированных в других валютах, будут отклонены",
         "type": "text"
@@ -6112,7 +6112,7 @@
         "description": "Вы приглашены!",
         "type": "text"
     },
-    "reward_share_main_text": "Отримайте до EUR 100  у криптовалюті:\n1. Зареєструйтеся в додатку Simple за моїм посиланням-запрошенням.\n2. Придбайте криптовалюту на суму від EUR 350 і більше.\n3. Отримайте винагороду!\nДіють умови та положення",
+    "reward_share_main_text": "Отримайте до 100 EUR у крипті:\n1. Зареєструйтесь у Simple App за моїм запрошенням\n2. Купіть крипту карткою на €350+\n3. Отримайте винагороду!\nДіють умови та положення",
     "@reward_share_main_text": {
         "description": "Получите до EUR 100 в криптовалюте:\n1. Зарегистрируйтесь в приложении Simple по моей ссылке-приглашению.\n2. Приобретите криптовалюту на сумму от EUR 350 и более.\n3. Получите вознаграждение!\nДействуют условия и положения",
         "type": "text"
@@ -7103,7 +7103,7 @@
     "onboarding_descriction_2": "Спростіть свої криптовалютні транзакції для зручної купівлі та обміну",
     "onboarding_descriction_3": "Швидко та безпечно переказуйте кошти по всьому світу без зайвих зусиль",
     "simple_card_terminate_card": "Закрити картку",
-    "simple_card_terminate_only_available_alert": "Доступно тільки при нульовому балансі карти",
+    "simple_card_terminate_only_available_alert": "Доступно, якщо карта має нульовий баланс",
     "simple_card_terminate_got_it": "Зрозуміло",
     "simple_card_terminate_terminate_card_question": "Закрити картку?",
     "simple_card_terminate_terminate_warning_1": "Ми закриємо картку",
