@@ -101,6 +101,7 @@ class _TrancferBody extends StatelessWidget {
                 optionOnTap: () {
                   store.onTransfetAll();
                 },
+                showSwopButton: false,
               ),
             ),
             const Spacer(),

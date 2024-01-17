@@ -17,6 +17,7 @@ class SNewActionPriceField extends StatelessWidget {
     this.optionOnTap,
     required this.pasteLabel,
     required this.onPaste,
+    this.showSwopButton = true,
   }) : super(key: key);
 
   final String primaryAmount;
@@ -30,6 +31,7 @@ class SNewActionPriceField extends StatelessWidget {
   final Function()? optionOnTap;
   final String pasteLabel;
   final VoidCallback onPaste;
+  final bool showSwopButton;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +68,7 @@ class SNewActionPriceField extends StatelessWidget {
                                   label: pasteLabel,
                                   onPressed: () {
                                     ContextMenuController.removeAny();
-                                    onPaste!();
+                                    onPaste();
                                   },
                                 ),
                               );
@@ -114,7 +116,7 @@ class SNewActionPriceField extends StatelessWidget {
                                   label: pasteLabel,
                                   onPressed: () {
                                     ContextMenuController.removeAny();
-                                    onPaste!();
+                                    onPaste();
                                   },
                                 ),
                               );
@@ -146,22 +148,24 @@ class SNewActionPriceField extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SpaceW24(),
-                SIconButton(
-                  onTap: onSwap,
-                  defaultIcon: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: colors.grey5,
-                      borderRadius: BorderRadius.circular(40),
-                    ),
-                    margin: const EdgeInsets.only(right: 27),
-                    child: SSwapIcon(
-                      color: colors.black,
+                if (showSwopButton) ...[
+                  const SpaceW24(),
+                  SIconButton(
+                    onTap: onSwap,
+                    defaultIcon: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: colors.grey5,
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      margin: const EdgeInsets.only(right: 27),
+                      child: SSwapIcon(
+                        color: colors.black,
+                      ),
                     ),
                   ),
-                ),
+                ],
               ],
             ),
             if (optionText != null && optionOnTap != null) ...[
