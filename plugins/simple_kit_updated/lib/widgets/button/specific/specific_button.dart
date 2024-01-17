@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
@@ -7,7 +8,7 @@ import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 import 'package:simple_kit_updated/widgets/shared/icons/blue_bank_icon.dart';
 import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 
-class SpecificButton extends StatelessWidget {
+class SpecificButton extends HookWidget {
   const SpecificButton({
     Key? key,
     this.isLoading = false,
@@ -31,13 +32,19 @@ class SpecificButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isHighlated = useState(false);
+
     return SafeGesture(
+      highlightColor: Colors.transparent,
       onTap: onTap,
+      onHighlightChanged: (p0) {
+        isHighlated.value = p0;
+      },
       child: SizedBox(
         height: 40,
         child: Container(
           decoration: BoxDecoration(
-            color: SColorsLight().gray2,
+            color: isHighlated.value ? SColorsLight().gray4 : SColorsLight().gray2,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Padding(
@@ -50,8 +57,8 @@ class SpecificButton extends StatelessWidget {
               children: [
                 if (isLoading) ...[
                   SizedBox(
-                    width: 16,
-                    height: 16,
+                    width: 13.33,
+                    height: 13.33,
                     child: CircularProgressIndicator(
                       color: SColorsLight().gray10,
                       strokeWidth: 1,

@@ -52,6 +52,10 @@
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D58E7BA395AB7D8B371B69DF /* Pods-Runner.profile-prod.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-prod.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-prod.xcconfig"; sourceTree = "<group>"; };
+		DCD180912B47187A008A8768 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
+		DCD180922B47187A008A8768 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/infoPlist.strings; sourceTree = "<group>"; };
+		DCD180932B471888008A8768 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Main.strings; sourceTree = "<group>"; };
+		DCD180942B471888008A8768 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/infoPlist.strings; sourceTree = "<group>"; };
 		F35FD897C5CFF17E90E5A0F3 /* Pods-Runner.debug-stage.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-stage.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-stage.xcconfig"; sourceTree = "<group>"; };
 		F83AC7742409F02A17961FEA /* Pods-Runner.profile-stage.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-stage.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-stage.xcconfig"; sourceTree = "<group>"; };
 		FBC63ACD278D52320059201C /* Debug-prod.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Debug-prod.xcconfig"; path = "Flutter/Debug-prod.xcconfig"; sourceTree = "<group>"; };
@@ -201,6 +205,8 @@
 				ru,
 				pl,
 				es,
+				fr,
+				uk,
 			);
 			mainGroup = 97C146E51CF9000F007C117D;
 			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
@@ -344,6 +350,8 @@
 				326B0C02297ED21B00874962 /* pl */,
 				326B0C05297ED22A00874962 /* en */,
 				326B0C06297ED22C00874962 /* es */,
+				DCD180922B47187A008A8768 /* fr */,
+				DCD180942B471888008A8768 /* uk */,
 			);
 			name = infoPlist.strings;
 			sourceTree = "<group>";
@@ -354,6 +362,8 @@
 				97C146FB1CF9000F007C117D /* Base */,
 				326B0BFD297ED1A300874962 /* pl */,
 				326B0BFF297ED1AE00874962 /* es */,
+				DCD180912B47187A008A8768 /* fr */,
+				DCD180932B471888008A8768 /* uk */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";

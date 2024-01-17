@@ -3,6 +3,8 @@ import 'package:simple_kit_updated/widgets/navigation/top_app_bar/global_basic_a
 import 'package:widgetbook/widgetbook.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
+import 'widgetbook.directories.g.dart';
+
 void main() {
   runApp(const WidgetbookApp());
 }
@@ -14,20 +16,7 @@ class WidgetbookApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Widgetbook.material(
-      directories: [
-        WidgetbookComponent(
-          name: 'Navigation',
-          useCases: [
-            WidgetbookUseCase(
-              name: 'with green color',
-              builder: (context) => const GlobalBasicAppBar(
-                title: 'Title',
-                subtitle: 'Subtitle',
-              ),
-            ),
-          ],
-        ),
-      ],
+      directories: directories,
       addons: [],
       integrations: [],
     );
