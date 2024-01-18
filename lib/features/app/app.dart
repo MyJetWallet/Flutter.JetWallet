@@ -51,6 +51,12 @@ class _AppScreenState extends State<AppScreen> {
       getIt.registerSingleton<PushNotification>(
         PushNotification(),
       );
+
+      if (getIt.isRegistered<AppStore>()) {
+        getIt.get<AppStore>().initLocale(context: context).then((value) {
+          setState(() {});
+        });
+      }
     } catch (e) {
       _logger.log(
         notifier,
