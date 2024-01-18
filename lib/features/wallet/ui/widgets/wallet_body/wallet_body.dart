@@ -333,47 +333,8 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                     },
                     source: TransactionItemSource.cryptoAccount,
                   ),
-                  /*
-                  if (widget.currency.isAssetBalanceNotEmpty) ...[
-                    TransactionsList(
-                      scrollController: _scrollController,
-                      symbol: widget.currency.symbol,
-                      onItemTapLisener: (symbol) {
-                        sAnalytics.tapOnTheButtonAnyHistoryTrxOnCryptoFavouriteWalletScreen(
-                          openedAsset: symbol,
-                        );
-                      },
-                    ),
-                  ] else ...[
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 80,
-                          vertical: 40,
-                        ),
-                        child: Column(
-                          children: [
-                            Image.asset(
-                              smileAsset,
-                              width: 48,
-                              height: 48,
-                            ),
-                            Text(
-                              intl.wallet_simple_account_empty,
-                              textAlign: TextAlign.center,
-                              maxLines: 3,
-                              style: sSubtitle2Style.copyWith(
-                                color: sKit.colors.grey2,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                  */
                   const SliverToBoxAdapter(
-                    child: SpaceH120(),
+                    child: SpaceH300(),
                   ),
                 ],
               ),
