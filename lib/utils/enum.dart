@@ -8,3 +8,10 @@ enum RecurringBuyType {
 }
 
 enum SimpleWalletAccountStatus { none, blocked, creating, createdAndcreating, created }
+
+enum InvestHistoryPeriod {
+  week,
+  oneMonth,
+  twoMonth,
+  threeMonth,
+}

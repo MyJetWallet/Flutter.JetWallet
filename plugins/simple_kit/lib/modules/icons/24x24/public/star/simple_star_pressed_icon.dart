@@ -5,12 +5,17 @@ import 'package:simple_kit/modules/icons/24x24/light/star/simple_light_star_pres
 import 'package:simple_kit/utils/enum.dart';
 
 class SStarPressedIcon extends StatelessObserverWidget {
-  const SStarPressedIcon({Key? key}) : super(key: key);
+  const SStarPressedIcon({
+    Key? key,
+    this.color,
+  }) : super(key: key);
+
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return sKit.currentTheme == STheme.dark
-        ? const SimpleLightStarPressedIcon()
-        : const SimpleLightStarPressedIcon();
+        ? SimpleLightStarPressedIcon(color: color,)
+        : SimpleLightStarPressedIcon(color: color,);
   }
 }

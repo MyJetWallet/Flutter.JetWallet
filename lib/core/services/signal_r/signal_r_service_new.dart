@@ -55,6 +55,11 @@ import 'package:simple_networking/modules/signal_r/models/referral_info_model.da
 import 'package:simple_networking/modules/signal_r/models/referral_stats_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/signalr_log.dart';
+import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
+import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
+import 'package:simple_networking/modules/signal_r/models/invest_prices_model.dart';
+import 'package:simple_networking/modules/signal_r/models/invest_sectors_model.dart';
+import 'package:simple_networking/modules/signal_r/models/invest_wallet_model.dart';
 
 import '../../../features/account/profile_details/store/change_base_asset_store.dart';
 
@@ -793,6 +798,61 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
   int pendingOperationCount = 0;
   @action
   void setPendingOperationCount(int count) => pendingOperationCount = count;
+
+  @observable
+  InvestPositionsModel? investPositionsData;
+  @action
+  void setInvestPositionsData(InvestPositionsModel data) {
+    investPositionsData = data;
+  }
+
+  @observable
+  InvestInstrumentsModel? investInstrumentsData;
+  @action
+  void setInvestInstrumentsData(InvestInstrumentsModel data) {
+    investInstrumentsData = data;
+  }
+
+  @observable
+  InvestPricesModel? investPricesData;
+  @action
+  void setInvestPricesData(InvestPricesModel data) {
+    if (investPricesData != null && investPricesData!.prices.isNotEmpty) {
+      final newInvestPricesData = investPricesData;
+      for (final newPrice in data.prices) {
+        var isNewPrice = true;
+        for (final actualPrice in newInvestPricesData!.prices) {
+          if (actualPrice.symbol == newPrice.symbol) {
+            final index = newInvestPricesData.prices.indexOf(actualPrice);
+
+            newInvestPricesData.prices[index] = newPrice;
+            isNewPrice = false;
+          }
+        }
+        if (isNewPrice) {
+          newInvestPricesData.prices.add(newPrice);
+        }
+      }
+      investPricesData = newInvestPricesData;
+    } else {
+      investPricesData = data;
+    }
+  }
+
+  @observable
+  InvestSectorsModel? investSectorsData;
+  @action
+  void setInvestSectorsData(InvestSectorsModel data) {
+    investSectorsData = data;
+  }
+
+  @observable
+  InvestWalletModel? investWalletData;
+  @action
+  void setInvestWalletData(InvestWalletModel data) {
+    investWalletData = data;
+  }
+
 
   @observable
   bool showPaymentsMethods = false;

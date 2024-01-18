@@ -130,7 +130,9 @@ import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/with
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/withdrawal_resend_request.dart';
 
 import '../../../simple_networking.dart';
+import '../../signal_r/models/invest_positions_model.dart';
 import '../models/iban_info/iban_info_response_model.dart';
+import '../models/invest/new_invest_request_model.dart';
 import '../models/profile/profile_report_request.dart';
 import '../models/profile/profile_set_address_request.dart';
 import '../models/simple_card/simple_card_remind_pin_response.dart';
@@ -2995,6 +2997,332 @@ class WalletApiDataSources {
         final data = handleFullResponse<Map>(responseData);
 
         return DC.data(AccountTransferResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  // invest
+
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> createActivePositionRequest({
+    required NewInvestRequestModel model,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/InvestTrading/InvestAction/create-market-open-position',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(InvestPositionResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> createPendingLimitPositionRequest({
+    required NewInvestOrderRequestModel model,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/InvestTrading/InvestAction/create-pending-limit-position',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(InvestPositionResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> createPendingStopPositionRequest({
+    required NewInvestOrderRequestModel model,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/InvestTrading/InvestAction/create-pending-stop-position',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(InvestPositionResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> cancelPendingPositionRequest({
+    required String positionId,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/InvestTrading/InvestAction/cancel-pending-position',
+        data: {
+          "positionId": positionId,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(InvestPositionResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> closeActivePositionRequest({
+    required String positionId,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/InvestTrading/InvestAction/close-active-position',
+        data: {
+          "positionId": positionId,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(InvestPositionResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> getPositionRequest({
+    required String positionId,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/InvestTrading/InvestReader/get-position?positionId=$positionId',
+        data: {
+          "positionId": positionId,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(InvestPositionResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> setPositionTPSLRequest({
+    required TPSLPositionModel data,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/InvestTrading/InvestAction/set-position-tpsl',
+        data: data.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(InvestPositionResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, List<NewInvestJournalModel>>> getPositionHistoryRequest({
+    required String id,
+    required String skip,
+    required String take,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/InvestTrading/InvestAudit/get-position-history?positionId=${id}&skip=${skip}&take=${take}',
+        data: {
+          "positionId": id,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        final out = <NewInvestJournalModel>[];
+        for (final element in responseData['data']) {
+          out.add(
+            NewInvestJournalModel.fromJson(element as Map<String, dynamic>),
+          );
+        }
+
+        return DC.data(out);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, List<NewInvestJournalModel>>> getPositionHistoryRolloverRequest({
+    required String id,
+    required String skip,
+    required String take,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/InvestTrading/InvestAudit/get-position-rollover?positionId=${id}&skip=${skip}&take=${take}',
+        data: {
+          "positionId": id,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        final out = <NewInvestJournalModel>[];
+        for (final element in responseData['data']) {
+          out.add(
+            NewInvestJournalModel.fromJson(element as Map<String, dynamic>),
+          );
+        }
+
+        return DC.data(out);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, List<InvestPositionModel>>> getInvestHistoryRequest({
+    required String skip,
+    required String take,
+    String? symbol,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/InvestTrading/InvestReader/get-closed-positions?skip=$skip&take=$take${symbol != null ? '&symbol=$symbol' : ''}',
+        data: {
+          "positionId": skip,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        final out = <InvestPositionModel>[];
+        for (final element in responseData['data']['positions']) {
+          out.add(
+            InvestPositionModel.fromJson(element as Map<String, dynamic>),
+          );
+        }
+
+        return DC.data(out);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, List<InvestPositionModel>>> getInvestHistoryCanceledRequest({
+    required String skip,
+    required String take,
+    String? symbol,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/InvestTrading/InvestReader/get-cancelled-positions?skip=$skip&take=$take${symbol != null ? '&symbol=$symbol' : ''}',
+        data: {
+          "positionId": skip,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        final out = <InvestPositionModel>[];
+        for (final element in responseData['data']) {
+          out.add(
+            InvestPositionModel.fromJson(element as Map<String, dynamic>),
+          );
+        }
+
+        return DC.data(out);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, List<InvestSummaryModel>>> getInvestHistorySummaryRequest({
+    required String dateFrom,
+    required String dateTo,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/InvestTrading/InvestReader/get-closed-positions-summary?dateFrom=$dateFrom&dateTo=$dateTo',
+        data: {
+          "positionId": dateFrom,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        final out = <InvestSummaryModel>[];
+        for (final element in responseData['data']) {
+          out.add(
+            InvestSummaryModel.fromJson(element as Map<String, dynamic>),
+          );
+        }
+
+        return DC.data(out);
       } catch (e) {
         rethrow;
       }

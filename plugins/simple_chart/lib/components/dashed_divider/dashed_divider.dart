@@ -6,9 +6,11 @@ class DashedDivider extends StatelessWidget {
   const DashedDivider({
     Key? key,
     required this.topPadding,
+    this.addLeftPadding = true,
   }) : super(key: key);
 
   final double topPadding;
+  final bool addLeftPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class DashedDivider extends StatelessWidget {
 
     return Container(
       width: screenWidth,
-      padding: const EdgeInsets.only(left: 24),
+      padding: EdgeInsets.only(left: addLeftPadding ? 24 : 0),
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           final boxWidth = constraints.constrainWidth();

@@ -141,6 +141,7 @@ dependencies:
   flutter_pdfview: 1.2.5
   confetti: 0.7.0
   logger: ^2.0.1
+  dotted_border: ^2.1.0
 
   # CRYPTOGRAPHY:
   rsa_encrypt: 2.0.0 # RSA encryption

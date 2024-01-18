@@ -1,0 +1,432 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:decimal/decimal.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
+import 'package:jetwallet/features/invest/stores/dashboard/invest_positions_store.dart';
+import 'package:jetwallet/features/invest/ui/dashboard/invest_header.dart';
+import 'package:jetwallet/features/invest/ui/dashboard/my_portfolio.dart';
+import 'package:jetwallet/features/invest/ui/dashboard/new_invest_header.dart';
+import 'package:jetwallet/features/invest/ui/dashboard/sectors_block.dart';
+import 'package:jetwallet/features/invest/ui/dashboard/symbol_info.dart';
+import 'package:jetwallet/features/invest/ui/widgets/invest_carousel.dart';
+import 'package:jetwallet/features/invest/ui/widgets/invest_favorites_bottom_sheet.dart';
+import 'package:jetwallet/features/invest/ui/widgets/invest_list_bottom_sheet.dart';
+import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
+import 'package:simple_kit/core/simple_kit.dart';
+import 'package:simple_kit/modules/shared/simple_divider.dart';
+import 'package:simple_kit/modules/shared/simple_paddings.dart';
+import 'package:simple_kit/modules/shared/simple_spacers.dart';
+import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
+
+import '../../core/di/di.dart';
+import '../../core/l10n/i10n.dart';
+import '../../core/services/signal_r/signal_r_service_new.dart';
+import '../../utils/helpers/currency_from.dart';
+
+@RoutePage(name: 'InvestPageRouter')
+class InvestScreen extends StatefulObserverWidget {
+  const InvestScreen({super.key});
+
+  @override
+  State<InvestScreen> createState() => _InvestScreenState();
+}
+
+class _InvestScreenState extends State<InvestScreen> {
+
+  @override
+  Widget build(BuildContext context) {
+    final currencies = sSignalRModules.currenciesList;
+    final investStore = getIt.get<InvestDashboardStore>();
+    final investPositionsStore = getIt.get<InvestPositionsStore>();
+
+    final colors = sKit.colors;
+    final currency = currencyFrom(currencies, 'USDT');
+
+    int getGroupedLength (String symbol) {
+      final groupedPositions = investPositionsStore.activeList.where(
+            (element) => element.symbol == symbol,
+      );
+
+      return groupedPositions.length;
+    }
+
+    Decimal getGroupedProfit (String symbol) {
+      final groupedPositions = investPositionsStore.activeList.where(
+            (element) => element.symbol == symbol,
+      ).toList();
+      var profit = Decimal.zero;
+      for (var i = 0; i < groupedPositions.length; i++) {
+        profit += investStore.getProfitByPosition(groupedPositions[i]);
+      }
+
+      return profit;
+    }
+
+    return Material(
+      color: colors.white,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SPaddingH24(
+            child: InvestHeader(
+              currency: currency,
+            ),
+          ),
+          Expanded(
+            child: ListView(
+              physics: const ClampingScrollPhysics(),
+              padding: EdgeInsets.zero,
+              children: [
+                SPaddingH24(
+                  child: Observer(
+                    builder: (BuildContext context) {
+                      var amountSum = Decimal.zero;
+                      var profitSum = Decimal.zero;
+                      if (sSignalRModules.investPositionsData != null) {
+                        final activePositions = sSignalRModules.investPositionsData!
+                            .positions.where(
+                              (element) => element.status == PositionStatus.opened,
+                        ).toList();
+                        for (var i = 0; i < activePositions.length; i++) {
+                          amountSum += activePositions[i].amount!;
+                          profitSum += investStore.getProfitByPosition(activePositions[i]);
+                        }
+                      }
+
+                      final percentage = (amountSum == Decimal.zero ||
+                        profitSum == Decimal.zero)
+                          ? Decimal.zero
+                          : Decimal.fromJson('${(Decimal.fromInt(100) * profitSum / amountSum).toDouble()}');
+
+                      return MyPortfolio(
+                        pending: investStore.totalPendingAmount,
+                        amount: amountSum,
+                        balance: profitSum,
+                        percent: percentage,
+                        onShare: () {},
+                        currency: currency,
+                        title: intl.invest_my_portfolio,
+                        onTap: () {
+                          showInvestListBottomSheet(context);
+                        },
+                      );
+                    },
+                  ),
+                ),
+                const SPaddingH24(
+                  child: SDivider(),
+                ),
+                Observer(
+                  builder: (context) {
+                    if (investPositionsStore.activeList.isEmpty) {
+                      return const SizedBox();
+                    }
+
+                    return Container(
+                      padding: const EdgeInsets.only(top: 8, bottom: 12),
+                      decoration: BoxDecoration(
+                        color: colors.grey5,
+                      ),
+                      child: Column(
+                        children: [
+                          SPaddingH24(
+                            child: NewInvestHeader(
+                              showRollover: false,
+                              showModify: false,
+                              showIcon: true,
+                              showFull: false,
+                              title: intl.invest_my_invest,
+                              haveActiveInvest: true,
+                              onButtonTap: () {
+                                showInvestListBottomSheet(context);
+                              },
+                            ),
+                          ),
+                          const SpaceH4(),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 24),
+                            child: Observer(
+                              builder: (BuildContext context) {
+                                return InvestCarousel(
+                                  height: 108,
+                                  children: [
+                                    for (final instrument in investStore.instrumentsList) ...[
+                                      if (getGroupedLength(instrument.symbol ?? '') > 0) ...[
+                                        SymbolInfo(
+                                          currency: currencyFrom(
+                                            currencies,
+                                            instrument.currencyBase!,
+                                          ),
+                                          instrument: instrument,
+                                          showProfit: true,
+                                          profit: getGroupedProfit(instrument.symbol ?? ''),
+                                          price: investStore.getPriceBySymbol(instrument.symbol ?? ''),
+                                          onTap: () {
+                                            sRouter.push(
+                                              InstrumentPageRouter(instrument: instrument),
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    ],
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Column(
+                    children: [
+                      SPaddingH24(
+                        child: NewInvestHeader(
+                          showRollover: false,
+                          showModify: false,
+                          showIcon: true,
+                          showFull: false,
+                          title: intl.invest_favorites,
+                          onButtonTap: () {
+                            showInvestFavoritesBottomSheet(context);
+                          },
+                        ),
+                      ),
+                      const SpaceH4(),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 24),
+                        child: Observer(
+                          builder: (BuildContext context) {
+                            return InvestCarousel(
+                              children: [
+                                for (final element in investStore.favouritesList)
+                                  SymbolInfo(
+                                    currency: currencyFrom(
+                                      currencies,
+                                      element.currencyBase!,
+                                    ),
+                                    instrument: element,
+                                    showProfit: false,
+                                    price: investStore.getPriceBySymbol(element.symbol ?? ''),
+                                    onTap: () {
+                                      if (getGroupedLength(element.symbol ?? '') > 0) {
+                                        sRouter.push(
+                                          InstrumentPageRouter(instrument: element),
+                                        );
+                                      } else {
+                                        sRouter.push(
+                                          NewInvestPageRouter(instrument: element),
+                                        );
+                                      }
+                                    },
+                                  ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                if (investStore.gainersList.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Column(
+                      children: [
+                        SPaddingH24(
+                          child: NewInvestHeader(
+                            showRollover: false,
+                            showModify: false,
+                            showIcon: false,
+                            showFull: false,
+                            title: intl.invest_top_gainers,
+                          ),
+                        ),
+                        const SpaceH4(),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 24),
+                          child: Observer(
+                            builder: (BuildContext context) {
+                              return InvestCarousel(
+                                children: [
+                                  for (final element in investStore.gainersList)
+                                    SymbolInfo(
+                                      currency: currencyFrom(
+                                        currencies,
+                                        element.currencyBase!,
+                                      ),
+                                      instrument: element,
+                                      showProfit: false,
+                                      price: investStore.getPriceBySymbol(element.symbol ?? ''),
+                                      onTap: () {
+                                        if (getGroupedLength(element.symbol ?? '') > 0) {
+                                          sRouter.push(
+                                            InstrumentPageRouter(instrument: element),
+                                          );
+                                        } else {
+                                          sRouter.push(
+                                            NewInvestPageRouter(instrument: element),
+                                          );
+                                        }
+                                      },
+                                    ),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                if (investStore.losersList.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Column(
+                      children: [
+                        SPaddingH24(
+                          child: NewInvestHeader(
+                            showRollover: false,
+                            showModify: false,
+                            showIcon: false,
+                            showFull: false,
+                            title: intl.invest_top_loosers,
+                          ),
+                        ),
+                        const SpaceH4(),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 24),
+                          child: Observer(
+                            builder: (BuildContext context) {
+                              return InvestCarousel(
+                                children: [
+                                  for (final element in investStore.losersList)
+                                    SymbolInfo(
+                                      currency: currencyFrom(
+                                        currencies,
+                                        element.currencyBase!,
+                                      ),
+                                      instrument: element,
+                                      showProfit: false,
+                                      price: investStore.getPriceBySymbol(element.symbol ?? ''),
+                                      onTap: () {
+                                        if (getGroupedLength(element.symbol ?? '') > 0) {
+                                          sRouter.push(
+                                            InstrumentPageRouter(instrument: element),
+                                          );
+                                        } else {
+                                          sRouter.push(
+                                            NewInvestPageRouter(instrument: element),
+                                          );
+                                        }
+                                      },
+                                    ),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Column(
+                    children: [
+                      SPaddingH24(
+                        child: NewInvestHeader(
+                          showRollover: false,
+                          showModify: false,
+                          showIcon: false,
+                          showFull: false,
+                          title: intl.invest_market_watch,
+                        ),
+                      ),
+                      const SpaceH4(),
+                      SectorsBlock(
+                        title: intl.invest_all_coins,
+                        onTap: () {
+                          investStore.setActiveSection('S0');
+                          showInvestMarketWatchBottomSheet(context);
+                        },
+                        isAllCoins: true,
+                      ),
+                      const SpaceH12(),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 24),
+                        child: InvestCarousel(
+                          children: [
+                            Observer(
+                              builder: (BuildContext context) {
+                                return InvestCarousel(
+                                  children: [
+                                    for (var i = 0; i < (investStore.sections.length > 6 ? 6 : investStore.sections.length); i++)
+                                      if (investStore.sections[i].id != 'S0')
+                                        SectorsBlock(
+                                          title: investStore.sections[i].name ?? '',
+                                          description: '${investStore
+                                            .instrumentsList
+                                            .where(
+                                              (element) => element
+                                                .sectors?.contains(investStore.sections[i].id) ?? false,
+                                            ).toList().length} ${intl.invest_tokens}',
+                                          onTap: () {
+                                            investStore.setActiveSection(investStore.sections[i].id ?? '');
+                                            showInvestMarketWatchBottomSheet(context);
+                                          },
+                                        ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      if (investStore.sections.length > 6) ...[
+                        Padding(
+                          padding: const EdgeInsets.only(left: 24),
+                          child: InvestCarousel(
+                            children: [
+                              Observer(
+                                builder: (BuildContext context) {
+                                  return InvestCarousel(
+                                    children: [
+                                      for (var i = 6; i < investStore.sections.length; i++)
+                                        if (investStore.sections[i].id != 'S0')
+                                          SectorsBlock(
+                                            title: investStore.sections[i].name ?? '',
+                                            description: '${investStore
+                                                .instrumentsList
+                                                .where(
+                                                  (element) => element
+                                                  .sectors?.contains(investStore.sections[i].id) ?? false,
+                                            ).toList().length} ${intl.invest_tokens}',
+                                            onTap: () {
+                                              investStore.setActiveSection(investStore.sections[i].id ?? '');
+                                              showInvestMarketWatchBottomSheet(context);
+                                            },
+                                          ),
+                                    ],
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
