@@ -1540,5 +1540,42 @@
     "profile_kyc_bloked_alert": "Su cuenta ha sido suspendida. Contacte soporte, por favor.",
     "send_gift_small_title": "Enviar un regalo",
     "send": "Enviar",
-    "paste": "Pegar"
+    "paste": "Pegar",
+    "account_actions_exchange": "Intercambio",
+    "account_actions_settings": "Ajustes",
+    "account_settings_account_requisites": "Datos de cuenta",
+    "account_settings_change_label": "Cambiar etiqueta",
+    "simple_card_settings_change_label": "Cambiar etiqueta",
+    "simple_card_settings_freeze_card": "Bloquear tarjeta",
+    "simple_card_actions_settings": "Ajustes",
+    "amount_screen_tab_transfer": "Transferencia",
+    "deposit_by_accounts": "Cuentas",
+    "deposit_by_cards": "Tarjetas",
+    "transfer_transfer_from": "Transferir desde",
+    "transfer_transfer_to": "Transferir a",
+    "transfet_success_text": "Has transferido {amount}",
+    "@transfet_success_text": {
+        "placeholders": {
+            "amount": {
+                "type": "String",
+                "example": "200 EUR"
+            }
+        }
+    },
+    "transfer_confirmation_send_to": "Enviar a",
+    "transfer_confirmation_benificiary": "Beneficiario",
+    "transfer_confirmation_reference": "Referencia",
+    "transfer_confirmation_time_to_transaction": "SEPA Instant – hasta 2h.\nSEPA regular – hasta 3 días háb.\nBanco receptor puede cobrar extra",
+    "device_binding_required_text": "Para confirmar la transferencia, verifica el pago por SMS",
+    "withdraw_to": "Retirar a",
+    "external_method": "Método externo",
+    "history_sold_to": "Vendido a",
+    "transfer_amount_transfer_all": "Transferir todo",
+    "edit_card_lable_card_label": "Etiqueta de tarjeta",
+    "preferred_language": "Idioma preferido",
+    "lang_change_alert": "¡Idioma cambiará en próximo inicio!",
+    "rate_title": "¿Nos encuentras increíbles?",
+    "rate_subtitle": "Comparte tu opinión calificándonos en la App Store. ¡Valoramos mucho tus comentarios!",
+    "rate_submit_button": "Deja una reseña",
+    "rate_cancel_button": "Cancelar"
 }

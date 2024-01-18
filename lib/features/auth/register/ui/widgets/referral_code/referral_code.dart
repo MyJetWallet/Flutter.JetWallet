@@ -30,55 +30,55 @@ class _ReferralCodeState extends State<ReferralCode> {
   Widget build(BuildContext context) {
     final referallStore = getIt.get<ReferallCodeStore>();
 
-    return SPaddingH24(
-      child: Column(
-        children: [
-          referallStore.referralCodeValidation.maybeWhen(
-            input: () {
-              return NoReferralCode(
-                onAddPressed: () {
-                  sAnalytics.tapOnAddRefCodeButton();
+    return Column(
+      children: [
+        referallStore.referralCodeValidation.maybeWhen(
+          input: () {
+            return NoReferralCode(
+              onAddPressed: () {
+                sAnalytics.tapOnAddRefCodeButton();
 
-                  referallStore.resetBottomSheetReferralCodeValidation(
-                    isOpening: true,
-                  );
-                  showReferralCode(context);
-                },
-              );
-            },
-            loading: () {
-              return const LoadingReferralCode();
-            },
-            valid: () {
-              return EnteredValidReferalCode(
-                referralCode: referallStore.referralCode ?? '',
-                onDelete: () {
-                  sAnalytics.tapOnDeleteRefCodeButton();
+                referallStore.resetBottomSheetReferralCodeValidation(
+                  isOpening: true,
+                );
+                showReferralCode(context);
+              },
+            );
+          },
+          loading: () {
+            return const SPaddingH24(
+              child: LoadingReferralCode(),
+            );
+          },
+          valid: () {
+            return EnteredValidReferalCode(
+              referralCode: referallStore.referralCode ?? '',
+              onDelete: () {
+                sAnalytics.tapOnDeleteRefCodeButton();
 
-                  referallStore.clearReferralCode();
-                },
-              );
-            },
-            invalid: () {
-              return InkWell(
-                onTap: () {
-                  referallStore.resetBottomSheetReferralCodeValidation(
-                    isOpening: true,
-                  );
-                  showReferralCode(context);
-                },
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 14),
-                  child: InvalidReferralCode(),
-                ),
-              );
-            },
-            orElse: () {
-              return const SizedBox();
-            },
-          ),
-        ],
-      ),
+                referallStore.clearReferralCode();
+              },
+            );
+          },
+          invalid: () {
+            return InkWell(
+              onTap: () {
+                referallStore.resetBottomSheetReferralCodeValidation(
+                  isOpening: true,
+                );
+                showReferralCode(context);
+              },
+              child: const Padding(
+                padding: EdgeInsets.symmetric(vertical: 14),
+                child: InvalidReferralCode(),
+              ),
+            );
+          },
+          orElse: () {
+            return const SizedBox();
+          },
+        ),
+      ],
     );
   }
 }

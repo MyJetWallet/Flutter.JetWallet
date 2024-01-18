@@ -1548,5 +1548,46 @@
     "profile_kyc_bloked_alert": "Your account has been suspended. Please contact support for more info.",
     "send_gift_small_title": "Send gift",
     "send": "Send",
-    "paste": "Paste"
+    "paste": "Paste",
+    "account_actions_exchange": "Exchange",
+    "account_actions_settings": "Settings",
+    "account_settings_account_requisites": "Account requisites",
+    "account_settings_change_label": "Change label",
+    "simple_card_settings_change_label": "Change label",
+    "simple_card_settings_freeze_card": "Freeze card",
+    "simple_card_actions_settings": "Settings",
+    "amount_screen_tab_transfer": "Transfer",
+    "deposit_by_accounts": "Accounts",
+    "deposit_by_cards": "Cards",
+    "transfer_transfer_from": "Transfer from",
+    "transfer_transfer_to": "Transfer to",
+    "transfet_success_text": "You have transferred {amount}",
+    "@transfet_success_text": {
+        "placeholders": {
+            "amount": {
+                "type": "String",
+                "example": "200 EUR"
+            }
+        }
+    },
+    "transfer_confirmation_send_to": "Send to",
+    "transfer_confirmation_benificiary": "Beneficiary",
+    "transfer_confirmation_reference": "Reference",
+    "transfer_confirmation_time_to_transaction": "SEPA Instant – up to 2 hours.\nRegular SEPA transfer – up to 3 business days.\nReceiving bank may charge additional fee.",
+    "@transfer_confirmation_time_to_transaction": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/kIalgGpjFJRTQbbBQMdUfkMI.png",
+        "type": "text"
+    },
+    "device_binding_required_text": "To confirm the fund transfer, please verify the payment via SMS",
+    "withdraw_to": "Withdraw to",
+    "external_method": "External method",
+    "history_sold_to": "Sold to",
+    "transfer_amount_transfer_all": "Transfer all",
+    "edit_card_lable_card_label": "Card label",
+    "preferred_language": "Preferred language",
+    "lang_change_alert": "The application language will be changed the next time the application is launched!",
+    "rate_title": "Finding us simply amazing?",
+    "rate_subtitle": "Share your thoughts by rating us on the App Store. We greatly value your feedback!",
+    "rate_submit_button": "Leave a review",
+    "rate_cancel_button": "Cancel"
 }

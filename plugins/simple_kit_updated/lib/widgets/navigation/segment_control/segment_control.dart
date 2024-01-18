@@ -1,9 +1,8 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
-import 'package:collection/collection.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 import 'package:simple_kit_updated/widgets/navigation/segment_control/models/segment_control_data.dart';
@@ -15,12 +14,14 @@ class SegmentControl extends HookWidget {
     required this.items,
     this.expand = false,
     this.expandWidth,
+    this.shrinkWrap = false,
   }) : super(key: key);
 
   final TabController tabController;
   final List<SegmentControlData> items;
   final bool expand; // Если нужно растянуть по все ширине
   final double? expandWidth; // MediaQuery.of(context).size.width
+  final bool shrinkWrap;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +65,7 @@ class SegmentControl extends HookWidget {
                     iconMargin: EdgeInsets.zero,
                     child: ConstrainedBox(
                       constraints: BoxConstraints(
-                        minWidth: expand ? ((expandWidth! / items.length) - 32) : _getWidthBaseOnType(item),
+                        minWidth: expand ? ((expandWidth! / items.length) - 32) : shrinkWrap ? 0 : _getWidthBaseOnType(item),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),

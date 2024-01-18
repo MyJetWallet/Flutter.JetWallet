@@ -138,9 +138,9 @@ abstract class _OperationHistoryBase with Store {
 
           detailsShowed = true;
           showTransactionDetails(
-            sRouter.navigatorKey.currentContext!,
-            listToShow[item],
-            (q) {
+            context: sRouter.navigatorKey.currentContext!,
+            transactionListItem: listToShow[item],
+            then: (q) {
               detailsShowed = false;
             },
           );
@@ -171,9 +171,9 @@ abstract class _OperationHistoryBase with Store {
         if (data.assetId.isEmpty) return;
 
         showTransactionDetails(
-          sRouter.navigatorKey.currentContext!,
-          data,
-          (q) {
+          context: sRouter.navigatorKey.currentContext!,
+          transactionListItem: data,
+          then: (q) {
             detailsShowed = false;
           },
         );
@@ -274,6 +274,7 @@ Set<oh_resp.OperationType> avaibleOperationTypes = {
   oh_resp.OperationType.cardPurchase,
   oh_resp.OperationType.cardRefund,
   oh_resp.OperationType.cardWithdrawal,
+  oh_resp.OperationType.cardBankingSell,
 };
 
 List<oh_resp.OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(
