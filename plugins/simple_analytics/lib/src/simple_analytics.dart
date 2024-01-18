@@ -2673,24 +2673,6 @@ class SimpleAnalytics {
     );
   }
 
-  void eurWalletTapAddCashEurAccount({
-    required bool isCJ,
-    required String eurAccountLabel,
-    required bool isHasTransaction,
-  }) {
-    _analytics.logEvent(
-      EventType.eurWalletTapAddCashEurAccount,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '291',
-        PropertyType.eurAccountType: isCJ ? 'CJ' : 'Unlimint',
-        PropertyType.eurAccountLabel: eurAccountLabel,
-        PropertyType.isHasTransactions: isHasTransaction,
-      },
-    );
-  }
-
   void eurWalletDepositDetailsSheet({
     required bool isCJ,
     required String eurAccountLabel,
@@ -3297,33 +3279,6 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '426',
-      },
-    );
-  }
-
-  void addCashToSheetView() {
-    _analytics.logEvent(
-      EventType.addCashToSheetView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '427',
-      },
-    );
-  }
-
-  void tapOnTheButtonEURAccOnAddCashToSheet({
-    required String eurAccType,
-    required String eurAccLabel,
-  }) {
-    _analytics.logEvent(
-      EventType.tapOnTheButtonEURAccOnAddCashToSheet,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '428',
-        PropertyType.eurAccountType: eurAccType,
-        PropertyType.eurAccountLabel: eurAccLabel,
       },
     );
   }
@@ -5438,7 +5393,7 @@ class SimpleAnalytics {
     );
   }
 
-   void tapOnTheBackFromTransferOrderSummaryButton({
+  void tapOnTheBackFromTransferOrderSummaryButton({
     required String transferFrom,
     required String transferTo,
     required String enteredAmount,
