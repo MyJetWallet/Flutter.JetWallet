@@ -141,7 +141,7 @@ class _CardSettings extends StatelessObserverWidget {
             simpleCardStore.terminateCard();
           },
         ),
-        const SpaceH63(),
+        const SpaceH45(),
       ],
     );
   }
