@@ -41,6 +41,7 @@ void showAddCashFromBottomSheet({
       horizontalDividerPadding: 24,
       addPaddingBelowTitle: true,
       isNewDesign: true,
+      needBottomPadding: false,
     ),
     horizontalPinnedPadding: 0,
     removePinnedPadding: true,
@@ -49,7 +50,6 @@ void showAddCashFromBottomSheet({
     scrollable: true,
     expanded: showSearch,
     children: [
-      const SpaceH16(),
       STextDivider(intl.sell_amount_cryptocurrencies),
       if (sSignalRModules.currenciesList
           .where((element) => element.symbol != 'EUR' && element.isAssetBalanceNotEmpty)
