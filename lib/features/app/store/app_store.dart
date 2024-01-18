@@ -16,8 +16,6 @@ import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
-import 'package:jetwallet/features/account/profile_details/utils/change_languages_popup.dart';
-import 'package:jetwallet/features/app/app.dart';
 import 'package:jetwallet/features/app/init_router/router_union.dart';
 import 'package:jetwallet/features/app/store/models/auth_info_state.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
@@ -29,7 +27,6 @@ import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:uuid/uuid.dart';
-import 'dart:io';
 
 import '../../../utils/helpers/country_code_by_user_register.dart';
 import '../../phone_verification/ui/phone_verification.dart';
@@ -114,9 +111,6 @@ abstract class _AppStoreBase with Store {
       }
     } catch (e) {
       locale = Locale.fromSubtags(languageCode: 'Platform.localeName');
-    }
-    if (context != null && locale != null) {
-      AppScreen.of(context)?.setLocale(locale!);
     }
   }
 
