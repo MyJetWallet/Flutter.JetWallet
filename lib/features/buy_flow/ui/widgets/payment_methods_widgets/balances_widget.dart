@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
-import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 class BalancesWidget extends StatelessWidget {
@@ -19,57 +18,20 @@ class BalancesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        MarketSeparator(
-          text: intl.sell_amount_accounts,
-          isNeedDivider: false,
-        ),
+        STextDivider(intl.sell_amount_accounts),
         for (final account in accounts)
-          SCardRow(
-            maxWidth: account.status == AccountStatus.active
-                ? MediaQuery.of(context).size.width * .35
-                : MediaQuery.of(context).size.width * .5,
-            icon: Container(
-              margin: const EdgeInsets.only(top: 3),
-              padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                color: sKit.colors.blue,
-                shape: BoxShape.circle,
-              ),
-              child: SizedBox(
-                width: 16,
-                height: 16,
-                child: SBankMediumIcon(
-                  color: sKit.colors.white,
-                ),
-              ),
+          SimpleTableAsset(
+            assetIcon: Assets.svg.assets.fiat.account.simpleSvg(
+              width: 24,
             ),
-            name: account.label ?? 'Account 1',
-            helper: account.accountId != 'clearjuction_account'
+            label: account.label ?? 'Account 1',
+            supplement: account.accountId != 'clearjuction_account'
                 ? intl.eur_wallet_personal_account
                 : intl.eur_wallet_simple_account,
-            onTap: () {
+            onTableAssetTap: () {
               onTap(account);
             },
-            description: '',
-            amount: '',
-            needSpacer: true,
-            rightIcon: account.status == AccountStatus.active
-                ? Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    decoration: ShapeDecoration(
-                      shape: RoundedRectangleBorder(
-                        side: const BorderSide(color: Color(0xFFF1F4F8)),
-                        borderRadius: BorderRadius.circular(22),
-                      ),
-                    ),
-                    child: Text(
-                      '${account.balance} ${account.currency}',
-                      style: sSubtitle1Style.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  )
-                : null,
+            rightValue: '${account.balance} ${account.currency}',
           ),
       ],
     );

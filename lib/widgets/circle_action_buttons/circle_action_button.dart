@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
 
-enum CircleButtonType { addCash, withdraw }
+enum CircleButtonType { addCash, withdraw, exchange, settings }
 
 class CircleActionButton extends StatelessWidget {
   const CircleActionButton({
@@ -25,15 +27,20 @@ class CircleActionButton extends StatelessWidget {
     Widget getIcon() {
       switch (type) {
         case CircleButtonType.addCash:
-          return SCasheIcon(
+          return Assets.svg.medium.addCash.simpleSvg(
             color: sKit.colors.white,
           );
         case CircleButtonType.withdraw:
-          return RotatedBox(
-            quarterTurns: 2,
-            child: SBackIcon(
-              color: sKit.colors.white,
-            ),
+          return Assets.svg.medium.withdrawal.simpleSvg(
+            color: sKit.colors.white,
+          );
+        case CircleButtonType.exchange:
+          return Assets.svg.medium.transfer.simpleSvg(
+            color: sKit.colors.white,
+          );
+        case CircleButtonType.settings:
+          return Assets.svg.medium.settings.simpleSvg(
+            color: sKit.colors.white,
           );
         default:
           return const SizedBox.shrink();
@@ -43,15 +50,20 @@ class CircleActionButton extends StatelessWidget {
     Widget getPressedIcon() {
       switch (type) {
         case CircleButtonType.addCash:
-          return SCasheIcon(
-            color: sKit.colors.white.withOpacity(0.7),
+          return Assets.svg.medium.addCash.simpleSvg(
+            color: sKit.colors.white,
           );
         case CircleButtonType.withdraw:
-          return RotatedBox(
-            quarterTurns: 2,
-            child: SBackIcon(
-              color: sKit.colors.white.withOpacity(0.7),
-            ),
+          return Assets.svg.medium.withdrawal.simpleSvg(
+            color: sKit.colors.white,
+          );
+        case CircleButtonType.exchange:
+          return Assets.svg.medium.transfer.simpleSvg(
+            color: sKit.colors.white,
+          );
+        case CircleButtonType.settings:
+          return Assets.svg.medium.settings.simpleSvg(
+            color: sKit.colors.white,
           );
         default:
           return const SizedBox.shrink();

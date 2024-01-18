@@ -15,14 +15,12 @@ import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
-import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_bank_card_input.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/show_bank_card_cvv_bottom_sheet.dart';
-import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
+import 'package:jetwallet/utils/device_binding_required_flow/show_device_binding_required_flow.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
-import 'package:jetwallet/utils/helpers/country_code_by_user_register.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -550,54 +548,14 @@ abstract class _BuyConfirmationStoreBase with Store {
       wasAction = true;
 
       if (deviceBindingRequired) {
-        var continueBuying = false;
-
-        final formatedAmaunt = volumeFormat(
-          symbol: paymentAsset ?? '',
-          accuracy: payCurrency.accuracy,
-          decimal: paymentAmount ?? Decimal.zero,
-        );
-        await Future.delayed(const Duration(milliseconds: 500));
-        await sShowAlertPopup(
-          sRouter.navigatorKey.currentContext!,
-          primaryText: '',
-          secondaryText:
-              '${intl.binding_phone_dialog_first_part} $formatedAmaunt ${intl.binding_phone_dialog_second_part} $simpleCompanyName',
-          primaryButtonName: intl.binding_phone_dialog_confirm,
-          secondaryButtonName: intl.binding_phone_dialog_cancel,
-          image: Image.asset(
-            infoLightAsset,
-            width: 80,
-            height: 80,
-            package: 'simple_kit',
-          ),
-          onPrimaryButtonTap: () {
-            continueBuying = true;
-            sRouter.pop();
-          },
-          onSecondaryButtonTap: () {
-            continueBuying = false;
-            sRouter.pop();
-          },
-        );
-
-        if (!continueBuying) return;
-
-        final phoneNumber = countryCodeByUserRegister();
         var isVerifaierd = false;
-        await sRouter.push(
-          PhoneVerificationRouter(
-            args: PhoneVerificationArgs(
-              isDeviceBinding: true,
-              phoneNumber: sUserInfo.phone,
-              activeDialCode: phoneNumber,
-              onVerified: () {
-                isVerifaierd = true;
-                sRouter.pop();
-              },
-            ),
-          ),
+
+        await showDeviceBindingRequiredFlow(
+          onConfirmed: () {
+            isVerifaierd = true;
+          },
         );
+
         if (!isVerifaierd) return;
       }
 

@@ -3,8 +3,10 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
 import '../../../../core/services/signal_r/signal_r_service_new.dart';
@@ -116,21 +118,21 @@ class ChooseAssetBody extends StatelessObserverWidget {
       children: [
         for (final currency in state.searchCurrencies) ...[
           if (currency.type == AssetType.crypto)
-            SMarketItem(
-              icon: SNetworkSvg24(
+            SimpleTableAsset(
+              assetIcon: SNetworkSvg24(
                 url: currency.iconUrl,
               ),
-              name: currency.description,
-              price: marketFormat(
+              label: currency.description,
+              rightValue: marketFormat(
                 decimal: baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice,
                 symbol: baseCurrency.symbol,
                 accuracy: baseCurrency.accuracy,
               ),
-              ticker: currency.symbol,
-              last: true,
-              percent: currency.dayPercentChange,
-              onTap: () => onChooseAsset(currency),
-              height: 80,
+              supplement: currency.symbol,
+              isRightValueMarket: true,
+              rightMarketValue: formatPercent(currency.dayPercentChange),
+              rightValueMarketPositive: currency.dayPercentChange > 0,
+              onTableAssetTap: () => onChooseAsset(currency),
             ),
         ],
         const SpaceH42(),

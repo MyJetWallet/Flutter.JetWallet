@@ -11,6 +11,7 @@ class SafeGesture extends StatefulWidget {
     this.intervalMs = 500,
     this.highlightColor,
     this.radius,
+    this.onHighlightChanged,
   }) : super(key: key);
 
   final Widget child;
@@ -18,6 +19,8 @@ class SafeGesture extends StatefulWidget {
   final int intervalMs;
   final Color? highlightColor;
   final double? radius;
+
+  final Function(bool)? onHighlightChanged;
 
   @override
   _SafeGestureState createState() => _SafeGestureState();
@@ -50,9 +53,13 @@ class _SafeGestureState extends State<SafeGesture> {
               widget.onTap!();
             }
           : null,
+      onHighlightChanged: widget.onHighlightChanged,
       borderRadius: widget.radius != null ? BorderRadius.circular(widget.radius!) : null,
       highlightColor: hColor,
-      overlayColor: MaterialStateProperty.all(hColor),
+      hoverColor: Colors.transparent,
+      splashColor: Colors.transparent,
+      focusColor: Colors.transparent,
+      overlayColor: MaterialStateProperty.all(Colors.transparent),
       child: widget.child,
     );
   }

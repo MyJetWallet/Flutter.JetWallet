@@ -6,6 +6,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
 import '../../../core/di/di.dart';
@@ -91,24 +92,17 @@ class _ChooseAssetBody extends StatelessObserverWidget {
                   secondaryText = getIt<AppStore>().isBalanceHide ? currency.symbol : currency.volumeAssetBalance;
                 }
 
-                return SWalletItem(
-                  height: 80,
+                return SimpleTableAsset(
                   key: UniqueKey(),
-                  isBalanceHide: getIt<AppStore>().isBalanceHide,
-                  decline: currency.dayPercentChange.isNegative,
-                  icon: SNetworkSvg24(
+                  assetIcon: SNetworkSvg24(
                     url: currency.iconUrl,
                   ),
-                  baseCurrencySymbol: baseCurrency.symbol,
-                  primaryText: currency.description,
-                  amount: currency.volumeBaseBalance(baseCurrency),
-                  secondaryText: secondaryText,
-                  onTap: () {
+                  label: currency.description,
+                  rightValue: currency.volumeBaseBalance(baseCurrency),
+                  supplement: secondaryText,
+                  onTableAssetTap: () {
                     onChooseAsset(currency);
                   },
-                  removeDivider: true,
-                  isPendingDeposit: currency.isPendingDeposit,
-                  priceFieldHeight: 44,
                 );
               },
             ),
