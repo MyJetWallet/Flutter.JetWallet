@@ -5,12 +5,25 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/push_notification_service.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:lottie/lottie.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart' as sk;
 
 @RoutePage(name: 'PushPermissionRoute')
-class PushPermissionScreen extends StatelessWidget {
+class PushPermissionScreen extends StatefulWidget {
   const PushPermissionScreen({super.key});
+
+  @override
+  State<PushPermissionScreen> createState() => _PushPermissionScreenState();
+}
+
+class _PushPermissionScreenState extends State<PushPermissionScreen> {
+  @override
+  void setState(VoidCallback fn) {
+    sAnalytics.pushNotificationSV();
+
+    super.setState(fn);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +61,8 @@ class PushPermissionScreen extends StatelessWidget {
               const Spacer(),
               sk.SButton.black(
                 callback: () async {
+                  sAnalytics.pushNotificationButtonTap();
+
                   if (getIt.isRegistered<PushNotificationService>()) {
                     await getIt.get<PushNotificationService>().requestPermission().then((value) {
                       getIt.get<StartupService>().successfullAuthentication(needPush: false);

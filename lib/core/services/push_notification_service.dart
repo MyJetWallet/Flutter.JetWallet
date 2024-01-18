@@ -7,6 +7,7 @@ import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:logger/logger.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 
 const String _loggerService = 'PushNotificationService';
 
@@ -117,13 +118,18 @@ class PushNotificationService {
   }
 
   Future<bool> requestPermission() async {
+    sAnalytics.pushNotificationAlertView();
     final settings = await _messaging.requestPermission();
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       FirebaseMessaging.onMessage.listen(_onMessage);
 
+      sAnalytics.pushNotificationAgree();
+
       return true;
     } else {
+      sAnalytics.pushNotificationDisagree();
+
       getIt.get<SimpleLoggerService>().log(
             level: Level.error,
             place: _loggerService,
