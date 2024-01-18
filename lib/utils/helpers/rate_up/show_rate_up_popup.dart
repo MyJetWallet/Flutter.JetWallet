@@ -3,6 +3,7 @@ import 'package:in_app_review/in_app_review.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'dart:io' show Platform;
 
 Future<void> shopRateUpPopup(
   BuildContext context, {
@@ -42,10 +43,14 @@ Future<void> shopRateUpPopup(
       onPrimaryButtonTap: () async {
         final inAppReview = InAppReview.instance;
 
-        if (await inAppReview.isAvailable()) {
-          await storageService.setString(showRateUp, 'true');
+        if (Platform.isIOS) {
+          await inAppReview.openStoreListing(appStoreId: '1604368566');
+        } else {
+          if (await inAppReview.isAvailable()) {
+            await storageService.setString(showRateUp, 'true');
 
-          await inAppReview.requestReview();
+            await inAppReview.requestReview();
+          }
         }
 
         Navigator.pop(context);
