@@ -16,6 +16,7 @@ import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 
 import '../../../../../core/services/signal_r/signal_r_service_new.dart';
+import '../../../../../utils/enum.dart';
 import '../../../../../utils/helpers/currency_from.dart';
 import '../../../helpers/invest_period_info.dart';
 import '../../../stores/dashboard/invest_dashboard_store.dart';
@@ -99,7 +100,19 @@ class HistoryInvestList extends StatelessObserverWidget {
                     Row(
                       children: [
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            showInvestPeriodBottomSheet(
+                              context,
+                              (InvestHistoryPeriod value) {
+                                investStore.updatePeriod(value);
+                                investPositionsStore.requestInvestHistorySummary(false);
+                              },
+                              investStore.period,
+                            );
+                          },
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
                           child: Row(
                             children: [
                               SICalendarIcon(

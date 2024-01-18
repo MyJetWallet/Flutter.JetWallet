@@ -10,12 +10,14 @@ import 'package:jetwallet/features/invest/ui/widgets/invest_button.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_history_list.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_history_pending_list.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
+import 'package:jetwallet/features/invest/ui/widgets/invest_period_bottom_sheet.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 
 import '../../../core/di/di.dart';
 import '../../../core/l10n/i10n.dart';
 import '../../../core/services/signal_r/signal_r_service_new.dart';
+import '../../../utils/enum.dart';
 import '../../../utils/helpers/currency_from.dart';
 import '../helpers/invest_period_info.dart';
 import 'invests/above_list_line.dart';
@@ -130,6 +132,7 @@ class _InvestHistoryScreenState extends State<InvestHistoryScreen> {bool canTapS
                                     child: Text(
                                       intl.invest_history_pending,
                                       style: sTextH2InvestStyle.copyWith(
+                                        
                                         color: colors.black,
                                       ),
                                     ),
@@ -174,7 +177,19 @@ class _InvestHistoryScreenState extends State<InvestHistoryScreen> {bool canTapS
                         Row(
                           children: [
                             InkWell(
-                              onTap: () {},
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              onTap: () {
+                                showInvestPeriodBottomSheet(
+                                  context,
+                                  (InvestHistoryPeriod value) {
+                                    investStore.updatePeriod(value);
+                                    investPositionsStore.requestInvestHistorySummary(false);
+                                  },
+                                  investStore.period,
+                                );
+                              },
                               child: Row(
                                 children: [
                                   SICalendarIcon(
@@ -214,9 +229,9 @@ class _InvestHistoryScreenState extends State<InvestHistoryScreen> {bool canTapS
                         ),
                         MainInvestBlock(
                           pending: Decimal.zero,
-                          amount: summary[0].amount ?? Decimal.zero,
-                          balance: summary[0].amountPl ?? Decimal.zero,
-                          percent: summary[0].percentPl ?? Decimal.zero,
+                          amount: summary.isNotEmpty ? summary[0].amount! : Decimal.zero,
+                          balance: summary.isNotEmpty ? summary[0].amountPl! : Decimal.zero,
+                          percent: summary.isNotEmpty ? summary[0].percentPl! : Decimal.zero,
                           onShare: () {},
                           currency: currency,
                           title: intl.invest_history_invest,

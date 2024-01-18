@@ -18,6 +18,7 @@ import '../../../../core/di/di.dart';
 import '../../../../core/l10n/i10n.dart';
 import '../../../../core/services/notification_service.dart';
 import '../../../../utils/formatting/base/volume_format.dart';
+import '../../helpers/invest_period_info.dart';
 import '../../ui/invests/data_line.dart';
 import '../../ui/widgets/invest_alert_bottom_sheet.dart';
 import '../../ui/widgets/invest_text_button.dart';
@@ -91,6 +92,39 @@ abstract class _InvestPositionsStoreBase with Store {
     totalAmount = amount;
     totalProfit = profit;
     totalProfitPercent = percent;
+  }
+
+  @action
+  Future<void> requestInvestHistorySummary(
+      bool needLoader,
+  ) async {
+
+    final investStore = getIt.get<InvestDashboardStore>();
+
+    final response = await sNetwork.getWalletModule().getInvestHistorySummary(
+      dateFrom: '${DateTime.now().subtract(
+        Duration(
+          days: getDaysByPeriod(investStore.period),
+        ),
+      )}',
+      dateTo: '${DateTime.now()}',
+    );
+
+    var amount = Decimal.zero;
+    var profit = Decimal.zero;
+    var percent = Decimal.zero;
+
+    if (response.data != null && response.data!.isNotEmpty) {
+      for (final instrument in response.data!) {
+        amount += instrument.amount ?? Decimal.zero;
+        profit += instrument.amountPl ?? Decimal.zero;
+      }
+      if (amount != Decimal.zero && profit != Decimal.zero) {
+        percent = Decimal.fromJson('${(Decimal.fromInt(100) * profit / amount).toDouble()}');
+      }
+      setTotals(amount, profit, percent);
+      setSummary(response.data!);
+    }
   }
 
   @action

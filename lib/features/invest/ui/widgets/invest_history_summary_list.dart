@@ -98,6 +98,9 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
           Row(
             children: [
               InkWell(
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                hoverColor: Colors.transparent,
                 onTap: () {
                   showInvestPeriodBottomSheet(
                     context,

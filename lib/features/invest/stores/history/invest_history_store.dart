@@ -17,7 +17,6 @@ import 'package:provider/provider.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
 
-import '../../../../utils/enum.dart';
 import '../../helpers/invest_period_info.dart';
 import '../dashboard/invest_positions_store.dart';
 

@@ -56,15 +56,25 @@ class AboveListLine extends StatelessObserverWidget {
                   ],
                 ],
               ),
-              Text(
-                mainColumn,
-                style: withCheckbox
-                  ? sBody2InvestMStyle.copyWith(
+              InkWell(
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                hoverColor: Colors.transparent,
+                onTap: () {
+                  if (withCheckbox) {
+                    onCheckboxTap(!checked);
+                  }
+                },
+                child: Text(
+                  mainColumn,
+                  style: withCheckbox
+                      ? sBody2InvestMStyle.copyWith(
                     color: colors.black,
                   )
-                  : sBody3InvestMStyle.copyWith(
+                      : sBody3InvestMStyle.copyWith(
                     color: colors.grey2,
                   ),
+                ),
               ),
               const Spacer(),
               Text(
