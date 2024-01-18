@@ -42,7 +42,6 @@ class SButtonContext extends HookWidget {
     this.onTap,
     this.isDisabled = false,
     this.contentColor,
-    this.iconCustomColor,
     this.backgroundColor,
     this.icon,
     this.iconCustomColor,
@@ -53,7 +52,6 @@ class SButtonContext extends HookWidget {
   final VoidCallback? onTap;
   final bool isDisabled;
   final Color? contentColor;
-  final Color? iconCustomColor;
   final Color? backgroundColor;
   final SvgGenImage? icon;
   final Color? iconCustomColor;
