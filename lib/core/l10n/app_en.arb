@@ -1548,5 +1548,8 @@
     "profile_kyc_bloked_alert": "Your account has been suspended. Please contact support for more info.",
     "send_gift_small_title": "Send gift",
     "send": "Send",
-    "paste": "Paste"
+    "paste": "Paste",
+    "permission_title": "Keep track of\ncrypto trends",
+    "permission_subtitle" : "Gain insights into the latest crypto\nprice movements",
+    "permission_button": "Get price updates"
 }

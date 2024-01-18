@@ -69,6 +69,8 @@ dependencies:
   animated_background: ^2.0.0
   flutter_flip_card: ^0.0.4
 
+  lottie: ^3.0.0
+
   # RESPONSIVE UI
   device_preview: ^1.1.0
   pixel_perfect: ^1.1.1 # Mock designs

@@ -21,6 +21,7 @@ import 'package:jetwallet/features/auth/biometric/ui/biometric.dart';
 import 'package:jetwallet/features/auth/biometric/ui/components/allow_biometric.dart';
 import 'package:jetwallet/features/auth/email_verification/ui/email_verification_screen.dart';
 import 'package:jetwallet/features/auth/onboarding/ui/onboarding_screen.dart';
+import 'package:jetwallet/features/auth/push_permission/push_permission_screen.dart';
 import 'package:jetwallet/features/auth/single_sign_in/ui/sing_in.dart';
 import 'package:jetwallet/features/auth/user_data/ui/user_data_screen.dart';
 import 'package:jetwallet/features/auth/verification_reg/verification_screen.dart';
@@ -606,6 +607,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/simple_card_limits',
       page: SimpleCardLimitsRouter.page,
+    ),
+    AutoRoute(
+      path: '/push_permission',
+      page: PushPermissionRoute.page,
     ),
   ];
 }

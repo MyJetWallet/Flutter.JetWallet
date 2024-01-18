@@ -119,6 +119,14 @@ class _DebugInfoState extends State<DebugInfo> with SingleTickerProviderStateMix
                 ),
                 TextButton(
                   onPressed: () async {
+                    await sRouter.push(const PushPermissionRoute());
+                  },
+                  child: const Text(
+                    'Push permission',
+                  ),
+                ),
+                TextButton(
+                  onPressed: () async {
                     /*getIt.get<DeepLinkService>().handle(
                           Uri.parse(
                               'http://simple.app/action/jw_swap/jw_operation_id/a93fa24f9f544774863e4e7b4c07f3c0'),

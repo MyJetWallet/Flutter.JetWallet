@@ -31,14 +31,12 @@ class PushNotificationService {
     ),
   );
 
-  static const DarwinInitializationSettings initializationSettingsIOS =
-      DarwinInitializationSettings();
+  static const DarwinInitializationSettings initializationSettingsIOS = DarwinInitializationSettings();
 
   static const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@drawable/ic_notification');
 
-  static const InitializationSettings initializationSettings =
-      InitializationSettings(
+  static const InitializationSettings initializationSettings = InitializationSettings(
     android: initializationSettingsAndroid,
     iOS: initializationSettingsIOS,
   );
@@ -47,8 +45,6 @@ class PushNotificationService {
     await getAdvData();
 
     await _resolvePlatformImplementation();
-
-    final settings = await _messaging.requestPermission();
 
     FirebaseMessaging.onMessageOpenedApp.listen(_onMessageOpenedApp);
 
@@ -72,16 +68,6 @@ class PushNotificationService {
         }
       },
     );
-
-    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      FirebaseMessaging.onMessage.listen(_onMessage);
-    } else {
-      getIt.get<SimpleLoggerService>().log(
-            level: Level.error,
-            place: _loggerService,
-            message: 'User declined or has not accepted permission',
-          );
-    }
   }
 
   void _onMessageOpenedApp(RemoteMessage message) {
@@ -99,8 +85,7 @@ class PushNotificationService {
       getIt.get<SimpleLoggerService>().log(
             level: Level.info,
             place: _loggerService,
-            message:
-                'onMessageOpenedApp: notification title: ${notification.title}',
+            message: 'onMessageOpenedApp: notification title: ${notification.title}',
           );
     } else {
       getIt.get<SimpleLoggerService>().log(
@@ -131,6 +116,24 @@ class PushNotificationService {
     }
   }
 
+  Future<bool> requestPermission() async {
+    final settings = await _messaging.requestPermission();
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      FirebaseMessaging.onMessage.listen(_onMessage);
+
+      return true;
+    } else {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: _loggerService,
+            message: 'User declined or has not accepted permission',
+          );
+
+      return false;
+    }
+  }
+
   bool _nullChecked(RemoteMessage message) {
     final notification = message.notification;
     final android = message.notification?.android;
@@ -139,8 +142,7 @@ class PushNotificationService {
   }
 
   Future<void> _resolvePlatformImplementation() async {
-    final androidPlugin = _plugin.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
+    final androidPlugin = _plugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
 
     await androidPlugin?.createNotificationChannel(_channel);
   }
@@ -164,8 +166,7 @@ Future<void> messagingBackgroundHandler(RemoteMessage message) async {
   getIt.get<SimpleLoggerService>().log(
     level: Level.info,
     place: _loggerService,
-    message:
-        '''_messagingBackgroundHandler \n\n A background message just showed up: $message''',
+    message: '''_messagingBackgroundHandler \n\n A background message just showed up: $message''',
   );
 }
 
@@ -180,7 +181,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   getIt.get<SimpleLoggerService>().log(
     level: Level.info,
     place: _loggerService,
-    message:
-        '''_messagingBackgroundHandler \n\n A background message just showed up: $message''',
+    message: '''_messagingBackgroundHandler \n\n A background message just showed up: $message''',
   );
 }

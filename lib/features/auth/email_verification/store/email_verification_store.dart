@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/apps_flyer_service.dart';
 import 'package:jetwallet/core/services/credentials_service/credentials_service.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
@@ -35,8 +36,7 @@ import 'package:simple_networking/modules/auth_api/models/start_email_login/star
 part 'email_verification_store.g.dart';
 
 @lazySingleton
-class EmailVerificationStore extends _EmailVerificationStoreBase
-    with _$EmailVerificationStore {
+class EmailVerificationStore extends _EmailVerificationStoreBase with _$EmailVerificationStore {
   EmailVerificationStore() : super();
 
   static _EmailVerificationStoreBase of(BuildContext context) =>
@@ -99,8 +99,7 @@ abstract class _EmailVerificationStoreBase with Store {
 
     final deviceInfoModel = sDeviceInfo;
     final appsFlyerService = getIt.get<AppsFlyerService>();
-    final appsFlyerID =
-        await appsFlyerService.appsflyerSdk.getAppsFlyerUID() ?? '';
+    final appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID() ?? '';
     final credentials = getIt.get<CredentialsService>();
 
     _updateIsResending(true);
@@ -113,11 +112,8 @@ abstract class _EmailVerificationStoreBase with Store {
         application: currentAppPlatform,
         appsflyerId: appsFlyerID,
       );
-      final response = await getIt
-          .get<SNetwork>()
-          .simpleNetworkingUnathorized
-          .getAuthModule()
-          .postStartEmailLogin(model);
+      final response =
+          await getIt.get<SNetwork>().simpleNetworkingUnathorized.getAuthModule().postStartEmailLogin(model);
 
       response.pick(
         onData: (data) {
@@ -223,11 +219,8 @@ abstract class _EmailVerificationStoreBase with Store {
         email: authInfo.authState.email,
       );
 
-      final response = await getIt
-          .get<SNetwork>()
-          .simpleNetworkingUnathorized
-          .getAuthModule()
-          .postConfirmEmailLogin(model);
+      final response =
+          await getIt.get<SNetwork>().simpleNetworkingUnathorized.getAuthModule().postConfirmEmailLogin(model);
 
       response.pick(
         onData: (data) async {
@@ -250,9 +243,7 @@ abstract class _EmailVerificationStoreBase with Store {
           await startSession(authInfo.authState.email);
 
           authInfo.setAuthStatus(const AuthorizationUnion.authorized());
-          getIt
-              .get<StartupService>()
-              .successfullAuthentication(needPush: false);
+          await sRouter.replace(const PushPermissionRoute());
         },
         onError: (error) {
           _logger.log(stateFlow, 'verifyCode', error.cause);
