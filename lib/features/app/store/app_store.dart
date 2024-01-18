@@ -17,6 +17,7 @@ import 'package:jetwallet/core/services/simple_networking/simple_networking.dart
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/account/profile_details/utils/change_languages_popup.dart';
+import 'package:jetwallet/features/app/app.dart';
 import 'package:jetwallet/features/app/init_router/router_union.dart';
 import 'package:jetwallet/features/app/store/models/auth_info_state.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
@@ -113,6 +114,9 @@ abstract class _AppStoreBase with Store {
       }
     } catch (e) {
       locale = Locale.fromSubtags(languageCode: 'Platform.localeName');
+    }
+    if (context != null && locale != null) {
+      AppScreen.of(context)?.setLocale(locale!);
     }
   }
 

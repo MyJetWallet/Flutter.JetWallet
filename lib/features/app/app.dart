@@ -28,10 +28,20 @@ class AppScreen extends StatefulWidget {
 
   @override
   State<AppScreen> createState() => _AppScreenState();
+
+  static _AppScreenState? of(BuildContext context) => context.findAncestorStateOfType<_AppScreenState>();
 }
 
 class _AppScreenState extends State<AppScreen> {
   final _logger = Logger('AppScreen');
+
+  Locale? _locale;
+
+  void setLocale(Locale value) {
+    setState(() {
+      _locale = value;
+    });
+  }
 
   @override
   void initState() {
@@ -51,12 +61,6 @@ class _AppScreenState extends State<AppScreen> {
       getIt.registerSingleton<PushNotification>(
         PushNotification(),
       );
-
-      if (getIt.isRegistered<AppStore>()) {
-        getIt.get<AppStore>().initLocale(context: context).then((value) {
-          setState(() {});
-        });
-      }
     } catch (e) {
       _logger.log(
         notifier,
@@ -72,7 +76,8 @@ class _AppScreenState extends State<AppScreen> {
     return CupertinoApp.router(
       restorationScopeId: 'app',
       debugShowCheckedModeBanner: widget.debugShowCheckedModeBanner,
-      locale: getIt.get<AppStore>().locale,
+      locale: _locale,
+      // locale: getIt.get<AppStore>().locale,
       title: 'Simple',
       supportedLocales: const [
         Locale('en'),
