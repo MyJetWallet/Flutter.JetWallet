@@ -10,7 +10,7 @@ Future<void> shopRateUpPopup(
   bool force = false,
 }) async {
   final storageService = sLocalStorageService;
-  var rCount = 0;
+  var rCount = 1;
 
   if (!force) {
     final status = await storageService.getValue(showRateUp);
@@ -20,13 +20,13 @@ Future<void> shopRateUpPopup(
 
     final rateCount = await storageService.getValue(rateUpCount);
 
-    rCount = rateCount == null ? 0 : int.tryParse(rateCount) ?? 0;
+    rCount = rateCount == null ? 0 : int.tryParse(rateCount) ?? 1;
 
     rCount++;
     await storageService.setString(rateUpCount, rCount.toString());
   }
 
-  if (rCount == 0 || rCount == 4 || rCount == 9) {
+  if (rCount == 1 || rCount == 5 || rCount == 10) {
     await sShowAlertPopup(
       context,
       primaryText: intl.rate_title,
