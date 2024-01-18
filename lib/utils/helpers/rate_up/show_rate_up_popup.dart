@@ -42,6 +42,7 @@ Future<void> shopRateUpPopup(
       isNeedCancelButton: true,
       onPrimaryButtonTap: () async {
         final inAppReview = InAppReview.instance;
+        Navigator.pop(context);
 
         if (Platform.isIOS) {
           await inAppReview.openStoreListing(appStoreId: '1604368566');
@@ -52,8 +53,6 @@ Future<void> shopRateUpPopup(
             await inAppReview.requestReview();
           }
         }
-
-        Navigator.pop(context);
       },
       onCancelButtonTap: () {
         Navigator.pop(context);
