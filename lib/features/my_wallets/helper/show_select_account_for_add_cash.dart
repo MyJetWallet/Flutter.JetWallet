@@ -29,8 +29,12 @@ Future<void> showSelectAccountForAddCash(BuildContext context) async {
       needFeedback: true,
     );
 
+    sAnalytics.errorDepositIsUnavailable();
+
     return;
   }
+
+  sAnalytics.depositToScreenView();
 
   showSendTimerAlertOr(
     context: context,
@@ -114,6 +118,11 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
                   isHasTransaction: true,
                   source: 'Wallets',
                 );
+
+                sAnalytics.tapOnAnyEurAccountOnDepositButton(
+                  accountType: 'CJ',
+                );
+
                 sRouter.pop();
 
                 showAccountDetails(
@@ -188,6 +197,11 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
                   eurAccLabel: bankAccounts[index].label ?? 'Account 1',
                   eurAccType: 'Unlimint',
                 );
+
+                sAnalytics.tapOnAnyEurAccountOnDepositButton(
+                  accountType: 'Unlimit',
+                );
+
                 if (bankAccounts[index].status == AccountStatus.active) {
                   sAnalytics.eurWalletDepositDetailsSheet(
                     isCJ: false,

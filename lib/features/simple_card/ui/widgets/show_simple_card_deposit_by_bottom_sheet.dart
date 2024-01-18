@@ -6,6 +6,7 @@ import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/cj_banking_accounts/widgets/show_add_cash_from_bottom_sheet.dart';
 import 'package:jetwallet/features/simple_card/store/simple_card_deposit_by_store.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -16,6 +17,8 @@ void showSimpleCardDepositBySelector({
   required VoidCallback onClose,
   required CardDataModel card,
 }) {
+  sAnalytics.depositByScreenView();
+
   final store = SimpleCardDepositByStore()..init(newCard: card);
 
   sShowBasicModalBottomSheet(
@@ -54,6 +57,9 @@ class _DepositByBody extends StatelessWidget {
             ),
             hasRightValue: false,
             onTableAssetTap: () {
+              sAnalytics.tapOnTheAnyAccountForDepositButton(
+                accountType: 'Crypto',
+              );
               showAddCashFromBottomSheet(
                 context: context,
                 onClose: () {},
@@ -87,6 +93,9 @@ class _DepositByBody extends StatelessWidget {
                 width: 24,
               ),
               onTableAssetTap: () {
+                sAnalytics.tapOnTheAnyAccountForDepositButton(
+                  accountType: account.isClearjuctionAccount ? 'CJ' : 'Unlimit',
+                );
                 sRouter.push(
                   AmountRoute(
                     tab: AmountScreenTab.transfer,
@@ -110,6 +119,9 @@ class _DepositByBody extends StatelessWidget {
               ),
               isCard: true,
               onTableAssetTap: () {
+                sAnalytics.tapOnTheAnyAccountForDepositButton(
+                  accountType: 'V.Card',
+                );
                 sRouter.push(
                   AmountRoute(
                     tab: AmountScreenTab.transfer,

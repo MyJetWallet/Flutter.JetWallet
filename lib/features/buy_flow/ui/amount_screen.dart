@@ -156,6 +156,9 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
               case 2:
                 sAnalytics.tapOnTheBackFromConvertAmountButton();
                 break;
+              case 3:
+                sAnalytics.tapOnTheBackFromTransferAmountButton();
+                break;
               default:
             }
 

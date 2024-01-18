@@ -18,6 +18,8 @@ void showAccountDepositBySelector({
   required VoidCallback onClose,
   required SimpleBankingAccount bankingAccount,
 }) {
+  sAnalytics.depositByScreenView();
+
   final store = AccountDepositByStore()..init(bankingAccount: bankingAccount);
 
   sShowBasicModalBottomSheet(
@@ -57,6 +59,17 @@ class _DepositByBody extends StatelessWidget {
           onTableAssetTap: () {
             sRouter.pop();
 
+            sAnalytics.tapOnTheAnyAccountForDepositButton(
+              accountType: 'Requisites',
+            );
+
+            sAnalytics.eurWalletDepositDetailsSheet(
+              isCJ: store.isCJAccount,
+              eurAccountLabel: store.account?.label ?? 'Account',
+              isHasTransaction: true,
+              source: 'Account',
+            );
+
             showAccountDetails(
               context: context,
               onClose: () {
@@ -79,6 +92,10 @@ class _DepositByBody extends StatelessWidget {
             ),
             hasRightValue: false,
             onTableAssetTap: () {
+              sAnalytics.tapOnTheAnyAccountForDepositButton(
+                accountType: 'Crypto',
+              );
+
               showAddCashFromBottomSheet(
                 context: context,
                 onClose: () {
@@ -118,6 +135,10 @@ class _DepositByBody extends StatelessWidget {
                 width: 24,
               ),
               onTableAssetTap: () {
+                sAnalytics.tapOnTheAnyAccountForDepositButton(
+                  accountType: account.isClearjuctionAccount ? 'CJ' : 'Unlimit',
+                );
+
                 sRouter.push(
                   AmountRoute(
                     tab: AmountScreenTab.transfer,
@@ -141,6 +162,10 @@ class _DepositByBody extends StatelessWidget {
               ),
               isCard: true,
               onTableAssetTap: () {
+                sAnalytics.tapOnTheAnyAccountForDepositButton(
+                  accountType: 'V.Card',
+                );
+
                 sRouter.push(
                   AmountRoute(
                     tab: AmountScreenTab.transfer,

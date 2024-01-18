@@ -12,6 +12,7 @@ import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -106,6 +107,12 @@ abstract class _TransferConfirmationStoreBase with Store {
       toType = CredentialsType.unlimitCard;
     }
 
+    sAnalytics.transferOrderSummaryScreenView(
+      transferFrom: fromType.analyticsValue,
+      transferTo: toType.analyticsValue,
+      enteredAmount: fromAmount.toString(),
+    );
+
     _createPayment();
   }
 
@@ -169,6 +176,12 @@ abstract class _TransferConfirmationStoreBase with Store {
   @action
   Future<void> confirmTransfer() async {
     try {
+      sAnalytics.tapAnTheButtonConfirmOnTransferOrderSummary(
+        transferFrom: fromType.analyticsValue,
+        transferTo: toType.analyticsValue,
+        enteredAmount: fromAmount.toString(),
+      );
+
       if (deviceBindingRequired) {
         var isVerifaierd = false;
 
@@ -232,6 +245,12 @@ abstract class _TransferConfirmationStoreBase with Store {
       return;
     }
 
+    sAnalytics.failedTransferEndScreenView(
+      transferFrom: fromType.analyticsValue,
+      transferTo: toType.analyticsValue,
+      enteredAmount: fromAmount.toString(),
+    );
+
     unawaited(
       sRouter.push(
         FailureScreenRouter(
@@ -248,6 +267,12 @@ abstract class _TransferConfirmationStoreBase with Store {
 
   @action
   Future<void> _showSuccessScreen() {
+    sAnalytics.successTransferEndScreenView(
+      transferFrom: fromType.analyticsValue,
+      transferTo: toType.analyticsValue,
+      enteredAmount: fromAmount.toString(),
+    );
+
     return sRouter
         .push(
           SuccessScreenRouter(

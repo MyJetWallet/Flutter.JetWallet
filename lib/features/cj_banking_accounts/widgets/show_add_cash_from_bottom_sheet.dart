@@ -5,6 +5,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
@@ -14,6 +15,8 @@ void showAddCashFromBottomSheet({
   required VoidCallback onClose,
   required void Function(CurrencyModel currency) onChooseAsset,
 }) {
+  sAnalytics.addCashFromTrScreenView();
+
   final baseCurrency = sSignalRModules.baseCurrency;
 
   final searchStore = ActionSearchStore();
@@ -63,6 +66,7 @@ void showAddCashFromBottomSheet({
               supplement: currency.volumeAssetBalance,
               rightValue: currency.volumeBaseBalance(baseCurrency),
               onTableAssetTap: () {
+                sAnalytics.tapOnTheAnyCryptoForDepositButton(cryptoAsset: currency.symbol);
                 onChooseAsset(currency);
               },
             );
@@ -90,6 +94,7 @@ void showAddCashFromBottomSheet({
                       supplement: currency.volumeAssetBalance,
                       rightValue: currency.volumeBaseBalance(baseCurrency),
                       onTableAssetTap: () {
+                        sAnalytics.tapOnTheAnyCryptoForDepositButton(cryptoAsset: currency.symbol);
                         onChooseAsset(currency);
                       },
                     ),

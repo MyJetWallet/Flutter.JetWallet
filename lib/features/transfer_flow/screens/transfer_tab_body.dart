@@ -12,6 +12,7 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
@@ -76,6 +77,8 @@ class _TrancferBody extends StatelessWidget {
               key: const Key('transfer-flow-widget-key'),
               onVisibilityChanged: (visibilityInfo) {
                 if (visibilityInfo.visibleFraction != 1) return;
+
+                sAnalytics.transferAmountScreenView();
               },
               child: SNewActionPriceField(
                 widgetSize: widgetSizeFrom(deviceSize),
@@ -109,6 +112,10 @@ class _TrancferBody extends StatelessWidget {
               card: store.fromCard,
               account: store.fromAccount,
               onTap: () {
+                sAnalytics.tapOnTheTransferFromButton(
+                  currentFromValueForTransfer: store.fromType?.analyticsValue ?? 'none',
+                );
+                sAnalytics.transferFromSheetView();
                 showTransferFromToBottomSheet(
                   context: context,
                   isFrom: true,
@@ -116,6 +123,9 @@ class _TrancferBody extends StatelessWidget {
                     store.setNewFromAsset(
                       newFromCard: newCard,
                       newFromAccount: newAccount,
+                    );
+                    sAnalytics.tapOnSelectedNewTransferFromAccountButton(
+                      newTransferFromAccount: store.fromType?.analyticsValue ?? 'none',
                     );
                   },
                   skipId: store.toAccount?.accountId ?? store.toCard?.cardId,
@@ -130,6 +140,10 @@ class _TrancferBody extends StatelessWidget {
               card: store.toCard,
               account: store.toAccount,
               onTap: () {
+                sAnalytics.tapOnTheTransferToButton(
+                  currentToValueForTransfer: store.toType?.analyticsValue ?? 'none',
+                );
+                sAnalytics.transferToSheetView();
                 showTransferFromToBottomSheet(
                   context: context,
                   isFrom: false,
@@ -137,6 +151,9 @@ class _TrancferBody extends StatelessWidget {
                     store.setNewToAsset(
                       newToCard: newCard,
                       newToAccount: newAccount,
+                    );
+                    sAnalytics.tapOnSelectedNewTransferToButton(
+                      newTransferToAccount: store.toType?.analyticsValue ?? 'none',
                     );
                   },
                   skipId: store.fromAccount?.accountId ?? store.fromCard?.cardId,
@@ -156,6 +173,11 @@ class _TrancferBody extends StatelessWidget {
               submitButtonActive: store.isContinueAvaible,
               submitButtonName: intl.addCircleCard_continue,
               onSubmitPressed: () {
+                sAnalytics.tapOnTheContinueWithTransferAmountButton(
+                  transferFrom: store.fromType?.analyticsValue ?? 'none',
+                  transferTo: store.toType?.analyticsValue ?? 'none',
+                  enteredAmount: store.inputValue,
+                );
                 sRouter.push(
                   TransferConfirmationRoute(
                     fromCard: store.fromCard,

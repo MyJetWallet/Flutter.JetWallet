@@ -47,10 +47,12 @@ abstract class _TransfetAmountStoreBase with Store {
   CredentialsType? get fromType {
     if (fromCard != null) {
       return CredentialsType.unlimitCard;
-    } else if (fromAccount?.isClearjuctionAccount ?? false) {
+    } else if (fromAccount != null && (fromAccount?.isClearjuctionAccount ?? false)) {
       return CredentialsType.clearjunctionAccount;
-    } else {
+    } else if (fromAccount != null) {
       return CredentialsType.unlimitAccount;
+    } else {
+      return null;
     }
   }
 
@@ -58,10 +60,12 @@ abstract class _TransfetAmountStoreBase with Store {
   CredentialsType? get toType {
     if (toCard != null) {
       return CredentialsType.unlimitCard;
-    } else if (toAccount?.isClearjuctionAccount ?? false) {
+     } else if (toAccount != null && (toAccount?.isClearjuctionAccount ?? false)) {
       return CredentialsType.clearjunctionAccount;
-    } else {
+    } else if (toAccount != null) {
       return CredentialsType.unlimitAccount;
+    } else {
+      return null;
     }
   }
 

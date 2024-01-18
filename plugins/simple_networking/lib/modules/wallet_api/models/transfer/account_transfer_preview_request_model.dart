@@ -31,9 +31,15 @@ class CredentialsModel with _$CredentialsModel {
 
 enum CredentialsType {
   @JsonValue(0)
-  clearjunctionAccount,
+  clearjunctionAccount(analyticsValue: 'CJ'),
   @JsonValue(1)
-  unlimitAccount,
+  unlimitAccount(analyticsValue: 'Unlimit'),
   @JsonValue(2)
-  unlimitCard,
+  unlimitCard(analyticsValue: 'V.Card');
+
+  const CredentialsType({
+    required this.analyticsValue,
+  });
+
+  final String analyticsValue;
 }

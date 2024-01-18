@@ -80,7 +80,11 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
           color: colors.grey1,
         ),
         onBackButtonTap: () {
-          sAnalytics.tapOnTheBackFromSellConfirmationButton();
+          sAnalytics.tapOnTheBackFromTransferOrderSummaryButton(
+            transferFrom: store.fromType.analyticsValue,
+            transferTo: store.toType.analyticsValue,
+            enteredAmount: store.fromAmount.toString(),
+          );
           sRouter.pop();
         },
       ),

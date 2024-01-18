@@ -45,12 +45,16 @@ class ActionsAccountRowWidget extends StatelessWidget {
                 text: intl.wallet_add_cash,
                 type: CircleButtonType.addCash,
                 onTap: () {
+                  sAnalytics.tapOnTheDepositButton(source: 'Wallet - Deposit');
+
                   if (kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) {
                     sNotification.showError(
                       intl.operation_bloked_text,
                       id: 1,
                       needFeedback: true,
                     );
+
+                    sAnalytics.errorDepositIsUnavailable();
 
                     return;
                   }
@@ -63,13 +67,6 @@ class ActionsAccountRowWidget extends StatelessWidget {
                         isCJ: isCJAccount,
                         eurAccountLabel: bankingAccount.label ?? 'Account',
                         isHasTransaction: true,
-                      );
-
-                      sAnalytics.eurWalletDepositDetailsSheet(
-                        isCJ: isCJAccount,
-                        eurAccountLabel: bankingAccount.label ?? 'Account',
-                        isHasTransaction: true,
-                        source: 'EUR wallet',
                       );
 
                       showAccountDepositBySelector(

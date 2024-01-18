@@ -5199,4 +5199,314 @@ class SimpleAnalytics {
       },
     );
   }
+
+  // Transfer flow
+
+  void tapOnTheDepositButton({
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheDepositButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '498',
+        PropertyType.source: source,
+      },
+    );
+  }
+
+  void errorDepositIsUnavailable() {
+    _analytics.logEvent(
+      EventType.errorDepositIsUnavailable,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '499',
+      },
+    );
+  }
+
+  void depositToScreenView() {
+    _analytics.logEvent(
+      EventType.depositToScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '500',
+      },
+    );
+  }
+
+  void tapOnAnyEurAccountOnDepositButton({
+    required String accountType,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnAnyEurAccountOnDepositButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '501',
+        PropertyType.accountType: accountType,
+      },
+    );
+  }
+
+  void depositByScreenView() {
+    _analytics.logEvent(
+      EventType.depositByScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '502',
+      },
+    );
+  }
+
+  void tapOnTheAnyAccountForDepositButton({
+    required String accountType,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheAnyAccountForDepositButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '503',
+        PropertyType.accountType: accountType,
+      },
+    );
+  }
+
+  void addCashFromTrScreenView() {
+    _analytics.logEvent(
+      EventType.addCashFromTrScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '504',
+      },
+    );
+  }
+
+  void tapOnTheAnyCryptoForDepositButton({
+    required String cryptoAsset,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheAnyCryptoForDepositButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '505',
+        PropertyType.cryptoAsset: cryptoAsset,
+      },
+    );
+  }
+
+  void transferAmountScreenView() {
+    _analytics.logEvent(
+      EventType.transferAmountScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '506',
+      },
+    );
+  }
+
+  void tapOnTheTransferFromButton({
+    required String currentFromValueForTransfer,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheTransferFromButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '507',
+        PropertyType.currentFromValueForTransfer: currentFromValueForTransfer,
+      },
+    );
+  }
+
+  void transferFromSheetView() {
+    _analytics.logEvent(
+      EventType.transferFromSheetView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '508',
+      },
+    );
+  }
+
+  void tapOnSelectedNewTransferFromAccountButton({
+    required String newTransferFromAccount,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnSelectedNewTransferFromAccountButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '509',
+        PropertyType.newTransferFromAccount: newTransferFromAccount,
+      },
+    );
+  }
+
+  void tapOnTheTransferToButton({
+    required String currentToValueForTransfer,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheTransferToButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '510',
+        PropertyType.currentToValueForTransfer: currentToValueForTransfer,
+      },
+    );
+  }
+
+  void transferToSheetView() {
+    _analytics.logEvent(
+      EventType.transferToSheetView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '511',
+      },
+    );
+  }
+
+  void tapOnSelectedNewTransferToButton({
+    required String newTransferToAccount,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnSelectedNewTransferToButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '512',
+        PropertyType.newTransferToAccount: newTransferToAccount,
+      },
+    );
+  }
+
+  void tapOnTheBackFromTransferAmountButton() {
+    _analytics.logEvent(
+      EventType.tapOnTheBackFromTransferAmountButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '513',
+      },
+    );
+  }
+
+  void tapOnTheContinueWithTransferAmountButton({
+    required String transferFrom,
+    required String transferTo,
+    required String enteredAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheContinueWithTransferAmountButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '514',
+        PropertyType.transferFrom: transferFrom,
+        PropertyType.transferTo: transferTo,
+        PropertyType.enteredAmount: enteredAmount,
+      },
+    );
+  }
+
+  void transferOrderSummaryScreenView({
+    required String transferFrom,
+    required String transferTo,
+    required String enteredAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.transferOrderSummaryScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '515',
+        PropertyType.transferFrom: transferFrom,
+        PropertyType.transferTo: transferTo,
+        PropertyType.enteredAmount: enteredAmount,
+      },
+    );
+  }
+
+   void tapOnTheBackFromTransferOrderSummaryButton({
+    required String transferFrom,
+    required String transferTo,
+    required String enteredAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheBackFromTransferOrderSummaryButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '516',
+        PropertyType.transferFrom: transferFrom,
+        PropertyType.transferTo: transferTo,
+        PropertyType.enteredAmount: enteredAmount,
+      },
+    );
+  }
+
+  void tapAnTheButtonConfirmOnTransferOrderSummary({
+    required String transferFrom,
+    required String transferTo,
+    required String enteredAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.tapAnTheButtonConfirmOnTransferOrderSummary,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '517',
+        PropertyType.transferFrom: transferFrom,
+        PropertyType.transferTo: transferTo,
+        PropertyType.enteredAmount: enteredAmount,
+      },
+    );
+  }
+
+  void successTransferEndScreenView({
+    required String transferFrom,
+    required String transferTo,
+    required String enteredAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.successTransferEndScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '518',
+        PropertyType.transferFrom: transferFrom,
+        PropertyType.transferTo: transferTo,
+        PropertyType.enteredAmount: enteredAmount,
+      },
+    );
+  }
+
+  void failedTransferEndScreenView({
+    required String transferFrom,
+    required String transferTo,
+    required String enteredAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.failedTransferEndScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '519',
+        PropertyType.transferFrom: transferFrom,
+        PropertyType.transferTo: transferTo,
+        PropertyType.enteredAmount: enteredAmount,
+      },
+    );
+  }
 }

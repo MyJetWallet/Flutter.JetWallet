@@ -75,6 +75,7 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
                     CircleActionAddCash(
                       onTap: () {
                         sAnalytics.tapOnTheButtonAddCashWalletsOnWalletsScreen();
+                        sAnalytics.tapOnTheDepositButton(source: 'Wallets - Deposit');
                         if (myWalletsSrore.isReordering) {
                           myWalletsSrore.endReorderingImmediately();
                         } else {

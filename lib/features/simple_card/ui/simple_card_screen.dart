@@ -150,6 +150,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                             .toList()
                             .isNotEmpty,
                         onAddCash: () {
+                          sAnalytics.tapOnTheDepositButton(source: 'V.Card - Deposit');
                           showSimpleCardDepositBySelector(
                             context: context,
                             onClose: () {},
