@@ -1,18 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-@RoutePage(name: 'CJAccountLabelRouter')
-class CJAccountLabelScreen extends StatefulObserverWidget {
-  const CJAccountLabelScreen({
+@RoutePage(name: 'SimpleCardLabelRouter')
+class SimpleCardLabelScreen extends StatefulWidget {
+  const SimpleCardLabelScreen({
     super.key,
     required this.initLabel,
     required this.accountId,
@@ -22,10 +19,10 @@ class CJAccountLabelScreen extends StatefulObserverWidget {
   final String accountId;
 
   @override
-  State<CJAccountLabelScreen> createState() => _CJAccountLabelScreenState();
+  State<SimpleCardLabelScreen> createState() => _CJAccountLabelScreenState();
 }
 
-class _CJAccountLabelScreenState extends State<CJAccountLabelScreen> {
+class _CJAccountLabelScreenState extends State<SimpleCardLabelScreen> {
   late final TextEditingController labelController;
   final StackLoaderStore loader = StackLoaderStore();
 
@@ -33,7 +30,6 @@ class _CJAccountLabelScreenState extends State<CJAccountLabelScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     labelController = TextEditingController(
@@ -65,15 +61,19 @@ class _CJAccountLabelScreenState extends State<CJAccountLabelScreen> {
                   children: [
                     SFieldDividerFrame(
                       child: SStandardField(
-                        labelText: intl.wallet_account_label_input,
+                        labelText: intl.edit_card_lable_card_label,
                         maxLines: 1,
-                        maxLength: 30,
+                        maxLength: 20,
                         controller: labelController,
                         textInputAction: TextInputAction.next,
                         onChanged: (text) {
-                          if (text.isNotEmpty) {
+                          if (text.trim().isNotEmpty && text.trim().length <= 20) {
                             setState(() {
                               isButtonActive = true;
+                            });
+                          } else {
+                            setState(() {
+                              isButtonActive = false;
                             });
                           }
                         },
@@ -94,19 +94,18 @@ class _CJAccountLabelScreenState extends State<CJAccountLabelScreen> {
                             try {
                               final resp = await sNetwork.getWalletModule().postAccountChangeLabel(
                                     accountId: widget.accountId,
-                                    label: labelController.text,
+                                    label: labelController.text.trim(),
                                   );
 
                               if (resp.hasError) {
                                 sNotification.showError(
-                                  resp?.error?.cause ?? '',
-                                  duration: 4,
+                                  resp.error?.cause ?? '',
                                   id: 1,
                                   needFeedback: true,
                                 );
                                 loader.finishLoadingImmediately();
                               } else {
-                                Navigator.pop(context, labelController.text);
+                                Navigator.pop(context, labelController.text.trim());
                               }
                             } catch (e) {
                               sNotification.showError(intl.something_went_wrong_try_again);

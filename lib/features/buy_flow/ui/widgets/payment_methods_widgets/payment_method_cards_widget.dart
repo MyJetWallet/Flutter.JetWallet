@@ -10,13 +10,13 @@ import 'package:jetwallet/features/currency_buy/helper/formatted_circle_card.dar
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
-import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/widgets/payment_method_card.dart';
 import 'package:jetwallet/utils/helpers/is_card_expired.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:responsive_grid_list/responsive_grid_list.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
@@ -73,10 +73,7 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
     return Column(
       children: [
         const SizedBox(height: 8),
-        MarketSeparator(
-          text: title,
-          isNeedDivider: false,
-        ),
+        STextDivider(title),
         const SpaceH16(),
         ResponsiveGridList(
           horizontalGridSpacing: 12,
@@ -123,7 +120,7 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
                       sRouter.push(
                         AmountRoute(
                           tab: AmountScreenTab.buy,
-                          asset: asset!,
+                          asset: asset,
                           card: e,
                         ),
                       );

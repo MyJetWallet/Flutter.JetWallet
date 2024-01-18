@@ -41,7 +41,11 @@ abstract class _SellAmountStoreBase with Store {
 
   @computed
   PaymentMethodCategory get category {
-    return account != null ? PaymentMethodCategory.account : PaymentMethodCategory.none;
+    return account != null
+        ? PaymentMethodCategory.account
+        : card != null
+            ? PaymentMethodCategory.simpleCard
+            : PaymentMethodCategory.none;
   }
 
   @observable
@@ -57,7 +61,10 @@ abstract class _SellAmountStoreBase with Store {
 
   @computed
   bool get isContinueAvaible {
-    return inputValid && Decimal.parse(primaryAmount) != Decimal.zero && account != null && asset != null;
+    return inputValid &&
+        Decimal.parse(primaryAmount) != Decimal.zero &&
+        (account != null || card != null) &&
+        asset != null;
   }
 
   @observable
@@ -118,7 +125,7 @@ abstract class _SellAmountStoreBase with Store {
 
   @computed
   String get fiatBalance {
-    return account?.currency ?? '';
+    return account?.currency ?? card?.currency ?? '';
   }
 
   @observable
@@ -131,6 +138,9 @@ abstract class _SellAmountStoreBase with Store {
   SimpleBankingAccount? account;
 
   @observable
+  CardDataModel? card;
+
+  @observable
   bool isNoCurrencies = false;
 
   @observable
@@ -139,7 +149,7 @@ abstract class _SellAmountStoreBase with Store {
   @action
   void _checkShowTosts() {
     isNoCurrencies = !sSignalRModules.currenciesList.any((currency) {
-      return currency.assetBalance != Decimal.zero;
+      return currency.assetBalance != Decimal.zero && currency.symbol != 'EUR';
     });
     isNoAccounts = !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false);
     Timer(
@@ -171,9 +181,11 @@ abstract class _SellAmountStoreBase with Store {
   void init({
     CurrencyModel? inputAsset,
     SimpleBankingAccount? newAccount,
+    CardDataModel? newCard,
   }) {
     asset = inputAsset;
     account = newAccount;
+    card = newCard;
 
     loadConversionPrice(
       fiatSymbol,
@@ -206,8 +218,18 @@ abstract class _SellAmountStoreBase with Store {
   @action
   void setNewPayWith({
     SimpleBankingAccount? newAccount,
+    CardDataModel? newCard,
   }) {
-    account = newAccount;
+    if (newAccount != null) {
+      account = newAccount;
+      card = null;
+    }
+
+    if (newCard != null) {
+      account = null;
+      card = newCard;
+    }
+
     paymentAsset = null;
 
     loadConversionPrice(
@@ -404,7 +426,10 @@ abstract class _SellAmountStoreBase with Store {
       (isBothAssetsSeted && maxLimit != Decimal.zero) ? (maxLimit.round().toString().length + 1) : 15;
 
   @computed
-  bool get isBothAssetsSeted => account != null && asset != null;
+  bool get isBothAssetsSeted => (account != null || card != null) && asset != null;
+
+  @computed
+  String get accountId => account?.accountId ?? card?.cardId ?? '';
 
   @action
   Future<void> loadLimits() async {
@@ -442,8 +467,8 @@ abstract class _SellAmountStoreBase with Store {
       } else {
         final model = SellLimitsRequestModel(
           paymentAsset: asset?.symbol ?? '',
-          buyAsset: account?.currency ?? '',
-          destinationAccountId: account?.accountId ?? '',
+          buyAsset: fiatSymbol,
+          destinationAccountId: accountId,
         );
         final response = await sNetwork.getWalletModule().postSellLimits(model);
         response.pick(

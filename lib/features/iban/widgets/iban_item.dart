@@ -54,7 +54,7 @@ class IBanItem extends StatelessObserverWidget {
                     Text(
                       name,
                       style: sCaptionTextStyle.copyWith(
-                        color: colors.grey2,
+                        color: colors.grey1,
                       ),
                     ),
                     Text(

@@ -99,6 +99,10 @@ import 'package:simple_networking/modules/wallet_api/models/swap_execute_quote/e
 import 'package:simple_networking/modules/wallet_api/models/swap_execute_quote/execute_quote_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/tranfer_by_phone/transfer_by_phone_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/tranfer_by_phone/transfer_by_phone_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/transfer/account_transfer_preview_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/transfer/account_transfer_preview_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/transfer/account_transfer_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/transfer/account_transfer_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/transfer_cancel/transfer_cancel_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/transfer_cancel/transfer_cancel_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/transfer_info/transfer_info_request_model.dart';
@@ -974,6 +978,19 @@ class WalletApiRepository {
     SwapLimitsRequestModel request,
   ) async {
     return _walletApiDataSources.postSwapLimitsRequest(request);
+  }
+
+  // Transfer
+  Future<DC<ServerRejectException, AccountTransferPreviewResponseModel>> postTransferPreview(
+    AccountTransferPreviewRequestModel request,
+  ) async {
+    return _walletApiDataSources.postTransferPreviewRequest(request);
+  }
+
+  Future<DC<ServerRejectException, AccountTransferResponseModel>> postTransferRequest(
+    AccountTransferRequestModel request,
+  ) async {
+    return _walletApiDataSources.postTransferRequest(request);
   }
 
   // invest
