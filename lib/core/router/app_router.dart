@@ -72,8 +72,8 @@ import 'package:jetwallet/features/market/market_details/ui/market_details.dart'
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/pdf_view_screen.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/market/ui/market_screen.dart';
-import 'package:jetwallet/features/my_wallets/screens/cj_account_label_screen.dart';
-import 'package:jetwallet/features/my_wallets/screens/cj_account_screen.dart';
+import 'package:jetwallet/features/cj_banking_accounts/screens/cj_account_label_screen.dart';
+import 'package:jetwallet/features/cj_banking_accounts/screens/cj_account_screen.dart';
 import 'package:jetwallet/features/my_wallets/screens/my_wallets_screen.dart';
 import 'package:jetwallet/features/payment_methods/ui/payment_methods.dart';
 import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
@@ -90,10 +90,12 @@ import 'package:jetwallet/features/rewards_flow/ui/rewards_flow_screen.dart';
 import 'package:jetwallet/features/sell_flow/screens/sell_confrimation_screen.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/features/set_phone_number/ui/set_phone_number.dart';
+import 'package:jetwallet/features/simple_card/ui/simple_card_label_screen.dart';
 import 'package:jetwallet/features/simple_card/ui/simple_card_limits_screen.dart';
 import 'package:jetwallet/features/simple_card/ui/simple_card_screen.dart';
 import 'package:jetwallet/features/sms_autheticator/sms_authenticator.dart';
 import 'package:jetwallet/features/transaction_history/ui/transaction_hisotry_screen.dart';
+import 'package:jetwallet/features/transfer_flow/screens/transfer_confrimation_screen.dart';
 import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
 import 'package:jetwallet/features/two_fa_phone/ui/two_fa_phone.dart';
 import 'package:jetwallet/features/wallet/ui/create_banking_screen.dart';
@@ -611,6 +613,14 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/push_permission',
       page: PushPermissionRoute.page,
+    ),
+    AutoRoute(
+      path: '/simple_card_label',
+      page: SimpleCardLabelRouter.page,
+    ),
+    AutoRoute(
+      path: '/transfer_confirmation',
+      page: TransferConfirmationRoute.page,
     ),
   ];
 }

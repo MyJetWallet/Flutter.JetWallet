@@ -44,6 +44,7 @@ class SButtonContext extends HookWidget {
     this.contentColor,
     this.backgroundColor,
     this.icon,
+    this.iconCustomColor,
   }) : super(key: key);
 
   final SButtonContextType type;
@@ -53,6 +54,7 @@ class SButtonContext extends HookWidget {
   final Color? contentColor;
   final Color? backgroundColor;
   final SvgGenImage? icon;
+  final Color? iconCustomColor;
 
   @override
   Widget build(BuildContext context) {
@@ -180,10 +182,10 @@ class SButtonContext extends HookWidget {
                         ? 24
                         : 20,
                     child: icon?.simpleSvg(
-                          color: isDisabled ? SColorsLight().gray8 : SColorsLight().blue,
+                          color: iconCustomColor ?? (isDisabled ? SColorsLight().gray8 : SColorsLight().blue),
                         ) ??
                         Assets.svg.medium.add.simpleSvg(
-                          color: isDisabled ? SColorsLight().gray8 : SColorsLight().blue,
+                          color: iconCustomColor ?? (isDisabled ? SColorsLight().gray8 : SColorsLight().blue),
                         ),
                   ),
                   const Gap(8),

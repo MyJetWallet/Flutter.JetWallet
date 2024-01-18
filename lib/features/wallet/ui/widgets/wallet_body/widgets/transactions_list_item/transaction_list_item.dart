@@ -15,6 +15,8 @@ import 'package:simple_kit/modules/icons/24x24/public/add_cash/simple_add_cash_i
 import 'package:simple_kit/modules/icons/24x24/public/transfer/simple_transfer_icon.dart';
 import 'package:simple_kit/modules/icons/24x24/public/withdrawal/simple_withdrawal_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../helper/format_date_to_hm.dart';
 import '../../../../../helper/show_transaction_details.dart';
@@ -25,6 +27,7 @@ enum TransactionItemSource {
   history,
   cryptoAccount,
   eurAccount,
+  simpleCard,
 }
 
 class TransactionListItem extends StatelessWidget {
@@ -73,14 +76,15 @@ class TransactionListItem extends StatelessWidget {
 
         onItemTapLisener?.call(transactionListItem.assetId);
         showTransactionDetails(
-          context,
-          transactionListItem,
-          null,
+          context: context,
+          transactionListItem: transactionListItem,
+          source: source,
         );
       },
       icon: _transactionItemIcon(
         type: transactionListItem.operationType,
         isFailed: transactionListItem.status == Status.declined,
+        transactionListItem: transactionListItem,
       ),
       labele: _transactionItemTitle(
         transactionListItem,
@@ -116,6 +120,7 @@ class TransactionListItem extends StatelessWidget {
       case OperationType.bankingBuy:
         return '${transactionListItem.cryptoBuyInfo?.paymentAssetId} ${intl.operationName_exchangeTo} ${transactionListItem.cryptoBuyInfo?.buyAssetId}';
       case OperationType.bankingSell:
+      case OperationType.cardBankingSell:
         return '${transactionListItem.sellCryptoInfo?.sellAssetId} ${intl.operationName_exchangeTo} ${transactionListItem.sellCryptoInfo?.buyAssetId}';
       default:
         return transactionListItem.assetId;
@@ -125,6 +130,7 @@ class TransactionListItem extends StatelessWidget {
   Widget _transactionItemIcon({
     required OperationType type,
     required bool isFailed,
+    required OperationHistoryItem transactionListItem,
   }) {
     final colors = sKit.colors;
     final failedColor = colors.grey2;
@@ -198,9 +204,16 @@ class TransactionListItem extends StatelessWidget {
       case OperationType.cardWithdrawal:
         return SWithdrawalIcon(color: isFailed ? failedColor : colors.red);
       case OperationType.bankingSell:
+      case OperationType.cardBankingSell:
         return source == TransactionItemSource.cryptoAccount
             ? SMinusIcon(color: isFailed ? failedColor : null)
             : SPlusIcon(color: isFailed ? failedColor : null);
+      case OperationType.bankingTransfer:
+        return Assets.svg.medium.altDeposit.simpleSvg(
+          width: 24,
+          color: isFailed ? failedColor : colors.blue,
+        );
+
       default:
         return SPlusIcon(color: isFailed ? failedColor : null);
     }
@@ -225,12 +238,16 @@ class TransactionListItem extends StatelessWidget {
     required String symbol,
     required int accuracy,
   }) {
+    final amount = (transactionListItem.operationType == OperationType.ibanSend ||
+            transactionListItem.operationType == OperationType.transferByPhone ||
+            transactionListItem.operationType == OperationType.giftSend ||
+            ((transactionListItem.operationType == OperationType.bankingTransfer) &&
+                (source == TransactionItemSource.history)))
+        ? transactionListItem.balanceChange.abs()
+        : transactionListItem.balanceChange;
+
     return volumeFormat(
-      decimal: (transactionListItem.operationType == OperationType.ibanSend ||
-              transactionListItem.operationType == OperationType.transferByPhone ||
-              transactionListItem.operationType == OperationType.giftSend)
-          ? transactionListItem.balanceChange.abs()
-          : transactionListItem.balanceChange,
+      decimal: amount,
       accuracy: accuracy,
       symbol: symbol,
     );
@@ -293,14 +310,16 @@ class TransactionListItem extends StatelessWidget {
         symbol: transactionListItem.cryptoBuyInfo?.buyAssetId ?? '',
       )}';
     }
-    if (transactionListItem.operationType == OperationType.bankingSell &&
+    if ((transactionListItem.operationType == OperationType.bankingSell ||
+            transactionListItem.operationType == OperationType.cardBankingSell) &&
         source != TransactionItemSource.cryptoAccount) {
       return '${intl.history_with} ${volumeFormat(
         decimal: transactionListItem.sellCryptoInfo?.sellAmount ?? Decimal.zero,
         symbol: transactionListItem.sellCryptoInfo?.sellAssetId ?? '',
       )}';
     }
-    if (transactionListItem.operationType == OperationType.bankingSell &&
+    if ((transactionListItem.operationType == OperationType.bankingSell ||
+            transactionListItem.operationType == OperationType.cardBankingSell) &&
         source == TransactionItemSource.cryptoAccount) {
       return '${intl.history_for} ${volumeFormat(
         decimal: transactionListItem.sellCryptoInfo?.buyAmount ?? Decimal.zero,

@@ -1,24 +1,28 @@
+import 'dart:developer';
+
 import 'package:auto_route/annotations.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/features/sell_flow/widgets/sell_choose_asset_bottom_sheet.dart';
 import 'package:jetwallet/features/simple_card/store/simple_card_store.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/card_settings.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/card_widget.dart';
+import 'package:jetwallet/features/simple_card/ui/widgets/show_simple_card_deposit_by_bottom_sheet.dart';
+import 'package:jetwallet/features/simple_card/ui/widgets/show_simple_card_withdraw_to_bottom_sheet.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/simple_card_circle_actions.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
+import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/transaction_list_item.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/router/app_router.dart';
 import '../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../utils/helpers/non_indices_with_balance_from.dart';
 import '../../app/store/app_store.dart';
-import '../../buy_flow/ui/amount_screen.dart';
 
 const _collapsedCardHeight = 200.0;
 const _expandedCardHeight = 270.0;
@@ -146,21 +150,14 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                             .toList()
                             .isNotEmpty,
                         onAddCash: () {
-                          showSellChooseAssetBottomSheet(
+                          sAnalytics.tapOnTheDepositButton(source: 'V.Card - Deposit');
+                          showSimpleCardDepositBySelector(
                             context: context,
-                            isAddCash: true,
-                            onChooseAsset: (currency) {
-                              Navigator.of(context).pop();
-                              sRouter.push(
-                                AmountRoute(
-                                  tab: AmountScreenTab.sell,
-                                  asset: currency,
-                                  simpleCard: simpleCardStore.cardFull,
-                                ),
-                              );
-                            },
+                            onClose: () {},
+                            card: simpleCardStore.cardFull!,
                           );
                         },
+                        isWithdrawAvailable: simpleCardStore.cardFull?.isNotEmptyBalance ?? false,
                         onShowDetails: () {
                           simpleCardStore.setShowDetails(!simpleCardStore.showDetails);
                         },
@@ -168,10 +165,55 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                           simpleCardStore.setFrozen(!simpleCardStore.isFrozen);
                         },
                         onSettings: () {
-                          showCardSettings(context);
+                          showCardSettings(
+                            context: context,
+                            onChangeLableTap: () {
+                              final catdId = simpleCardStore.cardFull?.cardId ?? '';
+                              sAnalytics.tapOnTheEditVirtualCardLabelButton(
+                                cardID: catdId,
+                              );
+                              sAnalytics.editVirtualCardLabelScreenView(
+                                cardID: catdId,
+                              );
+                              sRouter
+                                  .push(
+                                SimpleCardLabelRouter(
+                                  initLabel: simpleCardStore.cardFull?.label ?? '',
+                                  accountId: catdId,
+                                ),
+                              )
+                                  .then((value) {
+                                sRouter.pop();
+                                if (value is String) {
+                                  try {
+                                    sAnalytics.tapOnTheSaveChangesFromEditVirtualCardLabelButton(
+                                      cardID: catdId,
+                                    );
+                                    simpleCardStore.localUpdateCardLable(value);
+                                  } catch (e) {
+                                    log(e.toString());
+                                  }
+                                } else {
+                                  sAnalytics.tapOnTheBackFromEditVirtualCardLabelButton(
+                                    cardID: catdId,
+                                  );
+                                }
+                              });
+                            },
+                            onFreezeTap: () {
+                              simpleCardStore.setFrozen(!simpleCardStore.isFrozen);
+                            },
+                          );
                         },
                         onTerminate: () {
                           simpleCardStore.terminateCard();
+                        },
+                        onWithdraw: () {
+                          showSimpleCardWithdrawToSelector(
+                            context: context,
+                            onClose: () {},
+                            card: simpleCardStore.cardFull!,
+                          );
                         },
                       ),
                     ),
@@ -190,6 +232,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                       symbol: simpleCardStore.cardFull!.currency,
                       accountId: simpleCardStore.cardFull!.cardId,
                       onItemTapLisener: (symbol) {},
+                      source: TransactionItemSource.simpleCard,
                     ),
                   ] else ...[
                     SliverToBoxAdapter(
@@ -229,7 +272,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                   color: colors.white,
                   child: SPaddingH24(
                     child: SSmallHeader(
-                      title: 'Simple ${intl.simple_card_card}',
+                      title: simpleCardStore.cardFull?.label ?? 'Simple card',
                       subTitle: intl.simple_card_type_virtual,
                       titleStyle: sTextH5Style.copyWith(
                         color: sKit.colors.black,

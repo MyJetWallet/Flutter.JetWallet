@@ -52,10 +52,11 @@ class SellConfirmationScreen extends StatelessWidget {
           toAsset: account?.currency ?? simpleCard?.currency ?? '',
           toAmount: toAmount,
           newAccountId: account?.accountId ?? simpleCard?.cardId ?? '',
-          newAccountLabel: account?.label ?? '',
+          newAccountLabel: account?.label ?? simpleCard?.label ?? '',
         ),
       builder: (context, child) => _SellConfirmationScreenBody(
         account: account,
+        simpleCard: simpleCard,
       ),
       dispose: (context, value) {
         value.cancelTimer();
@@ -68,9 +69,11 @@ class SellConfirmationScreen extends StatelessWidget {
 class _SellConfirmationScreenBody extends StatelessObserverWidget {
   const _SellConfirmationScreenBody({
     this.account,
+    this.simpleCard,
   });
 
   final SimpleBankingAccount? account;
+  final CardDataModel? simpleCard;
 
   @override
   Widget build(BuildContext context) {
@@ -144,6 +147,7 @@ class _SellConfirmationScreenBody extends StatelessObserverWidget {
                   paymentCurrency: store.payCurrency,
                   asset: store.buyCurrency,
                   account: account,
+                  simpleCard: simpleCard,
                 ),
                 SPolicyCheckbox(
                   height: 65,
