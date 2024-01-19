@@ -43,13 +43,12 @@ Future<void> shopRateUpPopup(
       onPrimaryButtonTap: () async {
         final inAppReview = InAppReview.instance;
         Navigator.pop(context);
+        await storageService.setString(showRateUp, 'true');
 
         if (Platform.isIOS) {
           await inAppReview.openStoreListing(appStoreId: '1604368566');
         } else {
           if (await inAppReview.isAvailable()) {
-            await storageService.setString(showRateUp, 'true');
-
             await inAppReview.requestReview();
           }
         }
