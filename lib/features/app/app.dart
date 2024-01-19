@@ -37,10 +37,6 @@ class _AppScreenState extends State<AppScreen> {
   void initState() {
     /// Init DeepLinks
     try {
-      getIt.get<AppStore>().initLocale().then((value) {
-        setState(() {});
-      });
-
       getIt.registerSingletonAsync<DeviceInfo>(
         () async => DeviceInfo().deviceInfo(),
         signalsReady: false,
