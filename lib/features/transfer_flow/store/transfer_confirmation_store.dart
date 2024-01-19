@@ -10,6 +10,7 @@ import 'package:jetwallet/utils/device_binding_required_flow/show_device_binding
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
+import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -275,36 +276,38 @@ abstract class _TransferConfirmationStoreBase with Store {
 
     return sRouter
         .push(
-          SuccessScreenRouter(
-            secondaryText: intl.transfet_success_text(
-              volumeFormat(
-                decimal: fromAmount,
-                accuracy: eurCurrency.accuracy,
-                symbol: eurCurrency.symbol,
-              ),
-            ),
-            buttonText: intl.previewBuyWithUmlimint_saveCard,
-            showProgressBar: true,
-            showCloseButton: true,
-            onCloseButton: () {
-              sRouter.replaceAll([
-                const HomeRouter(
-                  children: [
-                    MyWalletsRouter(),
-                  ],
-                ),
-              ]);
-            },
+      SuccessScreenRouter(
+        secondaryText: intl.transfet_success_text(
+          volumeFormat(
+            decimal: fromAmount,
+            accuracy: eurCurrency.accuracy,
+            symbol: eurCurrency.symbol,
           ),
-        )
-        .then(
-          (value) => sRouter.replaceAll([
+        ),
+        buttonText: intl.previewBuyWithUmlimint_saveCard,
+        showProgressBar: true,
+        showCloseButton: true,
+        onCloseButton: () {
+          sRouter.replaceAll([
             const HomeRouter(
               children: [
                 MyWalletsRouter(),
               ],
             ),
-          ]),
-        );
+          ]);
+        },
+      ),
+    )
+        .then((value) {
+      sRouter.replaceAll([
+        const HomeRouter(
+          children: [
+            MyWalletsRouter(),
+          ],
+        ),
+      ]);
+
+      shopRateUpPopup(sRouter.navigatorKey.currentContext!);
+    });
   }
 }
