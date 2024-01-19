@@ -3,18 +3,14 @@ import 'dart:isolate';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/features/app/app.dart';
 import 'package:jetwallet/features/app/app_initialization.dart';
-import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:logging/logging.dart';
 
 Future<void> main() async {
   await runZonedGuarded(
     () async {
       await appInitialization('stage');
-
-      await getIt.get<AppStore>().initLocale();
 
       runApp(
         const AppScreen(
