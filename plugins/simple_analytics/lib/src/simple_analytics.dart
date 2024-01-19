@@ -5257,13 +5257,16 @@ class SimpleAnalytics {
     );
   }
 
-  void transferAmountScreenView() {
+  void transferAmountScreenView({
+    required String sourceTransfer,
+  }) {
     _analytics.logEvent(
       EventType.transferAmountScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '506',
+        PropertyType.sourceTransfer: sourceTransfer,
       },
     );
   }
