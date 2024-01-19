@@ -25,6 +25,7 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
@@ -243,7 +244,10 @@ abstract class _EmailVerificationStoreBase with Store {
           await startSession(authInfo.authState.email);
 
           authInfo.setAuthStatus(const AuthorizationUnion.authorized());
-          await sRouter.replace(const PushPermissionRoute());
+
+          if (!await Permission.notification.isGranted) {
+            await sRouter.replace(const PushPermissionRoute());
+          }
         },
         onError: (error) {
           _logger.log(stateFlow, 'verifyCode', error.cause);
