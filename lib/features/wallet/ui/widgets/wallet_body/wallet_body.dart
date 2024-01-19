@@ -334,7 +334,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                     source: TransactionItemSource.cryptoAccount,
                   ),
                   const SliverToBoxAdapter(
-                    child: SpaceH300(),
+                    child: SpaceH400(),
                   ),
                 ],
               ),
