@@ -19,10 +19,9 @@ class PushPermissionScreen extends StatefulWidget {
 
 class _PushPermissionScreenState extends State<PushPermissionScreen> {
   @override
-  void setState(VoidCallback fn) {
+  void initState() {
     sAnalytics.pushNotificationSV();
-
-    super.setState(fn);
+    super.initState();
   }
 
   @override
