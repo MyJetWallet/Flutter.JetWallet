@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
@@ -63,26 +64,26 @@ class _AppScreenState extends State<AppScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoApp.router(
-      restorationScopeId: 'app',
-      debugShowCheckedModeBanner: widget.debugShowCheckedModeBanner,
-      locale: getIt.get<AppStore>().locale,
-      title: 'Simple',
-      supportedLocales: const [
-        Locale('en'),
-        Locale('pl'),
-        Locale('uk'),
-        Locale('es'),
-        Locale('fr'),
-      ],
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      routeInformationParser: getIt.get<AppRouter>().defaultRouteParser(),
-      //routerDelegate: getIt.get<AppRouter>().delegate(),
-      routerDelegate: AutoRouterDelegate(
-        getIt.get<AppRouter>(),
-        navigatorObservers: () => [SimpleRouteObserver()],
-      ),
-      builder: (_, child) => AppBuilder(child),
+    return Observer(
+      builder: (context) {
+        final a = getIt.get<AppStore>().locale;
+        
+        return CupertinoApp.router(
+          restorationScopeId: 'app',
+          debugShowCheckedModeBanner: widget.debugShowCheckedModeBanner,
+          locale: a,
+          title: 'Simple',
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          routeInformationParser: getIt.get<AppRouter>().defaultRouteParser(),
+          //routerDelegate: getIt.get<AppRouter>().delegate(),
+          routerDelegate: AutoRouterDelegate(
+            getIt.get<AppRouter>(),
+            navigatorObservers: () => [SimpleRouteObserver()],
+          ),
+          builder: (_, child) => AppBuilder(child),
+        );
+      },
     );
   }
 }
