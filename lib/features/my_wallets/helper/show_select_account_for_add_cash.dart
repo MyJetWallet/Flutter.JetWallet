@@ -43,7 +43,6 @@ Future<void> showSelectAccountForAddCash(BuildContext context) async {
       if (MyWalletsSrore.of(context).buttonStatus == BankingShowState.getAccount) {
         await MyWalletsSrore.of(context).createSimpleAccount();
       } else {
-        sAnalytics.addCashToSheetView();
         sShowBasicModalBottomSheet(
           context: context,
           pinned: SBottomSheetHeader(
@@ -107,10 +106,6 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
                 ? intl.eur_wallet_simple_account
                 : intl.create_simple_creating,
             onTap: () {
-              sAnalytics.tapOnTheButtonEURAccOnAddCashToSheet(
-                eurAccLabel: simpleAccount.label ?? 'Account 1',
-                eurAccType: 'CJ',
-              );
               if (simpleAccount.status == AccountStatus.active) {
                 sAnalytics.eurWalletDepositDetailsSheet(
                   isCJ: true,
@@ -193,11 +188,6 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
                   ? intl.eur_wallet_personal_account
                   : intl.create_personal_creating,
               onTap: () {
-                sAnalytics.tapOnTheButtonEURAccOnAddCashToSheet(
-                  eurAccLabel: bankAccounts[index].label ?? 'Account 1',
-                  eurAccType: 'Unlimint',
-                );
-
                 sAnalytics.tapOnAnyEurAccountOnDepositButton(
                   accountType: 'Unlimit',
                 );
