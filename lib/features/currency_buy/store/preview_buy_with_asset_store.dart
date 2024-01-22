@@ -26,8 +26,7 @@ import '../../app/store/app_store.dart';
 
 part 'preview_buy_with_asset_store.g.dart';
 
-class PreviewBuyWithAssetStore extends _PreviewBuyWithAssetStoreBase
-    with _$PreviewBuyWithAssetStore {
+class PreviewBuyWithAssetStore extends _PreviewBuyWithAssetStoreBase with _$PreviewBuyWithAssetStore {
   PreviewBuyWithAssetStore(super.input);
 
   static _PreviewBuyWithAssetStoreBase of(BuildContext context) =>
@@ -80,8 +79,7 @@ abstract class _PreviewBuyWithAssetStoreBase with Store {
   bool connectingToServer = false;
 
   @observable
-  PreviewBuyWithAssetUnion union =
-      const PreviewBuyWithAssetUnion.quoteLoading();
+  PreviewBuyWithAssetUnion union = const PreviewBuyWithAssetUnion.quoteLoading();
 
   @observable
   int timer = 0;
