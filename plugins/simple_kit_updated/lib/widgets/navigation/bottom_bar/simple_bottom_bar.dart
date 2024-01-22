@@ -18,31 +18,35 @@ class SBottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 73,
-      decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(width: 1, color: SColorsLight().gray4),
+    return Material(
+      color: SColorsLight().white,
+      child: Container(
+        height: 73,
+        decoration: BoxDecoration(
+          color: SColorsLight().white,
+          border: Border(
+            top: BorderSide(width: 1, color: SColorsLight().gray4),
+          ),
         ),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-      margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: items
-            .mapIndexed(
-              (index, item) => SBottomButton(
-                icon: item.icon,
-                text: item.text,
-                isActive: selectedIndex == index,
-                width: (MediaQuery.of(context).size.width - 48) / items.length,
-                notification: item.notification ?? 0,
-                onChanged: () {
-                  onChanged(index);
-                },
-              ),
-            )
-            .toList(),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+        margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: items
+              .mapIndexed(
+                (index, item) => SBottomButton(
+                  icon: item.icon,
+                  text: item.text,
+                  isActive: selectedIndex == index,
+                  width: (MediaQuery.of(context).size.width - 48) / items.length,
+                  notification: item.notification ?? 0,
+                  onChanged: () {
+                    onChanged(index);
+                  },
+                ),
+              )
+              .toList(),
+        ),
       ),
     );
   }
