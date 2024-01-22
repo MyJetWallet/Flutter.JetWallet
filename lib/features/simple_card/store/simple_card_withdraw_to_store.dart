@@ -43,14 +43,6 @@ abstract class _SimpleCardWithdrawToStoreBase with Store {
   List<SimpleBankingAccount> get accounts {
     final accounts = <SimpleBankingAccount>[];
 
-    final simpleAccount = sSignalRModules.bankingProfileData?.simple?.account;
-
-    if (simpleAccount != null &&
-        simpleAccount.accountId != card?.cardId &&
-        (simpleAccount.status == AccountStatus.active)) {
-      accounts.add(simpleAccount);
-    }
-
     final bankingAccounts = sSignalRModules.bankingProfileData?.banking?.accounts
             ?.where(
               (element) =>
