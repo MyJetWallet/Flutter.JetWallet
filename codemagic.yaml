@@ -98,7 +98,7 @@ definitions:
         flutter clean
         rm -f ios/Podfile.lock pubspec.lock
         rm -rf ios/Pods ios/Runner.xcworkspace
-        flutter build ipa --release --target=$MAIN_TARGET --flavor=$FLAVOR \
+        flutter build ipa --dart-define=INTERCOM_APP_ID=$INTERCOM_APP_ID --dart-define=INTERCOM_ANDROID_KEY=$INTERCOM_ANDROID_KEY --dart-define=INTERCOM_IOS_KEY=$INTERCOM_IOS_KEY --release --target=$MAIN_TARGET --flavor=$FLAVOR \
         --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) --build-number=$PROJECT_BUILD_NUMBER \
         --dart-define=MY_APP_ENV=prod \
         --export-options-plist=/Users/builder/export_options.plist \
@@ -107,12 +107,12 @@ definitions:
 
     - name: Build Android (AAB)
       script: |
-        flutter build appbundle --release --target=$MAIN_TARGET --flavor=$FLAVOR \
+        flutter build appbundle --dart-define=INTERCOM_APP_ID=$INTERCOM_APP_ID --dart-define=INTERCOM_ANDROID_KEY=$INTERCOM_ANDROID_KEY --dart-define=INTERCOM_IOS_KEY=$INTERCOM_IOS_KEY --release --target=$MAIN_TARGET --flavor=$FLAVOR \
         --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) --build-number=$PROJECT_BUILD_NUMBER
 
     - name: Build Android (APK)
       script: |
-        flutter build apk --release --target=$MAIN_TARGET --flavor=$FLAVOR \
+        flutter build apk --dart-define=INTERCOM_APP_ID=$INTERCOM_APP_ID --dart-define=INTERCOM_ANDROID_KEY=$INTERCOM_ANDROID_KEY --dart-define=INTERCOM_IOS_KEY=$INTERCOM_IOS_KEY --release --target=$MAIN_TARGET --flavor=$FLAVOR \
         --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) --build-number=$PROJECT_BUILD_NUMBER
 
   publishing: &publishing
