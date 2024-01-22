@@ -5467,4 +5467,61 @@ class SimpleAnalytics {
       },
     );
   }
+
+  //
+
+  void pushNotificationSV() {
+    _analytics.logEvent(
+      EventType.pushNotificationSV,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '493',
+      },
+    );
+  }
+
+  void pushNotificationButtonTap() {
+    _analytics.logEvent(
+      EventType.pushNotificationButtonTap,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '494',
+      },
+    );
+  }
+
+  void pushNotificationAlertView() {
+    _analytics.logEvent(
+      EventType.pushNotificationAlertView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '495',
+      },
+    );
+  }
+
+  void pushNotificationAgree() {
+    _analytics.logEvent(
+      EventType.pushNotificationAgree,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '496',
+      },
+    );
+  }
+
+  void pushNotificationDisagree() {
+    _analytics.logEvent(
+      EventType.pushNotificationDisagree,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '497',
+      },
+    );
+  }
 }

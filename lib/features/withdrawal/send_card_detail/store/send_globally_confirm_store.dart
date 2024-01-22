@@ -8,6 +8,7 @@ import 'package:jetwallet/core/services/simple_networking/simple_networking.dart
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
+import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -216,49 +217,51 @@ abstract class _SendGloballyConfirmStoreBase with Store {
 
     return sRouter
         .push(
-          SuccessScreenRouter(
-            primaryText: intl.send_globally_success,
-            secondaryText: '${intl.send_globally_success_secondary} ${volumeFormat(
-              decimal: model.amount ?? Decimal.zero,
-              accuracy: sendCurrency!.accuracy,
-              symbol: sendCurrency!.symbol,
-            )}'
-                '\n${intl.send_globally_success_secondary_2}',
-            showProgressBar: true,
-            bottomWidget: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: SAccountWaitingIcon(
-                    color: sKit.colors.grey2,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 2),
-                  child: Text(
-                    intl.send_globally_success_info,
-                    style: sBodyText1Style.copyWith(
-                      fontSize: 12,
-                      color: sKit.colors.grey2,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
+      SuccessScreenRouter(
+        primaryText: intl.send_globally_success,
+        secondaryText: '${intl.send_globally_success_secondary} ${volumeFormat(
+          decimal: model.amount ?? Decimal.zero,
+          accuracy: sendCurrency!.accuracy,
+          symbol: sendCurrency!.symbol,
+        )}'
+            '\n${intl.send_globally_success_secondary_2}',
+        showProgressBar: true,
+        bottomWidget: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 16,
+              height: 16,
+              child: SAccountWaitingIcon(
+                color: sKit.colors.grey2,
+              ),
             ),
-          ),
-        )
-        .then(
-          (value) => sRouter.replaceAll([
-            const HomeRouter(
-              children: [
-                MyWalletsRouter(),
-              ],
+            const SizedBox(width: 8),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 2),
+              child: Text(
+                intl.send_globally_success_info,
+                style: sBodyText1Style.copyWith(
+                  fontSize: 12,
+                  color: sKit.colors.grey2,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
-          ]),
-        );
+          ],
+        ),
+      ),
+    )
+        .then((value) {
+      sRouter.replaceAll([
+        const HomeRouter(
+          children: [
+            MyWalletsRouter(),
+          ],
+        ),
+      ]);
+
+      shopRateUpPopup(sRouter.navigatorKey.currentContext!);
+    });
   }
 }

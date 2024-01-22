@@ -11,6 +11,7 @@ import 'package:jetwallet/core/services/remote_config/remote_config_values.dart'
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/convert/model/preview_convert_input.dart';
 import 'package:jetwallet/features/convert/model/preview_convert_union.dart';
+import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:jetwallet/widgets/quote_updated_dialog.dart';
 import 'package:logging/logging.dart';
@@ -268,13 +269,14 @@ abstract class _PreviewConvertStoreBase with Store {
   void _showSuccessScreen() {
     sRouter
         .push(
-          SuccessScreenRouter(
-            secondaryText: intl.previewConvert_orderProcessing,
-          ),
-        )
-        .then(
-          (value) => sRouter.popUntilRoot(),
-        );
+      SuccessScreenRouter(
+        secondaryText: intl.previewConvert_orderProcessing,
+      ),
+    )
+        .then((value) {
+      sRouter.popUntilRoot();
+      shopRateUpPopup(sRouter.navigatorKey.currentContext!);
+    });
   }
 
   @action

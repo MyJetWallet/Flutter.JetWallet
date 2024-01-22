@@ -142,9 +142,9 @@ class SimpleTableAsset extends StatelessWidget {
               ),
               if (hasRightValue) ...[
                 //const Spacer(),
-                if (customRightWidget != null)
-                  ...[]
-                else ...[
+                if (customRightWidget != null) ...[
+                  customRightWidget!,
+                ] else ...[
                   if (isRightValueMarket) ...[
                     SizedBox(
                       height: 48,

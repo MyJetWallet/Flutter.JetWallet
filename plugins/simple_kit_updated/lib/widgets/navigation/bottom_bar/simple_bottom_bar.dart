@@ -26,7 +26,7 @@ class SBottomBar extends StatelessWidget {
         ),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-      //margin: const EdgeInsets.only(bottom: 34),
+      margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: items

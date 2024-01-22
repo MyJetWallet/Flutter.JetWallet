@@ -69,6 +69,8 @@ dependencies:
   animated_background: ^2.0.0
   flutter_flip_card: ^0.0.4
 
+  lottie: 2.7.0
+
   # RESPONSIVE UI
   device_preview: ^1.1.0
   pixel_perfect: ^1.1.1 # Mock designs
@@ -88,6 +90,7 @@ dependencies:
   isolator: ^2.0.8
   #zendesk_messaging: ^2.7.7
   flutter_launcher_icons: ^0.13.1
+  in_app_review: ^2.0.8
 
   # NETWORKING:
   http: 0.13.5
