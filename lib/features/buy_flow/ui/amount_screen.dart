@@ -74,6 +74,12 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
 
     _currentTabIndex = tabController.index;
 
+    if (_currentTabIndex == 3) {
+      sAnalytics.transferAmountScreenView(
+        sourceTransfer: 'External',
+      );
+    }
+
     tabController.addListener(() {
       if (tabController.indexIsChanging) return;
 
@@ -91,6 +97,10 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
         case 2:
           sAnalytics.tapOnTheConvertButtonOnBSCSegmentButton();
           break;
+        case 3:
+          sAnalytics.transferAmountScreenView(
+            sourceTransfer: 'Segment control',
+          );
         default:
       }
     });

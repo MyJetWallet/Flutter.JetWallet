@@ -77,8 +77,6 @@ class _TrancferBody extends StatelessWidget {
               key: const Key('transfer-flow-widget-key'),
               onVisibilityChanged: (visibilityInfo) {
                 if (visibilityInfo.visibleFraction != 1) return;
-
-                sAnalytics.transferAmountScreenView();
               },
               child: SNewActionPriceField(
                 widgetSize: widgetSizeFrom(deviceSize),

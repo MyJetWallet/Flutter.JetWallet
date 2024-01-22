@@ -22,6 +22,7 @@ import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/utils/device_binding_required_flow/show_device_binding_required_flow.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
+import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
@@ -827,52 +828,56 @@ abstract class _BuyConfirmationStoreBase with Store {
 
     return sRouter
         .push(
-          SuccessScreenRouter(
-            secondaryText: isGoogle
-                ? '${intl.successScreen_youBought} '
-                    '${volumeFormat(
-                    decimal: buyAmount ?? Decimal.zero,
-                    accuracy: buyCurrency.accuracy,
-                    symbol: buyCurrency.symbol,
-                  )}'
-                    '\n${intl.paid_with_gpay}'
-                : '${intl.successScreen_youBought} '
-                    '${volumeFormat(
-                    decimal: buyAmount ?? Decimal.zero,
-                    accuracy: buyCurrency.accuracy,
-                    symbol: buyCurrency.symbol,
-                  )}',
-            buttonText: intl.previewBuyWithUmlimint_saveCard,
-            showProgressBar: true,
-            showCloseButton: true,
-            onCloseButton: () {
-              sAnalytics.tapOnTheCloseButtonOnSuccessBuyEndScreen(
-                pmType: pmType,
-                buyPM: buyPM,
-                sourceCurrency: 'EUR',
-                destinationWallet: buyAsset ?? '',
-                sourceBuyAmount: paymentAmount.toString(),
-                destinationBuyAmount: buyAmount.toString(),
-              );
-              sRouter.replaceAll([
-                const HomeRouter(
-                  children: [
-                    MyWalletsRouter(),
-                  ],
-                ),
-              ]);
-            },
-          ),
-        )
-        .then(
-          (value) => sRouter.replaceAll([
+      SuccessScreenRouter(
+        secondaryText: isGoogle
+            ? '${intl.successScreen_youBought} '
+                '${volumeFormat(
+                decimal: buyAmount ?? Decimal.zero,
+                accuracy: buyCurrency.accuracy,
+                symbol: buyCurrency.symbol,
+              )}'
+                '\n${intl.paid_with_gpay}'
+            : '${intl.successScreen_youBought} '
+                '${volumeFormat(
+                decimal: buyAmount ?? Decimal.zero,
+                accuracy: buyCurrency.accuracy,
+                symbol: buyCurrency.symbol,
+              )}',
+        buttonText: intl.previewBuyWithUmlimint_saveCard,
+        showProgressBar: true,
+        showCloseButton: true,
+        onCloseButton: () {
+          sAnalytics.tapOnTheCloseButtonOnSuccessBuyEndScreen(
+            pmType: pmType,
+            buyPM: buyPM,
+            sourceCurrency: 'EUR',
+            destinationWallet: buyAsset ?? '',
+            sourceBuyAmount: paymentAmount.toString(),
+            destinationBuyAmount: buyAmount.toString(),
+          );
+          sRouter.replaceAll([
             const HomeRouter(
               children: [
                 MyWalletsRouter(),
               ],
             ),
-          ]),
-        );
+          ]);
+        },
+      ),
+    )
+        .then(
+      (value) {
+        sRouter.replaceAll([
+          const HomeRouter(
+            children: [
+              MyWalletsRouter(),
+            ],
+          ),
+        ]);
+
+        shopRateUpPopup(sRouter.navigatorKey.currentContext!);
+      },
+    );
   }
 
   @action

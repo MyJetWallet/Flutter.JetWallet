@@ -11,6 +11,7 @@ import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/country_code_by_user_register.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
+import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -147,7 +148,6 @@ abstract class _IbanSendConfirmStoreBase with Store {
 
       await showFailureScreen(response.error?.cause ?? '');
     } else {
-
       sAnalytics.eurWithdrawSuccessWithdrawEndSV(
         eurAccountType: isCJ ? 'CJ' : 'Unlimit',
         accountIban: account.iban ?? '',
@@ -179,25 +179,27 @@ abstract class _IbanSendConfirmStoreBase with Store {
   Future<void> showSuccessScreen(Decimal? sendAmount) {
     return sRouter
         .push(
-          SuccessScreenRouter(
-            primaryText: intl.send_globally_success,
-            secondaryText: '${intl.send_globally_success_secondary} ${volumeFormat(
-              decimal: sendAmount ?? Decimal.zero,
-              accuracy: eurCurrency.accuracy,
-              symbol: eurCurrency.symbol,
-            )}'
-                '\n${intl.send_globally_success_secondary_2}',
-            showProgressBar: true,
-          ),
-        )
-        .then(
-          (value) => sRouter.replaceAll([
-            const HomeRouter(
-              children: [
-                MyWalletsRouter(),
-              ],
-            ),
-          ]),
-        );
+      SuccessScreenRouter(
+        primaryText: intl.send_globally_success,
+        secondaryText: '${intl.send_globally_success_secondary} ${volumeFormat(
+          decimal: sendAmount ?? Decimal.zero,
+          accuracy: eurCurrency.accuracy,
+          symbol: eurCurrency.symbol,
+        )}'
+            '\n${intl.send_globally_success_secondary_2}',
+        showProgressBar: true,
+      ),
+    )
+        .then((value) {
+      sRouter.replaceAll([
+        const HomeRouter(
+          children: [
+            MyWalletsRouter(),
+          ],
+        ),
+      ]);
+
+      shopRateUpPopup(sRouter.navigatorKey.currentContext!);
+    });
   }
 }

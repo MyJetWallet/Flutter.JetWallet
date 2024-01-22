@@ -15,6 +15,7 @@ import 'package:jetwallet/core/services/remote_config/remote_config_values.dart'
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
+import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
@@ -374,21 +375,23 @@ abstract class _ConvertConfirmationStoreBase with Store {
 
     return sRouter
         .push(
-          SuccessScreenRouter(
-            secondaryText: intl.convert_success_in_process,
-            buttonText: intl.previewBuyWithUmlimint_saveCard,
-            showProgressBar: true,
-          ),
-        )
-        .then(
-          (value) => sRouter.replaceAll([
-            const HomeRouter(
-              children: [
-                MyWalletsRouter(),
-              ],
-            ),
-          ]),
-        );
+      SuccessScreenRouter(
+        secondaryText: intl.convert_success_in_process,
+        buttonText: intl.previewBuyWithUmlimint_saveCard,
+        showProgressBar: true,
+      ),
+    )
+        .then((value) {
+      sRouter.replaceAll([
+        const HomeRouter(
+          children: [
+            MyWalletsRouter(),
+          ],
+        ),
+      ]);
+
+      shopRateUpPopup(sRouter.navigatorKey.currentContext!);
+    });
   }
 
   @action

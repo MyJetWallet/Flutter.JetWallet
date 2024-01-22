@@ -26,7 +26,7 @@ class EnteredValidReferalCode extends StatelessWidget {
         onTap: onDelete,
         contentColor: colors.red,
         icon: Assets.svg.medium.delete,
-        iconCustomColor: colors.red,
+        //iconCustomColor: colors.red,
         type: SButtonContextType.iconedSmallInverted,
         backgroundColor: SColorsLight().white,
       ),

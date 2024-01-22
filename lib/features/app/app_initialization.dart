@@ -6,6 +6,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/push_notification_service.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:logging/logging.dart';
 import 'package:universal_io/io.dart';
 
@@ -46,4 +47,6 @@ Future<void> appInitialization(String environment) async {
   await Intercom.instance.initialize(appId, iosApiKey: iOSKey, androidApiKey: androidKey);
 
   Logger.root.level = Level.ALL;
+
+  await getIt.get<AppStore>().initLocale();
 }

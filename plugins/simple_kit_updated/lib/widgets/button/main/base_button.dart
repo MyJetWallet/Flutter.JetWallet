@@ -29,21 +29,21 @@ class BaseButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 56,
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(16),
-        border: border,
-      ),
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 48),
-      child: Material(
-        type: MaterialType.transparency,
-        child: SafeGesture(
-          highlightColor: Colors.transparent,
-          onHighlightChanged: onHighlightChanged,
-          radius: 16,
-          onTap: callback,
+    return Material(
+      type: MaterialType.transparency,
+      child: SafeGesture(
+        onTap: callback,
+        highlightColor: Colors.transparent,
+        onHighlightChanged: onHighlightChanged,
+        radius: 16,
+        child: Container(
+          height: 56,
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            borderRadius: BorderRadius.circular(16),
+            border: border,
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 48),
           child: Center(
             child: child,
           ),

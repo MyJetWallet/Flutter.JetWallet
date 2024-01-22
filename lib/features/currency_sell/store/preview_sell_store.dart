@@ -8,6 +8,7 @@ import 'package:jetwallet/core/services/remote_config/remote_config_values.dart'
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/currency_sell/model/preview_sell_input.dart';
 import 'package:jetwallet/features/currency_sell/model/preview_sell_union.dart';
+import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:jetwallet/widgets/quote_updated_dialog.dart';
 import 'package:logging/logging.dart';
@@ -24,8 +25,7 @@ part 'preview_sell_store.g.dart';
 class PreviewSellStore extends _PreviewSellStoreBase with _$PreviewSellStore {
   PreviewSellStore(super.input);
 
-  static _PreviewSellStoreBase of(BuildContext context) =>
-      Provider.of<PreviewSellStore>(context, listen: false);
+  static _PreviewSellStoreBase of(BuildContext context) => Provider.of<PreviewSellStore>(context, listen: false);
 }
 
 abstract class _PreviewSellStoreBase with Store {
@@ -228,17 +228,19 @@ abstract class _PreviewSellStoreBase with Store {
   void _showSuccessScreen() {
     sRouter
         .push(
-          SuccessScreenRouter(
-            secondaryText: intl.previewSell_orderProcessing,
-          ),
-        )
-        .then(
-          (value) => sRouter.navigate(
-            const HomeRouter(
-              children: [MyWalletsRouter()],
-            ),
-          ),
-        );
+      SuccessScreenRouter(
+        secondaryText: intl.previewSell_orderProcessing,
+      ),
+    )
+        .then((value) {
+      sRouter.navigate(
+        const HomeRouter(
+          children: [MyWalletsRouter()],
+        ),
+      );
+
+      shopRateUpPopup(sRouter.navigatorKey.currentContext!);
+    });
   }
 
   @action

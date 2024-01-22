@@ -100,4 +100,5 @@ class PropertyType {
   static const newTransferToAccount = 'New Transfer To account';
   static const transferFrom = 'TransferFrom';
   static const transferTo = 'TransferTo';
+  static const sourceTransfer = 'Source Transfer';
 }
