@@ -10,7 +10,6 @@ import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_a
 import 'package:jetwallet/features/cj_banking_accounts/screens/show_account_details_screen.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
-import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -40,22 +39,18 @@ Future<void> showSelectAccountForAddCash(BuildContext context) async {
     context: context,
     from: [BlockingType.deposit],
     or: () async {
-      if (MyWalletsSrore.of(context).buttonStatus == BankingShowState.getAccount) {
-        await MyWalletsSrore.of(context).createSimpleAccount();
-      } else {
-        sShowBasicModalBottomSheet(
-          context: context,
-          pinned: SBottomSheetHeader(
-            name: intl.add_cash_to,
-          ),
-          scrollable: true,
-          children: [
-            const SpaceH12(),
-            const _ShowSelectAccountForAddCash(),
-            const SpaceH42(),
-          ],
-        );
-      }
+      sShowBasicModalBottomSheet(
+        context: context,
+        pinned: SBottomSheetHeader(
+          name: intl.add_cash_to,
+        ),
+        scrollable: true,
+        children: [
+          const SpaceH12(),
+          const _ShowSelectAccountForAddCash(),
+          const SpaceH42(),
+        ],
+      );
     },
   );
 }
