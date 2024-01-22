@@ -505,4 +505,10 @@ class EventType {
   static const tapAnTheButtonConfirmOnTransferOrderSummary = 'Tap on the button ‘Confirm’ on Transfer order summary';
   static const successTransferEndScreenView = '‘Success Transfer end’ screen view';
   static const failedTransferEndScreenView = 'Failed Transfer end’ screen view';
+
+  static const pushNotificationSV = "'Push permission' screen view";
+  static const pushNotificationButtonTap = "Tap on the button ‘Get price updates’ on Push permission screen";
+  static const pushNotificationAlertView = "'Push alert' screen view";
+  static const pushNotificationAgree = "Tap on the button ‘Agree’ on Push alert screen";
+  static const pushNotificationDisagree = "Tap on the button ‘Not now’ on Push alert screen";
 }
