@@ -68,8 +68,11 @@ Future<GetIt> getItInit({
     dependsOn: [LocalCacheService],
   );
 
-  getIt.registerSingleton<AppStore>(
-    AppStore()..setEnv(env ?? ''),
+  getIt.registerSingletonWithDependencies<AppStore>(
+    () => AppStore()
+      ..setEnv(env ?? '')
+      ..initLocale(),
+    dependsOn: [LocalStorageService],
   );
 
   getIt.registerLazySingleton<RouteQueryService>(
