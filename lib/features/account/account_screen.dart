@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -239,15 +240,18 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
                       icon: const SSupportIcon(),
                       isSDivider: true,
                       onTap: () async {
-                        if (showZendesk) {
-                          await getIt.get<ZenDeskService>().showZenDesk();
-                        } else {
-                          await sRouter.push(
-                            CrispRouter(
-                              welcomeText: intl.crispSendMessage_hi,
-                            ),
-                          );
-                        }
+                        await Intercom.instance.displayMessenger();
+
+                        // if (showZendesk) {
+                        //   await getIt.get<ZenDeskService>().showZenDesk();
+                        // } else {
+
+                        //   await sRouter.push(
+                        //     CrispRouter(
+                        //       welcomeText: intl.crispSendMessage_hi,
+                        //     ),
+                        //   );
+                        // }
                       },
                     ),
                     SimpleAccountCategoryButton(

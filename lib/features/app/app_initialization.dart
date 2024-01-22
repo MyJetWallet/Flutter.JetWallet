@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/push_notification_service.dart';
 import 'package:logging/logging.dart';
@@ -37,6 +38,12 @@ Future<void> appInitialization(String environment) async {
   if (Platform.isAndroid) {
     await FlutterDisplayMode.setHighRefreshRate();
   }
+
+  const appId = String.fromEnvironment('INTERCOM_APP_ID');
+  const androidKey = String.fromEnvironment('INTERCOM_ANDROID_KEY');
+  const iOSKey = String.fromEnvironment('INTERCOM_IOS_KEY');
+
+  await Intercom.instance.initialize(appId, iosApiKey: iOSKey, androidApiKey: androidKey);
 
   Logger.root.level = Level.ALL;
 }

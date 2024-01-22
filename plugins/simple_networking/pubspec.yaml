@@ -24,7 +24,7 @@ dependencies:
   decimal: ^2.3.0
   data_channel: ^2.0.0+1
   logger: ^2.0.1
-  uuid: 3.0.7
+  uuid: ^4.2.1
   
   # Models
   freezed_annotation: 2.4.1
@@ -36,7 +36,7 @@ dev_dependencies:
 
   # Lint
   flutter_lints: ^2.0.1
-  dart_code_metrics: ^5.0.1
+  #dart_code_metrics: ^5.7.6
 
   # Runner
   build_runner: 2.4.6
