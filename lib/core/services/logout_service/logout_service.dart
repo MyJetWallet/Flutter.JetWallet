@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
@@ -164,8 +164,8 @@ abstract class _LogoutServiceBase with Store {
       getIt<IbanStore>().clearData();
     }
 
-    await Intercom.instance.logout();
-    
+    await getIt.get<IntercomService>().logout();
+
     //if (getIt.isRegistered<ZenDeskService>()) {
     //  await getIt.get<ZenDeskService>().logoutZenDesk();
     //}

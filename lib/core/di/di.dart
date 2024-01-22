@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/force_update_service.dart';
+import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
@@ -21,7 +22,6 @@ import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/store/kyc_profile_countries_store.dart';
 import 'package:jetwallet/features/auth/verification_reg/store/verification_store.dart';
-import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 
@@ -140,6 +140,10 @@ Future<GetIt> getItInit({
 
   getIt.registerLazySingleton<GlobalLoader>(
     () => GlobalLoader(),
+  );
+
+  getIt.registerLazySingleton<IntercomService>(
+    () => IntercomService(),
   );
 
   return getIt.init(
