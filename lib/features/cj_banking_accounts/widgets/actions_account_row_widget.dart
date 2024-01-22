@@ -63,12 +63,6 @@ class ActionsAccountRowWidget extends StatelessWidget {
                     context: context,
                     from: [BlockingType.deposit],
                     or: () {
-                      sAnalytics.eurWalletTapAddCashEurAccount(
-                        isCJ: isCJAccount,
-                        eurAccountLabel: bankingAccount.label ?? 'Account',
-                        isHasTransaction: true,
-                      );
-
                       showAccountDepositBySelector(
                         context: context,
                         onClose: () {

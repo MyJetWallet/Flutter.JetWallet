@@ -262,7 +262,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                     ),
                   ],
                   const SliverToBoxAdapter(
-                    child: SpaceH120(),
+                    child: SpaceH300(),
                   ),
                 ],
               ),
