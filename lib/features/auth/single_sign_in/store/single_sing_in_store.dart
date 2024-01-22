@@ -105,9 +105,11 @@ abstract class _SingleSingInStoreBase with Store {
               : union = SingleSingInStateUnion.errorString(
                   data.rejectDetail.toString(),
                 );
+
+          credentials.clearData();
         },
         onError: (error) {
-          print(error);
+          _logger.log(stateFlow, 'singleSingIn', error.cause);
 
           union = SingleSingInStateUnion.errorString(
             error.cause,
@@ -115,16 +117,12 @@ abstract class _SingleSingInStoreBase with Store {
         },
       );
     } on ServerRejectException catch (error) {
-      print(error);
-
       _logger.log(stateFlow, 'singleSingIn', error.cause);
 
       union = error.cause.contains('50') || error.cause.contains('40')
           ? SingleSingInStateUnion.error(intl.something_went_wrong_try_again)
           : SingleSingInStateUnion.error(error.cause);
     } catch (e) {
-      print(e);
-
       _logger.log(stateFlow, 'singleSingIn', e);
 
       union = e.toString().contains('50') || e.toString().contains('40')

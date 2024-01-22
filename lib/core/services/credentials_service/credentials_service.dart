@@ -108,8 +108,7 @@ abstract class _CredentialsServiceBase with Store {
       await rsaService.savePrivateKey(storageService);
       final publicKey = rsaService.publicKey;
 
-      final authService =
-          getIt.get<SNetwork>().simpleNetworking.getAuthModule();
+      final authService = getIt.get<SNetwork>().simpleNetworking.getAuthModule();
 
       if (operation == AuthOperation.login) {
         final loginRequestModel = LoginRequestModel(
@@ -144,8 +143,7 @@ abstract class _CredentialsServiceBase with Store {
           lang: intl.localeName,
         );
 
-        final registerRequest =
-            await authService.postRegister(registerRequestModel);
+        final registerRequest = await authService.postRegister(registerRequestModel);
 
         registerRequest.pick(
           onData: (data) async {
@@ -199,5 +197,16 @@ abstract class _CredentialsServiceBase with Store {
   void checkMailing() {
     //_logger.log(notifier, 'checkMailing');
     mailingChecked = !mailingChecked;
+  }
+
+  @action
+  void clearData() {
+    email = '';
+    validateEmail();
+
+    referralCode = '';
+    
+    password = '';
+    validatePassword();
   }
 }
