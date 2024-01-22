@@ -60,6 +60,10 @@ class SimpleBankingAccount with _$SimpleBankingAccount {
 
   String get last4IbanCharacters => iban?.substring((iban?.length ?? 4) - 4) ?? '';
 
+  bool get isNotEmptyBalance {
+    return (balance ?? Decimal.zero) > Decimal.zero;
+  }
+
   factory SimpleBankingAccount.fromJson(Map<String, dynamic> json) => _$SimpleBankingAccountFromJson(json);
 }
 
@@ -87,6 +91,10 @@ class CardDataModel with _$CardDataModel {
         : cardNumberMasked?.substring((cardNumberMasked?.length ?? 4) - 4) ?? '';
   }
 
+  bool get isNotEmptyBalance {
+    return (balance ?? Decimal.zero) > Decimal.zero;
+  }
+
   factory CardDataModel.fromJson(Map<String, dynamic> json) => _$CardDataModelFromJson(json);
 }
 
@@ -96,7 +104,7 @@ enum SimpleCardNetwork {
   unsupported,
 }
 
-extension _SimpleCardNetworkExtension on SimpleCardNetwork {
+extension SimpleCardNetworkExtension on SimpleCardNetwork {
   String get name {
     switch (this) {
       case SimpleCardNetwork.VISA:

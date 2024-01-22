@@ -48,6 +48,7 @@ import 'package:jetwallet/features/currency_sell/ui/preview_sell.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/features/debug_info/debug_history.dart';
 import 'package:jetwallet/features/debug_info/debug_info.dart';
+import 'package:jetwallet/features/debug_info/invest_ui_kit.dart';
 import 'package:jetwallet/features/debug_info/signalr_debug_info.dart';
 import 'package:jetwallet/features/email_confirmation/ui/email_confirmation_screen.dart';
 import 'package:jetwallet/features/face_check/ui/face_check_screen.dart';
@@ -57,6 +58,10 @@ import 'package:jetwallet/features/iban/iban_send/iban_send_amount/ui/iban_send_
 import 'package:jetwallet/features/iban/iban_send/iban_send_confirm/ui/iban_send_confirm.dart';
 import 'package:jetwallet/features/iban_address_book/ui/address_book_simple_screen.dart';
 import 'package:jetwallet/features/iban_address_book/ui/address_book_unlimit_screen.dart';
+import 'package:jetwallet/features/invest/ui/active_invest_manage_screen.dart';
+import 'package:jetwallet/features/invest/ui/instrument_screen.dart';
+import 'package:jetwallet/features/invest/ui/new_invest_confirmation_screen.dart';
+import 'package:jetwallet/features/invest/ui/pending_invest_manage_screen.dart';
 import 'package:jetwallet/features/kyc/allow_camera/ui/allow_camera_screen.dart';
 import 'package:jetwallet/features/kyc/choose_documents/ui/choose_documents.dart';
 import 'package:jetwallet/features/kyc/kyc_selfie/ui/kyc_selfie.dart';
@@ -71,8 +76,8 @@ import 'package:jetwallet/features/market/market_details/ui/market_details.dart'
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/pdf_view_screen.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/market/ui/market_screen.dart';
-import 'package:jetwallet/features/my_wallets/screens/cj_account_label_screen.dart';
-import 'package:jetwallet/features/my_wallets/screens/cj_account_screen.dart';
+import 'package:jetwallet/features/cj_banking_accounts/screens/cj_account_label_screen.dart';
+import 'package:jetwallet/features/cj_banking_accounts/screens/cj_account_screen.dart';
 import 'package:jetwallet/features/my_wallets/screens/my_wallets_screen.dart';
 import 'package:jetwallet/features/payment_methods/ui/payment_methods.dart';
 import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
@@ -89,10 +94,12 @@ import 'package:jetwallet/features/rewards_flow/ui/rewards_flow_screen.dart';
 import 'package:jetwallet/features/sell_flow/screens/sell_confrimation_screen.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/features/set_phone_number/ui/set_phone_number.dart';
+import 'package:jetwallet/features/simple_card/ui/simple_card_label_screen.dart';
 import 'package:jetwallet/features/simple_card/ui/simple_card_limits_screen.dart';
 import 'package:jetwallet/features/simple_card/ui/simple_card_screen.dart';
 import 'package:jetwallet/features/sms_autheticator/sms_authenticator.dart';
 import 'package:jetwallet/features/transaction_history/ui/transaction_hisotry_screen.dart';
+import 'package:jetwallet/features/transfer_flow/screens/transfer_confrimation_screen.dart';
 import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
 import 'package:jetwallet/features/two_fa_phone/ui/two_fa_phone.dart';
 import 'package:jetwallet/features/wallet/ui/create_banking_screen.dart';
@@ -120,6 +127,8 @@ import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
+import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
+import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_response.dart';
@@ -136,6 +145,9 @@ import '../../features/currency_buy/ui/screens/payment_method_screen.dart';
 import '../../features/debug_info/logs_screen.dart';
 import '../../features/iban/iban_screen.dart';
 import '../../features/iban/widgets/iban_billing_address.dart';
+import '../../features/invest/invest_screen.dart';
+import '../../features/invest/ui/new_invest_screen.dart';
+import '../../features/invest/ui/invest_history_screen.dart';
 import '../../features/send_gift/screens/gift_amount.dart';
 import '../../features/send_gift/screens/gift_order_summary.dart';
 import '../../features/send_gift/screens/gift_receivers_details_screen.dart';
@@ -220,6 +232,10 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           path: 'rewards',
           page: RewardsFlowRouter.page,
+        ),
+        AutoRoute(
+          path: 'invest',
+          page: InvestPageRouter.page,
         ),
       ],
     ),
@@ -422,6 +438,10 @@ class AppRouter extends _$AppRouter {
       page: SignalrDebugInfoRouter.page,
     ),
     AutoRoute(
+      path: '/invest_kit',
+      page: InvestUIKITRouter.page,
+    ),
+    AutoRoute(
       path: '/currency_sell',
       page: CurrencySellRouter.page,
     ),
@@ -606,6 +626,38 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/simple_card_limits',
       page: SimpleCardLimitsRouter.page,
+    ),
+    AutoRoute(
+      path: '/simple_card_label',
+      page: SimpleCardLabelRouter.page,
+    ),
+    AutoRoute(
+      path: '/transfer_confirmation',
+      page: TransferConfirmationRoute.page,
+    ),
+    AutoRoute(
+      path: '/new_invest',
+      page: NewInvestPageRouter.page,
+    ),
+    AutoRoute(
+      path: '/invest_history',
+      page: InvestHistoryPageRouter.page,
+    ),
+    AutoRoute(
+      path: '/new_invest_confirmation',
+      page: NewInvestConfirmationPageRouter.page,
+    ),
+    AutoRoute(
+      path: '/invest_instrument',
+      page: InstrumentPageRouter.page,
+    ),
+    AutoRoute(
+      path: '/active_invest_manage',
+      page: ActiveInvestManageRouter.page,
+    ),
+    AutoRoute(
+      path: '/pending_invest_manage',
+      page: PendingInvestManageRouter.page,
     ),
   ];
 }

@@ -33,6 +33,7 @@ export 'widgets/table/cells/two_column_cell.dart';
 export 'widgets/table/cells/description_cell.dart';
 export 'widgets/table/cells/transaction_cell.dart';
 export 'widgets/table/cells/footer_cell.dart';
+export 'widgets/table/divider/simple_text_divider.dart';
 
 export 'widgets/button/specific/specific_button.dart';
 export 'widgets/button/limits/limits_button.dart';

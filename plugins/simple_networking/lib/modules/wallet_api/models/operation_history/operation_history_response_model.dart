@@ -674,7 +674,7 @@ class IbanTransferInfo with _$IbanTransferInfo {
   const factory IbanTransferInfo({
     String? fromIban,
     String? toIban,
-    required bool expressPayment,
+    bool? expressPayment,
     String? description,
     String? senderBankName,
     String? senderCountry,
@@ -690,6 +690,20 @@ class IbanTransferInfo with _$IbanTransferInfo {
     String? toAccountId,
     String? toAccountLabel,
     String? fromAccountLabel,
+    String? fromCardLast4,
+    String? toCardLast4,
+    String? fromCardType,
+    String? toCardType,
+    @JsonKey(unknownEnumValue: IbanAccountType.unknown) required IbanAccountType fromAccountType,
+    @JsonKey(unknownEnumValue: IbanAccountType.unknown) required IbanAccountType toAccountType,
+    @DecimalNullSerialiser() Decimal? withdrawalAmount,
+    String? withdrawalAssetId,
+    String? paymentFeeAssetId,
+    @DecimalNullSerialiser() Decimal? paymentFeeAmount,
+    String? simpleFeeAssetId,
+    @DecimalNullSerialiser() Decimal? simpleFeeAmount,
+    @DecimalNullSerialiser() Decimal? receiveAmount,
+    String? receiveAsset,
   }) = _IbanTransferInfo;
 
   factory IbanTransferInfo.fromJson(Map<String, dynamic> json) => _$IbanTransferInfoFromJson(json);
@@ -706,7 +720,7 @@ class SellCryptoInfo with _$SellCryptoInfo {
     String? feeAssetId,
     @DecimalSerialiser() required Decimal feeAmount,
     String? accountId,
-    required IbanAccountType accountType,
+    @JsonKey(unknownEnumValue: IbanAccountType.unknown) required IbanAccountType accountType,
     String? paymentFeeAssetId,
     @DecimalSerialiser() required Decimal paymentFeeAmount,
     String? accountLabel,
@@ -722,6 +736,10 @@ enum IbanAccountType {
   simple,
   @JsonValue(1)
   banking,
+  @JsonValue(2)
+  bankCard,
+  @JsonValue(3)
+  unknown,
 }
 
 @freezed

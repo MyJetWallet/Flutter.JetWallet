@@ -60,6 +60,7 @@ String operationName(
     case OperationType.bankingBuy:
       return intl.operationName_bought;
     case OperationType.bankingSell:
+    case OperationType.cardBankingSell:
       return intl.operationName_sold;
     case OperationType.swap:
       return intl.operationName_converted;

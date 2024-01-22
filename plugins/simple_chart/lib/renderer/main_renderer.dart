@@ -12,6 +12,7 @@ class MainRenderer extends BaseChartRenderer<CandleModel> {
     this.candleType,
     this.candleWidth,
     this.chartColor,
+    this.chartColorBg,
     double scaleX,
   ) : super(
           chartRect: mainRect,
@@ -37,6 +38,7 @@ class MainRenderer extends BaseChartRenderer<CandleModel> {
   final double _contentPadding = 12.0;
 
   final Color chartColor;
+  final Color chartColorBg;
 
   @override
   void drawText(Canvas canvas, CandleModel data, double x) {
@@ -51,15 +53,15 @@ class MainRenderer extends BaseChartRenderer<CandleModel> {
 
   @override
   void drawChart(
-    CandleModel lastPoint,
-    CandleModel curPoint,
-    CandleModel firstPoint,
-    double lastX,
-    double curX,
-    Size size,
-    Canvas canvas, {
-    required bool isLast,
-  }) {
+      CandleModel lastPoint,
+      CandleModel curPoint,
+      CandleModel firstPoint,
+      double lastX,
+      double curX,
+      Size size,
+      Canvas canvas, {
+        required bool isLast,
+      }) {
     switch (candleType) {
       case ChartType.candle:
         drawCandle(curPoint, canvas, curX);
@@ -86,17 +88,17 @@ class MainRenderer extends BaseChartRenderer<CandleModel> {
   }
 
   void drawArea(
-    double lastPrice,
-    double curPrice,
-    Canvas canvas,
-    double lastX,
-    double curX,
-  ) {
+      double lastPrice,
+      double curPrice,
+      Canvas canvas,
+      double lastX,
+      double curX,
+      ) {
     const mAreaLineStrokeWidth = 1.0;
     final mAreaPaint = Paint()
       ..isAntiAlias = true
       ..style = PaintingStyle.stroke
-      ..color = ChartColors.kLineColor;
+      ..color = chartColor;
     final mAreaFillPaint = Paint()
       ..style = PaintingStyle.fill
       ..isAntiAlias = true;
@@ -118,10 +120,10 @@ class MainRenderer extends BaseChartRenderer<CandleModel> {
     );
 
     //Draw shadows
-    final mAreaFillShader = const LinearGradient(
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-      colors: ChartColors.kLineShadowColor,
+    final mAreaFillShader = LinearGradient(
+      begin: Alignment.bottomCenter,
+      end: Alignment.topCenter,
+      colors: [chartColorBg, chartColorBg],
     ).createShader(
       Rect.fromLTRB(
         chartRect!.left,
@@ -134,7 +136,7 @@ class MainRenderer extends BaseChartRenderer<CandleModel> {
 
     final mAreaFillPath = Path();
 
-    mAreaFillPath.moveTo(lastX, chartRect!.height + chartRect!.top);
+    mAreaFillPath.moveTo(lastX, 500);
     mAreaFillPath.lineTo(lastX, getY(lastPrice));
     mAreaFillPath.cubicTo(
       (lastX + curX) / 2,
@@ -144,7 +146,7 @@ class MainRenderer extends BaseChartRenderer<CandleModel> {
       curX,
       getY(curPrice),
     );
-    mAreaFillPath.lineTo(curX, chartRect!.height + chartRect!.top);
+    mAreaFillPath.lineTo(curX, 500);
     mAreaFillPath.close();
 
     canvas.drawPath(mAreaFillPath, mAreaFillPaint);

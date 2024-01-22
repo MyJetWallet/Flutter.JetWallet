@@ -30,6 +30,10 @@ class ChartColors {
 
   static const Color positiveChartColor = Color(0xFF0BCA1E);
   static const Color negativeChartColor = Color(0xFFF50537);
+  static const Color equalChartColor = Color(0xFF000000);
+  static const Color positiveChartBgColor = Color(0x80E8F9E8);
+  static const Color negativeChartBgColor = Color(0x80FAF2EE);
+  static const Color equalChartBgColor = Color(0x80F1F4F8);
   static const Color dashedLineColor = Color(0xFFE0E5EB);
   static const Color loadingBackgroundColor = Color(0xFFF1F4F8);
 }

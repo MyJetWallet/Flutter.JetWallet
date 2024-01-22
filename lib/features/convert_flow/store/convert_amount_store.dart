@@ -121,7 +121,7 @@ abstract class _ConvertAmountStoreBase with Store {
   @action
   void _checkShowTosts() {
     isNoCurrencies = !sSignalRModules.currenciesList.any((currency) {
-      return currency.assetBalance != Decimal.zero;
+      return currency.assetBalance != Decimal.zero && currency.symbol != 'EUR';
     });
     if (isNoCurrencies) {
       sAnalytics.errorYourCryptoBalanceIsZeroPleaseGetCryptoFirst();

@@ -13,7 +13,7 @@ import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
-import 'package:jetwallet/utils/constants.dart';
+import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/transaction_list_item.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -331,6 +331,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                         openedAsset: symbol,
                       );
                     },
+                    source: TransactionItemSource.cryptoAccount,
                   ),
                   /*
                   if (widget.currency.isAssetBalanceNotEmpty) ...[

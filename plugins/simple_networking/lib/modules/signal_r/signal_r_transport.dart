@@ -14,6 +14,7 @@ import 'package:simple_networking/modules/signal_r/models/earn_profile_model.dar
 import 'package:simple_networking/modules/signal_r/models/fireblock_events_model.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/signal_r/models/indices_model.dart';
+import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/key_value_model.dart';
 import 'package:simple_networking/modules/signal_r/models/kyc_countries_response_model.dart';
@@ -31,6 +32,10 @@ import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
 
 import 'models/incoming_gift_model.dart';
+import 'models/invest_positions_model.dart';
+import 'models/invest_prices_model.dart';
+import 'models/invest_sectors_model.dart';
+import 'models/invest_wallet_model.dart';
 
 class SignalRTransport {
   SignalRTransport({
@@ -65,6 +70,11 @@ class SignalRTransport {
     required this.rewardsProfile,
     required this.bankingProfile,
     required this.setPendingOperationCount,
+    required this.investPositions,
+    required this.investInstruments,
+    required this.investPrices,
+    required this.investSectors,
+    required this.investWallet,
   });
 
   final void Function(bool) initFinished;
@@ -102,6 +112,12 @@ class SignalRTransport {
   final void Function(BankingProfileModel) bankingProfile;
 
   final void Function(int) setPendingOperationCount;
+
+  final void Function(InvestPositionsModel) investPositions;
+  final void Function(InvestInstrumentsModel) investInstruments;
+  final void Function(InvestPricesModel) investPrices;
+  final void Function(InvestSectorsModel) investSectors;
+  final void Function(InvestWalletModel) investWallet;
 
   /// Logs
 

@@ -6,12 +6,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/format_service.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/card_purchase_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/card_refund_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/card_withdrawal_details.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/iban_send_details.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/buy_details.dart';
+import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/transaction_list_item.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -27,9 +25,11 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
   const CommonTransactionDetailsBlock({
     super.key,
     required this.transactionListItem,
+    required this.source,
   });
 
   final OperationHistoryItem transactionListItem;
+  final TransactionItemSource source;
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +93,9 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             transactionListItem.operationType == OperationType.sendGlobally ||
             transactionListItem.operationType == OperationType.cardPurchase ||
             transactionListItem.operationType == OperationType.cardWithdrawal ||
-            transactionListItem.operationType == OperationType.cardRefund) ...[
+            transactionListItem.operationType == OperationType.cardRefund ||
+            transactionListItem.operationType == OperationType.bankingTransfer ||
+            transactionListItem.operationType == OperationType.cardBankingSell) ...[
           const SpaceH26(),
         ] else ...[
           const SpaceH67(),
@@ -133,10 +135,11 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             transactionListItem.operationType == OperationType.giftReceive ||
             transactionListItem.operationType == OperationType.rewardPayment ||
             transactionListItem.operationType == OperationType.deposit ||
-            transactionListItem.operationType == OperationType.sendGlobally)
+            transactionListItem.operationType == OperationType.sendGlobally ||
+            transactionListItem.operationType == OperationType.bankingTransfer ||
+            transactionListItem.operationType == OperationType.cardBankingSell)
           const SizedBox()
-        else if ((!nftTypes.contains(transactionListItem.operationType) ||
-            catchingTypes) &&
+        else if ((!nftTypes.contains(transactionListItem.operationType) || catchingTypes) &&
             !operationWithoutBalanceShow) ...[
           SPaddingH24(
             child: AutoSizeText(
@@ -179,7 +182,9 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             transactionListItem.operationType == OperationType.sendGlobally ||
             transactionListItem.operationType == OperationType.cardPurchase ||
             transactionListItem.operationType == OperationType.cardWithdrawal ||
-            transactionListItem.operationType == OperationType.cardRefund)
+            transactionListItem.operationType == OperationType.cardRefund ||
+            transactionListItem.operationType == OperationType.bankingTransfer ||
+            transactionListItem.operationType == OperationType.cardBankingSell)
           const SizedBox.shrink()
         else
           const SpaceH72(),
@@ -237,6 +242,14 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
         OperationType.giftReceive,
         context,
       );
+    } else if (transactionListItem.operationType == OperationType.bankingTransfer) {
+      if (source == TransactionItemSource.history) {
+        title = intl.transferDetails_transfer;
+      } else if (transactionListItem.balanceChange > Decimal.zero) {
+        title = intl.history_added_cash;
+      } else {
+        title = intl.history_withdrawn;
+      }
     } else {
       title = operationName(
         transactionListItem.operationType,

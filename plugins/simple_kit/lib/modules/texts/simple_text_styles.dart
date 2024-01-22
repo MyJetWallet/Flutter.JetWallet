@@ -100,3 +100,107 @@ final sHelperTextStyle = _basicTextStyle.copyWith(
   fontWeight: FontWeight.w600,
   height: 1.33,
 );
+
+// invest text styles
+
+final sTextH0InvestStyle = _basicTextStyle.copyWith(
+  fontSize: 30.0,
+  fontWeight: FontWeight.w600,
+  height: 1.3,
+);
+
+final sTextH1InvestStyle = _basicTextStyle.copyWith(
+  fontSize: 22.0,
+  fontWeight: FontWeight.w600,
+  height: 1.3,
+);
+
+final sTextH2InvestStyle = _basicTextStyle.copyWith(
+  fontSize: 20.0,
+  fontWeight: FontWeight.w600,
+  height: 1.3,
+);
+
+final sTextH3InvestStyle = _basicTextStyle.copyWith(
+  fontSize: 18.0,
+  fontWeight: FontWeight.w600,
+  height: 1.3,
+);
+
+final sTextH4SMInvestStyle = _basicTextStyle.copyWith(
+  fontSize: 16.0,
+  fontWeight: FontWeight.w600,
+  height: 1.2,
+);
+
+final sTextH4MInvestStyle = _basicTextStyle.copyWith(
+  fontSize: 16.0,
+  fontWeight: FontWeight.w400,
+  height: 1.2,
+);
+
+final sButtonTextInvestStyle = _basicTextStyle.copyWith(
+  fontSize: 16.0,
+  fontWeight: FontWeight.w700,
+  height: 1.2,
+);
+
+final sBody1InvestBStyle = _basicTextStyle.copyWith(
+  fontSize: 14.0,
+  fontWeight: FontWeight.w700,
+  height: 1.2,
+);
+
+final sBody1InvestSMStyle = _basicTextStyle.copyWith(
+  fontSize: 14.0,
+  fontWeight: FontWeight.w600,
+  height: 1.2,
+);
+
+final sBody1InvestMStyle = _basicTextStyle.copyWith(
+  fontSize: 14.0,
+  fontWeight: FontWeight.w500,
+  height: 1.2,
+);
+
+final sBody2InvestBStyle = _basicTextStyle.copyWith(
+  fontSize: 12.0,
+  fontWeight: FontWeight.w700,
+  height: 1.2,
+);
+
+final sBody2InvestSMStyle = _basicTextStyle.copyWith(
+  fontSize: 12.0,
+  fontWeight: FontWeight.w600,
+  height: 1.2,
+);
+
+final sBody2InvestMStyle = _basicTextStyle.copyWith(
+  fontSize: 12.0,
+  fontWeight: FontWeight.w500,
+  height: 1.2,
+);
+
+final sBody3InvestSMStyle = _basicTextStyle.copyWith(
+  fontSize: 11.0,
+  fontWeight: FontWeight.w600,
+  height: 1.2,
+);
+
+final sBody3InvestMStyle = _basicTextStyle.copyWith(
+  fontSize: 11.0,
+  fontWeight: FontWeight.w500,
+  height: 1.2,
+);
+
+final sCaptionInvestSMStyle = _basicTextStyle.copyWith(
+  fontSize: 9.0,
+  fontWeight: FontWeight.w600,
+  height: 1.2,
+);
+
+final sCaptionInvestMStyle = _basicTextStyle.copyWith(
+  fontSize: 9.0,
+  fontWeight: FontWeight.w500,
+  height: 1.2,
+);

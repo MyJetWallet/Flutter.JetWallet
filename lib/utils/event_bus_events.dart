@@ -10,6 +10,10 @@ class ResetScrollAccount {
   ResetScrollAccount();
 }
 
+class ResetScrollInvest {
+  ResetScrollInvest();
+}
+
 class ResetScrollCard {
   ResetScrollCard();
 }

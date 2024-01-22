@@ -92,4 +92,12 @@ class PropertyType {
   static const convertFromAsset = 'Convert From asset';
   static const convertToAsset = 'Convert To asset';
   static const cardID = 'Card ID';
+  static const accountType = 'accountType';
+  static const cryptoAsset = 'CryptoAsset';
+  static const currentFromValueForTransfer = 'Current From value for transfer';
+  static const newTransferFromAccount = 'New Transfer From account';
+  static const currentToValueForTransfer = 'Current To value for transfer';
+  static const newTransferToAccount = 'New Transfer To account';
+  static const transferFrom = 'TransferFrom';
+  static const transferTo = 'TransferTo';
 }

@@ -47,6 +47,12 @@ class _HomeScreenState extends State<HomeScreen> {
           const MarketRouter(),
         ];
 
+        if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
+            .where((element) => element.id == AssetPaymentProductsEnum.investProgram)
+            .isNotEmpty) {
+          screens.add(const InvestPageRouter());
+        }
+
         if (sUserInfo.cardAvailable) {
           screens.add(const CardRouter());
         }
@@ -83,6 +89,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   text: intl.bottom_bar_market,
                   icon: Assets.svg.large.graph,
                 ),
+                if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
+                    .where((element) => element.id == AssetPaymentProductsEnum.investProgram)
+                    .isNotEmpty) ...[
+                  SBottomItemModel(
+                    type: BottomItemType.invest,
+                    text: intl.bottom_bar_invest,
+                    icon: Assets.svg.large.graph,
+                  ),
+                ],
                 if (sUserInfo.cardAvailable) ...[
                   SBottomItemModel(
                     type: BottomItemType.card,

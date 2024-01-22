@@ -513,6 +513,11 @@ class SignalRModuleNew {
       pendingOperationCountMessage,
       method: handler.pendingOperationCountHandler,
     );
+
+    _hubConnection?.off(
+      investAllActivePositionsMessage,
+      method: handler.investAllActivePositionsMessageHandler,
+    );
   }
 
   Future<void> setupMessageHandler() async {
@@ -559,6 +564,12 @@ class SignalRModuleNew {
     );
 
     _hubConnection?.on(keyValueMessage, handler.keyValueMessageHandler);
+
+    _hubConnection?.on(investAllActivePositionsMessage, handler.investAllActivePositionsMessageHandler);
+    _hubConnection?.on(investInstrumentsMessage, handler.investInstrumentsMessageHandler);
+    _hubConnection?.on(investPricesMessage, handler.investPricesMessageHandler);
+    _hubConnection?.on(investSectorsMessage, handler.investSectorsMessageHandler);
+    _hubConnection?.on(investWalletMessage, handler.investWalletMessageHandler);
 
     _hubConnection?.on(indicesMessage, handler.indicesMessageHandler);
 
