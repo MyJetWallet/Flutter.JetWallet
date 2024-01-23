@@ -15,6 +15,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/simple_paddings.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 class ActionsMyWalletsRowWidget extends StatelessWidget {
   const ActionsMyWalletsRowWidget({
@@ -72,22 +73,44 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
                         }
                       },
                     ),
-                    CircleActionAddCash(
-                      onTap: () {
-                        sAnalytics.tapOnTheButtonAddCashWalletsOnWalletsScreen();
-                        sAnalytics.tapOnTheDepositButton(source: 'Wallets - Deposit');
-                        if (myWalletsSrore.isReordering) {
-                          myWalletsSrore.endReorderingImmediately();
-                        } else {
-                          showSelectAccountForAddCash(context);
-                        }
-                      },
-                    ),
+                    if (showDepositButton())
+                      CircleActionAddCash(
+                        onTap: () {
+                          sAnalytics.tapOnTheButtonAddCashWalletsOnWalletsScreen();
+                          sAnalytics.tapOnTheDepositButton(source: 'Wallets - Deposit');
+                          if (myWalletsSrore.isReordering) {
+                            myWalletsSrore.endReorderingImmediately();
+                          } else {
+                            showSelectAccountForAddCash(context);
+                          }
+                        },
+                      ),
                   ],
                 );
         },
       ),
     );
+  }
+
+  bool showDepositButton() {
+    final accounts = <SimpleBankingAccount>[];
+
+    final simpleAccount = sSignalRModules.bankingProfileData?.simple?.account;
+
+    if (simpleAccount != null && simpleAccount.status == AccountStatus.active) {
+      accounts.add(simpleAccount);
+    }
+
+    final bankingAccounts = sSignalRModules.bankingProfileData?.banking?.accounts
+            ?.where(
+              (element) => element.status == AccountStatus.active && !(element.isHidden ?? false),
+            )
+            .toList() ??
+        <SimpleBankingAccount>[];
+
+    accounts.addAll(bankingAccounts);
+
+    return accounts.isNotEmpty;
   }
 }
 
