@@ -19,6 +19,7 @@ class SimpleLightStandardFieldObscure extends StatefulWidget {
     this.isError = false,
     this.validators = const [],
     required this.labelText,
+    this.maxLength,
   }) : super(key: key);
 
   final TextEditingController? controller;
@@ -32,6 +33,7 @@ class SimpleLightStandardFieldObscure extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final bool isError;
   final List<Validator> validators;
+  final int? maxLength;
 
   @override
   State<SimpleLightStandardFieldObscure> createState() =>
@@ -88,6 +90,7 @@ class _SimpleLightStandardFieldObscureState
       keyboardType: widget.keyboardType,
       inputFormatters: widget.inputFormatters,
       maxLines: 1,
+      maxLength: widget.maxLength,
       suffixIcons: [
         if (showSuffix)
           InkWell(
