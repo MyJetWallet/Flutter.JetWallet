@@ -27,6 +27,7 @@ late int changePasswordLockHours;
 late int changePhoneLockHours;
 late String cardLimitsLearnMoreLink;
 late String p2pTerms;
+bool rateUp = true;
 
 // Versioning
 late String recommendedVersion;
