@@ -20,5 +20,7 @@ class MyApp : Application() {
     IntercomFlutterPlugin.initSdk(this, 
       appId = BuildConfig.INTERCOM_APP_ID, 
       androidApiKey = BuildConfig.INTERCOM_ANDROID_KEY)
+     // appId = "lci42mfw", 
+     // androidApiKey = "android_sdk-684bae5a9d75b05e583aeb048fbfa1be7774247c")
   }
 }
