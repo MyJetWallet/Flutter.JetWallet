@@ -10,17 +10,17 @@ import 'package:jetwallet/features/invest/stores/dashboard/invest_positions_stor
 import 'package:jetwallet/features/invest/ui/dashboard/invest_header.dart';
 import 'package:jetwallet/features/invest/ui/invests/above_list_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/symbol_info_without_chart.dart';
-import 'package:jetwallet/features/invest/ui/widgets/invest_button.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_close_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/icons/custom/public/invest/simple_invest_chart_candles.dart';
-import 'package:simple_kit/modules/icons/custom/public/invest/simple_invest_chart_line.dart';
 import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
 import 'package:simple_kit/modules/shared/simple_divider.dart';
 import 'package:simple_kit/modules/shared/simple_paddings.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
@@ -257,12 +257,12 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
                       fromRight: false,
                       tabs: const [],
                       tabsAssets: [
-                        SIChartLineIcon(
+                        Assets.svg.invest.chartLine.simpleSvg(
                           width: 16,
                           height: 16,
                           color: investNewStore.chartType == 0 ? colors.black : colors.grey2,
                         ),
-                        SIChartCandlesIcon(
+                        Assets.svg.invest.chartCandles.simpleSvg(
                           width: 16,
                           height: 16,
                           color: investNewStore.chartType == 1 ? colors.black : colors.grey2,

@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 import '../../../../core/l10n/i10n.dart';
 import '../../../../utils/formatting/base/market_format.dart';
@@ -50,13 +53,13 @@ class MyPortfolio extends StatelessObserverWidget {
                 children: [
                   Text(
                     title,
-                    style: sTextH2InvestStyle.copyWith(
+                    style: STStyles.header2Invest.copyWith(
                       color: colors.black,
                     ),
                   ),
                   const SpaceW5(),
                   SIconButton(
-                    defaultIcon: const SIShareIcon(width: 20, height: 20,),
+                    defaultIcon: Assets.svg.invest.share.simpleSvg(width: 20, height: 20,),
                     onTap: onShare,
                   ),
                 ],
@@ -69,7 +72,7 @@ class MyPortfolio extends StatelessObserverWidget {
                     children: [
                       Text(
                         intl.invest_amount,
-                        style: sBody3InvestMStyle.copyWith(
+                        style: STStyles.body3InvestM.copyWith(
                           color: colors.grey1,
                         ),
                       ),
@@ -86,7 +89,7 @@ class MyPortfolio extends StatelessObserverWidget {
                           const SpaceW2(),
                           Text(
                             marketFormat(decimal: amount, accuracy: 2, symbol: ''),
-                            style: sBody3InvestSMStyle.copyWith(
+                            style: STStyles.body3InvestSM.copyWith(
                               color: colors.black,
                             ),
                           ),
@@ -100,7 +103,7 @@ class MyPortfolio extends StatelessObserverWidget {
                     children: [
                       Text(
                         intl.invest_pending,
-                        style: sBody3InvestMStyle.copyWith(
+                        style: STStyles.body3InvestM.copyWith(
                           color: colors.grey1,
                         ),
                       ),
@@ -117,7 +120,7 @@ class MyPortfolio extends StatelessObserverWidget {
                           const SpaceW2(),
                           Text(
                             marketFormat(decimal: pending, accuracy: 2, symbol: ''),
-                            style: sBody3InvestSMStyle.copyWith(
+                            style: STStyles.body3InvestSM.copyWith(
                               color: colors.black,
                             ),
                           ),
@@ -163,7 +166,7 @@ class MyPortfolio extends StatelessObserverWidget {
                     const SpaceW4(),
                     Text(
                       marketFormat(decimal: balance, accuracy: 2, symbol: ''),
-                      style: sTextH3InvestStyle.copyWith(
+                      style: STStyles.header3Invest.copyWith(
                         color: colors.black,
                       ),
                     ),
@@ -172,7 +175,7 @@ class MyPortfolio extends StatelessObserverWidget {
                 const SpaceH2(),
                 Text(
                   '${marketFormat(decimal: percent, accuracy: 2, symbol: '')}%',
-                  style: sBody1InvestSMStyle.copyWith(
+                  style: STStyles.body1InvestSM.copyWith(
                     color: colors.black,
                   ),
                 ),

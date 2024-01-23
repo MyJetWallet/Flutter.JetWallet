@@ -25,6 +25,7 @@ class $AssetsSvgGen {
   const $AssetsSvgGen();
 
   $AssetsSvgAssetsGen get assets => const $AssetsSvgAssetsGen();
+  $AssetsSvgInvestGen get invest => const $AssetsSvgInvestGen();
   $AssetsSvgLargeGen get large => const $AssetsSvgLargeGen();
   $AssetsSvgMediumGen get medium => const $AssetsSvgMediumGen();
   $AssetsSvgOtherGen get other => const $AssetsSvgOtherGen();
@@ -37,6 +38,106 @@ class $AssetsSvgAssetsGen {
 
   $AssetsSvgAssetsCryptoGen get crypto => const $AssetsSvgAssetsCryptoGen();
   $AssetsSvgAssetsFiatGen get fiat => const $AssetsSvgAssetsFiatGen();
+}
+
+class $AssetsSvgInvestGen {
+  const $AssetsSvgInvestGen();
+
+  /// File path: assets/svg/invest/buy.svg
+  SvgGenImage get buy => const SvgGenImage('assets/svg/invest/buy.svg');
+
+  /// File path: assets/svg/invest/chart_candles.svg
+  SvgGenImage get chartCandles => const SvgGenImage('assets/svg/invest/chart_candles.svg');
+
+  /// File path: assets/svg/invest/chart_line.svg
+  SvgGenImage get chartLine => const SvgGenImage('assets/svg/invest/chart_line.svg');
+
+  /// File path: assets/svg/invest/check.svg
+  SvgGenImage get check => const SvgGenImage('assets/svg/invest/check.svg');
+
+  /// File path: assets/svg/invest/checked.svg
+  SvgGenImage get checked => const SvgGenImage('assets/svg/invest/checked.svg');
+
+  /// File path: assets/svg/invest/edit.svg
+  SvgGenImage get edit => const SvgGenImage('assets/svg/invest/edit.svg');
+
+  /// File path: assets/svg/invest/invest_arrow.svg
+  SvgGenImage get investArrow => const SvgGenImage('assets/svg/invest/invest_arrow.svg');
+
+  /// File path: assets/svg/invest/invest_asset_placeholder.svg
+  SvgGenImage get investAssetPlaceholder => const SvgGenImage('assets/svg/invest/invest_asset_placeholder.svg');
+
+  /// File path: assets/svg/invest/invest_calendar.svg
+  SvgGenImage get investCalendar => const SvgGenImage('assets/svg/invest/invest_calendar.svg');
+
+  /// File path: assets/svg/invest/invest_close.svg
+  SvgGenImage get investClose => const SvgGenImage('assets/svg/invest/invest_close.svg');
+
+  /// File path: assets/svg/invest/invest_plus.svg
+  SvgGenImage get investPlus => const SvgGenImage('assets/svg/invest/invest_plus.svg');
+
+  /// File path: assets/svg/invest/invest_search.svg
+  SvgGenImage get investSearch => const SvgGenImage('assets/svg/invest/invest_search.svg');
+
+  /// File path: assets/svg/invest/invest_wallet.svg
+  SvgGenImage get investWallet => const SvgGenImage('assets/svg/invest/invest_wallet.svg');
+
+  /// File path: assets/svg/invest/profit_equal.svg
+  SvgGenImage get profitEqual => const SvgGenImage('assets/svg/invest/profit_equal.svg');
+
+  /// File path: assets/svg/invest/profit_loss.svg
+  SvgGenImage get profitLoss => const SvgGenImage('assets/svg/invest/profit_loss.svg');
+
+  /// File path: assets/svg/invest/profit_win.svg
+  SvgGenImage get profitWin => const SvgGenImage('assets/svg/invest/profit_win.svg');
+
+  /// File path: assets/svg/invest/report.svg
+  SvgGenImage get report => const SvgGenImage('assets/svg/invest/report.svg');
+
+  /// File path: assets/svg/invest/sell.svg
+  SvgGenImage get sell => const SvgGenImage('assets/svg/invest/sell.svg');
+
+  /// File path: assets/svg/invest/setting.svg
+  SvgGenImage get setting => const SvgGenImage('assets/svg/invest/setting.svg');
+
+  /// File path: assets/svg/invest/share.svg
+  SvgGenImage get share => const SvgGenImage('assets/svg/invest/share.svg');
+
+  /// File path: assets/svg/invest/sort_down.svg
+  SvgGenImage get sortDown => const SvgGenImage('assets/svg/invest/sort_down.svg');
+
+  /// File path: assets/svg/invest/sort_not_set.svg
+  SvgGenImage get sortNotSet => const SvgGenImage('assets/svg/invest/sort_not_set.svg');
+
+  /// File path: assets/svg/invest/sort_up.svg
+  SvgGenImage get sortUp => const SvgGenImage('assets/svg/invest/sort_up.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [
+        buy,
+        chartCandles,
+        chartLine,
+        check,
+        checked,
+        edit,
+        investArrow,
+        investAssetPlaceholder,
+        investCalendar,
+        investClose,
+        investPlus,
+        investSearch,
+        investWallet,
+        profitEqual,
+        profitLoss,
+        profitWin,
+        report,
+        sell,
+        setting,
+        share,
+        sortDown,
+        sortNotSet,
+        sortUp
+      ];
 }
 
 class $AssetsSvgLargeGen {

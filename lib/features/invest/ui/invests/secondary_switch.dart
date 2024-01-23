@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_carousel.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 class SecondarySwitch extends StatelessObserverWidget {
   const SecondarySwitch({
@@ -64,7 +65,7 @@ class SecondarySwitch extends StatelessObserverWidget {
                           child: Center(
                             child: Text(
                               tabs[i],
-                              style: sBody2InvestSMStyle.copyWith(
+                              style: STStyles.body2InvestSM.copyWith(
                                 color: activeTab == i ? colors.black : colors.grey1,
                                 height: 1,
                               ),
@@ -94,7 +95,7 @@ class SecondarySwitch extends StatelessObserverWidget {
                       child: Center(
                         child: Text(
                           tabs[i],
-                          style: sBody2InvestSMStyle.copyWith(
+                          style: STStyles.body2InvestSM.copyWith(
                             color: activeTab == i ? colors.black : colors.grey1,
                             height: 1,
                           ),
@@ -123,7 +124,7 @@ class SecondarySwitch extends StatelessObserverWidget {
                     child: Center(
                       child: Text(
                         tabs[i],
-                        style: sBody2InvestSMStyle.copyWith(
+                        style: STStyles.body2InvestSM.copyWith(
                           color: activeTab == i ? colors.black : colors.grey1,
                           height: 1,
                         ),

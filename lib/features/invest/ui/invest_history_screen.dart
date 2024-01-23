@@ -6,12 +6,15 @@ import 'package:flutter_webview_pro/webview_flutter.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_positions_store.dart';
 import 'package:jetwallet/features/invest/ui/dashboard/invest_header.dart';
-import 'package:jetwallet/features/invest/ui/widgets/invest_button.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_history_list.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_history_pending_list.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_period_bottom_sheet.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 
 import '../../../core/di/di.dart';
@@ -87,7 +90,7 @@ class _InvestHistoryScreenState extends State<InvestHistoryScreen> {bool canTapS
                       inactiveColor: colors.grey4,
                       inactiveNameColor: colors.grey2,
                       active: true,
-                      icon: const SIPlusIcon(
+                      icon: Assets.svg.invest.investPlus.simpleSvg(
                         width: 20,
                         height: 20,
                       ),
@@ -131,8 +134,7 @@ class _InvestHistoryScreenState extends State<InvestHistoryScreen> {bool canTapS
                                   child: Center(
                                     child: Text(
                                       intl.invest_history_pending,
-                                      style: sTextH2InvestStyle.copyWith(
-                                        
+                                      style: STStyles.header2Invest.copyWith(
                                         color: colors.black,
                                       ),
                                     ),
@@ -192,7 +194,7 @@ class _InvestHistoryScreenState extends State<InvestHistoryScreen> {bool canTapS
                               },
                               child: Row(
                                 children: [
-                                  SICalendarIcon(
+                                  Assets.svg.invest.investCalendar.simpleSvg(
                                     width: 16,
                                     height: 16,
                                     color: colors.black,
@@ -200,10 +202,10 @@ class _InvestHistoryScreenState extends State<InvestHistoryScreen> {bool canTapS
                                   const SpaceW4(),
                                   Text(
                                     '${getDaysByPeriod(investStore.period)} ${intl.invest_period_days}',
-                                    style: sBody1InvestSMStyle,
+                                    style: STStyles.body1InvestSM,
                                   ),
                                   const SpaceW4(),
-                                  SIArrowIcon(
+                                  Assets.svg.invest.investArrow.simpleSvg(
                                     width: 14,
                                     height: 14,
                                     color: colors.black,

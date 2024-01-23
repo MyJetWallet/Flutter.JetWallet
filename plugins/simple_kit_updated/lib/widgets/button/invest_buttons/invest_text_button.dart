@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
-class SITextButton extends StatefulObserverWidget {
+import '../../colors/simple_colors_light.dart';
+
+class SITextButton extends StatefulWidget {
   const SITextButton({
     super.key,
     required this.name,
@@ -27,7 +28,7 @@ class _SimpleInvestTextButtonState extends State<SITextButton> {
   @override
   Widget build(BuildContext context) {
 
-    final colors = sKit.colors;
+    final colors = SColorsLight();
     late Color currentColor;
     late Color currentNameColor;
 
@@ -36,7 +37,7 @@ class _SimpleInvestTextButtonState extends State<SITextButton> {
       currentColor = highlighted ? colors.blueLight.withOpacity(0.8) : Colors.transparent;
     } else {
       currentColor = Colors.transparent;
-      currentNameColor = colors.grey4;
+      currentNameColor = colors.gray4;
     }
 
     return InkWell(
@@ -63,10 +64,10 @@ class _SimpleInvestTextButtonState extends State<SITextButton> {
                 padding: const EdgeInsets.only(top: 2),
                 child: Text(
                   widget.name,
-                  style: sBody1InvestSMStyle.copyWith(color: currentNameColor),
+                  style: STStyles.body1InvestSM.copyWith(color: currentNameColor),
                 ),
               ),
-              const SpaceW4(),
+              const SizedBox(width: 4),
               if (widget.icon != null) widget.icon!,
             ],
           ),

@@ -19,6 +19,7 @@ import 'package:jetwallet/features/invest/ui/widgets/invest_input.dart';
 import 'package:jetwallet/features/invest/ui/widgets/slider_thumb_shape.dart';
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/signalr_log.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
@@ -142,7 +143,7 @@ class _InvestUIState extends State<InvestUIKIT> {
                   children: [
                     Text(
                       intl.invest_amount,
-                      style: sBody2InvestMStyle.copyWith(
+                      style: STStyles.body2InvestM.copyWith(
                         color: colors.black,
                       ),
                     ),
@@ -161,7 +162,7 @@ class _InvestUIState extends State<InvestUIKIT> {
                           const SpaceW2(),
                           Text(
                             currency.symbol,
-                            style: sBody2InvestMStyle.copyWith(
+                            style: STStyles.body2InvestM.copyWith(
                               color: colors.black,
                             ),
                           ),

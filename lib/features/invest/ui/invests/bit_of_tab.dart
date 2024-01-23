@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 class BitOfTap extends StatelessObserverWidget {
   const BitOfTap({
@@ -40,7 +41,7 @@ class BitOfTap extends StatelessObserverWidget {
         child: Center(
           child: Text(
             value,
-            style: sBody2InvestSMStyle.copyWith(
+            style: STStyles.body2InvestSM.copyWith(
               color: isActive ? colors.blue : colors.black,
               height: 1,
             ),

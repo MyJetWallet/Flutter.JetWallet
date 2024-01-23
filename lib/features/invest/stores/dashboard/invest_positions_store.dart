@@ -7,9 +7,11 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/modules/icons/custom/public/invest/simple_invest_report.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_text_button.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
@@ -21,7 +23,6 @@ import '../../../../utils/formatting/base/volume_format.dart';
 import '../../helpers/invest_period_info.dart';
 import '../../ui/invests/data_line.dart';
 import '../../ui/widgets/invest_alert_bottom_sheet.dart';
-import '../../ui/widgets/invest_text_button.dart';
 import 'invest_dashboard_store.dart';
 
 part 'invest_positions_store.g.dart';
@@ -358,7 +359,7 @@ abstract class _InvestPositionsStoreBase with Store {
                   onTap: () {
 
                   },
-                  icon: const SIReportIcon(width: 16, height: 16,),
+                  icon: Assets.svg.invest.report.simpleSvg(width: 16, height: 16,),
                 ),
               ],
             ),

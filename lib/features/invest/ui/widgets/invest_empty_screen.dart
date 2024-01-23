@@ -1,9 +1,8 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/simple_kit.dart';
-
-import 'invest_button.dart';
+import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 class InvestEmptyScreen extends StatelessWidget {
   const InvestEmptyScreen({
@@ -45,7 +44,7 @@ class InvestEmptyScreen extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: sBody1InvestSMStyle.copyWith(
+                style: STStyles.body1InvestSM.copyWith(
                   color: colors.black,
                 ),
                 maxLines: 6,

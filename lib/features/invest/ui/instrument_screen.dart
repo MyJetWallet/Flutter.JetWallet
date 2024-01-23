@@ -8,16 +8,14 @@ import 'package:jetwallet/features/invest/stores/dashboard/invest_positions_stor
 import 'package:jetwallet/features/invest/ui/dashboard/invest_header.dart';
 import 'package:jetwallet/features/invest/ui/invests/symbol_info_without_chart.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_alert_bottom_sheet.dart';
-import 'package:jetwallet/features/invest/ui/widgets/invest_button.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
 import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/icons/custom/public/invest/simple_invest_chart_candles.dart';
-import 'package:simple_kit/modules/icons/custom/public/invest/simple_invest_chart_line.dart';
-import 'package:simple_kit/modules/icons/custom/public/invest/simple_invest_close.dart';
-import 'package:simple_kit/modules/icons/custom/public/invest/simple_invest_plus.dart';
 import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
 import 'package:simple_kit/modules/shared/simple_paddings.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 
 import '../../../core/di/di.dart';
@@ -103,7 +101,7 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                                 inactiveColor: colors.grey2,
                                 inactiveNameColor: colors.grey4,
                                 active: true,
-                                icon: const SICloseIcon(
+                                icon: Assets.svg.invest.investClose.simpleSvg(
                                   width: 20,
                                   height: 20,
                                 ),
@@ -154,7 +152,7 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                               inactiveColor: colors.grey4,
                               inactiveNameColor: colors.grey2,
                               active: true,
-                              icon: const SIPlusIcon(
+                              icon: Assets.svg.invest.investPlus.simpleSvg(
                                 width: 20,
                                 height: 20,
                               ),
@@ -191,7 +189,7 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                               inactiveColor: colors.grey2,
                               inactiveNameColor: colors.grey4,
                               active: true,
-                              icon: const SICloseIcon(
+                              icon: Assets.svg.invest.investClose.simpleSvg(
                                 width: 20,
                                 height: 20,
                               ),
@@ -230,7 +228,7 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                             inactiveColor: colors.grey4,
                             inactiveNameColor: colors.grey2,
                             active: true,
-                            icon: const SIPlusIcon(
+                            icon: Assets.svg.invest.investPlus.simpleSvg(
                               width: 20,
                               height: 20,
                             ),
@@ -298,12 +296,12 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                       fromRight: false,
                       tabs: const [],
                       tabsAssets: [
-                        SIChartLineIcon(
+                        Assets.svg.invest.chartLine.simpleSvg(
                           width: 16,
                           height: 16,
                           color: investNewStore.chartType == 0 ? colors.black : colors.grey2,
                         ),
-                        SIChartCandlesIcon(
+                        Assets.svg.invest.chartCandles.simpleSvg(
                           width: 16,
                           height: 16,
                           color: investNewStore.chartType == 1 ? colors.black : colors.grey2,

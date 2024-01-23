@@ -12,6 +12,8 @@ import 'package:jetwallet/features/invest/ui/invests/above_list_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/secondary_switch.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_input.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
 
 import '../../../../core/router/app_router.dart';
 import '../../../../core/services/signal_r/signal_r_service_new.dart';
@@ -156,13 +158,13 @@ class InstrumentsList extends StatelessObserverWidget {
                     Expanded(
                       child: InvestInput(
                         onChanged: investStore.onSearchInput,
-                        icon: const Row(
+                        icon: Row(
                           children: [
-                            SISearchIcon(
+                            Assets.svg.invest.investSearch.simpleSvg(
                               width: 16,
                               height: 16,
                             ),
-                            SpaceW10(),
+                            const SpaceW10(),
                           ],
                         ),
                         controller: investStore.searchController,
@@ -172,15 +174,15 @@ class InstrumentsList extends StatelessObserverWidget {
                     SIconButton(
                       onTap: investStore.setInstrumentSort,
                       defaultIcon: investStore.instrumentSort == 0
-                          ? const SISortNotSetIcon(width: 20, height: 20,)
+                          ? Assets.svg.invest.sortNotSet.simpleSvg(width: 14, height: 14,)
                           : investStore.instrumentSort == 1
-                          ? const SISortUpIcon(width: 20, height: 20,)
-                          : const SISortDownIcon(width: 20, height: 20,),
+                          ? Assets.svg.invest.sortUp.simpleSvg(width: 14, height: 14,)
+                          : Assets.svg.invest.sortDown.simpleSvg(width: 14, height: 14,),
                       pressedIcon: investStore.instrumentSort == 0
-                          ? const SISortNotSetIcon(width: 20, height: 20,)
+                          ? Assets.svg.invest.sortNotSet.simpleSvg(width: 14, height: 14,)
                           : investStore.instrumentSort == 1
-                          ? const SISortUpIcon(width: 20, height: 20,)
-                          : const SISortDownIcon(width: 20, height: 20,),
+                          ? Assets.svg.invest.sortUp.simpleSvg(width: 14, height: 14,)
+                          : Assets.svg.invest.sortDown.simpleSvg(width: 14, height: 14,),
                     ),
                   ],
                 ),

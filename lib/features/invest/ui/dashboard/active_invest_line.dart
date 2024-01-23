@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 import '../../../../core/l10n/i10n.dart';
 import '../../../../utils/formatting/base/volume_format.dart';
@@ -37,7 +38,7 @@ class ActiveInvestLine extends StatelessObserverWidget {
           const SpaceW2(),
           Text(
             intl.invest_active_invest,
-            style: sBody3InvestMStyle.copyWith(
+            style: STStyles.body3InvestM.copyWith(
               color: colors.black,
             ),
           ),
@@ -50,14 +51,14 @@ class ActiveInvestLine extends StatelessObserverWidget {
               children: [
                 Text(
                   intl.invest_amount,
-                  style: sBody3InvestMStyle.copyWith(
+                  style: STStyles.body3InvestM.copyWith(
                     color: colors.grey1,
                   ),
                 ),
                 const SpaceW4(),
                 Text(
                   volumeFormat(decimal: amount, accuracy: 2, symbol: 'USDT'),
-                  style: sBody3InvestSMStyle.copyWith(
+                  style: STStyles.body3InvestSM.copyWith(
                     color: colors.black,
                   ),
                 ),
@@ -73,7 +74,7 @@ class ActiveInvestLine extends StatelessObserverWidget {
               children: [
                 Text(
                   'PL ',
-                  style: sBody3InvestMStyle.copyWith(
+                  style: STStyles.body3InvestM.copyWith(
                     color: colors.grey1,
                   ),
                 ),
@@ -83,7 +84,7 @@ class ActiveInvestLine extends StatelessObserverWidget {
                     accuracy: 2,
                     symbol: '',
                   ),
-                  style: sBody2InvestBStyle.copyWith(
+                  style: STStyles.body2InvestB.copyWith(
                     color: profit == Decimal.zero
                         ? SColorsLight().grey3
                         : profit > Decimal.zero

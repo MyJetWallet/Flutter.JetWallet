@@ -8,6 +8,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jetwallet/features/invest/ui/dashboard/active_invest_line.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 
 import '../../../../utils/formatting/base/volume_format.dart';
@@ -85,14 +86,14 @@ class SymbolInfoLine extends StatelessObserverWidget {
                       children: [
                         Text(
                           instrument.name!,
-                          style: sBody2InvestSMStyle.copyWith(
+                          style: STStyles.body2InvestSM.copyWith(
                             color: colors.black,
                           ),
                         ),
                         const SpaceH2(),
                         Text(
                           instrument.description!,
-                          style: sBody3InvestMStyle.copyWith(
+                          style: STStyles.body3InvestM.copyWith(
                             color: colors.grey2,
                           ),
                         ),
@@ -156,7 +157,7 @@ class SymbolInfoLine extends StatelessObserverWidget {
                     children: [
                       Text(
                         price,
-                        style: sBody2InvestBStyle.copyWith(
+                        style: STStyles.body2InvestB.copyWith(
                           color: colors.black,
                         ),
                       ),
@@ -167,7 +168,7 @@ class SymbolInfoLine extends StatelessObserverWidget {
                           Text(
                             formatPercent(Decimal.fromJson(currency.dayPercentChange.toString())),
                             overflow: TextOverflow.ellipsis,
-                            style: sBody3InvestSMStyle.copyWith(
+                            style: STStyles.body3InvestSM.copyWith(
                               color: Decimal.fromJson(currency.dayPercentChange.toString()) == Decimal.zero
                                   ? colors.grey3
                                   : Decimal.fromJson(currency.dayPercentChange.toString()) > Decimal.zero

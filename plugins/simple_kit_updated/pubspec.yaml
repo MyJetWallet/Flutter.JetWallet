@@ -41,6 +41,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/svg/invest/
     - assets/svg/large/
     - assets/svg/medium/
     - assets/svg/small/

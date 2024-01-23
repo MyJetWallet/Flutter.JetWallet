@@ -10,10 +10,10 @@ import 'package:jetwallet/features/invest/ui/widgets/invest_history_list.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_history_pending_list.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_history_summary_list.dart';
 import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/icons/custom/public/invest/simple_invest_arrow.dart';
-import 'package:simple_kit/modules/icons/custom/public/invest/simple_invest_calendar.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
-import 'package:simple_kit/modules/texts/simple_text_styles.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 import '../../../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../../../utils/enum.dart';
@@ -115,7 +115,7 @@ class HistoryInvestList extends StatelessObserverWidget {
                           hoverColor: Colors.transparent,
                           child: Row(
                             children: [
-                              SICalendarIcon(
+                              Assets.svg.invest.investCalendar.simpleSvg(
                                 width: 16,
                                 height: 16,
                                 color: colors.black,
@@ -123,10 +123,10 @@ class HistoryInvestList extends StatelessObserverWidget {
                               const SpaceW4(),
                               Text(
                                 '${getDaysByPeriod(investStore.period)} ${intl.invest_period_days}',
-                                style: sBody1InvestSMStyle,
+                                style: STStyles.body1InvestSM,
                               ),
                               const SpaceW4(),
-                              SIArrowIcon(
+                              Assets.svg.invest.investArrow.simpleSvg(
                                 width: 14,
                                 height: 14,
                                 color: colors.black,

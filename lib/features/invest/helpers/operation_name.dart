@@ -1,8 +1,3 @@
-import 'package:decimal/decimal.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:simple_kit/modules/icons/custom/public/invest/simple_invest_profit_equal.dart';
-import 'package:simple_kit/modules/icons/custom/public/invest/simple_invest_profit_loss.dart';
-import 'package:simple_kit/modules/icons/custom/public/invest/simple_invest_profit_win.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
 

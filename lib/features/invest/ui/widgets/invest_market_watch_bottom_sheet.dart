@@ -10,7 +10,9 @@ import 'package:jetwallet/features/invest/ui/dashboard/symbol_info_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/secondary_switch.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_input.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 import '../../../../core/router/app_router.dart';
 import '../../../../core/services/signal_r/signal_r_service_new.dart';
@@ -124,7 +126,7 @@ class InstrumentsList extends StatelessObserverWidget {
                     children: [
                       Text(
                         investStore.sectionById.name ?? '',
-                        style: sTextH2InvestStyle.copyWith(
+                        style: STStyles.header2Invest.copyWith(
                           color: colors.black,
                         ),
                       ),
@@ -139,7 +141,7 @@ class InstrumentsList extends StatelessObserverWidget {
                                   .sectors?.contains(investStore.activeSection)
                                   ?? false,
                             ).toList().length} ${intl.invest_tokens}',
-                            style: sBody3InvestMStyle.copyWith(
+                            style: STStyles.body3InvestM.copyWith(
                               color: colors.grey1,
                             ),
                           ),
@@ -151,7 +153,7 @@ class InstrumentsList extends StatelessObserverWidget {
                   const SpaceH8(),
                   Text(
                     investStore.sectionById.description ?? '',
-                    style: sBody2InvestMStyle.copyWith(
+                    style: STStyles.body2InvestM.copyWith(
                       color: colors.grey1,
                     ),
                     maxLines: investStore.isShortDescription ? 2 : 10,
@@ -161,10 +163,10 @@ class InstrumentsList extends StatelessObserverWidget {
                     child: SIconButton(
                       onTap: investStore.setShortDescription,
                       defaultIcon: investStore.isShortDescription
-                          ? const SIArrowIcon(width: 14, height: 14,)
-                          : const RotatedBox(
+                          ? Assets.svg.invest.investArrow.simpleSvg(width: 14, height: 14,)
+                          : RotatedBox(
                         quarterTurns: 2,
-                        child: SIArrowIcon(width: 14, height: 14,),
+                        child: Assets.svg.invest.investArrow.simpleSvg(width: 14, height: 14,),
                       ),
                     ),
                   ),
@@ -180,13 +182,13 @@ class InstrumentsList extends StatelessObserverWidget {
                       Expanded(
                         child: InvestInput(
                           onChanged: investStore.onSearchInput,
-                          icon: const Row(
+                          icon: Row(
                             children: [
-                              SISearchIcon(
+                              Assets.svg.invest.investSearch.simpleSvg(
                                 width: 16,
                                 height: 16,
                               ),
-                              SpaceW10(),
+                              const SpaceW10(),
                             ],
                           ),
                           controller: investStore.searchController,
@@ -196,15 +198,15 @@ class InstrumentsList extends StatelessObserverWidget {
                       SIconButton(
                         onTap: investStore.setInstrumentSort,
                         defaultIcon: investStore.instrumentSort == 0
-                            ? const SISortNotSetIcon(width: 20, height: 20,)
+                            ? Assets.svg.invest.sortNotSet.simpleSvg(width: 14, height: 14,)
                             : investStore.instrumentSort == 1
-                            ? const SISortUpIcon(width: 20, height: 20,)
-                            : const SISortDownIcon(width: 20, height: 20,),
+                            ? Assets.svg.invest.sortUp.simpleSvg(width: 14, height: 14,)
+                            : Assets.svg.invest.sortDown.simpleSvg(width: 14, height: 14,),
                         pressedIcon: investStore.instrumentSort == 0
-                            ? const SISortNotSetIcon(width: 20, height: 20,)
+                            ? Assets.svg.invest.sortNotSet.simpleSvg(width: 14, height: 14,)
                             : investStore.instrumentSort == 1
-                            ? const SISortUpIcon(width: 20, height: 20,)
-                            : const SISortDownIcon(width: 20, height: 20,),
+                            ? Assets.svg.invest.sortUp.simpleSvg(width: 14, height: 14,)
+                            : Assets.svg.invest.sortDown.simpleSvg(width: 14, height: 14,),
                       ),
                     ],
                   ),

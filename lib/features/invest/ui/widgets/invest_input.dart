@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 class InvestInput extends StatefulObserverWidget {
   const InvestInput({
@@ -72,7 +73,7 @@ class _InvestInputState extends State<InvestInput> {
       cursorWidth: 3.0,
       cursorColor: SColorsLight().blue,
       cursorRadius: Radius.zero,
-      style: sBody1InvestSMStyle.copyWith(
+      style: STStyles.body1InvestSM.copyWith(
         color: widget.enabled ? SColorsLight().black : SColorsLight().grey2,
       ),
       decoration: InputDecoration(

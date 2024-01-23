@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/shared/simple_paddings.dart';
-import 'package:simple_kit/modules/shared/simple_spacers.dart';
-import 'package:simple_kit/modules/texts/simple_text_styles.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 final _baseButtonRadius = BorderRadius.circular(12.0);
 
@@ -80,14 +78,15 @@ class _SimpleInvestButtonState extends State<SIButton> {
         child: Baseline(
           baseline: widget.isSecondary ? 21.5 : widget.description == null ? 27.5 : 23,
           baselineType: TextBaseline.alphabetic,
-          child: SPaddingH24(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: widget.isSecondary ? MainAxisSize.min : MainAxisSize.max,
               children: [
                 if (widget.icon != null) ...[
                   widget.icon!,
-                  const SpaceW4(),
+                  const SizedBox(width: 4),
                 ],
                 Flexible(
                   child: Column(
@@ -95,16 +94,16 @@ class _SimpleInvestButtonState extends State<SIButton> {
                     children: [
                       Text(
                         widget.name,
-                        style: widget.isSecondary ? sBody1InvestSMStyle.copyWith(
+                        style: widget.isSecondary ? STStyles.body1InvestSM.copyWith(
                           color: currentNameColor,
-                        ) : sButtonTextInvestStyle.copyWith(
+                        ) : STStyles.buttonTextInvest.copyWith(
                           color: currentNameColor,
                         ),
                       ),
                       if (widget.description != null)
                         Text(
                           widget.description!,
-                          style: sBody2InvestSMStyle.copyWith(
+                          style: STStyles.body2InvestSM.copyWith(
                             color: currentNameColor,
                           ),
                         ),

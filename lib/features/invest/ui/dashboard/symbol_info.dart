@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:charts/main.dart';
 import 'package:charts/model/candle_model.dart';
 import 'package:charts/model/candle_type_enum.dart';
@@ -9,23 +8,16 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
-import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/modules/headers/simple_small_header.dart';
-import 'package:simple_kit/modules/icons/custom/public/invest/simple_invest_wallet.dart';
-import 'package:simple_kit/modules/shared/simple_paddings.dart';
-import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 
-import '../../../../core/l10n/i10n.dart';
 import '../../../../utils/formatting/base/volume_format.dart';
 import '../../../../utils/helpers/localized_chart_resolution_button.dart';
 import '../../../../utils/models/currency_model.dart';
-import '../../../chart/store/chart_store.dart';
 import '../../helpers/percent_info.dart';
-import '../widgets/invest_text_button.dart';
-import 'my_wallet.dart';
 
 class SymbolInfo extends StatelessObserverWidget {
   const SymbolInfo({
@@ -80,7 +72,7 @@ class SymbolInfo extends StatelessObserverWidget {
                   width: 16.0,
                   height: 16.0,
                   placeholderBuilder: (_) {
-                    return const SIAssetPlaceholderIcon(width: 16, height: 16,);
+                    return Assets.svg.invest.investAssetPlaceholder.simpleSvg(width: 16, height: 16,);
                   },
                 ),
                 const SpaceW5(),
@@ -88,7 +80,7 @@ class SymbolInfo extends StatelessObserverWidget {
                   width: 36,
                   child: Text(
                     instrument.name ?? '',
-                    style: sBody2InvestSMStyle.copyWith(
+                    style: STStyles.body2InvestSM.copyWith(
                       color: colors.black,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -102,7 +94,7 @@ class SymbolInfo extends StatelessObserverWidget {
                       formatPercent(Decimal.fromJson(currency.dayPercentChange.toString())),
                       textAlign: TextAlign.end,
                       overflow: TextOverflow.ellipsis,
-                      style: sBody3InvestSMStyle.copyWith(
+                      style: STStyles.body3InvestSM.copyWith(
                         color: Decimal.fromJson(currency.dayPercentChange.toString()) == Decimal.zero
                             ? colors.grey3
                             : Decimal.fromJson(currency.dayPercentChange.toString()) > Decimal.zero
@@ -118,7 +110,7 @@ class SymbolInfo extends StatelessObserverWidget {
             const SpaceH4(),
             Text(
               price,
-              style: sBody2InvestBStyle.copyWith(
+              style: STStyles.body2InvestB.copyWith(
                 color: colors.black,
               ),
             ),
@@ -172,7 +164,7 @@ class SymbolInfo extends StatelessObserverWidget {
                 children: [
                   Text(
                     'PL ',
-                    style: sBody3InvestMStyle.copyWith(
+                    style: STStyles.body3InvestM.copyWith(
                       color: colors.grey1,
                     ),
                   ),
@@ -182,7 +174,7 @@ class SymbolInfo extends StatelessObserverWidget {
                       accuracy: 2,
                       symbol: instrument.currencyQuote ?? '',
                     ),
-                    style: sBody2InvestBStyle.copyWith(
+                    style: STStyles.body2InvestB.copyWith(
                       color: colors.black,
                     ),
                   ),
