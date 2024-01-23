@@ -150,44 +150,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
               },
             );
-
-            return BottomNavigationMenu(
-              currentIndex: getIt.get<AppStore>().homeTab,
-              isCardRequested: sUserInfo.cardRequested || kycBlocked,
-              showCard: sUserInfo.cardAvailable,
-              onChanged: (int val) {
-                if (val == 0) {
-                  sAnalytics.tapOnTheTabWalletsInTabBar();
-                }
-
-                if (val == 2) {
-                  getIt<IbanStore>().getAddressBook();
-                }
-
-                if (val == 4) {
-                  sAnalytics.rewardsTapOnTheTabBar();
-                }
-
-                getIt.get<EventBus>().fire(EndReordering());
-
-                if (val == 0 && getIt<AppStore>().homeTab == 0) {
-                  getIt.get<EventBus>().fire(ResetScrollMyWallets());
-                } else if (val == 1 && getIt<AppStore>().homeTab == 1) {
-                  getIt.get<EventBus>().fire(ResetScrollMarket());
-                } else if (val == 2 && getIt<AppStore>().homeTab == 2) {
-                  getIt.get<EventBus>().fire(ResetScrollAccount());
-                } else if (val == 3 && getIt<AppStore>().homeTab == 3) {
-                  getIt.get<EventBus>().fire(ResetScrollCard());
-                }
-
-                getIt<AppStore>().setHomeTab(val);
-                if (val < screens.length) {
-                  tabsRouter.setActiveIndex(val);
-                } else {
-                  tabsRouter.setActiveIndex(screens.length - 1);
-                }
-              },
-            );
           },
         );
       },
