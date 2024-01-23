@@ -44,14 +44,14 @@ class _PushPermissionScreenState extends State<PushPermissionScreen> {
               ),
               Text(
                 intl.permission_title,
-                maxLines: 5,
+                maxLines: 12,
                 textAlign: TextAlign.center,
                 style: sk.STStyles.header3,
               ),
               const SizedBox(height: 16),
               Text(
                 intl.permission_subtitle,
-                maxLines: 5,
+                maxLines: 12,
                 textAlign: TextAlign.center,
                 style: sk.STStyles.subtitle1.copyWith(
                   color: sk.SColorsLight().gray10,

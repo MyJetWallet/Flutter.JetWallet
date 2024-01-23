@@ -138,6 +138,7 @@ class SButton extends HookWidget {
             )
           : Text(
               text,
+              maxLines: 3,
               style: STStyles.button.copyWith(
                 color: textColor(),
               ),
