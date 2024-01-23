@@ -7,6 +7,7 @@ import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:logger/logger.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 
 const String _loggerService = 'PushNotificationService';
@@ -61,14 +62,16 @@ class PushNotificationService {
       },
     );
 
-    await _plugin.initialize(
-      initializationSettings,
-      onDidReceiveNotificationResponse: (details) async {
-        if (details.payload != null) {
-          getIt.get<DeepLinkService>().handle(Uri.parse(details.payload!));
-        }
-      },
-    );
+    if (await Permission.notification.isGranted) {
+      await _plugin.initialize(
+        initializationSettings,
+        onDidReceiveNotificationResponse: (details) async {
+          if (details.payload != null) {
+            getIt.get<DeepLinkService>().handle(Uri.parse(details.payload!));
+          }
+        },
+      );
+    }
   }
 
   void _onMessageOpenedApp(RemoteMessage message) {
@@ -125,6 +128,15 @@ class PushNotificationService {
       FirebaseMessaging.onMessage.listen(_onMessage);
 
       sAnalytics.pushNotificationAgree();
+
+      await _plugin.initialize(
+        initializationSettings,
+        onDidReceiveNotificationResponse: (details) async {
+          if (details.payload != null) {
+            getIt.get<DeepLinkService>().handle(Uri.parse(details.payload!));
+          }
+        },
+      );
 
       return true;
     } else {
