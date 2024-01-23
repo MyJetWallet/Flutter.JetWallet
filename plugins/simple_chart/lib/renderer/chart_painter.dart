@@ -34,16 +34,16 @@ class ChartPainter extends BaseChartPainter {
     required this.formatPrice,
     this.accuracy,
   }) : super(
-    datas: datas,
-    scaleX: scaleX,
-    scrollX: scrollX,
-    isLongPress: isLongPass,
-    selectX: selectX,
-    candleType: candleType,
-    candleWidth: candleWidth,
-    resolution: resolution,
-    prefix: prefix,
-  );
+          datas: datas,
+          scaleX: scaleX,
+          scrollX: scrollX,
+          isLongPress: isLongPass,
+          selectX: selectX,
+          candleType: candleType,
+          candleWidth: candleWidth,
+          resolution: resolution,
+          prefix: prefix,
+        );
 
   static double get maxScrollX => BaseChartPainter.maxScrollX;
   BaseChartRenderer? mMainRenderer;
@@ -52,10 +52,10 @@ class ChartPainter extends BaseChartPainter {
   double opacity;
   final Function(ChartInfoModel) onCandleSelected;
   final String Function({
-  required bool onlyFullPart,
-  required Decimal decimal,
-  required int accuracy,
-  required String symbol,
+    required bool onlyFullPart,
+    required Decimal decimal,
+    required int accuracy,
+    required String symbol,
   }) formatPrice;
   final bool isAssetChart;
   final double chartWidth;
@@ -67,19 +67,31 @@ class ChartPainter extends BaseChartPainter {
   void initChartRenderer() {
     if (isLongPress) {
       chartColor = Colors.black;
+      if (datas.isNotEmpty) {
+        chartColor = datas.first.close > datas.last.close
+            ? ChartColors.negativeChartColor
+            : datas.first.close == datas.last.close
+                ? ChartColors.equalChartColor
+                : ChartColors.positiveChartColor;
+        chartColorBg = datas.first.close > datas.last.close
+            ? ChartColors.negativeChartBgColor
+            : datas.first.close == datas.last.close
+                ? ChartColors.equalChartBgColor
+                : ChartColors.positiveChartBgColor;
+      }
     } else {
       chartColor = Colors.white;
       if (datas.isNotEmpty) {
         chartColor = datas.first.close > datas.last.close
             ? ChartColors.negativeChartColor
             : datas.first.close == datas.last.close
-            ? ChartColors.equalChartColor
-            : ChartColors.positiveChartColor;
+                ? ChartColors.equalChartColor
+                : ChartColors.positiveChartColor;
         chartColorBg = datas.first.close > datas.last.close
             ? ChartColors.negativeChartBgColor
             : datas.first.close == datas.last.close
-            ? ChartColors.equalChartBgColor
-            : ChartColors.positiveChartBgColor;
+                ? ChartColors.equalChartBgColor
+                : ChartColors.positiveChartBgColor;
       }
     }
 
@@ -539,9 +551,8 @@ class ChartPainter extends BaseChartPainter {
 
   String isoWeekNumber(DateTime date) {
     final daysToAdd = DateTime.thursday - date.weekday;
-    final thursdayDate = daysToAdd > 0
-        ? date.add(Duration(days: daysToAdd))
-        : date.subtract(Duration(days: daysToAdd.abs()));
+    final thursdayDate =
+        daysToAdd > 0 ? date.add(Duration(days: daysToAdd)) : date.subtract(Duration(days: daysToAdd.abs()));
     final dayOfYearThursday = dayOfYear(thursdayDate);
     return '${1 + ((dayOfYearThursday - 1) / 7).floor()}';
   }
