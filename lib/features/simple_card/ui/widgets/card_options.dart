@@ -77,6 +77,7 @@ class _CardOptions extends StatelessObserverWidget {
           name: intl.simple_card_type_virtual,
           onTap: onAddCardTap,
           hideDescription: true,
+          isActive: true,
         ),
         CardOption(
           icon: const SActionDepositIcon(),
@@ -85,7 +86,7 @@ class _CardOptions extends StatelessObserverWidget {
           isDisabled: true,
           onTap: () {},
         ),
-        const SpaceH40(),
+        const SpaceH56(),
       ],
     );
   }

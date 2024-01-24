@@ -93,6 +93,7 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
               labelText: intl.simple_card_password_create,
               isError: store.passwordError,
               onChanged: store.setPassword,
+              autofocus: true,
             ),
           ),
           const SpaceH16(),
