@@ -108,7 +108,7 @@ class _SimpleLightStandardFieldObscureState
       ],
       eraseIcon: [
         if (controller2.text.isNotEmpty) ...[
-          const SpaceW16(),
+          const SpaceW8(),
           SIconButton(
             defaultIcon: const SEraseIcon(),
             pressedIcon: const SErasePressedIcon(),

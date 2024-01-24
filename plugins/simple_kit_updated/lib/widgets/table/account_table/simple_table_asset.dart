@@ -78,7 +78,7 @@ class SimpleTableAsset extends StatelessWidget {
                 ),
               ] else ...[
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 6),
+                  padding: const EdgeInsets.only(top: 8, bottom: 4),
                   child: Assets.svg.paymentMethodsCards.simple.defaultCard.simpleSvg(
                     width: 24,
                   ),
