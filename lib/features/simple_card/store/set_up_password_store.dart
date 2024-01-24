@@ -18,12 +18,10 @@ part 'set_up_password_store.g.dart';
 class SetUpPasswordStore extends _SetUpPasswordStoreBase with _$SetUpPasswordStore {
   SetUpPasswordStore() : super();
 
-  static _SetUpPasswordStoreBase of(BuildContext context) =>
-      Provider.of<SetUpPasswordStore>(context, listen: false);
+  static _SetUpPasswordStoreBase of(BuildContext context) => Provider.of<SetUpPasswordStore>(context, listen: false);
 }
 
 abstract class _SetUpPasswordStoreBase with Store {
-
   @observable
   StackLoaderStore loader = StackLoaderStore();
 
@@ -35,6 +33,7 @@ abstract class _SetUpPasswordStoreBase with Store {
   void setPassword(String value) {
     setPasswordError(false);
     password = value;
+    isJustFailedPreContinueCheck = false;
   }
 
   @observable
@@ -58,6 +57,9 @@ abstract class _SetUpPasswordStoreBase with Store {
   bool savePassword = true;
   @action
   void checkSetter() => savePassword = !savePassword;
+
+  @observable
+  bool isJustFailedPreContinueCheck = false;
 
   @computed
   bool get isPasswordLengthApproved {
@@ -84,7 +86,23 @@ abstract class _SetUpPasswordStoreBase with Store {
     return isNumbersApproved &&
         isSmallSymbolsApproved &&
         isBigSymbolsApproved &&
-        isPasswordLengthApproved;
+        isPasswordLengthApproved &&
+        !isJustFailedPreContinueCheck;
+  }
+
+  @computed
+  bool get isRepeatableCharactersApproved {
+    return RegExp(r'^(?!.*(.)\1\1)').hasMatch(password);
+  }
+
+  @computed
+  bool get isWhitespaceApproved {
+    return !password.contains(' ');
+  }
+
+  @computed
+  bool get isAllowedSymbolsApproved {
+    return RegExp(r'^[a-zA-Z0-9!#$()*+,\-.;@[\]^_{}]*$').hasMatch(password);
   }
 
   @action
@@ -106,11 +124,11 @@ abstract class _SetUpPasswordStoreBase with Store {
         loader.startLoadingImmediately();
 
         await sNetwork.getWalletModule().postCardSetPassword(
-          data: SimpleCardSetPasswordRequest(
-            cardId: cardId,
-            password: password,
-          ),
-        );
+              data: SimpleCardSetPasswordRequest(
+                cardId: cardId,
+                password: password,
+              ),
+            );
 
         Navigator.pop(context!);
         sNotification.showError(
@@ -134,5 +152,37 @@ abstract class _SetUpPasswordStoreBase with Store {
         loader.finishLoadingImmediately();
       }
     }
+  }
+
+  @action
+  bool preContinueCheck() {
+    if (!isRepeatableCharactersApproved) {
+      sNotification.showError(
+        intl.simple_card_password_repeatable_characters,
+      );
+      isJustFailedPreContinueCheck = true;
+
+      return false;
+    }
+    if (!isWhitespaceApproved) {
+      sNotification.showError(
+        intl.simple_card_password_whitespace,
+      );
+      isJustFailedPreContinueCheck = true;
+
+      return false;
+    }
+
+    if (!isAllowedSymbolsApproved) {
+      sNotification.showError(
+        '${intl.simple_card_password_repeatable_allowed_symbols} ! # \$ ( ) * + - , . ; @ [ ] ^ _ { }',
+      );
+      isJustFailedPreContinueCheck = true;
+
+      return false;
+    }
+    isJustFailedPreContinueCheck = false;
+
+    return true;
   }
 }
