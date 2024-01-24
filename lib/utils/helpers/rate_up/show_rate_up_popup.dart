@@ -10,8 +10,7 @@ Future<void> shopRateUpPopup(
   BuildContext context, {
   bool force = false,
 }) async {
-  // TODO (yaroslav): uncomment this code
-  // if (!rateUp) return;
+  if (!rateUp) return;
 
   final storageService = sLocalStorageService;
   var rCount = 1;
