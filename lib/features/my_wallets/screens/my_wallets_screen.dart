@@ -168,6 +168,10 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
       true,
     );
 
+    print('sSignalRModules.bankingProfileData?.banking?.cards?.length');
+    print(sSignalRModules.bankingProfileData?.banking?.cards?.length);
+    print(sSignalRModules.bankingProfileData?.availableCardsCount);
+
     return RawGestureDetector(
       gestures: <Type, GestureRecognizerFactory>{
         _OnlyOnePointerRecognizer: GestureRecognizerFactoryWithHandlers<_OnlyOnePointerRecognizer>(
@@ -292,8 +296,7 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                   ),
                                 ),
                               if (userInfo.isSimpleCardAvailable &&
-                                  (sSignalRModules.bankingProfileData?.banking?.cards?.length ?? 0) <
-                                      (sSignalRModules.bankingProfileData?.availableCardsCount ?? 1) &&
+                                  (sSignalRModules.bankingProfileData?.banking?.cards?.length ?? 0) < 1 &&
                                   checkKycPassed(
                                     kycState.depositStatus,
                                     kycState.tradeStatus,
