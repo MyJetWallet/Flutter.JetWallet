@@ -19,6 +19,8 @@ import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 
+import '../../../core/services/user_info/user_info_service.dart';
+
 class MyWalletsAssetItem extends StatelessObserverWidget {
   const MyWalletsAssetItem({
     required this.isMoving,
@@ -34,6 +36,8 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final baseCurrency = sSignalRModules.baseCurrency;
     final marketItems = sSignalRModules.marketItems;
+
+    final userInfo = getIt.get<UserInfoService>();
 
     var secondaryText = '';
 
@@ -78,6 +82,13 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
         hasButton: !isMoving,
         isButtonLoading: isLoadingState,
         buttonHasRightArrow: !isButtonSmall,
+        buttonHasCardIcon: (sSignalRModules
+            .bankingProfileData?.banking
+            ?.cards?.where(
+              (element) =>
+          element.status == AccountStatusCard.active ||
+              element.status == AccountStatusCard.frozen,
+        ).toList().length ?? 0) > 0 && userInfo.isSimpleCardAvailable,
         buttonLabel: isLoadingState ? intl.my_wallets_create_account : store.simpleCardButtonText,
         isButtonSmall: isButtonSmall,
         isButtonLabelBold: isButtonSmall,

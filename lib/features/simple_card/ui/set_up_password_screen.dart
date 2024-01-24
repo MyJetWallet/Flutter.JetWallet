@@ -94,6 +94,7 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
               isError: store.passwordError,
               onChanged: store.setPassword,
               maxLength: 29,
+              autofocus: true,
             ),
           ),
           const SpaceH16(),

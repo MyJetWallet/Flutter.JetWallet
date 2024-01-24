@@ -299,8 +299,10 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                     kycState.tradeStatus,
                                     kycState.withdrawalStatus,
                                   ))
-                                const SliverToBoxAdapter(
-                                  child: GetCardBanner(),
+                                SliverToBoxAdapter(
+                                  child: GetCardBanner(
+                                    loaderPage: store.loader,
+                                  ),
                                 ),
                               if (store.countOfPendingTransactions > 0) ...[
                                 SliverToBoxAdapter(

@@ -42,6 +42,14 @@ abstract class _SimpleCardStoreBase with Store {
   @observable
   StackLoaderStore loader = StackLoaderStore();
 
+  @observable
+  StackLoaderStore loaderPage = StackLoaderStore();
+
+  @action
+  void setLoaderPage(StackLoaderStore newLoader) {
+    loaderPage = newLoader;
+  }
+
   final storageService = getIt.get<LocalStorageService>();
 
   @action
@@ -304,7 +312,7 @@ abstract class _SimpleCardStoreBase with Store {
           Navigator.pop(context!);
           showCompleteVerificationAccount(
             context,
-            loader,
+            loaderPage,
             _afterVerification,
           );
         } else {

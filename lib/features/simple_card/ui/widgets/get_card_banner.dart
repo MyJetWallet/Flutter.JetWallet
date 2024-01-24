@@ -4,20 +4,30 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/shared/simple_paddings.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
+import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 
+import '../../../../core/di/di.dart';
 import '../../../../core/l10n/i10n.dart';
+import '../../store/simple_card_store.dart';
 
 class GetCardBanner extends StatelessWidget {
-  const GetCardBanner({super.key});
+  const GetCardBanner({
+    super.key,
+    required this.loaderPage,
+  });
+
+  final StackLoaderStore loaderPage;
 
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
+    final simpleCardStore = getIt.get<SimpleCardStore>();
 
     return SPaddingH24(
       child: InkWell(
         onTap: () {
+          simpleCardStore.setLoaderPage(loaderPage);
           showCardOptions(context);
         },
         child: Container(
