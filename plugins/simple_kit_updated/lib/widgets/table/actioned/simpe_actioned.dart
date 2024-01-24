@@ -25,7 +25,8 @@ class SActioned extends StatelessWidget {
     final colors = SColorsLight();
     return Container(
       height: 64,
-      color: type == SActionedType.basic ? colors.white : Colors.transparent,
+      color: type == SActionedType.basic ? colors.white : colors.gray2,
+      padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

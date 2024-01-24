@@ -9,12 +9,10 @@ import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/simple_card/store/simple_card_store.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_header.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -274,7 +272,6 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                   children: [
                     if (simpleAccount != null)
                       SimpleTableAsset(
-                        isCard: false,
                         onTableAssetTap: () {
                           sRouter
                               .push(
@@ -292,7 +289,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                               );
                         },
                         assetIcon: const BlueBankIcon(),
-                        label: simpleAccount!.label ?? 'Account 1',
+                        label: simpleAccount.label ?? 'Account 1',
                         supplement: simpleAccount.status == AccountStatus.active
                             ? intl.eur_wallet_simple_account
                             : intl.create_simple_creating,
@@ -339,7 +336,6 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                             accuracy: eurCurrency.accuracy,
                             symbol: eurCurrency.symbol,
                           ),
-                          isCard: false,
                         );
                       },
                     ),
@@ -369,7 +365,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                           ],
                         ),
                       ),
-                    const SpaceH30(),
+                    const SpaceH300(),
                   ],
                 ),
               ),

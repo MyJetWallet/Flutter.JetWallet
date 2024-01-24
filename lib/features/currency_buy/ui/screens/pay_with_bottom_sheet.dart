@@ -157,7 +157,7 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
                   sRouter.push(
                     AmountRoute(
                       tab: AmountScreenTab.buy,
-                      asset: asset!,
+                      asset: asset,
                       account: account,
                     ),
                   );

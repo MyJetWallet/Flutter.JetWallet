@@ -20,6 +20,7 @@ class KChartWidget extends StatefulWidget {
     required this.onCandleSelected,
     required this.formatPrice,
     required this.isAssetChart,
+    required this.isInvestChart,
     required this.chartWidth,
     this.selectedCandlePadding,
     this.prefix = '',
@@ -31,10 +32,10 @@ class KChartWidget extends StatefulWidget {
 
   final Function(ChartInfoModel?) onCandleSelected;
   final String Function({
-    String? prefix,
-    required Decimal decimal,
-    required int accuracy,
-    required String symbol,
+  required bool onlyFullPart,
+  required Decimal decimal,
+  required int accuracy,
+  required String symbol,
   }) formatPrice;
 
   final String prefix;
@@ -42,6 +43,7 @@ class KChartWidget extends StatefulWidget {
   final double candleWidth;
   final double? selectedCandlePadding;
   final bool isAssetChart;
+  final bool isInvestChart;
   final double chartWidth;
   final int? accuracy;
 
@@ -221,6 +223,11 @@ class _KChartWidgetState extends State<KChartWidget>
       },
       child: Stack(
         children: <Widget>[
+          if (widget.isInvestChart)
+            const DashedDivider(
+              topPadding: 14,
+              addLeftPadding: false,
+            ),
           if (!isLongPress && widget.isAssetChart)
             const DashedDivider(
               topPadding: 20,

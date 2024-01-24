@@ -20,6 +20,7 @@ import 'package:jetwallet/utils/enum.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
+import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -1135,7 +1136,8 @@ abstract class _WithdrawalStoreBase with Store {
             ),
     );
 
-    sRouter.push(
+    sRouter
+        .push(
       SuccessScreenRouter(
         secondaryText: '${intl.withdrawal_successRequest} ${Decimal.parse(withAmount)}'
             ' ${withdrawalInputModel!.currency!.symbol}'
@@ -1150,7 +1152,10 @@ abstract class _WithdrawalStoreBase with Store {
           ]);
         },
       ),
-    );
+    )
+        .then((value) {
+      shopRateUpPopup(sRouter.navigatorKey.currentContext!);
+    });
   }
 
   @action

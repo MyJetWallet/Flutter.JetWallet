@@ -49,4 +49,6 @@ flutter:
     - assets/svg/other/large/
     - assets/svg/other/medium/
     - assets/svg/other/small/
+    - assets/svg/assets/fiat/
+    - assets/svg/assets/crypto/
     - assets/images/

@@ -6,13 +6,11 @@ import 'package:intl/intl.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
-import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -138,6 +136,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                   label: intl.to1,
                   value: store.address,
                   needHorizontalPadding: false,
+                  valueMaxLines: 3,
                 ),
                 TwoColumnCell(
                   label: intl.cryptoDeposit_network,

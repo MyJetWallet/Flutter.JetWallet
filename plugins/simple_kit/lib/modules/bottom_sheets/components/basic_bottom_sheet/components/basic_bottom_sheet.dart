@@ -23,6 +23,7 @@ class BasicBottomSheet extends StatefulWidget {
     required this.color,
     required this.scrollable,
     required this.children,
+    this.isInvest = false,
   }) : super(key: key);
 
   // In case if BottomSheet can be closed from outside of its scope
@@ -44,6 +45,7 @@ class BasicBottomSheet extends StatefulWidget {
   final bool scrollable;
   final bool fullScreen;
   final bool isDismissible;
+  final bool isInvest;
   final double? horizontalPinnedPadding;
 
   @override
@@ -113,6 +115,7 @@ class _BasicBottomSheetState extends State<BasicBottomSheet> {
               removePinnedPadding: widget.removePinnedPadding,
               pinnedBottom: widget.pinnedBottom,
               fullScreen: widget.fullScreen,
+              isInvest: widget.isInvest,
             );
 
             return Column(
@@ -203,6 +206,7 @@ double _listViewMaxHeight({
   required bool removeBarPadding,
   required bool removePinnedPadding,
   required bool fullScreen,
+  required bool isInvest,
   required Size? pinnedSize,
   required Size? pinnedBottomSize,
   required Widget? pinnedBottom,
@@ -233,5 +237,5 @@ double _listViewMaxHeight({
     return max;
   }
 
-  return max - 60; // required spacing from the top edge of the device;
+  return isInvest ? max - 92 : max - 60; // required spacing from the top edge of the device;
 }

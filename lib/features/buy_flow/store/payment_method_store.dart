@@ -74,14 +74,19 @@ abstract class _PaymentMethodStoreBase with Store {
 
   @computed
   bool get isBankingAccountsAvaible {
-    final isBankingIbanAccountAvaible =
-        sSignalRModules.paymentProducts?.any((element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount) ??
-            false;
+    // Buy from personal account is no longer available.
+    // Perhaps this code will be needed in the future
 
-    final isMethodAvaible =
-        selectedAssset?.buyMethods.any((element) => element.id == PaymentMethodType.ibanTransferUnlimint) ?? false;
+    // final isBankingIbanAccountAvaible =
+    //     sSignalRModules.paymentProducts?.any((element) => element.id == AssetPaymentProductsEnum.bankingIbanAccount) ??
+    //         false;
 
-    return isBankingIbanAccountAvaible && (selectedAssset == null || isMethodAvaible);
+    // final isMethodAvaible =
+    //     selectedAssset?.buyMethods.any((element) => element.id == PaymentMethodType.ibanTransferUnlimint) ?? false;
+
+    // return isBankingIbanAccountAvaible && (selectedAssset == null || isMethodAvaible);
+
+    return false;
   }
 
   @action

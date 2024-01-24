@@ -3,8 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:simple_kit/modules/buttons/simple_icon_button.dart';
-import 'package:simple_kit/modules/icons/24x24/public/copy/simple_copy_icon.dart';
-import 'package:simple_kit/modules/icons/24x24/public/copy/simple_copy_pressed_icon.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 
 class HistoryCopyIcon extends StatelessWidget {
   const HistoryCopyIcon(this.text);
@@ -13,6 +14,8 @@ class HistoryCopyIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = SColorsLight();
+
     return SizedBox(
       width: 20,
       height: 20,
@@ -30,8 +33,14 @@ class HistoryCopyIcon extends StatelessWidget {
             isError: false,
           );
         },
-        defaultIcon: const SCopyIcon(),
-        pressedIcon: const SCopyPressedIcon(),
+        defaultIcon: Assets.svg.medium.copy.simpleSvg(
+          width: 20,
+          color: colors.gray8,
+        ),
+        pressedIcon: Assets.svg.medium.copy.simpleSvg(
+          width: 20,
+          color: colors.gray8,
+        ),
       ),
     );
   }

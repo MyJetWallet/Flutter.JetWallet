@@ -13,7 +13,7 @@ import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
-import 'package:jetwallet/utils/constants.dart';
+import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/transaction_list_item.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -331,48 +331,10 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                         openedAsset: symbol,
                       );
                     },
+                    source: TransactionItemSource.cryptoAccount,
                   ),
-                  /*
-                  if (widget.currency.isAssetBalanceNotEmpty) ...[
-                    TransactionsList(
-                      scrollController: _scrollController,
-                      symbol: widget.currency.symbol,
-                      onItemTapLisener: (symbol) {
-                        sAnalytics.tapOnTheButtonAnyHistoryTrxOnCryptoFavouriteWalletScreen(
-                          openedAsset: symbol,
-                        );
-                      },
-                    ),
-                  ] else ...[
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 80,
-                          vertical: 40,
-                        ),
-                        child: Column(
-                          children: [
-                            Image.asset(
-                              smileAsset,
-                              width: 48,
-                              height: 48,
-                            ),
-                            Text(
-                              intl.wallet_simple_account_empty,
-                              textAlign: TextAlign.center,
-                              maxLines: 3,
-                              style: sSubtitle2Style.copyWith(
-                                color: sKit.colors.grey2,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                  */
                   const SliverToBoxAdapter(
-                    child: SpaceH120(),
+                    child: SpaceH400(),
                   ),
                 ],
               ),

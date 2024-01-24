@@ -52,7 +52,7 @@ class ChartPainter extends BaseChartPainter {
   double opacity;
   final Function(ChartInfoModel) onCandleSelected;
   final String Function({
-    String? prefix,
+    required bool onlyFullPart,
     required Decimal decimal,
     required int accuracy,
     required String symbol,
@@ -60,18 +60,38 @@ class ChartPainter extends BaseChartPainter {
   final bool isAssetChart;
   final double chartWidth;
   late Color chartColor;
+  late Color chartColorBg;
   final int? accuracy;
 
   @override
   void initChartRenderer() {
     if (isLongPress) {
       chartColor = Colors.black;
+      if (datas.isNotEmpty) {
+        chartColor = datas.first.close > datas.last.close
+            ? ChartColors.negativeChartColor
+            : datas.first.close == datas.last.close
+                ? ChartColors.equalChartColor
+                : ChartColors.positiveChartColor;
+        chartColorBg = datas.first.close > datas.last.close
+            ? ChartColors.negativeChartBgColor
+            : datas.first.close == datas.last.close
+                ? ChartColors.equalChartBgColor
+                : ChartColors.positiveChartBgColor;
+      }
     } else {
       chartColor = Colors.white;
       if (datas.isNotEmpty) {
         chartColor = datas.first.close > datas.last.close
             ? ChartColors.negativeChartColor
-            : ChartColors.positiveChartColor;
+            : datas.first.close == datas.last.close
+                ? ChartColors.equalChartColor
+                : ChartColors.positiveChartColor;
+        chartColorBg = datas.first.close > datas.last.close
+            ? ChartColors.negativeChartBgColor
+            : datas.first.close == datas.last.close
+                ? ChartColors.equalChartBgColor
+                : ChartColors.positiveChartBgColor;
       }
     }
 
@@ -83,6 +103,7 @@ class ChartPainter extends BaseChartPainter {
       candleType,
       candleWidth,
       chartColor,
+      chartColorBg,
       scaleX,
     );
   }
@@ -295,7 +316,7 @@ class ChartPainter extends BaseChartPainter {
           formatPrice(
             accuracy: accuracy ?? 3,
             decimal: Decimal.parse(mMainLowMinValue.toString()),
-            prefix: prefix,
+            onlyFullPart: false,
             symbol: '',
           ),
           color: ChartColors.maxMinTextColor,
@@ -306,7 +327,7 @@ class ChartPainter extends BaseChartPainter {
           formatPrice(
             accuracy: accuracy ?? 3,
             decimal: Decimal.parse(mMainLowMinValue.toString()),
-            prefix: prefix,
+            onlyFullPart: false,
             symbol: '',
           ),
           color: ChartColors.maxMinTextColor,
@@ -320,7 +341,7 @@ class ChartPainter extends BaseChartPainter {
           formatPrice(
             accuracy: accuracy ?? 3,
             decimal: Decimal.parse(mMainHighMaxValue.toString()),
-            prefix: prefix,
+            onlyFullPart: false,
             symbol: '',
           ),
           color: ChartColors.maxMinTextColor,
@@ -331,7 +352,7 @@ class ChartPainter extends BaseChartPainter {
           formatPrice(
             accuracy: accuracy ?? 3,
             decimal: Decimal.parse(mMainHighMaxValue.toString()),
-            prefix: prefix,
+            onlyFullPart: false,
             symbol: '',
           ),
           color: ChartColors.maxMinTextColor,
@@ -530,9 +551,8 @@ class ChartPainter extends BaseChartPainter {
 
   String isoWeekNumber(DateTime date) {
     final daysToAdd = DateTime.thursday - date.weekday;
-    final thursdayDate = daysToAdd > 0
-        ? date.add(Duration(days: daysToAdd))
-        : date.subtract(Duration(days: daysToAdd.abs()));
+    final thursdayDate =
+        daysToAdd > 0 ? date.add(Duration(days: daysToAdd)) : date.subtract(Duration(days: daysToAdd.abs()));
     final dayOfYearThursday = dayOfYear(thursdayDate);
     return '${1 + ((dayOfYearThursday - 1) / 7).floor()}';
   }

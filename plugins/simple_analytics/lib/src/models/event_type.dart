@@ -474,4 +474,41 @@ class EventType {
   static const onboardingCryptoIsSimpleScreenView = '‘Onboarding - Crypto is Simple’ screen view';
   static const onboardingSendMoneyGloballyScreenView = '‘Onboarding - Send money Globally’ screen view';
   static const tapOnTheOnboardingGetStartedButton = 'Tap on the ‘Onboarding - Get started`  button';
+
+  // Edit Simple card lable
+  static const tapOnTheEditVirtualCardLabelButton = 'Tap on the ‘Edit virtual card label’ button';
+  static const editVirtualCardLabelScreenView = '‘Edit virtual card label’ screen view';
+  static const tapOnTheBackFromEditVirtualCardLabelButton = 'Tap on the ‘Back from edit virtual card label’ button';
+  static const tapOnTheSaveChangesFromEditVirtualCardLabelButton =
+      'Tap on the ‘Save changes from edit virtual card label’ button';
+
+  // Transfer flow
+  static const tapOnTheDepositButton = 'Tap on the ‘Deposit’ button';
+  static const errorDepositIsUnavailable = 'Error - Deposit is unavailable';
+  static const depositToScreenView = '‘Deposit to’ screen view';
+  static const tapOnAnyEurAccountOnDepositButton = 'Tap on ‘any eur account on deposit’ button';
+  static const depositByScreenView = '‘Deposit by’ screen view';
+  static const tapOnTheAnyAccountForDepositButton = 'Tap on the ‘Any account for deposit’ button';
+  static const addCashFromTrScreenView = '‘Add cash from tr.’ screen view';
+  static const tapOnTheAnyCryptoForDepositButton = 'Tap on the ‘Any crypto for deposit’ button';
+  static const transferAmountScreenView = '‘Transfer amount’ screen view';
+  static const tapOnTheTransferFromButton = 'Tap on the ‘Transfer from’ button';
+  static const transferFromSheetView = '‘Transfer from’ sheet view';
+  static const tapOnSelectedNewTransferFromAccountButton = 'Tap on ‘Selected new Transfer From account’ button';
+  static const tapOnTheTransferToButton = 'Tap on the ‘Transfer to’ button';
+  static const transferToSheetView = '‘Transfer to’ sheet view';
+  static const tapOnSelectedNewTransferToButton = 'Tap on ‘Selected new Transfer To’ button';
+  static const tapOnTheBackFromTransferAmountButton = 'Tap on the ‘Back from Transfer amount’ button';
+  static const tapOnTheContinueWithTransferAmountButton = 'Tap on the ‘Continue with Transfer amount’ button';
+  static const transferOrderSummaryScreenView = '‘Transfer order summary` screen view';
+  static const tapOnTheBackFromTransferOrderSummaryButton = 'Tap on the ‘Back from Transfer Order summary ’ button';
+  static const tapAnTheButtonConfirmOnTransferOrderSummary = 'Tap on the button ‘Confirm’ on Transfer order summary';
+  static const successTransferEndScreenView = '‘Success Transfer end’ screen view';
+  static const failedTransferEndScreenView = 'Failed Transfer end’ screen view';
+
+  static const pushNotificationSV = "'Push permission' screen view";
+  static const pushNotificationButtonTap = "Tap on the button ‘Get price updates’ on Push permission screen";
+  static const pushNotificationAlertView = "'Push alert' screen view";
+  static const pushNotificationAgree = "Tap on the button ‘Agree’ on Push alert screen";
+  static const pushNotificationDisagree = "Tap on the button ‘Not now’ on Push alert screen";
 }

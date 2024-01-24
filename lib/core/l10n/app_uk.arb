@@ -130,7 +130,7 @@
         "description": "Изменить PIN-код",
         "type": "text"
     },
-    "pinScreen_weNeedYouToConfirmYourIdentity": "Нам потрібно, щоб ви підтвердили свою особу",
+    "pinScreen_weNeedYouToConfirmYourIdentity": "Ми просимо вас підтвердити свою особу",
     "@pinScreen_weNeedYouToConfirmYourIdentity": {
         "description": "Нам нужно, чтобы вы подтвердили свою личность",
         "type": "text"
@@ -151,7 +151,7 @@
         "description": "Введите свой электронный адрес",
         "type": "text"
     },
-    "register_invalidEmail": "Неправильний email, перевірте коректність і переконайтеся, що в адресі немає пробілів",
+    "register_invalidEmail": "Недійсний електронний лист, будь ласка, перевірте правильність і переконайтеся, що немає пробілів",
     "@register_invalidEmail": {
         "description": "Неправильный email, проверьте корректность и убедитесь, что в адресе нет пробелов",
         "type": "text"
@@ -446,7 +446,7 @@
         "description": "Готово",
         "type": "text"
     },
-    "kycAlertHandler_youAreBlocked": "Вас заблоковано",
+    "kycAlertHandler_youAreBlocked": "Рахунок заблоковано",
     "@kycAlertHandler_youAreBlocked": {
         "description": "Вас заблокировали",
         "type": "text"
@@ -481,12 +481,12 @@
         "description": "нужно пройти следующие шаги",
         "type": "text"
     },
-    "kycAlertHandler_showBlockedAlertSecondaryText1": "Для розблокування зверніться до служби підтримки.",
+    "kycAlertHandler_showBlockedAlertSecondaryText1": "Ваш рахунок було заблоковано. ",
     "@kycAlertHandler_showBlockedAlertSecondaryText1": {
         "description": "Для разблокировки обратитесь в службу поддержки.",
         "type": "text"
     },
-    "kycAlertHandler_showBlockedAlertSecondaryText2": "ваш акаунт",
+    "kycAlertHandler_showBlockedAlertSecondaryText2": "Будь ласка, зверніться до підтримки за додатковою інформацією.",
     "@kycAlertHandler_showBlockedAlertSecondaryText2": {
         "description": "ваш аккаунт",
         "type": "text"
@@ -501,7 +501,7 @@
         "description": "Изменить пароль",
         "type": "text"
     },
-    "changePassword_errorCurrentPassword": "Спробуйте ще раз, це не ваш поточний пароль",
+    "changePassword_errorCurrentPassword": "Будь ласка, спробуйте знову, пароль не співпадає",
     "@changePassword_errorCurrentPassword": {
         "description": "Попробуйте еще раз, это не ваш текущий пароль",
         "type": "text"
@@ -511,7 +511,7 @@
         "description": "Введите текущий Пароль",
         "type": "text"
     },
-    "changePassword_showErrorText1": "Спробуйте ще раз, це не ваш поточний пароль",
+    "changePassword_showErrorText1": "Будь ласка, спробуйте знову, пароль не співпадає",
     "@changePassword_showErrorText1": {
         "description": "Попробуйте еще раз, это не ваш текущий пароль",
         "type": "text"
@@ -651,7 +651,7 @@
         "description": "Письмо для восстановления с инструкцией по сбросу пароля было отправлено на адрес",
         "type": "text"
     },
-    "confirmPassword_seeThePasswordRecovery": "Якщо ви не бачите листа для відновлення пароля у вашій поштовій скриньці, перевірте папку Спам",
+    "confirmPassword_seeThePasswordRecovery": "Якщо ви не бачите листа для відновлення пароля у поштовій скринці, перевірте папку зі спамом",
     "@confirmPassword_seeThePasswordRecovery": {
         "description": "Если вы не видите письма для восстановления пароля в вашем почтовом ящике, проверьте папку Спам",
         "type": "text"
@@ -666,7 +666,7 @@
         "description": "Что-то пошло не так. Пожалуйста, попробуйте позже",
         "type": "text"
     },
-    "something_went_wrong_try_again2": "Щось пішло не так! Спробуйте ще раз.",
+    "something_went_wrong_try_again2": "Щось пішло не так! Будь ласка, спробуйте знову",
     "@something_went_wrong_try_again2": {
         "description": "Что-то пошло не так! Попробуйте еще раз.",
         "type": "text"
@@ -2006,7 +2006,7 @@
         "description": "Выберите актив для продажи",
         "type": "text"
     },
-    "sendOptions_sendTo": "Надсилайте на адресу",
+    "sendOptions_sendTo": "Відправити на адресу",
     "@sendOptions_sendTo": {
         "description": "Отправляйте на адрес",
         "type": "text"
@@ -2221,7 +2221,7 @@
         "description": "Отзыв не прошел проверку",
         "type": "text"
     },
-    "cardVerification_reviewFailedDescription": "Завантажене вами фото не відповідає критеріям. Спробуйте підтвердити картку ще раз",
+    "cardVerification_reviewFailedDescription": "Завантажене вами фото не відповідає критеріям. Будь ласка, спробуйте підтвердити картку ще раз",
     "@cardVerification_reviewFailedDescription": {
         "description": "Загруженное вами фото не соответствует критериям. Попробуйте подтвердить карту еще раз",
         "type": "text"
@@ -2703,7 +2703,7 @@
         "description": "Редактировать заказ",
         "type": "text"
     },
-    "sendByPhoneConfirm_failedToResend": "Не вдалося надіслати повторно. Спробуйте ще раз",
+    "sendByPhoneConfirm_failedToResend": "Не вдалося надіслати повторно. Будь ласка, спробуйте ще раз",
     "@sendByPhoneConfirm_failedToResend": {
         "description": "Не удалось отправить повторно. Попробуйте еще раз",
         "type": "text"
@@ -2889,7 +2889,7 @@
         "description": "Включить камеру",
         "type": "text"
     },
-    "allowCamera_text1": "Коли з'явиться відповідний запит, увімкніть доступ до камери, щоб продовжити",
+    "allowCamera_text1": "Коли з'явиться запит, будь ласка, увімкніть доступ до камери, щоб продовжити",
     "@allowCamera_text1": {
         "description": "Когда появится соответствующий запрос, включите доступ к камере, чтобы продолжить",
         "type": "text"
@@ -3310,7 +3310,7 @@
         "description": "Крипто кошелек",
         "type": "text"
     },
-    "withdrawOptions_sendTo": "Надсилайте на адресу",
+    "withdrawOptions_sendTo": "Відправити на адресу",
     "@withdrawOptions_sendTo": {
         "description": "Отправляйте на адрес",
         "type": "text"
@@ -3355,7 +3355,7 @@
         "description": "Внутренний перевод",
         "type": "text"
     },
-    "withdrawDetails_withdrawalTo": "Надсилайте на адресу",
+    "withdrawDetails_withdrawalTo": "Відправити на адресу",
     "@withdrawDetails_withdrawalTo": {
         "description": "Отправляйте на адрес",
         "type": "text"
@@ -4892,12 +4892,12 @@
         "description": "Вознаграждение за реферала",
         "type": "text"
     },
-    "currencyBuy_alert": "Непідтримувана валюта",
+    "currencyBuy_alert": "Будь ласка, зауважте",
     "@currencyBuy_alert": {
         "description": "Неподдерживаемая валюта",
         "type": "text"
     },
-    "currencyBuy_alertDescription": "Будь ласка, зверніть увагу, що ми підтримуємо лише картки в доларах США та євро для купівлі криптовалют. Покупки за допомогою карток, номінованих в інших валютах, будуть відхилені",
+    "currencyBuy_alertDescription": "Покупка буде здійснена лише у разі наявності EUR або USD картки, або якщо ваш банк підтримує конвертацію валюти за потреби",
     "@currencyBuy_alertDescription": {
         "description": "Пожалуйста, обратите внимание, что мы поддерживаем только карты в долларах США и евро для покупки криптовалют. Покупки с помощью карт, номинированных в других валютах, будут отклонены",
         "type": "text"
@@ -6112,7 +6112,7 @@
         "description": "Вы приглашены!",
         "type": "text"
     },
-    "reward_share_main_text": "Отримайте до EUR 100  у криптовалюті:\n1. Зареєструйтеся в додатку Simple за моїм посиланням-запрошенням.\n2. Придбайте криптовалюту на суму від EUR 350 і більше.\n3. Отримайте винагороду!\nДіють умови та положення",
+    "reward_share_main_text": "Отримайте до 100 EUR у крипті:\n1. Зареєструйтесь у Simple App за моїм запрошенням\n2. Купіть крипту карткою на €350+\n3. Отримайте винагороду!\nДіють умови та положення",
     "@reward_share_main_text": {
         "description": "Получите до EUR 100 в криптовалюте:\n1. Зарегистрируйтесь в приложении Simple по моей ссылке-приглашению.\n2. Приобретите криптовалюту на сумму от EUR 350 и более.\n3. Получите вознаграждение!\nДействуют условия и положения",
         "type": "text"
@@ -6467,7 +6467,7 @@
         "description": "Операция недоступна. Пожалуйста, обратитесь в службу поддержки.",
         "type": "text"
     },
-    "iban_out_sent_to": "Надсилайте на адресу",
+    "iban_out_sent_to": "Відправити на адресу",
     "@iban_out_sent_to": {
         "description": "Отправляйте на адрес",
         "type": "text"
@@ -6818,7 +6818,7 @@
         "description": "Заморозить",
         "type": "text"
     },
-    "simple_card_settings": "Налаштувати",
+    "simple_card_settings": "Параметри",
     "@simple_card_settings": {
         "description": "Настройки",
         "type": "text"
@@ -7103,7 +7103,7 @@
     "onboarding_descriction_2": "Спростіть свої криптовалютні транзакції для зручної купівлі та обміну",
     "onboarding_descriction_3": "Швидко та безпечно переказуйте кошти по всьому світу без зайвих зусиль",
     "simple_card_terminate_card": "Закрити картку",
-    "simple_card_terminate_only_available_alert": "Доступно тільки при нульовому балансі карти",
+    "simple_card_terminate_only_available_alert": "Доступно, якщо карта має нульовий баланс",
     "simple_card_terminate_got_it": "Зрозуміло",
     "simple_card_terminate_terminate_card_question": "Закрити картку?",
     "simple_card_terminate_terminate_warning_1": "Ми закриємо картку",
@@ -7144,5 +7144,259 @@
     "profile_kyc_bloked_alert": "Ваш акаунт заблоковано. Будь ласка, зверніться до служби підтримки.",
     "send_gift_small_title": "Відправка подарунку",
     "send": "Відправка",
-    "paste": "Вставити"
+    "paste": "Вставити",
+    "account_actions_exchange": "Обмін",
+    "@account_actions_exchange": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/8tQXmNOIY9Ldui3pjG5DfYBW.png",
+        "type": "text"
+    },
+    "account_actions_settings": "Параметри",
+    "@account_actions_settings": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/5eZtB0xA6Zj9OuoDQ9XUopsD.png",
+        "type": "text"
+    },
+    "account_settings_account_requisites": "Реквізити",
+    "@account_settings_account_requisites": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/z6teRdw5Gd7L2iJ8FaVKD2Lj.png",
+        "type": "text"
+    },
+    "account_settings_change_label": "Змінити назву",
+    "@account_settings_change_label": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/iZMqs29phvDRqqlftBSzFQKF.png",
+        "type": "text"
+    },
+    "simple_card_settings_change_label": "Змінити назву",
+    "@simple_card_settings_change_label": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/8bCT5VlpV0pzhPDdpUrAgEV1.png",
+        "type": "text"
+    },
+    "simple_card_settings_freeze_card": "Заморозити картку",
+    "@simple_card_settings_freeze_card": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/8bCT5VlpV0pzhPDdpUrAgEV1.png",
+        "type": "text"
+    },
+    "simple_card_actions_settings": "Параметри",
+    "@simple_card_actions_settings": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/8bCT5VlpV0pzhPDdpUrAgEV1.png",
+        "type": "text"
+    },
+    "amount_screen_tab_transfer": "Переказ",
+    "@amount_screen_tab_transfer": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/vloS0jqOH4k9hOelVIaVhffV.png",
+        "type": "text"
+    },
+    "deposit_by_accounts": "Рахунки",
+    "@deposit_by_accounts": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/mqR0qeCb2X0CxNB6AIPk4Pi8.png",
+        "type": "text"
+    },
+    "deposit_by_cards": "Картки",
+    "@deposit_by_cards": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/EhzgETAW31YvZtbKGOjtptfY.png",
+        "type": "text"
+    },
+    "transfer_transfer_from": "Переказ з",
+    "@transfer_transfer_from": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/nW8sFsZYE4fsza0BBUbCwci4.png",
+        "type": "text"
+    },
+    "transfer_transfer_to": "Переказ на",
+    "@transfer_transfer_to": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/GNaGjp3nl04nh8nVPU6kNRvy.png",
+        "type": "text"
+    },
+    "transfet_success_text": "Переказано {amount}",
+    "@transfet_success_text": {
+        "placeholders": {
+            "amount": {
+                "type": "String",
+                "example": "200 EUR"
+            }
+        }
+    },
+    "transfer_confirmation_send_to": "Відправити на адресу",
+    "@transfer_confirmation_send_to": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/ZgUdLne2tseIsAhBtGmL0ndr.png",
+        "type": "text"
+    },
+    "transfer_confirmation_benificiary": "Одержувач",
+    "@transfer_confirmation_benificiary": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/fz1L8TmyzmWaZu5KQdmBN6hN.png",
+        "type": "text"
+    },
+    "transfer_confirmation_reference": "Призначення",
+    "@transfer_confirmation_reference": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/rVuCKIXsw2DHGitx7bcMNAtG.png",
+        "type": "text"
+    },
+    "transfer_confirmation_time_to_transaction": "SEPA Instant - до 2 год.\nЗвичайний SEPA-переказ - до 3 днів.\nМоже бути стягена комісія банку-одержувача",
+    "device_binding_required_text": "Щоб підтвердити переказ коштів, будь ласка, верифікуйте платіж через SMS",
+    "@device_binding_required_text": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/KAIanxEpZvGFLFhEEYSbYPmm.png",
+        "type": "text"
+    },
+    "withdraw_to": "Вивести на",
+    "@withdraw_to": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/GfPGE1XW8ctYpplJBV6DJ8Qg.png",
+        "type": "text"
+    },
+    "external_method": "Зовнішній спосіб",
+    "@external_method": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/GfPGE1XW8ctYpplJBV6DJ8Qg.png",
+        "type": "text"
+    },
+    "history_sold_to": "Продано",
+    "@history_sold_to": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/zlplN2yOhXdkraXg2z3TegHh.png",
+        "type": "text"
+    },
+    "transfer_amount_transfer_all": "Переказати все",
+    "@transfer_amount_transfer_all": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/B4QbhDLL0HGCN1dQnx1ReYQG.png",
+        "type": "text"
+    },
+    "edit_card_lable_card_label": "Назва картки",
+    "@edit_card_lable_card_label": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/Kzotw8CnclI4Tu3gMaoc8kIh.png",
+        "type": "text"
+    },
+    "preferred_language": "Обрана мова",
+    "@preferred_language": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/bjzUPLi4pFW92enMMXK6dJnJ.png",
+        "type": "text"
+    },
+    "lang_change_alert": "Мова зміниться при наступному запуску!",
+    "@lang_change_alert": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/EaVUjqRxOm8B0ox0N9WO0EPe.png",
+        "type": "text"
+    },
+    "rate_title": "Вам подобається додаток?",
+    "rate_subtitle": "Оцініть наш додаток, будь ласка. Ваш відгук надзвичайно важливий!",
+    "rate_submit_button": "Залишити відгук",
+    "rate_cancel_button": "Скасувати",
+    "bottom_bar_invest": "Інвестуй",
+    "permission_title": "Слідкуйте за криптотрендами",
+    "permission_subtitle": "Отримуйте новинки щодо змін на крипторинку",
+    "permission_button": "Отримуйте оновлення цін",
+    "invest_title": "Просте Інвестування",
+    "invest_new_title": "Нове Інвестування",
+    "invest_new_pending_title": "Нові відкладені інвестиції",
+    "invest_modify": "Змінити",
+    "invest_full_report": "Повний звіт",
+    "invest_rollover_report": "Ролловер звіт",
+    "invest_my_portfolio": "Мій портфель",
+    "invest_amount": "Сума",
+    "invest_pending": "На розгляді",
+    "invest_active_invest": "Активні інвестиції",
+    "invest_switch_active": "Актив",
+    "invest_switch_pending": "На розгляді",
+    "invest_switch_history": "Історія",
+    "invest_next_rollover": "Наступний Ролловер",
+    "invest_my_invest": "Мої Інвестиції",
+    "invest_favorites": "Обране",
+    "invest_top_gainers": "Лідери Зростання",
+    "invest_top_loosers": "Лідери Невдачі",
+    "invest_market_watch": "Огляд ринку",
+    "invest_all_coins": "Всі монети",
+    "invest_tokens": "токени",
+    "invest_group": "Група",
+    "invest_in_group": "У Групі",
+    "invest_list_amount": "Сума",
+    "invest_list_pl": "Прибуток/Збиток",
+    "invest_list_close_all": "Закрити Все",
+    "invest_list_new_invest": "Нова Інвестиція",
+    "invest_buy": "Купити",
+    "invest_sell": "Продати",
+    "invest_single": "Окремий",
+    "invest_list_instrument": "Інструмент",
+    "invest_price": "Ціна",
+    "invest_pending_invest": "Відкладені інвестиції",
+    "invest_history_invest": "Історія Інвестицій",
+    "invest_list_delete_all": "Видалити Все",
+    "invest_history_tab_invest": "Інвестувати",
+    "invest_history_tab_pending": "На розгляді",
+    "invest_alert_cancel": "Скасувати",
+    "invest_alert_close_all": "Закрити Все",
+    "invest_alert_close_all_profit": "Прибуток",
+    "invest_alert_close_all_title": "Закрити всі активні інвестиції?",
+    "invest_alert_close_all_subtitle": "Ви збираєтеся закрити всі активні інвестиції",
+    "invest_alert_delete_all": "Видалити Все",
+    "invest_alert_delete_all_title": "Видалити всі замовлення?",
+    "invest_alert_delete_all_subtitle": "Ви збираєтеся видалити всі відкладені інвестиції",
+    "invest_alert_got_it": "Зрозуміло",
+    "invest_alert_in_progress": "В процесі",
+    "invest_alert_in_progress_description": "Ваш запит оброблюється",
+    "invest_alert_error": "Помилка",
+    "invest_alert_error_description": "Вибачте, сталася помилка",
+    "invest_alert_success_delete": "Відкладені інвестиції були видалені",
+    "invest_alert_success_close": "Всі активні інвестиції закриті",
+    "invest_alert_success_close_position": "Інвестиції закриті",
+    "invest_edit": "Редагувати",
+    "invest_reset_all": "Скинути все",
+    "invest_edit_favorites": "Редагувати обране",
+    "invest_favorites_instrument": "Інструменти",
+    "invest_favorites_price": "Ціна",
+    "invest_limits": "Обмеження",
+    "invest_multiplicator": "Помножувач",
+    "invest_pending_price": "Очікувана ціна",
+    "invest_limits_stop_loss": "Stop Loss",
+    "invest_limits_take_profit": "Take Profit",
+    "invest_open_fee": "Комісія за відкриття",
+    "invest_volume": "Обсяг",
+    "invest_success_opened": "Інвестиції відкриті",
+    "invest_pending_placed": "Відкладені інвестиції були розміщені",
+    "invest_trigger_price": "Тригерна ціна",
+    "invest_open_price": "Ціна відкриття",
+    "invest_s_o_price": "Ціна S/O",
+    "invest_close": "Закрити",
+    "invest_close_fee": "Комісія за закриття",
+    "invest_close_price": "Ціна закриття",
+    "invest_error_pending_price": "Ціна відкладеного замовлення повинна бути в діапазоні ",
+    "invest_error_tp_higher": "Рівень TakeProfit не може бути вищим за ",
+    "invest_error_tp_lower": "Рівень TakeProfit не може бути нижчим за ",
+    "invest_error_sl_higher": "Рівень StopLoss не може бути вищим за ",
+    "invest_error_sl_lower": "Рівень StopLoss не може бути нижчим за ",
+    "invest_error_amount_higher": "Сума не може бути вищою за ",
+    "invest_error_amount_lower": "Сума не може бути нижчою за ",
+    "invest_save": "Зберегти",
+    "invest_cancel": "Скасувати",
+    "invest_success_saved_limits": "Take Profit та Stop Loss було змінено",
+    "invest_report_ticket": "Квиток",
+    "invest_report_open_price": "Ціна відкриття",
+    "invest_report_open_data": "Дані відкриття",
+    "invest_report_open_time": "Час відкриття",
+    "invest_report_amount": "Сума",
+    "invest_report_multiplicator": "Помножувач",
+    "invest_report_volume": "Об'єм",
+    "invest_report_market_pl": "Ринковий Прибуток/Збиток",
+    "invest_report_open_fee": "Комісія за відкриття",
+    "invest_report_close_fee": "Комісія за закриття",
+    "invest_report_close_price": "Ціна закриття",
+    "invest_report_close_date": "Дата закриття",
+    "invest_report_close_time": "Час закриття",
+    "invest_report_order_price": "Ціна замовлення",
+    "invest_report_order_date": "Дата замовлення",
+    "invest_report_order_time": "Час замовлення",
+    "invest_report_delete_date": "Дата видалення",
+    "invest_report_delete_time": "Час видалення",
+    "invest_report_rollover": "Ролловер",
+    "invest_report_so_price": "Ціна S/O",
+    "invest_report_journal": "Журнал",
+    "invest_report_rollover_report": "Звіт про ролловер",
+    "invest_report_rollover_rate": "Ставка ролловера",
+    "invest_active_empty_deposit": "Ви ще не маєте інвестицій. Щоб створити інвестицію, поповніть депозит.",
+    "invest_deposit": "Депозит",
+    "invest_active_empty": "У вас немає активних інвестицій.",
+    "invest_new_invest": "Нова інвестиція",
+    "invest_invest": "Інвестувати",
+    "invest_canceled": "Скасовано",
+    "invest_opening": "Відкриття",
+    "invest_closing": "Закриття",
+    "invest_delete": "Видалити",
+    "invest_stop_out": "Зупинити",
+    "invest_period": "Період",
+    "invest_period_description": "Перегляд історії транзакцій доступний тільки за останні 90 днів",
+    "invest_period_days": "дні",
+    "invest_confirm": "Підтвердити",
+    "invest_history_pending": "Історія відкладених позицій"
 }

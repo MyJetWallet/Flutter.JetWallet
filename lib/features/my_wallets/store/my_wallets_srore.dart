@@ -19,6 +19,7 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/wallet/set_active_assets_request_model.dart';
@@ -373,6 +374,19 @@ abstract class _MyWalletsSroreBase with Store {
 
   @action
   Future<void> createSimpleAccount() async {
+    final isSimpleAccountMethodAvaible =
+        sSignalRModules.paymentProducts?.any((element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount) ??
+            false;
+    if (!isSimpleAccountMethodAvaible) {
+      sNotification.showError(
+        intl.operation_bloked_text,
+        id: 1,
+        needFeedback: true,
+      );
+
+      return;
+    }
+
     //loader.startLoadingImmediately();
     getIt.get<GlobalLoader>().setLoading(true);
 
@@ -392,6 +406,7 @@ abstract class _MyWalletsSroreBase with Store {
         );
         accountManualStatus = null;
         loader.finishLoadingImmediately();
+        getIt.get<GlobalLoader>().setLoading(false);
       } else {
         getIt.get<GlobalLoader>().setLoading(false);
         if (resp.data!.simpleKycRequired || resp.data!.addressSetupRequired) {

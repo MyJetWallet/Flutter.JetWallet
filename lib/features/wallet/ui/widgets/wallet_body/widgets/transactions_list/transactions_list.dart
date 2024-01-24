@@ -9,11 +9,12 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
+
 import '../../../../../helper/format_date.dart';
 import '../loading_sliver_list.dart';
 import '../transaction_month_separator.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class TransactionsList extends StatelessWidget {
   const TransactionsList({
@@ -24,6 +25,7 @@ class TransactionsList extends StatelessWidget {
     required this.scrollController,
     this.onItemTapLisener,
     this.fromCJAccount = false,
+    required this.source,
   });
 
   final ScrollController scrollController;
@@ -32,6 +34,7 @@ class TransactionsList extends StatelessWidget {
   final bool isRecurring;
   final void Function(String assetSymbol)? onItemTapLisener;
   final bool fromCJAccount;
+  final TransactionItemSource source;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +54,7 @@ class TransactionsList extends StatelessWidget {
         onItemTapLisener: onItemTapLisener,
         fromCJAccount: fromCJAccount,
         accountId: accountId,
+        source: source,
       ),
       //dispose: (context, value) => value.stopTimer(),
     );
@@ -65,6 +69,7 @@ class _TransactionsListBody extends StatefulObserverWidget {
     required this.scrollController,
     this.onItemTapLisener,
     this.fromCJAccount = false,
+    required this.source,
   });
 
   final ScrollController scrollController;
@@ -73,6 +78,7 @@ class _TransactionsListBody extends StatefulObserverWidget {
   final bool isRecurring;
   final void Function(String assetSymbol)? onItemTapLisener;
   final bool fromCJAccount;
+  final TransactionItemSource source;
 
   @override
   State<StatefulWidget> createState() => _TransactionsListBodyState();
@@ -167,8 +173,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                       transactionListItem: transaction,
                       onItemTapLisener: widget.onItemTapLisener,
                       fromCJAccount: widget.fromCJAccount,
-                      source:
-                          widget.fromCJAccount ? TransactionItemSource.eurAccount : TransactionItemSource.cryptoAccount,
+                      source: widget.source,
                     );
                   },
                 );
@@ -255,9 +260,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                 transactionListItem: transaction,
                                 onItemTapLisener: widget.onItemTapLisener,
                                 fromCJAccount: widget.fromCJAccount,
-                                source: widget.fromCJAccount
-                                    ? TransactionItemSource.eurAccount
-                                    : TransactionItemSource.cryptoAccount,
+                                source: widget.source,
                               ),
                               Container(
                                 width: double.infinity,
@@ -329,9 +332,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                             transactionListItem: transaction,
                             onItemTapLisener: widget.onItemTapLisener,
                             fromCJAccount: widget.fromCJAccount,
-                            source: widget.fromCJAccount
-                                ? TransactionItemSource.eurAccount
-                                : TransactionItemSource.cryptoAccount,
+                            source: widget.source,
                           );
                   },
                 );
@@ -356,9 +357,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                 transactionListItem: transaction,
                                 onItemTapLisener: widget.onItemTapLisener,
                                 fromCJAccount: widget.fromCJAccount,
-                                source: widget.fromCJAccount
-                                    ? TransactionItemSource.eurAccount
-                                    : TransactionItemSource.cryptoAccount,
+                                source: widget.source,
                               ),
                               const SpaceH24(),
                               Container(
@@ -378,9 +377,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                             transactionListItem: transaction,
                             onItemTapLisener: widget.onItemTapLisener,
                             fromCJAccount: widget.fromCJAccount,
-                            source: widget.fromCJAccount
-                                ? TransactionItemSource.eurAccount
-                                : TransactionItemSource.cryptoAccount,
+                            source: widget.source,
                           );
                   },
                 );

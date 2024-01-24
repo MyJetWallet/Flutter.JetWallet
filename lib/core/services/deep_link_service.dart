@@ -33,6 +33,7 @@ import 'package:jetwallet/features/withdrawal/model/withdrawal_confirm_model.dar
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
+import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:logger/logger.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -69,6 +70,7 @@ const _referralRedirect = 'ReferralRedirect';
 const _depositStart = 'DepositStart';
 const _kycVerification = 'KycVerification';
 const _marketsScreen = 'MarketsScreen';
+const _rateUpCommand = 'rate_up';
 
 // Push Notification
 
@@ -153,6 +155,8 @@ class DeepLinkService {
       pushMarketsScreen(parameters);
     } else if (command == _jwKycBanned) {
       pushDocumentNotVerified(parameters);
+    } else if (command == _rateUpCommand) {
+      pushRateUp(parameters);
     } else {
       if (parameters.containsKey('jw_operation_id')) {
         pushCryptoHistory(parameters);
@@ -579,6 +583,26 @@ class DeepLinkService {
         RouteQueryModel(
           func: () async {
             await openMarket();
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> pushRateUp(
+    Map<String, String> parameters,
+  ) async {
+    final context = sRouter.navigatorKey.currentContext!;
+
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      await shopRateUpPopup(context, force: true);
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            await shopRateUpPopup(context, force: true);
           },
         ),
       );

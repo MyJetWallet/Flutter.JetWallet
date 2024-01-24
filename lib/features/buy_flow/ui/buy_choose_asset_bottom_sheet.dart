@@ -39,6 +39,7 @@ void showBuyChooseAssetBottomSheet({
       horizontalDividerPadding: 24,
       addPaddingBelowTitle: true,
       isNewDesign: true,
+      needBottomPadding: false,
     ),
     horizontalPinnedPadding: 0,
     removePinnedPadding: true,

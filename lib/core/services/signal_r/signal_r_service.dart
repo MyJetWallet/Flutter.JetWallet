@@ -170,6 +170,11 @@ class SignalRService {
       rewardsProfile: sSignalRModules.rewardsProfileMethods,
       bankingProfile: sSignalRModules.setBankingProfileData,
       setPendingOperationCount: sSignalRModules.setPendingOperationCount,
+      investPositions: sSignalRModules.setInvestPositionsData,
+      investInstruments: sSignalRModules.setInvestInstrumentsData,
+      investPrices: sSignalRModules.setInvestPricesData,
+      investSectors: sSignalRModules.setInvestSectorsData,
+      investWallet: sSignalRModules.setInvestWalletData,
 
       ///
       createNewSessionLog: () {

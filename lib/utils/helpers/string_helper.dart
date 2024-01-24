@@ -109,15 +109,16 @@ String shortAddressForm(String address) {
   return '$part1 •••• $part2';
 }
 
+/// Formatting example: 1705063803232 -> 1705••••3232
 String shortTxhashFrom(String address) {
   final length = address.length;
 
   if (length <= 16) return address;
 
-  final part1 = address.substring(0, 8);
-  final part2 = address.substring(length - 8, length);
+  final part1 = address.substring(0, 4);
+  final part2 = address.substring(length - 4, length);
 
-  return '$part1...$part2';
+  return '$part1 •••• $part2';
 }
 
 String shortAddressFormTwo(String address) {

@@ -1,36 +1,54 @@
+import 'dart:math';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/buy_flow/ui/buy_tab_body.dart';
 import 'package:jetwallet/features/convert_flow/screens/convert_tab_body.dart';
 import 'package:jetwallet/features/sell_flow/screens/sell_tab_body.dart';
+import 'package:jetwallet/features/transfer_flow/screens/transfer_tab_body.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/widgets/navigation/segment_control/models/segment_control_data.dart';
+import 'package:simple_kit_updated/widgets/navigation/segment_control/segment_control.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 
-enum AmountScreenTab { buy, sell, convert }
+enum AmountScreenTab { buy, sell, convert, transfer }
 
 @RoutePage(name: 'AmountRoute')
 class AmountScreen extends StatefulWidget {
   const AmountScreen({
     super.key,
     required this.tab,
-    required this.asset,
+    this.asset,
     this.card,
     this.simpleCard,
     this.account,
+    this.fromCard,
+    this.toCard,
+    this.fromAccount,
+    this.toAccount,
   });
 
   final AmountScreenTab tab;
-  final CurrencyModel asset;
+  final CurrencyModel? asset;
 
   final CircleCard? card;
   final CardDataModel? simpleCard;
   final SimpleBankingAccount? account;
+
+  // for transfer
+  final CardDataModel? fromCard;
+  final CardDataModel? toCard;
+  final SimpleBankingAccount? fromAccount;
+  final SimpleBankingAccount? toAccount;
 
   @override
   State<AmountScreen> createState() => _AmountScreenState();
@@ -39,15 +57,35 @@ class AmountScreen extends StatefulWidget {
 class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMixin {
   late TabController tabController;
 
+  int countOfTabs = 4;
+
+  int _currentTabIndex = 0;
+
   @override
   void initState() {
+    final isShowTransferTab = checkNeedForTransferTab();
+
+    countOfTabs = isShowTransferTab ? 4 : 3;
     tabController = TabController(
-      length: 3,
+      length: countOfTabs,
       vsync: this,
-      initialIndex: widget.tab.index,
+      initialIndex: min(widget.tab.index, countOfTabs),
     );
+
+    _currentTabIndex = tabController.index;
+
+    if (_currentTabIndex == 3) {
+      sAnalytics.transferAmountScreenView(
+        sourceTransfer: 'External',
+      );
+    }
+
     tabController.addListener(() {
       if (tabController.indexIsChanging) return;
+
+      setState(() {
+        _currentTabIndex = tabController.index;
+      });
 
       switch (tabController.index) {
         case 0:
@@ -59,10 +97,36 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
         case 2:
           sAnalytics.tapOnTheConvertButtonOnBSCSegmentButton();
           break;
+        case 3:
+          sAnalytics.transferAmountScreenView(
+            sourceTransfer: 'Segment control',
+          );
         default:
       }
     });
     super.initState();
+  }
+
+  bool checkNeedForTransferTab() {
+    final cardsCount = sSignalRModules.bankingProfileData?.banking?.cards
+            ?.where((element) => element.status == AccountStatusCard.active)
+            .length ??
+        0;
+
+    var accountsCount = sSignalRModules.bankingProfileData?.banking?.accounts
+            ?.where((element) => element.status == AccountStatus.active)
+            .length ??
+        0;
+
+    final simpleAccount = sSignalRModules.bankingProfileData?.simple?.account;
+
+    if (simpleAccount?.status == AccountStatus.active) {
+      accountsCount++;
+    }
+
+    final summary = cardsCount + accountsCount;
+
+    return summary > 1;
   }
 
   @override
@@ -73,8 +137,6 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
-
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
@@ -84,7 +146,7 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
             switch (tabController.index) {
               case 0:
                 sAnalytics.tapOnTheBackFromAmountScreenButton(
-                  destinationWallet: widget.asset.symbol,
+                  destinationWallet: widget.asset?.symbol ?? '',
                   pmType: widget.card != null
                       ? PaymenthMethodType.card
                       : widget.account?.isClearjuctionAccount ?? false
@@ -104,6 +166,9 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
               case 2:
                 sAnalytics.tapOnTheBackFromConvertAmountButton();
                 break;
+              case 3:
+                sAnalytics.tapOnTheBackFromTransferAmountButton();
+                break;
               default:
             }
 
@@ -116,36 +181,32 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
           Row(
             children: [
               SPaddingH24(
-                child: Container(
-                  height: 32,
-                  decoration: BoxDecoration(
-                    color: colors.grey5,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: TabBar(
-                    controller: tabController,
-                    indicator: BoxDecoration(
-                      color: colors.black,
-                      borderRadius: BorderRadius.circular(16),
+                child: SegmentControl(
+                  tabController: tabController,
+                  shrinkWrap: true,
+                  items: [
+                    SegmentControlData(
+                      type: _currentTabIndex == 0 ? SegmentControlType.iconText : SegmentControlType.icon,
+                      text: intl.amount_screen_tab_buy,
+                      icon: Assets.svg.medium.add,
                     ),
-                    labelColor: colors.white,
-                    labelStyle: sSubtitle3Style,
-                    unselectedLabelColor: colors.grey1,
-                    unselectedLabelStyle: sSubtitle3Style,
-                    splashBorderRadius: BorderRadius.circular(16),
-                    isScrollable: true,
-                    tabs: [
-                      Tab(
-                        text: intl.amount_screen_tab_buy,
+                    SegmentControlData(
+                      type: _currentTabIndex == 1 ? SegmentControlType.iconText : SegmentControlType.icon,
+                      text: intl.amount_screen_tab_sell,
+                      icon: Assets.svg.medium.remove,
+                    ),
+                    SegmentControlData(
+                      type: _currentTabIndex == 2 ? SegmentControlType.iconText : SegmentControlType.icon,
+                      text: intl.amount_screen_tab_convert,
+                      icon: Assets.svg.medium.transfer,
+                    ),
+                    if (countOfTabs >= 4)
+                      SegmentControlData(
+                        type: _currentTabIndex == 3 ? SegmentControlType.iconText : SegmentControlType.icon,
+                        text: intl.amount_screen_tab_transfer,
+                        icon: Assets.svg.medium.altDeposit,
                       ),
-                      Tab(
-                        text: intl.amount_screen_tab_sell,
-                      ),
-                      Tab(
-                        text: intl.amount_screen_tab_convert,
-                      ),
-                    ],
-                  ),
+                  ],
                 ),
               ),
             ],
@@ -157,16 +218,24 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
                 BuyAmountTabBody(
                   asset: widget.asset,
                   card: widget.card,
-                  account: widget.account,
+                  account: (widget.account?.isNotEmptyBalance ?? false) ? widget.account : null,
                 ),
                 SellAmountTabBody(
-                  asset: widget.asset.assetBalance != Decimal.zero ? widget.asset : null,
+                  asset: widget.asset?.assetBalance != Decimal.zero ? widget.asset : null,
                   account: widget.account,
+                  simpleCard: widget.simpleCard,
                 ),
                 ConvertAmountTabBody(
                   fromAsset: widget.tab != AmountScreenTab.buy ? widget.asset : null,
                   toAsset: widget.tab == AmountScreenTab.buy ? widget.asset : null,
                 ),
+                if (countOfTabs >= 4)
+                  TransferAmountTabBody(
+                    fromCard: widget.fromCard,
+                    toCard: widget.toCard,
+                    fromAccount: widget.fromAccount,
+                    toAccount: widget.toAccount,
+                  ),
               ],
             ),
           ),

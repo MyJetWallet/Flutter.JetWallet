@@ -16,6 +16,7 @@ import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
+import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -83,7 +84,7 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
           SPaddingH24(
             child: SimpleAccountCategoryHeader(
               onIconTap: () {
-                if (debugTapCounter >= 4) {
+                if (debugTapCounter >= 30) {
                   sRouter.push(
                     const DebugInfoRouter(),
                   );

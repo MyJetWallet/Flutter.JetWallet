@@ -8,6 +8,7 @@ import 'package:jetwallet/core/services/dynamic_link_service.dart';
 import 'package:jetwallet/core/services/push_notification.dart';
 import 'package:jetwallet/features/app/app_builder.dart';
 import 'package:jetwallet/features/app/route_observer.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 
@@ -65,13 +66,14 @@ class _AppScreenState extends State<AppScreen> {
     return CupertinoApp.router(
       restorationScopeId: 'app',
       debugShowCheckedModeBanner: widget.debugShowCheckedModeBanner,
-      locale: widget.locale,
+      locale: getIt.get<AppStore>().locale,
       title: 'Simple',
       supportedLocales: const [
         Locale('en'),
         Locale('pl'),
         Locale('uk'),
         Locale('es'),
+        Locale('fr'),
       ],
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       routeInformationParser: getIt.get<AppRouter>().defaultRouteParser(),

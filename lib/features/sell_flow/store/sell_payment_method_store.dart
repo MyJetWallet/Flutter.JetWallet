@@ -4,6 +4,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 
 part 'sell_payment_method_store.g.dart';
 
@@ -50,6 +51,18 @@ abstract class _SellPaymentMethodStoreBase with Store {
     // TODO (Yaroslav): add blockers checking
     return true;
   }
+
+  @observable
+  bool isCardsAvaible = true;
+
+  @computed
+  List<CardDataModel> get cards =>
+      sSignalRModules.bankingProfileData?.banking?.cards
+          ?.where(
+            (element) => element.status == AccountStatusCard.active,
+          )
+          .toList() ??
+      [];
 
   @action
   Future<void> init({
