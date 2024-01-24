@@ -197,7 +197,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                         description: '',
                         amount: '',
                         needSpacer: true,
-                        rightIcon: el.status == AccountStatusCard.active
+                        rightIcon: (el.status == AccountStatusCard.active || el.status == AccountStatusCard.frozen)
                             ? Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                 decoration: ShapeDecoration(

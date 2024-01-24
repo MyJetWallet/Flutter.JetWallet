@@ -210,37 +210,41 @@ abstract class _SimpleCardStoreBase with Store {
 
   @action
   Future<void> frozenApprove(bool value) async {
-    if (showDetails) {
-      setShowDetails(false);
-    }
-    isFrozen = value;
-    setCardFullInfo(
-      cardFull!.copyWith(
-        status: value ? AccountStatusCard.frozen : AccountStatusCard.active,
-      ),
-    );
-    final newCards = allCards?.map((e) {
-      return e.cardId == cardFull?.cardId
-          ? e.copyWith(
-              status: value ? AccountStatusCard.frozen : AccountStatusCard.active,
-            )
-          : e;
-    }).toList();
-    allCards = newCards;
-    if (value) {
-      sNotification.showError(
-        intl.simple_card_froze_alert,
-        id: 1,
-        isError: false,
-      );
-    }
+    loader.startLoadingImmediately();
     try {
       final response = value
           ? await sNetwork.getWalletModule().postCardFreeze(cardId: cardFull?.cardId ?? '')
           : await sNetwork.getWalletModule().postCardUnfreeze(cardId: cardFull?.cardId ?? '');
-
       response.pick(
+        onNoError: (data) {
+          loader.finishLoadingImmediately();
+          if (showDetails) {
+            setShowDetails(false);
+          }
+          isFrozen = value;
+          setCardFullInfo(
+            cardFull!.copyWith(
+              status: value ? AccountStatusCard.frozen : AccountStatusCard.active,
+            ),
+          );
+          final newCards = allCards?.map((e) {
+            return e.cardId == cardFull?.cardId
+                ? e.copyWith(
+              status: value ? AccountStatusCard.frozen : AccountStatusCard.active,
+            )
+                : e;
+          }).toList();
+          allCards = newCards;
+          if (value) {
+            sNotification.showError(
+              intl.simple_card_froze_alert,
+              id: 1,
+              isError: false,
+            );
+          }
+        },
         onError: (error) {
+          loader.finishLoadingImmediately();
           sNotification.showError(
             error.cause,
             id: 1,
@@ -248,11 +252,13 @@ abstract class _SimpleCardStoreBase with Store {
         },
       );
     } on ServerRejectException catch (error) {
+      loader.finishLoadingImmediately();
       sNotification.showError(
         error.cause,
         id: 1,
       );
     } catch (error) {
+      loader.finishLoadingImmediately();
       sNotification.showError(
         intl.something_went_wrong,
         id: 1,
