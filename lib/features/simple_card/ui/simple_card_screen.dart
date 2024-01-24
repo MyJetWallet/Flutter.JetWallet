@@ -123,7 +123,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                       child: Center(
                         child: Text(
                           getIt<AppStore>().isBalanceHide
-                              ? '***** ${eurCurrency.symbol}'
+                              ? '**** ${eurCurrency.symbol}'
                               : volumeFormat(
                                   decimal: simpleCardStore.cardFull?.balance ?? Decimal.zero,
                                   accuracy: eurCurrency.accuracy,

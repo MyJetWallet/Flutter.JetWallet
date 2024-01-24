@@ -107,8 +107,9 @@ class CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
     }
 
     return InkWell(
-      highlightColor: SColorsLight().grey5,
       splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      hoverColor: Colors.transparent,
       onTap: () {
         if (!widget.isFrozen) {
           widget.onTap();
@@ -267,10 +268,24 @@ class CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
                 Positioned(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12.0),
-                    child: Image.asset(
-                      simpleCardMask,
-                      width: 279,
-                      height: 170,
+                    child: AnimatedBuilder(
+                      animation: controller,
+                      builder: (context, child) {
+                        final angle = controller.value * -pi;
+                        final transform = Matrix4.identity()
+                          ..setEntry(3, 0, 0)
+                          ..rotateY(angle);
+
+                        return Transform(
+                          transform: transform,
+                          alignment: Alignment.center,
+                          child: Image.asset(
+                            simpleCardMask,
+                            width: 279,
+                            height: 170,
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),
