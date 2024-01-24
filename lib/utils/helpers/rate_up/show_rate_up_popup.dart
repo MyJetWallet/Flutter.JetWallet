@@ -5,13 +5,12 @@ import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'dart:io' show Platform;
 
 Future<void> shopRateUpPopup(
   BuildContext context, {
   bool force = false,
 }) async {
-  if (rateUp) return;
+  if (!rateUp) return;
 
   final storageService = sLocalStorageService;
   var rCount = 1;
@@ -50,15 +49,7 @@ Future<void> shopRateUpPopup(
           Navigator.pop(context);
           await storageService.setString(showRateUp, 'true');
 
-          Future.delayed(const Duration(seconds: 1), () async {
-            if (Platform.isIOS) {
-              await inAppReview.openStoreListing(appStoreId: '1603406843');
-            } else {
-              if (await inAppReview.isAvailable()) {
-                await inAppReview.requestReview();
-              }
-            }
-          });
+          await inAppReview.openStoreListing(appStoreId: '1603406843');
         } catch (e) {
           sNotification.showError(
             intl.something_went_wrong,
