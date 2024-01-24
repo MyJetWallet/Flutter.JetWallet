@@ -93,6 +93,7 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
               labelText: intl.simple_card_password_create,
               isError: store.passwordError,
               onChanged: store.setPassword,
+              maxLength: 29,
               autofocus: true,
             ),
           ),
@@ -137,6 +138,8 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
                           } else {
                             return;
                           }
+
+                         if (!store.preContinueCheck()) return;
 
                           if (isCreatePassword) {
                             final storageService = getIt.get<LocalStorageService>();

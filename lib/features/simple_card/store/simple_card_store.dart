@@ -292,12 +292,14 @@ abstract class _SimpleCardStoreBase with Store {
 
       if (response.hasError) {
         sNotification.showError(
-          intl.something_went_wrong_try_again,
+          response.error?.cause ?? intl.something_went_wrong_try_again,
           id: 1,
           needFeedback: true,
         );
 
         Navigator.pop(context!);
+
+        loader.finishLoading();
       } else {
         if (response.data!.simpleKycRequired != null && response.data!.simpleKycRequired!) {
           Navigator.pop(context!);
