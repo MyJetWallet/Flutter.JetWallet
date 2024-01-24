@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'dart:io' show Platform;
 
 Future<void> shopRateUpPopup(
   BuildContext context, {
@@ -44,16 +44,16 @@ Future<void> shopRateUpPopup(
       ),
       isNeedCancelButton: true,
       onPrimaryButtonTap: () async {
-        final inAppReview = InAppReview.instance;
-        Navigator.pop(context);
-        await storageService.setString(showRateUp, 'true');
+        try {
+          final inAppReview = InAppReview.instance;
+          Navigator.pop(context);
+          await storageService.setString(showRateUp, 'true');
 
-        if (Platform.isIOS) {
-          await inAppReview.openStoreListing(appStoreId: '1604368566');
-        } else {
-          if (await inAppReview.isAvailable()) {
-            await inAppReview.requestReview();
-          }
+          await inAppReview.openStoreListing(appStoreId: '1603406843');
+        } catch (e) {
+          sNotification.showError(
+            intl.something_went_wrong,
+          );
         }
       },
       onCancelButtonTap: () {
