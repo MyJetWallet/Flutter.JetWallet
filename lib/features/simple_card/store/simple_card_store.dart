@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:decimal/decimal.dart';
@@ -15,8 +16,11 @@ import 'package:rsa_encrypt/rsa_encrypt.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/config/constants.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_request.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_remind_pin_response.dart';
@@ -27,6 +31,7 @@ import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_c
 import '../../../core/di/di.dart';
 import '../../../core/l10n/i10n.dart';
 import '../../../core/router/app_router.dart';
+import '../../../core/services/key_value_service.dart';
 import '../../../core/services/local_storage_service.dart';
 import '../../../core/services/notification_service.dart';
 import '../../../utils/constants.dart';
@@ -59,6 +64,12 @@ abstract class _SimpleCardStoreBase with Store {
     canTap = newValue;
   }
 
+  @computed
+  ObservableList<String> get cardsWasShowed =>
+      ObservableList.of(
+        sSignalRModules.keyValue.cardsSimple?.value ?? [],
+      );
+
   final storageService = getIt.get<LocalStorageService>();
 
   @observable
@@ -88,6 +99,32 @@ abstract class _SimpleCardStoreBase with Store {
   Future<void> checkCardBanner() async {
     final checkClosedBanner = await sLocalStorageService.getValue(isCardBannerClosed);
     wasCardBannerClosed = checkClosedBanner == 'true';
+
+    final cards = sSignalRModules.bankingProfileData?.banking?.cards;
+    if (cards != null && cards.isNotEmpty) {
+      var needNotification = false;
+      var cardsShown = cardsWasShowed.toList();
+      for (final cardEl in cards) {
+        if (
+          !cardsWasShowed.contains(cardEl.cardId) &&
+          cardEl.status == AccountStatusCard.active
+        ) {
+          needNotification = true;
+          cardsShown = [
+            ...cardsShown,
+            cardEl.cardId ?? '',
+          ];
+        }
+      }
+      if (needNotification) {
+        sNotification.showError(
+          intl.simple_card_is_ready,
+          id: 1,
+          isError: false,
+        );
+        await saveReceivedCards(cardsShown);
+      }
+    }
   }
 
   @action
@@ -680,5 +717,19 @@ abstract class _SimpleCardStoreBase with Store {
           : e;
     }).toList();
     allCards = newCards;
+  }
+
+  @action
+  Future<void> saveReceivedCards(List<String> newList) async {
+    await getIt.get<KeyValuesService>().addToKeyValue(
+      KeyValueRequestModel(
+        keys: [
+          KeyValueResponseModel(
+            key: cardsSimpleKey,
+            value: jsonEncode(newList),
+          ),
+        ],
+      ),
+    );
   }
 }

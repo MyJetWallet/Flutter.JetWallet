@@ -13,6 +13,7 @@ class KeyValueModel with _$KeyValueModel {
     WatchlistModel? watchlist,
     WatchlistModel? favoritesInstruments,
     WatchlistModel? viewedRewards,
+    WatchlistModel? cardsSimple,
     WatchlistModel? cards,
     String? lastUsedPaymentMethod,
     required double now,
@@ -34,6 +35,10 @@ class KeyValueModel with _$KeyValueModel {
       } else if (pair.key == cardsKey) {
         parsedKeyValue = parsedKeyValue.copyWith(
           cards: WatchlistModel.fromJson(pair.toJson()),
+        );
+      } else if (pair.key == cardsSimpleKey) {
+        parsedKeyValue = parsedKeyValue.copyWith(
+          cardsSimple: WatchlistModel.fromJson(pair.toJson()),
         );
       } else if (pair.key == lastUsedPaymentMethod) {
         parsedKeyValue = parsedKeyValue.copyWith(

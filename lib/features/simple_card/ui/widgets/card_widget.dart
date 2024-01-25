@@ -96,7 +96,7 @@ class CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
     void onCopyAction(String value) {
       Clipboard.setData(
         ClipboardData(
-          text: value,
+          text: value.replaceAll(' ', ''),
         ),
       );
       sNotification.showError(
