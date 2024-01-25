@@ -199,7 +199,12 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                         needSpacer: true,
                         rightIcon: (el.status == AccountStatusCard.active || el.status == AccountStatusCard.frozen)
                             ? Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                padding: const EdgeInsets.only(
+                                  left: 16,
+                                  right: 16,
+                                  top: 6,
+                                  bottom: 8,
+                                ),
                                 decoration: ShapeDecoration(
                                   shape: RoundedRectangleBorder(
                                     side: const BorderSide(color: Color(0xFFF1F4F8)),

@@ -39,6 +39,7 @@ import '../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../core/services/user_info/user_info_service.dart';
 import '../../../utils/helpers/check_kyc_status.dart';
 import '../../kyc/kyc_service.dart';
+import '../../simple_card/store/simple_card_store.dart';
 import '../../simple_card/ui/widgets/get_card_banner.dart';
 
 @RoutePage(name: 'MyWalletsRouter')
@@ -76,6 +77,9 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
   @override
   void initState() {
     super.initState();
+    final simpleCardStore = getIt.get<SimpleCardStore>();
+
+    simpleCardStore.checkCardBanner();
 
     // sAnalytics.walletsScreenView(
     //   favouritesAssetsList: List.generate(
@@ -151,6 +155,7 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
     final colors = sKit.colors;
     final userInfo = getIt.get<UserInfoService>();
     final kycState = getIt.get<KycService>();
+    final simpleCardStore = getIt.get<SimpleCardStore>();
 
     store = MyWalletsSrore.of(context) as MyWalletsSrore;
 
@@ -167,10 +172,6 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
       ),
       true,
     );
-
-    print('sSignalRModules.bankingProfileData?.banking?.cards?.length');
-    print(sSignalRModules.bankingProfileData?.banking?.cards?.length);
-    print(sSignalRModules.bankingProfileData?.availableCardsCount);
 
     return RawGestureDetector(
       gestures: <Type, GestureRecognizerFactory>{
@@ -297,6 +298,7 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                 ),
                               if (userInfo.isSimpleCardAvailable &&
                                   (sSignalRModules.bankingProfileData?.banking?.cards?.length ?? 0) < 1 &&
+                                  !simpleCardStore.wasCardBannerClosed &&
                                   checkKycPassed(
                                     kycState.depositStatus,
                                     kycState.tradeStatus,

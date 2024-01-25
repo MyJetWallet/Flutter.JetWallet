@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:decimal/decimal.dart';
@@ -52,6 +53,9 @@ abstract class _SimpleCardStoreBase with Store {
 
   final storageService = getIt.get<LocalStorageService>();
 
+  @observable
+  bool wasCardBannerClosed = true;
+
   @action
   Future<void> initStore() async {
     allCards = sSignalRModules.bankingProfileData?.banking?.cards
@@ -67,6 +71,18 @@ abstract class _SimpleCardStoreBase with Store {
   }
 
   @action
+  Future<void> closeBanner() async {
+    wasCardBannerClosed = true;
+    await sLocalStorageService.setString(isCardBannerClosed, 'true');
+  }
+
+  @action
+  Future<void> checkCardBanner() async {
+    final checkClosedBanner = await sLocalStorageService.getValue(isCardBannerClosed);
+    wasCardBannerClosed = checkClosedBanner == 'true';
+  }
+
+  @action
   Future<void> initFullCardIn(String cardId) async {
     cardSensitiveData = SimpleCardSensitiveResponse(
       cardNumber: '',
@@ -75,7 +91,7 @@ abstract class _SimpleCardStoreBase with Store {
       cardExpDate: '',
     );
     showDetails = false;
-    final cards = sSignalRModules.bankingProfileData?.banking?.cards;
+    final cards = allCards;
     if (cards != null && cards.isNotEmpty) {
       final activeCard = cards.where((element) => element.cardId == cardId).toList();
       if (activeCard.isNotEmpty) {
@@ -217,7 +233,6 @@ abstract class _SimpleCardStoreBase with Store {
           : await sNetwork.getWalletModule().postCardUnfreeze(cardId: cardFull?.cardId ?? '');
       response.pick(
         onNoError: (data) {
-          loader.finishLoadingImmediately();
           if (showDetails) {
             setShowDetails(false);
           }
@@ -235,6 +250,19 @@ abstract class _SimpleCardStoreBase with Store {
                 : e;
           }).toList();
           allCards = newCards;
+          sSignalRModules.setBankingProfileData(
+            sSignalRModules.bankingProfileData!.copyWith(
+              banking: sSignalRModules.bankingProfileData!.banking!.copyWith(
+                cards: newCards,
+              ),
+            ),
+          );
+          Timer(
+            const Duration(seconds: 1),
+            () {
+              loader.finishLoadingImmediately();
+            },
+          );
           if (value) {
             sNotification.showError(
               intl.simple_card_froze_alert,
