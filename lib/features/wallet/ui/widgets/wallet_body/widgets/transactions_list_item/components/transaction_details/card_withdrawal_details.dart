@@ -29,11 +29,6 @@ class CardWithdrawalDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currenciesFull = sSignalRModules.currenciesWithHiddenList;
-    final currentCurrency = currencyFrom(
-      currenciesFull,
-      transactionListItem.assetId,
-    );
     final currency = currencyFrom(
       sSignalRModules.currenciesWithHiddenList,
       transactionListItem.cardWithdrawalInfo?.paymentFeeAssetId ??
@@ -73,7 +68,7 @@ class CardWithdrawalDetails extends StatelessObserverWidget {
             TransactionDetailsNewItem(
               text: intl.buySellDetails_rate,
               value: TransactionDetailsNewValueText(
-                text: '1 EUR = ${transactionListItem.cardWithdrawalInfo!.rate} ${currentCurrency.symbol}',
+                text: '1 ${transactionListItem.cardWithdrawalInfo!.paymentAssetId} = ${transactionListItem.cardWithdrawalInfo!.rate} EUR',
               ),
             ),
           TransactionDetailsNewItem(

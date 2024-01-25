@@ -747,6 +747,7 @@ enum IbanAccountType {
 @freezed
 class CardPurchaseInfo with _$CardPurchaseInfo {
   const factory CardPurchaseInfo({
+    String? paymentAssetId,
     String? description,
     @DecimalSerialiser() required Decimal rate,
     String? cardLabel,
@@ -764,6 +765,7 @@ class CardPurchaseInfo with _$CardPurchaseInfo {
 @freezed
 class CardRefundInfo with _$CardRefundInfo {
   const factory CardRefundInfo({
+    String? paymentAssetId,
     String? description,
     @DecimalSerialiser() required Decimal rate,
     String? cardLabel,
@@ -781,6 +783,7 @@ class CardRefundInfo with _$CardRefundInfo {
 @freezed
 class CardWithdrawalInfo with _$CardWithdrawalInfo {
   const factory CardWithdrawalInfo({
+    String? paymentAssetId,
     String? description,
     @DecimalSerialiser() required Decimal rate,
     String? cardLabel,
