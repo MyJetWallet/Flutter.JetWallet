@@ -51,6 +51,14 @@ abstract class _SimpleCardStoreBase with Store {
     loaderPage = newLoader;
   }
 
+  @observable
+  bool canTap = true;
+
+  @action
+  void setCanTap(bool newValue) {
+    canTap = newValue;
+  }
+
   final storageService = getIt.get<LocalStorageService>();
 
   @observable
@@ -416,13 +424,15 @@ abstract class _SimpleCardStoreBase with Store {
 
   @action
   Future<void> remindPinPhone() async {
+    Navigator.pop(sRouter.navigatorKey.currentContext!);
+    loader.startLoadingImmediately();
     try {
       final response = await sNetwork.getWalletModule().postRemindPinPhone(cardId: cardFull?.cardId ?? '');
 
       response.pick(
         onData: (SimpleCardRemindPinResponse value) {
+          loader.finishLoadingImmediately();
           final context = getIt.get<AppRouter>().navigatorKey.currentContext;
-          Navigator.pop(sRouter.navigatorKey.currentContext!);
           sShowAlertPopup(
             context!,
             primaryText: intl.simple_card_remind_title,
@@ -444,6 +454,7 @@ abstract class _SimpleCardStoreBase with Store {
           );
         },
         onError: (error) {
+          loader.finishLoadingImmediately();
           sNotification.showError(
             error.cause,
             id: 1,
@@ -451,11 +462,13 @@ abstract class _SimpleCardStoreBase with Store {
         },
       );
     } on ServerRejectException catch (error) {
+      loader.finishLoadingImmediately();
       sNotification.showError(
         error.cause,
         id: 1,
       );
     } catch (error) {
+      loader.finishLoadingImmediately();
       sNotification.showError(
         intl.something_went_wrong,
         id: 1,
@@ -465,12 +478,14 @@ abstract class _SimpleCardStoreBase with Store {
 
   @action
   Future<void> remindPin() async {
+    Navigator.pop(sRouter.navigatorKey.currentContext!);
+    loader.startLoadingImmediately();
     try {
       final response = await sNetwork.getWalletModule().postRemindPin(cardId: cardFull?.cardId ?? '');
 
       response.pick(
         onNoError: (value) {
-          Navigator.pop(sRouter.navigatorKey.currentContext!);
+          loader.finishLoadingImmediately();
           sNotification.showError(
             intl.simple_card_pin_was_send,
             id: 1,
@@ -478,6 +493,7 @@ abstract class _SimpleCardStoreBase with Store {
           );
         },
         onError: (error) {
+          loader.finishLoadingImmediately();
           sNotification.showError(
             error.cause,
             id: 1,
@@ -485,11 +501,13 @@ abstract class _SimpleCardStoreBase with Store {
         },
       );
     } on ServerRejectException catch (error) {
+      loader.finishLoadingImmediately();
       sNotification.showError(
         error.cause,
         id: 1,
       );
     } catch (error) {
+      loader.finishLoadingImmediately();
       sNotification.showError(
         intl.something_went_wrong,
         id: 1,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -190,8 +192,17 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                         helper: el.status == AccountStatusCard.inCreation ? intl.creating : intl.simple_card_type_virtual,
                         onTap: () {
                           if (el.status == AccountStatusCard.active || el.status == AccountStatusCard.frozen) {
-                            simpleCardStore.initFullCardIn(el.cardId ?? '');
-                            sRouter.push(const SimpleCardRouter());
+                            if (simpleCardStore.canTap) {
+                              simpleCardStore.setCanTap(false);
+                              Timer(
+                                const Duration(
+                                  seconds: 1,
+                                ),
+                                () => simpleCardStore.setCanTap(true),
+                              );
+                              simpleCardStore.initFullCardIn(el.cardId ?? '');
+                              sRouter.push(const SimpleCardRouter());
+                            }
                           }
                         },
                         description: '',
