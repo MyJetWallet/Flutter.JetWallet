@@ -406,6 +406,7 @@ abstract class _MyWalletsSroreBase with Store {
         );
         accountManualStatus = null;
         loader.finishLoadingImmediately();
+        getIt.get<GlobalLoader>().setLoading(false);
       } else {
         getIt.get<GlobalLoader>().setLoading(false);
         if (resp.data!.simpleKycRequired || resp.data!.addressSetupRequired) {

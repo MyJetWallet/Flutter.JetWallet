@@ -23,6 +23,7 @@ import '../kyc/helper/kyc_alert_handler.dart';
 import '../kyc/kyc_service.dart';
 import '../kyc/models/kyc_operation_status_model.dart';
 
+// TODO (yaroslav): this screen is now not used anywhere, its code should be cut
 @RoutePage(name: 'IBanRouter')
 class IBanScreen extends StatefulObserverWidget {
   const IBanScreen({
