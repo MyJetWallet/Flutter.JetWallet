@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+
+import '../../../app/store/global_loader.dart';
 
 void showCompleteVerificationAccount(
   BuildContext context,
-  StackLoaderStore loading,
   VoidCallback after,
 ) {
   sShowAlertPopup(
@@ -24,10 +24,10 @@ void showCompleteVerificationAccount(
     onPrimaryButtonTap: () async {
       Navigator.pop(context);
 
-      loading.startLoadingImmediately();
+      getIt.get<GlobalLoader>().setLoading(true);
 
       Future.delayed(const Duration(seconds: 2), () {
-        loading.finishLoadingImmediately();
+        getIt.get<GlobalLoader>().setLoading(false);
       });
 
       await getIt<SumsubService>().launch(
@@ -35,7 +35,8 @@ void showCompleteVerificationAccount(
         needPush: false,
         onFinish: () {
           after();
-          loading.finishLoadingImmediately();
+          Navigator.pop(context);
+          getIt.get<GlobalLoader>().setLoading(false);
         },
       );
     },
@@ -43,7 +44,7 @@ void showCompleteVerificationAccount(
     onSecondaryButtonTap: () {
       Navigator.pop(context);
 
-      loading.finishLoadingImmediately();
+      getIt.get<GlobalLoader>().setLoading(false);
     },
   );
 }

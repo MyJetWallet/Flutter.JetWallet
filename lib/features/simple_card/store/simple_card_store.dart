@@ -35,6 +35,7 @@ import '../../../core/services/key_value_service.dart';
 import '../../../core/services/local_storage_service.dart';
 import '../../../core/services/notification_service.dart';
 import '../../../utils/constants.dart';
+import '../../app/store/global_loader.dart';
 import '../../my_wallets/helper/show_wallet_verify_account.dart';
 import '../ui/set_up_password_screen.dart';
 import '../ui/widgets/show_complete_verification_account.dart';
@@ -381,6 +382,7 @@ abstract class _SimpleCardStoreBase with Store {
         loader.finishLoading();
       } else {
         if (response.data!.simpleKycRequired != null && response.data!.simpleKycRequired!) {
+          loader.finishLoading();
           Navigator.pop(context!);
           showWalletVerifyAccount(
             context,
@@ -388,13 +390,14 @@ abstract class _SimpleCardStoreBase with Store {
             isBanking: false,
           );
         } else if (response.data!.bankingKycRequired != null && response.data!.bankingKycRequired!) {
+          loader.finishLoading();
           Navigator.pop(context!);
           showCompleteVerificationAccount(
             context,
-            loaderPage,
             _afterVerification,
           );
         } else {
+          loader.finishLoading();
           Navigator.pop(context!);
           sNotification.showError(intl.simple_card_password_working, isError: false);
         }
@@ -419,8 +422,9 @@ abstract class _SimpleCardStoreBase with Store {
   }
 
   void _afterVerification() {
-    final context = getIt.get<AppRouter>().navigatorKey.currentContext;
-    Navigator.pop(context!);
+
+    getIt.get<GlobalLoader>().setLoading(false);
+
     sNotification.showError(intl.simple_card_password_working, isError: false);
   }
 
