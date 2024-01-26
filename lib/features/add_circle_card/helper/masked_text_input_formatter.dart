@@ -45,6 +45,10 @@ class MaskedTextInputFormatter extends TextInputFormatter {
     }
 
     // cases when user pastes text and oldValue is not empty
+    if (oldValue.text.isEmpty) {
+      return _value(mask, separator, newValue.text.replaceAll(RegExp(r'\s+\b|\b\s'), ''));
+    }
+
     return oldValue;
   }
 
