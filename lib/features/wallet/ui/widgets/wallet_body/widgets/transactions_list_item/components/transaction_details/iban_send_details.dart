@@ -198,7 +198,7 @@ class IbanSendDetailsHeader extends StatelessWidget {
             width: 32,
           ),
           toAssetIconUrl: asset.iconUrl,
-          toAssetDescription: transactionListItem.ibanWithdrawalInfo?.contactName ?? '',
+          toAssetDescription: asset.description,
           toAssetValue: volumeFormat(
             symbol: transactionListItem.ibanWithdrawalInfo?.receiveAsset ?? '',
             accuracy: asset.accuracy,
