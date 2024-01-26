@@ -165,7 +165,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                       .where((element) => element.status != AccountStatusCard.unsupported))
                     SliverToBoxAdapter(
                       child: SCardRow(
-                        maxWidth: MediaQuery.of(context).size.width * .35,
+                        maxWidth: MediaQuery.of(context).size.width * .45,
                         frozenIcon: (userInfo.isSimpleCardAvailable && el.status == AccountStatusCard.frozen)
                             ? const SFrozenIcon(
                                 width: 16,
@@ -235,6 +235,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                                 ),
                               )
                             : null,
+                        spaceBIandText: 12,
                       ),
                     ),
                 ],
@@ -246,7 +247,6 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SpaceH8(),
                         SPaddingH24(
                           child: Padding(
                             padding: const EdgeInsets.only(

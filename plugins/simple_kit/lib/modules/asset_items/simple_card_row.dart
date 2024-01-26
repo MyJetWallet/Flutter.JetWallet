@@ -110,7 +110,7 @@ class SCardRow extends StatelessWidget {
                                 helper,
                                 textAlign: TextAlign.start,
                                 maxLines: 3,
-                                style: sCaptionTextStyle.copyWith(
+                                style: sBodyText2Style.copyWith(
                                   color: SColorsLight().grey1,
                                 ),
                               ),
