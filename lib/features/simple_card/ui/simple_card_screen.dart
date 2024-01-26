@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
+import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/simple_card/store/simple_card_store.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/card_settings.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/card_widget.dart';
@@ -76,6 +78,9 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
     ).where((element) => element.symbol == 'EUR').first;
 
     final simpleCardStore = getIt.get<SimpleCardStore>();
+
+    final kycState = getIt.get<KycService>();
+    final handler = getIt.get<KycAlertHandler>();
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
@@ -151,10 +156,20 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                             .isNotEmpty,
                         onAddCash: () {
                           sAnalytics.tapOnTheDepositButton(source: 'V.Card - Deposit');
-                          showSimpleCardDepositBySelector(
-                            context: context,
-                            onClose: () {},
-                            card: simpleCardStore.cardFull!,
+                          handler.handle(
+                            multiStatus: [
+                              kycState.tradeStatus,
+                              kycState.depositStatus,
+                              kycState.withdrawalStatus,
+                            ],
+                            isProgress: kycState.verificationInProgress,
+                            currentNavigate: () => showSimpleCardDepositBySelector(
+                              context: context,
+                              onClose: () {},
+                              card: simpleCardStore.cardFull!,
+                            ),
+                            requiredDocuments: kycState.requiredDocuments,
+                            requiredVerifications: kycState.requiredVerifications,
                           );
                         },
                         isWithdrawAvailable: simpleCardStore.cardFull?.isNotEmptyBalance ?? false,
@@ -209,10 +224,20 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                           simpleCardStore.terminateCard();
                         },
                         onWithdraw: () {
-                          showSimpleCardWithdrawToSelector(
-                            context: context,
-                            onClose: () {},
-                            card: simpleCardStore.cardFull!,
+                          handler.handle(
+                            multiStatus: [
+                              kycState.tradeStatus,
+                              kycState.depositStatus,
+                              kycState.withdrawalStatus,
+                            ],
+                            isProgress: kycState.verificationInProgress,
+                            currentNavigate: () => showSimpleCardWithdrawToSelector(
+                              context: context,
+                              onClose: () {},
+                              card: simpleCardStore.cardFull!,
+                            ),
+                            requiredDocuments: kycState.requiredDocuments,
+                            requiredVerifications: kycState.requiredVerifications,
                           );
                         },
                       ),

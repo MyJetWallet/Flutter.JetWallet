@@ -786,6 +786,9 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
 
     totalEurWalletBalance += data.simple?.account?.balance ?? Decimal.zero;
 
+    totalEurWalletBalance +=
+        (data.banking?.cards ?? []).fold(Decimal.zero, (sum, el) => sum + (el.balance ?? Decimal.zero));
+
     if (basePricesModel != null) {
       updateBasePrices(basePricesModel!);
     }
@@ -852,7 +855,6 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
   void setInvestWalletData(InvestWalletModel data) {
     investWalletData = data;
   }
-
 
   @observable
   bool showPaymentsMethods = false;

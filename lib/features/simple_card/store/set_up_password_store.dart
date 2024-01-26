@@ -156,14 +156,6 @@ abstract class _SetUpPasswordStoreBase with Store {
 
   @action
   bool preContinueCheck() {
-    if (!isRepeatableCharactersApproved) {
-      sNotification.showError(
-        intl.simple_card_password_repeatable_characters,
-      );
-      isJustFailedPreContinueCheck = true;
-
-      return false;
-    }
     if (!isWhitespaceApproved) {
       sNotification.showError(
         intl.simple_card_password_whitespace,
@@ -172,7 +164,14 @@ abstract class _SetUpPasswordStoreBase with Store {
 
       return false;
     }
+    if (!isRepeatableCharactersApproved) {
+      sNotification.showError(
+        intl.simple_card_password_repeatable_characters,
+      );
+      isJustFailedPreContinueCheck = true;
 
+      return false;
+    }
     if (!isAllowedSymbolsApproved) {
       sNotification.showError(
         '${intl.simple_card_password_repeatable_allowed_symbols} ! # \$ ( ) * + - , . ; @ [ ] ^ _ { }',

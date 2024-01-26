@@ -641,6 +641,8 @@ class IbanWithdrawalInfo with _$IbanWithdrawalInfo {
     String? receiveAsset,
     @DecimalSerialiser() required Decimal receiveAmount,
     @DecimalSerialiser() required Decimal receiveRate,
+    @DecimalNullSerialiser()  Decimal? withdrawalAmount,
+    String? withdrawalAssetId,
   }) = _IbanWithdrawalInfo;
 
   factory IbanWithdrawalInfo.fromJson(Map<String, dynamic> json) => _$IbanWithdrawalInfoFromJson(json);

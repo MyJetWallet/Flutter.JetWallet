@@ -25,7 +25,8 @@ class KycAlertHandler {
     bool needGifteExplanationPopup = false,
     SWidgetSize size = SWidgetSize.medium,
     required Function() currentNavigate,
-    required int status,
+    int? status,
+    List<int> multiStatus = const [],
     required bool isProgress,
     required List<RequiredVerified> requiredVerifications,
     required List<KycDocumentType> requiredDocuments,
@@ -46,42 +47,36 @@ class KycAlertHandler {
       return;
     }
 
-    if (status == kycOperationStatus(KycStatus.kycRequired) && needGifteExplanationPopup) {
+    if ((status == kycOperationStatus(KycStatus.kycRequired) ||
+            multiStatus.contains(kycOperationStatus(KycStatus.kycRequired))) &&
+        needGifteExplanationPopup) {
       _showGiftExplanationAlert(
-        requiredVerifications.isNotEmpty,
         requiredVerifications,
-        requiredDocuments,
-        status,
-        size,
       );
-    } else if (status == kycOperationStatus(KycStatus.kycRequired)) {
+    } else if (status == kycOperationStatus(KycStatus.kycRequired) ||
+        multiStatus.contains(kycOperationStatus(KycStatus.kycRequired))) {
       _showKycRequiredAlert(
-        requiredVerifications.isNotEmpty,
         requiredVerifications,
-        requiredDocuments,
-        status,
-        size,
       );
-    } else if (status == kycOperationStatus(KycStatus.kycInProgress)) {
+    } else if (status == kycOperationStatus(KycStatus.kycInProgress) ||
+        multiStatus.contains(kycOperationStatus(KycStatus.kycInProgress))) {
       showVerifyingAlert();
-    } else if (status == kycOperationStatus(KycStatus.allowedWithKycAlert)) {
+    } else if (status == kycOperationStatus(KycStatus.allowedWithKycAlert) ||
+        multiStatus.contains(kycOperationStatus(KycStatus.allowedWithKycAlert))) {
       _showAllowedWithAlert(
         requiredVerifications,
         requiredDocuments,
         currentNavigate,
         navigatePop,
       );
-    } else if (status == kycOperationStatus(KycStatus.blocked)) {
+    } else if (status == kycOperationStatus(KycStatus.blocked) ||
+        multiStatus.contains(kycOperationStatus(KycStatus.blocked))) {
       showBlockedAlert(customBlockerText: customBlockerText);
     }
   }
 
   void _showKycRequiredAlert(
-    bool isRequiredVerifications,
     List<RequiredVerified> requiredVerifications,
-    List<KycDocumentType> requiredDocuments,
-    int status,
-    SWidgetSize size,
   ) {
     sRouter.push(
       KycVerificationRouter(requiredVerifications: requiredVerifications),
@@ -146,11 +141,7 @@ class KycAlertHandler {
   }
 
   void _showGiftExplanationAlert(
-    bool isRequiredVerifications,
     List<RequiredVerified> requiredVerifications,
-    List<KycDocumentType> requiredDocuments,
-    int status,
-    SWidgetSize size,
   ) {
     showKycPopup(
       context: context,
@@ -161,11 +152,7 @@ class KycAlertHandler {
       secondaryButtonName: intl.kycAlertHandler_later,
       onPrimaryButtonTap: () {
         _showKycRequiredAlert(
-          requiredVerifications.isNotEmpty,
           requiredVerifications,
-          requiredDocuments,
-          status,
-          size,
         );
       },
       onSecondaryButtonTap: () {
