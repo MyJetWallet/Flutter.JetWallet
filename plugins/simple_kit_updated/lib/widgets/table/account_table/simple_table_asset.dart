@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/button/round/round_button.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 
 class SimpleTableAsset extends StatelessWidget {
@@ -85,7 +83,7 @@ class SimpleTableAsset extends StatelessWidget {
                 ),
               ],
               const Gap(12),
-              Expanded(
+              Flexible(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -96,29 +94,15 @@ class SimpleTableAsset extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          /*ConstrainedBox(
-                            constraints: BoxConstraints(
-                                 maxWidth: deviceSizeFrom(MediaQuery.of(context).size.height) == ScreenSizeEnum.small
-                                  ? MediaQuery.of(context).size.width * .3
-                                  : MediaQuery.of(context).size.width * .39,
-                                
-                                ),
-                            child: Text(
-                              label,
-                              style: STStyles.subtitle1,
-                            ),
-                          ),
-                          */
-                          Expanded(
+                          Flexible(
                             child: Text(
                               label,
                               style: STStyles.subtitle1,
                             ),
                           ),
                           const Gap(4),
-                          Opacity(
-                            opacity: hasLabelIcon ? 1 : 0,
-                            child: SizedBox(
+                          if (hasLabelIcon)
+                            SizedBox(
                               width: 16,
                               height: 16,
                               child: labelIcon ??
@@ -126,7 +110,6 @@ class SimpleTableAsset extends StatelessWidget {
                                     color: SColorsLight().gray8,
                                   ),
                             ),
-                          ),
                         ],
                       ),
                     ),
