@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
           .isNotEmpty) ...[
         BottomItemType.invest,
       ],
-      if (sUserInfo.cardAvailable || displayCardPreorderScreen) ...[
+      if (sUserInfo.cardAvailable && displayCardPreorderScreen) ...[
         BottomItemType.card,
       ],
       if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
