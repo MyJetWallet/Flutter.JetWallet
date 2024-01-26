@@ -176,8 +176,14 @@ abstract class _AppStoreBase with Store {
 
       if (!skipVersionCheck) {
         if (await getIt<ForceServiceUpdate>().init()) {
+          var context = getIt.get<AppRouter>().navigatorKey.currentContext;
+          while (context == null) {
+            await Future.delayed(const Duration(milliseconds: 500));
+
+            context = getIt.get<AppRouter>().navigatorKey.currentContext;
+          }
           await getIt<ForceServiceUpdate>().init(
-            context: getIt.get<AppRouter>().navigatorKey.currentContext,
+            context: context,
             showPopup: true,
           );
 
