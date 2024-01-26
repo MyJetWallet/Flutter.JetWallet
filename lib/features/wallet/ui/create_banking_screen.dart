@@ -152,7 +152,6 @@ class _CreateBankingScreenState extends State<CreateBankingScreen> {
                   if (resp.hasError) {
                     sNotification.showError(
                       intl.something_went_wrong_try_again,
-                      duration: 4,
                       id: 1,
                       needFeedback: true,
                     );
@@ -175,6 +174,8 @@ class _CreateBankingScreenState extends State<CreateBankingScreen> {
                         loading,
                         _afterVerification,
                       );
+                    } else {
+                      await sRouter.pop();
                     }
                   }
                 } catch (e) {
