@@ -111,6 +111,7 @@ class IbanSendDetails extends StatelessObserverWidget {
                     child: TransactionDetailsValueText(
                       text: transactionListItem.ibanWithdrawalInfo?.beneficiaryName ??
                           '${userInfo.firstName} ${userInfo.lastName}',
+                      textAlign: TextAlign.right,
                     ),
                   ),
                 ],
@@ -187,11 +188,11 @@ class IbanSendDetailsHeader extends StatelessWidget {
           removeDefaultPaddings: true,
           isLoading: false,
           fromAssetIconUrl: '',
-          fromAssetDescription: transactionListItem.ibanWithdrawalInfo?.contactName ?? '',
+          fromAssetDescription: transactionListItem.ibanWithdrawalInfo?.accountLabel ?? '',
           fromAssetValue: volumeFormat(
             symbol: asset.symbol,
             accuracy: asset.accuracy,
-            decimal: transactionListItem.balanceChange.abs(),
+            decimal: (transactionListItem.ibanWithdrawalInfo?.withdrawalAmount ?? Decimal.zero).abs(),
           ),
           fromAssetCustomIcon: Assets.svg.other.medium.bankAccount.simpleSvg(
             width: 32,

@@ -16,6 +16,7 @@ import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
@@ -45,15 +46,6 @@ class _EurWalletBodyState extends State<EurWalletBody> {
 
   @override
   void initState() {
-    final bankAccountsCount = (sSignalRModules.bankingProfileData?.banking?.accounts ?? [])
-        .where((element) => element.status == AccountStatus.active)
-        .length;
-
-    var allAccountsCount = bankAccountsCount;
-    if (sSignalRModules.bankingProfileData?.simple != null) {
-      if (sSignalRModules.bankingProfileData?.simple?.account?.status == AccountStatus.active) allAccountsCount++;
-    }
-
     sAnalytics.eurWalletSwipeBetweenWallets();
     final simpleCardStore = getIt.get<SimpleCardStore>();
     final userInfo = getIt.get<UserInfoService>();
@@ -100,7 +92,6 @@ class _EurWalletBodyState extends State<EurWalletBody> {
       kycState.tradeStatus,
       kycState.withdrawalStatus,
     );
-    final anyBlock = sSignalRModules.clientDetail.clientBlockers.isNotEmpty;
 
     final isAddButtonDisabled = kycBlocked;
 
@@ -189,7 +180,8 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                           ],
                         ),
                         name: el.label ?? intl.eur_wallet_simple_card,
-                        helper: el.status == AccountStatusCard.inCreation ? intl.creating : intl.simple_card_type_virtual,
+                        helper:
+                            el.status == AccountStatusCard.inCreation ? intl.creating : intl.simple_card_type_virtual,
                         onTap: () {
                           if (el.status == AccountStatusCard.active || el.status == AccountStatusCard.frozen) {
                             if (simpleCardStore.canTap) {
@@ -252,7 +244,8 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                             padding: const EdgeInsets.only(
                               left: 36,
                             ),
-                            child: SIconTextButton(
+                            child: SButtonContext(
+                              type: SButtonContextType.iconedSmall,
                               onTap: () {
                                 if (simpleCardStore.allCards == null || simpleCardStore.allCards!.isEmpty) {
                                   simpleCardStore.setLoaderPage(simpleCardStore.loader);
@@ -260,23 +253,11 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                                 }
                               },
                               text: intl.simple_card_get_card.capitalize(),
-                              textStyle: sTextButtonStyle.copyWith(
-                                color: simpleCardStore.allCards != null &&
-                                        simpleCardStore.allCards!.isNotEmpty &&
-                                        simpleCardStore.allCards![0].status == AccountStatusCard.inCreation
-                                    ? sKit.colors.grey2
-                                    : sKit.colors.blue,
-                              ),
-                              icon: SActionDepositIcon(
-                                color: simpleCardStore.allCards != null &&
-                                        simpleCardStore.allCards!.isNotEmpty &&
-                                        simpleCardStore.allCards![0].status == AccountStatusCard.inCreation
-                                    ? sKit.colors.grey2
-                                    : sKit.colors.blue,
-                              ),
-                              disabled: simpleCardStore.allCards != null &&
-                                  simpleCardStore.allCards!.isNotEmpty &&
-                                  simpleCardStore.allCards![0].status == AccountStatusCard.inCreation,
+                              icon: Assets.svg.medium.card,
+                              isDisabled: (simpleCardStore.allCards != null &&
+                                      simpleCardStore.allCards!.isNotEmpty &&
+                                      simpleCardStore.allCards![0].status == AccountStatusCard.inCreation) ||
+                                  isAddButtonDisabled,
                             ),
                           ),
                         ),
