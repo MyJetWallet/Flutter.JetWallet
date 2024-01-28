@@ -72,6 +72,9 @@ class KycAlertHandler {
     } else if (status == kycOperationStatus(KycStatus.blocked) ||
         multiStatus.contains(kycOperationStatus(KycStatus.blocked))) {
       showBlockedAlert(customBlockerText: customBlockerText);
+    } else if (status == kycOperationStatus(KycStatus.allowed) ||
+        multiStatus.contains(kycOperationStatus(KycStatus.allowed))) {
+      currentNavigate.call();
     }
   }
 
