@@ -10,6 +10,7 @@ class SimpleTableAsset extends StatelessWidget {
     Key? key,
     this.onTableAssetTap,
     this.isCard = false,
+    this.isCardWallet = false,
     this.assetIcon,
     this.needPadding = true,
     required this.label,
@@ -27,6 +28,7 @@ class SimpleTableAsset extends StatelessWidget {
   final VoidCallback? onTableAssetTap;
 
   final bool isCard;
+  final bool isCardWallet;
   final Widget? assetIcon;
 
   final bool needPadding;
@@ -51,21 +53,30 @@ class SimpleTableAsset extends StatelessWidget {
       child: SizedBox(
         height: needPadding
             ? supplement == null
-                ? 64
+              ? 64
+              : isCardWallet
+                ? 72
                 : 80
             : 48,
         child: Padding(
           padding: needPadding
-              ? const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 16,
+              ? EdgeInsets.only(
+                  left: 24,
+                  right: 24,
+                  top: 16,
+                  bottom: isCardWallet ? 8 : 16,
                 )
               : EdgeInsets.zero,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              if (!isCard) ...[
+              if (isCardWallet) ...[
+                Padding(
+                  padding: const EdgeInsets.only(top: 8, bottom: 4),
+                  child: assetIcon,
+                ),
+              ] else if (!isCard) ...[
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 2),
                   child: SizedBox(

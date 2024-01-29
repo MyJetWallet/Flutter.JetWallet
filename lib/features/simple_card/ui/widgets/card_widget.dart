@@ -1,17 +1,15 @@
 import 'dart:async';
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/icons/24x24/public/action_deposit/simple_action_deposit_icon.dart';
 import 'package:simple_kit/modules/icons/custom/public/cards/simple_mastercard_big_icon.dart';
 import 'package:simple_kit/modules/icons/custom/public/cards/simple_visa_card_big_icon.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
-import 'package:simple_kit/modules/texts/simple_text_styles.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_sevsitive_response.dart';
 
@@ -140,7 +138,7 @@ class CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
                         padding: const EdgeInsets.only(
                           left: 16,
                           right: 16,
-                          top: 12,
+                          top: 7,
                           bottom: 8,
                         ),
                         width: 279,
@@ -223,15 +221,15 @@ class CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
                                       crossAxisAlignment: CrossAxisAlignment.end,
                                       children: [
                                         SizedBox(
-                                          width: 48,
-                                          height: 48,
+                                          width: 42,
+                                          height: 36,
                                           child: Center(
                                             child: Text(
                                               '\u2022 \u2022 '
                                               '${widget.card.cardNumberMasked?.substring(
                                                 (widget.card.cardNumberMasked?.length ?? 0) - 4,
                                               )}',
-                                              style: sCaptionTextStyle.copyWith(
+                                              style: STStyles.captionSemibold.copyWith(
                                                 color: colors.white,
                                               ),
                                             ),
@@ -242,7 +240,7 @@ class CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
                                           children: [
                                             Text(
                                               'debit',
-                                              style: sCaptionTextStyle.copyWith(
+                                              style: STStyles.captionSemibold.copyWith(
                                                 color: colors.white,
                                               ),
                                             ),
@@ -308,13 +306,13 @@ Widget getNetworkIcon(SimpleCardNetwork? network) {
   switch (network) {
     case SimpleCardNetwork.VISA:
       return const SVisaCardBigIcon(
-        width: 40,
-        height: 25,
+        width: 30,
+        height: 18,
       );
     case SimpleCardNetwork.MASTERCARD:
       return const SMasterCardBigIcon(
-        width: 40,
-        height: 25,
+        width: 30,
+        height: 18,
       );
     default:
       return const SActionDepositIcon();

@@ -63,6 +63,10 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
           isAnyBankAccountInCreating ||
           isSimpleInCreating;
 
+      final isCardInCreating = (sSignalRModules.bankingProfileData?.banking?.cards ?? [])
+          .where((element) => element.status == AccountStatusCard.inCreation)
+          .isNotEmpty;
+
       final isButtonSmall = isLoadingState
           ? false
           : store.buttonStatus == BankingShowState.getAccount || store.buttonStatus == BankingShowState.getAccountBlock;
@@ -76,7 +80,7 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
         rightValue:
             getIt<AppStore>().isBalanceHide ? '**** ${baseCurrency.symbol}' : currency.volumeBaseBalance(baseCurrency),
         hasButton: !isMoving,
-        isButtonLoading: isLoadingState,
+        isButtonLoading: isLoadingState || isCardInCreating,
         buttonHasRightArrow: !isButtonSmall,
         buttonHasCardIcon: (sSignalRModules
             .bankingProfileData?.banking
@@ -85,7 +89,11 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
           element.status == AccountStatusCard.active ||
               element.status == AccountStatusCard.frozen,
         ).toList().length ?? 0) > 0 && userInfo.isSimpleCardAvailable,
-        buttonLabel: isLoadingState ? intl.my_wallets_create_account : store.simpleCardButtonText,
+        buttonLabel: isLoadingState
+          ? intl.my_wallets_create_account
+          : isCardInCreating
+          ? intl.my_wallets_card_creating
+          : store.simpleCardButtonText,
         isButtonSmall: isButtonSmall,
         isButtonLabelBold: isButtonSmall,
         buttonTap: () {

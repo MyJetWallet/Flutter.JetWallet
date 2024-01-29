@@ -20,6 +20,7 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/router/app_router.dart';
 import '../../../core/services/signal_r/signal_r_service_new.dart';
@@ -134,7 +135,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                                   accuracy: eurCurrency.accuracy,
                                   symbol: eurCurrency.symbol,
                                 ),
-                          style: sTextH2Style,
+                          style: STStyles.header3,
                         ),
                       ),
                     ),
@@ -243,11 +244,14 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                       ),
                     ),
                   ),
+                  const SliverToBoxAdapter(
+                    child: SpaceH15(),
+                  ),
                   SliverToBoxAdapter(
                     child: SPaddingH24(
                       child: Text(
                         intl.wallet_transactions,
-                        style: sTextH4Style,
+                        style: STStyles.header5,
                       ),
                     ),
                   ),
@@ -258,26 +262,27 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                       accountId: simpleCardStore.cardFull!.cardId,
                       onItemTapLisener: (symbol) {},
                       source: TransactionItemSource.simpleCard,
+                      isSimpleCard: true,
                     ),
                   ] else ...[
                     SliverToBoxAdapter(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 80,
+                          horizontal: 45,
                           vertical: 40,
                         ),
                         child: Column(
                           children: [
                             Image.asset(
                               smileAsset,
-                              width: 48,
-                              height: 48,
+                              width: 36,
+                              height: 36,
                             ),
                             Text(
                               intl.wallet_simple_account_empty,
                               textAlign: TextAlign.center,
                               maxLines: 3,
-                              style: sSubtitle2Style.copyWith(
+                              style: STStyles.subtitle2.copyWith(
                                 color: sKit.colors.grey2,
                               ),
                             ),
@@ -299,10 +304,10 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                     child: SSmallHeader(
                       title: simpleCardStore.cardFull?.label ?? 'Simple card',
                       subTitle: intl.simple_card_type_virtual,
-                      titleStyle: sTextH5Style.copyWith(
+                      titleStyle: STStyles.header6.copyWith(
                         color: sKit.colors.black,
                       ),
-                      subTitleStyle: sBodyText2Style.copyWith(
+                      subTitleStyle: STStyles.body2Medium.copyWith(
                         color: sKit.colors.grey1,
                       ),
                     ),

@@ -165,6 +165,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                           symbol: eurCurrency.symbol,
                         ),
                         //isCard: true,
+                        isCardWallet: true,
                         hasLabelIcon: userInfo.isSimpleCardAvailable && el.status == AccountStatusCard.frozen,
                         onTableAssetTap: () {
                           if (el.status == AccountStatusCard.active || el.status == AccountStatusCard.frozen) {
@@ -183,8 +184,8 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                         },
 
                         assetIcon: userInfo.isSimpleCardAvailable && el.status == AccountStatusCard.frozen
-                            ? Assets.svg.paymentMethodsCards.simple.frozenCard.simpleSvg()
-                            : Assets.svg.paymentMethodsCards.simple.defaultCard.simpleSvg(),
+                            ? Assets.svg.paymentMethodsCards.simple.frozenCard.simpleSvg(width: 24,)
+                            : Assets.svg.paymentMethodsCards.simple.defaultCard.simpleSvg(width: 24,),
                       ),
                     ),
                 ],
@@ -196,7 +197,6 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SpaceH8(),
                         SPaddingH24(
                           child: Padding(
                             padding: const EdgeInsets.only(
@@ -206,7 +206,6 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                               type: SButtonContextType.iconedSmall,
                               onTap: () {
                                 if (simpleCardStore.allCards == null || simpleCardStore.allCards!.isEmpty) {
-                                  simpleCardStore.setLoaderPage(simpleCardStore.loader);
                                   showCardOptions(context);
                                 }
                               },
