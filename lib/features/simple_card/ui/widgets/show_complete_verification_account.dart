@@ -29,16 +29,11 @@ void showCompleteVerificationAccount(
 
       getIt.get<GlobalLoader>().setLoading(true);
 
-      Future.delayed(const Duration(seconds: 2), () {
-        getIt.get<GlobalLoader>().setLoading(false);
-      });
-
       await getIt<SumsubService>().launch(
         isBanking: true,
         needPush: false,
         onFinish: () {
           after();
-          Navigator.pop(context);
           getIt.get<GlobalLoader>().setLoading(false);
         },
       );
