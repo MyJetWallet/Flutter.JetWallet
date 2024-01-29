@@ -155,37 +155,18 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                   for (final el in (simpleCardStore.allCards ?? <CardDataModel>[])
                       .where((element) => element.status != AccountStatusCard.unsupported))
                     SliverToBoxAdapter(
-                      child: SCardRow(
-                        isLast: (simpleCardStore.allCards ?? <CardDataModel>[])
-                          .where((element) => element.status != AccountStatusCard.unsupported)
-                          .last.cardId == el.cardId,
-                        maxWidth: MediaQuery.of(context).size.width * .45,
-                        frozenIcon: (userInfo.isSimpleCardAvailable && el.status == AccountStatusCard.frozen)
-                            ? const SFrozenIcon(
-                                width: 16,
-                                height: 16,
-                              )
-                            : null,
-                        icon: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SpaceH6(),
-                            if (el.status == AccountStatusCard.frozen)
-                              const SFrozenCardIcon(
-                                width: 24,
-                                height: 16,
-                              )
-                            else
-                              const SCardIcon(
-                                width: 24,
-                                height: 16,
-                              ),
-                          ],
-                        ),
-                        name: el.label ?? intl.eur_wallet_simple_card,
-                        helper:
+                      child: SimpleTableAsset(
+                        label: el.label ?? intl.eur_wallet_simple_card,
+                        supplement:
                             el.status == AccountStatusCard.inCreation ? intl.creating : intl.simple_card_type_virtual,
-                        onTap: () {
+                        rightValue: volumeFormat(
+                          decimal: el.balance ?? Decimal.zero,
+                          accuracy: eurCurrency.accuracy,
+                          symbol: eurCurrency.symbol,
+                        ),
+                        //isCard: true,
+                        hasLabelIcon: userInfo.isSimpleCardAvailable && el.status == AccountStatusCard.frozen,
+                        onTableAssetTap: () {
                           if (el.status == AccountStatusCard.active || el.status == AccountStatusCard.frozen) {
                             if (simpleCardStore.canTap) {
                               simpleCardStore.setCanTap(false);
@@ -200,37 +181,10 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                             }
                           }
                         },
-                        description: '',
-                        amount: '',
-                        needSpacer: true,
-                        rightIcon: (el.status == AccountStatusCard.active || el.status == AccountStatusCard.frozen)
-                            ? Container(
-                                padding: const EdgeInsets.only(
-                                  left: 16,
-                                  right: 16,
-                                  top: 6,
-                                  bottom: 8,
-                                ),
-                                decoration: ShapeDecoration(
-                                  shape: RoundedRectangleBorder(
-                                    side: const BorderSide(color: Color(0xFFF1F4F8)),
-                                    borderRadius: BorderRadius.circular(22),
-                                  ),
-                                ),
-                                child: Text(
-                                  volumeFormat(
-                                    //decimal: simpleCardStore.card?.balance ?? Decimal.zero,
-                                    decimal: el.balance ?? Decimal.zero,
-                                    accuracy: eurCurrency.accuracy,
-                                    symbol: eurCurrency.symbol,
-                                  ),
-                                  style: sSubtitle1Style.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              )
-                            : null,
-                        spaceBIandText: 12,
+
+                        assetIcon: userInfo.isSimpleCardAvailable && el.status == AccountStatusCard.frozen
+                            ? Assets.svg.paymentMethodsCards.simple.frozenCard.simpleSvg()
+                            : Assets.svg.paymentMethodsCards.simple.defaultCard.simpleSvg(),
                       ),
                     ),
                 ],
