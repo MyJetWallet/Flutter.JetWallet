@@ -50,14 +50,6 @@ abstract class _SimpleCardStoreBase with Store {
   StackLoaderStore loader = StackLoaderStore();
 
   @observable
-  StackLoaderStore loaderPage = StackLoaderStore();
-
-  @action
-  void setLoaderPage(StackLoaderStore newLoader) {
-    loaderPage = newLoader;
-  }
-
-  @observable
   bool canTap = true;
 
   @action
@@ -395,6 +387,7 @@ abstract class _SimpleCardStoreBase with Store {
           showCompleteVerificationAccount(
             context,
             _afterVerification,
+            loader,
           );
         } else {
           loader.finishLoading();

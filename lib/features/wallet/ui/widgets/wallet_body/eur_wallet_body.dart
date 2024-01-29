@@ -156,6 +156,9 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                       .where((element) => element.status != AccountStatusCard.unsupported))
                     SliverToBoxAdapter(
                       child: SCardRow(
+                        isLast: (simpleCardStore.allCards ?? <CardDataModel>[])
+                          .where((element) => element.status != AccountStatusCard.unsupported)
+                          .last.cardId == el.cardId,
                         maxWidth: MediaQuery.of(context).size.width * .45,
                         frozenIcon: (userInfo.isSimpleCardAvailable && el.status == AccountStatusCard.frozen)
                             ? const SFrozenIcon(
@@ -248,7 +251,6 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                               type: SButtonContextType.iconedSmall,
                               onTap: () {
                                 if (simpleCardStore.allCards == null || simpleCardStore.allCards!.isEmpty) {
-                                  simpleCardStore.setLoaderPage(simpleCardStore.loader);
                                   showCardOptions(context);
                                 }
                               },
