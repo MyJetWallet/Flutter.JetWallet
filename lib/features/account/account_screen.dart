@@ -240,15 +240,15 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
                       icon: const SSupportIcon(),
                       isSDivider: true,
                       onTap: () async {
-                        if (showZendesk) {
+                        // if (showZendesk) {
                           await getIt.get<IntercomService>().showMessenger();
-                        } else {
-                          await sRouter.push(
-                            CrispRouter(
-                              welcomeText: intl.crispSendMessage_hi,
-                            ),
-                          );
-                        }
+                        // } else {
+                        //   await sRouter.push(
+                        //     CrispRouter(
+                        //       welcomeText: intl.crispSendMessage_hi,
+                        //     ),
+                        //   );
+                        // }
                       },
                     ),
                     SimpleAccountCategoryButton(
