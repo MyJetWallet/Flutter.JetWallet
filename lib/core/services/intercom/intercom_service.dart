@@ -20,9 +20,9 @@ abstract class _IntercomServiceBase with Store {
   Future<void> init() async {
     try {
       await Intercom.instance.initialize(
-        _appId,
-        iosApiKey: _iOSKey,
-        androidApiKey: _androidKey,
+        const String.fromEnvironment('INTERCOM_APP_ID'),
+        iosApiKey: const String.fromEnvironment('INTERCOM_ANDROID_KEY'),
+        androidApiKey: const String.fromEnvironment('INTERCOM_IOS_KEY'),
       );
 
       _logger.log(

@@ -42,7 +42,7 @@ Future<void> appInitialization(String environment) async {
 
   await getIt.get<IntercomService>().init();
 
-  Logger.root.level = Level.ALL;
-
   await getIt.get<AppStore>().initLocale();
+
+  Logger.root.level = Level.ALL;
 }
