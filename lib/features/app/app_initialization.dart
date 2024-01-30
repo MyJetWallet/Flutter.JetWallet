@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:jetwallet/core/di/di.dart';
-import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/push_notification_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:logging/logging.dart';
@@ -39,8 +38,6 @@ Future<void> appInitialization(String environment) async {
   if (Platform.isAndroid) {
     await FlutterDisplayMode.setHighRefreshRate();
   }
-
-  await getIt.get<IntercomService>().init();
 
   await getIt.get<AppStore>().initLocale();
 

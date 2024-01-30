@@ -143,7 +143,7 @@ Future<GetIt> getItInit({
   );
 
   getIt.registerLazySingleton<IntercomService>(
-    () => IntercomService(),
+    () => IntercomService()..init(),
   );
 
   return getIt.init(
