@@ -16,7 +16,6 @@ import 'package:jetwallet/core/services/session_check_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
-import 'package:jetwallet/core/services/zendesk_support_service/zendesk_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
@@ -87,12 +86,6 @@ Future<GetIt> getItInit({
     () async => RemoteConfig().fetchAndActivate(),
     dependsOn: [PackageInfoService],
   );
-
-  getIt.registerSingletonAsync<ZenDeskService>(
-    () async => ZenDeskService().initZenDesk(),
-    dependsOn: [RemoteConfig],
-  );
-
   getIt.registerSingleton<SNetwork>(
     SNetwork(),
   );
