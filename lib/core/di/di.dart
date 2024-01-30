@@ -135,8 +135,8 @@ Future<GetIt> getItInit({
     () => GlobalLoader(),
   );
 
-  getIt.registerLazySingleton<IntercomService>(
-    () => IntercomService()..init(),
+  getIt.registerSingletonAsync<IntercomService>(
+    () async => IntercomService().init(),
   );
 
   return getIt.init(
