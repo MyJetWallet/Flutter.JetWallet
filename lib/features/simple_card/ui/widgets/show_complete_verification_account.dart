@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -24,10 +25,12 @@ void showCompleteVerificationAccount(
       package: 'simple_kit',
     ),
     onPrimaryButtonTap: () async {
+      sAnalytics.tapVerifyAccountForCard();
       loading.finishLoadingImmediately();
       Navigator.pop(context);
 
       getIt.get<GlobalLoader>().setLoading(true);
+      sAnalytics.viewPleaseWaitLoading();
 
       await getIt<SumsubService>().launch(
         isBanking: true,
@@ -36,10 +39,12 @@ void showCompleteVerificationAccount(
           after();
           getIt.get<GlobalLoader>().setLoading(false);
         },
+        isCard: true,
       );
     },
     secondaryButtonName: intl.wallet_cancel,
     onSecondaryButtonTap: () {
+      sAnalytics.tapCancelKYCForCard();
       loading.finishLoadingImmediately();
       Navigator.pop(context);
       getIt.get<GlobalLoader>().setLoading(false);

@@ -20,6 +20,7 @@ class SimpleLightStandardFieldObscure extends StatefulWidget {
     this.validators = const [],
     required this.labelText,
     this.maxLength,
+    this.onHideTap,
   }) : super(key: key);
 
   final TextEditingController? controller;
@@ -27,6 +28,7 @@ class SimpleLightStandardFieldObscure extends StatefulWidget {
   final Function()? onErrorIconTap;
   final Iterable<String>? autofillHints;
   final Function(String)? onChanged;
+  final Function(bool)? onHideTap;
   final String labelText;
   final bool autofocus;
   final TextInputType? keyboardType;
@@ -95,6 +97,7 @@ class _SimpleLightStandardFieldObscureState
         if (showSuffix)
           InkWell(
             onTap: () {
+              widget.onHideTap?.call(!obscure);
               setState(() {
                 obscure = !obscure;
               });

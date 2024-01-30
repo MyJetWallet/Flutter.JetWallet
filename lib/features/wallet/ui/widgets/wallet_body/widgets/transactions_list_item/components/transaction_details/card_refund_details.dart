@@ -53,7 +53,7 @@ class CardRefundDetails extends StatelessObserverWidget {
                   text: shortTxhashFrom(transactionListItem.cardRefundInfo!.transactionId ?? ''),
                 ),
                 const SpaceW10(),
-                HistoryCopyIcon(transactionListItem.operationId),
+                HistoryCopyIcon(transactionListItem.cardRefundInfo!.transactionId ?? ''),
               ],
             ),
           ),

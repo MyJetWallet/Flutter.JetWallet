@@ -22,6 +22,7 @@ class SStandardFieldObscure extends StatelessObserverWidget {
     required this.onChanged,
     required this.labelText,
     this.maxLength,
+    this.onHideTap,
   }) : super(key: key);
 
   final TextEditingController? controller;
@@ -37,6 +38,7 @@ class SStandardFieldObscure extends StatelessObserverWidget {
   final bool isError;
   final List<Validator> validators;
   final int? maxLength;
+  final Function(bool)? onHideTap;
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +57,7 @@ class SStandardFieldObscure extends StatelessObserverWidget {
             isError: isError,
             validators: validators,
             maxLength: maxLength,
+            onHideTap: onHideTap,
           )
         : SimpleLightStandardFieldObscure(
             controller: controller,
@@ -70,6 +73,7 @@ class SStandardFieldObscure extends StatelessObserverWidget {
             isError: isError,
             validators: validators,
             maxLength: maxLength,
+            onHideTap: onHideTap,
           );
   }
 }

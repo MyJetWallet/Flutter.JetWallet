@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/card_options.dart';
 import 'package:jetwallet/utils/constants.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/buttons/simple_icon_button.dart';
 import 'package:simple_kit/modules/shared/simple_paddings.dart';
@@ -26,6 +27,7 @@ class GetCardBanner extends StatelessWidget {
     return SPaddingH24(
       child: InkWell(
         onTap: () {
+          sAnalytics.tapOnGetSimpleCard(source: 'main screen');
           showCardOptions(context);
         },
         child: Stack(

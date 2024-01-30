@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:auto_route/auto_route.dart';
@@ -78,6 +79,25 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
   void initState() {
     super.initState();
     final simpleCardStore = getIt.get<SimpleCardStore>();
+
+    Timer(
+      const Duration(seconds: 2),
+      () {
+        final userInfo = getIt.get<UserInfoService>();
+        final kycState = getIt.get<KycService>();
+        if (userInfo.isSimpleCardAvailable &&
+          (sSignalRModules.bankingProfileData?.banking?.cards?.length ?? 0) < 1 &&
+          !simpleCardStore.wasCardBannerClosed &&
+          checkKycPassed(
+            kycState.depositStatus,
+            kycState.tradeStatus,
+            kycState.withdrawalStatus,
+          )
+        ) {
+          sAnalytics.viewGetSimpleCard();
+        }
+      },
+    );
 
     simpleCardStore.checkCardBanner();
 

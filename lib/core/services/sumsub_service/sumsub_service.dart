@@ -68,8 +68,12 @@ class SumsubService {
     VoidCallback? onFinish,
     required bool isBanking,
     bool needPush = true,
+    bool isCard = false,
   }) async {
     final countries = getIt.get<KycCountryStore>();
+    if (isCard) {
+      sAnalytics.viewKYCSumsubCreation();
+    }
 
     getIt.get<SimpleLoggerService>().log(
           level: Level.info,

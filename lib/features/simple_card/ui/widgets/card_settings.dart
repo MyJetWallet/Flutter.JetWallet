@@ -83,6 +83,8 @@ class _CardSettings extends StatelessObserverWidget {
           supplement: intl.simple_card_online_purchases,
           hasRightValue: false,
           onTableAssetTap: () {
+            sAnalytics.tapOnSetPassword(cardID: simpleCardStore.cardFull?.cardId ?? '');
+            sAnalytics.viewConfirmWithPin(cardID: simpleCardStore.cardFull?.cardId ?? '');
             Navigator.push(
               context,
               PageRouteBuilder(

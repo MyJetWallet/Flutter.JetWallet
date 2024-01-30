@@ -116,15 +116,22 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                       isFrozen: simpleCardStore.isFrozen,
                       showDetails: simpleCardStore.showDetails,
                       onTap: () {
+                        if (simpleCardStore.showDetails) {
+                          sAnalytics.tapHideCard(cardID: simpleCardStore.cardFull?.cardId ?? '');
+                        } else {
+                          sAnalytics.tapShowCard(cardID: simpleCardStore.cardFull?.cardId ?? '');
+                        }
                         simpleCardStore.setShowDetails(!simpleCardStore.showDetails);
                       },
                     ),
                   ),
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 8,
+                      padding: const EdgeInsets.only(
+                        left: 24,
+                        right: 24,
+                        top: 8,
+                        bottom: 4,
                       ),
                       child: Center(
                         child: Text(
@@ -178,9 +185,16 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                           simpleCardStore.setShowDetails(!simpleCardStore.showDetails);
                         },
                         onFreeze: () {
+                          if (simpleCardStore.isFrozen) {
+                            sAnalytics.tapOnUnfreeze(cardID: simpleCardStore.cardFull?.cardId ?? '');
+                          } else {
+                            sAnalytics.tapFreezeCard(cardID: simpleCardStore.cardFull?.cardId ?? '');
+                          }
                           simpleCardStore.setFrozen(!simpleCardStore.isFrozen);
                         },
                         onSettings: () {
+                          sAnalytics.tapOnSettings(cardID: simpleCardStore.cardFull?.cardId ?? '');
+                          sAnalytics.viewCardSettings(cardID: simpleCardStore.cardFull?.cardId ?? '');
                           showCardSettings(
                             context: context,
                             onChangeLableTap: () {
@@ -217,6 +231,11 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                               });
                             },
                             onFreezeTap: () {
+                              if (simpleCardStore.isFrozen) {
+                                sAnalytics.tapOnUnfreeze(cardID: simpleCardStore.cardFull?.cardId ?? '');
+                              } else {
+                                sAnalytics.tapFreezeCard(cardID: simpleCardStore.cardFull?.cardId ?? '');
+                              }
                               simpleCardStore.setFrozen(!simpleCardStore.isFrozen);
                             },
                           );
@@ -245,7 +264,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                     ),
                   ),
                   const SliverToBoxAdapter(
-                    child: SpaceH15(),
+                    child: SpaceH12(),
                   ),
                   SliverToBoxAdapter(
                     child: SPaddingH24(
@@ -310,6 +329,10 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                       subTitleStyle: STStyles.body2Medium.copyWith(
                         color: sKit.colors.grey1,
                       ),
+                      onBackButtonTap: () {
+                        Navigator.pop(context);
+                        sAnalytics.tapBackFromVirualCard(cardID: simpleCardStore.cardFull?.cardId ?? '');
+                      },
                     ),
                   ),
                 ),
