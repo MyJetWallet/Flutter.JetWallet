@@ -18,6 +18,7 @@ class MyApp : Application() {
     super.onCreate()
     
     IntercomFlutterPlugin.initSdk(this, 
+      // TODO (yaroslav): uncomment it
       // appId = BuildConfig.INTERCOM_APP_ID, 
       // androidApiKey = BuildConfig.INTERCOM_ANDROID_KEY)
       appId = "lci42mfw", 
