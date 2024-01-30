@@ -101,4 +101,7 @@ class PropertyType {
   static const transferFrom = 'TransferFrom';
   static const transferTo = 'TransferTo';
   static const sourceTransfer = 'Source Transfer';
+  static const reason = 'Reason';
+  static const availableAssetsList = 'Available Asset list';
+  static const assetName = 'Asset name';
 }

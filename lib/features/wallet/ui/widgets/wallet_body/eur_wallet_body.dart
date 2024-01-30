@@ -53,6 +53,31 @@ class _EurWalletBodyState extends State<EurWalletBody> {
     if (userInfo.isSimpleCardAvailable) {
       simpleCardStore.initStore();
     }
+
+    Timer(
+      const Duration(seconds: 2),
+          () {
+        final userInfo = getIt.get<UserInfoService>();
+        final kycState = getIt.get<KycService>();
+        final kycBlocked = checkKycBlocked(
+          kycState.depositStatus,
+          kycState.tradeStatus,
+          kycState.withdrawalStatus,
+        );
+        if (userInfo.isSimpleCardAvailable &&
+          (
+            simpleCardStore.allCards == null ||
+            simpleCardStore.allCards!.isEmpty ||
+            simpleCardStore.allCards![0].status == AccountStatusCard.inCreation
+          ) &&
+          !kycBlocked
+        ) {
+          sAnalytics.viewEURWalletWithButton();
+        } else {
+          sAnalytics.viewEURWalletWithoutButton();
+        }
+      },
+    );
     _controller.addListener(() {
       if (_controller.position.pixels <= 0) {
         if (!isTopPosition) {
@@ -177,7 +202,9 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                                 ),
                                 () => simpleCardStore.setCanTap(true),
                               );
+                              sAnalytics.tapOnSimpleCard();
                               simpleCardStore.initFullCardIn(el.cardId ?? '');
+                              sAnalytics.viewVirtualCardScreen(cardID: el.cardId ?? '');
                               sRouter.push(const SimpleCardRouter());
                             }
                           }
@@ -206,6 +233,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                               type: SButtonContextType.iconedSmall,
                               onTap: () {
                                 if (simpleCardStore.allCards == null || simpleCardStore.allCards!.isEmpty) {
+                                  sAnalytics.tapOnGetSimpleCard(source: 'eur wallet');
                                   showCardOptions(context);
                                 }
                               },

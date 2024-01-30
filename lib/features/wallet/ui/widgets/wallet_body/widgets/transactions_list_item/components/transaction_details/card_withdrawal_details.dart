@@ -53,7 +53,7 @@ class CardWithdrawalDetails extends StatelessObserverWidget {
                   text: shortTxhashFrom(transactionListItem.cardWithdrawalInfo!.transactionId ?? ''),
                 ),
                 const SpaceW10(),
-                HistoryCopyIcon(transactionListItem.operationId),
+                HistoryCopyIcon(transactionListItem.cardWithdrawalInfo!.transactionId ?? ''),
               ],
             ),
           ),

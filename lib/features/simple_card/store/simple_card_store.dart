@@ -110,6 +110,7 @@ abstract class _SimpleCardStoreBase with Store {
         }
       }
       if (needNotification) {
+        sAnalytics.viewCardIsReady();
         sNotification.showError(
           intl.simple_card_is_ready,
           id: 1,
@@ -135,6 +136,9 @@ abstract class _SimpleCardStoreBase with Store {
       if (activeCard.isNotEmpty) {
         setCardFullInfo(activeCard[activeCard.length - 1]);
         isFrozen = activeCard[activeCard.length - 1].status == AccountStatusCard.frozen;
+        if (activeCard[activeCard.length - 1].status == AccountStatusCard.frozen) {
+          sAnalytics.viewFrozenCard(cardID: cardId);
+        }
 
         if (allSensitive.where((element) => element.cardId == cardId).toList().isEmpty) {
           try {
@@ -238,6 +242,7 @@ abstract class _SimpleCardStoreBase with Store {
     if (value) {
       final context = getIt.get<AppRouter>().navigatorKey.currentContext;
       Navigator.pop(sRouter.navigatorKey.currentContext!);
+      sAnalytics.viewFreezeCardPopup(cardID: cardFull?.cardId ?? '');
       await sShowAlertPopup(
         context!,
         primaryText: intl.simple_card_froze_this_card,
@@ -250,10 +255,12 @@ abstract class _SimpleCardStoreBase with Store {
           height: 80,
         ),
         onPrimaryButtonTap: () {
+          sAnalytics.tapConfirmFreezeCard(cardID: cardFull?.cardId ?? '');
           frozenApprove(value);
           Navigator.pop(sRouter.navigatorKey.currentContext!);
         },
         onSecondaryButtonTap: () {
+          sAnalytics.tapCancelFreeze(cardID: cardFull?.cardId ?? '');
           Navigator.pop(sRouter.navigatorKey.currentContext!);
         },
       );
@@ -311,6 +318,7 @@ abstract class _SimpleCardStoreBase with Store {
         },
         onError: (error) {
           loader.finishLoadingImmediately();
+          sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: error.cause);
           sNotification.showError(
             error.cause,
             id: 1,
@@ -319,12 +327,14 @@ abstract class _SimpleCardStoreBase with Store {
       );
     } on ServerRejectException catch (error) {
       loader.finishLoadingImmediately();
+      sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: error.cause);
       sNotification.showError(
         error.cause,
         id: 1,
       );
     } catch (error) {
       loader.finishLoadingImmediately();
+      sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: intl.something_went_wrong);
       sNotification.showError(
         intl.something_went_wrong,
         id: 1,
@@ -382,6 +392,7 @@ abstract class _SimpleCardStoreBase with Store {
             isBanking: false,
           );
         } else if (response.data!.bankingKycRequired != null && response.data!.bankingKycRequired!) {
+          sAnalytics.viewCompleteKYCForCard();
           loader.finishLoading();
           Navigator.pop(context!);
           showCompleteVerificationAccount(
@@ -419,12 +430,14 @@ abstract class _SimpleCardStoreBase with Store {
     getIt.get<GlobalLoader>().setLoading(false);
 
     sNotification.showError(intl.simple_card_password_working, isError: false);
+    sAnalytics.viewWorkingOnYourCard();
   }
 
   @action
   Future<void> gotToSetup() async {
     final context = getIt.get<AppRouter>().navigatorKey.currentContext;
     Navigator.pop(context!);
+    sAnalytics.viewSetupPassword();
     await Navigator.push(
       context,
       PageRouteBuilder(
@@ -459,6 +472,7 @@ abstract class _SimpleCardStoreBase with Store {
   @action
   Future<void> remindPinPhone() async {
     Navigator.pop(sRouter.navigatorKey.currentContext!);
+    sAnalytics.tapOnRemindPin(cardID: cardFull?.cardId ?? '');
     loader.startLoadingImmediately();
     try {
       final response = await sNetwork.getWalletModule().postRemindPinPhone(cardId: cardFull?.cardId ?? '');
@@ -467,6 +481,7 @@ abstract class _SimpleCardStoreBase with Store {
         onData: (SimpleCardRemindPinResponse value) {
           loader.finishLoadingImmediately();
           final context = getIt.get<AppRouter>().navigatorKey.currentContext;
+          sAnalytics.viewRemindPinSheet(cardID: cardFull?.cardId ?? '');
           sShowAlertPopup(
             context!,
             primaryText: intl.simple_card_remind_title,
@@ -480,9 +495,11 @@ abstract class _SimpleCardStoreBase with Store {
               height: 80,
             ),
             onPrimaryButtonTap: () {
+              sAnalytics.tapInContinueRemindPin(cardID: cardFull?.cardId ?? '');
               remindPin();
             },
             onSecondaryButtonTap: () {
+              sAnalytics.tapOnCancelRemindPin(cardID: cardFull?.cardId ?? '');
               Navigator.pop(sRouter.navigatorKey.currentContext!);
             },
           );
@@ -528,6 +545,7 @@ abstract class _SimpleCardStoreBase with Store {
         },
         onError: (error) {
           loader.finishLoadingImmediately();
+          sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: error.cause);
           sNotification.showError(
             error.cause,
             id: 1,
@@ -536,12 +554,14 @@ abstract class _SimpleCardStoreBase with Store {
       );
     } on ServerRejectException catch (error) {
       loader.finishLoadingImmediately();
+      sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: error.cause);
       sNotification.showError(
         error.cause,
         id: 1,
       );
     } catch (error) {
       loader.finishLoadingImmediately();
+      sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: intl.something_went_wrong);
       sNotification.showError(
         intl.something_went_wrong,
         id: 1,
@@ -636,6 +656,7 @@ abstract class _SimpleCardStoreBase with Store {
           );
         },
         onError: (error) {
+          sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: error.cause);
           sNotification.showError(
             error.cause,
             id: 3,
@@ -643,6 +664,7 @@ abstract class _SimpleCardStoreBase with Store {
         },
       );
     } on ServerRejectException catch (error) {
+      sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: error.cause);
       sNotification.showError(
         error.cause,
         id: 4,
@@ -651,6 +673,7 @@ abstract class _SimpleCardStoreBase with Store {
 
       loader.finishLoading();
     } catch (error) {
+      sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: intl.something_went_wrong_try_again2);
       sNotification.showError(
         intl.something_went_wrong_try_again2,
         id: 5,

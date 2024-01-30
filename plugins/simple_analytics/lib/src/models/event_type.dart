@@ -444,6 +444,52 @@ class EventType {
   static const successConvertEndScreenView = '‘Success Convert end’ screen view';
   static const failedConvertEndScreenView = 'Failed Convert end’ screen view';
 
+  // Simple card
+  static const viewGetSimpleCard = '‘Get Simple card now’ popup screen view';
+  static const tapOnGetSimpleCard = 'Tap on the ‘Get Simple card now’ button';
+  static const viewCardTypeSheet = '‘Card type’ sheet view';
+  static const tapOnVirtualCard = 'Tap on the ‘Virtual card‘ creation button';
+  static const confirmWithPinView = '‘Confirm with PIN - card creation’ screen view';
+  static const viewSetupPassword = '‘Set up card password’ sheet view';
+  static const tapCloseSetUpPassword = 'Tap on the ‘Close - set up card password’ button';
+  static const tapHideSetupPassword = 'Tap on the ‘Hide password’ button';
+  static const tapShowSetupPassword = 'Tap on the ‘Show password’ button';
+  static const tapContinueSetupPassword = 'Tap on the ‘Continue set up password’ button';
+  static const viewCompleteKYCForCard = '‘Please complete KYC for card’ popup view';
+  static const tapVerifyAccountForCard = 'Tap on the ‘Verify account for card’ button';
+  static const tapCancelKYCForCard = 'Tap on the ‘Cancel on kyc card’ button';
+  static const viewPleaseWaitLoading = '‘Please wait loader on card creation’ loading view';
+  static const viewKYCSumsubCreation = '‘KYC Sumsub on card creation flow’ screen view';
+  static const viewWorkingOnYourCard = '‘Working on your Simple card‘ toast view';
+  static const viewCardIsReady = '‘Simple card is ready’ toast view';
+  static const viewEURWalletWithoutButton = '‘EUR wallet with unavailable Get card button’ screen view';
+  static const viewEURWalletWithButton = '‘EUR wallet with available Simple Virtual card button’ screen view';
+  static const tapOnSimpleCard = 'Tap on the ‘Simple card’ button';
+  static const viewVirtualCardScreen = '‘Virtual card’ screen view';
+  static const tapShowCard = 'Tap on the ‘Show card details’ button';
+  static const tapHideCard = 'Tap on the ‘Hide card details’ button';
+  static const tapCopyCardNumber = 'Tap on the ‘Copy card number’ button';
+  static const viewErrorOnCardScreen = 'Error on card screen';
+  static const tapBackFromVirualCard = 'Tap on the ‘Back from Virtual Card’ button';
+  static const tapFreezeCard = 'Tap on the ‘Freeze virtual card’ button';
+  static const viewFreezeCardPopup = '‘Freeze this card’ popup screen view';
+  static const tapConfirmFreezeCard = 'Tap on the ‘Freeze’ button';
+  static const tapCancelFreeze = 'Tap on the ‘Cancel’ button';
+  static const viewFrozenCard = '‘Frozen card’ screen view';
+  static const tapOnUnfreeze = 'Tap on the ‘Unfreeze’ button';
+  static const tapOnAddCash = 'Tap on the ‘Add cash’ button';
+  static const viewAddCashSheet = '‘Add cash from‘ sheet view';
+  static const tapOnAddCashFromAsset = 'Tap on the ‘Add cash from Asset’ button';
+  static const viewErrorOnSellScreen = 'Error on sell screen';
+  static const tapOnSettings = 'Tap on the ‘Settings’ button';
+  static const viewCardSettings = '‘Card settings‘ sheet view';
+  static const tapOnRemindPin = 'Tap on the ‘Remind PIN’ button';
+  static const viewRemindPinSheet = '‘Remind PIN‘ popup view';
+  static const tapOnCancelRemindPin = 'Tap on the ‘Cancel Remind PIN’ button';
+  static const tapInContinueRemindPin = 'Tap on the ‘Continue Remind PIN’ button';
+  static const tapOnSetPassword = 'Tap on the ‘Set password’ button';
+  static const viewConfirmWithPin = '‘Confirm with PIN - edit password’ screen view';
+
   //Terminate Simple Card
   static const tapOnTheTerminateButton = 'Tap on the ‘Terminate’ button';
   static const terminateWithBalancePopupScreenView = '‘Terminate with balance’ popup screen view';

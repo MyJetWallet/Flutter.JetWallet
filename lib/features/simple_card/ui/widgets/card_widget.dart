@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/icons/24x24/public/action_deposit/simple_action_deposit_icon.dart';
 import 'package:simple_kit/modules/icons/custom/public/cards/simple_mastercard_big_icon.dart';
@@ -92,6 +93,7 @@ class CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
     final colors = sKit.colors;
 
     void onCopyAction(String value) {
+      sAnalytics.tapCopyCardNumber(cardID: widget.card.cardId ?? '');
       Clipboard.setData(
         ClipboardData(
           text: value.replaceAll(' ', ''),
@@ -248,7 +250,9 @@ class CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
                                             SizedBox(
                                               width: 48,
                                               height: 48,
-                                              child: getNetworkIcon(widget.card.cardType),
+                                              child: Center(
+                                                child: getNetworkIcon(widget.card.cardType),
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -306,13 +310,13 @@ Widget getNetworkIcon(SimpleCardNetwork? network) {
   switch (network) {
     case SimpleCardNetwork.VISA:
       return const SVisaCardBigIcon(
-        width: 30,
-        height: 18,
+        width: 40,
+        height: 25,
       );
     case SimpleCardNetwork.MASTERCARD:
       return const SMasterCardBigIcon(
-        width: 30,
-        height: 18,
+        width: 40,
+        height: 25,
       );
     default:
       return const SActionDepositIcon();
