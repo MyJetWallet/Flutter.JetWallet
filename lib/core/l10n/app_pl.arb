@@ -1766,5 +1766,9 @@
     "invest_period_description": "Historia transakcji tylko do 90 dni",
     "invest_period_days": "dni",
     "invest_confirm": "Potwierdź",
-    "invest_history_pending": "Historia oczekująca"
+    "invest_history_pending": "Historia oczekująca",
+    "simple_card_is_ready": "Karta Simple jest gotowa",
+    "simple_card_password_repeatable_characters": "Nie może zawierać więcej niż 3 powtarzające się znaki pod rząd",
+    "simple_card_password_whitespace": "Znak spacji jest niedozwolony",
+    "simple_card_password_repeatable_allowed_symbols": "Dozwolone są następujące symbole specjalne:"
 }
