@@ -17,8 +17,8 @@ class IntercomService {
     try {
       await Intercom.instance.initialize(
         'lci42mfw',
-        iosApiKey: 'android_sdk-684bae5a9d75b05e583aeb048fbfa1be7774247c',
-        androidApiKey: 'ios_sdk-798dd512c506503fc2da6c81797ac8428e0eb419',
+        iosApiKey: 'ios_sdk-798dd512c506503fc2da6c81797ac8428e0eb419',
+        androidApiKey: 'android_sdk-684bae5a9d75b05e583aeb048fbfa1be7774247c',
         // TODO (yaroslav): uncomment it
         // const String.fromEnvironment('INTERCOM_APP_ID'),
         // iosApiKey: const String.fromEnvironment('INTERCOM_ANDROID_KEY'),
