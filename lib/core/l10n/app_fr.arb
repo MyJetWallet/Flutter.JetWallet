@@ -1678,5 +1678,9 @@
     "invest_period_description": "Historique que pour 90 jours",
     "invest_period_days": "jours",
     "invest_confirm": "Confirmer",
-    "invest_history_pending": "Historique en attente"
+    "invest_history_pending": "Historique en attente",
+    "simple_card_is_ready": "La carte Simple est prête",
+    "simple_card_password_repeatable_characters": "Ne doit pas inclure plus de 3 caractères répétitifs consécutifs",
+    "simple_card_password_whitespace": "Le caractère d'espace n'est pas autorisé",
+    "simple_card_password_repeatable_allowed_symbols": "Les symboles spéciaux suivants sont autorisés:"
 }
