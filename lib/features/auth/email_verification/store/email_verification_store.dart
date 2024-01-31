@@ -245,10 +245,15 @@ abstract class _EmailVerificationStoreBase with Store {
 
           authInfo.setAuthStatus(const AuthorizationUnion.authorized());
 
-          //if (await Permission.notification.isDenied || await Permission.notification.isPermanentlyDenied) {
-          //getIt.get<StartupService>().successfullAuthentication(needPush: false);
-          //} else
-          if (!await Permission.notification.isGranted) {
+          final statusNotification = await Permission.notification.status;
+
+          final isShowPermissionScreen = [
+            PermissionStatus.denied,
+            PermissionStatus.limited,
+            PermissionStatus.provisional,
+          ].contains(statusNotification);
+
+          if (isShowPermissionScreen) {
             await sRouter.replace(const PushPermissionRoute());
           } else {
             getIt.get<StartupService>().successfullAuthentication(needPush: false);

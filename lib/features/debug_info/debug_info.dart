@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
-import 'package:jetwallet/core/services/zendesk_support_service/zendesk_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_new.dart';
-import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 
 import '../../core/di/di.dart';
 import '../../core/services/local_storage_service.dart';
@@ -317,10 +317,10 @@ class _DebugInfoState extends State<DebugInfo> with SingleTickerProviderStateMix
                 ),
                 TextButton(
                   onPressed: () async {
-                    await getIt.get<ZenDeskService>().showZenDesk();
+                    await getIt.get<IntercomService>().showMessenger();
                   },
                   child: const Text(
-                    'Zendesk',
+                    'Intercom',
                   ),
                 ),
                 TextButton(

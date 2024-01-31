@@ -5,10 +5,10 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/flavor_service.dart';
+import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
-import 'package:jetwallet/core/services/zendesk_support_service/zendesk_service.dart';
 import 'package:jetwallet/features/account/widgets/account_banner_list.dart';
 import 'package:jetwallet/features/account/widgets/log_out_option.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -16,7 +16,6 @@ import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
-import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -138,7 +137,7 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
                   },
                   onChatBannerTap: () async {
                     if (showZendesk) {
-                      await getIt.get<ZenDeskService>().showZenDesk();
+                      await getIt.get<IntercomService>().showMessenger();
                     } else {
                       await sRouter.push(
                         CrispRouter(
@@ -241,7 +240,7 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
                       isSDivider: true,
                       onTap: () async {
                         if (showZendesk) {
-                          await getIt.get<ZenDeskService>().showZenDesk();
+                          await getIt.get<IntercomService>().showMessenger();
                         } else {
                           await sRouter.push(
                             CrispRouter(

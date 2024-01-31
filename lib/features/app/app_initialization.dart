@@ -39,7 +39,7 @@ Future<void> appInitialization(String environment) async {
     await FlutterDisplayMode.setHighRefreshRate();
   }
 
-  Logger.root.level = Level.ALL;
-
   await getIt.get<AppStore>().initLocale();
+
+  Logger.root.level = Level.ALL;
 }
