@@ -10,6 +10,9 @@ import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/transfer/account_transfer_preview_request_model.dart';
 
+import '../../../core/di/di.dart';
+import '../../app/store/app_store.dart';
+
 void showTransferFromToBottomSheet({
   required BuildContext context,
   required void Function({CardDataModel? newCard, SimpleBankingAccount? newAccount}) onSelected,
@@ -64,11 +67,13 @@ class _TransferFromToBody extends StatelessWidget {
               label: account.label ?? 'Account 1',
               supplement:
                   account.isClearjuctionAccount ? intl.eur_wallet_simple_account : intl.eur_wallet_personal_account,
-              rightValue: volumeFormat(
-                decimal: account.balance ?? Decimal.zero,
-                accuracy: 2,
-                symbol: account.currency ?? 'EUR',
-              ),
+              rightValue: getIt<AppStore>().isBalanceHide
+                ? '**** ${account.currency ?? 'EUR'}'
+                : volumeFormat(
+                  decimal: account.balance ?? Decimal.zero,
+                  accuracy: 2,
+                  symbol: account.currency ?? 'EUR',
+                ),
               assetIcon: Assets.svg.assets.fiat.account.simpleSvg(
                 width: 24,
               ),
@@ -84,11 +89,13 @@ class _TransferFromToBody extends StatelessWidget {
             SimpleTableAsset(
               label: card.label ?? 'Simple card',
               supplement: '${card.cardType?.frontName} ••• ${card.last4NumberCharacters}',
-              rightValue: volumeFormat(
-                decimal: card.balance ?? Decimal.zero,
-                accuracy: 2,
-                symbol: card.currency ?? 'EUR',
-              ),
+              rightValue: getIt<AppStore>().isBalanceHide
+                ? '**** ${card.currency ?? 'EUR'}'
+                : volumeFormat(
+                  decimal: card.balance ?? Decimal.zero,
+                  accuracy: 2,
+                  symbol: card.currency ?? 'EUR',
+                ),
               isCard: true,
               onTableAssetTap: () {
                 sRouter.pop();

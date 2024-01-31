@@ -19,6 +19,7 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../../../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../../../../../../../utils/helpers/currency_from.dart';
+import '../../../../../../../../app/store/app_store.dart';
 import '../../../../../../../helper/format_date_to_hm.dart';
 import 'components/transaction_details_item.dart';
 import 'components/transaction_details_value_text.dart';
@@ -194,14 +195,18 @@ class _GiftSendDetailsHeader extends StatelessWidget {
           isSmallerVersion: true,
           fromAssetIconUrl: paymentAsset.iconUrl,
           fromAssetDescription: paymentAsset.description,
-          fromAssetValue: volumeFormat(
+          fromAssetValue: getIt<AppStore>().isBalanceHide
+              ? '**** ${paymentAsset.symbol}'
+              : volumeFormat(
             symbol: paymentAsset.symbol,
             accuracy: paymentAsset.accuracy,
             decimal: transactionListItem.balanceChange.abs(),
           ),
           toAssetIconUrl: buyAsset.iconUrl,
           toAssetDescription: buyAsset.description,
-          toAssetValue: volumeFormat(
+          toAssetValue: getIt<AppStore>().isBalanceHide
+              ? '**** ${buyAsset.symbol}'
+              : volumeFormat(
             symbol: buyAsset.symbol,
             accuracy: buyAsset.accuracy,
             decimal: (transactionListItem.giftSendInfo?.receiveAmount ?? Decimal.zero).abs(),

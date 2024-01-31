@@ -17,6 +17,7 @@ import 'package:simple_networking/modules/signal_r/models/client_detail_model.da
 
 import '../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../utils/models/currency_model.dart';
+import '../../app/store/app_store.dart';
 import '../../kyc/kyc_service.dart';
 import '../../kyc/models/kyc_operation_status_model.dart';
 
@@ -188,6 +189,7 @@ class _ActionReceive extends StatelessObserverWidget {
                             ),
                           );
                     },
+                    hideBalance: getIt<AppStore>().isBalanceHide,
                   ),
           ],
         ),

@@ -13,6 +13,9 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
+import '../../../core/di/di.dart';
+import '../../app/store/app_store.dart';
+
 void showSellPayWithBottomSheet({
   required BuildContext context,
   CurrencyModel? currency,
@@ -92,11 +95,13 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
               SimpleTableAsset(
                 label: card.label ?? 'Simple card',
                 supplement: '${card.cardType?.frontName} ••• ${card.last4NumberCharacters}',
-                rightValue: volumeFormat(
-                  decimal: card.balance ?? Decimal.zero,
-                  accuracy: 2,
-                  symbol: card.currency ?? 'EUR',
-                ),
+                rightValue: getIt<AppStore>().isBalanceHide
+                  ? '**** ${card.currency ?? 'EUR'}'
+                  : volumeFormat(
+                    decimal: card.balance ?? Decimal.zero,
+                    accuracy: 2,
+                    symbol: card.currency ?? 'EUR',
+                  ),
                 isCard: true,
                 onTableAssetTap: () {
                   if (onSelected != null) {

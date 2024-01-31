@@ -25,6 +25,7 @@ import 'package:simple_networking/modules/signal_r/models/client_detail_model.da
 
 import '../../../../actions/action_send/widgets/send_options.dart';
 import '../../../../actions/circle_actions/circle_actions.dart';
+import '../../../../app/store/app_store.dart';
 
 const _collapsedCardHeight = 200.0;
 const _expandedCardHeight = 270.0;
@@ -97,28 +98,40 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
             ),
             ticker: widget.currency.symbol,
             mainTitle: widget.currency.symbol == 'EUR'
-                ? volumeFormat(
+                ? getIt<AppStore>().isBalanceHide
+                  ? '**** ${widget.currency.symbol}'
+                  : volumeFormat(
                     decimal: sSignalRModules.totalEurWalletBalance,
                     accuracy: widget.currency.accuracy,
                     symbol: widget.currency.symbol,
                   )
-                : widget.currency.volumeBaseBalance(
+                : getIt<AppStore>().isBalanceHide
+                  ? '**** ${getIt.get<FormatService>().baseCurrency.symbol}'
+                  : widget.currency.volumeBaseBalance(
                     getIt.get<FormatService>().baseCurrency,
                   ),
             mainSubtitle: getIt.get<FormatService>().baseCurrency.symbol != widget.currency.symbol
                 ? widget.currency.symbol == 'EUR'
-                    ? widget.currency.volumeBaseBalance(getIt.get<FormatService>().baseCurrency)
-                    : widget.currency.volumeAssetBalance
+                  ? getIt<AppStore>().isBalanceHide
+                    ? '**** ${getIt.get<FormatService>().baseCurrency.symbol}'
+                    : widget.currency.volumeBaseBalance(getIt.get<FormatService>().baseCurrency)
+                  : getIt<AppStore>().isBalanceHide
+                      ? '******* ${widget.currency.symbol}'
+                      : widget.currency.volumeAssetBalance
                 : null,
             mainHeaderTitle: widget.currency.description,
             mainHeaderSubtitle: intl.eur_wallet,
             mainHeaderCollapsedTitle: widget.currency.symbol == 'EUR'
-                ? volumeFormat(
+                ? getIt<AppStore>().isBalanceHide
+                  ? '**** ${widget.currency.symbol}'
+                  : volumeFormat(
                     decimal: sSignalRModules.totalEurWalletBalance,
                     accuracy: widget.currency.accuracy,
                     symbol: widget.currency.symbol,
                   )
-                : widget.currency.volumeBaseBalance(getIt.get<FormatService>().baseCurrency),
+                :  getIt<AppStore>().isBalanceHide
+                  ? '**** ${getIt.get<FormatService>().baseCurrency.symbol}'
+                  : widget.currency.volumeBaseBalance(getIt.get<FormatService>().baseCurrency),
             mainHeaderCollapsedSubtitle: widget.currency.description,
             carouselItemsCount: widget.pageCount,
             carouselPageIndex: widget.indexNow,

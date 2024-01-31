@@ -4,6 +4,9 @@ import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
+import '../../../../../core/di/di.dart';
+import '../../../../app/store/app_store.dart';
+
 class BalancesWidget extends StatelessWidget {
   const BalancesWidget({
     super.key,
@@ -31,7 +34,9 @@ class BalancesWidget extends StatelessWidget {
             onTableAssetTap: () {
               onTap(account);
             },
-            rightValue: '${account.balance} ${account.currency}',
+            rightValue: getIt<AppStore>().isBalanceHide
+              ? '**** ${account.currency}'
+              : '${account.balance} ${account.currency}',
           ),
       ],
     );

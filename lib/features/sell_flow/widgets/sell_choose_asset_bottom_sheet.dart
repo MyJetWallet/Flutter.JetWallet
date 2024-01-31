@@ -102,7 +102,9 @@ class _ChooseAssetBody extends StatelessObserverWidget {
                     url: currency.iconUrl,
                   ),
                   label: currency.description,
-                  rightValue: currency.volumeBaseBalance(baseCurrency),
+                  rightValue: getIt<AppStore>().isBalanceHide
+                      ? '**** ${baseCurrency.symbol ?? 'EUR'}'
+                      : currency.volumeBaseBalance(baseCurrency),
                   supplement: secondaryText,
                   onTableAssetTap: () {
                     onChooseAsset(currency);

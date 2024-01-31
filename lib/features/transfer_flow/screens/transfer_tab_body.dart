@@ -20,6 +20,9 @@ import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../core/di/di.dart';
+import '../../app/store/app_store.dart';
+
 class TransferAmountTabBody extends StatefulWidget {
   const TransferAmountTabBody({
     super.key,
@@ -214,6 +217,8 @@ class _AsssetWidget extends StatelessWidget {
       subTitle: isFrom ? intl.from : intl.to1,
       trailing: account == null && card == null
           ? null
+          : getIt<AppStore>().isBalanceHide
+          ? '**** ${account?.currency}'
           : volumeFormat(
               decimal: account?.balance ?? card?.balance ?? Decimal.zero,
               accuracy: 2,

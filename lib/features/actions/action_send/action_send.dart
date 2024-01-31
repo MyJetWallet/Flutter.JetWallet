@@ -25,6 +25,7 @@ import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 import '../../../core/services/local_storage_service.dart';
+import '../../app/store/app_store.dart';
 import '../helpers/show_currency_search.dart';
 
 Future<void> showSendAction(BuildContext context) async {
@@ -354,8 +355,12 @@ class _ActionSend extends StatelessObserverWidget {
                 ),
                 primaryText: currency.description,
                 removeDivider: currency == currencyFiltered.last,
-                amount: currency.volumeBaseBalance(baseCurrency),
-                secondaryText: currency.volumeAssetBalance,
+                amount: getIt<AppStore>().isBalanceHide
+                    ? '******* ${baseCurrency.symbol}'
+                    : currency.volumeBaseBalance(baseCurrency),
+                secondaryText: getIt<AppStore>().isBalanceHide
+                    ? '******* ${currency.symbol}'
+                    : currency.volumeAssetBalance,
                 onTap: () {
                   Navigator.pop(context);
 
@@ -367,6 +372,7 @@ class _ActionSend extends StatelessObserverWidget {
                     ),
                   );
                 },
+                hideBalance: getIt<AppStore>().isBalanceHide,
               ),
         const SpaceH42(),
       ],
@@ -588,6 +594,7 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
                         Navigator.pop(context);
                         showSendGlobally(context, currency);
                       },
+                      hideBalance: getIt<AppStore>().isBalanceHide,
                     ),
             ],
           ),
@@ -616,6 +623,7 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
                         Navigator.pop(context);
                         showSendGlobally(context, currency);
                       },
+                      hideBalance: getIt<AppStore>().isBalanceHide,
                     ),
               const SpaceH42(),
             ],

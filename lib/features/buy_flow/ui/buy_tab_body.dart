@@ -22,6 +22,8 @@ import 'package:simple_networking/modules/signal_r/models/banking_profile_model.
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../core/di/di.dart';
+import '../../app/store/app_store.dart';
 import 'buy_choose_asset_bottom_sheet.dart';
 
 class BuyAmountTabBody extends StatefulObserverWidget {
@@ -129,7 +131,9 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                   SuggestionButtonWidget(
                     title: store.asset?.description,
                     subTitle: intl.amount_screen_buy,
-                    trailing: store.asset?.volumeAssetBalance,
+                    trailing: getIt<AppStore>().isBalanceHide
+                      ? '**** ${store.asset?.symbol}'
+                      : store.asset?.volumeAssetBalance,
                     icon: SNetworkSvg24(
                       url: store.asset?.iconUrl ?? '',
                     ),
@@ -167,11 +171,13 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                   SuggestionButtonWidget(
                     title: store.account?.label,
                     subTitle: intl.amount_screen_pay_with,
-                    trailing: volumeFormat(
-                      decimal: store.account?.balance ?? Decimal.zero,
-                      accuracy: store.asset?.accuracy ?? 1,
-                      symbol: store.account?.currency ?? '',
-                    ),
+                    trailing: getIt<AppStore>().isBalanceHide
+                      ? '**** ${store.account?.currency}'
+                      : volumeFormat(
+                        decimal: store.account?.balance ?? Decimal.zero,
+                        accuracy: store.asset?.accuracy ?? 1,
+                        symbol: store.account?.currency ?? '',
+                      ),
                     icon: Container(
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
