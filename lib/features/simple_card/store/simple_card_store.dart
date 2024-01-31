@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:decimal/decimal.dart';
@@ -14,8 +16,11 @@ import 'package:rsa_encrypt/rsa_encrypt.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/config/constants.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_request.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_remind_pin_response.dart';
@@ -26,9 +31,11 @@ import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_c
 import '../../../core/di/di.dart';
 import '../../../core/l10n/i10n.dart';
 import '../../../core/router/app_router.dart';
+import '../../../core/services/key_value_service.dart';
 import '../../../core/services/local_storage_service.dart';
 import '../../../core/services/notification_service.dart';
 import '../../../utils/constants.dart';
+import '../../app/store/global_loader.dart';
 import '../../my_wallets/helper/show_wallet_verify_account.dart';
 import '../ui/set_up_password_screen.dart';
 import '../ui/widgets/show_complete_verification_account.dart';
@@ -42,7 +49,24 @@ abstract class _SimpleCardStoreBase with Store {
   @observable
   StackLoaderStore loader = StackLoaderStore();
 
+  @observable
+  bool canTap = true;
+
+  @action
+  void setCanTap(bool newValue) {
+    canTap = newValue;
+  }
+
+  @computed
+  ObservableList<String> get cardsWasShowed =>
+      ObservableList.of(
+        sSignalRModules.keyValue.cardsSimple?.value ?? [],
+      );
+
   final storageService = getIt.get<LocalStorageService>();
+
+  @observable
+  bool wasCardBannerClosed = true;
 
   @action
   Future<void> initStore() async {
@@ -59,6 +83,45 @@ abstract class _SimpleCardStoreBase with Store {
   }
 
   @action
+  Future<void> closeBanner() async {
+    wasCardBannerClosed = true;
+    await sLocalStorageService.setString(isCardBannerClosed, 'true');
+  }
+
+  @action
+  Future<void> checkCardBanner() async {
+    final checkClosedBanner = await sLocalStorageService.getValue(isCardBannerClosed);
+    wasCardBannerClosed = checkClosedBanner == 'true';
+
+    final cards = sSignalRModules.bankingProfileData?.banking?.cards;
+    if (cards != null && cards.isNotEmpty) {
+      var needNotification = false;
+      var cardsShown = cardsWasShowed.toList();
+      for (final cardEl in cards) {
+        if (
+          !cardsWasShowed.contains(cardEl.cardId) &&
+          cardEl.status == AccountStatusCard.active
+        ) {
+          needNotification = true;
+          cardsShown = [
+            ...cardsShown,
+            cardEl.cardId ?? '',
+          ];
+        }
+      }
+      if (needNotification) {
+        sAnalytics.viewCardIsReady();
+        sNotification.showError(
+          intl.simple_card_is_ready,
+          id: 1,
+          isError: false,
+        );
+        await saveReceivedCards(cardsShown);
+      }
+    }
+  }
+
+  @action
   Future<void> initFullCardIn(String cardId) async {
     cardSensitiveData = SimpleCardSensitiveResponse(
       cardNumber: '',
@@ -67,12 +130,15 @@ abstract class _SimpleCardStoreBase with Store {
       cardExpDate: '',
     );
     showDetails = false;
-    final cards = sSignalRModules.bankingProfileData?.banking?.cards;
+    final cards = allCards;
     if (cards != null && cards.isNotEmpty) {
       final activeCard = cards.where((element) => element.cardId == cardId).toList();
       if (activeCard.isNotEmpty) {
         setCardFullInfo(activeCard[activeCard.length - 1]);
         isFrozen = activeCard[activeCard.length - 1].status == AccountStatusCard.frozen;
+        if (activeCard[activeCard.length - 1].status == AccountStatusCard.frozen) {
+          sAnalytics.viewFrozenCard(cardID: cardId);
+        }
 
         if (allSensitive.where((element) => element.cardId == cardId).toList().isEmpty) {
           try {
@@ -176,6 +242,7 @@ abstract class _SimpleCardStoreBase with Store {
     if (value) {
       final context = getIt.get<AppRouter>().navigatorKey.currentContext;
       Navigator.pop(sRouter.navigatorKey.currentContext!);
+      sAnalytics.viewFreezeCardPopup(cardID: cardFull?.cardId ?? '');
       await sShowAlertPopup(
         context!,
         primaryText: intl.simple_card_froze_this_card,
@@ -188,10 +255,12 @@ abstract class _SimpleCardStoreBase with Store {
           height: 80,
         ),
         onPrimaryButtonTap: () {
+          sAnalytics.tapConfirmFreezeCard(cardID: cardFull?.cardId ?? '');
           frozenApprove(value);
           Navigator.pop(sRouter.navigatorKey.currentContext!);
         },
         onSecondaryButtonTap: () {
+          sAnalytics.tapCancelFreeze(cardID: cardFull?.cardId ?? '');
           Navigator.pop(sRouter.navigatorKey.currentContext!);
         },
       );
@@ -202,37 +271,54 @@ abstract class _SimpleCardStoreBase with Store {
 
   @action
   Future<void> frozenApprove(bool value) async {
-    if (showDetails) {
-      setShowDetails(false);
-    }
-    isFrozen = value;
-    setCardFullInfo(
-      cardFull!.copyWith(
-        status: value ? AccountStatusCard.frozen : AccountStatusCard.active,
-      ),
-    );
-    final newCards = allCards?.map((e) {
-      return e.cardId == cardFull?.cardId
-          ? e.copyWith(
-              status: value ? AccountStatusCard.frozen : AccountStatusCard.active,
-            )
-          : e;
-    }).toList();
-    allCards = newCards;
-    if (value) {
-      sNotification.showError(
-        intl.simple_card_froze_alert,
-        id: 1,
-        isError: false,
-      );
-    }
+    loader.startLoadingImmediately();
     try {
       final response = value
           ? await sNetwork.getWalletModule().postCardFreeze(cardId: cardFull?.cardId ?? '')
           : await sNetwork.getWalletModule().postCardUnfreeze(cardId: cardFull?.cardId ?? '');
-
       response.pick(
+        onNoError: (data) {
+          if (showDetails) {
+            setShowDetails(false);
+          }
+          isFrozen = value;
+          setCardFullInfo(
+            cardFull!.copyWith(
+              status: value ? AccountStatusCard.frozen : AccountStatusCard.active,
+            ),
+          );
+          final newCards = allCards?.map((e) {
+            return e.cardId == cardFull?.cardId
+                ? e.copyWith(
+              status: value ? AccountStatusCard.frozen : AccountStatusCard.active,
+            )
+                : e;
+          }).toList();
+          allCards = newCards;
+          sSignalRModules.setBankingProfileData(
+            sSignalRModules.bankingProfileData!.copyWith(
+              banking: sSignalRModules.bankingProfileData!.banking!.copyWith(
+                cards: newCards,
+              ),
+            ),
+          );
+          Timer(
+            const Duration(seconds: 1),
+            () {
+              loader.finishLoadingImmediately();
+            },
+          );
+          if (value) {
+            sNotification.showError(
+              intl.simple_card_froze_alert,
+              id: 1,
+              isError: false,
+            );
+          }
+        },
         onError: (error) {
+          loader.finishLoadingImmediately();
+          sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: error.cause);
           sNotification.showError(
             error.cause,
             id: 1,
@@ -240,11 +326,15 @@ abstract class _SimpleCardStoreBase with Store {
         },
       );
     } on ServerRejectException catch (error) {
+      loader.finishLoadingImmediately();
+      sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: error.cause);
       sNotification.showError(
         error.cause,
         id: 1,
       );
     } catch (error) {
+      loader.finishLoadingImmediately();
+      sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: intl.something_went_wrong);
       sNotification.showError(
         intl.something_went_wrong,
         id: 1,
@@ -284,14 +374,17 @@ abstract class _SimpleCardStoreBase with Store {
 
       if (response.hasError) {
         sNotification.showError(
-          intl.something_went_wrong_try_again,
+          response.error?.cause ?? intl.something_went_wrong_try_again,
           id: 1,
           needFeedback: true,
         );
 
         Navigator.pop(context!);
+
+        loader.finishLoading();
       } else {
         if (response.data!.simpleKycRequired != null && response.data!.simpleKycRequired!) {
+          loader.finishLoading();
           Navigator.pop(context!);
           showWalletVerifyAccount(
             context,
@@ -299,13 +392,16 @@ abstract class _SimpleCardStoreBase with Store {
             isBanking: false,
           );
         } else if (response.data!.bankingKycRequired != null && response.data!.bankingKycRequired!) {
+          sAnalytics.viewCompleteKYCForCard();
+          loader.finishLoading();
           Navigator.pop(context!);
           showCompleteVerificationAccount(
             context,
-            loader,
             _afterVerification,
+            loader,
           );
         } else {
+          loader.finishLoading();
           Navigator.pop(context!);
           sNotification.showError(intl.simple_card_password_working, isError: false);
         }
@@ -330,15 +426,18 @@ abstract class _SimpleCardStoreBase with Store {
   }
 
   void _afterVerification() {
-    final context = getIt.get<AppRouter>().navigatorKey.currentContext;
-    Navigator.pop(context!);
+
+    getIt.get<GlobalLoader>().setLoading(false);
+
     sNotification.showError(intl.simple_card_password_working, isError: false);
+    sAnalytics.viewWorkingOnYourCard();
   }
 
   @action
   Future<void> gotToSetup() async {
     final context = getIt.get<AppRouter>().navigatorKey.currentContext;
     Navigator.pop(context!);
+    sAnalytics.viewSetupPassword();
     await Navigator.push(
       context,
       PageRouteBuilder(
@@ -372,13 +471,17 @@ abstract class _SimpleCardStoreBase with Store {
 
   @action
   Future<void> remindPinPhone() async {
+    Navigator.pop(sRouter.navigatorKey.currentContext!);
+    sAnalytics.tapOnRemindPin(cardID: cardFull?.cardId ?? '');
+    loader.startLoadingImmediately();
     try {
       final response = await sNetwork.getWalletModule().postRemindPinPhone(cardId: cardFull?.cardId ?? '');
 
       response.pick(
         onData: (SimpleCardRemindPinResponse value) {
+          loader.finishLoadingImmediately();
           final context = getIt.get<AppRouter>().navigatorKey.currentContext;
-          Navigator.pop(sRouter.navigatorKey.currentContext!);
+          sAnalytics.viewRemindPinSheet(cardID: cardFull?.cardId ?? '');
           sShowAlertPopup(
             context!,
             primaryText: intl.simple_card_remind_title,
@@ -392,14 +495,17 @@ abstract class _SimpleCardStoreBase with Store {
               height: 80,
             ),
             onPrimaryButtonTap: () {
+              sAnalytics.tapInContinueRemindPin(cardID: cardFull?.cardId ?? '');
               remindPin();
             },
             onSecondaryButtonTap: () {
+              sAnalytics.tapOnCancelRemindPin(cardID: cardFull?.cardId ?? '');
               Navigator.pop(sRouter.navigatorKey.currentContext!);
             },
           );
         },
         onError: (error) {
+          loader.finishLoadingImmediately();
           sNotification.showError(
             error.cause,
             id: 1,
@@ -407,11 +513,13 @@ abstract class _SimpleCardStoreBase with Store {
         },
       );
     } on ServerRejectException catch (error) {
+      loader.finishLoadingImmediately();
       sNotification.showError(
         error.cause,
         id: 1,
       );
     } catch (error) {
+      loader.finishLoadingImmediately();
       sNotification.showError(
         intl.something_went_wrong,
         id: 1,
@@ -421,12 +529,14 @@ abstract class _SimpleCardStoreBase with Store {
 
   @action
   Future<void> remindPin() async {
+    Navigator.pop(sRouter.navigatorKey.currentContext!);
+    loader.startLoadingImmediately();
     try {
       final response = await sNetwork.getWalletModule().postRemindPin(cardId: cardFull?.cardId ?? '');
 
       response.pick(
         onNoError: (value) {
-          Navigator.pop(sRouter.navigatorKey.currentContext!);
+          loader.finishLoadingImmediately();
           sNotification.showError(
             intl.simple_card_pin_was_send,
             id: 1,
@@ -434,6 +544,8 @@ abstract class _SimpleCardStoreBase with Store {
           );
         },
         onError: (error) {
+          loader.finishLoadingImmediately();
+          sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: error.cause);
           sNotification.showError(
             error.cause,
             id: 1,
@@ -441,11 +553,15 @@ abstract class _SimpleCardStoreBase with Store {
         },
       );
     } on ServerRejectException catch (error) {
+      loader.finishLoadingImmediately();
+      sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: error.cause);
       sNotification.showError(
         error.cause,
         id: 1,
       );
     } catch (error) {
+      loader.finishLoadingImmediately();
+      sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: intl.something_went_wrong);
       sNotification.showError(
         intl.something_went_wrong,
         id: 1,
@@ -540,6 +656,7 @@ abstract class _SimpleCardStoreBase with Store {
           );
         },
         onError: (error) {
+          sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: error.cause);
           sNotification.showError(
             error.cause,
             id: 3,
@@ -547,6 +664,7 @@ abstract class _SimpleCardStoreBase with Store {
         },
       );
     } on ServerRejectException catch (error) {
+      sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: error.cause);
       sNotification.showError(
         error.cause,
         id: 4,
@@ -555,6 +673,7 @@ abstract class _SimpleCardStoreBase with Store {
 
       loader.finishLoading();
     } catch (error) {
+      sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: intl.something_went_wrong_try_again2);
       sNotification.showError(
         intl.something_went_wrong_try_again2,
         id: 5,
@@ -618,5 +737,19 @@ abstract class _SimpleCardStoreBase with Store {
           : e;
     }).toList();
     allCards = newCards;
+  }
+
+  @action
+  Future<void> saveReceivedCards(List<String> newList) async {
+    await getIt.get<KeyValuesService>().addToKeyValue(
+      KeyValueRequestModel(
+        keys: [
+          KeyValueResponseModel(
+            key: cardsSimpleKey,
+            value: jsonEncode(newList),
+          ),
+        ],
+      ),
+    );
   }
 }

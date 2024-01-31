@@ -29,11 +29,6 @@ class CardRefundDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currenciesFull = sSignalRModules.currenciesWithHiddenList;
-    final currentCurrency = currencyFrom(
-      currenciesFull,
-      transactionListItem.assetId,
-    );
     final currency = currencyFrom(
       sSignalRModules.currenciesWithHiddenList,
       transactionListItem.cardRefundInfo?.paymentFeeAssetId ??
@@ -58,7 +53,7 @@ class CardRefundDetails extends StatelessObserverWidget {
                   text: shortTxhashFrom(transactionListItem.cardRefundInfo!.transactionId ?? ''),
                 ),
                 const SpaceW10(),
-                HistoryCopyIcon(transactionListItem.operationId),
+                HistoryCopyIcon(transactionListItem.cardRefundInfo!.transactionId ?? ''),
               ],
             ),
           ),
@@ -73,7 +68,7 @@ class CardRefundDetails extends StatelessObserverWidget {
             TransactionDetailsNewItem(
               text: intl.buySellDetails_rate,
               value: TransactionDetailsNewValueText(
-                text: '1 EUR = ${transactionListItem.cardRefundInfo!.rate} ${currentCurrency.symbol}',
+                text: '1 ${transactionListItem.cardRefundInfo!.paymentAssetId} = ${transactionListItem.cardRefundInfo!.rate} EUR',
               ),
             ),
           TransactionDetailsNewItem(

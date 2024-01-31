@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/password_requirement.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/di/di.dart';
@@ -58,7 +59,10 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
             color: colors.grey1,
           ),
           showBackButton: false,
-          onCLoseButton: () => Navigator.pop(context),
+          onCLoseButton: () {
+            sAnalytics.tapCloseSetUpPassword();
+            Navigator.pop(context);
+          },
           showCloseButton: true,
         ),
       ),
@@ -93,6 +97,15 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
               labelText: intl.simple_card_password_create,
               isError: store.passwordError,
               onChanged: store.setPassword,
+              maxLength: 29,
+              autofocus: true,
+              onHideTap: (bool value) {
+                if (value) {
+                  sAnalytics.tapHideSetupPassword();
+                } else {
+                  sAnalytics.tapShowSetupPassword();
+                }
+              },
             ),
           ),
           const SpaceH16(),
@@ -125,6 +138,7 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
                         active: store.isButtonSaveActive,
                         name: intl.simple_card_password_continue,
                         onTap: () async {
+                          sAnalytics.tapContinueSetupPassword();
                           if (store.canClick) {
                             store.setCanClick(false);
                             Timer(
@@ -136,6 +150,8 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
                           } else {
                             return;
                           }
+
+                         if (!store.preContinueCheck()) return;
 
                           if (isCreatePassword) {
                             final storageService = getIt.get<LocalStorageService>();

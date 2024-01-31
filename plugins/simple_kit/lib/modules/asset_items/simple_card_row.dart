@@ -17,6 +17,7 @@ class SCardRow extends StatelessWidget {
     this.frozenIcon,
     this.spaceBIandText = 18,
     this.needSpacer = false,
+    this.isLast = false,
     this.maxWidth,
     required this.icon,
     required this.name,
@@ -34,6 +35,7 @@ class SCardRow extends StatelessWidget {
   final bool disabled;
   final bool lightDivider;
   final bool needSpacer;
+  final bool isLast;
   final Widget icon;
   final Widget? rightIcon;
   final Widget? frozenIcon;
@@ -59,9 +61,11 @@ class SCardRow extends StatelessWidget {
       child: SizedBox(
         height: height,
         child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 24.0,
-            vertical: !removeDivider ? 0 : 16,
+          padding: EdgeInsets.only(
+            left: 24.0,
+            right: 24.0,
+            top: !removeDivider ? 0 : 16,
+            bottom: !removeDivider ? 0 : isLast ? 6 : 16,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -77,7 +81,7 @@ class SCardRow extends StatelessWidget {
                   icon,
                   SizedBox(width: spaceBIandText),
                   SizedBox(
-                    height: helper.isNotEmpty ? 46 : 28,
+                    height: helper.isNotEmpty ? 44 : 26,
                     child: ConstrainedBox(
                       constraints: BoxConstraints(
                         maxWidth: maxWidth ?? double.infinity,
@@ -94,8 +98,9 @@ class SCardRow extends StatelessWidget {
                                 ),
                                 child: Text(
                                   name,
-                                  style: sTextH5Style.copyWith(
+                                  style: sSubtitle2Style.copyWith(
                                     color: mainColor,
+                                    height: 1.36,
                                   ),
                                 ),
                               ),
@@ -110,7 +115,7 @@ class SCardRow extends StatelessWidget {
                                 helper,
                                 textAlign: TextAlign.start,
                                 maxLines: 3,
-                                style: sCaptionTextStyle.copyWith(
+                                style: sBodyText2Style.copyWith(
                                   color: SColorsLight().grey1,
                                 ),
                               ),

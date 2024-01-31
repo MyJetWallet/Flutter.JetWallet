@@ -29,11 +29,6 @@ class CardPurchaseDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currenciesFull = sSignalRModules.currenciesWithHiddenList;
-    final currentCurrency = currencyFrom(
-      currenciesFull,
-      transactionListItem.assetId,
-    );
     final currency = currencyFrom(
       sSignalRModules.currenciesWithHiddenList,
       transactionListItem.cardPurchaseInfo?.paymentFeeAssetId ??
@@ -58,7 +53,7 @@ class CardPurchaseDetails extends StatelessObserverWidget {
                   text: shortTxhashFrom(transactionListItem.cardPurchaseInfo!.transactionId ?? ''),
                 ),
                 const SpaceW10(),
-                HistoryCopyIcon(transactionListItem.operationId),
+                HistoryCopyIcon(transactionListItem.cardPurchaseInfo!.transactionId ?? ''),
               ],
             ),
           ),
@@ -73,7 +68,7 @@ class CardPurchaseDetails extends StatelessObserverWidget {
             TransactionDetailsNewItem(
               text: intl.buySellDetails_rate,
               value: TransactionDetailsNewValueText(
-                text: '1 EUR = ${transactionListItem.cardPurchaseInfo!.rate} ${currentCurrency.symbol}',
+                text: '1 ${transactionListItem.cardPurchaseInfo!.paymentAssetId} = ${transactionListItem.cardPurchaseInfo!.rate} EUR',
               ),
             ),
           TransactionDetailsNewItem(

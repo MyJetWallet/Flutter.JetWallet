@@ -1,17 +1,16 @@
 import 'dart:async';
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/icons/24x24/public/action_deposit/simple_action_deposit_icon.dart';
 import 'package:simple_kit/modules/icons/custom/public/cards/simple_mastercard_big_icon.dart';
 import 'package:simple_kit/modules/icons/custom/public/cards/simple_visa_card_big_icon.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
-import 'package:simple_kit/modules/texts/simple_text_styles.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_sevsitive_response.dart';
 
@@ -94,9 +93,10 @@ class CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
     final colors = sKit.colors;
 
     void onCopyAction(String value) {
+      sAnalytics.tapCopyCardNumber(cardID: widget.card.cardId ?? '');
       Clipboard.setData(
         ClipboardData(
-          text: value,
+          text: value.replaceAll(' ', ''),
         ),
       );
       sNotification.showError(
@@ -107,8 +107,9 @@ class CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
     }
 
     return InkWell(
-      highlightColor: SColorsLight().grey5,
       splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      hoverColor: Colors.transparent,
       onTap: () {
         if (!widget.isFrozen) {
           widget.onTap();
@@ -139,7 +140,7 @@ class CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
                         padding: const EdgeInsets.only(
                           left: 16,
                           right: 16,
-                          top: 12,
+                          top: 7,
                           bottom: 8,
                         ),
                         width: 279,
@@ -222,15 +223,15 @@ class CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
                                       crossAxisAlignment: CrossAxisAlignment.end,
                                       children: [
                                         SizedBox(
-                                          width: 48,
-                                          height: 48,
+                                          width: 42,
+                                          height: 36,
                                           child: Center(
                                             child: Text(
                                               '\u2022 \u2022 '
                                               '${widget.card.cardNumberMasked?.substring(
                                                 (widget.card.cardNumberMasked?.length ?? 0) - 4,
                                               )}',
-                                              style: sCaptionTextStyle.copyWith(
+                                              style: STStyles.captionSemibold.copyWith(
                                                 color: colors.white,
                                               ),
                                             ),
@@ -241,7 +242,7 @@ class CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
                                           children: [
                                             Text(
                                               'debit',
-                                              style: sCaptionTextStyle.copyWith(
+                                              style: STStyles.captionSemibold.copyWith(
                                                 color: colors.white,
                                               ),
                                             ),
@@ -249,7 +250,9 @@ class CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
                                             SizedBox(
                                               width: 48,
                                               height: 48,
-                                              child: getNetworkIcon(widget.card.cardType),
+                                              child: Center(
+                                                child: getNetworkIcon(widget.card.cardType),
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -267,10 +270,24 @@ class CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
                 Positioned(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12.0),
-                    child: Image.asset(
-                      simpleCardMask,
-                      width: 279,
-                      height: 170,
+                    child: AnimatedBuilder(
+                      animation: controller,
+                      builder: (context, child) {
+                        final angle = controller.value * -pi;
+                        final transform = Matrix4.identity()
+                          ..setEntry(3, 0, 0)
+                          ..rotateY(angle);
+
+                        return Transform(
+                          transform: transform,
+                          alignment: Alignment.center,
+                          child: Image.asset(
+                            simpleCardMask,
+                            width: 279,
+                            height: 170,
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),

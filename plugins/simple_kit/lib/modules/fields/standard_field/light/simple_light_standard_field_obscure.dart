@@ -19,6 +19,8 @@ class SimpleLightStandardFieldObscure extends StatefulWidget {
     this.isError = false,
     this.validators = const [],
     required this.labelText,
+    this.maxLength,
+    this.onHideTap,
   }) : super(key: key);
 
   final TextEditingController? controller;
@@ -26,12 +28,14 @@ class SimpleLightStandardFieldObscure extends StatefulWidget {
   final Function()? onErrorIconTap;
   final Iterable<String>? autofillHints;
   final Function(String)? onChanged;
+  final Function(bool)? onHideTap;
   final String labelText;
   final bool autofocus;
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatters;
   final bool isError;
   final List<Validator> validators;
+  final int? maxLength;
 
   @override
   State<SimpleLightStandardFieldObscure> createState() =>
@@ -88,10 +92,12 @@ class _SimpleLightStandardFieldObscureState
       keyboardType: widget.keyboardType,
       inputFormatters: widget.inputFormatters,
       maxLines: 1,
+      maxLength: widget.maxLength,
       suffixIcons: [
         if (showSuffix)
           InkWell(
             onTap: () {
+              widget.onHideTap?.call(!obscure);
               setState(() {
                 obscure = !obscure;
               });
@@ -108,7 +114,7 @@ class _SimpleLightStandardFieldObscureState
       ],
       eraseIcon: [
         if (controller2.text.isNotEmpty) ...[
-          const SpaceW16(),
+          const SpaceW8(),
           SIconButton(
             defaultIcon: const SEraseIcon(),
             pressedIcon: const SErasePressedIcon(),

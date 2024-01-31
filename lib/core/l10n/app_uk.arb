@@ -6693,7 +6693,7 @@
         "description": "карта",
         "type": "text"
     },
-    "my_wallets_cards": "Картки",
+    "my_wallets_cards": "картки",
     "@my_wallets_cards": {
         "description": "карты",
         "type": "text"
@@ -6703,7 +6703,7 @@
         "description": "Создание карты...",
         "type": "text"
     },
-    "simple_card_get_card_now": "Отримати Simple картку зараз",
+    "simple_card_get_card_now": "Отримати Simple картку",
     "@simple_card_get_card_now": {
         "description": "Получить Simple карту сейчас",
         "type": "text"

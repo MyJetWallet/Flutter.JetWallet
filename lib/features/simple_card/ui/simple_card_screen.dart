@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
+import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/simple_card/store/simple_card_store.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/card_settings.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/card_widget.dart';
@@ -18,6 +20,7 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/router/app_router.dart';
 import '../../../core/services/signal_r/signal_r_service_new.dart';
@@ -77,6 +80,9 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
 
     final simpleCardStore = getIt.get<SimpleCardStore>();
 
+    final kycState = getIt.get<KycService>();
+    final handler = getIt.get<KycAlertHandler>();
+
     return SPageFrame(
       loaderText: intl.loader_please_wait,
       loading: simpleCardStore.loader,
@@ -110,26 +116,33 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                       isFrozen: simpleCardStore.isFrozen,
                       showDetails: simpleCardStore.showDetails,
                       onTap: () {
+                        if (simpleCardStore.showDetails) {
+                          sAnalytics.tapHideCard(cardID: simpleCardStore.cardFull?.cardId ?? '');
+                        } else {
+                          sAnalytics.tapShowCard(cardID: simpleCardStore.cardFull?.cardId ?? '');
+                        }
                         simpleCardStore.setShowDetails(!simpleCardStore.showDetails);
                       },
                     ),
                   ),
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 8,
+                      padding: const EdgeInsets.only(
+                        left: 24,
+                        right: 24,
+                        top: 8,
+                        bottom: 4,
                       ),
                       child: Center(
                         child: Text(
                           getIt<AppStore>().isBalanceHide
-                              ? '***** ${eurCurrency.symbol}'
+                              ? '**** ${eurCurrency.symbol}'
                               : volumeFormat(
                                   decimal: simpleCardStore.cardFull?.balance ?? Decimal.zero,
                                   accuracy: eurCurrency.accuracy,
                                   symbol: eurCurrency.symbol,
                                 ),
-                          style: sTextH2Style,
+                          style: STStyles.header3,
                         ),
                       ),
                     ),
@@ -151,10 +164,20 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                             .isNotEmpty,
                         onAddCash: () {
                           sAnalytics.tapOnTheDepositButton(source: 'V.Card - Deposit');
-                          showSimpleCardDepositBySelector(
-                            context: context,
-                            onClose: () {},
-                            card: simpleCardStore.cardFull!,
+                          handler.handle(
+                            multiStatus: [
+                              kycState.tradeStatus,
+                              kycState.depositStatus,
+                              kycState.withdrawalStatus,
+                            ],
+                            isProgress: kycState.verificationInProgress,
+                            currentNavigate: () => showSimpleCardDepositBySelector(
+                              context: context,
+                              onClose: () {},
+                              card: simpleCardStore.cardFull!,
+                            ),
+                            requiredDocuments: kycState.requiredDocuments,
+                            requiredVerifications: kycState.requiredVerifications,
                           );
                         },
                         isWithdrawAvailable: simpleCardStore.cardFull?.isNotEmptyBalance ?? false,
@@ -162,9 +185,16 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                           simpleCardStore.setShowDetails(!simpleCardStore.showDetails);
                         },
                         onFreeze: () {
+                          if (simpleCardStore.isFrozen) {
+                            sAnalytics.tapOnUnfreeze(cardID: simpleCardStore.cardFull?.cardId ?? '');
+                          } else {
+                            sAnalytics.tapFreezeCard(cardID: simpleCardStore.cardFull?.cardId ?? '');
+                          }
                           simpleCardStore.setFrozen(!simpleCardStore.isFrozen);
                         },
                         onSettings: () {
+                          sAnalytics.tapOnSettings(cardID: simpleCardStore.cardFull?.cardId ?? '');
+                          sAnalytics.viewCardSettings(cardID: simpleCardStore.cardFull?.cardId ?? '');
                           showCardSettings(
                             context: context,
                             onChangeLableTap: () {
@@ -201,6 +231,11 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                               });
                             },
                             onFreezeTap: () {
+                              if (simpleCardStore.isFrozen) {
+                                sAnalytics.tapOnUnfreeze(cardID: simpleCardStore.cardFull?.cardId ?? '');
+                              } else {
+                                sAnalytics.tapFreezeCard(cardID: simpleCardStore.cardFull?.cardId ?? '');
+                              }
                               simpleCardStore.setFrozen(!simpleCardStore.isFrozen);
                             },
                           );
@@ -209,20 +244,33 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                           simpleCardStore.terminateCard();
                         },
                         onWithdraw: () {
-                          showSimpleCardWithdrawToSelector(
-                            context: context,
-                            onClose: () {},
-                            card: simpleCardStore.cardFull!,
+                          handler.handle(
+                            multiStatus: [
+                              kycState.tradeStatus,
+                              kycState.depositStatus,
+                              kycState.withdrawalStatus,
+                            ],
+                            isProgress: kycState.verificationInProgress,
+                            currentNavigate: () => showSimpleCardWithdrawToSelector(
+                              context: context,
+                              onClose: () {},
+                              card: simpleCardStore.cardFull!,
+                            ),
+                            requiredDocuments: kycState.requiredDocuments,
+                            requiredVerifications: kycState.requiredVerifications,
                           );
                         },
                       ),
                     ),
                   ),
+                  const SliverToBoxAdapter(
+                    child: SpaceH12(),
+                  ),
                   SliverToBoxAdapter(
                     child: SPaddingH24(
                       child: Text(
                         intl.wallet_transactions,
-                        style: sTextH4Style,
+                        style: STStyles.header5,
                       ),
                     ),
                   ),
@@ -233,26 +281,27 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                       accountId: simpleCardStore.cardFull!.cardId,
                       onItemTapLisener: (symbol) {},
                       source: TransactionItemSource.simpleCard,
+                      isSimpleCard: true,
                     ),
                   ] else ...[
                     SliverToBoxAdapter(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 80,
+                          horizontal: 45,
                           vertical: 40,
                         ),
                         child: Column(
                           children: [
                             Image.asset(
                               smileAsset,
-                              width: 48,
-                              height: 48,
+                              width: 36,
+                              height: 36,
                             ),
                             Text(
                               intl.wallet_simple_account_empty,
                               textAlign: TextAlign.center,
                               maxLines: 3,
-                              style: sSubtitle2Style.copyWith(
+                              style: STStyles.subtitle2.copyWith(
                                 color: sKit.colors.grey2,
                               ),
                             ),
@@ -274,12 +323,16 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                     child: SSmallHeader(
                       title: simpleCardStore.cardFull?.label ?? 'Simple card',
                       subTitle: intl.simple_card_type_virtual,
-                      titleStyle: sTextH5Style.copyWith(
+                      titleStyle: STStyles.header6.copyWith(
                         color: sKit.colors.black,
                       ),
-                      subTitleStyle: sBodyText2Style.copyWith(
+                      subTitleStyle: STStyles.body2Medium.copyWith(
                         color: sKit.colors.grey1,
                       ),
+                      onBackButtonTap: () {
+                        Navigator.pop(context);
+                        sAnalytics.tapBackFromVirualCard(cardID: simpleCardStore.cardFull?.cardId ?? '');
+                      },
                     ),
                   ),
                 ),

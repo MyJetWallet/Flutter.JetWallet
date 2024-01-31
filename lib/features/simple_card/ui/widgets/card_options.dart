@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../core/di/di.dart';
@@ -12,6 +13,7 @@ import 'card_option.dart';
 void showCardOptions(
   BuildContext context,
 ) {
+  sAnalytics.viewCardTypeSheet();
 
   sShowBasicModalBottomSheet(
     context: context,
@@ -33,7 +35,9 @@ class _CardOptions extends StatelessObserverWidget {
     final simpleCardStore = getIt.get<SimpleCardStore>();
 
     void onAddCardTap() {
+      sAnalytics.tapOnVirtualCard();
       Navigator.pop(context);
+      sAnalytics.confirmWithPinView();
       Navigator.push(
         context,
         PageRouteBuilder(
@@ -77,6 +81,7 @@ class _CardOptions extends StatelessObserverWidget {
           name: intl.simple_card_type_virtual,
           onTap: onAddCardTap,
           hideDescription: true,
+          isActive: true,
         ),
         CardOption(
           icon: const SActionDepositIcon(),
@@ -85,7 +90,7 @@ class _CardOptions extends StatelessObserverWidget {
           isDisabled: true,
           onTap: () {},
         ),
-        const SpaceH40(),
+        const SpaceH56(),
       ],
     );
   }

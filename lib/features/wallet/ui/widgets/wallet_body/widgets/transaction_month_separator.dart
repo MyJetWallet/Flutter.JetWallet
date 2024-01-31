@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class TransactionMonthSeparator extends StatelessObserverWidget {
   const TransactionMonthSeparator({
@@ -26,7 +27,7 @@ class TransactionMonthSeparator extends StatelessObserverWidget {
           baselineType: TextBaseline.alphabetic,
           child: Text(
             localizedMonth(text, context),
-            style: sCaptionTextStyle.copyWith(
+            style: STStyles.body2Semibold.copyWith(
               color: colors.grey3,
             ),
           ),
