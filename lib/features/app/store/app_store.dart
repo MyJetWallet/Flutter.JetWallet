@@ -8,6 +8,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/dio_proxy_service.dart';
 import 'package:jetwallet/core/services/force_update_service.dart';
+import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
@@ -473,6 +474,8 @@ abstract class _AppStoreBase with Store {
       authState = authState.copyWith(
         initSessionReceived: true,
       );
+
+      await getIt.get<IntercomService>().login();
     }
   }
 
