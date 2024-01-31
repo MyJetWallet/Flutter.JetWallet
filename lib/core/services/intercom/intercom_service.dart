@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:logger/logger.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class IntercomService {
   final _logger = getIt.get<SimpleLoggerService>();
@@ -85,6 +88,11 @@ class IntercomService {
 
   Future<void> showMessenger() async {
     try {
+      // This request is necessary because the intercom itself
+      // does not ask for permission for the Android camera
+      if (Platform.isAndroid) {
+        await _requestCameraPermission();
+      }
       await Intercom.instance.displayMessenger();
       _logger.log(
         level: Level.info,
@@ -98,5 +106,9 @@ class IntercomService {
         message: e.toString(),
       );
     }
+  }
+
+  Future<void> _requestCameraPermission() async {
+    await Permission.camera.request();
   }
 }
