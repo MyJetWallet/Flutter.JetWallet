@@ -111,11 +111,14 @@ class LocalStorageService {
     final slot = await _storage.read(key: activeSlot);
     final deviceIdUsed = await _storage.read(key: deviceId);
     final isCardBannerClosedUsed = await _storage.read(key: isCardBannerClosed);
+    final userLocaleTemp = await _storage.read(key: userLocale);
+
     await _storage.deleteAll();
     await _storage.write(key: lastUsedMail, value: userMail);
     await _storage.write(key: activeSlot, value: slot);
     await _storage.write(key: deviceId, value: deviceIdUsed);
     await _storage.write(key: isCardBannerClosed, value: isCardBannerClosedUsed);
+    await _storage.write(key: userLocale, value: userLocaleTemp);
   }
 
   Future<void> clearStorageForCrypto(List<CurrencyModel> currencies) async {
@@ -154,6 +157,7 @@ class LocalStorageService {
       final slot = await _storage.read(key: activeSlot);
       final deviceIdUsed = await _storage.read(key: deviceId);
       final isCardBannerClosedUsed = await _storage.read(key: isCardBannerClosed);
+      final userLocaleTemp = await _storage.read(key: userLocale);
 
       await _storage.deleteAll();
 
@@ -161,6 +165,7 @@ class LocalStorageService {
       await _storage.write(key: activeSlot, value: slot);
       await _storage.write(key: deviceId, value: deviceIdUsed);
       await _storage.write(key: isCardBannerClosed, value: isCardBannerClosedUsed);
+      await _storage.write(key: userLocale, value: userLocaleTemp);
     }
   }
 }
