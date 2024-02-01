@@ -96,10 +96,10 @@ class SpecificButton extends HookWidget {
                           color: isLoading ? SColorsLight().gray10 : SColorsLight().black,
                         ),
                 ),
+                if (!isButtonSmall) ...[
+                  const Spacer(),
+                ],
                 if (hasRightArrow) ...[
-                  if (!isButtonSmall) ...[
-                    const Spacer(),
-                  ],
                   SizedBox(
                     width: 20,
                     height: 20,
