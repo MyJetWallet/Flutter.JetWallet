@@ -18,6 +18,8 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
+import '../../app/store/app_store.dart';
+
 Future<void> showSelectAccountForAddCash(BuildContext context) async {
   final kycState = getIt.get<KycService>();
 
@@ -141,7 +143,9 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
                       ),
                     ),
                     child: Text(
-                      volumeFormat(
+                      getIt<AppStore>().isBalanceHide
+                      ? '**** ${eurCurrency.symbol}'
+                      : volumeFormat(
                         decimal: simpleAccount.balance ?? Decimal.zero,
                         accuracy: eurCurrency.accuracy,
                         symbol: eurCurrency.symbol,
@@ -222,11 +226,13 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
                         ),
                       ),
                       child: Text(
-                        volumeFormat(
-                          decimal: bankAccounts[index].balance ?? Decimal.zero,
-                          accuracy: eurCurrency.accuracy,
-                          symbol: eurCurrency.symbol,
-                        ),
+                        getIt<AppStore>().isBalanceHide
+                          ? '**** ${eurCurrency.symbol}'
+                          : volumeFormat(
+                            decimal: bankAccounts[index].balance ?? Decimal.zero,
+                            accuracy: eurCurrency.accuracy,
+                            symbol: eurCurrency.symbol,
+                          ),
                         style: sSubtitle1Style.copyWith(
                           fontWeight: FontWeight.w600,
                         ),

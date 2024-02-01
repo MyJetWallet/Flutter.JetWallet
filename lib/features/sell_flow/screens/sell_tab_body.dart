@@ -95,7 +95,7 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                     },
                     errorText: store.paymentMethodInputError,
                     optionText: store.cryptoInputValue == '0' && store.account != null && store.asset != null
-                        ? '''${intl.sell_amount_sell_all} ${volumeFormat(decimal: store.sellAllValue, accuracy: store.asset?.accuracy ?? 1, symbol: store.cryptoSymbol)}'''
+                        ? '''${intl.sell_amount_sell_all} ${getIt<AppStore>().isBalanceHide ? '**** ${store.cryptoSymbol}' : volumeFormat(decimal: store.sellAllValue, accuracy: store.asset?.accuracy ?? 1, symbol: store.cryptoSymbol)}'''
                         : null,
                     optionOnTap: () {
                       sAnalytics.tapOnTheSellAll();

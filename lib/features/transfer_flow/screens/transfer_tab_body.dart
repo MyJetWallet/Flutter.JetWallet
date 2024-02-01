@@ -100,7 +100,7 @@ class _TrancferBody extends StatelessWidget {
                   }
                 },
                 optionText: store.inputValue == '0' && store.isBothAssetsSeted
-                    ? '''${intl.transfer_amount_transfer_all} ${volumeFormat(decimal: store.maxLimit, symbol: 'EUR')}'''
+                    ? '''${intl.transfer_amount_transfer_all} ${getIt<AppStore>().isBalanceHide ? '**** EUR' : volumeFormat(decimal: store.maxLimit, symbol: 'EUR')}'''
                     : null,
                 optionOnTap: () {
                   store.onTransfetAll();

@@ -356,7 +356,7 @@ class _ActionSend extends StatelessObserverWidget {
                 primaryText: currency.description,
                 removeDivider: currency == currencyFiltered.last,
                 amount: getIt<AppStore>().isBalanceHide
-                    ? '******* ${baseCurrency.symbol}'
+                    ? '**** ${baseCurrency.symbol}'
                     : currency.volumeBaseBalance(baseCurrency),
                 secondaryText: getIt<AppStore>().isBalanceHide
                     ? '******* ${currency.symbol}'

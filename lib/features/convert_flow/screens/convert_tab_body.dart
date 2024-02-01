@@ -87,7 +87,7 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                     },
                     errorText: store.paymentMethodInputError,
                     optionText: store.fromInputValue == '0' && store.fromAsset != null && store.toAsset != null
-                        ? '''${intl.convert_amount_convert_all} ${volumeFormat(decimal: store.convertAllAmount, accuracy: store.fromAsset?.accuracy ?? 1, symbol: store.fromAsset?.symbol ?? '')}'''
+                        ? '''${intl.convert_amount_convert_all} ${getIt<AppStore>().isBalanceHide ? '**** ${store.fromAsset?.symbol}' : volumeFormat(decimal: store.convertAllAmount, accuracy: store.fromAsset?.accuracy ?? 1, symbol: store.fromAsset?.symbol ?? '')}'''
                         : null,
                     optionOnTap: () {
                       sAnalytics.tapOnTheConvertAll();

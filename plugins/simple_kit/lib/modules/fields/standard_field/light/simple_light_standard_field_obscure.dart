@@ -106,7 +106,9 @@ class _SimpleLightStandardFieldObscureState
             highlightColor: SColorsLight().white,
             child: Container(
               padding: const EdgeInsets.all(8),
-              child: obscure ? const SEyeCloseIcon() : SEyeOpenIcon(
+              child: obscure ? SEyeCloseIcon(
+                color: SColorsLight().grey3,
+              ) : SEyeOpenIcon(
                 color: SColorsLight().grey3,
               ),
             ),

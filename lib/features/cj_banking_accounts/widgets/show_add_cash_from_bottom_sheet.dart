@@ -66,9 +66,11 @@ void showAddCashFromBottomSheet({
                 url: currency.iconUrl,
               ),
               label: currency.description,
-              supplement: currency.volumeAssetBalance,
+              supplement: getIt<AppStore>().isBalanceHide
+                  ? '******* ${currency.symbol}'
+                  : currency.volumeAssetBalance,
               rightValue: getIt<AppStore>().isBalanceHide
-                  ? '**** ${baseCurrency.symbol ?? 'EUR'}'
+                  ? '**** ${baseCurrency.symbol}'
                   : currency.volumeBaseBalance(baseCurrency),
               onTableAssetTap: () {
                 sAnalytics.tapOnTheAnyCryptoForDepositButton(cryptoAsset: currency.symbol);
@@ -96,7 +98,9 @@ void showAddCashFromBottomSheet({
                         url: currency.iconUrl,
                       ),
                       label: currency.description,
-                      supplement: currency.volumeAssetBalance,
+                      supplement: getIt<AppStore>().isBalanceHide
+                          ? '******* ${currency.symbol}'
+                          : currency.volumeAssetBalance,
                       rightValue: getIt<AppStore>().isBalanceHide
                         ? '**** ${baseCurrency.symbol ?? 'EUR'}'
                         : currency.volumeBaseBalance(baseCurrency),
