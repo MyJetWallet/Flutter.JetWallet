@@ -4869,68 +4869,86 @@ class SimpleAnalytics {
     );
   }
   
-  void confirmWithPinView() {
+  void confirmWithPinView({
+    required String cardID,
+  }) {
     _analytics.logEvent(
       EventType.confirmWithPinView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '433',
+        PropertyType.cardID: cardID,
       },
     );
   }
   
-  void viewSetupPassword() {
+  void viewSetupPassword({
+    required String cardID,
+  }) {
     _analytics.logEvent(
       EventType.viewSetupPassword,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '434',
+        PropertyType.cardID: cardID,
       },
     );
   }
   
-  void tapCloseSetUpPassword() {
+  void tapCloseSetUpPassword({
+    required String cardID,
+  }) {
     _analytics.logEvent(
       EventType.tapCloseSetUpPassword,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '435',
+        PropertyType.cardID: cardID,
       },
     );
   }
   
-  void tapHideSetupPassword() {
+  void tapHideSetupPassword({
+    required String cardID,
+  }) {
     _analytics.logEvent(
       EventType.tapHideSetupPassword,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '436',
+        PropertyType.cardID: cardID,
       },
     );
   }
   
-  void tapShowSetupPassword() {
+  void tapShowSetupPassword({
+    required String cardID,
+  }) {
     _analytics.logEvent(
       EventType.tapShowSetupPassword,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '437',
+        PropertyType.cardID: cardID,
       },
     );
   }
   
-  void tapContinueSetupPassword() {
+  void tapContinueSetupPassword({
+    required String cardID,
+  }) {
     _analytics.logEvent(
       EventType.tapContinueSetupPassword,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '438',
+        PropertyType.cardID: cardID,
       },
     );
   }

@@ -80,11 +80,14 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
     super.initState();
     final simpleCardStore = getIt.get<SimpleCardStore>();
 
+    simpleCardStore.checkCardBanner();
+
     Timer(
       const Duration(seconds: 2),
       () {
         final userInfo = getIt.get<UserInfoService>();
         final kycState = getIt.get<KycService>();
+
         if (userInfo.isSimpleCardAvailable &&
           (sSignalRModules.bankingProfileData?.banking?.cards?.length ?? 0) < 1 &&
           !simpleCardStore.wasCardBannerClosed &&
@@ -98,8 +101,6 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
         }
       },
     );
-
-    simpleCardStore.checkCardBanner();
 
     // sAnalytics.walletsScreenView(
     //   favouritesAssetsList: List.generate(

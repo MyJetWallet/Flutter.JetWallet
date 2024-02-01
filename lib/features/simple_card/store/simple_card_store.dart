@@ -281,6 +281,9 @@ abstract class _SimpleCardStoreBase with Store {
           if (showDetails) {
             setShowDetails(false);
           }
+          if (value) {
+            sAnalytics.viewFrozenCard(cardID: cardFull?.cardId ?? '');
+          }
           isFrozen = value;
           setCardFullInfo(
             cardFull!.copyWith(
@@ -437,7 +440,9 @@ abstract class _SimpleCardStoreBase with Store {
   Future<void> gotToSetup() async {
     final context = getIt.get<AppRouter>().navigatorKey.currentContext;
     Navigator.pop(context!);
-    sAnalytics.viewSetupPassword();
+    sAnalytics.viewSetupPassword(
+      cardID: cardFull?.cardId ?? '',
+    );
     await Navigator.push(
       context,
       PageRouteBuilder(

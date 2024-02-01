@@ -34,6 +34,15 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context, Curre
     return;
   }
 
+  if ((sSignalRModules.bankingProfileData?.banking?.cards?.length ?? 0) > 0) {
+    await sRouter.push(
+      WalletRouter(
+        currency: eurCurrency,
+      ),
+    );
+    return;
+  }
+
   if (store.buttonStatus == BankingShowState.getAccountBlock) {
     await store.createSimpleAccount();
 

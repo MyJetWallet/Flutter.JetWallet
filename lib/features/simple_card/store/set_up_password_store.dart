@@ -131,6 +131,7 @@ abstract class _SetUpPasswordStoreBase with Store {
             );
 
         Navigator.pop(context!);
+        Navigator.pop(context);
         sNotification.showError(
           intl.simple_card_password_working,
           id: 1,
