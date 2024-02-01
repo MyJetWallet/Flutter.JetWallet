@@ -1702,5 +1702,9 @@
     "invest_period_description": "Solo puedes ver historial de transacciones en un periodo de 90 días",
     "invest_period_days": "días",
     "invest_confirm": "Confirmar",
-    "invest_history_pending": "Historial pendiente"
+    "invest_history_pending": "Historial pendiente",
+    "simple_card_is_ready": "La tarjeta Simple está lista",
+    "simple_card_password_repeatable_characters": "No debe incluir más de 3 caracteres repetidos consecutivos",
+    "simple_card_password_whitespace": "No se permite el espacio en blanco",
+    "simple_card_password_repeatable_allowed_symbols": "Se permiten los siguientes símbolos especiales:"
 }
