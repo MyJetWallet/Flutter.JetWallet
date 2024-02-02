@@ -169,7 +169,7 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
                             final pin = await storageService.getValue(pinStatusKey);
                             await simpleCardStore.createCard(pin ?? '', store.password);
                           } else {
-                            sAnalytics.confirmWithPinView(
+                            sAnalytics.viewConfirmWithPin(
                               cardID: simpleCardStore.cardFull?.cardId ?? '',
                             );
                             await Navigator.push(
