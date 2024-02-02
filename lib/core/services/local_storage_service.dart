@@ -103,7 +103,6 @@ class LocalStorageService {
     await _storage.delete(key: bankLastMethodId);
     await _storage.delete(key: localLastMethodId);
     await _storage.delete(key: p2pLastMethodId);
-    await _storage.delete(key: userLocale);
     await _storage.delete(key: showRateUp);
     await _storage.delete(key: rateUpCount);
 
