@@ -94,7 +94,9 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                       store.onSwap();
                     },
                     errorText: store.paymentMethodInputError,
-                    optionText: store.cryptoInputValue == '0' && store.account != null && store.asset != null
+                    optionText: store.cryptoInputValue == '0' &&
+                            (store.account != null || store.card != null) &&
+                            store.asset != null
                         ? '''${intl.sell_amount_sell_all} ${getIt<AppStore>().isBalanceHide ? '**** ${store.cryptoSymbol}' : volumeFormat(decimal: store.sellAllValue, accuracy: store.asset?.accuracy ?? 1, symbol: store.cryptoSymbol)}'''
                         : null,
                     optionOnTap: () {
@@ -177,12 +179,12 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                     title: store.account?.label,
                     subTitle: intl.amount_screen_sell_to,
                     trailing: getIt<AppStore>().isBalanceHide
-                      ? '**** ${store.account?.currency}'
-                      : volumeFormat(
-                        decimal: store.account?.balance ?? Decimal.zero,
-                        accuracy: store.asset?.accuracy ?? 1,
-                        symbol: store.account?.currency ?? '',
-                      ),
+                        ? '**** ${store.account?.currency}'
+                        : volumeFormat(
+                            decimal: store.account?.balance ?? Decimal.zero,
+                            accuracy: store.asset?.accuracy ?? 1,
+                            symbol: store.account?.currency ?? '',
+                          ),
                     icon: Container(
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
@@ -229,12 +231,12 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                     title: store.card?.label ?? 'Simple card',
                     subTitle: intl.amount_screen_sell_to,
                     trailing: getIt<AppStore>().isBalanceHide
-                      ? '**** ${store.card?.currency}'
-                      : volumeFormat(
-                        decimal: store.card?.balance ?? Decimal.zero,
-                        accuracy: store.asset?.accuracy ?? 1,
-                        symbol: store.card?.currency ?? '',
-                      ),
+                        ? '**** ${store.card?.currency}'
+                        : volumeFormat(
+                            decimal: store.card?.balance ?? Decimal.zero,
+                            accuracy: store.asset?.accuracy ?? 1,
+                            symbol: store.card?.currency ?? '',
+                          ),
                     icon: Assets.svg.assets.fiat.cardAlt.simpleSvg(
                       width: 24,
                     ),
