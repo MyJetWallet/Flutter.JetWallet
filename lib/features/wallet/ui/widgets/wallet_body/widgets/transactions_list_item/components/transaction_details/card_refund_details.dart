@@ -127,13 +127,15 @@ class CardRefundDetails extends StatelessObserverWidget {
           TransactionDetailsNewItem(
             text: intl.card_history_total_refund,
             value: TransactionDetailsNewValueText(
-              text: volumeFormat(
-                decimal:
-                  (transactionListItem.cardRefundInfo?.paymentFeeAmount ??
-                      Decimal.zero) + transactionListItem.balanceChange.abs(),
-                accuracy: currency.accuracy,
-                symbol: currency.symbol,
-              ),
+              text: getIt<AppStore>().isBalanceHide
+                ? '**** ${currency.symbol}'
+                : volumeFormat(
+                  decimal:
+                    (transactionListItem.cardRefundInfo?.paymentFeeAmount ??
+                        Decimal.zero) + transactionListItem.balanceChange.abs(),
+                  accuracy: currency.accuracy,
+                  symbol: currency.symbol,
+                ),
             ),
           ),
           const SpaceH40(),

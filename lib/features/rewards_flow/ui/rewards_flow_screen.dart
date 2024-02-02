@@ -17,6 +17,8 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
 
+import '../../app/store/app_store.dart';
+
 @RoutePage(name: 'RewardsFlowRouter')
 class RewardsFlowScreen extends StatelessWidget {
   const RewardsFlowScreen({super.key});
@@ -146,11 +148,13 @@ class _RewardsFlowScreenBodyState extends State<_RewardsFlowScreenBody> {
                 const SpaceH32(),
                 SPaddingH24(
                   child: Text(
-                    '${intl.reward_your_reward_subtitle_1} ${volumeFormat(
-                      decimal: store.totalEarnedBaseCurrency,
-                      accuracy: getIt.get<FormatService>().baseCurrency.accuracy,
-                      symbol: getIt.get<FormatService>().baseCurrency.symbol,
-                    )}',
+                    '${intl.reward_your_reward_subtitle_1} ${getIt<AppStore>().isBalanceHide
+                      ? '**** ${getIt.get<FormatService>().baseCurrency.symbol}'
+                      : volumeFormat(
+                        decimal: store.totalEarnedBaseCurrency,
+                        accuracy: getIt.get<FormatService>().baseCurrency.accuracy,
+                        symbol: getIt.get<FormatService>().baseCurrency.symbol,
+                      )}',
                     style: sTextH4Style,
                     maxLines: 3,
                   ),

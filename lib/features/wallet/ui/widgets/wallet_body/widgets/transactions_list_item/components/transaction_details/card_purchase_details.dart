@@ -127,13 +127,15 @@ class CardPurchaseDetails extends StatelessObserverWidget {
           TransactionDetailsNewItem(
             text: intl.card_history_total_charge,
             value: TransactionDetailsNewValueText(
-              text: volumeFormat(
-                decimal:
-                  (transactionListItem.cardPurchaseInfo?.paymentFeeAmount ??
-                      Decimal.zero) + transactionListItem.balanceChange.abs(),
-                accuracy: currency.accuracy,
-                symbol: currency.symbol,
-              ),
+              text: getIt<AppStore>().isBalanceHide
+                ? '**** ${currency.symbol}'
+                : volumeFormat(
+                  decimal:
+                    (transactionListItem.cardPurchaseInfo?.paymentFeeAmount ??
+                        Decimal.zero) + transactionListItem.balanceChange.abs(),
+                  accuracy: currency.accuracy,
+                  symbol: currency.symbol,
+                ),
             ),
           ),
           if (transactionListItem.status == Status.inProgress)

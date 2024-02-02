@@ -18,6 +18,8 @@ import 'package:simple_networking/modules/signal_r/models/global_send_methods_mo
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 
+import '../../../core/di/di.dart';
+import '../../app/store/app_store.dart';
 import 'widgets/payment_method_card.dart';
 
 @RoutePage(name: 'SendGloballyAmountRouter')
@@ -91,7 +93,9 @@ class _SendGloballyAmountScreenBodyState extends State<SendGloballyAmountScreenB
         child: SSmallHeader(
           title: intl.send_globally,
           subTitle: '${intl.withdrawalAmount_available}: '
-              '${volumeFormat(
+              '${getIt<AppStore>().isBalanceHide
+              ? '**** ${store.sendCurrency!.symbol}'
+              : volumeFormat(
             decimal: store.availableBalabce,
             accuracy: store.sendCurrency!.accuracy,
             symbol: store.sendCurrency!.symbol,
