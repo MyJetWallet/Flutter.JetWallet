@@ -282,6 +282,9 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                       onItemTapLisener: (symbol) {},
                       source: TransactionItemSource.simpleCard,
                       isSimpleCard: true,
+                      onError: (String reason) {
+                        sAnalytics.viewErrorOnCardScreen(cardID: simpleCardStore.cardFull!.cardId ?? '', reason: reason);
+                      },
                     ),
                   ] else ...[
                     SliverToBoxAdapter(

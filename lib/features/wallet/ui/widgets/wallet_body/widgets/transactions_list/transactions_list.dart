@@ -27,6 +27,7 @@ class TransactionsList extends StatelessWidget {
     this.fromCJAccount = false,
     this.isSimpleCard = false,
     required this.source,
+    this.onError,
   });
 
   final ScrollController scrollController;
@@ -34,6 +35,7 @@ class TransactionsList extends StatelessWidget {
   final String? accountId;
   final bool isRecurring;
   final void Function(String assetSymbol)? onItemTapLisener;
+  final Function(String reason)? onError;
   final bool fromCJAccount;
   final bool isSimpleCard;
   final TransactionItemSource source;
@@ -48,6 +50,8 @@ class TransactionsList extends StatelessWidget {
         null,
         false,
         accountId,
+        isSimpleCard,
+        onError,
       )..initOperationHistory(),
       builder: (context, child) => _TransactionsListBody(
         scrollController: scrollController,

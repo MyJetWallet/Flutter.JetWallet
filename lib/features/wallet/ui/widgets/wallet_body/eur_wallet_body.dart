@@ -66,11 +66,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
           kycState.withdrawalStatus,
         );
         if (userInfo.isSimpleCardAvailable &&
-          (
-            simpleCardStore.allCards == null ||
-            simpleCardStore.allCards!.isEmpty ||
-            simpleCardStore.allCards![0].status == AccountStatusCard.inCreation
-          ) &&
+          (sSignalRModules.bankingProfileData?.availableCardsCount ?? 0) > 0 &&
           !kycBlocked
         ) {
           sAnalytics.viewEURWalletWithButton();
@@ -226,9 +222,8 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                     ),
                 ],
                 if (userInfo.isSimpleCardAvailable &&
-                    (simpleCardStore.allCards == null ||
-                        simpleCardStore.allCards!.isEmpty ||
-                        simpleCardStore.allCards![0].status == AccountStatusCard.inCreation)) ...[
+                    (sSignalRModules.bankingProfileData?.availableCardsCount ?? 0) > 0 &&
+                    !kycBlocked) ...[
                   SliverToBoxAdapter(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -241,10 +236,8 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                             child: SButtonContext(
                               type: SButtonContextType.iconedSmall,
                               onTap: () {
-                                if (simpleCardStore.allCards == null || simpleCardStore.allCards!.isEmpty) {
-                                  sAnalytics.tapOnGetSimpleCard(source: 'eur wallet');
-                                  showCardOptions(context);
-                                }
+                                sAnalytics.tapOnGetSimpleCard(source: 'eur wallet');
+                                showCardOptions(context);
                               },
                               text: intl.simple_card_get_card.capitalize(),
                               icon: Assets.svg.medium.card,

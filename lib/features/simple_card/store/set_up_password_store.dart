@@ -131,11 +131,7 @@ abstract class _SetUpPasswordStoreBase with Store {
             );
 
         Navigator.pop(context!);
-        sNotification.showError(
-          intl.simple_card_password_working,
-          id: 1,
-          isError: false,
-        );
+        Navigator.pop(context);
 
         loader.finishLoadingImmediately();
       } on ServerRejectException catch (error) {

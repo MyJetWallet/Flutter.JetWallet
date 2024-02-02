@@ -37,7 +37,9 @@ class _CardOptions extends StatelessObserverWidget {
     void onAddCardTap() {
       sAnalytics.tapOnVirtualCard();
       Navigator.pop(context);
-      sAnalytics.confirmWithPinView();
+      sAnalytics.confirmWithPinView(
+        cardID: simpleCardStore.cardFull?.cardId ?? '',
+      );
       Navigator.push(
         context,
         PageRouteBuilder(

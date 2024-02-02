@@ -10,6 +10,8 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/di/di.dart';
 import '../../../core/services/local_storage_service.dart';
+import '../../pin_screen/model/pin_flow_union.dart';
+import '../../pin_screen/ui/pin_screen.dart';
 import '../store/set_up_password_store.dart';
 import '../store/simple_card_store.dart';
 
@@ -60,7 +62,9 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
           ),
           showBackButton: false,
           onCLoseButton: () {
-            sAnalytics.tapCloseSetUpPassword();
+            sAnalytics.tapCloseSetUpPassword(
+              cardID: simpleCardStore.cardFull?.cardId ?? '',
+            );
             Navigator.pop(context);
           },
           showCloseButton: true,
@@ -101,9 +105,13 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
               autofocus: true,
               onHideTap: (bool value) {
                 if (value) {
-                  sAnalytics.tapHideSetupPassword();
+                  sAnalytics.tapHideSetupPassword(
+                    cardID: simpleCardStore.cardFull?.cardId ?? '',
+                  );
                 } else {
-                  sAnalytics.tapShowSetupPassword();
+                  sAnalytics.tapShowSetupPassword(
+                    cardID: simpleCardStore.cardFull?.cardId ?? '',
+                  );
                 }
               },
             ),
@@ -138,7 +146,9 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
                         active: store.isButtonSaveActive,
                         name: intl.simple_card_password_continue,
                         onTap: () async {
-                          sAnalytics.tapContinueSetupPassword();
+                          sAnalytics.tapContinueSetupPassword(
+                            cardID: simpleCardStore.cardFull?.cardId ?? '',
+                          );
                           if (store.canClick) {
                             store.setCanClick(false);
                             Timer(
@@ -159,7 +169,43 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
                             final pin = await storageService.getValue(pinStatusKey);
                             await simpleCardStore.createCard(pin ?? '', store.password);
                           } else {
-                            await store.setCardPassword(simpleCardStore.cardFull?.cardId ?? '');
+                            sAnalytics.viewConfirmWithPin(
+                              cardID: simpleCardStore.cardFull?.cardId ?? '',
+                            );
+                            await Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                opaque: false,
+                                barrierColor: Colors.white,
+                                pageBuilder: (BuildContext context, _, __) {
+                                  return PinScreen(
+                                    union: const Change(),
+                                    isConfirmCard: true,
+                                    isChangePhone: true,
+                                    onChangePhone: (String newPin) {
+                                      store.setCardPassword(simpleCardStore.cardFull?.cardId ?? '');
+                                    },
+                                    onBackPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    onWrongPin: (String error) {},
+                                  );
+                                },
+                                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                  const begin = Offset(0.0, 1.0);
+                                  const end = Offset.zero;
+                                  const curve = Curves.ease;
+
+                                  final tween =
+                                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+                                  return SlideTransition(
+                                    position: animation.drive(tween),
+                                    child: child,
+                                  );
+                                },
+                              ),
+                            );
                           }
                         },
                       ),

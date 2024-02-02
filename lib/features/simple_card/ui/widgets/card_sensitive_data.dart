@@ -52,20 +52,25 @@ class CardSensitiveData extends StatelessWidget {
               ),
             if (showCopy) ...[
               const SpaceW8(),
-              SIconButton(
-                onTap: () {
-                  onTap(value);
-                },
-                defaultIcon: Assets.svg.medium.copy.simpleSvg(
-                  color: colors.white,
-                  width: 14,
-                  height: 14,
-                ),
-                pressedIcon: Assets.svg.medium.copy.simpleSvg(
-                  color: colors.white,
-                  width: 14,
-                  height: 14,
-                ),
+              Column(
+                children: [
+                  const SpaceH2(),
+                  SIconButton(
+                    onTap: () {
+                      onTap(value);
+                    },
+                    defaultIcon: Assets.svg.medium.copy.simpleSvg(
+                      color: colors.white,
+                      width: 16,
+                      height: 16,
+                    ),
+                    pressedIcon: Assets.svg.medium.copy.simpleSvg(
+                      color: colors.white,
+                      width: 16,
+                      height: 16,
+                    ),
+                  ),
+                ],
               ),
             ],
           ],

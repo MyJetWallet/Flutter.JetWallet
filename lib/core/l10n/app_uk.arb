@@ -3545,7 +3545,7 @@
         "description": "Показать все кошельки",
         "type": "text"
     },
-    "noInternetConnection_header": "Show all wallets",
+    "noInternetConnection_header": "З'єднання відсутнє",
     "noInternetConnection_descr": "Підключіться до WiFi або стільникового зв'язку, щоб продовжити користуватися додатком",
     "@noInternetConnection_descr": {
         "description": "Подключитесь к WiFi или сотовой связи, чтобы продолжить пользоваться приложением",
