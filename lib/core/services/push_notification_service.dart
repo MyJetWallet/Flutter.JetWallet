@@ -194,8 +194,6 @@ Future<void> messagingBackgroundHandler(RemoteMessage message) async {
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
 
-  await PushNotificationService().initialize();
-
   await getIt.get<DeepLinkService>().handlePushNotificationLink(message);
 
   getIt.get<SimpleLoggerService>().log(
