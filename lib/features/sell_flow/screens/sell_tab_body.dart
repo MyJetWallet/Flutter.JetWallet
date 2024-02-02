@@ -25,6 +25,9 @@ import 'package:simple_networking/modules/signal_r/models/banking_profile_model.
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../core/di/di.dart';
+import '../../app/store/app_store.dart';
+
 class SellAmountTabBody extends StatefulObserverWidget {
   const SellAmountTabBody({
     this.asset,
@@ -92,7 +95,7 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                     },
                     errorText: store.paymentMethodInputError,
                     optionText: store.cryptoInputValue == '0' && store.account != null && store.asset != null
-                        ? '''${intl.sell_amount_sell_all} ${volumeFormat(decimal: store.sellAllValue, accuracy: store.asset?.accuracy ?? 1, symbol: store.cryptoSymbol)}'''
+                        ? '''${intl.sell_amount_sell_all} ${getIt<AppStore>().isBalanceHide ? '**** ${store.cryptoSymbol}' : volumeFormat(decimal: store.sellAllValue, accuracy: store.asset?.accuracy ?? 1, symbol: store.cryptoSymbol)}'''
                         : null,
                     optionOnTap: () {
                       sAnalytics.tapOnTheSellAll();
@@ -115,7 +118,9 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                   SuggestionButtonWidget(
                     title: store.asset?.description,
                     subTitle: intl.amount_screen_sell,
-                    trailing: store.asset?.volumeAssetBalance,
+                    trailing: getIt<AppStore>().isBalanceHide
+                        ? '**** ${store.asset?.symbol}'
+                        : store.asset?.volumeAssetBalance,
                     icon: SNetworkSvg24(
                       url: store.asset?.iconUrl ?? '',
                     ),
@@ -171,11 +176,13 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                   SuggestionButtonWidget(
                     title: store.account?.label,
                     subTitle: intl.amount_screen_sell_to,
-                    trailing: volumeFormat(
-                      decimal: store.account?.balance ?? Decimal.zero,
-                      accuracy: store.asset?.accuracy ?? 1,
-                      symbol: store.account?.currency ?? '',
-                    ),
+                    trailing: getIt<AppStore>().isBalanceHide
+                      ? '**** ${store.account?.currency}'
+                      : volumeFormat(
+                        decimal: store.account?.balance ?? Decimal.zero,
+                        accuracy: store.asset?.accuracy ?? 1,
+                        symbol: store.account?.currency ?? '',
+                      ),
                     icon: Container(
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
@@ -221,11 +228,13 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                   SuggestionButtonWidget(
                     title: store.card?.label ?? 'Simple card',
                     subTitle: intl.amount_screen_sell_to,
-                    trailing: volumeFormat(
-                      decimal: store.card?.balance ?? Decimal.zero,
-                      accuracy: store.asset?.accuracy ?? 1,
-                      symbol: store.card?.currency ?? '',
-                    ),
+                    trailing: getIt<AppStore>().isBalanceHide
+                      ? '**** ${store.card?.currency}'
+                      : volumeFormat(
+                        decimal: store.card?.balance ?? Decimal.zero,
+                        accuracy: store.asset?.accuracy ?? 1,
+                        symbol: store.card?.currency ?? '',
+                      ),
                     icon: Assets.svg.assets.fiat.cardAlt.simpleSvg(
                       width: 24,
                     ),

@@ -45,7 +45,7 @@ class MainScreenAppbar extends StatelessWidget {
             value: headerValue,
             hasSecondIcon: false,
             showLabelIcon: true,
-            labelIcon: isLabelIconShow ? Assets.svg.medium.show.simpleSvg() : Assets.svg.medium.hide.simpleSvg(),
+            labelIcon: isLabelIconShow ? Assets.svg.medium.hide.simpleSvg() : Assets.svg.medium.show.simpleSvg(),
             onLabelIconTap: onLabelIconTap,
             rightIcon: UserNotyIcon(
               onTap: onProfileTap ?? () {},

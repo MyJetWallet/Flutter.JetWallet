@@ -14,6 +14,8 @@ import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
+import '../../../../../../../../../core/di/di.dart';
+import '../../../../../../../../app/store/app_store.dart';
 import '../../../../../../../helper/format_date_to_hm.dart';
 import 'components/transaction_details_item.dart';
 import 'components/transaction_details_status.dart';
@@ -154,14 +156,18 @@ class _SwapDetailsHeader extends StatelessWidget {
           isLoading: false,
           fromAssetIconUrl: paymentAsset.iconUrl,
           fromAssetDescription: paymentAsset.description,
-          fromAssetValue: volumeFormat(
+          fromAssetValue: getIt<AppStore>().isBalanceHide
+              ? '**** ${paymentAsset.symbol}'
+              : volumeFormat(
             symbol: paymentAsset.symbol,
             accuracy: paymentAsset.accuracy,
             decimal: transactionListItem.swapInfo?.sellAmount ?? Decimal.zero,
           ),
           toAssetIconUrl: buyAsset.iconUrl,
           toAssetDescription: buyAsset.description,
-          toAssetValue: volumeFormat(
+          toAssetValue: getIt<AppStore>().isBalanceHide
+              ? '**** ${buyAsset.symbol}'
+              : volumeFormat(
             symbol: buyAsset.symbol,
             accuracy: buyAsset.accuracy,
             decimal: transactionListItem.swapInfo?.buyAmount ?? Decimal.zero,

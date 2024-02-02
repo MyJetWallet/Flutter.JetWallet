@@ -11,6 +11,8 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../app/store/app_store.dart';
+
 void showSellAction(BuildContext context) {
   final showSearch = showSellCurrencySearch(context);
   Navigator.pop(context); // close BasicBottomSheet from Menu
@@ -57,14 +59,19 @@ class _ActionSell extends StatelessObserverWidget {
                 url: currency.iconUrl,
               ),
               primaryText: currency.description,
-              amount: currency.volumeBaseBalance(baseCurrency),
-              secondaryText: currency.volumeAssetBalance,
+              amount: getIt<AppStore>().isBalanceHide
+                ? '**** ${baseCurrency.symbol}'
+                : currency.volumeBaseBalance(baseCurrency),
+              secondaryText: getIt<AppStore>().isBalanceHide
+                  ? '******* ${currency.symbol}'
+                  : currency.volumeAssetBalance,
               removeDivider: currency == assetWithBalance.last,
               onTap: () {
                 sRouter.navigate(
                   CurrencySellRouter(currency: currency),
                 );
               },
+              hideBalance: getIt<AppStore>().isBalanceHide,
             ),
         ],
       ],

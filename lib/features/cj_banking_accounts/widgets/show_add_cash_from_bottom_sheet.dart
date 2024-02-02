@@ -10,6 +10,9 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
+import '../../../core/di/di.dart';
+import '../../app/store/app_store.dart';
+
 void showAddCashFromBottomSheet({
   required BuildContext context,
   required VoidCallback onClose,
@@ -63,8 +66,12 @@ void showAddCashFromBottomSheet({
                 url: currency.iconUrl,
               ),
               label: currency.description,
-              supplement: currency.volumeAssetBalance,
-              rightValue: currency.volumeBaseBalance(baseCurrency),
+              supplement: getIt<AppStore>().isBalanceHide
+                  ? '******* ${currency.symbol}'
+                  : currency.volumeAssetBalance,
+              rightValue: getIt<AppStore>().isBalanceHide
+                  ? '**** ${baseCurrency.symbol}'
+                  : currency.volumeBaseBalance(baseCurrency),
               onTableAssetTap: () {
                 sAnalytics.tapOnTheAnyCryptoForDepositButton(cryptoAsset: currency.symbol);
                 onChooseAsset(currency);
@@ -91,8 +98,12 @@ void showAddCashFromBottomSheet({
                         url: currency.iconUrl,
                       ),
                       label: currency.description,
-                      supplement: currency.volumeAssetBalance,
-                      rightValue: currency.volumeBaseBalance(baseCurrency),
+                      supplement: getIt<AppStore>().isBalanceHide
+                          ? '******* ${currency.symbol}'
+                          : currency.volumeAssetBalance,
+                      rightValue: getIt<AppStore>().isBalanceHide
+                        ? '**** ${baseCurrency.symbol ?? 'EUR'}'
+                        : currency.volumeBaseBalance(baseCurrency),
                       onTableAssetTap: () {
                         sAnalytics.tapOnTheAnyCryptoForDepositButton(cryptoAsset: currency.symbol);
                         onChooseAsset(currency);

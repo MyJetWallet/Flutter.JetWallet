@@ -17,6 +17,9 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
+import '../../../core/di/di.dart';
+import '../../app/store/app_store.dart';
+
 @RoutePage(name: 'CJAccountRouter')
 class CJAccountScreen extends StatefulObserverWidget {
   const CJAccountScreen({
@@ -73,18 +76,22 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
             mainBlockCenter: true,
             scrollController: _controller,
             showTicker: false,
-            mainTitle: volumeFormat(
-              decimal: widget.bankingAccount.balance ?? Decimal.zero,
-              accuracy: eurCurrency.accuracy,
-              symbol: eurCurrency.symbol,
-            ),
+            mainTitle: getIt<AppStore>().isBalanceHide
+              ? '**** ${eurCurrency.symbol}'
+              : volumeFormat(
+                decimal: widget.bankingAccount.balance ?? Decimal.zero,
+                accuracy: eurCurrency.accuracy,
+                symbol: eurCurrency.symbol,
+              ),
             mainHeaderTitle: label,
             mainHeaderSubtitle: widget.isCJAccount ? intl.wallet_simple_account : intl.eur_wallet_personal_account,
-            mainHeaderCollapsedTitle: volumeFormat(
-              decimal: widget.bankingAccount.balance ?? Decimal.zero,
-              accuracy: eurCurrency.accuracy,
-              symbol: eurCurrency.symbol,
-            ),
+            mainHeaderCollapsedTitle: getIt<AppStore>().isBalanceHide
+              ? '**** ${eurCurrency.symbol}'
+              : volumeFormat(
+                decimal: widget.bankingAccount.balance ?? Decimal.zero,
+                accuracy: eurCurrency.accuracy,
+                symbol: eurCurrency.symbol,
+              ),
             mainHeaderCollapsedSubtitle:
                 widget.isCJAccount ? intl.wallet_simple_account : intl.eur_wallet_personal_account,
             hasRightIcon: false,

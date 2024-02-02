@@ -17,6 +17,9 @@ import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../core/di/di.dart';
+import '../../app/store/app_store.dart';
+
 @RoutePage(name: 'WithdrawalAmmountRouter')
 class WithdrawalAmmountScreen extends StatefulObserverWidget {
   const WithdrawalAmmountScreen({super.key});
@@ -128,11 +131,13 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
                   baselineType: TextBaseline.alphabetic,
                   child: Text(
                     '${intl.withdrawalAmount_available}: '
-                    '${volumeFormat(
-                      decimal: availableBalance,
-                      accuracy: store.withdrawalInputModel!.currency!.accuracy,
-                      symbol: store.withdrawalInputModel!.currency!.symbol,
-                    )}',
+                    '${getIt<AppStore>().isBalanceHide
+                      ? '**** ${store.withdrawalInputModel!.currency!.symbol}'
+                      : volumeFormat(
+                        decimal: availableBalance,
+                        accuracy: store.withdrawalInputModel!.currency!.accuracy,
+                        symbol: store.withdrawalInputModel!.currency!.symbol,
+                      )}',
                     style: sSubtitle3Style.copyWith(
                       color: colors.grey2,
                     ),

@@ -14,6 +14,8 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
+import '../../../../../../../../../core/di/di.dart';
+import '../../../../../../../../app/store/app_store.dart';
 import '../../../../../../../helper/format_date_to_hm.dart';
 import 'components/transaction_details_item.dart';
 import 'components/transaction_details_status.dart';
@@ -137,7 +139,9 @@ class _TransferDetailsHeader extends StatelessWidget {
           isLoading: false,
           fromAssetIconUrl: euroAsset.iconUrl,
           fromAssetDescription: transactionListItem.ibanTransferInfo?.fromAccountLabel ?? 'Account 1',
-          fromAssetValue: volumeFormat(
+          fromAssetValue: getIt<AppStore>().isBalanceHide
+              ? '**** ${euroAsset.symbol}'
+              : volumeFormat(
             symbol: euroAsset.symbol,
             accuracy: euroAsset.accuracy,
             decimal: transactionListItem.ibanTransferInfo?.withdrawalAmount?.abs() ?? Decimal.zero,
@@ -151,7 +155,9 @@ class _TransferDetailsHeader extends StatelessWidget {
                 ),
           toAssetIconUrl: euroAsset.iconUrl,
           toAssetDescription: transactionListItem.ibanTransferInfo?.toAccountLabel ?? 'Account 1',
-          toAssetValue: volumeFormat(
+          toAssetValue: getIt<AppStore>().isBalanceHide
+              ? '**** ${euroAsset.symbol}'
+              : volumeFormat(
             symbol: euroAsset.symbol,
             accuracy: euroAsset.accuracy,
             decimal: transactionListItem.ibanTransferInfo?.receiveAmount?.abs() ?? Decimal.zero,

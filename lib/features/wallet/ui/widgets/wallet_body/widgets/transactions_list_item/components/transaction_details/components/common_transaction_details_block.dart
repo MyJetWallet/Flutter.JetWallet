@@ -17,6 +17,7 @@ import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 
 import '../../../../../../../../../../utils/helpers/check_local_operation.dart';
+import '../../../../../../../../../app/store/app_store.dart';
 import '../../../../../../../../helper/is_operation_support_copy.dart';
 import '../../../../../../../../helper/nft_types.dart';
 import '../../../../../../../../helper/operation_name.dart';
@@ -143,11 +144,13 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             !operationWithoutBalanceShow) ...[
           SPaddingH24(
             child: AutoSizeText(
-              volumeFormat(
-                decimal: operationAmount(transactionListItem),
-                accuracy: currency.accuracy,
-                symbol: currency.symbol,
-              ),
+              getIt<AppStore>().isBalanceHide
+                ? '**** ${currency.symbol}'
+                : volumeFormat(
+                  decimal: operationAmount(transactionListItem),
+                  accuracy: currency.accuracy,
+                  symbol: currency.symbol,
+                ),
               textAlign: TextAlign.center,
               minFontSize: 4.0,
               maxLines: 1,
