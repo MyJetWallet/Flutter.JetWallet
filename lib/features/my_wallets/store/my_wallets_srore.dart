@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -15,6 +16,7 @@ import 'package:jetwallet/features/my_wallets/helper/show_wallet_verify_account.
 import 'package:jetwallet/utils/enum.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -44,7 +46,14 @@ abstract class _MyWalletsSroreBase with Store {
   Duration updateDuration = const Duration(seconds: 5);
 
   @computed
-  bool get isLoading => !sSignalRModules.initFinished;
+  bool get isLoading {
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.error,
+          place: 'SPU-4250 MyWalletsSrore',
+          message: 'MyWalletsSrore: isLoading = ${!sSignalRModules.initFinished}',
+        );
+    return !sSignalRModules.initFinished;
+  }
 
   @observable
   bool isReordering = false;

@@ -131,6 +131,11 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
   bool initFinished = false;
   @action
   void setInitFinished(bool value) {
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.error,
+          place: 'SPU-4250 setInitFinished',
+          message: 'setInitFinished = $value',
+        );
     initFinished = value;
     getIt.get<ChangeBaseAssetStore>().finishLoading();
   }
@@ -997,6 +1002,11 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
 
   @action
   void clearSignalRModule() {
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.info,
+          place: 'SPU-4250 SignalRServiceUpdated',
+          message: 'SignalRServiceUpdated clearSignalRModule',
+        );
     initFinished = false;
     showPaymentsMethods = false;
     clientDetail = ClientDetailModel(

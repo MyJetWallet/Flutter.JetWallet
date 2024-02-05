@@ -89,7 +89,16 @@ class SignalRService {
     }
 
     await Future.delayed(const Duration(milliseconds: 560), () {
-      start(isInit: false);
+      try {
+        start(isInit: false);
+      } catch (e) {
+        sSignalRModules.setInitFinished(true);
+        getIt.get<SimpleLoggerService>().log(
+          level: Level.info,
+          place: 'SPU-4250 SignalRService',
+          message: 'forceReconnectSignalR',
+        );
+      }
     });
 
     sSignalRModules.setInitFinished(true);

@@ -12,6 +12,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/kyc/models/kyc_verified_model.dart';
@@ -26,6 +27,7 @@ import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -193,6 +195,12 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
       ),
       true,
     );
+
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.error,
+          place: 'SPU-4250 MyWalletsScreen',
+          message: 'MyWalletsScreen: isLoading = ${store.isLoading}',
+        );
 
     return RawGestureDetector(
       gestures: <Type, GestureRecognizerFactory>{
