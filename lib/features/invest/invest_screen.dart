@@ -3,6 +3,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/features/invest/stores/chart/invest_chart_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_positions_store.dart';
 import 'package:jetwallet/features/invest/ui/dashboard/invest_header.dart';
@@ -40,6 +41,7 @@ class _InvestScreenState extends State<InvestScreen> {
     final currencies = sSignalRModules.currenciesList;
     final investStore = getIt.get<InvestDashboardStore>();
     final investPositionsStore = getIt.get<InvestPositionsStore>();
+    final investChartStore = getIt.get<InvestChartStore>();
 
     final colors = sKit.colors;
     final currency = currencyFrom(currencies, 'USDT');
@@ -156,10 +158,7 @@ class _InvestScreenState extends State<InvestScreen> {
                                     for (final instrument in investStore.instrumentsList) ...[
                                       if (getGroupedLength(instrument.symbol ?? '') > 0) ...[
                                         SymbolInfo(
-                                          currency: currencyFrom(
-                                            currencies,
-                                            instrument.currencyBase!,
-                                          ),
+                                          percent: investStore.getPercentSymbol(instrument.symbol ?? ''),
                                           instrument: instrument,
                                           showProfit: true,
                                           profit: getGroupedProfit(instrument.symbol ?? ''),
@@ -169,6 +168,7 @@ class _InvestScreenState extends State<InvestScreen> {
                                               InstrumentPageRouter(instrument: instrument),
                                             );
                                           },
+                                          candles: investChartStore.getAssetCandles(instrument.symbol ?? ''),
                                         ),
                                       ],
                                     ],
@@ -207,10 +207,7 @@ class _InvestScreenState extends State<InvestScreen> {
                               children: [
                                 for (final element in investStore.favouritesList)
                                   SymbolInfo(
-                                    currency: currencyFrom(
-                                      currencies,
-                                      element.currencyBase!,
-                                    ),
+                                    percent: investStore.getPercentSymbol(element.symbol ?? ''),
                                     instrument: element,
                                     showProfit: false,
                                     price: investStore.getPriceBySymbol(element.symbol ?? ''),
@@ -225,6 +222,7 @@ class _InvestScreenState extends State<InvestScreen> {
                                         );
                                       }
                                     },
+                                    candles: investChartStore.getAssetCandles(element.symbol ?? ''),
                                   ),
                               ],
                             );
@@ -257,10 +255,7 @@ class _InvestScreenState extends State<InvestScreen> {
                                 children: [
                                   for (final element in investStore.gainersList)
                                     SymbolInfo(
-                                      currency: currencyFrom(
-                                        currencies,
-                                        element.currencyBase!,
-                                      ),
+                                      percent: investStore.getPercentSymbol(element.symbol ?? ''),
                                       instrument: element,
                                       showProfit: false,
                                       price: investStore.getPriceBySymbol(element.symbol ?? ''),
@@ -275,6 +270,7 @@ class _InvestScreenState extends State<InvestScreen> {
                                           );
                                         }
                                       },
+                                      candles: investChartStore.getAssetCandles(element.symbol ?? ''),
                                     ),
                                 ],
                               );
@@ -307,10 +303,7 @@ class _InvestScreenState extends State<InvestScreen> {
                                 children: [
                                   for (final element in investStore.losersList)
                                     SymbolInfo(
-                                      currency: currencyFrom(
-                                        currencies,
-                                        element.currencyBase!,
-                                      ),
+                                      percent: investStore.getPercentSymbol(element.symbol ?? ''),
                                       instrument: element,
                                       showProfit: false,
                                       price: investStore.getPriceBySymbol(element.symbol ?? ''),
@@ -325,6 +318,7 @@ class _InvestScreenState extends State<InvestScreen> {
                                           );
                                         }
                                       },
+                                      candles: investChartStore.getAssetCandles(element.symbol ?? ''),
                                     ),
                                 ],
                               );

@@ -260,6 +260,7 @@ class _KChartWidgetState extends State<KChartWidget>
               chartWidth: widget.chartWidth,
               prefix: widget.prefix,
               accuracy: widget.accuracy,
+              isInvestChart: widget.isInvestChart,
             ),
           ),
         ],

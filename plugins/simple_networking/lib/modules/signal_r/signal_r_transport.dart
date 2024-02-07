@@ -14,6 +14,7 @@ import 'package:simple_networking/modules/signal_r/models/earn_profile_model.dar
 import 'package:simple_networking/modules/signal_r/models/fireblock_events_model.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/signal_r/models/indices_model.dart';
+import 'package:simple_networking/modules/signal_r/models/invest_base_daily_price_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/key_value_model.dart';
@@ -75,6 +76,7 @@ class SignalRTransport {
     required this.investPrices,
     required this.investSectors,
     required this.investWallet,
+    required this.investBaseDailyPrice,
   });
 
   final void Function(bool) initFinished;
@@ -118,6 +120,7 @@ class SignalRTransport {
   final void Function(InvestPricesModel) investPrices;
   final void Function(InvestSectorsModel) investSectors;
   final void Function(InvestWalletModel) investWallet;
+  final void Function(InvestBaseDailyPriceModel) investBaseDailyPrice;
 
   /// Logs
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/features/invest/stores/chart/invest_chart_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_positions_store.dart';
 import 'package:jetwallet/features/invest/ui/dashboard/invest_header.dart';
@@ -80,6 +81,7 @@ class InstrumentsList extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final investStore = getIt.get<InvestDashboardStore>();
+    final investChartStore = getIt.get<InvestChartStore>();
     final investPositionsStore = getIt.get<InvestPositionsStore>();
     final currencies = sSignalRModules.currenciesList;
 
@@ -189,13 +191,14 @@ class InstrumentsList extends StatelessObserverWidget {
                 const SpaceH4(),
                 for (final instrument in investStore.instrumentsSortedList) ...[
                   SymbolInfoLine(
-                    currency: currencyFrom(currencies, instrument.name!),
+                    percent: investStore.getPercentSymbol(instrument.symbol ?? ''),
                     instrument: instrument,
                     amount: getGroupedAmount(instrument.symbol!),
                     profit: getGroupedProfit(instrument.symbol!),
                     price: investStore.getPriceBySymbol(instrument.symbol ?? ''),
                     withFavorites: true,
                     isFavorite: investStore.favoritesSymbols.contains(instrument.name),
+                    candles: investChartStore.getAssetCandles(instrument.symbol ?? ''),
                     onTapFavorites: () {
                       if (investStore.favoritesSymbols.contains(instrument.name)) {
                         investStore.removeFromFavorites(instrument.name!);
@@ -226,11 +229,12 @@ class InstrumentsList extends StatelessObserverWidget {
                 ),
                 for (final instrument in investStore.favoritesSortedList) ...[
                   SymbolInfoLine(
-                    currency: currencyFrom(currencies, instrument.name!),
+                    percent: investStore.getPercentSymbol(instrument.symbol ?? ''),
                     instrument: instrument,
                     amount: getGroupedAmount(instrument.symbol!),
                     profit: getGroupedProfit(instrument.symbol!),
                     price: investStore.getPriceBySymbol(instrument.symbol ?? ''),
+                    candles: investChartStore.getAssetCandles(instrument.symbol ?? ''),
                     onTap: () {
                       if (getGroupedLength(instrument.symbol!) > 0) {
                         sRouter.push(

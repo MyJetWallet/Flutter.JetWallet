@@ -54,20 +54,25 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
     super.initState();
     final investNewStore = getIt.get<InvestNewStore>();
     final currencies = sSignalRModules.currenciesList;
-    final currency = currencyFrom(currencies, 'USDT');
     final multiplicators = calculateMultiplyPositions(
       minVolume: Decimal.fromInt(widget.instrument.minMultiply ?? 0),
       maxVolume: Decimal.fromInt(widget.instrument.maxMultiply ?? 0),
     );
-    final amounts = calculateAmountPositions(
-      balance: sSignalRModules.investWalletData?.balance ?? Decimal.zero,
-      minVolume: widget.instrument.minVolume ?? Decimal.zero,
-      maxVolume: widget.instrument.maxVolume ?? Decimal.zero,
-    );
     investNewStore.resetStore();
 
-    investNewStore.onAmountInput('${amounts[1]}');
-    investNewStore.amountController.text = '${amounts[1]}';
+    if ((sSignalRModules.investWalletData?.balance ?? Decimal.zero) > Decimal.zero) {
+      final amounts = calculateAmountPositions(
+        balance: sSignalRModules.investWalletData?.balance ?? Decimal.zero,
+        minVolume: widget.instrument.minVolume ?? Decimal.zero,
+        maxVolume: widget.instrument.maxVolume ?? Decimal.zero,
+      );
+      investNewStore.onAmountInput('${amounts[1]}');
+      investNewStore.amountController.text = '${amounts[1]}';
+    } else {
+      investNewStore.onAmountInput('1');
+      investNewStore.amountController.text = '1';
+    }
+
     investNewStore.setInstrument(widget.instrument);
     investNewStore.setMultiplicator(multiplicators[1].toDouble().toInt());
     controller = ScrollController();
@@ -151,7 +156,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
           padding: EdgeInsets.zero,
           children: [
             SymbolInfoWithoutChart(
-              currency: currency,
+              percent: investStore.getPercentSymbol(widget.instrument.symbol ?? ''),
               price: investStore.getPriceBySymbol(widget.instrument.symbol ?? ''),
               instrument: widget.instrument,
               onTap: () {

@@ -32,6 +32,7 @@ class ChartPainter extends BaseChartPainter {
     required this.chartWidth,
     required this.onCandleSelected,
     required this.formatPrice,
+    required this.isInvestChart,
     this.accuracy,
   }) : super(
     datas: datas,
@@ -61,6 +62,7 @@ class ChartPainter extends BaseChartPainter {
   final double chartWidth;
   late Color chartColor;
   late Color chartColorBg;
+  late bool isInvestChart;
   final int? accuracy;
 
   @override
@@ -71,15 +73,15 @@ class ChartPainter extends BaseChartPainter {
       chartColor = Colors.white;
       if (datas.isNotEmpty) {
         chartColor = datas.first.close > datas.last.close
-            ? ChartColors.negativeChartColor
+            ? isInvestChart ? ChartColors.positiveChartColor : ChartColors.negativeChartColor
             : datas.first.close == datas.last.close
             ? ChartColors.equalChartColor
-            : ChartColors.positiveChartColor;
+            : isInvestChart ? ChartColors.negativeChartColor : ChartColors.positiveChartColor;
         chartColorBg = datas.first.close > datas.last.close
-            ? ChartColors.negativeChartBgColor
+            ? isInvestChart ? ChartColors.positiveChartBgColor : ChartColors.negativeChartBgColor
             : datas.first.close == datas.last.close
             ? ChartColors.equalChartBgColor
-            : ChartColors.positiveChartBgColor;
+            : isInvestChart ? ChartColors.negativeChartBgColor : ChartColors.positiveChartBgColor;
       }
     }
 
@@ -127,7 +129,7 @@ class ChartPainter extends BaseChartPainter {
   @override
   void drawChart(Canvas canvas, Size size) {
     canvas.save();
-    canvas.translate(mTranslateX * scaleX, 0.0);
+    canvas.translate(mTranslateX * scaleX, isInvestChart ? 10 : 0);
     canvas.scale(scaleX, 1.0);
 
     for (var i = mStartIndex; i <= mStopIndex; i++) {

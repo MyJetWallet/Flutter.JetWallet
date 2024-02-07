@@ -217,7 +217,7 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             SymbolInfoWithoutChart(
-              currency: currency,
+              percent: investStore.getPercentSymbol(widget.instrument.symbol ?? ''),
               price: investStore.getPriceBySymbol(widget.instrument.symbol ?? ''),
               instrument: widget.instrument,
               onTap: () {

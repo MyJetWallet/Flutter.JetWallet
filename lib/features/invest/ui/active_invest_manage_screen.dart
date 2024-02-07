@@ -220,7 +220,7 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             SymbolInfoWithoutChart(
-              currency: currency,
+              percent: investStore.getPercentSymbol(widget.instrument.symbol ?? ''),
               price: investStore.getPriceBySymbol(widget.instrument.symbol ?? ''),
               instrument: widget.instrument,
               onTap: () {
@@ -293,7 +293,7 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
               builder: (BuildContext context) {
                 return RolloverLine(
                   mainText: intl.invest_next_rollover,
-                  secondaryText: '${investNewStore.position!.rollOver}% / ${timerUpdated ?? ''}',
+                  secondaryText: '${investNewStore.position!.rollOver}% / $timerUpdated',
                 );
               },
             ),

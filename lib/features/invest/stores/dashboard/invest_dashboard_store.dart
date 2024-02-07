@@ -8,6 +8,7 @@ import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/config/constants.dart';
+import 'package:simple_networking/modules/signal_r/models/invest_base_daily_price_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_prices_model.dart';
@@ -19,7 +20,6 @@ import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_
 import '../../../../core/di/di.dart';
 import '../../../../core/services/key_value_service.dart';
 import '../../../../utils/enum.dart';
-import '../../../../utils/formatting/base/volume_format.dart';
 import '../../../../utils/helpers/currency_from.dart';
 
 part 'invest_dashboard_store.g.dart';
@@ -284,6 +284,12 @@ abstract class _InvestDashboardStoreBase with Store {
   ]) : ObservableList.of([]);
 
   @computed
+  ObservableList<BaseDailyPrice> get basePricesList =>
+      sSignalRModules.investBaseDailyPriceData != null ? ObservableList.of([
+    ...sSignalRModules.investBaseDailyPriceData!.dailyPrices,
+  ]) : ObservableList.of([]);
+
+  @computed
   Decimal get totalAmount {
     var amountSum = Decimal.zero;
     if (sSignalRModules.investPositionsData != null) {
@@ -385,6 +391,32 @@ abstract class _InvestDashboardStoreBase with Store {
     }
 
     return price[0].lastPrice ?? Decimal.zero;
+  }
+
+  @action
+  Decimal getBasePriceBySymbol(String symbol) {
+    final instrument = instrumentsList
+        .where((element) => element.symbol == symbol).toList();
+    final price = basePricesList
+        .where((element) => element.symbol == symbol).toList();
+    if (instrument.isEmpty || price.isEmpty) {
+      return Decimal.zero;
+    }
+
+    return price[0].price ?? Decimal.zero;
+  }
+
+  @action
+  Decimal getPercentSymbol(String symbol) {
+    final basePrice = getBasePriceBySymbol(symbol);
+    final currentPrice = getPendingPriceBySymbol(symbol);
+    if (basePrice == Decimal.zero || currentPrice == Decimal.zero) {
+      return Decimal.zero;
+    }
+
+    final percentage = (Decimal.one - Decimal.fromJson('${(basePrice / currentPrice).toDouble()}')) * Decimal.fromInt(100);
+
+    return percentage;
   }
 
   @action

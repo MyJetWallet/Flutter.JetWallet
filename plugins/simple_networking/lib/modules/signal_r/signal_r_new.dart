@@ -570,6 +570,7 @@ class SignalRModuleNew {
     _hubConnection?.on(investPricesMessage, handler.investPricesMessageHandler);
     _hubConnection?.on(investSectorsMessage, handler.investSectorsMessageHandler);
     _hubConnection?.on(investWalletMessage, handler.investWalletMessageHandler);
+    _hubConnection?.on(investBaseDailyPricesMessage, handler.investBaseDailyPricesMessageHandler);
 
     _hubConnection?.on(indicesMessage, handler.indicesMessageHandler);
 

@@ -7,21 +7,20 @@ import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 
 import '../../../../utils/helpers/icon_url_from.dart';
-import '../../../../utils/models/currency_model.dart';
 import '../../helpers/percent_info.dart';
 
 class SymbolInfoWithoutChart extends StatelessObserverWidget {
   const SymbolInfoWithoutChart({
     super.key,
     required this.instrument,
-    required this.currency,
     required this.price,
+    required this.percent,
     required this.onTap,
   });
 
   final InvestInstrumentModel instrument;
-  final CurrencyModel currency;
   final String price;
+  final Decimal percent;
   final Function() onTap;
 
   @override
@@ -89,17 +88,17 @@ class SymbolInfoWithoutChart extends StatelessObserverWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        formatPercent(Decimal.fromJson(currency.dayPercentChange.toString())),
+                        formatPercent(percent),
                         overflow: TextOverflow.ellipsis,
                         style: STStyles.body3InvestSM.copyWith(
-                          color: Decimal.fromJson(currency.dayPercentChange.toString()) == Decimal.zero
+                          color: percent == Decimal.zero
                               ? colors.grey3
-                              : Decimal.fromJson(currency.dayPercentChange.toString()) > Decimal.zero
+                              : percent > Decimal.zero
                               ? colors.green
                               : colors.red,
                         ),
                       ),
-                      percentIcon(Decimal.fromJson(currency.dayPercentChange.toString())),
+                      percentIcon(percent),
                     ],
                   ),
                 ],
