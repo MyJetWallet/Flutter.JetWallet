@@ -24,4 +24,8 @@ extension DecimalExtension on Decimal {
       decimal: this,
     );
   }
+
+  Decimal get negative {
+    return this > Decimal.zero ? this * Decimal.parse('-1') : this;
+  }
 }

@@ -66,51 +66,48 @@ class TransactionListItem extends StatelessWidget {
         : currencies[0];
     final baseCurrency = sSignalRModules.baseCurrency;
 
-    return ColoredBox(
-      color: transactionListItem.operationType == OperationType.cardPurchase ? Colors.lime : Colors.transparent,
-      child: _TransactionBaseItem(
-        onTap: () {
-          if (fromCJAccount) {
-            sAnalytics.eurWalletTapAnyHistoryTRXEUR(
-              isCJ: true,
-              isHasTransaction: true,
-              eurAccountLabel: '',
-            );
-          }
-
-          onItemTapLisener?.call(transactionListItem.assetId);
-          showTransactionDetails(
-            context: context,
-            transactionListItem: transactionListItem,
-            source: source,
+    return _TransactionBaseItem(
+      onTap: () {
+        if (fromCJAccount) {
+          sAnalytics.eurWalletTapAnyHistoryTRXEUR(
+            isCJ: true,
+            isHasTransaction: true,
+            eurAccountLabel: '',
           );
-        },
-        icon: _transactionItemIcon(
-          type: transactionListItem.operationType,
-          isFailed: transactionListItem.status == Status.declined,
+        }
+
+        onItemTapLisener?.call(transactionListItem.assetId);
+        showTransactionDetails(
+          context: context,
           transactionListItem: transactionListItem,
-        ),
-        labele: _transactionItemTitle(
-          transactionListItem,
-        ),
-        labelIcon: _transactionLabelIcon(
-          type: transactionListItem.operationType,
-        ),
-        balanceChange: getIt<AppStore>().isBalanceHide
-            ? '**** ${currency.symbol}'
-            : _transactionItemBalanceChange(
-                transactionListItem: transactionListItem,
-                accuracy: currency.accuracy,
-                symbol: currency.symbol,
-              ),
-        status: transactionListItem.status,
-        timeStamp: transactionListItem.timeStamp,
-        rightSupplement: _transactionItemRightSupplement(
-          transactionListItem: transactionListItem,
-          currency: currency,
-          baseCurrency: baseCurrency,
-          paymentCurrency: paymentCurrency,
-        ),
+          source: source,
+        );
+      },
+      icon: _transactionItemIcon(
+        type: transactionListItem.operationType,
+        isFailed: transactionListItem.status == Status.declined,
+        transactionListItem: transactionListItem,
+      ),
+      labele: _transactionItemTitle(
+        transactionListItem,
+      ),
+      labelIcon: _transactionLabelIcon(
+        type: transactionListItem.operationType,
+      ),
+      balanceChange: getIt<AppStore>().isBalanceHide
+          ? '**** ${currency.symbol}'
+          : _transactionItemBalanceChange(
+              transactionListItem: transactionListItem,
+              accuracy: currency.accuracy,
+              symbol: currency.symbol,
+            ),
+      status: transactionListItem.status,
+      timeStamp: transactionListItem.timeStamp,
+      rightSupplement: _transactionItemRightSupplement(
+        transactionListItem: transactionListItem,
+        currency: currency,
+        baseCurrency: baseCurrency,
+        paymentCurrency: paymentCurrency,
       ),
     );
   }

@@ -6,6 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
+import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -187,13 +188,14 @@ class CardPurchaseDetailsHeader extends StatelessWidget {
                     symbol: 'EUR',
                     decimal: transactionListItem.balanceChange,
                   ),
-            assetBaseAmount: getIt<AppStore>().isBalanceHide
-                ? '**** ${transactionListItem.cardPurchaseInfo?.paymentAssetId}'
-                : volumeFormat(
-                    symbol: transactionListItem.cardPurchaseInfo?.paymentAssetId ?? '',
-                    decimal:
-                        (transactionListItem.cardPurchaseInfo?.paymentAmount ?? Decimal.zero) * Decimal.parse('-1'),
-                  ),
+            assetBaseAmount: transactionListItem.cardRefundInfo?.paymentAssetId != 'EUR'
+                ? getIt<AppStore>().isBalanceHide
+                    ? '**** ${transactionListItem.cardPurchaseInfo?.paymentAssetId}'
+                    : volumeFormat(
+                        symbol: transactionListItem.cardPurchaseInfo?.paymentAssetId ?? '',
+                        decimal: (transactionListItem.cardPurchaseInfo?.paymentAmount ?? Decimal.zero).negative,
+                      )
+                : null,
             isError: transactionListItem.status == Status.declined,
           ),
           const SizedBox(height: 24),
