@@ -185,14 +185,15 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                       prefix: widget.prefix,
                       accuracy: widget.accuracy,
                     ),
-                    SlideTransition(
-                      position: _offsetAnimation,
-                      child: Container(
-                        color: Colors.white,
-                        height: widget.isAssetChart ? 230 : 190,
-                        width: screenWidth,
+                    if (!widget.isInvestChart)
+                      SlideTransition(
+                        position: _offsetAnimation,
+                        child: Container(
+                          color: Colors.white,
+                          height: widget.isAssetChart ? 230 : 190,
+                          width: screenWidth,
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ),

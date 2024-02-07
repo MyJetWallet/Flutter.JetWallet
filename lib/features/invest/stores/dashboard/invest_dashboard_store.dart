@@ -200,22 +200,12 @@ abstract class _InvestDashboardStoreBase with Store {
     final losers = <InvestInstrumentModel>[];
     if (activeList.isNotEmpty) {
       for (var i = 0; i < activeList.length; i++) {
-        final currency = currencyFrom(
-          sSignalRModules.currenciesList,
-          activeList[i].currencyBase!,
-        );
-        if (currency.dayPercentChange < 0) {
+        if (getPercentSymbol(activeList[i].symbol ?? '') < Decimal.zero) {
           losers.add(activeList[i]);
         }
       }
-      losers.sort((a, b) => currencyFrom(
-        sSignalRModules.currenciesList,
-        a.currencyBase!,
-      ).dayPercentChange.compareTo(
-        currencyFrom(
-          sSignalRModules.currenciesList,
-          b.currencyBase!,
-        ).dayPercentChange,
+      losers.sort((a, b) => getPercentSymbol(a.symbol ?? '').compareTo(
+        getPercentSymbol(b.symbol ?? ''),
       ),);
     }
 
@@ -229,22 +219,12 @@ abstract class _InvestDashboardStoreBase with Store {
     final gainers = <InvestInstrumentModel>[];
     if (activeList.isNotEmpty) {
       for (var i = 0; i < activeList.length; i++) {
-        final currency = currencyFrom(
-          sSignalRModules.currenciesList,
-          activeList[i].currencyBase!,
-        );
-        if (currency.dayPercentChange > 0) {
+        if (getPercentSymbol(activeList[i].symbol ?? '') > Decimal.zero) {
           gainers.add(activeList[i]);
         }
       }
-      gainers.sort((a, b) => currencyFrom(
-        sSignalRModules.currenciesList,
-        b.currencyBase!,
-      ).dayPercentChange.compareTo(
-        currencyFrom(
-          sSignalRModules.currenciesList,
-          b.currencyBase!,
-        ).dayPercentChange,
+      gainers.sort((a, b) => getPercentSymbol(b.symbol ?? '').compareTo(
+        getPercentSymbol(a.symbol ?? ''),
       ),);
     }
 
