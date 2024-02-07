@@ -11,6 +11,8 @@ import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
+import '../../app/store/app_store.dart';
+
 void showDepositAction(BuildContext context) {
   final showSearch = showDepositCurrencySearch(context);
   Navigator.pop(context);
@@ -62,6 +64,7 @@ class _ActionDeposit extends StatelessObserverWidget {
               onTap: () {
                 showDepositOptions(context, currency);
               },
+              hideBalance: getIt<AppStore>().isBalanceHide,
             ),
         ],
         if (crypto.isNotEmpty) ...[
@@ -85,6 +88,7 @@ class _ActionDeposit extends StatelessObserverWidget {
                       ),
                     );
               },
+              hideBalance: getIt<AppStore>().isBalanceHide,
             ),
         ],
       ],

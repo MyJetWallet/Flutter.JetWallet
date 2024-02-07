@@ -6,12 +6,13 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../app/store/global_loader.dart';
+
 void showCompleteVerificationAccount(
   BuildContext context,
-  StackLoaderStore loading,
   VoidCallback after,
+  StackLoaderStore loading,
 ) {
-  sAnalytics.eurWalletPleasePassVerificaton();
   sShowAlertPopup(
     context,
     primaryText: '',
@@ -24,28 +25,29 @@ void showCompleteVerificationAccount(
       package: 'simple_kit',
     ),
     onPrimaryButtonTap: () async {
+      sAnalytics.tapVerifyAccountForCard();
+      loading.finishLoadingImmediately();
       Navigator.pop(context);
 
-      loading.startLoadingImmediately();
-
-      Future.delayed(const Duration(seconds: 1), () {
-        loading.finishLoadingImmediately();
-      });
+      getIt.get<GlobalLoader>().setLoading(true);
+      sAnalytics.viewPleaseWaitLoading();
 
       await getIt<SumsubService>().launch(
         isBanking: true,
         needPush: false,
         onFinish: () {
           after();
-          loading.finishLoadingImmediately();
+          getIt.get<GlobalLoader>().setLoading(false);
         },
+        isCard: true,
       );
     },
     secondaryButtonName: intl.wallet_cancel,
     onSecondaryButtonTap: () {
-      Navigator.pop(context);
-
+      sAnalytics.tapCancelKYCForCard();
       loading.finishLoadingImmediately();
+      Navigator.pop(context);
+      getIt.get<GlobalLoader>().setLoading(false);
     },
   );
 }

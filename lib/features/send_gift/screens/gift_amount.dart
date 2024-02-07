@@ -10,11 +10,13 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../core/di/di.dart';
 import '../../../core/l10n/i10n.dart';
 import '../../../core/router/app_router.dart';
 import '../../../core/services/device_size/device_size.dart';
 import '../../../utils/helpers/input_helpers.dart';
 import '../../../utils/helpers/widget_size_from.dart';
+import '../../app/store/app_store.dart';
 import '../store/gift_send_amount_store.dart';
 import '../widgets/gift_send_type.dart';
 
@@ -54,7 +56,9 @@ class _GiftAmountState extends State<GiftAmount> {
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.send_gift_title,
-          subTitle: '${intl.send_gift_available}: ${volumeFormat(
+          subTitle: '${intl.send_gift_available}: ${getIt<AppStore>().isBalanceHide
+            ? '**** ${widget.sendGiftInfo.currency?.symbol ?? ''}'
+            : volumeFormat(
             decimal: geftSendAmountStore.availableCurrency,
             accuracy: widget.sendGiftInfo.currency?.accuracy ?? 0,
             symbol: widget.sendGiftInfo.currency?.symbol ?? '',

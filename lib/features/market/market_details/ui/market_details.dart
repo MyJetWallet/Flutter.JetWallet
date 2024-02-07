@@ -28,8 +28,10 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_info/market_info_response_model.dart';
 
+import '../../../../core/di/di.dart';
 import '../../../../utils/formatting/base/volume_format.dart';
 import '../../../../utils/models/currency_model.dart';
+import '../../../app/store/app_store.dart';
 import '../../../wallet/helper/navigate_to_wallet.dart';
 
 @RoutePage(name: 'MarketDetailsRouter')
@@ -289,17 +291,21 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
                     url: widget.marketItem.iconUrl,
                   ),
                   primaryText: intl.portfolioHeader_balance,
-                  amount: volumeFormat(
-                    decimal: widget.marketItem.baseBalance,
-                    symbol: baseCurrency.symbol,
-                    accuracy: baseCurrency.accuracy,
-                  ),
+                  amount: getIt<AppStore>().isBalanceHide
+                    ? '**** ${baseCurrency.symbol}'
+                    : volumeFormat(
+                      decimal: widget.marketItem.baseBalance,
+                      symbol: baseCurrency.symbol,
+                      accuracy: baseCurrency.accuracy,
+                    ),
                   amountDecimal: double.parse('${widget.marketItem.baseBalance}'),
-                  secondaryText: volumeFormat(
-                    decimal: widget.marketItem.assetBalance,
-                    symbol: widget.marketItem.symbol,
-                    accuracy: widget.marketItem.assetAccuracy,
-                  ),
+                  secondaryText: getIt<AppStore>().isBalanceHide
+                    ? '******* ${widget.marketItem.symbol}'
+                    : volumeFormat(
+                      decimal: widget.marketItem.assetBalance,
+                      symbol: widget.marketItem.symbol,
+                      accuracy: widget.marketItem.assetAccuracy,
+                    ),
                   onTap: () {
                     onMarketItemTap(
                       context: context,
@@ -311,6 +317,7 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
                   rightBlockTopPadding: 20,
                   showSecondaryText: !widget.marketItem.isBalanceEmpty,
                   fullSizeBalance: true,
+                  hideBalance: getIt<AppStore>().isBalanceHide,
                 ),
               ),
             ),

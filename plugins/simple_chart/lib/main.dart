@@ -35,10 +35,10 @@ class Chart extends StatefulWidget {
   final void Function(ChartType) onChartTypeChanged;
   final void Function(ChartInfoModel?) onCandleSelected;
   final String Function({
-  required bool onlyFullPart,
-  required Decimal decimal,
-  required int accuracy,
-  required String symbol,
+    required bool onlyFullPart,
+    required Decimal decimal,
+    required int accuracy,
+    required String symbol,
   }) formatPrice;
   final List<CandleModel>? candles;
   final ChartType chartType;
@@ -110,9 +110,8 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
     }
 
     final currentDate = DateTime.now().toLocal();
-    final localCreationDate = widget.walletCreationDate == null
-        ? currentDate
-        : DateTime.parse('${widget.walletCreationDate}').toLocal();
+    final localCreationDate =
+        widget.walletCreationDate == null ? currentDate : DateTime.parse('${widget.walletCreationDate}').toLocal();
     bool showWeek;
     bool showMonth;
     bool showYear;
@@ -186,14 +185,14 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                       prefix: widget.prefix,
                       accuracy: widget.accuracy,
                     ),
-                    // SlideTransition(
-                    //   position: _offsetAnimation,
-                    //   child: Container(
-                    //     color: Colors.white,
-                    //     height: widget.isAssetChart ? 230 : 190,
-                    //     width: screenWidth,
-                    //   ),
-                    // ),
+                    SlideTransition(
+                      position: _offsetAnimation,
+                      child: Container(
+                        color: Colors.white,
+                        height: widget.isAssetChart ? 230 : 190,
+                        width: screenWidth,
+                      ),
+                    ),
                   ],
                 ),
               ),

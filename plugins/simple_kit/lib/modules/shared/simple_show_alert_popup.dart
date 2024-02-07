@@ -74,10 +74,10 @@ Future<void> sShowAlertPopup(
                           ),
                         ),
                       ),
+                      const SpaceH7(),
                     ] else ...[
                       const SpaceH20(),
                     ],
-                    const SpaceH7(),
                     if (secondaryText != null)
                       Padding(
                         padding: const EdgeInsets.symmetric(

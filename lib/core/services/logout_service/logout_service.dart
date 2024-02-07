@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
@@ -10,7 +11,6 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
-import 'package:jetwallet/core/services/zendesk_support_service/zendesk_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/auth/verification_reg/store/verification_store.dart';
@@ -162,6 +162,9 @@ abstract class _LogoutServiceBase with Store {
     if (getIt.isRegistered<IbanStore>()) {
       getIt<IbanStore>().clearData();
     }
+
+    await getIt.get<IntercomService>().logout();
+
     //if (getIt.isRegistered<ZenDeskService>()) {
     //  await getIt.get<ZenDeskService>().logoutZenDesk();
     //}

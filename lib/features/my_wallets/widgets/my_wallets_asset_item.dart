@@ -19,6 +19,8 @@ import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 
+import '../../../core/services/user_info/user_info_service.dart';
+
 class MyWalletsAssetItem extends StatelessObserverWidget {
   const MyWalletsAssetItem({
     required this.isMoving,
@@ -35,11 +37,13 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
     final baseCurrency = sSignalRModules.baseCurrency;
     final marketItems = sSignalRModules.marketItems;
 
+    final userInfo = getIt.get<UserInfoService>();
+
     var secondaryText = '';
 
     if (baseCurrency.symbol != currency.symbol) {
       secondaryText = getIt<AppStore>().isBalanceHide
-          ? currency.symbol
+          ? '******* ${currency.symbol}'
           : currency.symbol == 'EUR'
               ? sSignalRModules.totalEurWalletBalance.toVolumeFormat(
                   accuracy: currency.accuracy,
@@ -54,14 +58,14 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
           .isNotEmpty;
       final isSimpleInCreating =
           sSignalRModules.bankingProfileData?.simple?.account?.status == AccountStatus.inCreation;
-      final isCardInCreating = (sSignalRModules.bankingProfileData?.banking?.cards ?? [])
-          .where((element) => element.status == AccountStatusCard.inCreation)
-          .isNotEmpty;
 
       final isLoadingState = store.buttonStatus == BankingShowState.inProgress ||
           isAnyBankAccountInCreating ||
-          isSimpleInCreating ||
-          isCardInCreating;
+          isSimpleInCreating;
+
+      final isCardInCreating = (sSignalRModules.bankingProfileData?.banking?.cards ?? [])
+          .where((element) => element.status == AccountStatusCard.inCreation)
+          .isNotEmpty;
 
       final isButtonSmall = isLoadingState
           ? false
@@ -76,9 +80,20 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
         rightValue:
             getIt<AppStore>().isBalanceHide ? '**** ${baseCurrency.symbol}' : currency.volumeBaseBalance(baseCurrency),
         hasButton: !isMoving,
-        isButtonLoading: isLoadingState,
-        buttonHasRightArrow: !isButtonSmall,
-        buttonLabel: isLoadingState ? intl.my_wallets_create_account : store.simpleCardButtonText,
+        isButtonLoading: isLoadingState || isCardInCreating,
+        buttonHasRightArrow: !isButtonSmall && !isSimpleInCreating,
+        buttonHasCardIcon: (sSignalRModules
+            .bankingProfileData?.banking
+            ?.cards?.where(
+              (element) =>
+          element.status == AccountStatusCard.active ||
+              element.status == AccountStatusCard.frozen,
+        ).toList().length ?? 0) > 0 && userInfo.isSimpleCardAvailable,
+        buttonLabel: isLoadingState
+          ? intl.my_wallets_create_account
+          : isCardInCreating
+          ? intl.my_wallets_card_creating
+          : store.simpleCardButtonText,
         isButtonSmall: isButtonSmall,
         isButtonLabelBold: isButtonSmall,
         buttonTap: () {

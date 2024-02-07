@@ -14,6 +14,8 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
 
+import '../../../app/store/app_store.dart';
+
 class RewardsBalancesCell extends StatelessObserverWidget {
   const RewardsBalancesCell({super.key});
 
@@ -126,17 +128,23 @@ class _BalanceCellState extends State<_BalanceCell> {
                       const SpaceW10(),
                       Padding(
                         padding: const EdgeInsets.only(top: 1),
-                        child: Text(
-                          volumeFormat(
-                            decimal: widget.data.amount,
-                            accuracy: curr.accuracy,
-                            symbol: curr.symbol,
-                          ),
-                          textAlign: TextAlign.right,
-                          style: sSubtitle2Style.copyWith(
-                            height: 1,
-                          ),
-                        ),
+                        child: Observer(
+                          builder: (BuildContext context) {
+                            return Text(
+                              getIt<AppStore>().isBalanceHide
+                                  ? '**** ${curr.symbol}'
+                                  : volumeFormat(
+                                decimal: widget.data.amount,
+                                accuracy: curr.accuracy,
+                                symbol: curr.symbol,
+                              ),
+                              textAlign: TextAlign.right,
+                              style: sSubtitle2Style.copyWith(
+                                height: 1,
+                              ),
+                            );
+                          },
+                        )
                       ),
                     ],
                   ),

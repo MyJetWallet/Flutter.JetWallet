@@ -5,6 +5,7 @@ export 'widgets/typography/simple_typography.dart';
 
 // Colors
 export 'widgets/colors/simple_colors.dart';
+export 'widgets/colors/simple_colors_light.dart';
 
 // App bar1
 export 'widgets/navigation/top_app_bar/global_large_appbar.dart';

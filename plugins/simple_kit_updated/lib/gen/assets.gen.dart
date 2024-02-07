@@ -626,11 +626,14 @@ class $AssetsSvgPaymentMethodsCardsSimpleGen {
   /// File path: assets/svg/payment_methods_cards/simple/default_card.svg
   SvgGenImage get defaultCard => const SvgGenImage('assets/svg/payment_methods_cards/simple/default_card.svg');
 
+  /// File path: assets/svg/payment_methods_cards/simple/frozen_card.svg
+  SvgGenImage get frozenCard => const SvgGenImage('assets/svg/payment_methods_cards/simple/frozen_card.svg');
+
   /// File path: assets/svg/payment_methods_cards/simple/hover_card.svg
   SvgGenImage get hoverCard => const SvgGenImage('assets/svg/payment_methods_cards/simple/hover_card.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [activeCard, defaultCard, hoverCard];
+  List<SvgGenImage> get values => [activeCard, defaultCard, frozenCard, hoverCard];
 }
 
 class Assets {

@@ -2,23 +2,18 @@
 
 import 'dart:async';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
+import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
-import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
-import 'package:jetwallet/core/services/zendesk_support_service/zendesk_service.dart';
-import 'package:jetwallet/features/actions/action_deposit/action_deposit.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
@@ -27,19 +22,15 @@ import 'package:jetwallet/features/auth/register/store/referral_code_store.dart'
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
-import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/clickable_underlined_text.dart';
 import 'package:jetwallet/features/send_gift/widgets/share_gift_result_bottom_sheet.dart';
 import 'package:jetwallet/features/withdrawal/model/withdrawal_confirm_model.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
-import 'package:jetwallet/utils/helpers/launch_url.dart';
+import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:logger/logger.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 
 import 'local_storage_service.dart';
-import 'notification_service.dart';
 import 'remote_config/models/remote_config_union.dart';
 import 'simple_networking/simple_networking.dart';
 
@@ -69,6 +60,7 @@ const _referralRedirect = 'ReferralRedirect';
 const _depositStart = 'DepositStart';
 const _kycVerification = 'KycVerification';
 const _marketsScreen = 'MarketsScreen';
+const _rateUpCommand = 'rate_up';
 
 // Push Notification
 
@@ -153,6 +145,8 @@ class DeepLinkService {
       pushMarketsScreen(parameters);
     } else if (command == _jwKycBanned) {
       pushDocumentNotVerified(parameters);
+    } else if (command == _rateUpCommand) {
+      pushRateUp(parameters);
     } else {
       if (parameters.containsKey('jw_operation_id')) {
         pushCryptoHistory(parameters);
@@ -441,7 +435,7 @@ class DeepLinkService {
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
       if (showZendesk) {
-        await getIt.get<ZenDeskService>().showZenDesk();
+        await getIt.get<IntercomService>().showMessenger();
       } else {
         await sRouter.push(
           CrispRouter(
@@ -455,7 +449,7 @@ class DeepLinkService {
           action: RouteQueryAction.push,
           func: () async {
             if (showZendesk) {
-              await getIt.get<ZenDeskService>().showZenDesk();
+              await getIt.get<IntercomService>().showMessenger();
             } else {
               await sRouter.push(
                 CrispRouter(
@@ -579,6 +573,26 @@ class DeepLinkService {
         RouteQueryModel(
           func: () async {
             await openMarket();
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> pushRateUp(
+    Map<String, String> parameters,
+  ) async {
+    final context = sRouter.navigatorKey.currentContext!;
+
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      await shopRateUpPopup(context, force: true);
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            await shopRateUpPopup(context, force: true);
           },
         ),
       );

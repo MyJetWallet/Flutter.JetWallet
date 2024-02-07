@@ -20,6 +20,9 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../core/di/di.dart';
+import '../../app/store/app_store.dart';
+
 class ConvertAmountTabBody extends StatefulObserverWidget {
   const ConvertAmountTabBody({
     this.fromAsset,
@@ -84,7 +87,7 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                     },
                     errorText: store.paymentMethodInputError,
                     optionText: store.fromInputValue == '0' && store.fromAsset != null && store.toAsset != null
-                        ? '''${intl.convert_amount_convert_all} ${volumeFormat(decimal: store.convertAllAmount, accuracy: store.fromAsset?.accuracy ?? 1, symbol: store.fromAsset?.symbol ?? '')}'''
+                        ? '''${intl.convert_amount_convert_all} ${getIt<AppStore>().isBalanceHide ? '**** ${store.fromAsset?.symbol}' : volumeFormat(decimal: store.convertAllAmount, accuracy: store.fromAsset?.accuracy ?? 1, symbol: store.fromAsset?.symbol ?? '')}'''
                         : null,
                     optionOnTap: () {
                       sAnalytics.tapOnTheConvertAll();
@@ -107,7 +110,9 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                   SuggestionButtonWidget(
                     title: store.fromAsset?.description,
                     subTitle: intl.amount_screen_convert,
-                    trailing: store.fromAsset?.volumeAssetBalance,
+                    trailing: getIt<AppStore>().isBalanceHide
+                        ? '**** ${store.fromAsset?.symbol}'
+                        : store.fromAsset?.volumeAssetBalance,
                     icon: SNetworkSvg24(
                       url: store.fromAsset?.iconUrl ?? '',
                     ),
@@ -168,7 +173,9 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                   SuggestionButtonWidget(
                     title: store.toAsset?.description,
                     subTitle: intl.convert_amount_convert_to,
-                    trailing: store.toAsset?.volumeAssetBalance,
+                    trailing: getIt<AppStore>().isBalanceHide
+                      ? '**** ${store.toAsset?.symbol}'
+                      : store.toAsset?.volumeAssetBalance,
                     icon: SNetworkSvg24(
                       url: store.toAsset?.iconUrl ?? '',
                     ),

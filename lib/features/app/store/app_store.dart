@@ -8,7 +8,9 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/dio_proxy_service.dart';
 import 'package:jetwallet/core/services/force_update_service.dart';
+import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
+import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
@@ -91,6 +93,29 @@ abstract class _AppStoreBase with Store {
   }
 
   @observable
+  Locale? locale;
+  @action
+  void setLocale(Locale val) => locale = val;
+  @action
+  Future<void> initLocale({BuildContext? context}) async {
+    final storage = sLocalStorageService;
+
+    final lang = await storage.getValue(userLocale);
+
+    try {
+      if (lang != null) {
+        locale = Locale.fromSubtags(languageCode: lang);
+      } else {
+        if (context != null) {
+          locale = Localizations.localeOf(context);
+        }
+      }
+    } catch (e) {
+      locale = Locale.fromSubtags(languageCode: 'Platform.localeName');
+    }
+  }
+
+  @observable
   bool afterInstall = false;
   @action
   void setAfterInstall(bool val) => afterInstall = val;
@@ -152,8 +177,14 @@ abstract class _AppStoreBase with Store {
 
       if (!skipVersionCheck) {
         if (await getIt<ForceServiceUpdate>().init()) {
+          var context = getIt.get<AppRouter>().navigatorKey.currentContext;
+          while (context == null) {
+            await Future.delayed(const Duration(milliseconds: 500));
+
+            context = getIt.get<AppRouter>().navigatorKey.currentContext;
+          }
           await getIt<ForceServiceUpdate>().init(
-            context: getIt.get<AppRouter>().navigatorKey.currentContext,
+            context: context,
             showPopup: true,
           );
 
@@ -443,6 +474,8 @@ abstract class _AppStoreBase with Store {
       authState = authState.copyWith(
         initSessionReceived: true,
       );
+
+      await getIt.get<IntercomService>().login();
     }
   }
 

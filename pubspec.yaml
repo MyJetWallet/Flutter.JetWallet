@@ -69,6 +69,8 @@ dependencies:
   animated_background: ^2.0.0
   flutter_flip_card: ^0.0.4
 
+  lottie: 2.7.0
+
   # RESPONSIVE UI
   device_preview: ^1.1.0
   pixel_perfect: ^1.1.1 # Mock designs
@@ -86,8 +88,8 @@ dependencies:
   flutter_native_splash: ^2.2.17
   custom_refresh_indicator: ^2.0.1
   isolator: ^2.0.8
-  #zendesk_messaging: ^2.7.7
   flutter_launcher_icons: ^0.13.1
+  in_app_review: ^2.0.8
 
   # NETWORKING:
   http: 0.13.5
@@ -134,7 +136,7 @@ dependencies:
   freezed_annotation: 2.4.1 # Annotations for the freezed
   mocktail: 0.3.0 # mocking library with null-safety support
   logging: 1.1.1 # APIs for debugging and error logging
-  uuid: 3.0.7 # UUID Generator and Parser
+  uuid: ^4.2.1 # UUID Generator and Parser
   app_tracking_transparency: 2.0.4
   flutter_displaymode: 0.6.0
   open_mail_app: ^0.4.5
@@ -142,6 +144,7 @@ dependencies:
   confetti: 0.7.0
   logger: ^2.0.1
   dotted_border: ^2.1.0
+  intercom_flutter: ^8.0.9
 
   # CRYPTOGRAPHY:
   rsa_encrypt: 2.0.0 # RSA encryption
@@ -170,7 +173,7 @@ dev_dependencies:
 
   # RULES:
   lint: ^1.10.0
-  dart_code_metrics: ^5.0.1
+  #dart_code_metrics: ^5.7.6
 
   # AUTOGEN:
   freezed: 2.4.5 # generation for immutable classes that has a simple syntax/API

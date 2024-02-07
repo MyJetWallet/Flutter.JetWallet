@@ -30,6 +30,8 @@ class OperationHistory extends _OperationHistoryBase with _$OperationHistory {
     super.jwOperationId,
     super.pendingOnly,
     super.accountId,
+    super.isCard,
+    super.onError,
   );
 
   static _OperationHistoryBase of(BuildContext context) => Provider.of<OperationHistory>(context, listen: false);
@@ -43,6 +45,8 @@ abstract class _OperationHistoryBase with Store {
     this.jwOperationId,
     this.pendingOnly,
     this.accountId,
+    this.isCard,
+    this.onError,
   ) {
     getIt<EventBus>().on<GetNewHistoryEvent>().listen((event) {
       refreshHistory(needLoader: false);
@@ -52,7 +56,9 @@ abstract class _OperationHistoryBase with Store {
   final String? assetId;
   final TransactionType? filter;
   final bool? isRecurring;
+  final bool? isCard;
   final String? accountId;
+  final Function(String reason)? onError;
 
   // Указывает на конкретную операцию, используем после тапа по пушу
   String? jwOperationId;
@@ -155,6 +161,9 @@ abstract class _OperationHistoryBase with Store {
         intl.something_went_wrong,
         id: 1,
       );
+      if (isCard != null && isCard!) {
+        onError?.call(intl.something_went_wrong);
+      }
 
       union = const OperationHistoryUnion.error();
     }

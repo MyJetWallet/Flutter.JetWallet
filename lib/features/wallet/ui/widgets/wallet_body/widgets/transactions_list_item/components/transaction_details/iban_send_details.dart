@@ -17,6 +17,8 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
+import '../../../../../../../../../core/di/di.dart';
+import '../../../../../../../../app/store/app_store.dart';
 import '../../../../../../../helper/format_date_to_hm.dart';
 import 'components/transaction_details_item.dart';
 import 'components/transaction_details_status.dart';
@@ -111,6 +113,7 @@ class IbanSendDetails extends StatelessObserverWidget {
                     child: TransactionDetailsValueText(
                       text: transactionListItem.ibanWithdrawalInfo?.beneficiaryName ??
                           '${userInfo.firstName} ${userInfo.lastName}',
+                      textAlign: TextAlign.right,
                     ),
                   ),
                 ],
@@ -187,18 +190,22 @@ class IbanSendDetailsHeader extends StatelessWidget {
           removeDefaultPaddings: true,
           isLoading: false,
           fromAssetIconUrl: '',
-          fromAssetDescription: transactionListItem.ibanWithdrawalInfo?.contactName ?? '',
-          fromAssetValue: volumeFormat(
+          fromAssetDescription: transactionListItem.ibanWithdrawalInfo?.accountLabel ?? '',
+          fromAssetValue: getIt<AppStore>().isBalanceHide
+              ? '**** ${asset.symbol}'
+              : volumeFormat(
             symbol: asset.symbol,
             accuracy: asset.accuracy,
-            decimal: transactionListItem.balanceChange.abs(),
+            decimal: (transactionListItem.ibanWithdrawalInfo?.withdrawalAmount ?? Decimal.zero).abs(),
           ),
           fromAssetCustomIcon: Assets.svg.other.medium.bankAccount.simpleSvg(
             width: 32,
           ),
           toAssetIconUrl: asset.iconUrl,
           toAssetDescription: asset.description,
-          toAssetValue: volumeFormat(
+          toAssetValue: getIt<AppStore>().isBalanceHide
+              ? '**** ${transactionListItem.ibanWithdrawalInfo?.receiveAsset ?? ''}'
+              : volumeFormat(
             symbol: transactionListItem.ibanWithdrawalInfo?.receiveAsset ?? '',
             accuracy: asset.accuracy,
             decimal: transactionListItem.ibanWithdrawalInfo?.receiveAmount ?? Decimal.zero,

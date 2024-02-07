@@ -13,6 +13,7 @@ import '../../../core/l10n/i10n.dart';
 import '../../../core/router/app_router.dart';
 import '../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../utils/models/currency_model.dart';
+import '../../app/store/app_store.dart';
 
 @RoutePage(name: 'GiftSelectAssetRouter')
 class GiftSelectAssetScreen extends StatefulObserverWidget {
@@ -121,8 +122,12 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
                               url: currency.iconUrl,
                             ),
                             primaryText: currency.description,
-                            amount: currency.volumeBaseBalance(baseCurrency),
-                            secondaryText: currency.volumeAssetBalance,
+                            amount: getIt<AppStore>().isBalanceHide
+                                ? '**** ${baseCurrency.symbol}'
+                                : currency.volumeBaseBalance(baseCurrency),
+                            secondaryText: getIt<AppStore>().isBalanceHide
+                                ? '******* ${currency.symbol}'
+                                : currency.volumeAssetBalance,
                             removeDivider: currency ==
                                     searchStore
                                         .convertCurrenciesWithBalance.last ||
@@ -138,6 +143,7 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
                                 ),
                               );
                             },
+                            hideBalance: getIt<AppStore>().isBalanceHide,
                           ),
                       ],
                     );

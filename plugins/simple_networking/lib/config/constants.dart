@@ -51,6 +51,7 @@ const watchlistKey = 'watchlist';
 const favoritesInstrumentsKey = 'favoritesInstruments';
 const viewedRewardsKey = 'viewedRewards';
 const cardsKey = 'cards';
+const cardsSimpleKey = 'cardsSimple';
 const lastUsedPaymentMethod = 'lastUsedPaymentMethod';
 
 // Logging levels

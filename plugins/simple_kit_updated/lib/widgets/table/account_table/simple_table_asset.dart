@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/button/round/round_button.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 
 class SimpleTableAsset extends StatelessWidget {
@@ -12,6 +10,7 @@ class SimpleTableAsset extends StatelessWidget {
     Key? key,
     this.onTableAssetTap,
     this.isCard = false,
+    this.isCardWallet = false,
     this.assetIcon,
     this.needPadding = true,
     required this.label,
@@ -29,6 +28,7 @@ class SimpleTableAsset extends StatelessWidget {
   final VoidCallback? onTableAssetTap;
 
   final bool isCard;
+  final bool isCardWallet;
   final Widget? assetIcon;
 
   final bool needPadding;
@@ -53,21 +53,30 @@ class SimpleTableAsset extends StatelessWidget {
       child: SizedBox(
         height: needPadding
             ? supplement == null
-                ? 64
+              ? 64
+              : isCardWallet
+                ? 72
                 : 80
             : 48,
         child: Padding(
           padding: needPadding
-              ? const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 16,
+              ? EdgeInsets.only(
+                  left: 24,
+                  right: 24,
+                  top: 16,
+                  bottom: isCardWallet ? 8 : 16,
                 )
               : EdgeInsets.zero,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              if (!isCard) ...[
+              if (isCardWallet) ...[
+                Padding(
+                  padding: const EdgeInsets.only(top: 8, bottom: 4),
+                  child: assetIcon,
+                ),
+              ] else if (!isCard) ...[
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 2),
                   child: SizedBox(
@@ -78,14 +87,14 @@ class SimpleTableAsset extends StatelessWidget {
                 ),
               ] else ...[
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 6),
+                  padding: const EdgeInsets.only(top: 8, bottom: 4),
                   child: Assets.svg.paymentMethodsCards.simple.defaultCard.simpleSvg(
                     width: 24,
                   ),
                 ),
               ],
               const Gap(12),
-              Expanded(
+              Flexible(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -96,29 +105,15 @@ class SimpleTableAsset extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          /*ConstrainedBox(
-                            constraints: BoxConstraints(
-                                 maxWidth: deviceSizeFrom(MediaQuery.of(context).size.height) == ScreenSizeEnum.small
-                                  ? MediaQuery.of(context).size.width * .3
-                                  : MediaQuery.of(context).size.width * .39,
-                                
-                                ),
-                            child: Text(
-                              label,
-                              style: STStyles.subtitle1,
-                            ),
-                          ),
-                          */
-                          Expanded(
+                          Flexible(
                             child: Text(
                               label,
                               style: STStyles.subtitle1,
                             ),
                           ),
                           const Gap(4),
-                          Opacity(
-                            opacity: hasLabelIcon ? 1 : 0,
-                            child: SizedBox(
+                          if (hasLabelIcon)
+                            SizedBox(
                               width: 16,
                               height: 16,
                               child: labelIcon ??
@@ -126,7 +121,6 @@ class SimpleTableAsset extends StatelessWidget {
                                     color: SColorsLight().gray8,
                                   ),
                             ),
-                          ),
                         ],
                       ),
                     ),
@@ -142,9 +136,9 @@ class SimpleTableAsset extends StatelessWidget {
               ),
               if (hasRightValue) ...[
                 //const Spacer(),
-                if (customRightWidget != null)
-                  ...[]
-                else ...[
+                if (customRightWidget != null) ...[
+                  customRightWidget!,
+                ] else ...[
                   if (isRightValueMarket) ...[
                     SizedBox(
                       height: 48,

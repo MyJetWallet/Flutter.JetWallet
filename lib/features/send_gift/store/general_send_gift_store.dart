@@ -4,6 +4,7 @@ import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/features/send_gift/store/receiver_datails_store.dart';
 import 'package:jetwallet/utils/helpers/decompose_phone_number.dart';
+import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
@@ -224,6 +225,8 @@ abstract class GeneralSendGiftStoreBase with Store {
             sAnalytics.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet();
           },
         );
+
+        shopRateUpPopup(sRouter.navigatorKey.currentContext!);
       },
     );
   }

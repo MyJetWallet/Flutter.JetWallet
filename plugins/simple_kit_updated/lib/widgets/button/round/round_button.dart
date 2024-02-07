@@ -22,33 +22,36 @@ class RoundButton extends HookWidget {
   Widget build(BuildContext context) {
     final isHighlated = useState(false);
 
-    return SafeGesture(
-      highlightColor: Colors.transparent,
-      onTap: isDisabled ? null : onTap,
-      onHighlightChanged: (p0) {
-        isHighlated.value = p0;
-      },
-      radius: 22,
-      child: Ink(
-        height: 44,
-        width: width,
-        decoration: BoxDecoration(
-          border: Border.all(color: isHighlated.value ? SColorsLight().gray4 : SColorsLight().gray2),
-          borderRadius: BorderRadius.circular(22),
-          color: isHighlated.value ? SColorsLight().gray2 : SColorsLight().white,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 8,
+    return Material(
+      color: Colors.transparent,
+      child: SafeGesture(
+        highlightColor: Colors.transparent,
+        onTap: isDisabled ? null : onTap,
+        onHighlightChanged: (p0) {
+          isHighlated.value = p0;
+        },
+        radius: 22,
+        child: Ink(
+          height: 44,
+          width: width,
+          decoration: BoxDecoration(
+            border: Border.all(color: isHighlated.value ? SColorsLight().gray4 : SColorsLight().gray2),
+            borderRadius: BorderRadius.circular(22),
+            color: isHighlated.value ? SColorsLight().gray2 : SColorsLight().white,
           ),
-          child: Center(
-            child: Text(
-              value,
-              style: STStyles.subtitle1.copyWith(
-                height: 1,
-                leadingDistribution: TextLeadingDistribution.even,
-                color: isDisabled ? SColorsLight().gray6 : SColorsLight().black,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 8,
+            ),
+            child: Center(
+              child: Text(
+                value,
+                style: STStyles.subtitle1.copyWith(
+                  height: 1,
+                  leadingDistribution: TextLeadingDistribution.even,
+                  color: isDisabled ? SColorsLight().gray6 : SColorsLight().black,
+                ),
               ),
             ),
           ),

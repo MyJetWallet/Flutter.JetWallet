@@ -34,6 +34,8 @@ class RemoteConfigAppconfigModel with _$RemoteConfigAppconfigModel {
     required int changePasswordLockHours,
     required int changePhoneLockHours,
     @Default('https://simple.app/terms-and-conditions-p2p/') String p2pTerms,
+    @Default(true) bool rate_up,
+    @Default(false) bool displayCardPreorderScreen,
   }) = _RemoteConfigAppconfigModel;
 
   factory RemoteConfigAppconfigModel.fromJson(Map<String, dynamic> json) => _$RemoteConfigAppconfigModelFromJson(json);

@@ -10,7 +10,6 @@ import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_a
 import 'package:jetwallet/features/cj_banking_accounts/screens/show_account_details_screen.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
-import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -18,6 +17,8 @@ import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_ic
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
+
+import '../../app/store/app_store.dart';
 
 Future<void> showSelectAccountForAddCash(BuildContext context) async {
   final kycState = getIt.get<KycService>();
@@ -40,23 +41,18 @@ Future<void> showSelectAccountForAddCash(BuildContext context) async {
     context: context,
     from: [BlockingType.deposit],
     or: () async {
-      if (MyWalletsSrore.of(context).buttonStatus == BankingShowState.getAccount) {
-        await MyWalletsSrore.of(context).createSimpleAccount();
-      } else {
-        sAnalytics.addCashToSheetView();
-        sShowBasicModalBottomSheet(
-          context: context,
-          pinned: SBottomSheetHeader(
-            name: intl.add_cash_to,
-          ),
-          scrollable: true,
-          children: [
-            const SpaceH12(),
-            const _ShowSelectAccountForAddCash(),
-            const SpaceH42(),
-          ],
-        );
-      }
+      sShowBasicModalBottomSheet(
+        context: context,
+        pinned: SBottomSheetHeader(
+          name: intl.add_cash_to,
+        ),
+        scrollable: true,
+        children: [
+          const SpaceH12(),
+          const _ShowSelectAccountForAddCash(),
+          const SpaceH42(),
+        ],
+      );
     },
   );
 }
@@ -107,10 +103,6 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
                 ? intl.eur_wallet_simple_account
                 : intl.create_simple_creating,
             onTap: () {
-              sAnalytics.tapOnTheButtonEURAccOnAddCashToSheet(
-                eurAccLabel: simpleAccount.label ?? 'Account 1',
-                eurAccType: 'CJ',
-              );
               if (simpleAccount.status == AccountStatus.active) {
                 sAnalytics.eurWalletDepositDetailsSheet(
                   isCJ: true,
@@ -151,7 +143,9 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
                       ),
                     ),
                     child: Text(
-                      volumeFormat(
+                      getIt<AppStore>().isBalanceHide
+                      ? '**** ${eurCurrency.symbol}'
+                      : volumeFormat(
                         decimal: simpleAccount.balance ?? Decimal.zero,
                         accuracy: eurCurrency.accuracy,
                         symbol: eurCurrency.symbol,
@@ -193,11 +187,6 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
                   ? intl.eur_wallet_personal_account
                   : intl.create_personal_creating,
               onTap: () {
-                sAnalytics.tapOnTheButtonEURAccOnAddCashToSheet(
-                  eurAccLabel: bankAccounts[index].label ?? 'Account 1',
-                  eurAccType: 'Unlimint',
-                );
-
                 sAnalytics.tapOnAnyEurAccountOnDepositButton(
                   accountType: 'Unlimit',
                 );
@@ -237,11 +226,13 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
                         ),
                       ),
                       child: Text(
-                        volumeFormat(
-                          decimal: bankAccounts[index].balance ?? Decimal.zero,
-                          accuracy: eurCurrency.accuracy,
-                          symbol: eurCurrency.symbol,
-                        ),
+                        getIt<AppStore>().isBalanceHide
+                          ? '**** ${eurCurrency.symbol}'
+                          : volumeFormat(
+                            decimal: bankAccounts[index].balance ?? Decimal.zero,
+                            accuracy: eurCurrency.accuracy,
+                            symbol: eurCurrency.symbol,
+                          ),
                         style: sSubtitle1Style.copyWith(
                           fontWeight: FontWeight.w600,
                         ),

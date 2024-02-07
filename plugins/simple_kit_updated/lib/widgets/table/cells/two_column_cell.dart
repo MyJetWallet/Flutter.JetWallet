@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 
 enum TwoColumnCellType { def, loading }
 
@@ -16,12 +15,14 @@ class TwoColumnCell extends StatelessWidget {
     this.needHorizontalPadding = true,
     this.haveInfoIcon = false,
     this.customRightIcon,
+    this.valueMaxLines = 1,
   }) : super(key: key);
 
   final TwoColumnCellType type;
 
   final String label;
   final String? value;
+  final int? valueMaxLines;
   final Widget? rightValueIcon;
 
   final bool needHorizontalPadding;
@@ -34,7 +35,6 @@ class TwoColumnCell extends StatelessWidget {
     return Material(
       color: SColorsLight().white,
       child: SizedBox(
-        height: 40,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: needHorizontalPadding ? 24 : 0, vertical: 8),
           child: Row(
@@ -62,18 +62,27 @@ class TwoColumnCell extends StatelessWidget {
                 ),
               ),
               const Gap(10),
-              const Spacer(),
               if (type != TwoColumnCellType.loading) ...[
                 if (customRightIcon != null) ...[
                   customRightIcon!,
                   const Gap(8),
                 ],
                 if (value != null) ...[
-                  Text(
-                    value ?? '',
-                    maxLines: 2,
-                    textAlign: TextAlign.right,
-                    style: STStyles.subtitle2,
+                  Flexible(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            value ?? '',
+                            maxLines: valueMaxLines,
+                            textAlign: TextAlign.right,
+                            style: STStyles.subtitle2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ] else ...[

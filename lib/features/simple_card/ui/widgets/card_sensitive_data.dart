@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/buttons/simple_icon_button.dart';
-import 'package:simple_kit/modules/icons/24x24/public/copy/simple_copy_icon.dart';
-import 'package:simple_kit/modules/icons/24x24/public/copy/simple_copy_pressed_icon.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
-import 'package:simple_kit/modules/texts/simple_text_styles.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
 
 class CardSensitiveData extends StatelessWidget {
@@ -32,8 +31,7 @@ class CardSensitiveData extends StatelessWidget {
       children: [
         Text(
           name,
-          style: sCaptionTextStyle.copyWith(
-            fontWeight: FontWeight.w700,
+          style: STStyles.captionBold.copyWith(
             color: colors.white,
           ),
         ),
@@ -48,20 +46,31 @@ class CardSensitiveData extends StatelessWidget {
             else
               Text(
                 value,
-                style: sSubtitle1Style.copyWith(
+                style: STStyles.subtitle1.copyWith(
                   color: colors.white,
                 ),
               ),
             if (showCopy) ...[
               const SpaceW8(),
-              SIconButton(
-                onTap: () {
-                  onTap(value);
-                },
-                defaultIcon: SCopyIcon(
-                  color: colors.white,
-                ),
-                pressedIcon: const SCopyPressedIcon(),
+              Column(
+                children: [
+                  const SpaceH2(),
+                  SIconButton(
+                    onTap: () {
+                      onTap(value);
+                    },
+                    defaultIcon: Assets.svg.medium.copy.simpleSvg(
+                      color: colors.white,
+                      width: 16,
+                      height: 16,
+                    ),
+                    pressedIcon: Assets.svg.medium.copy.simpleSvg(
+                      color: colors.white,
+                      width: 16,
+                      height: 16,
+                    ),
+                  ),
+                ],
               ),
             ],
           ],

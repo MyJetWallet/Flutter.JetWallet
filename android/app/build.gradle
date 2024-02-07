@@ -27,12 +27,22 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
+def dartEnvironmentVariables = []
+if (project.hasProperty('dart-defines')) {
+  dartEnvironmentVariables = project.property('dart-defines')
+      .split(',')
+      .collectEntries { entry ->
+        def pair = new String(entry.decodeBase64(), 'UTF-8').split('=')
+        [(pair.first()): pair.last()]
+      }
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -54,6 +64,8 @@ android {
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        buildConfigField 'String', 'INTERCOM_APP_ID', "\"${dartEnvironmentVariables.INTERCOM_APP_ID}\""
+        buildConfigField 'String', 'INTERCOM_ANDROID_KEY', "\"${dartEnvironmentVariables.INTERCOM_ANDROID_KEY}\""
     }
     
     // TODO: Remove when below fix is available in stable channel.

@@ -5,11 +5,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/features/home/widgets/bottom_navigation_menu.dart';
-import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/bottom_sheets/components/simple_shade_animation_stack.dart';
@@ -40,23 +39,33 @@ class _HomeScreenState extends State<HomeScreen> {
       kycState.withdrawalStatus,
     );
 
+    final bottomBarItems = <BottomItemType>[
+      BottomItemType.wallets,
+      BottomItemType.market,
+      if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
+          .where((element) => element.id == AssetPaymentProductsEnum.investProgram)
+          .isNotEmpty) ...[
+        BottomItemType.invest,
+      ],
+      if (sUserInfo.cardAvailable && displayCardPreorderScreen) ...[
+        BottomItemType.card,
+      ],
+      if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
+          .where((element) => element.id == AssetPaymentProductsEnum.rewardsOnboardingProgram)
+          .isNotEmpty) ...[
+        BottomItemType.rewards,
+      ],
+    ];
+
     return Observer(
       builder: (context) {
         final screens = <PageRouteInfo<dynamic>>[
-          const MyWalletsRouter(),
-          const MarketRouter(),
+          if (bottomBarItems.contains(BottomItemType.wallets)) const MyWalletsRouter(),
+          if (bottomBarItems.contains(BottomItemType.market)) const MarketRouter(),
+          if (bottomBarItems.contains(BottomItemType.invest)) const InvestPageRouter(),
+          if (bottomBarItems.contains(BottomItemType.card)) const CardRouter(),
+          if (bottomBarItems.contains(BottomItemType.rewards)) const RewardsFlowRouter(),
         ];
-
-        if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
-            .where((element) => element.id == AssetPaymentProductsEnum.investProgram)
-            .isNotEmpty) {
-          screens.add(const InvestPageRouter());
-        }
-
-        if (sUserInfo.cardAvailable) {
-          screens.add(const CardRouter());
-        }
-        screens.add(const RewardsFlowRouter());
 
         return AutoTabsScaffold(
           routes: screens,
@@ -79,105 +88,65 @@ class _HomeScreenState extends State<HomeScreen> {
             return SBottomBar(
               selectedIndex: getIt.get<AppStore>().homeTab,
               items: [
-                SBottomItemModel(
-                  type: BottomItemType.wallets,
-                  text: intl.bottom_bar_wallets,
-                  icon: Assets.svg.large.wallets,
-                ),
-                SBottomItemModel(
-                  type: BottomItemType.market,
-                  text: intl.bottom_bar_market,
-                  icon: Assets.svg.large.graph,
-                ),
-                if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
-                    .where((element) => element.id == AssetPaymentProductsEnum.investProgram)
-                    .isNotEmpty) ...[
+                if (bottomBarItems.contains(BottomItemType.wallets))
+                  SBottomItemModel(
+                    type: BottomItemType.wallets,
+                    text: intl.bottom_bar_wallets,
+                    icon: Assets.svg.large.wallets,
+                  ),
+                if (bottomBarItems.contains(BottomItemType.market))
+                  SBottomItemModel(
+                    type: BottomItemType.market,
+                    text: intl.bottom_bar_market,
+                    icon: Assets.svg.large.graph,
+                  ),
+                if (bottomBarItems.contains(BottomItemType.invest))
                   SBottomItemModel(
                     type: BottomItemType.invest,
                     text: intl.bottom_bar_invest,
                     icon: Assets.svg.large.graph,
                   ),
-                ],
-                if (sUserInfo.cardAvailable) ...[
+                if (bottomBarItems.contains(BottomItemType.card))
                   SBottomItemModel(
                     type: BottomItemType.card,
                     text: intl.bottom_bar_card,
                     icon: Assets.svg.large.card,
                     notification: (sUserInfo.cardRequested || kycBlocked) ? 0 : 1,
                   ),
-                ],
-                if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
-                    .where((element) => element.id == AssetPaymentProductsEnum.rewardsOnboardingProgram)
-                    .isNotEmpty) ...[
+                if (bottomBarItems.contains(BottomItemType.rewards))
                   SBottomItemModel(
                     type: BottomItemType.rewards,
                     text: intl.rewards_flow_tab_title,
                     icon: Assets.svg.large.rewards,
                     notification: sSignalRModules.rewardsData?.availableSpins ?? 0,
                   ),
-                ],
               ],
               onChanged: (int val) {
-                if (val == 0) {
-                  sAnalytics.tapOnTheTabWalletsInTabBar();
-                }
-
-                if (val == 2) {
-                  getIt<IbanStore>().getAddressBook();
-                }
-
-                if (val == 4) {
-                  sAnalytics.rewardsTapOnTheTabBar();
-                }
-
-                getIt.get<EventBus>().fire(EndReordering());
-
-                if (val == 0 && getIt<AppStore>().homeTab == 0) {
-                  getIt.get<EventBus>().fire(ResetScrollMyWallets());
-                } else if (val == 1 && getIt<AppStore>().homeTab == 1) {
-                  getIt.get<EventBus>().fire(ResetScrollMarket());
-                } else if (val == 2 && getIt<AppStore>().homeTab == 2) {
-                  getIt.get<EventBus>().fire(ResetScrollAccount());
-                } else if (val == 3 && getIt<AppStore>().homeTab == 3) {
-                  getIt.get<EventBus>().fire(ResetScrollCard());
-                }
-
-                getIt<AppStore>().setHomeTab(val);
-                if (val < screens.length) {
-                  tabsRouter.setActiveIndex(val);
-                } else {
-                  tabsRouter.setActiveIndex(screens.length - 1);
-                }
-              },
-            );
-
-            return BottomNavigationMenu(
-              currentIndex: getIt.get<AppStore>().homeTab,
-              isCardRequested: sUserInfo.cardRequested || kycBlocked,
-              showCard: sUserInfo.cardAvailable,
-              onChanged: (int val) {
-                if (val == 0) {
-                  sAnalytics.tapOnTheTabWalletsInTabBar();
-                }
-
-                if (val == 2) {
-                  getIt<IbanStore>().getAddressBook();
-                }
-
-                if (val == 4) {
-                  sAnalytics.rewardsTapOnTheTabBar();
+                switch (bottomBarItems[val]) {
+                  case BottomItemType.wallets:
+                    sAnalytics.tapOnTheTabWalletsInTabBar();
+                    break;
+                  case BottomItemType.rewards:
+                    sAnalytics.rewardsTapOnTheTabBar();
+                    break;
+                  default:
                 }
 
                 getIt.get<EventBus>().fire(EndReordering());
 
-                if (val == 0 && getIt<AppStore>().homeTab == 0) {
-                  getIt.get<EventBus>().fire(ResetScrollMyWallets());
-                } else if (val == 1 && getIt<AppStore>().homeTab == 1) {
-                  getIt.get<EventBus>().fire(ResetScrollMarket());
-                } else if (val == 2 && getIt<AppStore>().homeTab == 2) {
-                  getIt.get<EventBus>().fire(ResetScrollAccount());
-                } else if (val == 3 && getIt<AppStore>().homeTab == 3) {
-                  getIt.get<EventBus>().fire(ResetScrollCard());
+                if (val == getIt<AppStore>().homeTab) {
+                  switch (bottomBarItems[val]) {
+                    case BottomItemType.wallets:
+                      getIt.get<EventBus>().fire(ResetScrollMyWallets());
+                      break;
+                    case BottomItemType.market:
+                      getIt.get<EventBus>().fire(ResetScrollMarket());
+                      break;
+                    case BottomItemType.card:
+                      getIt.get<EventBus>().fire(ResetScrollCard());
+                      break;
+                    default:
+                  }
                 }
 
                 getIt<AppStore>().setHomeTab(val);
