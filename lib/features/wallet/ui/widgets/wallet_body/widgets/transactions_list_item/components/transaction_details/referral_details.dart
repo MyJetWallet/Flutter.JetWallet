@@ -8,6 +8,8 @@ import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
+import '../../../../../../../../../core/di/di.dart';
+import '../../../../../../../../app/store/app_store.dart';
 import '../../../../../../../helper/format_date_to_hm.dart';
 import 'components/transaction_details_item.dart';
 import 'components/transaction_details_status.dart';
@@ -69,7 +71,9 @@ class _ReferralDetailsHeader extends StatelessWidget {
             assetSymbol: transactionListItem.assetId,
           ),
           fromAssetDescription: paymentAsset?.description ?? transactionListItem.assetId,
-          fromAssetValue: volumeFormat(
+          fromAssetValue: getIt<AppStore>().isBalanceHide
+              ? '**** ${paymentAsset?.symbol}'
+              : volumeFormat(
             symbol: transactionListItem.assetId,
             accuracy: paymentAsset?.accuracy ?? 1,
             decimal: transactionListItem.balanceChange,

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:decimal/decimal.dart';
 import 'package:dio/dio.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/apps_flyer_service.dart';
@@ -172,6 +171,7 @@ class RemoteConfig {
     cardLimitsLearnMoreLink = remoteConfig!.appConfig.cardLimitsLearnMoreLink;
     p2pTerms = remoteConfig!.appConfig.p2pTerms;
     rateUp = remoteConfig!.appConfig.rate_up;
+    displayCardPreorderScreen = remoteConfig!.appConfig.displayCardPreorderScreen;
   }
 
   void overrideVersioningValues() {
@@ -180,11 +180,11 @@ class RemoteConfig {
   }
 
   void overrideSupportValues() {
-    faqLink = remoteConfig!.support?.faqLink ?? '';
-    crispWebsiteId = remoteConfig!.support?.crispWebsiteId ?? '';
-    showZendesk = remoteConfig!.support?.showZendesk ?? true;
-    zendeskIOS = remoteConfig!.support?.zendeskIOS ?? '';
-    zendeskAndroid = remoteConfig!.support?.zendeskAndroid ?? '';
+    faqLink = remoteConfig!.support.faqLink ?? '';
+    crispWebsiteId = remoteConfig!.support.crispWebsiteId ?? '';
+    showZendesk = remoteConfig!.support.showZendesk ?? true;
+    zendeskIOS = remoteConfig!.support.zendeskIOS ?? '';
+    zendeskAndroid = remoteConfig!.support.zendeskAndroid ?? '';
   }
 
   void overrideAnalyticsValues() {

@@ -28,6 +28,7 @@ late int changePhoneLockHours;
 late String cardLimitsLearnMoreLink;
 late String p2pTerms;
 bool rateUp = true;
+bool displayCardPreorderScreen = false;
 
 // Versioning
 late String recommendedVersion;

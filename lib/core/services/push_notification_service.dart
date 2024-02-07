@@ -63,6 +63,8 @@ class PushNotificationService {
     );
 
     if (await Permission.notification.isGranted) {
+      FirebaseMessaging.onMessage.listen(_onMessage);
+      
       await _plugin.initialize(
         initializationSettings,
         onDidReceiveNotificationResponse: (details) async {
@@ -191,8 +193,6 @@ Future<void> messagingBackgroundHandler(RemoteMessage message) async {
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-
-  await PushNotificationService().initialize();
 
   await getIt.get<DeepLinkService>().handlePushNotificationLink(message);
 

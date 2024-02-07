@@ -13,6 +13,9 @@ import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
+import '../../../core/di/di.dart';
+import '../../app/store/app_store.dart';
+
 void showAccountDepositBySelector({
   required BuildContext context,
   required VoidCallback onClose,
@@ -126,11 +129,13 @@ class _DepositByBody extends StatelessWidget {
               label: account.label ?? 'Account 1',
               supplement:
                   account.isClearjuctionAccount ? intl.eur_wallet_simple_account : intl.eur_wallet_personal_account,
-              rightValue: volumeFormat(
-                decimal: account.balance ?? Decimal.zero,
-                accuracy: 2,
-                symbol: account.currency ?? 'EUR',
-              ),
+              rightValue: getIt<AppStore>().isBalanceHide
+                ? '**** ${account.currency ?? 'EUR'}'
+                : volumeFormat(
+                  decimal: account.balance ?? Decimal.zero,
+                  accuracy: 2,
+                  symbol: account.currency ?? 'EUR',
+                ),
               assetIcon: Assets.svg.assets.fiat.account.simpleSvg(
                 width: 24,
               ),
@@ -155,11 +160,13 @@ class _DepositByBody extends StatelessWidget {
             SimpleTableAsset(
               label: card.label ?? '',
               supplement: '${card.cardType?.frontName} ••• ${card.last4NumberCharacters}',
-              rightValue: volumeFormat(
-                decimal: card.balance ?? Decimal.zero,
-                accuracy: 2,
-                symbol: card.currency ?? 'EUR',
-              ),
+              rightValue: getIt<AppStore>().isBalanceHide
+                ? '**** ${card.currency ?? 'EUR'}'
+                : volumeFormat(
+                  decimal: card.balance ?? Decimal.zero,
+                  accuracy: 2,
+                  symbol: card.currency ?? 'EUR',
+                ),
               isCard: true,
               onTableAssetTap: () {
                 sAnalytics.tapOnTheAnyAccountForDepositButton(

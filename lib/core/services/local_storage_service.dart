@@ -50,6 +50,7 @@ const p2pLastMethodId = 'p2pLastMethodId';
 const userLocale = 'userLocale';
 const showRateUp = 'showRateUp';
 const rateUpCount = 'rateUpCount';
+const isCardBannerClosed = 'isCardBannerClosed';
 
 final sLocalStorageService = getIt.get<LocalStorageService>();
 
@@ -102,17 +103,21 @@ class LocalStorageService {
     await _storage.delete(key: bankLastMethodId);
     await _storage.delete(key: localLastMethodId);
     await _storage.delete(key: p2pLastMethodId);
-    await _storage.delete(key: userLocale);
     await _storage.delete(key: showRateUp);
     await _storage.delete(key: rateUpCount);
 
     final userMail = await _storage.read(key: lastUsedMail);
     final slot = await _storage.read(key: activeSlot);
     final deviceIdUsed = await _storage.read(key: deviceId);
+    final isCardBannerClosedUsed = await _storage.read(key: isCardBannerClosed);
+    final userLocaleTemp = await _storage.read(key: userLocale);
+
     await _storage.deleteAll();
     await _storage.write(key: lastUsedMail, value: userMail);
     await _storage.write(key: activeSlot, value: slot);
     await _storage.write(key: deviceId, value: deviceIdUsed);
+    await _storage.write(key: isCardBannerClosed, value: isCardBannerClosedUsed);
+    await _storage.write(key: userLocale, value: userLocaleTemp);
   }
 
   Future<void> clearStorageForCrypto(List<CurrencyModel> currencies) async {
@@ -150,12 +155,16 @@ class LocalStorageService {
       final userMail = await _storage.read(key: lastUsedMail);
       final slot = await _storage.read(key: activeSlot);
       final deviceIdUsed = await _storage.read(key: deviceId);
+      final isCardBannerClosedUsed = await _storage.read(key: isCardBannerClosed);
+      final userLocaleTemp = await _storage.read(key: userLocale);
 
       await _storage.deleteAll();
 
       await _storage.write(key: lastUsedMail, value: userMail);
       await _storage.write(key: activeSlot, value: slot);
       await _storage.write(key: deviceId, value: deviceIdUsed);
+      await _storage.write(key: isCardBannerClosed, value: isCardBannerClosedUsed);
+      await _storage.write(key: userLocale, value: userLocaleTemp);
     }
   }
 }

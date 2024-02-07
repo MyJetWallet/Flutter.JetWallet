@@ -9,6 +9,8 @@ import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../app/store/app_store.dart';
+
 void showWithdrawAction(BuildContext context) {
   final showSearch = showWithdrawalCurrencySearch(context);
   Navigator.pop(context);
@@ -47,11 +49,16 @@ class _ActionWithdraw extends StatelessObserverWidget {
                   url: currency.iconUrl,
                 ),
                 primaryText: currency.description,
-                amount: currency.volumeBaseBalance(baseCurrency),
-                secondaryText: currency.volumeAssetBalance,
+                amount: getIt<AppStore>().isBalanceHide
+                    ? '**** ${baseCurrency.symbol}'
+                    : currency.volumeBaseBalance(baseCurrency),
+                secondaryText: getIt<AppStore>().isBalanceHide
+                  ? '******* ${currency.symbol}'
+                  : currency.volumeAssetBalance,
                 onTap: () {
                   showWithdrawOptions(context, currency);
                 },
+                hideBalance: getIt<AppStore>().isBalanceHide,
               ),
       ],
     );

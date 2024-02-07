@@ -3545,7 +3545,7 @@
         "description": "Показать все кошельки",
         "type": "text"
     },
-    "noInternetConnection_header": "Show all wallets",
+    "noInternetConnection_header": "З'єднання відсутнє",
     "noInternetConnection_descr": "Підключіться до WiFi або стільникового зв'язку, щоб продовжити користуватися додатком",
     "@noInternetConnection_descr": {
         "description": "Подключитесь к WiFi или сотовой связи, чтобы продолжить пользоваться приложением",
@@ -6693,7 +6693,7 @@
         "description": "карта",
         "type": "text"
     },
-    "my_wallets_cards": "Картки",
+    "my_wallets_cards": "картки",
     "@my_wallets_cards": {
         "description": "карты",
         "type": "text"
@@ -6703,7 +6703,7 @@
         "description": "Создание карты...",
         "type": "text"
     },
-    "simple_card_get_card_now": "Отримати Simple картку зараз",
+    "simple_card_get_card_now": "Отримати Simple картку",
     "@simple_card_get_card_now": {
         "description": "Получить Simple карту сейчас",
         "type": "text"
@@ -7229,7 +7229,7 @@
         "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/rVuCKIXsw2DHGitx7bcMNAtG.png",
         "type": "text"
     },
-    "transfer_confirmation_time_to_transaction": "SEPA Instant - до 2 год.\nЗвичайний SEPA-переказ - до 3 днів.\nМоже бути стягена комісія банку-одержувача",
+    "transfer_confirmation_time_to_transaction": "SEPA Instant - до 2 год.\nЗвичайний SEPA-переказ - до 3 днів.\nМоже бути стягнена комісія банку-одержувача",
     "device_binding_required_text": "Щоб підтвердити переказ коштів, будь ласка, верифікуйте платіж через SMS",
     "@device_binding_required_text": {
         "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/KAIanxEpZvGFLFhEEYSbYPmm.png",
@@ -7398,5 +7398,9 @@
     "invest_period_description": "Перегляд історії транзакцій доступний тільки за останні 90 днів",
     "invest_period_days": "дні",
     "invest_confirm": "Підтвердити",
-    "invest_history_pending": "Історія відкладених позицій"
+    "invest_history_pending": "Історія відкладених позицій",
+    "simple_card_is_ready": "Карта Simple готова",
+    "simple_card_password_repeatable_characters": "Не має містити більше 3 повторюваних символів підряд",
+    "simple_card_password_whitespace": "Пробіл не дозволений",
+    "simple_card_password_repeatable_allowed_symbols": "Дозволені наступні спеціальні символи:"
 }

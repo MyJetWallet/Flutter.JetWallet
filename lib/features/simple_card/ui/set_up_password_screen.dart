@@ -5,10 +5,13 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/password_requirement.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/di/di.dart';
 import '../../../core/services/local_storage_service.dart';
+import '../../pin_screen/model/pin_flow_union.dart';
+import '../../pin_screen/ui/pin_screen.dart';
 import '../store/set_up_password_store.dart';
 import '../store/simple_card_store.dart';
 
@@ -58,7 +61,12 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
             color: colors.grey1,
           ),
           showBackButton: false,
-          onCLoseButton: () => Navigator.pop(context),
+          onCLoseButton: () {
+            sAnalytics.tapCloseSetUpPassword(
+              cardID: simpleCardStore.cardFull?.cardId ?? '',
+            );
+            Navigator.pop(context);
+          },
           showCloseButton: true,
         ),
       ),
@@ -93,6 +101,19 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
               labelText: intl.simple_card_password_create,
               isError: store.passwordError,
               onChanged: store.setPassword,
+              maxLength: 29,
+              autofocus: true,
+              onHideTap: (bool value) {
+                if (value) {
+                  sAnalytics.tapHideSetupPassword(
+                    cardID: simpleCardStore.cardFull?.cardId ?? '',
+                  );
+                } else {
+                  sAnalytics.tapShowSetupPassword(
+                    cardID: simpleCardStore.cardFull?.cardId ?? '',
+                  );
+                }
+              },
             ),
           ),
           const SpaceH16(),
@@ -125,6 +146,9 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
                         active: store.isButtonSaveActive,
                         name: intl.simple_card_password_continue,
                         onTap: () async {
+                          sAnalytics.tapContinueSetupPassword(
+                            cardID: simpleCardStore.cardFull?.cardId ?? '',
+                          );
                           if (store.canClick) {
                             store.setCanClick(false);
                             Timer(
@@ -137,13 +161,51 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
                             return;
                           }
 
+                         if (!store.preContinueCheck()) return;
+
                           if (isCreatePassword) {
                             final storageService = getIt.get<LocalStorageService>();
 
                             final pin = await storageService.getValue(pinStatusKey);
                             await simpleCardStore.createCard(pin ?? '', store.password);
                           } else {
-                            await store.setCardPassword(simpleCardStore.cardFull?.cardId ?? '');
+                            sAnalytics.viewConfirmWithPin(
+                              cardID: simpleCardStore.cardFull?.cardId ?? '',
+                            );
+                            await Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                opaque: false,
+                                barrierColor: Colors.white,
+                                pageBuilder: (BuildContext context, _, __) {
+                                  return PinScreen(
+                                    union: const Change(),
+                                    isConfirmCard: true,
+                                    isChangePhone: true,
+                                    onChangePhone: (String newPin) {
+                                      store.setCardPassword(simpleCardStore.cardFull?.cardId ?? '');
+                                    },
+                                    onBackPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    onWrongPin: (String error) {},
+                                  );
+                                },
+                                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                  const begin = Offset(0.0, 1.0);
+                                  const end = Offset.zero;
+                                  const curve = Curves.ease;
+
+                                  final tween =
+                                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+                                  return SlideTransition(
+                                    position: animation.drive(tween),
+                                    child: child,
+                                  );
+                                },
+                              ),
+                            );
                           }
                         },
                       ),

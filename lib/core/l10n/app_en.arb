@@ -738,7 +738,7 @@
     "chooseDocument_camera": "camera",
     "kycSelfie_clearlyVisible": "are clearly visible",
     "january": "January",
-    "febuary": "Febuary",
+    "febuary": "February",
     "march": "March",
     "april": "April",
     "may": "May",
@@ -1385,7 +1385,7 @@
     "face_check_subtitle": "We will use it to securely authenticate login to your Simple App. Please find good lighting and make sure nothing is covering your face",
     "face_check_continue": "Continue",
     "my_wallets_card": "card",
-    "my_wallets_cards": "Cards",
+    "my_wallets_cards": "сards",
     "my_wallets_card_creating": "Creating card...",
     "simple_card_get_card_now": "Get Simple card now",
     "simple_card_type": "Card type",
@@ -1714,5 +1714,9 @@
     "invest_period_description": "You can search and view transaction history only within the 90-day range",
     "invest_period_days": "days",
     "invest_confirm": "Confirm",
-    "invest_history_pending": "History Pending"
+    "invest_history_pending": "History Pending",
+    "simple_card_is_ready": "Simple card is ready",
+    "simple_card_password_repeatable_characters": "Must not include more than 3 consecutive repeatable characters",
+    "simple_card_password_whitespace": "Whitespace character is not allowed",
+    "simple_card_password_repeatable_allowed_symbols": "The following special symbols are allowed:"
 }

@@ -10,6 +10,7 @@ class CardOption extends StatelessWidget {
     this.isSelected = false,
     this.hideDescription = false,
     this.isDisabled = false,
+    this.isActive = false,
     required this.icon,
     required this.name,
     required this.onTap,
@@ -19,6 +20,7 @@ class CardOption extends StatelessWidget {
   final bool isSelected;
   final bool hideDescription;
   final bool isDisabled;
+  final bool isActive;
   final Widget icon;
   final String name;
   final Function() onTap;
@@ -55,6 +57,23 @@ class CardOption extends StatelessWidget {
                       Stack(
                         children: [
                           icon,
+                          if (isActive)
+                            Positioned(
+                              right: -2,
+                              top: 0,
+                              child: Container(
+                                width: 9,
+                                height: 9,
+                                decoration: BoxDecoration(
+                                  color: SColorsLight().green,
+                                  borderRadius: BorderRadius.circular(6),
+                                  border: Border.all(
+                                    color: SColorsLight().white,
+                                    width: 2,
+                                  ),
+                                ),
+                              ),
+                            ),
                         ],
                       ),
                     ],

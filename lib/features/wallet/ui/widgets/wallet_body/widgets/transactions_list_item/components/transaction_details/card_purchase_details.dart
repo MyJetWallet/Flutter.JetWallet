@@ -11,6 +11,8 @@ import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
+import '../../../../../../../../../core/di/di.dart';
+import '../../../../../../../../app/store/app_store.dart';
 import '../../../../../../../helper/format_date_to_hm.dart';
 import 'components/transaction_details_new_header.dart';
 import 'components/transaction_details_new_item.dart';
@@ -29,11 +31,6 @@ class CardPurchaseDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currenciesFull = sSignalRModules.currenciesWithHiddenList;
-    final currentCurrency = currencyFrom(
-      currenciesFull,
-      transactionListItem.assetId,
-    );
     final currency = currencyFrom(
       sSignalRModules.currenciesWithHiddenList,
       transactionListItem.cardPurchaseInfo?.paymentFeeAssetId ??
@@ -58,7 +55,7 @@ class CardPurchaseDetails extends StatelessObserverWidget {
                   text: shortTxhashFrom(transactionListItem.cardPurchaseInfo!.transactionId ?? ''),
                 ),
                 const SpaceW10(),
-                HistoryCopyIcon(transactionListItem.operationId),
+                HistoryCopyIcon(transactionListItem.cardPurchaseInfo!.transactionId ?? ''),
               ],
             ),
           ),
@@ -73,7 +70,7 @@ class CardPurchaseDetails extends StatelessObserverWidget {
             TransactionDetailsNewItem(
               text: intl.buySellDetails_rate,
               value: TransactionDetailsNewValueText(
-                text: '1 EUR = ${transactionListItem.cardPurchaseInfo!.rate} ${currentCurrency.symbol}',
+                text: '1 ${transactionListItem.cardPurchaseInfo!.paymentAssetId} = ${transactionListItem.cardPurchaseInfo!.rate} EUR',
               ),
             ),
           TransactionDetailsNewItem(
@@ -130,13 +127,15 @@ class CardPurchaseDetails extends StatelessObserverWidget {
           TransactionDetailsNewItem(
             text: intl.card_history_total_charge,
             value: TransactionDetailsNewValueText(
-              text: volumeFormat(
-                decimal:
-                  (transactionListItem.cardPurchaseInfo?.paymentFeeAmount ??
-                      Decimal.zero) + transactionListItem.balanceChange.abs(),
-                accuracy: currency.accuracy,
-                symbol: currency.symbol,
-              ),
+              text: getIt<AppStore>().isBalanceHide
+                ? '**** ${currency.symbol}'
+                : volumeFormat(
+                  decimal:
+                    (transactionListItem.cardPurchaseInfo?.paymentFeeAmount ??
+                        Decimal.zero) + transactionListItem.balanceChange.abs(),
+                  accuracy: currency.accuracy,
+                  symbol: currency.symbol,
+                ),
             ),
           ),
           if (transactionListItem.status == Status.inProgress)
@@ -187,11 +186,13 @@ class CardPurchaseDetailsHeader extends StatelessWidget {
             isLoading: false,
             assetIconUrl: asset.iconUrl,
             assetDescription: asset.description,
-            assetValue: volumeFormat(
-              symbol: asset.symbol,
-              accuracy: asset.accuracy,
-              decimal: transactionListItem.balanceChange,
-            ),
+            assetValue: getIt<AppStore>().isBalanceHide
+              ? '**** ${asset.symbol}'
+              : volumeFormat(
+                symbol: asset.symbol,
+                accuracy: asset.accuracy,
+                decimal: transactionListItem.balanceChange,
+              ),
             // assetBaseAmount
             isError: transactionListItem.status == Status.declined,
           ),

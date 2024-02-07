@@ -30,6 +30,7 @@ class SWalletItem extends StatelessWidget {
     this.isBalanceHide = false,
     this.isRounded = false,
     this.isMoving = false,
+    required this.hideBalance,
     required this.icon,
     required this.primaryText,
     required this.secondaryText,
@@ -59,13 +60,14 @@ class SWalletItem extends StatelessWidget {
   final bool isPendingDeposit;
   final bool isBalanceHide;
   final bool isMoving;
+  final bool hideBalance;
 
   final String? baseCurrencySymbol;
 
   @override
   Widget build(BuildContext context) {
     var textColor = SColorsLight().black;
-    final emptyCashText = '${currencyPrefix ?? ''}0'
+    final emptyCashText = hideBalance ? '**** $currencySymbol' : '${currencyPrefix ?? ''}0'
         '${currencyPrefix == null ? ' $currencySymbol' : ''}';
     final formattedAmount = amountDecimal == 0 ? emptyCashText : amount;
     final isSecondaryTextVisible = showSecondaryText &&

@@ -25,7 +25,9 @@ class TransactionsList extends StatelessWidget {
     required this.scrollController,
     this.onItemTapLisener,
     this.fromCJAccount = false,
+    this.isSimpleCard = false,
     required this.source,
+    this.onError,
   });
 
   final ScrollController scrollController;
@@ -33,7 +35,9 @@ class TransactionsList extends StatelessWidget {
   final String? accountId;
   final bool isRecurring;
   final void Function(String assetSymbol)? onItemTapLisener;
+  final Function(String reason)? onError;
   final bool fromCJAccount;
+  final bool isSimpleCard;
   final TransactionItemSource source;
 
   @override
@@ -46,6 +50,8 @@ class TransactionsList extends StatelessWidget {
         null,
         false,
         accountId,
+        isSimpleCard,
+        onError,
       )..initOperationHistory(),
       builder: (context, child) => _TransactionsListBody(
         scrollController: scrollController,
@@ -55,6 +61,7 @@ class TransactionsList extends StatelessWidget {
         fromCJAccount: fromCJAccount,
         accountId: accountId,
         source: source,
+        isSimpleCard: isSimpleCard,
       ),
       //dispose: (context, value) => value.stopTimer(),
     );
@@ -69,6 +76,7 @@ class _TransactionsListBody extends StatefulObserverWidget {
     required this.scrollController,
     this.onItemTapLisener,
     this.fromCJAccount = false,
+    this.isSimpleCard = false,
     required this.source,
   });
 
@@ -76,6 +84,7 @@ class _TransactionsListBody extends StatefulObserverWidget {
   final String? symbol;
   final String? accountId;
   final bool isRecurring;
+  final bool isSimpleCard;
   final void Function(String assetSymbol)? onItemTapLisener;
   final bool fromCJAccount;
   final TransactionItemSource source;
@@ -137,20 +146,25 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                               ? screenHeight - screenHeight * 0.369 - 227
                               : screenHeight - screenHeight * 0.369,
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: widget.isSimpleCard
+                                ? MainAxisAlignment.start
+                                : MainAxisAlignment.center,
                             children: [
+                              if (widget.isSimpleCard)
+                                const SpaceH45(),
                               Image.asset(
                                 smileAsset,
-                                width: 48,
-                                height: 48,
+                                width: 36,
+                                height: 36,
                               ),
+                              const SpaceH6(),
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 80),
                                 child: Text(
                                   intl.wallet_simple_account_empty,
                                   textAlign: TextAlign.center,
                                   maxLines: 3,
-                                  style: sSubtitle2Style.copyWith(
+                                  style: STStyles.subtitle2.copyWith(
                                     color: sKit.colors.grey2,
                                   ),
                                 ),

@@ -1385,7 +1385,7 @@
     "face_check_subtitle": "Nous l'utiliserons pour authentifier en toute sécurité votre connexion à Simple App. Assurez-vous d'avoir une bonne luminosité et que rien ne couvre votre visage.",
     "face_check_continue": "Poursuivre",
     "my_wallets_card": "carte",
-    "my_wallets_cards": "Cartes",
+    "my_wallets_cards": "сartes",
     "my_wallets_card_creating": "Création de la carte...",
     "simple_card_get_card_now": "Obtenir une carte Simple",
     "simple_card_type": "Type de carte",
@@ -1678,5 +1678,9 @@
     "invest_period_description": "Historique que pour 90 jours",
     "invest_period_days": "jours",
     "invest_confirm": "Confirmer",
-    "invest_history_pending": "Historique en attente"
+    "invest_history_pending": "Historique en attente",
+    "simple_card_is_ready": "La carte Simple est prête",
+    "simple_card_password_repeatable_characters": "Ne doit pas inclure plus de 3 caractères répétitifs consécutifs",
+    "simple_card_password_whitespace": "Le caractère d'espace n'est pas autorisé",
+    "simple_card_password_repeatable_allowed_symbols": "Les symboles spéciaux suivants sont autorisés:"
 }

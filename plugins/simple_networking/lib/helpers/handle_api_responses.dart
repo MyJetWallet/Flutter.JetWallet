@@ -16,7 +16,7 @@ Map<String, dynamic> handleFullResponse<T>(
 
   if (T == Map) {
     try {
-      return data is Map<String, dynamic> ? data : {};
+      return data as Map<String, dynamic>;
     } catch (e) {
       return json;
     }

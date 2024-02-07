@@ -4821,6 +4821,592 @@ class SimpleAnalytics {
     );
   }
 
+  // Simple card
+  void viewGetSimpleCard() {
+    _analytics.logEvent(
+      EventType.viewGetSimpleCard,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '429',
+      },
+    );
+  }
+  
+  void tapOnGetSimpleCard({
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnGetSimpleCard,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '430',
+        PropertyType.source: source,
+      },
+    );
+  }
+  
+  void viewCardTypeSheet() {
+    _analytics.logEvent(
+      EventType.viewCardTypeSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '431',
+      },
+    );
+  }
+  
+  void tapOnVirtualCard() {
+    _analytics.logEvent(
+      EventType.tapOnVirtualCard,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '432',
+      },
+    );
+  }
+  
+  void confirmWithPinView({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.confirmWithPinView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '433',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+  
+  void viewSetupPassword({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.viewSetupPassword,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '434',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+  
+  void tapCloseSetUpPassword({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.tapCloseSetUpPassword,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '435',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+  
+  void tapHideSetupPassword({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.tapHideSetupPassword,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '436',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+  
+  void tapShowSetupPassword({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.tapShowSetupPassword,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '437',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+  
+  void tapContinueSetupPassword({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.tapContinueSetupPassword,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '438',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+  
+  void viewCompleteKYCForCard() {
+    _analytics.logEvent(
+      EventType.viewCompleteKYCForCard,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '439',
+      },
+    );
+  }
+  
+  void tapVerifyAccountForCard() {
+    _analytics.logEvent(
+      EventType.tapVerifyAccountForCard,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '440',
+      },
+    );
+  }
+  
+  void tapCancelKYCForCard() {
+    _analytics.logEvent(
+      EventType.tapCancelKYCForCard,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '441',
+      },
+    );
+  }
+  
+  void viewPleaseWaitLoading() {
+    _analytics.logEvent(
+      EventType.viewPleaseWaitLoading,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '442',
+      },
+    );
+  }
+  
+  void viewKYCSumsubCreation() {
+    _analytics.logEvent(
+      EventType.viewKYCSumsubCreation,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '443',
+      },
+    );
+  }
+  
+  void viewWorkingOnYourCard() {
+    _analytics.logEvent(
+      EventType.viewWorkingOnYourCard,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '444',
+      },
+    );
+  }
+  
+  void viewCardIsReady() {
+    _analytics.logEvent(
+      EventType.viewCardIsReady,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '445',
+      },
+    );
+  }
+  
+  void viewEURWalletWithoutButton() {
+    _analytics.logEvent(
+      EventType.viewEURWalletWithoutButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '446',
+      },
+    );
+  }
+  
+  void viewEURWalletWithButton() {
+    _analytics.logEvent(
+      EventType.viewEURWalletWithButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '447',
+      },
+    );
+  }
+
+  void tapOnSimpleCard() {
+    _analytics.logEvent(
+      EventType.tapOnSimpleCard,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '448',
+      },
+    );
+  }
+
+  void viewVirtualCardScreen({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.viewVirtualCardScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '449',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+
+  void tapShowCard({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.tapShowCard,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '450',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+
+  void tapHideCard({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.tapHideCard,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '451',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+
+  void tapCopyCardNumber({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.tapCopyCardNumber,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '452',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+
+  void viewErrorOnCardScreen({
+    required String cardID,
+    required String reason,
+  }) {
+    _analytics.logEvent(
+      EventType.viewErrorOnCardScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '453',
+        PropertyType.cardID: cardID,
+        PropertyType.reason: reason,
+      },
+    );
+  }
+
+  void tapBackFromVirualCard({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.tapBackFromVirualCard,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '454',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+
+  void tapFreezeCard({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.tapFreezeCard,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '455',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+
+  void viewFreezeCardPopup({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.viewFreezeCardPopup,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '456',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+
+  void tapConfirmFreezeCard({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.tapConfirmFreezeCard,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '457',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+
+  void tapCancelFreeze({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.tapCancelFreeze,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '458',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+
+  void viewFrozenCard({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.viewFrozenCard,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '459',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+
+  void tapOnUnfreeze({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnUnfreeze,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '460',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+
+  void tapOnAddCash({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnAddCash,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '469',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+
+  void viewAddCashSheet({
+    required String cardID,
+    required String assets,
+  }) {
+    _analytics.logEvent(
+      EventType.viewAddCashSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '470',
+        PropertyType.cardID: cardID,
+        PropertyType.availableAssetsList: assets,
+      },
+    );
+  }
+
+  void tapOnAddCashFromAsset({
+    required String cardID,
+    required String asset,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnAddCashFromAsset,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '471',
+        PropertyType.cardID: cardID,
+        PropertyType.asset: asset,
+      },
+    );
+  }
+
+  void viewErrorOnSellScreen({
+    required String cardID,
+    required String reason,
+  }) {
+    _analytics.logEvent(
+      EventType.viewErrorOnSellScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '472',
+        PropertyType.cardID: cardID,
+        PropertyType.reason: reason,
+      },
+    );
+  }
+
+  void tapOnSettings({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnSettings,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '473',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+
+  void viewCardSettings({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.viewCardSettings,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '474',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+
+  void tapOnRemindPin({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnRemindPin,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '475',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+
+  void viewRemindPinSheet({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.viewRemindPinSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '476',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+
+  void tapOnCancelRemindPin({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnCancelRemindPin,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '477',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+
+  void tapInContinueRemindPin({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.tapInContinueRemindPin,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '478',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+
+  void tapOnSetPassword({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnSetPassword,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '479',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+
+  void viewConfirmWithPin({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventType.viewConfirmWithPin,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '480',
+        PropertyType.cardID: cardID,
+      },
+    );
+  }
+
   // Terminate Simple card
   void tapOnTheTerminateButton({
     required String cardID,

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 
 class EnteredValidReferalCode extends StatelessWidget {
   const EnteredValidReferalCode({
@@ -26,7 +25,7 @@ class EnteredValidReferalCode extends StatelessWidget {
         onTap: onDelete,
         contentColor: colors.red,
         icon: Assets.svg.medium.delete,
-        //iconCustomColor: colors.red,
+        iconCustomColor: colors.red,
         type: SButtonContextType.iconedSmallInverted,
         backgroundColor: SColorsLight().white,
       ),
