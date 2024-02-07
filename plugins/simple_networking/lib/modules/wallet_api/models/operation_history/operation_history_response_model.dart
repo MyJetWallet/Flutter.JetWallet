@@ -757,6 +757,7 @@ class CardPurchaseInfo with _$CardPurchaseInfo {
     String? paymentFeeAssetId,
     @DecimalSerialiser() required Decimal paymentFeeAmount,
     String? cardId,
+    @DecimalNullSerialiser() Decimal? paymentAmount,
   }) = _CardPurchaseInfo;
 
   factory CardPurchaseInfo.fromJson(Map<String, dynamic> json) => _$CardPurchaseInfoFromJson(json);

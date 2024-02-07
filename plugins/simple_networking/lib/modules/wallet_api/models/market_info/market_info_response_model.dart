@@ -15,30 +15,8 @@ class MarketInfoResponseModel with _$MarketInfoResponseModel {
     @DecimalSerialiser() @JsonKey(name: 'volume24') required Decimal dayVolume,
     required String aboutLess,
     required String aboutMore,
-    required Fees fees,
   }) = _MarketInfoResponseModel;
 
   factory MarketInfoResponseModel.fromJson(Map<String, dynamic> json) =>
       _$MarketInfoResponseModelFromJson(json);
-}
-
-@freezed
-class Fees with _$Fees {
-  const factory Fees({
-    required WithdrawalFee? withdrawalFee,
-  }) = _Fees;
-
-  factory Fees.fromJson(Map<String, dynamic> json) => _$FeesFromJson(json);
-}
-
-@freezed
-class WithdrawalFee with _$WithdrawalFee {
-  const factory WithdrawalFee({
-    required String asset,
-    @DecimalSerialiser() required Decimal size,
-    required int feeType,
-  }) = _WithdrawalFee;
-
-  factory WithdrawalFee.fromJson(Map<String, dynamic> json) =>
-      _$WithdrawalFeeFromJson(json);
 }
