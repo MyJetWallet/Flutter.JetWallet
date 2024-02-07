@@ -1718,5 +1718,11 @@
     "simple_card_is_ready": "Simple card is ready",
     "simple_card_password_repeatable_characters": "Must not include more than 3 consecutive repeatable characters",
     "simple_card_password_whitespace": "Whitespace character is not allowed",
-    "simple_card_password_repeatable_allowed_symbols": "The following special symbols are allowed:"
+    "simple_card_password_repeatable_allowed_symbols": "The following special symbols are allowed:",
+    "earn_earn": "Earn",
+    "earn_funds_are_calculated_based_on_the_current_value": "Funds are calculated based on the current value of cryptoassets",
+    "earn_total": "Total",
+    "earn_revenue": "Revenue",
+    "earn_active_earns": "Active earns",
+    "earn_view_all": "Veiw all"
 }
