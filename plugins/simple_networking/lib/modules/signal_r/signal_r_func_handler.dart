@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:simple_networking/config/constants.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
@@ -12,6 +10,7 @@ import 'package:simple_networking/modules/signal_r/models/campaign_response_mode
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/signal_r/models/cards_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
+import 'package:simple_networking/modules/signal_r/models/earn_wallet_profile.dart';
 import 'package:simple_networking/modules/signal_r/models/fireblock_events_model.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/signal_r/models/indices_model.dart';
@@ -417,6 +416,19 @@ class SignalRFuncHandler {
       final investWalletModel = InvestWalletModel.fromJson(_json(data));
 
       sTransport.investWallet(investWalletModel);
+
+      SignalRModuleNew.handlePackage();
+    } catch (e) {
+      instance.handleError(investWalletMessage, e);
+    }
+  }
+
+  //Earn
+  void earnWalletProfileMessageHandler(List<Object?>? data) {
+    try {
+      final earnWalletProfileModel = EarnWalletProfileModel.fromJson(_json(data));
+
+      sTransport.earnWalletProfile(earnWalletProfileModel);
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
