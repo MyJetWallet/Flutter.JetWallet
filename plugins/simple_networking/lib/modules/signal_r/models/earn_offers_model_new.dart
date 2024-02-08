@@ -17,21 +17,19 @@ class ActiveEarnOffersMessage with _$ActiveEarnOffersMessage {
 @freezed
 class EarnOfferClientModel with _$EarnOfferClientModel {
   const factory EarnOfferClientModel({
-    @JsonValue('Id') required String id,
-    @JsonValue('Name') required String name,
-    @JsonValue('Description') required String description,
-    @JsonValue('AssetId') required String assetId,
+    required String id,
+    required String name,
+    required String description,
+    required String assetId,
     @Default(EarnOfferStatus.undefined)
-    @JsonKey(unknownEnumValue: EarnOfferStatus.undefined, name: 'EarnOfferStatus')
+    @JsonKey(unknownEnumValue: EarnOfferStatus.undefined)
     EarnOfferStatus earnOfferStatus,
-    @Default(WithdrawType.undefined)
-    @JsonKey(unknownEnumValue: WithdrawType.undefined, name: 'WithdrawType')
-    WithdrawType withdrawType,
-    @JsonValue('ApyRate') @DecimalSerialiser() required Decimal apyRate,
-    @JsonValue('PaymentPeriodDays') required int paymentPeriodDays,
-    @JsonValue('MinAmount') @DecimalSerialiser() required Decimal minAmount,
-    @JsonValue('LockPeriod') required int lockPeriod,
-    @JsonValue('Promotion') required bool promotion,
+    @Default(WithdrawType.undefined) @JsonKey(unknownEnumValue: WithdrawType.undefined) WithdrawType withdrawType,
+    @DecimalSerialiser() required Decimal apyRate,
+    required int paymentPeriodDays,
+    @DecimalSerialiser() required Decimal minAmount,
+    required int lockPeriod,
+    required bool promotion,
   }) = _EarnOfferClientModel;
 
   factory EarnOfferClientModel.fromJson(Map<String, dynamic> json) => _$EarnOfferClientModelFromJson(json);

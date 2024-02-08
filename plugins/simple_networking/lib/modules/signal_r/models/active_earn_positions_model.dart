@@ -18,21 +18,19 @@ class ActiveEarnPositionsMessage with _$ActiveEarnPositionsMessage {
 @freezed
 class EarnPositionClientModel with _$EarnPositionClientModel {
   const factory EarnPositionClientModel({
-    @JsonValue('Id') required String id,
-    @JsonValue('OfferId') required String offerId,
-    @JsonValue('AssetId') required String assetId,
-    @JsonValue('BaseAmount') @DecimalSerialiser() required Decimal baseAmount,
-    @JsonValue('IncomeAmount') @DecimalSerialiser() required Decimal incomeAmount,
+    required String id,
+    required String offerId,
+    required String assetId,
+    @DecimalSerialiser() required Decimal baseAmount,
+    @DecimalSerialiser() required Decimal incomeAmount,
     @Default(EarnPositionStatus.undefined)
-    @JsonKey(unknownEnumValue: EarnPositionStatus.undefined, name: 'Status')
+    @JsonKey(unknownEnumValue: EarnPositionStatus.undefined)
     EarnPositionStatus status,
-    @Default(WithdrawType.undefined)
-    @JsonKey(unknownEnumValue: WithdrawType.undefined, name: 'WithdrawType')
-    WithdrawType withdrawType,
-    @JsonValue('StartDateTime') DateTime? startDateTime,
-    @JsonValue('CloseRequestDateTime') DateTime? closeRequestDateTime,
-    @JsonValue('CloseDateTime') DateTime? closeDateTime,
-    @JsonValue('PaymentDateTime') DateTime? paymentDateTime,
+    @Default(WithdrawType.undefined) @JsonKey(unknownEnumValue: WithdrawType.undefined) WithdrawType withdrawType,
+    DateTime? startDateTime,
+    DateTime? closeRequestDateTime,
+    DateTime? closeDateTime,
+    DateTime? paymentDateTime,
   }) = _EarnPositionClientModel;
 
   factory EarnPositionClientModel.fromJson(Map<String, dynamic> json) => _$EarnPositionClientModelFromJson(json);
