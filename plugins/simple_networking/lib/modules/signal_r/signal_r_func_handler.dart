@@ -1,4 +1,5 @@
 import 'package:simple_networking/config/constants.dart';
+import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_withdrawal_fee_model.dart';
@@ -435,12 +436,23 @@ class SignalRFuncHandler {
     }
   }
 
-  //Earn
   void earnOffersMessageHandler(List<Object?>? data) {
     try {
       final earnOffersModel = ActiveEarnOffersMessage.fromJson(_json(data));
 
       sTransport.earnOffers(earnOffersModel);
+
+      SignalRModuleNew.handlePackage();
+    } catch (e) {
+      instance.handleError(investWalletMessage, e);
+    }
+  }
+
+  void earnPositionsMessageHandler(List<Object?>? data) {
+    try {
+      final activeEarnPositions = ActiveEarnPositionsMessage.fromJson(_json(data));
+
+      sTransport.activeEarnPositions(activeEarnPositions);
 
       SignalRModuleNew.handlePackage();
     } catch (e) {

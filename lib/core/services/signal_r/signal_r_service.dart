@@ -177,6 +177,7 @@ class SignalRService {
       investWallet: sSignalRModules.setInvestWalletData,
       earnWalletProfile: sSignalRModules.setEarnWalletProfileData,
       earnOffers: sSignalRModules.setEarnOffersData,
+      activeEarnPositions: sSignalRModules.setEarnPositionsData,
 
       ///
       createNewSessionLog: () {

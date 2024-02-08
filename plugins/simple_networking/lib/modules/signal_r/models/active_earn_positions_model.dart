@@ -1,0 +1,50 @@
+import 'package:decimal/decimal.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:simple_networking/helpers/decimal_serialiser.dart';
+import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
+
+part 'active_earn_positions_model.freezed.dart';
+part 'active_earn_positions_model.g.dart';
+
+@freezed
+class ActiveEarnPositionsMessage with _$ActiveEarnPositionsMessage {
+  const factory ActiveEarnPositionsMessage({
+    required List<EarnOfferClientModel> positions,
+  }) = _ActiveEarnPositionsMessage;
+
+  factory ActiveEarnPositionsMessage.fromJson(Map<String, dynamic> json) => _$ActiveEarnPositionsMessageFromJson(json);
+}
+
+@freezed
+class EarnPositionClientModel with _$EarnPositionClientModel {
+  const factory EarnPositionClientModel({
+    @JsonValue('Id') required String id,
+    @JsonValue('OfferId') required String offerId,
+    @JsonValue('AssetId') required String assetId,
+    @JsonValue('BaseAmount') @DecimalSerialiser() required Decimal baseAmount,
+    @JsonValue('IncomeAmount') @DecimalSerialiser() required Decimal incomeAmount,
+    @Default(EarnPositionStatus.undefined)
+    @JsonKey(unknownEnumValue: EarnPositionStatus.undefined, name: 'Status')
+    EarnPositionStatus status,
+    @Default(WithdrawType.undefined)
+    @JsonKey(unknownEnumValue: WithdrawType.undefined, name: 'WithdrawType')
+    WithdrawType withdrawType,
+    @JsonValue('StartDateTime') DateTime? startDateTime,
+    @JsonValue('CloseRequestDateTime') DateTime? closeRequestDateTime,
+    @JsonValue('CloseDateTime') DateTime? closeDateTime,
+    @JsonValue('PaymentDateTime') DateTime? paymentDateTime,
+  }) = _EarnPositionClientModel;
+
+  factory EarnPositionClientModel.fromJson(Map<String, dynamic> json) => _$EarnPositionClientModelFromJson(json);
+}
+
+enum EarnPositionStatus {
+  @JsonValue(0)
+  undefined,
+  @JsonValue(1)
+  active,
+  @JsonValue(2)
+  closing,
+  @JsonValue(3)
+  closed,
+}
