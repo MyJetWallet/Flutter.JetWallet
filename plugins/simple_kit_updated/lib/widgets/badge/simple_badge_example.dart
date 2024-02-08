@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:simple_kit_updated/widgets/banner/simple_badge.dart';
+import 'package:simple_kit_updated/widgets/badge/simple_badge.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
 @widgetbook.UseCase(

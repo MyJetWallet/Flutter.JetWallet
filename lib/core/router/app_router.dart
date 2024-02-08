@@ -51,6 +51,7 @@ import 'package:jetwallet/features/debug_info/debug_history.dart';
 import 'package:jetwallet/features/debug_info/debug_info.dart';
 import 'package:jetwallet/features/debug_info/invest_ui_kit.dart';
 import 'package:jetwallet/features/debug_info/signalr_debug_info.dart';
+import 'package:jetwallet/features/earn/screens/earn_screen.dart';
 import 'package:jetwallet/features/email_confirmation/ui/email_confirmation_screen.dart';
 import 'package:jetwallet/features/face_check/ui/face_check_screen.dart';
 import 'package:jetwallet/features/home/home_screen.dart';
@@ -237,6 +238,10 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           path: 'invest',
           page: InvestPageRouter.page,
+        ),
+        AutoRoute(
+          path: 'earn',
+          page: EarnRouter.page,
         ),
       ],
     ),
