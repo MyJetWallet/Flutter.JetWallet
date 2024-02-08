@@ -520,6 +520,11 @@ class SignalRModuleNew {
     );
 
     _hubConnection?.off(
+      earnOffers,
+      method: handler.earnOffersMessageHandler,
+    );
+
+    _hubConnection?.off(
       earnWalletProfile,
       method: handler.earnWalletProfileMessageHandler,
     );
@@ -615,6 +620,8 @@ class SignalRModuleNew {
 
     // Earn
     _hubConnection?.on(earnWalletProfile, handler.earnWalletProfileMessageHandler);
+
+    _hubConnection?.on(earnOffers, handler.earnOffersMessageHandler);
 
     _hubConnection?.on(pongMessage, pongMessageHandler);
   }
