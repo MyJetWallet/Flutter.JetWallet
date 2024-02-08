@@ -8,6 +8,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/earn/widgets/basic_banner.dart';
 import 'package:jetwallet/features/earn/widgets/basic_header.dart';
+import 'package:jetwallet/features/earn/widgets/chips_suggestion_m.dart';
 import 'package:jetwallet/features/earn/widgets/deposit_card.dart';
 import 'package:jetwallet/features/earn/widgets/price_header.dart';
 import 'package:jetwallet/features/market/ui/widgets/fade_on_scroll.dart';
@@ -94,10 +95,32 @@ class _EarnScreenState extends State<EarnScreen> {
               SBasicHeader(
                 title: intl.earn_active_earns,
                 buttonTitle: intl.earn_view_all,
+                onTap: () {},
+              ),
+              ...[
+                SDepositCard(),
+                SDepositCard(),
+              ],
+              const SizedBox(height: 16),
+              SBasicHeader(
+                title: intl.earn_top_offers,
+                buttonTitle: intl.earn_view_all,
                 subtitle: intl.earn_most_profitable_earns,
                 onTap: () {},
               ),
-              SDepositCard(),
+              ...[
+                ChipsSuggestionM(
+                  percentage: 8.5,
+                  cryptoName: 'Bitcoin',
+                  onTap: () {},
+                ),
+                ChipsSuggestionM(
+                  percentage: 8.5,
+                  cryptoName: 'Bitcoin',
+                  onTap: () {},
+                ),
+              ],
+              const SizedBox(height: 32),
             ],
           ),
         ),
