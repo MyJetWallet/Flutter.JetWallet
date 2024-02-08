@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
 part 'earn_store.g.dart';
 
@@ -11,5 +13,15 @@ class EarnStore extends _EarnStoreBase with _$EarnStore {
 }
 
 abstract class _EarnStoreBase with Store {
-  _EarnStoreBase();
+  /// Reflects the best (necessary) offers [EarnOfferClientModel] with
+  ///  the status EarnOffers.Promotion == true
+  @computed
+  List<EarnOfferClientModel> get earnOffers =>
+      sSignalRModules.activeEarnOffersMessage?.offers
+          .where(
+            (offer) => offer.promotion == true,
+          )
+          .toList() ??
+      [];
+      
 }
