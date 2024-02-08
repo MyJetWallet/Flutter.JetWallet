@@ -89,14 +89,13 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
         final kycState = getIt.get<KycService>();
 
         if (userInfo.isSimpleCardAvailable &&
-          (sSignalRModules.bankingProfileData?.banking?.cards?.length ?? 0) < 1 &&
-          !simpleCardStore.wasCardBannerClosed &&
-          checkKycPassed(
-            kycState.depositStatus,
-            kycState.tradeStatus,
-            kycState.withdrawalStatus,
-          )
-        ) {
+            (sSignalRModules.bankingProfileData?.banking?.cards?.length ?? 0) < 1 &&
+            !simpleCardStore.wasCardBannerClosed &&
+            checkKycPassed(
+              kycState.depositStatus,
+              kycState.tradeStatus,
+              kycState.withdrawalStatus,
+            )) {
           sAnalytics.viewGetSimpleCard();
         }
       },
