@@ -528,6 +528,11 @@ class SignalRModuleNew {
       earnWalletProfile,
       method: handler.earnWalletProfileMessageHandler,
     );
+
+    _hubConnection?.off(
+      earnPositions,
+      method: handler.earnPositionsMessageHandler,
+    );
   }
 
   Future<void> setupMessageHandler() async {
@@ -622,6 +627,7 @@ class SignalRModuleNew {
     _hubConnection?.on(earnWalletProfile, handler.earnWalletProfileMessageHandler);
 
     _hubConnection?.on(earnOffers, handler.earnOffersMessageHandler);
+    _hubConnection?.on(earnPositions, handler.earnPositionsMessageHandler);
 
     _hubConnection?.on(pongMessage, pongMessageHandler);
   }

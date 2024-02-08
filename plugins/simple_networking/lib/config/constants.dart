@@ -46,6 +46,7 @@ const investSectorsMessage = 'invest-sectors';
 const investWalletMessage = 'invest-wallet-profile';
 const earnWalletProfile = 'earn-wallet-profile';
 const earnOffers = 'earn-offers';
+const earnPositions = 'earn-positions';
 
 // KeyValue
 const watchlistKey = 'watchlist';

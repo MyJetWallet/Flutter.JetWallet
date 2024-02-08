@@ -1,3 +1,4 @@
+import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_withdrawal_fee_model.dart';
 import 'package:simple_networking/modules/signal_r/models/balance_model.dart';
@@ -71,6 +72,7 @@ class SignalRTransport {
     required this.investWallet,
     required this.earnWalletProfile,
     required this.earnOffers,
+    required this.activeEarnPositions,
   });
 
   final void Function(bool) initFinished;
@@ -117,6 +119,7 @@ class SignalRTransport {
 
   final void Function(EarnWalletProfileModel) earnWalletProfile;
   final void Function(ActiveEarnOffersMessage) earnOffers;
+  final void Function(ActiveEarnPositionsMessage) activeEarnPositions;
 
   /// Logs
 

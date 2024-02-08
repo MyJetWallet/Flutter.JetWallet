@@ -29,6 +29,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
@@ -1009,6 +1010,13 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
   @action
   void setEarnOffersData(ActiveEarnOffersMessage data) {
     activeEarnOffersMessage = data;
+  }
+
+  @observable
+  ActiveEarnPositionsMessage? activeEarnPositionsMessage;
+  @action
+  void setEarnPositionsData(ActiveEarnPositionsMessage data) {
+    activeEarnPositionsMessage = data;
   }
 
   @action
