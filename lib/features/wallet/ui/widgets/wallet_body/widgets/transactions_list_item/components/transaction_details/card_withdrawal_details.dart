@@ -70,7 +70,7 @@ class CardWithdrawalDetails extends StatelessObserverWidget {
               text: intl.buySellDetails_rate,
               value: TransactionDetailsNewValueText(
                 text:
-                    '1 ${transactionListItem.assetId} = ${transactionListItem.cardWithdrawalInfo?.rate} ${transactionListItem.cardWithdrawalInfo?.paymentAssetId}',
+                    '1 ${transactionListItem.cardWithdrawalInfo!.rateBaseAsset} = ${transactionListItem.cardWithdrawalInfo!.rate} ${transactionListItem.cardWithdrawalInfo!.rateQuoteAsset}',
               ),
             ),
           TransactionDetailsNewItem(

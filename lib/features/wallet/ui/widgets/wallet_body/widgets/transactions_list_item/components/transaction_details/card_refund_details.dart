@@ -71,7 +71,7 @@ class CardRefundDetails extends StatelessObserverWidget {
               text: intl.buySellDetails_rate,
               value: TransactionDetailsNewValueText(
                 text:
-                    '1 ${transactionListItem.assetId} = ${transactionListItem.cardRefundInfo!.rate} ${transactionListItem.cardRefundInfo!.paymentAssetId}',
+                    '1 ${transactionListItem.cardRefundInfo!.rateBaseAsset} = ${transactionListItem.cardRefundInfo!.rate} ${transactionListItem.cardRefundInfo!.rateQuoteAsset}',
               ),
             ),
           TransactionDetailsNewItem(

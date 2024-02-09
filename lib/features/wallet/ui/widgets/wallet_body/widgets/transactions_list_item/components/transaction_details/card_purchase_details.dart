@@ -71,7 +71,7 @@ class CardPurchaseDetails extends StatelessObserverWidget {
               text: intl.buySellDetails_rate,
               value: TransactionDetailsNewValueText(
                 text:
-                    '1 ${transactionListItem.assetId} = ${transactionListItem.cardPurchaseInfo!.rate} ${transactionListItem.cardPurchaseInfo!.paymentAssetId}',
+                    '1 ${transactionListItem.cardPurchaseInfo!.rateBaseAsset} = ${transactionListItem.cardPurchaseInfo!.rate} ${transactionListItem.cardPurchaseInfo!.rateQuoteAsset}',
               ),
             ),
           TransactionDetailsNewItem(
