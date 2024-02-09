@@ -10,11 +10,13 @@ class ChipsSuggestionM extends StatelessWidget {
     required this.percentage,
     required this.cryptoName,
     required this.onTap,
+    this.trailingIcon,
     super.key,
   });
-  final double percentage;
+  final String percentage;
   final String cryptoName;
   final void Function()? onTap;
+  final Widget? trailingIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +45,11 @@ class ChipsSuggestionM extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              CircleAvatar(
-                backgroundColor: colors.orange,
-                child: Icon(
-                  Icons.currency_bitcoin,
-                  color: colors.white,
+              if (trailingIcon != null)
+                CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  child: trailingIcon,
                 ),
-              ),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),

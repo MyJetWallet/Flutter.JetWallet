@@ -1,11 +1,10 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:jetwallet/core/di/di.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/earn/store/earn_store.dart';
 import 'package:jetwallet/features/earn/widgets/basic_banner.dart';
 import 'package:jetwallet/features/earn/widgets/basic_header.dart';
 import 'package:jetwallet/features/earn/widgets/chips_suggestion_m.dart';
@@ -13,6 +12,7 @@ import 'package:jetwallet/features/earn/widgets/deposit_card.dart';
 import 'package:jetwallet/features/earn/widgets/price_header.dart';
 import 'package:jetwallet/features/market/ui/widgets/fade_on_scroll.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'EarnRouter')
@@ -34,6 +34,25 @@ class _EarnScreenState extends State<EarnScreen> {
 
   @override
   Widget build(BuildContext context) {
+    return Provider<EarnStore>(
+      create: (context) => EarnStore(),
+      builder: (context, child) {
+        return _EarnView(controller: controller);
+      },
+    );
+  }
+}
+
+class _EarnView extends StatelessWidget {
+  const _EarnView({
+    required this.controller,
+  });
+
+  final ScrollController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    final store = EarnStore.of(context);
     final colors = sKit.colors;
 
     return Scaffold(
@@ -62,67 +81,83 @@ class _EarnScreenState extends State<EarnScreen> {
             ),
           ];
         },
-        body: CustomRefreshIndicator(
-          offsetToArmed: 75,
-          onRefresh: () async {},
-          builder: (
-            BuildContext context,
-            Widget child,
-            IndicatorController controller,
-          ) {
-            return child;
-          },
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              SBasicBanner(text: intl.earn_funds_are_calculated_based_on_the_current_value),
-              SPriceHeader(
-                totalSum: !getIt<AppStore>().isBalanceHide
-                    //! Alex S. total ???
+        body: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: SBasicBanner(text: intl.earn_funds_are_calculated_based_on_the_current_value),
+            ),
+            SliverToBoxAdapter(
+              child: SPriceHeader(
+                totalSum: store.isBalanceHide
                     ? volumeFormat(
                         decimal: sSignalRModules.earnWalletProfileData?.total ?? Decimal.zero,
                         symbol: sSignalRModules.baseCurrency.symbol,
                       )
                     : '**** ${sSignalRModules.baseCurrency.symbol}',
-                revenueSum: !getIt<AppStore>().isBalanceHide
-                    //! Alex S. how to get revenue ???
+                revenueSum: store.isBalanceHide
                     ? volumeFormat(
                         decimal: sSignalRModules.earnWalletProfileData?.balance ?? Decimal.zero,
                         symbol: sSignalRModules.baseCurrency.symbol,
                       )
                     : '**** ${sSignalRModules.baseCurrency.symbol}',
               ),
-              SBasicHeader(
+            ),
+            SliverToBoxAdapter(
+              child: SBasicHeader(
                 title: intl.earn_active_earns,
                 buttonTitle: intl.earn_view_all,
                 onTap: () {},
               ),
-              ...[
-                SDepositCard(),
-                SDepositCard(),
-              ],
-              const SizedBox(height: 16),
-              SBasicHeader(
+            ),
+            //! remove with actual data
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) => SDepositCard(),
+                childCount: 2,
+              ),
+            ),
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
+            SliverToBoxAdapter(
+              child: SBasicHeader(
                 title: intl.earn_top_offers,
                 buttonTitle: intl.earn_view_all,
                 subtitle: intl.earn_most_profitable_earns,
                 onTap: () {},
               ),
-              ...[
-                ChipsSuggestionM(
-                  percentage: 8.5,
-                  cryptoName: 'Bitcoin',
-                  onTap: () {},
-                ),
-                ChipsSuggestionM(
-                  percentage: 8.5,
-                  cryptoName: 'Bitcoin',
-                  onTap: () {},
-                ),
-              ],
-              const SizedBox(height: 32),
-            ],
-          ),
+            ),
+            SliverToBoxAdapter(
+              child: Observer(
+                builder: (context) {
+                  if (store.earnOffers.isNotEmpty) {
+                    return Column(
+                      children: List.generate(store.earnOffers.length, (index) {
+                        final offer = store.earnOffers[index];
+                        final currency = sSignalRModules.currenciesList.firstWhere(
+                          (currency) => currency.symbol == offer.assetId,
+                        );
+
+                        return ChipsSuggestionM(
+                          percentage: offer.apyRate.toString(),
+                          cryptoName: currency.description,
+                          trailingIcon: SNetworkSvg(
+                            url: currency.iconUrl,
+                            width: 40,
+                            height: 40,
+                          ),
+                          onTap: () {},
+                        );
+                      }),
+                    );
+                  } else {
+                    return const SizedBox.shrink();
+                  }
+                },
+              ),
+            ),
+            const SliverToBoxAdapter(
+              child: SizedBox(height: 32),
+            ),
+          ],
         ),
       ),
     );
