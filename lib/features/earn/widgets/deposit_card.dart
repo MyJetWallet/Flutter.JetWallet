@@ -68,10 +68,7 @@ class CryptoCardHeader extends StatelessWidget {
             ],
           ),
         ),
-        const SDepositCardBadge(
-          text: 'Earning',
-          status: SDepositCardBadgeStatus.success,
-        ),
+        const SDepositCardBadge(status: EarnPositionStatus.activeShow),
       ],
     );
   }
