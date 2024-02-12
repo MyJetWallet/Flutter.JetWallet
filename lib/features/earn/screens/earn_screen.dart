@@ -116,14 +116,6 @@ class _EarnView extends StatelessWidget {
               ),
             ),
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
-            SliverToBoxAdapter(
-              child: SBasicHeader(
-                title: intl.earn_top_offers,
-                buttonTitle: intl.earn_view_all,
-                subtitle: intl.earn_most_profitable_earns,
-                onTap: () {},
-              ),
-            ),
 
             SliverToBoxAdapter(
               child: OffersListWidget(offers: store.earnOffers),
