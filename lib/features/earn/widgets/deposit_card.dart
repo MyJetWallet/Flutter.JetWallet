@@ -40,7 +40,7 @@ class SDepositCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CryptoCardHeader(
-                name: earnPosition.offerId,
+                name: earnPosition.assetId,
                 iconUrl: earnPosition.assetId,
                 apyRate: '',
                 earnPositoinStatus: earnPosition.status,
