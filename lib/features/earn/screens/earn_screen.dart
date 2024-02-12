@@ -5,9 +5,8 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/store/earn_store.dart';
 import 'package:jetwallet/features/earn/widgets/basic_banner.dart';
-import 'package:jetwallet/features/earn/widgets/basic_header.dart';
-import 'package:jetwallet/features/earn/widgets/deposit_card.dart';
 import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
+import 'package:jetwallet/features/earn/widgets/earn_positins_list.dart';
 import 'package:jetwallet/features/earn/widgets/price_header.dart';
 import 'package:jetwallet/features/market/ui/widgets/fade_on_scroll.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
@@ -102,25 +101,12 @@ class _EarnView extends StatelessWidget {
               ),
             ),
             SliverToBoxAdapter(
-              child: SBasicHeader(
-                title: intl.earn_active_earns,
-                buttonTitle: intl.earn_view_all,
-                onTap: () {},
-              ),
-            ),
-            //! remove with actual data
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) => SDepositCard(),
-                childCount: 2,
-              ),
+              child: EarnPositionsListWidget(earnPositions: store.earnPositions),
             ),
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
-
             SliverToBoxAdapter(
               child: OffersListWidget(offers: store.earnOffers),
             ),
-
             const SliverToBoxAdapter(
               child: SizedBox(height: 32),
             ),

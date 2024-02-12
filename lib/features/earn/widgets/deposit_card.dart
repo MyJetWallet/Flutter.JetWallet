@@ -4,8 +4,17 @@ import 'package:jetwallet/features/earn/widgets/deposit_card_badge.dart';
 import 'package:jetwallet/features/earn/widgets/link_label.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
+import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
+import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
 class SDepositCard extends StatelessWidget {
+  const SDepositCard({
+    super.key,
+    required this.earnPosition,
+  });
+
+  final EarnOfferClientModel earnPosition;
+
   @override
   Widget build(BuildContext context) {
     final colors = SColorsLight();
@@ -68,7 +77,7 @@ class CryptoCardHeader extends StatelessWidget {
             ],
           ),
         ),
-        const SDepositCardBadge(status: EarnPositionStatus.activeShow),
+        const SDepositCardBadge(status: EarnPositionStatus.active),
       ],
     );
   }

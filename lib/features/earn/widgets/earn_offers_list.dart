@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -77,7 +78,8 @@ class OffersListWidget extends StatelessWidget {
 
     final uniqueOffers = <EarnOfferClientModel>[];
     offersGroupedByCurrency.forEach((description, offers) {
-      final highestApyOffer = offers.reduce((curr, next) => curr.apyRate > next.apyRate ? curr : next);
+      final highestApyOffer =
+          offers.reduce((curr, next) => (curr.apyRate ?? Decimal.zero) > (next.apyRate ?? Decimal.zero) ? curr : next);
       uniqueOffers.add(highestApyOffer);
     });
 

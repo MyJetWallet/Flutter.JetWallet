@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/texts/simple_text_styles.dart';
-
-enum EarnPositionStatus {
-  unknown,
-  activeShow,
-  activeHide,
-  closed,
-}
+import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 
 class SDepositCardBadge extends StatelessWidget {
   const SDepositCardBadge({
@@ -70,9 +64,9 @@ class SDepositCardBadge extends StatelessWidget {
 
   Color _getBGColor(EarnPositionStatus status, SColorsLight colors) {
     switch (status) {
-      case EarnPositionStatus.activeShow:
+      case EarnPositionStatus.active:
         return colors.greenExtraLight;
-      case EarnPositionStatus.activeHide:
+      case EarnPositionStatus.closing:
         return colors.blueExtraLight;
       case EarnPositionStatus.closed:
         return colors.redExtraLight;
@@ -83,9 +77,9 @@ class SDepositCardBadge extends StatelessWidget {
 
   Color _getMainColor(EarnPositionStatus status, SColorsLight colors) {
     switch (status) {
-      case EarnPositionStatus.activeShow:
+      case EarnPositionStatus.active:
         return colors.green;
-      case EarnPositionStatus.activeHide:
+      case EarnPositionStatus.closing:
         return colors.blue;
       case EarnPositionStatus.closed:
         return colors.red;
@@ -96,9 +90,9 @@ class SDepositCardBadge extends StatelessWidget {
 
   String _getTextForStatus(EarnPositionStatus status) {
     switch (status) {
-      case EarnPositionStatus.activeShow:
+      case EarnPositionStatus.active:
         return 'Earning';
-      case EarnPositionStatus.activeHide:
+      case EarnPositionStatus.closing:
         return 'Hidden';
       case EarnPositionStatus.closed:
         return 'Closed';
