@@ -7,7 +7,7 @@ import 'package:jetwallet/features/earn/widgets/link_label.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/shared/simple_network_svg.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
-import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
+import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 
 class SDepositCard extends StatelessWidget {
   const SDepositCard({
@@ -15,7 +15,7 @@ class SDepositCard extends StatelessWidget {
     required this.earnPosition,
   });
 
-  final EarnOfferClientModel earnPosition;
+  final EarnPositionClientModel earnPosition;
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +40,10 @@ class SDepositCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CryptoCardHeader(
-                name: earnPosition.name,
+                name: earnPosition.offerId,
                 iconUrl: earnPosition.assetId,
-                apyRate: earnPosition.apyRate.toString(),
-                earnPositoinStatus: earnPosition.earnOfferStatus,
+                apyRate: '',
+                earnPositoinStatus: earnPosition.status,
               ),
               const SizedBox(height: 16),
               const CryptoCardBody(
@@ -70,7 +70,7 @@ class CryptoCardHeader extends StatelessWidget {
   final String? iconUrl;
   final String? name;
   final String? apyRate;
-  final EarnOfferStatus earnPositoinStatus;
+  final EarnPositionStatus earnPositoinStatus;
 
   @override
   Widget build(BuildContext context) {

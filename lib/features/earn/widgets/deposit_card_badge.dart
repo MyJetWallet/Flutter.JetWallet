@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/texts/simple_text_styles.dart';
-import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
+import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 
 class SDepositCardBadge extends StatelessWidget {
   const SDepositCardBadge({
@@ -10,7 +10,7 @@ class SDepositCardBadge extends StatelessWidget {
     this.isLoading = false,
   });
 
-  final EarnOfferStatus status;
+  final EarnPositionStatus status;
   final bool isLoading;
 
   @override
@@ -62,37 +62,39 @@ class SDepositCardBadge extends StatelessWidget {
     );
   }
 
-  Color _getBGColor(EarnOfferStatus status, SColorsLight colors) {
+  Color _getBGColor(EarnPositionStatus status, SColorsLight colors) {
     switch (status) {
-      case EarnOfferStatus.activeShow:
-      case EarnOfferStatus.activeHide:
+      case EarnPositionStatus.active:
         return colors.greenExtraLight;
-      case EarnOfferStatus.closed:
+      case EarnPositionStatus.closing:
+        return colors.blueExtraLight;
+      case EarnPositionStatus.closed:
         return colors.redExtraLight;
       default:
         return colors.grey5;
     }
   }
 
-  Color _getMainColor(EarnOfferStatus status, SColorsLight colors) {
+  Color _getMainColor(EarnPositionStatus status, SColorsLight colors) {
     switch (status) {
-      case EarnOfferStatus.activeShow:
-      case EarnOfferStatus.activeHide:
+      case EarnPositionStatus.active:
         return colors.green;
-      case EarnOfferStatus.closed:
+      case EarnPositionStatus.closing:
+        return colors.blue;
+      case EarnPositionStatus.closed:
         return colors.red;
       default:
         return colors.grey1;
     }
   }
 
-  String _getTextForStatus(EarnOfferStatus status) {
+  String _getTextForStatus(EarnPositionStatus status) {
     switch (status) {
-      case EarnOfferStatus.activeShow:
+      case EarnPositionStatus.active:
         return 'Earning';
-      case EarnOfferStatus.activeHide:
+      case EarnPositionStatus.closing:
         return 'Hidden';
-      case EarnOfferStatus.closed:
+      case EarnPositionStatus.closed:
         return 'Closed';
       default:
         return 'Unknown';

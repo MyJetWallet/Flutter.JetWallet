@@ -9,7 +9,7 @@ part 'active_earn_positions_model.g.dart';
 @freezed
 class ActiveEarnPositionsMessage with _$ActiveEarnPositionsMessage {
   const factory ActiveEarnPositionsMessage({
-    required List<EarnOfferClientModel> positions,
+    required List<EarnPositionClientModel> positions,
   }) = _ActiveEarnPositionsMessage;
 
   factory ActiveEarnPositionsMessage.fromJson(Map<String, dynamic> json) => _$ActiveEarnPositionsMessageFromJson(json);
