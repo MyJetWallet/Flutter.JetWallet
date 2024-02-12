@@ -1,10 +1,12 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/widgets/deposit_card_badge.dart';
 import 'package:jetwallet/features/earn/widgets/link_label.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
+import 'package:simple_kit/modules/shared/simple_network_svg.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
-import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
 class SDepositCard extends StatelessWidget {
@@ -32,14 +34,23 @@ class SDepositCard extends StatelessWidget {
           side: BorderSide(color: colors.grey4),
         ),
         color: colors.white,
-        child: const Padding(
-          padding: EdgeInsets.all(16.0),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CryptoCardHeader(),
-              SizedBox(height: 16),
-              CryptoCardBody(),
+              CryptoCardHeader(
+                name: earnPosition.name,
+                iconUrl: earnPosition.assetId,
+                apyRate: earnPosition.apyRate.toString(),
+                earnPositoinStatus: earnPosition.earnOfferStatus,
+              ),
+              const SizedBox(height: 16),
+              const CryptoCardBody(
+                //! There to get this data
+                balance: '999',
+                revenue: '999',
+              ),
             ],
           ),
         ),
@@ -49,42 +60,71 @@ class SDepositCard extends StatelessWidget {
 }
 
 class CryptoCardHeader extends StatelessWidget {
-  const CryptoCardHeader();
+  const CryptoCardHeader({
+    this.iconUrl,
+    this.name,
+    this.apyRate,
+    required this.earnPositoinStatus,
+  });
+
+  final String? iconUrl;
+  final String? name;
+  final String? apyRate;
+  final EarnOfferStatus earnPositoinStatus;
 
   @override
   Widget build(BuildContext context) {
+    final currencies = sSignalRModules.currenciesList;
+
+    final currency = currencies.firstWhereOrNull(
+      (currency) => currency.symbol == iconUrl,
+    );
+
     final colors = SColorsLight();
 
     return Row(
       children: [
         CircleAvatar(
-          backgroundColor: colors.orange,
-          child: Icon(Icons.currency_bitcoin, color: colors.white),
+          backgroundColor: Colors.transparent,
+          child: currency != null
+              ? SNetworkSvg(
+                  url: currency.iconUrl,
+                  width: 40,
+                  height: 40,
+                )
+              : const SizedBox.shrink(),
         ),
         const SizedBox(width: 12),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SLinkLabel(
-                title: 'Bitcoin',
-                onTap: () {},
-              ),
+              if (name != null)
+                SLinkLabel(
+                  title: name!,
+                  onTap: () {},
+                ),
               Text(
-                'Variable APY 17.23%',
+                'Variable APY $apyRate%',
                 style: STStyles.body2Medium.copyWith(color: colors.grey1),
               ),
             ],
           ),
         ),
-        const SDepositCardBadge(status: EarnPositionStatus.active),
+        SDepositCardBadge(status: earnPositoinStatus),
       ],
     );
   }
 }
 
 class CryptoCardBody extends StatelessWidget {
-  const CryptoCardBody();
+  const CryptoCardBody({
+    required this.balance,
+    required this.revenue,
+  });
+
+  final String balance;
+  final String revenue;
 
   @override
   Widget build(BuildContext context) {
@@ -101,8 +141,9 @@ class CryptoCardBody extends StatelessWidget {
           children: [
             CryptoBodyColumn(
               title: intl.earn_balance,
-              amount: '14.43 EUR',
-              btcAmount: '0.365 BTC',
+              //! Alex S. fix this values
+              amount: '$balance EUR',
+              btcAmount: '$balance BTC',
             ),
             Container(
               height: 50,
@@ -112,8 +153,9 @@ class CryptoCardBody extends StatelessWidget {
             const SizedBox(width: 24),
             CryptoBodyColumn(
               title: intl.earn_revenue,
-              amount: '92.12 EUR',
-              btcAmount: '0.00234 BTC',
+              //! Alex S. fix this values
+              amount: '$revenue EUR',
+              btcAmount: '$revenue BTC',
             ),
           ],
         ),
