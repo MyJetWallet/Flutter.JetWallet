@@ -4,6 +4,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
 part 'earn_store.g.dart';
@@ -25,6 +26,9 @@ abstract class _EarnStoreBase with Store {
           )
           .toList() ??
       [];
+
+  @computed
+  List<EarnOfferClientModel> get earnPositions => sSignalRModules.activeEarnPositionsMessage?.positions ?? [];
 
   @computed
   bool get isBalanceHide => !getIt<AppStore>().isBalanceHide;
