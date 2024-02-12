@@ -1,14 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/store/earn_store.dart';
 import 'package:jetwallet/features/earn/widgets/basic_banner.dart';
 import 'package:jetwallet/features/earn/widgets/basic_header.dart';
-import 'package:jetwallet/features/earn/widgets/chips_suggestion_m.dart';
 import 'package:jetwallet/features/earn/widgets/deposit_card.dart';
+import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
 import 'package:jetwallet/features/earn/widgets/price_header.dart';
 import 'package:jetwallet/features/market/ui/widgets/fade_on_scroll.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
@@ -125,35 +124,11 @@ class _EarnView extends StatelessWidget {
                 onTap: () {},
               ),
             ),
-            SliverToBoxAdapter(
-              child: Observer(
-                builder: (context) {
-                  if (store.earnOffers.isNotEmpty) {
-                    return Column(
-                      children: List.generate(store.earnOffers.length, (index) {
-                        final offer = store.earnOffers[index];
-                        final currency = sSignalRModules.currenciesList.firstWhere(
-                          (currency) => currency.symbol == offer.assetId,
-                        );
 
-                        return ChipsSuggestionM(
-                          percentage: offer.apyRate.toString(),
-                          cryptoName: currency.description,
-                          trailingIcon: SNetworkSvg(
-                            url: currency.iconUrl,
-                            width: 40,
-                            height: 40,
-                          ),
-                          onTap: () {},
-                        );
-                      }),
-                    );
-                  } else {
-                    return const SizedBox.shrink();
-                  }
-                },
-              ),
+            SliverToBoxAdapter(
+              child: OffersListWidget(offers: store.earnOffers),
             ),
+
             const SliverToBoxAdapter(
               child: SizedBox(height: 32),
             ),
