@@ -21,14 +21,7 @@ class EarnPositionsListWidget extends StatelessWidget {
             buttonTitle: intl.earn_view_all,
             onTap: () {},
           ),
-          ListView.builder(
-            physics: NeverScrollableScrollPhysics(), // Disables scrolling for the ListView
-            shrinkWrap: true, // Ensures that the ListView only occupies the space it needs
-            itemCount: earnPositions.length,
-            itemBuilder: (context, index) {
-              return SDepositCard(earnPosition: earnPositions[index]);
-            },
-          ),
+          ...earnPositions.map((e) => SDepositCard(earnPosition: e)).toList(),
         ],
       ),
     );
