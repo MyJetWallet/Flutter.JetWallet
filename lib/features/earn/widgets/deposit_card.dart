@@ -1,9 +1,12 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/widgets/deposit_card_badge.dart';
 import 'package:jetwallet/features/earn/widgets/link_label.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/shared/simple_network_svg.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
@@ -19,6 +22,7 @@ class SDepositCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final formatService = getIt.get<FormatService>();
     final colors = SColorsLight();
 
     return Padding(
@@ -42,14 +46,40 @@ class SDepositCard extends StatelessWidget {
               CryptoCardHeader(
                 name: earnPosition.assetId,
                 iconUrl: earnPosition.assetId,
-                apyRate: '',
+                //! Alex S. get rate ???
+                apyRate: '999999',
                 earnPositoinStatus: earnPosition.status,
               ),
               const SizedBox(height: 16),
-              const CryptoCardBody(
-                //! There to get this data
-                balance: '999',
-                revenue: '999',
+              CryptoCardBody(
+                balance: volumeFormat(
+                  decimal: earnPosition.baseAmount,
+                  symbol: sSignalRModules.baseCurrency.symbol,
+                ),
+                balanceCrypto: volumeFormat(
+                  decimal: formatService.convertOneCurrencyToAnotherOne(
+                    fromCurrency: sSignalRModules.baseCurrency.symbol,
+                    fromCurrencyAmmount: earnPosition.baseAmount,
+                    toCurrency: earnPosition.assetId,
+                    baseCurrency: sSignalRModules.baseCurrency.symbol,
+                    isMin: true,
+                  ),
+                  symbol: earnPosition.assetId,
+                ),
+                revenue: volumeFormat(
+                  decimal: earnPosition.incomeAmount,
+                  symbol: sSignalRModules.baseCurrency.symbol,
+                ),
+                revenueCrypto: volumeFormat(
+                  decimal: formatService.convertOneCurrencyToAnotherOne(
+                    fromCurrency: sSignalRModules.baseCurrency.symbol,
+                    fromCurrencyAmmount: earnPosition.incomeAmount,
+                    toCurrency: earnPosition.assetId,
+                    baseCurrency: sSignalRModules.baseCurrency.symbol,
+                    isMin: true,
+                  ),
+                  symbol: earnPosition.assetId,
+                ),
               ),
             ],
           ),
@@ -120,11 +150,15 @@ class CryptoCardHeader extends StatelessWidget {
 class CryptoCardBody extends StatelessWidget {
   const CryptoCardBody({
     required this.balance,
+    required this.balanceCrypto,
     required this.revenue,
+    required this.revenueCrypto,
   });
 
   final String balance;
+  final String balanceCrypto;
   final String revenue;
+  final String revenueCrypto;
 
   @override
   Widget build(BuildContext context) {
@@ -141,9 +175,8 @@ class CryptoCardBody extends StatelessWidget {
           children: [
             CryptoBodyColumn(
               title: intl.earn_balance,
-              //! Alex S. fix this values
-              amount: '$balance EUR',
-              btcAmount: '$balance BTC',
+              amount: balance,
+              btcAmount: balanceCrypto,
             ),
             Container(
               height: 50,
@@ -153,9 +186,8 @@ class CryptoCardBody extends StatelessWidget {
             const SizedBox(width: 24),
             CryptoBodyColumn(
               title: intl.earn_revenue,
-              //! Alex S. fix this values
-              amount: '$revenue EUR',
-              btcAmount: '$revenue BTC',
+              amount: revenue,
+              btcAmount: revenueCrypto,
             ),
           ],
         ),
@@ -194,6 +226,7 @@ class CryptoBodyColumn extends StatelessWidget {
           Text(
             btcAmount,
             style: STStyles.body2Medium.copyWith(color: colors.grey1),
+            maxLines: 2,
           ),
         ],
       ),
