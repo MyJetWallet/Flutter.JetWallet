@@ -244,14 +244,12 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           path: 'earn',
           page: EarnRouter.page,
-          children: [
-            AutoRoute(
-              path: '/earn_positon',
-              page: EarnPositionActiveRouter.page,
-            ),
-          ],
         ),
       ],
+    ),
+    AutoRoute(
+      path: '/earn_positon',
+      page: EarnPositionActiveRouter.page,
     ),
     CustomRoute(
       path: '/verification_screen',
