@@ -3,7 +3,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/earn/widgets/basic_header.dart';
 import 'package:jetwallet/features/earn/widgets/deposit_card.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
-import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
 class EarnPositionsListWidget extends StatelessWidget {
   const EarnPositionsListWidget({

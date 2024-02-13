@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -11,6 +12,7 @@ import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/shared/simple_network_svg.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
+import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
 class SDepositCard extends StatelessWidget {
   const SDepositCard({
@@ -46,8 +48,7 @@ class SDepositCard extends StatelessWidget {
               CryptoCardHeader(
                 name: earnPosition.assetId,
                 iconUrl: earnPosition.assetId,
-                //! Alex S. get rate ???
-                apyRate: '999999',
+                apyRate: getHighestApyRateAsString(earnPosition.offers),
                 earnPositoinStatus: earnPosition.status,
               ),
               const SizedBox(height: 16),
@@ -88,6 +89,17 @@ class SDepositCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String? getHighestApyRateAsString(List<EarnOfferClientModel> offers) {
+    final highestApy = offers.fold<Decimal?>(null, (max, offer) {
+      if (offer.apyRate != null) {
+        return max == null ? offer.apyRate : Decimal.zero;
+      }
+      return max;
+    });
+
+    return highestApy?.toString();
   }
 }
 
