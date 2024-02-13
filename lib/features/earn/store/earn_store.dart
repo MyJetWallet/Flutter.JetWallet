@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/widgets.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -21,23 +22,39 @@ abstract class _EarnStoreBase with Store {
     final positions = sSignalRModules.activeEarnPositionsMessage?.positions ?? [];
     final offers = sSignalRModules.activeEarnOffersMessage?.offers ?? [];
 
-    return positions.map((position) {
+    final sortedPositions = positions.map((position) {
       final associatedOffers = offers.where((offer) => offer.id == position.offerId).toList();
 
-      return position.copyWith(offers: associatedOffers);
+      final updatedPosition = position.copyWith(offers: associatedOffers);
+
+      return updatedPosition;
     }).toList();
+
+    sortedPositions.sort((a, b) {
+      final maxApyA = a.offers
+          .map((offer) => offer.apyRate ?? Decimal.zero)
+          .reduce((value, element) => value > element ? value : element);
+      final maxApyB = b.offers
+          .map((offer) => offer.apyRate ?? Decimal.zero)
+          .reduce((value, element) => value > element ? value : element);
+
+      return maxApyB.compareTo(maxApyA);
+    });
+
+    return sortedPositions;
   }
 
   /// Reflects the best (necessary) offers [EarnOfferClientModel] with
   ///  the status EarnOffers.Promotion == true
   @computed
-  List<EarnOfferClientModel> get earnPromotionOffers =>
-      sSignalRModules.activeEarnOffersMessage?.offers
-          .where(
-            (offer) => offer.promotion == true,
-          )
-          .toList() ??
-      [];
+  List<EarnOfferClientModel> get earnPromotionOffers {
+    final offers =
+        sSignalRModules.activeEarnOffersMessage?.offers.where((offer) => offer.promotion == true).toList() ?? [];
+
+    offers.sort((a, b) => (b.apyRate ?? Decimal.zero).compareTo(a.apyRate ?? Decimal.zero));
+
+    return offers;
+  }
 
   @computed
   bool get isBalanceHide => !getIt<AppStore>().isBalanceHide;
