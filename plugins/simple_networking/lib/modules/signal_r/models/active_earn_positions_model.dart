@@ -21,6 +21,7 @@ class EarnPositionClientModel with _$EarnPositionClientModel {
     required String id,
     required String offerId,
     required String assetId,
+    @Default([]) List<EarnOfferClientModel> offers,
     @DecimalSerialiser() required Decimal baseAmount,
     @DecimalSerialiser() required Decimal incomeAmount,
     @Default(EarnPositionStatus.undefined)
