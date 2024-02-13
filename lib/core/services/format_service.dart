@@ -59,6 +59,7 @@ abstract class _FormatServiceBase with Store {
     required String toCurrency,
     required String baseCurrency,
     required bool isMin,
+    int? numbersAfterDot,
   }) {
     final fromAsset = findCurrency(
       assetSymbol: fromCurrency,
@@ -79,7 +80,9 @@ abstract class _FormatServiceBase with Store {
     final baseCurrencyToAsset = baseAsset.currentPrice.toDouble() / toAsset.currentPrice.toDouble();
 
     final toAmmount = fromCurrInBaseCurr.toDouble() * baseCurrencyToAsset;
-    final finalAmmount = Decimal.parse(toAmmount.toString());
+    final finalAmmount = Decimal.parse(
+      numbersAfterDot != null ? toAmmount.toStringAsFixed(numbersAfterDot) : toAmmount.toString(),
+    );
 
     return finalAmmount;
   }

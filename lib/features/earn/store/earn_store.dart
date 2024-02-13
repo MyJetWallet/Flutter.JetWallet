@@ -22,7 +22,7 @@ abstract class _EarnStoreBase with Store {
   /// Reflects the best (necessary) offers [EarnOfferClientModel] with
   ///  the status EarnOffers.Promotion == true
   @computed
-  List<EarnOfferClientModel> get earnOffers =>
+  List<EarnOfferClientModel> get earnPromotionOffers =>
       sSignalRModules.activeEarnOffersMessage?.offers
           .where(
             (offer) => offer.promotion == true,
