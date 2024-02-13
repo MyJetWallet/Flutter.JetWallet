@@ -51,14 +51,18 @@ class SBasicHeader extends StatelessWidget {
                   title,
                   style: sTextH4Style,
                 ),
-              if (onTap != null && buttonTitle != null)
-                GestureDetector(
-                  onTap: onTap,
-                  child: Text(
-                    buttonTitle!,
-                    style: STStyles.button.copyWith(color: colors.blue),
+              if (onTap != null && buttonTitle != null) ...[
+                const SizedBox(width: 8),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: onTap,
+                    child: Text(
+                      buttonTitle!,
+                      style: STStyles.button.copyWith(color: colors.blue),
+                    ),
                   ),
                 ),
+              ],
             ],
           ),
         ],

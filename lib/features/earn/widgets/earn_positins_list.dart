@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/earn/widgets/basic_header.dart';
 import 'package:jetwallet/features/earn/widgets/deposit_card.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
@@ -21,7 +23,16 @@ class EarnPositionsListWidget extends StatelessWidget {
             buttonTitle: intl.earn_view_all,
             onTap: () {},
           ),
-          ...earnPositions.map((e) => SDepositCard(earnPosition: e)).toList(),
+          ...earnPositions
+              .map(
+                (e) => SDepositCard(
+                  earnPosition: e,
+                  onTap: () => context.router.push(
+                    EarnPositionActiveRouter(earnPosition: e),
+                  ),
+                ),
+              )
+              .toList(),
         ],
       ),
     );
