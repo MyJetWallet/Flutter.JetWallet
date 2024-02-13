@@ -1,32 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/texts/simple_text_styles.dart';
-
-enum SDepositCardBadgeStatus {
-  primary,
-  success,
-  error,
-  pending,
-}
+import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 
 class SDepositCardBadge extends StatelessWidget {
   const SDepositCardBadge({
     super.key,
     required this.status,
-    required this.text,
     this.isLoading = false,
   });
 
-  final SDepositCardBadgeStatus status;
-  final String text;
+  final EarnPositionStatus status;
   final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
+    final colors = SColorsLight();
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       decoration: BoxDecoration(
-        color: getBGColor,
+        color: _getBGColor(status, colors),
         borderRadius: BorderRadius.circular(18),
       ),
       child: Row(
@@ -38,27 +33,17 @@ class SDepositCardBadge extends StatelessWidget {
               width: 16,
               child: CircularProgressIndicator(
                 strokeWidth: 2,
-                color: getMainColor,
+                color: _getMainColor(status, colors),
               ),
             )
           else
-            status == SDepositCardBadgeStatus.error
-                ? _buildDot(
-                    color: getMainColor,
-                  )
-                : status == SDepositCardBadgeStatus.pending
-                    ? _buildDot(
-                        color: getMainColor,
-                      )
-                    : _buildDot(
-                        color: getMainColor,
-                      ),
+            _buildDot(color: _getMainColor(status, colors)),
           const SizedBox(width: 4),
           Text(
-            text,
+            _getTextForStatus(status),
             style: sBodyText1Style.copyWith(
               height: 1,
-              color: getMainColor,
+              color: _getMainColor(status, colors),
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -78,33 +63,42 @@ class SDepositCardBadge extends StatelessWidget {
     );
   }
 
-  Color get getBGColor {
+  Color _getBGColor(EarnPositionStatus status, SColorsLight colors) {
     switch (status) {
-      case SDepositCardBadgeStatus.primary:
-        return SColorsLight().blueExtraLight;
-      case SDepositCardBadgeStatus.pending:
-        return SColorsLight().grey5;
-      case SDepositCardBadgeStatus.success:
-        return SColorsLight().greenExtraLight;
-      case SDepositCardBadgeStatus.error:
-        return SColorsLight().redExtraLight;
+      case EarnPositionStatus.active:
+        return colors.greenExtraLight;
+      case EarnPositionStatus.closing:
+        return colors.blueExtraLight;
+      case EarnPositionStatus.closed:
+        return colors.redExtraLight;
       default:
-        return SColorsLight().blueExtraLight;
+        return colors.grey5;
     }
   }
 
-  Color get getMainColor {
+  Color _getMainColor(EarnPositionStatus status, SColorsLight colors) {
     switch (status) {
-      case SDepositCardBadgeStatus.primary:
-        return SColorsLight().blue;
-      case SDepositCardBadgeStatus.pending:
-        return SColorsLight().grey1;
-      case SDepositCardBadgeStatus.success:
-        return SColorsLight().green;
-      case SDepositCardBadgeStatus.error:
-        return SColorsLight().red;
+      case EarnPositionStatus.active:
+        return colors.green;
+      case EarnPositionStatus.closing:
+        return colors.blue;
+      case EarnPositionStatus.closed:
+        return colors.red;
       default:
-        return SColorsLight().blueExtraLight;
+        return colors.grey1;
+    }
+  }
+
+  String _getTextForStatus(EarnPositionStatus status) {
+    switch (status) {
+      case EarnPositionStatus.active:
+        return intl.earn_earning;
+      case EarnPositionStatus.closing:
+        return intl.earn_closing;
+      case EarnPositionStatus.closed:
+        return intl.earn_closed;
+      default:
+        return intl.earn_unknown;
     }
   }
 }

@@ -18,18 +18,18 @@ class ActiveEarnOffersMessage with _$ActiveEarnOffersMessage {
 class EarnOfferClientModel with _$EarnOfferClientModel {
   const factory EarnOfferClientModel({
     required String id,
-    required String name,
-    required String description,
+    String? name,
+    String? description,
     required String assetId,
     @Default(EarnOfferStatus.undefined)
     @JsonKey(unknownEnumValue: EarnOfferStatus.undefined)
     EarnOfferStatus earnOfferStatus,
     @Default(WithdrawType.undefined) @JsonKey(unknownEnumValue: WithdrawType.undefined) WithdrawType withdrawType,
-    @DecimalSerialiser() required Decimal apyRate,
-    required int paymentPeriodDays,
-    @DecimalSerialiser() required Decimal minAmount,
-    required int lockPeriod,
-    required bool promotion,
+    @DecimalNullSerialiser() Decimal? apyRate,
+    int? paymentPeriodDays,
+    @DecimalNullSerialiser() Decimal? minAmount,
+    int? lockPeriod,
+    @Default(false) bool promotion,
   }) = _EarnOfferClientModel;
 
   factory EarnOfferClientModel.fromJson(Map<String, dynamic> json) => _$EarnOfferClientModelFromJson(json);
