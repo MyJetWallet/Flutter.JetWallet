@@ -1770,5 +1770,20 @@
     "simple_card_is_ready": "Karta Simple jest gotowa",
     "simple_card_password_repeatable_characters": "Nie może zawierać więcej niż 3 powtarzające się znaki pod rząd",
     "simple_card_password_whitespace": "Znak spacji jest niedozwolony",
-    "simple_card_password_repeatable_allowed_symbols": "Dozwolone są następujące symbole specjalne:"
+    "simple_card_password_repeatable_allowed_symbols": "Dozwolone są następujące symbole specjalne:",
+    "earn_earn": "Zarabiaj",
+    "earn_funds_are_calculated_based_on_the_current_value": "Fundusze są kalkulowane na podstawie bieżącej wartości kryptoaktywów",
+    "earn_total": "Łącznie",
+    "earn_revenue": "Dochód",
+    "earn_active_earns": "Aktywne zarobki",
+    "earn_view_all": "Zobacz wszystkie",
+    "earn_balance": "Saldo",
+    "earn_most_profitable_earns": "Najbardziej zyskowne zarobki",
+    "earn_top_offers": "Top oferty",
+    "earn_up_to": "Do",
+    "earn_earning": "Zarabianie",
+    "earn_closing": "Zamykanie",
+    "earn_closed": "Zakończono",
+    "earn_unknown": "Nieznany",
+    "earn_variable_apy": "Zmienny APY"
 }
