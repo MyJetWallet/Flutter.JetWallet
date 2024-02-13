@@ -53,6 +53,12 @@ class _EarnView extends StatelessWidget {
     final store = EarnStore.of(context);
     final colors = sKit.colors;
 
+    print('Positions ==============');
+    store.earnPositions.forEach((element) => print(element));
+
+    print('Offers ==============');
+    store.earnPromotionOffers.forEach((element) => print(element));
+
     return Scaffold(
       body: NestedScrollView(
         controller: controller,
@@ -105,7 +111,7 @@ class _EarnView extends StatelessWidget {
             ),
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
             SliverToBoxAdapter(
-              child: OffersListWidget(offers: store.earnOffers),
+              child: OffersListWidget(offers: store.earnPromotionOffers),
             ),
             const SliverToBoxAdapter(
               child: SizedBox(height: 32),
