@@ -74,7 +74,7 @@ class OffersListWidget extends StatelessWidget {
   ) {
     final offersGroupedByCurrency = groupBy(offers, (EarnOfferClientModel offer) {
       final currency = currencies.firstWhereOrNull((currency) => currency.symbol == offer.assetId);
-      return currency?.description ?? 'Unknown';
+      return currency?.description ?? '';
     });
 
     final uniqueOffers = <EarnOfferClientModel>[];

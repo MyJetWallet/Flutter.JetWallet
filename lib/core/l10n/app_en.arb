@@ -1728,5 +1728,10 @@
     "earn_balance": "Balance",
     "earn_most_profitable_earns": "The most profitable earns",
     "earn_top_offers": "Top offers",
-    "earn_up_to": "Up to"
+    "earn_up_to": "Up to",
+    "earn_earning": "Earning",
+    "earn_closing": "Closing",
+    "earn_closed": "Closed",
+    "earn_unknown": "Unknown",
+    "earn_variable_apy": "Variable APY"
 }
