@@ -61,8 +61,6 @@ class SignalRService {
           message: 'Force Reconnect SignalR',
         );
 
-    sSignalRModules.setInitFinished(false);
-
     try {
       await getIt.unregister<SignalRModuleNew>(
         instanceName: signalRSingletinName,
