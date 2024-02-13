@@ -7402,5 +7402,76 @@
     "simple_card_is_ready": "Карта Simple готова",
     "simple_card_password_repeatable_characters": "Не має містити більше 3 повторюваних символів підряд",
     "simple_card_password_whitespace": "Пробіл не дозволений",
-    "simple_card_password_repeatable_allowed_symbols": "Дозволені наступні спеціальні символи:"
+    "simple_card_password_repeatable_allowed_symbols": "Дозволені наступні спеціальні символи:",
+    "earn_earn": "Зароблено",
+    "@earn_earn": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/XKUJ00h5dZvM2PFYGRwm5qvf.png",
+        "type": "text"
+    },
+    "earn_funds_are_calculated_based_on_the_current_value": "Кошти розраховані згідно з поточною вартістю криптоактивів",
+    "@earn_funds_are_calculated_based_on_the_current_value": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/XKUJ00h5dZvM2PFYGRwm5qvf.png",
+        "type": "text"
+    },
+    "earn_total": "Загалом",
+    "@earn_total": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/XKUJ00h5dZvM2PFYGRwm5qvf.png",
+        "type": "text"
+    },
+    "earn_revenue": "Дохід",
+    "@earn_revenue": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/XKUJ00h5dZvM2PFYGRwm5qvf.png",
+        "type": "text"
+    },
+    "earn_active_earns": "Активні заробітки",
+    "@earn_active_earns": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/XKUJ00h5dZvM2PFYGRwm5qvf.png",
+        "type": "text"
+    },
+    "earn_view_all": "Переглянути всі",
+    "@earn_view_all": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/4BIQY6Y7Z2YOA2063BBYdkBI.png",
+        "type": "text"
+    },
+    "earn_balance": "Баланс",
+    "@earn_balance": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/POmX66TCy4cJElIIkJGknw5s.png",
+        "type": "text"
+    },
+    "earn_most_profitable_earns": "Найвигідніші варіанти",
+    "@earn_most_profitable_earns": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/4BIQY6Y7Z2YOA2063BBYdkBI.png",
+        "type": "text"
+    },
+    "earn_top_offers": "Топ пропозицій",
+    "@earn_top_offers": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/4BIQY6Y7Z2YOA2063BBYdkBI.png",
+        "type": "text"
+    },
+    "earn_up_to": "До",
+    "@earn_up_to": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/4BIQY6Y7Z2YOA2063BBYdkBI.png",
+        "type": "text"
+    },
+    "earn_earning": "Заробіток",
+    "@earn_earning": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/POmX66TCy4cJElIIkJGknw5s.png",
+        "type": "text"
+    },
+    "earn_closing": "Закриття",
+    "@earn_closing": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/POmX66TCy4cJElIIkJGknw5s.png",
+        "type": "text"
+    },
+    "earn_closed": "Завершено",
+    "earn_unknown": "Невідомий",
+    "@earn_unknown": {
+        "description": "Статусы эрна",
+        "type": "text"
+    },
+    "earn_variable_apy": "Змінний APY",
+    "@earn_variable_apy": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/POmX66TCy4cJElIIkJGknw5s.png",
+        "type": "text"
+    }
 }
