@@ -17,7 +17,16 @@ class EarnStore extends _EarnStoreBase with _$EarnStore {
 
 abstract class _EarnStoreBase with Store {
   @computed
-  List<EarnPositionClientModel> get earnPositions => sSignalRModules.activeEarnPositionsMessage?.positions ?? [];
+  List<EarnPositionClientModel> get earnPositions {
+    final positions = sSignalRModules.activeEarnPositionsMessage?.positions ?? [];
+    final offers = sSignalRModules.activeEarnOffersMessage?.offers ?? [];
+
+    return positions.map((position) {
+      final associatedOffers = offers.where((offer) => offer.id == position.offerId).toList();
+
+      return position.copyWith(offers: associatedOffers);
+    }).toList();
+  }
 
   /// Reflects the best (necessary) offers [EarnOfferClientModel] with
   ///  the status EarnOffers.Promotion == true

@@ -8,22 +8,24 @@ import 'package:jetwallet/features/earn/widgets/basic_header.dart';
 import 'package:jetwallet/features/earn/widgets/chips_suggestion_m.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/modules/shared/simple_network_svg.dart';
-import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
+import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
+import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart'; // Adjust your import
 
 class OffersListWidget extends StatelessWidget {
-  const OffersListWidget({super.key, required this.offers});
-  final List<EarnOfferClientModel> offers;
+  const OffersListWidget({super.key, required this.earnPositions});
+  final List<EarnPositionClientModel> earnPositions;
 
   @override
   Widget build(BuildContext context) {
     final currencies = sSignalRModules.currenciesList;
+
+    final offers = earnPositions.expand((position) => position.offers).toList();
     final uniqueOffers = _getUniqueHighestApyOffers(offers, currencies);
 
     return Observer(
       builder: (context) {
         return Column(
           children: [
-            /// header
             SBasicHeader(
               title: intl.earn_top_offers,
               buttonTitle: intl.earn_view_all,
@@ -36,7 +38,6 @@ class OffersListWidget extends StatelessWidget {
                 orElse: () => CurrencyModel.empty(),
               );
 
-              /// offers
               return ChipsSuggestionM(
                 percentage: offer.apyRate.toString(),
                 cryptoName: currency.description,
@@ -48,10 +49,10 @@ class OffersListWidget extends StatelessWidget {
                       )
                     : const SizedBox.shrink(),
                 onTap: () {
-                  final relatedOffers = offers.where((o) {
-                    final offerCurrency = currencies.firstWhereOrNull((c) => c.symbol == o.assetId);
-                    return offerCurrency?.description == currency.description;
-                  }).toList();
+                  final relatedOffers = earnPositions
+                      .expand((position) => position.offers)
+                      .where((o) => o.assetId == offer.assetId)
+                      .toList();
 
                   for (final relatedOffer in relatedOffers) {
                     print(
