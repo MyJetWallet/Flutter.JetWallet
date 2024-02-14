@@ -23,7 +23,7 @@ class ClientDetailModel with _$ClientDetailModel {
 @Freezed(makeCollectionsUnmodifiable: false)
 class ClientBlockerInfoModel with _$ClientBlockerInfoModel {
   const factory ClientBlockerInfoModel({
-    required BlockingType blockingType,
+    @Default(BlockingType.unknown) @JsonKey(unknownEnumValue: BlockingType.unknown) BlockingType blockingType,
     @JsonKey(name: 'toExpired') required String timespanToExpire,
     DateTime? expireDateTime,
   }) = _ClientBlockerInfoModel;
@@ -44,4 +44,9 @@ enum BlockingType {
   phoneNumberUpdate,
   @JsonValue(5)
   deposit,
+  @JsonValue(6)
+  simpleToBanking,
+  @JsonValue(7)
+  banking,
+  unknown,
 }
