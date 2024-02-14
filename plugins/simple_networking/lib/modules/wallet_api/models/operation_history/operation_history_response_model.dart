@@ -641,7 +641,7 @@ class IbanWithdrawalInfo with _$IbanWithdrawalInfo {
     String? receiveAsset,
     @DecimalSerialiser() required Decimal receiveAmount,
     @DecimalSerialiser() required Decimal receiveRate,
-    @DecimalNullSerialiser()  Decimal? withdrawalAmount,
+    @DecimalNullSerialiser() Decimal? withdrawalAmount,
     String? withdrawalAssetId,
   }) = _IbanWithdrawalInfo;
 
@@ -757,6 +757,9 @@ class CardPurchaseInfo with _$CardPurchaseInfo {
     String? paymentFeeAssetId,
     @DecimalSerialiser() required Decimal paymentFeeAmount,
     String? cardId,
+    String? rateBaseAsset,
+    String? rateQuoteAsset,
+    @DecimalNullSerialiser() Decimal? paymentAmount,
   }) = _CardPurchaseInfo;
 
   factory CardPurchaseInfo.fromJson(Map<String, dynamic> json) => _$CardPurchaseInfoFromJson(json);
@@ -765,7 +768,6 @@ class CardPurchaseInfo with _$CardPurchaseInfo {
 @freezed
 class CardRefundInfo with _$CardRefundInfo {
   const factory CardRefundInfo({
-    String? paymentAssetId,
     String? description,
     @DecimalSerialiser() required Decimal rate,
     String? cardLabel,
@@ -775,6 +777,10 @@ class CardRefundInfo with _$CardRefundInfo {
     String? paymentFeeAssetId,
     @DecimalSerialiser() required Decimal paymentFeeAmount,
     String? cardId,
+    String? paymentAssetId,
+    String? rateBaseAsset,
+    String? rateQuoteAsset,
+    @DecimalNullSerialiser() Decimal? paymentAmount,
   }) = _CardRefundInfo;
 
   factory CardRefundInfo.fromJson(Map<String, dynamic> json) => _$CardRefundInfoFromJson(json);
@@ -783,7 +789,6 @@ class CardRefundInfo with _$CardRefundInfo {
 @freezed
 class CardWithdrawalInfo with _$CardWithdrawalInfo {
   const factory CardWithdrawalInfo({
-    String? paymentAssetId,
     String? description,
     @DecimalSerialiser() required Decimal rate,
     String? cardLabel,
@@ -793,6 +798,10 @@ class CardWithdrawalInfo with _$CardWithdrawalInfo {
     String? paymentFeeAssetId,
     @DecimalSerialiser() required Decimal paymentFeeAmount,
     String? cardId,
+    String? paymentAssetId,
+    @DecimalNullSerialiser() Decimal? paymentAmount,
+    String? rateBaseAsset,
+    String? rateQuoteAsset,
   }) = _CardWithdrawalInfo;
 
   factory CardWithdrawalInfo.fromJson(Map<String, dynamic> json) => _$CardWithdrawalInfoFromJson(json);
