@@ -4,6 +4,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/earn/widgets/basic_header.dart';
 import 'package:jetwallet/features/earn/widgets/deposit_card.dart';
+import 'package:simple_kit_updated/widgets/table/placeholder/simple_placeholder.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 
 class EarnPositionsListWidget extends StatelessWidget {
@@ -23,6 +24,11 @@ class EarnPositionsListWidget extends StatelessWidget {
             buttonTitle: intl.earn_view_all,
             onTap: () {},
           ),
+          if (earnPositions.isEmpty)
+            SPlaceholder(
+              size: SPlaceholderSize.l,
+              text: intl.wallet_simple_account_empty,
+            ),
           ...earnPositions
               .map(
                 (e) => SDepositCard(

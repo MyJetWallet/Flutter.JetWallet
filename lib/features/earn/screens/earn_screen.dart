@@ -84,22 +84,23 @@ class _EarnView extends StatelessWidget {
             SliverToBoxAdapter(
               child: SBasicBanner(text: intl.earn_funds_are_calculated_based_on_the_current_value),
             ),
-            SliverToBoxAdapter(
-              child: SPriceHeader(
-                totalSum: store.isBalanceHide
-                    ? volumeFormat(
-                        decimal: sSignalRModules.earnWalletProfileData?.total ?? Decimal.zero,
-                        symbol: sSignalRModules.baseCurrency.symbol,
-                      )
-                    : '**** ${sSignalRModules.baseCurrency.symbol}',
-                revenueSum: store.isBalanceHide
-                    ? volumeFormat(
-                        decimal: sSignalRModules.earnWalletProfileData?.balance ?? Decimal.zero,
-                        symbol: sSignalRModules.baseCurrency.symbol,
-                      )
-                    : '**** ${sSignalRModules.baseCurrency.symbol}',
+            if (store.earnPositions.isNotEmpty)
+              SliverToBoxAdapter(
+                child: SPriceHeader(
+                  totalSum: store.isBalanceHide
+                      ? volumeFormat(
+                          decimal: sSignalRModules.earnWalletProfileData?.total ?? Decimal.zero,
+                          symbol: sSignalRModules.baseCurrency.symbol,
+                        )
+                      : '**** ${sSignalRModules.baseCurrency.symbol}',
+                  revenueSum: store.isBalanceHide
+                      ? volumeFormat(
+                          decimal: sSignalRModules.earnWalletProfileData?.balance ?? Decimal.zero,
+                          symbol: sSignalRModules.baseCurrency.symbol,
+                        )
+                      : '**** ${sSignalRModules.baseCurrency.symbol}',
+                ),
               ),
-            ),
             SliverToBoxAdapter(
               child: EarnPositionsListWidget(earnPositions: store.earnPositions),
             ),
