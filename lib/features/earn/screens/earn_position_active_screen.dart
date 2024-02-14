@@ -30,8 +30,6 @@ class EarnPositionActiveScreen extends StatelessWidget {
     return Provider<EarnStore>(
       create: (context) => EarnStore(),
       builder: (context, child) {
-        final colors = SColorsLight();
-        final formatService = getIt.get<FormatService>();
         final currencies = sSignalRModules.currenciesList;
 
         final currency = currencies.firstWhere(
@@ -55,195 +53,7 @@ class EarnPositionActiveScreen extends StatelessWidget {
                         left: 24,
                         right: 24,
                       ),
-
-                      //! Plsease create new widget with needed params
-                      //! and name it ActiveEarnPositionView
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          //! icon
-                          Row(
-                            children: [
-                              SNetworkSvg(
-                                url: currency.iconUrl,
-                                width: 24,
-                                height: 24,
-                              ),
-                              const SizedBox(width: 4),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 4),
-                                child: Text(
-                                  earnPosition.assetId,
-                                  style: STStyles.subtitle1.copyWith(color: colors.black),
-                                ),
-                              ),
-                            ],
-                          ),
-                          //! Amount
-                          Text(
-                            volumeFormat(
-                              decimal: earnPosition.baseAmount,
-                              symbol: sSignalRModules.baseCurrency.symbol,
-                            ),
-                            style: STStyles.header3.copyWith(
-                              color: colors.black,
-                            ),
-                          ),
-                          Text(
-                            volumeFormat(
-                              decimal: formatService.convertOneCurrencyToAnotherOne(
-                                fromCurrency: sSignalRModules.baseCurrency.symbol,
-                                fromCurrencyAmmount: earnPosition.baseAmount,
-                                toCurrency: earnPosition.assetId,
-                                baseCurrency: sSignalRModules.baseCurrency.symbol,
-                                isMin: true,
-                                numbersAfterDot: 2,
-                              ),
-                              symbol: earnPosition.assetId,
-                            ),
-                            style: STStyles.body1Semibold.copyWith(
-                              color: colors.grey1,
-                            ),
-                          ),
-                          //! Status
-                          const SizedBox(height: 24),
-                          SEarnPositionBadge(status: earnPosition.status),
-                          const SizedBox(height: 24),
-
-                          //! Info Prices
-                          DecoratedBox(
-                            decoration: BoxDecoration(
-                              color: colors.grey5,
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Column(
-                                children: [
-                                  //! balance
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        intl.earn_balance,
-                                        style: STStyles.body2Medium.copyWith(color: colors.grey1),
-                                      ),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            volumeFormat(
-                                              decimal: earnPosition.baseAmount,
-                                              symbol: sSignalRModules.baseCurrency.symbol,
-                                            ),
-                                            style: STStyles.subtitle2.copyWith(color: colors.black),
-                                          ),
-                                          Text(
-                                            volumeFormat(
-                                              decimal: formatService.convertOneCurrencyToAnotherOne(
-                                                fromCurrency: sSignalRModules.baseCurrency.symbol,
-                                                fromCurrencyAmmount: earnPosition.baseAmount,
-                                                toCurrency: earnPosition.assetId,
-                                                baseCurrency: sSignalRModules.baseCurrency.symbol,
-                                                isMin: true,
-                                                numbersAfterDot: 2,
-                                              ),
-                                              symbol: earnPosition.assetId,
-                                            ),
-                                            style: STStyles.body2Medium.copyWith(color: colors.grey1),
-                                            maxLines: 2,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 16),
-                                  //! revenue
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        intl.earn_revenue,
-                                        style: STStyles.body2Medium.copyWith(color: colors.grey1),
-                                      ),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            volumeFormat(
-                                              decimal: earnPosition.incomeAmount,
-                                              symbol: sSignalRModules.baseCurrency.symbol,
-                                            ),
-                                            style: STStyles.subtitle2.copyWith(color: colors.black),
-                                          ),
-                                          Text(
-                                            volumeFormat(
-                                              decimal: formatService.convertOneCurrencyToAnotherOne(
-                                                fromCurrency: sSignalRModules.baseCurrency.symbol,
-                                                fromCurrencyAmmount: earnPosition.incomeAmount,
-                                                toCurrency: earnPosition.assetId,
-                                                baseCurrency: sSignalRModules.baseCurrency.symbol,
-                                                isMin: true,
-                                                numbersAfterDot: 2,
-                                              ),
-                                              symbol: earnPosition.assetId,
-                                            ),
-                                            style: STStyles.body2Medium.copyWith(color: colors.grey1),
-                                            maxLines: 2,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 16),
-                                  //! Variable APY
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        intl.earn_variable_apy,
-                                        style: STStyles.body2Medium.copyWith(color: colors.grey1),
-                                      ),
-                                      Text(
-                                        '${getHighestApyRateAsString(earnPosition.offers)} %',
-                                        style: STStyles.subtitle2.copyWith(color: colors.black),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 16),
-                                  //! Started
-                                  if (earnPosition.startDateTime != null)
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          intl.earn_started,
-                                          style: STStyles.body2Medium.copyWith(color: colors.grey1),
-                                        ),
-                                        Text(
-                                          DateFormat('dd.MM.yyyy').format(earnPosition.startDateTime!),
-                                          style: STStyles.subtitle2.copyWith(color: colors.black),
-                                        ),
-                                      ],
-                                    ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          Center(
-                            child: Text(
-                              //! Alex S. don't use hardcoded value
-                              intl.earn_funds_will_be_withdrawn(4),
-                              style: STStyles.captionMedium.copyWith(color: colors.grey2),
-                            ),
-                          ),
-                        ],
-                      ),
+                      child: ActiveEarnWidget(earnPosition: earnPosition),
                     ),
                   ],
                 ),
@@ -272,6 +82,201 @@ class EarnPositionActiveScreen extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class ActiveEarnWidget extends StatelessWidget {
+  const ActiveEarnWidget({super.key, required this.earnPosition});
+
+  final EarnPositionClientModel earnPosition;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = SColorsLight();
+    final formatService = getIt.get<FormatService>();
+    final currencies = sSignalRModules.currenciesList;
+
+    final currency = currencies.firstWhere(
+      (currency) => currency.symbol == earnPosition.offers.first.assetId,
+      orElse: () => CurrencyModel.empty(),
+    );
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            SNetworkSvg(
+              url: currency.iconUrl,
+              width: 24,
+              height: 24,
+            ),
+            const SizedBox(width: 4),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Text(
+                earnPosition.assetId,
+                style: STStyles.subtitle1.copyWith(color: colors.black),
+              ),
+            ),
+          ],
+        ),
+        Text(
+          volumeFormat(
+            decimal: earnPosition.baseAmount,
+            symbol: sSignalRModules.baseCurrency.symbol,
+          ),
+          style: STStyles.header3.copyWith(
+            color: colors.black,
+          ),
+        ),
+        Text(
+          volumeFormat(
+            decimal: formatService.convertOneCurrencyToAnotherOne(
+              fromCurrency: sSignalRModules.baseCurrency.symbol,
+              fromCurrencyAmmount: earnPosition.baseAmount,
+              toCurrency: earnPosition.assetId,
+              baseCurrency: sSignalRModules.baseCurrency.symbol,
+              isMin: true,
+              numbersAfterDot: 2,
+            ),
+            symbol: earnPosition.assetId,
+          ),
+          style: STStyles.body1Semibold.copyWith(
+            color: colors.grey1,
+          ),
+        ),
+        const SizedBox(height: 24),
+        SEarnPositionBadge(status: earnPosition.status),
+        const SizedBox(height: 24),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: colors.grey5,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      intl.earn_balance,
+                      style: STStyles.body2Medium.copyWith(color: colors.grey1),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          volumeFormat(
+                            decimal: earnPosition.baseAmount,
+                            symbol: sSignalRModules.baseCurrency.symbol,
+                          ),
+                          style: STStyles.subtitle2.copyWith(color: colors.black),
+                        ),
+                        Text(
+                          volumeFormat(
+                            decimal: formatService.convertOneCurrencyToAnotherOne(
+                              fromCurrency: sSignalRModules.baseCurrency.symbol,
+                              fromCurrencyAmmount: earnPosition.baseAmount,
+                              toCurrency: earnPosition.assetId,
+                              baseCurrency: sSignalRModules.baseCurrency.symbol,
+                              isMin: true,
+                              numbersAfterDot: 2,
+                            ),
+                            symbol: earnPosition.assetId,
+                          ),
+                          style: STStyles.body2Medium.copyWith(color: colors.grey1),
+                          maxLines: 2,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      intl.earn_revenue,
+                      style: STStyles.body2Medium.copyWith(color: colors.grey1),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          volumeFormat(
+                            decimal: earnPosition.incomeAmount,
+                            symbol: sSignalRModules.baseCurrency.symbol,
+                          ),
+                          style: STStyles.subtitle2.copyWith(color: colors.black),
+                        ),
+                        Text(
+                          volumeFormat(
+                            decimal: formatService.convertOneCurrencyToAnotherOne(
+                              fromCurrency: sSignalRModules.baseCurrency.symbol,
+                              fromCurrencyAmmount: earnPosition.incomeAmount,
+                              toCurrency: earnPosition.assetId,
+                              baseCurrency: sSignalRModules.baseCurrency.symbol,
+                              isMin: true,
+                              numbersAfterDot: 2,
+                            ),
+                            symbol: earnPosition.assetId,
+                          ),
+                          style: STStyles.body2Medium.copyWith(color: colors.grey1),
+                          maxLines: 2,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      intl.earn_variable_apy,
+                      style: STStyles.body2Medium.copyWith(color: colors.grey1),
+                    ),
+                    Text(
+                      '${getHighestApyRateAsString(earnPosition.offers)} %',
+                      style: STStyles.subtitle2.copyWith(color: colors.black),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                if (earnPosition.startDateTime != null)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        intl.earn_started,
+                        style: STStyles.body2Medium.copyWith(color: colors.grey1),
+                      ),
+                      Text(
+                        DateFormat('dd.MM.yyyy').format(earnPosition.startDateTime!),
+                        style: STStyles.subtitle2.copyWith(color: colors.black),
+                      ),
+                    ],
+                  ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        Center(
+          child: Text(
+            intl.earn_funds_will_be_withdrawn(4),
+            style: STStyles.captionMedium.copyWith(color: colors.grey2),
+          ),
+        ),
+      ],
     );
   }
 

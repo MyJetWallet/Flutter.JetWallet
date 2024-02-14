@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/widgets/basic_header.dart';
 import 'package:jetwallet/features/earn/widgets/chips_suggestion_m.dart';
@@ -29,7 +31,7 @@ class OffersListWidget extends StatelessWidget {
               title: intl.earn_top_offers,
               buttonTitle: intl.earn_view_all,
               subtitle: intl.earn_most_profitable_earns,
-              onTap: () {},
+              onTap: () => context.router.push(const OffersRouter()),
             ),
             ...uniqueOffers.map((offer) {
               final currency = currencies.firstWhere(
@@ -78,7 +80,9 @@ class OffersListWidget extends StatelessWidget {
   }
 
   List<EarnOfferClientModel> _getUniqueHighestApyOffers(
-      List<EarnOfferClientModel> offers, List<CurrencyModel> currencies) {
+    List<EarnOfferClientModel> offers,
+    List<CurrencyModel> currencies,
+  ) {
     final offersGroupedByCurrency = groupBy(offers, (EarnOfferClientModel offer) {
       return currencies.firstWhereOrNull((currency) => currency.symbol == offer.assetId)?.description ?? '';
     });

@@ -1742,5 +1742,6 @@
         }
     },
     "earn_top_up": "Top up",
-    "earn_withdraw": "Withdraw"
+    "earn_withdraw": "Withdraw",
+    "earn_all_offers" : "All Offers"
 }
