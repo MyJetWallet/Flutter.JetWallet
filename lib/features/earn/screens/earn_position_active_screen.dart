@@ -56,7 +56,7 @@ class EarnPositionActiveScreen extends StatelessWidget {
                         right: 24,
                       ),
 
-                      //! Plsease create new widget with needed params 
+                      //! Plsease create new widget with needed params
                       //! and name it ActiveEarnPositionView
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
