@@ -7,7 +7,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/store/earn_store.dart';
-import 'package:jetwallet/features/earn/widgets/deposit_card.dart';
 import 'package:jetwallet/features/earn/widgets/earn_active_position_badge.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -56,6 +55,9 @@ class EarnPositionActiveScreen extends StatelessWidget {
                         left: 24,
                         right: 24,
                       ),
+
+                      //! Plsease create new widget with needed params 
+                      //! and name it ActiveEarnPositionView
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

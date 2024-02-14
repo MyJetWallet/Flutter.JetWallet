@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -8,19 +7,18 @@ import 'package:jetwallet/features/earn/widgets/basic_header.dart';
 import 'package:jetwallet/features/earn/widgets/chips_suggestion_m.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/modules/shared/simple_network_svg.dart';
-import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
-import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart'; // Adjust your import
+import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
 class OffersListWidget extends StatelessWidget {
-  const OffersListWidget({super.key, required this.earnPositions});
-  final List<EarnPositionClientModel> earnPositions;
+  const OffersListWidget({super.key, required this.earnOffers});
+  final List<EarnOfferClientModel> earnOffers;
 
   @override
   Widget build(BuildContext context) {
     final currencies = sSignalRModules.currenciesList;
 
-    final offers = earnPositions.expand((position) => position.offers).toList();
-    final uniqueOffers = _getUniqueHighestApyOffers(offers, currencies);
+    final promotedOffers = earnOffers.where((offer) => offer.promotion).toList()
+      ..sort((a, b) => (b.apyRate ?? Decimal.zero).compareTo(a.apyRate ?? Decimal.zero));
 
     return Observer(
       builder: (context) {
@@ -32,7 +30,7 @@ class OffersListWidget extends StatelessWidget {
               subtitle: intl.earn_most_profitable_earns,
               onTap: () {},
             ),
-            ...uniqueOffers.map((offer) {
+            ...promotedOffers.map((offer) {
               final currency = currencies.firstWhere(
                 (currency) => currency.symbol == offer.assetId,
                 orElse: () => CurrencyModel.empty(),
@@ -49,16 +47,7 @@ class OffersListWidget extends StatelessWidget {
                       )
                     : const SizedBox.shrink(),
                 onTap: () {
-                  final relatedOffers = earnPositions
-                      .expand((position) => position.offers)
-                      .where((o) => o.assetId == offer.assetId)
-                      .toList();
-
-                  for (final relatedOffer in relatedOffers) {
-                    print(
-                      'Currency: ${currency.description}, Offer ID: ${relatedOffer.id}, APY Rate: ${relatedOffer.apyRate}',
-                    );
-                  }
+                  print('Tapped on offer with ID: ${offer.id}');
                 },
               );
             }).toList(),
@@ -66,24 +55,5 @@ class OffersListWidget extends StatelessWidget {
         );
       },
     );
-  }
-
-  List<EarnOfferClientModel> _getUniqueHighestApyOffers(
-    List<EarnOfferClientModel> offers,
-    List<CurrencyModel> currencies,
-  ) {
-    final offersGroupedByCurrency = groupBy(offers, (EarnOfferClientModel offer) {
-      final currency = currencies.firstWhereOrNull((currency) => currency.symbol == offer.assetId);
-      return currency?.description ?? '';
-    });
-
-    final uniqueOffers = <EarnOfferClientModel>[];
-    offersGroupedByCurrency.forEach((description, offers) {
-      final highestApyOffer =
-          offers.reduce((curr, next) => (curr.apyRate ?? Decimal.zero) > (next.apyRate ?? Decimal.zero) ? curr : next);
-      uniqueOffers.add(highestApyOffer);
-    });
-
-    return uniqueOffers;
   }
 }
