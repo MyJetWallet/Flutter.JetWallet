@@ -46,6 +46,7 @@ class OffersScreen extends StatelessWidget {
                     onTap: () {},
                   );
                 }).toList(),
+                SizedBox(height: MediaQuery.paddingOf(context).bottom),
               ],
             ),
           ),

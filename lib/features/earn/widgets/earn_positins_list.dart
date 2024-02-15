@@ -22,7 +22,7 @@ class EarnPositionsListWidget extends StatelessWidget {
           SBasicHeader(
             title: intl.earn_active_earns,
             buttonTitle: intl.earn_view_all,
-            onTap: () {},
+            onTap: () => context.router.push(const EarnsArchiveRouter()),
           ),
           if (earnPositions.isEmpty)
             SPlaceholder(

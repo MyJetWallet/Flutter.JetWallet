@@ -38,6 +38,7 @@ class EarnsArchiveScreen extends StatelessWidget {
                       (e) => SDepositCard(earnPosition: e, onTap: () {}),
                     )
                     .toList(),
+                SizedBox(height: MediaQuery.paddingOf(context).bottom),
               ],
             ),
           ),
