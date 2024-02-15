@@ -210,7 +210,15 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                               sAnalytics.tapOnSimpleCard();
                               simpleCardStore.initFullCardIn(el.cardId ?? '');
                               sAnalytics.viewVirtualCardScreen(cardID: el.cardId ?? '');
-                              sRouter.push(const SimpleCardRouter());
+                              sRouter.push(SimpleCardRouter(
+                                eurCurrency: eurCurrency,
+                                isAddCashAvailable: sSignalRModules.currenciesList
+                                  .where((currency) {
+                                    return currency.assetBalance != Decimal.zero;
+                                  })
+                                  .toList()
+                                  .isNotEmpty,
+                              ),);
                             }
                           }
                         },
@@ -270,6 +278,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                                   CJAccountRouter(
                                     bankingAccount: simpleAccount,
                                     isCJAccount: true,
+                                    eurCurrency: eurCurrency,
                                   ),
                                 )
                                 .then(
@@ -308,6 +317,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                                       CJAccountRouter(
                                         bankingAccount: bankAccounts[index],
                                         isCJAccount: false,
+                                        eurCurrency: eurCurrency,
                                       ),
                                     )
                                     .then(

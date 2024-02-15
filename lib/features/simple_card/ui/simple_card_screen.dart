@@ -23,8 +23,7 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/router/app_router.dart';
-import '../../../core/services/signal_r/signal_r_service_new.dart';
-import '../../../utils/helpers/non_indices_with_balance_from.dart';
+import '../../../utils/models/currency_model.dart';
 import '../../app/store/app_store.dart';
 
 const _collapsedCardHeight = 200.0;
@@ -34,7 +33,12 @@ const _expandedCardHeight = 270.0;
 class SimpleCardScreen extends StatefulObserverWidget {
   const SimpleCardScreen({
     super.key,
+    required this.eurCurrency,
+    required this.isAddCashAvailable,
   });
+
+  final CurrencyModel eurCurrency;
+  final bool isAddCashAvailable;
 
   @override
   State<StatefulWidget> createState() => _SimpleCardScreenState();
@@ -73,10 +77,6 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
     super.build(context);
 
     final colors = sKit.colors;
-
-    final eurCurrency = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
-    ).where((element) => element.symbol == 'EUR').first;
 
     final simpleCardStore = getIt.get<SimpleCardStore>();
 
@@ -136,11 +136,11 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                       child: Center(
                         child: Text(
                           getIt<AppStore>().isBalanceHide
-                              ? '**** ${eurCurrency.symbol}'
+                              ? '**** ${widget.eurCurrency.symbol}'
                               : volumeFormat(
                                   decimal: simpleCardStore.cardFull?.balance ?? Decimal.zero,
-                                  accuracy: eurCurrency.accuracy,
-                                  symbol: eurCurrency.symbol,
+                                  accuracy: widget.eurCurrency.accuracy,
+                                  symbol: widget.eurCurrency.symbol,
                                 ),
                           style: STStyles.header3,
                         ),
@@ -156,12 +156,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                         isDetailsShown: simpleCardStore.showDetails,
                         isFrozen: simpleCardStore.isFrozen,
                         isTerminateAvailable: simpleCardStore.isFrozen,
-                        isAddCashAvailable: sSignalRModules.currenciesList
-                            .where((currency) {
-                              return currency.assetBalance != Decimal.zero;
-                            })
-                            .toList()
-                            .isNotEmpty,
+                        isAddCashAvailable: widget.isAddCashAvailable,
                         onAddCash: () {
                           sAnalytics.tapOnTheDepositButton(source: 'V.Card - Deposit');
                           handler.handle(
