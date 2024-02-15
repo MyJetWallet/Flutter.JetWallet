@@ -71,6 +71,7 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context, Curre
             CJAccountRouter(
               bankingAccount: sSignalRModules.bankingProfileData!.simple!.account!,
               isCJAccount: true,
+              eurCurrency: eurCurrency,
             ),
           )
           .then(

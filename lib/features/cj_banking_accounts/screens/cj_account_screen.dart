@@ -6,18 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/cj_banking_accounts/widgets/actions_account_row_widget.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/transaction_list_item.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
-import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 import '../../../core/di/di.dart';
+import '../../../utils/models/currency_model.dart';
 import '../../app/store/app_store.dart';
 
 @RoutePage(name: 'CJAccountRouter')
@@ -26,10 +25,12 @@ class CJAccountScreen extends StatefulObserverWidget {
     super.key,
     required this.bankingAccount,
     required this.isCJAccount,
+    required this.eurCurrency,
   });
 
   final SimpleBankingAccount bankingAccount;
   final bool isCJAccount;
+  final CurrencyModel eurCurrency;
 
   @override
   State<CJAccountScreen> createState() => _CJAccountScreenState();
@@ -64,9 +65,6 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final eurCurrency = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
-    ).where((element) => element.symbol == 'EUR').first;
 
     return SPageFrame(
       loaderText: '',
@@ -77,20 +75,20 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
             scrollController: _controller,
             showTicker: false,
             mainTitle: getIt<AppStore>().isBalanceHide
-              ? '**** ${eurCurrency.symbol}'
+              ? '**** ${widget.eurCurrency.symbol}'
               : volumeFormat(
                 decimal: widget.bankingAccount.balance ?? Decimal.zero,
-                accuracy: eurCurrency.accuracy,
-                symbol: eurCurrency.symbol,
+                accuracy: widget.eurCurrency.accuracy,
+                symbol: widget.eurCurrency.symbol,
               ),
             mainHeaderTitle: label,
             mainHeaderSubtitle: widget.isCJAccount ? intl.wallet_simple_account : intl.eur_wallet_personal_account,
             mainHeaderCollapsedTitle: getIt<AppStore>().isBalanceHide
-              ? '**** ${eurCurrency.symbol}'
+              ? '**** ${widget.eurCurrency.symbol}'
               : volumeFormat(
                 decimal: widget.bankingAccount.balance ?? Decimal.zero,
-                accuracy: eurCurrency.accuracy,
-                symbol: eurCurrency.symbol,
+                accuracy: widget.eurCurrency.accuracy,
+                symbol: widget.eurCurrency.symbol,
               ),
             mainHeaderCollapsedSubtitle:
                 widget.isCJAccount ? intl.wallet_simple_account : intl.eur_wallet_personal_account,
