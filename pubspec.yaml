@@ -68,6 +68,8 @@ dependencies:
   collection: ^1.17.1
   animated_background: ^2.0.0
   flutter_flip_card: ^0.0.4
+  flutter_inappwebview: ^5.3.2
+  timezone: ^0.9.2
 
   lottie: 2.7.0
 
@@ -232,3 +234,6 @@ flutter:
     - assets/images/
     - assets/animations/
     - assets/flags/
+    - assets/tvchart/
+    - assets/tvchart/public/
+    - assets/tvchart/public/bundles/

@@ -35,10 +35,12 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
+import 'package:timezone/data/latest.dart';
 
 import '../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../core/services/user_info/user_info_service.dart';
 import '../../../utils/helpers/check_kyc_status.dart';
+import '../../invest/ui/chart/commons/tzdt.dart';
 import '../../kyc/kyc_service.dart';
 import '../../simple_card/store/simple_card_store.dart';
 import '../../simple_card/ui/widgets/get_card_banner.dart';
@@ -79,6 +81,9 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
   void initState() {
     super.initState();
     final simpleCardStore = getIt.get<SimpleCardStore>();
+
+    initializeTimeZones();
+    setupTZLocation();
 
     simpleCardStore.checkCardBanner();
 
