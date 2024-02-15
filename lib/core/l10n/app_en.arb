@@ -1745,5 +1745,7 @@
     "earn_withdraw": "Withdraw",
     "earn_all_offers": "All offers",
     "earn_earns_archive": "Eanr archive",
-    "earn_you_can_withdraw_deposit_funds_instantly": "You can withdraw deposit funds instantly"
+    "earn_you_can_withdraw_deposit_funds_instantly": "You can withdraw deposit funds instantly",
+    "earn_deposit": "Deposit",
+    "earn_continue": "Continue"
 }

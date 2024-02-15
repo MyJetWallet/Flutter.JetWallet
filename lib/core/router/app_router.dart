@@ -51,6 +51,7 @@ import 'package:jetwallet/features/debug_info/debug_history.dart';
 import 'package:jetwallet/features/debug_info/debug_info.dart';
 import 'package:jetwallet/features/debug_info/invest_ui_kit.dart';
 import 'package:jetwallet/features/debug_info/signalr_debug_info.dart';
+import 'package:jetwallet/features/earn/screens/earn_deposit_screen.dart';
 import 'package:jetwallet/features/earn/screens/earn_position_active_screen.dart';
 import 'package:jetwallet/features/earn/screens/earn_screen.dart';
 import 'package:jetwallet/features/earn/screens/earns_archive_screen.dart';
@@ -260,6 +261,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/earns_arcive',
       page: EarnsArchiveRouter.page,
+    ),
+    AutoRoute(
+      path: '/earns_deposit',
+      page: EarnDepositScreenRouter.page,
     ),
     CustomRoute(
       path: '/verification_screen',
