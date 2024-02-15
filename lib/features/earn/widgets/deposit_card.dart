@@ -6,6 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/widgets/deposit_card_badge.dart';
+import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
 import 'package:jetwallet/features/earn/widgets/link_label.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
@@ -103,8 +104,9 @@ class SDepositCard extends StatelessWidget {
       }
       return max;
     });
+    final finalRate = formatApyRate(highestApy);
 
-    return highestApy?.toString();
+    return finalRate?.toString();
   }
 }
 

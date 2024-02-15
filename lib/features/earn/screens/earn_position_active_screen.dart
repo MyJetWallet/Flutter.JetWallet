@@ -8,6 +8,7 @@ import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/store/earn_store.dart';
 import 'package:jetwallet/features/earn/widgets/earn_active_position_badge.dart';
+import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
@@ -64,19 +65,21 @@ class EarnPositionActiveScreen extends StatelessWidget {
                   left: 24,
                   bottom: MediaQuery.of(context).padding.bottom,
                 ),
-                child: Column(
-                  children: [
-                    SButton.blue(
-                      text: intl.earn_top_up,
-                      callback: () {},
-                    ),
-                    const SizedBox(height: 8),
-                    SButton.text(
-                      text: intl.earn_withdraw,
-                      callback: () {},
-                    ),
-                  ],
-                ),
+                child: earnPosition.status == EarnPositionStatus.active
+                    ? Column(
+                        children: [
+                          SButton.blue(
+                            text: intl.earn_top_up,
+                            callback: () {},
+                          ),
+                          const SizedBox(height: 8),
+                          SButton.text(
+                            text: intl.earn_withdraw,
+                            callback: () {},
+                          ),
+                        ],
+                      )
+                    : const SizedBox.shrink(),
               ),
             ],
           ),
@@ -272,12 +275,26 @@ class ActiveEarnWidget extends StatelessWidget {
         const SizedBox(height: 16),
         Center(
           child: Text(
-            intl.earn_funds_will_be_withdrawn(4),
+            getWithdrawalMessage(earnPosition),
             style: STStyles.captionMedium.copyWith(color: colors.grey2),
+            maxLines: 2,
+            textAlign: TextAlign.center,
           ),
         ),
       ],
     );
+  }
+
+  String getWithdrawalMessage(EarnPositionClientModel earnPosition) {
+    if (earnPosition.offers.isNotEmpty) {
+      final firstOffer = earnPosition.offers.first;
+      if (firstOffer.withdrawType == WithdrawType.instant) {
+        return intl.earn_you_can_withdraw_deposit_funds_instantly;
+      } else if (firstOffer.withdrawType == WithdrawType.lock && firstOffer.lockPeriod != null) {
+        return intl.earn_funds_will_be_withdrawn(firstOffer.lockPeriod!);
+      }
+    }
+    return '';
   }
 
   String getHighestApyRateAsString(List<EarnOfferClientModel> offers) {
@@ -288,6 +305,7 @@ class ActiveEarnWidget extends StatelessWidget {
       return max;
     });
 
-    return highestApy.toString();
+    final finalRate = formatApyRate(highestApy);
+    return finalRate.toString();
   }
 }

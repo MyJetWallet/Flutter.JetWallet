@@ -39,7 +39,7 @@ class OffersListWidget extends StatelessWidget {
               );
 
               return ChipsSuggestionM(
-                percentage: offer.apyRate.toString(),
+                percentage: formatApyRate(offer.apyRate),
                 cryptoName: offer.assetId,
                 trailingIcon: offer.assetId.isNotEmpty
                     ? SNetworkSvg(
@@ -95,5 +95,13 @@ class OffersListWidget extends StatelessWidget {
     });
 
     return uniqueOffers;
+  }
+}
+
+String? formatApyRate(Decimal? apyRate) {
+  if (apyRate == null) {
+    return null;
+  } else {
+    return (apyRate * Decimal.fromInt(100)).toStringAsFixed(2);
   }
 }

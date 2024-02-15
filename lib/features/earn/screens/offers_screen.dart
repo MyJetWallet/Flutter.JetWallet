@@ -4,6 +4,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/store/earn_store.dart';
 import 'package:jetwallet/features/earn/widgets/chips_suggestion_m.dart';
+import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/simple_network_svg.dart';
 import 'package:simple_kit_updated/widgets/navigation/top_app_bar/global_basic_appbar.dart';
@@ -34,7 +35,7 @@ class OffersScreen extends StatelessWidget {
                   );
 
                   return ChipsSuggestionM(
-                    percentage: offer.apyRate.toString(),
+                    percentage: formatApyRate(offer.apyRate),
                     cryptoName: offer.assetId,
                     trailingIcon: offer.assetId.isNotEmpty
                         ? SNetworkSvg(
