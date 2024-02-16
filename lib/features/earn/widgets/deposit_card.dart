@@ -155,10 +155,11 @@ class CryptoCardHeader extends StatelessWidget {
                   title: name!,
                   onTap: () {},
                 ),
-              Text(
-                '${intl.earn_variable_apy} $apyRate%',
-                style: STStyles.body2Medium.copyWith(color: colors.grey1),
-              ),
+              if (apyRate != null)
+                Text(
+                  '${intl.earn_variable_apy} $apyRate%',
+                  style: STStyles.body2Medium.copyWith(color: colors.grey1),
+                ),
             ],
           ),
         ),

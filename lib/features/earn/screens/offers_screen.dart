@@ -1,12 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/store/earn_store.dart';
-import 'package:jetwallet/features/earn/widgets/chips_suggestion_m.dart';
 import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/modules/shared/simple_network_svg.dart';
 import 'package:simple_kit_updated/widgets/navigation/top_app_bar/global_basic_appbar.dart';
 
 @RoutePage(name: 'OffersRouter')
@@ -19,8 +16,8 @@ class OffersScreen extends StatelessWidget {
       create: (context) => EarnStore(),
       builder: (context, child) {
         final store = EarnStore.of(context);
-        final offers = store.earnPromotionOffers;
-        final currencies = sSignalRModules.currenciesList;
+        final offers = store.earnOffers;
+
         return Scaffold(
           body: SingleChildScrollView(
             child: Column(
@@ -29,24 +26,10 @@ class OffersScreen extends StatelessWidget {
                   hasRightIcon: false,
                   title: intl.earn_all_offers,
                 ),
-                ...offers.map((offer) {
-                  final currency = currencies.firstWhere(
-                    (currency) => currency.symbol == offer.assetId,
-                  );
-
-                  return ChipsSuggestionM(
-                    percentage: formatApyRate(offer.apyRate),
-                    cryptoName: offer.assetId,
-                    trailingIcon: offer.assetId.isNotEmpty
-                        ? SNetworkSvg(
-                            url: currency.iconUrl,
-                            width: 40,
-                            height: 40,
-                          )
-                        : const SizedBox.shrink(),
-                    onTap: () {},
-                  );
-                }).toList(),
+                OffersListWidget(
+                  showTitle: false,
+                  earnOffers: offers,
+                ),
                 SizedBox(height: MediaQuery.paddingOf(context).bottom),
               ],
             ),

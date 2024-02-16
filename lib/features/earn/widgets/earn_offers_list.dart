@@ -13,27 +13,33 @@ import 'package:simple_kit/modules/shared/simple_network_svg.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
 class OffersListWidget extends StatelessWidget {
-  const OffersListWidget({super.key, required this.earnOffers});
+  const OffersListWidget({
+    super.key,
+    required this.earnOffers,
+    this.showTitle = true,
+  });
 
   final List<EarnOfferClientModel> earnOffers;
+  final bool showTitle;
 
   @override
   Widget build(BuildContext context) {
     final currencies = sSignalRModules.currenciesList;
 
-    final uniqueOffers = _getUniqueHighestApyOffers(earnOffers, currencies);
+    final uniqueOffers = _getUniqueHighestApyOffers(earnOffers.where((offer) => offer.promotion).toList(), currencies);
 
     return Observer(
       builder: (context) {
         return Column(
           children: [
-            SBasicHeader(
-              title: intl.earn_top_offers,
-              buttonTitle: intl.earn_view_all,
-              showLinkButton: earnOffers.isNotEmpty,
-              subtitle: intl.earn_most_profitable_earns,
-              onTap: () => context.router.push(const OffersRouter()),
-            ),
+            if (showTitle)
+              SBasicHeader(
+                title: intl.earn_top_offers,
+                buttonTitle: intl.earn_view_all,
+                showLinkButton: earnOffers.isNotEmpty,
+                subtitle: intl.earn_most_profitable_earns,
+                onTap: () => context.router.push(const OffersRouter()),
+              ),
             ...uniqueOffers.map((offer) {
               final currency = currencies.firstWhere(
                 (currency) => currency.symbol == offer.assetId,

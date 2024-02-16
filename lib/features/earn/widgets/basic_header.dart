@@ -40,6 +40,7 @@ class SBasicHeader extends StatelessWidget {
           ],
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               if (subtitle != null)
                 Text(

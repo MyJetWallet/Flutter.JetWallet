@@ -70,7 +70,7 @@ class SDepositCardBadge extends StatelessWidget {
       case EarnPositionStatus.closing:
         return colors.blueExtraLight;
       case EarnPositionStatus.closed:
-        return colors.redExtraLight;
+        return colors.grey5;
       default:
         return colors.grey5;
     }
@@ -83,7 +83,7 @@ class SDepositCardBadge extends StatelessWidget {
       case EarnPositionStatus.closing:
         return colors.blue;
       case EarnPositionStatus.closed:
-        return colors.red;
+        return colors.grey1;
       default:
         return colors.grey1;
     }

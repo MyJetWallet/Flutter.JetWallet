@@ -67,12 +67,9 @@ abstract class _EarnStoreBase with Store {
     }
   }
 
-  /// Reflects the best (necessary) offers [EarnOfferClientModel] with
-  ///  the status EarnOffers.Promotion == true
   @computed
-  List<EarnOfferClientModel> get earnPromotionOffers {
-    final offers =
-        sSignalRModules.activeEarnOffersMessage?.offers.where((offer) => offer.promotion == true).toList() ?? [];
+  List<EarnOfferClientModel> get earnOffers {
+    final offers = sSignalRModules.activeEarnOffersMessage?.offers.toList() ?? [];
 
     offers.sort((a, b) => (b.apyRate ?? Decimal.zero).compareTo(a.apyRate ?? Decimal.zero));
 
