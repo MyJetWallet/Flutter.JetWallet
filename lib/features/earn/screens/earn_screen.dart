@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/store/earn_store.dart';
@@ -33,7 +34,7 @@ class _EarnScreenState extends State<EarnScreen> {
   @override
   Widget build(BuildContext context) {
     return Provider<EarnStore>(
-      create: (context) => EarnStore(),
+      create: (context) => EarnStore()..fetchClosedPositions(),
       builder: (context, child) {
         return _EarnView(controller: controller);
       },
@@ -102,7 +103,15 @@ class _EarnView extends StatelessWidget {
                 ),
               ),
             SliverToBoxAdapter(
-              child: EarnPositionsListWidget(earnPositions: store.earnPositions),
+              child: Observer(
+                builder: (context) {
+                  return EarnPositionsListWidget(
+                    earnPositions: store.earnPositions,
+                    //! Alex S. fix this
+                    earnPositionsClosed: store.earnPositions,
+                  );
+                },
+              ),
             ),
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
             SliverToBoxAdapter(

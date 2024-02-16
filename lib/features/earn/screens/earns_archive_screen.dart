@@ -6,7 +6,6 @@ import 'package:jetwallet/features/earn/widgets/deposit_card.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit_updated/widgets/navigation/top_app_bar/global_basic_appbar.dart';
 import 'package:simple_kit_updated/widgets/table/placeholder/simple_placeholder.dart';
-import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 
 @RoutePage(name: 'EarnsArchiveRouter')
 class EarnsArchiveScreen extends StatelessWidget {
@@ -18,7 +17,8 @@ class EarnsArchiveScreen extends StatelessWidget {
       create: (context) => EarnStore(),
       builder: (context, child) {
         final store = EarnStore.of(context);
-        final earns = store.earnPositions.where((earn) => earn.status == EarnPositionStatus.closed).toList();
+        //! Alex S. fix this
+        final earns = store.earnPositions;
 
         return Scaffold(
           body: SingleChildScrollView(

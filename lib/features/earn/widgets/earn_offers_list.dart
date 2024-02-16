@@ -30,6 +30,7 @@ class OffersListWidget extends StatelessWidget {
             SBasicHeader(
               title: intl.earn_top_offers,
               buttonTitle: intl.earn_view_all,
+              showLinkButton: earnOffers.isNotEmpty,
               subtitle: intl.earn_most_profitable_earns,
               onTap: () => context.router.push(const OffersRouter()),
             ),

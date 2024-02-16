@@ -2,6 +2,7 @@ import 'package:data_channel/data_channel.dart';
 import 'package:dio/dio.dart';
 import 'package:simple_networking/api_client/api_client.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/create_banking_account_simple_response.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
@@ -995,15 +996,18 @@ class WalletApiRepository {
 
   // invest
 
-  Future<DC<ServerRejectException, InvestPositionResponseModel>> createActivePosition(NewInvestRequestModel request) async {
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> createActivePosition(
+      NewInvestRequestModel request) async {
     return _walletApiDataSources.createActivePositionRequest(model: request);
   }
 
-  Future<DC<ServerRejectException, InvestPositionResponseModel>> createPendingLimitPosition(NewInvestOrderRequestModel request) async {
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> createPendingLimitPosition(
+      NewInvestOrderRequestModel request) async {
     return _walletApiDataSources.createPendingLimitPositionRequest(model: request);
   }
 
-  Future<DC<ServerRejectException, InvestPositionResponseModel>> createPendingStopPosition(NewInvestOrderRequestModel request) async {
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> createPendingStopPosition(
+      NewInvestOrderRequestModel request) async {
     return _walletApiDataSources.createPendingStopPositionRequest(model: request);
   }
 
@@ -1068,5 +1072,15 @@ class WalletApiRepository {
     required String dateTo,
   }) async {
     return _walletApiDataSources.getInvestHistorySummaryRequest(dateFrom: dateFrom, dateTo: dateTo);
+  }
+
+  Future<DC<ServerRejectException, List<EarnPositionClientModel>>> getEarnPositionsClosed({
+    required String skip,
+    required String take,
+  }) async {
+    return _walletApiDataSources.getEarnPositionsClosed(
+      skip: skip,
+      take: take,
+    );
   }
 }

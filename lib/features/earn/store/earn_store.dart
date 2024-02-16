@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/widgets.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -42,6 +43,35 @@ abstract class _EarnStoreBase with Store {
     });
 
     return sortedPositions;
+  }
+
+  @observable
+  ObservableList<EarnPositionClientModel> closedPositions = ObservableList<EarnPositionClientModel>.of([]);
+
+  @computed
+  List<EarnPositionClientModel> get earnPositionsClosed {
+    return List<EarnPositionClientModel>.from(closedPositions)
+      ..sort((a, b) {
+        final maxApyA = a.offers.map((offer) => offer.apyRate ?? Decimal.zero).reduce((a, b) => a > b ? a : b);
+        final maxApyB = b.offers.map((offer) => offer.apyRate ?? Decimal.zero).reduce((a, b) => a > b ? a : b);
+        return maxApyB.compareTo(maxApyA);
+      });
+  }
+
+  @action
+  Future<void> fetchClosedPositions() async {
+    try {
+      final response = await sNetwork.getWalletModule().getEarnPositionsClosed(
+            skip: '0',
+            take: '20',
+          );
+      final positions = response.data?.toList() ?? [];
+
+      closedPositions.clear();
+      closedPositions.addAll(positions);
+    } catch (e) {
+      //! Alex S. handle error
+    }
   }
 
   /// Reflects the best (necessary) offers [EarnOfferClientModel] with

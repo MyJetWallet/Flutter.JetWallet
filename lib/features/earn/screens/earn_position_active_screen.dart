@@ -62,7 +62,9 @@ class EarnPositionActiveScreen extends StatelessWidget {
                           SButton.blue(
                             text: intl.earn_top_up,
                             //! Alex S. check card amount
-                            callback: () => context.router.push(EarnDepositScreenRouter()),
+                            callback: () {
+                              context.router.push(const EarnDepositScreenRouter());
+                            },
                           ),
                           const SizedBox(height: 8),
                           SButton.text(

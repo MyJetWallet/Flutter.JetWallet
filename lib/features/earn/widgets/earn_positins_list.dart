@@ -11,8 +11,10 @@ class EarnPositionsListWidget extends StatelessWidget {
   const EarnPositionsListWidget({
     super.key,
     required this.earnPositions,
+    required this.earnPositionsClosed,
   });
   final List<EarnPositionClientModel> earnPositions;
+  final List<EarnPositionClientModel> earnPositionsClosed;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,7 @@ class EarnPositionsListWidget extends StatelessWidget {
           SBasicHeader(
             title: intl.earn_active_earns,
             buttonTitle: intl.earn_view_all,
+            showLinkButton: earnPositionsClosed.isNotEmpty,
             onTap: () => context.router.push(const EarnsArchiveRouter()),
           ),
           if (earnPositions.isEmpty)
