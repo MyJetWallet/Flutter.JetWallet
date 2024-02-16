@@ -49,14 +49,7 @@ abstract class _EarnStoreBase with Store {
   ObservableList<EarnPositionClientModel> closedPositions = ObservableList<EarnPositionClientModel>.of([]);
 
   @computed
-  List<EarnPositionClientModel> get earnPositionsClosed {
-    return List<EarnPositionClientModel>.from(closedPositions)
-      ..sort((a, b) {
-        final maxApyA = a.offers.map((offer) => offer.apyRate ?? Decimal.zero).reduce((a, b) => a > b ? a : b);
-        final maxApyB = b.offers.map((offer) => offer.apyRate ?? Decimal.zero).reduce((a, b) => a > b ? a : b);
-        return maxApyB.compareTo(maxApyA);
-      });
-  }
+  List<EarnPositionClientModel> get earnPositionsClosed => closedPositions;
 
   @action
   Future<void> fetchClosedPositions() async {

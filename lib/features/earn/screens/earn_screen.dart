@@ -34,7 +34,7 @@ class _EarnScreenState extends State<EarnScreen> {
   @override
   Widget build(BuildContext context) {
     return Provider<EarnStore>(
-      create: (context) => EarnStore()..fetchClosedPositions(),
+      create: (context) => EarnStore(),
       builder: (context, child) {
         return _EarnView(controller: controller);
       },
@@ -51,7 +51,7 @@ class _EarnView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final store = EarnStore.of(context);
+    final store = Provider.of<EarnStore>(context);
     final colors = sKit.colors;
 
     return Scaffold(
@@ -80,47 +80,55 @@ class _EarnView extends StatelessWidget {
             ),
           ];
         },
-        body: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: SBasicBanner(text: intl.earn_funds_are_calculated_based_on_the_current_value),
-            ),
-            if (store.earnPositions.isNotEmpty)
-              SliverToBoxAdapter(
-                child: SPriceHeader(
-                  totalSum: store.isBalanceHide
-                      ? volumeFormat(
-                          decimal: sSignalRModules.earnWalletProfileData?.total ?? Decimal.zero,
-                          symbol: sSignalRModules.baseCurrency.symbol,
-                        )
-                      : '**** ${sSignalRModules.baseCurrency.symbol}',
-                  revenueSum: store.isBalanceHide
-                      ? volumeFormat(
-                          decimal: sSignalRModules.earnWalletProfileData?.balance ?? Decimal.zero,
-                          symbol: sSignalRModules.baseCurrency.symbol,
-                        )
-                      : '**** ${sSignalRModules.baseCurrency.symbol}',
+        body: FutureBuilder(
+          future: store.fetchClosedPositions(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            return CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: SBasicBanner(text: intl.earn_funds_are_calculated_based_on_the_current_value),
                 ),
-              ),
-            SliverToBoxAdapter(
-              child: Observer(
-                builder: (context) {
-                  return EarnPositionsListWidget(
-                    earnPositions: store.earnPositions,
-                    //! Alex S. fix this
-                    earnPositionsClosed: store.earnPositions,
-                  );
-                },
-              ),
-            ),
-            const SliverToBoxAdapter(child: SizedBox(height: 16)),
-            SliverToBoxAdapter(
-              child: OffersListWidget(earnOffers: store.earnPromotionOffers),
-            ),
-            const SliverToBoxAdapter(
-              child: SizedBox(height: 32),
-            ),
-          ],
+                if (store.earnPositions.isNotEmpty)
+                  SliverToBoxAdapter(
+                    child: SPriceHeader(
+                      totalSum: store.isBalanceHide
+                          ? volumeFormat(
+                              decimal: sSignalRModules.earnWalletProfileData?.total ?? Decimal.zero,
+                              symbol: sSignalRModules.baseCurrency.symbol,
+                            )
+                          : '**** ${sSignalRModules.baseCurrency.symbol}',
+                      revenueSum: store.isBalanceHide
+                          ? volumeFormat(
+                              decimal: sSignalRModules.earnWalletProfileData?.balance ?? Decimal.zero,
+                              symbol: sSignalRModules.baseCurrency.symbol,
+                            )
+                          : '**** ${sSignalRModules.baseCurrency.symbol}',
+                    ),
+                  ),
+                SliverToBoxAdapter(
+                  child: Observer(
+                    builder: (context) {
+                      return EarnPositionsListWidget(
+                        earnPositions: store.earnPositions,
+                        earnPositionsClosed: store.earnPositionsClosed,
+                      );
+                    },
+                  ),
+                ),
+                const SliverToBoxAdapter(child: SizedBox(height: 16)),
+                SliverToBoxAdapter(
+                  child: OffersListWidget(earnOffers: store.earnPromotionOffers),
+                ),
+                const SliverToBoxAdapter(
+                  child: SizedBox(height: 32),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

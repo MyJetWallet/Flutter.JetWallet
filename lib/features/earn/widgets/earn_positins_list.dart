@@ -25,7 +25,7 @@ class EarnPositionsListWidget extends StatelessWidget {
             title: intl.earn_active_earns,
             buttonTitle: intl.earn_view_all,
             showLinkButton: earnPositionsClosed.isNotEmpty,
-            onTap: () => context.router.push(const EarnsArchiveRouter()),
+            onTap: () => context.router.push(EarnsArchiveRouter(earnPositionsClosed: earnPositionsClosed)),
           ),
           if (earnPositions.isEmpty)
             SPlaceholder(
