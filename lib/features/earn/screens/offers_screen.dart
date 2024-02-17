@@ -21,6 +21,7 @@ class OffersScreen extends StatelessWidget {
         final colors = sKit.colors;
 
         return Scaffold(
+          backgroundColor: colors.white,
           body: NestedScrollView(
             headerSliverBuilder: (context, _) {
               return [

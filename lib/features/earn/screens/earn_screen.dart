@@ -55,6 +55,7 @@ class _EarnView extends StatelessWidget {
     final colors = sKit.colors;
 
     return Scaffold(
+      backgroundColor: colors.white,
       body: NestedScrollView(
         controller: controller,
         headerSliverBuilder: (context, _) {
@@ -112,6 +113,7 @@ class _EarnView extends StatelessWidget {
                 SliverToBoxAdapter(
                   child: Observer(
                     builder: (context) {
+                      if (store.earnPositions.isEmpty && store.earnPositionsClosed.isEmpty) const SizedBox.shrink();
                       return EarnPositionsListWidget(
                         earnPositions: store.earnPositions,
                         earnPositionsClosed: store.earnPositionsClosed,

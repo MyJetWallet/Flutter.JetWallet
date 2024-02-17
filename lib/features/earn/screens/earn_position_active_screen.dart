@@ -7,6 +7,7 @@ import 'package:jetwallet/features/earn/store/earn_store.dart';
 import 'package:jetwallet/features/earn/widgets/active_earn_widget.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit_updated/widgets/button/main/simple_button.dart';
 import 'package:simple_kit_updated/widgets/navigation/top_app_bar/global_basic_appbar.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
@@ -23,13 +24,14 @@ class EarnPositionActiveScreen extends StatelessWidget {
       create: (context) => EarnStore(),
       builder: (context, child) {
         final currencies = sSignalRModules.currenciesList;
-
+        final colors = sKit.colors;
         final currency = currencies.firstWhere(
           (currency) => currency.symbol == earnPosition.offers.first.assetId,
           orElse: () => CurrencyModel.empty(),
         );
 
         return Scaffold(
+          backgroundColor: colors.white,
           body: Column(
             children: [
               GlobalBasicAppBar(

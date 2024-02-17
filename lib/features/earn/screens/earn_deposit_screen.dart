@@ -42,8 +42,10 @@ class _EarnDepositScreenScreenState extends State<EarnDepositScreenScreen> with 
     super.build(context);
 
     final deviceSize = sDeviceSize;
+    final colors = sKit.colors;
 
     return Scaffold(
+      backgroundColor: colors.white,
       body: Provider<SellAmountStore>(
         create: (context) => SellAmountStore()..init(),
         builder: (context, child) {
