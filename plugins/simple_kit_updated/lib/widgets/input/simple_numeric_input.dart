@@ -47,7 +47,7 @@ class SNumericInput extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
@@ -57,10 +57,13 @@ class SNumericInput extends StatelessWidget {
                             ),
                           ),
                           const Gap(8),
-                          Text(
-                            ticker,
-                            style: STStyles.header3.copyWith(
-                              color: value != '0' ? SColorsLight().black : SColorsLight().gray6,
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 4),
+                            child: Text(
+                              ticker,
+                              style: STStyles.header3.copyWith(
+                                color: value != '0' ? SColorsLight().black : SColorsLight().gray6,
+                              ),
                             ),
                           ),
                         ],

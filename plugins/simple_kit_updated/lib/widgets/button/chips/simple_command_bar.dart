@@ -42,7 +42,7 @@ class SCommandBar extends StatelessWidget {
                     ConstrainedBox(
                       constraints: BoxConstraints(
                         maxWidth: MediaQuery.of(context).size.width * .5,
-                        maxHeight: 20,
+                        maxHeight: 24,
                       ),
                       child: Text(
                         title,
@@ -54,7 +54,7 @@ class SCommandBar extends StatelessWidget {
                     ConstrainedBox(
                       constraints: BoxConstraints(
                         maxWidth: MediaQuery.of(context).size.width * .5,
-                        maxHeight: 20,
+                        maxHeight: 24,
                       ),
                       child: Text(
                         description,

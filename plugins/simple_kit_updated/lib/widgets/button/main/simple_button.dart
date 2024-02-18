@@ -130,8 +130,8 @@ class SButton extends HookWidget {
       },
       child: isLoading
           ? SizedBox(
-              width: 24,
-              height: 24,
+              width: 20,
+              height: 20,
               child: CircularProgressIndicator(
                 color: textColor(),
               ),
