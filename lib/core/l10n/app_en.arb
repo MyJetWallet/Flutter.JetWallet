@@ -1747,5 +1747,13 @@
     "earn_earns_archive": "Earn archive",
     "earn_you_can_withdraw_deposit_funds_instantly": "You can withdraw deposit funds instantly",
     "earn_deposit": "Deposit",
-    "earn_continue": "Continue"
+    "earn_continue": "Continue",
+    "earn_choose_a_deposit_plan": "Choose a deposit plan and\nearn crypto",
+    "earn_freeze_period": "Freeze period ({days} days)",
+    "@earn_freeze_period": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_flexible_tariff" : "Flexible tariff"
 }
