@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/features/earn/store/earn_withdrawal_order_summaru_store.dart';
+import 'package:jetwallet/features/earn/store/earn_withdrawal_order_summary_store.dart';
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
@@ -15,9 +15,9 @@ import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
-@RoutePage(name: 'EarnWithdrawOrderSummaruRouter')
-class EarnWithdrawOrderSummaruScreen extends StatelessWidget {
-  const EarnWithdrawOrderSummaruScreen({
+@RoutePage(name: 'EarnWithdrawOrderSummaryRouter')
+class EarnWithdrawOrderSummaryScreen extends StatelessWidget {
+  const EarnWithdrawOrderSummaryScreen({
     super.key,
     required this.earnPosition,
     required this.amount,
@@ -32,14 +32,14 @@ class EarnWithdrawOrderSummaruScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    return Provider<EarnWithdrawalOrderSummaruStore>(
-      create: (context) => EarnWithdrawalOrderSummaruStore(
+    return Provider<EarnWithdrawalOrderSummaryStore>(
+      create: (context) => EarnWithdrawalOrderSummaryStore(
         earnPosition: earnPosition,
         amount: amount,
         isClosing: isClosing,
       ),
       builder: (context, child) {
-        final store = EarnWithdrawalOrderSummaruStore.of(context);
+        final store = EarnWithdrawalOrderSummaryStore.of(context);
 
         return SPageFrameWithPadding(
           loading: store.loader,
@@ -71,7 +71,7 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final store = EarnWithdrawalOrderSummaruStore.of(context);
+    final store = EarnWithdrawalOrderSummaryStore.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

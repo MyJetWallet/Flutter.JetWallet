@@ -130,7 +130,7 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
               submitButtonName: intl.addCircleCard_continue,
               onSubmitPressed: () {
                 sRouter.push(
-                  EarnWithdrawOrderSummaruRouter(
+                  EarnWithdrawOrderSummaryRouter(
                     amount: Decimal.parse(store.cryptoInputValue),
                     earnPosition: store.earnPosition,
                   ),
