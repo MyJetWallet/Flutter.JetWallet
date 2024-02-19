@@ -5,8 +5,6 @@ import 'package:jetwallet/features/earn/widgets/offer_tile.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/shared/simple_network_svg.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/widgets/button/main/simple_button.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
