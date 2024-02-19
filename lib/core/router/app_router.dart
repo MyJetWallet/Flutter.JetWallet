@@ -51,7 +51,11 @@ import 'package:jetwallet/features/debug_info/debug_history.dart';
 import 'package:jetwallet/features/debug_info/debug_info.dart';
 import 'package:jetwallet/features/debug_info/invest_ui_kit.dart';
 import 'package:jetwallet/features/debug_info/signalr_debug_info.dart';
+import 'package:jetwallet/features/earn/screens/earn_deposit_screen.dart';
+import 'package:jetwallet/features/earn/screens/earn_position_active_screen.dart';
 import 'package:jetwallet/features/earn/screens/earn_screen.dart';
+import 'package:jetwallet/features/earn/screens/earns_archive_screen.dart';
+import 'package:jetwallet/features/earn/screens/offers_screen.dart';
 import 'package:jetwallet/features/email_confirmation/ui/email_confirmation_screen.dart';
 import 'package:jetwallet/features/face_check/ui/face_check_screen.dart';
 import 'package:jetwallet/features/home/home_screen.dart';
@@ -125,6 +129,7 @@ import 'package:jetwallet/widgets/result_screens/verifying_screen/verifying_scre
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
@@ -244,6 +249,22 @@ class AppRouter extends _$AppRouter {
           page: EarnRouter.page,
         ),
       ],
+    ),
+    AutoRoute(
+      path: '/earn_positon',
+      page: EarnPositionActiveRouter.page,
+    ),
+    AutoRoute(
+      path: '/offers',
+      page: OffersRouter.page,
+    ),
+    AutoRoute(
+      path: '/earns_arcive',
+      page: EarnsArchiveRouter.page,
+    ),
+    AutoRoute(
+      path: '/earns_deposit',
+      page: EarnDepositScreenRouter.page,
     ),
     CustomRoute(
       path: '/verification_screen',

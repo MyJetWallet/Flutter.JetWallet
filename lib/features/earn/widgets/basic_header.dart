@@ -9,6 +9,7 @@ class SBasicHeader extends StatelessWidget {
     this.subtitle,
     this.buttonTitle,
     this.onTap,
+    this.showLinkButton = true,
     super.key,
   });
 
@@ -16,6 +17,7 @@ class SBasicHeader extends StatelessWidget {
   final String? buttonTitle;
   final String? subtitle;
   final void Function()? onTap;
+  final bool showLinkButton;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,7 @@ class SBasicHeader extends StatelessWidget {
           ],
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               if (subtitle != null)
                 Text(
@@ -51,14 +54,17 @@ class SBasicHeader extends StatelessWidget {
                   title,
                   style: sTextH4Style,
                 ),
-              if (onTap != null && buttonTitle != null)
-                GestureDetector(
-                  onTap: onTap,
-                  child: Text(
-                    buttonTitle!,
-                    style: STStyles.button.copyWith(color: colors.blue),
+              if (onTap != null && buttonTitle != null) ...[
+                const SizedBox(width: 8),
+                if (showLinkButton)
+                  GestureDetector(
+                    onTap: onTap,
+                    child: Text(
+                      buttonTitle!,
+                      style: STStyles.button.copyWith(color: colors.blue),
+                    ),
                   ),
-                ),
+              ],
             ],
           ),
         ],

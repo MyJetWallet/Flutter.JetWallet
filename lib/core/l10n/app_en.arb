@@ -1733,5 +1733,19 @@
     "earn_closing": "Closing",
     "earn_closed": "Finished",
     "earn_unknown": "Unknown",
-    "earn_variable_apy": "Variable APY"
+    "earn_variable_apy": "Variable APY",
+    "earn_started": "Started",
+    "earn_funds_will_be_withdrawn": "Your funds and accrued earnings are paid out upon closing your Earn Account. Disbursement of funds in {days} days",
+    "@earn_funds_will_be_withdrawn": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_top_up": "Top up",
+    "earn_withdraw": "Withdraw",
+    "earn_all_offers": "All offers",
+    "earn_earns_archive": "Earn archive",
+    "earn_you_can_withdraw_deposit_funds_instantly": "You can withdraw deposit funds instantly",
+    "earn_deposit": "Deposit",
+    "earn_continue": "Continue"
 }

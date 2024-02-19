@@ -4,6 +4,7 @@ import 'package:signalr_core/signalr_core.dart';
 import 'package:simple_networking/api_client/api_client.dart';
 import 'package:simple_networking/helpers/handle_api_responses.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/create_banking_account_simple_response.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/add_card/add_card_request_model.dart';
@@ -3319,6 +3320,39 @@ class WalletApiDataSources {
         for (final element in responseData['data']) {
           out.add(
             InvestSummaryModel.fromJson(element as Map<String, dynamic>),
+          );
+        }
+
+        return DC.data(out);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, List<EarnPositionClientModel>>> getEarnPositionsClosed({
+    required String skip,
+    required String take,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/earn/get-closed-positions',
+        data: {
+          "skip": 0,
+          "take": 0,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        final out = <EarnPositionClientModel>[];
+        for (final element in responseData['data']) {
+          out.add(
+            EarnPositionClientModel.fromJson(element as Map<String, dynamic>),
           );
         }
 

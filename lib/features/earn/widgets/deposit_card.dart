@@ -6,6 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/widgets/deposit_card_badge.dart';
+import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
 import 'package:jetwallet/features/earn/widgets/link_label.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
@@ -18,9 +19,11 @@ class SDepositCard extends StatelessWidget {
   const SDepositCard({
     super.key,
     required this.earnPosition,
+    required this.onTap,
   });
 
   final EarnPositionClientModel earnPosition;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -33,58 +36,61 @@ class SDepositCard extends StatelessWidget {
         right: 16,
         bottom: 8,
       ),
-      child: Card(
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-          side: BorderSide(color: colors.grey4),
-        ),
-        color: colors.white,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CryptoCardHeader(
-                name: earnPosition.assetId,
-                iconUrl: earnPosition.assetId,
-                apyRate: getHighestApyRateAsString(earnPosition.offers),
-                earnPositoinStatus: earnPosition.status,
-              ),
-              const SizedBox(height: 16),
-              CryptoCardBody(
-                balance: volumeFormat(
-                  decimal: earnPosition.baseAmount,
-                  symbol: sSignalRModules.baseCurrency.symbol,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Card(
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+            side: BorderSide(color: colors.grey4),
+          ),
+          color: colors.white,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CryptoCardHeader(
+                  name: earnPosition.assetId,
+                  iconUrl: earnPosition.assetId,
+                  apyRate: getHighestApyRateAsString(earnPosition.offers),
+                  earnPositoinStatus: earnPosition.status,
                 ),
-                balanceCrypto: volumeFormat(
-                  decimal: formatService.convertOneCurrencyToAnotherOne(
-                    fromCurrency: sSignalRModules.baseCurrency.symbol,
-                    fromCurrencyAmmount: earnPosition.baseAmount,
-                    toCurrency: earnPosition.assetId,
-                    baseCurrency: sSignalRModules.baseCurrency.symbol,
-                    isMin: true,
-                    numbersAfterDot: 2,
+                const SizedBox(height: 16),
+                CryptoCardBody(
+                  balance: volumeFormat(
+                    decimal: earnPosition.baseAmount,
+                    symbol: sSignalRModules.baseCurrency.symbol,
                   ),
-                  symbol: earnPosition.assetId,
-                ),
-                revenue: volumeFormat(
-                  decimal: earnPosition.incomeAmount,
-                  symbol: sSignalRModules.baseCurrency.symbol,
-                ),
-                revenueCrypto: volumeFormat(
-                  decimal: formatService.convertOneCurrencyToAnotherOne(
-                    fromCurrency: sSignalRModules.baseCurrency.symbol,
-                    fromCurrencyAmmount: earnPosition.incomeAmount,
-                    toCurrency: earnPosition.assetId,
-                    baseCurrency: sSignalRModules.baseCurrency.symbol,
-                    isMin: true,
-                    numbersAfterDot: 2,
+                  balanceCrypto: volumeFormat(
+                    decimal: formatService.convertOneCurrencyToAnotherOne(
+                      fromCurrency: sSignalRModules.baseCurrency.symbol,
+                      fromCurrencyAmmount: earnPosition.baseAmount,
+                      toCurrency: earnPosition.assetId,
+                      baseCurrency: sSignalRModules.baseCurrency.symbol,
+                      isMin: true,
+                      numbersAfterDot: 2,
+                    ),
+                    symbol: earnPosition.assetId,
                   ),
-                  symbol: earnPosition.assetId,
+                  revenue: volumeFormat(
+                    decimal: earnPosition.incomeAmount,
+                    symbol: sSignalRModules.baseCurrency.symbol,
+                  ),
+                  revenueCrypto: volumeFormat(
+                    decimal: formatService.convertOneCurrencyToAnotherOne(
+                      fromCurrency: sSignalRModules.baseCurrency.symbol,
+                      fromCurrencyAmmount: earnPosition.incomeAmount,
+                      toCurrency: earnPosition.assetId,
+                      baseCurrency: sSignalRModules.baseCurrency.symbol,
+                      isMin: true,
+                      numbersAfterDot: 2,
+                    ),
+                    symbol: earnPosition.assetId,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -98,8 +104,9 @@ class SDepositCard extends StatelessWidget {
       }
       return max;
     });
+    final finalRate = formatApyRate(highestApy);
 
-    return highestApy?.toString();
+    return finalRate?.toString();
   }
 }
 
@@ -148,10 +155,11 @@ class CryptoCardHeader extends StatelessWidget {
                   title: name!,
                   onTap: () {},
                 ),
-              Text(
-                '${intl.earn_variable_apy} $apyRate%',
-                style: STStyles.body2Medium.copyWith(color: colors.grey1),
-              ),
+              if (apyRate != null)
+                Text(
+                  '${intl.earn_variable_apy} $apyRate%',
+                  style: STStyles.body2Medium.copyWith(color: colors.grey1),
+                ),
             ],
           ),
         ),

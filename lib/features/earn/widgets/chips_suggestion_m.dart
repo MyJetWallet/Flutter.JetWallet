@@ -13,7 +13,7 @@ class ChipsSuggestionM extends StatelessWidget {
     this.trailingIcon,
     super.key,
   });
-  final String percentage;
+  final String? percentage;
   final String cryptoName;
   final void Function()? onTap;
   final Widget? trailingIcon;
@@ -56,12 +56,13 @@ class ChipsSuggestionM extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        '${intl.earn_up_to} $percentage%',
-                        style: STStyles.subtitle1.copyWith(
-                          color: colors.black,
+                      if (percentage != null)
+                        Text(
+                          '${intl.earn_up_to} $percentage%',
+                          style: STStyles.subtitle1.copyWith(
+                            color: colors.black,
+                          ),
                         ),
-                      ),
                       Text(
                         cryptoName,
                         style: STStyles.body1Semibold.copyWith(
