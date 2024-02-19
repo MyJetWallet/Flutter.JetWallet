@@ -25,13 +25,10 @@ class SLinkLabel extends StatelessWidget {
             title,
             style: STStyles.subtitle1.copyWith(color: colors.black),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 6),
-            child: SizedBox(
-              width: 16,
-              height: 16,
-              child: Assets.svg.medium.shevronRight.simpleSvg(),
-            ),
+          SizedBox(
+            width: 16,
+            height: 16,
+            child: Assets.svg.medium.shevronRight.simpleSvg(),
           ),
         ],
       ),

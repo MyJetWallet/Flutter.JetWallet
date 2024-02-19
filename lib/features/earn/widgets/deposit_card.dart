@@ -61,6 +61,7 @@ class SDepositCard extends StatelessWidget {
                   balance: volumeFormat(
                     decimal: earnPosition.baseAmount,
                     symbol: sSignalRModules.baseCurrency.symbol,
+                    accuracy: 2,
                   ),
                   balanceCrypto: volumeFormat(
                     decimal: formatService.convertOneCurrencyToAnotherOne(
@@ -69,22 +70,23 @@ class SDepositCard extends StatelessWidget {
                       toCurrency: earnPosition.assetId,
                       baseCurrency: sSignalRModules.baseCurrency.symbol,
                       isMin: true,
-                      numbersAfterDot: 2,
                     ),
+                    accuracy: 2,
                     symbol: earnPosition.assetId,
                   ),
                   revenue: volumeFormat(
+                    accuracy: 2,
                     decimal: earnPosition.incomeAmount,
                     symbol: sSignalRModules.baseCurrency.symbol,
                   ),
                   revenueCrypto: volumeFormat(
+                    accuracy: 2,
                     decimal: formatService.convertOneCurrencyToAnotherOne(
                       fromCurrency: sSignalRModules.baseCurrency.symbol,
                       fromCurrencyAmmount: earnPosition.incomeAmount,
                       toCurrency: earnPosition.assetId,
                       baseCurrency: sSignalRModules.baseCurrency.symbol,
                       isMin: true,
-                      numbersAfterDot: 2,
                     ),
                     symbol: earnPosition.assetId,
                   ),

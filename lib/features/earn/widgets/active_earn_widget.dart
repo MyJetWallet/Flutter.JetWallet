@@ -42,12 +42,9 @@ class ActiveEarnWidget extends StatelessWidget {
               height: 24,
             ),
             const SizedBox(width: 4),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: Text(
-                earnPosition.assetId,
-                style: STStyles.subtitle1.copyWith(color: colors.black),
-              ),
+            Text(
+              earnPosition.assetId,
+              style: STStyles.subtitle1.copyWith(color: colors.black),
             ),
           ],
         ),
@@ -68,7 +65,6 @@ class ActiveEarnWidget extends StatelessWidget {
               toCurrency: earnPosition.assetId,
               baseCurrency: sSignalRModules.baseCurrency.symbol,
               isMin: true,
-              numbersAfterDot: 2,
             ),
             symbol: earnPosition.assetId,
           ),
@@ -101,6 +97,7 @@ class ActiveEarnWidget extends StatelessWidget {
                       children: [
                         Text(
                           volumeFormat(
+                            accuracy: 2,
                             decimal: earnPosition.baseAmount,
                             symbol: sSignalRModules.baseCurrency.symbol,
                           ),
@@ -108,13 +105,13 @@ class ActiveEarnWidget extends StatelessWidget {
                         ),
                         Text(
                           volumeFormat(
+                            accuracy: 2,
                             decimal: formatService.convertOneCurrencyToAnotherOne(
                               fromCurrency: sSignalRModules.baseCurrency.symbol,
                               fromCurrencyAmmount: earnPosition.baseAmount,
                               toCurrency: earnPosition.assetId,
                               baseCurrency: sSignalRModules.baseCurrency.symbol,
                               isMin: true,
-                              numbersAfterDot: 2,
                             ),
                             symbol: earnPosition.assetId,
                           ),
@@ -139,6 +136,7 @@ class ActiveEarnWidget extends StatelessWidget {
                       children: [
                         Text(
                           volumeFormat(
+                            accuracy: 2,
                             decimal: earnPosition.incomeAmount,
                             symbol: sSignalRModules.baseCurrency.symbol,
                           ),
@@ -146,13 +144,13 @@ class ActiveEarnWidget extends StatelessWidget {
                         ),
                         Text(
                           volumeFormat(
+                            accuracy: 2,
                             decimal: formatService.convertOneCurrencyToAnotherOne(
                               fromCurrency: sSignalRModules.baseCurrency.symbol,
                               fromCurrencyAmmount: earnPosition.incomeAmount,
                               toCurrency: earnPosition.assetId,
                               baseCurrency: sSignalRModules.baseCurrency.symbol,
                               isMin: true,
-                              numbersAfterDot: 2,
                             ),
                             symbol: earnPosition.assetId,
                           ),

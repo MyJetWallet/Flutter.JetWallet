@@ -8,6 +8,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/widgets/basic_header.dart';
 import 'package:jetwallet/features/earn/widgets/chips_suggestion_m.dart';
+import 'package:jetwallet/features/earn/widgets/offers_overlay_content.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/modules/shared/simple_network_svg.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
@@ -47,7 +48,7 @@ class OffersListWidget extends StatelessWidget {
 
               return ChipsSuggestionM(
                 percentage: formatApyRate(offer.apyRate),
-                cryptoName: offer.assetId,
+                cryptoName: currency.description,
                 trailingIcon: offer.assetId.isNotEmpty
                     ? SNetworkSvg(
                         url: currency.iconUrl,
@@ -58,25 +59,24 @@ class OffersListWidget extends StatelessWidget {
                 onTap: () {
                   final groupOffers = earnOffers.where((o) => o.assetId == offer.assetId).toList();
 
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: Text('Offers for ${offer.assetId}'),
-                      content: SingleChildScrollView(
-                        child: ListBody(
-                          children: groupOffers.map((o) => Text('APY: ${o.apyRate}')).toList(),
-                        ),
-                      ),
-                      actions: <Widget>[
-                        TextButton(
-                          child: const Text('Close'),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    ),
-                  );
+                  if (groupOffers.length > 1) {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (BuildContext context) {
+                        final screenHeight = MediaQuery.of(context).size.height;
+                        return SizedBox(
+                          height: screenHeight * 0.85,
+                          child: OffersOverlayContent(
+                            offers: groupOffers,
+                            currency: currency,
+                          ),
+                        );
+                      },
+                    );
+                  } else {
+                    //! Alex S. add else statement (routing)
+                  }
                 },
               );
             }).toList(),
