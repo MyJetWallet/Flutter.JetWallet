@@ -113,11 +113,14 @@ class _EarnView extends StatelessWidget {
                 SliverToBoxAdapter(
                   child: Observer(
                     builder: (context) {
-                      if (store.earnPositions.isEmpty && store.earnPositionsClosed.isEmpty) const SizedBox.shrink();
-                      return EarnPositionsListWidget(
-                        earnPositions: store.earnPositions,
-                        earnPositionsClosed: store.earnPositionsClosed,
-                      );
+                      if (store.earnPositions.isEmpty && store.earnPositionsClosed.isEmpty) {
+                        return const SizedBox.shrink();
+                      } else {
+                        return EarnPositionsListWidget(
+                          earnPositions: store.earnPositions,
+                          earnPositionsClosed: store.earnPositionsClosed,
+                        );
+                      }
                     },
                   ),
                 ),

@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/features/earn/widgets/offer_tile.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/shared/simple_network_svg.dart';
@@ -62,7 +63,7 @@ class _OffersOverlayContentState extends State<OffersOverlayContent> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    widget.currency.symbol,
+                    widget.currency.description,
                     style: STStyles.header5.copyWith(color: colors.black),
                   ),
                   const SizedBox(height: 8),
@@ -74,84 +75,14 @@ class _OffersOverlayContentState extends State<OffersOverlayContent> {
                   ),
                   const SizedBox(height: 16),
                   ...widget.offers.map((offer) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: ListTile(
-                        selectedColor: colors.black,
-                        title: Text(
-                          offer.name ?? '',
-                          style: STStyles.subtitle1,
-                        ),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            if (offer.description != null)
-                              Text(
-                                offer.description!,
-                                style: STStyles.body1Medium.copyWith(color: colors.grey1),
-                                maxLines: 2,
-                              ),
-                            const SizedBox(height: 8),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                              decoration: BoxDecoration(
-                                color: colors.grey5,
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  if (offer.withdrawType == WithdrawType.instant)
-                                    SizedBox(
-                                      width: 12,
-                                      height: 12,
-                                      child: Assets.svg.medium.swap.simpleSvg(),
-                                    )
-                                  else
-                                    SizedBox(
-                                      width: 12,
-                                      height: 12,
-                                      child: Assets.svg.medium.freeze.simpleSvg(),
-                                    ),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    offer.withdrawType == WithdrawType.instant
-                                        ? intl.earn_flexible_tariff
-                                        : intl.earn_freeze_period(offer.lockPeriod ?? ''),
-                                    style: STStyles.captionSemibold,
-                                    maxLines: 2,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        trailing: Text(
-                          formatApyRate(offer.apyRate),
-                          style: STStyles.subtitle1.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
-                        ),
-                        leading: Transform.scale(
-                          scale: 1.3,
-                          child: Radio(
-                            value: offer.id,
-                            groupValue: selectedOfferId,
-                            onChanged: (String? value) {
-                              setState(() {
-                                selectedOfferId = value;
-                              });
-                            },
-                            activeColor: colors.black,
-                          ),
-                        ),
-                        onTap: () {
-                          setState(() {
-                            selectedOfferId = offer.id;
-                          });
-                        },
-                      ),
+                    return OfferListItem(
+                      offer: offer,
+                      selectedOfferId: selectedOfferId,
+                      onSelected: (value) {
+                        setState(() {
+                          selectedOfferId = value;
+                        });
+                      },
                     );
                   }).toList(),
                 ],

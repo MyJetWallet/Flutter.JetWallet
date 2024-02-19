@@ -48,7 +48,7 @@ class OffersListWidget extends StatelessWidget {
 
               return ChipsSuggestionM(
                 percentage: formatApyRate(offer.apyRate),
-                cryptoName: offer.assetId,
+                cryptoName: currency.description,
                 trailingIcon: offer.assetId.isNotEmpty
                     ? SNetworkSvg(
                         url: currency.iconUrl,
