@@ -1776,5 +1776,10 @@
     "earn_est" : "Est.",
     "earn_max" : "Max",
     "earn_from_earn" : "From earn",
-    "earn_to_crypto_wallet" : "To crypto wallet"
+    "earn_to_crypto_wallet" : "To crypto wallet",
+    "earn_crypto_wallet" : "Crypto wallet",
+    "earn_order_summary": "Order summary",
+    "earn_order_summary_partial_withdrawal_means": "Partial withdrawal means withdrawal of funds from the calculation basis. Revenue is paid out at full closure of the account.",
+    "earn_send" : "Send",
+    "earn_withdraw_successfully" : "Your funds have been successfully disbursed"
 }

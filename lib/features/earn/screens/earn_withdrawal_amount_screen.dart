@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
@@ -109,9 +110,8 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
             SuggestionButtonWidget(
               title: store.currency.description,
               subTitle: intl.earn_to_crypto_wallet,
-              trailing: getIt<AppStore>().isBalanceHide
-                  ? '**** ${store.currency.symbol}'
-                  :  store.currency.volumeAssetBalance,
+              trailing:
+                  getIt<AppStore>().isBalanceHide ? '**** ${store.currency.symbol}' : store.currency.volumeAssetBalance,
               icon: SNetworkSvg24(
                 url: store.currency.iconUrl,
               ),
@@ -127,7 +127,12 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
               submitButtonActive: store.isContinueAvaible,
               submitButtonName: intl.addCircleCard_continue,
               onSubmitPressed: () {
-                // TODO (Yaroslav): add routing to Order Simmary screen
+                sRouter.push(
+                  EarnWithdrawOrderSummaruRouter(
+                    amount: Decimal.parse(store.cryptoInputValue),
+                    earnPosition: store.earnPosition,
+                  ),
+                );
               },
             ),
           ],
