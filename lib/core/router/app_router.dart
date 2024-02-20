@@ -28,6 +28,8 @@ import 'package:jetwallet/features/auth/verification_reg/verification_screen.dar
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/buy_confrimation_screen.dart';
 import 'package:jetwallet/features/card_coming_soon/card_screen.dart';
+import 'package:jetwallet/features/cj_banking_accounts/screens/cj_account_label_screen.dart';
+import 'package:jetwallet/features/cj_banking_accounts/screens/cj_account_screen.dart';
 import 'package:jetwallet/features/convert/model/preview_convert_input.dart';
 import 'package:jetwallet/features/convert/ui/convert.dart';
 import 'package:jetwallet/features/convert/ui/preview_convert.dart';
@@ -54,6 +56,8 @@ import 'package:jetwallet/features/debug_info/signalr_debug_info.dart';
 import 'package:jetwallet/features/earn/screens/earn_deposit_screen.dart';
 import 'package:jetwallet/features/earn/screens/earn_position_active_screen.dart';
 import 'package:jetwallet/features/earn/screens/earn_screen.dart';
+import 'package:jetwallet/features/earn/screens/earn_withdrawal_amount_screen.dart';
+import 'package:jetwallet/features/earn/screens/earn_withdrawn_type_screen.dart';
 import 'package:jetwallet/features/earn/screens/earns_archive_screen.dart';
 import 'package:jetwallet/features/earn/screens/offers_screen.dart';
 import 'package:jetwallet/features/email_confirmation/ui/email_confirmation_screen.dart';
@@ -82,8 +86,6 @@ import 'package:jetwallet/features/market/market_details/ui/market_details.dart'
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/pdf_view_screen.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/market/ui/market_screen.dart';
-import 'package:jetwallet/features/cj_banking_accounts/screens/cj_account_label_screen.dart';
-import 'package:jetwallet/features/cj_banking_accounts/screens/cj_account_screen.dart';
 import 'package:jetwallet/features/my_wallets/screens/my_wallets_screen.dart';
 import 'package:jetwallet/features/payment_methods/ui/payment_methods.dart';
 import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
@@ -153,8 +155,8 @@ import '../../features/debug_info/logs_screen.dart';
 import '../../features/iban/iban_screen.dart';
 import '../../features/iban/widgets/iban_billing_address.dart';
 import '../../features/invest/invest_screen.dart';
-import '../../features/invest/ui/new_invest_screen.dart';
 import '../../features/invest/ui/invest_history_screen.dart';
+import '../../features/invest/ui/new_invest_screen.dart';
 import '../../features/send_gift/screens/gift_amount.dart';
 import '../../features/send_gift/screens/gift_order_summary.dart';
 import '../../features/send_gift/screens/gift_receivers_details_screen.dart';
@@ -689,6 +691,14 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/pending_invest_manage',
       page: PendingInvestManageRouter.page,
+    ),
+    AutoRoute(
+      path: '/earn_withdrawn_type',
+      page: EarnWithdrawnTypeRouter.page,
+    ),
+    AutoRoute(
+      path: '/earn_withdrawal_amount',
+      page: EarnWithdrawalAmountRouter.page,
     ),
   ];
 }

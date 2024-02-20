@@ -30,6 +30,8 @@ class EarnPositionActiveScreen extends StatelessWidget {
           orElse: () => CurrencyModel.empty(),
         );
 
+        final store = Provider.of<EarnStore>(context);
+
         return Scaffold(
           backgroundColor: colors.white,
           body: Column(
@@ -71,7 +73,11 @@ class EarnPositionActiveScreen extends StatelessWidget {
                           const SizedBox(height: 8),
                           SButton.text(
                             text: intl.earn_withdraw,
-                            callback: () {},
+                            callback: () {
+                              store.startEartWithdrawFlow(
+                                earnPosition: earnPosition,
+                              );
+                            },
                           ),
                         ],
                       )
