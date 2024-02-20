@@ -96,7 +96,7 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
               trailing: getIt<AppStore>().isBalanceHide
                   ? '**** ${store.currency.symbol}'
                   : volumeFormat(
-                      decimal: store.earnPosition.incomeAmount,
+                      decimal: store.earnPosition.baseAmount,
                       accuracy: store.currency.accuracy,
                       symbol: store.cryptoSymbol,
                     ),
@@ -111,11 +111,7 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
               subTitle: intl.earn_to_crypto_wallet,
               trailing: getIt<AppStore>().isBalanceHide
                   ? '**** ${store.currency.symbol}'
-                  : volumeFormat(
-                      decimal: store.currency.assetBalance,
-                      accuracy: store.currency.accuracy,
-                      symbol: store.currency.symbol,
-                    ),
+                  :  store.currency.volumeAssetBalance,
               icon: SNetworkSvg24(
                 url: store.currency.iconUrl,
               ),

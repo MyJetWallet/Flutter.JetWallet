@@ -35,13 +35,11 @@ abstract class _EarnWithdrawalAmountStoreBase with Store {
 
   @computed
   CurrencyModel get currency => getIt.get<FormatService>().findCurrency(
-        findInHideTerminalList: true,
         assetSymbol: earnPosition.assetId,
       );
 
   @computed
   CurrencyModel get eurCurrency => getIt.get<FormatService>().findCurrency(
-        findInHideTerminalList: true,
         assetSymbol: fiatSymbol,
       );
 
