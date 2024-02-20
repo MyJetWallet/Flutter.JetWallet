@@ -1,11 +1,15 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/widgets.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
@@ -78,4 +82,53 @@ abstract class _EarnStoreBase with Store {
 
   @computed
   bool get isBalanceHide => !getIt<AppStore>().isBalanceHide;
+
+  @action
+  Future<void> startEartWithdrawFlow({
+    required EarnPositionClientModel earnPosition,
+  }) async {
+    if (earnPosition.withdrawType == WithdrawType.lock) {
+      await _wirhdrawAllFlow();
+    } else if (earnPosition.withdrawType == WithdrawType.instant) {
+      await _wirhdrawPartialFlow(earnPosition: earnPosition);
+    } else {
+      sNotification.showError(
+        intl.something_went_wrong,
+        id: 1,
+      );
+    }
+  }
+
+  //TODO (yaroslav): complete function with task SPU-4264
+  Future<void> _wirhdrawAllFlow() async {
+    final context = sRouter.navigatorKey.currentContext!;
+
+    await sShowAlertPopup(
+      context,
+      primaryText: intl.earn_are_you_sure,
+      secondaryText: intl.earn_your_funds_and_accrued('12.12.2024'),
+      primaryButtonName: intl.earn_continue_earning,
+      secondaryButtonName: intl.earn_yes_withdraw,
+      image: Image.asset(
+        infoLightAsset,
+        width: 80,
+        height: 80,
+        package: 'simple_kit',
+      ),
+      onPrimaryButtonTap: () {
+        sRouter.pop();
+      },
+      onSecondaryButtonTap: () {
+        sRouter.pop();
+      },
+    );
+  }
+
+  Future<void> _wirhdrawPartialFlow({
+    required EarnPositionClientModel earnPosition,
+  }) async {
+    await sRouter.push(
+      EarnWithdrawnTypeRouter(earnPosition: earnPosition),
+    );
+  }
 }
