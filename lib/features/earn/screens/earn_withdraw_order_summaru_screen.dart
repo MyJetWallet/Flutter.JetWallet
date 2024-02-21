@@ -3,6 +3,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/earn/store/earn_withdrawal_order_summaru_store.dart';
+import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
@@ -12,6 +13,7 @@ import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
+import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
 @RoutePage(name: 'EarnWithdrawOrderSummaruRouter')
 class EarnWithdrawOrderSummaruScreen extends StatelessWidget {
@@ -110,8 +112,30 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
         ProcessingFeeRowWidget(
           fee: '0 ${store.currency.symbol}',
         ),
+        const SizedBox(height: 7),
+        if (store.earnPosition.withdrawType == WithdrawType.lock)
+          TwoColumnCell(
+            label: intl.earn_withdrawal_period,
+            value: intl.earn_30_days,
+            needHorizontalPadding: false,
+            haveInfoIcon: true,
+          ),
         const SizedBox(height: 16),
-        if (!store.isClosing)
+        if (store.earnPosition.withdrawType == WithdrawType.lock)
+          Builder(
+            builder: (context) {
+              final farmatedData = formatDateToDMYFromDate(store.earnPosition.closeDateTime.toString());
+
+              return Text(
+                intl.earn_the_funds_will_be_disbursed(farmatedData),
+                style: sCaptionTextStyle.copyWith(
+                  color: SColorsLight().gray8,
+                ),
+                maxLines: 5,
+              );
+            },
+          )
+        else if (!store.isClosing)
           Text(
             intl.earn_order_summary_partial_withdrawal_means,
             style: sCaptionTextStyle.copyWith(

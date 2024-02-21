@@ -7,6 +7,7 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -88,7 +89,7 @@ abstract class _EarnStoreBase with Store {
     required EarnPositionClientModel earnPosition,
   }) async {
     if (earnPosition.withdrawType == WithdrawType.lock) {
-      await _wirhdrawAllFlow();
+      await _wirhdrawAllFlow(earnPosition: earnPosition);
     } else if (earnPosition.withdrawType == WithdrawType.instant) {
       await _wirhdrawPartialFlow(earnPosition: earnPosition);
     } else {
@@ -99,14 +100,16 @@ abstract class _EarnStoreBase with Store {
     }
   }
 
-  //TODO (yaroslav): complete function with task SPU-4264
-  Future<void> _wirhdrawAllFlow() async {
+  Future<void> _wirhdrawAllFlow({
+    required EarnPositionClientModel earnPosition,
+  }) async {
     final context = sRouter.navigatorKey.currentContext!;
+    final farmatedData = formatDateToDMYFromDate(earnPosition.closeDateTime.toString());
 
     await sShowAlertPopup(
       context,
       primaryText: intl.earn_are_you_sure,
-      secondaryText: intl.earn_your_funds_and_accrued('12.12.2024'),
+      secondaryText: intl.earn_your_funds_and_accrued(farmatedData),
       primaryButtonName: intl.earn_continue_earning,
       secondaryButtonName: intl.earn_yes_withdraw,
       image: Image.asset(
@@ -120,6 +123,13 @@ abstract class _EarnStoreBase with Store {
       },
       onSecondaryButtonTap: () {
         sRouter.pop();
+        sRouter.push(
+          EarnWithdrawOrderSummaruRouter(
+            amount: earnPosition.baseAmount + earnPosition.incomeAmount,
+            earnPosition: earnPosition,
+            isClosing: true,
+          ),
+        );
       },
     );
   }
