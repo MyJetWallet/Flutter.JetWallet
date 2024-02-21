@@ -16,6 +16,7 @@ class TwoColumnCell extends StatelessWidget {
     this.haveInfoIcon = false,
     this.customRightIcon,
     this.valueMaxLines = 1,
+    this.onTab,
   }) : super(key: key);
 
   final TwoColumnCellType type;
@@ -29,72 +30,76 @@ class TwoColumnCell extends StatelessWidget {
 
   final bool haveInfoIcon;
   final Widget? customRightIcon;
+  final void Function()? onTab;
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: SColorsLight().white,
-      child: SizedBox(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: needHorizontalPadding ? 24 : 0, vertical: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Flexible(
-                child: Row(
-                  children: [
-                    Flexible(
-                      child: Text(
-                        label,
-                        style: STStyles.body2Medium.copyWith(color: SColorsLight().gray10),
+    return InkWell(
+      onTap: onTab,
+      child: Material(
+        color: SColorsLight().white,
+        child: SizedBox(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: needHorizontalPadding ? 24 : 0, vertical: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Flexible(
+                  child: Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          label,
+                          style: STStyles.body2Medium.copyWith(color: SColorsLight().gray10),
+                        ),
                       ),
-                    ),
-                    if (haveInfoIcon) ...[
-                      const Gap(4),
-                      Assets.svg.small.info.simpleSvg(
-                        width: 16,
-                        height: 16,
-                        color: SColorsLight().gray10,
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-              const Gap(10),
-              if (type != TwoColumnCellType.loading) ...[
-                if (customRightIcon != null) ...[
-                  customRightIcon!,
-                  const Gap(8),
-                ],
-                if (value != null) ...[
-                  Flexible(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Flexible(
-                          child: Text(
-                            value ?? '',
-                            maxLines: valueMaxLines,
-                            textAlign: TextAlign.right,
-                            style: STStyles.subtitle2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                      if (haveInfoIcon) ...[
+                        const Gap(4),
+                        Assets.svg.small.info.simpleSvg(
+                          width: 16,
+                          height: 16,
+                          color: SColorsLight().gray10,
                         ),
                       ],
+                    ],
+                  ),
+                ),
+                const Gap(10),
+                if (type != TwoColumnCellType.loading) ...[
+                  if (customRightIcon != null) ...[
+                    customRightIcon!,
+                    const Gap(8),
+                  ],
+                  if (value != null) ...[
+                    Flexible(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              value ?? '',
+                              maxLines: valueMaxLines,
+                              textAlign: TextAlign.right,
+                              style: STStyles.subtitle2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ] else ...[
-                Container(
-                  width: 120,
-                  height: 24,
-                  decoration: BoxDecoration(
-                    color: SColorsLight().gray4,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                )
-              ]
-            ],
+                  ],
+                ] else ...[
+                  Container(
+                    width: 120,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      color: SColorsLight().gray4,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  )
+                ]
+              ],
+            ),
           ),
         ),
       ),
