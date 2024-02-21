@@ -81,7 +81,7 @@ abstract class _EarnWithdrawalAmountStoreBase with Store {
 
   @computed
   Decimal get maxLimit {
-    return earnPosition.baseAmount;
+    return earnPosition.incomeAmount;
   }
 
   @action
