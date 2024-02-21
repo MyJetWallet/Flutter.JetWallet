@@ -1,4 +1,4 @@
-:root:not(.theme-dark) {
+:root:not(.theme-light) {
   --tv-color-platform-background: transparent;
   --tv-color-pane-background: transparent;
   --tv-color-pane-background-secondary: transparent;
@@ -14,7 +14,7 @@
   --tv-color-toolbar-toggle-button-background-active-hover: magenta;
 }
 
-.theme-dark:root {
+.theme-light:root {
   --tv-color-platform-background: transparent;
   --tv-color-pane-background: transparent;
   --tv-color-pane-background-secondary: transparent;
@@ -30,11 +30,11 @@
   --tv-color-toolbar-toggle-button-background-active-hover: magenta;
 }
 
-html.theme-dark .chart-page .chart-container-border {
+html.theme-light .chart-page .chart-container-border {
   background-color: transparent;
 }
 
-html.theme-dark ::selection {
+html.theme-light ::selection {
   background: none;
 }
 

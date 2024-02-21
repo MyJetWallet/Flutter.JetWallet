@@ -40,7 +40,10 @@ class _InvestChartState extends State<InvestChart> {
 
     return SizedBox(
       height: MediaQuery.of(context).size.height - 575,
-      child: const TVChart(),
+      child: TVChart(
+        instrument: widget.instrument.name ?? '',
+        instrumentId: widget.instrument.symbol ?? '',
+      ),
     );
   }
 }

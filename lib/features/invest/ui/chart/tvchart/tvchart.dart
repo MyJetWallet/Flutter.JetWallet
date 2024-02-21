@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
@@ -6,13 +7,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:jetwallet/features/invest/ui/chart/tvchart/tvchart_types.dart';
 
+import '../../../../../core/di/di.dart';
 import '../../../../../utils/constants.dart';
+import '../../../helpers/chart_resolution_helper.dart';
+import '../../../stores/chart/invest_chart_store.dart';
+import '../../../stores/dashboard/invest_dashboard_store.dart';
+import '../../../stores/dashboard/invest_new_store.dart';
 import '../commons/localhost.dart';
-import '../commons/tzdt.dart';
-import '../data/historical.dart';
 
 class TVChart extends StatefulWidget {
-  const TVChart({super.key});
+  const TVChart({
+    super.key,
+    required this.instrument,
+    required this.instrumentId,
+  });
+
+  final String instrument;
+  final String instrumentId;
 
   @override
   _TVChartState createState() => _TVChartState();
@@ -32,12 +43,14 @@ class _TVChartState extends State<TVChart> with WidgetsBindingObserver {
   }
 
   // ignore: unused_element
-  void _callOnTick(String listenerGuid, Bar bar) {
+  void _callOnTick(String listenerGuid, Bar bar, int chartType, String resolution) {
     if (_chartLoaded) {
       final controller = _controller!;
       final payload = <String, dynamic>{
         'listenerGuid': listenerGuid,
         'bar': bar,
+        'chartType': chartType,
+        'resolution': resolution,
       };
 
       controller.evaluateJavascript(
@@ -49,6 +62,7 @@ class _TVChartState extends State<TVChart> with WidgetsBindingObserver {
   void _attachHandler() {
     final controller = _controller;
     if (controller == null) return;
+    final investNewStore = getIt.get<InvestNewStore>();
 
     controller.addJavaScriptHandler(
       handlerName: 'start',
@@ -56,13 +70,12 @@ class _TVChartState extends State<TVChart> with WidgetsBindingObserver {
         return ChartingLibraryWidgetOptions(
           debug: false,
           locale: 'en',
-          symbol: 'IDX:COMPOSITE',
+          symbol: widget.instrument,
           fullscreen: false,
-          interval: '1D',
-          timezone: Timezone.asiaJakarta,
+          interval: chartResolutionTypeHelper(investNewStore.chartInterval),
+          timezone: Timezone.utc,
           autosize: true,
           autoSaveDelay: 1,
-          savedData: _savedData,
           disabledFeatures: const [
             'header_widget',
             'timeframes_toolbar',
@@ -118,13 +131,28 @@ class _TVChartState extends State<TVChart> with WidgetsBindingObserver {
       handlerName: 'resolveSymbol',
       callback: (arguments) {
         final symbolName = arguments[0] as String;
-        final result = historical.getSymbol(symbolName);
+        final symbol_stub = {
+        'full_name': symbolName,
+        'listed_exchange': '',
+        'name': symbolName,
+        'description': '',
+        'type': 'forex',
+        'session': '24x7',
+        'timezone': 'Etc/UTC',
+        'ticker': symbolName,
+        'exchange': symbolName,
+        'minmov': 1,
+        'pricescale': 100,
+        'has_weekly_and_monthly': true,
+        'has_daily': true,
+        'has_no_volume': true,
+        'has_empty_bars': false,
+        'supported_resolutions': ['15', '60', '240','1D'],
+        'data_status': 'streaming',
+        'format': 'price',
+        };
 
-        if (result != null) {
-          return result.getLibrarySymbolInfo();
-        } else {
-          return 'Symbol not found!';
-        }
+        return symbol_stub;
       },
     );
 
@@ -137,41 +165,36 @@ class _TVChartState extends State<TVChart> with WidgetsBindingObserver {
         // final String resolution = arguments[1];
         // final PeriodParams periodParams = PeriodParams.fromJson(arguments[2]);
 
-        print('arguments');
-        print(arguments);
-        final symbol = historical.getSymbol(symbolInfo.name);
-        if (symbol == null) {
-          return 'Symbol not found';
-        } else {
-          final result = await symbol.getDataRange(
-            tzMillisecond((arguments[2] as int) * 1000),
-            tzMillisecond((arguments[3] as int) * 1000),
-          );
+        final investChartStore = getIt.get<InvestChartStore>();
+        final result = await investChartStore.getAssetCandlesFull(
+          widget.instrument,
+          widget.instrumentId,
+        );
 
-          return {
-            'bars': result
-                .map(
-                  (e) => Bar(
-                    time: e.dt.millisecondsSinceEpoch,
-                    open: e.open,
-                    high: e.high,
-                    low: e.low,
-                    close: e.close,
-                    volume: e.volume,
-                  ),
-                )
-                .toList(),
-            'meta': {
-              'noData': result.isEmpty,
-            },
-          };
-        }
+        return {
+          'bars': result
+              .map(
+                (e) => Bar(
+                  time: e.date,
+                  open: e.open,
+                  high: e.high,
+                  low: e.low,
+                  close: e.close,
+                ),
+              )
+              .toList(),
+          'meta': {
+            'noData': result.isEmpty,
+          },
+          'chartType': investNewStore.chartType == 0 ? 3 : 1,
+          'resolution': chartResolutionTypeHelper(investNewStore.chartInterval),
+        };
       },
     );
 
     controller.addJavaScriptHandler(
       handlerName: 'subscribeBars',
-      callback: (arguments) {
+      callback: (arguments) async {
 
         final symbolInfo =
             LibrarySymbolInfo.fromJson(arguments[0] as Map<String, dynamic>);
@@ -186,6 +209,25 @@ class _TVChartState extends State<TVChart> with WidgetsBindingObserver {
           symbolInfo: symbolInfo,
           resolution: resolution,
         );
+
+        final price = getIt<InvestDashboardStore>().getPendingPriceBySymbol(widget.instrumentId);
+        final lastCandle = Bar(
+          open: price.toDouble(),
+          close: price.toDouble(),
+          high: price.toDouble(),
+          low: price.toDouble(),
+          time: DateTime.now().millisecondsSinceEpoch,
+        );
+
+        Timer.periodic(const Duration(seconds: 1), (timer) {
+          _callOnTick(
+            listenerGuid,
+            lastCandle,
+            investNewStore.chartType == 0 ? 3 : 1,
+            chartResolutionTypeHelper(investNewStore.chartInterval),
+          );
+        });
+
 
         // Do request for realtime data
         // Use _callOnTick for returning realtime bar data
@@ -206,11 +248,7 @@ class _TVChartState extends State<TVChart> with WidgetsBindingObserver {
 
     controller.addJavaScriptHandler(
       handlerName: 'saveData',
-      callback: (arguments) {
-        if (arguments[0] is Map<String, dynamic>) {
-          _savedData = arguments[0] as Map<String, dynamic>;
-        }
-      },
+      callback: (arguments) {},
     );
   }
 
@@ -375,8 +413,6 @@ class _TVChartState extends State<TVChart> with WidgetsBindingObserver {
     );
   }
 }
-
-Map<String, dynamic>? _savedData;
 
 @immutable
 class _OnTickInfo {
