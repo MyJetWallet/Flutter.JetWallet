@@ -116,7 +116,7 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
         if (store.earnPosition.withdrawType == WithdrawType.lock)
           TwoColumnCell(
             label: intl.earn_withdrawal_period,
-            value: intl.earn_30_days,
+            value: '${store.earnPosition.offers.first.lockPeriod} ${intl.days}',
             needHorizontalPadding: false,
             haveInfoIcon: true,
           ),
@@ -125,9 +125,9 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
           Builder(
             builder: (context) {
               final farmatedData = formatDateToDMYFromDate(store.earnPosition.closeDateTime.toString());
-
+              final days = store.earnPosition.offers.first.lockPeriod ?? 1;
               return Text(
-                intl.earn_the_funds_will_be_disbursed(farmatedData),
+                intl.earn_the_funds_will_be_disbursed(farmatedData, days),
                 style: sCaptionTextStyle.copyWith(
                   color: SColorsLight().gray8,
                 ),
