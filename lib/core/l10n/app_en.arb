@@ -1785,14 +1785,27 @@
     "earn_full_withdraw": "Your funds and accrued earnings are paid out when you close your Earn account.",
     "earn_basis_amount": "Basis amount",
     "earn_withdrawal_period": "Withdrawal period",
-    "earn_30_days": "30 days",
-    "earn_the_funds_will_be_disbursed": "The funds will be disbursed to your wallet on {date}. You will also earn income for the next 30 days",
+    "earn_the_funds_will_be_disbursed": "The funds will be disbursed to your wallet on {date}. You will also earn income for the next {days} days",
     "@earn_the_funds_will_be_disbursed": {
         "placeholders": {
             "date": {
                 "type": "String",
                 "example": "12.12.2024"
+            },
+            "days": {
+                "type": "num",
+                "example": "30"
             }
         }
-    }
+    },
+    "earn_withdrawal_period_explanation_1": "Withdrawal of funds from your plan will result in the closure of the corresponding Earn account. Please note that the full transfer of funds together with the earned income will take place {days} days after the request has been created.",
+    "@earn_withdrawal_period_explanation": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_withdrawal_period_explanation_2": "It is important to note that until the final closure of the account, the income will continue to accrue to your Earn account."
 }

@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/earn/widgets/check_title.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
@@ -22,6 +24,12 @@ class _EarnWithdrawnTypeScreenState extends State<EarnWithdrawnTypeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final minAccountAmount = widget.earnPosition.offers.first.minAmount ?? Decimal.zero;
+   final formatedMinAccountAmount = volumeFormat(
+      decimal: minAccountAmount,
+      symbol: widget.earnPosition.assetId,
+    );
+
     return SPageFrame(
       loaderText: '',
       header: SPaddingH24(
@@ -37,7 +45,7 @@ class _EarnWithdrawnTypeScreenState extends State<EarnWithdrawnTypeScreen> {
               radioValue: true,
               radiogroupValue: isPartialWithdrawal,
               title: intl.earn_partial_withdrawal,
-              description: intl.earn_the_minimum_amount_of_earn,
+              description: '${intl.earn_the_minimum_amount_of_earn} $formatedMinAccountAmount',
               onTap: () {
                 setState(() {
                   isPartialWithdrawal = true;

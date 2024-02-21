@@ -116,18 +116,24 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
         if (store.earnPosition.withdrawType == WithdrawType.lock)
           TwoColumnCell(
             label: intl.earn_withdrawal_period,
-            value: intl.earn_30_days,
+            value: '${store.earnPosition.offers.first.lockPeriod} ${intl.days}',
             needHorizontalPadding: false,
             haveInfoIcon: true,
+            onTab: () {
+              _showWithdrawalPeriodExplanation(
+                context: context,
+                countOfDays: store.earnPosition.offers.first.lockPeriod ?? 1,
+              );
+            },
           ),
         const SizedBox(height: 16),
         if (store.earnPosition.withdrawType == WithdrawType.lock)
           Builder(
             builder: (context) {
               final farmatedData = formatDateToDMYFromDate(store.earnPosition.closeDateTime.toString());
-
+              final days = store.earnPosition.offers.first.lockPeriod ?? 1;
               return Text(
-                intl.earn_the_funds_will_be_disbursed(farmatedData),
+                intl.earn_the_funds_will_be_disbursed(farmatedData, days),
                 style: sCaptionTextStyle.copyWith(
                   color: SColorsLight().gray8,
                 ),
@@ -157,6 +163,45 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
+      ],
+    );
+  }
+
+  void _showWithdrawalPeriodExplanation({
+    required BuildContext context,
+    required int countOfDays,
+  }) {
+    sShowBasicModalBottomSheet(
+      context: context,
+      horizontalPinnedPadding: 24,
+      scrollable: true,
+      pinned: SBottomSheetHeader(
+        name: intl.earn_withdrawal_period,
+      ),
+      children: [
+        SPaddingH24(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                intl.earn_withdrawal_period_explanation_1(countOfDays),
+                maxLines: 10,
+                style: sBodyText1Style.copyWith(
+                  color: sKit.colors.grey2,
+                ),
+              ),
+              const SpaceH12(),
+              Text(
+                intl.earn_withdrawal_period_explanation_2,
+                maxLines: 10,
+                style: sBodyText1Style.copyWith(
+                  color: sKit.colors.grey2,
+                ),
+              ),
+              const SpaceH64(),
+            ],
+          ),
+        ),
       ],
     );
   }
