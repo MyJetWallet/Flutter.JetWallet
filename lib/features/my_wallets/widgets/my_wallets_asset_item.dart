@@ -122,6 +122,7 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
                             CJAccountRouter(
                               bankingAccount: sSignalRModules.bankingProfileData!.simple!.account!,
                               isCJAccount: true,
+                              eurCurrency: currency,
                             ),
                           )
                           .then(

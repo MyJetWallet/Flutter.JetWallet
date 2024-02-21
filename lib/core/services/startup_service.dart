@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -388,8 +389,7 @@ class StartupService {
 
     if (info != null) {
       if (info.toCheckSelfie) {
-        // getIt.get<AppStore>().setAuthorizedStatus(const CheckSelfie());
-        pushHome();
+        kDebugMode ? pushHome() : getIt.get<AppStore>().setAuthorizedStatus(const CheckSelfie());
       } else {
         pushHome();
       }
