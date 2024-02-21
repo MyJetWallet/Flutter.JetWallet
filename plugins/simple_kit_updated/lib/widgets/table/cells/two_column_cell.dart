@@ -40,15 +40,14 @@ class TwoColumnCell extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width * .3,
-                ),
+              Flexible(
                 child: Row(
                   children: [
-                    Text(
-                      label,
-                      style: STStyles.body2Medium.copyWith(color: SColorsLight().gray10),
+                    Flexible(
+                      child: Text(
+                        label,
+                        style: STStyles.body2Medium.copyWith(color: SColorsLight().gray10),
+                      ),
                     ),
                     if (haveInfoIcon) ...[
                       const Gap(4),

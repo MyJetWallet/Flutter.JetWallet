@@ -56,6 +56,7 @@ import 'package:jetwallet/features/debug_info/signalr_debug_info.dart';
 import 'package:jetwallet/features/earn/screens/earn_deposit_screen.dart';
 import 'package:jetwallet/features/earn/screens/earn_position_active_screen.dart';
 import 'package:jetwallet/features/earn/screens/earn_screen.dart';
+import 'package:jetwallet/features/earn/screens/earn_withdraw_order_summaru_screen.dart';
 import 'package:jetwallet/features/earn/screens/earn_withdrawal_amount_screen.dart';
 import 'package:jetwallet/features/earn/screens/earn_withdrawn_type_screen.dart';
 import 'package:jetwallet/features/earn/screens/earns_archive_screen.dart';
@@ -699,6 +700,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/earn_withdrawal_amount',
       page: EarnWithdrawalAmountRouter.page,
+    ),
+    AutoRoute(
+      path: '/earn_withdraw_order_summaru',
+      page: EarnWithdrawOrderSummaruRouter.page,
     ),
   ];
 }
