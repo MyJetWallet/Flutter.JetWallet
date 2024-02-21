@@ -16,6 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/earn_close_position/earn_close_position_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/earn_withdraw_position/earn_withdraw_position_request_model.dart';
 
 part 'earn_withdrawal_order_summaru_store.g.dart';
@@ -25,6 +26,7 @@ class EarnWithdrawalOrderSummaruStore extends _EarnWithdrawalOrderSummaruStoreBa
   EarnWithdrawalOrderSummaruStore({
     required super.earnPosition,
     required super.amount,
+    required super.isClosing,
   }) : super();
 
   static EarnWithdrawalOrderSummaruStore of(BuildContext context) =>
@@ -35,6 +37,7 @@ abstract class _EarnWithdrawalOrderSummaruStoreBase with Store {
   _EarnWithdrawalOrderSummaruStoreBase({
     required this.earnPosition,
     required this.amount,
+    required this.isClosing,
   }) {
     requestId = DateTime.now().microsecondsSinceEpoch.toString();
 
@@ -50,6 +53,7 @@ abstract class _EarnWithdrawalOrderSummaruStoreBase with Store {
 
   final EarnPositionClientModel earnPosition;
   final Decimal amount;
+  final bool isClosing;
 
   @observable
   Decimal baseAmount = Decimal.zero;
@@ -82,13 +86,24 @@ abstract class _EarnWithdrawalOrderSummaruStoreBase with Store {
 
       loader.startLoadingImmediately();
 
-      final model = EarnWithdrawPositionRequestModel(
-        requestId: requestId,
-        positionId: earnPosition.id,
-        amount: amount,
-      );
+      late final DC<ServerRejectException, dynamic> resp;
 
-      final DC<ServerRejectException, dynamic> resp = await sNetwork.getWalletModule().postEarnWithdrawPosition(model);
+      if (isClosing) {
+        final model = EarnColosePositionRequestModel(
+          requestId: requestId,
+          positionId: earnPosition.id,
+        );
+
+        resp = await sNetwork.getWalletModule().postEarnClosePosition(model);
+      } else {
+        final model = EarnWithdrawPositionRequestModel(
+          requestId: requestId,
+          positionId: earnPosition.id,
+          amount: amount,
+        );
+
+        resp = await sNetwork.getWalletModule().postEarnWithdrawPosition(model);
+      }
 
       if (resp.hasError) {
         await _showFailureScreen(resp.error?.cause ?? '');

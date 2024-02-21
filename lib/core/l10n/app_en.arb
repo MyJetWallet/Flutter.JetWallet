@@ -1755,9 +1755,9 @@
             "days": {}
         }
     },
-    "earn_flexible_tariff" : "Flexible tariff",
-    "earn_are_you_sure" : "Are you sure?",
-    "earn_your_funds_and_accrued" : "Your funds and accrued earnings are paid out upon closing your Earn Account. Disbursement on {date}.",
+    "earn_flexible_tariff": "Flexible tariff",
+    "earn_are_you_sure": "Are you sure?",
+    "earn_your_funds_and_accrued": "Your funds and accrued earnings are paid out upon closing your Earn Account. Disbursement on {date}.",
     "@earn_your_funds_and_accrued": {
         "placeholders": {
             "date": {
@@ -1766,20 +1766,22 @@
             }
         }
     },
-    "earn_continue_earning" : "Continue Earning",
-    "earn_yes_withdraw" : "Yes, withdraw",
-    "earn_partial_withdrawal" : "Partial withdrawal",
-    "earn_the_minimum_amount_of_earn" : "The minimum amount of Earn account balances must not be less than",
-    "earn_full_withdrawal" : "Full withdrawal",
-    "earn_closing_an_earn_account" : "Closing an Earn account with withdrawal of the basis amount and revenue",
-    "earn_confirm" : "Confirm",
-    "earn_est" : "Est.",
-    "earn_max" : "Max",
-    "earn_from_earn" : "From earn",
-    "earn_to_crypto_wallet" : "To crypto wallet",
-    "earn_crypto_wallet" : "Crypto wallet",
+    "earn_continue_earning": "Continue Earning",
+    "earn_yes_withdraw": "Yes, withdraw",
+    "earn_partial_withdrawal": "Partial withdrawal",
+    "earn_the_minimum_amount_of_earn": "The minimum amount of Earn account balances must not be less than",
+    "earn_full_withdrawal": "Full withdrawal",
+    "earn_closing_an_earn_account": "Closing an Earn account with withdrawal of the basis amount and revenue",
+    "earn_confirm": "Confirm",
+    "earn_est": "Est.",
+    "earn_max": "Max",
+    "earn_from_earn": "From earn",
+    "earn_to_crypto_wallet": "To crypto wallet",
+    "earn_crypto_wallet": "Crypto wallet",
     "earn_order_summary": "Order summary",
     "earn_order_summary_partial_withdrawal_means": "Partial withdrawal means withdrawal of funds from the calculation basis. Revenue is paid out at full closure of the account.",
-    "earn_send" : "Send",
-    "earn_withdraw_successfully" : "Your funds have been successfully disbursed"
+    "earn_send": "Send",
+    "earn_withdraw_successfully": "Your funds have been successfully disbursed",
+    "earn_full_withdraw": "Your funds and accrued earnings are paid out when you close your Earn account.",
+    "earn_basis_amount": "Basis amount"
 }

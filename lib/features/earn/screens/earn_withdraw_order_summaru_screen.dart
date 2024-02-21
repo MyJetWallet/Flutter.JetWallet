@@ -19,10 +19,12 @@ class EarnWithdrawOrderSummaruScreen extends StatelessWidget {
     super.key,
     required this.earnPosition,
     required this.amount,
+    this.isClosing = false,
   });
 
   final EarnPositionClientModel earnPosition;
   final Decimal amount;
+  final bool isClosing;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,7 @@ class EarnWithdrawOrderSummaruScreen extends StatelessWidget {
       create: (context) => EarnWithdrawalOrderSummaruStore(
         earnPosition: earnPosition,
         amount: amount,
+        isClosing: isClosing,
       ),
       builder: (context, child) {
         final store = EarnWithdrawalOrderSummaruStore.of(context);
@@ -91,17 +94,31 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
           value: store.earnPosition.offers.first.name,
           needHorizontalPadding: false,
         ),
+        if (store.isClosing) ...[
+          TwoColumnCell(
+            label: intl.earn_basis_amount,
+            value: volumeFormat(decimal: store.earnPosition.baseAmount, symbol: store.currency.symbol),
+            needHorizontalPadding: false,
+          ),
+          TwoColumnCell(
+            label: intl.earn_revenue,
+            value: volumeFormat(decimal: store.earnPosition.incomeAmount, symbol: store.currency.symbol),
+            needHorizontalPadding: false,
+          ),
+        ],
+        const SizedBox(height: 7),
         ProcessingFeeRowWidget(
           fee: '0 ${store.currency.symbol}',
         ),
         const SizedBox(height: 16),
-        Text(
-          intl.earn_order_summary_partial_withdrawal_means,
-          style: sCaptionTextStyle.copyWith(
-            color: SColorsLight().gray8,
+        if (!store.isClosing)
+          Text(
+            intl.earn_order_summary_partial_withdrawal_means,
+            style: sCaptionTextStyle.copyWith(
+              color: SColorsLight().gray8,
+            ),
+            maxLines: 5,
           ),
-          maxLines: 5,
-        ),
         const SizedBox(height: 16),
         const SDivider(),
         const Spacer(),
