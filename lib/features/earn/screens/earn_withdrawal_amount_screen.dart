@@ -105,6 +105,7 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
                 url: store.currency.iconUrl,
               ),
               onTap: () {},
+              showArrow: false,
             ),
             const SpaceH8(),
             SuggestionButtonWidget(
@@ -116,6 +117,7 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
                 url: store.currency.iconUrl,
               ),
               onTap: () {},
+              showArrow: false,
             ),
             const SpaceH20(),
             SNumericKeyboardAmount(
