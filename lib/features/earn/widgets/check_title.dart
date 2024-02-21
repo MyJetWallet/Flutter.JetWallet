@@ -63,7 +63,7 @@ class CheckTitle<T> extends StatelessWidget {
                       child: Text(
                         description!,
                         style: STStyles.body1Medium.copyWith(color: colors.grey1),
-                        maxLines: 2,
+                        maxLines: 5,
                       ),
                     ),
                   badge ?? const Offstage(),

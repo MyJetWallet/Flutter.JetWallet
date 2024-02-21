@@ -81,7 +81,7 @@ abstract class _EarnWithdrawalAmountStoreBase with Store {
 
   @computed
   Decimal get maxLimit {
-    return earnPosition.incomeAmount;
+    return earnPosition.baseAmount - (earnPosition.offers.first.minAmount ?? Decimal.zero);
   }
 
   @action
@@ -212,8 +212,6 @@ abstract class _EarnWithdrawalAmountStoreBase with Store {
     } else {
       _updatePaymentMethodInputError(null);
     }
-
-
   }
 
   @action
