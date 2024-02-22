@@ -9,7 +9,6 @@ import 'package:jetwallet/features/earn/widgets/basic_banner.dart';
 import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
 import 'package:jetwallet/features/earn/widgets/earn_positins_list.dart';
 import 'package:jetwallet/features/earn/widgets/price_header.dart';
-import 'package:jetwallet/features/market/ui/widgets/fade_on_scroll.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -53,83 +52,66 @@ class _EarnView extends StatelessWidget {
   Widget build(BuildContext context) {
     final store = Provider.of<EarnStore>(context);
     final colors = sKit.colors;
+    return SPageFrame(
+      loaderText: '',
+      color: colors.white,
+      header: SMarketHeaderClosed(
+        color: colors.white,
+        title: intl.earn_earn,
+      ),
+      child: FutureBuilder(
+        future: store.fetchClosedPositions(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-    return Scaffold(
-      backgroundColor: colors.white,
-      body: NestedScrollView(
-        controller: controller,
-        headerSliverBuilder: (context, _) {
-          return [
-            SliverAppBar(
-              backgroundColor: colors.white,
-              pinned: true,
-              elevation: 0,
-              expandedHeight: 120,
-              collapsedHeight: 120,
-              primary: false,
-              flexibleSpace: FadeOnScroll(
-                scrollController: controller,
-                fullOpacityOffset: 50,
-                fadeInWidget: const SDivider(
-                  width: double.infinity,
-                ),
-                fadeOutWidget: const SizedBox.shrink(),
-                permanentWidget: SMarketHeaderClosed(
-                  title: intl.earn_earn,
-                ),
-              ),
-            ),
-          ];
-        },
-        body: Builder(
-          builder: (context) {
-            return CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(
-                  child: SBasicBanner(text: intl.earn_funds_are_calculated_based_on_the_current_value),
-                ),
-                if (store.earnPositions.isNotEmpty)
-                  SliverToBoxAdapter(
-                    child: SPriceHeader(
-                      totalSum: store.isBalanceHide
-                          ? volumeFormat(
-                              decimal: sSignalRModules.earnWalletProfileData?.total ?? Decimal.zero,
-                              symbol: sSignalRModules.baseCurrency.symbol,
-                            )
-                          : '**** ${sSignalRModules.baseCurrency.symbol}',
-                      revenueSum: store.isBalanceHide
-                          ? volumeFormat(
-                              decimal: sSignalRModules.earnWalletProfileData?.balance ?? Decimal.zero,
-                              symbol: sSignalRModules.baseCurrency.symbol,
-                            )
-                          : '**** ${sSignalRModules.baseCurrency.symbol}',
+          return Observer(
+            builder: (context) {
+              return CustomScrollView(
+                slivers: [
+                  if (store.earnPositions.isNotEmpty && store.earnPositionsClosed.isNotEmpty)
+                    SliverToBoxAdapter(
+                      child: SBasicBanner(text: intl.earn_funds_are_calculated_based_on_the_current_value),
                     ),
+                  if (store.earnPositions.isNotEmpty)
+                    SliverToBoxAdapter(
+                      child: SPriceHeader(
+                        totalSum: store.isBalanceHide
+                            ? volumeFormat(
+                                decimal: sSignalRModules.earnWalletProfileData?.total ?? Decimal.zero,
+                                symbol: sSignalRModules.baseCurrency.symbol,
+                              )
+                            : '**** ${sSignalRModules.baseCurrency.symbol}',
+                        revenueSum: store.isBalanceHide
+                            ? volumeFormat(
+                                decimal: sSignalRModules.earnWalletProfileData?.balance ?? Decimal.zero,
+                                symbol: sSignalRModules.baseCurrency.symbol,
+                              )
+                            : '**** ${sSignalRModules.baseCurrency.symbol}',
+                      ),
+                    ),
+                  if (store.earnPositions.isEmpty && store.earnPositionsClosed.isEmpty)
+                    const SliverToBoxAdapter(child: SizedBox.shrink())
+                  else
+                    SliverToBoxAdapter(
+                      child: EarnPositionsListWidget(
+                        earnPositions: store.earnPositions,
+                        earnPositionsClosed: store.earnPositionsClosed,
+                      ),
+                    ),
+                  const SliverToBoxAdapter(child: SizedBox(height: 16)),
+                  SliverToBoxAdapter(
+                    child: OffersListWidget(earnOffers: store.earnOffers),
                   ),
-                SliverToBoxAdapter(
-                  child: Observer(
-                    builder: (context) {
-                      if (store.earnPositions.isEmpty && store.earnPositionsClosed.isEmpty) {
-                        return const SizedBox.shrink();
-                      } else {
-                        return EarnPositionsListWidget(
-                          earnPositions: store.earnPositions,
-                          earnPositionsClosed: store.earnPositionsClosed,
-                        );
-                      }
-                    },
+                  const SliverToBoxAdapter(
+                    child: SizedBox(height: 32),
                   ),
-                ),
-                const SliverToBoxAdapter(child: SizedBox(height: 16)),
-                SliverToBoxAdapter(
-                  child: OffersListWidget(earnOffers: store.earnOffers),
-                ),
-                const SliverToBoxAdapter(
-                  child: SizedBox(height: 32),
-                ),
-              ],
-            );
-          },
-        ),
+                ],
+              );
+            },
+          );
+        },
       ),
     );
   }

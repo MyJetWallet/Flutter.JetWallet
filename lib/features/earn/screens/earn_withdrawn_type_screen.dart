@@ -105,7 +105,7 @@ class _EarnWithdrawnTypeScreenState extends State<EarnWithdrawnTypeScreen> {
       },
       onSecondaryButtonTap: () {
         sRouter.push(
-          EarnWithdrawOrderSummaruRouter(
+          EarnWithdrawOrderSummaryRouter(
             amount: widget.earnPosition.baseAmount + widget.earnPosition.incomeAmount,
             earnPosition: widget.earnPosition,
             isClosing: true,

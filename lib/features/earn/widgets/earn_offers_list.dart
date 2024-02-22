@@ -10,7 +10,7 @@ import 'package:jetwallet/features/earn/widgets/basic_header.dart';
 import 'package:jetwallet/features/earn/widgets/chips_suggestion_m.dart';
 import 'package:jetwallet/features/earn/widgets/offers_overlay_content.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:simple_kit/modules/shared/simple_network_svg.dart';
+import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
 class OffersListWidget extends StatelessWidget {
@@ -60,22 +60,20 @@ class OffersListWidget extends StatelessWidget {
                   final groupOffers = earnOffers.where((o) => o.assetId == offer.assetId).toList();
 
                   if (groupOffers.length > 1) {
-                    showModalBottomSheet(
+                    sShowBasicModalBottomSheet(
                       context: context,
-                      isScrollControlled: true,
-                      builder: (BuildContext context) {
-                        final screenHeight = MediaQuery.of(context).size.height;
-                        return SizedBox(
-                          height: screenHeight * 0.85,
-                          child: OffersOverlayContent(
-                            offers: groupOffers,
-                            currency: currency,
-                          ),
-                        );
-                      },
+                      scrollable: true,
+                      children: [
+                        OffersOverlayContent(
+                          offers: groupOffers,
+                          currency: currency,
+                        ),
+                      ],
                     );
                   } else {
-                    //! Alex S. add else statement (routing)
+                    context.router.push(
+                      EarnDepositScreenRouter(offer: offer),
+                    );
                   }
                 },
               );

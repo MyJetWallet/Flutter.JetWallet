@@ -56,10 +56,11 @@ import 'package:jetwallet/features/debug_info/signalr_debug_info.dart';
 import 'package:jetwallet/features/earn/screens/earn_deposit_screen.dart';
 import 'package:jetwallet/features/earn/screens/earn_position_active_screen.dart';
 import 'package:jetwallet/features/earn/screens/earn_screen.dart';
-import 'package:jetwallet/features/earn/screens/earn_withdraw_order_summaru_screen.dart';
+import 'package:jetwallet/features/earn/screens/earn_withdraw_order_summary_screen.dart';
 import 'package:jetwallet/features/earn/screens/earn_withdrawal_amount_screen.dart';
 import 'package:jetwallet/features/earn/screens/earn_withdrawn_type_screen.dart';
 import 'package:jetwallet/features/earn/screens/earns_archive_screen.dart';
+import 'package:jetwallet/features/earn/screens/offer_order_summary.dart';
 import 'package:jetwallet/features/earn/screens/offers_screen.dart';
 import 'package:jetwallet/features/email_confirmation/ui/email_confirmation_screen.dart';
 import 'package:jetwallet/features/face_check/ui/face_check_screen.dart';
@@ -136,6 +137,7 @@ import 'package:simple_networking/modules/signal_r/models/active_earn_positions_
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
+import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
@@ -268,6 +270,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/earns_deposit',
       page: EarnDepositScreenRouter.page,
+    ),
+    AutoRoute(
+      path: '/offer_order_summary',
+      page: OfferOrderSummaryRouter.page,
     ),
     CustomRoute(
       path: '/verification_screen',
@@ -702,8 +708,8 @@ class AppRouter extends _$AppRouter {
       page: EarnWithdrawalAmountRouter.page,
     ),
     AutoRoute(
-      path: '/earn_withdraw_order_summaru',
-      page: EarnWithdrawOrderSummaruRouter.page,
+      path: '/earn_withdraw_order_summary',
+      page: EarnWithdrawOrderSummaryRouter.page,
     ),
   ];
 }

@@ -1,6 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/earn/widgets/offer_tile.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
@@ -26,86 +28,68 @@ class _OffersOverlayContentState extends State<OffersOverlayContent> {
   String? selectedOfferId;
 
   @override
+  void initState() {
+    if (widget.offers.isNotEmpty) {
+      selectedOfferId = widget.offers.first.id;
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colors = SColorsLight();
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colors.white,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(24),
-          topRight: Radius.circular(24),
+    return Column(
+      children: [
+        SNetworkSvg(
+          url: widget.currency.iconUrl,
+          width: 80,
+          height: 80,
         ),
-      ),
-      child: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(height: 8),
-                  Container(
-                    width: 32,
-                    height: 6,
-                    decoration: BoxDecoration(
-                      color: colors.grey4,
-                      borderRadius: const BorderRadius.all(Radius.circular(3)),
-                    ),
-                  ),
-                  const SizedBox(height: 36),
-                  SNetworkSvg(
-                    url: widget.currency.iconUrl,
-                    width: 80,
-                    height: 80,
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    widget.currency.description,
-                    style: STStyles.header5.copyWith(color: colors.black),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    intl.earn_choose_a_deposit_plan,
-                    style: STStyles.body1Medium.copyWith(color: colors.grey1),
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                  ),
-                  const SizedBox(height: 16),
-                  ...widget.offers.map((offer) {
-                    return OfferListItem(
-                      offer: offer,
-                      selectedOfferId: selectedOfferId,
-                      onSelected: (value) {
-                        setState(() {
-                          selectedOfferId = value;
-                        });
-                      },
+        const SizedBox(height: 16),
+        Text(
+          widget.currency.description,
+          style: STStyles.header5.copyWith(color: colors.black),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          intl.earn_choose_a_deposit_plan,
+          style: STStyles.body1Medium.copyWith(color: colors.grey1),
+          textAlign: TextAlign.center,
+          maxLines: 2,
+        ),
+        const SizedBox(height: 16),
+        ...widget.offers.map((offer) {
+          return OfferListItem(
+            offer: offer,
+            selectedOfferId: selectedOfferId,
+            onSelected: (value) {
+              setState(() {
+                selectedOfferId = value;
+              });
+            },
+          );
+        }).toList(),
+        Padding(
+          padding: EdgeInsets.only(
+            left: 24,
+            right: 24,
+            bottom: MediaQuery.of(context).padding.bottom + 16,
+          ),
+          child: SButton.blue(
+            text: intl.earn_continue,
+            callback: selectedOfferId != null
+                ? () {
+                    final selectedOffer = widget.offers.firstWhere((offer) => offer.id == selectedOfferId);
+
+                    context.router.push(
+                      EarnDepositScreenRouter(offer: selectedOffer),
                     );
-                  }).toList(),
-                ],
-              ),
-            ),
+                  }
+                : null,
           ),
-          Padding(
-            padding: EdgeInsets.only(
-              left: 24,
-              right: 24,
-              bottom: MediaQuery.of(context).padding.bottom + 16,
-            ),
-            child: SButton.blue(
-              text: intl.earn_continue,
-              callback: selectedOfferId != null
-                  ? () {
-                      //! Alex S. add routing
-                      // context.router.push(const EarnDepositScreenRouter());
-                      Navigator.pop(context);
-                    }
-                  : null,
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

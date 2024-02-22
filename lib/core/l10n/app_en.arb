@@ -1776,7 +1776,6 @@
     "earn_est": "Est.",
     "earn_max": "Max",
     "earn_from_earn": "From earn",
-    "earn_to_crypto_wallet": "To crypto wallet",
     "earn_crypto_wallet": "Crypto wallet",
     "earn_order_summary": "Order summary",
     "earn_order_summary_partial_withdrawal_means": "Partial withdrawal means withdrawal of funds from the calculation basis. Revenue is paid out at full closure of the account.",
@@ -1807,5 +1806,34 @@
             }
         }
     },
-    "earn_withdrawal_period_explanation_2": "It is important to note that until the final closure of the account, the income will continue to accrue to your Earn account."
+    "earn_withdrawal_period_explanation_2": "It is important to note that until the final closure of the account, the income will continue to accrue to your Earn account.",
+    "earn_from_crypto_wallet": "From crypto wallet",
+    "earn_to_crypto_wallet": "To crypto wallet",
+    "earn_to_earn": "To earn",
+    "earn_deposit_crypto_wallet": "Deposit crypto wallet",
+    "earn_to_continue_you_need_to_top_up": "To continue, you need to top up your Bitcoin wallet with at least {topup_value}",
+    "@earn_to_continue_you_need_to_top_up": {
+        "topup_value": {
+            "date": {
+                "type": "String",
+                "example": "0.0002 BTC"
+            }
+        }
+    },
+    "earn_top_up_value": "Top up {value}",
+    "@eearn_top_up_value": {
+        "topup_value": {
+            "date": {
+                "type": "String",
+                "example": "BTC"
+            }
+        }
+    },
+    "earn_cancel": "Cancel",
+    "earn_apy_rate" : "APY Rate",
+    "earn_earning_term": "Earning term",
+    "earn_flexible" : "Flexible",
+    "earn_instant" : "Instant",
+    "earn_i_have_read_and_agreed_to": "I have read and agreed to",
+    "earn_terms_and_conditions": "Terms and conditions"
 }

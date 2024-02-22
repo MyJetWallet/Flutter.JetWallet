@@ -19,22 +19,22 @@ import 'package:simple_networking/modules/signal_r/models/active_earn_positions_
 import 'package:simple_networking/modules/wallet_api/models/earn_close_position/earn_close_position_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/earn_withdraw_position/earn_withdraw_position_request_model.dart';
 
-part 'earn_withdrawal_order_summaru_store.g.dart';
+part 'earn_withdrawal_order_summary_store.g.dart';
 
-class EarnWithdrawalOrderSummaruStore extends _EarnWithdrawalOrderSummaruStoreBase
-    with _$EarnWithdrawalOrderSummaruStore {
-  EarnWithdrawalOrderSummaruStore({
+class EarnWithdrawalOrderSummaryStore extends _EarnWithdrawalOrderSummaryStoreBase
+    with _$EarnWithdrawalOrderSummaryStore {
+  EarnWithdrawalOrderSummaryStore({
     required super.earnPosition,
     required super.amount,
     required super.isClosing,
   }) : super();
 
-  static EarnWithdrawalOrderSummaruStore of(BuildContext context) =>
-      Provider.of<EarnWithdrawalOrderSummaruStore>(context, listen: false);
+  static EarnWithdrawalOrderSummaryStore of(BuildContext context) =>
+      Provider.of<EarnWithdrawalOrderSummaryStore>(context, listen: false);
 }
 
-abstract class _EarnWithdrawalOrderSummaruStoreBase with Store {
-  _EarnWithdrawalOrderSummaruStoreBase({
+abstract class _EarnWithdrawalOrderSummaryStoreBase with Store {
+  _EarnWithdrawalOrderSummaryStoreBase({
     required this.earnPosition,
     required this.amount,
     required this.isClosing,

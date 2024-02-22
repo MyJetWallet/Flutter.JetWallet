@@ -128,7 +128,7 @@ abstract class _EarnStoreBase with Store {
       onSecondaryButtonTap: () {
         sRouter.pop();
         sRouter.push(
-          EarnWithdrawOrderSummaruRouter(
+          EarnWithdrawOrderSummaryRouter(
             amount: earnPosition.baseAmount + earnPosition.incomeAmount,
             earnPosition: earnPosition,
             isClosing: true,

@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/store/earn_store.dart';
 import 'package:jetwallet/features/earn/widgets/active_earn_widget.dart';
@@ -66,9 +65,7 @@ class EarnPositionActiveScreen extends StatelessWidget {
                           SButton.blue(
                             text: intl.earn_top_up,
                             //! Alex S. check card amount
-                            callback: () {
-                              context.router.push(const EarnDepositScreenRouter());
-                            },
+                            callback: () {},
                           ),
                           const SizedBox(height: 8),
                           SButton.text(
