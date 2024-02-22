@@ -1,6 +1,5 @@
 import 'package:data_channel/data_channel.dart';
 import 'package:dio/dio.dart';
-import 'package:signalr_core/signalr_core.dart';
 import 'package:simple_networking/api_client/api_client.dart';
 import 'package:simple_networking/helpers/handle_api_responses.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -1196,6 +1195,29 @@ class WalletApiDataSources {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/trading/high-yield/earn-offer-withdrawal',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        handleResultResponse(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> postEarnOfferCreatePosition(
+    EarnOfferWithdrawalRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/earn/create-position',
         data: model.toJson(),
       );
 

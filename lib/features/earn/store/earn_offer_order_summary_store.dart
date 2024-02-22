@@ -16,7 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
-import 'package:simple_networking/modules/wallet_api/models/earn_withdraw_position/earn_withdraw_position_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/earn_offer_withdrawal/earn_offer_withdrawal_request_model.dart';
 
 part 'earn_offer_order_summary_store.g.dart';
 
@@ -117,23 +117,22 @@ abstract class _OfferOrderSummaryStoreBase with Store {
 
       late final DC<ServerRejectException, dynamic> resp;
 
-      final model = EarnWithdrawPositionRequestModel(
+      final model = EarnOfferWithdrawalRequestModel(
         requestId: requestId,
-        positionId: offer.id,
-        //! Alex S. fix this
-        amount: Decimal.zero,
-        // amount: amount,
+        assetSymbol: currency.symbol,
+        offerId: offer.id,
+        amount: selectedAmount,
       );
 
-      resp = await sNetwork.getWalletModule().postEarnWithdrawPosition(model);
+      resp = await sNetwork.getWalletModule().postEarnOfferCreatePosition(model);
 
       if (resp.hasError) {
-        await _showFailureScreen(resp.error?.cause ?? '');
+        await _showFailureScreen(resp.error?.errorCode ?? '');
 
         return;
       }
 
-      if (sRouter.currentPath != '/earn_withdraw_order_summaru') {
+      if (sRouter.currentPath != '/offer_order_summary') {
         return;
       }
 
@@ -167,11 +166,7 @@ abstract class _OfferOrderSummaryStoreBase with Store {
     )
         .then((value) {
       sRouter.replaceAll([
-        const HomeRouter(
-          children: [
-            MyWalletsRouter(),
-          ],
-        ),
+        const HomeRouter(),
       ]);
     });
   }
@@ -180,7 +175,7 @@ abstract class _OfferOrderSummaryStoreBase with Store {
   Future<void> _showFailureScreen(String error) async {
     loader.finishLoadingImmediately();
 
-    if (sRouter.currentPath != '/earn_withdraw_order_summaru') {
+    if (sRouter.currentPath != '/offer_order_summary') {
       return;
     }
 

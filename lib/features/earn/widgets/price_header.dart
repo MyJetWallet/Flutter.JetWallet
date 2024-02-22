@@ -35,13 +35,13 @@ class SPriceHeader extends StatelessWidget {
           ),
           Text(
             totalSum,
-            style: STStyles.header3.copyWith(
+            style: STStyles.header2.copyWith(
               color: colors.black,
             ),
           ),
           Text(
             '${intl.earn_revenue} $revenueSum',
-            style: STStyles.body1Semibold.copyWith(
+            style: STStyles.body2Medium.copyWith(
               color: colors.grey1,
             ),
           ),

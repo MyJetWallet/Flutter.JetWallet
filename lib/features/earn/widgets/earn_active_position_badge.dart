@@ -59,7 +59,7 @@ class SEarnPositionBadge extends StatelessWidget {
   Widget _getIcon(EarnPositionStatus status, Color color) {
     switch (status) {
       case EarnPositionStatus.active:
-        return SCheckmarkIcon(color: color);
+        return SClockIcon(color: color);
       case EarnPositionStatus.closing:
         return SClockIcon(color: color);
       case EarnPositionStatus.closed:

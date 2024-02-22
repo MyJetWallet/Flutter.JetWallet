@@ -51,7 +51,7 @@ class OfferOrderSummaryScreen extends StatelessWidget {
               : null,
           header: SSmallHeader(
             title: intl.earn_order_summary,
-            subTitle: intl.earn_send,
+            subTitle: intl.earn_transfer,
             subTitleStyle: sBodyText2Style.copyWith(
               color: colors.grey1,
             ),
@@ -86,7 +86,7 @@ class _OfferOrderSummaruBody extends StatelessWidget {
               toAssetDescription: '${intl.earn_earn} ${store.offer.name}',
               toAssetValue: volumeFormat(decimal: store.selectedAmount, symbol: store.currency.symbol),
               toAssetBaseAmount:
-                  '≈${volumeFormat(decimal: store.baseAmount, symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
+                  '≈${volumeFormat(decimal: store.baseCryptoAmount, symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
             ),
             const SDivider(),
             const SizedBox(height: 19),
@@ -108,22 +108,20 @@ class _OfferOrderSummaruBody extends StatelessWidget {
             const SizedBox(height: 16),
             const SDivider(),
             const SizedBox(height: 16),
-            SPaddingH24(
-              child: SPolicyCheckbox(
-                onPrivacyPolicyTap: () {
-                  //! Alex S. add modal
-                  print('test');
-                },
-                onUserAgreementTap: () {},
-                firstText: intl.earn_i_have_read_and_agreed_to,
-                userAgreementText: '',
-                betweenText: ' ',
-                privacyPolicyText: intl.earn_terms_and_conditions,
-                isChecked: store.isTermsAndConditionsChecked,
-                onCheckboxTap: () {
-                  store.toggleCheckbox();
-                },
-              ),
+            SPolicyCheckbox(
+              onPrivacyPolicyTap: () {
+                //! Alex S. add modal
+                print('test');
+              },
+              onUserAgreementTap: () {},
+              firstText: intl.earn_i_have_read_and_agreed_to,
+              userAgreementText: '',
+              betweenText: ' ',
+              privacyPolicyText: intl.earn_terms_and_conditions,
+              isChecked: store.isTermsAndConditionsChecked,
+              onCheckboxTap: () {
+                store.toggleCheckbox();
+              },
             ),
             const Spacer(),
             Padding(

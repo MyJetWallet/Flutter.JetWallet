@@ -21,7 +21,11 @@ class SBasicBanner extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SInfoIcon(),
+            const SizedBox(
+              height: 20,
+              width: 20,
+              child: SInfoIcon(),
+            ),
             const SizedBox(width: 16),
             Expanded(
               child: Text(

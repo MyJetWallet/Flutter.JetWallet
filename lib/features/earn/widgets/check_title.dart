@@ -30,23 +30,28 @@ class CheckTitle<T> extends StatelessWidget {
       padding: const EdgeInsets.only(
         top: 16,
         bottom: 16,
-        left: 16,
+        left: 8,
         right: 24,
       ),
       child: InkWell(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
         onTap: onTap,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Transform.translate(
               offset: const Offset(0, -10),
-              child: Radio(
-                value: radioValue,
-                groupValue: radiogroupValue,
-                onChanged: (_) {
-                  onTap?.call();
-                },
-                activeColor: colors.black,
+              child: Transform.scale(
+                scale: 1.2,
+                child: Radio(
+                  value: radioValue,
+                  groupValue: radiogroupValue,
+                  onChanged: (_) {
+                    onTap?.call();
+                  },
+                  activeColor: colors.black,
+                ),
               ),
             ),
             Expanded(
@@ -62,7 +67,7 @@ class CheckTitle<T> extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
                         description!,
-                        style: STStyles.body1Medium.copyWith(color: colors.grey1),
+                        style: STStyles.body2Medium.copyWith(color: colors.grey1),
                         maxLines: 5,
                       ),
                     ),
