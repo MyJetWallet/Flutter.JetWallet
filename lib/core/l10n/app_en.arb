@@ -1813,17 +1813,17 @@
     "earn_deposit_crypto_wallet": "Deposit crypto wallet",
     "earn_to_continue_you_need_to_top_up": "To continue, you need to top up your Bitcoin wallet with at least {topup_value}",
     "@earn_to_continue_you_need_to_top_up": {
-        "topup_value": {
-            "date": {
+        "placeholders": {
+            "topup_value": {
                 "type": "String",
                 "example": "0.0002 BTC"
             }
         }
     },
     "earn_top_up_value": "Top up {value}",
-    "@eearn_top_up_value": {
-        "topup_value": {
-            "date": {
+    "@earn_top_up_value": {
+        "placeholders": {
+            "value": {
                 "type": "String",
                 "example": "BTC"
             }
@@ -1836,5 +1836,28 @@
     "earn_instant": "Instant",
     "earn_i_have_read_and_agreed_to": "I have read and agreed to",
     "earn_terms_and_conditions": "Terms and conditions",
-    "earn_transfer": "Transfer"
+    "earn_transfer": "Transfer",
+    "earn_withdrawal": "Withdrawal",
+    "earn_days_left": "{days} days left",
+    "@earn_days_left": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_disbursement_is_at": "Disbursement is at {time} on {date}",
+    "@earn_disbursement_is_at": {
+        "placeholders": {
+            "time": {
+                "type": "String",
+                "example": "21:24"
+            },
+            "date": {
+                "type": "String",
+                "example": "12.12.2024"
+            }
+        }
+    }
 }

@@ -11,11 +11,9 @@ class SEarnPositionBadge extends StatelessWidget {
   const SEarnPositionBadge({
     super.key,
     required this.status,
-    this.isLoading = false,
   });
 
   final EarnPositionStatus status;
-  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -31,17 +29,7 @@ class SEarnPositionBadge extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          if (isLoading)
-            SizedBox(
-              height: 20,
-              width: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                color: _getMainColor(status, colors),
-              ),
-            )
-          else
-            _getIcon(status, _getMainColor(status, colors)),
+          _getIcon(status, _getMainColor(status, colors)),
           Text(
             _getTextForStatus(status),
             style: sBodyText1Style.copyWith(
@@ -61,7 +49,14 @@ class SEarnPositionBadge extends StatelessWidget {
       case EarnPositionStatus.active:
         return SClockIcon(color: color);
       case EarnPositionStatus.closing:
-        return SClockIcon(color: color);
+        return SizedBox(
+          height: 20,
+          width: 20,
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            color: color,
+          ),
+        );
       case EarnPositionStatus.closed:
         return SEraseMarketIcon(color: color);
       default:

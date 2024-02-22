@@ -1,7 +1,6 @@
-import 'dart:math';
-
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -9,6 +8,7 @@ import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/widgets/earn_active_position_badge.dart';
 import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
+import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
@@ -17,7 +17,7 @@ import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
-class ActiveEarnWidget extends StatelessWidget {
+class ActiveEarnWidget extends StatelessObserverWidget {
   const ActiveEarnWidget({super.key, required this.earnPosition});
 
   final EarnPositionClientModel earnPosition;
@@ -197,6 +197,23 @@ class ActiveEarnWidget extends StatelessWidget {
                       ),
                     ],
                   ),
+                if (earnPosition.closeDateTime != null && earnPosition.status == EarnPositionStatus.closing) ...[
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        intl.earn_withdrawal,
+                        style: STStyles.body2Medium.copyWith(color: colors.grey1),
+                      ),
+                      Text(
+                        intl.earn_days_left(daysLeft(earnPosition.closeDateTime ?? DateTime.now())),
+                        style: STStyles.subtitle2.copyWith(color: colors.black),
+                      ),
+                    ],
+                  ),
+                ],
               ],
             ),
           ),
@@ -215,6 +232,12 @@ class ActiveEarnWidget extends StatelessWidget {
   }
 
   String getWithdrawalMessage(EarnPositionClientModel earnPosition) {
+    if (earnPosition.status == EarnPositionStatus.closing) {
+      return intl.earn_disbursement_is_at(
+        formatDateToHmFromDate(earnPosition.closeDateTime.toString()),
+        formatDateToDMYFromDate(earnPosition.closeDateTime.toString()),
+      );
+    }
     if (earnPosition.offers.isNotEmpty) {
       final firstOffer = earnPosition.offers.first;
       if (firstOffer.withdrawType == WithdrawType.instant) {
@@ -236,5 +259,11 @@ class ActiveEarnWidget extends StatelessWidget {
 
     final finalRate = formatApyRate(highestApy);
     return finalRate.toString();
+  }
+
+  int daysLeft(DateTime to) {
+    final from = DateTime.now();
+    final toTemp = DateTime(to.year, to.month, to.day);
+    return (toTemp.difference(from).inHours / 24).round();
   }
 }
