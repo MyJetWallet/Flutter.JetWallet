@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/format_service.dart';
@@ -15,7 +16,7 @@ import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
-class SDepositCard extends StatelessWidget {
+class SDepositCard extends StatelessObserverWidget {
   const SDepositCard({
     super.key,
     required this.earnPosition,
@@ -59,36 +60,36 @@ class SDepositCard extends StatelessWidget {
                 const SizedBox(height: 16),
                 CryptoCardBody(
                   balance: volumeFormat(
-                    decimal: earnPosition.baseAmount,
-                    symbol: sSignalRModules.baseCurrency.symbol,
-                    accuracy: 2,
-                  ),
-                  balanceCrypto: volumeFormat(
                     decimal: formatService.convertOneCurrencyToAnotherOne(
-                      fromCurrency: sSignalRModules.baseCurrency.symbol,
+                      fromCurrency: earnPosition.assetId,
                       fromCurrencyAmmount: earnPosition.baseAmount,
-                      toCurrency: earnPosition.assetId,
+                      toCurrency: sSignalRModules.baseCurrency.symbol,
                       baseCurrency: sSignalRModules.baseCurrency.symbol,
                       isMin: true,
                     ),
                     accuracy: 2,
+                    symbol: sSignalRModules.baseCurrency.symbol,
+                  ),
+                  balanceCrypto: volumeFormat(
+                    decimal: earnPosition.baseAmount,
                     symbol: earnPosition.assetId,
+                    accuracy: 2,
                   ),
                   revenue: volumeFormat(
+                    decimal: formatService.convertOneCurrencyToAnotherOne(
+                      fromCurrency: earnPosition.assetId,
+                      fromCurrencyAmmount: earnPosition.incomeAmount,
+                      toCurrency: sSignalRModules.baseCurrency.symbol,
+                      baseCurrency: sSignalRModules.baseCurrency.symbol,
+                      isMin: true,
+                    ),
                     accuracy: 2,
-                    decimal: earnPosition.incomeAmount,
                     symbol: sSignalRModules.baseCurrency.symbol,
                   ),
                   revenueCrypto: volumeFormat(
-                    accuracy: 2,
-                    decimal: formatService.convertOneCurrencyToAnotherOne(
-                      fromCurrency: sSignalRModules.baseCurrency.symbol,
-                      fromCurrencyAmmount: earnPosition.incomeAmount,
-                      toCurrency: earnPosition.assetId,
-                      baseCurrency: sSignalRModules.baseCurrency.symbol,
-                      isMin: true,
-                    ),
+                    decimal: earnPosition.incomeAmount,
                     symbol: earnPosition.assetId,
+                    accuracy: 2,
                   ),
                 ),
               ],

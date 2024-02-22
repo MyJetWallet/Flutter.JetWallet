@@ -86,7 +86,7 @@ class _OfferOrderSummaruBody extends StatelessWidget {
               toAssetDescription: '${intl.earn_earn} ${store.offer.name}',
               toAssetValue: volumeFormat(decimal: store.selectedAmount, symbol: store.currency.symbol),
               toAssetBaseAmount:
-                  '≈${volumeFormat(decimal: store.baseAmount, symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
+                  '≈${volumeFormat(decimal: store.baseCryptoAmount, symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
             ),
             const SDivider(),
             const SizedBox(height: 19),

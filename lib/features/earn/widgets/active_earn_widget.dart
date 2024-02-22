@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -50,8 +52,15 @@ class ActiveEarnWidget extends StatelessWidget {
           ],
         ),
         Text(
+          //
           volumeFormat(
-            decimal: earnPosition.baseAmount + earnPosition.incomeAmount,
+            decimal: formatService.convertOneCurrencyToAnotherOne(
+              fromCurrency: earnPosition.assetId,
+              fromCurrencyAmmount: earnPosition.baseAmount + earnPosition.incomeAmount,
+              toCurrency: sSignalRModules.baseCurrency.symbol,
+              baseCurrency: sSignalRModules.baseCurrency.symbol,
+              isMin: true,
+            ),
             symbol: sSignalRModules.baseCurrency.symbol,
             accuracy: sSignalRModules.baseCurrency.accuracy,
           ),
@@ -61,13 +70,7 @@ class ActiveEarnWidget extends StatelessWidget {
         ),
         Text(
           volumeFormat(
-            decimal: formatService.convertOneCurrencyToAnotherOne(
-              fromCurrency: sSignalRModules.baseCurrency.symbol,
-              fromCurrencyAmmount: earnPosition.baseAmount + earnPosition.incomeAmount,
-              toCurrency: earnPosition.assetId,
-              baseCurrency: sSignalRModules.baseCurrency.symbol,
-              isMin: true,
-            ),
+            decimal: earnPosition.baseAmount + earnPosition.incomeAmount,
             symbol: earnPosition.assetId,
           ),
           style: STStyles.body2Medium.copyWith(
@@ -100,7 +103,13 @@ class ActiveEarnWidget extends StatelessWidget {
                         Text(
                           volumeFormat(
                             accuracy: 2,
-                            decimal: earnPosition.baseAmount,
+                            decimal: formatService.convertOneCurrencyToAnotherOne(
+                              fromCurrency: earnPosition.assetId,
+                              fromCurrencyAmmount: earnPosition.baseAmount,
+                              toCurrency: sSignalRModules.baseCurrency.symbol,
+                              baseCurrency: sSignalRModules.baseCurrency.symbol,
+                              isMin: true,
+                            ),
                             symbol: sSignalRModules.baseCurrency.symbol,
                           ),
                           style: STStyles.subtitle2.copyWith(color: colors.black),
@@ -108,13 +117,7 @@ class ActiveEarnWidget extends StatelessWidget {
                         Text(
                           volumeFormat(
                             accuracy: 2,
-                            decimal: formatService.convertOneCurrencyToAnotherOne(
-                              fromCurrency: sSignalRModules.baseCurrency.symbol,
-                              fromCurrencyAmmount: earnPosition.baseAmount,
-                              toCurrency: earnPosition.assetId,
-                              baseCurrency: sSignalRModules.baseCurrency.symbol,
-                              isMin: true,
-                            ),
+                            decimal: earnPosition.baseAmount,
                             symbol: earnPosition.assetId,
                           ),
                           style: STStyles.body2Medium.copyWith(color: colors.grey1),
@@ -139,7 +142,13 @@ class ActiveEarnWidget extends StatelessWidget {
                         Text(
                           volumeFormat(
                             accuracy: 2,
-                            decimal: earnPosition.incomeAmount,
+                            decimal: formatService.convertOneCurrencyToAnotherOne(
+                              fromCurrency: earnPosition.assetId,
+                              fromCurrencyAmmount: earnPosition.incomeAmount,
+                              toCurrency: sSignalRModules.baseCurrency.symbol,
+                              baseCurrency: sSignalRModules.baseCurrency.symbol,
+                              isMin: true,
+                            ),
                             symbol: sSignalRModules.baseCurrency.symbol,
                           ),
                           style: STStyles.subtitle2.copyWith(color: colors.black),
@@ -147,13 +156,7 @@ class ActiveEarnWidget extends StatelessWidget {
                         Text(
                           volumeFormat(
                             accuracy: 2,
-                            decimal: formatService.convertOneCurrencyToAnotherOne(
-                              fromCurrency: sSignalRModules.baseCurrency.symbol,
-                              fromCurrencyAmmount: earnPosition.incomeAmount,
-                              toCurrency: earnPosition.assetId,
-                              baseCurrency: sSignalRModules.baseCurrency.symbol,
-                              isMin: true,
-                            ),
+                            decimal: earnPosition.incomeAmount,
                             symbol: earnPosition.assetId,
                           ),
                           style: STStyles.body2Medium.copyWith(color: colors.grey1),
