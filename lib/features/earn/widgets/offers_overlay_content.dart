@@ -41,6 +41,7 @@ class _OffersOverlayContentState extends State<OffersOverlayContent> {
 
     return Column(
       children: [
+        const SizedBox(height: 32),
         SNetworkSvg(
           url: widget.currency.iconUrl,
           width: 80,

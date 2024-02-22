@@ -80,7 +80,7 @@ abstract class _EarnDepositStoreBase with Store {
 
   @computed
   Decimal get minLimit {
-    return Decimal.zero;
+    return offer.minAmount ?? Decimal.zero;
   }
 
   @computed
