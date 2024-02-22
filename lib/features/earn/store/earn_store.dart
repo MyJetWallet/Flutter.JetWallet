@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -26,7 +27,9 @@ abstract class _EarnStoreBase with Store {
   _EarnStoreBase() {
     fetchClosedPositions();
   }
-  
+
+  final formatService = getIt.get<FormatService>();
+
   @computed
   List<EarnPositionClientModel> get earnPositions {
     final positions = sSignalRModules.activeEarnPositionsMessage?.positions ?? [];
@@ -59,6 +62,42 @@ abstract class _EarnStoreBase with Store {
 
   @computed
   List<EarnPositionClientModel> get earnPositionsClosed => closedPositions;
+
+  @computed
+  Decimal get positionsTotalValueInVaseCurrency {
+    var sum = Decimal.zero;
+
+    for (final position in earnPositions) {
+      final baseAmount = formatService.convertOneCurrencyToAnotherOne(
+        fromCurrency: position.assetId,
+        fromCurrencyAmmount: position.baseAmount,
+        toCurrency: sSignalRModules.baseCurrency.symbol,
+        baseCurrency: sSignalRModules.baseCurrency.symbol,
+        isMin: true,
+      );
+      sum += baseAmount;
+    }
+
+    return sum;
+  }
+
+  @computed
+  Decimal get positionsTotalRevenueInVaseCurrency {
+    var sum = Decimal.zero;
+
+    for (final position in earnPositions) {
+      final incomeAmount = formatService.convertOneCurrencyToAnotherOne(
+        fromCurrency: position.assetId,
+        fromCurrencyAmmount: position.incomeAmount,
+        toCurrency: sSignalRModules.baseCurrency.symbol,
+        baseCurrency: sSignalRModules.baseCurrency.symbol,
+        isMin: true,
+      );
+      sum += incomeAmount;
+    }
+
+    return sum;
+  }
 
   @action
   Future<void> fetchClosedPositions() async {

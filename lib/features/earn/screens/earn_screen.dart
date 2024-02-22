@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -59,57 +58,50 @@ class _EarnView extends StatelessWidget {
         color: colors.white,
         title: intl.earn_earn,
       ),
-      child: FutureBuilder(
-        future: store.fetchClosedPositions(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          return Observer(
-            builder: (context) {
-              return CustomScrollView(
-                slivers: [
-                  if (store.earnPositions.isNotEmpty && store.earnPositionsClosed.isNotEmpty)
-                    SliverToBoxAdapter(
-                      child: SBasicBanner(text: intl.earn_funds_are_calculated_based_on_the_current_value),
-                    ),
-                  if (store.earnPositions.isNotEmpty)
-                    SliverToBoxAdapter(
-                      child: SPriceHeader(
-                        totalSum: store.isBalanceHide
-                            ? volumeFormat(
-                                decimal: sSignalRModules.earnWalletProfileData?.total ?? Decimal.zero,
-                                symbol: sSignalRModules.baseCurrency.symbol,
-                              )
-                            : '**** ${sSignalRModules.baseCurrency.symbol}',
-                        revenueSum: store.isBalanceHide
-                            ? volumeFormat(
-                                decimal: sSignalRModules.earnWalletProfileData?.balance ?? Decimal.zero,
-                                symbol: sSignalRModules.baseCurrency.symbol,
-                              )
-                            : '**** ${sSignalRModules.baseCurrency.symbol}',
-                      ),
-                    ),
-                  if (store.earnPositions.isEmpty && store.earnPositionsClosed.isEmpty)
-                    const SliverToBoxAdapter(child: SizedBox.shrink())
-                  else
-                    SliverToBoxAdapter(
-                      child: EarnPositionsListWidget(
-                        earnPositions: store.earnPositions,
-                        earnPositionsClosed: store.earnPositionsClosed,
-                      ),
-                    ),
-                  const SliverToBoxAdapter(child: SizedBox(height: 16)),
-                  SliverToBoxAdapter(
-                    child: OffersListWidget(earnOffers: store.earnOffers),
+      child: Observer(
+        builder: (context) {
+          return CustomScrollView(
+            slivers: [
+              if (store.earnPositions.isNotEmpty && store.earnPositionsClosed.isNotEmpty)
+                SliverToBoxAdapter(
+                  child: SBasicBanner(text: intl.earn_funds_are_calculated_based_on_the_current_value),
+                ),
+              if (store.earnPositions.isNotEmpty)
+                SliverToBoxAdapter(
+                  child: SPriceHeader(
+                    totalSum: store.isBalanceHide
+                        ? volumeFormat(
+                            decimal: store.positionsTotalValueInVaseCurrency,
+                            symbol: sSignalRModules.baseCurrency.symbol,
+                            accuracy: 2,
+                          )
+                        : '**** ${sSignalRModules.baseCurrency.symbol}',
+                    revenueSum: store.isBalanceHide
+                        ? volumeFormat(
+                            decimal: store.positionsTotalRevenueInVaseCurrency,
+                            symbol: sSignalRModules.baseCurrency.symbol,
+                            accuracy: 2,
+                          )
+                        : '**** ${sSignalRModules.baseCurrency.symbol}',
                   ),
-                  const SliverToBoxAdapter(
-                    child: SizedBox(height: 32),
+                ),
+              if (store.earnPositions.isEmpty && store.earnPositionsClosed.isEmpty)
+                const SliverToBoxAdapter(child: SizedBox.shrink())
+              else
+                SliverToBoxAdapter(
+                  child: EarnPositionsListWidget(
+                    earnPositions: store.earnPositions,
+                    earnPositionsClosed: store.earnPositionsClosed,
                   ),
-                ],
-              );
-            },
+                ),
+              const SliverToBoxAdapter(child: SizedBox(height: 16)),
+              SliverToBoxAdapter(
+                child: OffersListWidget(earnOffers: store.earnOffers),
+              ),
+              const SliverToBoxAdapter(
+                child: SizedBox(height: 32),
+              ),
+            ],
           );
         },
       ),

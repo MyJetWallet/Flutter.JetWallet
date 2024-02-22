@@ -12,7 +12,6 @@ import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart
 import 'package:simple_networking/modules/signal_r/models/cards_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
-import 'package:simple_networking/modules/signal_r/models/earn_wallet_profile.dart';
 import 'package:simple_networking/modules/signal_r/models/fireblock_events_model.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/signal_r/models/indices_model.dart';
@@ -424,18 +423,6 @@ class SignalRFuncHandler {
   }
 
   //Earn
-  void earnWalletProfileMessageHandler(List<Object?>? data) {
-    try {
-      final earnWalletProfileModel = EarnWalletProfileModel.fromJson(_json(data));
-
-      sTransport.earnWalletProfile(earnWalletProfileModel);
-
-      SignalRModuleNew.handlePackage();
-    } catch (e) {
-      instance.handleError(investWalletMessage, e);
-    }
-  }
-
   void earnOffersMessageHandler(List<Object?>? data) {
     try {
       final earnOffersModel = ActiveEarnOffersMessage.fromJson(_json(data));

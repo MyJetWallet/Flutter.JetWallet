@@ -44,7 +44,6 @@ const investInstrumentsMessage = 'invest-instruments';
 const investPricesMessage = 'invest-current-prices';
 const investSectorsMessage = 'invest-sectors';
 const investWalletMessage = 'invest-wallet-profile';
-const earnWalletProfile = 'earn-wallet-profile';
 const earnOffers = 'earn-offers';
 const earnPositions = 'earn-positions';
 

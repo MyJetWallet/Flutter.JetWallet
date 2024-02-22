@@ -43,7 +43,6 @@ import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart
 import 'package:simple_networking/modules/signal_r/models/cards_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
-import 'package:simple_networking/modules/signal_r/models/earn_wallet_profile.dart';
 import 'package:simple_networking/modules/signal_r/models/fireblock_events_model.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/signal_r/models/incoming_gift_model.dart';
@@ -997,13 +996,6 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
         marketReferencesModel,
         currenciesList,
       );
-
-  @observable
-  EarnWalletProfileModel? earnWalletProfileData;
-  @action
-  void setEarnWalletProfileData(EarnWalletProfileModel data) {
-    earnWalletProfileData = data;
-  }
 
   @observable
   ActiveEarnOffersMessage? activeEarnOffersMessage;

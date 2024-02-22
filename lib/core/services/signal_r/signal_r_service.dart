@@ -175,7 +175,6 @@ class SignalRService {
       investPrices: sSignalRModules.setInvestPricesData,
       investSectors: sSignalRModules.setInvestSectorsData,
       investWallet: sSignalRModules.setInvestWalletData,
-      earnWalletProfile: sSignalRModules.setEarnWalletProfileData,
       earnOffers: sSignalRModules.setEarnOffersData,
       activeEarnPositions: sSignalRModules.setEarnPositionsData,
 
