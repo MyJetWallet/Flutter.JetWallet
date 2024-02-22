@@ -108,22 +108,20 @@ class _OfferOrderSummaruBody extends StatelessWidget {
             const SizedBox(height: 16),
             const SDivider(),
             const SizedBox(height: 16),
-            SPaddingH24(
-              child: SPolicyCheckbox(
-                onPrivacyPolicyTap: () {
-                  //! Alex S. add modal
-                  print('test');
-                },
-                onUserAgreementTap: () {},
-                firstText: intl.earn_i_have_read_and_agreed_to,
-                userAgreementText: '',
-                betweenText: ' ',
-                privacyPolicyText: intl.earn_terms_and_conditions,
-                isChecked: store.isTermsAndConditionsChecked,
-                onCheckboxTap: () {
-                  store.toggleCheckbox();
-                },
-              ),
+            SPolicyCheckbox(
+              onPrivacyPolicyTap: () {
+                //! Alex S. add modal
+                print('test');
+              },
+              onUserAgreementTap: () {},
+              firstText: intl.earn_i_have_read_and_agreed_to,
+              userAgreementText: '',
+              betweenText: ' ',
+              privacyPolicyText: intl.earn_terms_and_conditions,
+              isChecked: store.isTermsAndConditionsChecked,
+              onCheckboxTap: () {
+                store.toggleCheckbox();
+              },
             ),
             const Spacer(),
             Padding(
