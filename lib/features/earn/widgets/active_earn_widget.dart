@@ -34,6 +34,7 @@ class ActiveEarnWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const SizedBox(height: 16),
         Row(
           children: [
             SNetworkSvg(
@@ -50,8 +51,9 @@ class ActiveEarnWidget extends StatelessWidget {
         ),
         Text(
           volumeFormat(
-            decimal: earnPosition.baseAmount,
+            decimal: earnPosition.baseAmount + earnPosition.incomeAmount,
             symbol: sSignalRModules.baseCurrency.symbol,
+            accuracy: sSignalRModules.baseCurrency.accuracy,
           ),
           style: STStyles.header3.copyWith(
             color: colors.black,
@@ -61,14 +63,14 @@ class ActiveEarnWidget extends StatelessWidget {
           volumeFormat(
             decimal: formatService.convertOneCurrencyToAnotherOne(
               fromCurrency: sSignalRModules.baseCurrency.symbol,
-              fromCurrencyAmmount: earnPosition.baseAmount,
+              fromCurrencyAmmount: earnPosition.baseAmount + earnPosition.incomeAmount,
               toCurrency: earnPosition.assetId,
               baseCurrency: sSignalRModules.baseCurrency.symbol,
               isMin: true,
             ),
             symbol: earnPosition.assetId,
           ),
-          style: STStyles.body1Semibold.copyWith(
+          style: STStyles.body2Medium.copyWith(
             color: colors.grey1,
           ),
         ),
@@ -81,7 +83,7 @@ class ActiveEarnWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(24),
             child: Column(
               children: [
                 Row(
