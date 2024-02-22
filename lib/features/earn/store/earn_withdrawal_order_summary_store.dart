@@ -111,7 +111,7 @@ abstract class _EarnWithdrawalOrderSummaryStoreBase with Store {
         return;
       }
 
-      if (sRouter.currentPath != '/earn_withdraw_order_summaru') {
+      if (sRouter.currentPath != '/earn_withdraw_order_summary') {
         return;
       }
 
@@ -158,7 +158,7 @@ abstract class _EarnWithdrawalOrderSummaryStoreBase with Store {
   Future<void> _showFailureScreen(String error) async {
     loader.finishLoadingImmediately();
 
-    if (sRouter.currentPath != '/earn_withdraw_order_summaru') {
+    if (sRouter.currentPath != '/earn_withdraw_order_summary') {
       return;
     }
 

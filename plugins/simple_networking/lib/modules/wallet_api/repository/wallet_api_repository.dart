@@ -395,6 +395,14 @@ class WalletApiRepository {
     );
   }
 
+  Future<DC<ServerRejectException, void>> postEarnOfferCreatePosition(
+    EarnOfferWithdrawalRequestModel model,
+  ) async {
+    return _walletApiDataSources.postEarnOfferCreatePosition(
+      model,
+    );
+  }
+
   Future<DC<ServerRejectException, void>> postRemoveKeyValue(
     List<String> keys,
   ) async {

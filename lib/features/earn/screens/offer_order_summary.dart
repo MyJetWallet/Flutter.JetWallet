@@ -51,7 +51,7 @@ class OfferOrderSummaryScreen extends StatelessWidget {
               : null,
           header: SSmallHeader(
             title: intl.earn_order_summary,
-            subTitle: intl.earn_send,
+            subTitle: intl.earn_transfer,
             subTitleStyle: sBodyText2Style.copyWith(
               color: colors.grey1,
             ),

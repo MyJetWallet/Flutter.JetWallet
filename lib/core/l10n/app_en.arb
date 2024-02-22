@@ -1835,5 +1835,6 @@
     "earn_flexible" : "Flexible",
     "earn_instant" : "Instant",
     "earn_i_have_read_and_agreed_to": "I have read and agreed to",
-    "earn_terms_and_conditions": "Terms and conditions"
+    "earn_terms_and_conditions": "Terms and conditions",
+    "earn_transfer": "Transfer"
 }
