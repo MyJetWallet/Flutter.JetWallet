@@ -159,7 +159,7 @@ class CryptoCardHeader extends StatelessWidget {
                 ),
               if (apyRate != null)
                 Text(
-                  '${intl.earn_variable_apy} $apyRate%',
+                  '${intl.earn_variable_apy} ${double.parse(apyRate ?? '0').toStringAsFixed(2).replaceFirst(RegExp(r'\.?0*$'), '')}%',
                   style: STStyles.body2Medium.copyWith(color: colors.grey1),
                 ),
             ],

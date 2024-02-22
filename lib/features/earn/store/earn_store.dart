@@ -23,6 +23,10 @@ class EarnStore extends _EarnStoreBase with _$EarnStore {
 }
 
 abstract class _EarnStoreBase with Store {
+  _EarnStoreBase() {
+    fetchClosedPositions();
+  }
+  
   @computed
   List<EarnPositionClientModel> get earnPositions {
     final positions = sSignalRModules.activeEarnPositionsMessage?.positions ?? [];

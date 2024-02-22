@@ -81,13 +81,8 @@ class _EarnView extends StatelessWidget {
             ),
           ];
         },
-        body: FutureBuilder(
-          future: store.fetchClosedPositions(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
-
+        body: Builder(
+          builder: (context) {
             return CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(

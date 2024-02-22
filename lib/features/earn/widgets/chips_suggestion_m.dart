@@ -58,7 +58,7 @@ class ChipsSuggestionM extends StatelessWidget {
                     children: [
                       if (percentage != null)
                         Text(
-                          '${intl.earn_up_to} $percentage%',
+                          '${intl.earn_up_to} ${double.parse(percentage ?? '0').toStringAsFixed(2).replaceFirst(RegExp(r'\.?0*$'), '')}%',
                           style: STStyles.subtitle1.copyWith(
                             color: colors.black,
                           ),
