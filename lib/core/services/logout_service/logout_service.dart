@@ -122,7 +122,20 @@ abstract class _LogoutServiceBase with Store {
       // Make init router unauthorized
       await pushToFirstPage();
 
-      sSignalRModules.clearSignalRModule();
+      await Future.delayed(Duration.zero);
+
+      try {
+        sSignalRModules.clearSignalRModule();
+      } catch (e) {
+        _logger.log(
+          level: Level.error,
+          place: _loggerValue,
+          message: 'Error with logout request: $e',
+        );
+
+        await _clearUserData();
+        await pushToFirstPage();
+      }
 
       _logger.log(
         level: Level.debug,
@@ -164,14 +177,11 @@ abstract class _LogoutServiceBase with Store {
     }
 
     await getIt.get<IntercomService>().logout();
-
-    //if (getIt.isRegistered<ZenDeskService>()) {
-    //  await getIt.get<ZenDeskService>().logoutZenDesk();
-    //}
   }
 
   Future<void> pushToFirstPage() async {
     await getIt<AppStore>().pushToUnlogin();
+    await Future.delayed(Duration.zero);
     await sRouter.replaceAll([
       const OnboardingRoute(),
     ]);
