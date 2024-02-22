@@ -166,11 +166,7 @@ abstract class _OfferOrderSummaryStoreBase with Store {
     )
         .then((value) {
       sRouter.replaceAll([
-        const HomeRouter(
-          children: [
-            MyWalletsRouter(),
-          ],
-        ),
+        const HomeRouter(),
       ]);
     });
   }
