@@ -19,7 +19,7 @@ class SDepositCardBadge extends StatelessWidget {
     final colors = SColorsLight();
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
       decoration: BoxDecoration(
         color: _getBGColor(status, colors),
         borderRadius: BorderRadius.circular(18),
@@ -41,8 +41,7 @@ class SDepositCardBadge extends StatelessWidget {
           const SizedBox(width: 4),
           Text(
             _getTextForStatus(status),
-            style: sBodyText1Style.copyWith(
-              height: 1,
+            style: sCaptionTextStyle.copyWith(
               color: _getMainColor(status, colors),
               fontWeight: FontWeight.w700,
             ),

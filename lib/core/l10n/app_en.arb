@@ -1730,7 +1730,7 @@
     "earn_top_offers": "Top offers",
     "earn_up_to": "Up to",
     "earn_earning": "Earning",
-    "earn_closing": "Closing",
+    "earn_closing": "Closing...",
     "earn_closed": "Finished",
     "earn_unknown": "Unknown",
     "earn_variable_apy": "Variable APY",
@@ -1830,10 +1830,10 @@
         }
     },
     "earn_cancel": "Cancel",
-    "earn_apy_rate" : "APY Rate",
+    "earn_apy_rate": "APY Rate",
     "earn_earning_term": "Earning term",
-    "earn_flexible" : "Flexible",
-    "earn_instant" : "Instant",
+    "earn_flexible": "Flexible",
+    "earn_instant": "Instant",
     "earn_i_have_read_and_agreed_to": "I have read and agreed to",
     "earn_terms_and_conditions": "Terms and conditions",
     "earn_transfer": "Transfer"

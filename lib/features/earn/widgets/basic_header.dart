@@ -59,9 +59,12 @@ class SBasicHeader extends StatelessWidget {
                 if (showLinkButton)
                   GestureDetector(
                     onTap: onTap,
-                    child: Text(
-                      buttonTitle!,
-                      style: STStyles.button.copyWith(color: colors.blue),
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 2),
+                      child: Text(
+                        buttonTitle!,
+                        style: STStyles.button.copyWith(color: colors.blue, fontSize: 16),
+                      ),
                     ),
                   ),
               ],
