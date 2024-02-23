@@ -52,7 +52,6 @@ class ActiveEarnWidget extends StatelessObserverWidget {
           ],
         ),
         Text(
-          //
           volumeFormat(
             decimal: formatService.convertOneCurrencyToAnotherOne(
               fromCurrency: earnPosition.assetId,
@@ -62,7 +61,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
               isMin: true,
             ),
             symbol: sSignalRModules.baseCurrency.symbol,
-            accuracy: sSignalRModules.baseCurrency.accuracy,
+            accuracy: 2,
           ),
           style: STStyles.header3.copyWith(
             color: colors.black,
@@ -72,6 +71,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
           volumeFormat(
             decimal: earnPosition.baseAmount + earnPosition.incomeAmount,
             symbol: earnPosition.assetId,
+            accuracy: 2,
           ),
           style: STStyles.body2Medium.copyWith(
             color: colors.grey1,

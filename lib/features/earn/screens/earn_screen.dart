@@ -62,29 +62,28 @@ class _EarnView extends StatelessWidget {
         builder: (context) {
           return CustomScrollView(
             slivers: [
-              if (store.earnPositions.isNotEmpty && store.earnPositionsClosed.isNotEmpty)
+              if (store.earnPositions.isNotEmpty)
                 SliverToBoxAdapter(
                   child: SBasicBanner(text: intl.earn_funds_are_calculated_based_on_the_current_value),
                 ),
-              if (store.earnPositions.isNotEmpty)
-                SliverToBoxAdapter(
-                  child: SPriceHeader(
-                    totalSum: store.isBalanceHide
-                        ? volumeFormat(
-                            decimal: store.positionsTotalValueInVaseCurrency,
-                            symbol: sSignalRModules.baseCurrency.symbol,
-                            accuracy: 2,
-                          )
-                        : '**** ${sSignalRModules.baseCurrency.symbol}',
-                    revenueSum: store.isBalanceHide
-                        ? volumeFormat(
-                            decimal: store.positionsTotalRevenueInVaseCurrency,
-                            symbol: sSignalRModules.baseCurrency.symbol,
-                            accuracy: 2,
-                          )
-                        : '**** ${sSignalRModules.baseCurrency.symbol}',
-                  ),
+              SliverToBoxAdapter(
+                child: SPriceHeader(
+                  totalSum: store.isBalanceHide
+                      ? volumeFormat(
+                          decimal: store.positionsTotalValueInVaseCurrency,
+                          symbol: sSignalRModules.baseCurrency.symbol,
+                          accuracy: 2,
+                        )
+                      : '**** ${sSignalRModules.baseCurrency.symbol}',
+                  revenueSum: store.isBalanceHide
+                      ? volumeFormat(
+                          decimal: store.positionsTotalRevenueInVaseCurrency,
+                          symbol: sSignalRModules.baseCurrency.symbol,
+                          accuracy: 2,
+                        )
+                      : '**** ${sSignalRModules.baseCurrency.symbol}',
                 ),
+              ),
               if (store.earnPositions.isEmpty && store.earnPositionsClosed.isEmpty)
                 const SliverToBoxAdapter(child: SizedBox.shrink())
               else
