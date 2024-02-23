@@ -146,9 +146,7 @@ abstract class _EarnWithdrawalOrderSummaryStoreBase with Store {
         .then((value) {
       sRouter.replaceAll([
         const HomeRouter(
-          children: [
-            MyWalletsRouter(),
-          ],
+          children: [],
         ),
       ]);
     });
