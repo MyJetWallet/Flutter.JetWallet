@@ -147,12 +147,14 @@ abstract class _EarnStoreBase with Store {
     required EarnPositionClientModel earnPosition,
   }) async {
     final context = sRouter.navigatorKey.currentContext!;
-    final farmatedData = formatDateToDMYFromDate(earnPosition.closeDateTime.toString());
+
+    final closeDate = DateTime.now().add(Duration(days: earnPosition.offers.first.lockPeriod ?? 0));
+    final formatedData = formatDateToDMYFromDate(closeDate.toString());
 
     await sShowAlertPopup(
       context,
       primaryText: intl.earn_are_you_sure,
-      secondaryText: intl.earn_your_funds_and_accrued(farmatedData),
+      secondaryText: intl.earn_your_funds_and_accrued(formatedData),
       primaryButtonName: intl.earn_continue_earning,
       secondaryButtonName: intl.earn_yes_withdraw,
       image: Image.asset(

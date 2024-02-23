@@ -130,10 +130,12 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
         if (store.earnPosition.withdrawType == WithdrawType.lock)
           Builder(
             builder: (context) {
-              final farmatedData = formatDateToDMYFromDate(store.earnPosition.closeDateTime.toString());
+              final closeDate = DateTime.now().add(Duration(days: store.earnPosition.offers.first.lockPeriod ?? 0));
+              final formatedData = formatDateToDMYFromDate(closeDate.toString());
+              
               final days = store.earnPosition.offers.first.lockPeriod ?? 1;
               return Text(
-                intl.earn_the_funds_will_be_disbursed(farmatedData, days),
+                intl.earn_the_funds_will_be_disbursed(formatedData, days),
                 style: sCaptionTextStyle.copyWith(
                   color: SColorsLight().gray8,
                 ),
