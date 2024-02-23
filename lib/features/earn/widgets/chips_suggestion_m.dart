@@ -11,12 +11,14 @@ class ChipsSuggestionM extends StatelessWidget {
     required this.cryptoName,
     required this.onTap,
     this.trailingIcon,
+    this.isSingleOffer = false,
     super.key,
   });
   final String? percentage;
   final String cryptoName;
   final void Function()? onTap;
   final Widget? trailingIcon;
+  final bool isSingleOffer;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +60,9 @@ class ChipsSuggestionM extends StatelessWidget {
                     children: [
                       if (percentage != null)
                         Text(
-                          '${intl.earn_up_to} ${double.parse(percentage ?? '0').toStringAsFixed(2).replaceFirst(RegExp(r'\.?0*$'), '')}%',
+                          isSingleOffer
+                              ? '${double.parse(percentage ?? '0').toStringAsFixed(2).replaceFirst(RegExp(r'\.?0*$'), '')}%'
+                              : '${intl.earn_up_to} ${double.parse(percentage ?? '0').toStringAsFixed(2).replaceFirst(RegExp(r'\.?0*$'), '')}%',
                           style: STStyles.subtitle1.copyWith(
                             color: colors.black,
                           ),

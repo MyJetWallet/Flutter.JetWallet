@@ -27,7 +27,13 @@ class OffersListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final currencies = sSignalRModules.currenciesList;
 
-    final uniqueOffers = _getUniqueHighestApyOffers(earnOffers.where((offer) => offer.promotion).toList(), currencies);
+    final highestApyOffers = _getHighestApyOffersPerCurrency(earnOffers, currencies);
+
+    final promotionalOffers = earnOffers.where((offer) => offer.promotion).toList();
+
+    final promotionalOffersGroupedByCurrency = groupBy(promotionalOffers, (EarnOfferClientModel offer) {
+      return currencies.firstWhereOrNull((currency) => currency.symbol == offer.assetId)?.description ?? '';
+    });
 
     return Observer(
       builder: (context) {
@@ -37,42 +43,41 @@ class OffersListWidget extends StatelessWidget {
               SBasicHeader(
                 title: intl.earn_top_offers,
                 buttonTitle: intl.earn_view_all,
-                showLinkButton: earnOffers.isNotEmpty,
+                showLinkButton: promotionalOffers.isNotEmpty,
                 subtitle: intl.earn_most_profitable_earns,
                 onTap: () => context.router.push(const OffersRouter()),
               ),
-            ...uniqueOffers.map((offer) {
+            ...promotionalOffersGroupedByCurrency.entries.map((entry) {
+              final currencyDescription = entry.key;
+              final currencyOffers = entry.value;
               final currency = currencies.firstWhere(
-                (currency) => currency.symbol == offer.assetId,
+                (currency) => currency.description == currencyDescription,
               );
 
               return ChipsSuggestionM(
-                percentage: formatApyRate(offer.apyRate),
+                isSingleOffer: currencyOffers.length == 1,
+                percentage: formatApyRate(highestApyOffers[currencyDescription]?.apyRate),
                 cryptoName: currency.description,
-                trailingIcon: offer.assetId.isNotEmpty
-                    ? SNetworkSvg(
-                        url: currency.iconUrl,
-                        width: 40,
-                        height: 40,
-                      )
-                    : const SizedBox.shrink(),
+                trailingIcon: SNetworkSvg(
+                  url: currency.iconUrl,
+                  width: 40,
+                  height: 40,
+                ),
                 onTap: () {
-                  final groupOffers = earnOffers.where((o) => o.assetId == offer.assetId).toList();
-
-                  if (groupOffers.length > 1) {
+                  if (currencyOffers.length > 1) {
                     sShowBasicModalBottomSheet(
                       context: context,
                       scrollable: true,
                       children: [
                         OffersOverlayContent(
-                          offers: groupOffers,
+                          offers: currencyOffers,
                           currency: currency,
                         ),
                       ],
                     );
                   } else {
                     context.router.push(
-                      EarnDepositScreenRouter(offer: offer),
+                      EarnDepositScreenRouter(offer: currencyOffers.first),
                     );
                   }
                 },
@@ -84,7 +89,7 @@ class OffersListWidget extends StatelessWidget {
     );
   }
 
-  List<EarnOfferClientModel> _getUniqueHighestApyOffers(
+  Map<String, EarnOfferClientModel> _getHighestApyOffersPerCurrency(
     List<EarnOfferClientModel> offers,
     List<CurrencyModel> currencies,
   ) {
@@ -92,14 +97,15 @@ class OffersListWidget extends StatelessWidget {
       return currencies.firstWhereOrNull((currency) => currency.symbol == offer.assetId)?.description ?? '';
     });
 
-    final uniqueOffers = <EarnOfferClientModel>[];
+    final highestApyOffers = <String, EarnOfferClientModel>{};
     offersGroupedByCurrency.forEach((description, offers) {
-      final highestApyOffer =
-          offers.reduce((curr, next) => (curr.apyRate ?? Decimal.zero) > (next.apyRate ?? Decimal.zero) ? curr : next);
-      uniqueOffers.add(highestApyOffer);
+      final highestApyOffer = offers.reduce(
+        (curr, next) => (curr.apyRate ?? Decimal.zero) > (next.apyRate ?? Decimal.zero) ? curr : next,
+      );
+      highestApyOffers[description] = highestApyOffer;
     });
 
-    return uniqueOffers;
+    return highestApyOffers;
   }
 }
 
