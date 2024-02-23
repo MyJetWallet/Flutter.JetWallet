@@ -45,6 +45,7 @@ import 'package:simple_networking/modules/wallet_api/models/disclaimer/disclaime
 import 'package:simple_networking/modules/wallet_api/models/earn_close_position/earn_close_position_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/earn_deposit_position/earn_deposit_position_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/earn_offer_deposit/earn_offer_deposit_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/earn_offer_request/earn_offer_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/earn_offer_withdrawal/earn_offer_withdrawal_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/earn_withdraw_position/earn_withdraw_position_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/encryption_key/encryption_key_response_model.dart';
@@ -397,7 +398,7 @@ class WalletApiRepository {
   }
 
   Future<DC<ServerRejectException, void>> postEarnOfferCreatePosition(
-    EarnOfferWithdrawalRequestModel model,
+    EarnOfferRequestModel model,
   ) async {
     return _walletApiDataSources.postEarnOfferCreatePosition(
       model,

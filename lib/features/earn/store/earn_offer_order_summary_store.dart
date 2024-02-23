@@ -16,7 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
-import 'package:simple_networking/modules/wallet_api/models/earn_offer_withdrawal/earn_offer_withdrawal_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/earn_offer_request/earn_offer_request_model.dart';
 
 part 'earn_offer_order_summary_store.g.dart';
 
@@ -117,9 +117,9 @@ abstract class _OfferOrderSummaryStoreBase with Store {
 
       late final DC<ServerRejectException, dynamic> resp;
 
-      final model = EarnOfferWithdrawalRequestModel(
+      final model = EarnOfferRequestModel(
         requestId: requestId,
-        assetSymbol: currency.symbol,
+        assetId: currency.symbol,
         offerId: offer.id,
         amount: selectedAmount,
       );
