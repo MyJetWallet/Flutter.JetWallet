@@ -4,8 +4,10 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/earn/store/earn_top_up_order_summary_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
+import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
@@ -116,13 +118,15 @@ class _OfferOrderSummaruBody extends StatelessWidget {
             const SizedBox(height: 16),
             SPolicyCheckbox(
               onPrivacyPolicyTap: () {
-                //! Alex S. add modal
+                launchURL(context, privacyEarnLink);
               },
-              onUserAgreementTap: () {},
-              firstText: intl.earn_i_have_read_and_agreed_to,
-              userAgreementText: '',
-              betweenText: ' ',
-              privacyPolicyText: intl.earn_terms_and_conditions,
+              onUserAgreementTap: () {
+                launchURL(context, infoEarnLink);
+              },
+              firstText: '${intl.earn_i_have_read_and_agreed_to} ',
+              userAgreementText: intl.earn_terms_and_conditions,
+              betweenText: ', ',
+              privacyPolicyText: intl.earn_privacy_policy,
               isChecked: store.isTermsAndConditionsChecked,
               onCheckboxTap: () {
                 store.toggleCheckbox();
