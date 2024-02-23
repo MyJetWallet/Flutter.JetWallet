@@ -1782,8 +1782,127 @@
     "earn_top_offers": "Top oferty",
     "earn_up_to": "Do",
     "earn_earning": "Zarabianie",
-    "earn_closing": "Zamykanie",
+    "earn_closing": "Zamykanie...",
     "earn_closed": "Zakończono",
     "earn_unknown": "Nieznany",
-    "earn_variable_apy": "Zmienny APY"
+    "earn_variable_apy": "Zmienny APY",
+    "earn_started": "Rozpoczęto",
+    "earn_funds_will_be_withdrawn": "Twoje środki i zgromadzone zarobki są wypłacane po zamknięciu konta Earn. Wypłata środków za {days} dni",
+    "@earn_funds_will_be_withdrawn": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_top_up": "Doładuj",
+    "earn_withdraw": "Wypłać",
+    "earn_all_offers": "Wszystkie oferty",
+    "earn_earns_archive": "Archiwum Earn",
+    "earn_you_can_withdraw_deposit_funds_instantly": "Możesz natychmiast wypłacić środki z depozytu",
+    "earn_deposit": "Depozyt",
+    "earn_continue": "Kontynuuj",
+    "earn_choose_a_deposit_plan": "Wybierz plan depozytu i zarabiaj krypto",
+    "earn_freeze_period": "Okres zamrożenia ({days} dni)",
+    "@earn_freeze_period": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_flexible_tariff": "Taryfa elastyczna",
+    "earn_are_you_sure": "Jesteś pewny?",
+    "earn_your_funds_and_accrued": "Twoje środki i zgromadzone zarobki są wypłacane przy zamknięciu konta Earn. Wypłata {date}.",
+    "@earn_your_funds_and_accrued": {
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "12.12.2024"
+            }
+        }
+    },
+    "earn_continue_earning": "Kontynuuj zarabianie",
+    "earn_yes_withdraw": "Tak, wypłać",
+    "earn_partial_withdrawal": "Wypłata częściowa",
+    "earn_the_minimum_amount_of_earn": "Minimalna kwota salda konta Earn nie może być niższa niż",
+    "earn_full_withdrawal": "Pełna wypłata",
+    "earn_closing_an_earn_account": "Zamknięcie konta Earn z wypłatą kwoty bazowej i dochodu",
+    "earn_confirm": "Potwierdź",
+    "earn_est": "Szac.",
+    "earn_max": "Maks",
+    "earn_from_earn": "Z Earn",
+    "earn_crypto_wallet": "Portfel krypto",
+    "earn_order_summary": "Podsumowanie zamówienia",
+    "earn_order_summary_partial_withdrawal_means": "Częściowa wypłata oznacza wypłatę środków z bazy obliczeniowej. Dochód jest wypłacany przy pełnym zamknięciu konta.",
+    "earn_send": "Wyślij",
+    "earn_withdraw_successfully": "Twoje środki zostały pomyślnie wypłacone",
+    "earn_full_withdraw": "Twoje środki i zgromadzone zarobki są wypłacane przy zamknięciu konta Earn.",
+    "earn_basis_amount": "Kwota bazowa",
+    "earn_withdrawal_period": "Okres wypłaty",
+    "earn_the_funds_will_be_disbursed": "Środki zostaną przelane na Twój portfel {date}. Będziesz również zarabiać dochód przez następne {days} dni",
+    "@earn_the_funds_will_be_disbursed": {
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "12.12.2024"
+            },
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_withdrawal_period_explanation_1": "Wypłata środków z twojego planu spowoduje zamknięcie odpowiadającego konta Earn. Należy zauważyć, że pełne przekazanie środków wraz z zarobionym dochodem nastąpi {days} dni po utworzeniu żądania.",
+    "earn_withdrawal_period_explanation_2": "Ważne jest, aby zauważyć, że do ostatecznego zamknięcia konta, dochód będzie nadal naliczany na twoje konto Earn.",
+    "earn_from_crypto_wallet": "Z portfela krypto",
+    "earn_to_crypto_wallet": "Do portfela krypto",
+    "earn_to_earn": "Aby zarobić",
+    "earn_deposit_crypto_wallet": "Portfel krypto na depozyt",
+    "earn_to_continue_you_need_to_top_up": "Aby kontynuować, musisz doładować swój portfel Bitcoin przynajmniej {topup_value}",
+    "@earn_to_continue_you_need_to_top_up": {
+        "placeholders": {
+            "topup_value": {
+                "type": "String",
+                "example": "0.0002 BTC"
+            }
+        }
+    },
+    "earn_top_up_value": "Doładuj {value}",
+    "@earn_top_up_value": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "BTC"
+            }
+        }
+    },
+    "earn_cancel": "Anuluj",
+    "earn_apy_rate": "Stopa APY",
+    "earn_earning_term": "Okres zarobkowy",
+    "earn_flexible": "Elastyczny",
+    "earn_instant": "Natychmiastowy",
+    "earn_i_have_read_and_agreed_to": "Przeczytałem i zgadzam się z",
+    "earn_terms_and_conditions": "Warunki",
+    "earn_transfer": "Przelew",
+    "earn_withdrawal": "Wypłata",
+    "earn_days_left": "Zostało {days} dni",
+    "@earn_days_left": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_disbursement_is_at": "Wypłata nastąpi o {time} {date}",
+    "@earn_disbursement_is_at": {
+        "placeholders": {
+            "time": {
+                "type": "String",
+                "example": "21:24"
+            },
+            "date": {
+                "type": "String",
+                "example": "12.12.2024"
+            }
+        }
+    },
+    "earn_privacy_policy": "Polityka prywatności"
 }

@@ -1694,8 +1694,127 @@
     "earn_top_offers": "Top offres",
     "earn_up_to": "Jusqu'à",
     "earn_earning": "Gagner",
-    "earn_closing": "Clôture",
+    "earn_closing": "Clôture...",
     "earn_closed": "Terminé",
     "earn_unknown": "Inconnu",
-    "earn_variable_apy": "Variable APY"
+    "earn_variable_apy": "Variable APY",
+    "earn_started": "Commencé",
+    "earn_funds_will_be_withdrawn": "Vos fonds et gains accumulés sont payés à la fermeture de votre compte Earn. Déboursement des fonds dans {days} jours",
+    "@earn_funds_will_be_withdrawn": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_top_up": "Recharger",
+    "earn_withdraw": "Retirer",
+    "earn_all_offers": "Toutes les offres",
+    "earn_earns_archive": "Archives Earn",
+    "earn_you_can_withdraw_deposit_funds_instantly": "Vous pouvez retirer les fonds déposés instantanément",
+    "earn_deposit": "Dépôt",
+    "earn_continue": "Continuer",
+    "earn_choose_a_deposit_plan": "Choisissez un plan de dépôt et gagnez de la crypto",
+    "earn_freeze_period": "Période de gel ({days} jours)",
+    "@earn_freeze_period": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_flexible_tariff": "Tarif flexible",
+    "earn_are_you_sure": "Êtes-vous sûr?",
+    "earn_your_funds_and_accrued": "Vos fonds et gains accumulés sont payés à la fermeture de votre compte Earn. Déboursement le {date}.",
+    "@earn_your_funds_and_accrued": {
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "12.12.2024"
+            }
+        }
+    },
+    "earn_continue_earning": "Continuer à gagner",
+    "earn_yes_withdraw": "Oui, retirer",
+    "earn_partial_withdrawal": "Retrait partiel",
+    "earn_the_minimum_amount_of_earn": "Le montant minimum des soldes de compte Earn ne doit pas être inférieur à",
+    "earn_full_withdrawal": "Retrait total",
+    "earn_closing_an_earn_account": "Clôture d'un compte Earn avec retrait du montant de base et des revenus",
+    "earn_confirm": "Confirmer",
+    "earn_est": "Estimé",
+    "earn_max": "Max",
+    "earn_from_earn": "De Earn",
+    "earn_crypto_wallet": "Portefeuille crypto",
+    "earn_order_summary": "Récapitulatif de commande",
+    "earn_order_summary_partial_withdrawal_means": "Le retrait partiel signifie le retrait des fonds de la base de calcul. Les revenus sont payés à la clôture complète du compte.",
+    "earn_send": "Envoyer",
+    "earn_withdraw_successfully": "Vos fonds ont été déboursés avec succès",
+    "earn_full_withdraw": "Vos fonds et gains accumulés sont payés lorsque vous fermez votre compte Earn.",
+    "earn_basis_amount": "Montant de base",
+    "earn_withdrawal_period": "Période de retrait",
+    "earn_the_funds_will_be_disbursed": "Les fonds seront versés dans votre portefeuille le {date}. Vous gagnerez également des revenus pour les {days} jours suivants",
+    "@earn_the_funds_will_be_disbursed": {
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "12.12.2024"
+            },
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_withdrawal_period_explanation_1": "Le retrait de fonds de votre plan entraînera la fermeture du compte Earn correspondant. Veuillez noter que le transfert complet des fonds ainsi que les revenus gagnés auront lieu {days} jours après la création de la demande.",
+    "earn_withdrawal_period_explanation_2": "Il est important de noter que jusqu'à la fermeture finale du compte, les revenus continueront à s'accumuler sur votre compte Earn.",
+    "earn_from_crypto_wallet": "Du portefeuille crypto",
+    "earn_to_crypto_wallet": "Au portefeuille crypto",
+    "earn_to_earn": "Pour gagner",
+    "earn_deposit_crypto_wallet": "ortefeuille crypto de dépôt",
+    "earn_to_continue_you_need_to_top_up": "Pour continuer, vous devez recharger votre portefeuille Bitcoin d'au moins {topup_value}",
+    "@earn_to_continue_you_need_to_top_up": {
+        "placeholders": {
+            "topup_value": {
+                "type": "String",
+                "example": "0.0002 BTC"
+            }
+        }
+    },
+    "earn_top_up_value": "Recharger {value}",
+    "@earn_top_up_value": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "BTC"
+            }
+        }
+    },
+    "earn_cancel": "Annuler",
+    "earn_apy_rate": "Taux APY",
+    "earn_earning_term": "Terme de gain",
+    "earn_flexible": "Flexible",
+    "earn_instant": "Instantané",
+    "earn_i_have_read_and_agreed_to": "J'ai lu et accepté",
+    "earn_terms_and_conditions": "Les termes et conditions",
+    "earn_transfer": "Transfert",
+    "earn_withdrawal": "Retrait",
+    "earn_days_left": "{days} jours restants",
+    "@earn_days_left": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_disbursement_is_at": "Le déboursement est à {time} le {date}",
+    "@earn_disbursement_is_at": {
+        "placeholders": {
+            "time": {
+                "type": "String",
+                "example": "21:24"
+            },
+            "date": {
+                "type": "String",
+                "example": "12.12.2024"
+            }
+        }
+    },
+    "earn_privacy_policy": "Politique de confidentialité"
 }
