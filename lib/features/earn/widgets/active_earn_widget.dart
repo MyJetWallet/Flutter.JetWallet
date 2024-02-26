@@ -6,6 +6,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/earn/widgets/earn_active_position_badge.dart';
 import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
@@ -26,6 +27,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final colors = SColorsLight();
     final formatService = getIt.get<FormatService>();
+    final isBalanceHide = getIt<AppStore>().isBalanceHide;
     final currencies = sSignalRModules.currenciesList;
 
     final currency = currencies.firstWhere(
@@ -52,27 +54,31 @@ class ActiveEarnWidget extends StatelessObserverWidget {
           ],
         ),
         Text(
-          volumeFormat(
-            decimal: formatService.convertOneCurrencyToAnotherOne(
-              fromCurrency: earnPosition.assetId,
-              fromCurrencyAmmount: earnPosition.baseAmount + earnPosition.incomeAmount,
-              toCurrency: sSignalRModules.baseCurrency.symbol,
-              baseCurrency: sSignalRModules.baseCurrency.symbol,
-              isMin: true,
-            ),
-            symbol: sSignalRModules.baseCurrency.symbol,
-            accuracy: 2,
-          ),
+          isBalanceHide
+              ? '**** ${sSignalRModules.baseCurrency.symbol}'
+              : volumeFormat(
+                  decimal: formatService.convertOneCurrencyToAnotherOne(
+                    fromCurrency: earnPosition.assetId,
+                    fromCurrencyAmmount: earnPosition.baseAmount + earnPosition.incomeAmount,
+                    toCurrency: sSignalRModules.baseCurrency.symbol,
+                    baseCurrency: sSignalRModules.baseCurrency.symbol,
+                    isMin: true,
+                  ),
+                  symbol: sSignalRModules.baseCurrency.symbol,
+                  accuracy: 2,
+                ),
           style: STStyles.header3.copyWith(
             color: colors.black,
           ),
         ),
         Text(
-          volumeFormat(
-            decimal: earnPosition.baseAmount + earnPosition.incomeAmount,
-            symbol: earnPosition.assetId,
-            accuracy: 2,
-          ),
+          isBalanceHide
+              ? '**** ${earnPosition.assetId}'
+              : volumeFormat(
+                  decimal: earnPosition.baseAmount + earnPosition.incomeAmount,
+                  symbol: earnPosition.assetId,
+                  accuracy: 2,
+                ),
           style: STStyles.body2Medium.copyWith(
             color: colors.grey1,
           ),
@@ -97,17 +103,19 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                       style: STStyles.body2Medium.copyWith(color: colors.grey1),
                     ),
                     Text(
-                      volumeFormat(
-                        accuracy: 2,
-                        decimal: formatService.convertOneCurrencyToAnotherOne(
-                          fromCurrency: earnPosition.assetId,
-                          fromCurrencyAmmount: earnPosition.baseAmount,
-                          toCurrency: sSignalRModules.baseCurrency.symbol,
-                          baseCurrency: sSignalRModules.baseCurrency.symbol,
-                          isMin: true,
-                        ),
-                        symbol: sSignalRModules.baseCurrency.symbol,
-                      ),
+                      isBalanceHide
+                          ? '**** ${sSignalRModules.baseCurrency.symbol}'
+                          : volumeFormat(
+                              accuracy: 2,
+                              decimal: formatService.convertOneCurrencyToAnotherOne(
+                                fromCurrency: earnPosition.assetId,
+                                fromCurrencyAmmount: earnPosition.baseAmount,
+                                toCurrency: sSignalRModules.baseCurrency.symbol,
+                                baseCurrency: sSignalRModules.baseCurrency.symbol,
+                                isMin: true,
+                              ),
+                              symbol: sSignalRModules.baseCurrency.symbol,
+                            ),
                       style: STStyles.subtitle2.copyWith(color: colors.black),
                     ),
                   ],
@@ -116,11 +124,13 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                   children: [
                     const Spacer(),
                     Text(
-                      volumeFormat(
-                        accuracy: 2,
-                        decimal: earnPosition.baseAmount,
-                        symbol: earnPosition.assetId,
-                      ),
+                      isBalanceHide
+                          ? '**** ${earnPosition.assetId}'
+                          : volumeFormat(
+                              accuracy: 2,
+                              decimal: earnPosition.baseAmount,
+                              symbol: earnPosition.assetId,
+                            ),
                       style: STStyles.body2Medium.copyWith(color: colors.grey1),
                       maxLines: 2,
                     ),
@@ -135,17 +145,19 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                       style: STStyles.body2Medium.copyWith(color: colors.grey1),
                     ),
                     Text(
-                      volumeFormat(
-                        accuracy: 2,
-                        decimal: formatService.convertOneCurrencyToAnotherOne(
-                          fromCurrency: earnPosition.assetId,
-                          fromCurrencyAmmount: earnPosition.incomeAmount,
-                          toCurrency: sSignalRModules.baseCurrency.symbol,
-                          baseCurrency: sSignalRModules.baseCurrency.symbol,
-                          isMin: true,
-                        ),
-                        symbol: sSignalRModules.baseCurrency.symbol,
-                      ),
+                      isBalanceHide
+                          ? '**** ${sSignalRModules.baseCurrency.symbol}'
+                          : volumeFormat(
+                              accuracy: 2,
+                              decimal: formatService.convertOneCurrencyToAnotherOne(
+                                fromCurrency: earnPosition.assetId,
+                                fromCurrencyAmmount: earnPosition.incomeAmount,
+                                toCurrency: sSignalRModules.baseCurrency.symbol,
+                                baseCurrency: sSignalRModules.baseCurrency.symbol,
+                                isMin: true,
+                              ),
+                              symbol: sSignalRModules.baseCurrency.symbol,
+                            ),
                       style: STStyles.subtitle2.copyWith(color: colors.black),
                     ),
                   ],
@@ -154,11 +166,13 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                   children: [
                     const Spacer(),
                     Text(
-                      volumeFormat(
-                        accuracy: 2,
-                        decimal: earnPosition.incomeAmount,
-                        symbol: earnPosition.assetId,
-                      ),
+                      isBalanceHide
+                          ? '**** ${earnPosition.assetId}'
+                          : volumeFormat(
+                              accuracy: 2,
+                              decimal: earnPosition.incomeAmount,
+                              symbol: earnPosition.assetId,
+                            ),
                       style: STStyles.body2Medium.copyWith(color: colors.grey1),
                       maxLines: 2,
                     ),

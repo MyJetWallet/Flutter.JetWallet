@@ -1,7 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/earn/store/earn_withdrawal_order_summary_store.dart';
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
@@ -72,6 +75,7 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = EarnWithdrawalOrderSummaryStore.of(context);
+    final isBalanceHide = getIt<AppStore>().isBalanceHide;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,14 +84,20 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
           isLoading: false,
           fromAssetIconUrl: store.currency.iconUrl,
           fromAssetDescription: intl.earn_earn,
-          fromAssetValue: volumeFormat(decimal: store.amount, symbol: store.currency.symbol),
-          fromAssetBaseAmount:
-              '≈${volumeFormat(decimal: store.baseAmount, symbol: store.eurCurrency.symbol, accuracy: store.eurCurrency.accuracy)}',
+          fromAssetValue: isBalanceHide
+              ? '**** ${store.currency.symbol}'
+              : volumeFormat(decimal: store.amount, symbol: store.currency.symbol),
+          fromAssetBaseAmount: isBalanceHide
+              ? '**** ${sSignalRModules.baseCurrency.symbol}'
+              : '≈${volumeFormat(decimal: store.baseAmount, symbol: sSignalRModules.baseCurrency.symbol, accuracy: store.eurCurrency.accuracy)}',
           toAssetIconUrl: store.currency.iconUrl,
           toAssetDescription: intl.earn_crypto_wallet,
-          toAssetValue: volumeFormat(decimal: store.amount, symbol: store.currency.symbol),
-          toAssetBaseAmount:
-              '≈${volumeFormat(decimal: store.baseAmount, symbol: store.eurCurrency.symbol, accuracy: store.eurCurrency.accuracy)}',
+          toAssetValue: isBalanceHide
+              ? '**** ${store.currency.symbol}'
+              : volumeFormat(decimal: store.amount, symbol: store.currency.symbol),
+          toAssetBaseAmount: isBalanceHide
+              ? '**** ${sSignalRModules.baseCurrency.symbol}'
+              : '≈${volumeFormat(decimal: store.baseAmount, symbol: sSignalRModules.baseCurrency.symbol, accuracy: store.eurCurrency.accuracy)}',
         ),
         const SDivider(),
         const SizedBox(height: 19),
@@ -132,7 +142,7 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
             builder: (context) {
               final closeDate = DateTime.now().add(Duration(days: store.earnPosition.offers.first.lockPeriod ?? 0));
               final formatedData = formatDateToDMYFromDate(closeDate.toString());
-              
+
               final days = store.earnPosition.offers.first.lockPeriod ?? 1;
               return Text(
                 intl.earn_the_funds_will_be_disbursed(formatedData, days),

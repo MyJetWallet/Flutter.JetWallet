@@ -7,6 +7,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/earn/widgets/deposit_card_badge.dart';
 import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
 import 'package:jetwallet/features/earn/widgets/link_label.dart';
@@ -32,6 +33,7 @@ class SDepositCard extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final formatService = getIt.get<FormatService>();
+    final isBalanceHide = getIt<AppStore>().isBalanceHide;
     final colors = SColorsLight();
     final currencies = sSignalRModules.currenciesList;
     final currency = currencies.firstWhere((c) => c.symbol == earnPosition.assetId);
@@ -66,38 +68,46 @@ class SDepositCard extends StatelessObserverWidget {
                 ),
                 const SizedBox(height: 16),
                 CryptoCardBody(
-                  balance: volumeFormat(
-                    decimal: formatService.convertOneCurrencyToAnotherOne(
-                      fromCurrency: earnPosition.assetId,
-                      fromCurrencyAmmount: earnPosition.baseAmount,
-                      toCurrency: sSignalRModules.baseCurrency.symbol,
-                      baseCurrency: sSignalRModules.baseCurrency.symbol,
-                      isMin: true,
-                    ),
-                    accuracy: 2,
-                    symbol: sSignalRModules.baseCurrency.symbol,
-                  ),
-                  balanceCrypto: volumeFormat(
-                    decimal: earnPosition.baseAmount,
-                    symbol: earnPosition.assetId,
-                    accuracy: 2,
-                  ),
-                  revenue: volumeFormat(
-                    decimal: formatService.convertOneCurrencyToAnotherOne(
-                      fromCurrency: earnPosition.assetId,
-                      fromCurrencyAmmount: earnPosition.incomeAmount,
-                      toCurrency: sSignalRModules.baseCurrency.symbol,
-                      baseCurrency: sSignalRModules.baseCurrency.symbol,
-                      isMin: true,
-                    ),
-                    accuracy: 2,
-                    symbol: sSignalRModules.baseCurrency.symbol,
-                  ),
-                  revenueCrypto: volumeFormat(
-                    decimal: earnPosition.incomeAmount,
-                    symbol: earnPosition.assetId,
-                    accuracy: 2,
-                  ),
+                  balance: isBalanceHide
+                      ? '**** ${sSignalRModules.baseCurrency.symbol}'
+                      : volumeFormat(
+                          decimal: formatService.convertOneCurrencyToAnotherOne(
+                            fromCurrency: earnPosition.assetId,
+                            fromCurrencyAmmount: earnPosition.baseAmount,
+                            toCurrency: sSignalRModules.baseCurrency.symbol,
+                            baseCurrency: sSignalRModules.baseCurrency.symbol,
+                            isMin: true,
+                          ),
+                          accuracy: 2,
+                          symbol: sSignalRModules.baseCurrency.symbol,
+                        ),
+                  balanceCrypto: isBalanceHide
+                      ? '**** ${earnPosition.assetId}'
+                      : volumeFormat(
+                          decimal: earnPosition.baseAmount,
+                          symbol: earnPosition.assetId,
+                          accuracy: 2,
+                        ),
+                  revenue: isBalanceHide
+                      ? '**** ${sSignalRModules.baseCurrency.symbol}'
+                      : volumeFormat(
+                          decimal: formatService.convertOneCurrencyToAnotherOne(
+                            fromCurrency: earnPosition.assetId,
+                            fromCurrencyAmmount: earnPosition.incomeAmount,
+                            toCurrency: sSignalRModules.baseCurrency.symbol,
+                            baseCurrency: sSignalRModules.baseCurrency.symbol,
+                            isMin: true,
+                          ),
+                          accuracy: 2,
+                          symbol: sSignalRModules.baseCurrency.symbol,
+                        ),
+                  revenueCrypto: isBalanceHide
+                      ? '**** ${earnPosition.assetId}'
+                      : volumeFormat(
+                          decimal: earnPosition.incomeAmount,
+                          symbol: earnPosition.assetId,
+                          accuracy: 2,
+                        ),
                 ),
               ],
             ),
