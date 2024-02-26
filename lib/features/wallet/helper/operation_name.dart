@@ -74,6 +74,10 @@ String operationName(
       return intl.operationName_refund;
     case OperationType.cardWithdrawal:
       return intl.operationName_cash_withdrawal;
+    case OperationType.earnSend:
+      return intl.earn_sent;
+    case OperationType.earnReserve:
+      return intl.earn_received;
     default:
       return 'Unknown';
   }

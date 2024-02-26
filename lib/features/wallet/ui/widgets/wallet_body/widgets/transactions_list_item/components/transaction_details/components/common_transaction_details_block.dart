@@ -96,7 +96,12 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             transactionListItem.operationType == OperationType.cardWithdrawal ||
             transactionListItem.operationType == OperationType.cardRefund ||
             transactionListItem.operationType == OperationType.bankingTransfer ||
-            transactionListItem.operationType == OperationType.cardBankingSell) ...[
+            transactionListItem.operationType == OperationType.cardBankingSell||
+            transactionListItem.operationType == OperationType.earnReserve||
+            transactionListItem.operationType == OperationType.earnSend||
+            transactionListItem.operationType == OperationType.earnDeposit||
+            transactionListItem.operationType == OperationType.earnPayroll||
+            transactionListItem.operationType == OperationType.earnWithdrawal) ...[
           const SpaceH26(),
         ] else ...[
           const SpaceH67(),
@@ -138,7 +143,12 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             transactionListItem.operationType == OperationType.deposit ||
             transactionListItem.operationType == OperationType.sendGlobally ||
             transactionListItem.operationType == OperationType.bankingTransfer ||
-            transactionListItem.operationType == OperationType.cardBankingSell)
+            transactionListItem.operationType == OperationType.cardBankingSell||
+            transactionListItem.operationType == OperationType.earnReserve||
+            transactionListItem.operationType == OperationType.earnSend||
+            transactionListItem.operationType == OperationType.earnDeposit||
+            transactionListItem.operationType == OperationType.earnPayroll||
+            transactionListItem.operationType == OperationType.earnWithdrawal)
           const SizedBox()
         else if ((!nftTypes.contains(transactionListItem.operationType) || catchingTypes) &&
             !operationWithoutBalanceShow) ...[
@@ -187,7 +197,12 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             transactionListItem.operationType == OperationType.cardWithdrawal ||
             transactionListItem.operationType == OperationType.cardRefund ||
             transactionListItem.operationType == OperationType.bankingTransfer ||
-            transactionListItem.operationType == OperationType.cardBankingSell)
+            transactionListItem.operationType == OperationType.cardBankingSell||
+            transactionListItem.operationType == OperationType.earnReserve||
+            transactionListItem.operationType == OperationType.earnSend||
+            transactionListItem.operationType == OperationType.earnDeposit||
+            transactionListItem.operationType == OperationType.earnPayroll||
+            transactionListItem.operationType == OperationType.earnWithdrawal)
           const SizedBox.shrink()
         else
           const SpaceH72(),
