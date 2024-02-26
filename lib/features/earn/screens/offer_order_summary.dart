@@ -129,8 +129,11 @@ class _OfferOrderSummaruBody extends StatelessWidget {
               ),
             TwoColumnCell(
               label: intl.earn_earning_term,
-              value: store.offer.withdrawType == WithdrawType.instant ? intl.earn_instant : intl.earn_flexible,
+              value: store.offer.withdrawType == WithdrawType.instant
+                  ? intl.earn_flexible
+                  : intl.earn_freeze(store.offer.lockPeriod ?? ''),
               needHorizontalPadding: false,
+              valueMaxLines: 2,
             ),
             const SizedBox(height: 7),
             ProcessingFeeRowWidget(

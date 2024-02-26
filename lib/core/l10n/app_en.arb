@@ -1755,6 +1755,12 @@
             "days": {}
         }
     },
+    "earn_freeze": "Freeze {days} days",
+    "@earn_freeze": {
+        "placeholders": {
+            "days": {}
+        }
+    },
     "earn_flexible_tariff": "Flexible tariff",
     "earn_are_you_sure": "Are you sure?",
     "earn_your_funds_and_accrued": "Your funds and accrued earnings are paid out upon closing your Earn Account. Disbursement on {date}.",
