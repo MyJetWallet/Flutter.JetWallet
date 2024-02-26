@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -75,7 +76,7 @@ class _OfferOrderSummaruBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final store = OfferOrderSummaryStore.of(context);
     final isBalanceHide = getIt<AppStore>().isBalanceHide;
-
+    final formatService = getIt.get<FormatService>();
     return Observer(
       builder: (context) {
         return Column(
@@ -88,7 +89,17 @@ class _OfferOrderSummaruBody extends StatelessWidget {
               fromAssetValue: isBalanceHide ? '**** ${store.currency.symbol}' : store.currency.volumeAssetBalance,
               fromAssetBaseAmount: isBalanceHide
                   ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                  : '≈${volumeFormat(decimal: store.baseCryptoAmount, symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
+                  : '≈${volumeFormat(
+                      decimal: formatService.convertOneCurrencyToAnotherOne(
+                        fromCurrency: store.currency.symbol,
+                        fromCurrencyAmmount: store.currency.assetBalance,
+                        toCurrency: sSignalRModules.baseCurrency.symbol,
+                        baseCurrency: sSignalRModules.baseCurrency.symbol,
+                        isMin: true,
+                      ),
+                      symbol: store.fiatSymbol,
+                      accuracy: store.eurCurrency.accuracy,
+                    )}',
               toAssetIconUrl: store.currency.iconUrl,
               toAssetDescription: '${intl.earn_earn} ${store.offer.name}',
               toAssetValue: isBalanceHide
@@ -96,7 +107,17 @@ class _OfferOrderSummaruBody extends StatelessWidget {
                   : volumeFormat(decimal: store.selectedAmount, symbol: store.currency.symbol),
               toAssetBaseAmount: isBalanceHide
                   ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                  : '≈${volumeFormat(decimal: store.baseCryptoAmount, symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
+                  : '≈${volumeFormat(
+                      decimal: formatService.convertOneCurrencyToAnotherOne(
+                        fromCurrency: store.currency.symbol,
+                        fromCurrencyAmmount: store.selectedAmount,
+                        toCurrency: sSignalRModules.baseCurrency.symbol,
+                        baseCurrency: sSignalRModules.baseCurrency.symbol,
+                        isMin: true,
+                      ),
+                      symbol: store.fiatSymbol,
+                      accuracy: store.eurCurrency.accuracy,
+                    )}',
             ),
             const SDivider(),
             const SizedBox(height: 19),
