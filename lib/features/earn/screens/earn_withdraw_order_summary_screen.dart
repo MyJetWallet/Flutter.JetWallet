@@ -82,12 +82,12 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
           fromAssetDescription: intl.earn_earn,
           fromAssetValue: volumeFormat(decimal: store.amount, symbol: store.currency.symbol),
           fromAssetBaseAmount:
-              '≈${volumeFormat(decimal: store.baseAmount, symbol: store.eurCurrency.symbol, accuracy: store.eurCurrency.accuracy)}',
+              '≈${volumeFormat(decimal: store.baseAmount, symbol: store.baseCurrency.symbol, accuracy: store.baseCurrency.accuracy)}',
           toAssetIconUrl: store.currency.iconUrl,
           toAssetDescription: intl.earn_crypto_wallet,
           toAssetValue: volumeFormat(decimal: store.amount, symbol: store.currency.symbol),
           toAssetBaseAmount:
-              '≈${volumeFormat(decimal: store.baseAmount, symbol: store.eurCurrency.symbol, accuracy: store.eurCurrency.accuracy)}',
+              '≈${volumeFormat(decimal: store.baseAmount, symbol: store.baseCurrency.symbol, accuracy: store.baseCurrency.accuracy)}',
         ),
         const SDivider(),
         const SizedBox(height: 19),

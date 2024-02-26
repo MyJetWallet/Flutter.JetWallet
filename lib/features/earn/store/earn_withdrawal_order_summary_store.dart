@@ -64,8 +64,9 @@ abstract class _EarnWithdrawalOrderSummaryStoreBase with Store {
       );
 
   @computed
-  CurrencyModel get eurCurrency => getIt.get<FormatService>().findCurrency(
-        assetSymbol: 'EUR',
+  CurrencyModel get baseCurrency => getIt.get<FormatService>().findCurrency(
+        assetSymbol: sSignalRModules.baseCurrency.symbol,
+        findInHideTerminalList: true,
       );
 
   @observable
