@@ -1811,12 +1811,14 @@
     "earn_to_crypto_wallet": "To crypto wallet",
     "earn_to_earn": "To earn",
     "earn_deposit_crypto_wallet": "Deposit crypto wallet",
-    "earn_to_continue_you_need_to_top_up": "To continue, you need to top up your Bitcoin wallet with at least {topup_value}",
+    "earn_to_continue_you_need_to_top_up": "To continue, you need to top up your {wallet_symbol} wallet with at least {topup_value}",
     "@earn_to_continue_you_need_to_top_up": {
         "placeholders": {
             "topup_value": {
-                "type": "String",
-                "example": "0.0002 BTC"
+                "type": "String"
+            },
+            "wallet_symbol": {
+                "type": "String"
             }
         }
     },
