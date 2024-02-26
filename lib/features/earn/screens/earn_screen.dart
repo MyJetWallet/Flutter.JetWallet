@@ -6,7 +6,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/store/earn_store.dart';
 import 'package:jetwallet/features/earn/widgets/basic_banner.dart';
 import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
-import 'package:jetwallet/features/earn/widgets/earn_positins_list.dart';
+import 'package:jetwallet/features/earn/widgets/earn_positions_list.dart';
 import 'package:jetwallet/features/earn/widgets/price_header.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:provider/provider.dart';
