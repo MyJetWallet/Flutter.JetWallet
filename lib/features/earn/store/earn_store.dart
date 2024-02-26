@@ -8,6 +8,7 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/earn/screens/earn_withdrawn_type_screen.dart';
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -182,8 +183,15 @@ abstract class _EarnStoreBase with Store {
   Future<void> _wirhdrawPartialFlow({
     required EarnPositionClientModel earnPosition,
   }) async {
-    await sRouter.push(
-      EarnWithdrawnTypeRouter(earnPosition: earnPosition),
-    );
+    if (earnPosition.baseAmount > (earnPosition.offers.first.minAmount ?? Decimal.zero)) {
+      await sRouter.push(
+        EarnWithdrawnTypeRouter(earnPosition: earnPosition),
+      );
+    } else {
+      await showWithdrawalTypeAreYouSurePopUp(
+        amount: earnPosition.baseAmount + earnPosition.incomeAmount,
+        earnPosition: earnPosition,
+      );
+    }
   }
 }

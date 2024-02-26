@@ -7,10 +7,11 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
-import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/earn/store/earn_top_up_amount_store.dart';
+import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
+import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
@@ -46,10 +47,28 @@ class _EarnTopUpAmountScreenState extends State<EarnTopUpAmountScreen> {
 
     if (store.isShowTopUpModal) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
-        sNotification.showError(
-            'Your crypto balance is zero. Please get crypto first',
-            id: 1,
-          );
+        await sShowAlertPopup(
+          context,
+          primaryText: intl.earn_deposit_crypto_wallet,
+          secondaryText: intl.tost_convert_message_1,
+          primaryButtonName: intl.earn_top_up_value(store.cryptoSymbol),
+          secondaryButtonName: intl.earn_cancel,
+          image: Image.asset(
+            blockedAsset,
+            width: 80,
+            height: 80,
+            package: 'simple_kit',
+          ),
+          onWillPop: () {
+            sRouter.replaceAll([const EarnRouter()]);
+          },
+          onPrimaryButtonTap: () {
+            navigateToWallet(context, store.currency);
+          },
+          onSecondaryButtonTap: () {
+            sRouter.replaceAll([const EarnRouter()]);
+          },
+        );
       });
     }
   }
