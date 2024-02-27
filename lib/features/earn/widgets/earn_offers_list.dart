@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -9,38 +8,24 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/widgets/basic_header.dart';
 import 'package:jetwallet/features/earn/widgets/chips_suggestion_m.dart';
 import 'package:jetwallet/features/earn/widgets/offers_overlay_content.dart';
-import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
 class OffersListWidget extends StatelessWidget {
   const OffersListWidget({
     super.key,
-    required this.earnOffers,
+    required this.filteredOffersGroupedByCurrency,
+    required this.highestApyOffers,
     this.showTitle = true,
   });
 
-  final List<EarnOfferClientModel> earnOffers;
+  final Map<String, List<EarnOfferClientModel>> filteredOffersGroupedByCurrency;
+  final Map<String, EarnOfferClientModel> highestApyOffers;
   final bool showTitle;
 
   @override
   Widget build(BuildContext context) {
     final currencies = sSignalRModules.currenciesList;
-
-    final highestApyOffers = _getHighestApyOffersPerCurrency(earnOffers, currencies);
-
-    final offersGroupedByCurrency = groupBy(earnOffers, (EarnOfferClientModel offer) {
-      return currencies.firstWhereOrNull((currency) => currency.symbol == offer.assetId)?.description ?? '';
-    });
-
-    final filteredOffersGroupedByCurrency = offersGroupedByCurrency
-        .map((currencyDescription, offers) {
-          final anyPromotionalOfferExists = offers.any((offer) => offer.promotion);
-          return MapEntry(currencyDescription, anyPromotionalOfferExists ? offers : []);
-        })
-        .entries
-        .where((entry) => entry.value.isNotEmpty)
-        .map((entry) => MapEntry(entry.key, entry.value));
 
     return Observer(
       builder: (context) {
@@ -54,9 +39,9 @@ class OffersListWidget extends StatelessWidget {
                 subtitle: intl.earn_most_profitable_earns,
                 onTap: () => context.router.push(const OffersRouter()),
               ),
-            ...filteredOffersGroupedByCurrency.map((entry) {
+            ...filteredOffersGroupedByCurrency.entries.map((entry) {
               final currencyDescription = entry.key;
-              final currencyOffers = entry.value as List<EarnOfferClientModel>;
+              final currencyOffers = entry.value;
               final currency = currencies.firstWhere(
                 (currency) => currency.description == currencyDescription,
               );
@@ -94,25 +79,6 @@ class OffersListWidget extends StatelessWidget {
         );
       },
     );
-  }
-
-  Map<String, EarnOfferClientModel> _getHighestApyOffersPerCurrency(
-    List<EarnOfferClientModel> offers,
-    List<CurrencyModel> currencies,
-  ) {
-    final offersGroupedByCurrency = groupBy(offers, (EarnOfferClientModel offer) {
-      return currencies.firstWhereOrNull((currency) => currency.symbol == offer.assetId)?.description ?? '';
-    });
-
-    final highestApyOffers = <String, EarnOfferClientModel>{};
-    offersGroupedByCurrency.forEach((description, offers) {
-      final highestApyOffer = offers.reduce(
-        (curr, next) => (curr.apyRate ?? Decimal.zero) > (next.apyRate ?? Decimal.zero) ? curr : next,
-      );
-      highestApyOffers[description] = highestApyOffer;
-    });
-
-    return highestApyOffers;
   }
 }
 
