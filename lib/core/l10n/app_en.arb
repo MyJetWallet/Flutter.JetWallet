@@ -1871,5 +1871,14 @@
     "earn_privacy_policy": "Privacy Policy",
     "earn_earn_account_id": "Earn account ID",
     "earn_sent": "Sent",
-    "earn_received": "Received"
+    "earn_received": "Received",
+    "earn_withdrawal_of": "Withdrawal of {value}\nwas initiated",
+    "@earn_withdrawal_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "21:24"
+            }
+        }
+    }
 }
