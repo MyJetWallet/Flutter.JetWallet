@@ -2,10 +2,12 @@ import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:intl/intl.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/earn/widgets/deposit_card_badge.dart';
 import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
 import 'package:jetwallet/features/earn/widgets/link_label.dart';
@@ -21,15 +23,20 @@ class SDepositCard extends StatelessObserverWidget {
     super.key,
     required this.earnPosition,
     required this.onTap,
+    this.isShowDate = false,
   });
 
   final EarnPositionClientModel earnPosition;
   final void Function()? onTap;
+  final bool isShowDate;
 
   @override
   Widget build(BuildContext context) {
     final formatService = getIt.get<FormatService>();
+    final isBalanceHide = getIt<AppStore>().isBalanceHide;
     final colors = SColorsLight();
+    final currencies = sSignalRModules.currenciesList;
+    final currency = currencies.firstWhere((c) => c.symbol == earnPosition.assetId);
 
     return Padding(
       padding: const EdgeInsets.only(
@@ -52,45 +59,55 @@ class SDepositCard extends StatelessObserverWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CryptoCardHeader(
-                  name: earnPosition.assetId,
+                  name: currency.description,
                   iconUrl: earnPosition.assetId,
                   apyRate: getHighestApyRateAsString(earnPosition.offers),
                   earnPositoinStatus: earnPosition.status,
+                  isShowDate: isShowDate,
+                  period: formatPeriod(earnPosition.startDateTime, earnPosition.closeDateTime),
                 ),
                 const SizedBox(height: 16),
                 CryptoCardBody(
-                  balance: volumeFormat(
-                    decimal: formatService.convertOneCurrencyToAnotherOne(
-                      fromCurrency: earnPosition.assetId,
-                      fromCurrencyAmmount: earnPosition.baseAmount,
-                      toCurrency: sSignalRModules.baseCurrency.symbol,
-                      baseCurrency: sSignalRModules.baseCurrency.symbol,
-                      isMin: true,
-                    ),
-                    accuracy: 2,
-                    symbol: sSignalRModules.baseCurrency.symbol,
-                  ),
-                  balanceCrypto: volumeFormat(
-                    decimal: earnPosition.baseAmount,
-                    symbol: earnPosition.assetId,
-                    accuracy: 2,
-                  ),
-                  revenue: volumeFormat(
-                    decimal: formatService.convertOneCurrencyToAnotherOne(
-                      fromCurrency: earnPosition.assetId,
-                      fromCurrencyAmmount: earnPosition.incomeAmount,
-                      toCurrency: sSignalRModules.baseCurrency.symbol,
-                      baseCurrency: sSignalRModules.baseCurrency.symbol,
-                      isMin: true,
-                    ),
-                    accuracy: 2,
-                    symbol: sSignalRModules.baseCurrency.symbol,
-                  ),
-                  revenueCrypto: volumeFormat(
-                    decimal: earnPosition.incomeAmount,
-                    symbol: earnPosition.assetId,
-                    accuracy: 2,
-                  ),
+                  balance: isBalanceHide
+                      ? '**** ${sSignalRModules.baseCurrency.symbol}'
+                      : volumeFormat(
+                          decimal: formatService.convertOneCurrencyToAnotherOne(
+                            fromCurrency: earnPosition.assetId,
+                            fromCurrencyAmmount: earnPosition.baseAmount,
+                            toCurrency: sSignalRModules.baseCurrency.symbol,
+                            baseCurrency: sSignalRModules.baseCurrency.symbol,
+                            isMin: true,
+                          ),
+                          accuracy: 2,
+                          symbol: sSignalRModules.baseCurrency.symbol,
+                        ),
+                  balanceCrypto: isBalanceHide
+                      ? '**** ${earnPosition.assetId}'
+                      : volumeFormat(
+                          decimal: earnPosition.baseAmount,
+                          symbol: earnPosition.assetId,
+                          accuracy: 2,
+                        ),
+                  revenue: isBalanceHide
+                      ? '**** ${sSignalRModules.baseCurrency.symbol}'
+                      : volumeFormat(
+                          decimal: formatService.convertOneCurrencyToAnotherOne(
+                            fromCurrency: earnPosition.assetId,
+                            fromCurrencyAmmount: earnPosition.incomeAmount,
+                            toCurrency: sSignalRModules.baseCurrency.symbol,
+                            baseCurrency: sSignalRModules.baseCurrency.symbol,
+                            isMin: true,
+                          ),
+                          accuracy: 2,
+                          symbol: sSignalRModules.baseCurrency.symbol,
+                        ),
+                  revenueCrypto: isBalanceHide
+                      ? '**** ${earnPosition.assetId}'
+                      : volumeFormat(
+                          decimal: earnPosition.incomeAmount,
+                          symbol: earnPosition.assetId,
+                          accuracy: 2,
+                        ),
                 ),
               ],
             ),
@@ -98,6 +115,15 @@ class SDepositCard extends StatelessObserverWidget {
         ),
       ),
     );
+  }
+
+  String formatPeriod(DateTime? start, DateTime? end) {
+    final dateFormat = DateFormat('dd.MM.yyyy');
+
+    final formattedStart = start != null ? dateFormat.format(start) : 'Unknown';
+    final formattedEnd = end != null ? dateFormat.format(end) : 'Unknown';
+
+    return '$formattedStart - $formattedEnd';
   }
 
   String? getHighestApyRateAsString(List<EarnOfferClientModel> offers) {
@@ -118,13 +144,17 @@ class CryptoCardHeader extends StatelessWidget {
     this.iconUrl,
     this.name,
     this.apyRate,
+    this.isShowDate = false,
     required this.earnPositoinStatus,
+    required this.period,
   });
 
   final String? iconUrl;
   final String? name;
   final String? apyRate;
   final EarnPositionStatus earnPositoinStatus;
+  final bool isShowDate;
+  final String period;
 
   @override
   Widget build(BuildContext context) {
@@ -161,6 +191,11 @@ class CryptoCardHeader extends StatelessWidget {
               if (apyRate != null)
                 Text(
                   '${intl.earn_variable_apy} ${double.parse(apyRate ?? '0').toStringAsFixed(2).replaceFirst(RegExp(r'\.?0*$'), '')}%',
+                  style: STStyles.body2Medium.copyWith(color: colors.grey1),
+                ),
+              if (isShowDate)
+                Text(
+                  period,
                   style: STStyles.body2Medium.copyWith(color: colors.grey1),
                 ),
             ],

@@ -71,6 +71,7 @@ class _OffersOverlayContentState extends State<OffersOverlayContent> {
             },
           );
         }).toList(),
+        const SizedBox(height: 48),
         Padding(
           padding: EdgeInsets.only(
             left: 24,

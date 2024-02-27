@@ -3,8 +3,11 @@ import 'package:decimal/decimal.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/earn/store/earn_top_up_order_summary_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
@@ -72,6 +75,7 @@ class _OfferOrderSummaruBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = EarnTopUpOrderSummaryStore.of(context);
+    final isBalanceHide = getIt<AppStore>().isBalanceHide;
 
     return Observer(
       builder: (context) {
@@ -82,14 +86,18 @@ class _OfferOrderSummaruBody extends StatelessWidget {
               isLoading: false,
               fromAssetIconUrl: store.currency.iconUrl,
               fromAssetDescription: '${intl.earn_crypto_wallet} ${store.currency.symbol}',
-              fromAssetValue: store.currency.volumeAssetBalance,
-              fromAssetBaseAmount:
-                  '≈${volumeFormat(decimal: store.baseCryptoAmount, symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
+              fromAssetValue: isBalanceHide ? '**** ${store.currency.symbol}' : store.currency.volumeAssetBalance,
+              fromAssetBaseAmount: isBalanceHide
+                  ? '**** ${sSignalRModules.baseCurrency.symbol}'
+                  : '≈${volumeFormat(decimal: store.baseCryptoAmount, symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
               toAssetIconUrl: store.currency.iconUrl,
               toAssetDescription: '${intl.earn_earn} ${store.offer.name}',
-              toAssetValue: volumeFormat(decimal: store.selectedAmount, symbol: store.currency.symbol),
-              toAssetBaseAmount:
-                  '≈${volumeFormat(decimal: store.baseAmount, symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
+              toAssetValue: isBalanceHide
+                  ? '**** ${store.currency.symbol}'
+                  : volumeFormat(decimal: store.selectedAmount, symbol: store.currency.symbol),
+              toAssetBaseAmount: isBalanceHide
+                  ? '**** ${sSignalRModules.baseCurrency.symbol}'
+                  : '≈${volumeFormat(decimal: store.baseAmount, symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
             ),
             const SDivider(),
             const SizedBox(height: 19),

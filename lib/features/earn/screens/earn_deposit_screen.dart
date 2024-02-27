@@ -7,6 +7,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/earn/store/earn_deposit_store.dart';
@@ -50,7 +51,10 @@ class _EarnDepositScreenState extends State<EarnDepositScreen> {
         await sShowAlertPopup(
           context,
           primaryText: intl.earn_deposit_crypto_wallet,
-          secondaryText: intl.earn_to_continue_you_need_to_top_up('${widget.offer.minAmount} ${store.cryptoSymbol}'),
+          secondaryText: intl.earn_to_continue_you_need_to_top_up(
+            '${widget.offer.minAmount} ${store.cryptoSymbol}',
+            store.cryptoSymbol,
+          ),
           primaryButtonName: intl.earn_top_up_value(store.cryptoSymbol),
           secondaryButtonName: intl.earn_cancel,
           image: Image.asset(
@@ -113,7 +117,7 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
               primarySymbol: store.cryptoSymbol,
               secondaryAmount:
                   '${intl.earn_est} ${volumeFormat(decimal: Decimal.parse(store.fiatInputValue), symbol: '', accuracy: store.baseCurrency.accuracy)}',
-              secondarySymbol: store.fiatSymbol,
+              secondarySymbol: sSignalRModules.baseCurrency.symbol,
               onSwap: null,
               showSwopButton: false,
               errorText: store.errorText,

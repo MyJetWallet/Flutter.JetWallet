@@ -39,6 +39,7 @@ class EarnsArchiveScreen extends StatelessWidget {
                 return SDepositCard(
                   earnPosition: earnPositionsClosed[index],
                   onTap: () {},
+                  isShowDate: true,
                 );
               },
               childCount: earnPositionsClosed.length,

@@ -3,8 +3,12 @@ import 'package:decimal/decimal.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/earn/store/earn_offer_order_summary_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
@@ -71,7 +75,8 @@ class _OfferOrderSummaruBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = OfferOrderSummaryStore.of(context);
-
+    final isBalanceHide = getIt<AppStore>().isBalanceHide;
+    final formatService = getIt.get<FormatService>();
     return Observer(
       builder: (context) {
         return Column(
@@ -81,27 +86,54 @@ class _OfferOrderSummaruBody extends StatelessWidget {
               isLoading: false,
               fromAssetIconUrl: store.currency.iconUrl,
               fromAssetDescription: '${intl.earn_crypto_wallet} ${store.currency.symbol}',
-              fromAssetValue: store.currency.volumeAssetBalance,
-              fromAssetBaseAmount:
-                  '≈${volumeFormat(decimal: store.baseCryptoAmount, symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
+              fromAssetValue: isBalanceHide ? '**** ${store.currency.symbol}' : store.currency.volumeAssetBalance,
+              fromAssetBaseAmount: isBalanceHide
+                  ? '**** ${sSignalRModules.baseCurrency.symbol}'
+                  : '≈${volumeFormat(
+                      decimal: formatService.convertOneCurrencyToAnotherOne(
+                        fromCurrency: store.currency.symbol,
+                        fromCurrencyAmmount: store.currency.assetBalance,
+                        toCurrency: sSignalRModules.baseCurrency.symbol,
+                        baseCurrency: sSignalRModules.baseCurrency.symbol,
+                        isMin: true,
+                      ),
+                      symbol: store.fiatSymbol,
+                      accuracy: store.eurCurrency.accuracy,
+                    )}',
               toAssetIconUrl: store.currency.iconUrl,
               toAssetDescription: '${intl.earn_earn} ${store.offer.name}',
-              toAssetValue: volumeFormat(decimal: store.selectedAmount, symbol: store.currency.symbol),
-              toAssetBaseAmount:
-                  '≈${volumeFormat(decimal: store.baseCryptoAmount, symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
+              toAssetValue: isBalanceHide
+                  ? '**** ${store.currency.symbol}'
+                  : volumeFormat(decimal: store.selectedAmount, symbol: store.currency.symbol),
+              toAssetBaseAmount: isBalanceHide
+                  ? '**** ${sSignalRModules.baseCurrency.symbol}'
+                  : '≈${volumeFormat(
+                      decimal: formatService.convertOneCurrencyToAnotherOne(
+                        fromCurrency: store.currency.symbol,
+                        fromCurrencyAmmount: store.selectedAmount,
+                        toCurrency: sSignalRModules.baseCurrency.symbol,
+                        baseCurrency: sSignalRModules.baseCurrency.symbol,
+                        isMin: true,
+                      ),
+                      symbol: store.fiatSymbol,
+                      accuracy: store.eurCurrency.accuracy,
+                    )}',
             ),
             const SDivider(),
             const SizedBox(height: 19),
             if (store.offer.apyRate != null)
               TwoColumnCell(
                 label: intl.earn_apy_rate,
-                value: '${store.offer.apyRate!.toStringAsFixed(2)} %',
+                value: '${(store.offer.apyRate! * Decimal.fromInt(100)).toStringAsFixed(2)}%',
                 needHorizontalPadding: false,
               ),
             TwoColumnCell(
               label: intl.earn_earning_term,
-              value: store.offer.withdrawType == WithdrawType.instant ? intl.earn_instant : intl.earn_flexible,
+              value: store.offer.withdrawType == WithdrawType.instant
+                  ? intl.earn_flexible
+                  : intl.earn_freeze(store.offer.lockPeriod ?? ''),
               needHorizontalPadding: false,
+              valueMaxLines: 2,
             ),
             const SizedBox(height: 7),
             ProcessingFeeRowWidget(
