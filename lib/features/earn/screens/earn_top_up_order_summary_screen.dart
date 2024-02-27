@@ -57,7 +57,7 @@ class EarnTopUpOrderSummaryScreen extends StatelessWidget {
               : null,
           header: SSmallHeader(
             title: intl.earn_order_summary,
-            subTitle: intl.earn_send,
+            subTitle: intl.about_transfer,
             subTitleStyle: sBodyText2Style.copyWith(
               color: colors.grey1,
             ),
@@ -85,13 +85,13 @@ class _OfferOrderSummaruBody extends StatelessWidget {
             WhatToWhatConvertWidget(
               isLoading: false,
               fromAssetIconUrl: store.currency.iconUrl,
-              fromAssetDescription: '${intl.earn_crypto_wallet} ${store.currency.symbol}',
+              fromAssetDescription: intl.earn_crypto_wallet,
               fromAssetValue: isBalanceHide ? '**** ${store.currency.symbol}' : store.currency.volumeAssetBalance,
               fromAssetBaseAmount: isBalanceHide
                   ? '**** ${sSignalRModules.baseCurrency.symbol}'
                   : '≈${volumeFormat(decimal: store.baseCryptoAmount, symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
               toAssetIconUrl: store.currency.iconUrl,
-              toAssetDescription: '${intl.earn_earn} ${store.offer.name}',
+              toAssetDescription: intl.earn_earn,
               toAssetValue: isBalanceHide
                   ? '**** ${store.currency.symbol}'
                   : volumeFormat(decimal: store.selectedAmount, symbol: store.currency.symbol),
@@ -105,16 +105,20 @@ class _OfferOrderSummaruBody extends StatelessWidget {
               label: intl.to1,
               value: store.offer.name,
               needHorizontalPadding: false,
+              valueMaxLines: 3,
             ),
             if (store.offer.apyRate != null)
               TwoColumnCell(
                 label: intl.earn_apy_rate,
-                value: '${store.offer.apyRate!.toStringAsFixed(2)} %',
+                value:
+                    '${((store.offer.apyRate ?? Decimal.zero) * Decimal.fromInt(100)).toStringAsFixed(2).replaceFirst(RegExp(r'\.?0*$'), '')} %',
                 needHorizontalPadding: false,
               ),
             TwoColumnCell(
               label: intl.earn_earning_term,
-              value: store.offer.withdrawType == WithdrawType.instant ? intl.earn_instant : intl.earn_flexible,
+              value: store.offer.withdrawType != WithdrawType.instant
+                  ? intl.earn_flexible
+                  : intl.earn_freeze_days(store.offer.lockPeriod ?? 0),
               needHorizontalPadding: false,
             ),
             const SizedBox(height: 7),

@@ -1881,5 +1881,15 @@
             }
         }
     },
-    "about_us_earn": "Terms & Conditions of Earn program"
+    "about_us_earn": "Terms & Conditions of Earn program",
+    "about_transfer": "Transfer",
+    "earn_freeze_days": "Freeze {days} days",
+    "@earn_freeze_days": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    }
 }
