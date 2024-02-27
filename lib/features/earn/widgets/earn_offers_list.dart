@@ -113,6 +113,6 @@ String? formatApyRate(Decimal? apyRate) {
   if (apyRate == null) {
     return null;
   } else {
-    return (apyRate * Decimal.fromInt(100)).toStringAsFixed(2);
+    return (apyRate * Decimal.fromInt(100)).toStringAsFixed(2).replaceFirst(RegExp(r'\.?0*$'), '');
   }
 }
