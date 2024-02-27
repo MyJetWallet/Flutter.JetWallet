@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/widgets.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -100,6 +101,22 @@ abstract class _EarnStoreBase with Store {
     return sum;
   }
 
+  @computed
+  Map<String, List<EarnOfferClientModel>> get groupedOffers {
+    final activeOffersWithPromotion =
+        earnOffers.where((o) => o.status == EarnOfferStatus.activeShow && o.promotion).toList();
+    final activeOffersWithoutPromotion =
+        earnOffers.where((o) => o.status == EarnOfferStatus.activeShow && !o.promotion).toList();
+
+    activeOffersWithPromotion.sort((a, b) => b.apyRate!.compareTo(a.apyRate!));
+    activeOffersWithoutPromotion.sort((a, b) => b.apyRate!.compareTo(a.apyRate!));
+
+    final concatenatedOffers = activeOffersWithPromotion + activeOffersWithoutPromotion;
+
+    final groupedOffers = groupBy(concatenatedOffers, (EarnOfferClientModel o) => o.assetId);
+    return groupedOffers;
+  }
+
   @action
   Future<void> fetchClosedPositions() async {
     try {
@@ -123,6 +140,48 @@ abstract class _EarnStoreBase with Store {
     offers.sort((a, b) => (b.apyRate ?? Decimal.zero).compareTo(a.apyRate ?? Decimal.zero));
 
     return offers;
+  }
+
+  @computed
+  Map<String, List<EarnOfferClientModel>> get filteredOffersGroupedByCurrency {
+    final currencies = sSignalRModules.currenciesList;
+
+    final offersGroupedByCurrency = groupBy(earnOffers, (EarnOfferClientModel offer) {
+      return currencies.firstWhereOrNull((currency) => currency.symbol == offer.assetId)?.description ?? '';
+    });
+
+    final filtered = Map<String, List<EarnOfferClientModel>>.fromEntries(
+      offersGroupedByCurrency
+          .map((currencyDescription, List<EarnOfferClientModel> offers) {
+            final anyPromotionalOfferExists = offers.any((offer) => offer.promotion);
+            return MapEntry(currencyDescription, anyPromotionalOfferExists ? offers : <EarnOfferClientModel>[]);
+          })
+          .entries
+          .where((entry) => entry.value.isNotEmpty)
+          .map((entry) => MapEntry(entry.key, entry.value)),
+    );
+
+    return filtered;
+  }
+
+  @computed
+  Map<String, EarnOfferClientModel> get highestApyOffersPerCurrency {
+    final currencies = sSignalRModules.currenciesList;
+    final earnOffers = sSignalRModules.activeEarnOffersMessage?.offers ?? [];
+
+    final offersGroupedByCurrency = groupBy(earnOffers, (EarnOfferClientModel offer) {
+      return currencies.firstWhereOrNull((currency) => currency.symbol == offer.assetId)?.description ?? '';
+    });
+
+    final highestApyOffers = <String, EarnOfferClientModel>{};
+    offersGroupedByCurrency.forEach((description, offers) {
+      final highestApyOffer = offers.reduce(
+        (curr, next) => (curr.apyRate ?? Decimal.zero) > (next.apyRate ?? Decimal.zero) ? curr : next,
+      );
+      highestApyOffers[description] = highestApyOffer;
+    });
+
+    return highestApyOffers;
   }
 
   @computed
