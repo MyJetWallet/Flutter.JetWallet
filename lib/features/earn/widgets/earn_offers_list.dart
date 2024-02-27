@@ -52,6 +52,7 @@ class OffersListWidget extends StatelessWidget {
               final currencyOffers = entry.value;
               final currency = currencies.firstWhere(
                 (currency) => currency.description == currencyDescription,
+                orElse: () => CurrencyModel.empty(),
               );
 
               return ChipsSuggestionM(
