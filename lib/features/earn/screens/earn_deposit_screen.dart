@@ -9,9 +9,9 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/earn/store/earn_deposit_store.dart';
+import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -67,12 +67,7 @@ class _EarnDepositScreenState extends State<EarnDepositScreen> {
             sRouter.replaceAll([const EarnRouter()]);
           },
           onPrimaryButtonTap: () {
-            sRouter.push(
-              AmountRoute(
-                tab: AmountScreenTab.buy,
-                asset: store.currency,
-              ),
-            );
+            navigateToWallet(context, store.currency);
           },
           onSecondaryButtonTap: () {
             sRouter.replaceAll([const EarnRouter()]);

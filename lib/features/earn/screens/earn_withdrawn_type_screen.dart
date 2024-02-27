@@ -25,7 +25,7 @@ class _EarnWithdrawnTypeScreenState extends State<EarnWithdrawnTypeScreen> {
   @override
   Widget build(BuildContext context) {
     final minAccountAmount = widget.earnPosition.offers.first.minAmount ?? Decimal.zero;
-   final formatedMinAccountAmount = volumeFormat(
+    final formatedMinAccountAmount = volumeFormat(
       decimal: minAccountAmount,
       symbol: widget.earnPosition.assetId,
     );
@@ -73,7 +73,10 @@ class _EarnWithdrawnTypeScreenState extends State<EarnWithdrawnTypeScreen> {
                       EarnWithdrawalAmountRouter(earnPosition: widget.earnPosition),
                     );
                   } else {
-                    _showAreYouSurePopUp();
+                    showWithdrawalTypeAreYouSurePopUp(
+                      earnPosition: widget.earnPosition,
+                      amount: widget.earnPosition.baseAmount + widget.earnPosition.incomeAmount,
+                    );
                   }
                 },
               ),
@@ -84,34 +87,37 @@ class _EarnWithdrawnTypeScreenState extends State<EarnWithdrawnTypeScreen> {
       ),
     );
   }
+}
 
-  Future<void> _showAreYouSurePopUp() async {
-    final context = sRouter.navigatorKey.currentContext!;
+Future<void> showWithdrawalTypeAreYouSurePopUp({
+  required Decimal amount,
+  required EarnPositionClientModel earnPosition,
+}) async {
+  final context = sRouter.navigatorKey.currentContext!;
 
-    await sShowAlertPopup(
-      context,
-      primaryText: intl.earn_are_you_sure,
-      secondaryText: intl.earn_full_withdraw,
-      primaryButtonName: intl.earn_continue_earning,
-      secondaryButtonName: intl.earn_yes_withdraw,
-      image: Image.asset(
-        infoLightAsset,
-        width: 80,
-        height: 80,
-        package: 'simple_kit',
-      ),
-      onPrimaryButtonTap: () {
-        sRouter.pop();
-      },
-      onSecondaryButtonTap: () {
-        sRouter.push(
-          EarnWithdrawOrderSummaryRouter(
-            amount: widget.earnPosition.baseAmount + widget.earnPosition.incomeAmount,
-            earnPosition: widget.earnPosition,
-            isClosing: true,
-          ),
-        );
-      },
-    );
-  }
+  await sShowAlertPopup(
+    context,
+    primaryText: intl.earn_are_you_sure,
+    secondaryText: intl.earn_full_withdraw,
+    primaryButtonName: intl.earn_continue_earning,
+    secondaryButtonName: intl.earn_yes_withdraw,
+    image: Image.asset(
+      infoLightAsset,
+      width: 80,
+      height: 80,
+      package: 'simple_kit',
+    ),
+    onPrimaryButtonTap: () {
+      sRouter.pop();
+    },
+    onSecondaryButtonTap: () {
+      sRouter.push(
+        EarnWithdrawOrderSummaryRouter(
+          amount: amount,
+          earnPosition: earnPosition,
+          isClosing: true,
+        ),
+      );
+    },
+  );
 }

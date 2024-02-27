@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/format_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -41,6 +42,7 @@ abstract class _EarnWithdrawalAmountStoreBase with Store {
   @computed
   CurrencyModel get eurCurrency => getIt.get<FormatService>().findCurrency(
         assetSymbol: fiatSymbol,
+        findInHideTerminalList: true,
       );
 
   @observable
@@ -71,7 +73,7 @@ abstract class _EarnWithdrawalAmountStoreBase with Store {
 
   @computed
   String get fiatSymbol {
-    return 'EUR';
+    return sSignalRModules.baseCurrency.symbol;
   }
 
   @computed
