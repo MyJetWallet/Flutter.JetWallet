@@ -1891,5 +1891,12 @@
                 "example": "30"
             }
         }
-    }
+    },
+    "earn_redeem_period": "Redeem period ({days} days)",
+    "@earn_redeem_period": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_history": "History"
 }

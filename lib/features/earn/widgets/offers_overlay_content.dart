@@ -6,7 +6,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/earn/widgets/offer_tile.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/modules/shared/simple_network_svg.dart';
+import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/widgets/button/main/simple_button.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
@@ -53,11 +53,13 @@ class _OffersOverlayContentState extends State<OffersOverlayContent> {
           style: STStyles.header5.copyWith(color: colors.black),
         ),
         const SizedBox(height: 8),
-        Text(
-          intl.earn_choose_a_deposit_plan,
-          style: STStyles.body1Medium.copyWith(color: colors.grey1),
-          textAlign: TextAlign.center,
-          maxLines: 2,
+        SPaddingH24(
+          child: Text(
+            intl.earn_choose_a_deposit_plan,
+            style: STStyles.body1Medium.copyWith(color: colors.grey1),
+            textAlign: TextAlign.center,
+            maxLines: 2,
+          ),
         ),
         const SizedBox(height: 16),
         ...widget.offers.map((offer) {
