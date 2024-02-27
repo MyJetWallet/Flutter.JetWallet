@@ -16,7 +16,7 @@
     "login_password": "Mot de passe",
     "login_forgotPassword": "Mot de passe oublié",
     "login_policyText1": "En me connectant et en continuant, j'accepte et consens à cela",
-    "login_policyText2": " Conditions Générales",
+    "login_policyText2": "Conditions Générales",
     "@login_policyText2": {
         "description": "Privacy Policy Text (part 2)"
     },
@@ -853,7 +853,7 @@
     "curencyBuy_actionItemDescriptionWithoutApplePay": "Visa, Mastercard",
     "currencyBuy_morePaymentMethod": "Plus de méthodes de paiement",
     "previewBuyWithUmlimint_disclaimer": "J'ai lu et accepté",
-    "previewBuyWithUmlimint_disclaimerTerms": " Conditions Générales",
+    "previewBuyWithUmlimint_disclaimerTerms": "Conditions Générales",
     "previewBuyWithUmlimint_skipWait": "Fermer",
     "previewBuyWithUmlimint_disclaimerPolicy": "Politique de confidentialité",
     "previewBuyWithUmlimint_saveCard": "Enregistrez cette carte",
@@ -1172,7 +1172,7 @@
     "buy_confirmation_total": "Total",
     "buy_confirmation_local_info": "Le taux de change sera ajusté selon le prix du marché au moment de la confirmation du paiement.",
     "buy_confirmation_privacy_checkbox_1": "J'ai lu et accepté",
-    "buy_confirmation_privacy_checkbox_2": " Conditions Générales",
+    "buy_confirmation_privacy_checkbox_2": "Conditions Générales",
     "buy_confirmation_privacy_checkbox_3": "Politique de confidentialité",
     "buy_confirmation_privacy_p2p_checkbox_1": "1. Je confirme que les informations ci-dessus sont précises et complètes.",
     "buy_confirmation_privacy_p2p_checkbox_1_5": "2. Je suis d'accord avec ",
@@ -1547,7 +1547,7 @@
     "external_method": "Méthode externe",
     "history_sold_to": "Vendu à",
     "transfer_amount_transfer_all": "Tout transférer",
-    "edit_card_lable_card_label": " Étiquette carte",
+    "edit_card_lable_card_label": "Étiquette carte",
     "preferred_language": "Langue préférée",
     "lang_change_alert": "Langue appli changera au prochain lancement!",
     "rate_title": "Trouvez-nous incroyable?",
@@ -1767,7 +1767,7 @@
     "earn_to_crypto_wallet": "Au portefeuille crypto",
     "earn_to_earn": "Pour gagner",
     "earn_deposit_crypto_wallet": "ortefeuille crypto de dépôt",
-    "earn_to_continue_you_need_to_top_up": "Pour continuer, vous devez recharger votre portefeuille Bitcoin d'au moins {topup_value}",
+    "earn_to_continue_you_need_to_top_up": "Pour continuer, vous devez recharger votre {wallet_symbol} avec au moins {topup_value}",
     "@earn_to_continue_you_need_to_top_up": {
         "placeholders": {
             "topup_value": {
@@ -1817,16 +1817,16 @@
         }
     },
     "earn_privacy_policy": "Politique de confidentialité",
-    "earn_freeze": "",
+    "earn_freeze": "Gel {days} jours",
     "@earn_freeze": {
         "placeholders": {
             "days": {}
         }
     },
-    "earn_earn_account_id": "",
-    "earn_sent": "",
-    "earn_received": "",
-    "earn_withdrawal_of": "",
+    "earn_earn_account_id": "ID compte Earn",
+    "earn_sent": "Envoyé",
+    "earn_received": "Reçu",
+    "earn_withdrawal_of": "Retrait de {value}\ninitié",
     "@earn_withdrawal_of": {
         "placeholders": {
             "value": {
@@ -1835,9 +1835,9 @@
             }
         }
     },
-    "about_us_earn": "",
-    "about_transfer": "",
-    "earn_freeze_days": "",
+    "about_us_earn": "Termes et conditions du programme Earn",
+    "about_transfer": "Transfert",
+    "earn_freeze_days": "Gel {days} jours",
     "@earn_freeze_days": {
         "placeholders": {
             "days": {
@@ -1846,11 +1846,11 @@
             }
         }
     },
-    "earn_redeem_period": "",
+    "earn_redeem_period": "Période de rachat ({days} jours)",
     "@earn_redeem_period": {
         "placeholders": {
             "days": {}
         }
     },
-    "earn_history": ""
+    "earn_history": "Historique"
 }

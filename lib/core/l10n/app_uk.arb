@@ -80,7 +80,7 @@
         "description": "Войдя в систему и продолжая пользоваться ею, я соглашаюсь и даю согласие на",
         "type": "text"
     },
-    "login_policyText2": "Terms and conditions",
+    "login_policyText2": "Положення та умови",
     "@login_policyText2": {
         "description": "Privacy Policy Text (part 2)"
     },
@@ -4105,7 +4105,7 @@
         "description": "Я прочитал и согласен с",
         "type": "text"
     },
-    "previewBuyWithUmlimint_disclaimerTerms": "Terms and conditions",
+    "previewBuyWithUmlimint_disclaimerTerms": "Положення та умови",
     "previewBuyWithUmlimint_skipWait": "Закрити",
     "@previewBuyWithUmlimint_skipWait": {
         "description": "Закрыть",
@@ -5648,7 +5648,7 @@
         "description": "Я прочитал и согласен с␣",
         "type": "text"
     },
-    "buy_confirmation_privacy_checkbox_2": "Terms and conditions",
+    "buy_confirmation_privacy_checkbox_2": "Положення та умови",
     "buy_confirmation_privacy_checkbox_3": "Privacy Policy",
     "buy_confirmation_privacy_p2p_checkbox_1": "1. Я підтверджую, що наведена вище інформація є точною та повною.",
     "@buy_confirmation_privacy_p2p_checkbox_1": {
@@ -7403,7 +7403,7 @@
     "simple_card_password_repeatable_characters": "Не має містити більше 3 повторюваних символів підряд",
     "simple_card_password_whitespace": "Пробіл не дозволений",
     "simple_card_password_repeatable_allowed_symbols": "Дозволені наступні спеціальні символи:",
-    "earn_earn": "Зароблено",
+    "earn_earn": "Дохід",
     "@earn_earn": {
         "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/XKUJ00h5dZvM2PFYGRwm5qvf.png",
         "type": "text"
@@ -7484,7 +7484,7 @@
     "earn_top_up": "Поповнити",
     "earn_withdraw": "Вивести",
     "earn_all_offers": "Усі пропозиції",
-    "earn_earns_archive": "Архів заробітку",
+    "earn_earns_archive": "Архів Earn",
     "earn_you_can_withdraw_deposit_funds_instantly": "Ви можете миттєво вивести депозитні кошти",
     "earn_deposit": "Депозит",
     "earn_continue": "Продовжити",
@@ -7543,7 +7543,7 @@
     "earn_to_crypto_wallet": "На криптогаманець",
     "earn_to_earn": "Для заробітку",
     "earn_deposit_crypto_wallet": "Гаманець для депозитів",
-    "earn_to_continue_you_need_to_top_up": "Щоб продовжити, вам потрібно поповнити ваш Bitcoin гаманець щонайменше на {topup_value}",
+    "earn_to_continue_you_need_to_top_up": "Щоб продовжити, вам потрібно поповнити ваш гаманець {wallet_symbol} щонайменше на {topup_value}",
     "@earn_to_continue_you_need_to_top_up": {
         "placeholders": {
             "topup_value": {
@@ -7567,7 +7567,7 @@
     "earn_flexible": "Гнучкий",
     "earn_instant": "Миттєвий",
     "earn_i_have_read_and_agreed_to": "Я прочитав(ла) і погоджуюсь з",
-    "earn_terms_and_conditions": "Умовами та положеннями",
+    "earn_terms_and_conditions": "Положення та умови",
     "earn_transfer": "Переказ",
     "earn_withdrawal": "Виведення",
     "earn_days_left": "Залишилося {days} днів",
@@ -7593,16 +7593,16 @@
         }
     },
     "earn_privacy_policy": "Політика конфіденційності",
-    "earn_freeze": "",
+    "earn_freeze": "Заморозити на {days} днів",
     "@earn_freeze": {
         "placeholders": {
             "days": {}
         }
     },
-    "earn_earn_account_id": "",
-    "earn_sent": "",
-    "earn_received": "",
-    "earn_withdrawal_of": "",
+    "earn_earn_account_id": "ID рахунку Earn",
+    "earn_sent": "Відправлено",
+    "earn_received": "Отримано",
+    "earn_withdrawal_of": "Виведення {value}\nініційовано",
     "@earn_withdrawal_of": {
         "placeholders": {
             "value": {
@@ -7611,9 +7611,9 @@
             }
         }
     },
-    "about_us_earn": "",
-    "about_transfer": "",
-    "earn_freeze_days": "",
+    "about_us_earn": "Положення та Умови програми Earn",
+    "about_transfer": "Переказ",
+    "earn_freeze_days": "Заморозити на {days} днів",
     "@earn_freeze_days": {
         "placeholders": {
             "days": {
@@ -7622,11 +7622,11 @@
             }
         }
     },
-    "earn_redeem_period": "",
+    "earn_redeem_period": "Період погашення ({days} днів)",
     "@earn_redeem_period": {
         "placeholders": {
             "days": {}
         }
     },
-    "earn_history": ""
+    "earn_history": "Історія"
 }
