@@ -77,7 +77,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
               : volumeFormat(
                   decimal: earnPosition.baseAmount + earnPosition.incomeAmount,
                   symbol: earnPosition.assetId,
-                  accuracy: 2,
+                  accuracy: currency.accuracy,
                 ),
           style: STStyles.body2Medium.copyWith(
             color: colors.grey1,
@@ -127,7 +127,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                       isBalanceHide
                           ? '**** ${earnPosition.assetId}'
                           : volumeFormat(
-                              accuracy: 2,
+                              accuracy: currency.accuracy,
                               decimal: earnPosition.baseAmount,
                               symbol: earnPosition.assetId,
                             ),
@@ -169,7 +169,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                       isBalanceHide
                           ? '**** ${earnPosition.assetId}'
                           : volumeFormat(
-                              accuracy: 2,
+                              accuracy: currency.accuracy,
                               decimal: earnPosition.incomeAmount,
                               symbol: earnPosition.assetId,
                             ),
