@@ -1755,12 +1755,6 @@
             "days": {}
         }
     },
-    "earn_freeze": "Freeze {days} days",
-    "@earn_freeze": {
-        "placeholders": {
-            "days": {}
-        }
-    },
     "earn_flexible_tariff": "Flexible tariff",
     "earn_are_you_sure": "Are you sure?",
     "earn_your_funds_and_accrued": "Your funds and accrued earnings are paid out upon closing your Earn Account. Disbursement on {date}.",
@@ -1869,6 +1863,12 @@
         }
     },
     "earn_privacy_policy": "Privacy Policy",
+    "earn_freeze": "Freeze {days} days",
+    "@earn_freeze": {
+        "placeholders": {
+            "days": {}
+        }
+    },
     "earn_earn_account_id": "Earn account ID",
     "earn_sent": "Sent",
     "earn_received": "Received",
@@ -1880,5 +1880,23 @@
                 "example": "21:24"
             }
         }
-    }
+    },
+    "about_us_earn": "Terms & Conditions of Earn program",
+    "about_transfer": "Transfer",
+    "earn_freeze_days": "Freeze {days} days",
+    "@earn_freeze_days": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_redeem_period": "Redeem period ({days} days)",
+    "@earn_redeem_period": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_history": "History"
 }

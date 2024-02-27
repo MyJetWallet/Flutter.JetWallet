@@ -2,7 +2,6 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/services/format_service.dart';
 
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
@@ -121,16 +120,6 @@ class _SellDetailsHeader extends StatelessWidget {
       orElse: () => CurrencyModel.empty(),
     );
 
-    final baseCurrency = sSignalRModules.baseCurrency;
-    final formatService = getIt.get<FormatService>();
-    final baseAmount = formatService.convertOneCurrencyToAnotherOne(
-      fromCurrency: asset.symbol,
-      fromCurrencyAmmount: transactionListItem.earnOperationInfo?.amount?.abs() ?? Decimal.zero,
-      toCurrency: baseCurrency.symbol,
-      baseCurrency: baseCurrency.symbol,
-      isMin: true,
-    );
-
     return Column(
       children: [
         WhatToWhatConvertWidget(
@@ -145,8 +134,6 @@ class _SellDetailsHeader extends StatelessWidget {
                   accuracy: asset.accuracy,
                   decimal: transactionListItem.earnOperationInfo?.amount?.abs() ?? Decimal.zero,
                 ),
-          fromAssetBaseAmount:
-              '≈${volumeFormat(decimal: baseAmount, symbol: baseCurrency.symbol, accuracy: baseCurrency.accuracy)}',
           toAssetIconUrl: asset.iconUrl,
           toAssetDescription: intl.earn_earn,
           toAssetValue: getIt<AppStore>().isBalanceHide
@@ -156,8 +143,6 @@ class _SellDetailsHeader extends StatelessWidget {
                   accuracy: asset.accuracy,
                   decimal: transactionListItem.earnOperationInfo?.amount?.abs() ?? Decimal.zero,
                 ),
-          toAssetBaseAmount:
-              '≈${volumeFormat(decimal: baseAmount, symbol: baseCurrency.symbol, accuracy: baseCurrency.accuracy)}',
           isError: transactionListItem.status == Status.declined,
           isSmallerVersion: true,
         ),

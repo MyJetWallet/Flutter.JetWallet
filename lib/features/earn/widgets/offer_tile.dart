@@ -52,7 +52,7 @@ class OfferListItem extends StatelessWidget {
               Text(
                 offer.withdrawType == WithdrawType.instant
                     ? intl.earn_flexible_tariff
-                    : intl.earn_freeze_period(offer.lockPeriod ?? ''),
+                    : intl.earn_redeem_period(offer.lockPeriod ?? ''),
                 style: STStyles.captionSemibold,
                 maxLines: 2,
               ),

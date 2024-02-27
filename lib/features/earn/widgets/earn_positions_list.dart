@@ -23,7 +23,7 @@ class EarnPositionsListWidget extends StatelessWidget {
         children: [
           SBasicHeader(
             title: intl.earn_active_earns,
-            buttonTitle: intl.earn_view_all,
+            buttonTitle: intl.earn_history,
             showLinkButton: earnPositionsClosed.isNotEmpty,
             onTap: () => context.router.push(EarnsArchiveRouter(earnPositionsClosed: earnPositionsClosed)),
           ),

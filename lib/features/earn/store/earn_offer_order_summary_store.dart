@@ -7,10 +7,13 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/format_service.dart';
+import 'package:jetwallet/core/services/local_storage_service.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
@@ -44,6 +47,8 @@ abstract class _OfferOrderSummaryStoreBase with Store {
       baseCurrency: sSignalRModules.baseCurrency.symbol,
       isMin: true,
     );
+
+    _isChecked();
   }
 
   final EarnOfferClientModel offer;
@@ -106,6 +111,41 @@ abstract class _OfferOrderSummaryStoreBase with Store {
   @action
   void toggleCheckbox() {
     isTermsAndConditionsChecked = !isTermsAndConditionsChecked;
+    _setIsChecked(isTermsAndConditionsChecked);
+  }
+
+  @action
+  Future<void> _isChecked() async {
+    try {
+      final storage = sLocalStorageService;
+
+      final status = await storage.getValue(earnTermsAndConditionsWasChecked);
+      if (status != null && status == 'true') {
+        isTermsAndConditionsChecked = true;
+      }
+    } catch (e) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'EarnConfirmationStore',
+            message: e.toString(),
+          );
+    }
+  }
+
+  @action
+  Future<void> _setIsChecked(bool value) async {
+    try {
+      final storage = sLocalStorageService;
+
+      await storage.setString(earnTermsAndConditionsWasChecked, value.toString());
+      isTermsAndConditionsChecked = value;
+    } catch (e) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'EarnConfirmationStore',
+            message: e.toString(),
+          );
+    }
   }
 
   @action

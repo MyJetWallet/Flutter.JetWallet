@@ -51,6 +51,7 @@ const userLocale = 'userLocale';
 const showRateUp = 'showRateUp';
 const rateUpCount = 'rateUpCount';
 const isCardBannerClosed = 'isCardBannerClosed';
+const earnTermsAndConditionsWasChecked = 'earnTermsAndConditionsWasChecked';
 
 final sLocalStorageService = getIt.get<LocalStorageService>();
 
@@ -105,6 +106,7 @@ class LocalStorageService {
     await _storage.delete(key: p2pLastMethodId);
     await _storage.delete(key: showRateUp);
     await _storage.delete(key: rateUpCount);
+    await _storage.delete(key: earnTermsAndConditionsWasChecked);
 
     final userMail = await _storage.read(key: lastUsedMail);
     final slot = await _storage.read(key: activeSlot);

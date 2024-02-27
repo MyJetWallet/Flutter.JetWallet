@@ -853,7 +853,7 @@
     "curencyBuy_actionItemDescriptionWithoutApplePay": "Visa, Mastercard",
     "currencyBuy_morePaymentMethod": "Más métodos de pago",
     "previewBuyWithUmlimint_disclaimer": "He leído y acepto",
-    "previewBuyWithUmlimint_disclaimerTerms": "los Términos y condiciones",
+    "previewBuyWithUmlimint_disclaimerTerms": "Términos y condiciones",
     "previewBuyWithUmlimint_skipWait": "Cerrar",
     "previewBuyWithUmlimint_disclaimerPolicy": "Política de privacidad",
     "previewBuyWithUmlimint_saveCard": "Guardar esta tarjeta",
@@ -1172,7 +1172,7 @@
     "buy_confirmation_total": "Total",
     "buy_confirmation_local_info": "El tipo de cambio se ajustará según el precio de mercado en el momento de recibir la confirmación de pago",
     "buy_confirmation_privacy_checkbox_1": "He leído y acepto ",
-    "buy_confirmation_privacy_checkbox_2": "los Términos y Condiciones",
+    "buy_confirmation_privacy_checkbox_2": "Términos y Condiciones",
     "buy_confirmation_privacy_checkbox_3": "Política de Privacidad",
     "buy_confirmation_privacy_p2p_checkbox_1": "1. Confirmo que la información anterior es precisa y completa.",
     "buy_confirmation_privacy_p2p_checkbox_1_5": "2. Estoy de acuerdo con ",
@@ -1791,7 +1791,7 @@
     "earn_to_crypto_wallet": "A cartera cripto",
     "earn_to_earn": "Para ganar",
     "earn_deposit_crypto_wallet": "Cartera cripto de depósito",
-    "earn_to_continue_you_need_to_top_up": "Para continuar, necesitas recargar tu cartera de Bitcoin con al menos {topup_value}",
+    "earn_to_continue_you_need_to_top_up": "Para continuar, debe recargar su monedero {wallet_symbol} con al menos {topup_value}",
     "@earn_to_continue_you_need_to_top_up": {
         "placeholders": {
             "topup_value": {
@@ -1840,5 +1840,41 @@
             }
         }
     },
-    "earn_privacy_policy": "Política de privacidad"
+    "earn_privacy_policy": "Política de privacidad",
+    "earn_freeze": "Congelar {days} días",
+    "@earn_freeze": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_earn_account_id": "ID cuenta Earn",
+    "earn_sent": "Enviado",
+    "earn_received": "Recibido",
+    "earn_withdrawal_of": "Retiro de {value}\niniciado",
+    "@earn_withdrawal_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "21:24"
+            }
+        }
+    },
+    "about_us_earn": "Términos y condiciones del programa Earn",
+    "about_transfer": "Transferencia",
+    "earn_freeze_days": "Congelar {days} días",
+    "@earn_freeze_days": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_redeem_period": "Período de redención ({days} días)",
+    "@earn_redeem_period": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_history": "Historial"
 }

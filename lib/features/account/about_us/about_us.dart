@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -111,6 +110,17 @@ class AboutUs extends StatelessObserverWidget {
                 SimpleAccountTermButton(
                   name: intl.aboutUs_termButton6,
                   onTap: () => launchURL(context, amlKycPolicyLink),
+                ),
+              ],
+            ),
+            const SpaceH20(),
+          ],
+          if (infoEarnLink.isNotEmpty) ...[
+            Row(
+              children: [
+                SimpleAccountTermButton(
+                  name: intl.about_us_earn,
+                  onTap: () => launchURL(context, infoEarnLink),
                 ),
               ],
             ),

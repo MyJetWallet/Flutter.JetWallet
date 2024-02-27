@@ -1172,7 +1172,7 @@
     "buy_confirmation_total": "Razem",
     "buy_confirmation_local_info": "Kurs wymiany zostanie dostosowany zgodnie z ceną rynkową\nw momencie otrzymania potwierdzenia płatności",
     "buy_confirmation_privacy_checkbox_1": "Przeczytałem i akceptuję ",
-    "buy_confirmation_privacy_checkbox_2": "Regulamin",
+    "buy_confirmation_privacy_checkbox_2": "Zasady i warunki",
     "buy_confirmation_privacy_checkbox_3": "Polityka prywatności",
     "buy_confirmation_privacy_p2p_checkbox_1": "1. Potwierdzam, że powyższe informacje są dokładne i kompletne.",
     "buy_confirmation_privacy_p2p_checkbox_1_5": "2. Zgadzam się z ",
@@ -1855,7 +1855,7 @@
     "earn_to_crypto_wallet": "Do portfela krypto",
     "earn_to_earn": "Aby zarobić",
     "earn_deposit_crypto_wallet": "Portfel krypto na depozyt",
-    "earn_to_continue_you_need_to_top_up": "Aby kontynuować, musisz doładować swój portfel Bitcoin przynajmniej {topup_value}",
+    "earn_to_continue_you_need_to_top_up": "Aby kontynuować, należy doładować portfel {wallet_symbol} kwotą co najmniej {topup_value}",
     "@earn_to_continue_you_need_to_top_up": {
         "placeholders": {
             "topup_value": {
@@ -1879,7 +1879,7 @@
     "earn_flexible": "Elastyczny",
     "earn_instant": "Natychmiastowy",
     "earn_i_have_read_and_agreed_to": "Przeczytałem i zgadzam się z",
-    "earn_terms_and_conditions": "Warunki",
+    "earn_terms_and_conditions": "Zasady i warunki",
     "earn_transfer": "Przelew",
     "earn_withdrawal": "Wypłata",
     "earn_days_left": "Zostało {days} dni",
@@ -1904,5 +1904,41 @@
             }
         }
     },
-    "earn_privacy_policy": "Polityka prywatności"
+    "earn_privacy_policy": "Polityka prywatności",
+    "earn_freeze": "Zamrozić na {days} dni",
+    "@earn_freeze": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_earn_account_id": "ID konta Earn",
+    "earn_sent": "Wysłano",
+    "earn_received": "Otrzymano",
+    "earn_withdrawal_of": "Wypłata {value}\nzainicjowano",
+    "@earn_withdrawal_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "21:24"
+            }
+        }
+    },
+    "about_us_earn": "Zasady i Warunki programu Earn",
+    "about_transfer": "Przelew",
+    "earn_freeze_days": "Zamrozić na {days} dn",
+    "@earn_freeze_days": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_redeem_period": "Okres wykupu ({days} dni)",
+    "@earn_redeem_period": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_history": "Historia"
 }
