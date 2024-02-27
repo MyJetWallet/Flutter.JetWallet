@@ -7509,7 +7509,7 @@
     "earn_continue_earning": "Продовжити заробляти",
     "earn_yes_withdraw": "Так, вивести",
     "earn_partial_withdrawal": "Часткове виведення",
-    "earn_the_minimum_amount_of_earn": "Мінімальна сума балансу рахунку Earnне може бути менше ніж",
+    "earn_the_minimum_amount_of_earn": "Мінімальна сума балансу рахунку Earn не може бути менше ніж",
     "earn_full_withdrawal": "Повне виведення",
     "earn_closing_an_earn_account": "Закриття рахунку Earn з виведенням основної суми та доходу",
     "earn_confirm": "Підтвердити",
@@ -7592,5 +7592,41 @@
             }
         }
     },
-    "earn_privacy_policy": "Політика конфіденційності"
+    "earn_privacy_policy": "Політика конфіденційності",
+    "earn_freeze": "",
+    "@earn_freeze": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_earn_account_id": "",
+    "earn_sent": "",
+    "earn_received": "",
+    "earn_withdrawal_of": "",
+    "@earn_withdrawal_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "21:24"
+            }
+        }
+    },
+    "about_us_earn": "",
+    "about_transfer": "",
+    "earn_freeze_days": "",
+    "@earn_freeze_days": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_redeem_period": "",
+    "@earn_redeem_period": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_history": ""
 }

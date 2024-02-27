@@ -1840,5 +1840,41 @@
             }
         }
     },
-    "earn_privacy_policy": "Política de privacidad"
+    "earn_privacy_policy": "Política de privacidad",
+    "earn_freeze": "",
+    "@earn_freeze": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_earn_account_id": "",
+    "earn_sent": "",
+    "earn_received": "",
+    "earn_withdrawal_of": "",
+    "@earn_withdrawal_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "21:24"
+            }
+        }
+    },
+    "about_us_earn": "",
+    "about_transfer": "",
+    "earn_freeze_days": "",
+    "@earn_freeze_days": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_redeem_period": "",
+    "@earn_redeem_period": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_history": ""
 }
