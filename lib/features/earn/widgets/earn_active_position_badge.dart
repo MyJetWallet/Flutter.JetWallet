@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/icons/20x20/public/checkmark/simple_checkmark_icon.dart';
-import 'package:simple_kit/modules/icons/20x20/public/deposit_in_progress/simple_clock_icon.dart';
-import 'package:simple_kit/modules/icons/24x24/public/erase/simple_erase_market_icon.dart';
 import 'package:simple_kit/modules/texts/simple_text_styles.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 
 class SEarnPositionBadge extends StatelessWidget {
@@ -47,18 +47,20 @@ class SEarnPositionBadge extends StatelessWidget {
   Widget _getIcon(EarnPositionStatus status, Color color) {
     switch (status) {
       case EarnPositionStatus.active:
-        return SClockIcon(color: color);
-      case EarnPositionStatus.closing:
-        return SizedBox(
-          height: 20,
+        return Assets.svg.medium.checkmarkAlt.simpleSvg(
+          color: color,
           width: 20,
-          child: CircularProgressIndicator(
-            strokeWidth: 2,
-            color: color,
-          ),
+        );
+      case EarnPositionStatus.closing:
+        return Assets.svg.medium.timer.simpleSvg(
+          color: color,
+          width: 20,
         );
       case EarnPositionStatus.closed:
-        return SEraseMarketIcon(color: color);
+        return Assets.svg.medium.checkmarkAlt.simpleSvg(
+          color: color,
+          width: 20,
+        );
       default:
         return SCheckmarkIcon(color: color);
     }
@@ -71,7 +73,7 @@ class SEarnPositionBadge extends StatelessWidget {
       case EarnPositionStatus.closing:
         return colors.blueExtraLight;
       case EarnPositionStatus.closed:
-        return colors.redExtraLight;
+        return colors.grey5;
       default:
         return colors.grey5;
     }
@@ -84,7 +86,7 @@ class SEarnPositionBadge extends StatelessWidget {
       case EarnPositionStatus.closing:
         return colors.blue;
       case EarnPositionStatus.closed:
-        return colors.red;
+        return colors.grey2;
       default:
         return colors.grey1;
     }

@@ -59,14 +59,16 @@ class _EarnTopUpAmountScreenState extends State<EarnTopUpAmountScreen> {
             height: 80,
             package: 'simple_kit',
           ),
-          onWillPop: () {
-            sRouter.replaceAll([const EarnRouter()]);
+          onWillPop: () async {
+            await sRouter.pop();
+            await sRouter.pop();
           },
           onPrimaryButtonTap: () {
             navigateToWallet(context, store.currency);
           },
-          onSecondaryButtonTap: () {
-            sRouter.replaceAll([const EarnRouter()]);
+          onSecondaryButtonTap: () async {
+            await sRouter.pop();
+            await sRouter.pop();
           },
         );
       });
