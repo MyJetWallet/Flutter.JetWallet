@@ -3366,8 +3366,8 @@ class WalletApiDataSources {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/earn/get-closed-positions',
         data: {
-          "skip": 0,
-          "take": 0,
+          "skip": skip,
+          "take": take,
         },
       );
 

@@ -124,9 +124,6 @@ abstract class _EarnStoreBase with Store {
   bool hasMore = true;
 
   @observable
-  bool isFirstFetch = true;
-
-  @observable
   bool isLoadingClosedPositions = false;
 
   @action
@@ -142,21 +139,14 @@ abstract class _EarnStoreBase with Store {
           );
       final positions = response.data?.toList() ?? [];
 
-      if (!isFirstFetch && positions.length - 1 < take) {
-        hasMore = false;
-        isLoadingClosedPositions = false;
-        return;
+      if (positions.isNotEmpty) {
+        closedPositions.addAll(positions);
+        skip += positions.length;
       } else {
-        isFirstFetch = false;
-        if (positions.isNotEmpty) {
-          closedPositions.addAll(positions);
-          skip += positions.length;
-        } else {
-          hasMore = false;
-        }
-
-        isLoadingClosedPositions = false;
+        hasMore = false;
       }
+
+      isLoadingClosedPositions = false;
     } catch (e) {
       hasMore = false;
       isLoadingClosedPositions = false;
