@@ -117,20 +117,38 @@ abstract class _EarnStoreBase with Store {
     return groupedOffers;
   }
 
+  @observable
+  int skip = 0;
+
+  @observable
+  bool hasMore = true;
+
   @action
-  Future<void> fetchClosedPositions() async {
+  Future<void> fetchClosedPositions({int take = 20}) async {
+    if (!hasMore) return;
+
     try {
       final response = await sNetwork.getWalletModule().getEarnPositionsClosed(
-            skip: '0',
-            take: '20',
+            skip: skip.toString(),
+            take: take.toString(),
           );
       final positions = response.data?.toList() ?? [];
 
-      closedPositions.clear();
-      closedPositions.addAll(positions);
+      if (positions.isNotEmpty) {
+        closedPositions.addAll(positions);
+        skip += positions.length;
+      }
     } catch (e) {
+      hasMore = false;
       //! Alex S. handle error
     }
+  }
+
+  @action
+  void resetPagination() {
+    skip = 0;
+    hasMore = true;
+    closedPositions.clear();
   }
 
   @computed

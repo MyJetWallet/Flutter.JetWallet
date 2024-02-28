@@ -109,12 +109,16 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
         if (store.isClosing) ...[
           TwoColumnCell(
             label: intl.earn_basis_amount,
-            value: volumeFormat(decimal: store.earnPosition.baseAmount, symbol: store.currency.symbol),
+            value: isBalanceHide
+                ? '**** ${store.currency.symbol}'
+                : volumeFormat(decimal: store.earnPosition.baseAmount, symbol: store.currency.symbol),
             needHorizontalPadding: false,
           ),
           TwoColumnCell(
             label: intl.earn_revenue,
-            value: volumeFormat(decimal: store.earnPosition.incomeAmount, symbol: store.currency.symbol),
+            value: isBalanceHide
+                ? '**** ${store.currency.symbol}'
+                : volumeFormat(decimal: store.earnPosition.incomeAmount, symbol: store.currency.symbol),
             needHorizontalPadding: false,
           ),
         ],
