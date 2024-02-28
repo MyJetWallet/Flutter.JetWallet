@@ -11,7 +11,7 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/earn/widgets/earn_active_position_badge.dart';
 import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/shared/simple_network_svg.dart';
@@ -57,7 +57,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
         AutoSizeText(
           isBalanceHide
               ? '**** ${sSignalRModules.baseCurrency.symbol}'
-              : volumeFormat(
+              : marketFormat(
                   decimal: formatService.convertOneCurrencyToAnotherOne(
                     fromCurrency: earnPosition.assetId,
                     fromCurrencyAmmount: earnPosition.baseAmount + earnPosition.incomeAmount,
@@ -106,7 +106,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                     Text(
                       isBalanceHide
                           ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                          : volumeFormat(
+                          : marketFormat(
                               accuracy: 2,
                               decimal: formatService.convertOneCurrencyToAnotherOne(
                                 fromCurrency: earnPosition.assetId,
@@ -148,7 +148,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                     Text(
                       isBalanceHide
                           ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                          : volumeFormat(
+                          : marketFormat(
                               accuracy: 2,
                               decimal: formatService.convertOneCurrencyToAnotherOne(
                                 fromCurrency: earnPosition.assetId,
