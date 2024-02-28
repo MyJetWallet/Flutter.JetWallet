@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/earn/store/earn_store.dart';
 import 'package:jetwallet/features/earn/widgets/deposit_card.dart';
+import 'package:jetwallet/features/earn/widgets/earn_archives_skeleton_list.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/core/simple_kit.dart';
@@ -52,49 +53,51 @@ class _EarnsArchiveScreenState extends State<EarnsArchiveScreen> {
               title: intl.earn_earns_archive,
               hasRightIcon: false,
             ),
-            child: CustomScrollView(
-              controller: scrollController,
-              slivers: [
-                if (store.earnPositionsClosed.isEmpty)
-                  SliverFillRemaining(
-                    child: SPlaceholder(
-                      size: SPlaceholderSize.l,
-                      text: intl.wallet_simple_account_empty,
-                    ),
-                  ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      return SDepositCard(
-                        earnPosition: store.earnPositionsClosed[index],
-                        onTap: () {},
-                        isShowDate: true,
-                      );
-                    },
-                    childCount: store.earnPositionsClosed.length,
-                  ),
-                ),
-                if (store.isLoadingClosedPositions)
-                  SliverToBoxAdapter(
-                    child: Container(
-                      width: 24.0,
-                      height: 24.0,
-                      decoration: BoxDecoration(
-                        color: colors.grey5,
-                        shape: BoxShape.circle,
+            child: store.isLoadingClosedPositions
+                ? const EarnArchivesSceletonList()
+                : CustomScrollView(
+                    controller: scrollController,
+                    slivers: [
+                      if (store.earnPositionsClosed.isEmpty)
+                        SliverFillRemaining(
+                          child: SPlaceholder(
+                            size: SPlaceholderSize.l,
+                            text: intl.wallet_simple_account_empty,
+                          ),
+                        ),
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            return SDepositCard(
+                              earnPosition: store.earnPositionsClosed[index],
+                              onTap: () {},
+                              isShowDate: true,
+                            );
+                          },
+                          childCount: store.earnPositionsClosed.length,
+                        ),
                       ),
-                      child: const RiveAnimation.asset(
-                        loadingAnimationAsset,
+                      if (store.isLoadingClosedPositions)
+                        SliverToBoxAdapter(
+                          child: Container(
+                            width: 24.0,
+                            height: 24.0,
+                            decoration: BoxDecoration(
+                              color: colors.grey5,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const RiveAnimation.asset(
+                              loadingAnimationAsset,
+                            ),
+                          ),
+                        ),
+                      SliverToBoxAdapter(
+                        child: SizedBox(
+                          height: MediaQuery.paddingOf(context).bottom,
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: MediaQuery.paddingOf(context).bottom,
-                  ),
-                ),
-              ],
-            ),
           );
         },
       ),
