@@ -42,8 +42,10 @@ class _HomeScreenState extends State<HomeScreen> {
     final bottomBarItems = <BottomItemType>[
       BottomItemType.wallets,
       BottomItemType.market,
-      //! Alex S. add if statement here?
-      BottomItemType.earn,
+      if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
+          .any((element) => element.id == AssetPaymentProductsEnum.earnProgram)) ...[
+        BottomItemType.earn,
+      ],
       if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
           .where((element) => element.id == AssetPaymentProductsEnum.investProgram)
           .isNotEmpty) ...[

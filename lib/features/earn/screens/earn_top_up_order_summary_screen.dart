@@ -89,7 +89,7 @@ class _OfferOrderSummaruBody extends StatelessWidget {
               fromAssetValue: isBalanceHide ? '**** ${store.currency.symbol}' : store.currency.volumeAssetBalance,
               fromAssetBaseAmount: isBalanceHide
                   ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                  : '≈${volumeFormat(decimal: store.baseCryptoAmount, symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
+                  : '≈${marketFormat(decimal: store.baseCryptoAmount, symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
               toAssetIconUrl: store.currency.iconUrl,
               toAssetDescription: intl.earn_earn,
               toAssetValue: isBalanceHide
@@ -97,7 +97,7 @@ class _OfferOrderSummaruBody extends StatelessWidget {
                   : volumeFormat(decimal: store.selectedAmount, symbol: store.currency.symbol),
               toAssetBaseAmount: isBalanceHide
                   ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                  : '≈${volumeFormat(decimal: store.baseAmount, symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
+                  : '≈${marketFormat(decimal: store.baseAmount, symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
             ),
             const SDivider(),
             const SizedBox(height: 19),
@@ -105,7 +105,6 @@ class _OfferOrderSummaruBody extends StatelessWidget {
               label: intl.to1,
               value: store.offer.name,
               needHorizontalPadding: false,
-              valueMaxLines: 3,
             ),
             if (store.offer.apyRate != null)
               TwoColumnCell(
@@ -116,7 +115,7 @@ class _OfferOrderSummaruBody extends StatelessWidget {
               ),
             TwoColumnCell(
               label: intl.earn_earning_term,
-              value: store.offer.withdrawType != WithdrawType.instant
+              value: store.offer.withdrawType == WithdrawType.instant
                   ? intl.earn_flexible
                   : intl.earn_freeze_days(store.offer.lockPeriod ?? 0),
               needHorizontalPadding: false,

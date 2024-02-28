@@ -44,6 +44,7 @@ abstract class _EarnDepositStoreBase with Store {
   @computed
   CurrencyModel get baseCurrency => getIt.get<FormatService>().findCurrency(
         assetSymbol: fiatSymbol,
+        findInHideTerminalList: true,
       );
 
   @observable

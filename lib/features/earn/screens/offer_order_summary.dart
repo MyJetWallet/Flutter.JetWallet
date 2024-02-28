@@ -89,7 +89,7 @@ class _OfferOrderSummaruBody extends StatelessWidget {
               fromAssetValue: isBalanceHide ? '**** ${store.currency.symbol}' : store.currency.volumeAssetBalance,
               fromAssetBaseAmount: isBalanceHide
                   ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                  : '≈${volumeFormat(
+                  : '≈${marketFormat(
                       decimal: formatService.convertOneCurrencyToAnotherOne(
                         fromCurrency: store.currency.symbol,
                         fromCurrencyAmmount: store.currency.assetBalance,
@@ -107,7 +107,7 @@ class _OfferOrderSummaruBody extends StatelessWidget {
                   : volumeFormat(decimal: store.selectedAmount, symbol: store.currency.symbol),
               toAssetBaseAmount: isBalanceHide
                   ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                  : '≈${volumeFormat(
+                  : '≈${marketFormat(
                       decimal: formatService.convertOneCurrencyToAnotherOne(
                         fromCurrency: store.currency.symbol,
                         fromCurrencyAmmount: store.selectedAmount,

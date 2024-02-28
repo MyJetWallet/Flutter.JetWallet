@@ -126,7 +126,8 @@ class _SellDetailsHeader extends StatelessWidget {
           removeDefaultPaddings: true,
           isLoading: false,
           fromAssetIconUrl: asset.iconUrl,
-          fromAssetDescription: intl.earn_crypto_wallet,
+          fromAssetDescription:
+              transactionListItem.operationType == OperationType.earnSend ? intl.earn_crypto_wallet : intl.earn_earn,
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${asset.symbol}'
               : volumeFormat(
@@ -135,7 +136,8 @@ class _SellDetailsHeader extends StatelessWidget {
                   decimal: transactionListItem.earnOperationInfo?.amount?.abs() ?? Decimal.zero,
                 ),
           toAssetIconUrl: asset.iconUrl,
-          toAssetDescription: intl.earn_earn,
+          toAssetDescription:
+              transactionListItem.operationType == OperationType.earnSend ? intl.earn_earn : intl.earn_crypto_wallet,
           toAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${asset.symbol}'
               : volumeFormat(
