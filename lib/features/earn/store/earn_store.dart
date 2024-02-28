@@ -124,14 +124,45 @@ abstract class _EarnStoreBase with Store {
   bool hasMore = true;
 
   @observable
-  bool isLoadingClosedPositions = false;
+  bool isLoadingInitialData = false;
+
+  @observable
+  bool isLoadingPagination = false;
 
   @action
   Future<void> fetchClosedPositions({int take = 20}) async {
-    if (!hasMore || isLoadingClosedPositions) return;
+    try {
+      isLoadingInitialData = true;
+
+      final response = await sNetwork.getWalletModule().getEarnPositionsClosed(
+            skip: skip.toString(),
+            take: take.toString(),
+          );
+      final positions = response.data?.toList() ?? [];
+
+      if (positions.isNotEmpty) {
+        closedPositions.addAll(positions);
+        skip += positions.length;
+        isLoadingInitialData = false;
+      } else {
+        hasMore = false;
+      }
+    } catch (e) {
+      hasMore = false;
+    } finally {
+      isLoadingInitialData = false;
+    }
+  }
+
+  @action
+  Future<void> loadMoreClosedPositions({int take = 20}) async {
+    if (!hasMore || isLoadingPagination) return;
 
     try {
-      isLoadingClosedPositions = true;
+      if (skip == 0) {
+      } else {
+        isLoadingPagination = true;
+      }
 
       final response = await sNetwork.getWalletModule().getEarnPositionsClosed(
             skip: skip.toString(),
@@ -145,19 +176,11 @@ abstract class _EarnStoreBase with Store {
       } else {
         hasMore = false;
       }
-
-      isLoadingClosedPositions = false;
     } catch (e) {
       hasMore = false;
-      isLoadingClosedPositions = false;
+    } finally {
+      isLoadingPagination = false;
     }
-  }
-
-  @action
-  void resetPagination() {
-    skip = 0;
-    hasMore = true;
-    closedPositions.clear();
   }
 
   @computed

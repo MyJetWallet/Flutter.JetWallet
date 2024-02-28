@@ -35,7 +35,7 @@ class _EarnsArchiveScreenState extends State<EarnsArchiveScreen> {
   @override
   Widget build(BuildContext context) {
     return Provider<EarnStore>(
-      create: (context) => EarnStore()..fetchClosedPositions(),
+      create: (context) => EarnStore(),
       child: Observer(
         builder: (context) {
           final store = Provider.of<EarnStore>(context);
@@ -43,7 +43,7 @@ class _EarnsArchiveScreenState extends State<EarnsArchiveScreen> {
 
           scrollController.addListener(() {
             if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
-              store.fetchClosedPositions();
+              store.loadMoreClosedPositions();
             }
           });
           return SPageFrame(
@@ -53,7 +53,7 @@ class _EarnsArchiveScreenState extends State<EarnsArchiveScreen> {
               title: intl.earn_earns_archive,
               hasRightIcon: false,
             ),
-            child: store.isLoadingClosedPositions
+            child: store.isLoadingInitialData
                 ? const EarnArchivesSceletonList()
                 : CustomScrollView(
                     controller: scrollController,
@@ -77,7 +77,7 @@ class _EarnsArchiveScreenState extends State<EarnsArchiveScreen> {
                           childCount: store.earnPositionsClosed.length,
                         ),
                       ),
-                      if (store.isLoadingClosedPositions)
+                      if (store.isLoadingPagination)
                         SliverToBoxAdapter(
                           child: Container(
                             width: 24.0,
