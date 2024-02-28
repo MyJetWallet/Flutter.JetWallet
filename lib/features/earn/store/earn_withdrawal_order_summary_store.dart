@@ -9,7 +9,6 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
@@ -140,13 +139,7 @@ abstract class _EarnWithdrawalOrderSummaryStoreBase with Store {
     return sRouter
         .push(
       SuccessScreenRouter(
-        secondaryText: intl.earn_withdrawal_of(
-          volumeFormat(
-            decimal: baseAmount,
-            symbol: sSignalRModules.baseCurrency.symbol,
-            accuracy: baseCurrency.accuracy,
-          ),
-        ),
+        secondaryText: intl.earn_withdraw_successfully,
         buttonText: intl.previewBuyWithUmlimint_saveCard,
         showProgressBar: true,
       ),
