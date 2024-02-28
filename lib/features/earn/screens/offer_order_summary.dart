@@ -121,6 +121,12 @@ class _OfferOrderSummaruBody extends StatelessWidget {
             ),
             const SDivider(),
             const SizedBox(height: 19),
+            if (store.offer.name != null && store.offer.name!.isNotEmpty)
+              TwoColumnCell(
+                label: intl.earn_to,
+                value: store.offer.name,
+                needHorizontalPadding: false,
+              ),
             if (store.offer.apyRate != null)
               TwoColumnCell(
                 label: intl.earn_apy_rate,
