@@ -1859,8 +1859,10 @@
     "@earn_to_continue_you_need_to_top_up": {
         "placeholders": {
             "topup_value": {
-                "type": "String",
-                "example": "0.0002 BTC"
+                "type": "String"
+            },
+            "wallet_symbol": {
+                "type": "String"
             }
         }
     },
@@ -1925,7 +1927,7 @@
     },
     "about_us_earn": "Zasady i Warunki programu Earn",
     "about_transfer": "Przelew",
-    "earn_freeze_days": "Zamrozić na {days} dn",
+    "earn_freeze_days": "Zamrozić na {days} dni",
     "@earn_freeze_days": {
         "placeholders": {
             "days": {
@@ -1940,5 +1942,9 @@
             "days": {}
         }
     },
-    "earn_history": "Historia"
+    "earn_history": "Historia",
+    "earn_to": "Do",
+    "about_us_earn_program": "Zasady i warunki programu Earn",
+    "about_us_smpl_global": "Polityka Prywatności Smpl Global",
+    "earn_finished": "Zakończono"
 }
