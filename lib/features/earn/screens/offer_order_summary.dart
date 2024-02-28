@@ -85,7 +85,7 @@ class _OfferOrderSummaruBody extends StatelessWidget {
             WhatToWhatConvertWidget(
               isLoading: false,
               fromAssetIconUrl: store.currency.iconUrl,
-              fromAssetDescription: '${intl.earn_crypto_wallet} ${store.currency.symbol}',
+              fromAssetDescription: intl.earn_crypto_wallet,
               fromAssetValue: isBalanceHide ? '**** ${store.currency.symbol}' : store.currency.volumeAssetBalance,
               fromAssetBaseAmount: isBalanceHide
                   ? '**** ${sSignalRModules.baseCurrency.symbol}'
@@ -101,7 +101,7 @@ class _OfferOrderSummaruBody extends StatelessWidget {
                       accuracy: store.eurCurrency.accuracy,
                     )}',
               toAssetIconUrl: store.currency.iconUrl,
-              toAssetDescription: '${intl.earn_earn} ${store.offer.name}',
+              toAssetDescription: intl.earn_earn,
               toAssetValue: isBalanceHide
                   ? '**** ${store.currency.symbol}'
                   : volumeFormat(decimal: store.selectedAmount, symbol: store.currency.symbol),
@@ -121,6 +121,12 @@ class _OfferOrderSummaruBody extends StatelessWidget {
             ),
             const SDivider(),
             const SizedBox(height: 19),
+            if (store.offer.name != null && store.offer.name!.isNotEmpty)
+              TwoColumnCell(
+                label: intl.earn_to,
+                value: store.offer.name,
+                needHorizontalPadding: false,
+              ),
             if (store.offer.apyRate != null)
               TwoColumnCell(
                 label: intl.earn_apy_rate,

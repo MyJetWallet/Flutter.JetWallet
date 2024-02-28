@@ -1898,5 +1898,6 @@
             "days": {}
         }
     },
-    "earn_history": "History"
+    "earn_history": "History",
+    "earn_to": "To"
 }
