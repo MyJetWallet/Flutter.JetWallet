@@ -57,7 +57,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
 
     Timer(
       const Duration(seconds: 2),
-          () {
+      () {
         final userInfo = getIt.get<UserInfoService>();
         final kycState = getIt.get<KycService>();
         final kycBlocked = checkKycBlocked(
@@ -66,9 +66,8 @@ class _EurWalletBodyState extends State<EurWalletBody> {
           kycState.withdrawalStatus,
         );
         if (userInfo.isSimpleCardAvailable &&
-          (sSignalRModules.bankingProfileData?.availableCardsCount ?? 0) > 0 &&
-          !kycBlocked
-        ) {
+            (sSignalRModules.bankingProfileData?.availableCardsCount ?? 0) > 0 &&
+            !kycBlocked) {
           sAnalytics.viewEURWalletWithButton();
         } else {
           sAnalytics.viewEURWalletWithoutButton();
@@ -130,26 +129,26 @@ class _EurWalletBodyState extends State<EurWalletBody> {
             ),
             ticker: eurCurrency.symbol,
             mainTitle: getIt<AppStore>().isBalanceHide
-              ? '**** ${eurCurrency.symbol}'
-              : volumeFormat(
-                decimal: sSignalRModules.totalEurWalletBalance,
-                accuracy: eurCurrency.accuracy,
-                symbol: eurCurrency.symbol,
-              ),
+                ? '**** ${eurCurrency.symbol}'
+                : volumeFormat(
+                    decimal: sSignalRModules.totalEurWalletBalance,
+                    accuracy: eurCurrency.accuracy,
+                    symbol: eurCurrency.symbol,
+                  ),
             mainSubtitle: getIt.get<FormatService>().baseCurrency.symbol != eurCurrency.symbol
                 ? getIt<AppStore>().isBalanceHide
-                  ? '******* ${sSignalRModules.baseCurrency.symbol}'
-                  : eurCurrency.volumeBaseBalance(sSignalRModules.baseCurrency)
+                    ? '******* ${sSignalRModules.baseCurrency.symbol}'
+                    : eurCurrency.volumeBaseBalance(sSignalRModules.baseCurrency)
                 : null,
             mainHeaderTitle: eurCurrency.description,
             mainHeaderSubtitle: intl.eur_wallet,
             mainHeaderCollapsedTitle: getIt<AppStore>().isBalanceHide
-              ? '**** ${eurCurrency.symbol}'
-              : volumeFormat(
-                decimal: sSignalRModules.totalEurWalletBalance,
-                accuracy: eurCurrency.accuracy,
-                symbol: eurCurrency.symbol,
-              ),
+                ? '**** ${eurCurrency.symbol}'
+                : volumeFormat(
+                    decimal: sSignalRModules.totalEurWalletBalance,
+                    accuracy: eurCurrency.accuracy,
+                    symbol: eurCurrency.symbol,
+                  ),
             mainHeaderCollapsedSubtitle: eurCurrency.description,
             carouselItemsCount: widget.pageCount,
             carouselPageIndex: widget.indexNow,
@@ -188,12 +187,12 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                         supplement:
                             el.status == AccountStatusCard.inCreation ? intl.creating : intl.simple_card_type_virtual,
                         rightValue: getIt<AppStore>().isBalanceHide
-                          ? '**** ${eurCurrency.symbol}'
-                          : volumeFormat(
-                            decimal: el.balance ?? Decimal.zero,
-                            accuracy: eurCurrency.accuracy,
-                            symbol: eurCurrency.symbol,
-                          ),
+                            ? '**** ${eurCurrency.symbol}'
+                            : volumeFormat(
+                                decimal: el.balance ?? Decimal.zero,
+                                accuracy: eurCurrency.accuracy,
+                                symbol: eurCurrency.symbol,
+                              ),
                         //isCard: true,
                         isCardWallet: true,
                         hasLabelIcon: userInfo.isSimpleCardAvailable && el.status == AccountStatusCard.frozen,
@@ -224,8 +223,12 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                         },
 
                         assetIcon: userInfo.isSimpleCardAvailable && el.status == AccountStatusCard.frozen
-                            ? Assets.svg.paymentMethodsCards.simple.frozenCard.simpleSvg(width: 24,)
-                            : Assets.svg.paymentMethodsCards.simple.defaultCard.simpleSvg(width: 24,),
+                            ? Assets.svg.paymentMethodsCards.simple.frozenCard.simpleSvg(
+                                width: 24,
+                              )
+                            : Assets.svg.paymentMethodsCards.simple.defaultCard.simpleSvg(
+                                width: 24,
+                              ),
                       ),
                     ),
                 ],
@@ -296,12 +299,12 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                               : intl.create_simple_creating,
                           hasRightValue: simpleAccount.status == AccountStatus.active,
                           rightValue: getIt<AppStore>().isBalanceHide
-                            ? '**** ${eurCurrency.symbol}'
-                            : volumeFormat(
-                              decimal: simpleAccount.balance ?? Decimal.zero,
-                              accuracy: eurCurrency.accuracy,
-                              symbol: eurCurrency.symbol,
-                            ),
+                              ? '**** ${eurCurrency.symbol}'
+                              : volumeFormat(
+                                  decimal: simpleAccount.balance ?? Decimal.zero,
+                                  accuracy: eurCurrency.accuracy,
+                                  symbol: eurCurrency.symbol,
+                                ),
                         ),
                       ListView.builder(
                         shrinkWrap: true,
@@ -336,12 +339,12 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                                 : intl.create_personal_creating,
                             hasRightValue: bankAccounts[index].status == AccountStatus.active,
                             rightValue: getIt<AppStore>().isBalanceHide
-                              ? '**** ${eurCurrency.symbol}'
-                              : volumeFormat(
-                                decimal: bankAccounts[index].balance ?? Decimal.zero,
-                                accuracy: eurCurrency.accuracy,
-                                symbol: eurCurrency.symbol,
-                              ),
+                                ? '**** ${eurCurrency.symbol}'
+                                : volumeFormat(
+                                    decimal: bankAccounts[index].balance ?? Decimal.zero,
+                                    accuracy: eurCurrency.accuracy,
+                                    symbol: eurCurrency.symbol,
+                                  ),
                           );
                         },
                       ),

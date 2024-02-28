@@ -178,6 +178,12 @@ class CurrencyModel with _$CurrencyModel {
     return buyMethods.isNotEmpty;
   }
 
+  Decimal get decimalVolumeAssetBalance {
+    final sanitizedBalance = volumeAssetBalance.replaceAll(',', '').replaceAll('\$', '').trim();
+
+    return Decimal.tryParse(sanitizedBalance) ?? Decimal.zero;
+  }
+
   bool get supportsCircle {
     for (final method in buyMethods) {
       if (method.id == PaymentMethodType.circleCard) {

@@ -130,12 +130,12 @@ class _DepositByBody extends StatelessWidget {
               supplement:
                   account.isClearjuctionAccount ? intl.eur_wallet_simple_account : intl.eur_wallet_personal_account,
               rightValue: getIt<AppStore>().isBalanceHide
-                ? '**** ${account.currency ?? 'EUR'}'
-                : volumeFormat(
-                  decimal: account.balance ?? Decimal.zero,
-                  accuracy: 2,
-                  symbol: account.currency ?? 'EUR',
-                ),
+                  ? '**** ${account.currency ?? 'EUR'}'
+                  : volumeFormat(
+                      decimal: account.balance ?? Decimal.zero,
+                      accuracy: 2,
+                      symbol: account.currency ?? 'EUR',
+                    ),
               assetIcon: Assets.svg.assets.fiat.account.simpleSvg(
                 width: 24,
               ),
@@ -161,12 +161,12 @@ class _DepositByBody extends StatelessWidget {
               label: card.label ?? '',
               supplement: '${card.cardType?.frontName} ••• ${card.last4NumberCharacters}',
               rightValue: getIt<AppStore>().isBalanceHide
-                ? '**** ${card.currency ?? 'EUR'}'
-                : volumeFormat(
-                  decimal: card.balance ?? Decimal.zero,
-                  accuracy: 2,
-                  symbol: card.currency ?? 'EUR',
-                ),
+                  ? '**** ${card.currency ?? 'EUR'}'
+                  : volumeFormat(
+                      decimal: card.balance ?? Decimal.zero,
+                      accuracy: 2,
+                      symbol: card.currency ?? 'EUR',
+                    ),
               isCard: true,
               onTableAssetTap: () {
                 sAnalytics.tapOnTheAnyAccountForDepositButton(

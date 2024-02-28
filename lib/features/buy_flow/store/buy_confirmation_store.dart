@@ -857,9 +857,7 @@ abstract class _BuyConfirmationStoreBase with Store {
           );
           sRouter.replaceAll([
             const HomeRouter(
-              children: [
-                MyWalletsRouter(),
-              ],
+              children: [],
             ),
           ]);
         },
@@ -869,9 +867,7 @@ abstract class _BuyConfirmationStoreBase with Store {
       (value) {
         sRouter.replaceAll([
           const HomeRouter(
-            children: [
-              MyWalletsRouter(),
-            ],
+            children: [],
           ),
         ]);
 
