@@ -7,8 +7,9 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
-import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../../../../../core/di/di.dart';
@@ -33,8 +34,7 @@ class CardRefundDetails extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final currency = currencyFrom(
       sSignalRModules.currenciesWithHiddenList,
-      transactionListItem.cardRefundInfo?.paymentFeeAssetId ??
-          'EUR',
+      transactionListItem.cardRefundInfo?.paymentFeeAssetId ?? 'EUR',
     );
 
     return SPaddingH24(
@@ -66,11 +66,12 @@ class CardRefundDetails extends StatelessObserverWidget {
               maxLines: 2,
             ),
           ),
-          if (transactionListItem.cardRefundInfo!.rate != Decimal.one)
+          if (transactionListItem.cardRefundInfo!.paymentAssetId != 'EUR')
             TransactionDetailsNewItem(
               text: intl.buySellDetails_rate,
               value: TransactionDetailsNewValueText(
-                text: '1 ${transactionListItem.cardRefundInfo!.paymentAssetId} = ${transactionListItem.cardRefundInfo!.rate} EUR',
+                text:
+                    '1 ${transactionListItem.cardRefundInfo!.rateBaseAsset} = ${transactionListItem.cardRefundInfo!.rate} ${transactionListItem.cardRefundInfo!.rateQuoteAsset}',
               ),
             ),
           TransactionDetailsNewItem(
@@ -96,7 +97,7 @@ class CardRefundDetails extends StatelessObserverWidget {
                 const SpaceW8(),
                 Text(
                   'Simple ${intl.simple_card_card} '
-                      '•• ${transactionListItem.cardRefundInfo?.cardLast4}',
+                  '•• ${transactionListItem.cardRefundInfo?.cardLast4}',
                   style: sSubtitle2Style,
                   maxLines: 5,
                 ),
@@ -105,7 +106,6 @@ class CardRefundDetails extends StatelessObserverWidget {
           ),
           Builder(
             builder: (context) {
-
               return TransactionDetailsNewItem(
                 text: intl.iban_send_history_payment_fee,
                 showInfoIcon: true,
@@ -128,14 +128,13 @@ class CardRefundDetails extends StatelessObserverWidget {
             text: intl.card_history_total_refund,
             value: TransactionDetailsNewValueText(
               text: getIt<AppStore>().isBalanceHide
-                ? '**** ${currency.symbol}'
-                : volumeFormat(
-                  decimal:
-                    (transactionListItem.cardRefundInfo?.paymentFeeAmount ??
-                        Decimal.zero) + transactionListItem.balanceChange.abs(),
-                  accuracy: currency.accuracy,
-                  symbol: currency.symbol,
-                ),
+                  ? '**** ${currency.symbol}'
+                  : volumeFormat(
+                      decimal: (transactionListItem.cardRefundInfo?.paymentFeeAmount ?? Decimal.zero) +
+                          transactionListItem.balanceChange.abs(),
+                      accuracy: currency.accuracy,
+                      symbol: currency.symbol,
+                    ),
             ),
           ),
           const SpaceH40(),
@@ -155,29 +154,32 @@ class CardRefundDetailsHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final asset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesWithHiddenList,
-    )
-        .where(
-          (element) => element.symbol == (transactionListItem.withdrawalInfo?.withdrawalAssetId ?? 'EUR'),
-        )
-        .first;
+    final eurAsset = sSignalRModules.currenciesWithHiddenList.firstWhere(
+      (element) => element.symbol == 'EUR',
+      orElse: () => CurrencyModel.empty(),
+    );
 
     return SPaddingH24(
       child: Column(
         children: [
           TransactionNewHeader(
             isLoading: false,
-            assetIconUrl: asset.iconUrl,
-            assetDescription: asset.description,
+            assetIconUrl: eurAsset.iconUrl,
+            assetDescription: eurAsset.description,
             assetValue: getIt<AppStore>().isBalanceHide
-              ? '**** ${asset.symbol}'
-              : volumeFormat(
-                symbol: asset.symbol,
-                accuracy: asset.accuracy,
-                decimal: transactionListItem.balanceChange,
-              ),
-            // assetBaseAmount
+                ? '**** ${eurAsset.symbol}'
+                : volumeFormat(
+                    symbol: 'EUR',
+                    decimal: transactionListItem.balanceChange,
+                  ),
+            assetBaseAmount: transactionListItem.cardRefundInfo?.paymentAssetId != 'EUR'
+                ? getIt<AppStore>().isBalanceHide
+                    ? '**** ${transactionListItem.cardRefundInfo?.paymentAssetId}'
+                    : volumeFormat(
+                        symbol: transactionListItem.cardRefundInfo?.paymentAssetId ?? '',
+                        decimal: transactionListItem.cardRefundInfo?.paymentAmount ?? Decimal.zero,
+                      )
+                : null,
             isError: transactionListItem.status == Status.declined,
           ),
           const SizedBox(height: 24),
