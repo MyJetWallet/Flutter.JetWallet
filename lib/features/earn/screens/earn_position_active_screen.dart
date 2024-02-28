@@ -26,7 +26,7 @@ class EarnPositionActiveScreen extends StatelessWidget {
         final currencies = sSignalRModules.currenciesList;
         final colors = sKit.colors;
         final currency = currencies.firstWhere(
-          (currency) => currency.symbol == earnPosition.offers.first.assetId,
+          (currency) => currency.symbol == earnPosition.assetId,
           orElse: () => CurrencyModel.empty(),
         );
 
@@ -39,7 +39,7 @@ class EarnPositionActiveScreen extends StatelessWidget {
               GlobalBasicAppBar(
                 hasRightIcon: false,
                 title: currency.description,
-                subtitle: earnPosition.offers.first.name,
+                subtitle: earnPosition.offers.firstOrNull?.name,
               ),
               Expanded(
                 child: Column(

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -10,7 +11,7 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/earn/widgets/earn_active_position_badge.dart';
 import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/shared/simple_network_svg.dart';
@@ -31,7 +32,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
     final currencies = sSignalRModules.currenciesList;
 
     final currency = currencies.firstWhere(
-      (currency) => currency.symbol == earnPosition.offers.first.assetId,
+      (currency) => currency.symbol == earnPosition.assetId,
       orElse: () => CurrencyModel.empty(),
     );
 
@@ -53,10 +54,10 @@ class ActiveEarnWidget extends StatelessObserverWidget {
             ),
           ],
         ),
-        Text(
+        AutoSizeText(
           isBalanceHide
               ? '**** ${sSignalRModules.baseCurrency.symbol}'
-              : volumeFormat(
+              : marketFormat(
                   decimal: formatService.convertOneCurrencyToAnotherOne(
                     fromCurrency: earnPosition.assetId,
                     fromCurrencyAmmount: earnPosition.baseAmount + earnPosition.incomeAmount,
@@ -67,7 +68,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                   symbol: sSignalRModules.baseCurrency.symbol,
                   accuracy: 2,
                 ),
-          style: STStyles.header3.copyWith(
+          style: STStyles.header2.copyWith(
             color: colors.black,
           ),
         ),
@@ -105,7 +106,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                     Text(
                       isBalanceHide
                           ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                          : volumeFormat(
+                          : marketFormat(
                               accuracy: 2,
                               decimal: formatService.convertOneCurrencyToAnotherOne(
                                 fromCurrency: earnPosition.assetId,
@@ -147,7 +148,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                     Text(
                       isBalanceHide
                           ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                          : volumeFormat(
+                          : marketFormat(
                               accuracy: 2,
                               decimal: formatService.convertOneCurrencyToAnotherOne(
                                 fromCurrency: earnPosition.assetId,
@@ -223,6 +224,22 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                     ],
                   ),
                 ],
+                if (earnPosition.closeDateTime != null && earnPosition.status == EarnPositionStatus.closed) ...[
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        intl.earn_finished,
+                        style: STStyles.body2Medium.copyWith(color: colors.grey1),
+                      ),
+                      Text(
+                        DateFormat('dd.MM.yyyy').format(earnPosition.closeDateTime ?? DateTime.now()),
+                        style: STStyles.subtitle2.copyWith(color: colors.black),
+                      ),
+                    ],
+                  ),
+                ],
               ],
             ),
           ),
@@ -247,6 +264,7 @@ class ActiveEarnWidget extends StatelessObserverWidget {
         formatDateToDMYFromDate(earnPosition.closeDateTime.toString()),
       );
     }
+    if (earnPosition.status == EarnPositionStatus.closed) return '';
     if (earnPosition.offers.isNotEmpty) {
       final firstOffer = earnPosition.offers.first;
       if (firstOffer.withdrawType == WithdrawType.instant) {

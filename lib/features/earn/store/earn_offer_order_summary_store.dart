@@ -11,6 +11,7 @@ import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
@@ -199,7 +200,13 @@ abstract class _OfferOrderSummaryStoreBase with Store {
     return sRouter
         .push(
       SuccessScreenRouter(
-        secondaryText: intl.earn_withdraw_successfully,
+        secondaryText: intl.earn_withdrawal_of(
+          volumeFormat(
+            decimal: baseAmount,
+            symbol: sSignalRModules.baseCurrency.symbol,
+            accuracy: eurCurrency.accuracy,
+          ),
+        ),
         buttonText: intl.previewBuyWithUmlimint_saveCard,
         showProgressBar: true,
       ),

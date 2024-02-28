@@ -11,7 +11,7 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/earn/widgets/deposit_card_badge.dart';
 import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
 import 'package:jetwallet/features/earn/widgets/link_label.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/shared/simple_network_svg.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
@@ -70,7 +70,7 @@ class SDepositCard extends StatelessObserverWidget {
                 CryptoCardBody(
                   balance: isBalanceHide
                       ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                      : volumeFormat(
+                      : marketFormat(
                           decimal: formatService.convertOneCurrencyToAnotherOne(
                             fromCurrency: earnPosition.assetId,
                             fromCurrencyAmmount: earnPosition.baseAmount,
@@ -86,11 +86,11 @@ class SDepositCard extends StatelessObserverWidget {
                       : volumeFormat(
                           decimal: earnPosition.baseAmount,
                           symbol: earnPosition.assetId,
-                          accuracy: 2,
+                          accuracy: currency.accuracy,
                         ),
                   revenue: isBalanceHide
                       ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                      : volumeFormat(
+                      : marketFormat(
                           decimal: formatService.convertOneCurrencyToAnotherOne(
                             fromCurrency: earnPosition.assetId,
                             fromCurrencyAmmount: earnPosition.incomeAmount,
@@ -106,7 +106,7 @@ class SDepositCard extends StatelessObserverWidget {
                       : volumeFormat(
                           decimal: earnPosition.incomeAmount,
                           symbol: earnPosition.assetId,
-                          accuracy: 2,
+                          accuracy: currency.accuracy,
                         ),
                 ),
               ],

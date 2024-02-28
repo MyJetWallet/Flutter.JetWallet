@@ -49,7 +49,7 @@ class WithdrawDetails extends StatelessObserverWidget {
           const SpaceH18(),
           if (transactionListItem.withdrawalInfo!.txId != null && !transactionListItem.withdrawalInfo!.isInternal) ...[
             TransactionDetailsItem(
-              text: 'Txhash',
+              text: intl.history_txhash,
               value: Row(
                 children: [
                   TransactionDetailsValueText(
@@ -58,7 +58,7 @@ class WithdrawDetails extends StatelessObserverWidget {
                     ),
                   ),
                   const SpaceW10(),
-                  HistoryCopyIcon(transactionListItem.operationId),
+                  HistoryCopyIcon(transactionListItem.withdrawalInfo!.txId ?? ''),
                 ],
               ),
             ),

@@ -140,9 +140,18 @@ abstract class _EarnStoreBase with Store {
           );
       final positions = response.data?.toList() ?? [];
 
-      if (positions.isNotEmpty) {
-        closedPositions.addAll(positions);
-        skip += positions.length;
+      final offers = sSignalRModules.activeEarnOffersMessage?.offers ?? [];
+      final positionsWithOffer = positions.map((position) {
+        final associatedOffers = offers.where((offer) => offer.id == position.offerId).toList();
+
+        final updatedPosition = position.copyWith(offers: associatedOffers);
+
+        return updatedPosition;
+      }).toList();
+
+      if (positionsWithOffer.isNotEmpty) {
+        closedPositions.addAll(positionsWithOffer);
+        skip += positionsWithOffer.length;
         isLoadingInitialData = false;
       } else {
         hasMore = false;
@@ -168,11 +177,21 @@ abstract class _EarnStoreBase with Store {
             skip: skip.toString(),
             take: take.toString(),
           );
+
       final positions = response.data?.toList() ?? [];
 
-      if (positions.isNotEmpty) {
-        closedPositions.addAll(positions);
-        skip += positions.length;
+      final offers = sSignalRModules.activeEarnOffersMessage?.offers ?? [];
+      final positionsWithOffer = positions.map((position) {
+        final associatedOffers = offers.where((offer) => offer.id == position.offerId).toList();
+
+        final updatedPosition = position.copyWith(offers: associatedOffers);
+
+        return updatedPosition;
+      }).toList();
+
+      if (positionsWithOffer.isNotEmpty) {
+        closedPositions.addAll(positionsWithOffer);
+        skip += positionsWithOffer.length;
       } else {
         hasMore = false;
       }

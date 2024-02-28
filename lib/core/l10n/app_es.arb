@@ -759,7 +759,7 @@
     "withText": "Importe",
     "news": "Noticias",
     "number": "número",
-    "days": "días",
+    "days": "día(s)",
     "hours": "horas",
     "hour": "hora",
     "hoursLeft": "horas restantes",
@@ -1723,7 +1723,7 @@
     "earn_unknown": "Desconocido",
     "earn_variable_apy": "APY variable",
     "earn_started": "Iniciado",
-    "earn_funds_will_be_withdrawn": "Tus fondos y ganancias acumuladas se pagan al cerrar tu cuenta Earn. Desembolso de fondos en {days} días",
+    "earn_funds_will_be_withdrawn": "Tus fondos y ganancias acumuladas se pagan al cerrar tu cuenta Earn. Desembolso de fondos en {days} día(s)",
     "@earn_funds_will_be_withdrawn": {
         "placeholders": {
             "days": {}
@@ -1737,7 +1737,7 @@
     "earn_deposit": "Depósito",
     "earn_continue": "Continuar",
     "earn_choose_a_deposit_plan": "Elige un plan de depósito y gana cripto",
-    "earn_freeze_period": "Período de congelación ({days} días)",
+    "earn_freeze_period": "Período de congelación ({days} día(s))",
     "@earn_freeze_period": {
         "placeholders": {
             "days": {}
@@ -1772,7 +1772,7 @@
     "earn_full_withdraw": "Tus fondos y ganancias acumuladas se pagan al cerrar tu cuenta Earn.",
     "earn_basis_amount": "Monto base",
     "earn_withdrawal_period": "Período de retiro",
-    "earn_the_funds_will_be_disbursed": "Los fondos se desembolsarán en tu cartera el {date}. También ganarás ingresos durante los próximos {days} días",
+    "earn_the_funds_will_be_disbursed": "Los fondos se desembolsarán en tu cartera el {date}. También ganarás ingresos durante los próximos {days} día(s)",
     "@earn_the_funds_will_be_disbursed": {
         "placeholders": {
             "date": {
@@ -1785,7 +1785,7 @@
             }
         }
     },
-    "earn_withdrawal_period_explanation_1": "La retirada de fondos de tu plan resultará en el cierre de la cuenta Earn correspondiente. Ten en cuenta que la transferencia completa de los fondos junto con los ingresos ganados se realizará {days} días después de haber creado la solicitud.",
+    "earn_withdrawal_period_explanation_1": "La retirada de fondos de tu plan resultará en el cierre de la cuenta Earn correspondiente. Ten en cuenta que la transferencia completa de los fondos junto con los ingresos ganados se realizará {days} día(s) después de haber creado la solicitud.",
     "earn_withdrawal_period_explanation_2": "Es importante notar que hasta el cierre final de la cuenta, los ingresos continuarán acumulándose en tu cuenta Earn.",
     "earn_from_crypto_wallet": "Desde cartera cripto",
     "earn_to_crypto_wallet": "A cartera cripto",
@@ -1795,8 +1795,10 @@
     "@earn_to_continue_you_need_to_top_up": {
         "placeholders": {
             "topup_value": {
-                "type": "String",
-                "example": "0.0002 BTC"
+                "type": "String"
+            },
+            "wallet_symbol": {
+                "type": "String"
             }
         }
     },
@@ -1818,7 +1820,7 @@
     "earn_terms_and_conditions": "Términos y condiciones",
     "earn_transfer": "Transferir",
     "earn_withdrawal": "Retiro",
-    "earn_days_left": "Quedan {days} días",
+    "earn_days_left": "Quedan {days} día(s)",
     "@earn_days_left": {
         "placeholders": {
             "days": {
@@ -1841,7 +1843,7 @@
         }
     },
     "earn_privacy_policy": "Política de privacidad",
-    "earn_freeze": "Congelar {days} días",
+    "earn_freeze": "Congelar {days} día(s)",
     "@earn_freeze": {
         "placeholders": {
             "days": {}
@@ -1861,7 +1863,7 @@
     },
     "about_us_earn": "Términos y condiciones del programa Earn",
     "about_transfer": "Transferencia",
-    "earn_freeze_days": "Congelar {days} días",
+    "earn_freeze_days": "Congelar {days} día(s)",
     "@earn_freeze_days": {
         "placeholders": {
             "days": {
@@ -1870,11 +1872,15 @@
             }
         }
     },
-    "earn_redeem_period": "Período de redención ({days} días)",
+    "earn_redeem_period": "Período de redención ({days} día(s))",
     "@earn_redeem_period": {
         "placeholders": {
             "days": {}
         }
     },
-    "earn_history": "Historial"
+    "earn_history": "Historial",
+    "earn_to": "A",
+    "about_us_earn_program": "Términos y condiciones del Programa Earn",
+    "about_us_smpl_global": "Política de Privacidad de Smpl Global",
+    "earn_finished": "Finalizado"
 }
