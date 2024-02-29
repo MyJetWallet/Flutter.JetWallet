@@ -84,8 +84,6 @@
 		<true/>
 		<key>NSCameraUsageDescription</key>
 		<string>To take pictures and detect your face</string>
-		<key>NSContactsUsageDescription</key>
-		<string>This app requires contacts access to function properly</string>
 		<key>NSMicrophoneUsageDescription</key>
 		<string>For voice input in chat with support</string>
 		<key>NSFaceIDUsageDescription</key>
