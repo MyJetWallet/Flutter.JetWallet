@@ -53,25 +53,27 @@ class EarnSendDetails extends StatelessObserverWidget {
             ),
           ),
           const SpaceH18(),
-          TransactionDetailsItem(
-            text: intl.earn_earn_account_id,
-            value: Flexible(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Flexible(
-                    child: TransactionDetailsValueText(
-                      text: transactionListItem.earnOperationInfo?.accountId ?? 'Account 1',
-                      maxLines: 2,
+          if (transactionListItem.earnOperationInfo?.earnPositionId != null) ...[
+            TransactionDetailsItem(
+              text: intl.earn_earn_account_id,
+              value: Flexible(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Flexible(
+                      child: TransactionDetailsValueText(
+                        text: transactionListItem.earnOperationInfo?.earnPositionId ?? '',
+                        maxLines: 2,
+                      ),
                     ),
-                  ),
-                  const SpaceW10(),
-                  HistoryCopyIcon(transactionListItem.earnOperationInfo?.accountId ?? 'Account 1'),
-                ],
+                    const SpaceW10(),
+                    HistoryCopyIcon(transactionListItem.earnOperationInfo?.earnPositionId ?? ''),
+                  ],
+                ),
               ),
             ),
-          ),
-          const SpaceH18(),
+            const SpaceH18(),
+          ],
           TransactionDetailsItem(
             text: intl.iban_send_history_transaction_id,
             value: Row(

@@ -284,6 +284,7 @@ Set<oh_resp.OperationType> avaibleOperationTypes = {
   oh_resp.OperationType.cardRefund,
   oh_resp.OperationType.cardWithdrawal,
   oh_resp.OperationType.cardBankingSell,
+  oh_resp.OperationType.cardTransfer,
   oh_resp.OperationType.earnReserve,
   oh_resp.OperationType.earnSend,
   oh_resp.OperationType.earnDeposit,

@@ -105,6 +105,8 @@ enum OperationType {
   cardWithdrawal,
   cardBankingSell,
   cardBankingBuy,
+  cardDeposit,
+  cardTransfer,
   earnSend,
   earnReserve,
   earnDeposit,
@@ -211,6 +213,10 @@ extension _OperationTypeExtension on OperationType {
         return 103;
       case OperationType.cardBankingBuy:
         return 104;
+      case OperationType.cardDeposit:
+        return 105;
+      case OperationType.cardTransfer:
+        return 106;
       case OperationType.earnSend:
         return 130;
       case OperationType.earnReserve:
@@ -332,6 +338,10 @@ class OperationTypeSerialiser implements JsonConverter<OperationType, dynamic> {
       return OperationType.cardBankingSell;
     } else if (value == '104') {
       return OperationType.cardBankingBuy;
+    } else if (value == '105') {
+      return OperationType.cardDeposit;
+    } else if (value == '106') {
+      return OperationType.cardTransfer;
     } else if (value == '130') {
       return OperationType.earnSend;
     } else if (value == '131') {
@@ -838,8 +848,6 @@ class EarnOperationInfo with _$EarnOperationInfo {
   const factory EarnOperationInfo({
     String? earnPositionId,
     String? earnOfferId,
-    String? accountId,
-    String? transactionId,
     String? amountAssetId,
     @DecimalNullSerialiser() Decimal? amount,
   }) = _EarnOperationInfo;
