@@ -16,7 +16,7 @@
     "login_password": "Contraseña",
     "login_forgotPassword": "Olvidé mi contraseña",
     "login_policyText1": "Al iniciar sesión y continuar, por la presente acepto y doy mi consentimiento a los",
-    "login_policyText2": "Términos y condiciones",
+    "login_policyText2": "Términos y Condiciones",
     "@login_policyText2": {
         "description": "Privacy Policy Text (part 2)"
     },
@@ -853,7 +853,7 @@
     "curencyBuy_actionItemDescriptionWithoutApplePay": "Visa, Mastercard",
     "currencyBuy_morePaymentMethod": "Más métodos de pago",
     "previewBuyWithUmlimint_disclaimer": "He leído y acepto",
-    "previewBuyWithUmlimint_disclaimerTerms": "Términos y condiciones",
+    "previewBuyWithUmlimint_disclaimerTerms": "Términos y Condiciones",
     "previewBuyWithUmlimint_skipWait": "Cerrar",
     "previewBuyWithUmlimint_disclaimerPolicy": "Política de privacidad",
     "previewBuyWithUmlimint_saveCard": "Guardar esta tarjeta",
@@ -1817,7 +1817,7 @@
     "earn_flexible": "Flexible",
     "earn_instant": "Instantáneo",
     "earn_i_have_read_and_agreed_to": "He leído y aceptado",
-    "earn_terms_and_conditions": "Términos y condiciones",
+    "earn_terms_and_conditions": "Términos y Condiciones del Programa Earn",
     "earn_transfer": "Transferir",
     "earn_withdrawal": "Retiro",
     "earn_days_left": "Quedan {days} día(s)",
@@ -1842,7 +1842,7 @@
             }
         }
     },
-    "earn_privacy_policy": "Política de privacidad",
+    "earn_privacy_policy": "Política de Privacidad de Smpl Global",
     "earn_freeze": "Congelar {days} día(s)",
     "@earn_freeze": {
         "placeholders": {
@@ -1861,7 +1861,7 @@
             }
         }
     },
-    "about_us_earn": "Términos y condiciones del programa Earn",
+    "about_us_earn": "Términos y Condiciones del Programa Earn",
     "about_transfer": "Transferencia",
     "earn_freeze_days": "Congelar {days} día(s)",
     "@earn_freeze_days": {
@@ -1880,7 +1880,7 @@
     },
     "earn_history": "Historial",
     "earn_to": "A",
-    "about_us_earn_program": "Términos y condiciones del Programa Earn",
+    "about_us_earn_program": "Términos y Condiciones del Programa Earn",
     "about_us_smpl_global": "Política de Privacidad de Smpl Global",
     "earn_finished": "Finalizado"
 }

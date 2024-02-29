@@ -80,7 +80,7 @@
         "description": "Войдя в систему и продолжая пользоваться ею, я соглашаюсь и даю согласие на",
         "type": "text"
     },
-    "login_policyText2": "Положення та умови",
+    "login_policyText2": "Положення та Умови",
     "@login_policyText2": {
         "description": "Privacy Policy Text (part 2)"
     },
@@ -293,7 +293,7 @@
         "description": "Simple была создана как криптовалютная платформа, однако мы постоянно расширяем ее функционал. Пока вы пользуетесь имеющимися возможностями приложения, наша команда упорно работает над тем, чтобы вы могли делать все необходимые финансовые операции в одном простом приложении. Именно это мы и называем Simple финансами.",
         "type": "text"
     },
-    "aboutUs_termButton1": "Загальні положення та умови",
+    "aboutUs_termButton1": "Загальні Положення та Умови",
     "@aboutUs_termButton1": {
         "description": "Общие положения и условия",
         "type": "text"
@@ -3647,7 +3647,7 @@
         "description": "до",
         "type": "text"
     },
-    "to1": "Кому",
+    "to1": "До",
     "@to1": {
         "description": "Кому",
         "type": "text"
@@ -4105,7 +4105,7 @@
         "description": "Я прочитал и согласен с",
         "type": "text"
     },
-    "previewBuyWithUmlimint_disclaimerTerms": "Положення та умови",
+    "previewBuyWithUmlimint_disclaimerTerms": "Положення та Умови",
     "previewBuyWithUmlimint_skipWait": "Закрити",
     "@previewBuyWithUmlimint_skipWait": {
         "description": "Закрыть",
@@ -5648,7 +5648,7 @@
         "description": "Я прочитал и согласен с␣",
         "type": "text"
     },
-    "buy_confirmation_privacy_checkbox_2": "Положення та умови",
+    "buy_confirmation_privacy_checkbox_2": "Положення та Умови",
     "buy_confirmation_privacy_checkbox_3": "Privacy Policy",
     "buy_confirmation_privacy_p2p_checkbox_1": "1. Я підтверджую, що наведена вище інформація є точною та повною.",
     "@buy_confirmation_privacy_p2p_checkbox_1": {
@@ -7423,7 +7423,7 @@
         "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/XKUJ00h5dZvM2PFYGRwm5qvf.png",
         "type": "text"
     },
-    "earn_active_earns": "Активні заробітки",
+    "earn_active_earns": "Активні вкладення",
     "@earn_active_earns": {
         "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/XKUJ00h5dZvM2PFYGRwm5qvf.png",
         "type": "text"
@@ -7484,7 +7484,7 @@
     "earn_top_up": "Поповнити",
     "earn_withdraw": "Вивести",
     "earn_all_offers": "Усі пропозиції",
-    "earn_earns_archive": "Архів Earn",
+    "earn_earns_archive": "Архів вкладень",
     "earn_you_can_withdraw_deposit_funds_instantly": "Ви можете миттєво вивести депозитні кошти",
     "earn_deposit": "Депозит",
     "earn_continue": "Продовжити",
@@ -7569,7 +7569,7 @@
     "earn_flexible": "Гнучкий",
     "earn_instant": "Миттєвий",
     "earn_i_have_read_and_agreed_to": "Я прочитав(ла) і погоджуюсь з",
-    "earn_terms_and_conditions": "Положення та умови",
+    "earn_terms_and_conditions": "Умови та Положення програми Earn",
     "earn_transfer": "Переказ",
     "earn_withdrawal": "Виведення",
     "earn_days_left": "Залишилося {days} дн.",
@@ -7594,7 +7594,7 @@
             }
         }
     },
-    "earn_privacy_policy": "Політика конфіденційності",
+    "earn_privacy_policy": "Політика конфіденційності Smpl Global",
     "earn_freeze": "Заморозити на {days} дн.",
     "@earn_freeze": {
         "placeholders": {
@@ -7632,7 +7632,7 @@
     },
     "earn_history": "Історія",
     "earn_to": "До",
-    "about_us_earn_program": "Умови та положення програми Earn",
+    "about_us_earn_program": "Умови та Положення програми Earn",
     "about_us_smpl_global": "Політика конфіденційності Smpl Global",
     "earn_finished": "Завершено"
 }

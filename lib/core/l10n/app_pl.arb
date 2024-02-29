@@ -16,7 +16,7 @@
     "login_password": "Hasło",
     "login_forgotPassword": "Zapomniałem hasło",
     "login_policyText1": "Logując się i kontynuując, niniejszym wyrażam zgodę na",
-    "login_policyText2": "Zasady i warunki",
+    "login_policyText2": "Zasady i Warunki",
     "@login_policyText2": {
         "description": "Privacy Policy Text (part 2)"
     },
@@ -65,7 +65,7 @@
     "aboutUs_text2": "Dzisiejszy system finansowy jest skomplikowany, ekskluzywny i drogi – co utrudnia dostęp, uzyskanie niższych opłat i preferencyjne traktowanie. Wierzymy, że system finansowy powinien działać dla wszystkich!",
     "aboutUs_text3": "Tworzymy produkt, który na nowo definiuje znaczenie inwestowania, upraszcza dostęp i przełamuje te złożone bariery i opłaty. Jest to łatwy w użyciu produkt finansowy, który pozwala dostrzec nowe możliwości dla Twoich pieniędzy i maksymalnie ich wykorzystać!",
     "aboutUs_text4": "Rozpoczniemy od prostego, ale innowacyjnego handlu kryptowalutami. Podczas gdy handlujesz, nasz zespół ciężko pracuje, aby dokończyć platformę handlową opartą na społeczności i zaoferować Ci akcje, surowce, a także płatności społecznościowe. Jedna prosta w obsłudze aplikacja. Mówimy na to, finance made SIMPLE.",
-    "aboutUs_termButton1": "Warunki Ogólne",
+    "aboutUs_termButton1": "Zasady i Warunki Ogólne",
     "aboutUs_termButton2": "Polityka prywatności",
     "aboutUs_termButton3": "Polityka programu partnerskiego",
     "aboutUs_privacyPolicy": "Polityka prywatności",
@@ -853,7 +853,7 @@
     "curencyBuy_actionItemDescriptionWithoutApplePay": "Visa, Mastercard",
     "currencyBuy_morePaymentMethod": "Więcej metod płatności",
     "previewBuyWithUmlimint_disclaimer": "Przeczytałem, rozumiem i zgadzam się z",
-    "previewBuyWithUmlimint_disclaimerTerms": "Zasady i warunki",
+    "previewBuyWithUmlimint_disclaimerTerms": "Zasady i Warunki",
     "previewBuyWithUmlimint_skipWait": "Pomiń oczekiwanie",
     "previewBuyWithUmlimint_disclaimerPolicy": "Polityka prywatności",
     "previewBuyWithUmlimint_saveCard": "Zapisz tę kartę",
@@ -1172,7 +1172,7 @@
     "buy_confirmation_total": "Razem",
     "buy_confirmation_local_info": "Kurs wymiany zostanie dostosowany zgodnie z ceną rynkową\nw momencie otrzymania potwierdzenia płatności",
     "buy_confirmation_privacy_checkbox_1": "Przeczytałem i akceptuję ",
-    "buy_confirmation_privacy_checkbox_2": "Zasady i warunki",
+    "buy_confirmation_privacy_checkbox_2": "Zasady i Warunki",
     "buy_confirmation_privacy_checkbox_3": "Polityka prywatności",
     "buy_confirmation_privacy_p2p_checkbox_1": "1. Potwierdzam, że powyższe informacje są dokładne i kompletne.",
     "buy_confirmation_privacy_p2p_checkbox_1_5": "2. Zgadzam się z ",
@@ -1881,7 +1881,7 @@
     "earn_flexible": "Elastyczny",
     "earn_instant": "Natychmiastowy",
     "earn_i_have_read_and_agreed_to": "Przeczytałem i zgadzam się z",
-    "earn_terms_and_conditions": "Zasady i warunki",
+    "earn_terms_and_conditions": "Zasady i Warunki programu Earn",
     "earn_transfer": "Przelew",
     "earn_withdrawal": "Wypłata",
     "earn_days_left": "Zostało {days} dni",
@@ -1906,7 +1906,7 @@
             }
         }
     },
-    "earn_privacy_policy": "Polityka prywatności",
+    "earn_privacy_policy": "Polityka Prywatności Smpl Global",
     "earn_freeze": "Zamrozić na {days} dni",
     "@earn_freeze": {
         "placeholders": {
@@ -1944,7 +1944,7 @@
     },
     "earn_history": "Historia",
     "earn_to": "Do",
-    "about_us_earn_program": "Zasady i warunki programu Earn",
+    "about_us_earn_program": "Zasady i Warunki programu Earn",
     "about_us_smpl_global": "Polityka Prywatności Smpl Global",
     "earn_finished": "Zakończono"
 }

@@ -43,7 +43,7 @@ class _EarnsArchiveScreenState extends State<EarnsArchiveScreen> {
           final colors = sKit.colors;
 
           scrollController.addListener(() {
-            if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+            if (scrollController.position.pixels >= scrollController.position.maxScrollExtent) {
               store.loadMoreClosedPositions();
             }
           });
