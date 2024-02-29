@@ -1,9 +1,9 @@
 import 'package:data_channel/data_channel.dart';
 import 'package:dio/dio.dart';
-import 'package:signalr_core/signalr_core.dart';
 import 'package:simple_networking/api_client/api_client.dart';
 import 'package:simple_networking/helpers/handle_api_responses.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/create_banking_account_simple_response.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/add_card/add_card_request_model.dart';
@@ -41,8 +41,12 @@ import 'package:simple_networking/modules/wallet_api/models/deposit_address/depo
 import 'package:simple_networking/modules/wallet_api/models/deposit_address/deposit_address_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/disclaimer/disclaimers_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/disclaimer/disclaimers_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/earn_close_position/earn_close_position_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/earn_deposit_position/earn_deposit_position_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/earn_offer_deposit/earn_offer_deposit_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/earn_offer_request/earn_offer_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/earn_offer_withdrawal/earn_offer_withdrawal_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/earn_withdraw_position/earn_withdraw_position_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/encryption_key/encryption_key_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_response_model.dart';
@@ -1193,6 +1197,29 @@ class WalletApiDataSources {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/trading/high-yield/earn-offer-withdrawal',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        handleResultResponse(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> postEarnOfferCreatePosition(
+    EarnOfferRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/earn/create-position',
         data: model.toJson(),
       );
 
@@ -3323,6 +3350,108 @@ class WalletApiDataSources {
         }
 
         return DC.data(out);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, List<EarnPositionClientModel>>> getEarnPositionsClosed({
+    required String skip,
+    required String take,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/earn/get-closed-positions',
+        data: {
+          "skip": skip,
+          "take": take,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        final out = <EarnPositionClientModel>[];
+        for (final element in responseData['data']) {
+          out.add(
+            EarnPositionClientModel.fromJson(element as Map<String, dynamic>),
+          );
+        }
+
+        return DC.data(out);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, EarnPositionClientModel>> postEarnWithdrawPositionRequest(
+    EarnWithdrawPositionRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/earn/withdraw-position',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(EarnPositionClientModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, EarnPositionClientModel>> postEarnClosePositionRequest(
+    EarnColosePositionRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/earn/close-position',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(EarnPositionClientModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, EarnPositionClientModel>> postEarnDepositPositionRequest(
+    EarnDepositPositionRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/earn/deposit-position',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(EarnPositionClientModel.fromJson(data));
       } catch (e) {
         rethrow;
       }

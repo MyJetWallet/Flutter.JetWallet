@@ -1,6 +1,13 @@
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 
-enum BottomItemType { wallets, market, invest, card, rewards }
+enum BottomItemType {
+  wallets,
+  market,
+  invest,
+  card,
+  rewards,
+  earn,
+}
 
 class SBottomItemModel {
   SBottomItemModel({

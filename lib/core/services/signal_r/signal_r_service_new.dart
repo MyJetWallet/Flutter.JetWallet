@@ -29,6 +29,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
@@ -41,6 +42,7 @@ import 'package:simple_networking/modules/signal_r/models/campaign_response_mode
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/signal_r/models/cards_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
+import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 import 'package:simple_networking/modules/signal_r/models/fireblock_events_model.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/signal_r/models/incoming_gift_model.dart';
@@ -1022,6 +1024,20 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
         marketReferencesModel,
         currenciesList,
       );
+
+  @observable
+  ActiveEarnOffersMessage? activeEarnOffersMessage;
+  @action
+  void setEarnOffersData(ActiveEarnOffersMessage data) {
+    activeEarnOffersMessage = data;
+  }
+
+  @observable
+  ActiveEarnPositionsMessage? activeEarnPositionsMessage;
+  @action
+  void setEarnPositionsData(ActiveEarnPositionsMessage data) {
+    activeEarnPositionsMessage = data;
+  }
 
   @action
   void clearSignalRModule() {

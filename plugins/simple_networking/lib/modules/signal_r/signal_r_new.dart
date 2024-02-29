@@ -518,6 +518,16 @@ class SignalRModuleNew {
       investAllActivePositionsMessage,
       method: handler.investAllActivePositionsMessageHandler,
     );
+
+    _hubConnection?.off(
+      earnOffers,
+      method: handler.earnOffersMessageHandler,
+    );
+
+    _hubConnection?.off(
+      earnPositions,
+      method: handler.earnPositionsMessageHandler,
+    );
   }
 
   Future<void> setupMessageHandler() async {
@@ -609,7 +619,9 @@ class SignalRModuleNew {
 
     _hubConnection?.on(pendingOperationCountMessage, handler.pendingOperationCountHandler);
 
-    ///
+    // Earn
+    _hubConnection?.on(earnOffers, handler.earnOffersMessageHandler);
+    _hubConnection?.on(earnPositions, handler.earnPositionsMessageHandler);
 
     _hubConnection?.on(pongMessage, pongMessageHandler);
   }

@@ -32,7 +32,7 @@ class SPlaceholder extends StatelessWidget {
     double getHeightBaseOnSize() {
       switch (size) {
         case SPlaceholderSize.l:
-          return 152;
+          return 177;
         case SPlaceholderSize.xl:
           return 288;
         default:

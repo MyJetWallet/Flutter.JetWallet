@@ -116,3 +116,7 @@ app.*.map.json
 /android/app/release
 
 temp
+
+#fvm
+.fvm/
+*.fvmrc

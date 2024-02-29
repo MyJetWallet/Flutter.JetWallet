@@ -2,6 +2,7 @@ import 'package:data_channel/data_channel.dart';
 import 'package:dio/dio.dart';
 import 'package:simple_networking/api_client/api_client.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/create_banking_account_simple_response.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
@@ -41,8 +42,12 @@ import 'package:simple_networking/modules/wallet_api/models/deposit_address/depo
 import 'package:simple_networking/modules/wallet_api/models/deposit_address/deposit_address_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/disclaimer/disclaimers_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/disclaimer/disclaimers_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/earn_close_position/earn_close_position_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/earn_deposit_position/earn_deposit_position_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/earn_offer_deposit/earn_offer_deposit_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/earn_offer_request/earn_offer_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/earn_offer_withdrawal/earn_offer_withdrawal_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/earn_withdraw_position/earn_withdraw_position_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/encryption_key/encryption_key_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_response_model.dart';
@@ -388,6 +393,14 @@ class WalletApiRepository {
     EarnOfferWithdrawalRequestModel model,
   ) async {
     return _walletApiDataSources.postEarnOfferWithdrawalRequest(
+      model,
+    );
+  }
+
+  Future<DC<ServerRejectException, void>> postEarnOfferCreatePosition(
+    EarnOfferRequestModel model,
+  ) async {
+    return _walletApiDataSources.postEarnOfferCreatePosition(
       model,
     );
   }
@@ -995,15 +1008,18 @@ class WalletApiRepository {
 
   // invest
 
-  Future<DC<ServerRejectException, InvestPositionResponseModel>> createActivePosition(NewInvestRequestModel request) async {
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> createActivePosition(
+      NewInvestRequestModel request) async {
     return _walletApiDataSources.createActivePositionRequest(model: request);
   }
 
-  Future<DC<ServerRejectException, InvestPositionResponseModel>> createPendingLimitPosition(NewInvestOrderRequestModel request) async {
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> createPendingLimitPosition(
+      NewInvestOrderRequestModel request) async {
     return _walletApiDataSources.createPendingLimitPositionRequest(model: request);
   }
 
-  Future<DC<ServerRejectException, InvestPositionResponseModel>> createPendingStopPosition(NewInvestOrderRequestModel request) async {
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> createPendingStopPosition(
+      NewInvestOrderRequestModel request) async {
     return _walletApiDataSources.createPendingStopPositionRequest(model: request);
   }
 
@@ -1068,5 +1084,39 @@ class WalletApiRepository {
     required String dateTo,
   }) async {
     return _walletApiDataSources.getInvestHistorySummaryRequest(dateFrom: dateFrom, dateTo: dateTo);
+  }
+
+  Future<DC<ServerRejectException, List<EarnPositionClientModel>>> getEarnPositionsClosed({
+    required String skip,
+    required String take,
+  }) async {
+    return _walletApiDataSources.getEarnPositionsClosed(
+      skip: skip,
+      take: take,
+    );
+  }
+
+  Future<DC<ServerRejectException, EarnPositionClientModel>> postEarnWithdrawPosition(
+    EarnWithdrawPositionRequestModel model,
+  ) async {
+    return _walletApiDataSources.postEarnWithdrawPositionRequest(
+      model,
+    );
+  }
+
+  Future<DC<ServerRejectException, EarnPositionClientModel>> postEarnClosePosition(
+    EarnColosePositionRequestModel model,
+  ) async {
+    return _walletApiDataSources.postEarnClosePositionRequest(
+      model,
+    );
+  }
+
+  Future<DC<ServerRejectException, EarnPositionClientModel>> postEarnDepositPosition(
+    EarnDepositPositionRequestModel model,
+  ) async {
+    return _walletApiDataSources.postEarnDepositPositionRequest(
+      model,
+    );
   }
 }
