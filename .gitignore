@@ -39,6 +39,9 @@ pubspec.lock
 *.freezed.dart
 *.gr.dart
 
+#workaround please remove this 
+!plugins/simple_kit/lib/core/simple_kit.g.dart
+
 # Web related
 lib/generated_plugin_registrant.dart
 
