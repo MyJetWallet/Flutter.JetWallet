@@ -134,7 +134,8 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                     widget.transactionListItem.operationType == OperationType.earnSend ||
                     widget.transactionListItem.operationType == OperationType.earnDeposit ||
                     widget.transactionListItem.operationType == OperationType.earnPayroll ||
-                    widget.transactionListItem.operationType == OperationType.earnWithdrawal) ...[
+                    widget.transactionListItem.operationType == OperationType.earnWithdrawal ||
+                    widget.transactionListItem.operationType == OperationType.cardTransfer) ...[
                   const SizedBox.shrink(),
                 ] else if (widget.transactionListItem.operationType != OperationType.sendGlobally) ...[
                   if (isOperationSupportCopy(widget.transactionListItem))
@@ -476,7 +477,8 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                     ),
                   ),
                 ],
-                if (widget.transactionListItem.operationType == OperationType.bankingTransfer) ...[
+                if (widget.transactionListItem.operationType == OperationType.bankingTransfer ||
+                    widget.transactionListItem.operationType == OperationType.cardTransfer) ...[
                   Material(
                     color: colors.white,
                     child: TransferDetails(
