@@ -33,7 +33,7 @@ dev_dependencies:
   #dart_code_metrics: ^5.7.6
 
   # AUTOGEN:
-  build_runner: ^2.1.11 # generating files using Dart code
+  build_runner: ^2.4.8 # generating files using Dart code
   mobx_codegen: ^2.0.7+3
 
 flutter:

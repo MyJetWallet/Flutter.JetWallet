@@ -39,7 +39,7 @@ dev_dependencies:
   #dart_code_metrics: ^5.7.6
 
   # Runner
-  build_runner: 2.4.6
+  build_runner: 2.4.8
   freezed: 2.4.1
   json_serializable: 6.7.1
 
