@@ -217,7 +217,10 @@ class TransactionListItem extends StatelessWidget {
           width: 24,
           color: isFailed ? failedColor : colors.blue,
         );
-
+      case OperationType.earnReserve:
+        return SPlusIcon(color: isFailed ? failedColor : null);
+      case OperationType.earnSend:
+        return SMinusIcon(color: isFailed ? failedColor : null);
       default:
         return SPlusIcon(color: isFailed ? failedColor : null);
     }

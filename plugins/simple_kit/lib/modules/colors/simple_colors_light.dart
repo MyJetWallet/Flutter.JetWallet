@@ -82,7 +82,7 @@ class SColorsLight implements SimpleColors {
   Color yellowDarkLight = const Color(0xFFF0B70D);
 
   @override
-  Color yellowLight = const Color(0xFFFAF3E0);
+  Color yellowLight = const Color(0xFFFDF5DD);
 
   @override
   Color brownLight = const Color(0xFFFFEFC2);

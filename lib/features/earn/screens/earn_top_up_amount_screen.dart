@@ -1,0 +1,191 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:decimal/decimal.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/device_size/device_size.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
+import 'package:jetwallet/features/earn/store/earn_top_up_amount_store.dart';
+import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
+import 'package:jetwallet/utils/constants.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:jetwallet/utils/helpers/widget_size_from.dart';
+import 'package:provider/provider.dart';
+import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
+
+@RoutePage(name: 'EarnTopUpAmountRouter')
+class EarnTopUpAmountScreen extends StatefulWidget {
+  const EarnTopUpAmountScreen({
+    super.key,
+    required this.earnPosition,
+  });
+
+  final EarnPositionClientModel earnPosition;
+
+  @override
+  _EarnTopUpAmountScreenState createState() => _EarnTopUpAmountScreenState();
+}
+
+class _EarnTopUpAmountScreenState extends State<EarnTopUpAmountScreen> {
+  late EarnTopUpAmountStore store;
+
+  @override
+  void initState() {
+    super.initState();
+    store = EarnTopUpAmountStore(earnPosition: widget.earnPosition);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (store.isShowTopUpModal) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await sShowAlertPopup(
+          context,
+          primaryText: intl.earn_deposit_crypto_wallet,
+          secondaryText: intl.tost_convert_message_1,
+          primaryButtonName: intl.earn_top_up_value(store.cryptoSymbol),
+          secondaryButtonName: intl.earn_cancel,
+          image: Image.asset(
+            blockedAsset,
+            width: 80,
+            height: 80,
+            package: 'simple_kit',
+          ),
+          onWillPop: () async {
+            await sRouter.pop();
+            await sRouter.pop();
+          },
+          onPrimaryButtonTap: () {
+            navigateToWallet(context, store.currency);
+          },
+          onSecondaryButtonTap: () async {
+            await sRouter.pop();
+            await sRouter.pop();
+          },
+        );
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SPageFrame(
+      loaderText: '',
+      header: SPaddingH24(
+        child: SSmallHeader(
+          title: intl.earn_deposit,
+        ),
+      ),
+      child: Provider<EarnTopUpAmountStore>(
+        create: (_) => store,
+        child: const _EarnWithdrawalAmountBody(),
+      ),
+    );
+  }
+}
+
+class _EarnWithdrawalAmountBody extends StatelessWidget {
+  const _EarnWithdrawalAmountBody();
+  @override
+  Widget build(BuildContext context) {
+    final store = EarnTopUpAmountStore.of(context);
+    final deviceSize = sDeviceSize;
+
+    return Observer(
+      builder: (context) {
+        return Column(
+          children: [
+            deviceSize.when(
+              small: () => const SpaceH40(),
+              medium: () => const Spacer(),
+            ),
+            SNewActionPriceField(
+              widgetSize: widgetSizeFrom(deviceSize),
+              primaryAmount: formatCurrencyStringAmount(
+                value: store.cryptoInputValue,
+              ),
+              primarySymbol: store.cryptoSymbol,
+              secondaryAmount:
+                  '${intl.earn_est} ${volumeFormat(decimal: Decimal.parse(store.fiatInputValue), symbol: '', accuracy: store.baseCurrency.accuracy)}',
+              secondarySymbol: store.fiatSymbol,
+              onSwap: null,
+              showSwopButton: false,
+              errorText: store.errorText,
+              optionText: store.cryptoInputValue == '0'
+                  ? '''${intl.earn_max} ${getIt<AppStore>().isBalanceHide ? '**** ${store.cryptoSymbol}' : volumeFormat(decimal: store.withdrawAllValue, accuracy: store.currency.accuracy, symbol: store.cryptoSymbol)}'''
+                  : null,
+              optionOnTap: () {
+                store.onSellAll();
+              },
+              pasteLabel: intl.paste,
+              onPaste: () async {
+                final data = await Clipboard.getData('text/plain');
+                if (data?.text != null) {
+                  final n = double.tryParse(data!.text!);
+                  if (n != null) {
+                    store.pasteValue(n.toString().trim());
+                  }
+                }
+              },
+            ),
+            const Spacer(),
+            SuggestionButtonWidget(
+              title: store.currency.description,
+              subTitle: intl.earn_from_crypto_wallet,
+              trailing:
+                  getIt<AppStore>().isBalanceHide ? '**** ${store.currency.symbol}' : store.currency.volumeAssetBalance,
+              icon: SNetworkSvg24(
+                url: store.currency.iconUrl,
+              ),
+              onTap: () {},
+              showArrow: false,
+            ),
+            const SpaceH8(),
+            SuggestionButtonWidget(
+              title: store.offer.name,
+              subTitle: intl.earn_to_earn,
+              trailing: getIt<AppStore>().isBalanceHide
+                  ? '**** ${store.currency.symbol}'
+                  : volumeFormat(
+                      decimal: store.earnPosition.baseAmount,
+                      accuracy: store.currency.accuracy,
+                      symbol: store.cryptoSymbol,
+                    ),
+              icon: SNetworkSvg24(
+                url: store.currency.iconUrl,
+              ),
+              onTap: () {},
+              showArrow: false,
+            ),
+            const SpaceH20(),
+            SNumericKeyboardAmount(
+              widgetSize: widgetSizeFrom(deviceSize),
+              onKeyPressed: (value) {
+                store.updateInputValue(value);
+              },
+              buttonType: SButtonType.primary2,
+              submitButtonActive: store.isContinueAvaible,
+              submitButtonName: intl.addCircleCard_continue,
+              onSubmitPressed: () {
+                sRouter.push(
+                  EarnTopUpOrderSummaryRouter(
+                    earnPosition: store.earnPosition,
+                    amount: Decimal.parse(store.cryptoInputValue),
+                  ),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+}

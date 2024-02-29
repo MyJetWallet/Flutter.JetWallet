@@ -13,7 +13,6 @@ import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/simple_card/store/simple_card_store.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
-import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
@@ -60,7 +59,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
 
     Timer(
       const Duration(seconds: 2),
-          () {
+      () {
         final userInfo = getIt.get<UserInfoService>();
         final kycState = getIt.get<KycService>();
         final kycBlocked = checkKycBlocked(
@@ -69,9 +68,8 @@ class _EurWalletBodyState extends State<EurWalletBody> {
           kycState.withdrawalStatus,
         );
         if (userInfo.isSimpleCardAvailable &&
-          (sSignalRModules.bankingProfileData?.availableCardsCount ?? 0) > 0 &&
-          !kycBlocked
-        ) {
+            (sSignalRModules.bankingProfileData?.availableCardsCount ?? 0) > 0 &&
+            !kycBlocked) {
           sAnalytics.viewEURWalletWithButton();
         } else {
           sAnalytics.viewEURWalletWithoutButton();
@@ -223,8 +221,12 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                         },
 
                         assetIcon: userInfo.isSimpleCardAvailable && el.status == AccountStatusCard.frozen
-                            ? Assets.svg.paymentMethodsCards.simple.frozenCard.simpleSvg(width: 24,)
-                            : Assets.svg.paymentMethodsCards.simple.defaultCard.simpleSvg(width: 24,),
+                            ? Assets.svg.paymentMethodsCards.simple.frozenCard.simpleSvg(
+                                width: 24,
+                              )
+                            : Assets.svg.paymentMethodsCards.simple.defaultCard.simpleSvg(
+                                width: 24,
+                              ),
                       ),
                     ),
                 ],
