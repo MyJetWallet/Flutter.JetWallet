@@ -35,6 +35,7 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
+import 'package:timezone/data/latest.dart';
 
 import '../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../core/services/user_info/user_info_service.dart';
@@ -79,6 +80,8 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
   void initState() {
     super.initState();
     final simpleCardStore = getIt.get<SimpleCardStore>();
+
+    initializeTimeZones();
 
     simpleCardStore.checkCardBanner();
 

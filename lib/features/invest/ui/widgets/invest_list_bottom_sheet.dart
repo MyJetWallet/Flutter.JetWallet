@@ -10,15 +10,18 @@ import 'package:jetwallet/features/invest/ui/invests/data_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/invest_bottom_sheets/history_positions.dart';
 import 'package:jetwallet/features/invest/ui/invests/invest_bottom_sheets/pending_positions.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_alert_bottom_sheet.dart';
-import 'package:jetwallet/features/invest/ui/widgets/invest_button.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
 
 import '../../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../../utils/helpers/currency_from.dart';
+import '../dashboard/invest_header.dart';
 import '../invests/invest_bottom_sheets/active_positions.dart';
 import '../invests/main_switch.dart';
 
@@ -31,15 +34,30 @@ void showInvestListBottomSheet(BuildContext context) {
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
+    enableDrag: false,
     expanded: true,
     pinned: SPaddingH24(
-      child: Observer(
-        builder: (BuildContext context) {
-          return MainSwitch(
-            onChangeTab: investPositionsStore.setActiveTab,
-            activeTab: investPositionsStore.activeTab,
-          );
-        },
+      child: Column(
+        children: [
+          InvestHeader(
+            currency: currency,
+            hideWallet: true,
+            withBackBlock: true,
+            withBigPadding: false,
+            withDivider: false,
+            onBackButton: () {
+              Navigator.pop(context);
+            },
+          ),
+          Observer(
+            builder: (BuildContext context) {
+              return MainSwitch(
+                onChangeTab: investPositionsStore.setActiveTab,
+                activeTab: investPositionsStore.activeTab,
+              );
+            },
+          ),
+        ],
       ),
     ),
     pinnedBottom: Material(
@@ -63,7 +81,7 @@ void showInvestListBottomSheet(BuildContext context) {
                               inactiveColor: SColorsLight().grey2,
                               inactiveNameColor: SColorsLight().grey4,
                               active: true,
-                              icon: const SICloseIcon(
+                              icon: Assets.svg.invest.investClose.simpleSvg(
                                 width: 20,
                                 height: 20,
                               ),
@@ -114,7 +132,7 @@ void showInvestListBottomSheet(BuildContext context) {
                             inactiveColor: SColorsLight().grey4,
                             inactiveNameColor: SColorsLight().grey2,
                             active: true,
-                            icon: const SIPlusIcon(
+                            icon: Assets.svg.invest.investPlus.simpleSvg(
                               width: 20,
                               height: 20,
                             ),
@@ -149,7 +167,7 @@ void showInvestListBottomSheet(BuildContext context) {
                               inactiveColor: SColorsLight().grey2,
                               inactiveNameColor: SColorsLight().grey4,
                               active: true,
-                              icon: const SICloseIcon(
+                              icon: Assets.svg.invest.investClose.simpleSvg(
                                 width: 20,
                                 height: 20,
                               ),
@@ -188,7 +206,7 @@ void showInvestListBottomSheet(BuildContext context) {
                             inactiveColor: SColorsLight().grey4,
                             inactiveNameColor: SColorsLight().grey2,
                             active: true,
-                            icon: const SIPlusIcon(
+                            icon: Assets.svg.invest.investPlus.simpleSvg(
                               width: 20,
                               height: 20,
                             ),
@@ -222,7 +240,7 @@ void showInvestListBottomSheet(BuildContext context) {
                             inactiveColor: SColorsLight().grey4,
                             inactiveNameColor: SColorsLight().grey2,
                             active: true,
-                            icon: const SIPlusIcon(
+                            icon: Assets.svg.invest.investPlus.simpleSvg(
                               width: 20,
                               height: 20,
                             ),

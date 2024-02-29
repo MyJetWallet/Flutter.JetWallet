@@ -1,11 +1,12 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/features/invest/ui/widgets/invest_button.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
@@ -145,7 +146,7 @@ class InfoBlock extends StatelessObserverWidget {
               children: [
                 Text(
                   intl.invest_limits,
-                  style: sBody1InvestSMStyle.copyWith(
+                  style: STStyles.body1InvestSM.copyWith(
                     color: colors.black,
                   ),
                 ),
@@ -183,11 +184,11 @@ class InfoBlock extends StatelessObserverWidget {
                         investNewStore.setIsTPMode(!investNewStore.isTP);
                       },
                       defaultIcon: investNewStore.isTP
-                          ? const SICheckedIcon(width: 20, height: 20,)
-                          : const SICheckIcon(width: 20, height: 20,),
+                          ? Assets.svg.invest.checked.simpleSvg(width: 20, height: 20,)
+                          : Assets.svg.invest.check.simpleSvg(width: 20, height: 20,),
                       pressedIcon: investNewStore.isTP
-                          ? const SICheckedIcon(width: 20, height: 20,)
-                          : const SICheckIcon(width: 20, height: 20,),
+                          ? Assets.svg.invest.checked.simpleSvg(width: 20, height: 20,)
+                          : Assets.svg.invest.check.simpleSvg(width: 20, height: 20,),
                     ),
                     const SpaceW4(),
                     Container(
@@ -201,7 +202,7 @@ class InfoBlock extends StatelessObserverWidget {
                     const SpaceW4(),
                     Text(
                       intl.invest_limits_take_profit,
-                      style: sBody2InvestMStyle.copyWith(
+                      style: STStyles.body2InvestM.copyWith(
                         color: colors.black,
                       ),
                     ),
@@ -221,7 +222,7 @@ class InfoBlock extends StatelessObserverWidget {
                             children: [
                               Text(
                                 currency.symbol,
-                                style: sBody2InvestMStyle.copyWith(
+                                style: STStyles.body2InvestM.copyWith(
                                   color: colors.black,
                                 ),
                               ),
@@ -316,11 +317,11 @@ class InfoBlock extends StatelessObserverWidget {
                         investNewStore.setIsSLMode(!investNewStore.isSl);
                       },
                       defaultIcon: investNewStore.isSl
-                          ? const SICheckedIcon(width: 20, height: 20,)
-                          : const SICheckIcon(width: 20, height: 20,),
+                          ? Assets.svg.invest.checked.simpleSvg(width: 20, height: 20,)
+                          : Assets.svg.invest.check.simpleSvg(width: 20, height: 20,),
                       pressedIcon: investNewStore.isSl
-                          ? const SICheckedIcon(width: 20, height: 20,)
-                          : const SICheckIcon(width: 20, height: 20,),
+                          ? Assets.svg.invest.checked.simpleSvg(width: 20, height: 20,)
+                          : Assets.svg.invest.check.simpleSvg(width: 20, height: 20,),
                     ),
                     const SpaceW4(),
                     Container(
@@ -334,7 +335,7 @@ class InfoBlock extends StatelessObserverWidget {
                     const SpaceW4(),
                     Text(
                       intl.invest_limits_stop_loss,
-                      style: sBody2InvestMStyle.copyWith(
+                      style: STStyles.body2InvestM.copyWith(
                         color: colors.black,
                       ),
                     ),
@@ -351,7 +352,7 @@ class InfoBlock extends StatelessObserverWidget {
                             children: [
                               Text(
                                 currency.symbol,
-                                style: sBody2InvestMStyle.copyWith(
+                                style: STStyles.body2InvestM.copyWith(
                                   color: colors.black,
                                 ),
                               ),

@@ -119,4 +119,108 @@ class STStyles {
     fontWeight: FontWeight.w700,
     height: 1.33,
   );
+
+// invest text styles
+
+  static final header0Invest = _basicTextStyle.copyWith(
+    fontSize: 30.0,
+    fontWeight: FontWeight.w600,
+    height: 1.3,
+  );
+
+  static final header1Invest = _basicTextStyle.copyWith(
+    fontSize: 22.0,
+    fontWeight: FontWeight.w600,
+    height: 1.3,
+  );
+
+  static final header2Invest = _basicTextStyle.copyWith(
+    fontSize: 20.0,
+    fontWeight: FontWeight.w600,
+    height: 1.3,
+  );
+
+  static final header3Invest = _basicTextStyle.copyWith(
+    fontSize: 18.0,
+    fontWeight: FontWeight.w600,
+    height: 1.3,
+  );
+
+  static final header4SMInvest = _basicTextStyle.copyWith(
+    fontSize: 16.0,
+    fontWeight: FontWeight.w600,
+    height: 1.2,
+  );
+
+  static final header4MInvest = _basicTextStyle.copyWith(
+    fontSize: 16.0,
+    fontWeight: FontWeight.w400,
+    height: 1.2,
+  );
+
+  static final buttonTextInvest = _basicTextStyle.copyWith(
+    fontSize: 16.0,
+    fontWeight: FontWeight.w700,
+    height: 1.2,
+  );
+
+  static final body1InvestB = _basicTextStyle.copyWith(
+    fontSize: 14.0,
+    fontWeight: FontWeight.w700,
+    height: 1.2,
+  );
+
+  static final body1InvestSM = _basicTextStyle.copyWith(
+    fontSize: 14.0,
+    fontWeight: FontWeight.w600,
+    height: 1.2,
+  );
+
+  static final body1InvestM = _basicTextStyle.copyWith(
+    fontSize: 14.0,
+    fontWeight: FontWeight.w500,
+    height: 1.2,
+  );
+
+  static final body2InvestB = _basicTextStyle.copyWith(
+    fontSize: 12.0,
+    fontWeight: FontWeight.w700,
+    height: 1.2,
+  );
+
+  static final body2InvestSM = _basicTextStyle.copyWith(
+    fontSize: 12.0,
+    fontWeight: FontWeight.w600,
+    height: 1.2,
+  );
+
+  static final body2InvestM = _basicTextStyle.copyWith(
+    fontSize: 12.0,
+    fontWeight: FontWeight.w500,
+    height: 1.2,
+  );
+
+  static final body3InvestSM = _basicTextStyle.copyWith(
+    fontSize: 11.0,
+    fontWeight: FontWeight.w600,
+    height: 1.2,
+  );
+
+  static final body3InvestM = _basicTextStyle.copyWith(
+    fontSize: 11.0,
+    fontWeight: FontWeight.w500,
+    height: 1.2,
+  );
+
+  static final captionInvestSM = _basicTextStyle.copyWith(
+    fontSize: 9.0,
+    fontWeight: FontWeight.w600,
+    height: 1.2,
+  );
+
+  static final captionInvestM = _basicTextStyle.copyWith(
+    fontSize: 9.0,
+    fontWeight: FontWeight.w500,
+    height: 1.2,
+  );
 }

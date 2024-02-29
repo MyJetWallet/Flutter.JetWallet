@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 import '../../../../core/l10n/i10n.dart';
 
@@ -47,7 +48,7 @@ class MainSwitch extends StatelessObserverWidget {
                     child: Center(
                       child: Text(
                         intl.invest_switch_active,
-                        style: sBody1InvestSMStyle.copyWith(
+                        style: STStyles.body1InvestSM.copyWith(
                           color: colors.grey1,
                           height: 1,
                         ),
@@ -67,7 +68,7 @@ class MainSwitch extends StatelessObserverWidget {
                     child: Center(
                       child: Text(
                         intl.invest_switch_pending,
-                        style: sBody1InvestSMStyle.copyWith(
+                        style: STStyles.body1InvestSM.copyWith(
                           color: colors.grey1,
                           height: 1,
                         ),
@@ -87,7 +88,7 @@ class MainSwitch extends StatelessObserverWidget {
                     child: Center(
                       child: Text(
                         intl.invest_switch_history,
-                        style: sBody1InvestSMStyle.copyWith(
+                        style: STStyles.body1InvestSM.copyWith(
                           color: colors.grey1,
                           height: 1,
                         ),
@@ -113,7 +114,7 @@ class MainSwitch extends StatelessObserverWidget {
                 child: Center(
                   child: Text(
                     intl.invest_switch_active,
-                    style: sBody1InvestSMStyle.copyWith(
+                    style: STStyles.body1InvestSM.copyWith(
                       color: colors.white,
                       height: 1,
                     ),
@@ -136,7 +137,7 @@ class MainSwitch extends StatelessObserverWidget {
                 child: Center(
                   child: Text(
                     intl.invest_switch_pending,
-                    style: sBody1InvestSMStyle.copyWith(
+                    style: STStyles.body1InvestSM.copyWith(
                       color: colors.white,
                       height: 1,
                     ),
@@ -159,7 +160,7 @@ class MainSwitch extends StatelessObserverWidget {
                 child: Center(
                   child: Text(
                     intl.invest_switch_history,
-                    style: sBody1InvestSMStyle.copyWith(
+                    style: STStyles.body1InvestSM.copyWith(
                       color: colors.white,
                       height: 1,
                     ),

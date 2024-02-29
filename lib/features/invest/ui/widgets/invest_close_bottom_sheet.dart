@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/features/invest/ui/widgets/invest_button.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
 
 void showInvestCloseBottomSheet({
   required BuildContext context,

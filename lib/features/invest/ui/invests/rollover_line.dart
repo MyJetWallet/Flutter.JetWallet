@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 class RolloverLine extends StatelessObserverWidget {
   const RolloverLine({
@@ -23,14 +24,14 @@ class RolloverLine extends StatelessObserverWidget {
         children: [
           Text(
             mainText,
-            style: sBody3InvestMStyle.copyWith(
+            style: STStyles.body1InvestM.copyWith(
               color: colors.grey2,
             ),
           ),
           const SpaceW5(),
           Text(
             secondaryText,
-            style: sBody3InvestSMStyle.copyWith(
+            style: STStyles.body3InvestSM.copyWith(
               color: colors.grey2,
             ),
           ),

@@ -47,6 +47,7 @@ import 'package:simple_networking/modules/signal_r/models/fireblock_events_model
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/signal_r/models/incoming_gift_model.dart';
 import 'package:simple_networking/modules/signal_r/models/indices_model.dart';
+import 'package:simple_networking/modules/signal_r/models/invest_base_daily_price_model.dart';
 import 'package:simple_networking/modules/signal_r/models/key_value_model.dart';
 import 'package:simple_networking/modules/signal_r/models/kyc_countries_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/market_info_model.dart';
@@ -857,6 +858,33 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
   void setInvestWalletData(InvestWalletModel data) {
     investWalletData = data;
   }
+
+  @observable
+  InvestBaseDailyPriceModel? investBaseDailyPriceData;
+  @action
+  void setInvestBaseDailyPriceData(InvestBaseDailyPriceModel data) {
+    if (investBaseDailyPriceData != null && investBaseDailyPriceData!.dailyPrices.isNotEmpty) {
+      final newInvestPricesData = investBaseDailyPriceData;
+      for (final newPrice in data.dailyPrices) {
+        var isNewPrice = true;
+        for (final actualPrice in newInvestPricesData!.dailyPrices) {
+          if (actualPrice.symbol == newPrice.symbol) {
+            final index = newInvestPricesData.dailyPrices.indexOf(actualPrice);
+
+            newInvestPricesData.dailyPrices[index] = newPrice;
+            isNewPrice = false;
+          }
+        }
+        if (isNewPrice) {
+          newInvestPricesData.dailyPrices.add(newPrice);
+        }
+      }
+      investBaseDailyPriceData = newInvestPricesData;
+    } else {
+      investBaseDailyPriceData = data;
+    }
+  }
+
 
   @observable
   bool showPaymentsMethods = false;

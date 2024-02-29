@@ -31,6 +31,7 @@ import 'package:simple_networking/modules/signal_r/signal_r_new.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_transport.dart';
 
 import 'models/incoming_gift_model.dart';
+import 'models/invest_base_daily_price_model.dart';
 import 'models/invest_sectors_model.dart';
 import 'models/invest_wallet_model.dart';
 
@@ -419,6 +420,18 @@ class SignalRFuncHandler {
       SignalRModuleNew.handlePackage();
     } catch (e) {
       instance.handleError(investWalletMessage, e);
+    }
+  }
+
+  void investBaseDailyPricesMessageHandler(List<Object?>? data) {
+    try {
+      final investBaseDailyPriceModel = InvestBaseDailyPriceModel.fromJson(_json(data));
+
+      sTransport.investBaseDailyPrice(investBaseDailyPriceModel);
+
+      SignalRModuleNew.handlePackage();
+    } catch (e) {
+      instance.handleError(investBaseDailyPricesMessage, e);
     }
   }
 

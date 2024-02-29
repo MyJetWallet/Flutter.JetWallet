@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/features/invest/ui/widgets/slider_thumb_shape.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 class InvestSliderInput extends StatelessObserverWidget {
   const InvestSliderInput({
@@ -114,7 +115,7 @@ class InvestSliderInput extends StatelessObserverWidget {
                 },
                 child: Text(
                   '$prefix${arrayOfValues[i]}',
-                  style: sBody3InvestMStyle.copyWith(
+                  style: STStyles.body3InvestM.copyWith(
                     color: colors.grey1,
                   ),
                 ),

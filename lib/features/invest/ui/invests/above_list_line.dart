@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 class AboveListLine extends StatelessObserverWidget {
   const AboveListLine({
@@ -46,11 +49,11 @@ class AboveListLine extends StatelessObserverWidget {
                         onCheckboxTap(!checked);
                       },
                       defaultIcon: checked
-                          ? const SICheckedIcon(width: 20, height: 20,)
-                          : const SICheckIcon(width: 20, height: 20,),
+                          ? Assets.svg.invest.checked.simpleSvg(width: 20, height: 20,)
+                          : Assets.svg.invest.check.simpleSvg(width: 20, height: 20,),
                       pressedIcon: checked
-                          ? const SICheckedIcon(width: 20, height: 20,)
-                          : const SICheckIcon(width: 20, height: 20,),
+                          ? Assets.svg.invest.checked.simpleSvg(width: 20, height: 20,)
+                          : Assets.svg.invest.check.simpleSvg(width: 20, height: 20,),
                     ),
                     const SpaceW4(),
                   ],
@@ -68,10 +71,10 @@ class AboveListLine extends StatelessObserverWidget {
                 child: Text(
                   mainColumn,
                   style: withCheckbox
-                      ? sBody2InvestMStyle.copyWith(
+                      ? STStyles.body2InvestM.copyWith(
                     color: colors.black,
                   )
-                      : sBody3InvestMStyle.copyWith(
+                      : STStyles.body3InvestM.copyWith(
                     color: colors.grey2,
                   ),
                 ),
@@ -79,7 +82,7 @@ class AboveListLine extends StatelessObserverWidget {
               const Spacer(),
               Text(
                 secondaryColumn,
-                style: sBody3InvestSMStyle.copyWith(
+                style: STStyles.body3InvestSM.copyWith(
                   color: colors.grey2,
                 ),
               ),
@@ -93,7 +96,7 @@ class AboveListLine extends StatelessObserverWidget {
                 },
                 child: Text(
                   lastColumn,
-                  style: sBody3InvestSMStyle.copyWith(
+                  style: STStyles.body3InvestSM.copyWith(
                     color: colors.grey2,
                   ),
                 ),
@@ -105,15 +108,15 @@ class AboveListLine extends StatelessObserverWidget {
                     onSortTap?.call();
                   },
                   defaultIcon: sortState == 0
-                    ? const SISortNotSetIcon(width: 14, height: 14,)
+                    ? Assets.svg.invest.sortNotSet.simpleSvg(width: 14, height: 14,)
                     : sortState == 1
-                    ? const SISortUpIcon(width: 14, height: 14,)
-                    : const SISortDownIcon(width: 14, height: 14,),
+                    ? Assets.svg.invest.sortUp.simpleSvg(width: 14, height: 14,)
+                    : Assets.svg.invest.sortDown.simpleSvg(width: 14, height: 14,),
                   pressedIcon: sortState == 0
-                    ? const SISortNotSetIcon(width: 14, height: 14,)
-                    : sortState == 1
-                    ? const SISortUpIcon(width: 14, height: 14,)
-                    : const SISortDownIcon(width: 14, height: 14,),
+                      ? Assets.svg.invest.sortNotSet.simpleSvg(width: 14, height: 14,)
+                      : sortState == 1
+                      ? Assets.svg.invest.sortUp.simpleSvg(width: 14, height: 14,)
+                      : Assets.svg.invest.sortDown.simpleSvg(width: 14, height: 14,),
                 ),
               ],
             ],

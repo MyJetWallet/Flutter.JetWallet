@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/features/invest/stores/chart/invest_chart_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_positions_store.dart';
 import 'package:jetwallet/features/invest/ui/dashboard/invest_header.dart';
@@ -12,6 +13,8 @@ import 'package:jetwallet/features/invest/ui/invests/above_list_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/secondary_switch.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_input.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
 
 import '../../../../core/router/app_router.dart';
 import '../../../../core/services/signal_r/signal_r_service_new.dart';
@@ -78,6 +81,7 @@ class InstrumentsList extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final investStore = getIt.get<InvestDashboardStore>();
+    final investChartStore = getIt.get<InvestChartStore>();
     final investPositionsStore = getIt.get<InvestPositionsStore>();
     final currencies = sSignalRModules.currenciesList;
 
@@ -156,13 +160,13 @@ class InstrumentsList extends StatelessObserverWidget {
                     Expanded(
                       child: InvestInput(
                         onChanged: investStore.onSearchInput,
-                        icon: const Row(
+                        icon: Row(
                           children: [
-                            SISearchIcon(
+                            Assets.svg.invest.investSearch.simpleSvg(
                               width: 16,
                               height: 16,
                             ),
-                            SpaceW10(),
+                            const SpaceW10(),
                           ],
                         ),
                         controller: investStore.searchController,
@@ -172,28 +176,29 @@ class InstrumentsList extends StatelessObserverWidget {
                     SIconButton(
                       onTap: investStore.setInstrumentSort,
                       defaultIcon: investStore.instrumentSort == 0
-                          ? const SISortNotSetIcon(width: 20, height: 20,)
+                          ? Assets.svg.invest.sortNotSet.simpleSvg(width: 14, height: 14,)
                           : investStore.instrumentSort == 1
-                          ? const SISortUpIcon(width: 20, height: 20,)
-                          : const SISortDownIcon(width: 20, height: 20,),
+                          ? Assets.svg.invest.sortUp.simpleSvg(width: 14, height: 14,)
+                          : Assets.svg.invest.sortDown.simpleSvg(width: 14, height: 14,),
                       pressedIcon: investStore.instrumentSort == 0
-                          ? const SISortNotSetIcon(width: 20, height: 20,)
+                          ? Assets.svg.invest.sortNotSet.simpleSvg(width: 14, height: 14,)
                           : investStore.instrumentSort == 1
-                          ? const SISortUpIcon(width: 20, height: 20,)
-                          : const SISortDownIcon(width: 20, height: 20,),
+                          ? Assets.svg.invest.sortUp.simpleSvg(width: 14, height: 14,)
+                          : Assets.svg.invest.sortDown.simpleSvg(width: 14, height: 14,),
                     ),
                   ],
                 ),
                 const SpaceH4(),
                 for (final instrument in investStore.instrumentsSortedList) ...[
                   SymbolInfoLine(
-                    currency: currencyFrom(currencies, instrument.name!),
+                    percent: investStore.getPercentSymbol(instrument.symbol ?? ''),
                     instrument: instrument,
                     amount: getGroupedAmount(instrument.symbol!),
                     profit: getGroupedProfit(instrument.symbol!),
                     price: investStore.getPriceBySymbol(instrument.symbol ?? ''),
                     withFavorites: true,
                     isFavorite: investStore.favoritesSymbols.contains(instrument.name),
+                    candles: investChartStore.getAssetCandles(instrument.symbol ?? ''),
                     onTapFavorites: () {
                       if (investStore.favoritesSymbols.contains(instrument.name)) {
                         investStore.removeFromFavorites(instrument.name!);
@@ -224,11 +229,12 @@ class InstrumentsList extends StatelessObserverWidget {
                 ),
                 for (final instrument in investStore.favoritesSortedList) ...[
                   SymbolInfoLine(
-                    currency: currencyFrom(currencies, instrument.name!),
+                    percent: investStore.getPercentSymbol(instrument.symbol ?? ''),
                     instrument: instrument,
                     amount: getGroupedAmount(instrument.symbol!),
                     profit: getGroupedProfit(instrument.symbol!),
                     price: investStore.getPriceBySymbol(instrument.symbol ?? ''),
+                    candles: investChartStore.getAssetCandles(instrument.symbol ?? ''),
                     onTap: () {
                       if (getGroupedLength(instrument.symbol!) > 0) {
                         sRouter.push(
