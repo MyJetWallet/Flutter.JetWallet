@@ -8,7 +8,7 @@ import 'package:jetwallet/features/earn/widgets/basic_banner.dart';
 import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
 import 'package:jetwallet/features/earn/widgets/earn_positions_list.dart';
 import 'package:jetwallet/features/earn/widgets/price_header.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -69,14 +69,14 @@ class _EarnView extends StatelessWidget {
               SliverToBoxAdapter(
                 child: SPriceHeader(
                   totalSum: store.isBalanceHide
-                      ? volumeFormat(
+                      ? marketFormat(
                           decimal: store.positionsTotalValueInVaseCurrency,
                           symbol: sSignalRModules.baseCurrency.symbol,
                           accuracy: 2,
                         )
                       : '**** ${sSignalRModules.baseCurrency.symbol}',
                   revenueSum: store.isBalanceHide
-                      ? volumeFormat(
+                      ? marketFormat(
                           decimal: store.positionsTotalRevenueInVaseCurrency,
                           symbol: sSignalRModules.baseCurrency.symbol,
                           accuracy: 2,
