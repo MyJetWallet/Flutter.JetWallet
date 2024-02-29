@@ -179,14 +179,14 @@ dev_dependencies:
 
   # AUTOGEN:
   freezed: 2.4.5 # generation for immutable classes that has a simple syntax/API
-  build_runner: 2.4.6 # generating files using Dart code
+  build_runner: 
   json_serializable: 6.7.1 # dart build system builders for handling JSON
   injectable_generator: 2.4.1
   mobx_codegen: 2.4.0
   auto_route_generator: 7.3.2
 
 dependency_overrides:
-  dart_style: 2.3.2
+  dart_style: 
   #flutter_inappwebview:
   #  git:
   #     url: https://github.com/vixez/flutter_inappwebview.git
