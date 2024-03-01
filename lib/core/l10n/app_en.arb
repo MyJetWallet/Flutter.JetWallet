@@ -759,7 +759,7 @@
     "withText": "With",
     "news": "News",
     "number": "number",
-    "days": "days",
+    "days": "day(s)",
     "hours": "hours",
     "hour": "hour",
     "hoursLeft": "hours left",
@@ -1735,7 +1735,7 @@
     "earn_unknown": "Unknown",
     "earn_variable_apy": "Variable APY",
     "earn_started": "Started",
-    "earn_funds_will_be_withdrawn": "Your funds and accrued earnings are paid out upon closing your Earn Account. Disbursement of funds in {days} days",
+    "earn_funds_will_be_withdrawn": "Your funds and accrued earnings are paid out upon closing your Earn Account. Disbursement of funds in {days} day(s)",
     "@earn_funds_will_be_withdrawn": {
         "placeholders": {
             "days": {}
@@ -1749,7 +1749,7 @@
     "earn_deposit": "Deposit",
     "earn_continue": "Continue",
     "earn_choose_a_deposit_plan": "Choose a deposit plan and\nearn crypto",
-    "earn_freeze_period": "Freeze period ({days} days)",
+    "earn_freeze_period": "Freeze period ({days} day(s))",
     "@earn_freeze_period": {
         "placeholders": {
             "days": {}
@@ -1784,7 +1784,7 @@
     "earn_full_withdraw": "Your funds and accrued earnings are paid out when you close your Earn account.",
     "earn_basis_amount": "Basis amount",
     "earn_withdrawal_period": "Withdrawal period",
-    "earn_the_funds_will_be_disbursed": "The funds will be disbursed to your wallet on {date}. You will also earn income for the next {days} days",
+    "earn_the_funds_will_be_disbursed": "The funds will be disbursed to your wallet on {date}. You will also earn income for the next {days} day(s)",
     "@earn_the_funds_will_be_disbursed": {
         "placeholders": {
             "date": {
@@ -1840,7 +1840,7 @@
     "earn_terms_and_conditions": "Earn Program Terms and Conditions",
     "earn_transfer": "Transfer",
     "earn_withdrawal": "Withdrawal",
-    "earn_days_left": "{days} days left",
+    "earn_days_left": "{days} day(s) left",
     "@earn_days_left": {
         "placeholders": {
             "days": {
@@ -1863,7 +1863,7 @@
         }
     },
     "earn_privacy_policy": "Smpl Global Privacy Policy",
-    "earn_freeze": "Freeze {days} days",
+    "earn_freeze": "Freeze {days} day(s)",
     "@earn_freeze": {
         "placeholders": {
             "days": {}
@@ -1883,7 +1883,7 @@
     },
     "about_us_earn": "Terms & Conditions of Earn program",
     "about_transfer": "Transfer",
-    "earn_freeze_days": "Freeze {days} days",
+    "earn_freeze_days": "Freeze {days} day(s)",
     "@earn_freeze_days": {
         "placeholders": {
             "days": {
@@ -1892,7 +1892,7 @@
             }
         }
     },
-    "earn_redeem_period": "Redeem period ({days} days)",
+    "earn_redeem_period": "Redeem period ({days} day(s))",
     "@earn_redeem_period": {
         "placeholders": {
             "days": {}
