@@ -8,6 +8,7 @@ import 'package:jetwallet/features/earn/store/earn_store.dart';
 import 'package:jetwallet/features/earn/widgets/chips_suggestion_m.dart';
 import 'package:jetwallet/features/earn/widgets/offers_overlay_content.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/bottom_sheets/components/basic_bottom_sheet/show_basic_modal_bottom_sheet.dart';
 import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
@@ -20,6 +21,7 @@ class OffersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    sAnalytics.allOffersScreenView();
     return Provider<EarnStore>(
       create: (context) => EarnStore(),
       builder: (context, child) {
@@ -53,6 +55,11 @@ class OffersScreen extends StatelessWidget {
                         height: 40,
                       ),
                       onTap: () {
+                        sAnalytics.tapOnTheAnyOfferButton(
+                          assetName: offers[index].assetId,
+                          sourse: 'All offers',
+                        );
+
                         if (offers.length > 1) {
                           sShowBasicModalBottomSheet(
                             context: context,

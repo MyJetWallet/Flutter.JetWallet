@@ -140,6 +140,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   case BottomItemType.rewards:
                     sAnalytics.rewardsTapOnTheTabBar();
                     break;
+                  case BottomItemType.earn:
+                    sAnalytics.tapOnTheTabbarButtonEarn();
+                    break;
                   default:
                 }
 

@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/earn/widgets/offer_tile.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/widgets/button/main/simple_button.dart';
@@ -67,6 +68,7 @@ class _OffersOverlayContentState extends State<OffersOverlayContent> {
             offer: offer,
             selectedOfferId: selectedOfferId,
             onSelected: (value) {
+              sAnalytics.chooseEarnPlanScreenView(assetName: offer.assetId);
               setState(() {
                 selectedOfferId = value;
               });
@@ -85,6 +87,12 @@ class _OffersOverlayContentState extends State<OffersOverlayContent> {
             callback: selectedOfferId != null
                 ? () {
                     final selectedOffer = widget.offers.firstWhere((offer) => offer.id == selectedOfferId);
+                    sAnalytics.tapOnTheContinueWithEarnPlanButton(
+                      assetName: selectedOffer.assetId,
+                      earnAPYrate: selectedOffer.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
+                      earnPlanName: selectedOffer.description ?? '',
+                      earnWithdrawalType: selectedOffer.withdrawType.name,
+                    );
 
                     context.router.push(
                       EarnDepositScreenRouter(offer: selectedOffer),

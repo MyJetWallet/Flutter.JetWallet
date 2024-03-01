@@ -104,4 +104,10 @@ class PropertyType {
   static const reason = 'Reason';
   static const availableAssetsList = 'Available Asset list';
   static const assetName = 'Asset name';
+  static const earnPlanName = 'Earn plan name';
+  static const earnAPYrate = 'Earn APY rate';
+  static const earnWithdrawalType = 'Earn withdrawal type';
+  static const earnDepositAmount = 'Earn deposit amount';
+  static const earnOfferStatus = 'Earn offer status';
+  static const revenue = 'Revenue';
 }

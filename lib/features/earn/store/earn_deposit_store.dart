@@ -12,6 +12,7 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/keyboards/constants.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
@@ -25,6 +26,12 @@ class EarnDepositStore extends _EarnDepositStoreBase with _$EarnDepositStore {
 
 abstract class _EarnDepositStoreBase with Store {
   _EarnDepositStoreBase({required this.offer}) {
+    sAnalytics.earnDepositAmountScreenView(
+      assetName: offer.assetId,
+      earnAPYrate: offer.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
+      earnPlanName: offer.description ?? '',
+      earnWithdrawalType: offer.withdrawType.name,
+    );
     loadConversionPrice(
       fiatSymbol,
       cryptoSymbol,

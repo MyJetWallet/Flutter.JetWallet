@@ -9,6 +9,7 @@ import 'package:jetwallet/features/earn/widgets/basic_header.dart';
 import 'package:jetwallet/features/earn/widgets/chips_suggestion_m.dart';
 import 'package:jetwallet/features/earn/widgets/offers_overlay_content.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
@@ -38,7 +39,10 @@ class OffersListWidget extends StatelessWidget {
                 buttonTitle: intl.earn_view_all,
                 showLinkButton: filteredOffersGroupedByCurrency.isNotEmpty,
                 subtitle: intl.earn_most_profitable_earns,
-                onTap: () => context.router.push(const OffersRouter()),
+                onTap: () {
+                  sAnalytics.tapOnTheViewAllTopOffersButton();
+                  context.router.push(const OffersRouter());
+                },
               ),
             ...filteredOffersGroupedByCurrency.entries.map((entry) {
               final currencyDescription = entry.key;
@@ -58,6 +62,10 @@ class OffersListWidget extends StatelessWidget {
                   height: 40,
                 ),
                 onTap: () {
+                  sAnalytics.tapOnTheAnyOfferButton(
+                    assetName: currencyOffers.first.assetId,
+                    sourse: 'Main earns',
+                  );
                   if (currencyOffers.length > 1) {
                     sShowBasicModalBottomSheet(
                       context: context,
