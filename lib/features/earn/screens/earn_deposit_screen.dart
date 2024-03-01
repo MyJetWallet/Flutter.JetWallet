@@ -64,18 +64,25 @@ class _EarnDepositScreenState extends State<EarnDepositScreen> {
             package: 'simple_kit',
           ),
           onWillPop: () async {
-            await sRouter.pop();
-            await sRouter.pop();
+            closeScreen();
           },
           onPrimaryButtonTap: () {
             navigateToWallet(context, store.currency);
           },
           onSecondaryButtonTap: () async {
-            await sRouter.pop();
-            await sRouter.pop();
+            closeScreen();
           },
         );
       });
+    }
+  }
+
+  void closeScreen() {
+    final containsOffersRouter = sRouter.stack.any((element) => element.restorationId == OffersRouter.name);
+    if (containsOffersRouter) {
+      sRouter.popUntilRouteWithName(OffersRouter.name);
+    } else {
+      sRouter.popUntilRouteWithName(HomeRouter.name);
     }
   }
 
