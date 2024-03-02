@@ -587,4 +587,15 @@ class EventType {
   static const tapOnTheContinueEarningButton = 'Tap on the ‘Continue Earning’ button';
   static const tapOnTheYesWithdrawButton = 'Tap on the ‘Yes, withdraw’ button';
   static const tapOnTheContinueWithEarnWithdrawTypeButton = 'Tap on the ‘Continue with earn withdraw type’ button';
+  static const earnWithdrawAmountScreenView = 'Earn Withdraw amount’ screen view';
+  static const tapOnTheBackFromEarnWithdrawAmountButton = 'Tap on the ‘Back from earn withdraw amount’ button';
+  static const tapOnTheContinueWithEarnWithdrawAmountButton = 'Tap on the ‘Continue with earn withdraw amount’ button';
+  static const earnWithdrawOrderSummaryScreenView = 'Earn withdraw order summary’ screen view';
+  static const tapOnTheBackFromEarnWithdrawOrderSummaryButton =
+      'Tap on the ‘Back from earn withdraw order summary’ button';
+  static const tapOnTheConfirmWithdrawOrderSummaryButton = 'Tap on the ‘Confirm withdraw order summary’ button';
+  static const successEarnWithdrawScreenView = 'Success Earn withdraw’ screen view';
+  static const failedEarnMainScreenView = 'Failed Earn main’ screen view';
+  static const tapOnTheHistoryEarnbutton = 'Tap on the ‘History earn’ button';
+  static const earnsArchiveScreenView = 'Earns archive’ screen view';
 }

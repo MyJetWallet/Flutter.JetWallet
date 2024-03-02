@@ -111,4 +111,5 @@ class PropertyType {
   static const earnOfferStatus = 'Earn offer status';
   static const revenue = 'Revenue';
   static const earnOfferId = 'Earn offer id';
+  static const isFullWithdrawalType = 'Is full withdrawtype';
 }

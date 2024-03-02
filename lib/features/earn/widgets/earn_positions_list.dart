@@ -26,7 +26,10 @@ class EarnPositionsListWidget extends StatelessWidget {
             title: intl.earn_active_earns,
             buttonTitle: intl.earn_history,
             showLinkButton: showLinkButton,
-            onTap: () => context.router.push(const EarnsArchiveRouter()),
+            onTap: () {
+              sAnalytics.tapOnTheHistoryEarnbutton();
+              context.router.push(const EarnsArchiveRouter());
+            },
           ),
           if (earnPositions.isEmpty)
             SPlaceholder(

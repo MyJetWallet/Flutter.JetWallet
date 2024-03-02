@@ -14,6 +14,7 @@ import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 
@@ -32,6 +33,15 @@ class EarnWithdrawalAmountScreen extends StatelessWidget {
       loaderText: '',
       header: SPaddingH24(
         child: SSmallHeader(
+          onBackButtonTap: () {
+            sAnalytics.tapOnTheBackFromEarnWithdrawAmountButton(
+              assetName: earnPosition.assetId,
+              earnOfferId: earnPosition.offerId,
+              earnPlanName: earnPosition.offers.first.name ?? '',
+              earnWithdrawalType: earnPosition.withdrawType.name,
+            );
+            Navigator.of(context).pop();
+          },
           title: intl.earn_partial_withdrawal,
         ),
       ),
@@ -129,6 +139,12 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
               submitButtonActive: store.isContinueAvaible,
               submitButtonName: intl.addCircleCard_continue,
               onSubmitPressed: () {
+                sAnalytics.tapOnTheContinueWithEarnWithdrawAmountButton(
+                  assetName: store.earnPosition.assetId,
+                  earnOfferId: store.earnPosition.offerId,
+                  earnPlanName: store.earnPosition.offers.first.name ?? '',
+                  earnWithdrawalType: store.earnPosition.withdrawType.name,
+                );
                 sRouter.push(
                   EarnWithdrawOrderSummaryRouter(
                     amount: Decimal.parse(store.cryptoInputValue),

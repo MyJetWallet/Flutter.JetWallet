@@ -12,6 +12,7 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/keyboards/constants.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 
@@ -26,6 +27,12 @@ class EarnWithdrawalAmountStore extends _EarnWithdrawalAmountStoreBase with _$Ea
 
 abstract class _EarnWithdrawalAmountStoreBase with Store {
   _EarnWithdrawalAmountStoreBase({required this.earnPosition}) {
+    sAnalytics.earnWithdrawAmountScreenView(
+      assetName: earnPosition.assetId,
+      earnOfferId: earnPosition.offerId,
+      earnPlanName: earnPosition.offers.first.name ?? '',
+      earnWithdrawalType: earnPosition.withdrawType.name,
+    );
     loadConversionPrice(
       fiatSymbol,
       cryptoSymbol,

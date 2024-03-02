@@ -13,6 +13,7 @@ import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
@@ -39,6 +40,13 @@ abstract class _EarnWithdrawalOrderSummaryStoreBase with Store {
     required this.amount,
     required this.isClosing,
   }) {
+    sAnalytics.earnWithdrawOrderSummaryScreenView(
+      assetName: earnPosition.assetId,
+      earnOfferId: earnPosition.offerId,
+      earnPlanName: earnPosition.offers.first.name ?? '',
+      earnWithdrawalType: earnPosition.withdrawType.name,
+      isFullWithdrawalType: isClosing,
+    );
     requestId = DateTime.now().microsecondsSinceEpoch.toString();
 
     final formatService = getIt.get<FormatService>();
@@ -136,6 +144,13 @@ abstract class _EarnWithdrawalOrderSummaryStoreBase with Store {
 
   @action
   Future<void> _showSuccessScreen(bool isGoogle) {
+    sAnalytics.successEarnWithdrawScreenView(
+      assetName: earnPosition.assetId,
+      earnOfferId: earnPosition.offerId,
+      earnPlanName: earnPosition.offers.first.name ?? '',
+      earnWithdrawalType: earnPosition.withdrawType.name,
+      withdrawAnount: amount.toStringAsFixed(2),
+    );
     return sRouter
         .push(
       SuccessScreenRouter(
@@ -160,6 +175,14 @@ abstract class _EarnWithdrawalOrderSummaryStoreBase with Store {
     if (sRouter.currentPath != '/earn_withdraw_order_summary') {
       return;
     }
+
+    sAnalytics.failedEarnMainScreenView(
+      assetName: earnPosition.assetId,
+      earnOfferId: earnPosition.offerId,
+      earnPlanName: earnPosition.offers.first.name ?? '',
+      earnWithdrawalType: earnPosition.withdrawType.name,
+      withdrawAnount: amount.toStringAsFixed(2),
+    );
 
     unawaited(
       sRouter.push(
