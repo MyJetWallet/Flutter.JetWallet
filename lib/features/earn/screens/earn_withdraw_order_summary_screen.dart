@@ -100,7 +100,7 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
               : volumeFormat(decimal: store.amount, symbol: store.currency.symbol),
           fromAssetBaseAmount: isBalanceHide
               ? '**** ${sSignalRModules.baseCurrency.symbol}'
-              : '≈${volumeFormat(decimal: store.baseAmount, symbol: sSignalRModules.baseCurrency.symbol, accuracy: store.baseCurrency.accuracy)}',
+              : '≈${marketFormat(decimal: store.baseAmount, symbol: sSignalRModules.baseCurrency.symbol, accuracy: store.baseCurrency.accuracy)}',
           toAssetIconUrl: store.currency.iconUrl,
           toAssetDescription: intl.earn_crypto_wallet,
           toAssetValue: isBalanceHide
@@ -108,7 +108,7 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
               : volumeFormat(decimal: store.amount, symbol: store.currency.symbol),
           toAssetBaseAmount: isBalanceHide
               ? '**** ${sSignalRModules.baseCurrency.symbol}'
-              : '≈${volumeFormat(decimal: store.baseAmount, symbol: sSignalRModules.baseCurrency.symbol, accuracy: store.baseCurrency.accuracy)}',
+              : '≈${marketFormat(decimal: store.baseAmount, symbol: sSignalRModules.baseCurrency.symbol, accuracy: store.baseCurrency.accuracy)}',
         ),
         const SDivider(),
         const SizedBox(height: 19),

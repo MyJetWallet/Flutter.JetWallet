@@ -93,6 +93,7 @@ abstract class _OfferOrderSummaryStoreBase with Store {
   @computed
   CurrencyModel get eurCurrency => getIt.get<FormatService>().findCurrency(
         assetSymbol: fiatSymbol,
+        findInHideTerminalList: true,
       );
 
   @computed

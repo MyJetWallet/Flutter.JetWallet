@@ -290,7 +290,6 @@ class ActiveEarnWidget extends StatelessObserverWidget {
 
   int daysLeft(DateTime to) {
     final from = DateTime.now();
-    final toTemp = DateTime(to.year, to.month, to.day);
-    return (toTemp.difference(from).inHours / 24).round();
+    return (to.difference(from).inHours / 24).round();
   }
 }

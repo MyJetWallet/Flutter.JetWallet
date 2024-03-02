@@ -10,7 +10,7 @@ import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/earn/store/earn_withdrawal_amount_store.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:provider/provider.dart';
@@ -78,7 +78,7 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
               ),
               primarySymbol: store.cryptoSymbol,
               secondaryAmount:
-                  '${intl.earn_est} ${volumeFormat(decimal: Decimal.parse(store.fiatInputValue), symbol: '', accuracy: store.eurCurrency.accuracy)}',
+                  '${intl.earn_est} ${marketFormat(decimal: Decimal.parse(store.fiatInputValue), symbol: '', accuracy: store.eurCurrency.accuracy)}',
               secondarySymbol: store.eurCurrency.symbol,
               onSwap: null,
               showSwopButton: false,

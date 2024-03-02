@@ -13,7 +13,7 @@ import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/sugges
 import 'package:jetwallet/features/earn/store/earn_deposit_store.dart';
 import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
 import 'package:jetwallet/utils/constants.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:provider/provider.dart';
@@ -70,8 +70,8 @@ class _EarnDepositScreenState extends State<EarnDepositScreen> {
             height: 80,
             package: 'simple_kit',
           ),
-          onWillPop: () {
-            sRouter.replaceAll([const EarnRouter()]);
+          onWillPop: () async {
+            closeScreen();
           },
           onPrimaryButtonTap: () {
             sAnalytics.tapOnTheTopUpEarnWalletButton(
@@ -90,10 +90,18 @@ class _EarnDepositScreenState extends State<EarnDepositScreen> {
               earnPlanName: widget.offer.description ?? '',
               earnWithdrawalType: widget.offer.withdrawType.name,
             );
-            sRouter.replaceAll([const EarnRouter()]);
-          },
+            closeScreen();
         );
       });
+    }
+  }
+
+  void closeScreen() {
+    final containsOffersRouter = sRouter.stack.any((element) => element.restorationId == OffersRouter.name);
+    if (containsOffersRouter) {
+      sRouter.popUntilRouteWithName(OffersRouter.name);
+    } else {
+      sRouter.popUntilRouteWithName(HomeRouter.name);
     }
   }
 
@@ -136,7 +144,7 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
               ),
               primarySymbol: store.cryptoSymbol,
               secondaryAmount:
-                  '${intl.earn_est} ${volumeFormat(decimal: Decimal.parse(store.fiatInputValue), symbol: '', accuracy: store.baseCurrency.accuracy)}',
+                  '${intl.earn_est} ${marketFormat(decimal: Decimal.parse(store.fiatInputValue), symbol: '', accuracy: store.baseCurrency.accuracy)}',
               secondarySymbol: sSignalRModules.baseCurrency.symbol,
               onSwap: null,
               showSwopButton: false,

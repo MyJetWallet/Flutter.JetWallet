@@ -1708,7 +1708,7 @@
     "earn_top_up": "Recharger",
     "earn_withdraw": "Retirer",
     "earn_all_offers": "Toutes les offres",
-    "earn_earns_archive": "Archives Earn",
+    "earn_earns_archive": "Earn Archives",
     "earn_you_can_withdraw_deposit_funds_instantly": "Vous pouvez retirer les fonds déposés instantanément",
     "earn_deposit": "Dépôt",
     "earn_continue": "Continuer",
@@ -1766,7 +1766,7 @@
     "earn_from_crypto_wallet": "Du portefeuille crypto",
     "earn_to_crypto_wallet": "Au portefeuille crypto",
     "earn_to_earn": "Pour gagner",
-    "earn_deposit_crypto_wallet": "ortefeuille crypto de dépôt",
+    "earn_deposit_crypto_wallet": "Portefeuille crypto de dépôt",
     "earn_to_continue_you_need_to_top_up": "Pour continuer, vous devez recharger votre {wallet_symbol} avec au moins {topup_value}",
     "@earn_to_continue_you_need_to_top_up": {
         "placeholders": {
@@ -1793,7 +1793,7 @@
     "earn_flexible": "Flexible",
     "earn_instant": "Instantané",
     "earn_i_have_read_and_agreed_to": "J'ai lu et accepté",
-    "earn_terms_and_conditions": "Les termes et conditions",
+    "earn_terms_and_conditions": "Termes et Conditions du programme Earn",
     "earn_transfer": "Transfert",
     "earn_withdrawal": "Retrait",
     "earn_days_left": "{days} jour(s) restants",
@@ -1818,7 +1818,7 @@
             }
         }
     },
-    "earn_privacy_policy": "Politique de confidentialité",
+    "earn_privacy_policy": "Smpl Global Politique de Confidentialité",
     "earn_freeze": "Gel {days} jour(s)",
     "@earn_freeze": {
         "placeholders": {
@@ -1837,7 +1837,7 @@
             }
         }
     },
-    "about_us_earn": "Termes et conditions du programme Earn",
+    "about_us_earn": "Termes et Conditions du programme Earn",
     "about_transfer": "Transfert",
     "earn_freeze_days": "Gel {days} jour(s)",
     "@earn_freeze_days": {
@@ -1856,7 +1856,7 @@
     },
     "earn_history": "Historique",
     "earn_to": "À",
-    "about_us_earn_program": "Termes et conditions du programme Earn",
+    "about_us_earn_program": "Termes et Conditions du programme Earn",
     "about_us_smpl_global": "Smpl Global Politique de Confidentialité",
     "earn_finished": "Terminé"
 }

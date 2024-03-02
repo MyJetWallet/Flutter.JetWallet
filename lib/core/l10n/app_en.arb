@@ -16,7 +16,7 @@
     "login_password": "Password",
     "login_forgotPassword": "Forgot password",
     "login_policyText1": "By logging in and continuing, I hereby agree and consent to the",
-    "login_policyText2": "Terms and conditions",
+    "login_policyText2": "Terms and Conditions",
     "@login_policyText2": {
         "description": "Privacy Policy Text (part 2)"
     },
@@ -759,7 +759,7 @@
     "withText": "With",
     "news": "News",
     "number": "number",
-    "days": "days",
+    "days": "day(s)",
     "hours": "hours",
     "hour": "hour",
     "hoursLeft": "hours left",
@@ -853,7 +853,7 @@
     "curencyBuy_actionItemDescriptionWithoutApplePay": "Visa, Mastercard",
     "currencyBuy_morePaymentMethod": "More payment methods",
     "previewBuyWithUmlimint_disclaimer": "I have read and agreed to",
-    "previewBuyWithUmlimint_disclaimerTerms": "Terms and conditions",
+    "previewBuyWithUmlimint_disclaimerTerms": "Terms and Conditions",
     "previewBuyWithUmlimint_skipWait": "Close",
     "previewBuyWithUmlimint_disclaimerPolicy": "Privacy Policy",
     "previewBuyWithUmlimint_saveCard": "Save this card",
@@ -935,7 +935,6 @@
     "balanceActionButtons_exchange": "Exchange",
     "bottom_bar_my_assets": "My assets",
     "bottom_bar_market": "Market",
-    "bottom_bar_invest": "Invest",
     "actionBuy_chooseAsset": "Buying asset",
     "actionBuy_cards": "Cards",
     "actionBuy_addACard": "Add a card",
@@ -1173,7 +1172,7 @@
     "buy_confirmation_total": "Total",
     "buy_confirmation_local_info": "Exchange rate will be adjusted according to the market\nprice at the moment we get a confirmation for the payment",
     "buy_confirmation_privacy_checkbox_1": "I have read and agreed to ",
-    "buy_confirmation_privacy_checkbox_2": "Terms and conditions",
+    "buy_confirmation_privacy_checkbox_2": "Terms and Conditions",
     "buy_confirmation_privacy_checkbox_3": "Privacy Policy",
     "buy_confirmation_privacy_p2p_checkbox_1": "1. I confirm that information above is accurate and complete.",
     "buy_confirmation_privacy_p2p_checkbox_1_5": "2. I agree with ",
@@ -1591,6 +1590,7 @@
     "rate_subtitle": "Let us know by rating our app. Your feedback is invaluable!",
     "rate_submit_button": "Leave a review",
     "rate_cancel_button": "Cancel",
+    "bottom_bar_invest": "Invest",
     "permission_title": "Keep track of\ncrypto trends",
     "permission_subtitle": "Gain insights into the latest crypto\nprice movements",
     "permission_button": "Get price updates",
@@ -1724,7 +1724,7 @@
     "earn_total": "Total",
     "earn_revenue": "Revenue",
     "earn_active_earns": "Active earns",
-    "earn_view_all": "Veiw all",
+    "earn_view_all": "View all",
     "earn_balance": "Balance",
     "earn_most_profitable_earns": "The most profitable earns",
     "earn_top_offers": "Top offers",
@@ -1735,7 +1735,7 @@
     "earn_unknown": "Unknown",
     "earn_variable_apy": "Variable APY",
     "earn_started": "Started",
-    "earn_funds_will_be_withdrawn": "Your funds and accrued earnings are paid out upon closing your Earn Account. Disbursement of funds in {days} days",
+    "earn_funds_will_be_withdrawn": "Your funds and accrued earnings are paid out upon closing your Earn Account. Disbursement of funds in {days} day(s)",
     "@earn_funds_will_be_withdrawn": {
         "placeholders": {
             "days": {}
@@ -1749,7 +1749,7 @@
     "earn_deposit": "Deposit",
     "earn_continue": "Continue",
     "earn_choose_a_deposit_plan": "Choose a deposit plan and\nearn crypto",
-    "earn_freeze_period": "Freeze period ({days} days)",
+    "earn_freeze_period": "Freeze period ({days} day(s))",
     "@earn_freeze_period": {
         "placeholders": {
             "days": {}
@@ -1784,7 +1784,7 @@
     "earn_full_withdraw": "Your funds and accrued earnings are paid out when you close your Earn account.",
     "earn_basis_amount": "Basis amount",
     "earn_withdrawal_period": "Withdrawal period",
-    "earn_the_funds_will_be_disbursed": "The funds will be disbursed to your wallet on {date}. You will also earn income for the next {days} days",
+    "earn_the_funds_will_be_disbursed": "The funds will be disbursed to your wallet on {date}. You will also earn income for the next {days} day(s)",
     "@earn_the_funds_will_be_disbursed": {
         "placeholders": {
             "date": {
@@ -1837,10 +1837,10 @@
     "earn_flexible": "Flexible",
     "earn_instant": "Instant",
     "earn_i_have_read_and_agreed_to": "I have read and agreed to",
-    "earn_terms_and_conditions": "Terms and conditions",
+    "earn_terms_and_conditions": "Earn Program Terms and Conditions",
     "earn_transfer": "Transfer",
     "earn_withdrawal": "Withdrawal",
-    "earn_days_left": "{days} days left",
+    "earn_days_left": "{days} day(s) left",
     "@earn_days_left": {
         "placeholders": {
             "days": {
@@ -1862,8 +1862,8 @@
             }
         }
     },
-    "earn_privacy_policy": "Privacy Policy",
-    "earn_freeze": "Freeze {days} days",
+    "earn_privacy_policy": "Smpl Global Privacy Policy",
+    "earn_freeze": "Freeze {days} day(s)",
     "@earn_freeze": {
         "placeholders": {
             "days": {}
@@ -1883,7 +1883,7 @@
     },
     "about_us_earn": "Terms & Conditions of Earn program",
     "about_transfer": "Transfer",
-    "earn_freeze_days": "Freeze {days} days",
+    "earn_freeze_days": "Freeze {days} day(s)",
     "@earn_freeze_days": {
         "placeholders": {
             "days": {
@@ -1892,7 +1892,7 @@
             }
         }
     },
-    "earn_redeem_period": "Redeem period ({days} days)",
+    "earn_redeem_period": "Redeem period ({days} day(s))",
     "@earn_redeem_period": {
         "placeholders": {
             "days": {}
