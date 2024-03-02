@@ -110,4 +110,5 @@ class PropertyType {
   static const earnDepositAmount = 'Earn deposit amount';
   static const earnOfferStatus = 'Earn offer status';
   static const revenue = 'Revenue';
+  static const earnOfferId = 'Earn offer id';
 }

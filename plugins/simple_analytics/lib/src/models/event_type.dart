@@ -582,4 +582,9 @@ class EventType {
   static const tapOnTheTopUpFromActiveCryptoSavingsButton = 'Tap on the ‘Top up from Active Crypto savings’ button';
   static const tapOnTheWithdrawFromActiveCryptoSavingsButton =
       'Tap on the ‘Withdraw from Active Crypto savings’ button';
+  static const earnWithdrawTypeScreenView = 'Earn withdraw type’ screen view';
+  static const sureFullEarnWithdrawPopupView = 'Sure full earn withdraw’ popup view';
+  static const tapOnTheContinueEarningButton = 'Tap on the ‘Continue Earning’ button';
+  static const tapOnTheYesWithdrawButton = 'Tap on the ‘Yes, withdraw’ button';
+  static const tapOnTheContinueWithEarnWithdrawTypeButton = 'Tap on the ‘Continue with earn withdraw type’ button';
 }
