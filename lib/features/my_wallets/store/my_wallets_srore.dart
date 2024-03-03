@@ -246,6 +246,14 @@ abstract class _MyWalletsSroreBase with Store {
     );
   }
 
+  @action
+  void onCloseSearchBottomSheetWithoutChoose() {
+    currenciesForSearch
+      ..clear()
+      ..addAll(_avaibledAssetsForSearch);
+    sortByBalanceAndWeight(currenciesForSearch);
+  }
+
   @observable
   SimpleWalletAccountStatus simpleAccontStatus = SimpleWalletAccountStatus.none;
   @action
