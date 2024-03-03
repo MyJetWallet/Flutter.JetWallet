@@ -57,7 +57,7 @@ class OffersScreen extends StatelessWidget {
                       ),
                       onTap: () {
                         sAnalytics.tapOnTheAnyOfferButton(
-                          assetName: offers[index].assetId,
+                          assetName: currency.symbol,
                           sourse: 'All offers',
                         );
 
