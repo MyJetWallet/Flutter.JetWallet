@@ -62,8 +62,8 @@ class EarnSendDetails extends StatelessObserverWidget {
                   children: [
                     Flexible(
                       child: TransactionDetailsValueText(
-                        text: transactionListItem.earnOperationInfo?.earnPositionId ?? '',
-                        maxLines: 2,
+                        text: shortAddressFormTwo(transactionListItem.earnOperationInfo?.earnPositionId ?? ''),
+                        maxLines: 1,
                       ),
                     ),
                     const SpaceW10(),
@@ -79,7 +79,7 @@ class EarnSendDetails extends StatelessObserverWidget {
             value: Row(
               children: [
                 TransactionDetailsValueText(
-                  text: shortTxhashFrom(transactionListItem.operationId),
+                  text: shortAddressFormTwo(transactionListItem.operationId),
                 ),
                 const SpaceW10(),
                 HistoryCopyIcon(transactionListItem.operationId),
