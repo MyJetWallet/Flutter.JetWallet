@@ -282,6 +282,7 @@ bool checkGiftAvaible() {
 Future<void> _showSendActionChooseAsset(
   BuildContext context,
 ) async {
+  getIt.get<ActionSearchStore>().init();
   final showSearch = showSendCurrencySearch(context);
 
   final storageService = getIt.get<LocalStorageService>();
@@ -358,9 +359,8 @@ class _ActionSend extends StatelessObserverWidget {
                 amount: getIt<AppStore>().isBalanceHide
                     ? '**** ${baseCurrency.symbol}'
                     : currency.volumeBaseBalance(baseCurrency),
-                secondaryText: getIt<AppStore>().isBalanceHide
-                    ? '******* ${currency.symbol}'
-                    : currency.volumeAssetBalance,
+                secondaryText:
+                    getIt<AppStore>().isBalanceHide ? '******* ${currency.symbol}' : currency.volumeAssetBalance,
                 onTap: () {
                   Navigator.pop(context);
 
