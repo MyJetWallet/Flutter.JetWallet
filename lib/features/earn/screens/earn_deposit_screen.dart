@@ -91,6 +91,7 @@ class _EarnDepositScreenState extends State<EarnDepositScreen> {
               earnWithdrawalType: widget.offer.withdrawType.name,
             );
             closeScreen();
+          },
         );
       });
     }
