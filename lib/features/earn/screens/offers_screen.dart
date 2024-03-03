@@ -42,8 +42,9 @@ class OffersScreen extends StatelessWidget {
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
                     final assetId = store.groupedOffers.keys.elementAt(index);
-                    final offers = store.groupedOffers[assetId]!;
+                    final offers = store.groupedOffers[assetId] ?? [];
                     final currency = currencies.firstWhere((currency) => currency.symbol == assetId);
+                    offers.sort((a, b) => b.apyRate!.compareTo(a.apyRate!));
 
                     return ChipsSuggestionM(
                       isSingleOffer: offers.length == 1,
