@@ -213,14 +213,39 @@ class TransactionListItem extends StatelessWidget {
             ? SMinusIcon(color: isFailed ? failedColor : null)
             : SPlusIcon(color: isFailed ? failedColor : null);
       case OperationType.bankingTransfer:
-        return Assets.svg.medium.altDeposit.simpleSvg(
-          width: 24,
-          color: isFailed ? failedColor : colors.blue,
-        );
+        return source == TransactionItemSource.history
+            ? Assets.svg.medium.altDeposit.simpleSvg(
+                width: 24,
+                color: isFailed ? failedColor : colors.blue,
+              )
+            : transactionListItem.balanceChange > Decimal.zero
+                ? Assets.svg.medium.withdrawal.simpleSvg(
+                    width: 24,
+                    color: isFailed ? failedColor : colors.green,
+                  )
+                : Assets.svg.medium.addCash.simpleSvg(
+                    width: 24,
+                    color: isFailed ? failedColor : colors.red,
+                  );
       case OperationType.earnReserve:
         return SPlusIcon(color: isFailed ? failedColor : null);
       case OperationType.earnSend:
         return SMinusIcon(color: isFailed ? failedColor : null);
+      case OperationType.cardTransfer:
+        return source == TransactionItemSource.history
+            ? Assets.svg.medium.altDeposit.simpleSvg(
+                width: 24,
+                color: isFailed ? failedColor : colors.blue,
+              )
+            : transactionListItem.balanceChange > Decimal.zero
+                ? Assets.svg.medium.withdrawal.simpleSvg(
+                    width: 24,
+                    color: isFailed ? failedColor : colors.green,
+                  )
+                : Assets.svg.medium.addCash.simpleSvg(
+                    width: 24,
+                    color: isFailed ? failedColor : colors.red,
+                  );
       default:
         return SPlusIcon(color: isFailed ? failedColor : null);
     }
