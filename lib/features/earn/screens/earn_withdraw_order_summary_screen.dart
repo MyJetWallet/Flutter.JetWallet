@@ -12,6 +12,7 @@ import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -56,6 +57,16 @@ class EarnWithdrawOrderSummaryScreen extends StatelessWidget {
                 )
               : null,
           header: SSmallHeader(
+            onBackButtonTap: () {
+              sAnalytics.tapOnTheBackFromEarnWithdrawOrderSummaryButton(
+                assetName: earnPosition.assetId,
+                earnOfferId: earnPosition.offerId,
+                earnPlanName: earnPosition.offers.first.name ?? '',
+                earnWithdrawalType: earnPosition.withdrawType.name,
+                isFullWithdrawalType: isClosing,
+              );
+              Navigator.pop(context);
+            },
             title: intl.earn_order_summary,
             subTitle: intl.earn_send,
             subTitleStyle: sBodyText2Style.copyWith(
@@ -174,6 +185,14 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
             active: true,
             name: intl.previewBuyWithAsset_confirm,
             onTap: () {
+              sAnalytics.tapOnTheConfirmWithdrawOrderSummaryButton(
+                assetName: store.earnPosition.assetId,
+                earnOfferId: store.earnPosition.offerId,
+                earnPlanName: store.earnPosition.offers.first.name ?? '',
+                earnWithdrawalType: store.earnPosition.withdrawType.name,
+                isFullWithdrawalType: store.isClosing,
+              );
+
               store.confirm();
             },
           ),

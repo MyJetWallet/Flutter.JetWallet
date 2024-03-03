@@ -17,6 +17,7 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
@@ -48,6 +49,12 @@ class _EarnDepositScreenState extends State<EarnDepositScreen> {
 
     if (store.isShowTopUpModal) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
+        sAnalytics.earnDepositCryptoWalletPopupView(
+          assetName: widget.offer.assetId,
+          earnAPYrate: widget.offer.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
+          earnPlanName: widget.offer.description ?? '',
+          earnWithdrawalType: widget.offer.withdrawType.name,
+        );
         await sShowAlertPopup(
           context,
           primaryText: intl.earn_deposit_crypto_wallet,
@@ -67,11 +74,23 @@ class _EarnDepositScreenState extends State<EarnDepositScreen> {
             closeScreen();
           },
           onPrimaryButtonTap: () {
+            sAnalytics.tapOnTheTopUpEarnWalletButton(
+              assetName: widget.offer.assetId,
+              earnAPYrate: widget.offer.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
+              earnPlanName: widget.offer.description ?? '',
+              earnWithdrawalType: widget.offer.withdrawType.name,
+            );
+
             navigateToWallet(context, store.currency);
           },
-          onSecondaryButtonTap: () async {
+          onSecondaryButtonTap: () {
+            sAnalytics.tapOnTheCancelTopUpEarnWalletButton(
+              assetName: widget.offer.assetId,
+              earnAPYrate: widget.offer.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
+              earnPlanName: widget.offer.description ?? '',
+              earnWithdrawalType: widget.offer.withdrawType.name,
+            );
             closeScreen();
-          },
         );
       });
     }
@@ -186,6 +205,13 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
               submitButtonActive: store.isContinueAvaible,
               submitButtonName: intl.addCircleCard_continue,
               onSubmitPressed: () {
+                sAnalytics.tapOnTheContinueEarnAmountDepositButton(
+                  assetName: store.offer.assetId,
+                  earnAPYrate: store.offer.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
+                  earnDepositAmount: store.cryptoInputValue,
+                  earnPlanName: store.offer.description ?? '',
+                  earnWithdrawalType: store.offer.withdrawType.name,
+                );
                 sRouter.push(
                   OfferOrderSummaryRouter(
                     offer: store.offer,

@@ -17,6 +17,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
@@ -38,6 +39,13 @@ abstract class _OfferOrderSummaryStoreBase with Store {
     required this.offer,
     required this.amount,
   }) {
+    sAnalytics.earnDepositOrderSummaryScreenView(
+      assetName: offer.assetId,
+      earnAPYrate: offer.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
+      earnDepositAmount: amount.toStringAsFixed(2),
+      earnPlanName: offer.description ?? '',
+      earnWithdrawalType: offer.withdrawType.name,
+    );
     requestId = DateTime.now().microsecondsSinceEpoch.toString();
 
     final formatService = getIt.get<FormatService>();
@@ -198,6 +206,13 @@ abstract class _OfferOrderSummaryStoreBase with Store {
 
   @action
   Future<void> _showSuccessScreen(bool isGoogle) {
+    sAnalytics.successEarnDepositScreenView(
+      assetName: offer.assetId,
+      earnAPYrate: offer.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
+      earnDepositAmount: selectedAmount.toStringAsFixed(2),
+      earnPlanName: offer.description ?? '',
+      earnWithdrawalType: offer.withdrawType.name,
+    );
     return sRouter
         .push(
       SuccessScreenRouter(
@@ -226,6 +241,14 @@ abstract class _OfferOrderSummaryStoreBase with Store {
     if (sRouter.currentPath != '/offer_order_summary') {
       return;
     }
+
+    sAnalytics.failedEarnDepositScreenView(
+      assetName: offer.assetId,
+      earnAPYrate: offer.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
+      earnDepositAmount: selectedAmount.toStringAsFixed(2),
+      earnPlanName: offer.description ?? '',
+      earnWithdrawalType: offer.withdrawType.name,
+    );
 
     unawaited(
       sRouter.push(

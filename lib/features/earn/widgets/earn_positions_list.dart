@@ -4,6 +4,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/earn/widgets/basic_header.dart';
 import 'package:jetwallet/features/earn/widgets/deposit_card.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/widgets/table/placeholder/simple_placeholder.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 
@@ -25,7 +26,10 @@ class EarnPositionsListWidget extends StatelessWidget {
             title: intl.earn_active_earns,
             buttonTitle: intl.earn_history,
             showLinkButton: showLinkButton,
-            onTap: () => context.router.push(const EarnsArchiveRouter()),
+            onTap: () {
+              sAnalytics.tapOnTheHistoryEarnbutton();
+              context.router.push(const EarnsArchiveRouter());
+            },
           ),
           if (earnPositions.isEmpty)
             SPlaceholder(
@@ -36,9 +40,20 @@ class EarnPositionsListWidget extends StatelessWidget {
               .map(
                 (e) => SDepositCard(
                   earnPosition: e,
-                  onTap: () => context.router.push(
-                    EarnPositionActiveRouter(earnPosition: e),
-                  ),
+                  onTap: () {
+                    sAnalytics.tapOnTheAnyActiveEarnButton(
+                      assetName: e.assetId,
+                      earnAPYrate: getHighestApyRateAsString(e.offers) ?? '',
+                      earnDepositAmount: e.baseAmount.toStringAsFixed(2),
+                      earnOfferStatus: e.status.name,
+                      earnPlanName: e.offers.first.description ?? '',
+                      earnWithdrawalType: e.withdrawType.name,
+                      revenue: e.incomeAmount.toStringAsFixed(2),
+                    );
+                    context.router.push(
+                      EarnPositionActiveRouter(earnPosition: e),
+                    );
+                  },
                 ),
               )
               .toList(),

@@ -8,6 +8,7 @@ import 'package:jetwallet/features/earn/widgets/deposit_card.dart';
 import 'package:jetwallet/features/earn/widgets/earn_archives_skeleton_list.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
 import 'package:simple_kit/utils/constants.dart';
@@ -35,6 +36,8 @@ class _EarnsArchiveScreenState extends State<EarnsArchiveScreen> {
 
   @override
   Widget build(BuildContext context) {
+    sAnalytics.earnsArchiveScreenView();
+
     return Provider<EarnStore>(
       create: (context) => EarnStore(),
       child: Observer(

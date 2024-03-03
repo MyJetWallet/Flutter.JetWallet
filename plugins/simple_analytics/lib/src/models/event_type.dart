@@ -553,8 +553,49 @@ class EventType {
   static const failedTransferEndScreenView = 'Failed Transfer end’ screen view';
 
   static const pushNotificationSV = "'Push permission' screen view";
-  static const pushNotificationButtonTap = "Tap on the button ‘Get price updates’ on Push permission screen";
+  static const pushNotificationButtonTap = 'Tap on the button ‘Get price updates’ on Push permission screen';
   static const pushNotificationAlertView = "'Push alert' screen view";
-  static const pushNotificationAgree = "Tap on the button ‘Agree’ on Push alert screen";
-  static const pushNotificationDisagree = "Tap on the button ‘Not now’ on Push alert screen";
+  static const pushNotificationAgree = 'Tap on the button ‘Agree’ on Push alert screen';
+  static const pushNotificationDisagree = 'Tap on the button ‘Not now’ on Push alert screen';
+
+  //Earn
+  static const tapOnTheTabbarButtonEarn = 'Tap on the tabbar button ‘Earn’';
+  static const earnMainScreenView = '‘Earn main’ screen view';
+  static const tapOnTheViewAllTopOffersButton = 'Tap on the ‘View all top offers’ button';
+  static const allOffersScreenView = 'All offers’ screen view';
+  static const tapOnTheAnyOfferButton = 'Tap on the ‘Any offer’ button';
+  static const chooseEarnPlanScreenView = 'Tap on the ‘Continue with earn plan’ button';
+  static const tapOnTheContinueWithEarnPlanButton = 'Tap on the ‘Continue with earn plan’ button';
+  static const earnDepositCryptoWalletPopupView = 'Earn Deposit crypto wallet’ popup view';
+  static const earnDepositAmountScreenView = 'Earn deposit amount’ screen view';
+  static const tapOnTheTopUpEarnWalletButton = 'Tap on the ‘Top up earn wallet’ button';
+  static const tapOnTheCancelTopUpEarnWalletButton = 'Tap on the ‘Cancel Top up earn wallet’ button';
+  static const tapOnTheContinueEarnAmountDepositButton = 'Tap on the ‘Continue earn amount deposit’ button';
+  static const earnDepositOrderSummaryScreenView = 'Earn deposit order summary’ screen view';
+  static const tapOnTheConfirmEarnDepositOrderSummaryButton = 'Tap on the ‘Confirm Earn deposit order summary’ button';
+  static const successEarnDepositScreenView = 'Success Earn deposit’ screen view';
+  static const failedEarnDepositScreenView = 'Failed Earn deposit’ screen view';
+  static const tapOnTheAnyActiveEarnButton = 'Tap on the ‘Any active earn’ button';
+  static const activeCryptoSavingsScreenView = 'Active Crypto savings’ screen view';
+  static const tapOnTheBackFromActiveCryptoSavingsButton = 'Tap on the ‘Back from Active Crypto savings’ button';
+  static const tapOnTheHistoryFromActiveCryptoSavingsButton = 'Tap on the ‘History from Active Crypto savings’ button';
+  static const tapOnTheTopUpFromActiveCryptoSavingsButton = 'Tap on the ‘Top up from Active Crypto savings’ button';
+  static const tapOnTheWithdrawFromActiveCryptoSavingsButton =
+      'Tap on the ‘Withdraw from Active Crypto savings’ button';
+  static const earnWithdrawTypeScreenView = 'Earn withdraw type’ screen view';
+  static const sureFullEarnWithdrawPopupView = 'Sure full earn withdraw’ popup view';
+  static const tapOnTheContinueEarningButton = 'Tap on the ‘Continue Earning’ button';
+  static const tapOnTheYesWithdrawButton = 'Tap on the ‘Yes, withdraw’ button';
+  static const tapOnTheContinueWithEarnWithdrawTypeButton = 'Tap on the ‘Continue with earn withdraw type’ button';
+  static const earnWithdrawAmountScreenView = 'Earn Withdraw amount’ screen view';
+  static const tapOnTheBackFromEarnWithdrawAmountButton = 'Tap on the ‘Back from earn withdraw amount’ button';
+  static const tapOnTheContinueWithEarnWithdrawAmountButton = 'Tap on the ‘Continue with earn withdraw amount’ button';
+  static const earnWithdrawOrderSummaryScreenView = 'Earn withdraw order summary’ screen view';
+  static const tapOnTheBackFromEarnWithdrawOrderSummaryButton =
+      'Tap on the ‘Back from earn withdraw order summary’ button';
+  static const tapOnTheConfirmWithdrawOrderSummaryButton = 'Tap on the ‘Confirm withdraw order summary’ button';
+  static const successEarnWithdrawScreenView = 'Success Earn withdraw’ screen view';
+  static const failedEarnMainScreenView = 'Failed Earn main’ screen view';
+  static const tapOnTheHistoryEarnbutton = 'Tap on the ‘History earn’ button';
+  static const earnsArchiveScreenView = 'Earns archive’ screen view';
 }

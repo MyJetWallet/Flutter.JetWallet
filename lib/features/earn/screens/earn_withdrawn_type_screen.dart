@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/earn/widgets/check_title.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
@@ -24,6 +25,12 @@ class _EarnWithdrawnTypeScreenState extends State<EarnWithdrawnTypeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    sAnalytics.earnWithdrawTypeScreenView(
+      assetName: widget.earnPosition.assetId,
+      earnWithdrawalType: widget.earnPosition.withdrawType.name,
+      earnOfferId: widget.earnPosition.offerId,
+      earnPlanName: widget.earnPosition.offers.first.name ?? '',
+    );
     final minAccountAmount = widget.earnPosition.offers.first.minAmount ?? Decimal.zero;
     final formatedMinAccountAmount = volumeFormat(
       decimal: minAccountAmount,
@@ -69,10 +76,22 @@ class _EarnWithdrawnTypeScreenState extends State<EarnWithdrawnTypeScreen> {
                 text: intl.earn_confirm,
                 callback: () {
                   if (isPartialWithdrawal) {
+                    sAnalytics.tapOnTheContinueWithEarnWithdrawTypeButton(
+                      assetName: widget.earnPosition.assetId,
+                      earnWithdrawalType: widget.earnPosition.withdrawType.name,
+                      earnOfferId: widget.earnPosition.offerId,
+                      earnPlanName: widget.earnPosition.offers.first.name ?? '',
+                    );
                     sRouter.push(
                       EarnWithdrawalAmountRouter(earnPosition: widget.earnPosition),
                     );
                   } else {
+                    sAnalytics.sureFullEarnWithdrawPopupView(
+                      assetName: widget.earnPosition.assetId,
+                      earnWithdrawalType: widget.earnPosition.withdrawType.name,
+                      earnOfferId: widget.earnPosition.offerId,
+                      earnPlanName: widget.earnPosition.offers.first.name ?? '',
+                    );
                     showWithdrawalTypeAreYouSurePopUp(
                       earnPosition: widget.earnPosition,
                       amount: widget.earnPosition.baseAmount + widget.earnPosition.incomeAmount,
@@ -108,9 +127,21 @@ Future<void> showWithdrawalTypeAreYouSurePopUp({
       package: 'simple_kit',
     ),
     onPrimaryButtonTap: () {
+      sAnalytics.tapOnTheContinueEarningButton(
+        assetName: earnPosition.assetId,
+        earnOfferId: earnPosition.offerId,
+        earnPlanName: earnPosition.offers.first.name ?? '',
+        earnWithdrawalType: earnPosition.withdrawType.name,
+      );
       sRouter.pop();
     },
     onSecondaryButtonTap: () {
+      sAnalytics.tapOnTheYesWithdrawButton(
+        assetName: earnPosition.assetId,
+        earnOfferId: earnPosition.offerId,
+        earnPlanName: earnPosition.offers.first.name ?? '',
+        earnWithdrawalType: earnPosition.withdrawType.name,
+      );
       sRouter.push(
         EarnWithdrawOrderSummaryRouter(
           amount: amount,

@@ -16,6 +16,7 @@ import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -172,6 +173,13 @@ class _OfferOrderSummaruBody extends StatelessWidget {
                 active: store.isTermsAndConditionsChecked,
                 name: intl.previewBuyWithAsset_confirm,
                 onTap: () {
+                  sAnalytics.tapOnTheConfirmEarnDepositOrderSummaryButton(
+                    assetName: store.offer.assetId,
+                    earnAPYrate: store.offer.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
+                    earnDepositAmount: store.selectedAmount.toStringAsFixed(2),
+                    earnPlanName: store.offer.description ?? '',
+                    earnWithdrawalType: store.offer.withdrawType.name,
+                  );
                   store.confirm();
                 },
               ),

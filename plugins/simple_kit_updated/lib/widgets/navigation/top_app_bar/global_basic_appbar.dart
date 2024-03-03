@@ -18,6 +18,7 @@ class GlobalBasicAppBar extends StatelessWidget {
     this.hasRightIcon = true,
     this.rightIcon,
     this.onRightIconTap,
+    this.onLeftIconTap,
   }) : super(key: key);
 
   final bool hasTitle;
@@ -33,6 +34,7 @@ class GlobalBasicAppBar extends StatelessWidget {
   final bool hasRightIcon;
   final Widget? rightIcon;
   final VoidCallback? onRightIconTap;
+  final VoidCallback? onLeftIconTap;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +54,12 @@ class GlobalBasicAppBar extends StatelessWidget {
                       Opacity(
                         opacity: hasLeftIcon ? 1 : 0,
                         child: SafeGesture(
-                          onTap: hasLeftIcon ? () => Navigator.pop(context) : null,
+                          onTap: hasLeftIcon
+                              ? () {
+                                  onLeftIconTap?.call();
+                                  Navigator.pop(context);
+                                }
+                              : null,
                           child: leftIcon ?? Assets.svg.medium.arrowLeft.simpleSvg(),
                         ),
                       ),

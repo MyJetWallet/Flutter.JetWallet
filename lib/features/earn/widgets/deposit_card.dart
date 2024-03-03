@@ -125,18 +125,18 @@ class SDepositCard extends StatelessObserverWidget {
 
     return '$formattedStart - $formattedEnd';
   }
+}
 
-  String? getHighestApyRateAsString(List<EarnOfferClientModel> offers) {
-    final highestApy = offers.fold<Decimal?>(null, (max, offer) {
-      if (offer.apyRate != null) {
-        return max == null ? offer.apyRate : Decimal.zero;
-      }
-      return max;
-    });
-    final finalRate = formatApyRate(highestApy);
+String? getHighestApyRateAsString(List<EarnOfferClientModel> offers) {
+  final highestApy = offers.fold<Decimal?>(null, (max, offer) {
+    if (offer.apyRate != null) {
+      return max == null ? offer.apyRate : Decimal.zero;
+    }
+    return max;
+  });
+  final finalRate = formatApyRate(highestApy);
 
-    return finalRate?.toString();
-  }
+  return finalRate?.toString();
 }
 
 class CryptoCardHeader extends StatelessWidget {
