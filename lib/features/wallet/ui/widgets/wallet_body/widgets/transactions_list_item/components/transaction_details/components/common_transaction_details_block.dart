@@ -272,7 +272,9 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
         title = intl.history_withdrawn;
       }
     } else if (transactionListItem.operationType == OperationType.cardTransfer) {
-      if (transactionListItem.balanceChange > Decimal.zero) {
+      if (source == TransactionItemSource.history) {
+        title = intl.transferDetails_transfer;
+      } else if (transactionListItem.balanceChange > Decimal.zero) {
         title = intl.history_added_cash;
       } else {
         title = intl.history_withdrawn;
