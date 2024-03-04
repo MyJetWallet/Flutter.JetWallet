@@ -47,7 +47,20 @@ class WithdrawDetails extends StatelessObserverWidget {
             ),
           ),
           const SpaceH18(),
+          TransactionDetailsItem(
+            text: intl.iban_send_history_transaction_id,
+            value: Row(
+              children: [
+                TransactionDetailsValueText(
+                  text: shortTxhashFrom(transactionListItem.operationId),
+                ),
+                const SpaceW10(),
+                HistoryCopyIcon(transactionListItem.operationId),
+              ],
+            ),
+          ),
           if (transactionListItem.withdrawalInfo!.txId != null && !transactionListItem.withdrawalInfo!.isInternal) ...[
+            const SpaceH18(),
             TransactionDetailsItem(
               text: intl.history_txhash,
               value: Row(
@@ -151,19 +164,19 @@ class _WithdrawDetailsHeader extends StatelessWidget {
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${paymentAsset.symbol}'
               : volumeFormat(
-            symbol: paymentAsset.symbol,
-            accuracy: paymentAsset.accuracy,
-            decimal: transactionListItem.withdrawalInfo?.withdrawalAmount.abs() ?? Decimal.zero,
-          ),
+                  symbol: paymentAsset.symbol,
+                  accuracy: paymentAsset.accuracy,
+                  decimal: transactionListItem.withdrawalInfo?.withdrawalAmount.abs() ?? Decimal.zero,
+                ),
           toAssetIconUrl: buyAsset.iconUrl,
           toAssetDescription: buyAsset.description,
           toAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${buyAsset.symbol}'
               : volumeFormat(
-            symbol: buyAsset.symbol,
-            accuracy: buyAsset.accuracy,
-            decimal: transactionListItem.withdrawalInfo?.receiveAmount?.abs() ?? Decimal.zero,
-          ),
+                  symbol: buyAsset.symbol,
+                  accuracy: buyAsset.accuracy,
+                  decimal: transactionListItem.withdrawalInfo?.receiveAmount?.abs() ?? Decimal.zero,
+                ),
           isError: transactionListItem.status == Status.declined,
           isSmallerVersion: true,
         ),
