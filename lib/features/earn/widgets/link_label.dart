@@ -25,10 +25,9 @@ class SLinkLabel extends StatelessWidget {
             title,
             style: STStyles.subtitle1.copyWith(color: colors.black),
           ),
-          SizedBox(
-            width: 16,
-            height: 16,
-            child: Assets.svg.medium.shevronRight.simpleSvg(),
+          Icon(
+            Icons.chevron_right,
+            color: colors.grey2,
           ),
         ],
       ),
