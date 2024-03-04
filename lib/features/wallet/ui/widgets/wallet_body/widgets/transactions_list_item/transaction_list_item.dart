@@ -219,11 +219,11 @@ class TransactionListItem extends StatelessWidget {
                 color: isFailed ? failedColor : colors.blue,
               )
             : transactionListItem.balanceChange > Decimal.zero
-                ? Assets.svg.medium.withdrawal.simpleSvg(
+                ? Assets.svg.medium.addCash.simpleSvg(
                     width: 24,
                     color: isFailed ? failedColor : colors.green,
                   )
-                : Assets.svg.medium.addCash.simpleSvg(
+                : Assets.svg.medium.withdrawal.simpleSvg(
                     width: 24,
                     color: isFailed ? failedColor : colors.red,
                   );
@@ -238,11 +238,11 @@ class TransactionListItem extends StatelessWidget {
                 color: isFailed ? failedColor : colors.blue,
               )
             : transactionListItem.balanceChange > Decimal.zero
-                ? Assets.svg.medium.withdrawal.simpleSvg(
+                ? Assets.svg.medium.addCash.simpleSvg(
                     width: 24,
                     color: isFailed ? failedColor : colors.green,
                   )
-                : Assets.svg.medium.addCash.simpleSvg(
+                : Assets.svg.medium.withdrawal.simpleSvg(
                     width: 24,
                     color: isFailed ? failedColor : colors.red,
                   );

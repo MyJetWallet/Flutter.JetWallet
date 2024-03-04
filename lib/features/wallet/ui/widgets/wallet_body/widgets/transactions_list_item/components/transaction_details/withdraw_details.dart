@@ -46,10 +46,10 @@ class WithdrawDetails extends StatelessObserverWidget {
                   ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
-          const SpaceH18(),
-          if (transactionListItem.withdrawalInfo!.txId != null && !transactionListItem.withdrawalInfo!.isInternal) ...[
+          if (transactionListItem.withdrawalInfo!.txId != null) ...[
+            const SpaceH18(),
             TransactionDetailsItem(
-              text: intl.history_txhash,
+              text: intl.iban_send_history_transaction_id,
               value: Row(
                 children: [
                   TransactionDetailsValueText(
@@ -81,17 +81,17 @@ class WithdrawDetails extends StatelessObserverWidget {
                 HistoryCopyIcon(transactionListItem.withdrawalInfo!.toAddress ?? ''),
               ],
             ),
-            const SpaceH18(),
           ],
           if (transactionListItem.withdrawalInfo!.network != null) ...[
+            const SpaceH18(),
             TransactionDetailsItem(
               text: intl.cryptoDeposit_network,
               value: TransactionDetailsValueText(
                 text: transactionListItem.withdrawalInfo!.network ?? '',
               ),
             ),
-            const SpaceH18(),
           ],
+          const SpaceH18(),
           Builder(
             builder: (context) {
               final currency = currencyFrom(
@@ -151,19 +151,19 @@ class _WithdrawDetailsHeader extends StatelessWidget {
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${paymentAsset.symbol}'
               : volumeFormat(
-            symbol: paymentAsset.symbol,
-            accuracy: paymentAsset.accuracy,
-            decimal: transactionListItem.withdrawalInfo?.withdrawalAmount.abs() ?? Decimal.zero,
-          ),
+                  symbol: paymentAsset.symbol,
+                  accuracy: paymentAsset.accuracy,
+                  decimal: transactionListItem.withdrawalInfo?.withdrawalAmount.abs() ?? Decimal.zero,
+                ),
           toAssetIconUrl: buyAsset.iconUrl,
           toAssetDescription: buyAsset.description,
           toAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${buyAsset.symbol}'
               : volumeFormat(
-            symbol: buyAsset.symbol,
-            accuracy: buyAsset.accuracy,
-            decimal: transactionListItem.withdrawalInfo?.receiveAmount?.abs() ?? Decimal.zero,
-          ),
+                  symbol: buyAsset.symbol,
+                  accuracy: buyAsset.accuracy,
+                  decimal: transactionListItem.withdrawalInfo?.receiveAmount?.abs() ?? Decimal.zero,
+                ),
           isError: transactionListItem.status == Status.declined,
           isSmallerVersion: true,
         ),

@@ -286,10 +286,12 @@ class SendGloballyDetails extends StatelessObserverWidget {
                 ),
                 child: TransactionDetailsValueText(
                   textAlign: TextAlign.end,
-                  text: volumeFormat(
-                    decimal: transactionListItem.withdrawalInfo?.sendAmount ?? Decimal.zero,
-                    symbol: transactionListItem.withdrawalInfo?.sendAsset ?? '',
-                  ),
+                  text: getIt<AppStore>().isBalanceHide
+                      ? '**** ${transactionListItem.withdrawalInfo?.sendAsset ?? ''}'
+                      : volumeFormat(
+                          decimal: transactionListItem.withdrawalInfo?.sendAmount ?? Decimal.zero,
+                          symbol: transactionListItem.withdrawalInfo?.sendAsset ?? '',
+                        ),
                 ),
               ),
             ),
@@ -336,19 +338,19 @@ class _BuyDetailsHeader extends StatelessWidget {
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${paymentAsset.symbol}'
               : volumeFormat(
-            symbol: paymentAsset.symbol,
-            accuracy: paymentAsset.accuracy,
-            decimal: transactionListItem.balanceChange.abs(),
-          ),
+                  symbol: paymentAsset.symbol,
+                  accuracy: paymentAsset.accuracy,
+                  decimal: transactionListItem.balanceChange.abs(),
+                ),
           toAssetIconUrl: buyAsset.iconUrl,
           toAssetDescription: buyAsset.description,
           toAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${buyAsset.symbol}'
               : volumeFormat(
-            symbol: buyAsset.symbol,
-            accuracy: buyAsset.accuracy,
-            decimal: transactionListItem.withdrawalInfo?.receiveAmount ?? Decimal.zero,
-          ),
+                  symbol: buyAsset.symbol,
+                  accuracy: buyAsset.accuracy,
+                  decimal: transactionListItem.withdrawalInfo?.receiveAmount ?? Decimal.zero,
+                ),
           isError: transactionListItem.status == Status.declined,
           isSmallerVersion: true,
         ),

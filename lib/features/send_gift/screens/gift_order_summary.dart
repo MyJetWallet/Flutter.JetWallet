@@ -9,11 +9,8 @@ import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
-import 'package:jetwallet/utils/helpers/date_helper.dart';
-import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
-import 'package:logger/logger.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -22,7 +19,6 @@ import 'package:simple_kit_updated/simple_kit_updated.dart';
 import '../../../core/l10n/i10n.dart';
 import '../../pin_screen/model/pin_flow_union.dart';
 import '../store/general_send_gift_store.dart';
-import '../widgets/simple_action_confirm_text_with_icon.dart';
 
 @RoutePage(name: 'GiftOrderSummuryRouter')
 class GiftOrderSummury extends StatefulWidget {
@@ -45,8 +41,6 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
 
   @override
   Widget build(BuildContext context) {
-    final sColors = sKit.colors;
-
     final formatService = getIt.get<FormatService>();
 
     return Observer(
