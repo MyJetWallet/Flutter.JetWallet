@@ -41,8 +41,8 @@ class OffersScreen extends StatelessWidget {
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    final assetId = store.groupedOffers.keys.elementAt(index);
-                    final offers = store.groupedOffers[assetId] ?? [];
+                    final assetId = store.activeOffersWithPromotion.keys.elementAt(index);
+                    final offers = store.activeOffersWithPromotion[assetId] ?? [];
                     final currency = currencies.firstWhere((currency) => currency.symbol == assetId);
 
                     return ChipsSuggestionM(
@@ -80,7 +80,52 @@ class OffersScreen extends StatelessWidget {
                       },
                     );
                   },
-                  childCount: store.groupedOffers.keys.length,
+                  childCount: store.activeOffersWithPromotion.keys.length,
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    final assetId = store.activeOffersWithoutPromotion.keys.elementAt(index);
+                    final offers = store.activeOffersWithoutPromotion[assetId] ?? [];
+                    final currency = currencies.firstWhere((currency) => currency.symbol == assetId);
+
+                    return ChipsSuggestionM(
+                      isSingleOffer: offers.length == 1,
+                      percentage: formatApyRate(offers.first.apyRate),
+                      cryptoName: currency.description,
+                      trailingIcon: SNetworkSvg(
+                        url: currency.iconUrl,
+                        width: 40,
+                        height: 40,
+                      ),
+                      onTap: () {
+                        sAnalytics.tapOnTheAnyOfferButton(
+                          assetName: currency.symbol,
+                          sourse: 'All offers',
+                        );
+
+                        if (offers.length > 1) {
+                          offers.sort((a, b) => b.apyRate!.compareTo(a.apyRate!));
+                          sShowBasicModalBottomSheet(
+                            context: context,
+                            scrollable: true,
+                            children: [
+                              OffersOverlayContent(
+                                offers: offers,
+                                currency: currency,
+                              ),
+                            ],
+                          );
+                        } else {
+                          context.router.push(
+                            EarnDepositScreenRouter(offer: offers.first),
+                          );
+                        }
+                      },
+                    );
+                  },
+                  childCount: store.activeOffersWithoutPromotion.keys.length,
                 ),
               ),
               SliverToBoxAdapter(
