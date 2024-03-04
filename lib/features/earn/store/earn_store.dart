@@ -104,24 +104,18 @@ abstract class _EarnStoreBase with Store {
   }
 
   @computed
-  Map<String, List<EarnOfferClientModel>> get activeOffersWithPromotion {
+  Map<String, List<EarnOfferClientModel>> get groupedOffers {
     final activeOffersWithPromotion =
         earnOffers.where((o) => o.status == EarnOfferStatus.activeShow && o.promotion).toList();
-
-    activeOffersWithPromotion.sort((a, b) => b.apyRate!.compareTo(a.apyRate!));
-
-    final groupedOffers = groupBy(activeOffersWithPromotion, (EarnOfferClientModel o) => o.assetId);
-    return groupedOffers;
-  }
-
-  @computed
-  Map<String, List<EarnOfferClientModel>> get activeOffersWithoutPromotion {
     final activeOffersWithoutPromotion =
         earnOffers.where((o) => o.status == EarnOfferStatus.activeShow && !o.promotion).toList();
 
+    activeOffersWithPromotion.sort((a, b) => b.apyRate!.compareTo(a.apyRate!));
     activeOffersWithoutPromotion.sort((a, b) => b.apyRate!.compareTo(a.apyRate!));
 
-    final groupedOffers = groupBy(activeOffersWithoutPromotion, (EarnOfferClientModel o) => o.assetId);
+    final concatenatedOffers = activeOffersWithPromotion + activeOffersWithoutPromotion;
+
+    final groupedOffers = groupBy(concatenatedOffers, (EarnOfferClientModel o) => o.assetId);
     return groupedOffers;
   }
 
