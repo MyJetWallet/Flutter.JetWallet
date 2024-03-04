@@ -67,7 +67,7 @@ class TransactionListItem extends StatelessWidget {
     final baseCurrency = sSignalRModules.baseCurrency;
 
     return ColoredBox(
-      color: transactionListItem.operationType == OperationType.bankingTransfer ? Colors.lime : Colors.transparent,
+      color: transactionListItem.operationType == OperationType.sendGlobally ? Colors.lime : Colors.transparent,
       child: _TransactionBaseItem(
         onTap: () {
           if (fromCJAccount) {
