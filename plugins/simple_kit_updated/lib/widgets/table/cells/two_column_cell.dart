@@ -42,27 +42,26 @@ class TwoColumnCell extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: needHorizontalPadding ? 24 : 0, vertical: 8),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Flexible(
-                  child: Row(
-                    children: [
-                      Flexible(
-                        child: Text(
-                          label,
-                          style: STStyles.body2Medium.copyWith(color: SColorsLight().gray10),
-                        ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        label,
+                        style: STStyles.body2Medium.copyWith(color: SColorsLight().gray10),
                       ),
-                      if (haveInfoIcon) ...[
-                        const Gap(4),
-                        Assets.svg.small.info.simpleSvg(
-                          width: 16,
-                          height: 16,
-                          color: SColorsLight().gray10,
-                        ),
-                      ],
+                    ),
+                    if (haveInfoIcon) ...[
+                      const Gap(4),
+                      Assets.svg.small.info.simpleSvg(
+                        width: 16,
+                        height: 16,
+                        color: SColorsLight().gray10,
+                      ),
                     ],
-                  ),
+                  ],
                 ),
                 const Gap(10),
                 if (type != TwoColumnCellType.loading) ...[
