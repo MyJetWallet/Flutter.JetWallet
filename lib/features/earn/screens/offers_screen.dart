@@ -44,7 +44,6 @@ class OffersScreen extends StatelessWidget {
                     final assetId = store.groupedOffers.keys.elementAt(index);
                     final offers = store.groupedOffers[assetId] ?? [];
                     final currency = currencies.firstWhere((currency) => currency.symbol == assetId);
-                    offers.sort((a, b) => b.apyRate!.compareTo(a.apyRate!));
 
                     return ChipsSuggestionM(
                       isSingleOffer: offers.length == 1,
@@ -62,6 +61,7 @@ class OffersScreen extends StatelessWidget {
                         );
 
                         if (offers.length > 1) {
+                          offers.sort((a, b) => b.apyRate!.compareTo(a.apyRate!));
                           sShowBasicModalBottomSheet(
                             context: context,
                             scrollable: true,
