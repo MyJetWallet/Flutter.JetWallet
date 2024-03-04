@@ -46,23 +46,10 @@ class WithdrawDetails extends StatelessObserverWidget {
                   ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
-          const SpaceH18(),
-          TransactionDetailsItem(
-            text: intl.iban_send_history_transaction_id,
-            value: Row(
-              children: [
-                TransactionDetailsValueText(
-                  text: shortTxhashFrom(transactionListItem.operationId),
-                ),
-                const SpaceW10(),
-                HistoryCopyIcon(transactionListItem.operationId),
-              ],
-            ),
-          ),
-          if (transactionListItem.withdrawalInfo!.txId != null && !transactionListItem.withdrawalInfo!.isInternal) ...[
+          if (transactionListItem.withdrawalInfo!.txId != null) ...[
             const SpaceH18(),
             TransactionDetailsItem(
-              text: intl.history_txhash,
+              text: intl.iban_send_history_transaction_id,
               value: Row(
                 children: [
                   TransactionDetailsValueText(
@@ -94,17 +81,17 @@ class WithdrawDetails extends StatelessObserverWidget {
                 HistoryCopyIcon(transactionListItem.withdrawalInfo!.toAddress ?? ''),
               ],
             ),
-            const SpaceH18(),
           ],
           if (transactionListItem.withdrawalInfo!.network != null) ...[
+            const SpaceH18(),
             TransactionDetailsItem(
               text: intl.cryptoDeposit_network,
               value: TransactionDetailsValueText(
                 text: transactionListItem.withdrawalInfo!.network ?? '',
               ),
             ),
-            const SpaceH18(),
           ],
+          const SpaceH18(),
           Builder(
             builder: (context) {
               final currency = currencyFrom(
