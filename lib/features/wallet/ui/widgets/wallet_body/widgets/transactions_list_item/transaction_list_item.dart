@@ -66,48 +66,51 @@ class TransactionListItem extends StatelessWidget {
         : currencies[0];
     final baseCurrency = sSignalRModules.baseCurrency;
 
-    return _TransactionBaseItem(
-      onTap: () {
-        if (fromCJAccount) {
-          sAnalytics.eurWalletTapAnyHistoryTRXEUR(
-            isCJ: true,
-            isHasTransaction: true,
-            eurAccountLabel: '',
-          );
-        }
+    return ColoredBox(
+      color: transactionListItem.operationType == OperationType.bankingTransfer ? Colors.lime : Colors.transparent,
+      child: _TransactionBaseItem(
+        onTap: () {
+          if (fromCJAccount) {
+            sAnalytics.eurWalletTapAnyHistoryTRXEUR(
+              isCJ: true,
+              isHasTransaction: true,
+              eurAccountLabel: '',
+            );
+          }
 
-        onItemTapLisener?.call(transactionListItem.assetId);
-        showTransactionDetails(
-          context: context,
+          onItemTapLisener?.call(transactionListItem.assetId);
+          showTransactionDetails(
+            context: context,
+            transactionListItem: transactionListItem,
+            source: source,
+          );
+        },
+        icon: _transactionItemIcon(
+          type: transactionListItem.operationType,
+          isFailed: transactionListItem.status == Status.declined,
           transactionListItem: transactionListItem,
-          source: source,
-        );
-      },
-      icon: _transactionItemIcon(
-        type: transactionListItem.operationType,
-        isFailed: transactionListItem.status == Status.declined,
-        transactionListItem: transactionListItem,
-      ),
-      labele: _transactionItemTitle(
-        transactionListItem,
-      ),
-      labelIcon: _transactionLabelIcon(
-        type: transactionListItem.operationType,
-      ),
-      balanceChange: getIt<AppStore>().isBalanceHide
-          ? '**** ${currency.symbol}'
-          : _transactionItemBalanceChange(
-              transactionListItem: transactionListItem,
-              accuracy: currency.accuracy,
-              symbol: currency.symbol,
-            ),
-      status: transactionListItem.status,
-      timeStamp: transactionListItem.timeStamp,
-      rightSupplement: _transactionItemRightSupplement(
-        transactionListItem: transactionListItem,
-        currency: currency,
-        baseCurrency: baseCurrency,
-        paymentCurrency: paymentCurrency,
+        ),
+        labele: _transactionItemTitle(
+          transactionListItem,
+        ),
+        labelIcon: _transactionLabelIcon(
+          type: transactionListItem.operationType,
+        ),
+        balanceChange: getIt<AppStore>().isBalanceHide
+            ? '**** ${currency.symbol}'
+            : _transactionItemBalanceChange(
+                transactionListItem: transactionListItem,
+                accuracy: currency.accuracy,
+                symbol: currency.symbol,
+              ),
+        status: transactionListItem.status,
+        timeStamp: transactionListItem.timeStamp,
+        rightSupplement: _transactionItemRightSupplement(
+          transactionListItem: transactionListItem,
+          currency: currency,
+          baseCurrency: baseCurrency,
+          paymentCurrency: paymentCurrency,
+        ),
       ),
     );
   }
@@ -219,11 +222,11 @@ class TransactionListItem extends StatelessWidget {
                 color: isFailed ? failedColor : colors.blue,
               )
             : transactionListItem.balanceChange > Decimal.zero
-                ? Assets.svg.medium.withdrawal.simpleSvg(
+                ? Assets.svg.medium.addCash.simpleSvg(
                     width: 24,
                     color: isFailed ? failedColor : colors.green,
                   )
-                : Assets.svg.medium.addCash.simpleSvg(
+                : Assets.svg.medium.withdrawal.simpleSvg(
                     width: 24,
                     color: isFailed ? failedColor : colors.red,
                   );
@@ -238,11 +241,11 @@ class TransactionListItem extends StatelessWidget {
                 color: isFailed ? failedColor : colors.blue,
               )
             : transactionListItem.balanceChange > Decimal.zero
-                ? Assets.svg.medium.withdrawal.simpleSvg(
+                ? Assets.svg.medium.addCash.simpleSvg(
                     width: 24,
                     color: isFailed ? failedColor : colors.green,
                   )
-                : Assets.svg.medium.addCash.simpleSvg(
+                : Assets.svg.medium.withdrawal.simpleSvg(
                     width: 24,
                     color: isFailed ? failedColor : colors.red,
                   );
