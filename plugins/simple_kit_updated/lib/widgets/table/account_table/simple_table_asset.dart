@@ -262,9 +262,20 @@ class SimpleTableAsset extends HookWidget {
                         ),
                       )
                     ] else ...[
-                      RoundButton(
-                        value: rightValue ?? '',
-                      )
+                      if (!isLoading) ...[
+                        RoundButton(
+                          value: rightValue ?? '',
+                        ),
+                      ] else ...[
+                        Container(
+                          width: 96,
+                          height: 44,
+                          decoration: BoxDecoration(
+                            color: SColorsLight().gray4,
+                            borderRadius: BorderRadius.circular(22),
+                          ),
+                        ),
+                      ],
                     ],
                   ],
                 ]

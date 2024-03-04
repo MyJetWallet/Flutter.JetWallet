@@ -18,6 +18,7 @@ dependencies:
   gap: ^3.0.1
   widgetbook_annotation: ^3.1.0
   widgetbook: ^3.4.1
+  auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:

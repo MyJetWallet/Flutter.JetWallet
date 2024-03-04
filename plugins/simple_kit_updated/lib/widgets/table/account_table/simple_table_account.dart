@@ -16,6 +16,7 @@ class SimpleTableAccount extends HookWidget {
     this.rightValue,
     this.assetIcon,
     this.isCard = false,
+    this.isLoading = false,
     this.hasRightValue = true,
     this.hasLabelIcon = false,
     this.hasButton = false,
@@ -32,6 +33,7 @@ class SimpleTableAccount extends HookWidget {
 
   final Widget? assetIcon;
   final bool isCard;
+  final bool isLoading;
 
   final VoidCallback? onTableAssetTap;
 
@@ -81,6 +83,7 @@ class SimpleTableAccount extends HookWidget {
               hasRightValue: hasRightValue,
               rightValue: rightValue,
               customRightWidget: customRightWidget,
+              isLoading: isLoading,
             ),
             if (hasButton) ...[
               const Gap(8),
