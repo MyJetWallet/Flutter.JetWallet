@@ -10,6 +10,7 @@ import 'package:jetwallet/features/earn/widgets/earn_positions_list.dart';
 import 'package:jetwallet/features/earn/widgets/price_header.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'EarnRouter')
@@ -22,6 +23,12 @@ class EarnScreen extends StatefulWidget {
 
 class _EarnScreenState extends State<EarnScreen> {
   final ScrollController controller = ScrollController();
+
+  @override
+  void initState() {
+    sAnalytics.earnMainScreenView();
+    super.initState();
+  }
 
   @override
   void dispose() {

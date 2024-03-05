@@ -564,7 +564,7 @@ class EventType {
   static const tapOnTheViewAllTopOffersButton = 'Tap on the ‘View all top offers’ button';
   static const allOffersScreenView = 'All offers’ screen view';
   static const tapOnTheAnyOfferButton = 'Tap on the ‘Any offer’ button';
-  static const chooseEarnPlanScreenView = 'Tap on the ‘Continue with earn plan’ button';
+  static const chooseEarnPlanScreenView = 'Choose earn plan’ screen view';
   static const tapOnTheContinueWithEarnPlanButton = 'Tap on the ‘Continue with earn plan’ button';
   static const earnDepositCryptoWalletPopupView = 'Earn Deposit crypto wallet’ popup view';
   static const earnDepositAmountScreenView = 'Earn deposit amount’ screen view';

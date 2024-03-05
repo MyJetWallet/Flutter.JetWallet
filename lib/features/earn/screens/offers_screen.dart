@@ -16,12 +16,22 @@ import 'package:simple_kit/modules/shared/simple_network_svg.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'OffersRouter')
-class OffersScreen extends StatelessWidget {
+class OffersScreen extends StatefulWidget {
   const OffersScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<OffersScreen> createState() => _OffersScreenState();
+}
+
+class _OffersScreenState extends State<OffersScreen> {
+  @override
+  void initState() {
     sAnalytics.allOffersScreenView();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Provider<EarnStore>(
       create: (context) => EarnStore(),
       builder: (context, child) {
