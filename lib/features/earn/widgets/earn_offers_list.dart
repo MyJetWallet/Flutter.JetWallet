@@ -52,6 +52,10 @@ class OffersListWidget extends StatelessWidget {
                 orElse: () => CurrencyModel.empty(),
               );
 
+              if (!currencyOffers.any((element) => element.status == EarnOfferStatus.activeShow)) {
+                return const Offstage();
+              }
+
               return ChipsSuggestionM(
                 isSingleOffer: currencyOffers.length == 1,
                 percentage: formatApyRate(highestApyOffers[currencyDescription]?.apyRate),
@@ -66,7 +70,7 @@ class OffersListWidget extends StatelessWidget {
                     assetName: currencyOffers.first.assetId,
                     sourse: 'Main earns',
                   );
-                  if (currencyOffers.length > 1) {
+                  if (currencyOffers.where((element) => element.status == EarnOfferStatus.activeShow).length > 1) {
                     sShowBasicModalBottomSheet(
                       context: context,
                       scrollable: true,
