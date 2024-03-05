@@ -7545,9 +7545,9 @@
     "earn_deposit_crypto_wallet": "Гаманець для депозитів",
     "earn_to_continue_you_need_to_top_up": "Щоб продовжити, вам потрібно поповнити ваш гаманець {wallet_symbol} щонайменше на {topup_value}",
     "@earn_to_continue_you_need_to_top_up": {
-"placeholders": {
-        "topup_value": {
-            "type": "String"
+        "placeholders": {
+            "topup_value": {
+                "type": "String"
             },
             "wallet_symbol": {
                 "type": "String"

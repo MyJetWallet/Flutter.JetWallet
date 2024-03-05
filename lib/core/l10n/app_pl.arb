@@ -1857,9 +1857,9 @@
     "earn_deposit_crypto_wallet": "Portfel krypto na depozyt",
     "earn_to_continue_you_need_to_top_up": "Aby kontynuować, należy doładować portfel {wallet_symbol} kwotą co najmniej {topup_value}",
     "@earn_to_continue_you_need_to_top_up": {
-"placeholders": {
-        "topup_value": {
-            "type": "String"
+        "placeholders": {
+            "topup_value": {
+                "type": "String"
             },
             "wallet_symbol": {
                 "type": "String"
