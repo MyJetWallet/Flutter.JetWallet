@@ -45,7 +45,7 @@ abstract class _EarnWithdrawalOrderSummaryStoreBase with Store {
       earnOfferId: earnPosition.offerId,
       earnPlanName: earnPosition.offers.first.name ?? '',
       earnWithdrawalType: earnPosition.withdrawType.name,
-      isFullWithdrawalType: isClosing,
+      withdrawAmount: amount.toString(),
     );
     requestId = DateTime.now().microsecondsSinceEpoch.toString();
 
@@ -149,7 +149,7 @@ abstract class _EarnWithdrawalOrderSummaryStoreBase with Store {
       earnOfferId: earnPosition.offerId,
       earnPlanName: earnPosition.offers.first.name ?? '',
       earnWithdrawalType: earnPosition.withdrawType.name,
-      withdrawAnount: amount.toStringAsFixed(2),
+      withdrawAnount: amount.toString(),
     );
     return sRouter
         .push(
@@ -181,7 +181,7 @@ abstract class _EarnWithdrawalOrderSummaryStoreBase with Store {
       earnOfferId: earnPosition.offerId,
       earnPlanName: earnPosition.offers.first.name ?? '',
       earnWithdrawalType: earnPosition.withdrawType.name,
-      withdrawAnount: amount.toStringAsFixed(2),
+      withdrawAnount: amount.toString(),
     );
 
     unawaited(

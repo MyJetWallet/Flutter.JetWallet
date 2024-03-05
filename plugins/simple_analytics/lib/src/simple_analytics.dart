@@ -6603,6 +6603,7 @@ class SimpleAnalytics {
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
       },
     );
   }
@@ -6622,6 +6623,7 @@ class SimpleAnalytics {
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
       },
     );
   }
@@ -6641,6 +6643,7 @@ class SimpleAnalytics {
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
       },
     );
   }
@@ -6660,6 +6663,7 @@ class SimpleAnalytics {
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
       },
     );
   }
@@ -6668,6 +6672,7 @@ class SimpleAnalytics {
     required String assetName,
     required String earnPlanName,
     required String earnWithdrawalType,
+    required String fullWithdrawType,
     required String earnOfferId,
   }) {
     _analytics.logEvent(
@@ -6679,6 +6684,8 @@ class SimpleAnalytics {
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.fullWithdrawType: fullWithdrawType,
       },
     );
   }
@@ -6688,6 +6695,7 @@ class SimpleAnalytics {
     required String earnPlanName,
     required String earnWithdrawalType,
     required String earnOfferId,
+    required String fullWithdrawType,
   }) {
     _analytics.logEvent(
       EventType.earnWithdrawAmountScreenView,
@@ -6698,6 +6706,8 @@ class SimpleAnalytics {
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.fullWithdrawType: fullWithdrawType,
       },
     );
   }
@@ -6717,6 +6727,7 @@ class SimpleAnalytics {
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
       },
     );
   }
@@ -6726,6 +6737,7 @@ class SimpleAnalytics {
     required String earnPlanName,
     required String earnWithdrawalType,
     required String earnOfferId,
+    required String withdrawAmount,
   }) {
     _analytics.logEvent(
       EventType.tapOnTheContinueWithEarnWithdrawAmountButton,
@@ -6736,6 +6748,8 @@ class SimpleAnalytics {
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.withdrawAmount: withdrawAmount,
       },
     );
   }
@@ -6745,7 +6759,7 @@ class SimpleAnalytics {
     required String earnPlanName,
     required String earnWithdrawalType,
     required String earnOfferId,
-    required bool isFullWithdrawalType,
+    required String withdrawAmount,
   }) {
     _analytics.logEvent(
       EventType.earnWithdrawOrderSummaryScreenView,
@@ -6756,7 +6770,8 @@ class SimpleAnalytics {
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
-        PropertyType.isFullWithdrawalType: isFullWithdrawalType,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.withdrawAmount: withdrawAmount,
       },
     );
   }
@@ -6766,7 +6781,7 @@ class SimpleAnalytics {
     required String earnPlanName,
     required String earnWithdrawalType,
     required String earnOfferId,
-    required bool isFullWithdrawalType,
+    required String withdrawAmount,
   }) {
     _analytics.logEvent(
       EventType.tapOnTheBackFromEarnWithdrawOrderSummaryButton,
@@ -6777,7 +6792,8 @@ class SimpleAnalytics {
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
-        PropertyType.isFullWithdrawalType: isFullWithdrawalType,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.withdrawAmount: withdrawAmount,
       },
     );
   }
@@ -6787,7 +6803,7 @@ class SimpleAnalytics {
     required String earnPlanName,
     required String earnWithdrawalType,
     required String earnOfferId,
-    required bool isFullWithdrawalType,
+    required String withdrawAmount,
   }) {
     _analytics.logEvent(
       EventType.tapOnTheContinueWithEarnWithdrawAmountButton,
@@ -6798,7 +6814,8 @@ class SimpleAnalytics {
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
-        PropertyType.isFullWithdrawalType: isFullWithdrawalType,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.withdrawAmount: withdrawAmount,
       },
     );
   }
@@ -6820,6 +6837,7 @@ class SimpleAnalytics {
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
         PropertyType.winAmount: withdrawAnount,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
       },
     );
   }
@@ -6841,6 +6859,7 @@ class SimpleAnalytics {
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
         PropertyType.winAmount: withdrawAnount,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
       },
     );
   }
