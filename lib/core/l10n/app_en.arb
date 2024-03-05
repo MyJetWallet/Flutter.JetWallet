@@ -1744,7 +1744,7 @@
     "earn_top_up": "Top up",
     "earn_withdraw": "Withdraw",
     "earn_all_offers": "All offers",
-    "earn_earns_archive": "Earn archives",
+    "earn_earns_archive": "Earns archive",
     "earn_you_can_withdraw_deposit_funds_instantly": "You can withdraw deposit funds instantly",
     "earn_deposit": "Deposit",
     "earn_continue": "Continue",
@@ -1798,7 +1798,7 @@
         }
     },
     "earn_withdrawal_period_explanation_1": "Withdrawal of funds from your plan will result in the closure of the corresponding Earn account. Please note that the full transfer of funds together with the earned income will take place {days} days after the request has been created.",
-    "@earn_withdrawal_period_explanation": {
+"@earn_withdrawal_period_explanation": {
         "placeholders": {
             "days": {
                 "type": "num",
@@ -1813,9 +1813,9 @@
     "earn_deposit_crypto_wallet": "Deposit crypto wallet",
     "earn_to_continue_you_need_to_top_up": "To continue, you need to top up your {wallet_symbol} wallet with at least {topup_value}",
     "@earn_to_continue_you_need_to_top_up": {
-        "placeholders": {
-            "topup_value": {
-                "type": "String"
+"placeholders": {
+        "topup_value": {
+            "type": "String"
             },
             "wallet_symbol": {
                 "type": "String"
