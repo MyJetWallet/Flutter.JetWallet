@@ -89,7 +89,7 @@ class GiftSendDetails extends StatelessObserverWidget {
                       ),
                     ),
                     const SpaceW10(),
-                    HistoryCopyIcon(transactionListItem.operationId),
+                    HistoryCopyIcon(receiverContact),
                   ],
                 ),
               ),
