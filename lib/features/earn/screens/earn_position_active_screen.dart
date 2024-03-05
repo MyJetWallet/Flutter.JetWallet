@@ -25,10 +25,10 @@ class EarnPositionActiveScreen extends StatelessWidget {
     sAnalytics.activeCryptoSavingsScreenView(
       earnOfferId: earnPosition.offerId,
       assetName: earnPosition.assetId,
-      earnAPYrate: earnPosition.offers.first.apyRate?.toString() ?? Decimal.zero.toString(),
+      earnAPYrate: earnPosition.offers.firstOrNull?.apyRate?.toString() ?? Decimal.zero.toString(),
       earnDepositAmount: earnPosition.baseAmount.toString(),
       earnOfferStatus: earnPosition.status.name,
-      earnPlanName: earnPosition.offers.first.description ?? '',
+      earnPlanName: earnPosition.offers.firstOrNull?.description ?? '',
       earnWithdrawalType: earnPosition.withdrawType.name,
       revenue: earnPosition.incomeAmount.toString(),
     );
@@ -53,10 +53,10 @@ class EarnPositionActiveScreen extends StatelessWidget {
                 onRightIconTap: () {
                   sAnalytics.tapOnTheHistoryFromActiveCryptoSavingsButton(
                     assetName: earnPosition.assetId,
-                    earnAPYrate: earnPosition.offers.first.apyRate?.toString() ?? Decimal.zero.toString(),
+                    earnAPYrate: earnPosition.offers.firstOrNull?.apyRate?.toString() ?? Decimal.zero.toString(),
                     earnDepositAmount: earnPosition.baseAmount.toString(),
                     earnOfferStatus: earnPosition.status.name,
-                    earnPlanName: earnPosition.offers.first.description ?? '',
+                    earnPlanName: earnPosition.offers.firstOrNull?.description ?? '',
                     earnWithdrawalType: earnPosition.withdrawType.name,
                     revenue: earnPosition.incomeAmount.toString(),
                   );
@@ -65,10 +65,10 @@ class EarnPositionActiveScreen extends StatelessWidget {
                   sAnalytics.tapOnTheBackFromActiveCryptoSavingsButton(
                     earnOfferId: earnPosition.offerId,
                     assetName: earnPosition.assetId,
-                    earnAPYrate: earnPosition.offers.first.apyRate?.toString() ?? Decimal.zero.toString(),
+                    earnAPYrate: earnPosition.offers.firstOrNull?.apyRate?.toString() ?? Decimal.zero.toString(),
                     earnDepositAmount: earnPosition.baseAmount.toString(),
                     earnOfferStatus: earnPosition.status.name,
-                    earnPlanName: earnPosition.offers.first.description ?? '',
+                    earnPlanName: earnPosition.offers.firstOrNull?.description ?? '',
                     earnWithdrawalType: earnPosition.withdrawType.name,
                     revenue: earnPosition.incomeAmount.toString(),
                   );
@@ -105,10 +105,10 @@ class EarnPositionActiveScreen extends StatelessWidget {
                               sAnalytics.tapOnTheTopUpFromActiveCryptoSavingsButton(
                                 earnOfferId: earnPosition.offerId,
                                 assetName: earnPosition.assetId,
-                                earnAPYrate: earnPosition.offers.first.apyRate?.toString() ?? Decimal.zero.toString(),
+                                earnAPYrate: earnPosition.offers.firstOrNull?.apyRate?.toString() ?? Decimal.zero.toString(),
                                 earnDepositAmount: earnPosition.baseAmount.toString(),
                                 earnOfferStatus: earnPosition.status.name,
-                                earnPlanName: earnPosition.offers.first.description ?? '',
+                                earnPlanName: earnPosition.offers.firstOrNull?.description ?? '',
                                 earnWithdrawalType: earnPosition.withdrawType.name,
                                 revenue: earnPosition.incomeAmount.toString(),
                               );
@@ -127,10 +127,10 @@ class EarnPositionActiveScreen extends StatelessWidget {
                               sAnalytics.tapOnTheWithdrawFromActiveCryptoSavingsButton(
                                 earnOfferId: earnPosition.offerId,
                                 assetName: earnPosition.assetId,
-                                earnAPYrate: earnPosition.offers.first.apyRate?.toString() ?? Decimal.zero.toString(),
+                                earnAPYrate: earnPosition.offers.firstOrNull?.apyRate?.toString() ?? Decimal.zero.toString(),
                                 earnDepositAmount: earnPosition.baseAmount.toString(),
                                 earnOfferStatus: earnPosition.status.name,
-                                earnPlanName: earnPosition.offers.first.description ?? '',
+                                earnPlanName: earnPosition.offers.firstOrNull?.description ?? '',
                                 earnWithdrawalType: earnPosition.withdrawType.name,
                                 revenue: earnPosition.incomeAmount.toString(),
                               );

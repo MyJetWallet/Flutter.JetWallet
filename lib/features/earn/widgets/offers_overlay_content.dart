@@ -64,16 +64,18 @@ class _OffersOverlayContentState extends State<OffersOverlayContent> {
         ),
         const SizedBox(height: 16),
         ...widget.offers.map((offer) {
-          return OfferListItem(
-            offer: offer,
-            selectedOfferId: selectedOfferId,
-            onSelected: (value) {
-              sAnalytics.chooseEarnPlanScreenView(assetName: offer.assetId);
-              setState(() {
-                selectedOfferId = value;
-              });
-            },
-          );
+          return offer.status == EarnOfferStatus.activeShow
+              ? OfferListItem(
+                  offer: offer,
+                  selectedOfferId: selectedOfferId,
+                  onSelected: (value) {
+                    sAnalytics.chooseEarnPlanScreenView(assetName: offer.assetId);
+                    setState(() {
+                      selectedOfferId = value;
+                    });
+                  },
+                )
+              : const Offstage();
         }).toList(),
         const SizedBox(height: 48),
         Padding(
