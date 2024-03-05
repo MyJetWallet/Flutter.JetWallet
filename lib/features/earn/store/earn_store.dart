@@ -236,7 +236,10 @@ abstract class _EarnStoreBase with Store {
   @computed
   Map<String, EarnOfferClientModel> get highestApyOffersPerCurrency {
     final currencies = sSignalRModules.currenciesList;
-    final earnOffers = sSignalRModules.activeEarnOffersMessage?.offers ?? [];
+    final earnOffers = sSignalRModules.activeEarnOffersMessage?.offers.where(
+          (element) => element.status == EarnOfferStatus.activeShow,
+        ) ??
+        [];
 
     final offersGroupedByCurrency = groupBy(earnOffers, (EarnOfferClientModel offer) {
       return currencies.firstWhereOrNull((currency) => currency.symbol == offer.assetId)?.description ?? '';
