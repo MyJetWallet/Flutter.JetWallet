@@ -23,13 +23,14 @@ class EarnPositionActiveScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     sAnalytics.activeCryptoSavingsScreenView(
+      earnOfferId: earnPosition.offerId,
       assetName: earnPosition.assetId,
-      earnAPYrate: earnPosition.offers.first.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
-      earnDepositAmount: earnPosition.baseAmount.toStringAsFixed(2),
+      earnAPYrate: earnPosition.offers.first.apyRate?.toString() ?? Decimal.zero.toString(),
+      earnDepositAmount: earnPosition.baseAmount.toString(),
       earnOfferStatus: earnPosition.status.name,
       earnPlanName: earnPosition.offers.first.description ?? '',
       earnWithdrawalType: earnPosition.withdrawType.name,
-      revenue: earnPosition.incomeAmount.toStringAsFixed(2),
+      revenue: earnPosition.incomeAmount.toString(),
     );
 
     return Provider<EarnStore>(
@@ -52,23 +53,24 @@ class EarnPositionActiveScreen extends StatelessWidget {
                 onRightIconTap: () {
                   sAnalytics.tapOnTheHistoryFromActiveCryptoSavingsButton(
                     assetName: earnPosition.assetId,
-                    earnAPYrate: earnPosition.offers.first.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
-                    earnDepositAmount: earnPosition.baseAmount.toStringAsFixed(2),
+                    earnAPYrate: earnPosition.offers.first.apyRate?.toString() ?? Decimal.zero.toString(),
+                    earnDepositAmount: earnPosition.baseAmount.toString(),
                     earnOfferStatus: earnPosition.status.name,
                     earnPlanName: earnPosition.offers.first.description ?? '',
                     earnWithdrawalType: earnPosition.withdrawType.name,
-                    revenue: earnPosition.incomeAmount.toStringAsFixed(2),
+                    revenue: earnPosition.incomeAmount.toString(),
                   );
                 },
                 onLeftIconTap: () {
                   sAnalytics.tapOnTheBackFromActiveCryptoSavingsButton(
+                    earnOfferId: earnPosition.offerId,
                     assetName: earnPosition.assetId,
-                    earnAPYrate: earnPosition.offers.first.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
-                    earnDepositAmount: earnPosition.baseAmount.toStringAsFixed(2),
+                    earnAPYrate: earnPosition.offers.first.apyRate?.toString() ?? Decimal.zero.toString(),
+                    earnDepositAmount: earnPosition.baseAmount.toString(),
                     earnOfferStatus: earnPosition.status.name,
                     earnPlanName: earnPosition.offers.first.description ?? '',
                     earnWithdrawalType: earnPosition.withdrawType.name,
-                    revenue: earnPosition.incomeAmount.toStringAsFixed(2),
+                    revenue: earnPosition.incomeAmount.toString(),
                   );
                 },
                 hasRightIcon: false,
@@ -101,14 +103,14 @@ class EarnPositionActiveScreen extends StatelessWidget {
                             text: intl.earn_top_up,
                             callback: () {
                               sAnalytics.tapOnTheTopUpFromActiveCryptoSavingsButton(
+                                earnOfferId: earnPosition.offerId,
                                 assetName: earnPosition.assetId,
-                                earnAPYrate:
-                                    earnPosition.offers.first.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
-                                earnDepositAmount: earnPosition.baseAmount.toStringAsFixed(2),
+                                earnAPYrate: earnPosition.offers.first.apyRate?.toString() ?? Decimal.zero.toString(),
+                                earnDepositAmount: earnPosition.baseAmount.toString(),
                                 earnOfferStatus: earnPosition.status.name,
                                 earnPlanName: earnPosition.offers.first.description ?? '',
                                 earnWithdrawalType: earnPosition.withdrawType.name,
-                                revenue: earnPosition.incomeAmount.toStringAsFixed(2),
+                                revenue: earnPosition.incomeAmount.toString(),
                               );
 
                               sRouter.push(
@@ -123,14 +125,14 @@ class EarnPositionActiveScreen extends StatelessWidget {
                             text: intl.earn_withdraw,
                             callback: () {
                               sAnalytics.tapOnTheWithdrawFromActiveCryptoSavingsButton(
+                                earnOfferId: earnPosition.offerId,
                                 assetName: earnPosition.assetId,
-                                earnAPYrate:
-                                    earnPosition.offers.first.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
-                                earnDepositAmount: earnPosition.baseAmount.toStringAsFixed(2),
+                                earnAPYrate: earnPosition.offers.first.apyRate?.toString() ?? Decimal.zero.toString(),
+                                earnDepositAmount: earnPosition.baseAmount.toString(),
                                 earnOfferStatus: earnPosition.status.name,
                                 earnPlanName: earnPosition.offers.first.description ?? '',
                                 earnWithdrawalType: earnPosition.withdrawType.name,
-                                revenue: earnPosition.incomeAmount.toStringAsFixed(2),
+                                revenue: earnPosition.incomeAmount.toString(),
                               );
                               store.startEartWithdrawFlow(
                                 earnPosition: earnPosition,

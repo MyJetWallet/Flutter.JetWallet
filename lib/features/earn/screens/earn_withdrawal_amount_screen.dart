@@ -144,6 +144,7 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
                   earnOfferId: store.earnPosition.offerId,
                   earnPlanName: store.earnPosition.offers.first.name ?? '',
                   earnWithdrawalType: store.earnPosition.withdrawType.name,
+                  withdrawAmount: store.withdrawAllValue.toString(),
                 );
                 sRouter.push(
                   EarnWithdrawOrderSummaryRouter(

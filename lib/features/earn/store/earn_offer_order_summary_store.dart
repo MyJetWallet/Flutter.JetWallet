@@ -41,8 +41,8 @@ abstract class _OfferOrderSummaryStoreBase with Store {
   }) {
     sAnalytics.earnDepositOrderSummaryScreenView(
       assetName: offer.assetId,
-      earnAPYrate: offer.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
-      earnDepositAmount: amount.toStringAsFixed(2),
+      earnAPYrate: offer.apyRate?.toString() ?? Decimal.zero.toString(),
+      earnDepositAmount: amount.toString(),
       earnPlanName: offer.description ?? '',
       earnWithdrawalType: offer.withdrawType.name,
     );
@@ -208,8 +208,8 @@ abstract class _OfferOrderSummaryStoreBase with Store {
   Future<void> _showSuccessScreen(bool isGoogle) {
     sAnalytics.successEarnDepositScreenView(
       assetName: offer.assetId,
-      earnAPYrate: offer.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
-      earnDepositAmount: selectedAmount.toStringAsFixed(2),
+      earnAPYrate: offer.apyRate?.toString() ?? Decimal.zero.toString(),
+      earnDepositAmount: selectedAmount.toString(),
       earnPlanName: offer.description ?? '',
       earnWithdrawalType: offer.withdrawType.name,
     );
@@ -244,8 +244,8 @@ abstract class _OfferOrderSummaryStoreBase with Store {
 
     sAnalytics.failedEarnDepositScreenView(
       assetName: offer.assetId,
-      earnAPYrate: offer.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
-      earnDepositAmount: selectedAmount.toStringAsFixed(2),
+      earnAPYrate: offer.apyRate?.toString() ?? Decimal.zero.toString(),
+      earnDepositAmount: selectedAmount.toString(),
       earnPlanName: offer.description ?? '',
       earnWithdrawalType: offer.withdrawType.name,
     );

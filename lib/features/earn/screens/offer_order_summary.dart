@@ -175,8 +175,8 @@ class _OfferOrderSummaruBody extends StatelessWidget {
                 onTap: () {
                   sAnalytics.tapOnTheConfirmEarnDepositOrderSummaryButton(
                     assetName: store.offer.assetId,
-                    earnAPYrate: store.offer.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
-                    earnDepositAmount: store.selectedAmount.toStringAsFixed(2),
+                    earnAPYrate: store.offer.apyRate?.toString() ?? Decimal.zero.toString(),
+                    earnDepositAmount: store.selectedAmount.toString(),
                     earnPlanName: store.offer.description ?? '',
                     earnWithdrawalType: store.offer.withdrawType.name,
                   );

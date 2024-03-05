@@ -13,7 +13,6 @@ import 'package:jetwallet/features/earn/screens/earn_withdrawn_type_screen.dart'
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
@@ -28,7 +27,6 @@ class EarnStore extends _EarnStoreBase with _$EarnStore {
 
 abstract class _EarnStoreBase with Store {
   _EarnStoreBase() {
-    sAnalytics.earnMainScreenView();
     fetchClosedPositions();
   }
 

@@ -32,6 +32,7 @@ abstract class _EarnWithdrawalAmountStoreBase with Store {
       earnOfferId: earnPosition.offerId,
       earnPlanName: earnPosition.offers.first.name ?? '',
       earnWithdrawalType: earnPosition.withdrawType.name,
+      fullWithdrawType: earnPosition.offers.first.withdrawType.name,
     );
     loadConversionPrice(
       fiatSymbol,

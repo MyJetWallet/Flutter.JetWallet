@@ -63,7 +63,7 @@ class EarnWithdrawOrderSummaryScreen extends StatelessWidget {
                 earnOfferId: earnPosition.offerId,
                 earnPlanName: earnPosition.offers.first.name ?? '',
                 earnWithdrawalType: earnPosition.withdrawType.name,
-                isFullWithdrawalType: isClosing,
+                withdrawAmount: amount.toString(),
               );
               Navigator.pop(context);
             },
@@ -190,7 +190,7 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
                 earnOfferId: store.earnPosition.offerId,
                 earnPlanName: store.earnPosition.offers.first.name ?? '',
                 earnWithdrawalType: store.earnPosition.withdrawType.name,
-                isFullWithdrawalType: store.isClosing,
+                withdrawAmount: store.amount.toString(),
               );
 
               store.confirm();

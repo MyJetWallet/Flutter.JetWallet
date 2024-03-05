@@ -44,11 +44,11 @@ class EarnPositionsListWidget extends StatelessWidget {
                     sAnalytics.tapOnTheAnyActiveEarnButton(
                       assetName: e.assetId,
                       earnAPYrate: getHighestApyRateAsString(e.offers) ?? '',
-                      earnDepositAmount: e.baseAmount.toStringAsFixed(2),
+                      earnDepositAmount: e.baseAmount.toString(),
                       earnOfferStatus: e.status.name,
                       earnPlanName: e.offers.first.description ?? '',
                       earnWithdrawalType: e.withdrawType.name,
-                      revenue: e.incomeAmount.toStringAsFixed(2),
+                      revenue: e.incomeAmount.toString(),
                     );
                     context.router.push(
                       EarnPositionActiveRouter(earnPosition: e),

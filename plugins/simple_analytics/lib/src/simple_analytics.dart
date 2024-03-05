@@ -6189,6 +6189,7 @@ class SimpleAnalytics {
     required String earnAPYrate,
     required String earnWithdrawalType,
   }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
     _analytics.logEvent(
       EventType.tapOnTheContinueWithEarnPlanButton,
       eventProperties: {
@@ -6197,7 +6198,7 @@ class SimpleAnalytics {
         PropertyType.eventId: '526',
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
-        PropertyType.earnAPYrate: earnAPYrate,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
       },
     );
@@ -6209,6 +6210,8 @@ class SimpleAnalytics {
     required String earnAPYrate,
     required String earnWithdrawalType,
   }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
     _analytics.logEvent(
       EventType.earnDepositAmountScreenView,
       eventProperties: {
@@ -6217,7 +6220,7 @@ class SimpleAnalytics {
         PropertyType.eventId: '527',
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
-        PropertyType.earnAPYrate: earnAPYrate,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
       },
     );
@@ -6229,15 +6232,17 @@ class SimpleAnalytics {
     required String earnAPYrate,
     required String earnWithdrawalType,
   }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
     _analytics.logEvent(
       EventType.earnDepositCryptoWalletPopupView,
       eventProperties: {
+        PropertyType.assetName: assetName,
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '528',
-        PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
-        PropertyType.earnAPYrate: earnAPYrate,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
       },
     );
@@ -6249,6 +6254,8 @@ class SimpleAnalytics {
     required String earnAPYrate,
     required String earnWithdrawalType,
   }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
     _analytics.logEvent(
       EventType.tapOnTheTopUpEarnWalletButton,
       eventProperties: {
@@ -6256,9 +6263,9 @@ class SimpleAnalytics {
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '529',
         PropertyType.assetName: assetName,
-        PropertyType.earnPlanName: earnPlanName,
-        PropertyType.earnAPYrate: earnAPYrate,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.earnPlanName: earnPlanName,
       },
     );
   }
@@ -6269,6 +6276,8 @@ class SimpleAnalytics {
     required String earnAPYrate,
     required String earnWithdrawalType,
   }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
     _analytics.logEvent(
       EventType.tapOnTheCancelTopUpEarnWalletButton,
       eventProperties: {
@@ -6277,7 +6286,7 @@ class SimpleAnalytics {
         PropertyType.eventId: '530',
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
-        PropertyType.earnAPYrate: earnAPYrate,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
       },
     );
@@ -6290,6 +6299,8 @@ class SimpleAnalytics {
     required String earnWithdrawalType,
     required String earnDepositAmount,
   }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
     _analytics.logEvent(
       EventType.tapOnTheContinueEarnAmountDepositButton,
       eventProperties: {
@@ -6298,7 +6309,7 @@ class SimpleAnalytics {
         PropertyType.eventId: '531',
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
-        PropertyType.earnAPYrate: earnAPYrate,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
         PropertyType.earnDepositAmount: earnDepositAmount,
       },
@@ -6312,6 +6323,8 @@ class SimpleAnalytics {
     required String earnWithdrawalType,
     required String earnDepositAmount,
   }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
     _analytics.logEvent(
       EventType.earnDepositOrderSummaryScreenView,
       eventProperties: {
@@ -6320,7 +6333,7 @@ class SimpleAnalytics {
         PropertyType.eventId: '532',
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
-        PropertyType.earnAPYrate: earnAPYrate,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
         PropertyType.earnDepositAmount: earnDepositAmount,
       },
@@ -6334,15 +6347,17 @@ class SimpleAnalytics {
     required String earnWithdrawalType,
     required String earnDepositAmount,
   }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
     _analytics.logEvent(
-      EventType.earnDepositOrderSummaryScreenView,
+      EventType.tapOnTheConfirmEarnDepositOrderSummaryButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '533',
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
-        PropertyType.earnAPYrate: earnAPYrate,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
         PropertyType.earnDepositAmount: earnDepositAmount,
       },
@@ -6356,6 +6371,8 @@ class SimpleAnalytics {
     required String earnWithdrawalType,
     required String earnDepositAmount,
   }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
     _analytics.logEvent(
       EventType.successEarnDepositScreenView,
       eventProperties: {
@@ -6364,7 +6381,7 @@ class SimpleAnalytics {
         PropertyType.eventId: '534',
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
-        PropertyType.earnAPYrate: earnAPYrate,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
         PropertyType.earnDepositAmount: earnDepositAmount,
       },
@@ -6378,6 +6395,8 @@ class SimpleAnalytics {
     required String earnWithdrawalType,
     required String earnDepositAmount,
   }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
     _analytics.logEvent(
       EventType.failedEarnDepositScreenView,
       eventProperties: {
@@ -6386,7 +6405,7 @@ class SimpleAnalytics {
         PropertyType.eventId: '535',
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
-        PropertyType.earnAPYrate: earnAPYrate,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
         PropertyType.earnDepositAmount: earnDepositAmount,
       },
@@ -6402,6 +6421,8 @@ class SimpleAnalytics {
     required String earnOfferStatus,
     required String revenue,
   }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate)}%';
+
     _analytics.logEvent(
       EventType.tapOnTheAnyActiveEarnButton,
       eventProperties: {
@@ -6410,7 +6431,7 @@ class SimpleAnalytics {
         PropertyType.eventId: '536',
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
-        PropertyType.earnAPYrate: earnAPYrate,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
         PropertyType.earnDepositAmount: earnDepositAmount,
         PropertyType.earnOfferStatus: earnOfferStatus,
@@ -6426,8 +6447,11 @@ class SimpleAnalytics {
     required String earnWithdrawalType,
     required String earnDepositAmount,
     required String earnOfferStatus,
+    required String earnOfferId,
     required String revenue,
   }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
     _analytics.logEvent(
       EventType.activeCryptoSavingsScreenView,
       eventProperties: {
@@ -6436,11 +6460,12 @@ class SimpleAnalytics {
         PropertyType.eventId: '537',
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
-        PropertyType.earnAPYrate: earnAPYrate,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
         PropertyType.earnDepositAmount: earnDepositAmount,
         PropertyType.earnOfferStatus: earnOfferStatus,
         PropertyType.revenue: revenue,
+        PropertyType.earnOfferId: earnOfferId,
       },
     );
   }
@@ -6453,7 +6478,10 @@ class SimpleAnalytics {
     required String earnDepositAmount,
     required String earnOfferStatus,
     required String revenue,
+    required String earnOfferId,
   }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
     _analytics.logEvent(
       EventType.tapOnTheBackFromActiveCryptoSavingsButton,
       eventProperties: {
@@ -6462,11 +6490,12 @@ class SimpleAnalytics {
         PropertyType.eventId: '538',
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
-        PropertyType.earnAPYrate: earnAPYrate,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
         PropertyType.earnDepositAmount: earnDepositAmount,
         PropertyType.earnOfferStatus: earnOfferStatus,
         PropertyType.revenue: revenue,
+        PropertyType.earnOfferId: earnOfferId,
       },
     );
   }
@@ -6480,6 +6509,8 @@ class SimpleAnalytics {
     required String earnOfferStatus,
     required String revenue,
   }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
     _analytics.logEvent(
       EventType.tapOnTheHistoryFromActiveCryptoSavingsButton,
       eventProperties: {
@@ -6488,7 +6519,7 @@ class SimpleAnalytics {
         PropertyType.eventId: '539',
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
-        PropertyType.earnAPYrate: earnAPYrate,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
         PropertyType.earnDepositAmount: earnDepositAmount,
         PropertyType.earnOfferStatus: earnOfferStatus,
@@ -6505,7 +6536,10 @@ class SimpleAnalytics {
     required String earnDepositAmount,
     required String earnOfferStatus,
     required String revenue,
+    required String earnOfferId,
   }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
     _analytics.logEvent(
       EventType.tapOnTheTopUpFromActiveCryptoSavingsButton,
       eventProperties: {
@@ -6514,11 +6548,12 @@ class SimpleAnalytics {
         PropertyType.eventId: '540',
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
-        PropertyType.earnAPYrate: earnAPYrate,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
         PropertyType.earnDepositAmount: earnDepositAmount,
         PropertyType.earnOfferStatus: earnOfferStatus,
         PropertyType.revenue: revenue,
+        PropertyType.earnOfferId: earnOfferId,
       },
     );
   }
@@ -6531,7 +6566,10 @@ class SimpleAnalytics {
     required String earnDepositAmount,
     required String earnOfferStatus,
     required String revenue,
+    required String earnOfferId,
   }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
     _analytics.logEvent(
       EventType.tapOnTheWithdrawFromActiveCryptoSavingsButton,
       eventProperties: {
@@ -6540,11 +6578,12 @@ class SimpleAnalytics {
         PropertyType.eventId: '541',
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
-        PropertyType.earnAPYrate: earnAPYrate,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
         PropertyType.earnDepositAmount: earnDepositAmount,
         PropertyType.earnOfferStatus: earnOfferStatus,
         PropertyType.revenue: revenue,
+        PropertyType.earnOfferId: earnOfferId,
       },
     );
   }
@@ -6564,6 +6603,7 @@ class SimpleAnalytics {
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
       },
     );
   }
@@ -6583,6 +6623,7 @@ class SimpleAnalytics {
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
       },
     );
   }
@@ -6602,6 +6643,7 @@ class SimpleAnalytics {
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
       },
     );
   }
@@ -6621,6 +6663,7 @@ class SimpleAnalytics {
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
       },
     );
   }
@@ -6629,6 +6672,7 @@ class SimpleAnalytics {
     required String assetName,
     required String earnPlanName,
     required String earnWithdrawalType,
+    required String fullWithdrawType,
     required String earnOfferId,
   }) {
     _analytics.logEvent(
@@ -6640,6 +6684,8 @@ class SimpleAnalytics {
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.fullWithdrawType: fullWithdrawType,
       },
     );
   }
@@ -6649,6 +6695,7 @@ class SimpleAnalytics {
     required String earnPlanName,
     required String earnWithdrawalType,
     required String earnOfferId,
+    required String fullWithdrawType,
   }) {
     _analytics.logEvent(
       EventType.earnWithdrawAmountScreenView,
@@ -6659,6 +6706,8 @@ class SimpleAnalytics {
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.fullWithdrawType: fullWithdrawType,
       },
     );
   }
@@ -6678,6 +6727,7 @@ class SimpleAnalytics {
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
       },
     );
   }
@@ -6687,6 +6737,7 @@ class SimpleAnalytics {
     required String earnPlanName,
     required String earnWithdrawalType,
     required String earnOfferId,
+    required String withdrawAmount,
   }) {
     _analytics.logEvent(
       EventType.tapOnTheContinueWithEarnWithdrawAmountButton,
@@ -6697,6 +6748,8 @@ class SimpleAnalytics {
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.withdrawAmount: withdrawAmount,
       },
     );
   }
@@ -6706,7 +6759,7 @@ class SimpleAnalytics {
     required String earnPlanName,
     required String earnWithdrawalType,
     required String earnOfferId,
-    required bool isFullWithdrawalType,
+    required String withdrawAmount,
   }) {
     _analytics.logEvent(
       EventType.earnWithdrawOrderSummaryScreenView,
@@ -6717,7 +6770,8 @@ class SimpleAnalytics {
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
-        PropertyType.isFullWithdrawalType: isFullWithdrawalType,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.withdrawAmount: withdrawAmount,
       },
     );
   }
@@ -6727,7 +6781,7 @@ class SimpleAnalytics {
     required String earnPlanName,
     required String earnWithdrawalType,
     required String earnOfferId,
-    required bool isFullWithdrawalType,
+    required String withdrawAmount,
   }) {
     _analytics.logEvent(
       EventType.tapOnTheBackFromEarnWithdrawOrderSummaryButton,
@@ -6738,7 +6792,8 @@ class SimpleAnalytics {
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
-        PropertyType.isFullWithdrawalType: isFullWithdrawalType,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.withdrawAmount: withdrawAmount,
       },
     );
   }
@@ -6748,7 +6803,7 @@ class SimpleAnalytics {
     required String earnPlanName,
     required String earnWithdrawalType,
     required String earnOfferId,
-    required bool isFullWithdrawalType,
+    required String withdrawAmount,
   }) {
     _analytics.logEvent(
       EventType.tapOnTheContinueWithEarnWithdrawAmountButton,
@@ -6759,7 +6814,8 @@ class SimpleAnalytics {
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
-        PropertyType.isFullWithdrawalType: isFullWithdrawalType,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.withdrawAmount: withdrawAmount,
       },
     );
   }
@@ -6781,6 +6837,7 @@ class SimpleAnalytics {
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
         PropertyType.winAmount: withdrawAnount,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
       },
     );
   }
@@ -6802,6 +6859,7 @@ class SimpleAnalytics {
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
         PropertyType.winAmount: withdrawAnount,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
       },
     );
   }
