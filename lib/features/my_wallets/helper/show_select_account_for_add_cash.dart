@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_receive/action_receive.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
-import 'package:jetwallet/features/cj_banking_accounts/screens/show_account_details_screen.dart';
 import 'package:jetwallet/features/cj_banking_accounts/widgets/show_account_deposit_by_bottom_sheet.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
@@ -144,31 +142,11 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
                   ? intl.eur_wallet_personal_account
                   : intl.create_personal_creating,
               onTableAssetTap: () {
-                sAnalytics.tapOnAnyEurAccountOnDepositButton(
-                  accountType: 'Unlimit',
+                showAccountDepositBySelector(
+                  context: context,
+                  onClose: () {},
+                  bankingAccount: bankAccounts[index],
                 );
-
-                if (bankAccounts[index].status == AccountStatus.active) {
-                  sAnalytics.eurWalletDepositDetailsSheet(
-                    isCJ: false,
-                    eurAccountLabel: bankAccounts[index].label ?? 'Account 1',
-                    isHasTransaction: true,
-                    source: 'Wallets',
-                  );
-                  sRouter.pop();
-
-                  showAccountDetails(
-                    context: context,
-                    onClose: () {
-                      sAnalytics.eurWalletTapCloseOnDeposirSheet(
-                        isCJ: false,
-                        eurAccountLabel: bankAccounts[index].label ?? 'Account',
-                        isHasTransaction: true,
-                      );
-                    },
-                    bankingAccount: bankAccounts[index],
-                  );
-                }
               },
               rightValue: bankAccounts[index].status == AccountStatus.active
                   ? getIt<AppStore>().isBalanceHide
