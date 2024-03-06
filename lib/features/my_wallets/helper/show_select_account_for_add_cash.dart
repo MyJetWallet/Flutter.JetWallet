@@ -10,6 +10,7 @@ import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_a
 import 'package:jetwallet/features/cj_banking_accounts/widgets/show_account_deposit_by_bottom_sheet.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
+import 'package:jetwallet/features/simple_card/ui/widgets/show_simple_card_deposit_by_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
@@ -172,7 +173,13 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
                     symbol: card.currency ?? 'EUR',
                   ),
             isCard: true,
-            onTableAssetTap: () {},
+            onTableAssetTap: () {
+              showSimpleCardDepositBySelector(
+                context: context,
+                onClose: () {},
+                card: card,
+              );
+            },
           ),
       ],
     );
