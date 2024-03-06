@@ -179,20 +179,22 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      intl.earn_variable_apy,
-                      style: STStyles.body2Medium.copyWith(color: colors.grey1),
-                    ),
-                    Text(
-                      '${getHighestApyRateAsString(earnPosition.offers)} %',
-                      style: STStyles.subtitle2.copyWith(color: colors.black),
-                    ),
-                  ],
-                ),
+                if (getHighestApyRateAsString(earnPosition.offers) != 'null') ...[
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        intl.earn_variable_apy,
+                        style: STStyles.body2Medium.copyWith(color: colors.grey1),
+                      ),
+                      Text(
+                        '${getHighestApyRateAsString(earnPosition.offers)} %',
+                        style: STStyles.subtitle2.copyWith(color: colors.black),
+                      ),
+                    ],
+                  ),
+                ],
                 const SizedBox(height: 16),
                 if (earnPosition.startDateTime != null)
                   Row(
