@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/keyboards/constants.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
+import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
 part 'earn_withdrawal_amount_store.g.dart';
 
@@ -32,7 +33,7 @@ abstract class _EarnWithdrawalAmountStoreBase with Store {
       earnOfferId: earnPosition.offerId,
       earnPlanName: earnPosition.offers.first.name ?? '',
       earnWithdrawalType: earnPosition.withdrawType.name,
-      fullWithdrawType: earnPosition.offers.first.withdrawType.name,
+      fullWithdrawType: earnPosition.offers.first.withdrawType == WithdrawType.lock,
     );
     loadConversionPrice(
       fiatSymbol,

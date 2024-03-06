@@ -81,7 +81,7 @@ class _EarnWithdrawnTypeScreenState extends State<EarnWithdrawnTypeScreen> {
                       earnWithdrawalType: widget.earnPosition.withdrawType.name,
                       earnOfferId: widget.earnPosition.offerId,
                       earnPlanName: widget.earnPosition.offers.first.name ?? '',
-                      fullWithdrawType: widget.earnPosition.withdrawType.name,
+                      fullWithdrawType: isPartialWithdrawal,
                     );
                     sRouter.push(
                       EarnWithdrawalAmountRouter(earnPosition: widget.earnPosition),
