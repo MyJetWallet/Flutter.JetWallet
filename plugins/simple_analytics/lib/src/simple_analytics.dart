@@ -6672,7 +6672,7 @@ class SimpleAnalytics {
     required String assetName,
     required String earnPlanName,
     required String earnWithdrawalType,
-    required String fullWithdrawType,
+    required bool fullWithdrawType,
     required String earnOfferId,
   }) {
     _analytics.logEvent(
@@ -6695,7 +6695,7 @@ class SimpleAnalytics {
     required String earnPlanName,
     required String earnWithdrawalType,
     required String earnOfferId,
-    required String fullWithdrawType,
+    required bool fullWithdrawType,
   }) {
     _analytics.logEvent(
       EventType.earnWithdrawAmountScreenView,
