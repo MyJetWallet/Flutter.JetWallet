@@ -21,7 +21,7 @@ dependencies:
   grouped_list: 5.1.2 # List with grouped items
   flutter_slidable: ^3.0.1
   visibility_detector: ^0.4.0+2
-  mobile_scanner: 4.0.1
+  mobile_scanner: 3.5.7
   local_auth: 2.2.0 # local authentication via fingerprint, touch ID, face ID, passcode, pin, or pattern
   intl_phone_number_input: ^0.7.4 # phone number in international format that uses Google's libphonenumber
   flutter_svg: ^2.0.7 # SVG rendering and widget library
