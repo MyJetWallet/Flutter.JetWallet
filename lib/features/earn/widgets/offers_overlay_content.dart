@@ -30,6 +30,7 @@ class _OffersOverlayContentState extends State<OffersOverlayContent> {
 
   @override
   void initState() {
+    sAnalytics.chooseEarnPlanScreenView(assetName: widget.offers.first.assetId);
     if (widget.offers.isNotEmpty) {
       selectedOfferId = widget.offers.first.id;
     }
@@ -69,7 +70,6 @@ class _OffersOverlayContentState extends State<OffersOverlayContent> {
                   offer: offer,
                   selectedOfferId: selectedOfferId,
                   onSelected: (value) {
-                    sAnalytics.chooseEarnPlanScreenView(assetName: offer.assetId);
                     setState(() {
                       selectedOfferId = value;
                     });
@@ -91,7 +91,7 @@ class _OffersOverlayContentState extends State<OffersOverlayContent> {
                     final selectedOffer = widget.offers.firstWhere((offer) => offer.id == selectedOfferId);
                     sAnalytics.tapOnTheContinueWithEarnPlanButton(
                       assetName: selectedOffer.assetId,
-                      earnAPYrate: selectedOffer.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
+                      earnAPYrate: selectedOffer.apyRate?.toString() ?? Decimal.zero.toString(),
                       earnPlanName: selectedOffer.description ?? '',
                       earnWithdrawalType: selectedOffer.withdrawType.name,
                     );
