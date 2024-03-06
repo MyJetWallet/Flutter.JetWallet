@@ -75,7 +75,9 @@ class EarnPositionActiveScreen extends StatelessWidget {
                 },
                 hasRightIcon: false,
                 title: currency.description,
-                subtitle: earnPosition.offers.firstOrNull?.name,
+                subtitle: earnPosition.status == EarnPositionStatus.closed
+                    ? earnPosition.offerName
+                    : earnPosition.offers.firstOrNull?.name,
               ),
               Expanded(
                 child: Column(
@@ -105,7 +107,8 @@ class EarnPositionActiveScreen extends StatelessWidget {
                               sAnalytics.tapOnTheTopUpFromActiveCryptoSavingsButton(
                                 earnOfferId: earnPosition.offerId,
                                 assetName: earnPosition.assetId,
-                                earnAPYrate: earnPosition.offers.firstOrNull?.apyRate?.toString() ?? Decimal.zero.toString(),
+                                earnAPYrate:
+                                    earnPosition.offers.firstOrNull?.apyRate?.toString() ?? Decimal.zero.toString(),
                                 earnDepositAmount: earnPosition.baseAmount.toString(),
                                 earnOfferStatus: earnPosition.status.name,
                                 earnPlanName: earnPosition.offers.firstOrNull?.description ?? '',
@@ -127,7 +130,8 @@ class EarnPositionActiveScreen extends StatelessWidget {
                               sAnalytics.tapOnTheWithdrawFromActiveCryptoSavingsButton(
                                 earnOfferId: earnPosition.offerId,
                                 assetName: earnPosition.assetId,
-                                earnAPYrate: earnPosition.offers.firstOrNull?.apyRate?.toString() ?? Decimal.zero.toString(),
+                                earnAPYrate:
+                                    earnPosition.offers.firstOrNull?.apyRate?.toString() ?? Decimal.zero.toString(),
                                 earnDepositAmount: earnPosition.baseAmount.toString(),
                                 earnOfferStatus: earnPosition.status.name,
                                 earnPlanName: earnPosition.offers.firstOrNull?.description ?? '',
