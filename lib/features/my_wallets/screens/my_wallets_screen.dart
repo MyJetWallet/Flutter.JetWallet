@@ -27,7 +27,7 @@ import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
-import 'package:rive/rive.dart';
+import 'package:rive/rive.dart' as rive;
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/delete_asset/simple_delete_asset.dart';
 import 'package:simple_kit/modules/icons/24x24/public/start_reorder/simple_start_reorder_icon.dart';
@@ -262,7 +262,7 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                     shape: BoxShape.circle,
                                   ),
                                   alignment: Alignment.center,
-                                  child: const RiveAnimation.asset(
+                                  child: const rive.RiveAnimation.asset(
                                     loadingAnimationAsset,
                                   ),
                                 ),

@@ -4,6 +4,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/widgets/navigation/segment_control/models/segment_control_data.dart';
+import 'package:simple_kit_updated/widgets/navigation/segment_control/segment_control.dart';
 
 import '../../wallet/helper/nft_types.dart';
 import '../../wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_main_list.dart';
@@ -82,35 +84,20 @@ class _TransactionHistoryState extends State<TransactionHistory> with TickerProv
       ),
       child: Column(
         children: [
-          SPaddingH24(
-            child: Container(
-              height: 32,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: colors.grey5,
-                borderRadius: BorderRadius.circular(16),
+          SegmentControl(
+            tabController: _tabController,
+            expand: true,
+            expandWidth: MediaQuery.of(context).size.width,
+            items: [
+              SegmentControlData(
+                type: SegmentControlType.text,
+                text: intl.transaction_tab_all,
               ),
-              child: TabBar(
-                controller: _tabController,
-                indicator: BoxDecoration(
-                  color: colors.black,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                labelColor: colors.white,
-                labelStyle: sSubtitle3Style,
-                unselectedLabelColor: colors.grey1,
-                unselectedLabelStyle: sSubtitle3Style,
-                splashBorderRadius: BorderRadius.circular(16),
-                tabs: [
-                  Tab(
-                    text: intl.transaction_tab_all,
-                  ),
-                  Tab(
-                    text: intl.transaction_tab_pending,
-                  ),
-                ],
+              SegmentControlData(
+                type: SegmentControlType.text,
+                text: intl.transaction_tab_pending,
               ),
-            ),
+            ],
           ),
           Container(
             color: colors.white,
