@@ -10,7 +10,6 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 
-
 @RoutePage(name: 'EarnWithdrawnTypeRouter')
 class EarnWithdrawnTypeScreen extends StatefulWidget {
   const EarnWithdrawnTypeScreen({super.key, required this.earnPosition});
@@ -88,12 +87,6 @@ class _EarnWithdrawnTypeScreenState extends State<EarnWithdrawnTypeScreen> {
                       EarnWithdrawalAmountRouter(earnPosition: widget.earnPosition),
                     );
                   } else {
-                    sAnalytics.tapOnTheYesWithdrawButton(
-                      assetName: widget.earnPosition.assetId,
-                      earnWithdrawalType: widget.earnPosition.withdrawType.name,
-                      earnOfferId: widget.earnPosition.offerId,
-                      earnPlanName: widget.earnPosition.offers.first.name ?? '',
-                    );
                     sAnalytics.sureFullEarnWithdrawPopupView(
                       assetName: widget.earnPosition.assetId,
                       earnWithdrawalType: widget.earnPosition.withdrawType.name,

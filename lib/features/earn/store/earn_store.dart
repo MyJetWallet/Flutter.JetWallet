@@ -13,6 +13,7 @@ import 'package:jetwallet/features/earn/screens/earn_withdrawn_type_screen.dart'
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
@@ -296,9 +297,21 @@ abstract class _EarnStoreBase with Store {
         package: 'simple_kit',
       ),
       onPrimaryButtonTap: () {
+        sAnalytics.tapOnTheYesWithdrawButton(
+          assetName: earnPosition.assetId,
+          earnWithdrawalType: earnPosition.withdrawType.name,
+          earnOfferId: earnPosition.offerId,
+          earnPlanName: earnPosition.offers.first.name ?? '',
+        );
         sRouter.pop();
       },
       onSecondaryButtonTap: () {
+        sAnalytics.sureFullEarnWithdrawPopupView(
+          assetName: earnPosition.assetId,
+          earnWithdrawalType: earnPosition.withdrawType.name,
+          earnOfferId: earnPosition.offerId,
+          earnPlanName: earnPosition.offers.first.name ?? '',
+        );
         sRouter.pop();
         sRouter.push(
           EarnWithdrawOrderSummaryRouter(

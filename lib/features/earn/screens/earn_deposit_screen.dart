@@ -208,7 +208,7 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
               onSubmitPressed: () {
                 sAnalytics.tapOnTheContinueEarnAmountDepositButton(
                   assetName: store.offer.assetId,
-                  earnAPYrate: store.offer.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
+                  earnAPYrate: store.offer.apyRate?.toString() ?? Decimal.zero.toString(),
                   earnDepositAmount: store.cryptoInputValue,
                   earnPlanName: store.offer.description ?? '',
                   earnWithdrawalType: store.offer.withdrawType.name,

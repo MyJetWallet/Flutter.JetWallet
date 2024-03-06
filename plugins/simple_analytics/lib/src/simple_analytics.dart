@@ -6836,7 +6836,7 @@ class SimpleAnalytics {
         PropertyType.assetName: assetName,
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
-        PropertyType.winAmount: withdrawAnount,
+        PropertyType.withdrawAmount: withdrawAnount,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
       },
     );
