@@ -6,17 +6,24 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/actions/action_receive/action_receive.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/cj_banking_accounts/screens/show_account_details_screen.dart';
+import 'package:jetwallet/features/cj_banking_accounts/widgets/show_account_deposit_by_bottom_sheet.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
+import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 
 import '../../app/store/app_store.dart';
 
@@ -69,92 +76,57 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
     final bankAccounts = sSignalRModules.bankingProfileData?.banking?.accounts ?? <SimpleBankingAccount>[];
     final simpleAccount = sSignalRModules.bankingProfileData?.simple?.account;
 
+    final cards = sSignalRModules.bankingProfileData?.banking?.cards
+            ?.where(
+              (element) => element.status == AccountStatusCard.active,
+            )
+            .toList() ??
+        [];
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SPaddingH24(
-          child: Text(
-            intl.sell_amount_accounts,
-            style: sBodyText2Style.copyWith(
-              color: sKit.colors.grey2,
-            ),
+        STextDivider(intl.sell_amount_accounts),
+        SimpleTableAsset(
+          assetIcon: Assets.svg.assets.crypto.defaultPlaceholder.simpleSvg(
+            width: 24,
           ),
+          label: intl.wallet_crypto_wallet,
+          supplement: intl.wallet_crypto_assets,
+          onTableAssetTap: () {
+            showReceiveAction(context);
+          },
+          rightValue: !getIt<AppStore>().isBalanceHide
+              ? _price(
+                  currenciesWithBalanceFrom(sSignalRModules.currenciesList),
+                  sSignalRModules.baseCurrency,
+                )
+              : '**** ${sSignalRModules.baseCurrency.symbol}',
         ),
         if (simpleAccount != null)
-          SCardRow(
-            maxWidth: MediaQuery.of(context).size.width * .35,
-            icon: Container(
-              margin: const EdgeInsets.only(top: 3),
-              padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                color: sKit.colors.blue,
-                shape: BoxShape.circle,
-              ),
-              child: SizedBox(
-                width: 16,
-                height: 16,
-                child: SBankMediumIcon(
-                  color: sKit.colors.white,
-                ),
-              ),
+          SimpleTableAsset(
+            assetIcon: Assets.svg.assets.fiat.account.simpleSvg(
+              width: 24,
             ),
-            name: simpleAccount.label ?? 'Account 1',
-            helper: simpleAccount.status == AccountStatus.active
+            label: simpleAccount.label ?? 'Account 1',
+            supplement: simpleAccount.status == AccountStatus.active
                 ? intl.eur_wallet_simple_account
                 : intl.create_simple_creating,
-            onTap: () {
-              if (simpleAccount.status == AccountStatus.active) {
-                sAnalytics.eurWalletDepositDetailsSheet(
-                  isCJ: true,
-                  eurAccountLabel: simpleAccount.label ?? 'Account 1',
-                  isHasTransaction: true,
-                  source: 'Wallets',
-                );
-
-                sAnalytics.tapOnAnyEurAccountOnDepositButton(
-                  accountType: 'CJ',
-                );
-
-                sRouter.pop();
-
-                showAccountDetails(
-                  context: context,
-                  onClose: () {
-                    sAnalytics.eurWalletTapCloseOnDeposirSheet(
-                      isCJ: true,
-                      eurAccountLabel: simpleAccount.label ?? 'Account 1',
-                      isHasTransaction: true,
-                    );
-                  },
-                  bankingAccount: simpleAccount,
-                );
-              }
+            onTableAssetTap: () {
+              showAccountDepositBySelector(
+                context: context,
+                onClose: () {},
+                bankingAccount: simpleAccount,
+              );
             },
-            description: '',
-            amount: '',
-            needSpacer: true,
-            rightIcon: simpleAccount.status == AccountStatus.active
-                ? Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    decoration: ShapeDecoration(
-                      shape: RoundedRectangleBorder(
-                        side: const BorderSide(color: Color(0xFFF1F4F8)),
-                        borderRadius: BorderRadius.circular(22),
-                      ),
-                    ),
-                    child: Text(
-                      getIt<AppStore>().isBalanceHide
-                      ? '**** ${eurCurrency.symbol}'
-                      : volumeFormat(
+            rightValue: simpleAccount.status == AccountStatus.active
+                ? getIt<AppStore>().isBalanceHide
+                    ? '**** ${eurCurrency.symbol}'
+                    : volumeFormat(
                         decimal: simpleAccount.balance ?? Decimal.zero,
                         accuracy: eurCurrency.accuracy,
                         symbol: eurCurrency.symbol,
-                      ),
-                      style: sSubtitle1Style.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  )
+                      )
                 : null,
           ),
         ListView.builder(
@@ -163,30 +135,15 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
           itemCount: bankAccounts.length,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            return SCardRow(
-              maxWidth: bankAccounts[index].status == AccountStatus.active
-                  ? MediaQuery.of(context).size.width * .35
-                  : MediaQuery.of(context).size.width * .5,
-              icon: Container(
-                margin: const EdgeInsets.only(top: 3),
-                padding: const EdgeInsets.all(4),
-                decoration: BoxDecoration(
-                  color: sKit.colors.blue,
-                  shape: BoxShape.circle,
-                ),
-                child: SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: SBankMediumIcon(
-                    color: sKit.colors.white,
-                  ),
-                ),
+            return SimpleTableAsset(
+              assetIcon: Assets.svg.assets.fiat.account.simpleSvg(
+                width: 24,
               ),
-              name: bankAccounts[index].label ?? 'Account',
-              helper: bankAccounts[index].status == AccountStatus.active
+              label: bankAccounts[index].label ?? 'Account',
+              supplement: bankAccounts[index].status == AccountStatus.active
                   ? intl.eur_wallet_personal_account
                   : intl.create_personal_creating,
-              onTap: () {
+              onTableAssetTap: () {
                 sAnalytics.tapOnAnyEurAccountOnDepositButton(
                   accountType: 'Unlimit',
                 );
@@ -213,36 +170,50 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
                   );
                 }
               },
-              description: '',
-              amount: '',
-              needSpacer: true,
-              rightIcon: bankAccounts[index].status == AccountStatus.active
-                  ? Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          side: const BorderSide(color: Color(0xFFF1F4F8)),
-                          borderRadius: BorderRadius.circular(22),
-                        ),
-                      ),
-                      child: Text(
-                        getIt<AppStore>().isBalanceHide
-                          ? '**** ${eurCurrency.symbol}'
-                          : volumeFormat(
-                            decimal: bankAccounts[index].balance ?? Decimal.zero,
-                            accuracy: eurCurrency.accuracy,
-                            symbol: eurCurrency.symbol,
-                          ),
-                        style: sSubtitle1Style.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    )
+              rightValue: bankAccounts[index].status == AccountStatus.active
+                  ? getIt<AppStore>().isBalanceHide
+                      ? '**** ${eurCurrency.symbol}'
+                      : volumeFormat(
+                          decimal: bankAccounts[index].balance ?? Decimal.zero,
+                          accuracy: eurCurrency.accuracy,
+                          symbol: eurCurrency.symbol,
+                        )
                   : null,
             );
           },
         ),
+        for (final card in cards)
+          SimpleTableAsset(
+            label: card.label ?? '',
+            supplement: '${card.cardType?.frontName} ••• ${card.last4NumberCharacters}',
+            rightValue: getIt<AppStore>().isBalanceHide
+                ? '**** ${card.currency ?? 'EUR'}'
+                : volumeFormat(
+                    decimal: card.balance ?? Decimal.zero,
+                    accuracy: 2,
+                    symbol: card.currency ?? 'EUR',
+                  ),
+            isCard: true,
+            onTableAssetTap: () {},
+          ),
       ],
+    );
+  }
+
+  String _price(
+    List<CurrencyModel> items,
+    BaseCurrencyModel baseCurrency,
+  ) {
+    var totalBalance = Decimal.zero;
+
+    for (final item in items) {
+      totalBalance += item.baseBalance;
+    }
+
+    return volumeFormat(
+      decimal: totalBalance,
+      accuracy: baseCurrency.accuracy,
+      symbol: baseCurrency.symbol,
     );
   }
 }
