@@ -1902,5 +1902,8 @@
     "earn_to": "To",
     "about_us_earn_program": "Earn Program Terms and Conditions",
     "about_us_smpl_global": "Smpl Global Privacy Policy",
-    "earn_finished": "Finished"
+    "earn_finished": "Finished",
+    "earn_earns_details": "Earns details",
+    "earn_base_amount": "Base amount",
+    "earn_saving_income": "Saving income"
 }
