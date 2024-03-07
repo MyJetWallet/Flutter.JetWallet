@@ -66,7 +66,7 @@ class TransactionListItem extends StatelessWidget {
         : currencies[0];
     final baseCurrency = sSignalRModules.baseCurrency;
 
-    return _TransactionBaseItem(
+    return TransactionBaseItem(
       onTap: () {
         if (fromCJAccount) {
           sAnalytics.eurWalletTapAnyHistoryTRXEUR(
@@ -369,8 +369,8 @@ class TransactionListItem extends StatelessWidget {
   }
 }
 
-class _TransactionBaseItem extends StatelessWidget {
-  const _TransactionBaseItem({
+class TransactionBaseItem extends StatelessWidget {
+  const TransactionBaseItem({
     required this.onTap,
     required this.icon,
     required this.labele,
