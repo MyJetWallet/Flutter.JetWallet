@@ -11,19 +11,19 @@ import 'package:jetwallet/features/invest/ui/dashboard/invest_header.dart';
 import 'package:jetwallet/features/invest/ui/invests/above_list_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/rollover_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/symbol_info_without_chart.dart';
-import 'package:jetwallet/features/invest/ui/widgets/invest_button.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_close_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_modify_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_report_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/icons/custom/public/invest/simple_invest_chart_candles.dart';
-import 'package:simple_kit/modules/icons/custom/public/invest/simple_invest_chart_line.dart';
 import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
 import 'package:simple_kit/modules/shared/simple_divider.dart';
 import 'package:simple_kit/modules/shared/simple_paddings.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
@@ -220,7 +220,7 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             SymbolInfoWithoutChart(
-              currency: currency,
+              percent: investStore.getPercentSymbol(widget.instrument.symbol ?? ''),
               price: investStore.getPriceBySymbol(widget.instrument.symbol ?? ''),
               instrument: widget.instrument,
               onTap: () {
@@ -260,12 +260,12 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
                       fromRight: false,
                       tabs: const [],
                       tabsAssets: [
-                        SIChartLineIcon(
+                        Assets.svg.invest.chartLine.simpleSvg(
                           width: 16,
                           height: 16,
                           color: investNewStore.chartType == 0 ? colors.black : colors.grey2,
                         ),
-                        SIChartCandlesIcon(
+                        Assets.svg.invest.chartCandles.simpleSvg(
                           width: 16,
                           height: 16,
                           color: investNewStore.chartType == 1 ? colors.black : colors.grey2,
@@ -293,7 +293,7 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
               builder: (BuildContext context) {
                 return RolloverLine(
                   mainText: intl.invest_next_rollover,
-                  secondaryText: '${investNewStore.position!.rollOver}% / ${timerUpdated ?? ''}',
+                  secondaryText: '${investNewStore.position!.rollOver}% / $timerUpdated',
                 );
               },
             ),

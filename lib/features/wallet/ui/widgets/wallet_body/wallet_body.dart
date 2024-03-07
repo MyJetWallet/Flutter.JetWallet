@@ -86,7 +86,6 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
 
     final kycState = getIt.get<KycService>();
     final handler = getIt.get<KycAlertHandler>();
-
     return Material(
       color: colors.white,
       child: Column(
@@ -99,39 +98,39 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
             ticker: widget.currency.symbol,
             mainTitle: widget.currency.symbol == 'EUR'
                 ? getIt<AppStore>().isBalanceHide
-                  ? '**** ${widget.currency.symbol}'
-                  : volumeFormat(
-                    decimal: sSignalRModules.totalEurWalletBalance,
-                    accuracy: widget.currency.accuracy,
-                    symbol: widget.currency.symbol,
-                  )
+                    ? '**** ${widget.currency.symbol}'
+                    : volumeFormat(
+                        decimal: sSignalRModules.totalEurWalletBalance,
+                        accuracy: widget.currency.accuracy,
+                        symbol: widget.currency.symbol,
+                      )
                 : getIt<AppStore>().isBalanceHide
-                  ? '**** ${getIt.get<FormatService>().baseCurrency.symbol}'
-                  : widget.currency.volumeBaseBalance(
-                    getIt.get<FormatService>().baseCurrency,
-                  ),
+                    ? '**** ${getIt.get<FormatService>().baseCurrency.symbol}'
+                    : widget.currency.volumeBaseBalance(
+                        getIt.get<FormatService>().baseCurrency,
+                      ),
             mainSubtitle: getIt.get<FormatService>().baseCurrency.symbol != widget.currency.symbol
                 ? widget.currency.symbol == 'EUR'
-                  ? getIt<AppStore>().isBalanceHide
-                    ? '**** ${getIt.get<FormatService>().baseCurrency.symbol}'
-                    : widget.currency.volumeBaseBalance(getIt.get<FormatService>().baseCurrency)
-                  : getIt<AppStore>().isBalanceHide
-                      ? '******* ${widget.currency.symbol}'
-                      : widget.currency.volumeAssetBalance
+                    ? getIt<AppStore>().isBalanceHide
+                        ? '**** ${getIt.get<FormatService>().baseCurrency.symbol}'
+                        : widget.currency.volumeBaseBalance(getIt.get<FormatService>().baseCurrency)
+                    : getIt<AppStore>().isBalanceHide
+                        ? '******* ${widget.currency.symbol}'
+                        : widget.currency.volumeAssetBalance
                 : null,
             mainHeaderTitle: widget.currency.description,
             mainHeaderSubtitle: intl.eur_wallet,
             mainHeaderCollapsedTitle: widget.currency.symbol == 'EUR'
                 ? getIt<AppStore>().isBalanceHide
-                  ? '**** ${widget.currency.symbol}'
-                  : volumeFormat(
-                    decimal: sSignalRModules.totalEurWalletBalance,
-                    accuracy: widget.currency.accuracy,
-                    symbol: widget.currency.symbol,
-                  )
-                :  getIt<AppStore>().isBalanceHide
-                  ? '**** ${getIt.get<FormatService>().baseCurrency.symbol}'
-                  : widget.currency.volumeBaseBalance(getIt.get<FormatService>().baseCurrency),
+                    ? '**** ${widget.currency.symbol}'
+                    : volumeFormat(
+                        decimal: sSignalRModules.totalEurWalletBalance,
+                        accuracy: widget.currency.accuracy,
+                        symbol: widget.currency.symbol,
+                      )
+                : getIt<AppStore>().isBalanceHide
+                    ? '**** ${getIt.get<FormatService>().baseCurrency.symbol}'
+                    : widget.currency.volumeBaseBalance(getIt.get<FormatService>().baseCurrency),
             mainHeaderCollapsedSubtitle: widget.currency.description,
             carouselItemsCount: widget.pageCount,
             carouselPageIndex: widget.indexNow,

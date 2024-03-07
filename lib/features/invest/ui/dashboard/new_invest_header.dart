@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_text_button.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 import '../../../../core/l10n/i10n.dart';
-import '../widgets/invest_text_button.dart';
 
 class NewInvestHeader extends StatelessObserverWidget {
   const NewInvestHeader({
@@ -54,15 +57,15 @@ class NewInvestHeader extends StatelessObserverWidget {
             ],
             Text(
               title,
-              style: sTextH4SMInvestStyle.copyWith(
+              style: STStyles.header4SMInvest.copyWith(
                 color: colors.black,
               ),
             ),
             const Spacer(),
             if (showIcon)
               SIconButton(
-                defaultIcon: const SISettingIcon(width: 16, height: 16,),
-                pressedIcon: const SISettingIcon(width: 16, height: 16,),
+                defaultIcon: Assets.svg.invest.setting.simpleSvg(width: 16, height: 16,),
+                pressedIcon: Assets.svg.invest.setting.simpleSvg(width: 16, height: 16,),
                 onTap: onButtonTap,
               ),
             if (showRollover)
@@ -88,7 +91,7 @@ class NewInvestHeader extends StatelessObserverWidget {
                 onTap: () {
                   onButtonTap?.call();
                 },
-                icon: const SIReportIcon(width: 16, height: 16,),
+                icon: Assets.svg.invest.report.simpleSvg(width: 16, height: 16,),
               ),
             if (showModify)
               SITextButton(
@@ -97,7 +100,7 @@ class NewInvestHeader extends StatelessObserverWidget {
                 onTap: () {
                   onButtonTap?.call();
                 },
-                icon: const SIEditIcon(width: 16, height: 16,),
+                icon: Assets.svg.invest.edit.simpleSvg(width: 16, height: 16,),
               ),
           ],
         ),

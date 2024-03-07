@@ -13,7 +13,6 @@ import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/simple_card/store/simple_card_store.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
-import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
@@ -22,6 +21,7 @@ import 'package:simple_networking/modules/signal_r/models/banking_profile_model.
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 
 import '../../../../../core/services/user_info/user_info_service.dart';
+import '../../../../../utils/models/currency_model.dart';
 import '../../../../app/store/app_store.dart';
 import '../../../../simple_card/ui/widgets/card_options.dart';
 
@@ -31,8 +31,10 @@ class EurWalletBody extends StatefulObserverWidget {
     required this.pageController,
     required this.pageCount,
     required this.indexNow,
+    required this.eurCurrency,
   });
 
+  final CurrencyModel eurCurrency;
   final PageController pageController;
   final int pageCount;
   final int indexNow;
@@ -57,7 +59,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
 
     Timer(
       const Duration(seconds: 2),
-          () {
+      () {
         final userInfo = getIt.get<UserInfoService>();
         final kycState = getIt.get<KycService>();
         final kycBlocked = checkKycBlocked(
@@ -66,9 +68,8 @@ class _EurWalletBodyState extends State<EurWalletBody> {
           kycState.withdrawalStatus,
         );
         if (userInfo.isSimpleCardAvailable &&
-          (sSignalRModules.bankingProfileData?.availableCardsCount ?? 0) > 0 &&
-          !kycBlocked
-        ) {
+            (sSignalRModules.bankingProfileData?.availableCardsCount ?? 0) > 0 &&
+            !kycBlocked) {
           sAnalytics.viewEURWalletWithButton();
         } else {
           sAnalytics.viewEURWalletWithoutButton();
@@ -98,10 +99,6 @@ class _EurWalletBodyState extends State<EurWalletBody> {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    final eurCurrency = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesList,
-    ).where((element) => element.symbol == 'EUR').first;
-
     final bankAccounts = sSignalRModules.bankingProfileData?.banking?.accounts ?? <SimpleBankingAccount>[];
     final simpleAccount = sSignalRModules.bankingProfileData?.simple?.account;
 
@@ -126,31 +123,31 @@ class _EurWalletBodyState extends State<EurWalletBody> {
           CollapsedWalletAppbar(
             scrollController: _controller,
             assetIcon: SNetworkSvg24(
-              url: eurCurrency.iconUrl,
+              url: widget.eurCurrency.iconUrl,
             ),
-            ticker: eurCurrency.symbol,
+            ticker: widget.eurCurrency.symbol,
             mainTitle: getIt<AppStore>().isBalanceHide
-              ? '**** ${eurCurrency.symbol}'
+              ? '**** ${widget.eurCurrency.symbol}'
               : volumeFormat(
                 decimal: sSignalRModules.totalEurWalletBalance,
-                accuracy: eurCurrency.accuracy,
-                symbol: eurCurrency.symbol,
+                accuracy: widget.eurCurrency.accuracy,
+                symbol: widget.eurCurrency.symbol,
               ),
-            mainSubtitle: getIt.get<FormatService>().baseCurrency.symbol != eurCurrency.symbol
+            mainSubtitle: getIt.get<FormatService>().baseCurrency.symbol != widget.eurCurrency.symbol
                 ? getIt<AppStore>().isBalanceHide
                   ? '******* ${sSignalRModules.baseCurrency.symbol}'
-                  : eurCurrency.volumeBaseBalance(sSignalRModules.baseCurrency)
+                  : widget.eurCurrency.volumeBaseBalance(sSignalRModules.baseCurrency)
                 : null,
-            mainHeaderTitle: eurCurrency.description,
+            mainHeaderTitle: widget.eurCurrency.description,
             mainHeaderSubtitle: intl.eur_wallet,
             mainHeaderCollapsedTitle: getIt<AppStore>().isBalanceHide
-              ? '**** ${eurCurrency.symbol}'
+              ? '**** ${widget.eurCurrency.symbol}'
               : volumeFormat(
                 decimal: sSignalRModules.totalEurWalletBalance,
-                accuracy: eurCurrency.accuracy,
-                symbol: eurCurrency.symbol,
+                accuracy: widget.eurCurrency.accuracy,
+                symbol: widget.eurCurrency.symbol,
               ),
-            mainHeaderCollapsedSubtitle: eurCurrency.description,
+            mainHeaderCollapsedSubtitle: widget.eurCurrency.description,
             carouselItemsCount: widget.pageCount,
             carouselPageIndex: widget.indexNow,
           ),
@@ -188,11 +185,11 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                         supplement:
                             el.status == AccountStatusCard.inCreation ? intl.creating : intl.simple_card_type_virtual,
                         rightValue: getIt<AppStore>().isBalanceHide
-                          ? '**** ${eurCurrency.symbol}'
+                          ? '**** ${widget.eurCurrency.symbol}'
                           : volumeFormat(
                             decimal: el.balance ?? Decimal.zero,
-                            accuracy: eurCurrency.accuracy,
-                            symbol: eurCurrency.symbol,
+                            accuracy: widget.eurCurrency.accuracy,
+                            symbol: widget.eurCurrency.symbol,
                           ),
                         //isCard: true,
                         isCardWallet: true,
@@ -211,7 +208,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                               simpleCardStore.initFullCardIn(el.cardId ?? '');
                               sAnalytics.viewVirtualCardScreen(cardID: el.cardId ?? '');
                               sRouter.push(SimpleCardRouter(
-                                eurCurrency: eurCurrency,
+                                eurCurrency: widget.eurCurrency,
                                 isAddCashAvailable: sSignalRModules.currenciesList
                                   .where((currency) {
                                     return currency.assetBalance != Decimal.zero;
@@ -224,8 +221,12 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                         },
 
                         assetIcon: userInfo.isSimpleCardAvailable && el.status == AccountStatusCard.frozen
-                            ? Assets.svg.paymentMethodsCards.simple.frozenCard.simpleSvg(width: 24,)
-                            : Assets.svg.paymentMethodsCards.simple.defaultCard.simpleSvg(width: 24,),
+                            ? Assets.svg.paymentMethodsCards.simple.frozenCard.simpleSvg(
+                                width: 24,
+                              )
+                            : Assets.svg.paymentMethodsCards.simple.defaultCard.simpleSvg(
+                                width: 24,
+                              ),
                       ),
                     ),
                 ],
@@ -278,7 +279,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                                   CJAccountRouter(
                                     bankingAccount: simpleAccount,
                                     isCJAccount: true,
-                                    eurCurrency: eurCurrency,
+                                    eurCurrency: widget.eurCurrency,
                                   ),
                                 )
                                 .then(
@@ -296,11 +297,11 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                               : intl.create_simple_creating,
                           hasRightValue: simpleAccount.status == AccountStatus.active,
                           rightValue: getIt<AppStore>().isBalanceHide
-                            ? '**** ${eurCurrency.symbol}'
+                            ? '**** ${widget.eurCurrency.symbol}'
                             : volumeFormat(
                               decimal: simpleAccount.balance ?? Decimal.zero,
-                              accuracy: eurCurrency.accuracy,
-                              symbol: eurCurrency.symbol,
+                              accuracy: widget.eurCurrency.accuracy,
+                              symbol: widget.eurCurrency.symbol,
                             ),
                         ),
                       ListView.builder(
@@ -317,7 +318,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                                       CJAccountRouter(
                                         bankingAccount: bankAccounts[index],
                                         isCJAccount: false,
-                                        eurCurrency: eurCurrency,
+                                        eurCurrency: widget.eurCurrency,
                                       ),
                                     )
                                     .then(
@@ -336,11 +337,11 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                                 : intl.create_personal_creating,
                             hasRightValue: bankAccounts[index].status == AccountStatus.active,
                             rightValue: getIt<AppStore>().isBalanceHide
-                              ? '**** ${eurCurrency.symbol}'
+                              ? '**** ${widget.eurCurrency.symbol}'
                               : volumeFormat(
                                 decimal: bankAccounts[index].balance ?? Decimal.zero,
-                                accuracy: eurCurrency.accuracy,
-                                symbol: eurCurrency.symbol,
+                                accuracy: widget.eurCurrency.accuracy,
+                                symbol: widget.eurCurrency.symbol,
                               ),
                           );
                         },

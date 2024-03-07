@@ -4832,7 +4832,7 @@ class SimpleAnalytics {
       },
     );
   }
-  
+
   void tapOnGetSimpleCard({
     required String source,
   }) {
@@ -4846,7 +4846,7 @@ class SimpleAnalytics {
       },
     );
   }
-  
+
   void viewCardTypeSheet() {
     _analytics.logEvent(
       EventType.viewCardTypeSheet,
@@ -4857,7 +4857,7 @@ class SimpleAnalytics {
       },
     );
   }
-  
+
   void tapOnVirtualCard() {
     _analytics.logEvent(
       EventType.tapOnVirtualCard,
@@ -4868,7 +4868,7 @@ class SimpleAnalytics {
       },
     );
   }
-  
+
   void confirmWithPinView({
     required String cardID,
   }) {
@@ -4882,7 +4882,7 @@ class SimpleAnalytics {
       },
     );
   }
-  
+
   void viewSetupPassword({
     required String cardID,
   }) {
@@ -4896,7 +4896,7 @@ class SimpleAnalytics {
       },
     );
   }
-  
+
   void tapCloseSetUpPassword({
     required String cardID,
   }) {
@@ -4910,7 +4910,7 @@ class SimpleAnalytics {
       },
     );
   }
-  
+
   void tapHideSetupPassword({
     required String cardID,
   }) {
@@ -4924,7 +4924,7 @@ class SimpleAnalytics {
       },
     );
   }
-  
+
   void tapShowSetupPassword({
     required String cardID,
   }) {
@@ -4938,7 +4938,7 @@ class SimpleAnalytics {
       },
     );
   }
-  
+
   void tapContinueSetupPassword({
     required String cardID,
   }) {
@@ -4952,7 +4952,7 @@ class SimpleAnalytics {
       },
     );
   }
-  
+
   void viewCompleteKYCForCard() {
     _analytics.logEvent(
       EventType.viewCompleteKYCForCard,
@@ -4963,7 +4963,7 @@ class SimpleAnalytics {
       },
     );
   }
-  
+
   void tapVerifyAccountForCard() {
     _analytics.logEvent(
       EventType.tapVerifyAccountForCard,
@@ -4974,7 +4974,7 @@ class SimpleAnalytics {
       },
     );
   }
-  
+
   void tapCancelKYCForCard() {
     _analytics.logEvent(
       EventType.tapCancelKYCForCard,
@@ -4985,7 +4985,7 @@ class SimpleAnalytics {
       },
     );
   }
-  
+
   void viewPleaseWaitLoading() {
     _analytics.logEvent(
       EventType.viewPleaseWaitLoading,
@@ -4996,7 +4996,7 @@ class SimpleAnalytics {
       },
     );
   }
-  
+
   void viewKYCSumsubCreation() {
     _analytics.logEvent(
       EventType.viewKYCSumsubCreation,
@@ -5007,7 +5007,7 @@ class SimpleAnalytics {
       },
     );
   }
-  
+
   void viewWorkingOnYourCard() {
     _analytics.logEvent(
       EventType.viewWorkingOnYourCard,
@@ -5018,7 +5018,7 @@ class SimpleAnalytics {
       },
     );
   }
-  
+
   void viewCardIsReady() {
     _analytics.logEvent(
       EventType.viewCardIsReady,
@@ -5029,7 +5029,7 @@ class SimpleAnalytics {
       },
     );
   }
-  
+
   void viewEURWalletWithoutButton() {
     _analytics.logEvent(
       EventType.viewEURWalletWithoutButton,
@@ -5040,7 +5040,7 @@ class SimpleAnalytics {
       },
     );
   }
-  
+
   void viewEURWalletWithButton() {
     _analytics.logEvent(
       EventType.viewEURWalletWithButton,
@@ -6107,6 +6107,781 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '497',
+      },
+    );
+  }
+
+  void tapOnTheTabbarButtonEarn() {
+    _analytics.logEvent(
+      EventType.tapOnTheTabbarButtonEarn,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '520',
+      },
+    );
+  }
+
+  void earnMainScreenView() {
+    _analytics.logEvent(
+      EventType.earnMainScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '521',
+      },
+    );
+  }
+
+  void tapOnTheViewAllTopOffersButton() {
+    _analytics.logEvent(
+      EventType.tapOnTheViewAllTopOffersButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '522',
+      },
+    );
+  }
+
+  void allOffersScreenView() {
+    _analytics.logEvent(
+      EventType.allOffersScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '523',
+      },
+    );
+  }
+
+  void tapOnTheAnyOfferButton({
+    required String assetName,
+    required String sourse,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheAnyOfferButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '524',
+        PropertyType.assetName: assetName,
+        PropertyType.source: sourse,
+      },
+    );
+  }
+
+  void chooseEarnPlanScreenView({required String assetName}) {
+    _analytics.logEvent(
+      EventType.chooseEarnPlanScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '525',
+        PropertyType.assetName: assetName,
+      },
+    );
+  }
+
+  void tapOnTheContinueWithEarnPlanButton({
+    required String assetName,
+    required String earnPlanName,
+    required String earnAPYrate,
+    required String earnWithdrawalType,
+  }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+    _analytics.logEvent(
+      EventType.tapOnTheContinueWithEarnPlanButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '526',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+      },
+    );
+  }
+
+  void earnDepositAmountScreenView({
+    required String assetName,
+    required String earnPlanName,
+    required String earnAPYrate,
+    required String earnWithdrawalType,
+  }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
+    _analytics.logEvent(
+      EventType.earnDepositAmountScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '527',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+      },
+    );
+  }
+
+  void earnDepositCryptoWalletPopupView({
+    required String assetName,
+    required String earnPlanName,
+    required String earnAPYrate,
+    required String earnWithdrawalType,
+  }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
+    _analytics.logEvent(
+      EventType.earnDepositCryptoWalletPopupView,
+      eventProperties: {
+        PropertyType.assetName: assetName,
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '528',
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+      },
+    );
+  }
+
+  void tapOnTheTopUpEarnWalletButton({
+    required String assetName,
+    required String earnPlanName,
+    required String earnAPYrate,
+    required String earnWithdrawalType,
+  }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
+    _analytics.logEvent(
+      EventType.tapOnTheTopUpEarnWalletButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '529',
+        PropertyType.assetName: assetName,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.earnPlanName: earnPlanName,
+      },
+    );
+  }
+
+  void tapOnTheCancelTopUpEarnWalletButton({
+    required String assetName,
+    required String earnPlanName,
+    required String earnAPYrate,
+    required String earnWithdrawalType,
+  }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
+    _analytics.logEvent(
+      EventType.tapOnTheCancelTopUpEarnWalletButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '530',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+      },
+    );
+  }
+
+  void tapOnTheContinueEarnAmountDepositButton({
+    required String assetName,
+    required String earnPlanName,
+    required String earnAPYrate,
+    required String earnWithdrawalType,
+    required String earnDepositAmount,
+  }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
+    _analytics.logEvent(
+      EventType.tapOnTheContinueEarnAmountDepositButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '531',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.earnDepositAmount: earnDepositAmount,
+      },
+    );
+  }
+
+  void earnDepositOrderSummaryScreenView({
+    required String assetName,
+    required String earnPlanName,
+    required String earnAPYrate,
+    required String earnWithdrawalType,
+    required String earnDepositAmount,
+  }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
+    _analytics.logEvent(
+      EventType.earnDepositOrderSummaryScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '532',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.earnDepositAmount: earnDepositAmount,
+      },
+    );
+  }
+
+  void tapOnTheConfirmEarnDepositOrderSummaryButton({
+    required String assetName,
+    required String earnPlanName,
+    required String earnAPYrate,
+    required String earnWithdrawalType,
+    required String earnDepositAmount,
+  }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
+    _analytics.logEvent(
+      EventType.tapOnTheConfirmEarnDepositOrderSummaryButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '533',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.earnDepositAmount: earnDepositAmount,
+      },
+    );
+  }
+
+  void successEarnDepositScreenView({
+    required String assetName,
+    required String earnPlanName,
+    required String earnAPYrate,
+    required String earnWithdrawalType,
+    required String earnDepositAmount,
+  }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
+    _analytics.logEvent(
+      EventType.successEarnDepositScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '534',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.earnDepositAmount: earnDepositAmount,
+      },
+    );
+  }
+
+  void failedEarnDepositScreenView({
+    required String assetName,
+    required String earnPlanName,
+    required String earnAPYrate,
+    required String earnWithdrawalType,
+    required String earnDepositAmount,
+  }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
+    _analytics.logEvent(
+      EventType.failedEarnDepositScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '535',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.earnDepositAmount: earnDepositAmount,
+      },
+    );
+  }
+
+  void tapOnTheAnyActiveEarnButton({
+    required String assetName,
+    required String earnPlanName,
+    required String earnAPYrate,
+    required String earnWithdrawalType,
+    required String earnDepositAmount,
+    required String earnOfferStatus,
+    required String revenue,
+  }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate)}%';
+
+    _analytics.logEvent(
+      EventType.tapOnTheAnyActiveEarnButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '536',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.earnDepositAmount: earnDepositAmount,
+        PropertyType.earnOfferStatus: earnOfferStatus,
+        PropertyType.revenue: revenue,
+      },
+    );
+  }
+
+  void activeCryptoSavingsScreenView({
+    required String assetName,
+    required String earnPlanName,
+    required String earnAPYrate,
+    required String earnWithdrawalType,
+    required String earnDepositAmount,
+    required String earnOfferStatus,
+    required String earnOfferId,
+    required String revenue,
+  }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
+    _analytics.logEvent(
+      EventType.activeCryptoSavingsScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '537',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.earnDepositAmount: earnDepositAmount,
+        PropertyType.earnOfferStatus: earnOfferStatus,
+        PropertyType.revenue: revenue,
+        PropertyType.earnOfferId: earnOfferId,
+      },
+    );
+  }
+
+  void tapOnTheBackFromActiveCryptoSavingsButton({
+    required String assetName,
+    required String earnPlanName,
+    required String earnAPYrate,
+    required String earnWithdrawalType,
+    required String earnDepositAmount,
+    required String earnOfferStatus,
+    required String revenue,
+    required String earnOfferId,
+  }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
+    _analytics.logEvent(
+      EventType.tapOnTheBackFromActiveCryptoSavingsButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '538',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.earnDepositAmount: earnDepositAmount,
+        PropertyType.earnOfferStatus: earnOfferStatus,
+        PropertyType.revenue: revenue,
+        PropertyType.earnOfferId: earnOfferId,
+      },
+    );
+  }
+
+  void tapOnTheHistoryFromActiveCryptoSavingsButton({
+    required String assetName,
+    required String earnPlanName,
+    required String earnAPYrate,
+    required String earnWithdrawalType,
+    required String earnDepositAmount,
+    required String earnOfferStatus,
+    required String revenue,
+  }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
+    _analytics.logEvent(
+      EventType.tapOnTheHistoryFromActiveCryptoSavingsButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '539',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.earnDepositAmount: earnDepositAmount,
+        PropertyType.earnOfferStatus: earnOfferStatus,
+        PropertyType.revenue: revenue,
+      },
+    );
+  }
+
+  void tapOnTheTopUpFromActiveCryptoSavingsButton({
+    required String assetName,
+    required String earnPlanName,
+    required String earnAPYrate,
+    required String earnWithdrawalType,
+    required String earnDepositAmount,
+    required String earnOfferStatus,
+    required String revenue,
+    required String earnOfferId,
+  }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
+    _analytics.logEvent(
+      EventType.tapOnTheTopUpFromActiveCryptoSavingsButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '540',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.earnDepositAmount: earnDepositAmount,
+        PropertyType.earnOfferStatus: earnOfferStatus,
+        PropertyType.revenue: revenue,
+        PropertyType.earnOfferId: earnOfferId,
+      },
+    );
+  }
+
+  void tapOnTheWithdrawFromActiveCryptoSavingsButton({
+    required String assetName,
+    required String earnPlanName,
+    required String earnAPYrate,
+    required String earnWithdrawalType,
+    required String earnDepositAmount,
+    required String earnOfferStatus,
+    required String revenue,
+    required String earnOfferId,
+  }) {
+    final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
+
+    _analytics.logEvent(
+      EventType.tapOnTheWithdrawFromActiveCryptoSavingsButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '541',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnAPYrate: finalEarnAPYrate,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.earnDepositAmount: earnDepositAmount,
+        PropertyType.earnOfferStatus: earnOfferStatus,
+        PropertyType.revenue: revenue,
+        PropertyType.earnOfferId: earnOfferId,
+      },
+    );
+  }
+
+  void earnWithdrawTypeScreenView({
+    required String assetName,
+    required String earnPlanName,
+    required String earnWithdrawalType,
+    required String earnOfferId,
+  }) {
+    _analytics.logEvent(
+      EventType.earnWithdrawTypeScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '542',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+      },
+    );
+  }
+
+  void sureFullEarnWithdrawPopupView({
+    required String assetName,
+    required String earnPlanName,
+    required String earnWithdrawalType,
+    required String earnOfferId,
+  }) {
+    _analytics.logEvent(
+      EventType.sureFullEarnWithdrawPopupView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '543',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+      },
+    );
+  }
+
+  void tapOnTheContinueEarningButton({
+    required String assetName,
+    required String earnPlanName,
+    required String earnWithdrawalType,
+    required String earnOfferId,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheContinueEarningButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '544',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+      },
+    );
+  }
+
+  void tapOnTheYesWithdrawButton({
+    required String assetName,
+    required String earnPlanName,
+    required String earnWithdrawalType,
+    required String earnOfferId,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheYesWithdrawButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '545',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+      },
+    );
+  }
+
+  void tapOnTheContinueWithEarnWithdrawTypeButton({
+    required String assetName,
+    required String earnPlanName,
+    required String earnWithdrawalType,
+    required String fullWithdrawType,
+    required String earnOfferId,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheContinueWithEarnWithdrawTypeButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '546',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.fullWithdrawType: fullWithdrawType,
+      },
+    );
+  }
+
+  void earnWithdrawAmountScreenView({
+    required String assetName,
+    required String earnPlanName,
+    required String earnWithdrawalType,
+    required String earnOfferId,
+    required String fullWithdrawType,
+  }) {
+    _analytics.logEvent(
+      EventType.earnWithdrawAmountScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '547',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.fullWithdrawType: fullWithdrawType,
+      },
+    );
+  }
+
+  void tapOnTheBackFromEarnWithdrawAmountButton({
+    required String assetName,
+    required String earnPlanName,
+    required String earnWithdrawalType,
+    required String earnOfferId,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheBackFromEarnWithdrawAmountButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '548',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+      },
+    );
+  }
+
+  void tapOnTheContinueWithEarnWithdrawAmountButton({
+    required String assetName,
+    required String earnPlanName,
+    required String earnWithdrawalType,
+    required String earnOfferId,
+    required String withdrawAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheContinueWithEarnWithdrawAmountButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '549',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.withdrawAmount: withdrawAmount,
+      },
+    );
+  }
+
+  void earnWithdrawOrderSummaryScreenView({
+    required String assetName,
+    required String earnPlanName,
+    required String earnWithdrawalType,
+    required String earnOfferId,
+    required String withdrawAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.earnWithdrawOrderSummaryScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '550',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.withdrawAmount: withdrawAmount,
+      },
+    );
+  }
+
+  void tapOnTheBackFromEarnWithdrawOrderSummaryButton({
+    required String assetName,
+    required String earnPlanName,
+    required String earnWithdrawalType,
+    required String earnOfferId,
+    required String withdrawAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheBackFromEarnWithdrawOrderSummaryButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '551',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.withdrawAmount: withdrawAmount,
+      },
+    );
+  }
+
+  void tapOnTheConfirmWithdrawOrderSummaryButton({
+    required String assetName,
+    required String earnPlanName,
+    required String earnWithdrawalType,
+    required String earnOfferId,
+    required String withdrawAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheContinueWithEarnWithdrawAmountButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '552',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnOfferId: earnOfferId,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.withdrawAmount: withdrawAmount,
+      },
+    );
+  }
+
+  void successEarnWithdrawScreenView({
+    required String assetName,
+    required String earnPlanName,
+    required String earnWithdrawalType,
+    required String earnOfferId,
+    required String withdrawAnount,
+  }) {
+    _analytics.logEvent(
+      EventType.successEarnWithdrawScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '553',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnOfferId: earnOfferId,
+        PropertyType.winAmount: withdrawAnount,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+      },
+    );
+  }
+
+  void failedEarnMainScreenView({
+    required String assetName,
+    required String earnPlanName,
+    required String earnWithdrawalType,
+    required String earnOfferId,
+    required String withdrawAnount,
+  }) {
+    _analytics.logEvent(
+      EventType.failedEarnMainScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '554',
+        PropertyType.assetName: assetName,
+        PropertyType.earnPlanName: earnPlanName,
+        PropertyType.earnOfferId: earnOfferId,
+        PropertyType.winAmount: withdrawAnount,
+        PropertyType.earnWithdrawalType: earnWithdrawalType,
+      },
+    );
+  }
+
+  void tapOnTheHistoryEarnbutton() {
+    _analytics.logEvent(
+      EventType.tapOnTheHistoryEarnbutton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '555',
+      },
+    );
+  }
+
+  void earnsArchiveScreenView() {
+    _analytics.logEvent(
+      EventType.earnsArchiveScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '556',
       },
     );
   }

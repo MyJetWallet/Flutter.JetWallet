@@ -16,8 +16,10 @@ void showAddWalletBottomSheet(BuildContext context) {
     context: context,
     scrollable: true,
     then: (isAssetChoosed) {
-      if (!((isAssetChoosed as bool?) ?? false)) {
+      final isAssetChoosedTemp = (isAssetChoosed as bool?) ?? false;
+      if (!isAssetChoosedTemp) {
         sAnalytics.tapOnTheButtonCloseOnAddWalletForFavouritesSheet();
+        store.onCloseSearchBottomSheetWithoutChoose();
       }
     },
     expanded: true,

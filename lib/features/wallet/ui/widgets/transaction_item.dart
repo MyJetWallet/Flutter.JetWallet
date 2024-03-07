@@ -11,6 +11,7 @@ import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transac
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/common_transaction_details_block.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/deposit_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/deposit_nft_details.dart';
+import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/earn_send_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/gift_receive_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/gift_send_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/iban_details.dart';
@@ -128,7 +129,13 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                     widget.transactionListItem.operationType == OperationType.cardWithdrawal ||
                     widget.transactionListItem.operationType == OperationType.cardRefund ||
                     widget.transactionListItem.operationType == OperationType.bankingTransfer ||
-                    widget.transactionListItem.operationType == OperationType.cardBankingSell) ...[
+                    widget.transactionListItem.operationType == OperationType.cardBankingSell ||
+                    widget.transactionListItem.operationType == OperationType.earnReserve ||
+                    widget.transactionListItem.operationType == OperationType.earnSend ||
+                    widget.transactionListItem.operationType == OperationType.earnDeposit ||
+                    widget.transactionListItem.operationType == OperationType.earnPayroll ||
+                    widget.transactionListItem.operationType == OperationType.earnWithdrawal ||
+                    widget.transactionListItem.operationType == OperationType.cardTransfer) ...[
                   const SizedBox.shrink(),
                 ] else if (widget.transactionListItem.operationType != OperationType.sendGlobally) ...[
                   if (isOperationSupportCopy(widget.transactionListItem))
@@ -470,10 +477,27 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                     ),
                   ),
                 ],
-                if (widget.transactionListItem.operationType == OperationType.bankingTransfer) ...[
+                if (widget.transactionListItem.operationType == OperationType.bankingTransfer ||
+                    widget.transactionListItem.operationType == OperationType.cardTransfer) ...[
                   Material(
                     color: colors.white,
                     child: TransferDetails(
+                      transactionListItem: widget.transactionListItem,
+                      onCopyAction: (String text) {
+                        setState(() {
+                          copiedText = text;
+                        });
+
+                        onCopyAction();
+                      },
+                    ),
+                  ),
+                ],
+                if (widget.transactionListItem.operationType == OperationType.earnReserve ||
+                    widget.transactionListItem.operationType == OperationType.earnSend) ...[
+                  Material(
+                    color: colors.white,
+                    child: EarnSendDetails(
                       transactionListItem: widget.transactionListItem,
                       onCopyAction: (String text) {
                         setState(() {

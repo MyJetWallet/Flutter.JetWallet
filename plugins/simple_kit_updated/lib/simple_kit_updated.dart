@@ -50,5 +50,8 @@ export 'widgets/navigation/bottom_bar/models/simple_bottom_item_model.dart';
 
 export 'widgets/button/main/simple_button.dart';
 
+export 'widgets/button/invest_buttons/invest_button.dart';
+export 'widgets/button/invest_buttons/invest_text_button.dart';
+
 export 'widgets/input/simple_numeric_input.dart';
 export 'widgets/input/simple_input.dart';

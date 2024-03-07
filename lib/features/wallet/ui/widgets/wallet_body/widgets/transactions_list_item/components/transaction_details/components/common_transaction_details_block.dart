@@ -96,7 +96,13 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             transactionListItem.operationType == OperationType.cardWithdrawal ||
             transactionListItem.operationType == OperationType.cardRefund ||
             transactionListItem.operationType == OperationType.bankingTransfer ||
-            transactionListItem.operationType == OperationType.cardBankingSell) ...[
+            transactionListItem.operationType == OperationType.cardBankingSell ||
+            transactionListItem.operationType == OperationType.earnReserve ||
+            transactionListItem.operationType == OperationType.earnSend ||
+            transactionListItem.operationType == OperationType.earnDeposit ||
+            transactionListItem.operationType == OperationType.earnPayroll ||
+            transactionListItem.operationType == OperationType.earnWithdrawal ||
+            transactionListItem.operationType == OperationType.cardTransfer) ...[
           const SpaceH26(),
         ] else ...[
           const SpaceH67(),
@@ -138,19 +144,25 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             transactionListItem.operationType == OperationType.deposit ||
             transactionListItem.operationType == OperationType.sendGlobally ||
             transactionListItem.operationType == OperationType.bankingTransfer ||
-            transactionListItem.operationType == OperationType.cardBankingSell)
+            transactionListItem.operationType == OperationType.cardBankingSell ||
+            transactionListItem.operationType == OperationType.earnReserve ||
+            transactionListItem.operationType == OperationType.earnSend ||
+            transactionListItem.operationType == OperationType.earnDeposit ||
+            transactionListItem.operationType == OperationType.earnPayroll ||
+            transactionListItem.operationType == OperationType.earnWithdrawal ||
+            transactionListItem.operationType == OperationType.cardTransfer)
           const SizedBox()
         else if ((!nftTypes.contains(transactionListItem.operationType) || catchingTypes) &&
             !operationWithoutBalanceShow) ...[
           SPaddingH24(
             child: AutoSizeText(
               getIt<AppStore>().isBalanceHide
-                ? '**** ${currency.symbol}'
-                : volumeFormat(
-                  decimal: operationAmount(transactionListItem),
-                  accuracy: currency.accuracy,
-                  symbol: currency.symbol,
-                ),
+                  ? '**** ${currency.symbol}'
+                  : volumeFormat(
+                      decimal: operationAmount(transactionListItem),
+                      accuracy: currency.accuracy,
+                      symbol: currency.symbol,
+                    ),
               textAlign: TextAlign.center,
               minFontSize: 4.0,
               maxLines: 1,
@@ -187,7 +199,13 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             transactionListItem.operationType == OperationType.cardWithdrawal ||
             transactionListItem.operationType == OperationType.cardRefund ||
             transactionListItem.operationType == OperationType.bankingTransfer ||
-            transactionListItem.operationType == OperationType.cardBankingSell)
+            transactionListItem.operationType == OperationType.cardBankingSell ||
+            transactionListItem.operationType == OperationType.earnReserve ||
+            transactionListItem.operationType == OperationType.earnSend ||
+            transactionListItem.operationType == OperationType.earnDeposit ||
+            transactionListItem.operationType == OperationType.earnPayroll ||
+            transactionListItem.operationType == OperationType.earnWithdrawal ||
+            transactionListItem.operationType == OperationType.cardTransfer)
           const SizedBox.shrink()
         else
           const SpaceH72(),
@@ -246,6 +264,14 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
         context,
       );
     } else if (transactionListItem.operationType == OperationType.bankingTransfer) {
+      if (source == TransactionItemSource.history) {
+        title = intl.transferDetails_transfer;
+      } else if (transactionListItem.balanceChange > Decimal.zero) {
+        title = intl.history_added_cash;
+      } else {
+        title = intl.history_withdrawn;
+      }
+    } else if (transactionListItem.operationType == OperationType.cardTransfer) {
       if (source == TransactionItemSource.history) {
         title = intl.transferDetails_transfer;
       } else if (transactionListItem.balanceChange > Decimal.zero) {

@@ -7,6 +7,7 @@ import 'package:jetwallet/core/services/remote_config/remote_config_values.dart'
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 
 @RoutePage(name: 'AboutUsRouter')
 class AboutUs extends StatelessObserverWidget {
@@ -14,6 +15,9 @@ class AboutUs extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isEarnAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
+        .any((element) => element.id == AssetPaymentProductsEnum.earnProgram);
+
     return SPageFrameWithPadding(
       loaderText: intl.register_pleaseWait,
       header: SSmallHeader(
@@ -111,6 +115,28 @@ class AboutUs extends StatelessObserverWidget {
                 SimpleAccountTermButton(
                   name: intl.aboutUs_termButton6,
                   onTap: () => launchURL(context, amlKycPolicyLink),
+                ),
+              ],
+            ),
+            const SpaceH20(),
+          ],
+          if (infoEarnLink.isNotEmpty && isEarnAvaible) ...[
+            Row(
+              children: [
+                SimpleAccountTermButton(
+                  name: intl.about_us_earn_program,
+                  onTap: () => launchURL(context, infoEarnLink),
+                ),
+              ],
+            ),
+            const SpaceH20(),
+          ],
+          if (privacyEarnLink.isNotEmpty && isEarnAvaible) ...[
+            Row(
+              children: [
+                SimpleAccountTermButton(
+                  name: intl.about_us_smpl_global,
+                  onTap: () => launchURL(context, privacyEarnLink),
                 ),
               ],
             ),

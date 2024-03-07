@@ -4,6 +4,9 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 import '../../../../utils/models/currency_model.dart';
 
@@ -28,7 +31,7 @@ class MyWallet extends StatelessObserverWidget {
       ),
       child: Row(
         children: [
-          const SIWalletIcon(
+          Assets.svg.invest.investWallet.simpleSvg(
             width: 15,
             height: 15,
           ),
@@ -39,7 +42,7 @@ class MyWallet extends StatelessObserverWidget {
               accuracy: 2,
               symbol: currency.symbol,
             ),
-            style: sBody1InvestBStyle.copyWith(
+            style: STStyles.body1InvestB.copyWith(
               color: colors.blue,
             ),
           ),

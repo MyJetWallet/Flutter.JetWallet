@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 class InstrumentDataLine extends StatelessObserverWidget {
   const InstrumentDataLine({
@@ -30,14 +31,14 @@ class InstrumentDataLine extends StatelessObserverWidget {
           const SpaceW4(),
           Text(
             mainText,
-            style: sBody1InvestSMStyle.copyWith(
+            style: STStyles.body1InvestSM.copyWith(
               color: colors.black,
             ),
           ),
           const Spacer(),
           Text(
             secondaryText,
-            style: sBody1InvestSMStyle.copyWith(
+            style: STStyles.body1InvestSM.copyWith(
               color: secondaryColor ?? colors.black,
             ),
           ),

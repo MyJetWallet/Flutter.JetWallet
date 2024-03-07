@@ -6,6 +6,9 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
 
 import '../../../../utils/formatting/base/volume_format.dart';
@@ -79,7 +82,7 @@ class InvestLine extends StatelessObserverWidget {
                         children: [
                           Text(
                             currency.symbol,
-                            style: sBody2InvestSMStyle.copyWith(
+                            style: STStyles.body2InvestSM.copyWith(
                               color: colors.black,
                             ),
                           ),
@@ -95,7 +98,7 @@ class InvestLine extends StatelessObserverWidget {
                               child: Center(
                                 child: Text(
                                   historyCount.toString(),
-                                  style: sCaptionInvestSMStyle.copyWith(
+                                  style: STStyles.captionInvestSM.copyWith(
                                     color: colors.white,
                                   ),
                                 ),
@@ -107,7 +110,7 @@ class InvestLine extends StatelessObserverWidget {
                       const SpaceH2(),
                       Text(
                         currency.description,
-                        style: sBody2InvestMStyle.copyWith(
+                        style: STStyles.body2InvestM.copyWith(
                           color: colors.grey2,
                         ),
                       ),
@@ -117,7 +120,7 @@ class InvestLine extends StatelessObserverWidget {
               ),
             ),
             const Spacer(),
-            if (!isGroup) ...[
+            if (!isGroup && operationType != Direction.undefined) ...[
               Container(
                 padding: const EdgeInsets.only(left: 5, top: 4, bottom: 4, right: 3),
                 decoration: BoxDecoration(
@@ -130,15 +133,15 @@ class InvestLine extends StatelessObserverWidget {
                       operationType == Direction.buy
                           ? intl.invest_buy
                           : intl.invest_sell,
-                      style: sBody2InvestSMStyle.copyWith(
+                      style: STStyles.body2InvestSM.copyWith(
                         color: colors.black,
                       ),
                     ),
                     const SpaceW2(),
                     if (operationType == Direction.buy)
-                      const SIBuyIcon(width: 14, height: 14,)
+                      Assets.svg.invest.buy.simpleSvg(width: 14, height: 14,)
                     else
-                      const SISellIcon(width: 14, height: 14,),
+                      Assets.svg.invest.sell.simpleSvg(width: 14, height: 14,),
                   ],
                 ),
               ),
@@ -152,14 +155,14 @@ class InvestLine extends StatelessObserverWidget {
                 children: [
                   Text(
                     marketFormat(decimal: amount, accuracy: 0, symbol: ''),
-                    style: sBody2InvestSMStyle.copyWith(
+                    style: STStyles.body2InvestSM.copyWith(
                       color: colors.black,
                     ),
                   ),
                   const SpaceH2(),
                   Text(
                     'x${volumeFormat(decimal: leverage, accuracy: 2, symbol: '').replaceAll(' ', '')}',
-                    style: sBody3InvestMStyle.copyWith(
+                    style: STStyles.body3InvestM.copyWith(
                       color: colors.grey2,
                     ),
                   ),
@@ -176,7 +179,7 @@ class InvestLine extends StatelessObserverWidget {
                     isPending
                         ? marketFormat(decimal: price, accuracy: 2, symbol: '')
                         : marketFormat(decimal: profit, accuracy: 2, symbol: ''),
-                    style: sBody2InvestBStyle.copyWith(
+                    style: STStyles.body2InvestB.copyWith(
                       color: colors.black,
                     ),
                   ),
@@ -188,7 +191,7 @@ class InvestLine extends StatelessObserverWidget {
                         Text(
                           formatPercent(profitPercent),
                           overflow: TextOverflow.ellipsis,
-                          style: sBody3InvestSMStyle.copyWith(
+                          style: STStyles.body3InvestSM.copyWith(
                             color: profitPercent == Decimal.zero
                                 ? SColorsLight().grey3
                                 : profitPercent > Decimal.zero

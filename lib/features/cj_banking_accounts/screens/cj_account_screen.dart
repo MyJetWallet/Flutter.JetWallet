@@ -65,7 +65,6 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return SPageFrame(
       loaderText: '',
       child: Column(
@@ -75,21 +74,21 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
             scrollController: _controller,
             showTicker: false,
             mainTitle: getIt<AppStore>().isBalanceHide
-              ? '**** ${widget.eurCurrency.symbol}'
-              : volumeFormat(
-                decimal: widget.bankingAccount.balance ?? Decimal.zero,
-                accuracy: widget.eurCurrency.accuracy,
-                symbol: widget.eurCurrency.symbol,
-              ),
+                ? '**** ${widget.eurCurrency.symbol}'
+                : volumeFormat(
+                    decimal: widget.bankingAccount.balance ?? Decimal.zero,
+                    accuracy: widget.eurCurrency.accuracy,
+                    symbol: widget.eurCurrency.symbol,
+                  ),
             mainHeaderTitle: label,
             mainHeaderSubtitle: widget.isCJAccount ? intl.wallet_simple_account : intl.eur_wallet_personal_account,
             mainHeaderCollapsedTitle: getIt<AppStore>().isBalanceHide
-              ? '**** ${widget.eurCurrency.symbol}'
-              : volumeFormat(
-                decimal: widget.bankingAccount.balance ?? Decimal.zero,
-                accuracy: widget.eurCurrency.accuracy,
-                symbol: widget.eurCurrency.symbol,
-              ),
+                ? '**** ${widget.eurCurrency.symbol}'
+                : volumeFormat(
+                    decimal: widget.bankingAccount.balance ?? Decimal.zero,
+                    accuracy: widget.eurCurrency.accuracy,
+                    symbol: widget.eurCurrency.symbol,
+                  ),
             mainHeaderCollapsedSubtitle:
                 widget.isCJAccount ? intl.wallet_simple_account : intl.eur_wallet_personal_account,
             hasRightIcon: false,
@@ -101,7 +100,9 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                 if (!silverCollapsed)
                   SliverToBoxAdapter(
                     child: ActionsAccountRowWidget(
-                      bankingAccount: widget.bankingAccount,
+                      bankingAccount: widget.bankingAccount.copyWith(
+                        label: label,
+                      ),
                       onChangeLableTap: () {
                         sAnalytics.eurWalletTapEditEURAccointScreen(
                           isCJ: widget.isCJAccount,

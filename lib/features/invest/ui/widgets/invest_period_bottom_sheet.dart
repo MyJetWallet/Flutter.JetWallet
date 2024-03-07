@@ -1,27 +1,13 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:intl/intl.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
-import 'package:jetwallet/features/invest/stores/dashboard/invest_positions_store.dart';
-import 'package:jetwallet/features/invest/ui/dashboard/invest_header.dart';
-import 'package:jetwallet/features/invest/ui/dashboard/new_invest_header.dart';
-import 'package:jetwallet/features/invest/ui/dashboard/symbol_info_line.dart';
-import 'package:jetwallet/features/invest/ui/invests/above_list_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/bit_of_tab.dart';
-import 'package:jetwallet/features/invest/ui/invests/secondary_switch.dart';
-import 'package:jetwallet/features/invest/ui/widgets/invest_input.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
-import '../../../../core/router/app_router.dart';
-import '../../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../../utils/enum.dart';
-import '../../../../utils/helpers/currency_from.dart';
-import '../../helpers/invest_period_info.dart';
-import 'invest_button.dart';
 
 void showInvestPeriodBottomSheet(
     BuildContext context,
@@ -43,7 +29,7 @@ void showInvestPeriodBottomSheet(
               children: [
                 Text(
                   intl.invest_period,
-                  style: sTextH1InvestStyle,
+                  style: STStyles.header1Invest,
                 ),
                 const Spacer(),
                 SizedBox(
@@ -116,7 +102,7 @@ class _PeriodSheetState extends State<PeriodSheet> {
               Text(
                 intl.invest_period_description,
                 maxLines: 5,
-                style: sBody3InvestMStyle,
+                style: STStyles.body3InvestM,
               ),
               const SpaceH16(),
               Row(

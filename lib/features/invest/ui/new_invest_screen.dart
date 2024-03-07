@@ -14,11 +14,14 @@ import 'package:jetwallet/features/invest/stores/dashboard/invest_new_store.dart
 import 'package:jetwallet/features/invest/ui/dashboard/invest_header.dart';
 import 'package:jetwallet/features/invest/ui/invests/buy_sell_switch.dart';
 import 'package:jetwallet/features/invest/ui/invests/symbol_info_without_chart.dart';
-import 'package:jetwallet/features/invest/ui/widgets/invest_button.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_input.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_slider_input.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 
 import '../../../core/di/di.dart';
@@ -51,20 +54,25 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
     super.initState();
     final investNewStore = getIt.get<InvestNewStore>();
     final currencies = sSignalRModules.currenciesList;
-    final currency = currencyFrom(currencies, 'USDT');
     final multiplicators = calculateMultiplyPositions(
       minVolume: Decimal.fromInt(widget.instrument.minMultiply ?? 0),
       maxVolume: Decimal.fromInt(widget.instrument.maxMultiply ?? 0),
     );
-    final amounts = calculateAmountPositions(
-      balance: sSignalRModules.investWalletData?.balance ?? Decimal.zero,
-      minVolume: widget.instrument.minVolume ?? Decimal.zero,
-      maxVolume: widget.instrument.maxVolume ?? Decimal.zero,
-    );
     investNewStore.resetStore();
 
-    investNewStore.onAmountInput('${amounts[1]}');
-    investNewStore.amountController.text = '${amounts[1]}';
+    if ((sSignalRModules.investWalletData?.balance ?? Decimal.zero) > Decimal.zero) {
+      final amounts = calculateAmountPositions(
+        balance: sSignalRModules.investWalletData?.balance ?? Decimal.zero,
+        minVolume: widget.instrument.minVolume ?? Decimal.zero,
+        maxVolume: widget.instrument.maxVolume ?? Decimal.zero,
+      );
+      investNewStore.onAmountInput('${amounts[1]}');
+      investNewStore.amountController.text = '${amounts[1]}';
+    } else {
+      investNewStore.onAmountInput('1');
+      investNewStore.amountController.text = '1';
+    }
+
     investNewStore.setInstrument(widget.instrument);
     investNewStore.setMultiplicator(multiplicators[1].toDouble().toInt());
     controller = ScrollController();
@@ -123,12 +131,12 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                 activeColor: investNewStore.isBuyMode ? colors.green : colors.red,
                 activeNameColor: colors.white,
                 icon: investNewStore.isBuyMode
-                    ? SIBuyIcon(
+                    ? Assets.svg.invest.buy.simpleSvg(
                       width: 20,
                       height: 20,
                       color: colors.white,
                     )
-                    : SISellIcon(
+                    : Assets.svg.invest.sell.simpleSvg(
                       width: 20,
                       height: 20,
                       color: colors.white,
@@ -148,7 +156,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
           padding: EdgeInsets.zero,
           children: [
             SymbolInfoWithoutChart(
-              currency: currency,
+              percent: investStore.getPercentSymbol(widget.instrument.symbol ?? ''),
               price: investStore.getPriceBySymbol(widget.instrument.symbol ?? ''),
               instrument: widget.instrument,
               onTap: () {
@@ -188,12 +196,12 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                       fromRight: false,
                       tabs: const [],
                       tabsAssets: [
-                        SIChartLineIcon(
+                        Assets.svg.invest.chartLine.simpleSvg(
                           width: 16,
                           height: 16,
                           color: investNewStore.chartType == 0 ? colors.black : colors.grey2,
                         ),
-                        SIChartCandlesIcon(
+                        Assets.svg.invest.chartCandles.simpleSvg(
                           width: 16,
                           height: 16,
                           color: investNewStore.chartType == 1 ? colors.black : colors.grey2,
@@ -240,7 +248,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
             const SpaceH8(),
             Text(
               intl.invest_amount,
-              style: sBody2InvestMStyle.copyWith(
+              style: STStyles.body2InvestM.copyWith(
                 color: colors.black,
               ),
             ),
@@ -263,7 +271,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                   const SpaceW2(),
                   Text(
                     currency.symbol,
-                    style: sBody2InvestMStyle.copyWith(
+                    style: STStyles.body2InvestM.copyWith(
                       color: colors.black,
                     ),
                   ),
@@ -317,13 +325,13 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
               children: [
                 Text(
                   intl.invest_multiplicator,
-                  style: sBody2InvestMStyle.copyWith(
+                  style: STStyles.body2InvestM.copyWith(
                     color: colors.black,
                   ),
                 ),
                 Text(
                   'x${investNewStore.multiplicator}',
-                  style: sBody1InvestSMStyle.copyWith(
+                  style: STStyles.body1InvestSM.copyWith(
                     color: colors.black,
                   ),
                 ),
@@ -349,7 +357,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
             if (investNewStore.isOrderMode) ...[
               Text(
                 intl.invest_pending_price,
-                style: sBody2InvestMStyle.copyWith(
+                style: STStyles.body2InvestM.copyWith(
                   color: colors.black,
                 ),
               ),
@@ -371,7 +379,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                 children: [
                   Text(
                     intl.invest_limits,
-                    style: sBody1InvestSMStyle.copyWith(
+                    style: STStyles.body1InvestSM.copyWith(
                       color: colors.black,
                     ),
                   ),
@@ -400,7 +408,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                             onTap: () {
                               investNewStore.setIsLimitsVisible(false);
                             },
-                            defaultIcon: SIArrowIcon(
+                            defaultIcon: Assets.svg.invest.investArrow.simpleSvg(
                               width: 24,
                               height: 24,
                               color: colors.black,
@@ -422,7 +430,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                             },
                           );
                         },
-                        defaultIcon: SIArrowIcon(
+                        defaultIcon: Assets.svg.invest.investArrow.simpleSvg(
                           width: 24,
                           height: 24,
                           color: colors.black,
@@ -455,11 +463,11 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                           );
                         },
                         defaultIcon: investNewStore.isTP
-                            ? const SICheckedIcon(width: 20, height: 20,)
-                            : const SICheckIcon(width: 20, height: 20,),
+                            ? Assets.svg.invest.checked.simpleSvg(width: 20, height: 20,)
+                            : Assets.svg.invest.check.simpleSvg(width: 20, height: 20,),
                         pressedIcon: investNewStore.isTP
-                            ? const SICheckedIcon(width: 20, height: 20,)
-                            : const SICheckIcon(width: 20, height: 20,),
+                            ? Assets.svg.invest.checked.simpleSvg(width: 20, height: 20,)
+                            : Assets.svg.invest.check.simpleSvg(width: 20, height: 20,),
                       ),
                       const SpaceW4(),
                       Container(
@@ -473,7 +481,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                       const SpaceW4(),
                       Text(
                         intl.invest_limits_take_profit,
-                        style: sBody2InvestMStyle.copyWith(
+                        style: STStyles.body2InvestM.copyWith(
                           color: colors.black,
                         ),
                       ),
@@ -493,7 +501,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                               children: [
                                 Text(
                                   currency.symbol,
-                                  style: sBody2InvestMStyle.copyWith(
+                                  style: STStyles.body2InvestM.copyWith(
                                     color: colors.black,
                                   ),
                                 ),
@@ -598,11 +606,11 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                           );
                         },
                         defaultIcon: investNewStore.isSl
-                            ? const SICheckedIcon(width: 20, height: 20,)
-                            : const SICheckIcon(width: 20, height: 20,),
+                            ? Assets.svg.invest.checked.simpleSvg(width: 20, height: 20,)
+                            : Assets.svg.invest.check.simpleSvg(width: 20, height: 20,),
                         pressedIcon: investNewStore.isSl
-                            ? const SICheckedIcon(width: 20, height: 20,)
-                            : const SICheckIcon(width: 20, height: 20,),
+                            ? Assets.svg.invest.checked.simpleSvg(width: 20, height: 20,)
+                            : Assets.svg.invest.check.simpleSvg(width: 20, height: 20,),
                       ),
                       const SpaceW4(),
                       Container(
@@ -616,7 +624,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                       const SpaceW4(),
                       Text(
                         intl.invest_limits_stop_loss,
-                        style: sBody2InvestMStyle.copyWith(
+                        style: STStyles.body2InvestM.copyWith(
                           color: colors.black,
                         ),
                       ),
@@ -633,7 +641,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                               children: [
                                 Text(
                                   currency.symbol,
-                                  style: sBody2InvestMStyle.copyWith(
+                                  style: STStyles.body2InvestM.copyWith(
                                     color: colors.black,
                                   ),
                                 ),

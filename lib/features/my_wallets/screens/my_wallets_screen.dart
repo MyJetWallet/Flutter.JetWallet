@@ -35,6 +35,7 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
+import 'package:timezone/data/latest.dart';
 
 import '../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../core/services/user_info/user_info_service.dart';
@@ -80,6 +81,8 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
     super.initState();
     final simpleCardStore = getIt.get<SimpleCardStore>();
 
+    initializeTimeZones();
+
     simpleCardStore.checkCardBanner();
 
     Timer(
@@ -89,14 +92,13 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
         final kycState = getIt.get<KycService>();
 
         if (userInfo.isSimpleCardAvailable &&
-          (sSignalRModules.bankingProfileData?.banking?.cards?.length ?? 0) < 1 &&
-          !simpleCardStore.wasCardBannerClosed &&
-          checkKycPassed(
-            kycState.depositStatus,
-            kycState.tradeStatus,
-            kycState.withdrawalStatus,
-          )
-        ) {
+            (sSignalRModules.bankingProfileData?.banking?.cards?.length ?? 0) < 1 &&
+            !simpleCardStore.wasCardBannerClosed &&
+            checkKycPassed(
+              kycState.depositStatus,
+              kycState.tradeStatus,
+              kycState.withdrawalStatus,
+            )) {
           sAnalytics.viewGetSimpleCard();
         }
       },

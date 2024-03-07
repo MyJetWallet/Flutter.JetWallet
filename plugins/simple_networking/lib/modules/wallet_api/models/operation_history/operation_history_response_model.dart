@@ -49,6 +49,7 @@ class OperationHistoryItem with _$OperationHistoryItem {
     CardWithdrawalInfo? cardWithdrawalInfo,
     CardRefundInfo? cardRefundInfo,
     CardPurchaseInfo? cardPurchaseInfo,
+    EarnOperationInfo? earnOperationInfo,
   }) = _OperationHistoryItem;
 
   factory OperationHistoryItem.fromJson(Map<String, dynamic> json) => _$OperationHistoryItemFromJson(json);
@@ -103,7 +104,14 @@ enum OperationType {
   cardRefund,
   cardWithdrawal,
   cardBankingSell,
-  cardBankingBuy
+  cardBankingBuy,
+  cardDeposit,
+  cardTransfer,
+  earnSend,
+  earnReserve,
+  earnDeposit,
+  earnWithdrawal,
+  earnPayroll,
 }
 
 extension _OperationTypeExtension on OperationType {
@@ -205,6 +213,20 @@ extension _OperationTypeExtension on OperationType {
         return 103;
       case OperationType.cardBankingBuy:
         return 104;
+      case OperationType.cardDeposit:
+        return 105;
+      case OperationType.cardTransfer:
+        return 106;
+      case OperationType.earnSend:
+        return 130;
+      case OperationType.earnReserve:
+        return 131;
+      case OperationType.earnDeposit:
+        return 132;
+      case OperationType.earnWithdrawal:
+        return 133;
+      case OperationType.earnPayroll:
+        return 134;
       default:
         return 0;
     }
@@ -316,6 +338,20 @@ class OperationTypeSerialiser implements JsonConverter<OperationType, dynamic> {
       return OperationType.cardBankingSell;
     } else if (value == '104') {
       return OperationType.cardBankingBuy;
+    } else if (value == '105') {
+      return OperationType.cardDeposit;
+    } else if (value == '106') {
+      return OperationType.cardTransfer;
+    } else if (value == '130') {
+      return OperationType.earnSend;
+    } else if (value == '131') {
+      return OperationType.earnReserve;
+    } else if (value == '132') {
+      return OperationType.earnDeposit;
+    } else if (value == '133') {
+      return OperationType.earnWithdrawal;
+    } else if (value == '134') {
+      return OperationType.earnPayroll;
     } else {
       return OperationType.unknown;
     }
@@ -805,4 +841,16 @@ class CardWithdrawalInfo with _$CardWithdrawalInfo {
   }) = _CardWithdrawalInfo;
 
   factory CardWithdrawalInfo.fromJson(Map<String, dynamic> json) => _$CardWithdrawalInfoFromJson(json);
+}
+
+@freezed
+class EarnOperationInfo with _$EarnOperationInfo {
+  const factory EarnOperationInfo({
+    String? earnPositionId,
+    String? earnOfferId,
+    String? amountAssetId,
+    @DecimalNullSerialiser() Decimal? amount,
+  }) = _EarnOperationInfo;
+
+  factory EarnOperationInfo.fromJson(Map<String, dynamic> json) => _$EarnOperationInfoFromJson(json);
 }

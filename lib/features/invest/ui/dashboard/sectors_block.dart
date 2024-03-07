@@ -1,16 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/headers/simple_small_header.dart';
-import 'package:simple_kit/modules/icons/custom/public/invest/simple_invest_wallet.dart';
-import 'package:simple_kit/modules/shared/simple_paddings.dart';
-import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit/simple_kit.dart';
-
-import '../../../../core/l10n/i10n.dart';
-import '../widgets/invest_text_button.dart';
-import 'my_wallet.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class SectorsBlock extends StatelessObserverWidget {
   const SectorsBlock({
@@ -50,14 +42,14 @@ class SectorsBlock extends StatelessObserverWidget {
           children: [
             Text(
               title,
-              style: sBody1InvestSMStyle.copyWith(
+              style: STStyles.body1InvestSM.copyWith(
                 color: colors.black,
               ),
             ),
             if (!isAllCoins)
               Text(
                 description ?? '',
-                style: sBody2InvestMStyle.copyWith(
+                style: STStyles.body2InvestM.copyWith(
                   color: colors.black,
                 ),
               ),

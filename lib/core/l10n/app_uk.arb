@@ -80,7 +80,7 @@
         "description": "Войдя в систему и продолжая пользоваться ею, я соглашаюсь и даю согласие на",
         "type": "text"
     },
-    "login_policyText2": "Terms and conditions",
+    "login_policyText2": "Положення та Умови",
     "@login_policyText2": {
         "description": "Privacy Policy Text (part 2)"
     },
@@ -293,7 +293,7 @@
         "description": "Simple была создана как криптовалютная платформа, однако мы постоянно расширяем ее функционал. Пока вы пользуетесь имеющимися возможностями приложения, наша команда упорно работает над тем, чтобы вы могли делать все необходимые финансовые операции в одном простом приложении. Именно это мы и называем Simple финансами.",
         "type": "text"
     },
-    "aboutUs_termButton1": "Загальні положення та умови",
+    "aboutUs_termButton1": "Загальні Положення та Умови",
     "@aboutUs_termButton1": {
         "description": "Общие положения и условия",
         "type": "text"
@@ -304,7 +304,7 @@
         "description": "Политика переадресации",
         "type": "text"
     },
-    "aboutUs_privacyPolicy": "Privacy Policy",
+    "aboutUs_privacyPolicy": "Політика конфіденційності",
     "sActionItem_description1": "Купуйте криптовалюту банківською карткою",
     "@sActionItem_description1": {
         "description": "Покупайте криптовалюту банковской карточкой",
@@ -3647,7 +3647,7 @@
         "description": "до",
         "type": "text"
     },
-    "to1": "Кому",
+    "to1": "До",
     "@to1": {
         "description": "Кому",
         "type": "text"
@@ -3679,7 +3679,7 @@
         "description": "номер",
         "type": "text"
     },
-    "days": "дні",
+    "days": "дн.",
     "@days": {
         "description": "дни",
         "type": "text"
@@ -4105,7 +4105,7 @@
         "description": "Я прочитал и согласен с",
         "type": "text"
     },
-    "previewBuyWithUmlimint_disclaimerTerms": "Terms and conditions",
+    "previewBuyWithUmlimint_disclaimerTerms": "Положення та Умови",
     "previewBuyWithUmlimint_skipWait": "Закрити",
     "@previewBuyWithUmlimint_skipWait": {
         "description": "Закрыть",
@@ -5648,7 +5648,7 @@
         "description": "Я прочитал и согласен с␣",
         "type": "text"
     },
-    "buy_confirmation_privacy_checkbox_2": "Terms and conditions",
+    "buy_confirmation_privacy_checkbox_2": "Положення та Умови",
     "buy_confirmation_privacy_checkbox_3": "Privacy Policy",
     "buy_confirmation_privacy_p2p_checkbox_1": "1. Я підтверджую, що наведена вище інформація є точною та повною.",
     "@buy_confirmation_privacy_p2p_checkbox_1": {
@@ -7402,5 +7402,237 @@
     "simple_card_is_ready": "Карта Simple готова",
     "simple_card_password_repeatable_characters": "Не має містити більше 3 повторюваних символів підряд",
     "simple_card_password_whitespace": "Пробіл не дозволений",
-    "simple_card_password_repeatable_allowed_symbols": "Дозволені наступні спеціальні символи:"
+    "simple_card_password_repeatable_allowed_symbols": "Дозволені наступні спеціальні символи:",
+    "earn_earn": "Дохід",
+    "@earn_earn": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/XKUJ00h5dZvM2PFYGRwm5qvf.png",
+        "type": "text"
+    },
+    "earn_funds_are_calculated_based_on_the_current_value": "Кошти розраховані згідно з поточною вартістю криптоактивів",
+    "@earn_funds_are_calculated_based_on_the_current_value": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/XKUJ00h5dZvM2PFYGRwm5qvf.png",
+        "type": "text"
+    },
+    "earn_total": "Загалом",
+    "@earn_total": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/XKUJ00h5dZvM2PFYGRwm5qvf.png",
+        "type": "text"
+    },
+    "earn_revenue": "Дохід",
+    "@earn_revenue": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/XKUJ00h5dZvM2PFYGRwm5qvf.png",
+        "type": "text"
+    },
+    "earn_active_earns": "Активні вкладення",
+    "@earn_active_earns": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/XKUJ00h5dZvM2PFYGRwm5qvf.png",
+        "type": "text"
+    },
+    "earn_view_all": "Переглянути всі",
+    "@earn_view_all": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/4BIQY6Y7Z2YOA2063BBYdkBI.png",
+        "type": "text"
+    },
+    "earn_balance": "Баланс",
+    "@earn_balance": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/POmX66TCy4cJElIIkJGknw5s.png",
+        "type": "text"
+    },
+    "earn_most_profitable_earns": "Найвигідніші варіанти",
+    "@earn_most_profitable_earns": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/4BIQY6Y7Z2YOA2063BBYdkBI.png",
+        "type": "text"
+    },
+    "earn_top_offers": "Топ пропозицій",
+    "@earn_top_offers": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/4BIQY6Y7Z2YOA2063BBYdkBI.png",
+        "type": "text"
+    },
+    "earn_up_to": "До",
+    "@earn_up_to": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/4BIQY6Y7Z2YOA2063BBYdkBI.png",
+        "type": "text"
+    },
+    "earn_earning": "Заробіток",
+    "@earn_earning": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/POmX66TCy4cJElIIkJGknw5s.png",
+        "type": "text"
+    },
+    "earn_closing": "Закриття...",
+    "@earn_closing": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/POmX66TCy4cJElIIkJGknw5s.png",
+        "type": "text"
+    },
+    "earn_closed": "Завершено",
+    "earn_unknown": "Невідомий",
+    "@earn_unknown": {
+        "description": "Статусы эрна",
+        "type": "text"
+    },
+    "earn_variable_apy": "Змінний APY",
+    "@earn_variable_apy": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/POmX66TCy4cJElIIkJGknw5s.png",
+        "type": "text"
+    },
+    "earn_started": "Розпочато",
+    "earn_funds_will_be_withdrawn": "Ваші кошти та нараховані доходи будуть виплачені після закриття вашого рахунку. Виплата коштів за {days} дн.",
+    "@earn_funds_will_be_withdrawn": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_top_up": "Поповнити",
+    "earn_withdraw": "Вивести",
+    "earn_all_offers": "Усі пропозиції",
+    "earn_earns_archive": "Архів вкладень",
+    "earn_you_can_withdraw_deposit_funds_instantly": "Ви можете миттєво вивести депозитні кошти",
+    "earn_deposit": "Депозит",
+    "earn_continue": "Продовжити",
+    "earn_choose_a_deposit_plan": "Оберіть план депозиту та заробляйте крипту",
+    "earn_freeze_period": "Період заморожування ({days} дн.)",
+    "@earn_freeze_period": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_flexible_tariff": "Гнучкий тариф",
+    "earn_are_you_sure": "Ви впевнені?",
+    "earn_your_funds_and_accrued": "Ваші кошти та нараховані доходи будуть виплачені після закриття вашого рахунку Earn. Виплата буде {date}.",
+    "@earn_your_funds_and_accrued": {
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "12.12.2024"
+            }
+        }
+    },
+    "earn_continue_earning": "Продовжити заробляти",
+    "earn_yes_withdraw": "Так, вивести",
+    "earn_partial_withdrawal": "Часткове виведення",
+    "earn_the_minimum_amount_of_earn": "Мінімальна сума балансу рахунку Earn не може бути менше ніж",
+    "earn_full_withdrawal": "Повне виведення",
+    "earn_closing_an_earn_account": "Закриття рахунку Earn з виведенням основної суми та доходу",
+    "earn_confirm": "Підтвердити",
+    "earn_est": "Прибл.",
+    "earn_max": "Макс.",
+    "earn_from_earn": "З заробітку",
+    "earn_crypto_wallet": "Криптогаманець",
+    "earn_order_summary": "Підсумок замовлення",
+    "earn_order_summary_partial_withdrawal_means": "Часткове виведення означає виведення коштів з розрахункової бази. Дохід виплачується при повному закритті рахунку.",
+    "earn_send": "Відправити",
+    "earn_withdraw_successfully": "Ваші кошти були успішно виплачені",
+    "earn_full_withdraw": "Ваші кошти та нараховані доходи виплачуються при закритті вашого рахунку Earn.",
+    "earn_basis_amount": "Основна сума",
+    "earn_withdrawal_period": "Період виведення",
+    "earn_the_funds_will_be_disbursed": "Кошти будуть перераховані на ваш гаманець {date}. Ви також заробите дохід наступні {days} дн.",
+    "@earn_the_funds_will_be_disbursed": {
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "12.12.2024"
+            },
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_withdrawal_period_explanation_1": "Виведення коштів з вашого плану призведе до закриття відповідного рахунку Earn. Зверніть увагу, що повне переведення коштів разом з заробленим доходом відбудеться через {days} дн. після створення запиту.",
+    "earn_withdrawal_period_explanation_2": "Важливо зазначити, що до остаточного закриття рахунку дохід продовжуватиме нараховуватися на ваш рахунок Earn.",
+    "earn_from_crypto_wallet": "З криптогаманця",
+    "earn_to_crypto_wallet": "На криптогаманець",
+    "earn_to_earn": "Для заробітку",
+    "earn_deposit_crypto_wallet": "Гаманець для депозитів",
+    "earn_to_continue_you_need_to_top_up": "Щоб продовжити, вам потрібно поповнити ваш гаманець {wallet_symbol} щонайменше на {topup_value}",
+    "@earn_to_continue_you_need_to_top_up": {
+        "placeholders": {
+            "topup_value": {
+                "type": "String"
+            },
+            "wallet_symbol": {
+                "type": "String"
+            }
+        }
+    },
+    "earn_top_up_value": "Поповнити на {value}",
+    "@earn_top_up_value": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "BTC"
+            }
+        }
+    },
+    "earn_cancel": "Скасувати",
+    "earn_apy_rate": "Ставка APY",
+    "earn_earning_term": "Термін заробітку",
+    "earn_flexible": "Гнучкий",
+    "earn_instant": "Миттєвий",
+    "earn_i_have_read_and_agreed_to": "Я прочитав(ла) і погоджуюсь з",
+    "earn_terms_and_conditions": "Умови та Положення програми Earn",
+    "earn_transfer": "Переказ",
+    "earn_withdrawal": "Виведення",
+    "earn_days_left": "Залишилося {days} дн.",
+    "@earn_days_left": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_disbursement_is_at": "Виплата в {time} {date}",
+    "@earn_disbursement_is_at": {
+        "placeholders": {
+            "time": {
+                "type": "String",
+                "example": "21:24"
+            },
+            "date": {
+                "type": "String",
+                "example": "12.12.2024"
+            }
+        }
+    },
+    "earn_privacy_policy": "Політика конфіденційності Smpl Global",
+    "earn_freeze": "Заморозити на {days} дн.",
+    "@earn_freeze": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_earn_account_id": "ID рахунку Earn",
+    "earn_sent": "Відправлено",
+    "earn_received": "Отримано",
+    "earn_withdrawal_of": "Виведення {value}\nініційовано",
+    "@earn_withdrawal_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "21:24"
+            }
+        }
+    },
+    "about_us_earn": "Положення та Умови програми Earn",
+    "about_transfer": "Переказ",
+    "earn_freeze_days": "Заморозити на {days} дн.",
+    "@earn_freeze_days": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_redeem_period": "Період погашення ({days} дн.)",
+    "@earn_redeem_period": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_history": "Історія",
+    "earn_to": "До",
+    "about_us_earn_program": "Умови та Положення програми Earn",
+    "about_us_smpl_global": "Політика конфіденційності Smpl Global",
+    "earn_finished": "Завершено"
 }

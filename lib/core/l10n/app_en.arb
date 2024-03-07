@@ -16,7 +16,7 @@
     "login_password": "Password",
     "login_forgotPassword": "Forgot password",
     "login_policyText1": "By logging in and continuing, I hereby agree and consent to the",
-    "login_policyText2": "Terms and conditions",
+    "login_policyText2": "Terms and Conditions",
     "@login_policyText2": {
         "description": "Privacy Policy Text (part 2)"
     },
@@ -759,7 +759,7 @@
     "withText": "With",
     "news": "News",
     "number": "number",
-    "days": "days",
+    "days": "day(s)",
     "hours": "hours",
     "hour": "hour",
     "hoursLeft": "hours left",
@@ -853,7 +853,7 @@
     "curencyBuy_actionItemDescriptionWithoutApplePay": "Visa, Mastercard",
     "currencyBuy_morePaymentMethod": "More payment methods",
     "previewBuyWithUmlimint_disclaimer": "I have read and agreed to",
-    "previewBuyWithUmlimint_disclaimerTerms": "Terms and conditions",
+    "previewBuyWithUmlimint_disclaimerTerms": "Terms and Conditions",
     "previewBuyWithUmlimint_skipWait": "Close",
     "previewBuyWithUmlimint_disclaimerPolicy": "Privacy Policy",
     "previewBuyWithUmlimint_saveCard": "Save this card",
@@ -1172,7 +1172,7 @@
     "buy_confirmation_total": "Total",
     "buy_confirmation_local_info": "Exchange rate will be adjusted according to the market\nprice at the moment we get a confirmation for the payment",
     "buy_confirmation_privacy_checkbox_1": "I have read and agreed to ",
-    "buy_confirmation_privacy_checkbox_2": "Terms and conditions",
+    "buy_confirmation_privacy_checkbox_2": "Terms and Conditions",
     "buy_confirmation_privacy_checkbox_3": "Privacy Policy",
     "buy_confirmation_privacy_p2p_checkbox_1": "1. I confirm that information above is accurate and complete.",
     "buy_confirmation_privacy_p2p_checkbox_1_5": "2. I agree with ",
@@ -1718,5 +1718,189 @@
     "simple_card_is_ready": "Simple card is ready",
     "simple_card_password_repeatable_characters": "Must not include more than 3 consecutive repeatable characters",
     "simple_card_password_whitespace": "Whitespace character is not allowed",
-    "simple_card_password_repeatable_allowed_symbols": "The following special symbols are allowed:"
+    "simple_card_password_repeatable_allowed_symbols": "The following special symbols are allowed:",
+    "earn_earn": "Earn",
+    "earn_funds_are_calculated_based_on_the_current_value": "Funds are calculated based on the current value of cryptoassets",
+    "earn_total": "Total",
+    "earn_revenue": "Revenue",
+    "earn_active_earns": "Active earns",
+    "earn_view_all": "View all",
+    "earn_balance": "Balance",
+    "earn_most_profitable_earns": "The most profitable earns",
+    "earn_top_offers": "Top offers",
+    "earn_up_to": "Up to",
+    "earn_earning": "Earning",
+    "earn_closing": "Closing...",
+    "earn_closed": "Finished",
+    "earn_unknown": "Unknown",
+    "earn_variable_apy": "Variable APY",
+    "earn_started": "Started",
+    "earn_funds_will_be_withdrawn": "Your funds and accrued earnings are paid out upon closing your Earn Account. Disbursement of funds in {days} day(s)",
+    "@earn_funds_will_be_withdrawn": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_top_up": "Top up",
+    "earn_withdraw": "Withdraw",
+    "earn_all_offers": "All offers",
+    "earn_earns_archive": "Earns archive",
+    "earn_you_can_withdraw_deposit_funds_instantly": "You can withdraw deposit funds instantly",
+    "earn_deposit": "Deposit",
+    "earn_continue": "Continue",
+    "earn_choose_a_deposit_plan": "Choose a deposit plan and\nearn crypto",
+    "earn_freeze_period": "Freeze period ({days} day(s))",
+    "@earn_freeze_period": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_flexible_tariff": "Flexible tariff",
+    "earn_are_you_sure": "Are you sure?",
+    "earn_your_funds_and_accrued": "Your funds and accrued earnings are paid out upon closing your Earn Account. Disbursement on {date}.",
+    "@earn_your_funds_and_accrued": {
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "12.12.2024"
+            }
+        }
+    },
+    "earn_continue_earning": "Continue Earning",
+    "earn_yes_withdraw": "Yes, withdraw",
+    "earn_partial_withdrawal": "Partial withdrawal",
+    "earn_the_minimum_amount_of_earn": "The minimum amount of Earn account balances must not be less than",
+    "earn_full_withdrawal": "Full withdrawal",
+    "earn_closing_an_earn_account": "Closing an Earn account with withdrawal of the basis amount and revenue",
+    "earn_confirm": "Confirm",
+    "earn_est": "Est.",
+    "earn_max": "Max",
+    "earn_from_earn": "From earn",
+    "earn_crypto_wallet": "Crypto wallet",
+    "earn_order_summary": "Order summary",
+    "earn_order_summary_partial_withdrawal_means": "Partial withdrawal means withdrawal of funds from the calculation basis. Revenue is paid out at full closure of the account.",
+    "earn_send": "Send",
+    "earn_withdraw_successfully": "Your funds have been successfully disbursed",
+    "earn_full_withdraw": "Your funds and accrued earnings are paid out when you close your Earn account.",
+    "earn_basis_amount": "Basis amount",
+    "earn_withdrawal_period": "Withdrawal period",
+    "earn_the_funds_will_be_disbursed": "The funds will be disbursed to your wallet on {date}. You will also earn income for the next {days} day(s)",
+    "@earn_the_funds_will_be_disbursed": {
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "12.12.2024"
+            },
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_withdrawal_period_explanation_1": "Withdrawal of funds from your plan will result in the closure of the corresponding Earn account. Please note that the full transfer of funds together with the earned income will take place {days} days after the request has been created.",
+    "@earn_withdrawal_period_explanation": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_withdrawal_period_explanation_2": "It is important to note that until the final closure of the account, the income will continue to accrue to your Earn account.",
+    "earn_from_crypto_wallet": "From crypto wallet",
+    "earn_to_crypto_wallet": "To crypto wallet",
+    "earn_to_earn": "To earn",
+    "earn_deposit_crypto_wallet": "Deposit crypto wallet",
+    "earn_to_continue_you_need_to_top_up": "To continue, you need to top up your {wallet_symbol} wallet with at least {topup_value}",
+    "@earn_to_continue_you_need_to_top_up": {
+        "placeholders": {
+            "topup_value": {
+                "type": "String"
+            },
+            "wallet_symbol": {
+                "type": "String"
+            }
+        }
+    },
+    "earn_top_up_value": "Top up {value}",
+    "@earn_top_up_value": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "BTC"
+            }
+        }
+    },
+    "earn_cancel": "Cancel",
+    "earn_apy_rate": "APY Rate",
+    "earn_earning_term": "Earning term",
+    "earn_flexible": "Flexible",
+    "earn_instant": "Instant",
+    "earn_i_have_read_and_agreed_to": "I have read and agreed to",
+    "earn_terms_and_conditions": "Earn Program Terms and Conditions",
+    "earn_transfer": "Transfer",
+    "earn_withdrawal": "Withdrawal",
+    "earn_days_left": "{days} day(s) left",
+    "@earn_days_left": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_disbursement_is_at": "Disbursement is at {time} on {date}",
+    "@earn_disbursement_is_at": {
+        "placeholders": {
+            "time": {
+                "type": "String",
+                "example": "21:24"
+            },
+            "date": {
+                "type": "String",
+                "example": "12.12.2024"
+            }
+        }
+    },
+    "earn_privacy_policy": "Smpl Global Privacy Policy",
+    "earn_freeze": "Freeze {days} day(s)",
+    "@earn_freeze": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_earn_account_id": "Earn account ID",
+    "earn_sent": "Sent",
+    "earn_received": "Received",
+    "earn_withdrawal_of": "Withdrawal of {value}\nwas initiated",
+    "@earn_withdrawal_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "21:24"
+            }
+        }
+    },
+    "about_us_earn": "Terms & Conditions of Earn program",
+    "about_transfer": "Transfer",
+    "earn_freeze_days": "Freeze {days} day(s)",
+    "@earn_freeze_days": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_redeem_period": "Redeem period ({days} day(s))",
+    "@earn_redeem_period": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_history": "History",
+    "earn_to": "To",
+    "about_us_earn_program": "Earn Program Terms and Conditions",
+    "about_us_smpl_global": "Smpl Global Privacy Policy",
+    "earn_finished": "Finished"
 }

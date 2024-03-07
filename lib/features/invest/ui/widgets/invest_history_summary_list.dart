@@ -1,16 +1,14 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:grouped_list/sliver_grouped_list.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/features/market/market_details/model/operation_history_union.dart';
-import 'package:jetwallet/features/market/market_details/store/operation_history.dart';
 import 'package:provider/provider.dart';
-import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
-import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
 import '../../../../core/di/di.dart';
 import '../../../../core/router/app_router.dart';
@@ -21,9 +19,6 @@ import '../../../actions/action_send/widgets/show_send_timer_alert_or.dart';
 import '../../../kyc/helper/kyc_alert_handler.dart';
 import '../../../kyc/kyc_service.dart';
 import '../../../kyc/models/kyc_operation_status_model.dart';
-import '../../../wallet/helper/format_date.dart';
-import '../../../wallet/ui/widgets/wallet_body/widgets/loading_sliver_list.dart';
-import '../../../wallet/ui/widgets/wallet_body/widgets/transaction_month_separator.dart';
 import '../../../wallet/ui/widgets/wallet_body/widgets/transactions_list_item/transaction_list_loading_item.dart';
 import '../../helpers/invest_period_info.dart';
 import '../../stores/dashboard/invest_dashboard_store.dart';
@@ -113,7 +108,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                 },
                 child: Row(
                   children: [
-                    SICalendarIcon(
+                    Assets.svg.invest.investCalendar.simpleSvg(
                       width: 16,
                       height: 16,
                       color: colors.black,
@@ -121,10 +116,10 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                     const SpaceW4(),
                     Text(
                       '${getDaysByPeriod(investStore.period)} ${intl.invest_period_days}',
-                      style: sBody1InvestSMStyle,
+                      style: STStyles.body1InvestSM,
                     ),
                     const SpaceW4(),
-                    SIArrowIcon(
+                    Assets.svg.invest.investArrow.simpleSvg(
                       width: 14,
                       height: 14,
                       color: colors.black,

@@ -31,13 +31,15 @@
 .pub-cache/
 .pub/
 /build/
-pubspec.lock
+# pubspec.lock
 
 # Generated Dart files
 *.config.dart
 *.g.dart
 *.freezed.dart
 *.gr.dart
+# workaround please remove this
+!plugins/simple_kit/lib/**/*.g.dart
 
 # Web related
 lib/generated_plugin_registrant.dart
@@ -116,3 +118,7 @@ app.*.map.json
 /android/app/release
 
 temp
+
+#fvm
+.fvm/
+*.fvmrc

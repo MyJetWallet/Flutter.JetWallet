@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 class DataLine extends StatelessObserverWidget {
   const DataLine({
@@ -43,7 +44,7 @@ class DataLine extends StatelessObserverWidget {
           ],
           Text(
             mainText,
-            style: sBody2InvestMStyle.copyWith(
+            style: STStyles.body2InvestM.copyWith(
               color: colors.grey1,
             ),
           ),
@@ -53,7 +54,7 @@ class DataLine extends StatelessObserverWidget {
             const SpaceW5(),
           Text(
             secondaryText,
-            style: sBody1InvestSMStyle.copyWith(
+            style: STStyles.body1InvestSM.copyWith(
               color: secondaryColor ?? colors.black,
             ),
           ),

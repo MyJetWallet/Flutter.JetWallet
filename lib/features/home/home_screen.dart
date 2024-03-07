@@ -43,6 +43,10 @@ class _HomeScreenState extends State<HomeScreen> {
       BottomItemType.wallets,
       BottomItemType.market,
       if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
+          .any((element) => element.id == AssetPaymentProductsEnum.earnProgram)) ...[
+        BottomItemType.earn,
+      ],
+      if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
           .where((element) => element.id == AssetPaymentProductsEnum.investProgram)
           .isNotEmpty) ...[
         BottomItemType.invest,
@@ -62,6 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
         final screens = <PageRouteInfo<dynamic>>[
           if (bottomBarItems.contains(BottomItemType.wallets)) const MyWalletsRouter(),
           if (bottomBarItems.contains(BottomItemType.market)) const MarketRouter(),
+          if (bottomBarItems.contains(BottomItemType.earn)) const EarnRouter(),
           if (bottomBarItems.contains(BottomItemType.invest)) const InvestPageRouter(),
           if (bottomBarItems.contains(BottomItemType.card)) const CardRouter(),
           if (bottomBarItems.contains(BottomItemType.rewards)) const RewardsFlowRouter(),
@@ -100,6 +105,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     text: intl.bottom_bar_market,
                     icon: Assets.svg.large.graph,
                   ),
+                if (bottomBarItems.contains(BottomItemType.earn))
+                  SBottomItemModel(
+                    type: BottomItemType.earn,
+                    text: intl.earn_earn,
+                    icon: Assets.svg.large.chart,
+                  ),
                 if (bottomBarItems.contains(BottomItemType.invest))
                   SBottomItemModel(
                     type: BottomItemType.invest,
@@ -128,6 +139,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     break;
                   case BottomItemType.rewards:
                     sAnalytics.rewardsTapOnTheTabBar();
+                    break;
+                  case BottomItemType.earn:
+                    sAnalytics.tapOnTheTabbarButtonEarn();
                     break;
                   default:
                 }
