@@ -12,12 +12,12 @@ import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 import '../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../utils/models/currency_model.dart';
-import '../../app/store/app_store.dart';
 import '../../kyc/kyc_service.dart';
 import '../../kyc/models/kyc_operation_status_model.dart';
 
@@ -114,19 +114,26 @@ void showCryptoReceiveAction(BuildContext context) {
 
   sAnalytics.chooseAssetToReceiveScreenView();
 
+  final showSearch = showReceiveCurrencySearch(context);
+
   sShowBasicModalBottomSheet(
     context: context,
-    scrollable: true,
-    expanded: true,
     then: (value) {},
     pinned: ActionBottomSheetHeader(
       name: intl.actionReceive_bottomSheetHeaderName1,
       onChanged: (String value) {
-        getIt.get<ActionSearchStore>().search(value);
+        searchStore.search(value);
       },
+      showSearch: showSearch,
+      horizontalDividerPadding: 24,
+      addPaddingBelowTitle: true,
+      isNewDesign: true,
+      needBottomPadding: false,
     ),
-    horizontalPinnedPadding: 0.0,
+    horizontalPinnedPadding: 0,
     removePinnedPadding: true,
+    horizontalPadding: 0,
+    scrollable: true,
     children: [
       _ActionReceive(
         searchStore: searchStore,
@@ -154,45 +161,27 @@ class _ActionReceive extends StatelessObserverWidget {
         )
         .toList();
 
-    final showSearch = showReceiveCurrencySearch(context);
-
     return Column(
       children: [
-        if (showSearch) ...[
-          SPaddingH24(
-            child: SStandardField(
-              controller: state.searchController,
-              labelText: intl.actionBottomSheetHeader_search,
-              onChanged: (String value) => state.search(value),
-              maxLines: 1,
-            ),
-          ),
-          const SDivider(),
-        ],
-        Column(
-          children: [
-            for (final currency in state.fCurrencies)
-              if (currency.type == AssetType.crypto)
-                if (currency.supportsCryptoDeposit)
-                  SWalletItem(
-                    icon: SNetworkSvg24(
-                      url: currency.iconUrl,
-                    ),
-                    primaryText: currency.description,
-                    secondaryText: currency.symbol,
-                    removeDivider: currency == currencyFiltered.last,
-                    onTap: () {
-                      getIt.get<AppRouter>().push(
-                            CryptoDepositRouter(
-                              header: intl.actionReceive_receive,
-                              currency: currency,
-                            ),
-                          );
-                    },
-                    hideBalance: getIt<AppStore>().isBalanceHide,
-                  ),
-          ],
-        ),
+        for (final currency in state.fCurrencies)
+          if (currency.type == AssetType.crypto)
+            if (currency.supportsCryptoDeposit)
+              SimpleTableAccount(
+                assetIcon: SNetworkSvg24(
+                  url: currency.iconUrl,
+                ),
+                label: currency.description,
+                supplement: currency.symbol,
+                onTableAssetTap: () {
+                  getIt.get<AppRouter>().push(
+                        CryptoDepositRouter(
+                          header: intl.actionReceive_receive,
+                          currency: currency,
+                        ),
+                      );
+                },
+                hasRightValue: false,
+              ),
         const SpaceH42(),
       ],
     );
