@@ -56,6 +56,16 @@ void showConvertToBottomSheet({
           sortByBalanceWatchlistAndWeight(searchStore.fCurrencies, watchList);
           final currencyFiltered = List<CurrencyModel>.from(searchStore.fCurrencies);
 
+          final watchListIds = sSignalRModules.keyValue.watchlist?.value ?? [];
+
+          final favAssets = <CurrencyModel>[];
+
+          for (final symbol in watchListIds) {
+            favAssets.add(currencyFiltered.firstWhere((element) => element.symbol == symbol));
+            currencyFiltered.removeWhere((element) => element.symbol == symbol);
+          }
+          currencyFiltered.insertAll(0, favAssets);
+
           if (currencyFiltered.any((element) => element.symbol == 'EUR')) {
             final eurAsset = currenciesList.firstWhere((element) => element.symbol == 'EUR');
             currencyFiltered.removeWhere((element) => element.symbol == 'EUR');
