@@ -90,13 +90,10 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
       switch (tabController.index) {
         case 0:
           sAnalytics.tapOnTheBuyButtonOnBSCSegmentScreen();
-          break;
         case 1:
           sAnalytics.tapOnTheSellButtonOnBSCSegmentButton();
-          break;
         case 2:
           sAnalytics.tapOnTheConvertButtonOnBSCSegmentButton();
-          break;
         case 3:
           sAnalytics.transferAmountScreenView(
             sourceTransfer: 'Segment control',
@@ -159,16 +156,12 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
                           : 'Unlimint  ${widget.account?.last4IbanCharacters}',
                   sourceCurrency: 'EUR',
                 );
-                break;
               case 1:
                 sAnalytics.tapOnTheBackFromSellAmountButton();
-                break;
               case 2:
                 sAnalytics.tapOnTheBackFromConvertAmountButton();
-                break;
               case 3:
                 sAnalytics.tapOnTheBackFromTransferAmountButton();
-                break;
               default:
             }
 

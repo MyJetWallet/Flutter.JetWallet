@@ -53,7 +53,6 @@ void showAddCashFromBottomSheet({
     scrollable: true,
     expanded: showSearch,
     children: [
-      STextDivider(intl.sell_amount_cryptocurrencies),
       if (sSignalRModules.currenciesList
           .where((element) => element.symbol != 'EUR' && element.isAssetBalanceNotEmpty)
           .isEmpty)

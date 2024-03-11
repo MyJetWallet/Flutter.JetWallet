@@ -2,11 +2,15 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/widgets.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/cj_banking_accounts/screens/show_account_details_screen.dart';
 import 'package:jetwallet/features/cj_banking_accounts/store/account_deposit_by_store.dart';
 import 'package:jetwallet/features/cj_banking_accounts/widgets/show_add_cash_from_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
+import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
@@ -86,6 +90,7 @@ class _DepositByBody extends StatelessWidget {
             );
           },
         ),
+        STextDivider(intl.deposit_by_accounts),
         if (store.isCryptoAvaible) ...[
           SimpleTableAsset(
             label: intl.market_crypto,
@@ -93,7 +98,12 @@ class _DepositByBody extends StatelessWidget {
             assetIcon: Assets.svg.assets.crypto.defaultPlaceholder.simpleSvg(
               width: 24,
             ),
-            hasRightValue: false,
+            rightValue: !getIt<AppStore>().isBalanceHide
+                ? _price(
+                    currenciesWithBalanceFrom(sSignalRModules.currenciesList),
+                    sSignalRModules.baseCurrency,
+                  )
+                : '**** ${sSignalRModules.baseCurrency.symbol}',
             onTableAssetTap: () {
               sAnalytics.tapOnTheAnyAccountForDepositButton(
                 accountType: 'Crypto',
@@ -123,12 +133,10 @@ class _DepositByBody extends StatelessWidget {
           ),
         ],
         if (store.isAccountsAvaible && store.accounts.isNotEmpty) ...[
-          STextDivider(intl.deposit_by_accounts),
           for (final account in store.accounts)
             SimpleTableAsset(
               label: account.label ?? 'Account 1',
-              supplement:
-                  account.isClearjuctionAccount ? intl.eur_wallet_simple_account : intl.eur_wallet_personal_account,
+              supplement: intl.internal_exchange,
               rightValue: getIt<AppStore>().isBalanceHide
                   ? '**** ${account.currency ?? 'EUR'}'
                   : volumeFormat(
@@ -159,7 +167,7 @@ class _DepositByBody extends StatelessWidget {
           for (final card in store.cards)
             SimpleTableAsset(
               label: card.label ?? '',
-              supplement: '${card.cardType?.frontName} ••• ${card.last4NumberCharacters}',
+              supplement: intl.internal_exchange,
               rightValue: getIt<AppStore>().isBalanceHide
                   ? '**** ${card.currency ?? 'EUR'}'
                   : volumeFormat(
@@ -185,6 +193,23 @@ class _DepositByBody extends StatelessWidget {
         ],
         const SpaceH42(),
       ],
+    );
+  }
+
+  String _price(
+    List<CurrencyModel> items,
+    BaseCurrencyModel baseCurrency,
+  ) {
+    var totalBalance = Decimal.zero;
+
+    for (final item in items) {
+      totalBalance += item.baseBalance;
+    }
+
+    return volumeFormat(
+      decimal: totalBalance,
+      accuracy: baseCurrency.accuracy,
+      symbol: baseCurrency.symbol,
     );
   }
 }

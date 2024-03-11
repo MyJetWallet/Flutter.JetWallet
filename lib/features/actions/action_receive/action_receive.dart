@@ -7,6 +7,7 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/actions/helpers/show_currency_search.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
@@ -109,8 +110,8 @@ Widget receiveItem({
 }
 
 void showCryptoReceiveAction(BuildContext context) {
-  getIt.get<ActionSearchStore>().init();
   final searchStore = getIt.get<ActionSearchStore>();
+  searchStore.init();
 
   sAnalytics.chooseAssetToReceiveScreenView();
 
@@ -134,6 +135,7 @@ void showCryptoReceiveAction(BuildContext context) {
     removePinnedPadding: true,
     horizontalPadding: 0,
     scrollable: true,
+    expanded: true,
     children: [
       _ActionReceive(
         searchStore: searchStore,
@@ -160,6 +162,7 @@ class _ActionReceive extends StatelessObserverWidget {
           (element) => element.type == AssetType.crypto && element.supportsCryptoDeposit,
         )
         .toList();
+    final baseCurrency = sSignalRModules.baseCurrency;
 
     return Column(
       children: [
@@ -172,6 +175,9 @@ class _ActionReceive extends StatelessObserverWidget {
                 ),
                 label: currency.description,
                 supplement: currency.symbol,
+                rightValue: getIt<AppStore>().isBalanceHide
+                    ? '**** ${baseCurrency.symbol}'
+                    : currency.volumeBaseBalance(baseCurrency),
                 onTableAssetTap: () {
                   getIt.get<AppRouter>().push(
                         CryptoDepositRouter(
@@ -180,7 +186,6 @@ class _ActionReceive extends StatelessObserverWidget {
                         ),
                       );
                 },
-                hasRightValue: false,
               ),
         const SpaceH42(),
       ],

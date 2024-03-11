@@ -1,39 +1,30 @@
+import 'package:flutter/material.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 
-part 'simple_card_deposit_by_store.g.dart';
+part 'globa_convert_to_store.g.dart';
 
-class SimpleCardDepositByStore = _SimpleCardDepositByStoreBase with _$SimpleCardDepositByStore;
+class GlobaConvertToStore extends _GlobaConvertToStoreBase with _$GlobaConvertToStore {
+  GlobaConvertToStore() : super();
 
-abstract class _SimpleCardDepositByStoreBase with Store {
-  @observable
-  bool isBankTrnasferAvaible = true;
+  static GlobaConvertToStore of(BuildContext context) => Provider.of<GlobaConvertToStore>(context, listen: false);
+}
 
-  @observable
-  bool isCryptoAvaible = true;
-
-  @observable
-  bool isAccountsAvaible = true;
-
-  @observable
-  bool isCardsAvaible = true;
-
-  @observable
-  CardDataModel? card;
-
-  @observable
-  bool isCJAccount = false;
+abstract class _GlobaConvertToStoreBase with Store {
+  @computed
+  List<CurrencyModel> get assets {
+    return [];
+  }
 
   @computed
   List<CardDataModel> get cards =>
       sSignalRModules.bankingProfileData?.banking?.cards
           ?.where(
-            (element) =>
-                element.status == AccountStatusCard.active &&
-                element.isNotEmptyBalance &&
-                element.cardId != card?.cardId,
+            (element) => element.status == AccountStatusCard.active,
           )
           .toList() ??
       [];
@@ -49,19 +40,14 @@ abstract class _SimpleCardDepositByStoreBase with Store {
     }
 
     final bankingAccounts = sSignalRModules.bankingProfileData?.banking?.accounts
-            ?.where((element) => element.isNotEmptyBalance && !(element.isHidden ?? false))
+            ?.where(
+              (element) => element.isNotEmptyBalance && !(element.isHidden ?? false),
+            )
             .toList() ??
         <SimpleBankingAccount>[];
 
     accounts.addAll(bankingAccounts);
 
     return accounts;
-  }
-
-  @action
-  void init({
-    required CardDataModel newCard,
-  }) {
-    card = newCard;
   }
 }

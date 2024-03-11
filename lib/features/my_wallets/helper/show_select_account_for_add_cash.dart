@@ -161,6 +161,7 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
             );
           },
         ),
+        STextDivider(intl.deposit_by_cards),
         for (final card in cards)
           SimpleTableAsset(
             label: card.label ?? '',
