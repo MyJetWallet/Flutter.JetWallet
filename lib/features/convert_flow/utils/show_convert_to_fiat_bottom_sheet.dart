@@ -14,7 +14,6 @@ import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 void showConvertToFiatBottomSheet({
   required BuildContext context,
@@ -45,9 +44,7 @@ void showConvertToFiatBottomSheet({
                 for (final account in store.accounts)
                   SimpleTableAsset(
                     label: account.label ?? 'Account 1',
-                    supplement: account.isClearjuctionAccount
-                        ? intl.eur_wallet_simple_account
-                        : intl.eur_wallet_personal_account,
+                    supplement: intl.internal_exchange,
                     rightValue: getIt<AppStore>().isBalanceHide
                         ? '**** ${account.currency ?? 'EUR'}'
                         : volumeFormat(
@@ -74,7 +71,7 @@ void showConvertToFiatBottomSheet({
                 for (final card in store.cards)
                   SimpleTableAsset(
                     label: card.label ?? '',
-                    supplement: '${card.cardType?.frontName} ••• ${card.last4NumberCharacters}',
+                    supplement: intl.internal_exchange,
                     rightValue: getIt<AppStore>().isBalanceHide
                         ? '**** ${card.currency ?? 'EUR'}'
                         : volumeFormat(
@@ -88,7 +85,7 @@ void showConvertToFiatBottomSheet({
                         AmountRoute(
                           tab: AmountScreenTab.sell,
                           asset: fromAsset,
-                          fromCard: card,
+                          simpleCard: card,
                         ),
                       );
                     },

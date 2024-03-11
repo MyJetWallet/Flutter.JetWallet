@@ -35,10 +35,12 @@ class AmountScreen extends StatefulWidget {
     this.toCard,
     this.fromAccount,
     this.toAccount,
+    this.toAsset,
   });
 
   final AmountScreenTab tab;
   final CurrencyModel? asset;
+  final CurrencyModel? toAsset;
 
   final CircleCard? card;
   final CardDataModel? simpleCard;
@@ -220,7 +222,7 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
                 ),
                 ConvertAmountTabBody(
                   fromAsset: widget.tab != AmountScreenTab.buy ? widget.asset : null,
-                  toAsset: widget.tab == AmountScreenTab.buy ? widget.asset : null,
+                  toAsset: widget.toAsset ?? (widget.tab == AmountScreenTab.buy ? widget.asset : null),
                 ),
                 if (countOfTabs >= 4)
                   TransferAmountTabBody(

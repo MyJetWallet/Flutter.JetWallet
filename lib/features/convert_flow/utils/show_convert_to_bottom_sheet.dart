@@ -9,6 +9,7 @@ import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/convert_flow/utils/show_convert_to_fiat_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
+import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -20,7 +21,11 @@ void showConvertToBottomSheet({
 }) {
   final baseCurrency = sSignalRModules.baseCurrency;
 
-  final searchStore = ActionSearchStore();
+  final currenciesList = [...sSignalRModules.currenciesList];
+
+  currenciesList.removeWhere((element) => element.symbol == fromAsset.symbol);
+
+  final searchStore = ActionSearchStore()..init(customCurrencies: currenciesList);
 
   final currencyFiltered = List<CurrencyModel>.from(searchStore.fCurrencies);
 
@@ -47,42 +52,57 @@ void showConvertToBottomSheet({
     children: [
       Observer(
         builder: (context) {
+          final watchList = sSignalRModules.keyValue.watchlist?.value ?? [];
+          sortByBalanceWatchlistAndWeight(searchStore.fCurrencies, watchList);
           final currencyFiltered = List<CurrencyModel>.from(searchStore.fCurrencies);
+
+          if (currencyFiltered.any((element) => element.symbol == 'EUR')) {
+            final eurAsset = currenciesList.firstWhere((element) => element.symbol == 'EUR');
+            currencyFiltered.removeWhere((element) => element.symbol == 'EUR');
+            currencyFiltered.insert(0, eurAsset);
+          }
 
           return Column(
             children: [
               for (final currency in currencyFiltered) ...[
-                if (currency.isAssetBalanceNotEmpty)
-                  SimpleTableAsset(
-                    assetIcon: SNetworkSvg24(
-                      url: currency.iconUrl,
-                    ),
-                    label: currency.description,
-                    rightValue: marketFormat(
-                      decimal: baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice,
-                      symbol: baseCurrency.symbol,
-                      accuracy: baseCurrency.accuracy,
-                    ),
-                    supplement: currency.symbol,
-                    isRightValueMarket: true,
-                    rightMarketValue: formatPercent(currency.dayPercentChange),
-                    rightValueMarketPositive: currency.dayPercentChange > 0,
-                    onTableAssetTap: () {
-                      if (currency.symbol == 'EUR') {
-                        showConvertToFiatBottomSheet(
-                          fromAsset: fromAsset,
-                          context: context,
-                        );
-                      } else {
-                        sRouter.push(
-                          AmountRoute(
-                            tab: AmountScreenTab.convert,
-                            asset: fromAsset,
-                          ),
-                        );
-                      }
-                    },
-                  ),
+                Builder(
+                  builder: (context) {
+                    final isEurAsset = currency.symbol == 'EUR';
+
+                    return SimpleTableAsset(
+                      assetIcon: SNetworkSvg24(
+                        url: currency.iconUrl,
+                      ),
+                      label: currency.description,
+                      rightValue: marketFormat(
+                        decimal: baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice,
+                        symbol: baseCurrency.symbol,
+                        accuracy: baseCurrency.accuracy,
+                      ),
+                      supplement: isEurAsset ? null : currency.symbol,
+                      isRightValueMarket: true,
+                      hasRightValue: !isEurAsset,
+                      rightMarketValue: formatPercent(currency.dayPercentChange),
+                      rightValueMarketPositive: currency.dayPercentChange > 0,
+                      onTableAssetTap: () {
+                        if (currency.symbol == 'EUR') {
+                          showConvertToFiatBottomSheet(
+                            fromAsset: fromAsset,
+                            context: context,
+                          );
+                        } else {
+                          sRouter.push(
+                            AmountRoute(
+                              tab: AmountScreenTab.convert,
+                              asset: fromAsset,
+                              toAsset: currency,
+                            ),
+                          );
+                        }
+                      },
+                    );
+                  },
+                ),
               ],
             ],
           );
