@@ -6,8 +6,11 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/core/services/user_info/user_info_service.dart';
+import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
 import 'package:jetwallet/utils/device_binding_required_flow/show_device_binding_required_flow.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/helpers/country_code_by_user_register.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
@@ -15,6 +18,7 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/transfer/account_transfer_preview_request_model.dart';
@@ -195,6 +199,16 @@ abstract class _TransferConfirmationStoreBase with Store {
         if (!isVerifaierd) return;
       }
 
+      if (fromType == CredentialsType.unlimitAccount && toType == CredentialsType.clearjunctionAccount) {
+        var isVerifaierd = false;
+        await showSMSVerificationFlow(
+          onConfirmed: () {
+            isVerifaierd = true;
+          },
+        );
+        if (!isVerifaierd) return;
+      }
+
       loader.startLoadingImmediately();
 
       final model = AccountTransferRequestModel(
@@ -309,5 +323,56 @@ abstract class _TransferConfirmationStoreBase with Store {
 
       shopRateUpPopup(sRouter.navigatorKey.currentContext!);
     });
+  }
+
+  Future<void> showSMSVerificationFlow({
+    void Function()? onConfirmed,
+    void Function()? onCanceled,
+  }) async {
+    var continueBuying = false;
+
+    final userPhoneNumber = sUserInfo.phone;
+
+    await sShowAlertPopup(
+      sRouter.navigatorKey.currentContext!,
+      primaryText: intl.transfer_confirm_via_sms,
+      secondaryText: intl.transfer_we_sent(userPhoneNumber.substring(userPhoneNumber.length - 4)),
+      primaryButtonName: intl.showSmsAuthWarning_continue,
+      secondaryButtonName: intl.binding_phone_dialog_cancel,
+      barrierDismissible: false,
+      image: Image.asset(
+        messageAsset,
+        width: 80,
+        height: 80,
+        package: 'simple_kit',
+      ),
+      onPrimaryButtonTap: () {
+        continueBuying = true;
+        sRouter.pop();
+      },
+      onSecondaryButtonTap: () {
+        continueBuying = false;
+        sRouter.pop();
+        onCanceled?.call();
+      },
+    );
+
+    if (!continueBuying) return;
+
+    final phoneNumber = countryCodeByUserRegister();
+    await sRouter.push(
+      PhoneVerificationRouter(
+        args: PhoneVerificationArgs(
+          phoneNumber: sUserInfo.phone,
+          activeDialCode: phoneNumber,
+          isUnlimitTransferConfirm: true,
+          transactionId: operationId,
+          onVerified: () {
+            sRouter.pop();
+            onConfirmed?.call();
+          },
+        ),
+      ),
+    );
   }
 }
