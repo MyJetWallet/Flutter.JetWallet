@@ -10,6 +10,8 @@ import 'package:simple_networking/modules/validation_api/models/phone_verificati
 import 'package:simple_networking/modules/validation_api/models/phone_verification_verify/phone_verification_verify_request_model.dart';
 import 'package:simple_networking/modules/validation_api/models/send_email/send_email_confirmation_request.dart';
 import 'package:simple_networking/modules/validation_api/models/send_email/send_email_confirmation_response.dart';
+import 'package:simple_networking/modules/validation_api/models/transfer_verification/transfer_resend_code_request_model.dart';
+import 'package:simple_networking/modules/validation_api/models/transfer_verification/transfer_verify_code_request_model.dart';
 import 'package:simple_networking/modules/validation_api/models/two_fa_disable/two_fa_disable_request_model.dart';
 import 'package:simple_networking/modules/validation_api/models/two_fa_enable/two_fa_enable_request_model.dart';
 import 'package:simple_networking/modules/validation_api/models/two_fa_verification/two_fa_verification_request_model.dart';
@@ -29,8 +31,7 @@ class ValidationApiRepository {
   final ApiClient _apiClient;
   late final ValidationApiDataSources _validationApiDataSources;
 
-  Future<DC<ServerRejectException, SendEmailConfirmationResponse>>
-      postSendEmailConfirmation(
+  Future<DC<ServerRejectException, SendEmailConfirmationResponse>> postSendEmailConfirmation(
     SendEmailConfirmationRequest model,
   ) async {
     return _validationApiDataSources.postSendEmailConfirmationRequest(
@@ -46,8 +47,7 @@ class ValidationApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, PhoneNumberResponseModel>>
-      getPhoneNumber() async {
+  Future<DC<ServerRejectException, PhoneNumberResponseModel>> getPhoneNumber() async {
     return _validationApiDataSources.getPhoneNumberRequest();
   }
 
@@ -178,8 +178,24 @@ class ValidationApiRepository {
   Future<DC<ServerRejectException, void>> postVerifyWithdrawalVerificationCode(
     VerifyWithdrawalVerificationCodeRequestModel model,
   ) async {
-    return _validationApiDataSources
-        .postVerifyWithdrawalVerificationCodeRequest(
+    return _validationApiDataSources.postVerifyWithdrawalVerificationCodeRequest(
+      model,
+    );
+  }
+
+  // Transfer Verification
+  Future<DC<ServerRejectException, void>> postTransferVerifyCode(
+    TransferVerifyCodeRequestModel model,
+  ) async {
+    return _validationApiDataSources.postTransferVerifyCodeRequest(
+      model,
+    );
+  }
+
+  Future<DC<ServerRejectException, void>> postTransferResendCode(
+    TransferResendCodeRequestModel model,
+  ) async {
+    return _validationApiDataSources.postTransferResendCodeRequest(
       model,
     );
   }

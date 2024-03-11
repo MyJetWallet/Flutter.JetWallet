@@ -11,3 +11,4 @@ const contactAsset = 'assets/images/contact.svg';
 const infoLightAsset = 'assets/images/info_light.png';
 const congratsAsset = 'assets/images/congrats.png';
 const ratingAsset = 'assets/images/rating.png';
+const messageAsset = 'assets/images/message.png';
