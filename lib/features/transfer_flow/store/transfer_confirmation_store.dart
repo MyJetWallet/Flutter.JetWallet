@@ -78,6 +78,7 @@ abstract class _TransferConfirmationStoreBase with Store {
   String requestId = '';
 
   bool deviceBindingRequired = false;
+  bool smsVerificationRequired = false;
 
   String operationId = '';
 
@@ -151,6 +152,7 @@ abstract class _TransferConfirmationStoreBase with Store {
             decimal: data.paymentFeeAmount ?? Decimal.zero,
           );
           deviceBindingRequired = data.deviceBindingRequired;
+          smsVerificationRequired = data.smsVerificationRequired;
           processingFee = volumeFormat(
             symbol: eurCurrency.symbol,
             accuracy: eurCurrency.accuracy,
@@ -199,15 +201,19 @@ abstract class _TransferConfirmationStoreBase with Store {
         if (!isVerifaierd) return;
       }
 
-      if (fromType == CredentialsType.unlimitAccount && toType == CredentialsType.clearjunctionAccount) {
-        var isVerifaierd = false;
-        await showSMSVerificationFlow(
+      var isConfirmed = false;
+
+      if (smsVerificationRequired) {
+        await showSMSVerificationPopUp(
           onConfirmed: () {
-            isVerifaierd = true;
+            isConfirmed = true;
+          },
+          onCanceled: () {
+            requestId = DateTime.now().microsecondsSinceEpoch.toString();
           },
         );
-        if (!isVerifaierd) return;
       }
+      if (!isConfirmed) return;
 
       loader.startLoadingImmediately();
 
@@ -229,8 +235,18 @@ abstract class _TransferConfirmationStoreBase with Store {
       final response = await sNetwork.getWalletModule().postTransferRequest(model);
 
       response.pick(
-        onData: (data) {
-          _showSuccessScreen();
+        onData: (data) async {
+          var isVerifaierd = false;
+          if (data.smsVerificationRequired) {
+            await showSMSVerificationScreen(
+              onConfirmed: () {
+                isVerifaierd = true;
+              },
+            );
+          }
+          requestId = DateTime.now().microsecondsSinceEpoch.toString();
+          if (!isVerifaierd) return;
+          await _showSuccessScreen();
         },
         onError: (error) {
           loader.finishLoading();
@@ -325,12 +341,10 @@ abstract class _TransferConfirmationStoreBase with Store {
     });
   }
 
-  Future<void> showSMSVerificationFlow({
+  Future<void> showSMSVerificationPopUp({
     void Function()? onConfirmed,
     void Function()? onCanceled,
   }) async {
-    var continueBuying = false;
-
     final userPhoneNumber = sUserInfo.phone;
 
     await sShowAlertPopup(
@@ -347,18 +361,19 @@ abstract class _TransferConfirmationStoreBase with Store {
         package: 'simple_kit',
       ),
       onPrimaryButtonTap: () {
-        continueBuying = true;
+        onConfirmed?.call();
         sRouter.pop();
       },
       onSecondaryButtonTap: () {
-        continueBuying = false;
         sRouter.pop();
         onCanceled?.call();
       },
     );
+  }
 
-    if (!continueBuying) return;
-
+  Future<void> showSMSVerificationScreen({
+    void Function()? onConfirmed,
+  }) async {
     final phoneNumber = countryCodeByUserRegister();
     await sRouter.push(
       PhoneVerificationRouter(
