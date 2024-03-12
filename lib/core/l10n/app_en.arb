@@ -1916,5 +1916,6 @@
         }
     },
     "wallet_external_bank_transfer": "External bank transfer",
-    "wallet_internal_transfer": "Internal transfer"
+    "wallet_internal_transfer": "Internal transfer",
+    "wallet_choose_asset_from_convert": "Choose asset from convert"
 }

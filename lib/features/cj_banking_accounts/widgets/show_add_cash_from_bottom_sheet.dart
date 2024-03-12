@@ -36,7 +36,7 @@ void showAddCashFromBottomSheet({
   sShowBasicModalBottomSheet(
     context: context,
     pinned: ActionBottomSheetHeader(
-      name: intl.add_cash_from,
+      name: intl.wallet_choose_asset_from_convert,
       showSearch: showSearch,
       onChanged: (String value) {
         searchStore.search(value);
