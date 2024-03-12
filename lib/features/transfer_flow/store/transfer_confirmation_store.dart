@@ -236,6 +236,7 @@ abstract class _TransferConfirmationStoreBase with Store {
 
       response.pick(
         onData: (data) async {
+          operationId = data.operationId;
           var isVerifaierd = false;
           if (data.smsVerificationRequired) {
             await showSMSVerificationScreen(
