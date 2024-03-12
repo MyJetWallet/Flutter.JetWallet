@@ -7,6 +7,8 @@ part 'account_transfer_response_model.g.dart';
 class AccountTransferResponseModel with _$AccountTransferResponseModel {
   const factory AccountTransferResponseModel({
     required String operationId,
+    @Default(false) bool smsVerificationRequired,
+    String? receiverPhoneNumber,
   }) = _AccountTransferResponseModel;
 
   factory AccountTransferResponseModel.fromJson(Map<String, dynamic> json) =>
