@@ -224,7 +224,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
             if (store.resendTapped)
               Center(
                 child: Text(
-                  intl.profileDetails_waitForCall,
+                  args.isUnlimitTransferConfirm ? intl.profileDetails_waitForSMS : intl.profileDetails_waitForCall,
                   style: sCaptionTextStyle.copyWith(
                     color: colors.grey2,
                   ),
@@ -236,7 +236,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                   text: '${intl.twoFaPhone_youCanReceive} ${store.time}'
                       ' ${intl.phoneVerification_seconds}',
                 ),
-              ]  else ...[
+              ] else ...[
                 ResendRichText(
                   isPhone: !args.isUnlimitTransferConfirm,
                   onTap: () async {
