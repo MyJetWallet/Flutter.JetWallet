@@ -93,7 +93,7 @@ class _DepositByBody extends StatelessWidget {
           for (final account in store.accounts)
             SimpleTableAsset(
               label: account.label ?? 'Account 1',
-              supplement: intl.internal_exchange,
+              supplement: intl.wallet_internal_transfer,
               rightValue: getIt<AppStore>().isBalanceHide
                   ? '**** ${account.currency ?? 'EUR'}'
                   : volumeFormat(
@@ -123,7 +123,7 @@ class _DepositByBody extends StatelessWidget {
           for (final card in store.cards)
             SimpleTableAsset(
               label: card.label ?? '',
-              supplement: intl.internal_exchange,
+              supplement: intl.wallet_internal_transfer,
               rightValue: getIt<AppStore>().isBalanceHide
                   ? '**** ${card.currency ?? 'EUR'}'
                   : volumeFormat(
