@@ -161,27 +161,29 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
             );
           },
         ),
-        STextDivider(intl.deposit_by_cards),
-        for (final card in cards)
-          SimpleTableAsset(
-            label: card.label ?? '',
-            supplement: '${card.cardType?.frontName} ••• ${card.last4NumberCharacters}',
-            rightValue: getIt<AppStore>().isBalanceHide
-                ? '**** ${card.currency ?? 'EUR'}'
-                : volumeFormat(
-                    decimal: card.balance ?? Decimal.zero,
-                    accuracy: 2,
-                    symbol: card.currency ?? 'EUR',
-                  ),
-            isCard: true,
-            onTableAssetTap: () {
-              showSimpleCardDepositBySelector(
-                context: context,
-                onClose: () {},
-                card: card,
-              );
-            },
-          ),
+        if (cards.isNotEmpty) ...[
+          STextDivider(intl.deposit_by_cards),
+          for (final card in cards)
+            SimpleTableAsset(
+              label: card.label ?? '',
+              supplement: '${card.cardType?.frontName} ••• ${card.last4NumberCharacters}',
+              rightValue: getIt<AppStore>().isBalanceHide
+                  ? '**** ${card.currency ?? 'EUR'}'
+                  : volumeFormat(
+                      decimal: card.balance ?? Decimal.zero,
+                      accuracy: 2,
+                      symbol: card.currency ?? 'EUR',
+                    ),
+              isCard: true,
+              onTableAssetTap: () {
+                showSimpleCardDepositBySelector(
+                  context: context,
+                  onClose: () {},
+                  card: card,
+                );
+              },
+            ),
+        ],
       ],
     );
   }
