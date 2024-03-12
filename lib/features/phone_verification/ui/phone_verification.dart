@@ -236,9 +236,9 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                   text: '${intl.twoFaPhone_youCanReceive} ${store.time}'
                       ' ${intl.phoneVerification_seconds}',
                 ),
-              ] else ...[
+              ]  else ...[
                 ResendRichText(
-                  isPhone: true,
+                  isPhone: !args.isUnlimitTransferConfirm,
                   onTap: () async {
                     sAnalytics.signInFlowPhoneReceiveCodePhoneCall();
 
