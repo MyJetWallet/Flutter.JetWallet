@@ -1904,5 +1904,17 @@
     "about_us_smpl_global": "Smpl Global Privacy Policy",
     "earn_finished": "Finished",
     "wallet_crypto_wallet": "Crypto Wallet",
-    "wallet_crypto_assets": "Crypto assets"
+    "wallet_crypto_assets": "Crypto assets",
+    "transfer_confirm_via_sms": "Confirm via SMS",
+    "transfer_we_sent": "We sent to the phone **{numbers}",
+    "@transfer_we_sent": {
+        "placeholders": {
+            "numbers": {
+                "type": "String",
+                "example": "1845"
+            }
+        }
+    },
+    "wallet_external_bank_transfer": "External bank transfer",
+    "wallet_internal_transfer": "Internal transfer"
 }

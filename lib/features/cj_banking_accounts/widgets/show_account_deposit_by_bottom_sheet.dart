@@ -58,7 +58,7 @@ class _DepositByBody extends StatelessWidget {
         STextDivider(intl.methods),
         SimpleTableAsset(
           label: intl.bankAccountsSelectPopupTitle,
-          supplement: intl.external_transfer,
+          supplement: intl.wallet_external_bank_transfer,
           assetIcon: Assets.svg.assets.fiat.externalTransfer.simpleSvg(
             width: 24,
           ),
@@ -136,7 +136,7 @@ class _DepositByBody extends StatelessWidget {
           for (final account in store.accounts)
             SimpleTableAsset(
               label: account.label ?? 'Account 1',
-              supplement: intl.internal_exchange,
+              supplement: intl.wallet_internal_transfer,
               rightValue: getIt<AppStore>().isBalanceHide
                   ? '**** ${account.currency ?? 'EUR'}'
                   : volumeFormat(
@@ -167,7 +167,7 @@ class _DepositByBody extends StatelessWidget {
           for (final card in store.cards)
             SimpleTableAsset(
               label: card.label ?? '',
-              supplement: intl.internal_exchange,
+              supplement: intl.wallet_internal_transfer,
               rightValue: getIt<AppStore>().isBalanceHide
                   ? '**** ${card.currency ?? 'EUR'}'
                   : volumeFormat(
