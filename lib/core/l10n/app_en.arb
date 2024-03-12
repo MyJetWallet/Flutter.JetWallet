@@ -1881,6 +1881,15 @@
             }
         }
     },
+    "earn_transfer_of": "Transfer of {value} to\nEarn was initiated",
+    "@earn_transfer_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "21:24"
+            }
+        }
+    },
     "about_us_earn": "Terms & Conditions of Earn program",
     "about_transfer": "Transfer",
     "earn_freeze_days": "Freeze {days} day(s)",
