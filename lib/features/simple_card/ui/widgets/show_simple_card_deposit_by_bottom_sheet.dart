@@ -71,7 +71,6 @@ class _DepositByBody extends StatelessWidget {
                 context: context,
                 onClose: () {},
                 onChooseAsset: (currency) {
-                  Navigator.of(context).pop();
                   sRouter.push(
                     AmountRoute(
                       tab: AmountScreenTab.sell,

@@ -114,7 +114,6 @@ class _DepositByBody extends StatelessWidget {
                   );
                 },
                 onChooseAsset: (currency) {
-                  Navigator.pop(context);
                   sRouter.push(
                     AmountRoute(
                       tab: AmountScreenTab.sell,
