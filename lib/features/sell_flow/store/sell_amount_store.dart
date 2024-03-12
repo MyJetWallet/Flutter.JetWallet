@@ -433,7 +433,7 @@ abstract class _SellAmountStoreBase with Store {
 
   @action
   Future<void> loadLimits() async {
-    if (account == null || asset == null) {
+    if (category == PaymentMethodCategory.none || asset == null) {
       return;
     }
 
