@@ -176,7 +176,7 @@ abstract class _TransferConfirmationStoreBase with Store {
 
       isDataLoaded = true;
 
-      showProcessing = true;
+      showProcessing = !smsVerificationRequired;
     }
   }
 
@@ -212,8 +212,8 @@ abstract class _TransferConfirmationStoreBase with Store {
             requestId = DateTime.now().microsecondsSinceEpoch.toString();
           },
         );
+        if (!isConfirmed) return;
       }
-      if (!isConfirmed) return;
 
       loader.startLoadingImmediately();
 
@@ -244,9 +244,10 @@ abstract class _TransferConfirmationStoreBase with Store {
                 isVerifaierd = true;
               },
             );
+            requestId = DateTime.now().microsecondsSinceEpoch.toString();
+            if (!isVerifaierd) return;
           }
-          requestId = DateTime.now().microsecondsSinceEpoch.toString();
-          if (!isVerifaierd) return;
+
           await _showSuccessScreen();
         },
         onError: (error) {
