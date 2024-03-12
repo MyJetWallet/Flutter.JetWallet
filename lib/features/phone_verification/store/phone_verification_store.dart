@@ -75,7 +75,7 @@ abstract class _PhoneVerificationStoreBase with Store {
   void refreshTimer() {
     _timer?.cancel();
 
-    time = 30;
+    time = 120;
 
     _timer = Timer.periodic(
       const Duration(seconds: 1),
