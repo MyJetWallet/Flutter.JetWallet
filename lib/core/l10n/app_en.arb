@@ -1902,5 +1902,16 @@
     "earn_to": "To",
     "about_us_earn_program": "Earn Program Terms and Conditions",
     "about_us_smpl_global": "Smpl Global Privacy Policy",
-    "earn_finished": "Finished"
+    "earn_finished": "Finished",
+    "transfer_confirm_via_sms": "Confirm via SMS",
+    "transfer_we_sent": "We sent to the phone **{numbers}",
+    "@transfer_we_sent": {
+        "placeholders": {
+            "numbers": {
+                "type": "String",
+                "example": "1845"
+            }
+        }
+    },
+    "profileDetails_waitForSMS": "Wait for SMS"
 }

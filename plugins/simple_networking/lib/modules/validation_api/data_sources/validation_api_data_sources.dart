@@ -9,6 +9,8 @@ import 'package:simple_networking/modules/validation_api/models/phone_verificati
 import 'package:simple_networking/modules/validation_api/models/phone_verification_verify/phone_verification_verify_request_model.dart';
 import 'package:simple_networking/modules/validation_api/models/send_email/send_email_confirmation_request.dart';
 import 'package:simple_networking/modules/validation_api/models/send_email/send_email_confirmation_response.dart';
+import 'package:simple_networking/modules/validation_api/models/transfer_verification/transfer_resend_code_request_model.dart';
+import 'package:simple_networking/modules/validation_api/models/transfer_verification/transfer_verify_code_request_model.dart';
 import 'package:simple_networking/modules/validation_api/models/two_fa_disable/two_fa_disable_request_model.dart';
 import 'package:simple_networking/modules/validation_api/models/two_fa_enable/two_fa_enable_request_model.dart';
 import 'package:simple_networking/modules/validation_api/models/two_fa_verification/two_fa_verification_request_model.dart';
@@ -26,8 +28,7 @@ class ValidationApiDataSources {
 
   ValidationApiDataSources(this._apiClient);
 
-  Future<DC<ServerRejectException, SendEmailConfirmationResponse>>
-      postSendEmailConfirmationRequest(
+  Future<DC<ServerRejectException, SendEmailConfirmationResponse>> postSendEmailConfirmationRequest(
     SendEmailConfirmationRequest model,
   ) async {
     try {
@@ -73,8 +74,7 @@ class ValidationApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, PhoneNumberResponseModel>>
-      getPhoneNumberRequest() async {
+  Future<DC<ServerRejectException, PhoneNumberResponseModel>> getPhoneNumberRequest() async {
     try {
       final response = await _apiClient.get(
         '${_apiClient.options.validationApi}/phone-setup/get-number',
@@ -137,8 +137,7 @@ class ValidationApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, void>>
-      postPhoneVerificationFullRequestRequest(
+  Future<DC<ServerRejectException, void>> postPhoneVerificationFullRequestRequest(
     PhoneVerificationFullRequestModel model,
   ) async {
     try {
@@ -160,8 +159,7 @@ class ValidationApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, void>>
-      postPhoneVerificationFullVerifyRequest(
+  Future<DC<ServerRejectException, void>> postPhoneVerificationFullVerifyRequest(
     PhoneVerificationFullVerifyRequestModel model,
   ) async {
     try {
@@ -183,8 +181,7 @@ class ValidationApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, void>>
-      postDeviceBindingRequestRequest(
+  Future<DC<ServerRejectException, void>> postDeviceBindingRequestRequest(
     PostDeviceBindingRequestModel model,
   ) async {
     try {
@@ -206,8 +203,7 @@ class ValidationApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, void>>
-      postDeviceBindingVerifyRequest(
+  Future<DC<ServerRejectException, void>> postDeviceBindingVerifyRequest(
     PostDeviceBindingVerifyModel model,
   ) async {
     try {
@@ -383,8 +379,7 @@ class ValidationApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, void>>
-      postVerifyEmailVerificationCodeRequest(
+  Future<DC<ServerRejectException, void>> postVerifyEmailVerificationCodeRequest(
     VerifyEmailVerificationCodeRequestModel model,
   ) async {
     try {
@@ -406,8 +401,7 @@ class ValidationApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, void>>
-      postVerifyTransferVerificationCodeRequest(
+  Future<DC<ServerRejectException, void>> postVerifyTransferVerificationCodeRequest(
     VerifyWithdrawalVerificationCodeRequestModel model,
   ) async {
     try {
@@ -429,13 +423,57 @@ class ValidationApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, void>>
-      postVerifyWithdrawalVerificationCodeRequest(
+  Future<DC<ServerRejectException, void>> postVerifyWithdrawalVerificationCodeRequest(
     VerifyWithdrawalVerificationCodeRequestModel model,
   ) async {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.validationApi}/withdrawal-verification/verify-code',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        handleFullResponse(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  // Transfer Verification
+  Future<DC<ServerRejectException, void>> postTransferVerifyCodeRequest(
+    TransferVerifyCodeRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/banking/account/transfer-verify',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        handleFullResponse(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> postTransferResendCodeRequest(
+    TransferResendCodeRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/banking/account/transfer-resend-code',
         data: model.toJson(),
       );
 

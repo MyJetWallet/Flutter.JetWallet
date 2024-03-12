@@ -1807,7 +1807,7 @@
             "days": {}
         }
     },
-    "earn_flexible_tariff": "Taryfa elastyczna",
+    "earn_flexible_tariff": "Elastyczne wykupienie",
     "earn_are_you_sure": "Jesteś pewny?",
     "earn_your_funds_and_accrued": "Twoje środki i zgromadzone zarobki są wypłacane przy zamknięciu konta Earn. Wypłata {date}.",
     "@earn_your_funds_and_accrued": {
@@ -1832,7 +1832,7 @@
     "earn_order_summary": "Podsumowanie zamówienia",
     "earn_order_summary_partial_withdrawal_means": "Częściowa wypłata oznacza wypłatę środków z bazy obliczeniowej. Dochód jest wypłacany przy pełnym zamknięciu konta.",
     "earn_send": "Wyślij",
-    "earn_withdraw_successfully": "Twoje środki zostały pomyślnie wypłacone",
+    "earn_withdraw_successfully": "Prośba o wykupienie środków została zaakceptowana",
     "earn_full_withdraw": "Twoje środki i zgromadzone zarobki są wypłacane przy zamknięciu konta Earn.",
     "earn_basis_amount": "Kwota bazowa",
     "earn_withdrawal_period": "Okres wypłaty",
@@ -1857,9 +1857,9 @@
     "earn_deposit_crypto_wallet": "Portfel krypto na depozyt",
     "earn_to_continue_you_need_to_top_up": "Aby kontynuować, należy doładować portfel {wallet_symbol} kwotą co najmniej {topup_value}",
     "@earn_to_continue_you_need_to_top_up": {
-        "placeholders": {
-            "topup_value": {
-                "type": "String"
+"placeholders": {
+        "topup_value": {
+            "type": "String"
             },
             "wallet_symbol": {
                 "type": "String"
@@ -1916,7 +1916,7 @@
     "earn_earn_account_id": "ID konta Earn",
     "earn_sent": "Wysłano",
     "earn_received": "Otrzymano",
-    "earn_withdrawal_of": "Wypłata {value}\nzainicjowano",
+    "earn_withdrawal_of": "Transfer {value} do Earn\nzainicjowano",
     "@earn_withdrawal_of": {
         "placeholders": {
             "value": {
@@ -1946,5 +1946,16 @@
     "earn_to": "Do",
     "about_us_earn_program": "Zasady i Warunki programu Earn",
     "about_us_smpl_global": "Polityka Prywatności Smpl Global",
-    "earn_finished": "Zakończono"
+    "earn_finished": "Zakończono",
+    "transfer_confirm_via_sms": "Potwierdź SMS-em",
+    "transfer_we_sent": "Wysłano do telefonu **{numbers}",
+    "@transfer_we_sent": {
+        "placeholders": {
+            "numbers": {
+                "type": "String",
+                "example": "1845"
+            }
+        }
+    },
+    "profileDetails_waitForSMS": "Czekaj na SMS"
 }

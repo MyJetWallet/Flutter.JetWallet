@@ -19,7 +19,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../core/di/di.dart';
 import '../../../core/services/logout_service/logout_service.dart';
 
-const codeLength = 4;
+int codeLength = 4;
 
 class PhoneVerificationArgs {
   PhoneVerificationArgs({
@@ -29,7 +29,13 @@ class PhoneVerificationArgs {
     required this.phoneNumber,
     required this.onVerified,
     this.activeDialCode,
-  });
+    this.isUnlimitTransferConfirm = false,
+    this.transactionId,
+  }) {
+    if (isUnlimitTransferConfirm) {
+      codeLength = 6;
+    }
+  }
 
   final bool sendCodeOnInitState;
   final bool showChangeTextAlert;
@@ -37,6 +43,8 @@ class PhoneVerificationArgs {
   final String phoneNumber;
   final void Function() onVerified;
   final SPhoneNumber? activeDialCode;
+  final bool isUnlimitTransferConfirm;
+  final String? transactionId;
 }
 
 @RoutePage(name: 'PhoneVerificationRouter')
@@ -107,7 +115,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
           customIconButton: args.sendCodeOnInitState
               ? SIconButton(
                   onTap: () {
-                    if (args.isDeviceBinding) {
+                    if (args.isDeviceBinding || args.isUnlimitTransferConfirm) {
                       getIt<AppRouter>().pop();
                     } else {
                       getIt<LogoutService>().logout(
@@ -216,7 +224,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
             if (store.resendTapped)
               Center(
                 child: Text(
-                  intl.profileDetails_waitForCall,
+                  args.isUnlimitTransferConfirm ? '' : intl.profileDetails_waitForCall,
                   style: sCaptionTextStyle.copyWith(
                     color: colors.grey2,
                   ),
@@ -230,7 +238,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                 ),
               ] else ...[
                 ResendRichText(
-                  isPhone: true,
+                  isPhone: !args.isUnlimitTransferConfirm,
                   onTap: () async {
                     sAnalytics.signInFlowPhoneReceiveCodePhoneCall();
 
