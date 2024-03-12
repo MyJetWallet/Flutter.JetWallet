@@ -224,7 +224,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
             if (store.resendTapped)
               Center(
                 child: Text(
-                  args.isUnlimitTransferConfirm ? intl.profileDetails_waitForSMS : intl.profileDetails_waitForCall,
+                  args.isUnlimitTransferConfirm ? '' : intl.profileDetails_waitForCall,
                   style: sCaptionTextStyle.copyWith(
                     color: colors.grey2,
                   ),
