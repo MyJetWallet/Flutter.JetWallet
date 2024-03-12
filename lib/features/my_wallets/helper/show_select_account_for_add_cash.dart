@@ -107,11 +107,13 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
                 ? intl.eur_wallet_simple_account
                 : intl.create_simple_creating,
             onTableAssetTap: () {
-              showAccountDepositBySelector(
-                context: context,
-                onClose: () {},
-                bankingAccount: simpleAccount,
-              );
+              if (simpleAccount.status == AccountStatus.active) {
+                showAccountDepositBySelector(
+                  context: context,
+                  onClose: () {},
+                  bankingAccount: simpleAccount,
+                );
+              }
             },
             rightValue: simpleAccount.status == AccountStatus.active
                 ? getIt<AppStore>().isBalanceHide
@@ -138,11 +140,13 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
                   ? intl.eur_wallet_personal_account
                   : intl.create_personal_creating,
               onTableAssetTap: () {
-                showAccountDepositBySelector(
-                  context: context,
-                  onClose: () {},
-                  bankingAccount: bankAccounts[index],
-                );
+                if (bankAccounts[index].status == AccountStatus.active) {
+                  showAccountDepositBySelector(
+                    context: context,
+                    onClose: () {},
+                    bankingAccount: bankAccounts[index],
+                  );
+                }
               },
               rightValue: bankAccounts[index].status == AccountStatus.active
                   ? getIt<AppStore>().isBalanceHide
@@ -171,11 +175,13 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
                     ),
               isCard: true,
               onTableAssetTap: () {
-                showSimpleCardDepositBySelector(
-                  context: context,
-                  onClose: () {},
-                  card: card,
-                );
+                if (card.status == AccountStatusCard.active) {
+                  showSimpleCardDepositBySelector(
+                    context: context,
+                    onClose: () {},
+                    card: card,
+                  );
+                }
               },
             ),
         ],
