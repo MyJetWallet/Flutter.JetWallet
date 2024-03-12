@@ -75,7 +75,7 @@ abstract class _PhoneVerificationStoreBase with Store {
   void refreshTimer() {
     _timer?.cancel();
 
-    time = 180;
+    time = args.isUnlimitTransferConfirm ? 180 : 30;
 
     _timer = Timer.periodic(
       const Duration(seconds: 1),
