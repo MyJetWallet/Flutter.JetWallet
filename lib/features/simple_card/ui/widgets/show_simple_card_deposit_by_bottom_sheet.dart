@@ -6,10 +6,8 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/cj_banking_accounts/widgets/show_add_cash_from_bottom_sheet.dart';
 import 'package:jetwallet/features/simple_card/store/simple_card_deposit_by_store.dart';
+import 'package:jetwallet/utils/balances/crypto_balance.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
-import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
-import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
-import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
@@ -63,10 +61,7 @@ class _DepositByBody extends StatelessWidget {
               width: 24,
             ),
             rightValue: !getIt<AppStore>().isBalanceHide
-                ? _price(
-                    currenciesWithBalanceFrom(sSignalRModules.currenciesList),
-                    sSignalRModules.baseCurrency,
-                  )
+                ? calculateCryptoBalance()
                 : '**** ${sSignalRModules.baseCurrency.symbol}',
             onTableAssetTap: () {
               sAnalytics.tapOnTheAnyAccountForDepositButton(
@@ -148,23 +143,6 @@ class _DepositByBody extends StatelessWidget {
         ],
         const SpaceH42(),
       ],
-    );
-  }
-
-  String _price(
-    List<CurrencyModel> items,
-    BaseCurrencyModel baseCurrency,
-  ) {
-    var totalBalance = Decimal.zero;
-
-    for (final item in items) {
-      totalBalance += item.baseBalance;
-    }
-
-    return volumeFormat(
-      decimal: totalBalance,
-      accuracy: baseCurrency.accuracy,
-      symbol: baseCurrency.symbol,
     );
   }
 }

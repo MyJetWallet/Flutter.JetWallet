@@ -11,11 +11,9 @@ import 'package:jetwallet/features/cj_banking_accounts/widgets/show_account_depo
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/show_simple_card_deposit_by_bottom_sheet.dart';
+import 'package:jetwallet/utils/balances/crypto_balance.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
-import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
-import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
-import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
@@ -96,10 +94,7 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
             showReceiveAction(context);
           },
           rightValue: !getIt<AppStore>().isBalanceHide
-              ? _price(
-                  currenciesWithBalanceFrom(sSignalRModules.currenciesList),
-                  sSignalRModules.baseCurrency,
-                )
+              ? calculateCryptoBalance()
               : '**** ${sSignalRModules.baseCurrency.symbol}',
         ),
         if (simpleAccount != null)
@@ -185,23 +180,6 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
             ),
         ],
       ],
-    );
-  }
-
-  String _price(
-    List<CurrencyModel> items,
-    BaseCurrencyModel baseCurrency,
-  ) {
-    var totalBalance = Decimal.zero;
-
-    for (final item in items) {
-      totalBalance += item.baseBalance;
-    }
-
-    return volumeFormat(
-      decimal: totalBalance,
-      accuracy: baseCurrency.accuracy,
-      symbol: baseCurrency.symbol,
     );
   }
 }
