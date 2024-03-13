@@ -52,8 +52,7 @@ void showConvertToBottomSheet({
     children: [
       Observer(
         builder: (context) {
-          final watchList = sSignalRModules.keyValue.watchlist?.value ?? [];
-          sortByBalanceWatchlistAndWeight(searchStore.fCurrencies, watchList);
+          sortByWeight(searchStore.fCurrencies);
           final currencyFiltered = List<CurrencyModel>.from(searchStore.fCurrencies);
 
           final watchListIds = sSignalRModules.keyValue.watchlist?.value ?? [];
