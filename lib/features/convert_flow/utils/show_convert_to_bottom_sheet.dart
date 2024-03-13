@@ -60,8 +60,10 @@ void showConvertToBottomSheet({
           final favAssets = <CurrencyModel>[];
 
           for (final symbol in watchListIds) {
-            favAssets.add(currencyFiltered.firstWhere((element) => element.symbol == symbol));
-            currencyFiltered.removeWhere((element) => element.symbol == symbol);
+            if (currencyFiltered.any((element) => element.symbol == symbol)) {
+              favAssets.add(currencyFiltered.firstWhere((element) => element.symbol == symbol));
+              currencyFiltered.removeWhere((element) => element.symbol == symbol);
+            }
           }
           currencyFiltered.insertAll(0, favAssets);
 
