@@ -61,10 +61,12 @@ abstract class _SellAmountStoreBase with Store {
 
   @computed
   bool get isContinueAvaible {
+    final isCryptoBalanceNotZero = asset?.isAssetBalanceNotEmpty ?? false;
     return inputValid &&
         Decimal.parse(primaryAmount) != Decimal.zero &&
         (account != null || card != null) &&
-        asset != null;
+        asset != null &&
+        isCryptoBalanceNotZero;
   }
 
   @observable
