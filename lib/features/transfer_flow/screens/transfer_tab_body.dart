@@ -135,6 +135,7 @@ class _TrancferBody extends StatelessWidget {
                 );
               },
               isFrom: true,
+              isDisabled: store.isNoAccountsWithBalance,
             ),
             const SpaceH8(),
             _AsssetWidget(
@@ -203,12 +204,14 @@ class _AsssetWidget extends StatelessWidget {
     this.card,
     required this.onTap,
     required this.isFrom,
+    this.isDisabled = false,
   });
 
   final CardDataModel? card;
   final SimpleBankingAccount? account;
   final void Function() onTap;
   final bool isFrom;
+  final bool isDisabled;
 
   @override
   Widget build(BuildContext context) {
@@ -245,6 +248,7 @@ class _AsssetWidget extends StatelessWidget {
                   ),
                 ),
       onTap: onTap,
+      isDisabled: isDisabled,
     );
   }
 }

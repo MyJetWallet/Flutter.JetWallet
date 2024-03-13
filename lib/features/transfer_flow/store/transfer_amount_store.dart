@@ -4,6 +4,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:mobx/mobx.dart';
@@ -71,6 +72,9 @@ abstract class _TransfetAmountStoreBase with Store {
       return null;
     }
   }
+
+  @computed
+  bool isNoAccountsWithBalance = !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccountWithBalance ?? false);
 
   @action
   void init({

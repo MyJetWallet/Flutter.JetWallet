@@ -22,7 +22,26 @@ class BankingProfileModel with _$BankingProfileModel {
 
   bool get isAvaibleAnyAccount {
     return simple?.account?.status == AccountStatus.active ||
-        (banking?.accounts?.where((element) => element.status == AccountStatus.active) ?? []).isNotEmpty;
+        (banking?.accounts?.where((element) => element.status == AccountStatus.active) ?? []).isNotEmpty ||
+        (banking?.cards?.where((element) => element.status == AccountStatusCard.active) ?? []).isNotEmpty;
+  }
+
+  bool get isAvaibleAnyAccountWithBalance {
+    final isSimpleHaveBalance =
+        simple?.account?.status == AccountStatus.active && (simple?.account?.isNotEmptyBalance ?? false);
+    if (isSimpleHaveBalance) return true;
+
+    final isCJHaveBalance =
+        (banking?.accounts?.where((element) => element.status == AccountStatus.active && element.isNotEmptyBalance) ??
+                [])
+            .isNotEmpty;
+    if (isCJHaveBalance) return true;
+
+    final isCardsHaveBalance =
+        (banking?.cards?.where((element) => element.status == AccountStatusCard.active && element.isNotEmptyBalance) ??
+                [])
+            .isNotEmpty;
+    return isCardsHaveBalance;
   }
 }
 
