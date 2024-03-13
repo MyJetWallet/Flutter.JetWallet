@@ -1769,9 +1769,9 @@
     "earn_deposit_crypto_wallet": "Portefeuille crypto de dépôt",
     "earn_to_continue_you_need_to_top_up": "Pour continuer, vous devez recharger votre {wallet_symbol} avec au moins {topup_value}",
     "@earn_to_continue_you_need_to_top_up": {
-"placeholders": {
-        "topup_value": {
-            "type": "String"
+        "placeholders": {
+            "topup_value": {
+                "type": "String"
             },
             "wallet_symbol": {
                 "type": "String"
@@ -1869,5 +1869,14 @@
             }
         }
     },
-    "profileDetails_waitForSMS": "Attendez SMS"
+    "profileDetails_waitForSMS": "Attendez SMS",
+    "earn_transfer_of": "Transfert de {value} à\nEarn a été initié",
+    "@earn_transfer_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "21:24"
+            }
+        }
+    }
 }

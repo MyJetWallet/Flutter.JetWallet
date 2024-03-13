@@ -1793,9 +1793,9 @@
     "earn_deposit_crypto_wallet": "Cartera cripto de depósito",
     "earn_to_continue_you_need_to_top_up": "Para continuar, debe recargar su monedero {wallet_symbol} con al menos {topup_value}",
     "@earn_to_continue_you_need_to_top_up": {
-"placeholders": {
-        "topup_value": {
-            "type": "String"
+        "placeholders": {
+            "topup_value": {
+                "type": "String"
             },
             "wallet_symbol": {
                 "type": "String"
@@ -1893,5 +1893,14 @@
             }
         }
     },
-    "profileDetails_waitForSMS": "Esperar SMS"
+    "profileDetails_waitForSMS": "Esperar SMS",
+    "earn_transfer_of": "Transferencia de {value} a\nEarn fue iniciado",
+    "@earn_transfer_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "21:24"
+            }
+        }
+    }
 }
