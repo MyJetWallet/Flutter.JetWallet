@@ -74,7 +74,7 @@ abstract class _TransfetAmountStoreBase with Store {
   }
 
   @computed
-  bool isNoAccountsWithBalance = !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccountWithBalance ?? false);
+  bool get isNoAccountsWithBalance => !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccountWithBalance ?? false);
 
   @action
   void init({
