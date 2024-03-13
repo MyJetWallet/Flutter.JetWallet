@@ -333,6 +333,7 @@ abstract class _EarnStoreBase with Store {
       );
     } else {
       await showWithdrawalTypeAreYouSurePopUp(
+        isPartialWithdrawal: false,
         amount: earnPosition.baseAmount + earnPosition.incomeAmount,
         earnPosition: earnPosition,
       );
