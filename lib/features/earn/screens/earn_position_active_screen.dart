@@ -76,7 +76,9 @@ class EarnPositionActiveScreen extends StatelessWidget {
                 },
                 hasRightIcon: false,
                 title: currency.description,
-                subtitle: earnPosition.offers.firstOrNull?.name,
+                subtitle: earnPosition.status == EarnPositionStatus.closed
+                    ? earnPosition.offerName
+                    : earnPosition.offers.firstOrNull?.name,
               ),
               Expanded(
                 child: Column(

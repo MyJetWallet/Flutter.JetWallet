@@ -83,6 +83,13 @@ class _EarnWithdrawnTypeScreenState extends State<EarnWithdrawnTypeScreen> {
                     fullWithdrawType: isPartialWithdrawal ? 'false' : 'true',
                   );
                   if (isPartialWithdrawal) {
+                    sAnalytics.tapOnTheContinueWithEarnWithdrawTypeButton(
+                      assetName: widget.earnPosition.assetId,
+                      earnWithdrawalType: widget.earnPosition.withdrawType.name,
+                      earnOfferId: widget.earnPosition.offerId,
+                      earnPlanName: widget.earnPosition.offers.first.name ?? '',
+                      fullWithdrawType: isPartialWithdrawal,
+                    );
                     sRouter.push(
                       EarnWithdrawalAmountRouter(earnPosition: widget.earnPosition),
                     );
