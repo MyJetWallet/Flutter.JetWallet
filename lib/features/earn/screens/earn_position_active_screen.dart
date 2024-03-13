@@ -6,6 +6,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/store/earn_store.dart';
 import 'package:jetwallet/features/earn/widgets/active_earn_widget.dart';
+import 'package:jetwallet/features/earn/widgets/earn_active_position_badge.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -133,7 +134,7 @@ class EarnPositionActiveScreen extends StatelessWidget {
                                 earnAPYrate:
                                     earnPosition.offers.firstOrNull?.apyRate?.toString() ?? Decimal.zero.toString(),
                                 earnDepositAmount: earnPosition.baseAmount.toString(),
-                                earnOfferStatus: earnPosition.status.name,
+                                earnOfferStatus: getTextForStatus(earnPosition.status),
                                 earnPlanName: earnPosition.offers.firstOrNull?.description ?? '',
                                 earnWithdrawalType: earnPosition.withdrawType.name,
                                 revenue: earnPosition.incomeAmount.toString(),
