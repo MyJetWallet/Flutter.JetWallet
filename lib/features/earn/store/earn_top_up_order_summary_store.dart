@@ -205,11 +205,11 @@ abstract class _EarnTopUpOrderSummaryStoreBase with Store {
     return sRouter
         .push(
       SuccessScreenRouter(
-        secondaryText: intl.earn_withdrawal_of(
+        secondaryText: intl.earn_transfer_of(
           volumeFormat(
-            decimal: baseAmount,
-            symbol: sSignalRModules.baseCurrency.symbol,
-            accuracy: eurCurrency.accuracy,
+            decimal: amount,
+            symbol: selectedCurrency.symbol,
+            accuracy: selectedCurrency.accuracy,
           ),
         ),
         buttonText: intl.previewBuyWithUmlimint_saveCard,
@@ -236,8 +236,8 @@ abstract class _EarnTopUpOrderSummaryStoreBase with Store {
     unawaited(
       sRouter.push(
         FailureScreenRouter(
-          primaryText: intl.previewBuyWithAsset_failure,
-          secondaryText: error,
+          primaryText: intl.failed,
+          secondaryText: intl.something_went_wrong_try_again,
           primaryButtonName: intl.previewBuyWithAsset_close,
           onPrimaryButtonTap: () {
             navigateToRouter();

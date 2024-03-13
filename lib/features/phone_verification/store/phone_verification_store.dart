@@ -23,6 +23,8 @@ import 'package:simple_networking/modules/validation_api/models/phone_verificati
 import 'package:simple_networking/modules/validation_api/models/phone_verification/phone_verification_request_model.dart';
 import 'package:simple_networking/modules/validation_api/models/phone_verification_verify/phone_verification_full_verify_request_model.dart';
 import 'package:simple_networking/modules/validation_api/models/phone_verification_verify/phone_verification_verify_request_model.dart';
+import 'package:simple_networking/modules/validation_api/models/transfer_verification/transfer_resend_code_request_model.dart';
+import 'package:simple_networking/modules/validation_api/models/transfer_verification/transfer_verify_code_request_model.dart';
 
 part 'phone_verification_store.g.dart';
 
@@ -73,7 +75,7 @@ abstract class _PhoneVerificationStoreBase with Store {
   void refreshTimer() {
     _timer?.cancel();
 
-    time = 30;
+    time = args.isUnlimitTransferConfirm ? 180 : 30;
 
     _timer = Timer.periodic(
       const Duration(seconds: 1),
@@ -116,6 +118,12 @@ abstract class _PhoneVerificationStoreBase with Store {
         );
 
         response = await sNetwork.getValidationModule().postDeviceBindingRequest(model);
+      } else if (args.isUnlimitTransferConfirm) {
+        final model = TransferResendCodeRequestModel(
+          transactionId: args.transactionId ?? '',
+        );
+
+        response = await sNetwork.getValidationModule().postTransferResendCode(model);
       } else {
         final number = await decomposePhoneNumber(
           phoneNumber,
@@ -170,6 +178,13 @@ abstract class _PhoneVerificationStoreBase with Store {
         );
 
         response = await sNetwork.getValidationModule().postDeviceBindingVerify(model);
+      } else if (args.isUnlimitTransferConfirm) {
+        final model = TransferVerifyCodeRequestModel(
+          code: controller.text,
+          transactionId: args.transactionId ?? '',
+        );
+
+        response = await sNetwork.getValidationModule().postTransferVerifyCode(model);
       } else {
         final number = await decomposePhoneNumber(
           phoneNumber,
@@ -219,6 +234,8 @@ abstract class _PhoneVerificationStoreBase with Store {
   @action
   Future<void> sendFullCode(bool isStart) async {
     try {
+      if (args.isUnlimitTransferConfirm && isStart) return;
+
       if (!isStart) {
         resendTapped = true;
       }
@@ -232,6 +249,12 @@ abstract class _PhoneVerificationStoreBase with Store {
         );
 
         response = await sNetwork.getValidationModule().postDeviceBindingRequest(model);
+      } else if (args.isUnlimitTransferConfirm) {
+        final model = TransferResendCodeRequestModel(
+          transactionId: args.transactionId ?? '',
+        );
+
+        response = await sNetwork.getValidationModule().postTransferResendCode(model);
       } else {
         final model = PhoneVerificationFullRequestModel(
           locale: intl.localeName,
@@ -275,6 +298,13 @@ abstract class _PhoneVerificationStoreBase with Store {
         );
 
         response = await sNetwork.getValidationModule().postDeviceBindingVerify(model);
+      } else if (args.isUnlimitTransferConfirm) {
+        final model = TransferVerifyCodeRequestModel(
+          code: controller.text,
+          transactionId: args.transactionId ?? '',
+        );
+
+        response = await sNetwork.getValidationModule().postTransferVerifyCode(model);
       } else {
         final model = PhoneVerificationFullVerifyRequestModel(
           code: controller.text,
@@ -315,7 +345,7 @@ abstract class _PhoneVerificationStoreBase with Store {
     final data = await Clipboard.getData('text/plain');
     final code = data?.text?.trim() ?? '';
 
-    if (code.length == 4) {
+    if (code.length == codeLength) {
       try {
         int.tryParse(code);
 
