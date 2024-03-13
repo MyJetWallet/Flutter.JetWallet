@@ -75,6 +75,13 @@ class _EarnWithdrawnTypeScreenState extends State<EarnWithdrawnTypeScreen> {
               child: SButton.blue(
                 text: intl.earn_confirm,
                 callback: () {
+                  sAnalytics.tapOnTheContinueWithEarnWithdrawTypeButton(
+                    assetName: widget.earnPosition.assetId,
+                    earnWithdrawalType: widget.earnPosition.withdrawType.name,
+                    earnOfferId: widget.earnPosition.offerId,
+                    earnPlanName: widget.earnPosition.offers.first.name ?? '',
+                    fullWithdrawType: isPartialWithdrawal ? 'false' : 'true',
+                  );
                   if (isPartialWithdrawal) {
                     sAnalytics.tapOnTheContinueWithEarnWithdrawTypeButton(
                       assetName: widget.earnPosition.assetId,
@@ -96,6 +103,7 @@ class _EarnWithdrawnTypeScreenState extends State<EarnWithdrawnTypeScreen> {
                     showWithdrawalTypeAreYouSurePopUp(
                       earnPosition: widget.earnPosition,
                       amount: widget.earnPosition.baseAmount + widget.earnPosition.incomeAmount,
+                      isPartialWithdrawal: isPartialWithdrawal,
                     );
                   }
                 },
@@ -112,6 +120,7 @@ class _EarnWithdrawnTypeScreenState extends State<EarnWithdrawnTypeScreen> {
 Future<void> showWithdrawalTypeAreYouSurePopUp({
   required Decimal amount,
   required EarnPositionClientModel earnPosition,
+  required bool isPartialWithdrawal,
 }) async {
   final context = sRouter.navigatorKey.currentContext!;
 
