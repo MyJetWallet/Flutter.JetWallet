@@ -115,6 +115,7 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
                 );
               }
             },
+            hasRightValue: simpleAccount.status == AccountStatus.active,
             rightValue: simpleAccount.status == AccountStatus.active
                 ? getIt<AppStore>().isBalanceHide
                     ? '**** ${eurCurrency.symbol}'
@@ -148,6 +149,7 @@ class _ShowSelectAccountForAddCash extends StatelessObserverWidget {
                   );
                 }
               },
+              hasRightValue: bankAccounts[index].status == AccountStatus.active,
               rightValue: bankAccounts[index].status == AccountStatus.active
                   ? getIt<AppStore>().isBalanceHide
                       ? '**** ${eurCurrency.symbol}'
