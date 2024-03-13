@@ -80,7 +80,8 @@ class _EarnWithdrawnTypeScreenState extends State<EarnWithdrawnTypeScreen> {
                     earnWithdrawalType: widget.earnPosition.withdrawType.name,
                     earnOfferId: widget.earnPosition.offerId,
                     earnPlanName: widget.earnPosition.offers.first.name ?? '',
-                    fullWithdrawType: isPartialWithdrawal,
+                    fullWithdrawType: !isPartialWithdrawal,
+
                   );
                   if (isPartialWithdrawal) {
                     sAnalytics.tapOnTheContinueWithEarnWithdrawTypeButton(
