@@ -35,13 +35,13 @@ abstract class _GlobaConvertToStoreBase with Store {
 
     final simpleAccount = sSignalRModules.bankingProfileData?.simple?.account;
 
-    if (simpleAccount != null && simpleAccount.isNotEmptyBalance) {
+    if (simpleAccount != null && simpleAccount.status == AccountStatus.active) {
       accounts.add(simpleAccount);
     }
 
     final bankingAccounts = sSignalRModules.bankingProfileData?.banking?.accounts
             ?.where(
-              (element) => element.isNotEmptyBalance && !(element.isHidden ?? false),
+              (element) => element.status == AccountStatus.active && !(element.isHidden ?? false),
             )
             .toList() ??
         <SimpleBankingAccount>[];

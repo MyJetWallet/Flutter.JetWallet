@@ -24,7 +24,7 @@ void showConvertToFiatBottomSheet({
   sShowBasicModalBottomSheet(
     context: context,
     pinned: ActionBottomSheetHeader(
-      name: intl.convert_amount_convert_to,
+      name: intl.convert_choose_account,
       horizontalDividerPadding: 24,
       addPaddingBelowTitle: true,
       isNewDesign: true,
