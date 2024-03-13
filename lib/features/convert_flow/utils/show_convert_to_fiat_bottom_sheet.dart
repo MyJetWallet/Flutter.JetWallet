@@ -91,7 +91,6 @@ void showConvertToFiatBottomSheet({
                     },
                   ),
               ],
-              const SpaceH42(),
             ],
           );
         },
