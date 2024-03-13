@@ -37,7 +37,7 @@ abstract class _AccountDepositByStoreBase with Store {
   List<CardDataModel> get cards =>
       sSignalRModules.bankingProfileData?.banking?.cards
           ?.where(
-            (element) => element.status == AccountStatusCard.active && element.isNotEmptyBalance,
+            (element) => element.status == AccountStatusCard.active,
           )
           .toList() ??
       [];
@@ -49,15 +49,17 @@ abstract class _AccountDepositByStoreBase with Store {
     final simpleAccount = sSignalRModules.bankingProfileData?.simple?.account;
 
     if (simpleAccount != null &&
-        simpleAccount.isNotEmptyBalance &&
-        simpleAccount.accountId != account?.accountId) {
+        simpleAccount.accountId != account?.accountId &&
+        simpleAccount.status == AccountStatus.active) {
       accounts.add(simpleAccount);
     }
 
     final bankingAccounts = sSignalRModules.bankingProfileData?.banking?.accounts
             ?.where(
               (element) =>
-                  element.isNotEmptyBalance && !(element.isHidden ?? false) && element.accountId != account?.accountId,
+                  element.status == AccountStatus.active &&
+                  !(element.isHidden ?? false) &&
+                  element.accountId != account?.accountId,
             )
             .toList() ??
         <SimpleBankingAccount>[];

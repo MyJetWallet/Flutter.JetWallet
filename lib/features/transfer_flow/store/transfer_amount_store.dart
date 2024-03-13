@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:mobx/mobx.dart';
@@ -60,7 +63,7 @@ abstract class _TransfetAmountStoreBase with Store {
   CredentialsType? get toType {
     if (toCard != null) {
       return CredentialsType.unlimitCard;
-     } else if (toAccount != null && (toAccount?.isClearjuctionAccount ?? false)) {
+    } else if (toAccount != null && (toAccount?.isClearjuctionAccount ?? false)) {
       return CredentialsType.clearjunctionAccount;
     } else if (toAccount != null) {
       return CredentialsType.unlimitAccount;
@@ -80,6 +83,33 @@ abstract class _TransfetAmountStoreBase with Store {
     toCard = newToCard;
     fromAccount = newFromAccount;
     toAccount = newToAccount;
+
+    _checkShowTosts();
+  }
+
+  @action
+  void _checkShowTosts() {
+    var isNoBalance = false;
+
+    if (fromCard != null && !(fromCard?.isNotEmptyBalance ?? false)) {
+      isNoBalance = true;
+    }
+    if (fromAccount != null && !(fromAccount?.isNotEmptyBalance ?? false)) {
+      isNoBalance = true;
+    }
+
+    Timer(
+      const Duration(milliseconds: 200),
+      () {
+        if (isNoBalance) {
+          sNotification.showError(
+            intl.error_message_insufficient_funds,
+            id: 1,
+            isError: false,
+          );
+        }
+      },
+    );
   }
 
   @action

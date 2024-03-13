@@ -152,6 +152,8 @@ abstract class _SellAmountStoreBase with Store {
       return currency.assetBalance != Decimal.zero && currency.symbol != 'EUR';
     });
     isNoAccounts = !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false);
+
+    final isCryptoBalanceEmpty = asset?.isAssetBalanceEmpty ?? false;
     Timer(
       const Duration(milliseconds: 200),
       () {
@@ -172,6 +174,12 @@ abstract class _SellAmountStoreBase with Store {
             id: 3,
           );
           sAnalytics.errorYouNeedToCreateEURAccountFirst();
+        } else if (isCryptoBalanceEmpty) {
+          sNotification.showError(
+            intl.error_message_insufficient_funds,
+            id: 1,
+            isError: false,
+          );
         }
       },
     );
