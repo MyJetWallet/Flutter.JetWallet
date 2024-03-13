@@ -1915,6 +1915,16 @@
             }
         }
     },
+    "profileDetails_waitForSMS": "Wait for SMS",
+    "earn_transfer_of": "Transfer of {value} to\nEarn was initiated",
+    "@earn_transfer_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "21:24"
+            }
+        }
+    },
     "wallet_external_bank_transfer": "External bank transfer",
     "wallet_internal_transfer": "Internal transfer",
     "wallet_choose_asset_from_convert": "Choose asset from convert",
