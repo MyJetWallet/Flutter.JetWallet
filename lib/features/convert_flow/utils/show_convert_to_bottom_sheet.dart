@@ -72,6 +72,8 @@ void showConvertToBottomSheet({
             currencyFiltered.insert(0, eurAsset);
           }
 
+          currencyFiltered.removeWhere((element) => element.symbol == fromAsset.symbol);
+
           return Column(
             children: [
               for (final currency in currencyFiltered) ...[
