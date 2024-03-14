@@ -41,10 +41,7 @@ class InvestHeader extends StatelessObserverWidget {
 
     return Column(
       children: [
-        if (withBigPadding)
-          const SpaceH64()
-        else
-          const SpaceH8(),
+        if (withBigPadding) const SpaceH64() else const SpaceH8(),
         Row(
           children: [
             if (!withBackBlock)
@@ -69,14 +66,11 @@ class InvestHeader extends StatelessObserverWidget {
                 highlightColor: Colors.transparent,
                 hoverColor: Colors.transparent,
                 onTap: () {
-                  final actualAsset = currency;
                   if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
                     showSendTimerAlertOr(
                       context: context,
                       or: () => sRouter.push(
-                        ConvertRouter(
-                          fromCurrency: actualAsset,
-                        ),
+                        const InvestTransferRoute(),
                       ),
                       from: [BlockingType.trade],
                     );
@@ -87,9 +81,7 @@ class InvestHeader extends StatelessObserverWidget {
                       currentNavigate: () => showSendTimerAlertOr(
                         context: context,
                         or: () => sRouter.push(
-                          ConvertRouter(
-                            fromCurrency: actualAsset,
-                          ),
+                          const InvestTransferRoute(),
                         ),
                         from: [BlockingType.trade],
                       ),
