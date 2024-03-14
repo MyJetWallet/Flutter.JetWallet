@@ -6,6 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/earn/screens/earn_details_screen.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/transaction_details_item.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/transaction_details_value_text.dart';
@@ -136,7 +137,6 @@ class PositionAuditItemView extends StatelessObserverWidget {
         return intl.earn_received;
       case AuditEventType.positionWithdraw:
       case AuditEventType.positionClose:
-      case AuditEventType.positionCloseRequest:
         return intl.earn_send;
       case AuditEventType.positionIncomePayroll:
         return intl.earn_saving_income;
@@ -183,10 +183,10 @@ class _SellDetailsHeader extends StatelessWidget {
           fromAssetDescription: isSavingIncome ? intl.earn_revenue : intl.earn_earn,
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${asset.symbol}'
-              : volumeFormat(
-                  symbol: asset.symbol,
+              : positionAuditClientModelBalanceChange(
                   accuracy: asset.accuracy,
-                  decimal: positionAudit.positionIncomeAmount,
+                  positionAudit: positionAudit,
+                  symbol: asset.symbol,
                 ),
           toAssetIconUrl: asset.iconUrl,
           toAssetDescription: intl.earn_crypto_wallet,
@@ -194,10 +194,10 @@ class _SellDetailsHeader extends StatelessWidget {
               ? null
               : getIt<AppStore>().isBalanceHide
                   ? '**** ${asset.symbol}'
-                  : volumeFormat(
-                      symbol: asset.symbol,
+                  : positionAuditClientModelBalanceChange(
                       accuracy: asset.accuracy,
-                      decimal: positionAudit.positionIncomeAmountChange,
+                      positionAudit: positionAudit,
+                      symbol: asset.symbol,
                     ),
           isSmallerVersion: true,
           hasSecondAsset: !isSavingIncome,

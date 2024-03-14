@@ -99,7 +99,9 @@ class _EarnsDetailsScreenState extends State<EarnsDetailsScreen> {
                         },
                         itemBuilder: (context, positionAudit) {
                           final currency = currencyFrom(currencies, positionAudit.assetId ?? '');
-
+                          if (positionAudit.auditEventType == AuditEventType.positionCloseRequest) {
+                            return const SizedBox.shrink();
+                          }
                           return PositionAuditItem(
                             onTap: () {
                               sShowBasicModalBottomSheet(
@@ -113,7 +115,7 @@ class _EarnsDetailsScreenState extends State<EarnsDetailsScreen> {
                                 context: context,
                               );
                             },
-                            balanceChange: _positionAuditClientModelBalanceChange(
+                            balanceChange: positionAuditClientModelBalanceChange(
                               positionAudit: positionAudit,
                               accuracy: currency.accuracy,
                               symbol: currency.symbol,
@@ -155,32 +157,6 @@ class _EarnsDetailsScreenState extends State<EarnsDetailsScreen> {
     );
   }
 
-  String _positionAuditClientModelBalanceChange({
-    required EarnPositionAuditClientModel positionAudit,
-    required String symbol,
-    required int accuracy,
-  }) {
-    final Decimal amount;
-
-    if (positionAudit.auditEventType == AuditEventType.positionCreate ||
-        positionAudit.auditEventType == AuditEventType.positionDeposit) {
-      amount = positionAudit.positionBaseAmount;
-    } else if (positionAudit.auditEventType == AuditEventType.positionWithdraw ||
-        positionAudit.auditEventType == AuditEventType.positionClose ||
-        positionAudit.auditEventType == AuditEventType.positionCloseRequest) {
-      amount = positionAudit.positionBaseAmountChange;
-    } else {
-      amount = positionAudit.positionIncomeAmountChange;
-    }
-
-    return volumeFormat(
-      decimal: amount,
-      accuracy: accuracy,
-      symbol: symbol,
-    );
-  }
-
-  //! Alex S. types to icons  ????
   Widget _transactionLabelIcon({
     required AuditEventType type,
   }) {
@@ -196,7 +172,6 @@ class _EarnsDetailsScreenState extends State<EarnsDetailsScreen> {
 
       case AuditEventType.positionWithdraw:
       case AuditEventType.positionClose:
-      case AuditEventType.positionCloseRequest:
         return Assets.svg.medium.arrowUp.simpleSvg(
           width: 24,
           color: colors.red,
@@ -212,4 +187,28 @@ class _EarnsDetailsScreenState extends State<EarnsDetailsScreen> {
         return const SizedBox();
     }
   }
+}
+
+String positionAuditClientModelBalanceChange({
+  required EarnPositionAuditClientModel positionAudit,
+  required String symbol,
+  required int accuracy,
+}) {
+  final Decimal amount;
+
+  if (positionAudit.auditEventType == AuditEventType.positionCreate ||
+      positionAudit.auditEventType == AuditEventType.positionDeposit) {
+    amount = positionAudit.positionBaseAmount + positionAudit.positionIncomeAmountChange;
+  } else if (positionAudit.auditEventType == AuditEventType.positionWithdraw ||
+      positionAudit.auditEventType == AuditEventType.positionClose) {
+    amount = positionAudit.positionBaseAmountChange + positionAudit.positionIncomeAmountChange;
+  } else {
+    amount = positionAudit.positionIncomeAmountChange;
+  }
+
+  return volumeFormat(
+    decimal: amount,
+    accuracy: accuracy,
+    symbol: symbol,
+  );
 }
