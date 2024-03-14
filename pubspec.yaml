@@ -137,6 +137,8 @@ dependencies:
   crypto: 3.0.3 # Implementations of SHA, MD5, and HMAC
   encrypt: 5.0.3 # Encryption and decryption helpers
 
+  external_app_launcher: ^4.0.0
+
   # OWN LIBS:
   simple_kit:
     path: plugins/simple_kit

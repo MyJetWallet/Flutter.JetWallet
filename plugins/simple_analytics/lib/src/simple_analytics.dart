@@ -6885,4 +6885,52 @@ class SimpleAnalytics {
       },
     );
   }
+
+  void tapOnTheAddToGoogleWalletButton({required String cardId}) {
+    _analytics.logEvent(
+      EventType.tapOnTheAddToGoogleWalletButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '557',
+        PropertyType.cardID: cardId,
+      },
+    );
+  }
+
+  void tapOnTheAddToAppleWalletButton({required String cardId}) {
+    _analytics.logEvent(
+      EventType.tapOnTheAddToAppleWalletButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '558',
+        PropertyType.cardID: cardId,
+      },
+    );
+  }
+
+  void popupAddCardToWalletScreenView({required String cardId}) {
+    _analytics.logEvent(
+      EventType.popupAddCardToWalletScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '559',
+        PropertyType.cardID: cardId,
+      },
+    );
+  }
+
+  void tapOnTheContinueAddToWalletButton({required String cardId}) {
+    _analytics.logEvent(
+      EventType.tapOnTheContinueAddToWalletButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '559',
+        PropertyType.cardID: cardId,
+      },
+    );
+  }
 }

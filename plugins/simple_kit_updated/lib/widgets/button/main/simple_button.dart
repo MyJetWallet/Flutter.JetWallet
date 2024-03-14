@@ -6,6 +6,7 @@ import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 
 class SButton extends HookWidget {
   const SButton.blue({
+    this.icon,
     required this.text,
     this.callback,
     this.isLoading = false,
@@ -13,6 +14,7 @@ class SButton extends HookWidget {
   }) : type = ButtonType.blue;
 
   const SButton.black({
+    this.icon,
     required this.text,
     this.callback,
     this.isLoading = false,
@@ -20,6 +22,7 @@ class SButton extends HookWidget {
   }) : type = ButtonType.black;
 
   const SButton.red({
+    this.icon,
     required this.text,
     this.callback,
     this.isLoading = false,
@@ -27,6 +30,7 @@ class SButton extends HookWidget {
   }) : type = ButtonType.red;
 
   const SButton.text({
+    this.icon,
     required this.text,
     this.callback,
     this.isLoading = false,
@@ -34,6 +38,7 @@ class SButton extends HookWidget {
   }) : type = ButtonType.text;
 
   const SButton.outlined({
+    this.icon,
     required this.text,
     this.callback,
     this.isLoading = false,
@@ -43,6 +48,7 @@ class SButton extends HookWidget {
   final String text;
   final VoidCallback? callback;
   final bool isLoading;
+  final Widget? icon;
 
   final ButtonType type;
 
@@ -136,12 +142,20 @@ class SButton extends HookWidget {
                 color: textColor(),
               ),
             )
-          : Text(
-              text,
-              maxLines: 3,
-              style: STStyles.button.copyWith(
-                color: textColor(),
-              ),
+          : Row(
+              children: [
+                if (icon != null) ...[
+                  icon!,
+                  const SizedBox(width: 8),
+                ],
+                Text(
+                  text,
+                  maxLines: 3,
+                  style: STStyles.button.copyWith(
+                    color: textColor(),
+                  ),
+                ),
+              ],
             ),
     );
   }

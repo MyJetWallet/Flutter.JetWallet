@@ -259,7 +259,12 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                       ),
                     ),
                   ),
-                  const SliverToBoxAdapter(child: WalletsButton()),
+                  SliverToBoxAdapter(
+                    child: WalletsButton(
+                      cardNumber: simpleCardStore.cardSensitiveData?.cardNumber ?? '',
+                      cardId: simpleCardStore.cardFull?.cardId ?? '',
+                    ),
+                  ),
                   SliverToBoxAdapter(
                     child: SPaddingH24(
                       child: Text(

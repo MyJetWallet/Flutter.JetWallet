@@ -22,6 +22,7 @@ Future<void> sShowAlertPopup(
   bool isNeedCancelButton = false,
   SButtonType primaryButtonType = SButtonType.primary1,
   SWidgetSize size = SWidgetSize.medium,
+  TextAlign? textAlign = TextAlign.center,
   required String primaryText,
   required String primaryButtonName,
   required Function() onPrimaryButtonTap,
@@ -68,7 +69,7 @@ Future<void> sShowAlertPopup(
                         child: Text(
                           primaryText,
                           maxLines: (secondaryText != null) ? 5 : 12,
-                          textAlign: TextAlign.center,
+                          textAlign: textAlign,
                           style: sTextH5Style.copyWith(
                             overflow: TextOverflow.visible,
                           ),
@@ -86,7 +87,7 @@ Future<void> sShowAlertPopup(
                         child: Text(
                           secondaryText,
                           maxLines: 12,
-                          textAlign: TextAlign.center,
+                          textAlign: textAlign,
                           style: sBodyText1Style.copyWith(
                             color: SColorsLight().grey1,
                           ),

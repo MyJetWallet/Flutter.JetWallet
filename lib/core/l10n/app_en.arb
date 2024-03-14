@@ -1932,5 +1932,15 @@
         }
     },
     "wallets_add_to_apple_wallet": "Apple Wallet",
-    "wallets_add_to_google_wallet": "Google Wallet"
+    "wallets_add_to_google_wallet": "Google Wallet",
+    "wallets_redirecting": "Redirecting",
+    "wallets_modal_info": "By clicking Continue you will be redirected to {value}:\n\n1. Manually fill in your card details\n2. Follow {value} instructions\n 3. Enjoy contactless purchases and ATM withdrawals with your Simple Card!",
+    "@wallets_modal_info": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "wallets_continue": "Continue"
 }
