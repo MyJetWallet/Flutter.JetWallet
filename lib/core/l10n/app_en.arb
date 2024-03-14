@@ -1935,5 +1935,6 @@
     "invest_transfer_crypto_wallet": "Crypto wallet",
     "invest_transfer_invest": "Invest",
     "invest_transfer_from_invest": "From invest",
-    "invest_transfer_to_crypto_wallet": "To crypto wallet"
+    "invest_transfer_to_crypto_wallet": "To crypto wallet",
+    "invest_transfer_empty_balance": "To continue, you need to top up your Tether wallet"
 }

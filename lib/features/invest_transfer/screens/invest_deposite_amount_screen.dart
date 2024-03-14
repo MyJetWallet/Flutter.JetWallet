@@ -47,7 +47,7 @@ class _InvestDepositeAmountScreenState extends State<InvestDepositeAmountScreen>
         await sShowAlertPopup(
           context,
           primaryText: intl.earn_deposit_crypto_wallet,
-          secondaryText: intl.tost_convert_message_1,
+          secondaryText: intl.invest_transfer_empty_balance,
           primaryButtonName: intl.earn_top_up_value(store.cryptoSymbol),
           secondaryButtonName: intl.earn_cancel,
           image: Image.asset(
@@ -57,13 +57,13 @@ class _InvestDepositeAmountScreenState extends State<InvestDepositeAmountScreen>
             package: 'simple_kit',
           ),
           onWillPop: () async {
-            sRouter.popUntilRouteWithName(EarnPositionActiveRouter.name);
+            sRouter.popUntilRoot();
           },
           onPrimaryButtonTap: () {
             navigateToWallet(context, store.currency);
           },
           onSecondaryButtonTap: () async {
-            sRouter.popUntilRouteWithName(EarnPositionActiveRouter.name);
+            sRouter.popUntilRoot();
           },
         );
       });
