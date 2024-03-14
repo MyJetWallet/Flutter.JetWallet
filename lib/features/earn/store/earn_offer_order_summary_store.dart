@@ -216,11 +216,11 @@ abstract class _OfferOrderSummaryStoreBase with Store {
     return sRouter
         .push(
       SuccessScreenRouter(
-        secondaryText: intl.earn_withdrawal_of(
+        secondaryText: intl.earn_transfer_of(
           volumeFormat(
-            decimal: baseAmount,
-            symbol: sSignalRModules.baseCurrency.symbol,
-            accuracy: eurCurrency.accuracy,
+            decimal: selectedAmount,
+            symbol: selectedCurrency.symbol,
+            accuracy: selectedCurrency.accuracy,
           ),
         ),
         buttonText: intl.previewBuyWithUmlimint_saveCard,
