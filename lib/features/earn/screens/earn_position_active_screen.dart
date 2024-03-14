@@ -11,6 +11,8 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/core/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/widgets/button/main/simple_button.dart';
 import 'package:simple_kit_updated/widgets/navigation/top_app_bar/global_basic_appbar.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
@@ -52,6 +54,12 @@ class EarnPositionActiveScreen extends StatelessWidget {
             children: [
               GlobalBasicAppBar(
                 onRightIconTap: () {
+                  sRouter.push(
+                    EarnsDetailsRouter(
+                      positionId: earnPosition.id,
+                      assetName: currency.description,
+                    ),
+                  );
                   sAnalytics.tapOnTheHistoryFromActiveCryptoSavingsButton(
                     assetName: earnPosition.assetId,
                     earnAPYrate: earnPosition.offers.firstOrNull?.apyRate?.toString() ?? Decimal.zero.toString(),
@@ -74,11 +82,12 @@ class EarnPositionActiveScreen extends StatelessWidget {
                     revenue: earnPosition.incomeAmount.toString(),
                   );
                 },
-                hasRightIcon: false,
                 title: currency.description,
+                rightIcon: Assets.svg.medium.history.simpleSvg(),
                 subtitle: earnPosition.status == EarnPositionStatus.closed
                     ? earnPosition.offerName
                     : earnPosition.offers.firstOrNull?.name,
+
               ),
               Expanded(
                 child: Column(
