@@ -1931,5 +1931,7 @@
     "error_message_insufficient_funds": "Insufficient funds for the transaction",
     "convert_choose_account": "Choose account",
     "invest_transfer_from_crypto_wallet": "From crypto wallet",
-    "invest_transfer_to_invest": "To invest"
+    "invest_transfer_to_invest": "To invest",
+    "invest_transfer_crypto_wallet": "Crypto wallet",
+    "invest_transfer_invest": "Invest"
 }

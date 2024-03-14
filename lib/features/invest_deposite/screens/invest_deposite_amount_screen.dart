@@ -160,7 +160,13 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
               submitButtonActive: store.isContinueAvaible,
               submitButtonName: intl.addCircleCard_continue,
               onSubmitPressed: () {
-                // TODO: add rout to order summaru
+                final amount = Decimal.tryParse(store.cryptoInputValue) ?? Decimal.zero;
+                sRouter.push(
+                  InvestDepositeConfrimationRoute(
+                    amount: amount,
+                    assetId: store.cryptoSymbol,
+                  ),
+                );
               },
             ),
           ],
