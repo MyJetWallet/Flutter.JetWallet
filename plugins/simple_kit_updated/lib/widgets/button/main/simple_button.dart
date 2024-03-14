@@ -143,6 +143,7 @@ class SButton extends HookWidget {
               ),
             )
           : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 if (icon != null) ...[
                   icon!,
