@@ -1922,5 +1922,15 @@
                 "example": "21:24"
             }
         }
-    }
+    },
+    "wallets_add_to_wallet": "Add to {value}",
+    "@wallets_add_to_wallet": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "wallets_add_to_apple_wallet": "Apple Wallet",
+    "wallets_add_to_google_wallet": "Google Wallet"
 }
