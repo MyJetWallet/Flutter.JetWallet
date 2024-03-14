@@ -78,6 +78,7 @@ import 'package:jetwallet/features/invest/ui/new_invest_confirmation_screen.dart
 import 'package:jetwallet/features/invest/ui/pending_invest_manage_screen.dart';
 import 'package:jetwallet/features/invest_transfer/screens/invest_deposite_confrimation_screen.dart';
 import 'package:jetwallet/features/invest_transfer/screens/invest_transfer_screen.dart';
+import 'package:jetwallet/features/invest_transfer/screens/invest_withdraw_confrimation_screen.dart';
 import 'package:jetwallet/features/kyc/allow_camera/ui/allow_camera_screen.dart';
 import 'package:jetwallet/features/kyc/choose_documents/ui/choose_documents.dart';
 import 'package:jetwallet/features/kyc/kyc_selfie/ui/kyc_selfie.dart';
@@ -730,6 +731,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/invest_deposite_confrimation',
       page: InvestDepositeConfrimationRoute.page,
+    ),
+    AutoRoute(
+      path: '/invest_withdraw_confrimation',
+      page: InvestWithdrawConfrimationRoute.page,
     ),
   ];
 }

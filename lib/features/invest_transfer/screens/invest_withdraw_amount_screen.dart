@@ -128,7 +128,7 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
               onSubmitPressed: () {
                 final amount = Decimal.tryParse(store.cryptoInputValue) ?? Decimal.zero;
                 sRouter.push(
-                  InvestDepositeConfrimationRoute(
+                  InvestWithdrawConfrimationRoute(
                     amount: amount,
                     assetId: store.cryptoSymbol,
                   ),
