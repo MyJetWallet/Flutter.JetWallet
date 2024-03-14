@@ -1933,5 +1933,7 @@
     "invest_transfer_from_crypto_wallet": "From crypto wallet",
     "invest_transfer_to_invest": "To invest",
     "invest_transfer_crypto_wallet": "Crypto wallet",
-    "invest_transfer_invest": "Invest"
+    "invest_transfer_invest": "Invest",
+    "invest_transfer_from_invest": "From invest",
+    "invest_transfer_to_crypto_wallet": "To crypto wallet"
 }
