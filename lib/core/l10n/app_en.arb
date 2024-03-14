@@ -1903,8 +1903,6 @@
     "about_us_earn_program": "Earn Program Terms and Conditions",
     "about_us_smpl_global": "Smpl Global Privacy Policy",
     "earn_finished": "Finished",
-    "wallet_crypto_wallet": "Crypto Wallet",
-    "wallet_crypto_assets": "Crypto assets",
     "transfer_confirm_via_sms": "Confirm via SMS",
     "transfer_we_sent": "We sent to the phone **{numbers}",
     "@transfer_we_sent": {
@@ -1925,6 +1923,8 @@
             }
         }
     },
+    "wallet_crypto_wallet": "Crypto Wallet",
+    "wallet_crypto_assets": "Crypto assets",
     "wallet_external_bank_transfer": "External bank transfer",
     "wallet_internal_transfer": "Internal transfer",
     "wallet_choose_asset_from_convert": "Choose asset from convert",
@@ -1936,5 +1936,8 @@
     "invest_transfer_invest": "Invest",
     "invest_transfer_from_invest": "From invest",
     "invest_transfer_to_crypto_wallet": "To crypto wallet",
-    "invest_transfer_empty_balance": "To continue, you need to top up your Tether wallet"
+    "invest_transfer_empty_balance": "To continue, you need to top up your Tether wallet",
+    "earn_earns_details": "Earns details",
+    "earn_base_amount": "Base amount",
+    "earn_saving_income": "Saving income"
 }

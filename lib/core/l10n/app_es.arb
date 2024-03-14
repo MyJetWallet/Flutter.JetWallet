@@ -1902,5 +1902,15 @@
                 "example": "21:24"
             }
         }
-    }
+    },
+    "wallet_crypto_wallet": "Cartera Cripto",
+    "wallet_crypto_assets": "Activos Cripto",
+    "wallet_external_bank_transfer": "Transferencia bancaria externa",
+    "wallet_internal_transfer": "Transferencia interna",
+    "wallet_choose_asset_from_convert": "Elegir activo para convertir",
+    "error_message_insufficient_funds": "Fondos insuficientes para la transacción",
+    "convert_choose_account": "Elegir cuenta",
+    "earn_earns_details": "",
+    "earn_base_amount": "",
+    "earn_saving_income": ""
 }
