@@ -598,4 +598,8 @@ class EventType {
   static const failedEarnMainScreenView = 'Failed Earn main’ screen view';
   static const tapOnTheHistoryEarnbutton = 'Tap on the ‘History earn’ button';
   static const earnsArchiveScreenView = 'Earns archive’ screen view';
+  static const tapOnTheAddToGoogleWalletButton = 'Tap on the ‘Add to Google Wallet’ button';
+  static const tapOnTheAddToAppleWalletButton = 'Tap on the ‘Add to Apple Wallet’ button';
+  static const popupAddCardToWalletScreenView = 'Popup Add card to Wallet’ screen view';
+  static const tapOnTheContinueAddToWalletButton = 'Tap on the ‘Continue add to wallet’ button';
 }
