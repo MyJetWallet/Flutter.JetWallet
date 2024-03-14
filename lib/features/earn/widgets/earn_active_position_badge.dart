@@ -105,3 +105,17 @@ String getTextForStatus(EarnPositionStatus status) {
       return intl.earn_unknown;
   }
 }
+
+/// we use this method for analytic
+String getTextForStatusAnalytics(EarnPositionStatus status) {
+  switch (status) {
+    case EarnPositionStatus.active:
+      return 'Earning';
+    case EarnPositionStatus.closing:
+      return 'Closing';
+    case EarnPositionStatus.closed:
+      return 'Finished';
+    default:
+      return intl.earn_unknown;
+  }
+}

@@ -21,16 +21,21 @@ class EarnWithdrawnTypeScreen extends StatefulWidget {
 }
 
 class _EarnWithdrawnTypeScreenState extends State<EarnWithdrawnTypeScreen> {
-  bool isPartialWithdrawal = true;
-
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     sAnalytics.earnWithdrawTypeScreenView(
       assetName: widget.earnPosition.assetId,
       earnWithdrawalType: widget.earnPosition.withdrawType.name,
       earnOfferId: widget.earnPosition.offerId,
       earnPlanName: widget.earnPosition.offers.first.name ?? '',
     );
+    super.initState();
+  }
+
+  bool isPartialWithdrawal = true;
+
+  @override
+  Widget build(BuildContext context) {
     final minAccountAmount = widget.earnPosition.offers.first.minAmount ?? Decimal.zero;
     final formatedMinAccountAmount = volumeFormat(
       decimal: minAccountAmount,
@@ -75,20 +80,13 @@ class _EarnWithdrawnTypeScreenState extends State<EarnWithdrawnTypeScreen> {
               child: SButton.blue(
                 text: intl.earn_confirm,
                 callback: () {
-                  sAnalytics.tapOnTheContinueWithEarnWithdrawTypeButton(
-                    assetName: widget.earnPosition.assetId,
-                    earnWithdrawalType: widget.earnPosition.withdrawType.name,
-                    earnOfferId: widget.earnPosition.offerId,
-                    earnPlanName: widget.earnPosition.offers.first.name ?? '',
-                    fullWithdrawType: !isPartialWithdrawal,
-                  );
                   if (isPartialWithdrawal) {
                     sAnalytics.tapOnTheContinueWithEarnWithdrawTypeButton(
                       assetName: widget.earnPosition.assetId,
                       earnWithdrawalType: widget.earnPosition.withdrawType.name,
                       earnOfferId: widget.earnPosition.offerId,
                       earnPlanName: widget.earnPosition.offers.first.name ?? '',
-                      fullWithdrawType: isPartialWithdrawal,
+                      fullWithdrawType: !isPartialWithdrawal,
                     );
                     sRouter.push(
                       EarnWithdrawalAmountRouter(earnPosition: widget.earnPosition),
