@@ -4,6 +4,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/earn/widgets/basic_header.dart';
 import 'package:jetwallet/features/earn/widgets/deposit_card.dart';
+import 'package:jetwallet/features/earn/widgets/earn_active_position_badge.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/widgets/table/placeholder/simple_placeholder.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
@@ -45,7 +46,7 @@ class EarnPositionsListWidget extends StatelessWidget {
                       assetName: e.assetId,
                       earnAPYrate: getHighestApyRateAsString(e.offers) ?? '',
                       earnDepositAmount: e.baseAmount.toString(),
-                      earnOfferStatus: e.status.name,
+                      earnOfferStatus: getTextForStatusAnalytics(e.status),
                       earnPlanName: e.offers.first.description ?? '',
                       earnWithdrawalType: e.withdrawType.name,
                       revenue: e.incomeAmount.toString(),
