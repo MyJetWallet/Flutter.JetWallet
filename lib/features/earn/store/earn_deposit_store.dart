@@ -28,7 +28,7 @@ abstract class _EarnDepositStoreBase with Store {
   _EarnDepositStoreBase({required this.offer}) {
     sAnalytics.earnDepositAmountScreenView(
       assetName: offer.assetId,
-      earnAPYrate: offer.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
+      earnAPYrate: offer.apyRate?.toString() ?? Decimal.zero.toString(),
       earnPlanName: offer.description ?? '',
       earnWithdrawalType: offer.withdrawType.name,
     );

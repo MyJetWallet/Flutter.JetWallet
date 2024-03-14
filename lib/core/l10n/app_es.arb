@@ -1743,7 +1743,7 @@
             "days": {}
         }
     },
-    "earn_flexible_tariff": "Tarifa flexible",
+    "earn_flexible_tariff": "Rescate flexible",
     "earn_are_you_sure": "¿Estás seguro?",
     "earn_your_funds_and_accrued": "Tus fondos y ganancias acumuladas se pagan al cerrar tu cuenta Earn. Desembolso el {date}.",
     "@earn_your_funds_and_accrued": {
@@ -1768,7 +1768,7 @@
     "earn_order_summary": "Resumen del pedido",
     "earn_order_summary_partial_withdrawal_means": "El retiro parcial significa la extracción de fondos de la base de cálculo. Los ingresos se pagan al cierre total de la cuenta.",
     "earn_send": "Enviar",
-    "earn_withdraw_successfully": "Tus fondos se han desembolsado con éxito",
+    "earn_withdraw_successfully": "La solicitud de rescate de fondos ha sido aceptada",
     "earn_full_withdraw": "Tus fondos y ganancias acumuladas se pagan al cerrar tu cuenta Earn.",
     "earn_basis_amount": "Monto base",
     "earn_withdrawal_period": "Período de retiro",
@@ -1852,7 +1852,7 @@
     "earn_earn_account_id": "ID cuenta Earn",
     "earn_sent": "Enviado",
     "earn_received": "Recibido",
-    "earn_withdrawal_of": "Retiro de {value}\niniciado",
+    "earn_withdrawal_of": "La transferencia de {value} a Earn\nfue iniciada",
     "@earn_withdrawal_of": {
         "placeholders": {
             "value": {
@@ -1872,7 +1872,7 @@
             }
         }
     },
-    "earn_redeem_period": "Período de redención ({days} día(s))",
+    "earn_redeem_period": "Período de redención ({days} días)",
     "@earn_redeem_period": {
         "placeholders": {
             "days": {}
@@ -1882,5 +1882,25 @@
     "earn_to": "A",
     "about_us_earn_program": "Términos y Condiciones del Programa Earn",
     "about_us_smpl_global": "Política de Privacidad de Smpl Global",
-    "earn_finished": "Finalizado"
+    "earn_finished": "Finalizado",
+    "transfer_confirm_via_sms": "Confirmar vía SMS",
+    "transfer_we_sent": "Enviamos al teléfono **{numbers}",
+    "@transfer_we_sent": {
+        "placeholders": {
+            "numbers": {
+                "type": "String",
+                "example": "1845"
+            }
+        }
+    },
+    "profileDetails_waitForSMS": "Esperar SMS",
+    "earn_transfer_of": "Transferencia de {value} a\nEarn fue iniciado",
+    "@earn_transfer_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "21:24"
+            }
+        }
+    }
 }
