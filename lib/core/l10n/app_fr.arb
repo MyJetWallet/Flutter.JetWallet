@@ -1878,5 +1878,15 @@
                 "example": "21:24"
             }
         }
-    }
+    },
+    "wallet_crypto_wallet": "Portefeuille Crypto",
+    "wallet_crypto_assets": "Actifs Crypto",
+    "wallet_external_bank_transfer": "Virement bancaire externe",
+    "wallet_internal_transfer": "Transfert interne",
+    "wallet_choose_asset_from_convert": "Choisir actif à convertir",
+    "error_message_insufficient_funds": "Fonds insuffisants pour la transaction",
+    "convert_choose_account": "Choisir un compte",
+    "earn_earns_details": "",
+    "earn_base_amount": "",
+    "earn_saving_income": ""
 }

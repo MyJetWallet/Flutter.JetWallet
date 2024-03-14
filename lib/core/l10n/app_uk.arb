@@ -1338,7 +1338,7 @@
         "type": "text"
     },
     "operationName_simplex": "Simplex",
-    "operationName_topped_up": "Поповнено Заробляйте",
+    "operationName_topped_up": "Поповнено Earn",
     "@operationName_topped_up": {
         "description": "Пополнено Зарабатывайте",
         "type": "text"
@@ -7654,5 +7654,15 @@
                 "example": "21:24"
             }
         }
-    }
+    },
+    "wallet_crypto_wallet": "Криптогаманець",
+    "wallet_crypto_assets": "Криптоактиви",
+    "wallet_external_bank_transfer": "Зовнішній банківський переказ",
+    "wallet_internal_transfer": "Внутрішній переказ",
+    "wallet_choose_asset_from_convert": "Оберіть актив для конвертації",
+    "error_message_insufficient_funds": "Недостатньо коштів для транзакції",
+    "convert_choose_account": "Оберіть рахунок",
+    "earn_earns_details": "",
+    "earn_base_amount": "",
+    "earn_saving_income": ""
 }
