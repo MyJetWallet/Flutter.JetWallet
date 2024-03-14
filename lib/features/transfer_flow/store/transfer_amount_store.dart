@@ -125,6 +125,8 @@ abstract class _TransfetAmountStoreBase with Store {
     fromAccount = newFromAccount;
     inputValue = '0';
 
+    _checkShowTosts();
+
     _validateInput();
   }
 
