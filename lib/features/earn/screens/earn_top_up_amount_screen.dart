@@ -16,6 +16,7 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 
@@ -47,6 +48,13 @@ class _EarnTopUpAmountScreenState extends State<EarnTopUpAmountScreen> {
 
     if (store.isShowTopUpModal) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
+        sAnalytics.earnDepositCryptoWalletPopupView(
+          assetName: widget.earnPosition.offers.first.assetId,
+          earnAPYrate: widget.earnPosition.offers.first.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
+          earnPlanName: widget.earnPosition.offers.first.description ?? '',
+          earnWithdrawalType: widget.earnPosition.offers.first.withdrawType.name,
+        );
+
         await sShowAlertPopup(
           context,
           primaryText: intl.earn_deposit_crypto_wallet,
@@ -63,9 +71,21 @@ class _EarnTopUpAmountScreenState extends State<EarnTopUpAmountScreen> {
             sRouter.popUntilRouteWithName(EarnPositionActiveRouter.name);
           },
           onPrimaryButtonTap: () {
+            sAnalytics.tapOnTheTopUpEarnWalletButton(
+              assetName: widget.earnPosition.offers.first.assetId,
+              earnAPYrate: widget.earnPosition.offers.first.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
+              earnPlanName: widget.earnPosition.offers.first.description ?? '',
+              earnWithdrawalType: widget.earnPosition.offers.first.withdrawType.name,
+            );
             navigateToWallet(context, store.currency);
           },
           onSecondaryButtonTap: () async {
+            sAnalytics.tapOnTheCancelTopUpEarnWalletButton(
+              assetName: widget.earnPosition.offers.first.assetId,
+              earnAPYrate: widget.earnPosition.offers.first.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
+              earnPlanName: widget.earnPosition.offers.first.description ?? '',
+              earnWithdrawalType: widget.earnPosition.offers.first.withdrawType.name,
+            );
             sRouter.popUntilRouteWithName(EarnPositionActiveRouter.name);
           },
         );
@@ -173,6 +193,13 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
               submitButtonActive: store.isContinueAvaible,
               submitButtonName: intl.addCircleCard_continue,
               onSubmitPressed: () {
+                sAnalytics.tapOnTheContinueEarnAmountDepositButton(
+                  assetName: store.earnPosition.offers.first.assetId,
+                  earnAPYrate: store.earnPosition.offers.first.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
+                  earnPlanName: store.earnPosition.offers.first.description ?? '',
+                  earnWithdrawalType: store.earnPosition.offers.first.withdrawType.name,
+                  earnDepositAmount: store.cryptoInputValue,
+                );
                 sRouter.push(
                   EarnTopUpOrderSummaryRouter(
                     earnPosition: store.earnPosition,
