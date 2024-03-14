@@ -132,7 +132,6 @@ import 'package:simple_networking/modules/wallet_api/models/withdraw/withdraw_re
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/withdrawal_resend_request.dart';
-import 'dart:developer' as dev;
 
 import '../../../simple_networking.dart';
 import '../../signal_r/models/earn_audit_history_model.dart';
@@ -3411,7 +3410,6 @@ class WalletApiDataSources {
       try {
         final responseData = response.data as Map<String, dynamic>;
         final data = handleFullResponse<Map>(responseData);
-        dev.log(data.toString());
         final out = <EarnPositionAuditClientModel>[];
         for (final element in responseData['data']) {
           out.add(
