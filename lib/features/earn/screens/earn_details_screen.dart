@@ -52,8 +52,6 @@ class _EarnsDetailsScreenState extends State<EarnsDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS";
-
     return Provider<EarnsDetailsStore>(
       create: (context) => EarnsDetailsStore()..fetchPositionAudits(positionId: widget.positionId),
       child: Observer(
@@ -87,12 +85,9 @@ class _EarnsDetailsScreenState extends State<EarnsDetailsScreen> {
                         ),
                       SliverGroupedListView<EarnPositionAuditClientModel, String>(
                         elements: store.positionAuditsList,
+                        order: GroupedListOrder.DESC,
                         groupBy: (positionAudit) {
-                          return formatDate(
-                            positionAudit.timestamp != null
-                                ? DateFormat(dateFormat).format(positionAudit.timestamp!)
-                                : DateFormat(dateFormat).format(DateTime.now()),
-                          );
+                          return formatDate(DateFormat('yyyy-MM-dd HH:mm').format(positionAudit.timestamp!));
                         },
                         groupSeparatorBuilder: (String date) {
                           return TransactionMonthSeparator(text: date);
@@ -103,12 +98,14 @@ class _EarnsDetailsScreenState extends State<EarnsDetailsScreen> {
                             return const SizedBox.shrink();
                           }
                           return PositionAuditItem(
+                            key: ValueKey(positionAudit.id),
                             onTap: () {
                               sShowBasicModalBottomSheet(
                                 children: [
                                   PositionAuditItemView(
-                                    key: ValueKey(positionAudit.id),
+                                    key: ValueKey('${positionAudit.id}_view'),
                                     positionAudit: positionAudit,
+                                    earnPositionId: widget.positionId,
                                     onCopyAction: (string) {},
                                   ),
                                 ],
@@ -194,12 +191,13 @@ String positionAuditClientModelBalanceChange({
   required EarnPositionAuditClientModel positionAudit,
   required String symbol,
   required int accuracy,
+  bool showNegative = true,
 }) {
   final Decimal amount;
 
   if (positionAudit.auditEventType == AuditEventType.positionCreate ||
       positionAudit.auditEventType == AuditEventType.positionDeposit) {
-    amount = positionAudit.positionBaseAmount + positionAudit.positionIncomeAmountChange;
+    amount = positionAudit.positionBaseAmountChange + positionAudit.positionIncomeAmountChange;
   } else if (positionAudit.auditEventType == AuditEventType.positionWithdraw ||
       positionAudit.auditEventType == AuditEventType.positionClose) {
     amount = positionAudit.positionBaseAmountChange + positionAudit.positionIncomeAmountChange;
@@ -208,7 +206,7 @@ String positionAuditClientModelBalanceChange({
   }
 
   return volumeFormat(
-    decimal: amount,
+    decimal: showNegative ? amount : amount.abs(),
     accuracy: accuracy,
     symbol: symbol,
   );

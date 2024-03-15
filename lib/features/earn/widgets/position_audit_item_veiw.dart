@@ -25,9 +25,11 @@ class PositionAuditItemView extends StatelessObserverWidget {
     super.key,
     required this.positionAudit,
     required this.onCopyAction,
+    required this.earnPositionId,
   });
 
   final EarnPositionAuditClientModel positionAudit;
+  final String earnPositionId;
   final Function(String) onCopyAction;
 
   @override
@@ -53,7 +55,7 @@ class PositionAuditItemView extends StatelessObserverWidget {
             text: intl.send_globally_date,
             value: TransactionDetailsValueText(
               text: positionAudit.timestamp != null
-                  ? DateFormat('dd.MM.yyyy, HH:mm').format(positionAudit.timestamp!)
+                  ? DateFormat('dd.MM.yyyy, HH:mm').format(positionAudit.timestamp!.toLocal())
                   : '',
             ),
           ),
@@ -66,12 +68,12 @@ class PositionAuditItemView extends StatelessObserverWidget {
                 children: [
                   Flexible(
                     child: TransactionDetailsValueText(
-                      text: shortAddressFormTwo(positionAudit.id),
+                      text: shortAddressFormTwo(earnPositionId),
                       maxLines: 1,
                     ),
                   ),
                   const SpaceW10(),
-                  HistoryCopyIcon(positionAudit.id),
+                  HistoryCopyIcon(earnPositionId),
                 ],
               ),
             ),
@@ -180,21 +182,23 @@ class _SellDetailsHeader extends StatelessWidget {
           removeDefaultPaddings: true,
           isLoading: false,
           fromAssetIconUrl: asset.iconUrl,
-          fromAssetDescription: isSavingIncome ? intl.earn_revenue : intl.earn_earn,
+          fromAssetDescription: isSavingIncome ? intl.earn_revenue : intl.earn_crypto_wallet,
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${asset.symbol}'
               : positionAuditClientModelBalanceChange(
+                  showNegative: false,
                   accuracy: asset.accuracy,
                   positionAudit: positionAudit,
                   symbol: asset.symbol,
                 ),
           toAssetIconUrl: asset.iconUrl,
-          toAssetDescription: intl.earn_crypto_wallet,
+          toAssetDescription: intl.earn_earn,
           toAssetValue: isSavingIncome
               ? null
               : getIt<AppStore>().isBalanceHide
                   ? '**** ${asset.symbol}'
                   : positionAuditClientModelBalanceChange(
+                      showNegative: false,
                       accuracy: asset.accuracy,
                       positionAudit: positionAudit,
                       symbol: asset.symbol,
