@@ -20,6 +20,7 @@ class PositionAuditItem extends StatelessWidget {
     required this.status,
     required this.timeStamp,
     this.rightSupplement,
+    super.key,
   });
 
   final void Function() onTap;
