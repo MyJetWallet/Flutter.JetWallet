@@ -107,6 +107,7 @@ class _EarnsDetailsScreenState extends State<EarnsDetailsScreen> {
                               sShowBasicModalBottomSheet(
                                 children: [
                                   PositionAuditItemView(
+                                    key: ValueKey(positionAudit.id),
                                     positionAudit: positionAudit,
                                     onCopyAction: (string) {},
                                   ),
@@ -124,7 +125,7 @@ class _EarnsDetailsScreenState extends State<EarnsDetailsScreen> {
                             labele: positionAudit.assetId ?? '',
                             status: Status.completed,
                             timeStamp: positionAudit.timestamp != null
-                                ? DateFormat(dateFormat).format(positionAudit.timestamp!)
+                                ? DateFormat('dd.MM.yyyy, HH:mm').format(positionAudit.timestamp!.toLocal())
                                 : '',
                             labelIcon: const SizedBox.shrink(),
                           );
