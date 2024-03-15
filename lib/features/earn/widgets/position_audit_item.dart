@@ -105,7 +105,7 @@ class PositionAuditItem extends StatelessWidget {
                 children: [
                   const SpaceW34(),
                   TransactionListItemText(
-                    text: '${formatDateToDMY(timeStamp)}, ${formatDateToHm(timeStamp)}',
+                    text: timeStamp,
                     color: colors.grey1,
                   ),
                   const Spacer(),
