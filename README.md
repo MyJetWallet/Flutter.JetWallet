@@ -14,7 +14,7 @@ Locally linking any packages together.
 Bootstrap your project by running the following command:
 
 ```bash
-melos bootstrap
+flutter melos bs
 ```
 
 

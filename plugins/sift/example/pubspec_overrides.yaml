@@ -1,4 +1,0 @@
-# melos_managed_dependency_overrides: simple_sift
-dependency_overrides:
-  simple_sift:
-    path: ..

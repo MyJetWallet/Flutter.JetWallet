@@ -10,6 +10,8 @@ packages:
 scripts:
   analyze:
     exec: dart analyze 
+  molos bs: flutter pub global run melos bootstrap
+  molos clean: flutter pub global run melos clean
 
 bootstrap:
   commands:
