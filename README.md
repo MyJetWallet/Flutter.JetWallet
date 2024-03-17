@@ -1,5 +1,23 @@
 # Flutter.JetWallet (Simple App)
 
+## Installation
+
+Install Melos as a global package via pub.dev so it can be used from anywhere on your system:
+
+```bash
+dart pub global activate melos
+```
+
+Once installed, Melos needs to be bootstrapped. Bootstrapping has 2 primary roles:
+Installing all package dependencies (internally using pub get).
+Locally linking any packages together.
+Bootstrap your project by running the following command:
+
+```bash
+melos bootstrap
+```
+
+
 ## Links
 [Spot Images](https://github.com/MyJetWallet/spotimages)
 

@@ -1,0 +1,16 @@
+name: jetwallet
+
+packages:
+  - apps/**
+  - packages/**
+  - plugins/**
+  - lib/core/**
+  - lib/features/**
+
+scripts:
+  analyze:
+    exec: dart analyze 
+
+bootstrap:
+  commands:
+    - flutter pub get  

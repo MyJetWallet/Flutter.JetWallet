@@ -40,6 +40,8 @@
 *.gr.dart
 # workaround please remove this
 !plugins/simple_kit/lib/**/*.g.dart
+# melos
+pubspec_overrides.yaml
 
 # Web related
 lib/generated_plugin_registrant.dart

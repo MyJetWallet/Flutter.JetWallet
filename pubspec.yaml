@@ -167,6 +167,7 @@ dev_dependencies:
   injectable_generator: 2.4.1
   mobx_codegen: 2.6.0+1
   auto_route_generator: 7.3.2
+  melos: ^3.4.0
 
 dependency_overrides:
   dart_style:
