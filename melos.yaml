@@ -6,6 +6,7 @@ packages:
   - plugins/**
   - lib/core/**
   - lib/features/**
+  - lib/core**
 
 scripts:
   analyze:
