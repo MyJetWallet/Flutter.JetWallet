@@ -12,6 +12,7 @@ import 'package:jetwallet/features/earn/widgets/deposit_card_badge.dart';
 import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
 import 'package:jetwallet/features/earn/widgets/link_label.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
+import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/shared/simple_network_svg.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
@@ -73,13 +74,20 @@ class SDepositCard extends StatelessObserverWidget {
                   balance: isBalanceHide
                       ? '**** ${sSignalRModules.baseCurrency.symbol}'
                       : marketFormat(
-                          decimal: formatService.convertOneCurrencyToAnotherOne(
-                            fromCurrency: earnPosition.assetId,
-                            fromCurrencyAmmount: earnPosition.baseAmount,
-                            toCurrency: sSignalRModules.baseCurrency.symbol,
-                            baseCurrency: sSignalRModules.baseCurrency.symbol,
-                            isMin: true,
-                          ),
+                          decimal: earnPosition.status == EarnPositionStatus.closed
+                              ? basePrice(
+                                    earnPosition.closeIndexPrice ?? Decimal.zero,
+                                    sSignalRModules.baseCurrency,
+                                    sSignalRModules.currenciesList,
+                                  ) *
+                                  earnPosition.baseAmount
+                              : formatService.convertOneCurrencyToAnotherOne(
+                                  fromCurrency: earnPosition.assetId,
+                                  fromCurrencyAmmount: earnPosition.baseAmount,
+                                  toCurrency: sSignalRModules.baseCurrency.symbol,
+                                  baseCurrency: sSignalRModules.baseCurrency.symbol,
+                                  isMin: true,
+                                ),
                           accuracy: 2,
                           symbol: sSignalRModules.baseCurrency.symbol,
                         ),
@@ -93,13 +101,20 @@ class SDepositCard extends StatelessObserverWidget {
                   revenue: isBalanceHide
                       ? '**** ${sSignalRModules.baseCurrency.symbol}'
                       : marketFormat(
-                          decimal: formatService.convertOneCurrencyToAnotherOne(
-                            fromCurrency: earnPosition.assetId,
-                            fromCurrencyAmmount: earnPosition.incomeAmount,
-                            toCurrency: sSignalRModules.baseCurrency.symbol,
-                            baseCurrency: sSignalRModules.baseCurrency.symbol,
-                            isMin: true,
-                          ),
+                          decimal: earnPosition.status == EarnPositionStatus.closed
+                              ? basePrice(
+                                    earnPosition.closeIndexPrice ?? Decimal.zero,
+                                    sSignalRModules.baseCurrency,
+                                    sSignalRModules.currenciesList,
+                                  ) *
+                                  earnPosition.incomeAmount
+                              : formatService.convertOneCurrencyToAnotherOne(
+                                  fromCurrency: earnPosition.assetId,
+                                  fromCurrencyAmmount: earnPosition.incomeAmount,
+                                  toCurrency: sSignalRModules.baseCurrency.symbol,
+                                  baseCurrency: sSignalRModules.baseCurrency.symbol,
+                                  isMin: true,
+                                ),
                           accuracy: 2,
                           symbol: sSignalRModules.baseCurrency.symbol,
                         ),
