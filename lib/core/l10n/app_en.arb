@@ -1798,7 +1798,7 @@
         }
     },
     "earn_withdrawal_period_explanation_1": "Withdrawal of funds from your plan will result in the closure of the corresponding Earn account. Please note that the full transfer of funds together with the earned income will take place {days} days after the request has been created.",
-    "@earn_withdrawal_period_explanation": {
+    "@earn_withdrawal_period_explanation_1": {
         "placeholders": {
             "days": {
                 "type": "num",

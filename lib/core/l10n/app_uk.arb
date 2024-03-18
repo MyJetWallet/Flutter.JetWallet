@@ -7538,6 +7538,14 @@
         }
     },
     "earn_withdrawal_period_explanation_1": "Виведення коштів з вашого плану призведе до закриття відповідного рахунку Earn. Зверніть увагу, що повне переведення коштів разом з заробленим доходом відбудеться через {days} дн. після створення запиту.",
+    "@earn_withdrawal_period_explanation_1": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
     "earn_withdrawal_period_explanation_2": "Важливо зазначити, що до остаточного закриття рахунку дохід продовжуватиме нараховуватися на ваш рахунок Earn.",
     "earn_from_crypto_wallet": "З криптогаманця",
     "earn_to_crypto_wallet": "На криптогаманець",

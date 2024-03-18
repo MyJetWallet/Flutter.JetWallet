@@ -1786,6 +1786,14 @@
         }
     },
     "earn_withdrawal_period_explanation_1": "La retirada de fondos de tu plan resultará en el cierre de la cuenta Earn correspondiente. Ten en cuenta que la transferencia completa de los fondos junto con los ingresos ganados se realizará {days} día(s) después de haber creado la solicitud.",
+    "@earn_withdrawal_period_explanation_1": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
     "earn_withdrawal_period_explanation_2": "Es importante notar que hasta el cierre final de la cuenta, los ingresos continuarán acumulándose en tu cuenta Earn.",
     "earn_from_crypto_wallet": "Desde cartera cripto",
     "earn_to_crypto_wallet": "A cartera cripto",

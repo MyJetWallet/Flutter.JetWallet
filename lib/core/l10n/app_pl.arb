@@ -1850,6 +1850,14 @@
         }
     },
     "earn_withdrawal_period_explanation_1": "Wypłata środków z twojego planu spowoduje zamknięcie odpowiadającego konta Earn. Należy zauważyć, że pełne przekazanie środków wraz z zarobionym dochodem nastąpi {days} dni po utworzeniu żądania.",
+    "@earn_withdrawal_period_explanation_1": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
     "earn_withdrawal_period_explanation_2": "Ważne jest, aby zauważyć, że do ostatecznego zamknięcia konta, dochód będzie nadal naliczany na twoje konto Earn.",
     "earn_from_crypto_wallet": "Z portfela krypto",
     "earn_to_crypto_wallet": "Do portfela krypto",
