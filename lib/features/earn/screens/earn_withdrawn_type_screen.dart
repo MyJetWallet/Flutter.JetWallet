@@ -92,6 +92,13 @@ class _EarnWithdrawnTypeScreenState extends State<EarnWithdrawnTypeScreen> {
                       EarnWithdrawalAmountRouter(earnPosition: widget.earnPosition),
                     );
                   } else {
+                    sAnalytics.tapOnTheContinueWithEarnWithdrawTypeButton(
+                      assetName: widget.earnPosition.assetId,
+                      earnWithdrawalType: widget.earnPosition.withdrawType.name,
+                      earnOfferId: widget.earnPosition.offerId,
+                      earnPlanName: widget.earnPosition.offers.first.name ?? '',
+                      fullWithdrawType: !isPartialWithdrawal,
+                    );
                     sAnalytics.sureFullEarnWithdrawPopupView(
                       assetName: widget.earnPosition.assetId,
                       earnWithdrawalType: widget.earnPosition.withdrawType.name,
