@@ -49,9 +49,7 @@ class ActionsAccountRowWidget extends StatelessWidget {
 
                   handler.handle(
                     multiStatus: [
-                      kycState.tradeStatus,
                       kycState.depositStatus,
-                      kycState.withdrawalStatus,
                     ],
                     isProgress: kycState.verificationInProgress,
                     currentNavigate: () => showSendTimerAlertOr(
@@ -83,8 +81,6 @@ class ActionsAccountRowWidget extends StatelessWidget {
                 onTap: () {
                   handler.handle(
                     multiStatus: [
-                      kycState.tradeStatus,
-                      kycState.depositStatus,
                       kycState.withdrawalStatus,
                     ],
                     isProgress: kycState.verificationInProgress,
@@ -107,8 +103,6 @@ class ActionsAccountRowWidget extends StatelessWidget {
                     handler.handle(
                       multiStatus: [
                         kycState.tradeStatus,
-                        kycState.depositStatus,
-                        kycState.withdrawalStatus,
                       ],
                       isProgress: kycState.verificationInProgress,
                       currentNavigate: () => showBuyChooseAssetBottomSheet(
