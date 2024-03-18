@@ -1886,7 +1886,14 @@
     "wallet_choose_asset_from_convert": "Choisir actif à convertir",
     "error_message_insufficient_funds": "Fonds insuffisants pour la transaction",
     "convert_choose_account": "Choisir un compte",
-    "earn_earns_details": "",
-    "earn_base_amount": "",
-    "earn_saving_income": ""
+    "earn_earns_details": "Earns détails",
+    "earn_base_amount": "Montant de base",
+    "earn_saving_income": "Revenu d'épargne",
+    "invest_transfer_from_crypto_wallet": "Du portefeuille crypto",
+    "invest_transfer_to_invest": "Pour investir",
+    "invest_transfer_crypto_wallet": "Portefeuille crypto",
+    "invest_transfer_invest": "Investir",
+    "invest_transfer_from_invest": "De l'investissement",
+    "invest_transfer_to_crypto_wallet": "Au portefeuille crypto",
+    "invest_transfer_empty_balance": "Pour continuer, rechargez votre portefeuille Tether"
 }

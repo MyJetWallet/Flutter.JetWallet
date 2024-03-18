@@ -7662,7 +7662,14 @@
     "wallet_choose_asset_from_convert": "Оберіть актив для конвертації",
     "error_message_insufficient_funds": "Недостатньо коштів для транзакції",
     "convert_choose_account": "Оберіть рахунок",
-    "earn_earns_details": "",
-    "earn_base_amount": "",
-    "earn_saving_income": ""
+    "earn_earns_details": "Деталі Earn",
+    "earn_base_amount": "Основна сума",
+    "earn_saving_income": "Дохід від заощаджень",
+    "invest_transfer_from_crypto_wallet": "З криптогаманця",
+    "invest_transfer_to_invest": "Інвестувати",
+    "invest_transfer_crypto_wallet": "Криптогаманець",
+    "invest_transfer_invest": "Інвестувати",
+    "invest_transfer_from_invest": "З інвестицій",
+    "invest_transfer_to_crypto_wallet": "До криптогаманеця",
+    "invest_transfer_empty_balance": "Щоб продовжити, поповніть гаманець Tether"
 }

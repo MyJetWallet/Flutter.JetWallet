@@ -1950,14 +1950,14 @@
     "wallet_choose_asset_from_convert": "Choose asset from convert",
     "error_message_insufficient_funds": "Insufficient funds for the transaction",
     "convert_choose_account": "Choose account",
+    "earn_earns_details": "Earns details",
+    "earn_base_amount": "Base amount",
+    "earn_saving_income": "Saving income",
     "invest_transfer_from_crypto_wallet": "From crypto wallet",
     "invest_transfer_to_invest": "To invest",
     "invest_transfer_crypto_wallet": "Crypto wallet",
     "invest_transfer_invest": "Invest",
     "invest_transfer_from_invest": "From invest",
     "invest_transfer_to_crypto_wallet": "To crypto wallet",
-    "invest_transfer_empty_balance": "To continue, you need to top up your Tether wallet",
-    "earn_earns_details": "Earns details",
-    "earn_base_amount": "Base amount",
-    "earn_saving_income": "Saving income"
+    "invest_transfer_empty_balance": "To continue, you need to top up your Tether wallet"
 }
