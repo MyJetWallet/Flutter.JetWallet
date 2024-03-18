@@ -142,21 +142,23 @@ class SButton extends HookWidget {
                 color: textColor(),
               ),
             )
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (icon != null) ...[
-                  icon!,
-                  const SizedBox(width: 8),
-                ],
-                Text(
-                  text,
-                  maxLines: 3,
-                  style: STStyles.button.copyWith(
-                    color: textColor(),
+          : Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (icon != null) ...[
+                    icon!,
+                    const SizedBox(width: 8),
+                  ],
+                  Text(
+                    text,
+                    maxLines: 3,
+                    style: STStyles.button.copyWith(
+                      color: textColor(),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
     );
   }

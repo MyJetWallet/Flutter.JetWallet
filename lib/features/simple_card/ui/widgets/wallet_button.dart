@@ -51,10 +51,11 @@ class WalletsButton extends StatelessWidget {
             onPrimaryButtonTap: () async {
               sAnalytics.tapOnTheContinueAddToWalletButton(cardId: cardId);
               onCopyAction(cardNumber);
+              Navigator.pop(context);
               await LaunchApp.openApp(
-                androidPackageName: 'net.pulsesecure.pulsesecure',
+                androidPackageName: 'com.google.android.apps.walletnfcrel',
                 iosUrlScheme: 'shoebox://',
-                appStoreLink: 'https://www.android.com/payapp/',
+                appStoreLink: 'https://play.google.com/store/apps/details?id=com.google.android.apps.walletnfcrel',
               );
             },
           );
