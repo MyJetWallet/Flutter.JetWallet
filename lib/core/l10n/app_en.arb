@@ -1881,7 +1881,7 @@
             }
         }
     },
-    "earn_redeem_period": "Redeem period ({days} day(s))",
+    "earn_redeem_period": "Redeem period ({days} days)",
     "@earn_redeem_period": {
         "placeholders": {
             "days": {}
