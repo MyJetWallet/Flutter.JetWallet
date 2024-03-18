@@ -1959,5 +1959,16 @@
             }
         }
     },
-    "wallets_continue": "Continue"
+    "wallets_continue": "Continue",
+    "earn_to_continue_you_need_to_top_up_fix": "To continue, you need to top up your {wallet_symbol} wallet with at least {topup_value}",
+    "@earn_to_continue_you_need_to_top_up_fix": {
+        "placeholders": {
+            "topup_value": {
+                "type": "String"
+            },
+            "wallet_symbol": {
+                "type": "String"
+            }
+        }
+    }
 }

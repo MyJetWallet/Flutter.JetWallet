@@ -7691,5 +7691,16 @@
             }
         }
     },
-    "wallets_continue": "Продовжити"
+    "wallets_continue": "Продовжити",
+    "earn_to_continue_you_need_to_top_up_fix": "Щоб продовжити, вам потрібно поповнити ваш гаманець {wallet_symbol} щонайменше на {topup_value}",
+    "@earn_to_continue_you_need_to_top_up_fix": {
+        "placeholders": {
+            "topup_value": {
+                "type": "String"
+            },
+            "wallet_symbol": {
+                "type": "String"
+            }
+        }
+    }
 }

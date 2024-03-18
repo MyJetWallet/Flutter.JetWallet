@@ -58,7 +58,7 @@ class _EarnDepositScreenState extends State<EarnDepositScreen> {
         await sShowAlertPopup(
           context,
           primaryText: intl.earn_deposit_crypto_wallet,
-          secondaryText: intl.earn_to_continue_you_need_to_top_up(
+          secondaryText: intl.earn_to_continue_you_need_to_top_up_fix(
             '${widget.offer.minAmount} ${store.cryptoSymbol}',
             store.currency.description,
           ),
