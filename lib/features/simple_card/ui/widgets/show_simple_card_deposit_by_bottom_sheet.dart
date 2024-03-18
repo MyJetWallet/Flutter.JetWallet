@@ -2,9 +2,11 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/widgets.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/cj_banking_accounts/widgets/show_add_cash_from_bottom_sheet.dart';
 import 'package:jetwallet/features/simple_card/store/simple_card_deposit_by_store.dart';
+import 'package:jetwallet/utils/balances/crypto_balance.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -50,7 +52,7 @@ class _DepositByBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        STextDivider(intl.methods),
+        STextDivider(intl.deposit_by_accounts),
         if (store.isCryptoAvaible) ...[
           SimpleTableAsset(
             label: intl.market_crypto,
@@ -58,7 +60,9 @@ class _DepositByBody extends StatelessWidget {
             assetIcon: Assets.svg.assets.crypto.defaultPlaceholder.simpleSvg(
               width: 24,
             ),
-            hasRightValue: false,
+            rightValue: !getIt<AppStore>().isBalanceHide
+                ? calculateCryptoBalance()
+                : '**** ${sSignalRModules.baseCurrency.symbol}',
             onTableAssetTap: () {
               sAnalytics.tapOnTheAnyAccountForDepositButton(
                 accountType: 'Crypto',
@@ -67,7 +71,6 @@ class _DepositByBody extends StatelessWidget {
                 context: context,
                 onClose: () {},
                 onChooseAsset: (currency) {
-                  Navigator.of(context).pop();
                   sRouter.push(
                     AmountRoute(
                       tab: AmountScreenTab.sell,
@@ -81,19 +84,17 @@ class _DepositByBody extends StatelessWidget {
           ),
         ],
         if (store.isAccountsAvaible && store.accounts.isNotEmpty) ...[
-          STextDivider(intl.deposit_by_accounts),
           for (final account in store.accounts)
             SimpleTableAsset(
               label: account.label ?? 'Account 1',
-              supplement:
-                  account.isClearjuctionAccount ? intl.eur_wallet_simple_account : intl.eur_wallet_personal_account,
+              supplement: intl.wallet_internal_transfer,
               rightValue: getIt<AppStore>().isBalanceHide
-                ? '**** ${account.currency ?? 'EUR'}'
-                : volumeFormat(
-                  decimal: account.balance ?? Decimal.zero,
-                  accuracy: 2,
-                  symbol: account.currency ?? 'EUR',
-                ),
+                  ? '**** ${account.currency ?? 'EUR'}'
+                  : volumeFormat(
+                      decimal: account.balance ?? Decimal.zero,
+                      accuracy: 2,
+                      symbol: account.currency ?? 'EUR',
+                    ),
               assetIcon: Assets.svg.assets.fiat.account.simpleSvg(
                 width: 24,
               ),
@@ -116,14 +117,14 @@ class _DepositByBody extends StatelessWidget {
           for (final card in store.cards)
             SimpleTableAsset(
               label: card.label ?? '',
-              supplement: '${card.cardType?.frontName} ••• ${card.last4NumberCharacters}',
+              supplement: intl.wallet_internal_transfer,
               rightValue: getIt<AppStore>().isBalanceHide
-                ? '**** ${card.currency ?? 'EUR'}'
-                : volumeFormat(
-                  decimal: card.balance ?? Decimal.zero,
-                  accuracy: 2,
-                  symbol: card.currency ?? 'EUR',
-                ),
+                  ? '**** ${card.currency ?? 'EUR'}'
+                  : volumeFormat(
+                      decimal: card.balance ?? Decimal.zero,
+                      accuracy: 2,
+                      symbol: card.currency ?? 'EUR',
+                    ),
               isCard: true,
               onTableAssetTap: () {
                 sAnalytics.tapOnTheAnyAccountForDepositButton(

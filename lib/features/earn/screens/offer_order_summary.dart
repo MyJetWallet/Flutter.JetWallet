@@ -87,13 +87,15 @@ class _OfferOrderSummaruBody extends StatelessWidget {
               isLoading: false,
               fromAssetIconUrl: store.currency.iconUrl,
               fromAssetDescription: intl.earn_crypto_wallet,
-              fromAssetValue: isBalanceHide ? '**** ${store.currency.symbol}' : store.currency.volumeAssetBalance,
-              fromAssetBaseAmount: isBalanceHide
+              fromAssetValue: isBalanceHide
+                  ? '**** ${store.currency.symbol}'
+                  : volumeFormat(decimal: store.selectedAmount, symbol: store.currency.symbol),
+              fromAssetBaseAmount:  isBalanceHide
                   ? '**** ${sSignalRModules.baseCurrency.symbol}'
                   : '≈${marketFormat(
                       decimal: formatService.convertOneCurrencyToAnotherOne(
                         fromCurrency: store.currency.symbol,
-                        fromCurrencyAmmount: store.currency.assetBalance,
+                        fromCurrencyAmmount: store.selectedAmount,
                         toCurrency: sSignalRModules.baseCurrency.symbol,
                         baseCurrency: sSignalRModules.baseCurrency.symbol,
                         isMin: true,

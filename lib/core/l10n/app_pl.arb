@@ -1966,5 +1966,15 @@
                 "example": "21:24"
             }
         }
-    }
+    },
+    "wallet_crypto_wallet": "Portfel Krypto",
+    "wallet_crypto_assets": "Aktywa Krypto",
+    "wallet_external_bank_transfer": "Zewnętrzny przelew bankowy",
+    "wallet_internal_transfer": "Przelew wewnętrzny",
+    "wallet_choose_asset_from_convert": "Wybierz aktywo do konwersji",
+    "error_message_insufficient_funds": "Niewystarczające środki na transakcję",
+    "convert_choose_account": "Wybierz konto",
+    "earn_earns_details": "",
+    "earn_base_amount": "",
+    "earn_saving_income": ""
 }

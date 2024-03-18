@@ -18,10 +18,14 @@ mixin _$_TimerState on __TimerStateBase, Store {
     return super.duration;
   }
 
+  bool _durationIsInitialized = false;
+
   @override
   set duration(Duration value) {
-    _$durationAtom.reportWrite(value, super.duration, () {
+    _$durationAtom
+        .reportWrite(value, _durationIsInitialized ? super.duration : null, () {
       super.duration = value;
+      _durationIsInitialized = true;
     });
   }
 
