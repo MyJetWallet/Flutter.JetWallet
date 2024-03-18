@@ -45,7 +45,7 @@ class MarketStatsBlock extends StatelessWidget {
                 TableCell(
                   child: MarketStatsItem(
                     name: intl.marketStatsBlock_markCap,
-                    value: '${baseCurrency.prefix}'
+                    value: '${baseCurrency.prefix ?? ''}'
                         '${formatNumber(marketInfo.marketCap.toDouble())}'
                         '''${baseCurrency.prefix == null ? ' ${baseCurrency.symbol}' : ''}''',
                   ),
@@ -61,7 +61,7 @@ class MarketStatsBlock extends StatelessWidget {
                   TableCell(
                     child: MarketStatsItem(
                       name: '${intl.vol} (24${intl.h})',
-                      value: '${baseCurrency.prefix}'
+                      value: '${baseCurrency.prefix ?? ''}'
                           '${formatNumber(marketInfo.dayVolume.toDouble())}'
                           '''${baseCurrency.prefix == null ? ' ${baseCurrency.symbol}' : ''}''',
                     ),

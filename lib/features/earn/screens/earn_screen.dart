@@ -97,7 +97,6 @@ class _EarnView extends StatelessWidget {
                 SliverToBoxAdapter(
                   child: EarnPositionsListWidget(
                     earnPositions: store.earnPositions,
-                    showLinkButton: store.earnPositionsClosed.isNotEmpty,
                   ),
                 ),
               const SliverToBoxAdapter(child: SizedBox(height: 16)),

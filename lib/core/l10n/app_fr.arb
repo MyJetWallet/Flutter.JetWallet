@@ -1762,22 +1762,19 @@
         }
     },
     "earn_withdrawal_period_explanation_1": "Le retrait de fonds de votre plan entraînera la fermeture du compte Earn correspondant. Veuillez noter que le transfert complet des fonds ainsi que les revenus gagnés auront lieu {days} jour(s) après la création de la demande.",
+    "@earn_withdrawal_period_explanation_1": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
     "earn_withdrawal_period_explanation_2": "Il est important de noter que jusqu'à la fermeture finale du compte, les revenus continueront à s'accumuler sur votre compte Earn.",
     "earn_from_crypto_wallet": "Du portefeuille crypto",
     "earn_to_crypto_wallet": "Au portefeuille crypto",
     "earn_to_earn": "Pour gagner",
     "earn_deposit_crypto_wallet": "Portefeuille crypto de dépôt",
-    "earn_to_continue_you_need_to_top_up": "Pour continuer, vous devez recharger votre {wallet_symbol} avec au moins {topup_value}",
-    "@earn_to_continue_you_need_to_top_up": {
-        "placeholders": {
-            "topup_value": {
-                "type": "String"
-            },
-            "wallet_symbol": {
-                "type": "String"
-            }
-        }
-    },
     "earn_top_up_value": "Recharger {value}",
     "@earn_top_up_value": {
         "placeholders": {
@@ -1886,7 +1883,45 @@
     "wallet_choose_asset_from_convert": "Choisir actif à convertir",
     "error_message_insufficient_funds": "Fonds insuffisants pour la transaction",
     "convert_choose_account": "Choisir un compte",
-    "earn_earns_details": "",
-    "earn_base_amount": "",
-    "earn_saving_income": ""
+    "earn_earns_details": "Earns détails",
+    "earn_base_amount": "Montant de base",
+    "earn_saving_income": "Revenu d'épargne",
+    "invest_transfer_from_crypto_wallet": "Du portefeuille crypto",
+    "invest_transfer_to_invest": "Pour investir",
+    "invest_transfer_crypto_wallet": "Portefeuille crypto",
+    "invest_transfer_invest": "Investir",
+    "invest_transfer_from_invest": "De l'investissement",
+    "invest_transfer_to_crypto_wallet": "Au portefeuille crypto",
+    "invest_transfer_empty_balance": "Pour continuer, rechargez votre portefeuille Tether",
+    "wallets_add_to_wallet": "Ajouter à {value}",
+    "@wallets_add_to_wallet": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "wallets_add_to_apple_wallet": "Apple Wallet",
+    "wallets_add_to_google_wallet": "Google Wallet",
+    "wallets_redirecting": "Redirection",
+    "wallets_modal_info": "En cliquant sur Continuer, vous serez redirigé vers {value}:\n\n1. Remplissez manuellement les détails de votre carte\n2. Suivez les instructions de {value}\n3. Profitez des achats sans contact et des retraits ATM avec votre carte Simple!",
+    "@wallets_modal_info": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "wallets_continue": "Continuer",
+    "earn_to_continue_you_need_to_top_up_fix": "Pour continuer, vous devez recharger votre {wallet_symbol} avec au moins {topup_value}",
+    "@earn_to_continue_you_need_to_top_up_fix": {
+        "placeholders": {
+            "topup_value": {
+                "type": "String"
+            },
+            "wallet_symbol": {
+                "type": "String"
+            }
+        }
+    }
 }

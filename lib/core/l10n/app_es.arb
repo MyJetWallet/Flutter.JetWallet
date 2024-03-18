@@ -1786,22 +1786,19 @@
         }
     },
     "earn_withdrawal_period_explanation_1": "La retirada de fondos de tu plan resultará en el cierre de la cuenta Earn correspondiente. Ten en cuenta que la transferencia completa de los fondos junto con los ingresos ganados se realizará {days} día(s) después de haber creado la solicitud.",
+    "@earn_withdrawal_period_explanation_1": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
     "earn_withdrawal_period_explanation_2": "Es importante notar que hasta el cierre final de la cuenta, los ingresos continuarán acumulándose en tu cuenta Earn.",
     "earn_from_crypto_wallet": "Desde cartera cripto",
     "earn_to_crypto_wallet": "A cartera cripto",
     "earn_to_earn": "Para ganar",
     "earn_deposit_crypto_wallet": "Cartera cripto de depósito",
-    "earn_to_continue_you_need_to_top_up": "Para continuar, debe recargar su monedero {wallet_symbol} con al menos {topup_value}",
-    "@earn_to_continue_you_need_to_top_up": {
-        "placeholders": {
-            "topup_value": {
-                "type": "String"
-            },
-            "wallet_symbol": {
-                "type": "String"
-            }
-        }
-    },
     "earn_top_up_value": "Recargar {value}",
     "@earn_top_up_value": {
         "placeholders": {
@@ -1910,7 +1907,45 @@
     "wallet_choose_asset_from_convert": "Elegir activo para convertir",
     "error_message_insufficient_funds": "Fondos insuficientes para la transacción",
     "convert_choose_account": "Elegir cuenta",
-    "earn_earns_details": "",
-    "earn_base_amount": "",
-    "earn_saving_income": ""
+    "earn_earns_details": "Earns detalles",
+    "earn_base_amount": "Monto base",
+    "earn_saving_income": "Ingreso por ahorro",
+    "invest_transfer_from_crypto_wallet": "Desde cartera cripto",
+    "invest_transfer_to_invest": "Para invertir",
+    "invest_transfer_crypto_wallet": "Cartera cripto",
+    "invest_transfer_invest": "Invertir",
+    "invest_transfer_from_invest": "Desde inversión",
+    "invest_transfer_to_crypto_wallet": "A cartera cripto",
+    "invest_transfer_empty_balance": "Para continuar, recarga tu cartera Tether",
+    "wallets_add_to_wallet": "Añadir a {value}",
+    "@wallets_add_to_wallet": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "wallets_add_to_apple_wallet": "Apple Wallet",
+    "wallets_add_to_google_wallet": "Google Wallet",
+    "wallets_redirecting": "Redirigiendo",
+    "wallets_modal_info": "Al hacer clic en Continuar, serás redirigido a {value}:\n\n1. Rellena manualmente los detalles de tu tarjeta\n2. Sigue las instrucciones de {value}\n3. ¡Disfruta de compras sin contacto y retiros en cajeros automáticos con tu Tarjeta Simple!",
+    "@wallets_modal_info": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "wallets_continue": "Continuar",
+    "earn_to_continue_you_need_to_top_up_fix": "Para continuar, debe recargar su monedero {wallet_symbol} con al menos {topup_value}",
+    "@earn_to_continue_you_need_to_top_up_fix": {
+        "placeholders": {
+            "topup_value": {
+                "type": "String"
+            },
+            "wallet_symbol": {
+                "type": "String"
+            }
+        }
+    }
 }
