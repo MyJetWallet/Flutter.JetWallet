@@ -1895,5 +1895,25 @@
     "invest_transfer_invest": "Investir",
     "invest_transfer_from_invest": "De l'investissement",
     "invest_transfer_to_crypto_wallet": "Au portefeuille crypto",
-    "invest_transfer_empty_balance": "Pour continuer, rechargez votre portefeuille Tether"
+    "invest_transfer_empty_balance": "Pour continuer, rechargez votre portefeuille Tether",
+    "wallets_add_to_wallet": "Ajouter à {value}",
+    "@wallets_add_to_wallet": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "wallets_add_to_apple_wallet": "Apple Wallet",
+    "wallets_add_to_google_wallet": "Google Wallet",
+    "wallets_redirecting": "Redirection",
+    "wallets_modal_info": "En cliquant sur Continuer, vous serez redirigé vers {value}:\n\n1. Remplissez manuellement les détails de votre carte\n2. Suivez les instructions de {value}\n3. Profitez des achats sans contact et des retraits ATM avec votre carte Simple!",
+    "@wallets_modal_info": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "wallets_continue": "Continuer"
 }

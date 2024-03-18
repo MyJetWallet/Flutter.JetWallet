@@ -1983,5 +1983,25 @@
     "invest_transfer_invest": "Inwestuj",
     "invest_transfer_from_invest": "Z inwestycji",
     "invest_transfer_to_crypto_wallet": "Do portfela krypto",
-    "invest_transfer_empty_balance": "Aby kontynuować, doładuj portfel Tether"
+    "invest_transfer_empty_balance": "Aby kontynuować, doładuj portfel Tether",
+    "wallets_add_to_wallet": "Dodaj do {value}",
+    "@wallets_add_to_wallet": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "wallets_add_to_apple_wallet": "Apple Wallet",
+    "wallets_add_to_google_wallet": "Google Wallet",
+    "wallets_redirecting": "Przekierowanie",
+    "wallets_modal_info": "Klikając Kontynuuj, zostaniesz przekierowany do {value}:\n\n1. Ręcznie wprowadź dane swojej karty\n2. Postępuj zgodnie z instrukcjami {value}\n3. Ciesz się zakupami bezkontaktowymi i wypłatami z bankomatów za pomocą twojej karty Simple!",
+    "@wallets_modal_info": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "wallets_continue": "Kontynuuj"
 }

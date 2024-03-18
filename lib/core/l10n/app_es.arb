@@ -1919,5 +1919,25 @@
     "invest_transfer_invest": "Invertir",
     "invest_transfer_from_invest": "Desde inversión",
     "invest_transfer_to_crypto_wallet": "A cartera cripto",
-    "invest_transfer_empty_balance": "Para continuar, recarga tu cartera Tether"
+    "invest_transfer_empty_balance": "Para continuar, recarga tu cartera Tether",
+    "wallets_add_to_wallet": "Añadir a {value}",
+    "@wallets_add_to_wallet": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "wallets_add_to_apple_wallet": "Apple Wallet",
+    "wallets_add_to_google_wallet": "Google Wallet",
+    "wallets_redirecting": "Redirigiendo",
+    "wallets_modal_info": "Al hacer clic en Continuar, serás redirigido a {value}:\n\n1. Rellena manualmente los detalles de tu tarjeta\n2. Sigue las instrucciones de {value}\n3. ¡Disfruta de compras sin contacto y retiros en cajeros automáticos con tu Tarjeta Simple!",
+    "@wallets_modal_info": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "wallets_continue": "Continuar"
 }
