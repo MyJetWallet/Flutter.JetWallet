@@ -276,6 +276,9 @@ class $AssetsSvgMediumGen {
   /// File path: assets/svg/medium/hide.svg
   SvgGenImage get hide => const SvgGenImage('assets/svg/medium/hide.svg');
 
+  /// File path: assets/svg/medium/history.svg
+  SvgGenImage get history => const SvgGenImage('assets/svg/medium/history.svg');
+
   /// File path: assets/svg/medium/linkedin.svg
   SvgGenImage get linkedin => const SvgGenImage('assets/svg/medium/linkedin.svg');
 
@@ -290,6 +293,9 @@ class $AssetsSvgMediumGen {
 
   /// File path: assets/svg/medium/more.svg
   SvgGenImage get more => const SvgGenImage('assets/svg/medium/more.svg');
+
+  /// File path: assets/svg/medium/percent.svg
+  SvgGenImage get percent => const SvgGenImage('assets/svg/medium/percent.svg');
 
   /// File path: assets/svg/medium/phone.svg
   SvgGenImage get phone => const SvgGenImage('assets/svg/medium/phone.svg');
@@ -404,11 +410,13 @@ class $AssetsSvgMediumGen {
         gift,
         global,
         hide,
+        history,
         linkedin,
         loading,
         mail,
         mobile,
         more,
+        percent,
         phone,
         purchase,
         qrCode,

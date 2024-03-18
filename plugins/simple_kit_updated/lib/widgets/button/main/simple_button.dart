@@ -6,43 +6,56 @@ import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 
 class SButton extends HookWidget {
   const SButton.blue({
+    this.icon,
     required this.text,
     this.callback,
     this.isLoading = false,
     super.key,
+    this.borderRadius,
   }) : type = ButtonType.blue;
 
   const SButton.black({
+    this.icon,
     required this.text,
     this.callback,
     this.isLoading = false,
+    this.borderRadius,
     super.key,
   }) : type = ButtonType.black;
 
   const SButton.red({
+    this.icon,
     required this.text,
     this.callback,
     this.isLoading = false,
+    this.borderRadius,
     super.key,
   }) : type = ButtonType.red;
 
   const SButton.text({
+    this.icon,
     required this.text,
     this.callback,
     this.isLoading = false,
+    this.borderRadius,
     super.key,
   }) : type = ButtonType.text;
 
   const SButton.outlined({
+    this.icon,
     required this.text,
     this.callback,
     this.isLoading = false,
+    this.borderRadius,
     super.key,
   }) : type = ButtonType.outlined;
 
   final String text;
   final VoidCallback? callback;
   final bool isLoading;
+  final Widget? icon;
+
+  final BorderRadiusGeometry? borderRadius;
 
   final ButtonType type;
 
@@ -122,6 +135,7 @@ class SButton extends HookWidget {
     final isHighlighted = useState(false);
 
     return BaseButton(
+      borderRadius: borderRadius,
       callback: isLoading ? null : callback,
       backgroundColor: isHighlighted.value ? backgroundHighlightedColor() : backgroundColor(),
       border: getBorder(),
@@ -136,11 +150,22 @@ class SButton extends HookWidget {
                 color: textColor(),
               ),
             )
-          : Text(
-              text,
-              maxLines: 3,
-              style: STStyles.button.copyWith(
-                color: textColor(),
+          : Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (icon != null) ...[
+                    icon!,
+                    const SizedBox(width: 8),
+                  ],
+                  Text(
+                    text,
+                    maxLines: 3,
+                    style: STStyles.button.copyWith(
+                      color: textColor(),
+                    ),
+                  ),
+                ],
               ),
             ),
     );

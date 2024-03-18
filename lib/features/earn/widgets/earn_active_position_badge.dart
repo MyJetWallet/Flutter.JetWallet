@@ -31,7 +31,7 @@ class SEarnPositionBadge extends StatelessWidget {
         children: [
           _getIcon(status, _getMainColor(status, colors)),
           Text(
-            _getTextForStatus(status),
+            getTextForStatus(status),
             style: sBodyText1Style.copyWith(
               height: 1,
               color: _getMainColor(status, colors),
@@ -91,17 +91,31 @@ class SEarnPositionBadge extends StatelessWidget {
         return colors.grey1;
     }
   }
+}
 
-  String _getTextForStatus(EarnPositionStatus status) {
-    switch (status) {
-      case EarnPositionStatus.active:
-        return intl.earn_earning;
-      case EarnPositionStatus.closing:
-        return intl.earn_closing;
-      case EarnPositionStatus.closed:
-        return intl.earn_closed;
-      default:
-        return intl.earn_unknown;
-    }
+String getTextForStatus(EarnPositionStatus status) {
+  switch (status) {
+    case EarnPositionStatus.active:
+      return intl.earn_earning;
+    case EarnPositionStatus.closing:
+      return intl.earn_closing;
+    case EarnPositionStatus.closed:
+      return intl.earn_closed;
+    default:
+      return intl.earn_unknown;
+  }
+}
+
+/// we use this method for analytic
+String getTextForStatusAnalytics(EarnPositionStatus status) {
+  switch (status) {
+    case EarnPositionStatus.active:
+      return 'Earning';
+    case EarnPositionStatus.closing:
+      return 'Closing';
+    case EarnPositionStatus.closed:
+      return 'Finished';
+    default:
+      return intl.earn_unknown;
   }
 }
