@@ -238,23 +238,26 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
 
                           final actualAsset = widget.currency;
 
-                          if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
-                            showSendTimerAlertOr(
+                          handler.handle(
+                            multiStatus: [
+                              kycState.tradeStatus,
+                            ],
+                            isProgress: kycState.verificationInProgress,
+                            currentNavigate: () => showSendTimerAlertOr(
                               context: context,
-                              or: () => sRouter.push(
-                                AmountRoute(
-                                  tab: AmountScreenTab.sell,
-                                  asset: actualAsset,
-                                ),
-                              ),
                               from: [BlockingType.trade],
-                            );
-                          } else {
-                            sNotification.showError(
-                              intl.operation_bloked_text,
-                              id: 1,
-                            );
-                          }
+                              or: () {
+                                sRouter.push(
+                                  AmountRoute(
+                                    tab: AmountScreenTab.sell,
+                                    asset: actualAsset,
+                                  ),
+                                );
+                              },
+                            ),
+                            requiredDocuments: kycState.requiredDocuments,
+                            requiredVerifications: kycState.requiredVerifications,
+                          );
                         },
                         onReceive: () {
                           final actualAsset = widget.currency;
@@ -296,10 +299,19 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                           );
 
                           final actualAsset = widget.currency;
-                          showSendOptions(
-                            context,
-                            actualAsset,
-                            navigateBack: false,
+
+                          handler.handle(
+                            multiStatus: [
+                              kycState.tradeStatus,
+                            ],
+                            isProgress: kycState.verificationInProgress,
+                            currentNavigate: () => showSendOptions(
+                              context,
+                              actualAsset,
+                              navigateBack: false,
+                            ),
+                            requiredDocuments: kycState.requiredDocuments,
+                            requiredVerifications: kycState.requiredVerifications,
                           );
                         },
                         onConvert: () {
@@ -307,8 +319,13 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                             source: 'Wallet - Convert',
                           );
                           final actualAsset = widget.currency;
-                          if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
-                            showSendTimerAlertOr(
+
+                          handler.handle(
+                            multiStatus: [
+                              kycState.tradeStatus,
+                            ],
+                            isProgress: kycState.verificationInProgress,
+                            currentNavigate: () => showSendTimerAlertOr(
                               context: context,
                               or: () {
                                 showConvertToBottomSheet(
@@ -317,13 +334,10 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                                 );
                               },
                               from: [BlockingType.trade],
-                            );
-                          } else {
-                            sNotification.showError(
-                              intl.operation_bloked_text,
-                              id: 1,
-                            );
-                          }
+                            ),
+                            requiredDocuments: kycState.requiredDocuments,
+                            requiredVerifications: kycState.requiredVerifications,
+                          );
                         },
                       ),
                     ),
