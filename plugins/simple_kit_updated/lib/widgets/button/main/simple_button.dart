@@ -11,6 +11,7 @@ class SButton extends HookWidget {
     this.callback,
     this.isLoading = false,
     super.key,
+    this.borderRadius,
   }) : type = ButtonType.blue;
 
   const SButton.black({
@@ -18,6 +19,7 @@ class SButton extends HookWidget {
     required this.text,
     this.callback,
     this.isLoading = false,
+    this.borderRadius,
     super.key,
   }) : type = ButtonType.black;
 
@@ -26,6 +28,7 @@ class SButton extends HookWidget {
     required this.text,
     this.callback,
     this.isLoading = false,
+    this.borderRadius,
     super.key,
   }) : type = ButtonType.red;
 
@@ -34,6 +37,7 @@ class SButton extends HookWidget {
     required this.text,
     this.callback,
     this.isLoading = false,
+    this.borderRadius,
     super.key,
   }) : type = ButtonType.text;
 
@@ -42,6 +46,7 @@ class SButton extends HookWidget {
     required this.text,
     this.callback,
     this.isLoading = false,
+    this.borderRadius,
     super.key,
   }) : type = ButtonType.outlined;
 
@@ -49,6 +54,8 @@ class SButton extends HookWidget {
   final VoidCallback? callback;
   final bool isLoading;
   final Widget? icon;
+
+  final BorderRadiusGeometry? borderRadius;
 
   final ButtonType type;
 
@@ -128,6 +135,7 @@ class SButton extends HookWidget {
     final isHighlighted = useState(false);
 
     return BaseButton(
+      borderRadius: borderRadius,
       callback: isLoading ? null : callback,
       backgroundColor: isHighlighted.value ? backgroundHighlightedColor() : backgroundColor(),
       border: getBorder(),

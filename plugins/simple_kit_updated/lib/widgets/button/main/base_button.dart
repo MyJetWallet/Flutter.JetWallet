@@ -16,6 +16,7 @@ class BaseButton extends StatelessWidget {
     required this.child,
     required this.backgroundColor,
     this.border,
+    this.borderRadius,
     this.callback,
     this.onHighlightChanged,
   }) : super(key: key);
@@ -23,6 +24,7 @@ class BaseButton extends StatelessWidget {
   final Widget child;
   final Color backgroundColor;
   final BoxBorder? border;
+  final BorderRadiusGeometry? borderRadius;
 
   final VoidCallback? callback;
   final Function(bool)? onHighlightChanged;
@@ -40,7 +42,7 @@ class BaseButton extends StatelessWidget {
           height: 56,
           decoration: BoxDecoration(
             color: backgroundColor,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: borderRadius ?? BorderRadius.circular(16),
             border: border,
           ),
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 48),

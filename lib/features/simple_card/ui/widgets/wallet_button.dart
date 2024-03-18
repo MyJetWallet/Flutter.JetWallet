@@ -30,6 +30,7 @@ class WalletsButton extends StatelessWidget {
         bottom: 32,
       ),
       child: SButton.black(
+        borderRadius: !isIos ? BorderRadius.circular(25) : null,
         icon: Image.asset(isIos ? 'assets/images/wallet_apple.png' : 'assets/images/wallet_google.png'),
         callback: () {
           isIos
