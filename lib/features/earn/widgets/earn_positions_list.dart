@@ -13,7 +13,7 @@ class EarnPositionsListWidget extends StatelessWidget {
   const EarnPositionsListWidget({
     super.key,
     required this.earnPositions,
-    required this.showLinkButton,
+    this.showLinkButton = true,
   });
   final List<EarnPositionClientModel> earnPositions;
   final bool showLinkButton;
