@@ -1775,17 +1775,6 @@
     "earn_to_crypto_wallet": "Au portefeuille crypto",
     "earn_to_earn": "Pour gagner",
     "earn_deposit_crypto_wallet": "Portefeuille crypto de dépôt",
-    "earn_to_continue_you_need_to_top_up": "Pour continuer, vous devez recharger votre {wallet_symbol} avec au moins {topup_value}",
-    "@earn_to_continue_you_need_to_top_up": {
-        "placeholders": {
-            "topup_value": {
-                "type": "String"
-            },
-            "wallet_symbol": {
-                "type": "String"
-            }
-        }
-    },
     "earn_top_up_value": "Recharger {value}",
     "@earn_top_up_value": {
         "placeholders": {

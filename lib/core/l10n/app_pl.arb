@@ -1863,17 +1863,6 @@
     "earn_to_crypto_wallet": "Do portfela krypto",
     "earn_to_earn": "Aby zarobić",
     "earn_deposit_crypto_wallet": "Portfel krypto na depozyt",
-    "earn_to_continue_you_need_to_top_up": "Aby kontynuować, należy doładować portfel {wallet_symbol} kwotą co najmniej {topup_value}",
-    "@earn_to_continue_you_need_to_top_up": {
-        "placeholders": {
-            "topup_value": {
-                "type": "String"
-            },
-            "wallet_symbol": {
-                "type": "String"
-            }
-        }
-    },
     "earn_top_up_value": "Doładuj {value}",
     "@earn_top_up_value": {
         "placeholders": {

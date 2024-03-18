@@ -7551,17 +7551,6 @@
     "earn_to_crypto_wallet": "На криптогаманець",
     "earn_to_earn": "Для заробітку",
     "earn_deposit_crypto_wallet": "Гаманець для депозитів",
-    "earn_to_continue_you_need_to_top_up": "Щоб продовжити, вам потрібно поповнити ваш гаманець {wallet_symbol} щонайменше на {topup_value}",
-    "@earn_to_continue_you_need_to_top_up": {
-        "placeholders": {
-            "topup_value": {
-                "type": "String"
-            },
-            "wallet_symbol": {
-                "type": "String"
-            }
-        }
-    },
     "earn_top_up_value": "Поповнити на {value}",
     "@earn_top_up_value": {
         "placeholders": {
