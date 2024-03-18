@@ -56,7 +56,9 @@ class WalletsButton extends StatelessWidget {
               await LaunchApp.openApp(
                 androidPackageName: 'com.google.android.apps.walletnfcrel',
                 iosUrlScheme: 'shoebox://',
-                appStoreLink: 'https://play.google.com/store/apps/details?id=com.google.android.apps.walletnfcrel',
+                appStoreLink: isIos
+                    ? 'https://apps.apple.com/us/app/apple-wallet/id1160481993'
+                    : 'https://play.google.com/store/apps/details?id=com.google.android.apps.walletnfcrel',
               );
             },
           );
