@@ -135,7 +135,6 @@ class _TrancferBody extends StatelessWidget {
                 );
               },
               isFrom: true,
-              isDisabled: store.isNoAccountsWithBalance,
             ),
             const SpaceH8(),
             _AsssetWidget(

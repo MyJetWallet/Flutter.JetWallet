@@ -25,7 +25,7 @@ abstract class _TransferFromToStoreBase with Store {
 
   @computed
   List<CardDataModel> get cards {
-    if (_toType == CredentialsType.clearjunctionAccount) {
+    if (_isFrom && _toType == CredentialsType.clearjunctionAccount) {
       return [];
     }
 
