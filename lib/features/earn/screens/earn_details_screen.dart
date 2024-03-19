@@ -106,8 +106,9 @@ class _EarnsDetailsScreenState extends State<EarnsDetailsScreen> {
                                   PositionAuditItemView(
                                     key: ValueKey('${positionAudit.id}_view'),
                                     positionAudit: positionAudit,
-                                    earnPositionId: positionAudit.requestId ?? '',
+                                    earnPositionId: widget.positionId,
                                     onCopyAction: (string) {},
+                                    asset: currency,
                                   ),
                                 ],
                                 scrollable: true,

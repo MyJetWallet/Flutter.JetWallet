@@ -25,21 +25,16 @@ class PositionAuditItemView extends StatelessObserverWidget {
     required this.positionAudit,
     required this.onCopyAction,
     required this.earnPositionId,
+    required this.asset,
   });
 
   final EarnPositionAuditClientModel positionAudit;
   final String earnPositionId;
   final Function(String) onCopyAction;
+  final CurrencyModel asset;
 
   @override
   Widget build(BuildContext context) {
-    final asset = nonIndicesWithBalanceFrom(
-      sSignalRModules.currenciesWithHiddenList,
-    ).firstWhere(
-      (element) => element.symbol == positionAudit.assetId,
-      orElse: () => CurrencyModel.empty(),
-    );
-
     return SPaddingH24(
       child: Column(
         children: [
@@ -85,10 +80,10 @@ class PositionAuditItemView extends StatelessObserverWidget {
               value: Row(
                 children: [
                   TransactionDetailsValueText(
-                    text: shortAddressFormTwo(positionAudit.requestId!),
+                    text: shortAddressFormTwo(positionAudit.id),
                   ),
                   const SpaceW10(),
-                  HistoryCopyIcon(positionAudit.requestId ?? ''),
+                  HistoryCopyIcon(positionAudit.id),
                 ],
               ),
             ),
