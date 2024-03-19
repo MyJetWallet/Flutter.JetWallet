@@ -139,7 +139,7 @@ class PositionAuditItemView extends StatelessObserverWidget {
         return intl.earn_received;
       case AuditEventType.positionWithdraw:
       case AuditEventType.positionClose:
-        return intl.earn_send;
+        return intl.earn_sent;
       case AuditEventType.positionIncomePayroll:
         return intl.earn_saving_income;
       case AuditEventType.undefined:
@@ -175,6 +175,8 @@ class _SellDetailsHeader extends StatelessWidget {
     );
 
     final isSavingIncome = positionAudit.auditEventType == AuditEventType.positionIncomePayroll;
+    final isPositionRecived = positionAudit.auditEventType == AuditEventType.positionCreate ||
+        positionAudit.auditEventType == AuditEventType.positionDeposit;
 
     return Column(
       children: [
@@ -182,7 +184,11 @@ class _SellDetailsHeader extends StatelessWidget {
           removeDefaultPaddings: true,
           isLoading: false,
           fromAssetIconUrl: asset.iconUrl,
-          fromAssetDescription: isSavingIncome ? intl.earn_revenue : intl.earn_crypto_wallet,
+          fromAssetDescription: isSavingIncome
+              ? intl.earn_revenue
+              : isPositionRecived
+                  ? intl.earn_crypto_wallet
+                  : intl.earn_earn,
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${asset.symbol}'
               : positionAuditClientModelBalanceChange(
@@ -192,7 +198,7 @@ class _SellDetailsHeader extends StatelessWidget {
                   symbol: asset.symbol,
                 ),
           toAssetIconUrl: asset.iconUrl,
-          toAssetDescription: intl.earn_earn,
+          toAssetDescription: isPositionRecived ? intl.earn_earn : intl.earn_crypto_wallet,
           toAssetValue: isSavingIncome
               ? null
               : getIt<AppStore>().isBalanceHide
