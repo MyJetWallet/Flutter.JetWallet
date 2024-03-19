@@ -29,9 +29,24 @@ class EarnStore extends _EarnStoreBase with _$EarnStore {
 abstract class _EarnStoreBase with Store {
   _EarnStoreBase() {
     fetchClosedPositions();
+
+    print('<<<<<<<<<<0');
+
+    reaction(
+      (_) => sSignalRModules.activeEarnPositionsMessage?.positions,
+      (msg) {
+        print('<<<<<<<<<<1');
+        if (showActiveEarnsAnyWay) return;
+        print('<<<<<<<<<<2');
+        showActiveEarnsAnyWay = sSignalRModules.activeEarnPositionsMessage?.positions.isNotEmpty ?? false;
+      },
+    );
   }
 
   final formatService = getIt.get<FormatService>();
+
+  @observable
+  bool showActiveEarnsAnyWay = false;
 
   @computed
   List<EarnPositionClientModel> get earnPositions {
