@@ -114,6 +114,7 @@ abstract class _ConvertAmountStoreBase with Store {
 
     _checkShowTosts();
     loadConversionPrice();
+    loadLimits();
   }
 
   @observable
