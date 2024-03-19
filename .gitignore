@@ -120,5 +120,5 @@ app.*.map.json
 temp
 
 #fvm
-.fvm/
+.fvm/**
 *.fvmrc
