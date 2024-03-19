@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/utils/constants.dart';
+import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class WalletsButton extends StatelessWidget {
   const WalletsButton({
@@ -31,7 +33,10 @@ class WalletsButton extends StatelessWidget {
       ),
       child: SButton.black(
         borderRadius: !isIos ? BorderRadius.circular(25) : null,
-        icon: Image.asset(isIos ? 'assets/images/wallet_apple.png' : 'assets/images/wallet_google.png'),
+        icon: Image.asset(
+          isIos ? 'assets/images/wallet_apple.png' : 'assets/images/wallet_google.png',
+          height: isIos ?  20 : 24,
+        ),
         callback: () {
           isIos
               ? sAnalytics.tapOnTheAddToAppleWalletButton(cardId: cardId)
@@ -53,13 +58,18 @@ class WalletsButton extends StatelessWidget {
               sAnalytics.tapOnTheContinueAddToWalletButton(cardId: cardId);
               onCopyAction(cardNumber);
               Navigator.pop(context);
-              await LaunchApp.openApp(
-                androidPackageName: 'com.google.android.apps.walletnfcrel',
-                iosUrlScheme: 'shoebox://',
-                appStoreLink: isIos
-                    ? 'https://apps.apple.com/us/app/apple-wallet/id1160481993'
-                    : 'https://play.google.com/store/apps/details?id=com.google.android.apps.walletnfcrel',
-              );
+
+              isIos
+                  ? await LaunchApp.openApp(
+                      androidPackageName: 'com.google.android.apps.walletnfcrel',
+                      iosUrlScheme: 'shoebox://',
+                      appStoreLink: 'https://apps.apple.com/us/app/apple-wallet/id1160481993',
+                    )
+                  : await launchURL(
+                      context,
+                      'https://wallet.google.com/gw/app/addfop',
+                      launchMode: LaunchMode.platformDefault,
+                    );
             },
           );
         },

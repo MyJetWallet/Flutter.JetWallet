@@ -113,6 +113,7 @@ abstract class _ConvertAmountStoreBase with Store {
     }
 
     _checkShowTosts();
+    loadConversionPrice();
   }
 
   @observable
