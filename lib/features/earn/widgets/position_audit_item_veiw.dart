@@ -1,13 +1,12 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:intl/intl.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/earn/screens/earn_details_screen.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
+import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/transaction_details_item.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/transaction_details_value_text.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
@@ -55,7 +54,8 @@ class PositionAuditItemView extends StatelessObserverWidget {
             text: intl.send_globally_date,
             value: TransactionDetailsValueText(
               text: positionAudit.timestamp != null
-                  ? DateFormat('dd.MM.yyyy, HH:mm').format(positionAudit.timestamp!.toLocal())
+                  ? '${formatDateToDMY(positionAudit.timestamp?.toString())}'
+                      ', ${formatDateToHm(positionAudit.timestamp?.toString())}'
                   : '',
             ),
           ),
