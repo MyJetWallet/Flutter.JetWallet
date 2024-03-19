@@ -142,7 +142,6 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
                             union: const Change(),
                             isChangePhone: true,
                             onChangePhone: (String newPin) async {
-                              await sRouter.pop();
                               await sendGiftStore.confirmSendGift(
                                 newPin: newPin,
                               );
