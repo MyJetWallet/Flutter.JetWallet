@@ -1,13 +1,12 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:intl/intl.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/earn/screens/earn_details_screen.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
+import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/transaction_details_item.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/transaction_details_value_text.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
@@ -55,7 +54,8 @@ class PositionAuditItemView extends StatelessObserverWidget {
             text: intl.send_globally_date,
             value: TransactionDetailsValueText(
               text: positionAudit.timestamp != null
-                  ? DateFormat('dd.MM.yyyy, HH:mm').format(positionAudit.timestamp!.toLocal())
+                  ? '${formatDateToDMY(positionAudit.timestamp?.toString())}'
+                      ', ${formatDateToHm(positionAudit.timestamp?.toString())}'
                   : '',
             ),
           ),
@@ -139,7 +139,7 @@ class PositionAuditItemView extends StatelessObserverWidget {
         return intl.earn_received;
       case AuditEventType.positionWithdraw:
       case AuditEventType.positionClose:
-        return intl.earn_send;
+        return intl.earn_sent;
       case AuditEventType.positionIncomePayroll:
         return intl.earn_saving_income;
       case AuditEventType.undefined:
@@ -175,6 +175,8 @@ class _SellDetailsHeader extends StatelessWidget {
     );
 
     final isSavingIncome = positionAudit.auditEventType == AuditEventType.positionIncomePayroll;
+    final isPositionRecived = positionAudit.auditEventType == AuditEventType.positionCreate ||
+        positionAudit.auditEventType == AuditEventType.positionDeposit;
 
     return Column(
       children: [
@@ -182,7 +184,11 @@ class _SellDetailsHeader extends StatelessWidget {
           removeDefaultPaddings: true,
           isLoading: false,
           fromAssetIconUrl: asset.iconUrl,
-          fromAssetDescription: isSavingIncome ? intl.earn_revenue : intl.earn_crypto_wallet,
+          fromAssetDescription: isSavingIncome
+              ? intl.earn_revenue
+              : isPositionRecived
+                  ? intl.earn_crypto_wallet
+                  : intl.earn_earn,
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${asset.symbol}'
               : positionAuditClientModelBalanceChange(
@@ -192,7 +198,7 @@ class _SellDetailsHeader extends StatelessWidget {
                   symbol: asset.symbol,
                 ),
           toAssetIconUrl: asset.iconUrl,
-          toAssetDescription: intl.earn_earn,
+          toAssetDescription: isPositionRecived ? intl.earn_earn : intl.earn_crypto_wallet,
           toAssetValue: isSavingIncome
               ? null
               : getIt<AppStore>().isBalanceHide

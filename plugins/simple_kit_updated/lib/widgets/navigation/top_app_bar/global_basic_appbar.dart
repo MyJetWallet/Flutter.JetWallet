@@ -81,7 +81,10 @@ class GlobalBasicAppBar extends StatelessWidget {
                                   ? () => onRightIconTap!()
                                   : null
                               : null,
-                          child: rightIcon ?? Assets.svg.medium.close.simpleSvg(),
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: rightIcon ?? Assets.svg.medium.close.simpleSvg(),
+                          ),
                         ),
                       ),
                     ],

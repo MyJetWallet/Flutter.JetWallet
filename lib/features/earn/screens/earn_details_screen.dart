@@ -12,6 +12,7 @@ import 'package:jetwallet/features/earn/widgets/position_audit_item.dart';
 import 'package:jetwallet/features/earn/widgets/position_audit_item_veiw.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/wallet/helper/format_date.dart';
+import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transaction_month_separator.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:provider/provider.dart';
@@ -105,7 +106,7 @@ class _EarnsDetailsScreenState extends State<EarnsDetailsScreen> {
                                   PositionAuditItemView(
                                     key: ValueKey('${positionAudit.id}_view'),
                                     positionAudit: positionAudit,
-                                    earnPositionId: widget.positionId,
+                                    earnPositionId: positionAudit.requestId ?? '',
                                     onCopyAction: (string) {},
                                   ),
                                 ],
@@ -122,7 +123,8 @@ class _EarnsDetailsScreenState extends State<EarnsDetailsScreen> {
                             labele: positionAudit.assetId ?? '',
                             status: Status.completed,
                             timeStamp: positionAudit.timestamp != null
-                                ? DateFormat('dd.MM.yyyy, HH:mm').format(positionAudit.timestamp!.toLocal())
+                                ? '${formatDateToDMY(positionAudit.timestamp?.toString())}'
+                                    ', ${formatDateToHm(positionAudit.timestamp?.toString())}'
                                 : '',
                             labelIcon: const SizedBox.shrink(),
                           );
