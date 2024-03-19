@@ -284,6 +284,13 @@ abstract class _EarnStoreBase with Store {
     final closeDate = DateTime.now().add(Duration(days: earnPosition.offers.first.lockPeriod ?? 0));
     final formatedData = formatDateToDMYFromDate(closeDate.toString());
 
+    sAnalytics.sureFullEarnWithdrawPopupView(
+      assetName: earnPosition.assetId,
+      earnWithdrawalType: earnPosition.withdrawType.name,
+      earnOfferId: earnPosition.offerId,
+      earnPlanName: earnPosition.offers.first.name ?? '',
+    );
+
     await sShowAlertPopup(
       context,
       primaryText: intl.earn_are_you_sure,
@@ -297,16 +304,16 @@ abstract class _EarnStoreBase with Store {
         package: 'simple_kit',
       ),
       onPrimaryButtonTap: () {
-        sAnalytics.tapOnTheYesWithdrawButton(
+        sRouter.pop();
+        sAnalytics.tapOnTheContinueEarningButton(
           assetName: earnPosition.assetId,
           earnWithdrawalType: earnPosition.withdrawType.name,
           earnOfferId: earnPosition.offerId,
           earnPlanName: earnPosition.offers.first.name ?? '',
         );
-        sRouter.pop();
       },
       onSecondaryButtonTap: () {
-        sAnalytics.sureFullEarnWithdrawPopupView(
+        sAnalytics.tapOnTheYesWithdrawButton(
           assetName: earnPosition.assetId,
           earnWithdrawalType: earnPosition.withdrawType.name,
           earnOfferId: earnPosition.offerId,
