@@ -100,12 +100,6 @@ abstract class GeneralSendGiftStoreBase with Store {
       giftSubmethod: selectedContactType.name,
     );
 
-    Future.delayed(
-      const Duration(seconds: 40),
-      () {
-        loader.finishLoadingImmediately();
-      },
-    );
     DC<ServerRejectException, void>? response;
     if (selectedContactType == ReceiverContacrType.email) {
       final model = SendGiftByEmailRequestModel(
