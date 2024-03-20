@@ -47,14 +47,23 @@ abstract class _EarnStoreBase with Store {
     }).toList();
 
     sortedPositions.sort((a, b) {
-      final maxApyA = a.offers
-          .map((offer) => offer.apyRate ?? Decimal.zero)
-          .reduce((value, element) => value > element ? value : element);
-      final maxApyB = b.offers
-          .map((offer) => offer.apyRate ?? Decimal.zero)
-          .reduce((value, element) => value > element ? value : element);
+      final aAmount = formatService.convertOneCurrencyToAnotherOne(
+        fromCurrency: a.assetId,
+        fromCurrencyAmmount: a.baseAmount,
+        toCurrency: sSignalRModules.baseCurrency.symbol,
+        baseCurrency: sSignalRModules.baseCurrency.symbol,
+        isMin: true,
+      );
 
-      return maxApyB.compareTo(maxApyA);
+      final bAmount = formatService.convertOneCurrencyToAnotherOne(
+        fromCurrency: b.assetId,
+        fromCurrencyAmmount: b.baseAmount,
+        toCurrency: sSignalRModules.baseCurrency.symbol,
+        baseCurrency: sSignalRModules.baseCurrency.symbol,
+        isMin: true,
+      );
+
+      return bAmount.compareTo(aAmount);
     });
 
     return sortedPositions;
