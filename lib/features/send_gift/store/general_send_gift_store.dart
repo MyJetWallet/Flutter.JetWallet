@@ -193,8 +193,7 @@ abstract class GeneralSendGiftStoreBase with Store {
       giftSubmethod: selectedContactType.name,
     );
 
-    return sRouter
-        .push(
+    return sRouter.push(
       SuccessScreenRouter(
         primaryText: intl.successScreen_success,
         secondaryText: '${intl.send_gift_you_sent} ${volumeFormat(
@@ -203,31 +202,29 @@ abstract class GeneralSendGiftStoreBase with Store {
           symbol: currency.symbol,
         )}\n${intl.send_gift_success_message_2}',
         showProgressBar: true,
-      ),
-    )
-        .then(
-      (value) {
-        sRouter.replaceAll([
-          const HomeRouter(
-            children: [
-              MyWalletsRouter(),
-            ],
-          ),
-        ]);
-        final context = sRouter.navigatorKey.currentContext!;
-        shareGiftResultBottomSheet(
-          context: context,
-          currency: currency,
-          amount: amount,
-          email: selectedContactType == ReceiverContacrType.email ? _email : null,
-          phoneNumber: selectedContactType == ReceiverContacrType.phone ? (_phoneCountryCode + _phoneBody) : null,
-          onClose: () {
-            sAnalytics.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet();
-          },
-        );
+        onSuccess: (p0) async {
+          await sRouter.replaceAll([
+            const HomeRouter(
+              children: [
+                MyWalletsRouter(),
+              ],
+            ),
+          ]);
+          await shopRateUpPopup(sRouter.navigatorKey.currentContext!);
 
-        shopRateUpPopup(sRouter.navigatorKey.currentContext!);
-      },
+          final context = sRouter.navigatorKey.currentContext!;
+          shareGiftResultBottomSheet(
+            context: context,
+            currency: currency,
+            amount: amount,
+            email: selectedContactType == ReceiverContacrType.email ? _email : null,
+            phoneNumber: selectedContactType == ReceiverContacrType.phone ? (_phoneCountryCode + _phoneBody) : null,
+            onClose: () {
+              sAnalytics.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet();
+            },
+          );
+        },
+      ),
     );
   }
 }
