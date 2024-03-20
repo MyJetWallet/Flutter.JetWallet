@@ -91,14 +91,11 @@ class _EarnView extends StatelessWidget {
                       : '**** ${sSignalRModules.baseCurrency.symbol}',
                 ),
               ),
-              if (store.earnPositions.isEmpty && store.earnPositionsClosed.isEmpty)
-                const SliverToBoxAdapter(child: SizedBox.shrink())
-              else
-                SliverToBoxAdapter(
-                  child: EarnPositionsListWidget(
-                    earnPositions: store.earnPositions,
-                  ),
+              SliverToBoxAdapter(
+                child: EarnPositionsListWidget(
+                  earnPositions: store.earnPositions,
                 ),
+              ),
               const SliverToBoxAdapter(child: SizedBox(height: 16)),
               SliverToBoxAdapter(
                 child: OffersListWidget(
