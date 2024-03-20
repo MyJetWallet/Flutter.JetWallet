@@ -207,16 +207,18 @@ abstract class GeneralSendGiftStoreBase with Store {
           await shopRateUpPopup(sRouter.navigatorKey.currentContext!);
 
           final context = sRouter.navigatorKey.currentContext!;
-          shareGiftResultBottomSheet(
-            context: context,
-            currency: currency,
-            amount: amount,
-            email: selectedContactType == ReceiverContacrType.email ? _email : null,
-            phoneNumber: selectedContactType == ReceiverContacrType.phone ? (_phoneCountryCode + _phoneBody) : null,
-            onClose: () {
-              sAnalytics.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet();
-            },
-          );
+          Future.delayed(const Duration(milliseconds: 500), () {
+            shareGiftResultBottomSheet(
+              context: context,
+              currency: currency,
+              amount: amount,
+              email: selectedContactType == ReceiverContacrType.email ? _email : null,
+              phoneNumber: selectedContactType == ReceiverContacrType.phone ? (_phoneCountryCode + _phoneBody) : null,
+              onClose: () {
+                sAnalytics.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet();
+              },
+            );
+          });
         },
       ),
     );
