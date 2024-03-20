@@ -204,10 +204,9 @@ abstract class GeneralSendGiftStoreBase with Store {
               ],
             ),
           ]);
-          await shopRateUpPopup(sRouter.navigatorKey.currentContext!);
 
-          final context = sRouter.navigatorKey.currentContext!;
-          Future.delayed(const Duration(milliseconds: 500), () {
+          await Future.delayed(const Duration(milliseconds: 300), () {
+            final context = sRouter.navigatorKey.currentContext!;
             shareGiftResultBottomSheet(
               context: context,
               currency: currency,
@@ -218,6 +217,10 @@ abstract class GeneralSendGiftStoreBase with Store {
                 sAnalytics.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet();
               },
             );
+          });
+
+          await Future.delayed(const Duration(milliseconds: 300), () {
+            shopRateUpPopup(sRouter.navigatorKey.currentContext!);
           });
         },
       ),
