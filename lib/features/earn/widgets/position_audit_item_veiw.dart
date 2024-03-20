@@ -74,7 +74,7 @@ class PositionAuditItemView extends StatelessObserverWidget {
             ),
           ),
           const SpaceH18(),
-          if (positionAudit.requestId != null && positionAudit.requestId!.isNotEmpty) ...[
+          if (positionAudit.id.isNotEmpty) ...[
             TransactionDetailsItem(
               text: intl.iban_send_history_transaction_id,
               value: Row(
