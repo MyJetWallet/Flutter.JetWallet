@@ -100,12 +100,6 @@ abstract class GeneralSendGiftStoreBase with Store {
       giftSubmethod: selectedContactType.name,
     );
 
-    Future.delayed(
-      const Duration(seconds: 40),
-      () {
-        loader.finishLoadingImmediately();
-      },
-    );
     DC<ServerRejectException, void>? response;
     if (selectedContactType == ReceiverContacrType.email) {
       final model = SendGiftByEmailRequestModel(
@@ -210,19 +204,24 @@ abstract class GeneralSendGiftStoreBase with Store {
               ],
             ),
           ]);
-          await shopRateUpPopup(sRouter.navigatorKey.currentContext!);
 
-          final context = sRouter.navigatorKey.currentContext!;
-          shareGiftResultBottomSheet(
-            context: context,
-            currency: currency,
-            amount: amount,
-            email: selectedContactType == ReceiverContacrType.email ? _email : null,
-            phoneNumber: selectedContactType == ReceiverContacrType.phone ? (_phoneCountryCode + _phoneBody) : null,
-            onClose: () {
-              sAnalytics.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet();
-            },
-          );
+          await Future.delayed(const Duration(milliseconds: 300), () {
+            final context = sRouter.navigatorKey.currentContext!;
+            shareGiftResultBottomSheet(
+              context: context,
+              currency: currency,
+              amount: amount,
+              email: selectedContactType == ReceiverContacrType.email ? _email : null,
+              phoneNumber: selectedContactType == ReceiverContacrType.phone ? (_phoneCountryCode + _phoneBody) : null,
+              onClose: () {
+                sAnalytics.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet();
+              },
+            );
+          });
+
+          await Future.delayed(const Duration(milliseconds: 300), () {
+            shopRateUpPopup(sRouter.navigatorKey.currentContext!);
+          });
         },
       ),
     );
