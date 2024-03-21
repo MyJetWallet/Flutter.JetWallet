@@ -1171,7 +1171,7 @@
     "buy_confirmation_out_fee": "Notre tarif",
     "buy_confirmation_total": "Total",
     "buy_confirmation_local_info": "Le taux de change sera ajusté selon le prix du marché au moment de la confirmation du paiement.",
-    "buy_confirmation_privacy_checkbox_1": "J'ai lu et accepté",
+    "buy_confirmation_privacy_checkbox_1": "J'ai lu et accepté ",
     "buy_confirmation_privacy_checkbox_2": "Conditions Générales",
     "buy_confirmation_privacy_checkbox_3": "Politique de confidentialité",
     "buy_confirmation_privacy_p2p_checkbox_1": "1. Je confirme que les informations ci-dessus sont précises et complètes.",
