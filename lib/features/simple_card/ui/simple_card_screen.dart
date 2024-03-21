@@ -162,9 +162,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                           sAnalytics.tapOnTheDepositButton(source: 'V.Card - Deposit');
                           handler.handle(
                             multiStatus: [
-                              kycState.tradeStatus,
                               kycState.depositStatus,
-                              kycState.withdrawalStatus,
                             ],
                             isProgress: kycState.verificationInProgress,
                             currentNavigate: () => showSimpleCardDepositBySelector(
@@ -242,8 +240,6 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                         onWithdraw: () {
                           handler.handle(
                             multiStatus: [
-                              kycState.tradeStatus,
-                              kycState.depositStatus,
                               kycState.withdrawalStatus,
                             ],
                             isProgress: kycState.verificationInProgress,
