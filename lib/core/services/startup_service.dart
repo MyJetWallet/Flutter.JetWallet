@@ -34,6 +34,7 @@ import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
 import 'package:logger/logger.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/helpers/models/refresh_token_status.dart';
+import 'package:simple_networking/modules/analytic_records/models/analytic_record.dart';
 import 'package:simple_networking/modules/auth_api/models/install_model.dart';
 import 'package:simple_networking/modules/logs_api/models/add_log_model.dart';
 import 'package:simple_sift/sift.dart';
@@ -93,9 +94,21 @@ class StartupService {
         if (resultRefreshToken == RefreshTokenStatus.success) {
           await userInfo.initPinStatus();
 
+          Future<void> logEventFunc({
+            required String name,
+            required Map<String, dynamic> body,
+          }) async {
+            final model = AnalyticRecordModel(
+              eventName: name,
+              eventBody: body,
+            );
+            await sNetwork.getAnalyticApiModule().postAddAnalyticRecord([model]);
+          }
+
           await sAnalytics.init(
             analyticsApiKey,
             userInfo.isTechClient,
+            logEventFunc,
             parsedEmail,
           );
         }

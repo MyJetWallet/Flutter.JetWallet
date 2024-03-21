@@ -1,10 +1,9 @@
 // ignore_for_file: lines_longer_than_80_chars
 
-import 'package:amplitude_flutter/amplitude.dart';
-
 import '../simple_analytics.dart';
 import 'models/event_type.dart';
 import 'models/property_type.dart';
+import 'services/send_events_service.dart';
 
 final sAnalytics = SimpleAnalytics();
 
@@ -15,7 +14,7 @@ class SimpleAnalytics {
 
   static final SimpleAnalytics _instance = SimpleAnalytics._internal();
 
-  final _analytics = Amplitude.getInstance();
+  final _analytics = SendEventsService();
 
   bool isTechAcc = false;
   bool newBuyZeroScreenViewSent = false;
@@ -29,10 +28,14 @@ class SimpleAnalytics {
   Future<void> init(
     String environmentKey,
     // ignore: avoid_positional_boolean_parameters
-    bool techAcc, [
+    bool techAcc,
+    LogEventFunc logEventFunc, [
     String? userEmail,
   ]) async {
-    await _analytics.init(environmentKey);
+    await _analytics.init(
+      environmentKey,
+      logEventFunc: logEventFunc,
+    );
 
     if (userEmail != null) {
       await _analytics.setUserId(userEmail);
