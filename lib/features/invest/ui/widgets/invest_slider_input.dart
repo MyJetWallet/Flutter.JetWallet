@@ -39,15 +39,14 @@ class InvestSliderInput extends StatelessObserverWidget {
     var currentNewValue = currentValue > maxValue
         ? maxValue
         : currentValue < minValue
-        ? minValue
-        : currentValue;
-
+            ? minValue
+            : currentValue;
 
     if (withArray && !fullScale && !isLog) {
       var minValue = Decimal.fromInt(100000000);
       var valueToChange = 0;
       for (var i = 0; i <= divisions; i++) {
-        final value = (arrayOfValues[i] ?? Decimal.zero) - currentValue;
+        final value = (arrayOfValues[i]) - currentValue;
         if (value.abs() < minValue) {
           minValue = value.abs();
           valueToChange = i;
@@ -80,19 +79,19 @@ class InvestSliderInput extends StatelessObserverWidget {
           child: Slider(
             value: currentNewValue.toDouble(),
             min: fullScale
-              ? minValue.toDouble()
-              : withArray
-                ? 0
-                : minValue.toDouble(),
+                ? minValue.toDouble()
+                : withArray
+                    ? 0
+                    : minValue.toDouble(),
             max: fullScale
-              ? maxValue.toDouble()
-              : withArray
-                ? divisions.toDouble()
-                : maxValue.toDouble(),
+                ? maxValue.toDouble()
+                : withArray
+                    ? divisions.toDouble()
+                    : maxValue.toDouble(),
             divisions: fullScale ? (maxValue - minValue).toDouble().floor() : divisions,
             onChanged: (double value) {
               if (withArray) {
-                onChange(arrayOfValues[value.toInt()].toDouble() ?? 0);
+                onChange(arrayOfValues[value.toInt()].toDouble());
               } else if (isLog) {
                 onChange(exp(value).floorToDouble());
               } else {

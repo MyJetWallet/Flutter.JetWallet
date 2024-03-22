@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 
 enum ButtonType {
@@ -12,14 +11,14 @@ enum ButtonType {
 
 class BaseButton extends StatelessWidget {
   const BaseButton({
-    Key? key,
+    super.key,
     required this.child,
     required this.backgroundColor,
     this.border,
     this.borderRadius,
     this.callback,
     this.onHighlightChanged,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final Color backgroundColor;

@@ -76,7 +76,7 @@ class _OffersOverlayContentState extends State<OffersOverlayContent> {
                   },
                 )
               : const Offstage();
-        }).toList(),
+        }),
         const SizedBox(height: 48),
         Padding(
           padding: EdgeInsets.only(

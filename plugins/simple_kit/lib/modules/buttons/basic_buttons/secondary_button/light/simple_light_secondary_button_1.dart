@@ -5,14 +5,14 @@ import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 /// Called Black Button in UI Kit for the Light Theme
 class SimpleLightSecondaryButton1 extends StatelessWidget {
   const SimpleLightSecondaryButton1({
-    Key? key,
+    super.key,
     this.icon,
     this.textColor,
     this.borderColor,
     required this.active,
     required this.name,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final Widget? icon;
   final bool active;

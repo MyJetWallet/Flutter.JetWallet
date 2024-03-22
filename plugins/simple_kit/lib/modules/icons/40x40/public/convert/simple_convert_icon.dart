@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/40x40/light/convert/simple_light_conver
 import 'package:simple_kit/utils/enum.dart';
 
 class SConvertIcon extends StatelessObserverWidget {
-  const SConvertIcon({Key? key}) : super(key: key);
+  const SConvertIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

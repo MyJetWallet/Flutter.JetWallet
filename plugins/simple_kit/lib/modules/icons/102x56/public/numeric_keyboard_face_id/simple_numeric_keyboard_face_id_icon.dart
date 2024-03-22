@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/102x56/light/numeric_keyboard_face_id/s
 import 'package:simple_kit/utils/enum.dart';
 
 class SNumericKeyboardFaceIdIcon extends StatelessObserverWidget {
-  const SNumericKeyboardFaceIdIcon({Key? key}) : super(key: key);
+  const SNumericKeyboardFaceIdIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

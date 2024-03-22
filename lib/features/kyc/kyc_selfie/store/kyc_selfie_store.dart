@@ -18,8 +18,7 @@ part 'kyc_selfie_store.g.dart';
 class KycSelfieStore extends _KycSelfieStoreBase with _$KycSelfieStore {
   KycSelfieStore() : super();
 
-  static _KycSelfieStoreBase of(BuildContext context) =>
-      Provider.of<KycSelfieStore>(context, listen: false);
+  static _KycSelfieStoreBase of(BuildContext context) => Provider.of<KycSelfieStore>(context, listen: false);
 }
 
 abstract class _KycSelfieStoreBase with Store {
@@ -74,11 +73,7 @@ abstract class _KycSelfieStoreBase with Store {
 
       final countries = getIt.get<KycCountryStore>();
 
-      final response = await getIt
-          .get<SNetwork>()
-          .simpleImageNetworking
-          .getWalletModule()
-          .postUploadDocuments(
+      final response = await getIt.get<SNetwork>().simpleImageNetworking.getWalletModule().postUploadDocuments(
             formData,
             type,
             countries.activeCountry!.countryCode,
@@ -104,7 +99,6 @@ abstract class _KycSelfieStoreBase with Store {
 
       sNotification.showError(
         error.toString(),
-        duration: 4,
         id: 1,
         needFeedback: true,
       );

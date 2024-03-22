@@ -13,7 +13,7 @@ import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 
 class SAddressFieldWithCopy extends StatefulObserverWidget {
   const SAddressFieldWithCopy({
-    Key? key,
+    super.key,
     this.realValue,
     this.onTap,
     this.then,
@@ -27,7 +27,7 @@ class SAddressFieldWithCopy extends StatefulObserverWidget {
     required this.header,
     required this.value,
     required this.afterCopyText,
-  }) : super(key: key);
+  });
 
   final String? realValue;
   final Function()? onTap;

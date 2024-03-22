@@ -23,15 +23,13 @@ import '../../stores/dashboard/invest_positions_store.dart';
 import '../dashboard/invest_header.dart';
 import '../dashboard/new_invest_header.dart';
 import '../invests/invest_line.dart';
-import '../invests/journal_item.dart';
 import '../invests/rollover_line.dart';
 
 void showInvestRolloverBottomSheet(
-    BuildContext context,
-    InvestPositionModel position,
-    InvestInstrumentModel instrument,
+  BuildContext context,
+  InvestPositionModel position,
+  InvestInstrumentModel instrument,
 ) {
-
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
@@ -74,7 +72,12 @@ void showInvestRolloverBottomSheet(
     horizontalPinnedPadding: 0,
     removePinnedPadding: true,
     horizontalPadding: 0,
-    children: [InvestList(position: position, instrument: instrument,)],
+    children: [
+      InvestList(
+        position: position,
+        instrument: instrument,
+      )
+    ],
   );
 }
 
@@ -111,7 +114,7 @@ class _InvestListScreenState extends State<InvestList> {
 
     updateTimer = Timer.periodic(
       const Duration(seconds: 1),
-          (timer) {
+      (timer) {
         final a = DateTime.parse('${widget.instrument.nextRollOverTime}');
         final b = DateTime.now();
         final difference = a.difference(b);
@@ -138,7 +141,6 @@ class _InvestListScreenState extends State<InvestList> {
     final investStore = getIt.get<InvestDashboardStore>();
     final investPositionStore = getIt.get<InvestPositionsStore>();
     final currencies = sSignalRModules.currenciesList;
-    final colors = sKit.colors;
 
     return SPaddingH24(
       child: Observer(
@@ -155,8 +157,7 @@ class _InvestListScreenState extends State<InvestList> {
                   Navigator.pop(context);
                 },
               ),
-              if (widget.position.status != PositionStatus.cancelled &&
-                  widget.position.status != PositionStatus.closed)
+              if (widget.position.status != PositionStatus.cancelled && widget.position.status != PositionStatus.closed)
                 Observer(
                   builder: (BuildContext context) {
                     return RolloverLine(

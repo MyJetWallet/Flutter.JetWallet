@@ -7,11 +7,11 @@ import '../base/simple_base_link_button.dart';
 
 class SimpleLightLinkButton2 extends StatelessWidget {
   const SimpleLightLinkButton2({
-    Key? key,
+    super.key,
     required this.name,
     required this.onTap,
     required this.active,
-  }) : super(key: key);
+  });
 
   final String name;
   final Function() onTap;

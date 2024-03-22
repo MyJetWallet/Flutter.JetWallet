@@ -6,11 +6,11 @@ final _loaderRadius = BorderRadius.circular(20.0);
 
 class SSkeletonTextLoader extends StatefulWidget {
   const SSkeletonTextLoader({
-    Key? key,
+    super.key,
     this.borderRadius,
     required this.height,
     required this.width,
-  }) : super(key: key);
+  });
 
   final double height;
   final double width;

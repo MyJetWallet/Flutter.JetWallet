@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/56x56/light/portfolio/simple_light_port
 import 'package:simple_kit/utils/enum.dart';
 
 class SPortfolioDefaultIcon extends StatelessObserverWidget {
-  const SPortfolioDefaultIcon({Key? key}) : super(key: key);
+  const SPortfolioDefaultIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

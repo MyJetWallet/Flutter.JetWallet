@@ -88,7 +88,7 @@ class OffersListWidget extends StatelessWidget {
                   }
                 },
               );
-            }).toList(),
+            }),
           ],
         );
       },

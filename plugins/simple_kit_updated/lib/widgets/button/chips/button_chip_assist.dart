@@ -2,20 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 
 class ButtonChipAssist extends HookWidget {
   const ButtonChipAssist({
-    Key? key,
+    super.key,
     required this.leftIcon,
     required this.text,
     required this.rightText,
     this.rightIcon,
     this.callback,
-  }) : super(key: key);
+  });
 
   final SvgGenImage leftIcon;
   final SvgGenImage? rightIcon;

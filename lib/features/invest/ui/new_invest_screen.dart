@@ -45,7 +45,8 @@ class NewInvestScreen extends StatefulObserverWidget {
   State<NewInvestScreen> createState() => _NewInvestScreenState();
 }
 
-class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = true;
+class _NewInvestScreenState extends State<NewInvestScreen> {
+  bool canTapShare = true;
   late ScrollController controller;
   late WebViewController controllerWeb;
 
@@ -53,7 +54,6 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
   void initState() {
     super.initState();
     final investNewStore = getIt.get<InvestNewStore>();
-    final currencies = sSignalRModules.currenciesList;
     final multiplicators = calculateMultiplyPositions(
       minVolume: Decimal.fromInt(widget.instrument.minMultiply ?? 0),
       maxVolume: Decimal.fromInt(widget.instrument.maxMultiply ?? 0),
@@ -116,10 +116,8 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
             SPaddingH24(
               child: SIButton(
                 onTap: () {
-                  if (
-                    (investNewStore.isOrderMode && investNewStore.hasPendingError()) ||
-                    (!investNewStore.isOrderMode && investNewStore.hasActiveError())
-                  ) {
+                  if ((investNewStore.isOrderMode && investNewStore.hasPendingError()) ||
+                      (!investNewStore.isOrderMode && investNewStore.hasActiveError())) {
                     return;
                   } else {
                     sRouter.push(
@@ -132,15 +130,15 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                 activeNameColor: colors.white,
                 icon: investNewStore.isBuyMode
                     ? Assets.svg.invest.buy.simpleSvg(
-                      width: 20,
-                      height: 20,
-                      color: colors.white,
-                    )
+                        width: 20,
+                        height: 20,
+                        color: colors.white,
+                      )
                     : Assets.svg.invest.sell.simpleSvg(
-                      width: 20,
-                      height: 20,
-                      color: colors.white,
-                    ),
+                        width: 20,
+                        height: 20,
+                        color: colors.white,
+                      ),
                 active: true,
                 inactiveColor: investNewStore.isBuyMode ? colors.green : colors.red,
                 inactiveNameColor: colors.white,
@@ -234,9 +232,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                 const Spacer(),
                 SecondarySwitch(
                   onChangeTab: changeOrderType,
-                  activeTab: investNewStore.isOrderMode
-                      ? 1
-                      : 0,
+                  activeTab: investNewStore.isOrderMode ? 1 : 0,
                   fullWidth: false,
                   tabs: [
                     intl.invest_history_tab_invest,
@@ -298,14 +294,18 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                     ? Decimal.zero
                     : Decimal.fromJson('${log(investNewStore.amountValue.toDouble())}'),
                 divisions: ((calculateAmountMaxReal(
-                  balance: sSignalRModules.investWalletData?.balance ?? Decimal.zero,
-                  minVolume: widget.instrument.minVolume ?? Decimal.zero,
-                  maxVolume: widget.instrument.maxVolume ?? Decimal.zero,
-                ) - calculateAmountMinReal(
-                  balance: sSignalRModules.investWalletData?.balance ?? Decimal.zero,
-                  minVolume: widget.instrument.minVolume ?? Decimal.zero,
-                  maxVolume: widget.instrument.maxVolume ?? Decimal.zero,
-                )) * Decimal.fromInt(1000)).toDouble().floor(),
+                              balance: sSignalRModules.investWalletData?.balance ?? Decimal.zero,
+                              minVolume: widget.instrument.minVolume ?? Decimal.zero,
+                              maxVolume: widget.instrument.maxVolume ?? Decimal.zero,
+                            ) -
+                            calculateAmountMinReal(
+                              balance: sSignalRModules.investWalletData?.balance ?? Decimal.zero,
+                              minVolume: widget.instrument.minVolume ?? Decimal.zero,
+                              maxVolume: widget.instrument.maxVolume ?? Decimal.zero,
+                            )) *
+                        Decimal.fromInt(1000))
+                    .toDouble()
+                    .floor(),
                 isLog: true,
                 prefix: '    ',
                 arrayOfValues: calculateAmountPositions(
@@ -392,9 +392,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                               value == 1,
                             );
                           },
-                          activeTab: investNewStore.isSLTPPrice
-                              ? 1
-                              : 0,
+                          activeTab: investNewStore.isSLTPPrice ? 1 : 0,
                           fullWidth: false,
                           tabs: [
                             'USDT',
@@ -415,27 +413,27 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                             ),
                           ),
                         ),
-                      ]
-                      else SIconButton(
-                        onTap: () {
-                          investNewStore.setIsLimitsVisible(true);
-                          Timer(
-                            const Duration(milliseconds: 100),
-                                () {
-                              controller.animateTo(
-                                controller.position.maxScrollExtent,
-                                duration: const Duration(milliseconds: 500),
-                                curve: Curves.fastOutSlowIn,
-                              );
-                            },
-                          );
-                        },
-                        defaultIcon: Assets.svg.invest.investArrow.simpleSvg(
-                          width: 24,
-                          height: 24,
-                          color: colors.black,
+                      ] else
+                        SIconButton(
+                          onTap: () {
+                            investNewStore.setIsLimitsVisible(true);
+                            Timer(
+                              const Duration(milliseconds: 100),
+                              () {
+                                controller.animateTo(
+                                  controller.position.maxScrollExtent,
+                                  duration: const Duration(milliseconds: 500),
+                                  curve: Curves.fastOutSlowIn,
+                                );
+                              },
+                            );
+                          },
+                          defaultIcon: Assets.svg.invest.investArrow.simpleSvg(
+                            width: 24,
+                            height: 24,
+                            color: colors.black,
+                          ),
                         ),
-                      ),
                     ],
                   ),
                 ],
@@ -453,7 +451,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                           investNewStore.setIsTPMode(!investNewStore.isTP);
                           Timer(
                             const Duration(milliseconds: 100),
-                                () {
+                            () {
                               controller.animateTo(
                                 controller.position.maxScrollExtent,
                                 duration: const Duration(milliseconds: 500),
@@ -463,11 +461,23 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                           );
                         },
                         defaultIcon: investNewStore.isTP
-                            ? Assets.svg.invest.checked.simpleSvg(width: 20, height: 20,)
-                            : Assets.svg.invest.check.simpleSvg(width: 20, height: 20,),
+                            ? Assets.svg.invest.checked.simpleSvg(
+                                width: 20,
+                                height: 20,
+                              )
+                            : Assets.svg.invest.check.simpleSvg(
+                                width: 20,
+                                height: 20,
+                              ),
                         pressedIcon: investNewStore.isTP
-                            ? Assets.svg.invest.checked.simpleSvg(width: 20, height: 20,)
-                            : Assets.svg.invest.check.simpleSvg(width: 20, height: 20,),
+                            ? Assets.svg.invest.checked.simpleSvg(
+                                width: 20,
+                                height: 20,
+                              )
+                            : Assets.svg.invest.check.simpleSvg(
+                                width: 20,
+                                height: 20,
+                              ),
                       ),
                       const SpaceW4(),
                       Container(
@@ -528,12 +538,10 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                         ),
                       ],
                     ),
-                    if (
-                      widget.instrument.takeProfitAmountLimits != null &&
-                      widget.instrument.takeProfitAmountLimits!.isNotEmpty &&
-                      widget.instrument.takeProfitPriceLimits != null &&
-                      widget.instrument.takeProfitPriceLimits!.isNotEmpty
-                    ) ...[
+                    if (widget.instrument.takeProfitAmountLimits != null &&
+                        widget.instrument.takeProfitAmountLimits!.isNotEmpty &&
+                        widget.instrument.takeProfitPriceLimits != null &&
+                        widget.instrument.takeProfitPriceLimits!.isNotEmpty) ...[
                       const SpaceH8(),
                       InvestSliderInput(
                         maxValue: calculateLimitsPositions(
@@ -558,16 +566,15 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                           isAmount: !investNewStore.isSLTPPrice,
                           isSl: false,
                         )[0],
-                        currentValue: investNewStore.isSLTPPrice
-                          ? investNewStore.tpPriceValue
-                          : investNewStore.tpAmountValue,
+                        currentValue:
+                            investNewStore.isSLTPPrice ? investNewStore.tpPriceValue : investNewStore.tpAmountValue,
                         divisions: 4,
                         withArray: true,
                         fullScale: !investNewStore.isSLTPPrice,
                         arrayOfValues: calculateLimitsPositions(
                           price: investNewStore.isOrderMode
-                            ? investNewStore.pendingValue
-                            : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
+                              ? investNewStore.pendingValue
+                              : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
                           amount: investNewStore.amountValue,
                           limits: investNewStore.isSLTPPrice
                               ? widget.instrument.takeProfitPriceLimits!
@@ -606,11 +613,23 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                           );
                         },
                         defaultIcon: investNewStore.isSl
-                            ? Assets.svg.invest.checked.simpleSvg(width: 20, height: 20,)
-                            : Assets.svg.invest.check.simpleSvg(width: 20, height: 20,),
+                            ? Assets.svg.invest.checked.simpleSvg(
+                                width: 20,
+                                height: 20,
+                              )
+                            : Assets.svg.invest.check.simpleSvg(
+                                width: 20,
+                                height: 20,
+                              ),
                         pressedIcon: investNewStore.isSl
-                            ? Assets.svg.invest.checked.simpleSvg(width: 20, height: 20,)
-                            : Assets.svg.invest.check.simpleSvg(width: 20, height: 20,),
+                            ? Assets.svg.invest.checked.simpleSvg(
+                                width: 20,
+                                height: 20,
+                              )
+                            : Assets.svg.invest.check.simpleSvg(
+                                width: 20,
+                                height: 20,
+                              ),
                       ),
                       const SpaceW4(),
                       Container(
@@ -658,7 +677,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                         ),
                         const SpaceW12(),
                         Expanded(
-                          child:InvestInput(
+                          child: InvestInput(
                             onChanged: investNewStore.onSLPriceInput,
                             inputFormatters: <TextInputFormatter>[
                               FilteringTextInputFormatter.allow(RegExp('[0-9,.]')),
@@ -671,12 +690,10 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                         ),
                       ],
                     ),
-                    if (
-                      widget.instrument.stopLossAmountLimits != null &&
-                      widget.instrument.stopLossAmountLimits!.isNotEmpty &&
-                      widget.instrument.stopLossPriceLimits != null &&
-                      widget.instrument.stopLossPriceLimits!.isNotEmpty
-                    ) ...[
+                    if (widget.instrument.stopLossAmountLimits != null &&
+                        widget.instrument.stopLossAmountLimits!.isNotEmpty &&
+                        widget.instrument.stopLossPriceLimits != null &&
+                        widget.instrument.stopLossPriceLimits!.isNotEmpty) ...[
                       const SpaceH8(),
                       InvestSliderInput(
                         maxValue: calculateLimitsPositions(
@@ -689,7 +706,8 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                               : widget.instrument.stopLossAmountLimits!,
                           isAmount: !investNewStore.isSLTPPrice,
                           isSl: true,
-                        )[4].abs(),
+                        )[4]
+                            .abs(),
                         minValue: calculateLimitsPositions(
                           price: investNewStore.isOrderMode
                               ? investNewStore.pendingValue
@@ -700,10 +718,11 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                               : widget.instrument.stopLossAmountLimits!,
                           isAmount: !investNewStore.isSLTPPrice,
                           isSl: true,
-                        )[0].abs(),
+                        )[0]
+                            .abs(),
                         currentValue: investNewStore.isSLTPPrice
-                          ? investNewStore.slPriceValue
-                          : investNewStore.slAmountValue.abs(),
+                            ? investNewStore.slPriceValue
+                            : investNewStore.slAmountValue.abs(),
                         divisions: 4,
                         withArray: true,
                         fullScale: !investNewStore.isSLTPPrice,
@@ -735,10 +754,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {bool canTapShare = t
                 ],
               ),
             ],
-            if (investNewStore.isLimitsVisible)
-              const SpaceH40()
-            else
-              const SDivider(),
+            if (investNewStore.isLimitsVisible) const SpaceH40() else const SDivider(),
           ],
         ),
       ),

@@ -7,9 +7,9 @@ import 'package:simple_kit/utils/enum.dart';
 
 class SArrowUpIcon extends StatelessObserverWidget {
   const SArrowUpIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 
@@ -23,9 +23,9 @@ class SArrowUpIcon extends StatelessObserverWidget {
 
 class SArrowDownIcon extends StatelessObserverWidget {
   const SArrowDownIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

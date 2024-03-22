@@ -7,7 +7,7 @@ import 'keys/keyboard_key.dart';
 /// icon or frontKey must be provided but not both
 class NumericKeyboardRow extends StatelessWidget {
   const NumericKeyboardRow({
-    Key? key,
+    super.key,
     this.icon1,
     this.icon2,
     this.icon3,
@@ -22,7 +22,7 @@ class NumericKeyboardRow extends StatelessWidget {
     required this.realValue2,
     required this.realValue3,
     required this.onKeyPressed,
-  }) : super(key: key);
+  });
 
   final Widget? icon1;
   final Widget? icon2;

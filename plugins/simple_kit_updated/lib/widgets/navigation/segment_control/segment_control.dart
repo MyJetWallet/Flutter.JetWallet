@@ -4,18 +4,17 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 import 'package:simple_kit_updated/widgets/navigation/segment_control/models/segment_control_data.dart';
 
 class SegmentControl extends HookWidget {
   const SegmentControl({
-    Key? key,
+    super.key,
     required this.tabController,
     required this.items,
     this.expand = false,
     this.expandWidth,
     this.shrinkWrap = false,
-  }) : super(key: key);
+  });
 
   final TabController tabController;
   final List<SegmentControlData> items;

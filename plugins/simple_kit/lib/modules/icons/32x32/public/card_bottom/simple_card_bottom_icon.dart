@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/32x32/light/card_bottom/simple_light_ca
 import 'package:simple_kit/utils/enum.dart';
 
 class SCardBottomActiveIcon extends StatelessObserverWidget {
-  const SCardBottomActiveIcon({Key? key}) : super(key: key);
+  const SCardBottomActiveIcon({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class SCardBottomActiveIcon extends StatelessObserverWidget {
 }
 
 class SCardBottomIcon extends StatelessObserverWidget {
-  const SCardBottomIcon({Key? key}) : super(key: key);
+  const SCardBottomIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

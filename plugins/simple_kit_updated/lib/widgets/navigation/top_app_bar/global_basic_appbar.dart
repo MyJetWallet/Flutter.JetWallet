@@ -7,7 +7,7 @@ import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 class GlobalBasicAppBar extends StatelessWidget {
   const GlobalBasicAppBar({
-    Key? key,
+    super.key,
     this.hasTitle = true,
     this.title,
     this.hasSubtitle = true,
@@ -19,7 +19,7 @@ class GlobalBasicAppBar extends StatelessWidget {
     this.rightIcon,
     this.onRightIconTap,
     this.onLeftIconTap,
-  }) : super(key: key);
+  });
 
   final bool hasTitle;
   final String? title;

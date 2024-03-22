@@ -6,7 +6,7 @@ import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.
 
 class SPageFrame extends StatelessObserverWidget {
   const SPageFrame({
-    Key? key,
+    super.key,
     this.header,
     this.loading,
     this.loadSuccess,
@@ -15,7 +15,7 @@ class SPageFrame extends StatelessObserverWidget {
     this.color = Colors.transparent,
     this.resizeToAvoidBottomInset,
     required this.child,
-  }) : super(key: key);
+  });
 
   final Widget? header;
   final StackLoaderStore? loading;

@@ -6,12 +6,12 @@ import '../light/simple_light_primary_button_3.dart';
 
 class SPrimaryButton3 extends StatelessObserverWidget {
   const SPrimaryButton3({
-    Key? key,
+    super.key,
     this.icon,
     required this.active,
     required this.name,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final Widget? icon;
   final bool active;

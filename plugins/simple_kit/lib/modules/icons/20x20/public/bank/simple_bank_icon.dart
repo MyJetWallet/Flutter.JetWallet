@@ -6,9 +6,9 @@ import 'package:simple_kit/utils/enum.dart';
 
 class SBankIcon extends StatelessObserverWidget {
   const SBankIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

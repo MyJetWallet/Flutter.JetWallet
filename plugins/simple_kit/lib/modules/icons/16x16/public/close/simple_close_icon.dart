@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/16x16/light/cross/simple_light_cross_ic
 import 'package:simple_kit/utils/enum.dart';
 
 class SCrossIcon extends StatelessObserverWidget {
-  const SCrossIcon({Key? key}) : super(key: key);
+  const SCrossIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

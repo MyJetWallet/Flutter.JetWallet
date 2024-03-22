@@ -4,9 +4,9 @@ import 'package:simple_kit/modules/icons/20x20/base/simple_base_svg_20x20.dart';
 
 class SimpleLightHistoryCompletedIcon extends StatelessWidget {
   const SimpleLightHistoryCompletedIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

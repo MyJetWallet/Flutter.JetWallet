@@ -4,9 +4,9 @@ import '../../base/simple_base_svg_24x24.dart';
 
 class SimpleLightStarIcon extends StatelessWidget {
   const SimpleLightStarIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 
@@ -22,9 +22,9 @@ class SimpleLightStarIcon extends StatelessWidget {
 
 class SimpleFullLightStarIcon extends StatelessWidget {
   const SimpleFullLightStarIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

@@ -5,7 +5,7 @@ import 'package:simple_kit_updated/widgets/navigation/top_app_bar/global_basic_a
 
 class CollapsedWalletAppbar extends HookWidget {
   const CollapsedWalletAppbar({
-    Key? key,
+    super.key,
     required this.scrollController,
     this.mainBlockCenter = false,
     required this.mainTitle,
@@ -21,7 +21,7 @@ class CollapsedWalletAppbar extends HookWidget {
     this.carouselItemsCount,
     this.carouselPageIndex,
     this.needCarousel = true,
-  }) : super(key: key);
+  });
 
   final ScrollController scrollController;
   final bool mainBlockCenter;

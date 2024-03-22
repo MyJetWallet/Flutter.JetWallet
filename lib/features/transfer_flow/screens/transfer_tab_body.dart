@@ -203,6 +203,7 @@ class _AsssetWidget extends StatelessWidget {
     this.card,
     required this.onTap,
     required this.isFrom,
+    // ignore: unused_element
     this.isDisabled = false,
   });
 

@@ -3,9 +3,9 @@ import '../../base/simple_base_svg_20x20.dart';
 
 class SimpleRewardsTrophyIcon extends StatelessWidget {
   const SimpleRewardsTrophyIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

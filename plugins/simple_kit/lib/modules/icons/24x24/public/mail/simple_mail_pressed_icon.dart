@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/mail/simple_light_mail_pres
 import 'package:simple_kit/utils/enum.dart';
 
 class SMailPressedIcon extends StatelessObserverWidget {
-  const SMailPressedIcon({Key? key}) : super(key: key);
+  const SMailPressedIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

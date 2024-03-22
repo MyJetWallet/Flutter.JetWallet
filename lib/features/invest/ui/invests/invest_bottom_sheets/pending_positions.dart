@@ -24,7 +24,7 @@ import '../invest_line.dart';
 import '../main_invest_block.dart';
 
 class PendingInvestList extends StatelessObserverWidget {
-  PendingInvestList({
+  const PendingInvestList({
     this.instrument,
   });
 

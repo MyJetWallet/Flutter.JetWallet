@@ -281,13 +281,6 @@ enum DataStatus {
 @immutable
 @JsonSerializable(includeIfNull: false)
 class PeriodParams {
-  final int from;
-
-  final int to;
-
-  final int countBack;
-
-  final bool firstDataRequest;
 
   const PeriodParams({
     required this.from,
@@ -298,6 +291,13 @@ class PeriodParams {
 
   factory PeriodParams.fromJson(Map<String, dynamic> json) =>
       _$PeriodParamsFromJson(json);
+  final int from;
+
+  final int to;
+
+  final int countBack;
+
+  final bool firstDataRequest;
 
   Map<String, dynamic> toJson() => _$PeriodParamsToJson(this);
 }
@@ -305,6 +305,17 @@ class PeriodParams {
 @immutable
 @JsonSerializable(includeIfNull: false)
 class Bar {
+
+  const Bar({
+    required this.time,
+    required this.open,
+    required this.high,
+    required this.low,
+    required this.close,
+    this.volume,
+  });
+
+  factory Bar.fromJson(Map<String, dynamic> json) => _$BarFromJson(json);
   final int time;
 
   final double open;
@@ -317,28 +328,12 @@ class Bar {
 
   final int? volume;
 
-  const Bar({
-    required this.time,
-    required this.open,
-    required this.high,
-    required this.low,
-    required this.close,
-    this.volume,
-  });
-
-  factory Bar.fromJson(Map<String, dynamic> json) => _$BarFromJson(json);
-
   Map<String, dynamic> toJson() => _$BarToJson(this);
 }
 
 @immutable
 @JsonSerializable(includeIfNull: false)
 class Exchange {
-  final String value;
-
-  final String name;
-
-  final String desc;
 
   const Exchange({
     required this.value,
@@ -348,6 +343,11 @@ class Exchange {
 
   factory Exchange.fromJson(Map<String, dynamic> json) =>
       _$ExchangeFromJson(json);
+  final String value;
+
+  final String name;
+
+  final String desc;
 
   Map<String, dynamic> toJson() => _$ExchangeToJson(this);
 }
@@ -355,6 +355,19 @@ class Exchange {
 @immutable
 @JsonSerializable(includeIfNull: false)
 class DatafeedConfiguration {
+
+  const DatafeedConfiguration({
+    this.exchanges,
+    this.supportedResolutions,
+    this.currencyCodes,
+    this.supportsMarks,
+    this.supportsTime,
+    this.supportsTimescaleMarks,
+    this.symbolsTypes,
+  });
+
+  factory DatafeedConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$DatafeedConfigurationFromJson(json);
   final List<Exchange>? exchanges;
 
   @JsonKey(name: 'supported_resolutions')
@@ -375,28 +388,12 @@ class DatafeedConfiguration {
   @JsonKey(name: 'symbols_types')
   final List<DatafeedSymbolType>? symbolsTypes;
 
-  const DatafeedConfiguration({
-    this.exchanges,
-    this.supportedResolutions,
-    this.currencyCodes,
-    this.supportsMarks,
-    this.supportsTime,
-    this.supportsTimescaleMarks,
-    this.symbolsTypes,
-  });
-
-  factory DatafeedConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$DatafeedConfigurationFromJson(json);
-
   Map<String, dynamic> toJson() => _$DatafeedConfigurationToJson(this);
 }
 
 @immutable
 @JsonSerializable(includeIfNull: false)
 class DatafeedSymbolType {
-  final String name;
-
-  final String value;
 
   const DatafeedSymbolType({
     required this.name,
@@ -405,6 +402,9 @@ class DatafeedSymbolType {
 
   factory DatafeedSymbolType.fromJson(Map<String, dynamic> json) =>
       _$DatafeedSymbolTypeFromJson(json);
+  final String name;
+
+  final String value;
 
   Map<String, dynamic> toJson() => _$DatafeedSymbolTypeToJson(this);
 }
@@ -412,6 +412,18 @@ class DatafeedSymbolType {
 @immutable
 @JsonSerializable(includeIfNull: false)
 class SearchSymbolResultItem {
+
+  const SearchSymbolResultItem({
+    required this.symbol,
+    required this.fullName,
+    required this.description,
+    required this.exchange,
+    required this.ticker,
+    required this.type,
+  });
+
+  factory SearchSymbolResultItem.fromJson(Map<String, dynamic> json) =>
+      _$SearchSymbolResultItemFromJson(json);
   final String symbol;
 
   @JsonKey(name: 'full_name')
@@ -425,24 +437,54 @@ class SearchSymbolResultItem {
 
   final String type;
 
-  const SearchSymbolResultItem({
-    required this.symbol,
-    required this.fullName,
-    required this.description,
-    required this.exchange,
-    required this.ticker,
-    required this.type,
-  });
-
-  factory SearchSymbolResultItem.fromJson(Map<String, dynamic> json) =>
-      _$SearchSymbolResultItemFromJson(json);
-
   Map<String, dynamic> toJson() => _$SearchSymbolResultItemToJson(this);
 }
 
 @immutable
 @JsonSerializable(includeIfNull: false)
 class LibrarySymbolInfo {
+
+  const LibrarySymbolInfo({
+    required this.name,
+    required this.fullName,
+    this.baseName,
+    this.ticker,
+    required this.description,
+    required this.type,
+    required this.session,
+    this.sessionDisplay,
+    this.holidays,
+    this.corrections,
+    required this.exchange,
+    required this.listedExchange,
+    required this.timezone,
+    required this.format,
+    required this.pricescale,
+    required this.minmov,
+    this.fractional,
+    this.minmove2,
+    this.hasIntraday,
+    required this.supportedResolutions,
+    this.intradayMultipliers,
+    this.hasSeconds,
+    this.hasTicks,
+    this.secondsMultipliers,
+    this.hasDaily,
+    this.hasWeeklyAndMonthly,
+    this.hasEmptyBars,
+    this.hasNoVolume,
+    this.volumePrecision,
+    this.dataStatus,
+    this.expired,
+    this.expirationDate,
+    this.sector,
+    this.industry,
+    this.currencyCode,
+    this.originalCurrencyCode,
+  });
+
+  factory LibrarySymbolInfo.fromJson(Map<String, dynamic> json) =>
+      _$LibrarySymbolInfoFromJson(json);
   final String name;
 
   @JsonKey(name: 'full_name')
@@ -534,48 +576,6 @@ class LibrarySymbolInfo {
   @JsonKey(name: 'original_currency_code')
   final String? originalCurrencyCode;
 
-  const LibrarySymbolInfo({
-    required this.name,
-    required this.fullName,
-    this.baseName,
-    this.ticker,
-    required this.description,
-    required this.type,
-    required this.session,
-    this.sessionDisplay,
-    this.holidays,
-    this.corrections,
-    required this.exchange,
-    required this.listedExchange,
-    required this.timezone,
-    required this.format,
-    required this.pricescale,
-    required this.minmov,
-    this.fractional,
-    this.minmove2,
-    this.hasIntraday,
-    required this.supportedResolutions,
-    this.intradayMultipliers,
-    this.hasSeconds,
-    this.hasTicks,
-    this.secondsMultipliers,
-    this.hasDaily,
-    this.hasWeeklyAndMonthly,
-    this.hasEmptyBars,
-    this.hasNoVolume,
-    this.volumePrecision,
-    this.dataStatus,
-    this.expired,
-    this.expirationDate,
-    this.sector,
-    this.industry,
-    this.currencyCode,
-    this.originalCurrencyCode,
-  });
-
-  factory LibrarySymbolInfo.fromJson(Map<String, dynamic> json) =>
-      _$LibrarySymbolInfoFromJson(json);
-
   Map<String, dynamic> toJson() => _$LibrarySymbolInfoToJson(this);
 }
 
@@ -588,6 +588,48 @@ class LibrarySymbolInfo {
 @immutable
 @JsonSerializable(includeIfNull: false)
 class ChartingLibraryWidgetOptions {
+
+  const ChartingLibraryWidgetOptions({
+    required this.interval,
+    this.symbol,
+    this.autoSaveDelay,
+    this.autosize,
+    this.debug,
+    this.disabledFeatures,
+    this.drawingsAccess,
+    this.enabledFeatures,
+    this.fullscreen,
+    this.height,
+    required this.locale,
+    this.numericFormatting,
+    this.savedData,
+    this.savedDataMetaInfo,
+    this.studiesAccess,
+    this.studyCountLimit,
+    this.symbolSearchRequestDelay,
+    this.timeframe,
+    this.timezone,
+    this.toolbarBg,
+    this.width,
+    this.chartsStorageUrl,
+    this.chartsStorageApiVersion,
+    this.clientId,
+    this.userId,
+    this.loadLastChart,
+    this.studiesOverrides,
+    this.overrides,
+    this.snapshotUrl,
+    this.preset,
+    this.timeFrames,
+    this.customCssUrl,
+    this.favorites,
+    this.loadingScreen,
+    this.theme,
+    this.compareSymbols,
+  });
+
+  factory ChartingLibraryWidgetOptions.fromJson(Map<String, dynamic> json) =>
+      _$ChartingLibraryWidgetOptionsFromJson(json);
   final String interval;
 
   final String? symbol;
@@ -684,57 +726,12 @@ class ChartingLibraryWidgetOptions {
   @JsonKey(name: 'compare_symbols')
   final List<CompareSymbol>? compareSymbols;
 
-  const ChartingLibraryWidgetOptions({
-    required this.interval,
-    this.symbol,
-    this.autoSaveDelay,
-    this.autosize,
-    this.debug,
-    this.disabledFeatures,
-    this.drawingsAccess,
-    this.enabledFeatures,
-    this.fullscreen,
-    this.height,
-    required this.locale,
-    this.numericFormatting,
-    this.savedData,
-    this.savedDataMetaInfo,
-    this.studiesAccess,
-    this.studyCountLimit,
-    this.symbolSearchRequestDelay,
-    this.timeframe,
-    this.timezone,
-    this.toolbarBg,
-    this.width,
-    this.chartsStorageUrl,
-    this.chartsStorageApiVersion,
-    this.clientId,
-    this.userId,
-    this.loadLastChart,
-    this.studiesOverrides,
-    this.overrides,
-    this.snapshotUrl,
-    this.preset,
-    this.timeFrames,
-    this.customCssUrl,
-    this.favorites,
-    this.loadingScreen,
-    this.theme,
-    this.compareSymbols,
-  });
-
-  factory ChartingLibraryWidgetOptions.fromJson(Map<String, dynamic> json) =>
-      _$ChartingLibraryWidgetOptionsFromJson(json);
-
   Map<String, dynamic> toJson() => _$ChartingLibraryWidgetOptionsToJson(this);
 }
 
 @immutable
 @JsonSerializable(includeIfNull: false)
 class SavedStateMetaInfo {
-  final int uid;
-  final String name;
-  final String description;
 
   const SavedStateMetaInfo({
     required this.uid,
@@ -744,6 +741,9 @@ class SavedStateMetaInfo {
 
   factory SavedStateMetaInfo.fromJson(Map<String, dynamic> json) =>
       _$SavedStateMetaInfoFromJson(json);
+  final int uid;
+  final String name;
+  final String description;
 
   Map<String, dynamic> toJson() => _$SavedStateMetaInfoToJson(this);
 }
@@ -751,8 +751,6 @@ class SavedStateMetaInfo {
 @immutable
 @JsonSerializable(includeIfNull: false)
 class CompareSymbol {
-  final String symbol;
-  final String title;
 
   const CompareSymbol({
     required this.symbol,
@@ -761,6 +759,8 @@ class CompareSymbol {
 
   factory CompareSymbol.fromJson(Map<String, dynamic> json) =>
       _$CompareSymbolFromJson(json);
+  final String symbol;
+  final String title;
 
   Map<String, dynamic> toJson() => _$CompareSymbolToJson(this);
 }
@@ -768,8 +768,6 @@ class CompareSymbol {
 @immutable
 @JsonSerializable(includeIfNull: false)
 class LoadingScreenOptions {
-  final String? foregroundColor;
-  final String? backgroundColor;
 
   const LoadingScreenOptions({
     this.foregroundColor,
@@ -778,6 +776,8 @@ class LoadingScreenOptions {
 
   factory LoadingScreenOptions.fromJson(Map<String, dynamic> json) =>
       _$LoadingScreenOptionsFromJson(json);
+  final String? foregroundColor;
+  final String? backgroundColor;
 
   Map<String, dynamic> toJson() => _$LoadingScreenOptionsToJson(this);
 }
@@ -785,8 +785,6 @@ class LoadingScreenOptions {
 @immutable
 @JsonSerializable(includeIfNull: false)
 class Favorites {
-  final List<String> intervals;
-  final List<String> chartTypes;
 
   const Favorites({
     required this.intervals,
@@ -795,6 +793,8 @@ class Favorites {
 
   factory Favorites.fromJson(Map<String, dynamic> json) =>
       _$FavoritesFromJson(json);
+  final List<String> intervals;
+  final List<String> chartTypes;
 
   Map<String, dynamic> toJson() => _$FavoritesToJson(this);
 }
@@ -802,10 +802,6 @@ class Favorites {
 @immutable
 @JsonSerializable(includeIfNull: false)
 class TimeFrameItem {
-  final String text;
-  final String resolution;
-  final String? description;
-  final String? title;
 
   const TimeFrameItem({
     required this.text,
@@ -816,6 +812,10 @@ class TimeFrameItem {
 
   factory TimeFrameItem.fromJson(Map<String, dynamic> json) =>
       _$TimeFrameItemFromJson(json);
+  final String text;
+  final String resolution;
+  final String? description;
+  final String? title;
 
   Map<String, dynamic> toJson() => _$TimeFrameItemToJson(this);
 }
@@ -823,8 +823,6 @@ class TimeFrameItem {
 @immutable
 @JsonSerializable(includeIfNull: false)
 class NumericFormattingParams {
-  @JsonKey(name: 'decimal_sign')
-  final String decimalSign;
 
   const NumericFormattingParams({
     required this.decimalSign,
@@ -832,6 +830,8 @@ class NumericFormattingParams {
 
   factory NumericFormattingParams.fromJson(Map<String, dynamic> json) =>
       _$NumericFormattingParamsFromJson(json);
+  @JsonKey(name: 'decimal_sign')
+  final String decimalSign;
 
   Map<String, dynamic> toJson() => _$NumericFormattingParamsToJson(this);
 }
@@ -839,8 +839,6 @@ class NumericFormattingParams {
 @immutable
 @JsonSerializable(includeIfNull: false)
 class AccessList {
-  final AccessListType type;
-  final List<AccessListItem> tools;
 
   const AccessList({
     required this.type,
@@ -849,6 +847,8 @@ class AccessList {
 
   factory AccessList.fromJson(Map<String, dynamic> json) =>
       _$AccessListFromJson(json);
+  final AccessListType type;
+  final List<AccessListItem> tools;
 
   Map<String, dynamic> toJson() => _$AccessListToJson(this);
 }
@@ -856,8 +856,6 @@ class AccessList {
 @immutable
 @JsonSerializable(includeIfNull: false)
 class AccessListItem {
-  final String name;
-  final bool? grayed;
 
   const AccessListItem({
     required this.name,
@@ -866,6 +864,8 @@ class AccessListItem {
 
   factory AccessListItem.fromJson(Map<String, dynamic> json) =>
       _$AccessListItemFromJson(json);
+  final String name;
+  final bool? grayed;
 
   Map<String, dynamic> toJson() => _$AccessListItemToJson(this);
 }

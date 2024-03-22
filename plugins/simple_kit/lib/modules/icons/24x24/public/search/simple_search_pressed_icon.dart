@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/search/simple_light_search_
 import 'package:simple_kit/utils/enum.dart';
 
 class SSearchPressedIcon extends StatelessObserverWidget {
-  const SSearchPressedIcon({Key? key}) : super(key: key);
+  const SSearchPressedIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

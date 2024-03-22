@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/pause/simple_light_pause_ic
 import 'package:simple_kit/utils/enum.dart';
 
 class SPauseIcon extends StatelessObserverWidget {
-  const SPauseIcon({Key? key}) : super(key: key);
+  const SPauseIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

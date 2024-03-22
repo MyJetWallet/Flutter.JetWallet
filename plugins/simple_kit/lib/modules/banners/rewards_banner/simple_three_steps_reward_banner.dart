@@ -6,7 +6,7 @@ import 'helper/set_circle_background_image.dart';
 
 class SThreeStepsRewardBanner extends StatelessWidget {
   const SThreeStepsRewardBanner({
-    Key? key,
+    super.key,
     this.imageUrl,
     this.circleAvatarColor,
     this.rewardIndicatorComplete,
@@ -15,7 +15,7 @@ class SThreeStepsRewardBanner extends StatelessWidget {
     required this.timeToComplete,
     required this.onTap,
     required this.showInfoIcon,
-  }) : super(key: key);
+  });
 
   final String? imageUrl;
   final Color? circleAvatarColor;

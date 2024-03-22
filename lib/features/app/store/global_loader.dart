@@ -18,9 +18,9 @@ abstract class _GlobalLoaderBase with Store {
 
 class GlobalLoaderWidget extends StatelessWidget {
   const GlobalLoaderWidget({
-    Key? key,
+    super.key,
     required this.child,
-  }) : super(key: key);
+  });
 
   final Widget child;
 

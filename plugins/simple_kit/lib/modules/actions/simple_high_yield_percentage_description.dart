@@ -5,14 +5,14 @@ import '../../simple_kit.dart';
 
 class SHighYieldPercentageDescription extends StatelessWidget {
   const SHighYieldPercentageDescription({
-    Key? key,
+    super.key,
     required this.widgetSize,
     required this.onTap,
     required this.tiers,
     required this.hot,
     required this.error,
     this.apy = '',
-  }) : super(key: key);
+  });
 
   final SWidgetSize widgetSize;
   final void Function()? onTap;

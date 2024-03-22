@@ -5,13 +5,13 @@ import '../../simple_kit.dart';
 
 class SPaymentSelectFiat extends StatelessWidget {
   const SPaymentSelectFiat({
-    Key? key,
+    super.key,
     required this.icon,
     required this.name,
     required this.amount,
     required this.widgetSize,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final Widget icon;
   final String name;

@@ -4,14 +4,14 @@ import 'package:simple_kit/modules/keyboards/components/numeric_keyboard_row.dar
 
 class NumericKeyboardFrame extends StatelessWidget {
   const NumericKeyboardFrame({
-    Key? key,
+    super.key,
     this.paddingBottom,
     required this.heightBetweenRows,
     required this.paddingTop,
     required this.height,
     required this.lastRow,
     required this.onKeyPressed,
-  }) : super(key: key);
+  });
 
   final double heightBetweenRows;
   final double? paddingBottom;

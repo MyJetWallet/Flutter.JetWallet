@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/32x32/light/my_assets/simple_light_my_a
 import 'package:simple_kit/utils/enum.dart';
 
 class SMyAssetsActiveIcon extends StatelessObserverWidget {
-  const SMyAssetsActiveIcon({Key? key}) : super(key: key);
+  const SMyAssetsActiveIcon({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class SMyAssetsActiveIcon extends StatelessObserverWidget {
 }
 
 class SMyAssetsIcon extends StatelessObserverWidget {
-  const SMyAssetsIcon({Key? key}) : super(key: key);
+  const SMyAssetsIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

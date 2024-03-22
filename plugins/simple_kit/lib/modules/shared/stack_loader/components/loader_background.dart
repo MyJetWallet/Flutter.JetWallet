@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 
 class LoaderBackground extends StatelessWidget {
-  const LoaderBackground({Key? key}) : super(key: key);
+  const LoaderBackground({super.key});
 
   @override
   Widget build(BuildContext context) {

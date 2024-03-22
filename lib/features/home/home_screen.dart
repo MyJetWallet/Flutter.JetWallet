@@ -136,13 +136,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 switch (bottomBarItems[val]) {
                   case BottomItemType.wallets:
                     sAnalytics.tapOnTheTabWalletsInTabBar();
-                    break;
                   case BottomItemType.rewards:
                     sAnalytics.rewardsTapOnTheTabBar();
-                    break;
                   case BottomItemType.earn:
                     sAnalytics.tapOnTheTabbarButtonEarn();
-                    break;
                   default:
                 }
 
@@ -152,13 +149,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   switch (bottomBarItems[val]) {
                     case BottomItemType.wallets:
                       getIt.get<EventBus>().fire(ResetScrollMyWallets());
-                      break;
                     case BottomItemType.market:
                       getIt.get<EventBus>().fire(ResetScrollMarket());
-                      break;
                     case BottomItemType.card:
                       getIt.get<EventBus>().fire(ResetScrollCard());
-                      break;
                     default:
                   }
                 }

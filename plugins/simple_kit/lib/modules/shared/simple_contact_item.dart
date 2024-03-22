@@ -6,13 +6,13 @@ import '../../../simple_kit.dart';
 
 class SContactItem extends StatelessWidget {
   const SContactItem({
-    Key? key,
+    super.key,
     this.onTap,
     this.valid = true,
     required this.isManualEnter,
     required this.name,
     required this.phone,
-  }) : super(key: key);
+  });
 
   final Function()? onTap;
   final bool valid;

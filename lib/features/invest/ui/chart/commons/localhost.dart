@@ -13,9 +13,9 @@ LocalhostManager get localhostManager {
 }
 
 class LocalhostManager {
+  LocalhostManager._internal();
   static const int port = 8080;
   static LocalhostManager? _instance;
-  LocalhostManager._internal();
 
   InAppLocalhostServer? _localhostServer;
 
@@ -32,7 +32,7 @@ class LocalhostManager {
 
   Future<void> startServer() async {
     if (!isRunning) {
-      final server = InAppLocalhostServer(port: port);
+      final server = InAppLocalhostServer();
       _localhostServer = server;
       await server.start();
     }

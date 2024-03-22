@@ -10,7 +10,7 @@ import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 class SimpleLargeAltAppbar extends StatelessWidget {
   const SimpleLargeAltAppbar({
-    Key? key,
+    super.key,
     required this.title,
     this.value,
     this.hasSecondIcon = false,
@@ -21,7 +21,7 @@ class SimpleLargeAltAppbar extends StatelessWidget {
     this.labelIcon,
     this.onLabelIconTap,
     this.isLoading = false,
-  }) : super(key: key);
+  });
 
   final String title;
 

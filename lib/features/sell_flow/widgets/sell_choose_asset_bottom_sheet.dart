@@ -93,7 +93,8 @@ class _ChooseAssetBody extends StatelessObserverWidget {
               builder: (context) {
                 var secondaryText = '';
                 if (baseCurrency.symbol != currency.symbol) {
-                  secondaryText = getIt<AppStore>().isBalanceHide ? '******* ${currency.symbol}' : currency.volumeAssetBalance;
+                  secondaryText =
+                      getIt<AppStore>().isBalanceHide ? '******* ${currency.symbol}' : currency.volumeAssetBalance;
                 }
 
                 return SimpleTableAsset(
@@ -103,7 +104,7 @@ class _ChooseAssetBody extends StatelessObserverWidget {
                   ),
                   label: currency.description,
                   rightValue: getIt<AppStore>().isBalanceHide
-                      ? '**** ${baseCurrency.symbol ?? 'EUR'}'
+                      ? '**** ${baseCurrency.symbol}'
                       : currency.volumeBaseBalance(baseCurrency),
                   supplement: secondaryText,
                   onTableAssetTap: () {

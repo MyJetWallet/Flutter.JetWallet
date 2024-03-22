@@ -5,9 +5,9 @@ import 'package:simple_kit/utils/constants.dart';
 
 class LoaderSpinner extends StatelessWidget {
   const LoaderSpinner({
-    Key? key,
+    super.key,
     this.size = 24,
-  }) : super(key: key);
+  });
 
   final double size;
 

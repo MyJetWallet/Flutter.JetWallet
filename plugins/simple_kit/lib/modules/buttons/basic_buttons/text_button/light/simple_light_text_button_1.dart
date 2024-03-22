@@ -5,12 +5,12 @@ import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 /// Called Black Button in UI Kit for the Light Theme
 class SimpleLightTextButton1 extends StatelessWidget {
   const SimpleLightTextButton1({
-    Key? key,
+    super.key,
     this.color,
     required this.active,
     required this.name,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final bool active;
   final String name;

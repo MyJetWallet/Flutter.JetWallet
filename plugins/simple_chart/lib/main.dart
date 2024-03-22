@@ -9,7 +9,7 @@ bool showAnimation = false;
 
 class Chart extends StatefulWidget {
   const Chart({
-    Key? key,
+    super.key,
     required this.onResolutionChanged,
     required this.onChartTypeChanged,
     required this.onCandleSelected,
@@ -29,7 +29,7 @@ class Chart extends StatefulWidget {
     this.isLongInvest = false,
     this.isFullInvestChart = false,
     this.accuracy = 3,
-  }) : super(key: key);
+  });
 
   final void Function(String) onResolutionChanged;
   final void Function(ChartType) onChartTypeChanged;

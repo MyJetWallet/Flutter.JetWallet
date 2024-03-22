@@ -2,16 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/invest/ui/dashboard/active_invest_line.dart';
 import 'package:jetwallet/features/invest/ui/dashboard/my_portfolio.dart';
-import 'package:jetwallet/features/invest/ui/dashboard/my_wallet.dart';
 import 'package:jetwallet/features/invest/ui/dashboard/new_invest_header.dart';
-import 'package:jetwallet/features/invest/ui/dashboard/symbol_info.dart';
-import 'package:jetwallet/features/invest/ui/dashboard/symbol_info_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/invest_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/main_switch.dart';
 import 'package:jetwallet/features/invest/ui/invests/rollover_line.dart';
@@ -20,15 +15,12 @@ import 'package:jetwallet/features/invest/ui/widgets/slider_thumb_shape.dart';
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
-import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/signalr_log.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
 
 import '../../utils/helpers/currency_from.dart';
 import '../invest/ui/dashboard/invest_header.dart';
 import '../invest/ui/invests/main_invest_block.dart';
-import '../invest/ui/invests/symbol_info_without_chart.dart';
-import '../my_wallets/store/my_wallets_srore.dart';
 
 @RoutePage(name: 'InvestUIKITRouter')
 class InvestUIKIT extends StatefulWidget {
@@ -186,7 +178,7 @@ class _InvestUIState extends State<InvestUIKIT> {
                     tickMarkShape: const RoundSliderTickMarkShape(tickMarkRadius: 2),
                     activeTickMarkColor: colors.black,
                     inactiveTickMarkColor: colors.grey4,
-                    valueIndicatorShape: PaddleSliderValueIndicatorShape(),
+                    valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
                     valueIndicatorColor: colors.blue,
                     valueIndicatorTextStyle: TextStyle(
                       color: colors.brown,
@@ -208,7 +200,6 @@ class _InvestUIState extends State<InvestUIKIT> {
                   child: SStandardField(
                     labelText: intl.invest_amount,
                     onChanged: (String? value) {},
-                    isError: false,
                     hideSpace: true,
                   ),
                 ),

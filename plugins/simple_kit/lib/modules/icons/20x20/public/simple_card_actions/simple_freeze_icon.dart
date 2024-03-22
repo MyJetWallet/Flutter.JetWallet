@@ -6,9 +6,9 @@ import 'package:simple_kit/utils/enum.dart';
 
 class SFreezeIcon extends StatelessObserverWidget {
   const SFreezeIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

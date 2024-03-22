@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/account_status/simple_light
 import 'package:simple_kit/utils/enum.dart';
 
 class SAccountVerifyIcon extends StatelessObserverWidget {
-  const SAccountVerifyIcon({Key? key}) : super(key: key);
+  const SAccountVerifyIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

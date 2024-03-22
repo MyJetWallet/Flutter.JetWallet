@@ -3,10 +3,10 @@ import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 
 class NotificationBox extends StatelessWidget {
   const NotificationBox({
-    Key? key,
+    super.key,
     required this.notifications,
     this.cardsFailed = false,
-  }) : super(key: key);
+  });
 
   final int notifications;
   final bool cardsFailed;

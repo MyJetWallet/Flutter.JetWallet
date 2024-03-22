@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/two_factor_auth/simple_ligh
 import 'package:simple_kit/utils/enum.dart';
 
 class STwoFactorAuthIcon extends StatelessObserverWidget {
-  const STwoFactorAuthIcon({Key? key}) : super(key: key);
+  const STwoFactorAuthIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

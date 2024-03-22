@@ -3,7 +3,7 @@ import 'package:simple_kit/modules/buttons/basic_buttons/base/simple_base_button
 
 class SimpleBaseTextButton extends StatefulWidget {
   const SimpleBaseTextButton({
-    Key? key,
+    super.key,
     this.icon,
     this.addPadding = false,
     this.autoSize = false,
@@ -13,7 +13,7 @@ class SimpleBaseTextButton extends StatefulWidget {
     required this.activeColor,
     required this.activeBackgroundColor,
     required this.inactiveColor,
-  }) : super(key: key);
+  });
 
   final Widget? icon;
   final bool active;
