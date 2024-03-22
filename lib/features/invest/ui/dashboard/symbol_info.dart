@@ -60,7 +60,7 @@ class SymbolInfo extends StatelessObserverWidget {
         ),
         padding: const EdgeInsets.symmetric(
           vertical: 11,
-          horizontal: 12,
+          horizontal: 11,
         ),
         width: 130,
         child: Column(

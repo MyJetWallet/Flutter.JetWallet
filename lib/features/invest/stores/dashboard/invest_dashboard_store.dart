@@ -36,10 +36,18 @@ abstract class _InvestDashboardStoreBase with Store {
   StackLoaderStore? loader;
 
   @computed
-  ObservableList<InvestInstrumentModel> get instrumentsList =>
-      sSignalRModules.investInstrumentsData != null ? ObservableList.of([
-    ...sSignalRModules.investInstrumentsData!.instruments,
-  ]) : ObservableList.of([]);
+  InvestInstrumentsModel? get investInstrumentsData => sSignalRModules.investInstrumentsData;
+  @computed
+  InvestSectorsModel? get investSectorsData => sSignalRModules.investSectorsData;
+  @computed
+  InvestPositionsModel? get investPositionsData => sSignalRModules.investPositionsData;
+  @computed
+  InvestPricesModel? get investPricesData => sSignalRModules.investPricesData;
+  @computed
+  InvestBaseDailyPriceModel? get investBaseDailyPriceData => sSignalRModules.investBaseDailyPriceData;
+
+  @computed
+  List<InvestInstrumentModel> get instrumentsList => investInstrumentsData?.instruments ?? [];
 
   @observable
   TextEditingController searchController = TextEditingController();
@@ -66,19 +74,20 @@ abstract class _InvestDashboardStoreBase with Store {
   String activeSection = '';
   @computed
   ObservableList<InvestSectorModel> get sections {
-    final listForSort = sSignalRModules.investSectorsData?.sectors;
+    final listForSort = investSectorsData?.sectors;
     listForSort?.sort(
       (a, b) => (a.id ?? '').compareTo(b.id ?? ''),
     );
 
     return ObservableList.of(
-      listForSort ?? [
-        const InvestSectorModel(
-          id: '',
-          name: '',
-          description: '',
-        ),
-      ],
+      listForSort ??
+          [
+            const InvestSectorModel(
+              id: '',
+              name: '',
+              description: '',
+            ),
+          ],
     );
   }
 
@@ -91,36 +100,37 @@ abstract class _InvestDashboardStoreBase with Store {
   }
 
   @computed
-  ObservableList<String> get favoritesSymbols =>
-      ObservableList.of(
+  ObservableList<String> get favoritesSymbols => ObservableList.of(
         sSignalRModules.keyValue.favoritesInstruments?.value ?? ['BTC', 'ETH'],
       );
 
   @computed
   ObservableList<InvestInstrumentModel> get instrumentsSortedList {
-    final activeList = sSignalRModules.investInstrumentsData != null
-        ? sSignalRModules.investInstrumentsData!.instruments : <InvestInstrumentModel>[];
+    final activeList = instrumentsList;
     final sortedList = <InvestInstrumentModel>[];
     if (activeList.isNotEmpty) {
       for (var i = 0; i < activeList.length; i++) {
-        if (activeList[i].description!.toLowerCase()
-            .contains(instrumentSearch.toLowerCase()) ||
-            activeList[i].name!.toLowerCase()
-            .contains(instrumentSearch.toLowerCase())) {
-          if (
-            activeList[i].sectors != null && activeList[i].sectors!.where(
-              (element) => element == activeSection,
-            ).toList().isNotEmpty
-          ) {
+        if (activeList[i].description!.toLowerCase().contains(instrumentSearch.toLowerCase()) ||
+            activeList[i].name!.toLowerCase().contains(instrumentSearch.toLowerCase())) {
+          if (activeList[i].sectors != null &&
+              activeList[i]
+                  .sectors!
+                  .where(
+                    (element) => element == activeSection,
+                  )
+                  .toList()
+                  .isNotEmpty) {
             sortedList.add(activeList[i]);
           }
         }
       }
 
-      Decimal getGroupedProfit (String symbol) {
-        final groupedPositions = positionsList.where(
+      Decimal getGroupedProfit(String symbol) {
+        final groupedPositions = positionsList
+            .where(
               (element) => element.symbol == symbol && element.status == PositionStatus.opened,
-        ).toList();
+            )
+            .toList();
         var profit = Decimal.zero;
         for (var i = 0; i < groupedPositions.length; i++) {
           profit += getProfitByPosition(groupedPositions[i]);
@@ -129,7 +139,7 @@ abstract class _InvestDashboardStoreBase with Store {
         return profit;
       }
 
-      int getGroupedLength (String symbol) {
+      int getGroupedLength(String symbol) {
         final groupedPositions = positionsList.where(
           (element) => element.symbol == symbol,
         );
@@ -138,20 +148,20 @@ abstract class _InvestDashboardStoreBase with Store {
       }
 
       if (instrumentSort == 1) {
-        sortedList.sort((a, b) =>
-          getGroupedProfit(b.symbol!).compareTo(
+        sortedList.sort(
+          (a, b) => getGroupedProfit(b.symbol!).compareTo(
             getGroupedProfit(a.symbol!),
           ),
         );
       } else if (instrumentSort == 2) {
-        sortedList.sort((a, b) =>
-          getGroupedProfit(a.symbol!).compareTo(
+        sortedList.sort(
+          (a, b) => getGroupedProfit(a.symbol!).compareTo(
             getGroupedProfit(b.symbol!),
           ),
         );
       } else {
-        sortedList.sort((a, b) =>
-          getGroupedLength(b.symbol!).compareTo(
+        sortedList.sort(
+          (a, b) => getGroupedLength(b.symbol!).compareTo(
             getGroupedLength(a.symbol!),
           ),
         );
@@ -167,24 +177,22 @@ abstract class _InvestDashboardStoreBase with Store {
     final sortedList = <InvestInstrumentModel>[];
     if (activeList.isNotEmpty) {
       for (var i = 0; i < activeList.length; i++) {
-        if (activeList[i].description!.toLowerCase()
-            .contains(instrumentSearch.toLowerCase()) ||
-            activeList[i].name!.toLowerCase()
-            .contains(instrumentSearch.toLowerCase())) {
+        if (activeList[i].description!.toLowerCase().contains(instrumentSearch.toLowerCase()) ||
+            activeList[i].name!.toLowerCase().contains(instrumentSearch.toLowerCase())) {
           sortedList.add(activeList[i]);
         }
       }
 
       if (favoritesSort == 1) {
-        sortedList.sort((a, b) =>
-          getPriceBySymbol(b.symbol!).compareTo(
+        sortedList.sort(
+          (a, b) => getPriceBySymbol(b.symbol!).compareTo(
             getPriceBySymbol(a.symbol!),
           ),
         );
       } else if (favoritesSort == 2) {
-        sortedList.sort((a, b) =>
-            getPriceBySymbol(a.symbol!).compareTo(
-              getPriceBySymbol(b.symbol!),
+        sortedList.sort(
+          (a, b) => getPriceBySymbol(a.symbol!).compareTo(
+            getPriceBySymbol(b.symbol!),
           ),
         );
       }
@@ -195,8 +203,7 @@ abstract class _InvestDashboardStoreBase with Store {
 
   @computed
   ObservableList<InvestInstrumentModel> get losersList {
-    final activeList = sSignalRModules.investInstrumentsData != null
-        ? sSignalRModules.investInstrumentsData!.instruments : <InvestInstrumentModel>[];
+    final activeList = instrumentsList;
     final losers = <InvestInstrumentModel>[];
     if (activeList.isNotEmpty) {
       for (var i = 0; i < activeList.length; i++) {
@@ -204,9 +211,11 @@ abstract class _InvestDashboardStoreBase with Store {
           losers.add(activeList[i]);
         }
       }
-      losers.sort((a, b) => getPercentSymbol(a.symbol ?? '').compareTo(
-        getPercentSymbol(b.symbol ?? ''),
-      ),);
+      losers.sort(
+        (a, b) => getPercentSymbol(a.symbol ?? '').compareTo(
+          getPercentSymbol(b.symbol ?? ''),
+        ),
+      );
     }
 
     return ObservableList.of(losers);
@@ -214,8 +223,7 @@ abstract class _InvestDashboardStoreBase with Store {
 
   @computed
   ObservableList<InvestInstrumentModel> get gainersList {
-    final activeList = sSignalRModules.investInstrumentsData != null
-        ? sSignalRModules.investInstrumentsData!.instruments : <InvestInstrumentModel>[];
+    final activeList = instrumentsList;
     final gainers = <InvestInstrumentModel>[];
     if (activeList.isNotEmpty) {
       for (var i = 0; i < activeList.length; i++) {
@@ -223,9 +231,11 @@ abstract class _InvestDashboardStoreBase with Store {
           gainers.add(activeList[i]);
         }
       }
-      gainers.sort((a, b) => getPercentSymbol(b.symbol ?? '').compareTo(
-        getPercentSymbol(a.symbol ?? ''),
-      ),);
+      gainers.sort(
+        (a, b) => getPercentSymbol(b.symbol ?? '').compareTo(
+          getPercentSymbol(a.symbol ?? ''),
+        ),
+      );
     }
 
     return ObservableList.of(gainers);
@@ -233,8 +243,7 @@ abstract class _InvestDashboardStoreBase with Store {
 
   @computed
   ObservableList<InvestInstrumentModel> get favouritesList {
-    final activeList = sSignalRModules.investInstrumentsData != null
-        ? sSignalRModules.investInstrumentsData!.instruments : <InvestInstrumentModel>[];
+    final activeList = instrumentsList;
     final favorites = <InvestInstrumentModel>[];
     if (activeList.isNotEmpty) {
       for (var i = 0; i < activeList.length; i++) {
@@ -252,31 +261,23 @@ abstract class _InvestDashboardStoreBase with Store {
   }
 
   @computed
-  ObservableList<InvestPositionModel> get positionsList =>
-      sSignalRModules.investPositionsData != null ? ObservableList.of([
-    ...sSignalRModules.investPositionsData!.positions,
-  ]) : ObservableList.of([]);
+  List<InvestPositionModel> get positionsList => investPositionsData?.positions ?? [];
 
   @computed
-  ObservableList<InvestPriceModel> get pricesList =>
-      sSignalRModules.investPricesData != null ? ObservableList.of([
-    ...sSignalRModules.investPricesData!.prices,
-  ]) : ObservableList.of([]);
+  List<InvestPriceModel> get pricesList => investPricesData?.prices ?? [];
 
   @computed
-  ObservableList<BaseDailyPrice> get basePricesList =>
-      sSignalRModules.investBaseDailyPriceData != null ? ObservableList.of([
-    ...sSignalRModules.investBaseDailyPriceData!.dailyPrices,
-  ]) : ObservableList.of([]);
+  List<BaseDailyPrice> get basePricesList => investBaseDailyPriceData?.dailyPrices ?? [];
 
   @computed
   Decimal get totalAmount {
     var amountSum = Decimal.zero;
-    if (sSignalRModules.investPositionsData != null) {
-      final activePositions = sSignalRModules.investPositionsData!
-          .positions.where(
-          (element) => element.status == PositionStatus.opened,
-      ).toList();
+    if (investPositionsData != null) {
+      final activePositions = positionsList
+          .where(
+            (element) => element.status == PositionStatus.opened,
+          )
+          .toList();
       for (var i = 0; i < activePositions.length; i++) {
         amountSum += activePositions[i].amount!;
       }
@@ -288,11 +289,12 @@ abstract class _InvestDashboardStoreBase with Store {
   @computed
   Decimal get totalPendingAmount {
     var amountSum = Decimal.zero;
-    if (sSignalRModules.investPositionsData != null) {
-      final activePositions = sSignalRModules.investPositionsData!
-          .positions.where(
+    if (investPositionsData != null) {
+      final activePositions = positionsList
+          .where(
             (element) => element.status == PositionStatus.pending,
-      ).toList();
+          )
+          .toList();
       for (var i = 0; i < activePositions.length; i++) {
         amountSum += activePositions[i].amount!;
       }
@@ -304,10 +306,12 @@ abstract class _InvestDashboardStoreBase with Store {
   @computed
   Decimal get totalProfit {
     var profitSum = Decimal.zero;
-    if (sSignalRModules.investPositionsData != null) {
-      final activePositions = positionsList.where(
-        (element) => element.status == PositionStatus.opened,
-      ).toList();
+    if (investPositionsData != null) {
+      final activePositions = positionsList
+          .where(
+            (element) => element.status == PositionStatus.opened,
+          )
+          .toList();
       for (var i = 0; i < activePositions.length; i++) {
         profitSum += getProfitByPosition(activePositions[i]);
       }
@@ -325,11 +329,12 @@ abstract class _InvestDashboardStoreBase with Store {
   Decimal get totalYield {
     var amountSum = Decimal.zero;
     var profitSum = Decimal.zero;
-    if (sSignalRModules.investPositionsData != null) {
-      final activePositions = sSignalRModules.investPositionsData!
-          .positions.where(
+    if (investPositionsData != null) {
+      final activePositions = positionsList
+          .where(
             (element) => element.status == PositionStatus.opened,
-      ).toList();
+          )
+          .toList();
       for (var i = 0; i < activePositions.length; i++) {
         amountSum += activePositions[i].amount!;
         profitSum += getProfitByPosition(activePositions[i]);
@@ -345,10 +350,8 @@ abstract class _InvestDashboardStoreBase with Store {
 
   @action
   String getPriceBySymbol(String symbol) {
-    final instrument = instrumentsList
-        .where((element) => element.symbol == symbol).toList();
-    final price = pricesList
-        .where((element) => element.symbol == symbol).toList();
+    final instrument = instrumentsList.where((element) => element.symbol == symbol).toList();
+    final price = pricesList.where((element) => element.symbol == symbol).toList();
     if (instrument.isEmpty || price.isEmpty) {
       return '-';
     }
@@ -362,10 +365,8 @@ abstract class _InvestDashboardStoreBase with Store {
 
   @action
   Decimal getPendingPriceBySymbol(String symbol) {
-    final instrument = instrumentsList
-        .where((element) => element.symbol == symbol).toList();
-    final price = pricesList
-        .where((element) => element.symbol == symbol).toList();
+    final instrument = instrumentsList.where((element) => element.symbol == symbol).toList();
+    final price = pricesList.where((element) => element.symbol == symbol).toList();
     if (instrument.isEmpty || price.isEmpty) {
       return Decimal.zero;
     }
@@ -375,10 +376,8 @@ abstract class _InvestDashboardStoreBase with Store {
 
   @action
   Decimal getBasePriceBySymbol(String symbol) {
-    final instrument = instrumentsList
-        .where((element) => element.symbol == symbol).toList();
-    final price = basePricesList
-        .where((element) => element.symbol == symbol).toList();
+    final instrument = instrumentsList.where((element) => element.symbol == symbol).toList();
+    final price = basePricesList.where((element) => element.symbol == symbol).toList();
     if (instrument.isEmpty || price.isEmpty) {
       return Decimal.zero;
     }
@@ -394,39 +393,36 @@ abstract class _InvestDashboardStoreBase with Store {
       return Decimal.zero;
     }
 
-    final percentage = (Decimal.one - Decimal.fromJson('${(basePrice / currentPrice).toDouble()}')) * Decimal.fromInt(100);
+    final percentage =
+        (Decimal.one - Decimal.fromJson('${(basePrice / currentPrice).toDouble()}')) * Decimal.fromInt(100);
 
     return percentage;
   }
 
   @action
   Decimal getProfitByPosition(InvestPositionModel position) {
-    final instrument = instrumentsList
-        .where((element) => element.symbol == position.symbol).toList();
-    final price = pricesList
-        .where((element) => element.symbol == position.symbol).toList();
+    final instrument = instrumentsList.where((element) => element.symbol == position.symbol).toList();
+    final price = pricesList.where((element) => element.symbol == position.symbol).toList();
     if (instrument.isEmpty || price.isEmpty) {
       return Decimal.zero;
     }
 
     return position.direction == Direction.buy
-      ? (price[0].lastPrice! - position.openPrice!) * position.volumeBase! + position.rollOver! - position.openFee!
-      : -(price[0].lastPrice! - position.openPrice!) * position.volumeBase! + position.rollOver! - position.openFee!;
+        ? (price[0].lastPrice! - position.openPrice!) * position.volumeBase! + position.rollOver! - position.openFee!
+        : -(price[0].lastPrice! - position.openPrice!) * position.volumeBase! + position.rollOver! - position.openFee!;
   }
 
   @action
   Decimal getYieldByPosition(InvestPositionModel position) {
-    final instrument = instrumentsList
-        .where((element) => element.symbol == position.symbol).toList();
-    final price = pricesList
-        .where((element) => element.symbol == position.symbol).toList();
+    final instrument = instrumentsList.where((element) => element.symbol == position.symbol).toList();
+    final price = pricesList.where((element) => element.symbol == position.symbol).toList();
     if (instrument.isEmpty || price.isEmpty) {
       return Decimal.zero;
     }
 
     final profit = position.direction == Direction.buy
-      ? (price[0].lastPrice! - position.openPrice!) * position.volumeBase! + position.rollOver! - position.openFee!
-      : -(price[0].lastPrice! - position.openPrice!) * position.volumeBase! + position.rollOver! - position.openFee!;
+        ? (price[0].lastPrice! - position.openPrice!) * position.volumeBase! + position.rollOver! - position.openFee!
+        : -(price[0].lastPrice! - position.openPrice!) * position.volumeBase! + position.rollOver! - position.openFee!;
 
     return Decimal.fromJson('${(Decimal.fromInt(100) * profit / position.amount!).toDouble()}');
   }
@@ -508,14 +504,14 @@ abstract class _InvestDashboardStoreBase with Store {
   @action
   Future<void> saveFavorites(List<String> newList) async {
     await getIt.get<KeyValuesService>().addToKeyValue(
-      KeyValueRequestModel(
-        keys: [
-          KeyValueResponseModel(
-            key: favoritesInstrumentsKey,
-            value: jsonEncode(newList),
+          KeyValueRequestModel(
+            keys: [
+              KeyValueResponseModel(
+                key: favoritesInstrumentsKey,
+                value: jsonEncode(newList),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+        );
   }
 }

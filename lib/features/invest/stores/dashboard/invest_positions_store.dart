@@ -84,6 +84,11 @@ abstract class _InvestPositionsStoreBase with Store {
   @observable
   Decimal totalProfitPercent = Decimal.zero;
 
+  @computed
+  InvestInstrumentsModel? get investInstrumentsData => sSignalRModules.investInstrumentsData;
+  @computed
+  InvestPositionsModel? get investPositionsData => sSignalRModules.investPositionsData;
+
   @action
   void setTotals(
     Decimal amount,
@@ -97,19 +102,18 @@ abstract class _InvestPositionsStoreBase with Store {
 
   @action
   Future<void> requestInvestHistorySummary(
-      bool needLoader,
+    bool needLoader,
   ) async {
-
     final investStore = getIt.get<InvestDashboardStore>();
 
     final response = await sNetwork.getWalletModule().getInvestHistorySummary(
-      dateFrom: '${DateTime.now().subtract(
-        Duration(
-          days: getDaysByPeriod(investStore.period),
-        ),
-      )}',
-      dateTo: '${DateTime.now()}',
-    );
+          dateFrom: '${DateTime.now().subtract(
+            Duration(
+              days: getDaysByPeriod(investStore.period),
+            ),
+          )}',
+          dateTo: '${DateTime.now()}',
+        );
 
     var amount = Decimal.zero;
     var profit = Decimal.zero;
@@ -134,28 +138,22 @@ abstract class _InvestPositionsStoreBase with Store {
     if (!response.hasError && response.data != null) {
       journalList = response.data!;
     }
-    final responseRollover = await sNetwork.getWalletModule().getPositionHistoryRollover(id: position.id!, skip: '0', take: '20');
+    final responseRollover =
+        await sNetwork.getWalletModule().getPositionHistoryRollover(id: position.id!, skip: '0', take: '20');
     if (!responseRollover.hasError && responseRollover.data != null) {
       rolloverList = responseRollover.data!;
     }
   }
 
   @computed
-  ObservableList<InvestInstrumentModel> get instrumentsList =>
-      sSignalRModules.investInstrumentsData != null ? ObservableList.of([
-    ...sSignalRModules.investInstrumentsData!.instruments,
-  ]) : ObservableList.of([]);
+  List<InvestInstrumentModel> get instrumentsList => investInstrumentsData?.instruments ?? [];
 
   @computed
-  ObservableList<InvestPositionModel> get positionsList =>
-      sSignalRModules.investPositionsData != null ? ObservableList.of([
-    ...sSignalRModules.investPositionsData!.positions,
-  ]) : ObservableList.of([]);
+  List<InvestPositionModel> get positionsList => investPositionsData?.positions ?? [];
 
   @computed
   ObservableList<InvestPositionModel> get activeList {
-    final activeList = sSignalRModules.investPositionsData != null
-        ? sSignalRModules.investPositionsData!.positions : <InvestPositionModel>[];
+    final activeList = positionsList;
     final activePositions = <InvestPositionModel>[];
     if (activeList.isNotEmpty) {
       for (var i = 0; i < activeList.length; i++) {
@@ -170,8 +168,7 @@ abstract class _InvestPositionsStoreBase with Store {
 
   @computed
   ObservableList<InvestPositionModel> get pendingList {
-    final activeList = sSignalRModules.investPositionsData != null
-        ? sSignalRModules.investPositionsData!.positions : <InvestPositionModel>[];
+    final activeList = positionsList;
     final pendingPositions = <InvestPositionModel>[];
     if (activeList.isNotEmpty) {
       for (var i = 0; i < activeList.length; i++) {
@@ -186,8 +183,7 @@ abstract class _InvestPositionsStoreBase with Store {
 
   @computed
   ObservableList<InvestPositionModel> get closedList {
-    final activeList = sSignalRModules.investPositionsData != null
-        ? sSignalRModules.investPositionsData!.positions : <InvestPositionModel>[];
+    final activeList = positionsList;
     final closedPositions = <InvestPositionModel>[];
     if (activeList.isNotEmpty) {
       for (var i = 0; i < activeList.length; i++) {
@@ -202,8 +198,7 @@ abstract class _InvestPositionsStoreBase with Store {
 
   @computed
   ObservableList<InvestPositionModel> get cancelledList {
-    final activeList = sSignalRModules.investPositionsData != null
-        ? sSignalRModules.investPositionsData!.positions : <InvestPositionModel>[];
+    final activeList = positionsList;
     final cancelledPositions = <InvestPositionModel>[];
     if (activeList.isNotEmpty) {
       for (var i = 0; i < activeList.length; i++) {
@@ -294,8 +289,6 @@ abstract class _InvestPositionsStoreBase with Store {
     }
   }
 
-
-
   @action
   void closeActivePosition(
     BuildContext context,
@@ -356,10 +349,11 @@ abstract class _InvestPositionsStoreBase with Store {
                 SITextButton(
                   active: true,
                   name: intl.invest_full_report,
-                  onTap: () {
-
-                  },
-                  icon: Assets.svg.invest.report.simpleSvg(width: 16, height: 16,),
+                  onTap: () {},
+                  icon: Assets.svg.invest.report.simpleSvg(
+                    width: 16,
+                    height: 16,
+                  ),
                 ),
               ],
             ),
@@ -425,25 +419,18 @@ abstract class _InvestPositionsStoreBase with Store {
     Function() onClose,
   ) async {
     try {
-      final response = await getIt
-          .get<SNetwork>()
-          .simpleNetworking
-          .getWalletModule()
-          .getPosition(positionId: id);
+      final response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().getPosition(positionId: id);
 
       if (response.hasError) {
         sNotification.showError(
           response.error?.cause ?? '',
-          duration: 4,
           id: 1,
           needFeedback: true,
         );
         loader!.finishLoading();
       } else {
-        if (
-          response.data?.position?.status == PositionStatus.closing ||
-          response.data?.position?.status == PositionStatus.cancelling
-        ) {
+        if (response.data?.position?.status == PositionStatus.closing ||
+            response.data?.position?.status == PositionStatus.cancelling) {
           Timer(
             const Duration(seconds: 1),
             () {
@@ -462,5 +449,4 @@ abstract class _InvestPositionsStoreBase with Store {
       loader!.finishLoading();
     }
   }
-
 }
