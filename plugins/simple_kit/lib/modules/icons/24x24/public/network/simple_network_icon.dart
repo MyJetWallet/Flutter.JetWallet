@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/network/simple_network_icon
 import 'package:simple_kit/utils/enum.dart';
 
 class SNetworkIcon extends StatelessObserverWidget {
-  const SNetworkIcon({Key? key, this.color}) : super(key: key);
+  const SNetworkIcon({super.key, this.color});
 
   final Color? color;
 

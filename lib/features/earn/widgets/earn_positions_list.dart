@@ -57,7 +57,7 @@ class EarnPositionsListWidget extends StatelessWidget {
                   },
                 ),
               )
-              .toList(),
+              ,
         ],
       ),
     );

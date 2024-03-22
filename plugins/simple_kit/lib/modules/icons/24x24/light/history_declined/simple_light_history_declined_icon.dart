@@ -3,9 +3,9 @@ import 'package:simple_kit/modules/icons/20x20/base/simple_base_svg_20x20.dart';
 
 class SimpleLightHistoryDeclinedIcon extends StatelessWidget {
   const SimpleLightHistoryDeclinedIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

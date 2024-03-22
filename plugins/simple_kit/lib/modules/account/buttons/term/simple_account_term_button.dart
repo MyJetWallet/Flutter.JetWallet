@@ -4,10 +4,10 @@ import '../../../../simple_kit.dart';
 
 class SimpleAccountTermButton extends StatelessWidget {
   const SimpleAccountTermButton({
-    Key? key,
+    super.key,
     required this.name,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final String name;
   final Function() onTap;

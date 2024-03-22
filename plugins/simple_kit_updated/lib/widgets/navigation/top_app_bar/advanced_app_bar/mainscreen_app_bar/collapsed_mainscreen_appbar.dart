@@ -6,7 +6,7 @@ import 'package:simple_kit_updated/widgets/shared/icons/user_noty_icon.dart';
 
 class CollapsedMainscreenAppbar extends HookWidget {
   const CollapsedMainscreenAppbar({
-    Key? key,
+    super.key,
     required this.scrollController,
     required this.mainHeaderCollapsedTitle,
     required this.child,
@@ -18,7 +18,7 @@ class CollapsedMainscreenAppbar extends HookWidget {
     this.onProfileTap,
     this.profileNotificationsCount = 0,
     this.isLoading = false,
-  }) : super(key: key);
+  });
 
   final ScrollController scrollController;
 

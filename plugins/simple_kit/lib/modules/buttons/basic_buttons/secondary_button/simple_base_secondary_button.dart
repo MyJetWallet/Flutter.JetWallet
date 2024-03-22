@@ -3,7 +3,7 @@ import 'package:simple_kit/modules/buttons/basic_buttons/base/simple_base_button
 
 class SimpleBaseSecondaryButton extends StatefulWidget {
   const SimpleBaseSecondaryButton({
-    Key? key,
+    super.key,
     this.icon,
     this.borderColor,
     required this.active,
@@ -15,7 +15,7 @@ class SimpleBaseSecondaryButton extends StatefulWidget {
     required this.inactiveColor,
     required this.inactiveNameColor,
     required this.inactiveBackgroundColor,
-  }) : super(key: key);
+  });
 
   final Widget? icon;
   final bool active;

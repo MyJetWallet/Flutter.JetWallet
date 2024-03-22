@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/erase/simple_light_erase_pr
 import 'package:simple_kit/utils/enum.dart';
 
 class SErasePressedIcon extends StatelessObserverWidget {
-  const SErasePressedIcon({Key? key}) : super(key: key);
+  const SErasePressedIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

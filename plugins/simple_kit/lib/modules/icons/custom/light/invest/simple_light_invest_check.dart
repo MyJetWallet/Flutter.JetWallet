@@ -3,11 +3,11 @@ import 'package:simple_kit/modules/icons/custom/base/simple_custom_svg.dart';
 
 class SimpleLightInvestCheckIcon extends StatelessWidget {
   const SimpleLightInvestCheckIcon({
-    Key? key,
+    super.key,
     this.color,
     this.width,
     this.height,
-  }) : super(key: key);
+  });
 
   final Color? color;
   final double? width;

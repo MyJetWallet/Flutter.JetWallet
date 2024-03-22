@@ -6,11 +6,11 @@ import 'package:simple_kit/utils/enum.dart';
 
 class SISortNotSetIcon extends StatelessObserverWidget {
   const SISortNotSetIcon({
-    Key? key,
+    super.key,
     this.color,
     this.width,
     this.height,
-  }) : super(key: key);
+  });
 
   final Color? color;
   final double? width;

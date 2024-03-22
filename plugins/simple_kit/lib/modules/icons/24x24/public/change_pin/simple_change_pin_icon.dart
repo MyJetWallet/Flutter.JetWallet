@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/change_pin/simple_light_cha
 import 'package:simple_kit/utils/enum.dart';
 
 class SChangePinIcon extends StatelessObserverWidget {
-  const SChangePinIcon({Key? key}) : super(key: key);
+  const SChangePinIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

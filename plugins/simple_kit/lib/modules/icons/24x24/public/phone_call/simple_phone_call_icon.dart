@@ -7,9 +7,9 @@ import '../../light/phone_call/simple_light_phone_call_icon.dart';
 
 class SPhoneCallIcon extends StatelessObserverWidget {
   const SPhoneCallIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

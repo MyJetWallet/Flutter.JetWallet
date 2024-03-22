@@ -64,10 +64,8 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
       case InputError.enterHigherAmount:
         error =
             '''${intl.withdrawalAmount_enterMoreThan} ${store.withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(store.networkController.text)}''';
-        break;
       case InputError.limitError:
         error = store.limitError;
-        break;
       default:
         error = store.withAmmountInputError.value();
     }

@@ -1,5 +1,4 @@
 import 'package:jetwallet/core/di/di.dart';
-import 'package:jetwallet/core/services/package_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 
 enum Flavor {

@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/36x36/light/keyboard_erase/simple_light
 import 'package:simple_kit/utils/enum.dart';
 
 class SKeyboardErasePressedIcon extends StatelessObserverWidget {
-  const SKeyboardErasePressedIcon({Key? key}) : super(key: key);
+  const SKeyboardErasePressedIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

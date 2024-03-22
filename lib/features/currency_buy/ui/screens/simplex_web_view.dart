@@ -33,14 +33,12 @@ class _SimplexWebViewState extends State<SimplexWebView> {
       sRouter
           .push(
             SuccessScreenRouter(
-              secondaryText:
-                  '${intl.simplexWebView_successScreenSecondaryText1}\n≈ 10-30 '
+              secondaryText: '${intl.simplexWebView_successScreenSecondaryText1}\n≈ 10-30 '
                   '${intl.simplexWebView_minutes}',
             ),
           )
           .then(
-            (value) =>
-                sRouter.push(const HomeRouter(children: [MyWalletsRouter()])),
+            (value) => sRouter.push(const HomeRouter(children: [MyWalletsRouter()])),
           );
     }
 
@@ -60,11 +58,11 @@ class _SimplexWebViewState extends State<SimplexWebView> {
       );
     }
 
-    return WillPopScope(
-      onWillPop: () {
+    return PopScope(
+      onPopInvoked: (_) {
         navigateToRouter();
 
-        return Future.value(true);
+        Future.value(true);
       },
       child: SPageFrame(
         loaderText: intl.register_pleaseWait,

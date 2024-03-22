@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_positions_store.dart';
 import 'package:jetwallet/features/invest/ui/invests/data_line.dart';
@@ -12,7 +11,6 @@ import 'package:jetwallet/features/invest/ui/invests/invest_bottom_sheets/pendin
 import 'package:jetwallet/features/invest/ui/widgets/invest_alert_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
@@ -265,12 +263,12 @@ void showInvestListBottomSheet(BuildContext context) {
     horizontalPinnedPadding: 0,
     removePinnedPadding: true,
     horizontalPadding: 0,
-    children: [InvestList()],
+    children: [const InvestList()],
   );
 }
 
 class InvestList extends StatelessObserverWidget {
-  InvestList();
+  const InvestList();
 
   @override
   Widget build(BuildContext context) {
@@ -280,14 +278,14 @@ class InvestList extends StatelessObserverWidget {
       child: Observer(
         builder: (BuildContext context) {
           if (investPositionsStore.activeTab == 0) {
-            return ActiveInvestList();
+            return const ActiveInvestList();
           } else if (investPositionsStore.activeTab == 1) {
-            return PendingInvestList();
+            return const PendingInvestList();
           } else if (investPositionsStore.activeTab == 2) {
             return const HistoryInvestList();
           }
 
-          return ActiveInvestList();
+          return const ActiveInvestList();
         },
       ),
     );

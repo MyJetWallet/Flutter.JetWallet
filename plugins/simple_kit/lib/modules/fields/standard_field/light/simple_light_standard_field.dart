@@ -5,7 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 class SimpleLightStandardField extends StatefulWidget {
   const SimpleLightStandardField({
-    Key? key,
+    super.key,
     this.keyboardType,
     this.textInputAction,
     this.controller,
@@ -46,8 +46,7 @@ class SimpleLightStandardField extends StatefulWidget {
               (controller != null && initialValue == null) ||
               (controller == null && initialValue == null),
           "Controller and initialValue can't be both provided",
-        ),
-        super(key: key);
+        );
 
   final TextEditingController? controller;
   final TextInputType? keyboardType;

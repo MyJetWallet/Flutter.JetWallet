@@ -5,7 +5,7 @@ import '../../simple_kit.dart';
 
 class SActionConfirmText extends StatelessWidget {
   const SActionConfirmText({
-    Key? key,
+    super.key,
     this.infoAction,
     this.baseline,
     this.valueColor,
@@ -19,7 +19,7 @@ class SActionConfirmText extends StatelessWidget {
     this.maxValueWidth = 180,
     required this.name,
     required this.value,
-  }) : super(key: key);
+  });
 
   /// Needed for cases when SActionConfirmText goes after SActionConfirmText
   /// Because SActionConfirmText gives + 4px in height

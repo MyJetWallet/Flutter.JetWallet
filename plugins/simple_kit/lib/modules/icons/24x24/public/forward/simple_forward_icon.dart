@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/forward/simple_light_forwar
 import 'package:simple_kit/utils/enum.dart';
 
 class SForwardIcon extends StatelessObserverWidget {
-  const SForwardIcon({Key? key}) : super(key: key);
+  const SForwardIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

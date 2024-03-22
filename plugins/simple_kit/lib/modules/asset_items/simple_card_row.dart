@@ -5,7 +5,7 @@ import '../../simple_kit.dart';
 
 class SCardRow extends StatelessWidget {
   const SCardRow({
-    Key? key,
+    super.key,
     this.height = 80,
     this.helper = '',
     this.isSelected = false,
@@ -24,7 +24,7 @@ class SCardRow extends StatelessWidget {
     required this.amount,
     required this.description,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final double height;
 

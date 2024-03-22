@@ -5,12 +5,12 @@ import '../../../simple_kit.dart';
 
 class SMarketHeaderClosed extends StatelessWidget {
   const SMarketHeaderClosed({
-    Key? key,
+    super.key,
     this.onSearchButtonTap,
     this.isDivider = false,
     this.color,
     required this.title,
-  }) : super(key: key);
+  });
 
   final void Function()? onSearchButtonTap;
   final bool isDivider;

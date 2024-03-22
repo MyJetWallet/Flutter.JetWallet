@@ -5,9 +5,9 @@ import '../../simple_kit.dart';
 
 class SActionConfirmDescription extends StatelessWidget {
   const SActionConfirmDescription({
-    Key? key,
+    super.key,
     required this.text,
-  }) : super(key: key);
+  });
 
   final String text;
 

@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/erase/simple_light_erase_ma
 import 'package:simple_kit/utils/enum.dart';
 
 class SEraseMarketIcon extends StatelessObserverWidget {
-  const SEraseMarketIcon({Key? key, this.color}) : super(key: key);
+  const SEraseMarketIcon({super.key, this.color});
 
   final Color? color;
 

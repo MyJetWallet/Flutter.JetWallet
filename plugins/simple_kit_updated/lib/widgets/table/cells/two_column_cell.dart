@@ -7,7 +7,7 @@ enum TwoColumnCellType { def, loading }
 
 class TwoColumnCell extends StatelessWidget {
   const TwoColumnCell({
-    Key? key,
+    super.key,
     required this.label,
     this.type = TwoColumnCellType.def,
     this.value,
@@ -17,7 +17,7 @@ class TwoColumnCell extends StatelessWidget {
     this.customRightIcon,
     this.valueMaxLines = 1,
     this.onTab,
-  }) : super(key: key);
+  });
 
   final TwoColumnCellType type;
 

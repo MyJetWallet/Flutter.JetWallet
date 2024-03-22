@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SCheckBox extends StatelessWidget {
-  const SCheckBox({Key? key}) : super(key: key);
+  const SCheckBox({super.key});
 
   @override
   Widget build(BuildContext context) {

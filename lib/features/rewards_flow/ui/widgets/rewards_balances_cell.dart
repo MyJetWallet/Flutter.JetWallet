@@ -23,7 +23,7 @@ class RewardsBalancesCell extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final store = RewardsFlowStore.of(context);
 
-    final validBalances = (store.balances).where((element) => element.amount != Decimal.zero);
+    final validBalances = store.balances.where((element) => element.amount != Decimal.zero);
 
     return SPaddingH24(
       child: Column(
@@ -134,17 +134,17 @@ class _BalanceCellState extends State<_BalanceCell> {
                               getIt<AppStore>().isBalanceHide
                                   ? '**** ${curr.symbol}'
                                   : volumeFormat(
-                                decimal: widget.data.amount,
-                                accuracy: curr.accuracy,
-                                symbol: curr.symbol,
-                              ),
+                                      decimal: widget.data.amount,
+                                      accuracy: curr.accuracy,
+                                      symbol: curr.symbol,
+                                    ),
                               textAlign: TextAlign.right,
                               style: sSubtitle2Style.copyWith(
                                 height: 1,
                               ),
                             );
                           },
-                        )
+                        ),
                       ),
                     ],
                   ),
@@ -291,7 +291,7 @@ class _RewardTransferPopupState extends State<RewardTransferPopup> {
                       if (!response.hasError) {
                         showSuccessRewardSheet(
                           widget.data.assetSymbol ?? '',
-                          '${widget.data.amount ?? Decimal.zero}',
+                          '${widget.data.amount}',
                           widget.fAmount,
                         );
                       } else {

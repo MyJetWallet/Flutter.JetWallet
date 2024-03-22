@@ -5,14 +5,14 @@ import '../../simple_kit.dart';
 
 class SFiatItem extends StatelessWidget {
   const SFiatItem({
-    Key? key,
+    super.key,
     this.isSelected = false,
     this.description = '',
     required this.icon,
     required this.name,
     required this.amount,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final bool isSelected;
   final Widget icon;

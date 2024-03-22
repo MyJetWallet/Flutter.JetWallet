@@ -5,7 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 class SimpleBaseStandardField extends StatefulWidget {
   const SimpleBaseStandardField({
-    Key? key,
+    super.key,
     this.keyboardType,
     this.textInputAction,
     this.autofillHints,
@@ -40,7 +40,7 @@ class SimpleBaseStandardField extends StatefulWidget {
     this.height,
     this.weight,
     this.cursorHeight,
-  }) : super(key: key);
+  });
 
   final TextEditingController? controller;
   final TextInputType? keyboardType;

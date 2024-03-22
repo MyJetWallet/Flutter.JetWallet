@@ -25,7 +25,7 @@ import '../invest_line.dart';
 import '../main_invest_block.dart';
 
 class ActiveInvestList extends StatelessObserverWidget {
-  ActiveInvestList({
+  const ActiveInvestList({
     this.instrument,
   });
 

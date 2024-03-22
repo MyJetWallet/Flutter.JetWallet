@@ -131,36 +131,34 @@ class _TVChartState extends State<TVChart> with WidgetsBindingObserver {
       handlerName: 'resolveSymbol',
       callback: (arguments) {
         final symbolName = arguments[0] as String;
-        final symbol_stub = {
-        'full_name': symbolName,
-        'listed_exchange': '',
-        'name': symbolName,
-        'description': '',
-        'type': 'forex',
-        'session': '24x7',
-        'timezone': 'Etc/UTC',
-        'ticker': symbolName,
-        'exchange': symbolName,
-        'minmov': 1,
-        'pricescale': 100,
-        'has_weekly_and_monthly': true,
-        'has_daily': true,
-        'has_no_volume': true,
-        'has_empty_bars': false,
-        'supported_resolutions': ['15', '60', '240','1D'],
-        'data_status': 'streaming',
-        'format': 'price',
+        final symbolStub = {
+          'full_name': symbolName,
+          'listed_exchange': '',
+          'name': symbolName,
+          'description': '',
+          'type': 'forex',
+          'session': '24x7',
+          'timezone': 'Etc/UTC',
+          'ticker': symbolName,
+          'exchange': symbolName,
+          'minmov': 1,
+          'pricescale': 100,
+          'has_weekly_and_monthly': true,
+          'has_daily': true,
+          'has_no_volume': true,
+          'has_empty_bars': false,
+          'supported_resolutions': ['15', '60', '240', '1D'],
+          'data_status': 'streaming',
+          'format': 'price',
         };
 
-        return symbol_stub;
+        return symbolStub;
       },
     );
 
     controller.addJavaScriptHandler(
       handlerName: 'getBars',
       callback: (arguments) async {
-        final symbolInfo =
-            LibrarySymbolInfo.fromJson(arguments[0] as Map<String, dynamic>);
         // Only 1 resolution on example, not needed
         // final String resolution = arguments[1];
         // final PeriodParams periodParams = PeriodParams.fromJson(arguments[2]);
@@ -195,9 +193,7 @@ class _TVChartState extends State<TVChart> with WidgetsBindingObserver {
     controller.addJavaScriptHandler(
       handlerName: 'subscribeBars',
       callback: (arguments) async {
-
-        final symbolInfo =
-            LibrarySymbolInfo.fromJson(arguments[0] as Map<String, dynamic>);
+        final symbolInfo = LibrarySymbolInfo.fromJson(arguments[0] as Map<String, dynamic>);
         final resolution = arguments[1] as String;
         final listenerGuid = arguments[2] as String;
 
@@ -227,7 +223,6 @@ class _TVChartState extends State<TVChart> with WidgetsBindingObserver {
             chartResolutionTypeHelper(investNewStore.chartInterval),
           );
         });
-
 
         // Do request for realtime data
         // Use _callOnTick for returning realtime bar data
@@ -352,8 +347,7 @@ class _TVChartState extends State<TVChart> with WidgetsBindingObserver {
                     _isError = false;
                     // In case host not localhost (ex: got redirected to www.tradingview.com)
                     // Give user UI to call back on Webview
-                    _showBack =
-                        url != null && url.host != localhostManager.uri.host;
+                    _showBack = url != null && url.host != localhostManager.uri.host;
                   });
                 },
                 onLoadError: (controller, url, code, message) {
@@ -361,8 +355,7 @@ class _TVChartState extends State<TVChart> with WidgetsBindingObserver {
                     _isLoading = false;
                     _isError = false;
                     _isErrorMessage = '$code - $message';
-                    _showBack =
-                        url != null && url.host != localhostManager.uri.host;
+                    _showBack = url != null && url.host != localhostManager.uri.host;
                   });
                 },
                 onLoadHttpError: (controller, url, statusCode, description) {
@@ -370,8 +363,7 @@ class _TVChartState extends State<TVChart> with WidgetsBindingObserver {
                     _isLoading = false;
                     _isError = false;
                     _isErrorMessage = 'HTTP $statusCode - $description';
-                    _showBack =
-                        url != null && url.host != localhostManager.uri.host;
+                    _showBack = url != null && url.host != localhostManager.uri.host;
                   });
                 },
                 onConsoleMessage: (controller, consoleMessage) {

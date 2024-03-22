@@ -103,7 +103,6 @@ abstract class _IbanAddBankAccountStoreBase with Store {
 
         sNotification.showError(
           response.error?.cause ?? '',
-          duration: 4,
           id: 1,
           needFeedback: true,
         );
@@ -134,7 +133,6 @@ abstract class _IbanAddBankAccountStoreBase with Store {
 
         sNotification.showError(
           response.error?.cause ?? '',
-          duration: 4,
           id: 1,
           needFeedback: true,
         );
@@ -147,7 +145,6 @@ abstract class _IbanAddBankAccountStoreBase with Store {
 
       sNotification.showError(
         intl.iban_edit_save_noty,
-        duration: 4,
         id: 1,
         needFeedback: true,
         isError: false,
@@ -171,7 +168,6 @@ abstract class _IbanAddBankAccountStoreBase with Store {
       loader.finishLoadingImmediately();
       sNotification.showError(
         response.error?.cause ?? '',
-        duration: 4,
         id: 1,
         needFeedback: true,
       );
@@ -184,7 +180,6 @@ abstract class _IbanAddBankAccountStoreBase with Store {
 
     sNotification.showError(
       intl.iban_edit_delete_noty,
-      duration: 4,
       id: 1,
       needFeedback: true,
       isError: false,

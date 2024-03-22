@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 
 class FooterCell extends StatelessWidget {
   const FooterCell({
-    Key? key,
+    super.key,
     required this.text,
-  }) : super(key: key);
+  });
 
   final String text;
 

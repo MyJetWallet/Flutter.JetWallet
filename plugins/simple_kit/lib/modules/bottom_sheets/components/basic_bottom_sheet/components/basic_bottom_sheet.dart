@@ -5,7 +5,7 @@ import 'bottom_sheet_bar.dart';
 
 class BasicBottomSheet extends StatefulWidget {
   const BasicBottomSheet({
-    Key? key,
+    super.key,
     this.transitionAnimationController,
     this.pinned,
     this.onDissmis,
@@ -24,7 +24,7 @@ class BasicBottomSheet extends StatefulWidget {
     required this.scrollable,
     required this.children,
     this.isInvest = false,
-  }) : super(key: key);
+  });
 
   // In case if BottomSheet can be closed from outside of its scope
   // then transitionAnimationController parameter must be provided

@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/checkbox/simple_light_check
 import 'package:simple_kit/utils/enum.dart';
 
 class SCheckboxSelectedIcon extends StatelessObserverWidget {
-  const SCheckboxSelectedIcon({Key? key}) : super(key: key);
+  const SCheckboxSelectedIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -5,13 +5,13 @@ import '../../../../simple_kit.dart';
 
 class SProfileDetailsButton extends StatelessWidget {
   const SProfileDetailsButton({
-    Key? key,
+    super.key,
     this.showIcon = false,
     this.isDivider = true,
     required this.onTap,
     required this.label,
     required this.value,
-  }) : super(key: key);
+  });
 
   final bool showIcon;
   final bool isDivider;

@@ -5,7 +5,7 @@ import '../../simple_kit.dart';
 
 class SNewActionPriceField extends StatelessWidget {
   const SNewActionPriceField({
-    Key? key,
+    super.key,
     required this.primaryAmount,
     required this.primarySymbol,
     this.secondaryAmount,
@@ -18,7 +18,7 @@ class SNewActionPriceField extends StatelessWidget {
     required this.pasteLabel,
     required this.onPaste,
     this.showSwopButton = true,
-  }) : super(key: key);
+  });
 
   final String primaryAmount;
   final String primarySymbol;

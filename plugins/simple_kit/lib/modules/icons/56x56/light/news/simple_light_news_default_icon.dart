@@ -4,9 +4,9 @@ import '../../base/simple_base_svg_56x56.dart';
 
 class SimpleLightNewsDefaultIcon extends StatelessWidget {
   const SimpleLightNewsDefaultIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

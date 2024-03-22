@@ -51,8 +51,8 @@ enum SignalREvents {
 
 class SignalRBackEnd extends Backend {
   SignalRBackEnd({
-    required BackendArgument<void> argument,
-  }) : super(argument: argument);
+    required BackendArgument<void> super.argument,
+  });
 
   String _iconApi = '';
 
@@ -243,7 +243,7 @@ class SignalRBackEnd extends Backend {
 
       final sendMethods = (value.send ?? [])
           .where((sendMethod) =>
-              sendMethod.symbolNetworkDetails?.any((element) => element.symbol == currency.symbol) ?? false)
+              sendMethod.symbolNetworkDetails?.any((element) => element.symbol == currency.symbol) ?? false,)
           .toList();
 
       final receiveMethods = (value.receive ?? [])

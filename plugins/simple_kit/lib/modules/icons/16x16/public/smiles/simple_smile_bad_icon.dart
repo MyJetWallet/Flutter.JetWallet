@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/16x16/light/smiles/simple_light_smile_b
 import 'package:simple_kit/utils/enum.dart';
 
 class SSmileBadIcon extends StatelessObserverWidget {
-  const SSmileBadIcon({Key? key}) : super(key: key);
+  const SSmileBadIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

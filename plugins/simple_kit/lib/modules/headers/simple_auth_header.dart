@@ -6,7 +6,7 @@ import '../../simple_kit.dart';
 
 class SLargeHeader extends StatelessWidget {
   const SLargeHeader({
-    Key? key,
+    super.key,
     this.customIconButton,
     this.onLinkTap,
     this.onSearchButtonTap,
@@ -23,7 +23,7 @@ class SLargeHeader extends StatelessWidget {
     this.maxLines = 1,
     required this.title,
     this.titleStyle,
-  }) : super(key: key);
+  });
 
   final Widget? customIconButton;
   final Function()? onLinkTap;

@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/56x56/light/earn/simple_light_earn_defa
 import 'package:simple_kit/utils/enum.dart';
 
 class SEarnDefaultIcon extends StatelessObserverWidget {
-  const SEarnDefaultIcon({Key? key}) : super(key: key);
+  const SEarnDefaultIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

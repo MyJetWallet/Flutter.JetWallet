@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/adv_cash/simple_light_adv_c
 import 'package:simple_kit/utils/enum.dart';
 
 class SAdvCashIcon extends StatelessObserverWidget {
-  const SAdvCashIcon({Key? key}) : super(key: key);
+  const SAdvCashIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

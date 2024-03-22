@@ -10,7 +10,7 @@ final _baseButtonRadius = BorderRadius.circular(16.0);
 
 class SimpleBaseButton extends StatefulWidget {
   const SimpleBaseButton({
-    Key? key,
+    super.key,
     this.icon,
     this.onTap,
     this.baseline = 33.5,
@@ -21,7 +21,7 @@ class SimpleBaseButton extends StatefulWidget {
     required this.decoration,
     required this.name,
     required this.nameColor,
-  }) : super(key: key);
+  });
 
   final bool addPadding;
   final bool autoSize;

@@ -26,8 +26,8 @@ class _HelpCenterWebViewState extends State<HelpCenterWebView> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => _onWillPop(),
+    return PopScope(
+      onPopInvoked: (_) => _onWillPop(),
       child: SPageFrame(
         loaderText: intl.register_pleaseWait,
         header: SPaddingH24(
@@ -38,7 +38,7 @@ class _HelpCenterWebViewState extends State<HelpCenterWebView> {
         ),
         child: LayoutBuilder(
           builder: (context, constraints) {
-            double width = 700.0;
+            var width = 700.0;
             final height = constraints.maxHeight;
             width = (constraints.maxWidth > width) ? width : constraints.maxWidth;
             if (height <= width) {
@@ -46,7 +46,7 @@ class _HelpCenterWebViewState extends State<HelpCenterWebView> {
             }
 
             return WebView(
-              gestureRecognizers: Set()
+              gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{}
                 ..add(Factory<VerticalDragGestureRecognizer>(() => VerticalDragGestureRecognizer())),
               initialUrl: widget.link,
               gestureNavigationEnabled: true,

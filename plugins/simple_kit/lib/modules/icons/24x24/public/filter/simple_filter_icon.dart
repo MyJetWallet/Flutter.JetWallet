@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/filter/simple_light_filter_
 import 'package:simple_kit/utils/enum.dart';
 
 class SFilterIcon extends StatelessObserverWidget {
-  const SFilterIcon({Key? key, this.color}) : super(key: key);
+  const SFilterIcon({super.key, this.color});
 
   final Color? color;
 

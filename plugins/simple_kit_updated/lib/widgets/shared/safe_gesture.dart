@@ -5,14 +5,14 @@ import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 
 class SafeGesture extends StatefulWidget {
   const SafeGesture({
-    Key? key,
+    super.key,
     required this.child,
     this.onTap,
     this.intervalMs = 500,
     this.highlightColor,
     this.radius,
     this.onHighlightChanged,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final GestureTapCallback? onTap;

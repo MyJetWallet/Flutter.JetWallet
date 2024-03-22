@@ -4,7 +4,7 @@ import 'package:simple_kit/modules/icons/16x16/light/gift_history/simple_light_g
 import 'package:simple_kit/utils/enum.dart';
 
 class SGiftHistoryIcon extends StatelessWidget {
-  const SGiftHistoryIcon({Key? key, this.color}) : super(key: key);
+  const SGiftHistoryIcon({super.key, this.color});
 
   final Color? color;
 

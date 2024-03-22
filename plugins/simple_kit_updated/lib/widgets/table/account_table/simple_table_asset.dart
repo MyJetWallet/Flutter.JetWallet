@@ -7,7 +7,7 @@ import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 
 class SimpleTableAsset extends StatelessWidget {
   const SimpleTableAsset({
-    Key? key,
+    super.key,
     this.onTableAssetTap,
     this.isCard = false,
     this.isCardWallet = false,
@@ -23,7 +23,7 @@ class SimpleTableAsset extends StatelessWidget {
     this.customRightWidget,
     this.isRightValueMarket = false,
     this.rightValueMarketPositive = true,
-  }) : super(key: key);
+  });
 
   final VoidCallback? onTableAssetTap;
 

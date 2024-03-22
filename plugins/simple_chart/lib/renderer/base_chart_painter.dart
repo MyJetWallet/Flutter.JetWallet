@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart'
-    show Color, TextStyle, Rect, Canvas, Size, CustomPainter;
+    show Canvas, Color, CustomPainter, Rect, Size, TextStyle;
 
 import '../chart_style.dart' show ChartStyle;
 import '../model/candle_model.dart';
@@ -9,7 +9,7 @@ import '../model/candle_type_enum.dart';
 import '../utils/number_util.dart';
 
 export 'package:flutter/material.dart'
-    show Color, required, TextStyle, Rect, Canvas, Size, CustomPainter;
+    show Canvas, Color, CustomPainter, Rect, Size, TextStyle, required;
 
 abstract class BaseChartPainter extends CustomPainter {
   BaseChartPainter({
@@ -146,7 +146,6 @@ abstract class BaseChartPainter extends CustomPainter {
           mMainLowMinValue = item.close;
           mMainMinIndex = i;
         }
-        break;
       default:
     }
   }

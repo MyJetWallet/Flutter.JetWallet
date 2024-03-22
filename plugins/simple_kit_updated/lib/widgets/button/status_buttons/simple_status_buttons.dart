@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 
 enum SStatusButtonsType { blue, yellow, green, red }
 
 class SStatusButtons extends StatelessWidget {
   const SStatusButtons({
-    Key? key,
+    super.key,
     required this.type,
     required this.label,
-  }) : super(key: key);
+  });
 
   final SStatusButtonsType type;
   final String label;

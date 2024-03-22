@@ -6,7 +6,7 @@ import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 
 class SResendButton extends StatefulWidget {
   const SResendButton({
-    Key? key,
+    super.key,
     this.active = true,
     required this.onTap,
     required this.timer,
@@ -14,7 +14,7 @@ class SResendButton extends StatefulWidget {
     required this.text2,
     required this.text3,
     required this.textResend,
-  }) : super(key: key);
+  });
 
   final bool active;
   final Function() onTap;

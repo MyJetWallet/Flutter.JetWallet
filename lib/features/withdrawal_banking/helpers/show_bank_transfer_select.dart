@@ -18,7 +18,7 @@ void showBankTransforSelect(BuildContext context, SimpleBankingAccount bankingAc
           return;
         }
 
-        if (value != null && !(value as bool)) {
+        if (!(value as bool)) {
           return;
         }
 
@@ -41,7 +41,7 @@ void showBankTransforSelect(BuildContext context, SimpleBankingAccount bankingAc
         if (value == null) {
           return;
         }
-        if (value != null && !(value as bool)) {
+        if (!(value as bool)) {
           return;
         }
 
@@ -282,7 +282,7 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
                   if (value == null) {
                     return;
                   }
-                  if (value != null && !(value as bool)) {
+                  if (!(value as bool)) {
                     sAnalytics.eurWithdrawTapBackReceiving(
                       eurAccountType: isCJ ? 'CJ' : 'Unlimit',
                       accountIban: bankingAccount.iban ?? '',
@@ -325,7 +325,7 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
                   if (value == null) {
                     return;
                   }
-                  if (value != null && !(value as bool)) {
+                  if (!(value as bool)) {
                     sAnalytics.eurWithdrawTapBackReceiving(
                       eurAccountType: isCJ ? 'CJ' : 'Unlimit',
                       accountIban: bankingAccount.iban ?? '',

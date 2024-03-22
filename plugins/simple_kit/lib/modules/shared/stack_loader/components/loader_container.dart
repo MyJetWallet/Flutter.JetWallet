@@ -5,9 +5,9 @@ import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 
 class LoaderContainer extends StatelessWidget {
   const LoaderContainer({
-    Key? key,
+    super.key,
     required this.loadingText,
-  }) : super(key: key);
+  });
 
   final String loadingText;
 

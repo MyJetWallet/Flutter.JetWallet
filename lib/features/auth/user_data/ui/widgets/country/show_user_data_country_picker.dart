@@ -3,7 +3,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/kyc_profile_countries.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/store/kyc_profile_countries_store.dart';
 import 'package:jetwallet/widgets/empty_search_result.dart';
@@ -37,8 +36,6 @@ void showUserDataCountryPicker(BuildContext context) {
 }
 
 void showCountryOfBank(BuildContext context, Function(Country) onTap) {
-  final countriesList = getIt.get<KycProfileCountries>().profileCountries;
-
   final store = KycProfileCountriesStore();
 
   sShowBasicModalBottomSheet(

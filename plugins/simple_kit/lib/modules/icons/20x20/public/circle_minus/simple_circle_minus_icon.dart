@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/20x20/light/circle_minus/simple_light_c
 import 'package:simple_kit/utils/enum.dart';
 
 class SCircleMinusIcon extends StatelessObserverWidget {
-  const SCircleMinusIcon({Key? key}) : super(key: key);
+  const SCircleMinusIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

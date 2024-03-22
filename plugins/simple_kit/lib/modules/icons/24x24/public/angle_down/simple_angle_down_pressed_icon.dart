@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/angle_down/simple_light_ang
 import 'package:simple_kit/utils/enum.dart';
 
 class SAngleDownPressedIcon extends StatelessObserverWidget {
-  const SAngleDownPressedIcon({Key? key}) : super(key: key);
+  const SAngleDownPressedIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

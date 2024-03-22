@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 /// can be triggered by [showBasicBottomSheet()]
 class SShadeAnimationStack extends StatelessWidget {
   const SShadeAnimationStack({
-    Key? key,
+    super.key,
     required this.child,
     //required this.controller,
     required this.showShade,
-  }) : super(key: key);
+  });
 
   final Widget child;
   //final AnimationController controller;

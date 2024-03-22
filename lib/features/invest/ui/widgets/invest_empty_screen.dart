@@ -6,13 +6,13 @@ import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 class InvestEmptyScreen extends StatelessWidget {
   const InvestEmptyScreen({
-    Key? key,
+    super.key,
     required this.height,
     required this.width,
     required this.title,
     required this.onButtonTap,
     required this.buttonName,
-  }) : super(key: key);
+  });
 
   final Function() onButtonTap;
   final String buttonName;
