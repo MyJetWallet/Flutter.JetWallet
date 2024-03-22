@@ -17,6 +17,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
@@ -202,14 +203,22 @@ abstract class _EarnTopUpOrderSummaryStoreBase with Store {
 
   @action
   Future<void> _showSuccessScreen(bool isGoogle) {
+    sAnalytics.successEarnDepositScreenView(
+      assetName: earnPosition.offers.first.assetId,
+      earnAPYrate: earnPosition.offers.first.apyRate.toString(),
+      earnDepositAmount: amount.toString(),
+      earnPlanName: earnPosition.offers.first.name ?? '',
+      earnWithdrawalType: earnPosition.offers.first.withdrawType.name,
+    );
+
     return sRouter
         .push(
       SuccessScreenRouter(
-        secondaryText: intl.earn_withdrawal_of(
+        secondaryText: intl.earn_transfer_of(
           volumeFormat(
-            decimal: baseAmount,
-            symbol: sSignalRModules.baseCurrency.symbol,
-            accuracy: eurCurrency.accuracy,
+            decimal: amount,
+            symbol: selectedCurrency.symbol,
+            accuracy: selectedCurrency.accuracy,
           ),
         ),
         buttonText: intl.previewBuyWithUmlimint_saveCard,
@@ -233,11 +242,19 @@ abstract class _EarnTopUpOrderSummaryStoreBase with Store {
       return;
     }
 
+    sAnalytics.failedEarnDepositScreenView(
+      assetName: earnPosition.offers.first.assetId,
+      earnAPYrate: earnPosition.offers.first.apyRate.toString(),
+      earnDepositAmount: amount.toString(),
+      earnPlanName: earnPosition.offers.first.name ?? '',
+      earnWithdrawalType: earnPosition.offers.first.withdrawType.name,
+    );
+
     unawaited(
       sRouter.push(
         FailureScreenRouter(
-          primaryText: intl.previewBuyWithAsset_failure,
-          secondaryText: error,
+          primaryText: intl.failed,
+          secondaryText: intl.something_went_wrong_try_again,
           primaryButtonName: intl.previewBuyWithAsset_close,
           onPrimaryButtonTap: () {
             navigateToRouter();

@@ -53,6 +53,8 @@ import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_
 import 'package:simple_networking/modules/wallet_api/models/google_pay/google_pay_confirm_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_preview_withdrawal_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_withdrawal_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/invest_transfer/invest_transfer_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/invest_transfer/invest_transfer_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/check_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/limits/buy_limits_request_model.dart';
@@ -134,6 +136,7 @@ import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/with
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/withdrawal_resend_request.dart';
 
 import '../../../simple_networking.dart';
+import '../../signal_r/models/earn_audit_history_model.dart';
 import '../../signal_r/models/invest_positions_model.dart';
 import '../models/iban_info/iban_info_response_model.dart';
 import '../models/invest/new_invest_request_model.dart';
@@ -3391,6 +3394,40 @@ class WalletApiDataSources {
     }
   }
 
+  Future<DC<ServerRejectException, List<EarnPositionAuditClientModel>>> getEarnAuditPositons({
+    required String positionId,
+    required String skip,
+    required String take,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/earn/get-position-audits',
+        data: {
+          "positionId": positionId,
+          "skip": skip,
+          "take": take,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+        final out = <EarnPositionAuditClientModel>[];
+        for (final element in responseData['data']) {
+          out.add(
+            EarnPositionAuditClientModel.fromJson(element as Map<String, dynamic>),
+          );
+        }
+
+        return DC.data(out);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
   Future<DC<ServerRejectException, EarnPositionClientModel>> postEarnWithdrawPositionRequest(
     EarnWithdrawPositionRequestModel model,
   ) async {
@@ -3452,6 +3489,53 @@ class WalletApiDataSources {
         final data = handleFullResponse<Map>(responseData);
 
         return DC.data(EarnPositionClientModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  //Invest transfer
+  Future<DC<ServerRejectException, InvestTransferResponseModel>> postInvestDepositeRequest(
+    InvestTransferRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/InvestTrading/InvestWallet/transfer-to-investwallet',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(InvestTransferResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, InvestTransferResponseModel>> postInvestWithdrawRequest(
+    InvestTransferRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/InvestTrading/InvestWallet/transfer-to-spotwallet',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(InvestTransferResponseModel.fromJson(data));
       } catch (e) {
         rethrow;
       }

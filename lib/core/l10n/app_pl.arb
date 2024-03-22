@@ -1807,7 +1807,7 @@
             "days": {}
         }
     },
-    "earn_flexible_tariff": "Taryfa elastyczna",
+    "earn_flexible_tariff": "Elastyczne wykupienie",
     "earn_are_you_sure": "Jesteś pewny?",
     "earn_your_funds_and_accrued": "Twoje środki i zgromadzone zarobki są wypłacane przy zamknięciu konta Earn. Wypłata {date}.",
     "@earn_your_funds_and_accrued": {
@@ -1832,7 +1832,7 @@
     "earn_order_summary": "Podsumowanie zamówienia",
     "earn_order_summary_partial_withdrawal_means": "Częściowa wypłata oznacza wypłatę środków z bazy obliczeniowej. Dochód jest wypłacany przy pełnym zamknięciu konta.",
     "earn_send": "Wyślij",
-    "earn_withdraw_successfully": "Twoje środki zostały pomyślnie wypłacone",
+    "earn_withdraw_successfully": "Prośba o wykupienie środków została zaakceptowana",
     "earn_full_withdraw": "Twoje środki i zgromadzone zarobki są wypłacane przy zamknięciu konta Earn.",
     "earn_basis_amount": "Kwota bazowa",
     "earn_withdrawal_period": "Okres wypłaty",
@@ -1850,22 +1850,19 @@
         }
     },
     "earn_withdrawal_period_explanation_1": "Wypłata środków z twojego planu spowoduje zamknięcie odpowiadającego konta Earn. Należy zauważyć, że pełne przekazanie środków wraz z zarobionym dochodem nastąpi {days} dni po utworzeniu żądania.",
+    "@earn_withdrawal_period_explanation_1": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
     "earn_withdrawal_period_explanation_2": "Ważne jest, aby zauważyć, że do ostatecznego zamknięcia konta, dochód będzie nadal naliczany na twoje konto Earn.",
     "earn_from_crypto_wallet": "Z portfela krypto",
     "earn_to_crypto_wallet": "Do portfela krypto",
     "earn_to_earn": "Aby zarobić",
     "earn_deposit_crypto_wallet": "Portfel krypto na depozyt",
-    "earn_to_continue_you_need_to_top_up": "Aby kontynuować, należy doładować portfel {wallet_symbol} kwotą co najmniej {topup_value}",
-    "@earn_to_continue_you_need_to_top_up": {
-        "placeholders": {
-            "topup_value": {
-                "type": "String"
-            },
-            "wallet_symbol": {
-                "type": "String"
-            }
-        }
-    },
     "earn_top_up_value": "Doładuj {value}",
     "@earn_top_up_value": {
         "placeholders": {
@@ -1916,7 +1913,7 @@
     "earn_earn_account_id": "ID konta Earn",
     "earn_sent": "Wysłano",
     "earn_received": "Otrzymano",
-    "earn_withdrawal_of": "Wypłata {value}\nzainicjowano",
+    "earn_withdrawal_of": "Transfer {value} do Earn\nzainicjowano",
     "@earn_withdrawal_of": {
         "placeholders": {
             "value": {
@@ -1946,5 +1943,73 @@
     "earn_to": "Do",
     "about_us_earn_program": "Zasady i Warunki programu Earn",
     "about_us_smpl_global": "Polityka Prywatności Smpl Global",
-    "earn_finished": "Zakończono"
+    "earn_finished": "Zakończono",
+    "transfer_confirm_via_sms": "Potwierdź SMS-em",
+    "transfer_we_sent": "Wysłano do telefonu **{numbers}",
+    "@transfer_we_sent": {
+        "placeholders": {
+            "numbers": {
+                "type": "String",
+                "example": "1845"
+            }
+        }
+    },
+    "profileDetails_waitForSMS": "Czekaj na SMS",
+    "earn_transfer_of": "Przelew {value} do\nEarn zostało zainicjowane",
+    "@earn_transfer_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "21:24"
+            }
+        }
+    },
+    "wallet_crypto_wallet": "Portfel Krypto",
+    "wallet_crypto_assets": "Aktywa Krypto",
+    "wallet_external_bank_transfer": "Zewnętrzny przelew bankowy",
+    "wallet_internal_transfer": "Przelew wewnętrzny",
+    "wallet_choose_asset_from_convert": "Wybierz aktywo do konwersji",
+    "error_message_insufficient_funds": "Niewystarczające środki na transakcję",
+    "convert_choose_account": "Wybierz konto",
+    "earn_earns_details": "Szczegóły Earns",
+    "earn_base_amount": "Kwota bazowa",
+    "earn_saving_income": "Dochód z oszczędności",
+    "invest_transfer_from_crypto_wallet": "Z portfela krypto",
+    "invest_transfer_to_invest": "Inwestować",
+    "invest_transfer_crypto_wallet": "Portfel krypto",
+    "invest_transfer_invest": "Inwestuj",
+    "invest_transfer_from_invest": "Z inwestycji",
+    "invest_transfer_to_crypto_wallet": "Do portfela krypto",
+    "invest_transfer_empty_balance": "Aby kontynuować, doładuj portfel Tether",
+    "wallets_add_to_wallet": "Dodaj do {value}",
+    "@wallets_add_to_wallet": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "wallets_add_to_apple_wallet": "Apple Wallet",
+    "wallets_add_to_google_wallet": "Google Wallet",
+    "wallets_redirecting": "Przekierowanie",
+    "wallets_modal_info": "Klikając Kontynuuj, zostaniesz przekierowany do {value}:\n\n1. Ręcznie wprowadź dane swojej karty\n2. Postępuj zgodnie z instrukcjami {value}\n3. Ciesz się zakupami bezkontaktowymi i wypłatami z bankomatów za pomocą twojej karty Simple!",
+    "@wallets_modal_info": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "wallets_continue": "Kontynuuj",
+    "earn_to_continue_you_need_to_top_up_fix": "Aby kontynuować, należy doładować portfel {wallet_symbol} kwotą co najmniej {topup_value}",
+    "@earn_to_continue_you_need_to_top_up_fix": {
+        "placeholders": {
+            "topup_value": {
+                "type": "String"
+            },
+            "wallet_symbol": {
+                "type": "String"
+            }
+        }
+    }
 }

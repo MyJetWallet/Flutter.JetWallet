@@ -64,11 +64,16 @@ class _EarnsArchiveScreenState extends State<EarnsArchiveScreen> {
                     slivers: [
                       if (store.earnPositionsClosed.isEmpty)
                         SliverFillRemaining(
-                          child: SPlaceholder(
-                            size: SPlaceholderSize.l,
-                            text: intl.wallet_simple_account_empty,
+                          child: Center(
+                            child: Padding(
+                              padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.top),
+                              child: SPlaceholder(
+                                size: SPlaceholderSize.l,
+                                text: intl.wallet_simple_account_empty,
+                              ),
+                            ),
                           ),
-                        ),
+                        ) else
                       SliverList(
                         delegate: SliverChildBuilderDelegate(
                           (context, index) {

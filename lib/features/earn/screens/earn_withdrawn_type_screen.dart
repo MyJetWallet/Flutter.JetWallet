@@ -21,16 +21,21 @@ class EarnWithdrawnTypeScreen extends StatefulWidget {
 }
 
 class _EarnWithdrawnTypeScreenState extends State<EarnWithdrawnTypeScreen> {
-  bool isPartialWithdrawal = true;
-
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     sAnalytics.earnWithdrawTypeScreenView(
       assetName: widget.earnPosition.assetId,
       earnWithdrawalType: widget.earnPosition.withdrawType.name,
       earnOfferId: widget.earnPosition.offerId,
       earnPlanName: widget.earnPosition.offers.first.name ?? '',
     );
+    super.initState();
+  }
+
+  bool isPartialWithdrawal = true;
+
+  @override
+  Widget build(BuildContext context) {
     final minAccountAmount = widget.earnPosition.offers.first.minAmount ?? Decimal.zero;
     final formatedMinAccountAmount = volumeFormat(
       decimal: minAccountAmount,
@@ -81,12 +86,19 @@ class _EarnWithdrawnTypeScreenState extends State<EarnWithdrawnTypeScreen> {
                       earnWithdrawalType: widget.earnPosition.withdrawType.name,
                       earnOfferId: widget.earnPosition.offerId,
                       earnPlanName: widget.earnPosition.offers.first.name ?? '',
-                      fullWithdrawType: widget.earnPosition.withdrawType.name,
+                      fullWithdrawType: !isPartialWithdrawal,
                     );
                     sRouter.push(
                       EarnWithdrawalAmountRouter(earnPosition: widget.earnPosition),
                     );
                   } else {
+                    sAnalytics.tapOnTheContinueWithEarnWithdrawTypeButton(
+                      assetName: widget.earnPosition.assetId,
+                      earnWithdrawalType: widget.earnPosition.withdrawType.name,
+                      earnOfferId: widget.earnPosition.offerId,
+                      earnPlanName: widget.earnPosition.offers.first.name ?? '',
+                      fullWithdrawType: !isPartialWithdrawal,
+                    );
                     sAnalytics.sureFullEarnWithdrawPopupView(
                       assetName: widget.earnPosition.assetId,
                       earnWithdrawalType: widget.earnPosition.withdrawType.name,
@@ -96,6 +108,7 @@ class _EarnWithdrawnTypeScreenState extends State<EarnWithdrawnTypeScreen> {
                     showWithdrawalTypeAreYouSurePopUp(
                       earnPosition: widget.earnPosition,
                       amount: widget.earnPosition.baseAmount + widget.earnPosition.incomeAmount,
+                      isPartialWithdrawal: isPartialWithdrawal,
                     );
                   }
                 },
@@ -112,6 +125,7 @@ class _EarnWithdrawnTypeScreenState extends State<EarnWithdrawnTypeScreen> {
 Future<void> showWithdrawalTypeAreYouSurePopUp({
   required Decimal amount,
   required EarnPositionClientModel earnPosition,
+  required bool isPartialWithdrawal,
 }) async {
   final context = sRouter.navigatorKey.currentContext!;
 

@@ -31,7 +31,10 @@ class EarnPositionClientModel with _$EarnPositionClientModel {
     DateTime? startDateTime,
     DateTime? closeRequestDateTime,
     DateTime? closeDateTime,
+    @DecimalNullSerialiser() Decimal? closeIndexPrice,
     DateTime? paymentDateTime,
+    String? offerName,
+    @DecimalNullSerialiser() Decimal? offerApyRate,
   }) = _EarnPositionClientModel;
 
   factory EarnPositionClientModel.fromJson(Map<String, dynamic> json) => _$EarnPositionClientModelFromJson(json);

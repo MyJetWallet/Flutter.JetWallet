@@ -21,6 +21,8 @@ class AccountTransferPreviewResponseModel with _$AccountTransferPreviewResponseM
     String? beneficiaryFullName,
     required String operationId,
     String? reference,
+    @Default(false) bool smsVerificationRequired,
+    String? receiverPhoneNumber,
   }) = _AccountTransferPreviewResponseModel;
 
   factory AccountTransferPreviewResponseModel.fromJson(Map<String, dynamic> json) =>

@@ -1798,7 +1798,7 @@
         }
     },
     "earn_withdrawal_period_explanation_1": "Withdrawal of funds from your plan will result in the closure of the corresponding Earn account. Please note that the full transfer of funds together with the earned income will take place {days} days after the request has been created.",
-    "@earn_withdrawal_period_explanation": {
+    "@earn_withdrawal_period_explanation_1": {
         "placeholders": {
             "days": {
                 "type": "num",
@@ -1811,17 +1811,6 @@
     "earn_to_crypto_wallet": "To crypto wallet",
     "earn_to_earn": "To earn",
     "earn_deposit_crypto_wallet": "Deposit crypto wallet",
-    "earn_to_continue_you_need_to_top_up": "To continue, you need to top up your {wallet_symbol} wallet with at least {topup_value}",
-    "@earn_to_continue_you_need_to_top_up": {
-        "placeholders": {
-            "topup_value": {
-                "type": "String"
-            },
-            "wallet_symbol": {
-                "type": "String"
-            }
-        }
-    },
     "earn_top_up_value": "Top up {value}",
     "@earn_top_up_value": {
         "placeholders": {
@@ -1892,7 +1881,7 @@
             }
         }
     },
-    "earn_redeem_period": "Redeem period ({days} day(s))",
+    "earn_redeem_period": "Redeem period ({days} days)",
     "@earn_redeem_period": {
         "placeholders": {
             "days": {}
@@ -1902,5 +1891,73 @@
     "earn_to": "To",
     "about_us_earn_program": "Earn Program Terms and Conditions",
     "about_us_smpl_global": "Smpl Global Privacy Policy",
-    "earn_finished": "Finished"
+    "earn_finished": "Finished",
+    "transfer_confirm_via_sms": "Confirm via SMS",
+    "transfer_we_sent": "We sent to the phone **{numbers}",
+    "@transfer_we_sent": {
+        "placeholders": {
+            "numbers": {
+                "type": "String",
+                "example": "1845"
+            }
+        }
+    },
+    "profileDetails_waitForSMS": "Wait for SMS",
+    "earn_transfer_of": "Transfer of {value} to\nEarn was initiated",
+    "@earn_transfer_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "21:24"
+            }
+        }
+    },
+    "wallet_crypto_wallet": "Crypto Wallet",
+    "wallet_crypto_assets": "Crypto assets",
+    "wallet_external_bank_transfer": "External bank transfer",
+    "wallet_internal_transfer": "Internal transfer",
+    "wallet_choose_asset_from_convert": "Choose asset from convert",
+    "error_message_insufficient_funds": "Insufficient funds for the transaction",
+    "convert_choose_account": "Choose account",
+    "earn_earns_details": "Earns details",
+    "earn_base_amount": "Base amount",
+    "earn_saving_income": "Saving income",
+    "invest_transfer_from_crypto_wallet": "From crypto wallet",
+    "invest_transfer_to_invest": "To invest",
+    "invest_transfer_crypto_wallet": "Crypto wallet",
+    "invest_transfer_invest": "Invest",
+    "invest_transfer_from_invest": "From invest",
+    "invest_transfer_to_crypto_wallet": "To crypto wallet",
+    "invest_transfer_empty_balance": "To continue, you need to top up your Tether wallet",
+    "wallets_add_to_wallet": "Add to {value}",
+    "@wallets_add_to_wallet": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "wallets_add_to_apple_wallet": "Apple Wallet",
+    "wallets_add_to_google_wallet": "Google Wallet",
+    "wallets_redirecting": "Redirecting",
+    "wallets_modal_info": "By clicking Continue you will be redirected to {value}:\n\n1. Manually fill in your card details\n2. Follow {value} instructions\n3. Enjoy contactless purchases and ATM withdrawals with your Simple Card!",
+    "@wallets_modal_info": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "wallets_continue": "Continue",
+    "earn_to_continue_you_need_to_top_up_fix": "To continue, you need to top up your {wallet_symbol} wallet with at least {topup_value}",
+    "@earn_to_continue_you_need_to_top_up_fix": {
+        "placeholders": {
+            "topup_value": {
+                "type": "String"
+            },
+            "wallet_symbol": {
+                "type": "String"
+            }
+        }
+    }
 }

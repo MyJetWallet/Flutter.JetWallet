@@ -73,10 +73,19 @@ class GlobalBasicAppBar extends StatelessWidget {
                           ),
                         ),
                       ),
-                      // Чтобы центрировать блок
                       Opacity(
-                        opacity: 0,
-                        child: Assets.svg.medium.close.simpleSvg(),
+                        opacity: hasRightIcon ? 1 : 0,
+                        child: SafeGesture(
+                          onTap: hasRightIcon
+                              ? onRightIconTap != null
+                                  ? () => onRightIconTap!()
+                                  : null
+                              : null,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: rightIcon ?? Assets.svg.medium.close.simpleSvg(),
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -90,21 +99,6 @@ class GlobalBasicAppBar extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
-            ),
-            Positioned(
-              right: 18,
-              top: 3,
-              child: Opacity(
-                opacity: hasRightIcon ? 1 : 0,
-                child: SafeGesture(
-                  onTap: hasRightIcon
-                      ? onRightIconTap != null
-                          ? () => onRightIconTap!()
-                          : null
-                      : null,
-                  child: rightIcon ?? Assets.svg.medium.close.simpleSvg(),
-                ),
               ),
             ),
           ],

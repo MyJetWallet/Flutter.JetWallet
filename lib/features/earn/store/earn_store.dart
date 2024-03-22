@@ -13,6 +13,7 @@ import 'package:jetwallet/features/earn/screens/earn_withdrawn_type_screen.dart'
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
@@ -46,14 +47,23 @@ abstract class _EarnStoreBase with Store {
     }).toList();
 
     sortedPositions.sort((a, b) {
-      final maxApyA = a.offers
-          .map((offer) => offer.apyRate ?? Decimal.zero)
-          .reduce((value, element) => value > element ? value : element);
-      final maxApyB = b.offers
-          .map((offer) => offer.apyRate ?? Decimal.zero)
-          .reduce((value, element) => value > element ? value : element);
+      final aAmount = formatService.convertOneCurrencyToAnotherOne(
+        fromCurrency: a.assetId,
+        fromCurrencyAmmount: a.baseAmount,
+        toCurrency: sSignalRModules.baseCurrency.symbol,
+        baseCurrency: sSignalRModules.baseCurrency.symbol,
+        isMin: true,
+      );
 
-      return maxApyB.compareTo(maxApyA);
+      final bAmount = formatService.convertOneCurrencyToAnotherOne(
+        fromCurrency: b.assetId,
+        fromCurrencyAmmount: b.baseAmount,
+        toCurrency: sSignalRModules.baseCurrency.symbol,
+        baseCurrency: sSignalRModules.baseCurrency.symbol,
+        isMin: true,
+      );
+
+      return bAmount.compareTo(aAmount);
     });
 
     return sortedPositions;
@@ -283,6 +293,13 @@ abstract class _EarnStoreBase with Store {
     final closeDate = DateTime.now().add(Duration(days: earnPosition.offers.first.lockPeriod ?? 0));
     final formatedData = formatDateToDMYFromDate(closeDate.toString());
 
+    sAnalytics.sureFullEarnWithdrawPopupView(
+      assetName: earnPosition.assetId,
+      earnWithdrawalType: earnPosition.withdrawType.name,
+      earnOfferId: earnPosition.offerId,
+      earnPlanName: earnPosition.offers.first.name ?? '',
+    );
+
     await sShowAlertPopup(
       context,
       primaryText: intl.earn_are_you_sure,
@@ -297,8 +314,20 @@ abstract class _EarnStoreBase with Store {
       ),
       onPrimaryButtonTap: () {
         sRouter.pop();
+        sAnalytics.tapOnTheContinueEarningButton(
+          assetName: earnPosition.assetId,
+          earnWithdrawalType: earnPosition.withdrawType.name,
+          earnOfferId: earnPosition.offerId,
+          earnPlanName: earnPosition.offers.first.name ?? '',
+        );
       },
       onSecondaryButtonTap: () {
+        sAnalytics.tapOnTheYesWithdrawButton(
+          assetName: earnPosition.assetId,
+          earnWithdrawalType: earnPosition.withdrawType.name,
+          earnOfferId: earnPosition.offerId,
+          earnPlanName: earnPosition.offers.first.name ?? '',
+        );
         sRouter.pop();
         sRouter.push(
           EarnWithdrawOrderSummaryRouter(
@@ -320,6 +349,7 @@ abstract class _EarnStoreBase with Store {
       );
     } else {
       await showWithdrawalTypeAreYouSurePopUp(
+        isPartialWithdrawal: false,
         amount: earnPosition.baseAmount + earnPosition.incomeAmount,
         earnPosition: earnPosition,
       );

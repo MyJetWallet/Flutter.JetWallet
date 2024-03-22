@@ -54,6 +54,7 @@ import 'package:jetwallet/features/debug_info/debug_info.dart';
 import 'package:jetwallet/features/debug_info/invest_ui_kit.dart';
 import 'package:jetwallet/features/debug_info/signalr_debug_info.dart';
 import 'package:jetwallet/features/earn/screens/earn_deposit_screen.dart';
+import 'package:jetwallet/features/earn/screens/earn_details_screen.dart';
 import 'package:jetwallet/features/earn/screens/earn_position_active_screen.dart';
 import 'package:jetwallet/features/earn/screens/earn_screen.dart';
 import 'package:jetwallet/features/earn/screens/earn_top_up_amount_screen.dart';
@@ -76,6 +77,9 @@ import 'package:jetwallet/features/invest/ui/active_invest_manage_screen.dart';
 import 'package:jetwallet/features/invest/ui/instrument_screen.dart';
 import 'package:jetwallet/features/invest/ui/new_invest_confirmation_screen.dart';
 import 'package:jetwallet/features/invest/ui/pending_invest_manage_screen.dart';
+import 'package:jetwallet/features/invest_transfer/screens/invest_deposite_confrimation_screen.dart';
+import 'package:jetwallet/features/invest_transfer/screens/invest_transfer_screen.dart';
+import 'package:jetwallet/features/invest_transfer/screens/invest_withdraw_confrimation_screen.dart';
 import 'package:jetwallet/features/kyc/allow_camera/ui/allow_camera_screen.dart';
 import 'package:jetwallet/features/kyc/choose_documents/ui/choose_documents.dart';
 import 'package:jetwallet/features/kyc/kyc_selfie/ui/kyc_selfie.dart';
@@ -268,6 +272,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/earns_arcive',
       page: EarnsArchiveRouter.page,
+    ),
+    AutoRoute(
+      path: '/earns_details',
+      page: EarnsDetailsRouter.page,
     ),
     AutoRoute(
       path: '/earns_deposit',
@@ -717,9 +725,21 @@ class AppRouter extends _$AppRouter {
       path: '/earn_top_up_amount',
       page: EarnTopUpAmountRouter.page,
     ),
-     AutoRoute(
+    AutoRoute(
       path: '/earn_top_up_order_summary',
       page: EarnTopUpOrderSummaryRouter.page,
+    ),
+    AutoRoute(
+      path: '/invest_transfer',
+      page: InvestTransferRoute.page,
+    ),
+    AutoRoute(
+      path: '/invest_deposite_confrimation',
+      page: InvestDepositeConfrimationRoute.page,
+    ),
+    AutoRoute(
+      path: '/invest_withdraw_confrimation',
+      page: InvestWithdrawConfrimationRoute.page,
     ),
   ];
 }

@@ -46,7 +46,7 @@ class CandlesWithIdModel {
 
   CandlesWithIdModel.fromJson(Map<String, dynamic> json) {
     var candleList = [];
-    final doubleList = List.from([...json['candles']]);
+    final doubleList = List.from([...json['candles'] as List<dynamic>]);
 
     candleList = doubleList.map((e) => CandleModel(
       open: e.open as double,

@@ -15,6 +15,7 @@ import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -22,7 +23,7 @@ import 'package:simple_networking/modules/signal_r/models/active_earn_positions_
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 
 @RoutePage(name: 'EarnTopUpOrderSummaryRouter')
-class EarnTopUpOrderSummaryScreen extends StatelessWidget {
+class EarnTopUpOrderSummaryScreen extends StatefulWidget {
   const EarnTopUpOrderSummaryScreen({
     super.key,
     required this.earnPosition,
@@ -33,13 +34,30 @@ class EarnTopUpOrderSummaryScreen extends StatelessWidget {
   final Decimal amount;
 
   @override
+  State<EarnTopUpOrderSummaryScreen> createState() => _EarnTopUpOrderSummaryScreenState();
+}
+
+class _EarnTopUpOrderSummaryScreenState extends State<EarnTopUpOrderSummaryScreen> {
+  @override
+  void initState() {
+    sAnalytics.earnDepositOrderSummaryScreenView(
+      assetName: widget.earnPosition.offers.first.assetId,
+      earnAPYrate: widget.earnPosition.offers.first.apyRate?.toString() ?? Decimal.zero.toString(),
+      earnDepositAmount: widget.amount.toString(),
+      earnPlanName: widget.earnPosition.offers.first.description ?? '',
+      earnWithdrawalType: widget.earnPosition.offers.first.withdrawType.name,
+    );
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
     return Provider<EarnTopUpOrderSummaryStore>(
       create: (context) => EarnTopUpOrderSummaryStore(
-        earnPosition: earnPosition,
-        amount: amount,
+        earnPosition: widget.earnPosition,
+        amount: widget.amount,
       ),
       builder: (context, child) {
         final store = EarnTopUpOrderSummaryStore.of(context);
@@ -86,10 +104,12 @@ class _OfferOrderSummaruBody extends StatelessWidget {
               isLoading: false,
               fromAssetIconUrl: store.currency.iconUrl,
               fromAssetDescription: intl.earn_crypto_wallet,
-              fromAssetValue: isBalanceHide ? '**** ${store.currency.symbol}' : store.currency.volumeAssetBalance,
+              fromAssetValue: isBalanceHide
+                  ? '**** ${store.currency.symbol}'
+                  : volumeFormat(decimal: store.selectedAmount, symbol: store.currency.symbol),
               fromAssetBaseAmount: isBalanceHide
                   ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                  : '≈${marketFormat(decimal: store.baseCryptoAmount, symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
+                  : '≈${marketFormat(decimal: store.baseAmount, symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
               toAssetIconUrl: store.currency.iconUrl,
               toAssetDescription: intl.earn_earn,
               toAssetValue: isBalanceHide
@@ -150,6 +170,13 @@ class _OfferOrderSummaruBody extends StatelessWidget {
                 active: store.isTermsAndConditionsChecked,
                 name: intl.previewBuyWithAsset_confirm,
                 onTap: () {
+                  sAnalytics.tapOnTheConfirmEarnDepositOrderSummaryButton(
+                    assetName: store.earnPosition.offers.first.assetId,
+                    earnAPYrate: store.earnPosition.offers.first.apyRate?.toString() ?? Decimal.zero.toString(),
+                    earnDepositAmount: store.amount.toString(),
+                    earnPlanName: store.earnPosition.offers.first.description ?? '',
+                    earnWithdrawalType: store.earnPosition.offers.first.withdrawType.name,
+                  );
                   store.confirm();
                 },
               ),

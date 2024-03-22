@@ -11,6 +11,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
+import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_country_model.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
@@ -29,6 +30,9 @@ import '../../app/store/app_store.dart';
 import '../helpers/show_currency_search.dart';
 
 Future<void> showSendAction(BuildContext context) async {
+  final kycState = getIt.get<KycService>();
+  final handler = getIt.get<KycAlertHandler>();
+
   final isToCryptoWalletAvaible = checkToCryptoWalletAvaible();
   final isGlobalAvaible = checkGlobalAvaible();
   final isGiftAvaible = checkGiftAvaible();
@@ -42,15 +46,24 @@ Future<void> showSendAction(BuildContext context) async {
   );
 
   if (!(isToCryptoWalletAvaible || isGlobalAvaible || isGiftAvaible)) {
-    showSendTimerAlertOr(
-      context: context,
-      or: () {
-        sNotification.showError(
-          intl.operation_bloked_text,
-          id: 1,
-        );
-      },
-      from: [BlockingType.transfer, BlockingType.withdrawal],
+    handler.handle(
+      multiStatus: [
+        kycState.tradeStatus,
+        kycState.withdrawalStatus,
+      ],
+      isProgress: kycState.verificationInProgress,
+      currentNavigate: () => showSendTimerAlertOr(
+        context: context,
+        or: () {
+          sNotification.showError(
+            intl.operation_bloked_text,
+            id: 1,
+          );
+        },
+        from: [BlockingType.transfer, BlockingType.withdrawal],
+      ),
+      requiredDocuments: kycState.requiredDocuments,
+      requiredVerifications: kycState.requiredVerifications,
     );
 
     return;
