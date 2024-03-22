@@ -49,7 +49,8 @@ abstract class _ConvertAmountStoreBase with Store {
     return inputValid &&
         Decimal.parse(primaryAmount) != Decimal.zero &&
         fromAsset != null &&
-        targetConversionPrice != null;
+        targetConversionPrice != null &&
+        !isNoFromAssetBalance;
   }
 
   @observable
@@ -94,6 +95,9 @@ abstract class _ConvertAmountStoreBase with Store {
     return isFromEntering ? toAsset?.accuracy ?? 2 : fromAsset?.accuracy ?? 2;
   }
 
+  @computed
+  bool get isNoFromAssetBalance => fromAsset?.isAssetBalanceEmpty ?? false;
+
   @observable
   CurrencyModel? fromAsset;
 
@@ -125,6 +129,7 @@ abstract class _ConvertAmountStoreBase with Store {
     isNoCurrencies = !sSignalRModules.currenciesList.any((currency) {
       return currency.assetBalance != Decimal.zero && currency.symbol != 'EUR';
     });
+
     if (isNoCurrencies) {
       sAnalytics.errorYourCryptoBalanceIsZeroPleaseGetCryptoFirst();
       Timer(
@@ -133,6 +138,18 @@ abstract class _ConvertAmountStoreBase with Store {
           sNotification.showError(
             intl.tost_convert_message_1,
             id: 1,
+          );
+        },
+      );
+    }
+    if (isNoFromAssetBalance) {
+      Timer(
+        const Duration(milliseconds: 200),
+        () {
+          sNotification.showError(
+            intl.error_message_insufficient_funds,
+            id: 1,
+            isError: false,
           );
         },
       );
@@ -150,6 +167,8 @@ abstract class _ConvertAmountStoreBase with Store {
     fromInputValue = '0';
     errorText = null;
     inputValid = false;
+
+    _checkShowTosts();
   }
 
   @action

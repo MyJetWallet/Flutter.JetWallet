@@ -136,13 +136,12 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
                             symbol: sendGiftStore.currency.symbol,
                           ),
                         );
-                        //sAnalytics.confirmWithPINScreenView();
+
                         sRouter.push(
                           PinScreenRoute(
                             union: const Change(),
                             isChangePhone: true,
                             onChangePhone: (String newPin) async {
-                              await sRouter.pop();
                               await sendGiftStore.confirmSendGift(
                                 newPin: newPin,
                               );

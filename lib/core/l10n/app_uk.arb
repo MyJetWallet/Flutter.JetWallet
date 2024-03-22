@@ -4111,7 +4111,7 @@
         "description": "Закрыть",
         "type": "text"
     },
-    "previewBuyWithUmlimint_disclaimerPolicy": "Privacy Policy",
+    "previewBuyWithUmlimint_disclaimerPolicy": "Політика конфіденційності",
     "previewBuyWithUmlimint_saveCard": "Зберегти цю картку",
     "@previewBuyWithUmlimint_saveCard": {
         "description": "Сохранить эту карточку",
@@ -5649,7 +5649,7 @@
         "type": "text"
     },
     "buy_confirmation_privacy_checkbox_2": "Положення та Умови",
-    "buy_confirmation_privacy_checkbox_3": "Privacy Policy",
+    "buy_confirmation_privacy_checkbox_3": "Політика конфіденційності",
     "buy_confirmation_privacy_p2p_checkbox_1": "1. Я підтверджую, що наведена вище інформація є точною та повною.",
     "@buy_confirmation_privacy_p2p_checkbox_1": {
         "description": "1. Я подтверждаю, что приведенная выше информация является точной и полной.",
