@@ -75,18 +75,18 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
 
     updateTimer = Timer.periodic(
       const Duration(seconds: 1),
-          (timer) {
-          final a = DateTime.parse('${widget.instrument.nextRollOverTime}');
-          final b = DateTime.now();
-          final difference = a.difference(b);
-          final hours = difference.inHours % 24;
-          final minutes = difference.inMinutes % 60;
-          final seconds = difference.inSeconds % 60;
-          setState(() {
-            timerUpdated = '-$hours:'
-                '${minutes < 10 ? '0' : ''}$minutes:'
-                '${seconds < 10 ? '0' : ''}$seconds';
-          });
+      (timer) {
+        final a = DateTime.parse('${widget.instrument.nextRollOverTime}');
+        final b = DateTime.now();
+        final difference = a.difference(b);
+        final hours = difference.inHours % 24;
+        final minutes = difference.inMinutes % 60;
+        final seconds = difference.inSeconds % 60;
+        setState(() {
+          timerUpdated = '-$hours:'
+              '${minutes < 10 ? '0' : ''}$minutes:'
+              '${seconds < 10 ? '0' : ''}$seconds';
+        });
       },
     );
     controller = ScrollController();
@@ -121,7 +121,7 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
           },
         ),
       ),
-      bottomNavigationBar:SizedBox(
+      bottomNavigationBar: SizedBox(
         height: 98,
         child: Column(
           children: [
@@ -334,10 +334,8 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
               showFull: false,
               title: intl.invest_limits,
             ),
-            if (
-            investNewStore.position!.stopLossType != TPSLType.undefined ||
-                investNewStore.position!.takeProfitType != TPSLType.undefined
-            ) ...[
+            if (investNewStore.position!.stopLossType != TPSLType.undefined ||
+                investNewStore.position!.takeProfitType != TPSLType.undefined) ...[
               if (investNewStore.position!.takeProfitType != TPSLType.undefined) ...[
                 DataLine(
                   withDot: true,
@@ -345,14 +343,15 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
                   mainText: intl.invest_limits_take_profit,
                   secondaryText: investNewStore.position!.takeProfitType == TPSLType.amount
                       ? volumeFormat(
-                    decimal: investNewStore.position!.takeProfitAmount ?? Decimal.zero,
-                    accuracy: 2,
-                    symbol: 'USDT',
-                  ) : volumeFormat(
-                    decimal: investNewStore.position!.takeProfitPrice ?? Decimal.zero,
-                    accuracy: widget.instrument.priceAccuracy ?? 2,
-                    symbol: '',
-                  ),
+                          decimal: investNewStore.position!.takeProfitAmount ?? Decimal.zero,
+                          accuracy: 2,
+                          symbol: 'USDT',
+                        )
+                      : volumeFormat(
+                          decimal: investNewStore.position!.takeProfitPrice ?? Decimal.zero,
+                          accuracy: widget.instrument.priceAccuracy ?? 2,
+                          symbol: '',
+                        ),
                 ),
                 const SpaceH8(),
               ],
@@ -363,14 +362,15 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
                   mainText: intl.invest_limits_stop_loss,
                   secondaryText: investNewStore.position!.stopLossType == TPSLType.amount
                       ? volumeFormat(
-                    decimal: investNewStore.position!.stopLossAmount ?? Decimal.zero,
-                    accuracy: 2,
-                    symbol: 'USDT',
-                  ) : volumeFormat(
-                    decimal: investNewStore.position!.stopLossPrice ?? Decimal.zero,
-                    accuracy: widget.instrument.priceAccuracy ?? 2,
-                    symbol: '',
-                  ),
+                          decimal: investNewStore.position!.stopLossAmount ?? Decimal.zero,
+                          accuracy: 2,
+                          symbol: 'USDT',
+                        )
+                      : volumeFormat(
+                          decimal: investNewStore.position!.stopLossPrice ?? Decimal.zero,
+                          accuracy: widget.instrument.priceAccuracy ?? 2,
+                          symbol: '',
+                        ),
                 ),
                 const SpaceH8(),
               ],

@@ -58,11 +58,10 @@ class _NewInvestConfirmationScreenState extends State<NewInvestConfirmationScree
     updateTimer = Timer.periodic(
       const Duration(seconds: 1),
       (timer) {
-
         setState(() {
           price = investNewStore.isOrderMode
-            ? '${investNewStore.pendingValue}'
-            : '${investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? '')}';
+              ? '${investNewStore.pendingValue}'
+              : '${investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? '')}';
         });
       },
     );
@@ -100,84 +99,81 @@ class _NewInvestConfirmationScreenState extends State<NewInvestConfirmationScree
       bottomNavigationBar: SizedBox(
         height: 126,
         child: Column(
-        children: [
-          SPaddingH24(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                DataLine(
-                  fullWidth: false,
-                  mainText: intl.invest_open_fee,
-                  secondaryText: 'Est. ${volumeFormat(
-                    decimal: investNewStore.amountValue *
-                        Decimal.fromInt(investNewStore.multiplicator) *
-                        (widget.instrument.openFee ?? Decimal.one),
-                    accuracy: 2,
-                    symbol: 'USDT',
-                  )}',
-                ),
-                DataLine(
-                  fullWidth: false,
-                  mainText: intl.invest_volume,
-                  secondaryText: volumeFormat(
-                    decimal: investNewStore.amountValue *
-                        Decimal.fromInt(investNewStore.multiplicator),
-                    accuracy: 2,
-                    symbol: 'USDT',
+          children: [
+            SPaddingH24(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DataLine(
+                    fullWidth: false,
+                    mainText: intl.invest_open_fee,
+                    secondaryText: 'Est. ${volumeFormat(
+                      decimal: investNewStore.amountValue *
+                          Decimal.fromInt(investNewStore.multiplicator) *
+                          (widget.instrument.openFee ?? Decimal.one),
+                      accuracy: 2,
+                      symbol: 'USDT',
+                    )}',
                   ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 98,
-            child: Column(
-              children: [
-                const SpaceH20(),
-                SPaddingH24(
-                  child: SIButton(
-                    onTap: () {
-                      if (investNewStore.canClick) {
-                        investNewStore.setCanClick(false);
-                        Timer(
-                          const Duration(
-                            seconds: 2,
-                          ),
-                          () => investNewStore.setCanClick(true),
-                        );
-                      } else {
-                        return;
-                      }
-                      investNewStore.createPosition();
-                    },
-                    name: investNewStore.isBuyMode
-                      ? '${intl.invest_buy} $price'
-                      : '${intl.invest_sell} $price',
-                    description: investNewStore.isOrderMode ? intl.invest_pending_invest : null,
-                    activeColor: investNewStore.isBuyMode ? colors.green : colors.red,
-                    activeNameColor: colors.white,
-                    icon: investNewStore.isBuyMode
-                        ? Assets.svg.invest.buy.simpleSvg(
-                      width: 20,
-                      height: 20,
-                      color: colors.white,
-                    )
-                        : Assets.svg.invest.sell.simpleSvg(
-                      width: 20,
-                      height: 20,
-                      color: colors.white,
+                  DataLine(
+                    fullWidth: false,
+                    mainText: intl.invest_volume,
+                    secondaryText: volumeFormat(
+                      decimal: investNewStore.amountValue * Decimal.fromInt(investNewStore.multiplicator),
+                      accuracy: 2,
+                      symbol: 'USDT',
                     ),
-                    active: true,
-                    inactiveColor: investNewStore.isBuyMode ? colors.green : colors.red,
-                    inactiveNameColor: colors.white,
                   ),
-                ),
-                const SpaceH34(),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
+            SizedBox(
+              height: 98,
+              child: Column(
+                children: [
+                  const SpaceH20(),
+                  SPaddingH24(
+                    child: SIButton(
+                      onTap: () {
+                        if (investNewStore.canClick) {
+                          investNewStore.setCanClick(false);
+                          Timer(
+                            const Duration(
+                              seconds: 2,
+                            ),
+                            () => investNewStore.setCanClick(true),
+                          );
+                        } else {
+                          return;
+                        }
+                        investNewStore.createPosition();
+                      },
+                      name: investNewStore.isBuyMode ? '${intl.invest_buy} $price' : '${intl.invest_sell} $price',
+                      description: investNewStore.isOrderMode ? intl.invest_pending_invest : null,
+                      activeColor: investNewStore.isBuyMode ? colors.green : colors.red,
+                      activeNameColor: colors.white,
+                      icon: investNewStore.isBuyMode
+                          ? Assets.svg.invest.buy.simpleSvg(
+                              width: 20,
+                              height: 20,
+                              color: colors.white,
+                            )
+                          : Assets.svg.invest.sell.simpleSvg(
+                              width: 20,
+                              height: 20,
+                              color: colors.white,
+                            ),
+                      active: true,
+                      inactiveColor: investNewStore.isBuyMode ? colors.green : colors.red,
+                      inactiveNameColor: colors.white,
+                    ),
+                  ),
+                  const SpaceH34(),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
       child: SPaddingH24(
         child: Column(
@@ -256,9 +252,7 @@ class _NewInvestConfirmationScreenState extends State<NewInvestConfirmationScree
               showModify: false,
               showIcon: false,
               showFull: false,
-              title: investNewStore.isOrderMode
-                ? intl.invest_new_pending_title
-                : intl.invest_new_title,
+              title: investNewStore.isOrderMode ? intl.invest_new_pending_title : intl.invest_new_title,
             ),
             DataLine(
               mainText: intl.invest_amount,
@@ -273,10 +267,7 @@ class _NewInvestConfirmationScreenState extends State<NewInvestConfirmationScree
               mainText: intl.invest_multiplicator,
               secondaryText: 'x${investNewStore.multiplicator}',
             ),
-            if (
-              (investNewStore.isSl || investNewStore.isTP) &&
-              investNewStore.isLimitsVisible
-            ) ...[
+            if ((investNewStore.isSl || investNewStore.isTP) && investNewStore.isLimitsVisible) ...[
               const SpaceH8(),
               const SDivider(),
               const SpaceH8(),

@@ -1,13 +1,22 @@
 import 'dart:async';
 
+import 'package:charts/main.dart';
+import 'package:charts/simple_chart.dart';
+import 'package:charts/utils/data_feed_util.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
+import 'package:jetwallet/features/chart/helper/format_merge_candles_count.dart';
+import 'package:jetwallet/features/chart/helper/format_resolution.dart';
+import 'package:jetwallet/features/chart/model/chart_union.dart';
 import 'package:jetwallet/features/invest/ui/invests/data_line.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_networking/modules/candles_api/models/candles_request_model.dart';
+
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
@@ -1044,5 +1053,113 @@ abstract class _InvestNewStoreBase with Store {
     isTP = false;
     isLimitsVisible = false;
     isOrderMode = false;
+    resolution = Period.day;
+    candlesList.clear();
+  }
+
+  @observable
+  String resolution = Period.day;
+
+  @observable
+  ChartUnion union = const ChartUnion.loading();
+
+  @observable
+  List<CandlesWithIdModel> candlesList = [];
+
+  @action
+  Future<void> fetchAssetCandles(String resolution, String instrumentId) async {
+    try {
+      if (union != const ChartUnion.candles()) {
+        union = const ChartUnion.loading();
+      }
+
+      await getDataFromCache();
+
+      final toDate = DateTime.now().toUtc();
+      final depth = DataFeedUtil.calculateHistoryDepth(resolution);
+      final fromDate = toDate.subtract(depth.intervalBackDuration);
+
+      final model = CandlesRequestModel(
+        candleId: instrumentId,
+        type: timeFrameFrom(resolution),
+        bidOrAsk: 0,
+        fromDate: fromDate.millisecondsSinceEpoch,
+        toDate: toDate.millisecondsSinceEpoch,
+        mergeCandlesCount: mergeCandlesCountFrom(resolution),
+      );
+
+      final candlesResponse = await sNetwork.getCandlesModule().getCandles(model);
+
+      candlesResponse.pick(
+        onData: (candles) {
+          final candles1 = candles.candles.map(
+            (e) => CandleModel(
+              open: e.open,
+              close: e.close,
+              high: e.high,
+              low: e.low,
+              date: e.date,
+            ),
+          );
+
+          updateCandles(candles1.toList(), resolution);
+        },
+        onError: (e) {
+          updateCandles([], resolution);
+        },
+      );
+    } catch (e) {
+      updateCandles([], resolution);
+    }
+  }
+
+  @action
+  void updateCandles(List<CandleModel>? newCandles, String resolution) {
+    final currentCandles = Map.of(candles);
+    currentCandles[resolution] = newCandles;
+
+    candles = currentCandles;
+    union = const Candles();
+
+    if (instrument?.symbol != null) {
+      getIt<LocalCacheService>().saveChart(
+        instrument?.symbol ?? '',
+        currentCandles,
+      );
+    }
+  }
+
+  @observable
+  Map<String, List<CandleModel>?> candles = {
+    Period.day: null,
+    Period.week: null,
+    Period.month: null,
+    Period.year: null,
+    Period.all: null,
+  };
+
+  @action
+  Future<void> updateResolution(
+    String newResolution,
+    String instrumentSymbol,
+  ) async {
+    await fetchAssetCandles(
+      newResolution,
+      instrumentSymbol,
+    );
+    showAnimation = true;
+    resolution = newResolution;
+  }
+
+  @action
+  Future<void> getDataFromCache() async {
+    if (instrument?.symbol != null) {
+      final getDataFromCache = await getIt<LocalCacheService>().getChart(instrument?.symbol ?? '');
+
+      if (getDataFromCache != null) {
+        candles = getDataFromCache.candle;
+        union = const Candles();
+      }
+    }
   }
 }
