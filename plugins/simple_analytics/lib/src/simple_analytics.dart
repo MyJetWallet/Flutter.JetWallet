@@ -3,7 +3,6 @@
 import '../simple_analytics.dart';
 import 'models/event_type.dart';
 import 'models/property_type.dart';
-import 'services/send_events_service.dart';
 
 final sAnalytics = SimpleAnalytics();
 
@@ -25,13 +24,13 @@ class SimpleAnalytics {
   /// Provide:
   /// 1. environmentKey for Amplitude workspace
   /// 2. userEmail if user is already authenticated
-  Future<void> init(
-    String environmentKey,
-    // ignore: avoid_positional_boolean_parameters
-    bool techAcc,
-    LogEventFunc logEventFunc, [
+  /// 3. logEventFunc for send events to other apis
+  Future<void> init({
+    required String environmentKey,
+    required bool techAcc,
+    required LogEventFunc logEventFunc,
     String? userEmail,
-  ]) async {
+  }) async {
     await _analytics.init(
       environmentKey,
       logEventFunc: logEventFunc,

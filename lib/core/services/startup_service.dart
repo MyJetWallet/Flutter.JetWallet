@@ -94,22 +94,22 @@ class StartupService {
         if (resultRefreshToken == RefreshTokenStatus.success) {
           await userInfo.initPinStatus();
 
-          Future<void> logEventFunc({
-            required String name,
-            required Map<String, dynamic> body,
-          }) async {
-            final model = AnalyticRecordModel(
-              eventName: name,
-              eventBody: body,
-            );
-            await sNetwork.getAnalyticApiModule().postAddAnalyticRecord([model]);
-          }
-
           await sAnalytics.init(
-            analyticsApiKey,
-            userInfo.isTechClient,
-            logEventFunc,
-            parsedEmail,
+            environmentKey: analyticsApiKey,
+            techAcc: userInfo.isTechClient,
+            // this function is necessary to send events for analytics
+            // from the plugins/simple_analytics package to our back end
+            logEventFunc: ({
+              required String name,
+              required Map<String, dynamic> body,
+            }) async {
+              final model = AnalyticRecordModel(
+                eventName: name,
+                eventBody: body,
+              );
+              await sNetwork.getAnalyticApiModule().postAddAnalyticRecord([model]);
+            },
+            userEmail: parsedEmail,
           );
         }
 
