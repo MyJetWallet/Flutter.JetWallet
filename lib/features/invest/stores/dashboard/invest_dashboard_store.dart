@@ -406,7 +406,7 @@ abstract class _InvestDashboardStoreBase with Store {
     if (instrument.isEmpty || price.isEmpty) {
       return Decimal.zero;
     }
-
+    //! Alex S. fix this profit
     return position.direction == Direction.buy
         ? (price[0].lastPrice! - position.openPrice!) * position.volumeBase! + position.rollOver! - position.openFee!
         : -(price[0].lastPrice! - position.openPrice!) * position.volumeBase! + position.rollOver! - position.openFee!;

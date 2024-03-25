@@ -177,11 +177,9 @@ class InvestLine extends StatelessObserverWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  //! Alex S. fix this
                   Text(
                     isPending
                         ? marketFormat(decimal: price, accuracy: 2, symbol: '')
-                        //! Alex S. fix profit
                         : marketFormat(decimal: profit, accuracy: 2, symbol: ''),
                     style: STStyles.body2InvestB.copyWith(
                       color: colors.black,

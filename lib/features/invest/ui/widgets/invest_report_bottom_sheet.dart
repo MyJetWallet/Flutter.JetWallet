@@ -311,7 +311,7 @@ class _InvestListScreenState extends State<InvestList> {
                 DataLine(
                   mainText: intl.invest_report_open_fee,
                   secondaryText: marketFormat(
-                    decimal: widget.position.openFee ?? Decimal.zero,
+                    decimal: (widget.position.openFee ?? Decimal.zero) * Decimal.parse('-1'),
                     accuracy: 2,
                     symbol: 'USDT',
                   ),
@@ -321,9 +321,9 @@ class _InvestListScreenState extends State<InvestList> {
                   DataLine(
                     mainText: intl.invest_report_close_fee,
                     secondaryText: marketFormat(
-                      decimal: widget.position.closeFee ?? Decimal.zero,
+                      decimal: (widget.position.closeFee ?? Decimal.zero) * Decimal.parse('-1'),
                       accuracy: widget.instrument.priceAccuracy ?? 2,
-                      symbol: '',
+                      symbol: 'USDT',
                     ),
                   ),
                   const SpaceH8(),
