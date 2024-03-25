@@ -49,7 +49,7 @@ class LoadingChartView extends StatelessWidget {
             right: 0,
             bottom: isBalanceChart ? 40 : 0,
             child: SizedBox(
-              height: 36,
+              height: 38,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

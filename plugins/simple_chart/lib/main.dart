@@ -93,17 +93,17 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
     final screenWidth = widget.isFullInvestChart
         ? MediaQuery.of(context).size.width
         : widget.isLongInvest
-        ? 130.0
-        : widget.isInvestChart
-        ? 106.0
-        : MediaQuery.of(context).size.width;
+            ? 130.0
+            : widget.isInvestChart
+                ? 106.0
+                : MediaQuery.of(context).size.width;
     final chartWidth = widget.isFullInvestChart
         ? screenWidth
         : widget.isLongInvest
-        ? 130.0
-        : widget.isInvestChart
-        ? 106.0
-        : screenWidth - 24;
+            ? 130.0
+            : widget.isInvestChart
+                ? 106.0
+                : screenWidth - 24;
     var candleWidth = 0.0;
     if (widget.candles != null) {
       candleWidth = chartWidth / widget.candles!.length;
@@ -212,8 +212,8 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                         onTap: widget.candleResolution == Period.day
                             ? null
                             : () {
-                          widget.onResolutionChanged(Period.day);
-                        },
+                                widget.onResolutionChanged(Period.day);
+                              },
                       ),
                       if (showWeek)
                         ResolutionButton(
@@ -222,8 +222,8 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                           onTap: widget.candleResolution == Period.week
                               ? null
                               : () {
-                            widget.onResolutionChanged(Period.week);
-                          },
+                                  widget.onResolutionChanged(Period.week);
+                                },
                         ),
                       if (showMonth)
                         ResolutionButton(
@@ -232,8 +232,8 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                           onTap: widget.candleResolution == Period.month
                               ? null
                               : () {
-                            widget.onResolutionChanged(Period.month);
-                          },
+                                  widget.onResolutionChanged(Period.month);
+                                },
                         ),
                       if (showYear)
                         ResolutionButton(
@@ -242,8 +242,8 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                           onTap: widget.candleResolution == Period.year
                               ? null
                               : () {
-                            widget.onResolutionChanged(Period.year);
-                          },
+                                  widget.onResolutionChanged(Period.year);
+                                },
                         ),
                       ResolutionButton(
                         text: widget.localizedChartResolutionButton[4],
@@ -251,8 +251,8 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                         onTap: widget.candleResolution == Period.all
                             ? null
                             : () {
-                          widget.onResolutionChanged(Period.all);
-                        },
+                                widget.onResolutionChanged(Period.all);
+                              },
                       ),
                     ],
                   ),

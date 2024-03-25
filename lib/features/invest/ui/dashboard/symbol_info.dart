@@ -40,7 +40,6 @@ class SymbolInfo extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final colors = sKit.colors;
 
     return InkWell(
@@ -53,9 +52,11 @@ class SymbolInfo extends StatelessObserverWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          border: showProfit ? null : Border.all(
-            color: colors.grey4,
-          ),
+          border: showProfit
+              ? null
+              : Border.all(
+                  color: colors.grey4,
+                ),
           color: colors.white,
         ),
         padding: const EdgeInsets.symmetric(
@@ -73,7 +74,10 @@ class SymbolInfo extends StatelessObserverWidget {
                   width: 16.0,
                   height: 16.0,
                   placeholderBuilder: (_) {
-                    return Assets.svg.invest.investAssetPlaceholder.simpleSvg(width: 16, height: 16,);
+                    return Assets.svg.invest.investAssetPlaceholder.simpleSvg(
+                      width: 16,
+                      height: 16,
+                    );
                   },
                 ),
                 const SpaceW5(),
@@ -99,8 +103,8 @@ class SymbolInfo extends StatelessObserverWidget {
                         color: percent == Decimal.zero
                             ? colors.grey3
                             : percent > Decimal.zero
-                            ? colors.green
-                            : colors.red,
+                                ? colors.green
+                                : colors.red,
                       ),
                     ),
                     percentIcon(percent),
@@ -118,14 +122,9 @@ class SymbolInfo extends StatelessObserverWidget {
             Stack(
               children: [
                 Chart(
-                  localizedChartResolutionButton:
-                  localizedChartResolutionButton(context),
-                  onResolutionChanged: (resolution) {
-
-                  },
-                  onChartTypeChanged: (type) {
-
-                  },
+                  localizedChartResolutionButton: localizedChartResolutionButton(context),
+                  onResolutionChanged: (resolution) {},
+                  onChartTypeChanged: (type) {},
                   chartType: ChartType.area,
                   candleResolution: Period.month,
                   formatPrice: volumeFormat,

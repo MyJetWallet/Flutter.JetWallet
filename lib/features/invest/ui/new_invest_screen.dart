@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:math';
-
 import 'package:auto_route/auto_route.dart';
+import 'package:charts/main.dart';
+import 'package:charts/model/resolution_string_enum.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +18,8 @@ import 'package:jetwallet/features/invest/ui/invests/symbol_info_without_chart.d
 import 'package:jetwallet/features/invest/ui/widgets/invest_input.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_slider_input.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/helpers/localized_chart_resolution_button.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
@@ -29,7 +32,6 @@ import '../../../core/l10n/i10n.dart';
 import '../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../utils/helpers/calculate_amount_points.dart';
 import '../../../utils/helpers/currency_from.dart';
-import 'chart/invest_chart.dart';
 import 'invests/secondary_switch.dart';
 
 @RoutePage(name: 'NewInvestPageRouter')
@@ -49,11 +51,15 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
   bool canTapShare = true;
   late ScrollController controller;
   late WebViewController controllerWeb;
+  late InvestNewStore investNewStore;
 
   @override
   void initState() {
     super.initState();
-    final investNewStore = getIt.get<InvestNewStore>();
+    investNewStore = getIt.get<InvestNewStore>()
+      ..resetStore()
+      ..fetchAssetCandles(Period.day, widget.instrument.symbol ?? '');
+
     final multiplicators = calculateMultiplyPositions(
       minVolume: Decimal.fromInt(widget.instrument.minMultiply ?? 0),
       maxVolume: Decimal.fromInt(widget.instrument.maxMultiply ?? 0),
@@ -87,7 +93,6 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
   @override
   Widget build(BuildContext context) {
     final currencies = sSignalRModules.currenciesList;
-    final investNewStore = getIt.get<InvestNewStore>();
     final investStore = getIt.get<InvestDashboardStore>();
 
     final colors = sKit.colors;
@@ -162,63 +167,26 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                 showInvestMarketWatchBottomSheet(context);
               },
             ),
-            Row(
-              children: [
-                Observer(
-                  builder: (BuildContext context) {
-                    return SecondarySwitch(
-                      onChangeTab: (value) {
-                        investNewStore.setChartInterval(value);
-                      },
-                      activeTab: investNewStore.chartInterval,
-                      fullWidth: false,
-                      fromRight: false,
-                      tabs: const [
-                        '15m',
-                        '1h',
-                        '4h',
-                        '1d',
-                      ],
-                    );
-                  },
-                ),
-                const Spacer(),
-                Observer(
-                  builder: (BuildContext context) {
-                    return SecondarySwitch(
-                      onChangeTab: (value) {
-                        investNewStore.setChartType(value);
-                      },
-                      activeTab: investNewStore.chartType,
-                      fullWidth: false,
-                      fromRight: false,
-                      tabs: const [],
-                      tabsAssets: [
-                        Assets.svg.invest.chartLine.simpleSvg(
-                          width: 16,
-                          height: 16,
-                          color: investNewStore.chartType == 0 ? colors.black : colors.grey2,
-                        ),
-                        Assets.svg.invest.chartCandles.simpleSvg(
-                          width: 16,
-                          height: 16,
-                          color: investNewStore.chartType == 1 ? colors.black : colors.grey2,
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ],
-            ),
-            const SpaceH8(),
             Observer(
               builder: (BuildContext context) {
-                return InvestChart(
-                  instrument: widget.instrument,
-                  chartInterval: investNewStore.getChartInterval(),
-                  chartType: investNewStore.getChartType(),
-                  width: '${MediaQuery.of(context).size.width - 48}',
-                  height: '${MediaQuery.of(context).size.height - 575}',
+                return Chart(
+                  localizedChartResolutionButton: localizedChartResolutionButton(context),
+                  onResolutionChanged: (resolution) {
+                    investNewStore.updateResolution(
+                      resolution,
+                      widget.instrument.symbol ?? '',
+                    );
+                  },
+                  onChartTypeChanged: (type) {},
+                  candleResolution: investNewStore.resolution,
+                  formatPrice: volumeFormat,
+                  candles: investNewStore.candles[investNewStore.resolution],
+                  onCandleSelected: (value) {},
+                  chartHeight: 240,
+                  chartWidgetHeight: 297,
+                  isAssetChart: true,
+                  loader: const LoaderSpinner(),
+                  accuracy: widget.instrument.priceAccuracy ?? 2,
                 );
               },
             ),
