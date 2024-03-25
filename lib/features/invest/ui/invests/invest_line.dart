@@ -47,7 +47,6 @@ class InvestLine extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final colors = sKit.colors;
 
     return InkWell(
@@ -130,18 +129,22 @@ class InvestLine extends StatelessObserverWidget {
                 child: Row(
                   children: [
                     Text(
-                      operationType == Direction.buy
-                          ? intl.invest_buy
-                          : intl.invest_sell,
+                      operationType == Direction.buy ? intl.invest_buy : intl.invest_sell,
                       style: STStyles.body2InvestSM.copyWith(
                         color: colors.black,
                       ),
                     ),
                     const SpaceW2(),
                     if (operationType == Direction.buy)
-                      Assets.svg.invest.buy.simpleSvg(width: 14, height: 14,)
+                      Assets.svg.invest.buy.simpleSvg(
+                        width: 14,
+                        height: 14,
+                      )
                     else
-                      Assets.svg.invest.sell.simpleSvg(width: 14, height: 14,),
+                      Assets.svg.invest.sell.simpleSvg(
+                        width: 14,
+                        height: 14,
+                      ),
                   ],
                 ),
               ),
@@ -149,8 +152,7 @@ class InvestLine extends StatelessObserverWidget {
             ],
             SizedBox(
               width: 80,
-              child:
-              Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
@@ -195,8 +197,8 @@ class InvestLine extends StatelessObserverWidget {
                             color: profitPercent == Decimal.zero
                                 ? SColorsLight().grey3
                                 : profitPercent > Decimal.zero
-                                ? SColorsLight().green
-                                : SColorsLight().red,
+                                    ? SColorsLight().green
+                                    : SColorsLight().red,
                           ),
                         ),
                         percentIcon(profitPercent),

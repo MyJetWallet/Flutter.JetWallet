@@ -30,55 +30,60 @@ import '../invests/rollover_line.dart';
 import 'invest_rollover_bottom_sheet.dart';
 
 void showInvestReportBottomSheet(
-    BuildContext context,
-    InvestPositionModel position,
-    InvestInstrumentModel instrument,
+  BuildContext context,
+  InvestPositionModel position,
+  InvestInstrumentModel instrument,
 ) {
-
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
     expanded: true,
-    pinnedBottom: (position.status != PositionStatus.cancelled &&
-        position.status != PositionStatus.closed) ? Material(
-      color: SColorsLight().white,
-      child: Observer(
-        builder: (BuildContext context) {
-          return SizedBox(
-            height: 98.0,
-            child: Column(
-              children: [
-                const SpaceH20(),
-                SPaddingH24(
-                  child: Row(
+    pinnedBottom: (position.status != PositionStatus.cancelled && position.status != PositionStatus.closed)
+        ? Material(
+            color: SColorsLight().white,
+            child: Observer(
+              builder: (BuildContext context) {
+                return SizedBox(
+                  height: 98.0,
+                  child: Column(
                     children: [
-                      Expanded(
-                        child: SIButton(
-                          activeColor: SColorsLight().grey5,
-                          activeNameColor: SColorsLight().black,
-                          inactiveColor: SColorsLight().grey2,
-                          inactiveNameColor: SColorsLight().grey4,
-                          active: true,
-                          name: intl.invest_alert_got_it,
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
+                      const SpaceH20(),
+                      SPaddingH24(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: SIButton(
+                                activeColor: SColorsLight().grey5,
+                                activeNameColor: SColorsLight().black,
+                                inactiveColor: SColorsLight().grey2,
+                                inactiveNameColor: SColorsLight().grey4,
+                                active: true,
+                                name: intl.invest_alert_got_it,
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                       ),
+                      const SpaceH34(),
                     ],
                   ),
-                ),
-                const SpaceH34(),
-              ],
+                );
+              },
             ),
-          );
-        },
-      ),
-    ) : null,
+          )
+        : null,
     horizontalPinnedPadding: 0,
     removePinnedPadding: true,
     horizontalPadding: 0,
-    children: [InvestList(position: position, instrument: instrument,)],
+    children: [
+      InvestList(
+        position: position,
+        instrument: instrument,
+      )
+    ],
   );
 }
 
@@ -115,7 +120,7 @@ class _InvestListScreenState extends State<InvestList> {
 
     updateTimer = Timer.periodic(
       const Duration(seconds: 1),
-          (timer) {
+      (timer) {
         final a = DateTime.parse('${widget.instrument.nextRollOverTime}');
         final b = DateTime.now();
         final difference = a.difference(b);
@@ -150,9 +155,7 @@ class _InvestListScreenState extends State<InvestList> {
         builder: (BuildContext context) {
           return Column(
             children: [
-
-              if (widget.position.status != PositionStatus.cancelled &&
-                  widget.position.status != PositionStatus.closed)
+              if (widget.position.status != PositionStatus.cancelled && widget.position.status != PositionStatus.closed)
                 Observer(
                   builder: (BuildContext context) {
                     return RolloverLine(
@@ -247,7 +250,7 @@ class _InvestListScreenState extends State<InvestList> {
               const SpaceH8(),
               DataLine(
                 mainText: intl.invest_report_multiplicator,
-                secondaryText: 'x${widget.position.multiplicator}',
+                secondaryText: 'x${widget.position.multiplicator} ',
               ),
               const SpaceH8(),
               DataLine(
@@ -269,7 +272,6 @@ class _InvestListScreenState extends State<InvestList> {
                   ),
                 ),
               ],
-
               if (widget.position.status != PositionStatus.cancelled) ...[
                 const SpaceH8(),
                 if (widget.position.status == PositionStatus.closed) ...[
@@ -300,7 +302,7 @@ class _InvestListScreenState extends State<InvestList> {
                 DataLine(
                   mainText: intl.invest_report_market_pl,
                   secondaryText: marketFormat(
-                    decimal: investStore.getProfitByPosition(widget.position),
+                    decimal: investStore.getMarketPLByPosition(widget.position),
                     accuracy: 2,
                     symbol: 'USDT',
                   ),
@@ -309,7 +311,7 @@ class _InvestListScreenState extends State<InvestList> {
                 DataLine(
                   mainText: intl.invest_report_open_fee,
                   secondaryText: marketFormat(
-                    decimal: widget.position.openFee ?? Decimal.zero,
+                    decimal: (widget.position.openFee ?? Decimal.zero) * Decimal.parse('-1'),
                     accuracy: 2,
                     symbol: 'USDT',
                   ),
@@ -319,9 +321,9 @@ class _InvestListScreenState extends State<InvestList> {
                   DataLine(
                     mainText: intl.invest_report_close_fee,
                     secondaryText: marketFormat(
-                      decimal: widget.position.closeFee ?? Decimal.zero,
+                      decimal: (widget.position.closeFee ?? Decimal.zero) * Decimal.parse('-1'),
                       accuracy: widget.instrument.priceAccuracy ?? 2,
-                      symbol: '',
+                      symbol: 'USDT',
                     ),
                   ),
                   const SpaceH8(),
@@ -337,8 +339,10 @@ class _InvestListScreenState extends State<InvestList> {
                 const SpaceH8(),
                 if (widget.position.status != PositionStatus.cancelled &&
                     widget.position.status != PositionStatus.closed) ...[
+                  const SDivider(),
+                  const SpaceH8(),
                   DataLine(
-                    mainText: intl.invest_report_so_price,
+                    mainText: intl.invest_liquidation_price,
                     secondaryText: marketFormat(
                       decimal: widget.position.stopOutPrice ?? Decimal.zero,
                       accuracy: widget.instrument.priceAccuracy ?? 2,
@@ -362,12 +366,8 @@ class _InvestListScreenState extends State<InvestList> {
                 ),
                 const SpaceH8(),
               ],
-
-
-              if (
-              widget.position.stopLossType != TPSLType.undefined ||
-                  widget.position.takeProfitType != TPSLType.undefined
-              ) ...[
+              if (widget.position.stopLossType != TPSLType.undefined ||
+                  widget.position.takeProfitType != TPSLType.undefined) ...[
                 const SDivider(),
                 const SpaceH8(),
                 if (widget.position.takeProfitType != TPSLType.undefined) ...[
@@ -377,14 +377,15 @@ class _InvestListScreenState extends State<InvestList> {
                     mainText: intl.invest_limits_take_profit,
                     secondaryText: widget.position.takeProfitType == TPSLType.amount
                         ? volumeFormat(
-                      decimal: widget.position.takeProfitAmount ?? Decimal.zero,
-                      accuracy: 2,
-                      symbol: 'USDT',
-                    ) : volumeFormat(
-                      decimal: widget.position.takeProfitPrice ?? Decimal.zero,
-                      accuracy: widget.instrument.priceAccuracy ?? 2,
-                      symbol: '',
-                    ),
+                            decimal: widget.position.takeProfitAmount ?? Decimal.zero,
+                            accuracy: 2,
+                            symbol: 'USDT',
+                          )
+                        : volumeFormat(
+                            decimal: widget.position.takeProfitPrice ?? Decimal.zero,
+                            accuracy: widget.instrument.priceAccuracy ?? 2,
+                            symbol: '',
+                          ),
                   ),
                   const SpaceH8(),
                 ],
@@ -395,14 +396,15 @@ class _InvestListScreenState extends State<InvestList> {
                     mainText: intl.invest_limits_stop_loss,
                     secondaryText: widget.position.stopLossType == TPSLType.amount
                         ? volumeFormat(
-                      decimal: widget.position.stopLossAmount ?? Decimal.zero,
-                      accuracy: 2,
-                      symbol: 'USDT',
-                    ) : volumeFormat(
-                      decimal: widget.position.stopLossPrice ?? Decimal.zero,
-                      accuracy: widget.instrument.priceAccuracy ?? 2,
-                      symbol: '',
-                    ),
+                            decimal: widget.position.stopLossAmount ?? Decimal.zero,
+                            accuracy: 2,
+                            symbol: 'USDT',
+                          )
+                        : volumeFormat(
+                            decimal: widget.position.stopLossPrice ?? Decimal.zero,
+                            accuracy: widget.instrument.priceAccuracy ?? 2,
+                            symbol: '',
+                          ),
                   ),
                   const SpaceH8(),
                 ],
@@ -423,11 +425,9 @@ class _InvestListScreenState extends State<InvestList> {
                 title: intl.invest_report_journal,
               ),
               for (final item in investPositionStore.journalList) ...[
-                if (
-                  item.auditEvent != PositionAuditEvent.undefined &&
-                  item.auditEvent != PositionAuditEvent.createMarketOpening &&
-                  item.auditEvent != PositionAuditEvent.rollOverReCalc
-                )
+                if (item.auditEvent != PositionAuditEvent.undefined &&
+                    item.auditEvent != PositionAuditEvent.createMarketOpening &&
+                    item.auditEvent != PositionAuditEvent.rollOverReCalc)
                   JournalItem(
                     item: item,
                     instrument: widget.instrument,

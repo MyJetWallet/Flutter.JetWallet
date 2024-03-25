@@ -42,7 +42,6 @@ class MainInvestBlock extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final colors = sKit.colors;
 
     return Row(
@@ -50,10 +49,7 @@ class MainInvestBlock extends StatelessObserverWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (showAmount)
-              const SpaceH9()
-            else
-              const SpaceH16(),
+            if (showAmount) const SpaceH9() else const SpaceH16(),
             Row(
               children: [
                 Text(
@@ -64,10 +60,11 @@ class MainInvestBlock extends StatelessObserverWidget {
                 ),
                 if (showShare) ...[
                   const SpaceW5(),
-                  SIconButton(
-                    defaultIcon: Assets.svg.invest.share.simpleSvg(width: 20, height: 20,),
-                    onTap: onShare,
-                  ),
+                  //! TODO don't remove. We don't need this in current release
+                  // SIconButton(
+                  //   defaultIcon: Assets.svg.invest.share.simpleSvg(width: 20, height: 20,),
+                  //   onTap: onShare,
+                  // ),
                 ],
               ],
             ),
@@ -108,10 +105,7 @@ class MainInvestBlock extends StatelessObserverWidget {
                 ],
               ),
             ],
-            if (showAmount)
-              const SpaceH9()
-            else
-              const SpaceH16(),
+            if (showAmount) const SpaceH9() else const SpaceH16(),
           ],
         ),
         const Spacer(),
@@ -150,8 +144,8 @@ class MainInvestBlock extends StatelessObserverWidget {
                       color: percent == Decimal.zero
                           ? colors.grey3
                           : percent > Decimal.zero
-                          ? colors.green
-                          : colors.red,
+                              ? colors.green
+                              : colors.red,
                     ),
                   ),
                   percentIcon(percent),

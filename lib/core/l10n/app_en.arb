@@ -1697,6 +1697,7 @@
     "invest_report_delete_time": "Delete Time",
     "invest_report_rollover": "Rollover",
     "invest_report_so_price": "S/O Price",
+    "invest_liquidation_price": "Liquidation Price",
     "invest_report_journal": "Journal",
     "invest_report_rollover_report": "Rollover Report",
     "invest_report_rollover_rate": "Rollover Rate",
