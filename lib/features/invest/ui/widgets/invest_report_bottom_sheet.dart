@@ -302,7 +302,7 @@ class _InvestListScreenState extends State<InvestList> {
                 DataLine(
                   mainText: intl.invest_report_market_pl,
                   secondaryText: marketFormat(
-                    decimal: investStore.getProfitByPosition(widget.position),
+                    decimal: investStore.getMarketPLByPosition(widget.position),
                     accuracy: 2,
                     symbol: 'USDT',
                   ),

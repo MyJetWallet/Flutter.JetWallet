@@ -406,10 +406,37 @@ abstract class _InvestDashboardStoreBase with Store {
     if (instrument.isEmpty || price.isEmpty) {
       return Decimal.zero;
     }
-    //! Alex S. fix this profit
+
+    if (position.status == PositionStatus.closed) {
+      return position.direction == Direction.buy
+          ? (position.closePrice! - position.openPrice!) * position.volumeBase! + position.rollOver! - position.openFee!
+          : -(position.closePrice! - position.openPrice!) * position.volumeBase! +
+              position.rollOver! -
+              position.openFee!;
+    }
+
     return position.direction == Direction.buy
         ? (price[0].lastPrice! - position.openPrice!) * position.volumeBase! + position.rollOver! - position.openFee!
         : -(price[0].lastPrice! - position.openPrice!) * position.volumeBase! + position.rollOver! - position.openFee!;
+  }
+
+  @action
+  Decimal getMarketPLByPosition(InvestPositionModel position) {
+    final instrument = instrumentsList.where((element) => element.symbol == position.symbol).toList();
+    final price = pricesList.where((element) => element.symbol == position.symbol).toList();
+    if (instrument.isEmpty || price.isEmpty) {
+      return Decimal.zero;
+    }
+
+    if (position.status == PositionStatus.closed) {
+      return position.direction == Direction.buy
+          ? (position.closePrice! - position.openPrice!) * position.volumeBase!
+          : -(position.closePrice! - position.openPrice!) * position.volumeBase!;
+    }
+
+    return position.direction == Direction.buy
+        ? (price[0].lastPrice! - position.openPrice!) * position.volumeBase!
+        : -(price[0].lastPrice! - position.openPrice!) * position.volumeBase!;
   }
 
   @action
