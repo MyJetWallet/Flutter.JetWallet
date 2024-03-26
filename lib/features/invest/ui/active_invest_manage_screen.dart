@@ -258,7 +258,7 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
               builder: (BuildContext context) {
                 return RolloverLine(
                   mainText: intl.invest_next_rollover,
-                  secondaryText: '${investNewStore.position!.rollOver}% / $timerUpdated',
+                  secondaryText: '${investNewStore.position!.rollOver!.toStringAsFixed(4)}% / $timerUpdated',
                 );
               },
             ),
@@ -273,7 +273,7 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
               historyCount: 1,
               profit: investStore.getProfitByPosition(investNewStore.position!),
               profitPercent: investStore.getYieldByPosition(investNewStore.position!),
-              accuracy: 4,
+              accuracy: widget.instrument.priceAccuracy ?? 2,
               onTap: () {},
             ),
             const SDivider(),

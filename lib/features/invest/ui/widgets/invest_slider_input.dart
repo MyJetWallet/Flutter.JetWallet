@@ -20,6 +20,7 @@ class InvestSliderInput extends StatelessObserverWidget {
     this.isLog = false,
     required this.arrayOfValues,
     required this.onChange,
+    this.isDisabled = false,
   });
 
   final Decimal currentValue;
@@ -30,6 +31,7 @@ class InvestSliderInput extends StatelessObserverWidget {
   final bool withArray;
   final bool fullScale;
   final bool isLog;
+  final bool isDisabled;
   final List<Decimal> arrayOfValues;
   final Function(double) onChange;
 
@@ -89,15 +91,17 @@ class InvestSliderInput extends StatelessObserverWidget {
                     ? divisions.toDouble()
                     : maxValue.toDouble(),
             divisions: fullScale ? (maxValue - minValue).toDouble().floor() : divisions,
-            onChanged: (double value) {
-              if (withArray) {
-                onChange(arrayOfValues[value.toInt()].toDouble());
-              } else if (isLog) {
-                onChange(exp(value).floorToDouble());
-              } else {
-                onChange(value);
-              }
-            },
+            onChanged: isDisabled
+                ? null
+                : (double value) {
+                    if (withArray) {
+                      onChange(arrayOfValues[value.toInt()].toDouble());
+                    } else if (isLog) {
+                      onChange(exp(value).floorToDouble());
+                    } else {
+                      onChange(value);
+                    }
+                  },
           ),
         ),
         const SpaceH4(),

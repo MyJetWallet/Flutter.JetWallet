@@ -179,8 +179,8 @@ class InvestLine extends StatelessObserverWidget {
                 children: [
                   Text(
                     isPending
-                        ? marketFormat(decimal: price, accuracy: accuracy, symbol: '')
-                        : marketFormat(decimal: profit, accuracy: accuracy, symbol: ''),
+                        ? marketFormat(decimal: price, accuracy: 2, symbol: '')
+                        : marketFormat(decimal: profit, accuracy: 2, symbol: ''),
                     style: STStyles.body2InvestB.copyWith(
                       color: colors.black,
                     ),
