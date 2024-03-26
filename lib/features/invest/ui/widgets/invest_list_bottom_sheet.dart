@@ -32,7 +32,6 @@ void showInvestListBottomSheet(BuildContext context) {
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
-    enableDrag: false,
     expanded: true,
     pinned: SPaddingH24(
       child: Column(
@@ -40,12 +39,8 @@ void showInvestListBottomSheet(BuildContext context) {
           InvestHeader(
             currency: currency,
             hideWallet: true,
-            withBackBlock: true,
             withBigPadding: false,
             withDivider: false,
-            onBackButton: () {
-              Navigator.pop(context);
-            },
           ),
           Observer(
             builder: (BuildContext context) {
@@ -110,8 +105,7 @@ void showInvestListBottomSheet(BuildContext context) {
                                       accuracy: 2,
                                       symbol: currency.symbol,
                                     ),
-                                    secondaryColor:
-                                    investStore.totalProfit >= Decimal.zero
+                                    secondaryColor: investStore.totalProfit >= Decimal.zero
                                         ? SColorsLight().green
                                         : SColorsLight().red,
                                   ),

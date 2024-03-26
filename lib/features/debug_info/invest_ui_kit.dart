@@ -53,10 +53,38 @@ class _InvestUIState extends State<InvestUIKIT> {
             child: Column(
               children: [
                 InvestHeader(currency: currency),
-                NewInvestHeader(title: intl.invest_new_title, showRollover: false, showModify: false, showIcon: false, showFull: true, onButtonTap: () {},),
-                NewInvestHeader(title: intl.invest_new_title, showRollover: true, showModify: false, showIcon: false, showFull: false, onButtonTap: () {},),
-                NewInvestHeader(title: intl.invest_new_title, showRollover: false, showModify: true, showIcon: false, showFull: false, onButtonTap: () {},),
-                NewInvestHeader(title: intl.invest_new_title, showRollover: false, showModify: false, showIcon: true, showFull: false, onButtonTap: () {},),
+                NewInvestHeader(
+                  title: intl.invest_new_title,
+                  showRollover: false,
+                  showModify: false,
+                  showIcon: false,
+                  showFull: true,
+                  onButtonTap: () {},
+                ),
+                NewInvestHeader(
+                  title: intl.invest_new_title,
+                  showRollover: true,
+                  showModify: false,
+                  showIcon: false,
+                  showFull: false,
+                  onButtonTap: () {},
+                ),
+                NewInvestHeader(
+                  title: intl.invest_new_title,
+                  showRollover: false,
+                  showModify: true,
+                  showIcon: false,
+                  showFull: false,
+                  onButtonTap: () {},
+                ),
+                NewInvestHeader(
+                  title: intl.invest_new_title,
+                  showRollover: false,
+                  showModify: false,
+                  showIcon: true,
+                  showFull: false,
+                  onButtonTap: () {},
+                ),
                 MyPortfolio(
                   pending: Decimal.fromInt(1000),
                   amount: Decimal.fromInt(1100),
@@ -268,9 +296,7 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
                   setState(() {
                     filtredLogs = widget.log.logs!
                         .where(
-                          (element) =>
-                              element.type != SLogType.ping &&
-                              element.type != SLogType.pong,
+                          (element) => element.type != SLogType.ping && element.type != SLogType.pong,
                         )
                         .toList();
                   });
@@ -297,9 +323,7 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
                   Text(
                     'Action: ${filtredLogs[index].type}',
                     style: sBodyText1Style.copyWith(
-                      color: filtredLogs[index].type == SLogType.error
-                          ? sKit.colors.red
-                          : sKit.colors.black,
+                      color: filtredLogs[index].type == SLogType.error ? sKit.colors.red : sKit.colors.black,
                     ),
                   ),
                   Text(
