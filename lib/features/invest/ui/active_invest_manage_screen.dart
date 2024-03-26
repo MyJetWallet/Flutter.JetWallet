@@ -273,7 +273,7 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
               historyCount: 1,
               profit: investStore.getProfitByPosition(investNewStore.position!),
               profitPercent: investStore.getYieldByPosition(investNewStore.position!),
-              accuracy: widget.instrument.priceAccuracy ?? 2,
+              accuracy: 4,
               onTap: () {},
             ),
             const SDivider(),
