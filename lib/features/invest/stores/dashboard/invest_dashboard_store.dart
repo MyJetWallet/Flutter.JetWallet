@@ -74,20 +74,17 @@ abstract class _InvestDashboardStoreBase with Store {
   String activeSection = '';
   @computed
   ObservableList<InvestSectorModel> get sections {
-    final listForSort = investSectorsData?.sectors;
-    listForSort?.sort(
+    final listForSort = investSectorsData?.sectors ?? [];
+    listForSort.sort(
       (a, b) => (a.id ?? '').compareTo(b.id ?? ''),
     );
 
+    final all = listForSort.firstWhere((sector) => sector.id == 'all');
+    listForSort.removeWhere((sector) => sector.id == 'all');
+    listForSort.insert(0, all);
+
     return ObservableList.of(
-      listForSort ??
-          [
-            const InvestSectorModel(
-              id: '',
-              name: '',
-              description: '',
-            ),
-          ],
+      listForSort,
     );
   }
 
@@ -481,7 +478,7 @@ abstract class _InvestDashboardStoreBase with Store {
 
   @action
   void setFavoritesEditMode() {
-    activeSection = 'S0';
+    activeSection = 'all';
     _isFavoritesEditMode = !isFavoritesEditMode;
   }
 
