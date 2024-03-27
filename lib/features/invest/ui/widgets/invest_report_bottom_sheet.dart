@@ -410,20 +410,21 @@ class _InvestListScreenState extends State<InvestList> {
                 ],
               ],
               const SpaceH8(),
-              NewInvestHeader(
-                showRollover: true,
-                showModify: false,
-                showIcon: false,
-                showFull: false,
-                onButtonTap: () {
-                  showInvestRolloverBottomSheet(
-                    context,
-                    widget.position,
-                    widget.instrument,
-                  );
-                },
-                title: intl.invest_report_journal,
-              ),
+              if (investPositionStore.rolloverList.isNotEmpty)
+                NewInvestHeader(
+                  showRollover: true,
+                  showModify: false,
+                  showIcon: false,
+                  showFull: false,
+                  onButtonTap: () {
+                    showInvestRolloverBottomSheet(
+                      context,
+                      widget.position,
+                      widget.instrument,
+                    );
+                  },
+                  title: intl.invest_report_journal,
+                ),
               for (final item in investPositionStore.journalList) ...[
                 if (item.auditEvent != PositionAuditEvent.undefined &&
                     item.auditEvent != PositionAuditEvent.createMarketOpening &&

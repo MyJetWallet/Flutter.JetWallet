@@ -176,50 +176,54 @@ class _NewInvestConfirmationScreenState extends State<NewInvestConfirmationScree
           ],
         ),
       ),
-      child: SPaddingH24(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SymbolInfoWithoutChart(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SPaddingH24(
+            child: SymbolInfoWithoutChart(
               percent: investStore.getPercentSymbol(widget.instrument.symbol ?? ''),
               price: investStore.getPriceBySymbol(widget.instrument.symbol ?? ''),
               instrument: widget.instrument,
               onTap: () {},
             ),
-            const SpaceH8(),
-            Observer(
-              builder: (BuildContext context) {
-                return Chart(
-                  localizedChartResolutionButton: localizedChartResolutionButton(context),
-                  onResolutionChanged: (resolution) {
-                    investNewStore.updateResolution(
-                      resolution,
-                      widget.instrument.symbol ?? '',
-                    );
-                  },
-                  onChartTypeChanged: (type) {},
-                  candleResolution: investNewStore.resolution,
-                  formatPrice: volumeFormat,
-                  candles: investNewStore.candles[investNewStore.resolution],
-                  onCandleSelected: (value) {},
-                  chartHeight: 243,
-                  chartWidgetHeight: 300,
-                  isAssetChart: true,
-                  loader: const LoaderSpinner(),
-                  accuracy: widget.instrument.priceAccuracy ?? 2,
-                );
-              },
-            ),
-            const SpaceH16(),
-            NewInvestHeader(
+          ),
+          const SpaceH8(),
+          Observer(
+            builder: (BuildContext context) {
+              return Chart(
+                localizedChartResolutionButton: localizedChartResolutionButton(context),
+                onResolutionChanged: (resolution) {
+                  investNewStore.updateResolution(
+                    resolution,
+                    widget.instrument.symbol ?? '',
+                  );
+                },
+                onChartTypeChanged: (type) {},
+                candleResolution: investNewStore.resolution,
+                formatPrice: volumeFormat,
+                candles: investNewStore.candles[investNewStore.resolution],
+                onCandleSelected: (value) {},
+                chartHeight: 243,
+                chartWidgetHeight: 300,
+                isAssetChart: true,
+                loader: const LoaderSpinner(),
+                accuracy: widget.instrument.priceAccuracy ?? 2,
+              );
+            },
+          ),
+          const SpaceH16(),
+          SPaddingH24(
+            child: NewInvestHeader(
               showRollover: false,
               showModify: false,
               showIcon: false,
               showFull: false,
               title: investNewStore.isOrderMode ? intl.invest_new_pending_title : intl.invest_new_title,
             ),
-            DataLine(
+          ),
+          SPaddingH24(
+            child: DataLine(
               mainText: intl.invest_amount,
               secondaryText: volumeFormat(
                 decimal: investNewStore.amountValue,
@@ -227,51 +231,53 @@ class _NewInvestConfirmationScreenState extends State<NewInvestConfirmationScree
                 symbol: 'USDT',
               ),
             ),
-            const SpaceH8(),
-            DataLine(
+          ),
+          const SpaceH8(),
+          SPaddingH24(
+            child: DataLine(
               mainText: intl.invest_multiplicator,
               secondaryText: 'x${investNewStore.multiplicator}',
             ),
-            if ((investNewStore.isSl || investNewStore.isTP) && investNewStore.isLimitsVisible) ...[
-              const SpaceH8(),
-              const SDivider(),
-              const SpaceH8(),
-              NewInvestHeader(
-                showRollover: false,
-                showModify: false,
-                showIcon: false,
-                showFull: false,
-                title: intl.invest_limits,
+          ),
+          if ((investNewStore.isSl || investNewStore.isTP) && investNewStore.isLimitsVisible) ...[
+            const SpaceH8(),
+            const SDivider(),
+            const SpaceH8(),
+            NewInvestHeader(
+              showRollover: false,
+              showModify: false,
+              showIcon: false,
+              showFull: false,
+              title: intl.invest_limits,
+            ),
+            if (investNewStore.isTP && investNewStore.tpAmountValue != Decimal.zero) ...[
+              DataLine(
+                withDot: true,
+                dotColor: colors.green,
+                mainText: intl.invest_limits_take_profit,
+                secondaryText: volumeFormat(
+                  decimal: investNewStore.tpAmountValue,
+                  accuracy: 2,
+                  symbol: 'USDT',
+                ),
               ),
-              if (investNewStore.isTP && investNewStore.tpAmountValue != Decimal.zero) ...[
-                DataLine(
-                  withDot: true,
-                  dotColor: colors.green,
-                  mainText: intl.invest_limits_take_profit,
-                  secondaryText: volumeFormat(
-                    decimal: investNewStore.tpAmountValue,
-                    accuracy: 2,
-                    symbol: 'USDT',
-                  ),
+              const SpaceH8(),
+            ],
+            if (investNewStore.isSl && investNewStore.slAmountValue != Decimal.zero) ...[
+              DataLine(
+                withDot: true,
+                dotColor: colors.red,
+                mainText: intl.invest_limits_stop_loss,
+                secondaryText: volumeFormat(
+                  decimal: investNewStore.slAmountValue,
+                  accuracy: 2,
+                  symbol: 'USDT',
                 ),
-                const SpaceH8(),
-              ],
-              if (investNewStore.isSl && investNewStore.slAmountValue != Decimal.zero) ...[
-                DataLine(
-                  withDot: true,
-                  dotColor: colors.red,
-                  mainText: intl.invest_limits_stop_loss,
-                  secondaryText: volumeFormat(
-                    decimal: investNewStore.slAmountValue,
-                    accuracy: 2,
-                    symbol: 'USDT',
-                  ),
-                ),
-                const SpaceH8(),
-              ],
+              ),
+              const SpaceH8(),
             ],
           ],
-        ),
+        ],
       ),
     );
   }

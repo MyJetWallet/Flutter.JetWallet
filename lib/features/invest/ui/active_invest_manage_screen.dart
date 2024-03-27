@@ -113,7 +113,6 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
 
     final colors = sKit.colors;
     final currency = currencyFrom(currencies, 'USDT');
-
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       loading: investNewStore.loader,
@@ -216,12 +215,12 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
           ],
         ),
       ),
-      child: SPaddingH24(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SymbolInfoWithoutChart(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SPaddingH24(
+            child: SymbolInfoWithoutChart(
               percent: investStore.getPercentSymbol(widget.instrument.symbol ?? ''),
               price: investStore.getPriceBySymbol(widget.instrument.symbol ?? ''),
               instrument: widget.instrument,
@@ -230,31 +229,33 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
                 showInvestMarketWatchBottomSheet(context);
               },
             ),
-            Observer(
-              builder: (BuildContext context) {
-                return Chart(
-                  localizedChartResolutionButton: localizedChartResolutionButton(context),
-                  onResolutionChanged: (resolution) {
-                    investNewStore.updateResolution(
-                      resolution,
-                      widget.instrument.symbol ?? '',
-                    );
-                  },
-                  onChartTypeChanged: (type) {},
-                  candleResolution: investNewStore.resolution,
-                  formatPrice: volumeFormat,
-                  candles: investNewStore.candles[investNewStore.resolution],
-                  onCandleSelected: (value) {},
-                  chartHeight: 243,
-                  chartWidgetHeight: 300,
-                  isAssetChart: true,
-                  loader: const LoaderSpinner(),
-                  accuracy: widget.instrument.priceAccuracy ?? 2,
-                );
-              },
-            ),
-            const SpaceH16(),
-            Observer(
+          ),
+          Observer(
+            builder: (BuildContext context) {
+              return Chart(
+                localizedChartResolutionButton: localizedChartResolutionButton(context),
+                onResolutionChanged: (resolution) {
+                  investNewStore.updateResolution(
+                    resolution,
+                    widget.instrument.symbol ?? '',
+                  );
+                },
+                onChartTypeChanged: (type) {},
+                candleResolution: investNewStore.resolution,
+                formatPrice: volumeFormat,
+                candles: investNewStore.candles[investNewStore.resolution],
+                onCandleSelected: (value) {},
+                chartHeight: 243,
+                chartWidgetHeight: 300,
+                isAssetChart: true,
+                loader: const LoaderSpinner(),
+                accuracy: widget.instrument.priceAccuracy ?? 2,
+              );
+            },
+          ),
+          const SpaceH16(),
+          SPaddingH24(
+            child: Observer(
               builder: (BuildContext context) {
                 return RolloverLine(
                   mainText: intl.invest_next_rollover,
@@ -262,7 +263,9 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
                 );
               },
             ),
-            InvestLine(
+          ),
+          SPaddingH24(
+            child: InvestLine(
               currency: currencyFrom(currencies, widget.instrument.name ?? ''),
               price: investStore.getProfitByPosition(investNewStore.position!),
               operationType: investNewStore.position!.direction ?? Direction.undefined,
@@ -276,9 +279,11 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
               accuracy: widget.instrument.priceAccuracy ?? 2,
               onTap: () {},
             ),
-            const SDivider(),
-            const SpaceH8(),
-            NewInvestHeader(
+          ),
+          const SDivider(),
+          const SpaceH8(),
+          SPaddingH24(
+            child: NewInvestHeader(
               showRollover: false,
               showModify: false,
               showIcon: false,
@@ -288,7 +293,9 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
                 showInvestReportBottomSheet(context, widget.position, widget.instrument);
               },
             ),
-            DataLine(
+          ),
+          SPaddingH24(
+            child: DataLine(
               mainText: intl.invest_open_price,
               secondaryText: marketFormat(
                 decimal: investNewStore.position!.openPrice ?? Decimal.zero,
@@ -296,17 +303,21 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
                 symbol: '',
               ),
             ),
-            const SpaceH8(),
-            DataLine(
-              mainText: intl.invest_s_o_price,
+          ),
+          const SpaceH8(),
+          SPaddingH24(
+            child: DataLine(
+              mainText: intl.invest_liquidation_price,
               secondaryText: marketFormat(
                 decimal: investNewStore.position!.stopOutPrice ?? Decimal.zero,
                 accuracy: widget.instrument.priceAccuracy ?? 2,
                 symbol: '',
               ),
             ),
-            const SpaceH11(),
-            NewInvestHeader(
+          ),
+          const SpaceH11(),
+          SPaddingH24(
+            child: NewInvestHeader(
               showRollover: false,
               showModify: true,
               showIcon: false,
@@ -326,10 +337,12 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
               },
               title: intl.invest_limits,
             ),
-            if (investNewStore.position!.stopLossType != TPSLType.undefined ||
-                investNewStore.position!.takeProfitType != TPSLType.undefined) ...[
-              if (investNewStore.position!.takeProfitType != TPSLType.undefined) ...[
-                DataLine(
+          ),
+          if (investNewStore.position!.stopLossType != TPSLType.undefined ||
+              investNewStore.position!.takeProfitType != TPSLType.undefined) ...[
+            if (investNewStore.position!.takeProfitType != TPSLType.undefined) ...[
+              SPaddingH24(
+                child: DataLine(
                   withDot: true,
                   dotColor: colors.green,
                   mainText: intl.invest_limits_take_profit,
@@ -345,10 +358,12 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
                           symbol: '',
                         ),
                 ),
-                const SpaceH8(),
-              ],
-              if (investNewStore.position!.stopLossType != TPSLType.undefined) ...[
-                DataLine(
+              ),
+              const SpaceH8(),
+            ],
+            if (investNewStore.position!.stopLossType != TPSLType.undefined) ...[
+              SPaddingH24(
+                child: DataLine(
                   withDot: true,
                   dotColor: colors.red,
                   mainText: intl.invest_limits_stop_loss,
@@ -364,11 +379,11 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
                           symbol: '',
                         ),
                 ),
-                const SpaceH8(),
-              ],
+              ),
+              const SpaceH8(),
             ],
           ],
-        ),
+        ],
       ),
     );
   }
