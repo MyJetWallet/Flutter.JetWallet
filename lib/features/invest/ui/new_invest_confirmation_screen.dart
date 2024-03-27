@@ -84,7 +84,6 @@ class _NewInvestConfirmationScreenState extends State<NewInvestConfirmationScree
 
     final colors = sKit.colors;
     final currency = currencyFrom(currencies, 'USDT');
-
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       loading: investNewStore.loader,
@@ -108,13 +107,13 @@ class _NewInvestConfirmationScreenState extends State<NewInvestConfirmationScree
                   DataLine(
                     fullWidth: false,
                     mainText: intl.invest_open_fee,
-                    secondaryText: 'Est. ${volumeFormat(
+                    secondaryText: volumeFormat(
                       decimal: investNewStore.amountValue *
                           Decimal.fromInt(investNewStore.multiplicator) *
                           (widget.instrument.openFee ?? Decimal.one),
                       accuracy: 2,
                       symbol: 'USDT',
-                    )}',
+                    ),
                   ),
                   DataLine(
                     fullWidth: false,
