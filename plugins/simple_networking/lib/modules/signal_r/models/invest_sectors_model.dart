@@ -19,6 +19,8 @@ class InvestSectorModel with _$InvestSectorModel {
     String? id,
     String? name,
     String? description,
+    String? smallIconUrl,
+    String? bigIconUrl,
   }) = _InvestSectorModel;
 
   factory InvestSectorModel.fromJson(Map<String, dynamic> json) =>

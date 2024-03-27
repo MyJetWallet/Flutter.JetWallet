@@ -35,7 +35,6 @@ class InvestScreen extends StatefulObserverWidget {
 }
 
 class _InvestScreenState extends State<InvestScreen> {
-
   @override
   Widget build(BuildContext context) {
     final currencies = sSignalRModules.currenciesList;
@@ -46,18 +45,20 @@ class _InvestScreenState extends State<InvestScreen> {
     final colors = sKit.colors;
     final currency = currencyFrom(currencies, 'USDT');
 
-    int getGroupedLength (String symbol) {
+    int getGroupedLength(String symbol) {
       final groupedPositions = investPositionsStore.activeList.where(
-            (element) => element.symbol == symbol,
+        (element) => element.symbol == symbol,
       );
 
       return groupedPositions.length;
     }
 
-    Decimal getGroupedProfit (String symbol) {
-      final groupedPositions = investPositionsStore.activeList.where(
+    Decimal getGroupedProfit(String symbol) {
+      final groupedPositions = investPositionsStore.activeList
+          .where(
             (element) => element.symbol == symbol,
-      ).toList();
+          )
+          .toList();
       var profit = Decimal.zero;
       for (var i = 0; i < groupedPositions.length; i++) {
         profit += investStore.getProfitByPosition(groupedPositions[i]);
@@ -88,18 +89,18 @@ class _InvestScreenState extends State<InvestScreen> {
                       var amountSum = Decimal.zero;
                       var profitSum = Decimal.zero;
                       if (sSignalRModules.investPositionsData != null) {
-                        final activePositions = sSignalRModules.investPositionsData!
-                            .positions.where(
+                        final activePositions = sSignalRModules.investPositionsData!.positions
+                            .where(
                               (element) => element.status == PositionStatus.opened,
-                        ).toList();
+                            )
+                            .toList();
                         for (var i = 0; i < activePositions.length; i++) {
                           amountSum += activePositions[i].amount!;
                           profitSum += investStore.getProfitByPosition(activePositions[i]);
                         }
                       }
 
-                      final percentage = (amountSum == Decimal.zero ||
-                        profitSum == Decimal.zero)
+                      final percentage = (amountSum == Decimal.zero || profitSum == Decimal.zero)
                           ? Decimal.zero
                           : Decimal.fromJson('${(Decimal.fromInt(100) * profitSum / amountSum).toDouble()}');
 
@@ -329,7 +330,7 @@ class _InvestScreenState extends State<InvestScreen> {
                     ),
                   ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 8),
+                  padding: const EdgeInsets.only(top: 18),
                   child: Column(
                     children: [
                       SPaddingH24(
@@ -338,78 +339,67 @@ class _InvestScreenState extends State<InvestScreen> {
                           showModify: false,
                           showIcon: false,
                           showFull: false,
+                          showViewAll: true,
                           title: intl.invest_market_watch,
+                          onButtonTap: () {
+                            investStore.setActiveSection('all');
+                            showInvestMarketWatchBottomSheet(context);
+                          },
                         ),
-                      ),
-                      const SpaceH4(),
-                      SectorsBlock(
-                        title: intl.invest_all_coins,
-                        onTap: () {
-                          investStore.setActiveSection('S0');
-                          showInvestMarketWatchBottomSheet(context);
-                        },
-                        isAllCoins: true,
                       ),
                       const SpaceH12(),
                       Padding(
                         padding: const EdgeInsets.only(left: 24),
-                        child: InvestCarousel(
-                          children: [
-                            Observer(
-                              builder: (BuildContext context) {
-                                return InvestCarousel(
-                                  children: [
-                                    for (var i = 0; i < (investStore.sections.length > 6 ? 6 : investStore.sections.length); i++)
-                                      if (investStore.sections[i].id != 'S0')
-                                        SectorsBlock(
-                                          title: investStore.sections[i].name ?? '',
-                                          description: '${investStore
-                                            .instrumentsList
-                                            .where(
-                                              (element) => element
-                                                .sectors?.contains(investStore.sections[i].id) ?? false,
-                                            ).toList().length} ${intl.invest_tokens}',
-                                          onTap: () {
-                                            investStore.setActiveSection(investStore.sections[i].id ?? '');
-                                            showInvestMarketWatchBottomSheet(context);
-                                          },
-                                        ),
-                                  ],
-                                );
-                              },
-                            ),
-                          ],
+                        child: Observer(
+                          builder: (BuildContext context) {
+                            return InvestCarousel(
+                              height: 144,
+                              children: [
+                                for (var i = 0;
+                                    i < (investStore.sections.length > 6 ? 6 : investStore.sections.length);
+                                    i++)
+                                  if (investStore.sections[i].id != 'all')
+                                    SectorsBlock(
+                                      title: investStore.sections[i].name ?? '',
+                                      description: '${investStore.instrumentsList.where(
+                                            (element) => element.sectors?.contains(investStore.sections[i].id) ?? false,
+                                          ).toList().length} ${intl.invest_tokens}',
+                                      onTap: () {
+                                        investStore.setActiveSection(investStore.sections[i].id ?? '');
+                                        showInvestMarketWatchBottomSheet(context);
+                                      },
+                                      inageUrl: investStore.sections[i].smallIconUrl ?? '',
+                                    ),
+                              ],
+                            );
+                          },
                         ),
                       ),
                       if (investStore.sections.length > 6) ...[
                         Padding(
                           padding: const EdgeInsets.only(left: 24),
-                          child: InvestCarousel(
-                            children: [
-                              Observer(
-                                builder: (BuildContext context) {
-                                  return InvestCarousel(
-                                    children: [
-                                      for (var i = 6; i < investStore.sections.length; i++)
-                                        if (investStore.sections[i].id != 'S0')
-                                          SectorsBlock(
-                                            title: investStore.sections[i].name ?? '',
-                                            description: '${investStore
-                                                .instrumentsList
-                                                .where(
-                                                  (element) => element
-                                                  .sectors?.contains(investStore.sections[i].id) ?? false,
+                          child: Observer(
+                            builder: (BuildContext context) {
+                              return InvestCarousel(
+                                height: 144,
+                                children: [
+                                  for (var i = 6; i < investStore.sections.length; i++)
+                                    if (investStore.sections[i].id != 'all')
+                                      SectorsBlock(
+                                        title: investStore.sections[i].name ?? '',
+                                        description: '${investStore.instrumentsList.where(
+                                              (element) =>
+                                                  element.sectors?.contains(investStore.sections[i].id) ?? false,
                                             ).toList().length} ${intl.invest_tokens}',
-                                            onTap: () {
-                                              investStore.setActiveSection(investStore.sections[i].id ?? '');
-                                              showInvestMarketWatchBottomSheet(context);
-                                            },
-                                          ),
-                                    ],
-                                  );
-                                },
-                              ),
-                            ],
+                                        onTap: () {
+                                          investStore.setActiveSection(investStore.sections[i].id ?? '');
+                                          showInvestMarketWatchBottomSheet(context);
+                                        },
+                                        inageUrl: investStore.sections[i].smallIconUrl ?? '',
+                                      ),
+                                ],
+                              );
+                            },
                           ),
                         ),
                       ],

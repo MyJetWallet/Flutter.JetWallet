@@ -130,7 +130,7 @@ void showInvestListBottomSheet(BuildContext context) {
                             ),
                             name: intl.invest_list_new_invest,
                             onTap: () {
-                              investStore.setActiveSection('S0');
+                              investStore.setActiveSection('all');
                               showInvestMarketWatchBottomSheet(context);
                             },
                           ),
@@ -204,7 +204,7 @@ void showInvestListBottomSheet(BuildContext context) {
                             ),
                             name: intl.invest_list_new_invest,
                             onTap: () {
-                              investStore.setActiveSection('S0');
+                              investStore.setActiveSection('all');
                               showInvestMarketWatchBottomSheet(context);
                             },
                           ),
@@ -238,7 +238,7 @@ void showInvestListBottomSheet(BuildContext context) {
                             ),
                             name: intl.invest_list_new_invest,
                             onTap: () {
-                              investStore.setActiveSection('S0');
+                              investStore.setActiveSection('all');
                               showInvestMarketWatchBottomSheet(context);
                             },
                           ),

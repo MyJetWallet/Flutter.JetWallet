@@ -96,7 +96,7 @@ class _InvestHistoryScreenState extends State<InvestHistoryScreen> {bool canTapS
                       ),
                       name: intl.invest_list_new_invest,
                       onTap: () {
-                        investStore.setActiveSection('S0');
+                        investStore.setActiveSection('all');
                         showInvestMarketWatchBottomSheet(context);
                       },
                     ),

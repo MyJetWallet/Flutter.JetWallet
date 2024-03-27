@@ -221,7 +221,7 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
               price: investStore.getPriceBySymbol(widget.instrument.symbol ?? ''),
               instrument: widget.instrument,
               onTap: () {
-                investStore.setActiveSection('S0');
+                investStore.setActiveSection('all');
                 showInvestMarketWatchBottomSheet(context);
               },
             ),

@@ -163,7 +163,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                 );
                               }
                             } else {
-                              investStore.setActiveSection('S0');
+                              investStore.setActiveSection('all');
                               showInvestMarketWatchBottomSheet(context);
                             }
                           },

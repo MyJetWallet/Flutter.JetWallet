@@ -226,7 +226,7 @@ class ActiveInvestList extends StatelessObserverWidget {
                           );
                         }
                       } else {
-                        investStore.setActiveSection('S0');
+                        investStore.setActiveSection('all');
                         showInvestMarketWatchBottomSheet(context);
                       }
                     },

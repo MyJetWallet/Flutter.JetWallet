@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -109,17 +110,22 @@ class InstrumentsList extends StatelessObserverWidget {
 
     return Observer(
       builder: (BuildContext context) {
+        final section = investStore.sectionById;
+
         return Column(
           children: [
+            CachedNetworkImage(
+              imageUrl: section.bigIconUrl ?? '',
+              width: MediaQuery.of(context).size.width,
+              fit: BoxFit.fitWidth,
+              fadeInDuration: Duration.zero,
+            ),
             Container(
               padding: const EdgeInsets.only(
                 left: 24,
                 right: 24,
                 top: 16,
                 bottom: 8,
-              ),
-              decoration: BoxDecoration(
-                color: colors.grey5,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,7 +134,7 @@ class InstrumentsList extends StatelessObserverWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        investStore.sectionById.name ?? '',
+                        section.name ?? '',
                         style: STStyles.header2Invest.copyWith(
                           color: colors.black,
                         ),
@@ -151,7 +157,7 @@ class InstrumentsList extends StatelessObserverWidget {
                   ),
                   const SpaceH8(),
                   Text(
-                    investStore.sectionById.description ?? '',
+                    section.description ?? '',
                     style: STStyles.body2InvestM.copyWith(
                       color: colors.grey1,
                     ),
@@ -181,7 +187,6 @@ class InstrumentsList extends StatelessObserverWidget {
             SPaddingH24(
               child: Column(
                 children: [
-                  const SpaceH16(),
                   Row(
                     children: [
                       Expanded(
@@ -190,8 +195,8 @@ class InstrumentsList extends StatelessObserverWidget {
                           icon: Row(
                             children: [
                               Assets.svg.invest.investSearch.simpleSvg(
-                                width: 16,
-                                height: 16,
+                                width: 12,
+                                height: 12,
                               ),
                               const SpaceW10(),
                             ],
@@ -204,31 +209,33 @@ class InstrumentsList extends StatelessObserverWidget {
                         onTap: investStore.setInstrumentSort,
                         defaultIcon: investStore.instrumentSort == 0
                             ? Assets.svg.invest.sortNotSet.simpleSvg(
-                                width: 14,
-                                height: 14,
+                                width: 20,
+                                height: 20,
+                                color: colors.black,
                               )
                             : investStore.instrumentSort == 1
                                 ? Assets.svg.invest.sortUp.simpleSvg(
-                                    width: 14,
-                                    height: 14,
+                                    width: 20,
+                                    height: 20,
                                   )
                                 : Assets.svg.invest.sortDown.simpleSvg(
-                                    width: 14,
-                                    height: 14,
+                                    width: 20,
+                                    height: 20,
                                   ),
                         pressedIcon: investStore.instrumentSort == 0
                             ? Assets.svg.invest.sortNotSet.simpleSvg(
-                                width: 14,
-                                height: 14,
+                                width: 20,
+                                height: 20,
+                                color: colors.black,
                               )
                             : investStore.instrumentSort == 1
                                 ? Assets.svg.invest.sortUp.simpleSvg(
-                                    width: 14,
-                                    height: 14,
+                                    width: 20,
+                                    height: 20,
                                   )
                                 : Assets.svg.invest.sortDown.simpleSvg(
-                                    width: 14,
-                                    height: 14,
+                                    width: 20,
+                                    height: 20,
                                   ),
                       ),
                     ],

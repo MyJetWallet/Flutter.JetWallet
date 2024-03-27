@@ -9,18 +9,19 @@ class SectorsBlock extends StatelessObserverWidget {
     super.key,
     required this.title,
     required this.onTap,
+    required this.inageUrl,
     this.description,
     this.isAllCoins = false,
   });
 
   final bool isAllCoins;
   final String title;
+  final String inageUrl;
   final String? description;
   final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
-
     final colors = sKit.colors;
 
     return InkWell(
@@ -29,22 +30,22 @@ class SectorsBlock extends StatelessObserverWidget {
       hoverColor: Colors.transparent,
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        height: 60,
-        width: isAllCoins ? MediaQuery.of(context).size.width - 48 : 130,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: isAllCoins ? colors.grey4 : colors.grey5,
-        ),
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        width: 64,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            CircleAvatar(
+              radius: 32,
+              child: Image.network(inageUrl),
+            ),
+            const SizedBox(height: 8),
             Text(
               title,
               style: STStyles.body1InvestSM.copyWith(
                 color: colors.black,
               ),
+              maxLines: 2,
+              textAlign: TextAlign.center,
             ),
             if (!isAllCoins)
               Text(
