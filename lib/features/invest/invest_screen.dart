@@ -348,61 +348,35 @@ class _InvestScreenState extends State<InvestScreen> {
                         ),
                       ),
                       const SpaceH12(),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 24),
-                        child: Observer(
-                          builder: (BuildContext context) {
-                            return InvestCarousel(
-                              height: 144,
-                              children: [
-                                for (var i = 0;
-                                    i < (investStore.sections.length > 6 ? 6 : investStore.sections.length);
-                                    i++)
-                                  if (investStore.sections[i].id != 'all')
-                                    SectorsBlock(
-                                      title: investStore.sections[i].name ?? '',
-                                      description: '${investStore.instrumentsList.where(
-                                            (element) => element.sectors?.contains(investStore.sections[i].id) ?? false,
-                                          ).toList().length} ${intl.invest_tokens}',
-                                      onTap: () {
-                                        investStore.setActiveSection(investStore.sections[i].id ?? '');
-                                        showInvestMarketWatchBottomSheet(context);
-                                      },
-                                      inageUrl: investStore.sections[i].smallIconUrl ?? '',
-                                    ),
-                              ],
-                            );
-                          },
-                        ),
-                      ),
-                      if (investStore.sections.length > 6) ...[
-                        Padding(
-                          padding: const EdgeInsets.only(left: 24),
-                          child: Observer(
-                            builder: (BuildContext context) {
-                              return InvestCarousel(
-                                height: 144,
-                                children: [
-                                  for (var i = 6; i < investStore.sections.length; i++)
-                                    if (investStore.sections[i].id != 'all')
-                                      SectorsBlock(
-                                        title: investStore.sections[i].name ?? '',
-                                        description: '${investStore.instrumentsList.where(
-                                              (element) =>
-                                                  element.sectors?.contains(investStore.sections[i].id) ?? false,
-                                            ).toList().length} ${intl.invest_tokens}',
-                                        onTap: () {
-                                          investStore.setActiveSection(investStore.sections[i].id ?? '');
-                                          showInvestMarketWatchBottomSheet(context);
-                                        },
-                                        inageUrl: investStore.sections[i].smallIconUrl ?? '',
-                                      ),
-                                ],
+                      Builder(
+                        builder: (context) {
+                          final sections = investStore.sections.where((section) => section.id != 'all').toList();
+                          return GridView.builder(
+                            shrinkWrap: true,
+                            primary: false,
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 4,
+                              mainAxisExtent: 127,
+                            ),
+                            itemCount: sections.length,
+                            itemBuilder: (context, i) {
+                              return SectorsBlock(
+                                title: sections[i].name ?? '',
+                                description: '${investStore.instrumentsList.where(
+                                      (element) => element.sectors?.contains(sections[i].id) ?? false,
+                                    ).toList().length} ${intl.invest_tokens}',
+                                onTap: () {
+                                  investStore.setActiveSection(sections[i].id ?? '');
+                                  showInvestMarketWatchBottomSheet(context);
+                                },
+                                inageUrl: sections[i].smallIconUrl ?? '',
                               );
                             },
-                          ),
-                        ),
-                      ],
+                          );
+                        },
+                      ),
+                      const SpaceH24(),
                     ],
                   ),
                 ),
