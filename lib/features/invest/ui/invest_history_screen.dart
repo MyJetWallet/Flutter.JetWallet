@@ -40,7 +40,8 @@ class InvestHistoryScreen extends StatefulObserverWidget {
   State<InvestHistoryScreen> createState() => _InvestHistoryScreenState();
 }
 
-class _InvestHistoryScreenState extends State<InvestHistoryScreen> {bool canTapShare = true;
+class _InvestHistoryScreenState extends State<InvestHistoryScreen> {
+  bool canTapShare = true;
   late ScrollController controller;
   late WebViewController controllerWeb;
 
@@ -111,9 +112,11 @@ class _InvestHistoryScreenState extends State<InvestHistoryScreen> {bool canTapS
       child: SPaddingH24(
         child: Observer(
           builder: (BuildContext context) {
-            final summary = investPositionsStore.allSummary.where(
-              (element) => element.symbol == widget.instrument.symbol,
-            ).toList();
+            final summary = investPositionsStore.allSummary
+                .where(
+                  (element) => element.symbol == widget.instrument.symbol,
+                )
+                .toList();
 
             return Column(
               children: [

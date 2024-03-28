@@ -36,7 +36,6 @@ class HistoryInvestList extends StatelessObserverWidget {
 
     return Observer(
       builder: (BuildContext context) {
-
         return Column(
           children: [
             const SpaceH12(),
@@ -78,6 +77,7 @@ class HistoryInvestList extends StatelessObserverWidget {
                       ),
                       const SpaceH4(),
                       AboveListLine(
+                        showDivider: false,
                         mainColumn: intl.invest_list_instrument,
                         secondaryColumn: '${intl.invest_list_amount} (${currency.symbol})',
                         lastColumn: intl.invest_price,
@@ -170,6 +170,7 @@ class HistoryInvestList extends StatelessObserverWidget {
                         onCheckboxTap: investPositionsStore.setIsHistoryGrouped,
                         sortState: investPositionsStore.historySortState,
                         onSortTap: investPositionsStore.setHistorySort,
+                        showDivider: false,
                       )
                     else
                       AboveListLine(
@@ -177,6 +178,7 @@ class HistoryInvestList extends StatelessObserverWidget {
                         secondaryColumn: '${intl.invest_list_amount} (${currency.symbol})',
                         lastColumn: intl.invest_price,
                         onCheckboxTap: investPositionsStore.setIsHistoryGrouped,
+                        showDivider: false,
                       ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height - 304,

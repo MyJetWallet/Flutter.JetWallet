@@ -30,13 +30,12 @@ class JournalItem extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final colors = sKit.colors;
 
     return Column(
       children: [
         RolloverLine(
-          mainText: DateFormat('dd.MM.yyyy / hh:mm:ss').format(item.timestamp),
+          mainText: DateFormat('dd.MM.yyyy / HH:mm:ss').format(item.timestamp),
           secondaryText: '',
         ),
         const SpaceH8(),
@@ -75,15 +74,10 @@ class JournalItem extends StatelessObserverWidget {
           ),
           const SpaceH8(),
         ],
-        if (
-          item.auditEvent == PositionAuditEvent.setTpSl ||
-          item.auditEvent == PositionAuditEvent.marketOpeningToOpened ||
-          item.auditEvent == PositionAuditEvent.pendingToOpened
-        ) ...[
-          if (
-          item.stopLossType != TPSLType.undefined ||
-              item.takeProfitType != TPSLType.undefined
-          ) ...[
+        if (item.auditEvent == PositionAuditEvent.setTpSl ||
+            item.auditEvent == PositionAuditEvent.marketOpeningToOpened ||
+            item.auditEvent == PositionAuditEvent.pendingToOpened) ...[
+          if (item.stopLossType != TPSLType.undefined || item.takeProfitType != TPSLType.undefined) ...[
             if (item.takeProfitType != TPSLType.undefined) ...[
               DataLine(
                 withDot: true,
@@ -91,14 +85,15 @@ class JournalItem extends StatelessObserverWidget {
                 mainText: intl.invest_limits_take_profit,
                 secondaryText: item.takeProfitType == TPSLType.amount
                     ? volumeFormat(
-                  decimal: item.takeProfitAmount,
-                  accuracy: 2,
-                  symbol: 'USDT',
-                ) : volumeFormat(
-                  decimal: item.takeProfitPrice,
-                  accuracy: instrument.priceAccuracy ?? 2,
-                  symbol: '',
-                ),
+                        decimal: item.takeProfitAmount,
+                        accuracy: 2,
+                        symbol: 'USDT',
+                      )
+                    : volumeFormat(
+                        decimal: item.takeProfitPrice,
+                        accuracy: instrument.priceAccuracy ?? 2,
+                        symbol: '',
+                      ),
               ),
               const SpaceH8(),
             ],
@@ -109,14 +104,15 @@ class JournalItem extends StatelessObserverWidget {
                 mainText: intl.invest_limits_stop_loss,
                 secondaryText: item.stopLossType == TPSLType.amount
                     ? volumeFormat(
-                  decimal: item.stopLossAmount,
-                  accuracy: 2,
-                  symbol: 'USDT',
-                ) : volumeFormat(
-                  decimal: item.stopLossPrice,
-                  accuracy: instrument.priceAccuracy ?? 2,
-                  symbol: '',
-                ),
+                        decimal: item.stopLossAmount,
+                        accuracy: 2,
+                        symbol: 'USDT',
+                      )
+                    : volumeFormat(
+                        decimal: item.stopLossPrice,
+                        accuracy: instrument.priceAccuracy ?? 2,
+                        symbol: '',
+                      ),
               ),
               const SpaceH8(),
             ],

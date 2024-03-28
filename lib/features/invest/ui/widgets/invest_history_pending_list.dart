@@ -2,8 +2,10 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
+import 'package:intl/intl.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/market/market_details/model/operation_history_union.dart';
+import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transaction_day_seperator.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -173,10 +175,11 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                   : SliverGroupedListView<InvestPositionModel, String>(
                       elements: listToShow,
                       groupBy: (position) {
-                        return formatDate('${position.creationTimestamp}');
+                        return DateFormat('dd.MM.yyyy')
+                            .format(DateTime.parse('${position.creationTimestamp}Z').toLocal());
                       },
                       groupSeparatorBuilder: (String date) {
-                        return TransactionMonthSeparator(text: date);
+                        return TransactionDaySeparator(text: date);
                       },
                       sort: false,
                       itemBuilder: (context, position) {
