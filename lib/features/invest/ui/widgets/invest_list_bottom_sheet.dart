@@ -36,12 +36,6 @@ void showInvestListBottomSheet(BuildContext context) {
     pinned: SPaddingH24(
       child: Column(
         children: [
-          InvestHeader(
-            currency: currency,
-            hideWallet: true,
-            withBigPadding: false,
-            withDivider: false,
-          ),
           Observer(
             builder: (BuildContext context) {
               return MainSwitch(

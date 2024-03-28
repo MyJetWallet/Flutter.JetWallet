@@ -22,7 +22,6 @@ import '../../../../utils/formatting/base/market_format.dart';
 import '../../../../utils/helpers/currency_from.dart';
 import '../../stores/dashboard/invest_new_store.dart';
 import '../../stores/dashboard/invest_positions_store.dart';
-import '../dashboard/invest_header.dart';
 import '../dashboard/new_invest_header.dart';
 import '../invests/invest_line.dart';
 import '../invests/journal_item.dart';
