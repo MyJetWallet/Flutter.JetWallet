@@ -82,7 +82,7 @@ void showInvestReportBottomSheet(
       InvestList(
         position: position,
         instrument: instrument,
-      )
+      ),
     ],
   );
 }
@@ -162,16 +162,6 @@ class _InvestListScreenState extends State<InvestList> {
                       mainText: intl.invest_next_rollover,
                       secondaryText: '${widget.position.rollOver!.toStringAsFixed(4)}% / $timerUpdated',
                     );
-                  },
-                )
-              else
-                InvestHeader(
-                  currency: currencyFrom(currencies, widget.instrument.name ?? ''),
-                  hideWallet: true,
-                  withBackBlock: true,
-                  withBigPadding: false,
-                  onBackButton: () {
-                    Navigator.pop(context);
                   },
                 ),
               InvestLine(
@@ -303,7 +293,7 @@ class _InvestListScreenState extends State<InvestList> {
                   mainText: intl.invest_report_market_pl,
                   secondaryText: marketFormat(
                     decimal: investStore.getMarketPLByPosition(widget.position),
-                    accuracy: 2,
+                    accuracy: 6,
                     symbol: 'USDT',
                   ),
                 ),
@@ -312,7 +302,7 @@ class _InvestListScreenState extends State<InvestList> {
                   mainText: intl.invest_report_open_fee,
                   secondaryText: marketFormat(
                     decimal: (widget.position.openFee ?? Decimal.zero) * Decimal.parse('-1'),
-                    accuracy: 2,
+                    accuracy: 6,
                     symbol: 'USDT',
                   ),
                 ),
@@ -322,7 +312,7 @@ class _InvestListScreenState extends State<InvestList> {
                     mainText: intl.invest_report_close_fee,
                     secondaryText: marketFormat(
                       decimal: (widget.position.closeFee ?? Decimal.zero) * Decimal.parse('-1'),
-                      accuracy: widget.instrument.priceAccuracy ?? 2,
+                      accuracy: 6,
                       symbol: 'USDT',
                     ),
                   ),
@@ -332,7 +322,7 @@ class _InvestListScreenState extends State<InvestList> {
                   mainText: intl.invest_report_rollover,
                   secondaryText: marketFormat(
                     decimal: widget.position.rollOver ?? Decimal.zero,
-                    accuracy: 2,
+                    accuracy: 6,
                     symbol: 'USDT',
                   ),
                 ),
@@ -410,20 +400,21 @@ class _InvestListScreenState extends State<InvestList> {
                 ],
               ],
               const SpaceH8(),
-              NewInvestHeader(
-                showRollover: true,
-                showModify: false,
-                showIcon: false,
-                showFull: false,
-                onButtonTap: () {
-                  showInvestRolloverBottomSheet(
-                    context,
-                    widget.position,
-                    widget.instrument,
-                  );
-                },
-                title: intl.invest_report_journal,
-              ),
+              if (investPositionStore.rolloverList.isNotEmpty)
+                NewInvestHeader(
+                  showRollover: true,
+                  showModify: false,
+                  showIcon: false,
+                  showFull: false,
+                  onButtonTap: () {
+                    showInvestRolloverBottomSheet(
+                      context,
+                      widget.position,
+                      widget.instrument,
+                    );
+                  },
+                  title: intl.invest_report_journal,
+                ),
               for (final item in investPositionStore.journalList) ...[
                 if (item.auditEvent != PositionAuditEvent.undefined &&
                     item.auditEvent != PositionAuditEvent.createMarketOpening &&

@@ -258,12 +258,12 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
           },
         ),
       ),
-      child: SPaddingH24(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SymbolInfoWithoutChart(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SPaddingH24(
+            child: SymbolInfoWithoutChart(
               percent: investStore.getPercentSymbol(widget.instrument.symbol ?? ''),
               price: investStore.getPriceBySymbol(widget.instrument.symbol ?? ''),
               instrument: widget.instrument,
@@ -272,31 +272,33 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                 showInvestMarketWatchBottomSheet(context);
               },
             ),
-            Observer(
-              builder: (BuildContext context) {
-                return Chart(
-                  localizedChartResolutionButton: localizedChartResolutionButton(context),
-                  onResolutionChanged: (resolution) {
-                    investNewStore.updateResolution(
-                      resolution,
-                      widget.instrument.symbol ?? '',
-                    );
-                  },
-                  onChartTypeChanged: (type) {},
-                  candleResolution: investNewStore.resolution,
-                  formatPrice: volumeFormat,
-                  candles: investNewStore.candles[investNewStore.resolution],
-                  onCandleSelected: (value) {},
-                  chartHeight: 243,
-                  chartWidgetHeight: 300,
-                  isAssetChart: true,
-                  loader: const LoaderSpinner(),
-                  accuracy: widget.instrument.priceAccuracy ?? 2,
-                );
-              },
-            ),
-            const SpaceH16(),
-            SizedBox(
+          ),
+          Observer(
+            builder: (BuildContext context) {
+              return Chart(
+                localizedChartResolutionButton: localizedChartResolutionButton(context),
+                onResolutionChanged: (resolution) {
+                  investNewStore.updateResolution(
+                    resolution,
+                    widget.instrument.symbol ?? '',
+                  );
+                },
+                onChartTypeChanged: (type) {},
+                candleResolution: investNewStore.resolution,
+                formatPrice: volumeFormat,
+                candles: investNewStore.candles[investNewStore.resolution],
+                onCandleSelected: (value) {},
+                chartHeight: 243,
+                chartWidgetHeight: 300,
+                isAssetChart: true,
+                loader: const LoaderSpinner(),
+                accuracy: widget.instrument.priceAccuracy ?? 2,
+              );
+            },
+          ),
+          const SpaceH16(),
+          SPaddingH24(
+            child: SizedBox(
               height: 262,
               child: ListView(
                 controller: controller,
@@ -334,8 +336,8 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
