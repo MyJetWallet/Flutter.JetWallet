@@ -22,7 +22,6 @@ import '../../../../utils/formatting/base/market_format.dart';
 import '../../../../utils/helpers/currency_from.dart';
 import '../../stores/dashboard/invest_new_store.dart';
 import '../../stores/dashboard/invest_positions_store.dart';
-import '../dashboard/invest_header.dart';
 import '../dashboard/new_invest_header.dart';
 import '../invests/invest_line.dart';
 import '../invests/journal_item.dart';
@@ -148,6 +147,7 @@ class _InvestListScreenState extends State<InvestList> {
     final investPositionStore = getIt.get<InvestPositionsStore>();
     final currencies = sSignalRModules.currenciesList;
     final colors = sKit.colors;
+    final currency = currencyFrom(currencies, widget.instrument.name ?? '');
     log('${widget.position}');
 
     return SPaddingH24(
@@ -165,7 +165,7 @@ class _InvestListScreenState extends State<InvestList> {
                   },
                 ),
               InvestLine(
-                currency: currencyFrom(currencies, widget.instrument.name ?? ''),
+                currency: currency,
                 price: investStore.getProfitByPosition(widget.position),
                 operationType: widget.position.direction ?? Direction.undefined,
                 isPending: widget.position.status == PositionStatus.cancelled,
@@ -204,7 +204,8 @@ class _InvestListScreenState extends State<InvestList> {
                 const SpaceH8(),
                 DataLine(
                   mainText: intl.invest_report_open_time,
-                  secondaryText: DateFormat('hh:mm:ss').format(widget.position.openTimestamp!),
+                  secondaryText:
+                      DateFormat('HH:mm:ss').format(DateTime.parse(widget.position.openTimestamp!.toString())),
                 ),
               ] else ...[
                 DataLine(
@@ -257,7 +258,7 @@ class _InvestListScreenState extends State<InvestList> {
                   mainText: '${intl.invest_report_volume} ${widget.instrument.name}',
                   secondaryText: marketFormat(
                     decimal: widget.position.volumeBase ?? Decimal.zero,
-                    accuracy: widget.instrument.priceAccuracy ?? 2,
+                    accuracy: currency.accuracy,
                     symbol: '',
                   ),
                 ),
@@ -283,7 +284,8 @@ class _InvestListScreenState extends State<InvestList> {
                   const SpaceH8(),
                   DataLine(
                     mainText: intl.invest_report_close_time,
-                    secondaryText: DateFormat('hh:mm:ss').format(widget.position.closeTimestamp!),
+                    secondaryText:
+                        DateFormat('HH:mm:ss').format(DateTime.parse(widget.position.closeTimestamp!.toString())),
                   ),
                   const SpaceH8(),
                 ],

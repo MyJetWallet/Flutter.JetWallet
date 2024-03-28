@@ -19,7 +19,6 @@ import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.d
 
 import '../../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../../utils/helpers/currency_from.dart';
-import '../dashboard/invest_header.dart';
 import '../invests/invest_bottom_sheets/active_positions.dart';
 import '../invests/main_switch.dart';
 
@@ -36,12 +35,6 @@ void showInvestListBottomSheet(BuildContext context) {
     pinned: SPaddingH24(
       child: Column(
         children: [
-          InvestHeader(
-            currency: currency,
-            hideWallet: true,
-            withBigPadding: false,
-            withDivider: false,
-          ),
           Observer(
             builder: (BuildContext context) {
               return MainSwitch(

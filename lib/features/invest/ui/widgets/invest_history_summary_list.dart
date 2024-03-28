@@ -75,10 +75,12 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
     final investStore = getIt.get<InvestDashboardStore>();
     final investPositionsStore = getIt.get<InvestPositionsStore>();
 
-    InvestInstrumentModel? getInstrumentBySymbol (String symbol) {
-      final instrument = investStore.instrumentsList.where(
+    InvestInstrumentModel? getInstrumentBySymbol(String symbol) {
+      final instrument = investStore.instrumentsList
+          .where(
             (element) => element.symbol == symbol,
-      ).toList();
+          )
+          .toList();
 
       if (instrument.isNotEmpty) {
         return instrument[0];
@@ -153,7 +155,6 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
             title: intl.invest_history_invest,
           ),
           const SpaceH4(),
-
           if (investPositionsStore.historyTab == 0)
             AboveListLine(
               mainColumn: intl.invest_group,
@@ -183,125 +184,136 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
           loaded: () {
             return listToShow.isEmpty
                 ? SizedBox(
-                height: MediaQuery.of(context).size.height - 284,
-                child: InvestEmptyScreen(
-                  width: MediaQuery.of(context).size.width - 48,
-                  height: MediaQuery.of(context).size.height - 284,
-                  title: sSignalRModules.investWalletData?.balance == Decimal.zero
-                      ? intl.invest_active_empty_deposit
-                      : intl.invest_active_empty,
-                  buttonName: sSignalRModules.investWalletData?.balance == Decimal.zero
-                      ? intl.invest_deposit
-                      : intl.invest_new_invest,
-                  onButtonTap: () {
-                    if (sSignalRModules.investWalletData?.balance == Decimal.zero) {
-                      final actualAsset = currency;
-                      final kycState = getIt.get<KycService>();
-                      final kycAlertHandler = getIt.get<KycAlertHandler>();
-                      if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
-                        showSendTimerAlertOr(
-                          context: context,
-                          or: () => sRouter.push(
-                            ConvertRouter(
-                              fromCurrency: actualAsset,
-                            ),
-                          ),
-                          from: [BlockingType.trade],
-                        );
-                      } else {
-                        kycAlertHandler.handle(
-                          status: kycState.tradeStatus,
-                          isProgress: kycState.verificationInProgress,
-                          currentNavigate: () => showSendTimerAlertOr(
-                            context: context,
-                            or: () => sRouter.push(
-                              ConvertRouter(
-                                fromCurrency: actualAsset,
+                    height: MediaQuery.of(context).size.height - 284,
+                    child: InvestEmptyScreen(
+                      width: MediaQuery.of(context).size.width - 48,
+                      height: MediaQuery.of(context).size.height - 284,
+                      title: sSignalRModules.investWalletData?.balance == Decimal.zero
+                          ? intl.invest_active_empty_deposit
+                          : intl.invest_active_empty,
+                      buttonName: sSignalRModules.investWalletData?.balance == Decimal.zero
+                          ? intl.invest_deposit
+                          : intl.invest_new_invest,
+                      onButtonTap: () {
+                        if (sSignalRModules.investWalletData?.balance == Decimal.zero) {
+                          final actualAsset = currency;
+                          final kycState = getIt.get<KycService>();
+                          final kycAlertHandler = getIt.get<KycAlertHandler>();
+                          if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
+                            showSendTimerAlertOr(
+                              context: context,
+                              or: () => sRouter.push(
+                                ConvertRouter(
+                                  fromCurrency: actualAsset,
+                                ),
                               ),
-                            ),
-                            from: [BlockingType.trade],
-                          ),
-                          requiredDocuments: kycState.requiredDocuments,
-                          requiredVerifications: kycState.requiredVerifications,
-                        );
-                      }
-                    } else {
-                      investStore.setActiveSection('all');
-                      showInvestMarketWatchBottomSheet(context);
-                    }
-                  },
-                ),
-              )
+                              from: [BlockingType.trade],
+                            );
+                          } else {
+                            kycAlertHandler.handle(
+                              status: kycState.tradeStatus,
+                              isProgress: kycState.verificationInProgress,
+                              currentNavigate: () => showSendTimerAlertOr(
+                                context: context,
+                                or: () => sRouter.push(
+                                  ConvertRouter(
+                                    fromCurrency: actualAsset,
+                                  ),
+                                ),
+                                from: [BlockingType.trade],
+                              ),
+                              requiredDocuments: kycState.requiredDocuments,
+                              requiredVerifications: kycState.requiredVerifications,
+                            );
+                          }
+                        } else {
+                          investStore.setActiveSection('all');
+                          showInvestMarketWatchBottomSheet(context);
+                        }
+                      },
+                    ),
+                  )
                 : Column(
-                  children: [
-                    for (final instrument in listToShow) ...[
-                      if (instrument.qty! > Decimal.one) ...[
-                        InvestLine(
-                          currency: currencyFrom(currencies, getInstrumentBySymbol(instrument.symbol!)?.name ?? ''),
-                          price: Decimal.zero,
-                          operationType: Direction.undefined,
-                          isPending: false,
-                          amount: instrument.amount ?? Decimal.zero,
-                          leverage: instrument.averageMultiplicator ?? Decimal.zero,
-                          isGroup: true,
-                          historyCount: instrument.qty!.toDouble().toInt(),
-                          profit: instrument.amountPl!,
-                          profitPercent: instrument.percentPl!,
-                          accuracy: getInstrumentBySymbol(instrument.symbol!)?.priceAccuracy ?? 2,
-                          onTap: () {
-                            sRouter.push(
-                              InvestHistoryPageRouter(instrument: getInstrumentBySymbol(instrument.symbol!)!),
-                            );
-                          },
+                    children: [
+                      for (final instrument in listToShow) ...[
+                        if (instrument.qty! > Decimal.one) ...[
+                          InvestLine(
+                            currency: currencyFrom(currencies, getInstrumentBySymbol(instrument.symbol!)?.name ?? ''),
+                            price: Decimal.zero,
+                            operationType: Direction.undefined,
+                            isPending: false,
+                            amount: instrument.amount ?? Decimal.zero,
+                            leverage: instrument.averageMultiplicator ?? Decimal.zero,
+                            isGroup: true,
+                            historyCount: instrument.qty!.toDouble().toInt(),
+                            profit: instrument.amountPl!,
+                            profitPercent: instrument.percentPl!,
+                            accuracy: getInstrumentBySymbol(instrument.symbol!)?.priceAccuracy ?? 2,
+                            onTap: () {
+                              sRouter.push(
+                                InvestHistoryPageRouter(instrument: getInstrumentBySymbol(instrument.symbol!)!),
+                              );
+                            },
+                          ),
+                          if (instrument.symbol !=
+                              listToShow
+                                  .where(
+                                    (element) => element.qty! > Decimal.one,
+                                  )
+                                  .toList()
+                                  .last
+                                  .symbol)
+                            const SDivider(),
+                        ],
+                      ],
+                      const SpaceH10(),
+                      if (listToShow
+                          .where(
+                            (element) => element.qty! > Decimal.one,
+                          )
+                          .toList()
+                          .isNotEmpty)
+                        AboveListLine(
+                          mainColumn: intl.invest_single,
+                          secondaryColumn: '${intl.invest_list_amount} (${currency.symbol})',
+                          lastColumn: '${intl.invest_list_pl} (${currency.symbol})',
+                          withSort: true,
+                          checked: true,
+                          onCheckboxTap: (value) {},
                         ),
-                        if (instrument.symbol != listToShow.where(
-                              (element) => element.qty! > Decimal.one,
-                        ).toList().last.symbol)
-                          const SDivider(),
+                      for (final instrument in listToShow) ...[
+                        if (instrument.qty == Decimal.one) ...[
+                          InvestLine(
+                            currency: currencyFrom(currencies, getInstrumentBySymbol(instrument.symbol!)?.name ?? ''),
+                            price: Decimal.zero,
+                            operationType: Direction.undefined,
+                            isPending: false,
+                            amount: instrument.amount ?? Decimal.zero,
+                            leverage: instrument.averageMultiplicator ?? Decimal.zero,
+                            isGroup: false,
+                            historyCount: 1,
+                            profit: instrument.amountPl ?? Decimal.zero,
+                            profitPercent: instrument.percentPl ?? Decimal.zero,
+                            accuracy: getInstrumentBySymbol(instrument.symbol!)?.priceAccuracy ?? 2,
+                            onTap: () {
+                              sRouter.push(
+                                InvestHistoryPageRouter(instrument: getInstrumentBySymbol(instrument.symbol!)!),
+                              );
+                            },
+                          ),
+                          if (instrument.symbol !=
+                              listToShow
+                                  .where(
+                                    (element) => element.qty! == Decimal.one,
+                                  )
+                                  .toList()
+                                  .last
+                                  .symbol)
+                            const SDivider(),
+                        ],
                       ],
                     ],
-                    const SpaceH10(),
-                    if (
-                    listToShow.where(
-                          (element) => element.qty! > Decimal.one,
-                    ).toList().isNotEmpty
-                    )
-                      AboveListLine(
-                        mainColumn: intl.invest_single,
-                        secondaryColumn: '${intl.invest_list_amount} (${currency.symbol})',
-                        lastColumn: '${intl.invest_list_pl} (${currency.symbol})',
-                        withSort: true,
-                        checked: true,
-                        onCheckboxTap: (value) {},
-                      ),
-                    for (final instrument in listToShow) ...[
-                      if (instrument.qty == Decimal.one) ...[
-                        InvestLine(
-                          currency: currencyFrom(currencies, getInstrumentBySymbol(instrument.symbol!)?.name ?? ''),
-                          price: Decimal.zero,
-                          operationType: Direction.undefined,
-                          isPending: false,
-                          amount: instrument.amount ?? Decimal.zero,
-                          leverage: instrument.averageMultiplicator ?? Decimal.zero,
-                          isGroup: false,
-                          historyCount: 1,
-                          profit: instrument.amountPl ?? Decimal.zero,
-                          profitPercent: instrument.percentPl ?? Decimal.zero,
-                          accuracy: getInstrumentBySymbol(instrument.symbol!)?.priceAccuracy ?? 2,
-                          onTap: () {
-                            sRouter.push(
-                              InvestHistoryPageRouter(instrument: getInstrumentBySymbol(instrument.symbol!)!),
-                            );
-                          },
-                        ),
-                        if (instrument.symbol != listToShow.where(
-                              (element) => element.qty! == Decimal.one,
-                        ).toList().last.symbol)
-                          const SDivider(),
-                      ],
-                    ],
-                  ],
-                );
+                  );
           },
           error: () {
             return Container(
