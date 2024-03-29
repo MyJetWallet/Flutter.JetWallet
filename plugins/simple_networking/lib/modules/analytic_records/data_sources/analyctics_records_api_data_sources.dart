@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:data_channel/data_channel.dart';
 import 'package:simple_networking/api_client/api_client.dart';
 import 'package:simple_networking/helpers/handle_api_responses.dart';
@@ -16,11 +18,9 @@ class AnalycticsRecordsApiDataSources {
       final listJson = <Map<String, dynamic>>[];
 
       for (var record in listRecords) {
-        final a = record.toJson();
-
-        a['eventBody'] = a['eventBody'].toString();
-
-        listJson.add(a);
+        final recordJsson = record.toJson();
+        recordJsson['eventBody'] = json.encode(recordJsson['eventBody']);
+        listJson.add(recordJsson);
       }
 
       final response = await _apiClient.post(
