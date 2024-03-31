@@ -21,45 +21,47 @@ import '../../../../core/router/app_router.dart';
 void showInvestMarketWatchBottomSheet(BuildContext context) {
   final investStore = getIt.get<InvestDashboardStore>();
 
-  sShowBasicModalBottomSheet(
-    context: context,
-    scrollable: true,
-    expanded: true,
-    pinned: Observer(
-      builder: (BuildContext context) {
-        return SPaddingH24(
-          child: Column(
-            children: [
-              NewInvestHeader(
-                title: intl.invest_market_watch,
-                showRollover: false,
-                showModify: false,
-                showIcon: false,
-                showFull: false,
-                onButtonTap: () {},
-              ),
-              const SpaceH4(),
-              SecondarySwitch(
-                onChangeTab: investStore.setActiveSectionByIndex,
-                fromRight: false,
-                activeTab: investStore.sections.indexWhere(
-                  (element) => element.id == investStore.activeSection,
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    sShowBasicModalBottomSheet(
+      context: context,
+      scrollable: true,
+      expanded: true,
+      pinned: Observer(
+        builder: (BuildContext context) {
+          return SPaddingH24(
+            child: Column(
+              children: [
+                NewInvestHeader(
+                  title: intl.invest_market_watch,
+                  showRollover: false,
+                  showModify: false,
+                  showIcon: false,
+                  showFull: false,
+                  onButtonTap: () {},
                 ),
-                tabs: [
-                  ...investStore.sections.map((section) => section.name!),
-                ],
-              ),
-              const SpaceH4(),
-            ],
-          ),
-        );
-      },
-    ),
-    horizontalPinnedPadding: 0,
-    removePinnedPadding: true,
-    horizontalPadding: 0,
-    children: [const InstrumentsList()],
-  );
+                const SpaceH4(),
+                SecondarySwitch(
+                  onChangeTab: investStore.setActiveSectionByIndex,
+                  fromRight: false,
+                  activeTab: investStore.sections.indexWhere(
+                    (element) => element.id == investStore.activeSection,
+                  ),
+                  tabs: [
+                    ...investStore.sections.map((section) => section.name!),
+                  ],
+                ),
+                const SpaceH4(),
+              ],
+            ),
+          );
+        },
+      ),
+      horizontalPinnedPadding: 0,
+      removePinnedPadding: true,
+      horizontalPadding: 0,
+      children: [const InstrumentsList()],
+    );
+  });
 }
 
 class InstrumentsList extends StatelessObserverWidget {

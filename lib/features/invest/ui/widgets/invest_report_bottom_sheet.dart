@@ -335,8 +335,8 @@ class _InvestListScreenState extends State<InvestList> {
                   if (widget.position.stopLossType != TPSLType.undefined ||
                       widget.position.takeProfitType != TPSLType.undefined) ...[
                     if (widget.position.takeProfitType != TPSLType.undefined) ...[
-                      const SDivider(),
-                      const SpaceH8(),
+                         const SDivider(),
+                   const SpaceH8(),
                       DataLine(
                         withDot: true,
                         dotColor: colors.green,
