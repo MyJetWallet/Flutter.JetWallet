@@ -46,7 +46,6 @@ class SymbolInfoLine extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final colors = sKit.colors;
 
     return InkWell(
@@ -62,6 +61,7 @@ class SymbolInfoLine extends StatelessObserverWidget {
         ),
         width: MediaQuery.of(context).size.width - 48,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (withActiveInvest) ...[
               ActiveInvestLine(
@@ -71,50 +71,46 @@ class SymbolInfoLine extends StatelessObserverWidget {
               const SpaceH3(),
             ],
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    SvgPicture.network(
-                      iconUrlFrom(assetSymbol: instrument.name ?? ''),
-                      width: 20.0,
-                      height: 20.0,
-                      placeholderBuilder: (_) {
-                        return const SAssetPlaceholderIcon();
-                      },
-                    ),
-                    const SpaceW4(),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          instrument.name!,
-                          style: STStyles.body2InvestSM.copyWith(
-                            color: colors.black,
-                          ),
-                        ),
-                        const SpaceH2(),
-                        Text(
-                          instrument.description!,
-                          style: STStyles.body3InvestM.copyWith(
-                            color: colors.grey2,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                SvgPicture.network(
+                  iconUrlFrom(assetSymbol: instrument.name ?? ''),
+                  width: 20.0,
+                  height: 20.0,
+                  placeholderBuilder: (_) {
+                    return const SAssetPlaceholderIcon();
+                  },
                 ),
-                const Spacer(),
+                const SpaceW4(),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        instrument.name!,
+                        style: STStyles.body2InvestSM.copyWith(
+                          color: colors.black,
+                        ),
+                      ),
+                      const SpaceH2(),
+                      Text(
+                        instrument.description!,
+                        style: STStyles.body3InvestM.copyWith(
+                          color: colors.grey2,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+                const SpaceW10(),
                 Stack(
                   children: [
                     Chart(
-                      localizedChartResolutionButton:
-                      localizedChartResolutionButton(context),
-                      onResolutionChanged: (resolution) {
-
-                      },
-                      onChartTypeChanged: (type) {
-
-                      },
+                      localizedChartResolutionButton: localizedChartResolutionButton(context),
+                      onResolutionChanged: (resolution) {},
+                      onChartTypeChanged: (type) {},
                       chartType: ChartType.area,
                       candleResolution: Period.month,
                       formatPrice: volumeFormat,
@@ -128,64 +124,50 @@ class SymbolInfoLine extends StatelessObserverWidget {
                       loader: const LoaderSpinner(),
                       accuracy: 2,
                     ),
-                    Positioned(
-                      top: 0,
-                      left: 0,
-                      child: Container(
-                        color: Colors.transparent,
-                        width: 130,
-                        height: 32,
+                  ],
+                ),
+                const SpaceW10(),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      price,
+                      style: STStyles.body2InvestB.copyWith(
+                        color: colors.black,
                       ),
+                    ),
+                    const SpaceH2(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          formatPercent(percent),
+                          overflow: TextOverflow.ellipsis,
+                          style: STStyles.body3InvestSM.copyWith(
+                            color: percent == Decimal.zero
+                                ? colors.grey3
+                                : percent > Decimal.zero
+                                    ? colors.green
+                                    : colors.red,
+                          ),
+                        ),
+                        percentIcon(percent),
+                      ],
                     ),
                   ],
                 ),
+                const SpaceW10(),
                 if (withFavorites)
-                  const SpaceW10()
-                else
-                  const SpaceW24(),
-                SizedBox(
-                  width: 60,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        price,
-                        style: STStyles.body2InvestB.copyWith(
-                          color: colors.black,
-                        ),
-                      ),
-                      const SpaceH2(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            formatPercent(percent),
-                            overflow: TextOverflow.ellipsis,
-                            style: STStyles.body3InvestSM.copyWith(
-                              color: percent == Decimal.zero
-                                  ? colors.grey3
-                                  : percent > Decimal.zero
-                                  ? colors.green
-                                  : colors.red,
-                            ),
-                          ),
-                          percentIcon(percent),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                if (withFavorites) ...[
-                  const SpaceW10(),
                   SIconButton(
                     onTap: () {
                       onTapFavorites?.call();
                     },
                     defaultIcon: isFavorite
-                        ? SStarPressedIcon(color: colors.black,)
+                        ? SStarPressedIcon(
+                            color: colors.black,
+                          )
                         : const SStarPressedIcon(),
                   ),
-                ],
               ],
             ),
           ],

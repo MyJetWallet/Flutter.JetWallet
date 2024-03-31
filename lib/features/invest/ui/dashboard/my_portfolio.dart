@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 import '../../../../core/l10n/i10n.dart';
