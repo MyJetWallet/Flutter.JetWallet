@@ -160,7 +160,8 @@ class _InvestListScreenState extends State<InvestList> {
                   builder: (BuildContext context) {
                     return RolloverLine(
                       mainText: intl.invest_next_rollover,
-                      secondaryText: '${widget.position.rollOver!.toStringAsFixed(4)}% / $timerUpdated',
+                      secondaryText:
+                          '${widget.position.direction == Direction.sell ? widget.instrument.rollSell!.toStringAsFixed(4) : widget.instrument.rollBuy!.toStringAsFixed(4)}% / $timerUpdated',
                     );
                   },
                 ),
