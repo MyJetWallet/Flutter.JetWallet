@@ -205,7 +205,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                   activeTab: investNewStore.isOrderMode ? 1 : 0,
                   fullWidth: false,
                   tabs: [
-                    intl.invest_history_tab_invest,
+                    intl.invest_history_tab_market,
                     intl.invest_history_tab_pending,
                   ],
                 ),
