@@ -2,6 +2,8 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
@@ -87,7 +89,9 @@ class MyPortfolio extends StatelessObserverWidget {
                           ),
                           const SpaceW2(),
                           Text(
-                            marketFormat(decimal: amount, accuracy: 2, symbol: ''),
+                            getIt<AppStore>().isBalanceHide
+                                ? '****'
+                                : marketFormat(decimal: amount, accuracy: 2, symbol: ''),
                             style: STStyles.body3InvestSM.copyWith(
                               color: colors.black,
                             ),
@@ -118,7 +122,9 @@ class MyPortfolio extends StatelessObserverWidget {
                           ),
                           const SpaceW2(),
                           Text(
-                            marketFormat(decimal: pending, accuracy: 2, symbol: ''),
+                            getIt<AppStore>().isBalanceHide
+                                ? '****'
+                                : marketFormat(decimal: pending, accuracy: 2, symbol: ''),
                             style: STStyles.body3InvestSM.copyWith(
                               color: colors.black,
                             ),
@@ -164,7 +170,9 @@ class MyPortfolio extends StatelessObserverWidget {
                     ),
                     const SpaceW4(),
                     Text(
-                      marketFormat(decimal: balance, accuracy: 2, symbol: ''),
+                      getIt<AppStore>().isBalanceHide
+                          ? '****'
+                          : marketFormat(decimal: balance, accuracy: 2, symbol: ''),
                       style: STStyles.header3Invest.copyWith(
                         color: colors.black,
                       ),
@@ -173,7 +181,9 @@ class MyPortfolio extends StatelessObserverWidget {
                 ),
                 const SpaceH2(),
                 Text(
-                  '${marketFormat(decimal: percent, accuracy: 2, symbol: '')}%',
+                  getIt<AppStore>().isBalanceHide
+                      ? '****%'
+                      : '${marketFormat(decimal: percent, accuracy: 2, symbol: '')}%',
                   style: STStyles.body1InvestSM.copyWith(
                     color: colors.black,
                   ),
