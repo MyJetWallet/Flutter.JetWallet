@@ -78,47 +78,47 @@ class _InvestScreenState extends State<InvestScreen> {
               currency: currency,
             ),
           ),
+          SPaddingH24(
+            child: Observer(
+              builder: (BuildContext context) {
+                var amountSum = Decimal.zero;
+                var profitSum = Decimal.zero;
+                if (sSignalRModules.investPositionsData != null) {
+                  final activePositions = sSignalRModules.investPositionsData!.positions
+                      .where(
+                        (element) => element.status == PositionStatus.opened,
+                      )
+                      .toList();
+                  for (var i = 0; i < activePositions.length; i++) {
+                    amountSum += activePositions[i].amount!;
+                    profitSum += investStore.getProfitByPosition(activePositions[i]);
+                  }
+                }
+
+                final percentage = (amountSum == Decimal.zero || profitSum == Decimal.zero)
+                    ? Decimal.zero
+                    : Decimal.fromJson('${(Decimal.fromInt(100) * profitSum / amountSum).toDouble()}');
+
+                return MyPortfolio(
+                  pending: investStore.totalPendingAmount,
+                  amount: amountSum,
+                  balance: profitSum,
+                  percent: percentage,
+                  onShare: () {},
+                  currency: currency,
+                  title: intl.invest_my_portfolio,
+                  onTap: () {
+                    showInvestListBottomSheet(context);
+                  },
+                );
+              },
+            ),
+          ),
           Expanded(
             child: ListView(
               physics: const ClampingScrollPhysics(),
               padding: EdgeInsets.zero,
               children: [
-                SPaddingH24(
-                  child: Observer(
-                    builder: (BuildContext context) {
-                      var amountSum = Decimal.zero;
-                      var profitSum = Decimal.zero;
-                      if (sSignalRModules.investPositionsData != null) {
-                        final activePositions = sSignalRModules.investPositionsData!.positions
-                            .where(
-                              (element) => element.status == PositionStatus.opened,
-                            )
-                            .toList();
-                        for (var i = 0; i < activePositions.length; i++) {
-                          amountSum += activePositions[i].amount!;
-                          profitSum += investStore.getProfitByPosition(activePositions[i]);
-                        }
-                      }
-
-                      final percentage = (amountSum == Decimal.zero || profitSum == Decimal.zero)
-                          ? Decimal.zero
-                          : Decimal.fromJson('${(Decimal.fromInt(100) * profitSum / amountSum).toDouble()}');
-
-                      return MyPortfolio(
-                        pending: investStore.totalPendingAmount,
-                        amount: amountSum,
-                        balance: profitSum,
-                        percent: percentage,
-                        onShare: () {},
-                        currency: currency,
-                        title: intl.invest_my_portfolio,
-                        onTap: () {
-                          showInvestListBottomSheet(context);
-                        },
-                      );
-                    },
-                  ),
-                ),
                 const SPaddingH24(
                   child: SDivider(),
                 ),
