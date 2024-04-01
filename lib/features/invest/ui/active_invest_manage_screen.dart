@@ -259,7 +259,9 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
               builder: (BuildContext context) {
                 return RolloverLine(
                   mainText: intl.invest_next_rollover,
-                  secondaryText: '${investNewStore.position!.rollOver!.toStringAsFixed(4)}% / $timerUpdated',
+                  secondaryText: investNewStore.position?.direction == Direction.sell
+                      ? '${investNewStore.instrument?.rollSell?.toStringAsFixed(4)}% / $timerUpdated'
+                      : '${investNewStore.instrument?.rollBuy?.toStringAsFixed(4)}% / $timerUpdated',
                 );
               },
             ),
