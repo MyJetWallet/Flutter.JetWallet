@@ -135,61 +135,64 @@ class InstrumentsList extends StatelessObserverWidget {
                 top: 16,
                 bottom: 8,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        section.name ?? '',
-                        style: STStyles.header2Invest.copyWith(
-                          color: colors.black,
-                        ),
-                      ),
-                      const SpaceW8(),
-                      Column(
-                        children: [
-                          Text(
-                            '${investStore.instrumentsList.where(
-                                  (element) => element.sectors?.contains(investStore.activeSection) ?? false,
-                                ).toList().length} ${intl.invest_tokens}',
-                            style: STStyles.body3InvestM.copyWith(
-                              color: colors.grey1,
-                            ),
+              child: GestureDetector(
+                onTap: investStore.setShortDescription,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          section.name ?? '',
+                          style: STStyles.header2Invest.copyWith(
+                            color: colors.black,
                           ),
-                          const SpaceH3(),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SpaceH8(),
-                  Text(
-                    section.description ?? '',
-                    style: STStyles.body2InvestM.copyWith(
-                      color: colors.grey1,
-                    ),
-                    maxLines: investStore.isShortDescription ? 2 : 10,
-                  ),
-                  const SpaceH8(),
-                  Center(
-                    child: SIconButton(
-                      onTap: investStore.setShortDescription,
-                      defaultIcon: investStore.isShortDescription
-                          ? Assets.svg.invest.investArrow.simpleSvg(
-                              width: 14,
-                              height: 14,
-                            )
-                          : RotatedBox(
-                              quarterTurns: 2,
-                              child: Assets.svg.invest.investArrow.simpleSvg(
-                                width: 14,
-                                height: 14,
+                        ),
+                        const SpaceW8(),
+                        Column(
+                          children: [
+                            Text(
+                              '${investStore.instrumentsList.where(
+                                    (element) => element.sectors?.contains(investStore.activeSection) ?? false,
+                                  ).toList().length} ${intl.invest_tokens}',
+                              style: STStyles.body3InvestM.copyWith(
+                                color: colors.grey1,
                               ),
                             ),
+                            const SpaceH3(),
+                          ],
+                        ),
+                      ],
                     ),
-                  ),
-                ],
+                    const SpaceH8(),
+                    Text(
+                      section.description ?? '',
+                      style: STStyles.body2InvestM.copyWith(
+                        color: colors.grey1,
+                      ),
+                      maxLines: investStore.isShortDescription ? 2 : 10,
+                    ),
+                    const SpaceH8(),
+                    Center(
+                      child: SIconButton(
+                        onTap: investStore.setShortDescription,
+                        defaultIcon: investStore.isShortDescription
+                            ? Assets.svg.invest.investArrow.simpleSvg(
+                                width: 14,
+                                height: 14,
+                              )
+                            : RotatedBox(
+                                quarterTurns: 2,
+                                child: Assets.svg.invest.investArrow.simpleSvg(
+                                  width: 14,
+                                  height: 14,
+                                ),
+                              ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             SPaddingH24(
