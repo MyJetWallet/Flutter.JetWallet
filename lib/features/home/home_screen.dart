@@ -115,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   SBottomItemModel(
                     type: BottomItemType.invest,
                     text: intl.bottom_bar_invest,
-                    icon: Assets.svg.large.graph,
+                    icon: Assets.svg.large.crypto,
                   ),
                 if (bottomBarItems.contains(BottomItemType.card))
                   SBottomItemModel(
