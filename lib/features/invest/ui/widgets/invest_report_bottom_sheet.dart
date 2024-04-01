@@ -296,7 +296,7 @@ class _InvestListScreenState extends State<InvestList> {
                   mainText: intl.invest_report_market_pl,
                   secondaryText: marketFormat(
                     decimal: investStore.getMarketPLByPosition(widget.position),
-                    accuracy: 6,
+                    accuracy: 2,
                     symbol: 'USDT',
                   ),
                 ),
@@ -305,7 +305,7 @@ class _InvestListScreenState extends State<InvestList> {
                   mainText: intl.invest_report_open_fee,
                   secondaryText: marketFormat(
                     decimal: (widget.position.openFee ?? Decimal.zero) * Decimal.parse('-1'),
-                    accuracy: 6,
+                    accuracy: 2,
                     symbol: 'USDT',
                   ),
                 ),
@@ -315,7 +315,7 @@ class _InvestListScreenState extends State<InvestList> {
                     mainText: intl.invest_report_close_fee,
                     secondaryText: marketFormat(
                       decimal: (widget.position.closeFee ?? Decimal.zero) * Decimal.parse('-1'),
-                      accuracy: 6,
+                      accuracy: 2,
                       symbol: 'USDT',
                     ),
                   ),
@@ -325,7 +325,7 @@ class _InvestListScreenState extends State<InvestList> {
                   mainText: intl.invest_report_rollover,
                   secondaryText: marketFormat(
                     decimal: widget.position.rollOver ?? Decimal.zero,
-                    accuracy: 6,
+                    accuracy: 2,
                     symbol: 'USDT',
                   ),
                 ),
