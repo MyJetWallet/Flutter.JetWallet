@@ -117,6 +117,12 @@ class InstrumentsList extends StatelessObserverWidget {
             CachedNetworkImage(
               imageUrl: section.bigIconUrl ?? '',
               width: MediaQuery.of(context).size.width,
+              placeholder: (context, url) {
+                return const SizedBox(height: 104.8);
+              },
+              errorWidget: (context, url, error) {
+                return const Offstage();
+              },
               fit: BoxFit.fitWidth,
               fadeInDuration: Duration.zero,
             ),
