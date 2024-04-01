@@ -350,12 +350,12 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
                   mainText: intl.invest_limits_take_profit,
                   secondaryText: investNewStore.position!.takeProfitType == TPSLType.amount
                       ? volumeFormat(
-                          decimal: investNewStore.position!.takeProfitAmount ?? Decimal.zero,
+                          decimal: (investNewStore.position!.takeProfitAmount ?? Decimal.zero) * Decimal.fromInt(-1),
                           accuracy: 2,
                           symbol: 'USDT',
                         )
                       : volumeFormat(
-                          decimal: investNewStore.position!.takeProfitPrice ?? Decimal.zero,
+                          decimal: (investNewStore.position!.takeProfitPrice ?? Decimal.zero) * Decimal.fromInt(-1),
                           accuracy: widget.instrument.priceAccuracy ?? 2,
                           symbol: '',
                         ),

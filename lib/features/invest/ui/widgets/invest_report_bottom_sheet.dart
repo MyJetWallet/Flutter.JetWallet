@@ -362,12 +362,12 @@ class _InvestListScreenState extends State<InvestList> {
                         mainText: intl.invest_limits_stop_loss,
                         secondaryText: widget.position.stopLossType == TPSLType.amount
                             ? volumeFormat(
-                                decimal: widget.position.stopLossAmount ?? Decimal.zero,
+                                decimal: (widget.position.stopLossAmount ?? Decimal.zero) * Decimal.fromInt(-1),
                                 accuracy: 2,
                                 symbol: 'USDT',
                               )
                             : volumeFormat(
-                                decimal: widget.position.stopLossPrice ?? Decimal.zero,
+                                decimal: (widget.position.stopLossPrice ?? Decimal.zero) * Decimal.fromInt(-1),
                                 accuracy: widget.instrument.priceAccuracy ?? 2,
                                 symbol: '',
                               ),
