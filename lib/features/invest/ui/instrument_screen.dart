@@ -314,7 +314,7 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                             onChangeTab: investPositionsStore.setActiveInstrumentTab,
                             activeTab: investPositionsStore.activeInstrumentTab,
                             tabs: [
-                              intl.invest_history_tab_invest,
+                              intl.invest_history_tab_positions,
                               intl.invest_history_tab_pending,
                             ],
                           ),
