@@ -261,7 +261,7 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
                     '${((widget.position.direction == Direction.buy ? widget.instrument.rollBuy! : widget.instrument.rollSell!) * Decimal.fromInt(100)).toStringAsFixed(4)}%';
                 return RolloverLine(
                   mainText: intl.invest_next_rollover,
-                  secondaryText: '$rolloverPercent / $timerUpdated',
+                  secondaryText: '$rolloverPercent / $timerUpdated',і
                 );
               },
             ),
@@ -350,12 +350,12 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
                   mainText: intl.invest_limits_take_profit,
                   secondaryText: investNewStore.position!.takeProfitType == TPSLType.amount
                       ? volumeFormat(
-                          decimal: investNewStore.position!.takeProfitAmount ?? Decimal.zero,
+                          decimal: (investNewStore.position!.takeProfitAmount ?? Decimal.zero) * Decimal.fromInt(-1),
                           accuracy: 2,
                           symbol: 'USDT',
                         )
                       : volumeFormat(
-                          decimal: investNewStore.position!.takeProfitPrice ?? Decimal.zero,
+                          decimal: (investNewStore.position!.takeProfitPrice ?? Decimal.zero) * Decimal.fromInt(-1),
                           accuracy: widget.instrument.priceAccuracy ?? 2,
                           symbol: '',
                         ),

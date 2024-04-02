@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
@@ -104,12 +105,12 @@ class JournalItem extends StatelessObserverWidget {
                 mainText: intl.invest_limits_stop_loss,
                 secondaryText: item.stopLossType == TPSLType.amount
                     ? volumeFormat(
-                        decimal: item.stopLossAmount,
+                        decimal: item.stopLossAmount * Decimal.fromInt(-1),
                         accuracy: 2,
                         symbol: 'USDT',
                       )
                     : volumeFormat(
-                        decimal: item.stopLossPrice,
+                        decimal: item.stopLossPrice * Decimal.fromInt(-1),
                         accuracy: instrument.priceAccuracy ?? 2,
                         symbol: '',
                       ),
