@@ -1963,5 +1963,14 @@
                 "type": "String"
             }
         }
+    },
+    "earn_deposit_of": "Deposit of {value}\nwas initiated",
+    "@earn_deposit_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "200 USDT"
+            }
+        }
     }
 }
