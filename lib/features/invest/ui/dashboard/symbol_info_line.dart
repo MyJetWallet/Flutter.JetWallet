@@ -124,7 +124,6 @@ class SymbolInfoLine extends StatelessObserverWidget {
                     accuracy: 2,
                   ),
                 ),
-                const SpaceW10(),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
