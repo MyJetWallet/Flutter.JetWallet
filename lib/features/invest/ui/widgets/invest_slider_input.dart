@@ -61,6 +61,12 @@ class InvestSliderInput extends StatelessObserverWidget {
       children: [
         SliderTheme(
           data: SliderTheme.of(context).copyWith(
+            disabledActiveTickMarkColor: Colors.transparent,
+            disabledInactiveTickMarkColor: Colors.transparent,
+            disabledSecondaryActiveTrackColor: Colors.transparent,
+            valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
+            valueIndicatorColor: Colors.transparent,
+            valueIndicatorTextStyle: const TextStyle(color: Colors.transparent),
             activeTrackColor: colors.black,
             inactiveTrackColor: colors.grey5,
             trackShape: const RoundedRectSliderTrackShape(),
@@ -70,13 +76,8 @@ class InvestSliderInput extends StatelessObserverWidget {
             overlayColor: Colors.transparent,
             overlayShape: const RoundSliderOverlayShape(overlayRadius: 0),
             tickMarkShape: const RoundSliderTickMarkShape(tickMarkRadius: 2),
-            activeTickMarkColor: colors.black,
-            inactiveTickMarkColor: colors.grey4,
-            valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
-            valueIndicatorColor: colors.blue,
-            valueIndicatorTextStyle: TextStyle(
-              color: colors.brown,
-            ),
+            activeTickMarkColor: Colors.transparent,
+            inactiveTickMarkColor: Colors.transparent,
           ),
           child: Slider(
             value: currentNewValue.toDouble(),

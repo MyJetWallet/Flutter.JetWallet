@@ -75,7 +75,6 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
 
     final colors = sKit.colors;
     final currency = currencyFrom(currencies, 'USDT');
-
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       loading: investPositionsStore.loader,
@@ -308,18 +307,19 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Row(
-                        children: [
-                          SecondarySwitch(
-                            onChangeTab: investPositionsStore.setActiveInstrumentTab,
-                            activeTab: investPositionsStore.activeInstrumentTab,
-                            tabs: [
-                              intl.invest_history_tab_positions,
-                              intl.invest_history_tab_pending,
-                            ],
-                          ),
-                        ],
-                      ),
+                      if (investPositionsStore.pendingList.isNotEmpty)
+                        Row(
+                          children: [
+                            SecondarySwitch(
+                              onChangeTab: investPositionsStore.setActiveInstrumentTab,
+                              activeTab: investPositionsStore.activeInstrumentTab,
+                              tabs: [
+                                intl.invest_history_tab_positions,
+                                intl.invest_history_tab_pending,
+                              ],
+                            ),
+                          ],
+                        ),
                       Observer(
                         builder: (BuildContext context) {
                           return investPositionsStore.activeInstrumentTab == 0

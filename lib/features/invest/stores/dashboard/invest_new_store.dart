@@ -155,7 +155,7 @@ abstract class _InvestNewStoreBase with Store {
             (Decimal.one -
                 Decimal.fromJson('${(investPositionTakeProfitAmount / volume).toDouble()}') -
                 Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'));
-    tpPriceController.text = 'Etc. ${volumeFormat(
+    tpPriceController.text = 'est ${volumeFormat(
       decimal: tpPriceValue,
       symbol: '',
       accuracy: instrument?.priceAccuracy ?? 2,
@@ -175,7 +175,7 @@ abstract class _InvestNewStoreBase with Store {
     tpAmountValue = isBuyMode
         ? (investPositionTakeProfitPrice - marketPrice) * volumeBase - openFee - closeFee
         : -(investPositionTakeProfitPrice - marketPrice) * volumeBase - openFee - closeFee;
-    tpAmountController.text = 'Etc. ${volumeFormat(
+    tpAmountController.text = 'est. ${volumeFormat(
       decimal: tpAmountValue,
       symbol: '',
       accuracy: 2,
@@ -201,7 +201,7 @@ abstract class _InvestNewStoreBase with Store {
             (Decimal.one -
                 Decimal.fromJson('${(investPositionStopLossAmount / volume).toDouble()}') -
                 Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'));
-    slPriceController.text = 'Etc. ${volumeFormat(
+    slPriceController.text = 'est ${volumeFormat(
       decimal: slPriceValue,
       symbol: '',
       accuracy: instrument?.priceAccuracy ?? 2,
@@ -220,7 +220,7 @@ abstract class _InvestNewStoreBase with Store {
     slAmountValue = isBuyMode
         ? (investPositionStopLossPrice - marketPrice) * volumeBase - openFee - closeFee
         : -(investPositionStopLossPrice - marketPrice) * volumeBase - openFee - closeFee;
-    slAmountController.text = 'Etc. ${volumeFormat(
+    slAmountController.text = 'est. ${volumeFormat(
       decimal: slAmountValue,
       symbol: '',
       accuracy: 2,
@@ -299,12 +299,12 @@ abstract class _InvestNewStoreBase with Store {
   void setIsSLTPPrice(bool newValue) {
     isSLTPPrice = newValue;
     if (newValue) {
-      slAmountController.text = 'Etc. ${volumeFormat(
+      slAmountController.text = 'est. ${volumeFormat(
         decimal: slAmountValue,
         symbol: '',
         accuracy: 2,
       )}';
-      tpAmountController.text = 'Etc. ${volumeFormat(
+      tpAmountController.text = 'est. ${volumeFormat(
         decimal: tpAmountValue,
         symbol: '',
         accuracy: 2,
@@ -320,12 +320,12 @@ abstract class _InvestNewStoreBase with Store {
         accuracy: instrument?.priceAccuracy ?? 2,
       ).replaceAll(' ', '');
     } else {
-      slPriceController.text = 'Etc. ${volumeFormat(
+      slPriceController.text = 'est ${volumeFormat(
         decimal: slPriceValue,
         symbol: '',
         accuracy: instrument?.priceAccuracy ?? 2,
       )}';
-      tpPriceController.text = 'Etc. ${volumeFormat(
+      tpPriceController.text = 'est ${volumeFormat(
         decimal: tpPriceValue,
         symbol: '',
         accuracy: instrument?.priceAccuracy ?? 2,
