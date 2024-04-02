@@ -155,7 +155,7 @@ abstract class _InvestNewStoreBase with Store {
             (Decimal.one -
                 Decimal.fromJson('${(investPositionTakeProfitAmount / volume).toDouble()}') -
                 Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'));
-    tpPriceController.text = 'est ${volumeFormat(
+    tpPriceController.text = 'est. ${volumeFormat(
       decimal: tpPriceValue,
       symbol: '',
       accuracy: instrument?.priceAccuracy ?? 2,
@@ -201,7 +201,7 @@ abstract class _InvestNewStoreBase with Store {
             (Decimal.one -
                 Decimal.fromJson('${(investPositionStopLossAmount / volume).toDouble()}') -
                 Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'));
-    slPriceController.text = 'est ${volumeFormat(
+    slPriceController.text = 'est. ${volumeFormat(
       decimal: slPriceValue,
       symbol: '',
       accuracy: instrument?.priceAccuracy ?? 2,
@@ -320,12 +320,12 @@ abstract class _InvestNewStoreBase with Store {
         accuracy: instrument?.priceAccuracy ?? 2,
       ).replaceAll(' ', '');
     } else {
-      slPriceController.text = 'est ${volumeFormat(
+      slPriceController.text = 'est. ${volumeFormat(
         decimal: slPriceValue,
         symbol: '',
         accuracy: instrument?.priceAccuracy ?? 2,
       )}';
-      tpPriceController.text = 'est ${volumeFormat(
+      tpPriceController.text = 'est. ${volumeFormat(
         decimal: tpPriceValue,
         symbol: '',
         accuracy: instrument?.priceAccuracy ?? 2,

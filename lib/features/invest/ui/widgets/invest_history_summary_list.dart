@@ -130,19 +130,20 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                 ),
               ),
               const Spacer(),
-              Observer(
-                builder: (BuildContext context) {
-                  return SecondarySwitch(
-                    onChangeTab: investPositionsStore.setHistoryTab,
-                    activeTab: investPositionsStore.historyTab,
-                    fullWidth: false,
-                    tabs: [
-                      intl.invest_history_tab_invest,
-                      intl.invest_history_tab_pending,
-                    ],
-                  );
-                },
-              ),
+              if (investPositionsStore.pendingList.isNotEmpty)
+                Observer(
+                  builder: (BuildContext context) {
+                    return SecondarySwitch(
+                      onChangeTab: investPositionsStore.setHistoryTab,
+                      activeTab: investPositionsStore.historyTab,
+                      fullWidth: false,
+                      tabs: [
+                        intl.invest_history_tab_invest,
+                        intl.invest_history_tab_pending,
+                      ],
+                    );
+                  },
+                ),
             ],
           ),
           MainInvestBlock(

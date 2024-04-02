@@ -126,7 +126,7 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
         ),
       ),
       bottomNavigationBar: SizedBox(
-        height: 96,
+        height: 90,
         child: Column(
           children: [
             const SpaceH20(),
@@ -350,12 +350,12 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
                   mainText: intl.invest_limits_take_profit,
                   secondaryText: investNewStore.position!.takeProfitType == TPSLType.amount
                       ? volumeFormat(
-                          decimal: (investNewStore.position!.takeProfitAmount ?? Decimal.zero) * Decimal.fromInt(-1),
+                          decimal: investNewStore.position!.takeProfitAmount ?? Decimal.zero,
                           accuracy: 2,
                           symbol: 'USDT',
                         )
                       : volumeFormat(
-                          decimal: (investNewStore.position!.takeProfitPrice ?? Decimal.zero) * Decimal.fromInt(-1),
+                          decimal: investNewStore.position!.takeProfitPrice ?? Decimal.zero,
                           accuracy: widget.instrument.priceAccuracy ?? 2,
                           symbol: '',
                         ),
@@ -371,12 +371,12 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
                   mainText: intl.invest_limits_stop_loss,
                   secondaryText: investNewStore.position!.stopLossType == TPSLType.amount
                       ? volumeFormat(
-                          decimal: investNewStore.position!.stopLossAmount ?? Decimal.zero,
+                          decimal: (investNewStore.position!.stopLossAmount ?? Decimal.zero) * Decimal.fromInt(-1),
                           accuracy: 2,
                           symbol: 'USDT',
                         )
                       : volumeFormat(
-                          decimal: investNewStore.position!.stopLossPrice ?? Decimal.zero,
+                          decimal: (investNewStore.position!.stopLossPrice ?? Decimal.zero) * Decimal.fromInt(-1),
                           accuracy: widget.instrument.priceAccuracy ?? 2,
                           symbol: '',
                         ),

@@ -176,7 +176,7 @@ class _InvestScreenState extends State<InvestScreen> {
                                           } else {
                                             sRouter.push(
                                               ActiveInvestManageRouter(
-                                                instrument:instrument,
+                                                instrument: instrument,
                                                 position: positions.first,
                                               ),
                                             );

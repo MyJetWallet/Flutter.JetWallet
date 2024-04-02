@@ -47,19 +47,20 @@ class HistoryInvestList extends StatelessObserverWidget {
                       Row(
                         children: [
                           const Spacer(),
-                          Observer(
-                            builder: (BuildContext context) {
-                              return SecondarySwitch(
-                                onChangeTab: investPositionsStore.setHistoryTab,
-                                activeTab: investPositionsStore.historyTab,
-                                fullWidth: false,
-                                tabs: [
-                                  intl.invest_history_tab_invest,
-                                  intl.invest_history_tab_pending,
-                                ],
-                              );
-                            },
-                          ),
+                          if (investPositionsStore.pendingList.isNotEmpty)
+                            Observer(
+                              builder: (BuildContext context) {
+                                return SecondarySwitch(
+                                  onChangeTab: investPositionsStore.setHistoryTab,
+                                  activeTab: investPositionsStore.historyTab,
+                                  fullWidth: false,
+                                  tabs: [
+                                    intl.invest_history_tab_invest,
+                                    intl.invest_history_tab_pending,
+                                  ],
+                                );
+                              },
+                            ),
                         ],
                       ),
                       MainInvestBlock(
@@ -135,19 +136,20 @@ class HistoryInvestList extends StatelessObserverWidget {
                           ),
                         ),
                         const Spacer(),
-                        Observer(
-                          builder: (BuildContext context) {
-                            return SecondarySwitch(
-                              onChangeTab: investPositionsStore.setHistoryTab,
-                              activeTab: investPositionsStore.historyTab,
-                              fullWidth: false,
-                              tabs: [
-                                intl.invest_history_tab_invest,
-                                intl.invest_history_tab_pending,
-                              ],
-                            );
-                          },
-                        ),
+                        if (investPositionsStore.pendingList.isNotEmpty)
+                          Observer(
+                            builder: (BuildContext context) {
+                              return SecondarySwitch(
+                                onChangeTab: investPositionsStore.setHistoryTab,
+                                activeTab: investPositionsStore.historyTab,
+                                fullWidth: false,
+                                tabs: [
+                                  intl.invest_history_tab_invest,
+                                  intl.invest_history_tab_pending,
+                                ],
+                              );
+                            },
+                          ),
                       ],
                     ),
                     MainInvestBlock(
