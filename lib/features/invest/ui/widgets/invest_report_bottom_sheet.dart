@@ -148,7 +148,8 @@ class _InvestListScreenState extends State<InvestList> {
     final currencies = sSignalRModules.currenciesList;
     final colors = sKit.colors;
     final currency = currencyFrom(currencies, widget.instrument.name ?? '');
-    log('${widget.position}');
+    log('positon ${widget.position}');
+    log('instrument ${widget.position}');
 
     return SPaddingH24(
       child: Observer(

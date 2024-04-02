@@ -4,8 +4,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 import '../../../../core/l10n/i10n.dart';
@@ -58,14 +56,6 @@ class MainInvestBlock extends StatelessObserverWidget {
                     color: colors.black,
                   ),
                 ),
-                if (showShare) ...[
-                  const SpaceW5(),
-                  //! TODO don't remove. We don't need this in current release
-                  // SIconButton(
-                  //   defaultIcon: Assets.svg.invest.share.simpleSvg(width: 20, height: 20,),
-                  //   onTap: onShare,
-                  // ),
-                ],
               ],
             ),
             if (showAmount) ...[
