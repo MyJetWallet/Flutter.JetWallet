@@ -261,7 +261,7 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
                     '${((widget.position.direction == Direction.buy ? widget.instrument.rollBuy! : widget.instrument.rollSell!) * Decimal.fromInt(100)).toStringAsFixed(4)}%';
                 return RolloverLine(
                   mainText: intl.invest_next_rollover,
-                  secondaryText: '$rolloverPercent / $timerUpdated',і
+                  secondaryText: '$rolloverPercent / $timerUpdated',
                 );
               },
             ),
