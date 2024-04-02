@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:decimal/decimal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/invest/stores/dashboard/invest_positions_store.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
@@ -48,6 +50,42 @@ abstract class _InvestDashboardStoreBase with Store {
 
   @computed
   List<InvestInstrumentModel> get instrumentsList => investInstrumentsData?.instruments ?? [];
+
+  @computed
+  ObservableList<InvestInstrumentModel> get myInvestsList {
+    final positions = positionsList;
+    final activePositions = positions.where((position) => position.status == PositionStatus.opened);
+    final myInvestsList = instrumentsList
+        .where(
+          (instrument) => activePositions.any(
+            (position) => position.symbol == instrument.symbol,
+          ),
+        )
+        .toList();
+    myInvestsList.sort((first, second) {
+      final firstAmount = _getGroupedProfit(first.symbol ?? '');
+      final secondAmount = _getGroupedProfit(second.symbol ?? '');
+
+      return secondAmount.compareTo(firstAmount);
+    });
+    return ObservableList.of(myInvestsList);
+  }
+
+  Decimal _getGroupedProfit(String symbol) {
+    final investPositionsStore = getIt.get<InvestPositionsStore>();
+
+    final groupedPositions = investPositionsStore.activeList
+        .where(
+          (element) => element.symbol == symbol,
+        )
+        .toList();
+    var profit = Decimal.zero;
+    for (var i = 0; i < groupedPositions.length; i++) {
+      profit += getProfitByPosition(groupedPositions[i]);
+    }
+
+    return profit;
+  }
 
   @observable
   TextEditingController searchController = TextEditingController();
@@ -200,22 +238,20 @@ abstract class _InvestDashboardStoreBase with Store {
 
   @computed
   ObservableList<InvestInstrumentModel> get losersList {
-    final activeList = instrumentsList;
-    final losers = <InvestInstrumentModel>[];
-    if (activeList.isNotEmpty) {
-      for (var i = 0; i < activeList.length; i++) {
-        if (getPercentSymbol(activeList[i].symbol ?? '') < Decimal.zero) {
-          losers.add(activeList[i]);
-        }
-      }
-      losers.sort(
-        (a, b) => getPercentSymbol(a.symbol ?? '').compareTo(
-          getPercentSymbol(b.symbol ?? ''),
-        ),
-      );
-    }
+    final instruments = investInstrumentsData?.instruments ?? [];
+    final losers = instruments
+        .where(
+          (instrument) => getPercentSymbol(instrument.symbol ?? '') < Decimal.zero,
+        )
+        .toList();
 
-    return ObservableList.of(losers);
+    losers.sort(
+      (a, b) => getPercentSymbol(b.symbol ?? '').compareTo(
+        getPercentSymbol(a.symbol ?? ''),
+      ),
+    );
+
+    return ObservableList.of(losers.sublist(0, min(losers.length, 5)));
   }
 
   @computed
@@ -235,7 +271,7 @@ abstract class _InvestDashboardStoreBase with Store {
       );
     }
 
-    return ObservableList.of(gainers);
+    return ObservableList.of(gainers.sublist(0, min(gainers.length, 5)));
   }
 
   @computed

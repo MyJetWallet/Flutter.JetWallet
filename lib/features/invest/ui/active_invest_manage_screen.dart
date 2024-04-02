@@ -257,11 +257,11 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
           SPaddingH24(
             child: Observer(
               builder: (BuildContext context) {
+                final rolloverPercent =
+                    '${((widget.position.direction == Direction.buy ? widget.instrument.rollBuy! : widget.instrument.rollSell!) * Decimal.fromInt(100)).toStringAsFixed(4)}%';
                 return RolloverLine(
                   mainText: intl.invest_next_rollover,
-                  secondaryText: investNewStore.position?.direction == Direction.sell
-                      ? '${investNewStore.instrument?.rollSell?.toStringAsFixed(4)}% / $timerUpdated'
-                      : '${investNewStore.instrument?.rollBuy?.toStringAsFixed(4)}% / $timerUpdated',
+                  secondaryText: '$rolloverPercent / $timerUpdated',і
                 );
               },
             ),

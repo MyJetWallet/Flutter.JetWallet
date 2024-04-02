@@ -153,25 +153,37 @@ class _InvestScreenState extends State<InvestScreen> {
                             padding: const EdgeInsets.only(left: 24),
                             child: Observer(
                               builder: (BuildContext context) {
+                                final myInvestsList = investStore.myInvestsList;
                                 return InvestCarousel(
                                   height: 108,
                                   children: [
-                                    for (final instrument in investStore.instrumentsList) ...[
-                                      if (getGroupedLength(instrument.symbol ?? '') > 0) ...[
-                                        SymbolInfo(
-                                          percent: investStore.getPercentSymbol(instrument.symbol ?? ''),
-                                          instrument: instrument,
-                                          showProfit: true,
-                                          profit: getGroupedProfit(instrument.symbol ?? ''),
-                                          price: investStore.getPriceBySymbol(instrument.symbol ?? ''),
-                                          onTap: () {
+                                    for (final instrument in myInvestsList) ...[
+                                      SymbolInfo(
+                                        percent: investStore.getPercentSymbol(instrument.symbol ?? ''),
+                                        instrument: instrument,
+                                        showProfit: true,
+                                        profit: getGroupedProfit(instrument.symbol ?? ''),
+                                        price: investStore.getPriceBySymbol(instrument.symbol ?? ''),
+                                        onTap: () {
+                                          final positions = investPositionsStore.activeList
+                                              .where((element) => element.symbol == instrument.symbol)
+                                              .toList();
+
+                                          if (positions.length > 1) {
                                             sRouter.push(
                                               InstrumentPageRouter(instrument: instrument),
                                             );
-                                          },
-                                          candles: investChartStore.getAssetCandles(instrument.symbol ?? ''),
-                                        ),
-                                      ],
+                                          } else {
+                                            sRouter.push(
+                                              ActiveInvestManageRouter(
+                                                instrument:instrument,
+                                                position: positions.first,
+                                              ),
+                                            );
+                                          }
+                                        },
+                                        candles: investChartStore.getAssetCandles(instrument.symbol ?? ''),
+                                      ),
                                     ],
                                   ],
                                 );

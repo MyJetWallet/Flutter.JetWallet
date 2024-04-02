@@ -194,11 +194,11 @@ abstract class _InvestDepositeConfirmationStoreBase with Store {
     return sRouter
         .push(
       SuccessScreenRouter(
-        secondaryText: intl.earn_withdrawal_of(
+        secondaryText: intl.earn_deposit_of(
           volumeFormat(
-            decimal: baseAmount,
-            symbol: sSignalRModules.baseCurrency.symbol,
-            accuracy: eurCurrency.accuracy,
+            decimal: amount,
+            symbol: currency.symbol,
+            accuracy: currency.accuracy,
           ),
         ),
         buttonText: intl.previewBuyWithUmlimint_saveCard,

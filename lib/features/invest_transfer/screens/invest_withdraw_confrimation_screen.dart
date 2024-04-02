@@ -91,8 +91,8 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
                   toAssetDescription: intl.invest_transfer_crypto_wallet,
                   toAssetValue: volumeFormat(
                     decimal: store.amount,
-                    accuracy: store.eurCurrency.accuracy,
-                    symbol: store.eurCurrency.symbol,
+                    symbol: store.currency.symbol,
+                    accuracy: store.currency.accuracy,
                   ),
                   toAssetBaseAmount: '≈${volumeFormat(
                     symbol: store.eurCurrency.symbol,
