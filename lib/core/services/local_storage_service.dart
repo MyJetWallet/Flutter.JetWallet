@@ -52,6 +52,7 @@ const showRateUp = 'showRateUp';
 const rateUpCount = 'rateUpCount';
 const isCardBannerClosed = 'isCardBannerClosed';
 const earnTermsAndConditionsWasChecked = 'earnTermsAndConditionsWasChecked';
+const isPerapaidCardBannerClosed = 'isPerapaidCardBannerClosed';
 
 final sLocalStorageService = getIt.get<LocalStorageService>();
 
@@ -113,6 +114,7 @@ class LocalStorageService {
     final deviceIdUsed = await _storage.read(key: deviceId);
     final isCardBannerClosedUsed = await _storage.read(key: isCardBannerClosed);
     final userLocaleTemp = await _storage.read(key: userLocale);
+    final isPerapaidCardBannerClosedTemp = await _storage.read(key: isPerapaidCardBannerClosed);
 
     await _storage.deleteAll();
     await _storage.write(key: lastUsedMail, value: userMail);
@@ -120,6 +122,7 @@ class LocalStorageService {
     await _storage.write(key: deviceId, value: deviceIdUsed);
     await _storage.write(key: isCardBannerClosed, value: isCardBannerClosedUsed);
     await _storage.write(key: userLocale, value: userLocaleTemp);
+    await _storage.write(key: isPerapaidCardBannerClosed, value: isPerapaidCardBannerClosedTemp);
   }
 
   Future<void> clearStorageForCrypto(List<CurrencyModel> currencies) async {
@@ -159,6 +162,7 @@ class LocalStorageService {
       final deviceIdUsed = await _storage.read(key: deviceId);
       final isCardBannerClosedUsed = await _storage.read(key: isCardBannerClosed);
       final userLocaleTemp = await _storage.read(key: userLocale);
+      final isPerapaidCardBannerClosedTemp = await _storage.read(key: isPerapaidCardBannerClosed);
 
       await _storage.deleteAll();
 
@@ -167,6 +171,7 @@ class LocalStorageService {
       await _storage.write(key: deviceId, value: deviceIdUsed);
       await _storage.write(key: isCardBannerClosed, value: isCardBannerClosedUsed);
       await _storage.write(key: userLocale, value: userLocaleTemp);
+      await _storage.write(key: isPerapaidCardBannerClosed, value: isPerapaidCardBannerClosedTemp);
     }
   }
 }

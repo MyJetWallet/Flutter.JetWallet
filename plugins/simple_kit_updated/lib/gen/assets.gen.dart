@@ -25,6 +25,7 @@ class $AssetsSvgGen {
   const $AssetsSvgGen();
 
   $AssetsSvgAssetsGen get assets => const $AssetsSvgAssetsGen();
+  $AssetsSvgBrandGen get brand => const $AssetsSvgBrandGen();
   $AssetsSvgInvestGen get invest => const $AssetsSvgInvestGen();
   $AssetsSvgLargeGen get large => const $AssetsSvgLargeGen();
   $AssetsSvgMediumGen get medium => const $AssetsSvgMediumGen();
@@ -38,6 +39,12 @@ class $AssetsSvgAssetsGen {
 
   $AssetsSvgAssetsCryptoGen get crypto => const $AssetsSvgAssetsCryptoGen();
   $AssetsSvgAssetsFiatGen get fiat => const $AssetsSvgAssetsFiatGen();
+}
+
+class $AssetsSvgBrandGen {
+  const $AssetsSvgBrandGen();
+
+  $AssetsSvgBrandSmallGen get small => const $AssetsSvgBrandSmallGen();
 }
 
 class $AssetsSvgInvestGen {
@@ -291,6 +298,9 @@ class $AssetsSvgMediumGen {
   /// File path: assets/svg/medium/mobile.svg
   SvgGenImage get mobile => const SvgGenImage('assets/svg/medium/mobile.svg');
 
+  /// File path: assets/svg/medium/mobile_unavailable.svg
+  SvgGenImage get mobileUnavailable => const SvgGenImage('assets/svg/medium/mobile_unavailable.svg');
+
   /// File path: assets/svg/medium/more.svg
   SvgGenImage get more => const SvgGenImage('assets/svg/medium/more.svg');
 
@@ -415,6 +425,7 @@ class $AssetsSvgMediumGen {
         loading,
         mail,
         mobile,
+        mobileUnavailable,
         more,
         percent,
         phone,
@@ -562,6 +573,19 @@ class $AssetsSvgAssetsFiatGen {
 
   /// List of all assets
   List<SvgGenImage> get values => [account, altMethod, card, cardAlt, externalTransfer, simpleInvest];
+}
+
+class $AssetsSvgBrandSmallGen {
+  const $AssetsSvgBrandSmallGen();
+
+  /// File path: assets/svg/brand/small/card.svg
+  SvgGenImage get card => const SvgGenImage('assets/svg/brand/small/card.svg');
+
+  /// File path: assets/svg/brand/small/info_blue.svg
+  SvgGenImage get infoBlue => const SvgGenImage('assets/svg/brand/small/info_blue.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [card, infoBlue];
 }
 
 class $AssetsSvgOtherLargeGen {

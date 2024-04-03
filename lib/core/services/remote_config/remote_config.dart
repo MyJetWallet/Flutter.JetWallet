@@ -172,6 +172,8 @@ class RemoteConfig {
     p2pTerms = remoteConfig!.appConfig.p2pTerms;
     rateUp = remoteConfig!.appConfig.rate_up;
     displayCardPreorderScreen = remoteConfig!.appConfig.displayCardPreorderScreen;
+    prepaidCardPartnerLink = remoteConfig!.appConfig.prepaidCardPartnerLink;
+    prepaidCardTermsAndConditionsLink = remoteConfig!.appConfig.prepaidCardTermsAndConditionsLink;
   }
 
   void overrideVersioningValues() {

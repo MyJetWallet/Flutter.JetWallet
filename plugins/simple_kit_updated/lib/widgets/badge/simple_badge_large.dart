@@ -1,42 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 
-enum SBadgeStatus { neutral, positive, negative }
+enum BadgeStatus {
+  neutral,
+  positive,
+  negative,
+  disabled,
+}
 
-class SBadge extends StatelessWidget {
-  const SBadge({
-    Key? key,
+class SBadgeLarge extends StatelessWidget {
+  const SBadgeLarge({
+    super.key,
     required this.status,
     required this.text,
-  }) : super(key: key);
+  });
 
-  final SBadgeStatus status;
+  final BadgeStatus status;
   final String text;
 
   @override
   Widget build(BuildContext context) {
     Color getColorByType() {
       switch (status) {
-        case SBadgeStatus.neutral:
+        case BadgeStatus.neutral:
           return SColorsLight().blueExtralight;
-        case SBadgeStatus.positive:
+        case BadgeStatus.positive:
           return SColorsLight().greenExtralight;
-        case SBadgeStatus.negative:
+        case BadgeStatus.negative:
           return SColorsLight().redExtralight;
+        case BadgeStatus.disabled:
+          return SColorsLight().gray2;
       }
     }
 
     Color getIconColorByType() {
       switch (status) {
-        case SBadgeStatus.neutral:
+        case BadgeStatus.neutral:
           return SColorsLight().blue;
-        case SBadgeStatus.positive:
+        case BadgeStatus.positive:
           return SColorsLight().green;
-        case SBadgeStatus.negative:
+        case BadgeStatus.negative:
           return SColorsLight().red;
+        case BadgeStatus.disabled:
+          return SColorsLight().black;
       }
     }
 

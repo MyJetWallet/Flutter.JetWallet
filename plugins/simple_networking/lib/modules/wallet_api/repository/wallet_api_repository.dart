@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:data_channel/data_channel.dart';
 import 'package:dio/dio.dart';
 import 'package:simple_networking/api_client/api_client.dart';
@@ -88,6 +86,13 @@ import 'package:simple_networking/modules/wallet_api/models/payment_info/payment
 import 'package:simple_networking/modules/wallet_api/models/payment_info/payment_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/payment_preview/payment_preview_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/payment_preview/payment_preview_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_prepaid_card_intention_dto_list_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_purchase_card_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_purchase_card_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/prepaid_card/get_purchase_card_brands_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/prepaid_card/get_purchase_card_list_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/prepaid_card/get_vouncher_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/prepaid_card/purchase_card_brand_list_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/profile/profile_delete_reasons_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/profile_info/profile_info_reponse_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/recurring_manage/recurring_delete_request_model.dart';
@@ -137,6 +142,7 @@ import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/wi
 
 import '../../../simple_networking.dart';
 import '../models/iban_info/iban_info_response_model.dart';
+import '../models/prepaid_card/card_countries_response_model.dart';
 import '../models/profile/profile_set_address_request.dart';
 import '../models/simple_card/simple_card_create_request.dart';
 import '../models/simple_card/simple_card_create_response.dart';
@@ -1150,6 +1156,51 @@ class WalletApiRepository {
     InvestTransferRequestModel model,
   ) async {
     return _walletApiDataSources.postInvestWithdrawRequest(
+      model,
+    );
+  }
+
+  // Prepaid card
+  Future<DC<ServerRejectException, BuyPrepaidCardIntentionDtoListResponseModel>> postGetPurchaseList(
+    GetPurchaseCardListRequestModel model,
+  ) async {
+    return _walletApiDataSources.postGetPurchaseListRequest(
+      model,
+    );
+  }
+
+  Future<DC<ServerRejectException, CardCountriesResponseModel>> postCardGetCountries() async {
+    return _walletApiDataSources.postCardGetCountriesRequest();
+  }
+
+  Future<DC<ServerRejectException, PurchaseCardBrandDtoListResponseModel>> postGetBrands(
+    GetPurchaseCardBrandsRequestModel model,
+  ) async {
+    return _walletApiDataSources.postGetBrandsRequest(
+      model,
+    );
+  }
+
+  Future<DC<ServerRejectException, BuyPurchaseCardResponseModel>> postBuyPrepaidCardPreview(
+    BuyPurchaseCardRequestModel model,
+  ) async {
+    return _walletApiDataSources.postBuyPrepaidCardPreviewRequest(
+      model,
+    );
+  }
+
+  Future<DC<ServerRejectException, PrapaidCardVoucherModel>> postBuyPrepaidCardExecute(
+    BuyPurchaseCardRequestModel model,
+  ) async {
+    return _walletApiDataSources.postBuyPrepaidCardExecuteRequest(
+      model,
+    );
+  }
+
+  Future<DC<ServerRejectException, BuyPrepaidCardIntentionDtoListResponseModel>> postGetVouncher(
+    GetVouncherRequestModel model,
+  ) async {
+    return _walletApiDataSources.postGetVouncherRequest(
       model,
     );
   }

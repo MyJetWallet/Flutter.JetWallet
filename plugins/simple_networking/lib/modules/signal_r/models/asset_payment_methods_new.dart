@@ -151,7 +151,9 @@ enum AssetPaymentProductsEnum {
   @JsonValue('InvestProgram')
   investProgram,
   @JsonValue('EarnProgram')
-  earnProgram
+  earnProgram,
+  @JsonValue('PrepaidCard')
+  prepaidCard
 }
 
 @freezed

@@ -50,6 +50,7 @@ class OperationHistoryItem with _$OperationHistoryItem {
     CardRefundInfo? cardRefundInfo,
     CardPurchaseInfo? cardPurchaseInfo,
     EarnOperationInfo? earnOperationInfo,
+    MobileGiftCardOperationInfo? mobileGiftCardOperationInfo
   }) = _OperationHistoryItem;
 
   factory OperationHistoryItem.fromJson(Map<String, dynamic> json) => _$OperationHistoryItemFromJson(json);
@@ -112,6 +113,7 @@ enum OperationType {
   earnDeposit,
   earnWithdrawal,
   earnPayroll,
+  buyPrepaidCard,
 }
 
 extension _OperationTypeExtension on OperationType {
@@ -227,6 +229,8 @@ extension _OperationTypeExtension on OperationType {
         return 133;
       case OperationType.earnPayroll:
         return 134;
+      case OperationType.buyPrepaidCard:
+        return 160;
       default:
         return 0;
     }
@@ -352,6 +356,8 @@ class OperationTypeSerialiser implements JsonConverter<OperationType, dynamic> {
       return OperationType.earnWithdrawal;
     } else if (value == '134') {
       return OperationType.earnPayroll;
+    } else if (value == '160') {
+      return OperationType.buyPrepaidCard;
     } else {
       return OperationType.unknown;
     }
@@ -854,3 +860,19 @@ class EarnOperationInfo with _$EarnOperationInfo {
 
   factory EarnOperationInfo.fromJson(Map<String, dynamic> json) => _$EarnOperationInfoFromJson(json);
 }
+
+
+@freezed
+class MobileGiftCardOperationInfo with _$MobileGiftCardOperationInfo {
+  const factory MobileGiftCardOperationInfo({
+    String? mobileCardProduct,
+    String? mobileCardCountry,
+    String? mobileCardOrderId,
+    @DecimalNullSerialiser() Decimal? mobileCardBalance,
+    String? mobileCardAsset,
+  }) = _MobileGiftCardOperationInfo;
+
+  factory MobileGiftCardOperationInfo.fromJson(Map<String, dynamic> json) => _$MobileGiftCardOperationInfoFromJson(json);
+}
+
+	
