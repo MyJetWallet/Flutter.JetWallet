@@ -78,6 +78,24 @@ class StartupService {
 
     await getIt.get<SNetwork>().init(getIt<AppStore>().sessionID);
 
+    await sAnalytics.init(
+      environmentKey: analyticsApiKey,
+      techAcc: userInfo.isTechClient,
+      // this function is necessary to send events for analytics
+      // from the plugins/simple_analytics package to our back end
+      logEventFunc: ({
+        required String name,
+        required Map<String, dynamic> body,
+      }) async {
+        final model = AnalyticRecordModel(
+          eventName: name,
+          eventBody: body,
+        );
+        await getIt.get<SNetwork>().simpleNetworkingUnathorized.getAnalyticApiModule().postAddAnalyticRecord([model]);
+      },
+      userEmail: parsedEmail,
+    );
+
     if (getIt<AppStore>().afterInstall) {
       unawaited(saveInstallID());
     }
@@ -93,24 +111,6 @@ class StartupService {
 
         if (resultRefreshToken == RefreshTokenStatus.success) {
           await userInfo.initPinStatus();
-
-          await sAnalytics.init(
-            environmentKey: analyticsApiKey,
-            techAcc: userInfo.isTechClient,
-            // this function is necessary to send events for analytics
-            // from the plugins/simple_analytics package to our back end
-            logEventFunc: ({
-              required String name,
-              required Map<String, dynamic> body,
-            }) async {
-              final model = AnalyticRecordModel(
-                eventName: name,
-                eventBody: body,
-              );
-              await sNetwork.getAnalyticApiModule().postAddAnalyticRecord([model]);
-            },
-            userEmail: parsedEmail,
-          );
         }
 
         await secondAction();
