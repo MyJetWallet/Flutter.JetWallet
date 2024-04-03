@@ -58,6 +58,10 @@ class SimpleAnalytics {
     isTechAcc = techAcc;
   }
 
+  void updateLogEventFunc(LogEventFunc logEventFunc) {
+    _analytics.updateLogEventFunc(logEventFunc);
+  }
+
   /// Sign Up & Sign In Flow
 
   void signInFlowEnterEmailView() {

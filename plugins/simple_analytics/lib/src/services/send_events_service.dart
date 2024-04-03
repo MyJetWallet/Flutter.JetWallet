@@ -1,3 +1,5 @@
+// ignore_for_file: use_setters_to_change_properties
+
 import 'dart:async';
 
 import 'package:amplitude_flutter/amplitude.dart';
@@ -10,7 +12,7 @@ typedef LogEventFunc = Future<void> Function({
 class SendEventsService {
   final _amplitude = Amplitude.getInstance();
 
-  late final LogEventFunc _logEventFunc;
+  late LogEventFunc _logEventFunc;
 
   Future<void> init(
     String apiKey, {
@@ -23,6 +25,10 @@ class SendEventsService {
 
   Future<void> setUserId(String? userId, {bool? startNewSession}) async {
     await _amplitude.setUserId(userId);
+  }
+
+  void updateLogEventFunc(LogEventFunc newLogEventFunc) {
+    _logEventFunc = newLogEventFunc;
   }
 
   Future<void> logEvent(

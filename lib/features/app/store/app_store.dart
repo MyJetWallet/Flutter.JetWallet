@@ -27,6 +27,7 @@ import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_networking/modules/analytic_records/models/analytic_record.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../utils/helpers/country_code_by_user_register.dart';
@@ -473,6 +474,27 @@ abstract class _AppStoreBase with Store {
 
       authState = authState.copyWith(
         initSessionReceived: true,
+      );
+
+      sAnalytics.updateLogEventFunc(
+        ({
+          required String name,
+          required Map<String, dynamic> body,
+        }) async {
+          final model = AnalyticRecordModel(
+            eventName: name,
+            eventBody: body,
+          );
+          if (authStatus == const AuthorizationUnion.authorized()) {
+            await getIt.get<SNetwork>().simpleNetworking.getAnalyticApiModule().postAddAnalyticRecord([model]);
+          } else {
+            await getIt
+                .get<SNetwork>()
+                .simpleNetworkingUnathorized
+                .getAnalyticApiModule()
+                .postAddAnalyticRecord([model]);
+          }
+        },
       );
 
       await getIt.get<IntercomService>().login();
