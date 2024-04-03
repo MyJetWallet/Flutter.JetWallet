@@ -170,7 +170,9 @@ class _InvestListScreenState extends State<InvestList> {
                 ),
               InvestLine(
                 currency: currency,
-                price: investStore.getProfitByPosition(widget.position),
+                price: widget.position.status == PositionStatus.closed
+                    ? widget.position.profitLoss!
+                    : investStore.getProfitByPosition(widget.position),
                 operationType: widget.position.direction ?? Direction.undefined,
                 isPending: widget.position.status == PositionStatus.cancelled,
                 amount: widget.position.amount ?? Decimal.zero,
@@ -266,7 +268,93 @@ class _InvestListScreenState extends State<InvestList> {
                     symbol: '',
                   ),
                 ),
+                const SpaceH8(),
               ],
+              if (widget.position.stopLossType != TPSLType.undefined ||
+                  widget.position.takeProfitType != TPSLType.undefined) ...[
+                if (widget.position.takeProfitType != TPSLType.undefined) ...[
+                  const SDivider(),
+                  const SpaceH8(),
+                  DataLine(
+                    withDot: true,
+                    dotColor: colors.green,
+                    mainText: intl.invest_limits_take_profit,
+                    secondaryText: widget.position.takeProfitType == TPSLType.amount
+                        ? volumeFormat(
+                            decimal: widget.position.takeProfitAmount ?? Decimal.zero,
+                            accuracy: 2,
+                            symbol: 'USDT',
+                          )
+                        : volumeFormat(
+                            decimal: widget.position.takeProfitPrice ?? Decimal.zero,
+                            accuracy: widget.instrument.priceAccuracy ?? 2,
+                            symbol: '',
+                          ),
+                  ),
+                  const SpaceH8(),
+                ],
+              ],
+              if (widget.position.stopLossType != TPSLType.undefined) ...[
+                if (widget.position.takeProfitType == TPSLType.undefined) const SDivider(),
+                const SpaceH8(),
+                DataLine(
+                  withDot: true,
+                  dotColor: colors.red,
+                  mainText: intl.invest_limits_stop_loss,
+                  secondaryText: widget.position.stopLossType == TPSLType.amount
+                      ? volumeFormat(
+                          decimal: (widget.position.stopLossAmount ?? Decimal.zero) * Decimal.fromInt(-1),
+                          accuracy: 2,
+                          symbol: 'USDT',
+                        )
+                      : volumeFormat(
+                          decimal: (widget.position.stopLossPrice ?? Decimal.zero) * Decimal.fromInt(-1),
+                          accuracy: widget.instrument.priceAccuracy ?? 2,
+                          symbol: '',
+                        ),
+                ),
+                const SpaceH8(),
+              ],
+              const SDivider(),
+              const SpaceH8(),
+              DataLine(
+                mainText: intl.invest_report_market_pl,
+                secondaryText: marketFormat(
+                  decimal: investStore.getMarketPLByPosition(widget.position),
+                  accuracy: 2,
+                  symbol: 'USDT',
+                ),
+              ),
+              const SpaceH8(),
+              DataLine(
+                mainText: intl.invest_report_open_fee,
+                secondaryText: marketFormat(
+                  decimal: (widget.position.openFee ?? Decimal.zero) * Decimal.parse('-1'),
+                  accuracy: 2,
+                  symbol: 'USDT',
+                ),
+              ),
+              const SpaceH8(),
+              if (widget.position.status == PositionStatus.closed) ...[
+                DataLine(
+                  mainText: intl.invest_report_close_fee,
+                  secondaryText: marketFormat(
+                    decimal: (widget.position.closeFee ?? Decimal.zero) * Decimal.parse('-1'),
+                    accuracy: 2,
+                    symbol: 'USDT',
+                  ),
+                ),
+                const SpaceH8(),
+              ],
+              DataLine(
+                mainText: intl.invest_report_rollover,
+                secondaryText: marketFormat(
+                  decimal: widget.position.rollOver ?? Decimal.zero,
+                  accuracy: 2,
+                  symbol: 'USDT',
+                ),
+              ),
+              const SpaceH8(),
               if (widget.position.status != PositionStatus.cancelled) ...[
                 const SpaceH8(),
                 if (widget.position.status == PositionStatus.closed) ...[
@@ -293,91 +381,8 @@ class _InvestListScreenState extends State<InvestList> {
                   ),
                   const SpaceH8(),
                 ],
-                const SDivider(),
-                const SpaceH8(),
-                DataLine(
-                  mainText: intl.invest_report_market_pl,
-                  secondaryText: marketFormat(
-                    decimal: investStore.getMarketPLByPosition(widget.position),
-                    accuracy: 2,
-                    symbol: 'USDT',
-                  ),
-                ),
-                const SpaceH8(),
-                DataLine(
-                  mainText: intl.invest_report_open_fee,
-                  secondaryText: marketFormat(
-                    decimal: (widget.position.openFee ?? Decimal.zero) * Decimal.parse('-1'),
-                    accuracy: 2,
-                    symbol: 'USDT',
-                  ),
-                ),
-                const SpaceH8(),
-                if (widget.position.status == PositionStatus.closed) ...[
-                  DataLine(
-                    mainText: intl.invest_report_close_fee,
-                    secondaryText: marketFormat(
-                      decimal: (widget.position.closeFee ?? Decimal.zero) * Decimal.parse('-1'),
-                      accuracy: 2,
-                      symbol: 'USDT',
-                    ),
-                  ),
-                  const SpaceH8(),
-                ],
-                DataLine(
-                  mainText: intl.invest_report_rollover,
-                  secondaryText: marketFormat(
-                    decimal: widget.position.rollOver ?? Decimal.zero,
-                    accuracy: 2,
-                    symbol: 'USDT',
-                  ),
-                ),
-                const SpaceH8(),
                 if (widget.position.status != PositionStatus.cancelled &&
                     widget.position.status != PositionStatus.closed) ...[
-                  if (widget.position.stopLossType != TPSLType.undefined ||
-                      widget.position.takeProfitType != TPSLType.undefined) ...[
-                    if (widget.position.takeProfitType != TPSLType.undefined) ...[
-                      const SDivider(),
-                      const SpaceH8(),
-                      DataLine(
-                        withDot: true,
-                        dotColor: colors.green,
-                        mainText: intl.invest_limits_take_profit,
-                        secondaryText: widget.position.takeProfitType == TPSLType.amount
-                            ? volumeFormat(
-                                decimal: widget.position.takeProfitAmount ?? Decimal.zero,
-                                accuracy: 2,
-                                symbol: 'USDT',
-                              )
-                            : volumeFormat(
-                                decimal: widget.position.takeProfitPrice ?? Decimal.zero,
-                                accuracy: widget.instrument.priceAccuracy ?? 2,
-                                symbol: '',
-                              ),
-                      ),
-                      const SpaceH8(),
-                    ],
-                    if (widget.position.stopLossType != TPSLType.undefined) ...[
-                      DataLine(
-                        withDot: true,
-                        dotColor: colors.red,
-                        mainText: intl.invest_limits_stop_loss,
-                        secondaryText: widget.position.stopLossType == TPSLType.amount
-                            ? volumeFormat(
-                                decimal: (widget.position.stopLossAmount ?? Decimal.zero) * Decimal.fromInt(-1),
-                                accuracy: 2,
-                                symbol: 'USDT',
-                              )
-                            : volumeFormat(
-                                decimal: (widget.position.stopLossPrice ?? Decimal.zero) * Decimal.fromInt(-1),
-                                accuracy: widget.instrument.priceAccuracy ?? 2,
-                                symbol: '',
-                              ),
-                      ),
-                      const SpaceH8(),
-                    ],
-                  ],
                   const SDivider(),
                   const SpaceH8(),
                   DataLine(
