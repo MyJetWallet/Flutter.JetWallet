@@ -91,7 +91,11 @@ class StartupService {
           eventName: name,
           eventBody: body,
         );
-        await getIt.get<SNetwork>().simpleNetworkingUnathorized.getAnalyticApiModule().postAddAnalyticRecord([model]);
+        if (authStatus) {
+          await getIt.get<SNetwork>().simpleNetworking.getAnalyticApiModule().postAddAnalyticRecord([model]);
+        } else {
+          await getIt.get<SNetwork>().simpleNetworkingUnathorized.getAnalyticApiModule().postAddAnalyticRecord([model]);
+        }
       },
       userEmail: parsedEmail,
     );
