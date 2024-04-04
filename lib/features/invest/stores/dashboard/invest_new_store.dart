@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:charts/main.dart';
 import 'package:charts/simple_chart.dart';
 import 'package:charts/utils/data_feed_util.dart';
@@ -116,6 +115,7 @@ abstract class _InvestNewStoreBase with Store {
   @action
   void onPendingInput(String newValue) {
     pendingValue = Decimal.fromJson(newValue);
+
     if (isSLTPPrice) {
       updateSlAmount();
       updateTPAmount();
@@ -934,9 +934,28 @@ abstract class _InvestNewStoreBase with Store {
     if (instrument == null) {
       return true;
     } else {
-      final marketPrice = pendingValue;
-      final minPriceMarket = (Decimal.fromInt(1) - instrument!.pendingPriceRestrictions!) * pendingValue;
-      final maxPriceMarket = (Decimal.fromInt(1) + instrument!.pendingPriceRestrictions!) * pendingValue;
+      final investStore = getIt.get<InvestDashboardStore>();
+      final marketPrice = investStore.getPendingPriceBySymbol(instrument?.symbol ?? '');
+
+      final minPriceMarket = (Decimal.fromInt(1) - instrument!.pendingPriceRestrictions!) * marketPrice;
+      final maxPriceMarket = (Decimal.fromInt(1) + instrument!.pendingPriceRestrictions!) * marketPrice;
+
+      if (pendingValue < minPriceMarket) {
+        sNotification.showError(
+          '${intl.invest_error_pending_price} $minPriceMarket - $maxPriceMarket',
+          id: 1,
+          needFeedback: true,
+        );
+        return true;
+      } else if (pendingValue > maxPriceMarket) {
+        sNotification.showError(
+          '${intl.invest_error_pending_price} $minPriceMarket - $maxPriceMarket',
+          id: 1,
+          needFeedback: true,
+        );
+        return true;
+      }
+
       if (amountValue > instrument!.maxVolume!) {
         sNotification.showError(
           '${intl.invest_error_amount_higher}${instrument!.maxVolume!}',
