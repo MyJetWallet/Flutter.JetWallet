@@ -132,7 +132,8 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                     child: SIButton(
                       onTap: () {
                         if ((investNewStore.isOrderMode && investNewStore.hasPendingError()) ||
-                            (!investNewStore.isOrderMode && investNewStore.hasActiveError())) {
+                            (!investNewStore.isOrderMode && investNewStore.hasActiveError()) ||
+                            investNewStore.hasPendingPriceError()) {
                           return;
                         } else {
                           sRouter.push(
@@ -564,9 +565,8 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                               isAmount: !investNewStore.isSLTPPrice,
                               isSl: false,
                             )[0],
-                            currentValue: investNewStore.isSLTPPrice
-                                ? investNewStore.tpPriceValue
-                                : investNewStore.tpAmountValue,
+                            currentValue:
+                                investNewStore.isSLTPPrice ? investNewStore.tpPriceValue : investNewStore.tpAmountValue,
                             divisions: 4,
                             withArray: true,
                             fullScale: !investNewStore.isSLTPPrice,

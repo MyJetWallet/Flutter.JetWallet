@@ -930,31 +930,40 @@ abstract class _InvestNewStoreBase with Store {
   }
 
   @action
+  bool hasPendingPriceError() {
+    final investStore = getIt.get<InvestDashboardStore>();
+    final marketPrice = investStore.getPendingPriceBySymbol(instrument?.symbol ?? '');
+
+    final minPriceMarket = (Decimal.fromInt(1) - instrument!.pendingPriceRestrictions!) * marketPrice;
+    final maxPriceMarket = (Decimal.fromInt(1) + instrument!.pendingPriceRestrictions!) * marketPrice;
+
+    if (pendingValue < minPriceMarket) {
+      sNotification.showError(
+        '${intl.invest_error_pending_price} $minPriceMarket - $maxPriceMarket',
+        id: 1,
+        needFeedback: true,
+      );
+      return true;
+    } else if (pendingValue > maxPriceMarket) {
+      sNotification.showError(
+        '${intl.invest_error_pending_price} $minPriceMarket - $maxPriceMarket',
+        id: 1,
+        needFeedback: true,
+      );
+      return true;
+    }
+    return false;
+  }
+
+  @action
   bool hasPendingError() {
     if (instrument == null) {
       return true;
     } else {
-      final investStore = getIt.get<InvestDashboardStore>();
-      final marketPrice = investStore.getPendingPriceBySymbol(instrument?.symbol ?? '');
+      final marketPrice = pendingValue;
 
-      final minPriceMarket = (Decimal.fromInt(1) - instrument!.pendingPriceRestrictions!) * marketPrice;
-      final maxPriceMarket = (Decimal.fromInt(1) + instrument!.pendingPriceRestrictions!) * marketPrice;
-
-      if (pendingValue < minPriceMarket) {
-        sNotification.showError(
-          '${intl.invest_error_pending_price} $minPriceMarket - $maxPriceMarket',
-          id: 1,
-          needFeedback: true,
-        );
-        return true;
-      } else if (pendingValue > maxPriceMarket) {
-        sNotification.showError(
-          '${intl.invest_error_pending_price} $minPriceMarket - $maxPriceMarket',
-          id: 1,
-          needFeedback: true,
-        );
-        return true;
-      }
+      final minPriceMarket = (Decimal.fromInt(1) - instrument!.pendingPriceRestrictions!) * pendingValue;
+      final maxPriceMarket = (Decimal.fromInt(1) + instrument!.pendingPriceRestrictions!) * pendingValue;
 
       if (amountValue > instrument!.maxVolume!) {
         sNotification.showError(
