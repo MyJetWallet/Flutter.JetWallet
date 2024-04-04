@@ -122,6 +122,7 @@ class SymbolInfo extends StatelessObserverWidget {
             Stack(
               children: [
                 Chart(
+                  isLongInvest: true,
                   localizedChartResolutionButton: localizedChartResolutionButton(context),
                   onResolutionChanged: (resolution) {},
                   onChartTypeChanged: (type) {},

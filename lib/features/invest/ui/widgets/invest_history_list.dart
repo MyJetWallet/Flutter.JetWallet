@@ -121,6 +121,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
           ),
           sliver: InvestHistory.of(context).union.when(
             loaded: () {
+              listToShow.sort((a, b) => b.creationTimestamp!.compareTo(a.creationTimestamp!));
               return listToShow.isEmpty
                   ? SliverToBoxAdapter(
                       child: SizedBox(

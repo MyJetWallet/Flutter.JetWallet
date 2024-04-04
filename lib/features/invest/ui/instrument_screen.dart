@@ -75,6 +75,13 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
 
     final colors = sKit.colors;
     final currency = currencyFrom(currencies, 'USDT');
+
+    final listToShow = investPositionsStore.pendingList
+        .where(
+          (element) => element.symbol == widget.instrument.symbol,
+        )
+        .toList();
+
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       loading: investPositionsStore.loader,
@@ -307,7 +314,7 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      if (investPositionsStore.pendingList.isNotEmpty)
+                      if (investPositionsStore.pendingList.isNotEmpty && listToShow.isNotEmpty)
                         Row(
                           children: [
                             SecondarySwitch(
