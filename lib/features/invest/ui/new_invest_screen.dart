@@ -508,38 +508,46 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                     Row(
                       children: [
                         Expanded(
-                          child: InvestInput(
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(RegExp('[0-9-]')),
-                            ],
-                            onChanged: investNewStore.onTPAmountInput,
-                            icon: Row(
-                              children: [
-                                Text(
-                                  currency.symbol,
-                                  style: STStyles.body2InvestM.copyWith(
-                                    color: colors.black,
-                                  ),
+                          child: Observer(
+                            builder: (context) {
+                              return InvestInput(
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(RegExp('[0-9-]')),
+                                ],
+                                onChanged: investNewStore.onTPAmountInput,
+                                icon: Row(
+                                  children: [
+                                    Text(
+                                      currency.symbol,
+                                      style: STStyles.body2InvestM.copyWith(
+                                        color: colors.black,
+                                      ),
+                                    ),
+                                    const SpaceW10(),
+                                  ],
                                 ),
-                                const SpaceW10(),
-                              ],
-                            ),
-                            controller: investNewStore.tpAmountController,
-                            keyboardType: TextInputType.number,
-                            enabled: !investNewStore.isSLTPPrice && investNewStore.isTP,
+                                controller: investNewStore.tpAmountController,
+                                keyboardType: TextInputType.number,
+                                enabled: !investNewStore.isSLTPPrice && investNewStore.isTP,
+                              );
+                            },
                           ),
                         ),
                         const SpaceW12(),
                         Expanded(
-                          child: InvestInput(
-                            onChanged: investNewStore.onTPPriceInput,
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(RegExp('[0-9,.]')),
-                            ],
-                            icon: const SizedBox(),
-                            controller: investNewStore.tpPriceController,
-                            keyboardType: TextInputType.number,
-                            enabled: investNewStore.isSLTPPrice,
+                          child: Observer(
+                            builder: (context) {
+                              return InvestInput(
+                                onChanged: investNewStore.onTPPriceInput,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(RegExp('[0-9,.]')),
+                                ],
+                                icon: const SizedBox(),
+                                controller: investNewStore.tpPriceController,
+                                keyboardType: TextInputType.number,
+                                enabled: investNewStore.isSLTPPrice,
+                              );
+                            },
                           ),
                         ),
                       ],
@@ -549,54 +557,58 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                         widget.instrument.takeProfitPriceLimits != null &&
                         widget.instrument.takeProfitPriceLimits!.isNotEmpty) ...[
                       const SpaceH8(),
-                      InvestSliderInput(
-                        isDisabled: !investNewStore.isTP,
-                        maxValue: calculateLimitsPositions(
-                          price: investNewStore.isOrderMode
-                              ? investNewStore.pendingValue
-                              : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
-                          amount: investNewStore.amountValue,
-                          limits: investNewStore.isSLTPPrice
-                              ? widget.instrument.takeProfitPriceLimits!
-                              : widget.instrument.takeProfitAmountLimits!,
-                          isAmount: !investNewStore.isSLTPPrice,
-                          isSl: false,
-                        )[4],
-                        minValue: calculateLimitsPositions(
-                          price: investNewStore.isOrderMode
-                              ? investNewStore.pendingValue
-                              : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
-                          amount: investNewStore.amountValue,
-                          limits: investNewStore.isSLTPPrice
-                              ? widget.instrument.takeProfitPriceLimits!
-                              : widget.instrument.takeProfitAmountLimits!,
-                          isAmount: !investNewStore.isSLTPPrice,
-                          isSl: false,
-                        )[0],
-                        currentValue:
-                            investNewStore.isSLTPPrice ? investNewStore.tpPriceValue : investNewStore.tpAmountValue,
-                        divisions: 4,
-                        withArray: true,
-                        fullScale: !investNewStore.isSLTPPrice,
-                        arrayOfValues: calculateLimitsPositions(
-                          price: investNewStore.isOrderMode
-                              ? investNewStore.pendingValue
-                              : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
-                          amount: investNewStore.amountValue,
-                          limits: investNewStore.isSLTPPrice
-                              ? widget.instrument.takeProfitPriceLimits!
-                              : widget.instrument.takeProfitAmountLimits!,
-                          isAmount: !investNewStore.isSLTPPrice,
-                          isSl: false,
-                        ),
-                        onChange: (double value) {
-                          if (investNewStore.isSLTPPrice) {
-                            investNewStore.onTPPriceInput('$value');
-                            investNewStore.tpPriceController.text = '$value';
-                          } else {
-                            investNewStore.onTPAmountInput('${value.toInt()}');
-                            investNewStore.tpAmountController.text = '${value.toInt()}';
-                          }
+                      Observer(
+                        builder: (context) {
+                          return InvestSliderInput(
+                            isDisabled: !investNewStore.isTP,
+                            maxValue: calculateLimitsPositions(
+                              price: investNewStore.isOrderMode
+                                  ? investNewStore.pendingValue
+                                  : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
+                              amount: investNewStore.amountValue,
+                              limits: investNewStore.isSLTPPrice
+                                  ? widget.instrument.takeProfitPriceLimits!
+                                  : widget.instrument.takeProfitAmountLimits!,
+                              isAmount: !investNewStore.isSLTPPrice,
+                              isSl: false,
+                            )[4],
+                            minValue: calculateLimitsPositions(
+                              price: investNewStore.isOrderMode
+                                  ? investNewStore.pendingValue
+                                  : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
+                              amount: investNewStore.amountValue,
+                              limits: investNewStore.isSLTPPrice
+                                  ? widget.instrument.takeProfitPriceLimits!
+                                  : widget.instrument.takeProfitAmountLimits!,
+                              isAmount: !investNewStore.isSLTPPrice,
+                              isSl: false,
+                            )[0],
+                            currentValue:
+                                investNewStore.isSLTPPrice ? investNewStore.tpPriceValue : investNewStore.tpAmountValue,
+                            divisions: 4,
+                            withArray: true,
+                            fullScale: !investNewStore.isSLTPPrice,
+                            arrayOfValues: calculateLimitsPositions(
+                              price: investNewStore.isOrderMode
+                                  ? investNewStore.pendingValue
+                                  : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
+                              amount: investNewStore.amountValue,
+                              limits: investNewStore.isSLTPPrice
+                                  ? widget.instrument.takeProfitPriceLimits!
+                                  : widget.instrument.takeProfitAmountLimits!,
+                              isAmount: !investNewStore.isSLTPPrice,
+                              isSl: false,
+                            ),
+                            onChange: (double value) {
+                              if (investNewStore.isSLTPPrice) {
+                                investNewStore.onTPPriceInput('$value');
+                                investNewStore.tpPriceController.text = '$value';
+                              } else {
+                                investNewStore.onTPAmountInput('${value.toInt()}');
+                                investNewStore.tpAmountController.text = '${value.toInt()}';
+                              }
+                            },
+                          );
                         },
                       ),
                     ],
@@ -658,38 +670,46 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                     Row(
                       children: [
                         Expanded(
-                          child: InvestInput(
-                            onChanged: investNewStore.onSLAmountInput,
-                            icon: Row(
-                              children: [
-                                Text(
-                                  currency.symbol,
-                                  style: STStyles.body2InvestM.copyWith(
-                                    color: colors.black,
-                                  ),
+                          child: Observer(
+                            builder: (context) {
+                              return InvestInput(
+                                onChanged: investNewStore.onSLAmountInput,
+                                icon: Row(
+                                  children: [
+                                    Text(
+                                      currency.symbol,
+                                      style: STStyles.body2InvestM.copyWith(
+                                        color: colors.black,
+                                      ),
+                                    ),
+                                    const SpaceW10(),
+                                  ],
                                 ),
-                                const SpaceW10(),
-                              ],
-                            ),
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(RegExp('[0-9-]')),
-                            ],
-                            controller: investNewStore.slAmountController,
-                            keyboardType: TextInputType.number,
-                            enabled: !investNewStore.isSLTPPrice && investNewStore.isSl,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(RegExp('[0-9-]')),
+                                ],
+                                controller: investNewStore.slAmountController,
+                                keyboardType: TextInputType.number,
+                                enabled: !investNewStore.isSLTPPrice && investNewStore.isSl,
+                              );
+                            },
                           ),
                         ),
                         const SpaceW12(),
                         Expanded(
-                          child: InvestInput(
-                            onChanged: investNewStore.onSLPriceInput,
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(RegExp('[0-9,.]')),
-                            ],
-                            icon: const SizedBox(),
-                            controller: investNewStore.slPriceController,
-                            keyboardType: TextInputType.number,
-                            enabled: investNewStore.isSLTPPrice,
+                          child: Observer(
+                            builder: (context) {
+                              return InvestInput(
+                                onChanged: investNewStore.onSLPriceInput,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(RegExp('[0-9,.]')),
+                                ],
+                                icon: const SizedBox(),
+                                controller: investNewStore.slPriceController,
+                                keyboardType: TextInputType.number,
+                                enabled: investNewStore.isSLTPPrice,
+                              );
+                            },
                           ),
                         ),
                       ],
@@ -699,57 +719,61 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                         widget.instrument.stopLossPriceLimits != null &&
                         widget.instrument.stopLossPriceLimits!.isNotEmpty) ...[
                       const SpaceH8(),
-                      InvestSliderInput(
-                        isDisabled: !investNewStore.isSl,
-                        maxValue: calculateLimitsPositions(
-                          price: investNewStore.isOrderMode
-                              ? investNewStore.pendingValue
-                              : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
-                          amount: investNewStore.amountValue,
-                          limits: investNewStore.isSLTPPrice
-                              ? widget.instrument.stopLossPriceLimits!
-                              : widget.instrument.stopLossAmountLimits!,
-                          isAmount: !investNewStore.isSLTPPrice,
-                          isSl: true,
-                        )[4]
-                            .abs(),
-                        minValue: calculateLimitsPositions(
-                          price: investNewStore.isOrderMode
-                              ? investNewStore.pendingValue
-                              : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
-                          amount: investNewStore.amountValue,
-                          limits: investNewStore.isSLTPPrice
-                              ? widget.instrument.stopLossPriceLimits!
-                              : widget.instrument.stopLossAmountLimits!,
-                          isAmount: !investNewStore.isSLTPPrice,
-                          isSl: true,
-                        )[0]
-                            .abs(),
-                        currentValue: investNewStore.isSLTPPrice
-                            ? investNewStore.slPriceValue
-                            : investNewStore.slAmountValue.abs(),
-                        divisions: 4,
-                        withArray: true,
-                        fullScale: !investNewStore.isSLTPPrice,
-                        arrayOfValues: calculateLimitsPositions(
-                          price: investNewStore.isOrderMode
-                              ? investNewStore.pendingValue
-                              : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
-                          amount: investNewStore.amountValue,
-                          limits: investNewStore.isSLTPPrice
-                              ? widget.instrument.stopLossPriceLimits!
-                              : widget.instrument.stopLossAmountLimits!,
-                          isAmount: !investNewStore.isSLTPPrice,
-                          isSl: true,
-                        ),
-                        onChange: (double value) {
-                          if (investNewStore.isSLTPPrice) {
-                            investNewStore.onSLPriceInput('$value');
-                            investNewStore.slPriceController.text = '${value.abs()}';
-                          } else {
-                            investNewStore.onSLAmountInput('${value.toInt()}');
-                            investNewStore.slAmountController.text = '-${value.abs().toInt()}';
-                          }
+                      Observer(
+                        builder: (context) {
+                          return InvestSliderInput(
+                            isDisabled: !investNewStore.isSl,
+                            maxValue: calculateLimitsPositions(
+                              price: investNewStore.isOrderMode
+                                  ? investNewStore.pendingValue
+                                  : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
+                              amount: investNewStore.amountValue,
+                              limits: investNewStore.isSLTPPrice
+                                  ? widget.instrument.stopLossPriceLimits!
+                                  : widget.instrument.stopLossAmountLimits!,
+                              isAmount: !investNewStore.isSLTPPrice,
+                              isSl: true,
+                            )[4]
+                                .abs(),
+                            minValue: calculateLimitsPositions(
+                              price: investNewStore.isOrderMode
+                                  ? investNewStore.pendingValue
+                                  : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
+                              amount: investNewStore.amountValue,
+                              limits: investNewStore.isSLTPPrice
+                                  ? widget.instrument.stopLossPriceLimits!
+                                  : widget.instrument.stopLossAmountLimits!,
+                              isAmount: !investNewStore.isSLTPPrice,
+                              isSl: true,
+                            )[0]
+                                .abs(),
+                            currentValue: investNewStore.isSLTPPrice
+                                ? investNewStore.slPriceValue
+                                : investNewStore.slAmountValue.abs(),
+                            divisions: 4,
+                            withArray: true,
+                            fullScale: !investNewStore.isSLTPPrice,
+                            arrayOfValues: calculateLimitsPositions(
+                              price: investNewStore.isOrderMode
+                                  ? investNewStore.pendingValue
+                                  : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
+                              amount: investNewStore.amountValue,
+                              limits: investNewStore.isSLTPPrice
+                                  ? widget.instrument.stopLossPriceLimits!
+                                  : widget.instrument.stopLossAmountLimits!,
+                              isAmount: !investNewStore.isSLTPPrice,
+                              isSl: true,
+                            ),
+                            onChange: (double value) {
+                              if (investNewStore.isSLTPPrice) {
+                                investNewStore.onSLPriceInput('$value');
+                                investNewStore.slPriceController.text = '${value.abs()}';
+                              } else {
+                                investNewStore.onSLAmountInput('${value.toInt()}');
+                                investNewStore.slAmountController.text = '-${value.abs().toInt()}';
+                              }
+                            },
+                          );
                         },
                       ),
                     ],
