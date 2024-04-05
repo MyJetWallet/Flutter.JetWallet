@@ -13,6 +13,7 @@ import 'package:jetwallet/features/invest/ui/invests/above_list_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/symbol_info_without_chart.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_close_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
+import 'package:jetwallet/features/invest/ui/widgets/invest_modify_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:jetwallet/utils/helpers/localized_chart_resolution_button.dart';
 import 'package:simple_kit/core/simple_kit.dart';
@@ -301,9 +302,22 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
           SPaddingH24(
             child: NewInvestHeader(
               showRollover: false,
-              showModify: false,
+              showModify: true,
               showIcon: false,
               showFull: false,
+              onButtonTap: () {
+                showInvestModifyBottomSheet(
+                  context: context,
+                  instrument: widget.instrument,
+                  position: investNewStore.position!,
+                  onPrimaryButtonTap: () {
+                    Navigator.pop(context);
+                  },
+                  onSecondaryButtonTap: () {
+                    investNewStore.saveLimits(investNewStore.position!.id!);
+                  },
+                );
+              },
               title: intl.invest_limits,
             ),
           ),
