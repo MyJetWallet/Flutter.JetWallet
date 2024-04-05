@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:charts/main.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -13,28 +14,25 @@ import 'package:jetwallet/features/invest/ui/invests/symbol_info_without_chart.d
 import 'package:jetwallet/features/invest/ui/widgets/invest_close_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
+import 'package:jetwallet/utils/helpers/localized_chart_resolution_button.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
 import 'package:simple_kit/modules/shared/simple_divider.dart';
 import 'package:simple_kit/modules/shared/simple_paddings.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit/modules/shared/stack_loader/components/loader_spinner.dart';
 import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
-
 import '../../../core/di/di.dart';
 import '../../../core/l10n/i10n.dart';
 import '../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../utils/formatting/base/volume_format.dart';
 import '../../../utils/helpers/currency_from.dart';
-import 'chart/invest_chart.dart';
 import 'dashboard/new_invest_header.dart';
 import 'invests/data_line.dart';
 import 'invests/invest_line.dart';
-import 'invests/secondary_switch.dart';
 
 @RoutePage(name: 'PendingInvestManageRouter')
 class PendingInvestManageScreen extends StatefulObserverWidget {
@@ -211,12 +209,12 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
           ],
         ),
       ),
-      child: SPaddingH24(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SymbolInfoWithoutChart(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SPaddingH24(
+            child: SymbolInfoWithoutChart(
               percent: investStore.getPercentSymbol(widget.instrument.symbol ?? ''),
               price: investStore.getPriceBySymbol(widget.instrument.symbol ?? ''),
               instrument: widget.instrument,
@@ -225,68 +223,34 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
                 showInvestMarketWatchBottomSheet(context);
               },
             ),
-            Row(
-              children: [
-                Observer(
-                  builder: (BuildContext context) {
-                    return SecondarySwitch(
-                      onChangeTab: (value) {
-                        investNewStore.setChartInterval(value);
-                      },
-                      activeTab: investNewStore.chartInterval,
-                      fullWidth: false,
-                      fromRight: false,
-                      tabs: const [
-                        '15m',
-                        '1h',
-                        '4h',
-                        '1d',
-                      ],
-                    );
-                  },
-                ),
-                const Spacer(),
-                Observer(
-                  builder: (BuildContext context) {
-                    return SecondarySwitch(
-                      onChangeTab: (value) {
-                        investNewStore.setChartType(value);
-                      },
-                      activeTab: investNewStore.chartType,
-                      fullWidth: false,
-                      fromRight: false,
-                      tabs: const [],
-                      tabsAssets: [
-                        Assets.svg.invest.chartLine.simpleSvg(
-                          width: 16,
-                          height: 16,
-                          color: investNewStore.chartType == 0 ? colors.black : colors.grey2,
-                        ),
-                        Assets.svg.invest.chartCandles.simpleSvg(
-                          width: 16,
-                          height: 16,
-                          color: investNewStore.chartType == 1 ? colors.black : colors.grey2,
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ],
-            ),
-            const SpaceH8(),
-            Observer(
-              builder: (BuildContext context) {
-                return InvestChart(
-                  instrument: widget.instrument,
-                  chartInterval: investNewStore.getChartInterval(),
-                  chartType: investNewStore.getChartType(),
-                  width: '${MediaQuery.of(context).size.width - 48}',
-                  height: '${MediaQuery.of(context).size.height - 575}',
-                );
-              },
-            ),
-            const SpaceH16(),
-            InvestLine(
+          ),
+          const SpaceH8(),
+          Observer(
+            builder: (BuildContext context) {
+              return Chart(
+                localizedChartResolutionButton: localizedChartResolutionButton(context),
+                onResolutionChanged: (resolution) {
+                  investNewStore.updateResolution(
+                    resolution,
+                    widget.instrument.symbol ?? '',
+                  );
+                },
+                onChartTypeChanged: (type) {},
+                candleResolution: investNewStore.resolution,
+                formatPrice: volumeFormat,
+                candles: investNewStore.candles[investNewStore.resolution],
+                onCandleSelected: (value) {},
+                chartHeight: 240,
+                chartWidgetHeight: 297,
+                isAssetChart: true,
+                loader: const LoaderSpinner(),
+                accuracy: widget.instrument.priceAccuracy ?? 2,
+              );
+            },
+          ),
+          const SpaceH16(),
+          SPaddingH24(
+            child: InvestLine(
               currency: currencyFrom(currencies, widget.instrument.name ?? ''),
               price: widget.position.profitLoss ?? Decimal.zero,
               operationType: widget.position.direction ?? Direction.undefined,
@@ -300,16 +264,20 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
               accuracy: widget.instrument.priceAccuracy ?? 2,
               onTap: () {},
             ),
-            const SDivider(),
-            const SpaceH8(),
-            NewInvestHeader(
+          ),
+          const SPaddingH24(child: SDivider()),
+          const SpaceH8(),
+          SPaddingH24(
+            child: NewInvestHeader(
               showRollover: false,
               showModify: false,
               showIcon: false,
               showFull: false,
               title: intl.invest_pending_invest,
             ),
-            DataLine(
+          ),
+          SPaddingH24(
+            child: DataLine(
               mainText: intl.invest_trigger_price,
               secondaryText: marketFormat(
                 decimal: investNewStore.position!.pendingPrice ?? Decimal.zero,
@@ -317,8 +285,10 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
                 symbol: '',
               ),
             ),
-            const SpaceH8(),
-            DataLine(
+          ),
+          const SpaceH8(),
+          SPaddingH24(
+            child: DataLine(
               mainText: intl.invest_s_o_price,
               secondaryText: marketFormat(
                 decimal: investNewStore.position!.stopOutPrice ?? Decimal.zero,
@@ -326,18 +296,22 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
                 symbol: '',
               ),
             ),
-            const SpaceH11(),
-            NewInvestHeader(
+          ),
+          const SpaceH11(),
+          SPaddingH24(
+            child: NewInvestHeader(
               showRollover: false,
               showModify: false,
               showIcon: false,
               showFull: false,
               title: intl.invest_limits,
             ),
-            if (investNewStore.position!.stopLossType != TPSLType.undefined ||
-                investNewStore.position!.takeProfitType != TPSLType.undefined) ...[
-              if (investNewStore.position!.takeProfitType != TPSLType.undefined) ...[
-                DataLine(
+          ),
+          if (investNewStore.position!.stopLossType != TPSLType.undefined ||
+              investNewStore.position!.takeProfitType != TPSLType.undefined) ...[
+            if (investNewStore.position!.takeProfitType != TPSLType.undefined) ...[
+              SPaddingH24(
+                child: DataLine(
                   withDot: true,
                   dotColor: colors.green,
                   mainText: intl.invest_limits_take_profit,
@@ -353,10 +327,12 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
                           symbol: '',
                         ),
                 ),
-                const SpaceH8(),
-              ],
-              if (investNewStore.position!.stopLossType != TPSLType.undefined) ...[
-                DataLine(
+              ),
+              const SpaceH8(),
+            ],
+            if (investNewStore.position!.stopLossType != TPSLType.undefined) ...[
+              SPaddingH24(
+                child: DataLine(
                   withDot: true,
                   dotColor: colors.red,
                   mainText: intl.invest_limits_stop_loss,
@@ -372,11 +348,11 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
                           symbol: '',
                         ),
                 ),
-                const SpaceH8(),
-              ],
+              ),
+              const SpaceH8(),
             ],
           ],
-        ),
+        ],
       ),
     );
   }
