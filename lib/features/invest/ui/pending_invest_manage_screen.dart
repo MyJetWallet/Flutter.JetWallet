@@ -331,20 +331,9 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
             ),
           ),
           const SpaceH8(),
-          SPaddingH24(
-            child: DataLine(
-              mainText: intl.invest_s_o_price,
-              secondaryText: marketFormat(
-                decimal: investNewStore.position!.stopOutPrice ?? Decimal.zero,
-                accuracy: 2,
-                symbol: '',
-              ),
-            ),
-          ),
           if (investNewStore.position!.stopLossType != TPSLType.undefined ||
               investNewStore.position!.takeProfitType != TPSLType.undefined) ...[
             if (investNewStore.position!.takeProfitType != TPSLType.undefined) ...[
-              const SpaceH11(),
               SPaddingH24(
                 child: NewInvestHeader(
                   showRollover: false,
