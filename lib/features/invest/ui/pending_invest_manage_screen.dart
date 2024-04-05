@@ -5,6 +5,7 @@ import 'package:charts/main.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_new_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_positions_store.dart';
@@ -22,6 +23,8 @@ import 'package:simple_kit/modules/shared/simple_divider.dart';
 import 'package:simple_kit/modules/shared/simple_paddings.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit/modules/shared/stack_loader/components/loader_spinner.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
@@ -121,95 +124,135 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
         ),
       ),
       bottomNavigationBar: SizedBox(
-        height: 98,
-        child: Column(
-          children: [
-            const SpaceH20(),
-            SPaddingH24(
-              child: SIButton(
-                onTap: () {
-                  showInvestCloseBottomSheet(
-                    context: context,
-                    isProfit: investStore.getProfitByPosition(investNewStore.position!) > Decimal.zero,
-                    onPrimaryButtonTap: () {
-                      Navigator.pop(context);
-                    },
-                    onSecondaryButtonTap: () {
-                      investPositionStore.closeActivePosition(
-                        context,
-                        investNewStore.position!,
-                        widget.instrument,
-                      );
-                    },
-                    primaryButtonName: intl.invest_alert_cancel,
-                    secondaryButtonName: intl.invest_close,
-                    widget: Column(
-                      children: [
-                        AboveListLine(
-                          mainColumn: intl.invest_list_instrument,
-                          secondaryColumn: '${intl.invest_amount} (USDT)',
-                          lastColumn: '${intl.invest_alert_close_all_profit} (USDT)',
-                          onCheckboxTap: (value) {},
+        height: 98.0,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SpaceH20(),
+              SPaddingH24(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: SIButton(
+                        activeColor: colors.black,
+                        activeNameColor: colors.white,
+                        inactiveColor: colors.grey2,
+                        inactiveNameColor: colors.grey4,
+                        active: true,
+                        icon: Assets.svg.invest.investClose.simpleSvg(
+                          width: 20,
+                          height: 20,
                         ),
-                        InvestLine(
-                          currency: currencyFrom(currencies, widget.instrument.name ?? ''),
-                          price: investStore.getProfitByPosition(investNewStore.position!),
-                          operationType: investNewStore.position!.direction ?? Direction.undefined,
-                          isPending: false,
-                          amount: investNewStore.position!.amount ?? Decimal.zero,
-                          leverage: Decimal.fromInt(investNewStore.position!.multiplicator ?? 0),
-                          isGroup: false,
-                          historyCount: 1,
-                          profit: investStore.getProfitByPosition(investNewStore.position!),
-                          profitPercent: investStore.getYieldByPosition(investNewStore.position!),
-                          accuracy: widget.instrument.priceAccuracy ?? 2,
-                          onTap: () {},
-                        ),
-                        const SPaddingH24(child: SDivider()),
-                        const SpaceH16(),
-                        DataLine(
-                          mainText: intl.invest_price,
-                          secondaryText: volumeFormat(
-                            decimal: investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
-                            accuracy: widget.instrument.priceAccuracy ?? 2,
-                            symbol: '',
-                          ),
-                        ),
-                        const SpaceH16(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            DataLine(
-                              fullWidth: false,
-                              mainText: intl.invest_close_fee,
-                              secondaryText: 'Est. ${volumeFormat(
-                                decimal: (investNewStore.position!.volumeBase ?? Decimal.zero) *
-                                    investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? '') *
-                                    (widget.instrument.closeFee ?? Decimal.zero),
-                                accuracy: widget.instrument.priceAccuracy ?? 2,
-                                symbol: 'USDT',
-                              )}',
-                            ),
-                          ],
-                        ),
-                      ],
+                        name: intl.invest_delete,
+                        onTap: () {},
+                      ),
                     ),
-                  );
-                },
-                name: intl.invest_close,
-                activeColor: colors.black,
-                activeNameColor: investStore.getProfitByPosition(investNewStore.position!) > Decimal.zero
-                    ? colors.green
-                    : colors.red,
-                active: true,
-                inactiveColor: colors.black,
-                inactiveNameColor: colors.white,
+                    const SpaceW10(),
+                    Expanded(
+                      child: SIButton(
+                        borderColor: colors.blue,
+                        activeColor: colors.white,
+                        activeNameColor: colors.blue,
+                        inactiveColor: colors.grey4,
+                        inactiveNameColor: colors.grey2,
+                        active: true,
+                        icon: Assets.svg.invest.edit.simpleSvg(
+                          width: 20,
+                          height: 20,
+                        ),
+                        name: intl.invest_modify,
+                        onTap: () {
+                          showInvestModifyBottomSheet(
+                            context: context,
+                            instrument: widget.instrument,
+                            position: investNewStore.position!,
+                            onPrimaryButtonTap: () {
+                              Navigator.pop(context);
+                            },
+                            onSecondaryButtonTap: () {
+                              investNewStore.saveLimits(investNewStore.position!.id!);
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SpaceH34(),
-          ],
+              const SpaceH34(),
+            ],
+          ),
         ),
       ),
+
+      // showInvestCloseBottomSheet(
+      //   context: context,
+      //   isProfit: investStore.getProfitByPosition(investNewStore.position!) > Decimal.zero,
+      //   onPrimaryButtonTap: () {
+      //     Navigator.pop(context);
+      //   },
+      //   onSecondaryButtonTap: () {
+      //     investPositionStore.closeActivePosition(
+      //       context,
+      //       investNewStore.position!,
+      //       widget.instrument,
+      //     );
+      //   },
+      //   primaryButtonName: intl.invest_alert_cancel,
+      //   secondaryButtonName: intl.invest_close,
+      //   widget: Column(
+      //     children: [
+      //       AboveListLine(
+      //         mainColumn: intl.invest_list_instrument,
+      //         secondaryColumn: '${intl.invest_amount} (USDT)',
+      //         lastColumn: '${intl.invest_alert_close_all_profit} (USDT)',
+      //         onCheckboxTap: (value) {},
+      //       ),
+      //       InvestLine(
+      //         currency: currencyFrom(currencies, widget.instrument.name ?? ''),
+      //         price: investStore.getProfitByPosition(investNewStore.position!),
+      //         operationType: investNewStore.position!.direction ?? Direction.undefined,
+      //         isPending: false,
+      //         amount: investNewStore.position!.amount ?? Decimal.zero,
+      //         leverage: Decimal.fromInt(investNewStore.position!.multiplicator ?? 0),
+      //         isGroup: false,
+      //         historyCount: 1,
+      //         profit: investStore.getProfitByPosition(investNewStore.position!),
+      //         profitPercent: investStore.getYieldByPosition(investNewStore.position!),
+      //         accuracy: widget.instrument.priceAccuracy ?? 2,
+      //         onTap: () {},
+      //       ),
+      //       const SPaddingH24(child: SDivider()),
+      //       const SpaceH16(),
+      //       DataLine(
+      //         mainText: intl.invest_price,
+      //         secondaryText: volumeFormat(
+      //           decimal: investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
+      //           accuracy: widget.instrument.priceAccuracy ?? 2,
+      //           symbol: '',
+      //         ),
+      //       ),
+      //       const SpaceH16(),
+      //       Row(
+      //         mainAxisAlignment: MainAxisAlignment.center,
+      //         children: [
+      //           DataLine(
+      //             fullWidth: false,
+      //             mainText: intl.invest_close_fee,
+      //             secondaryText: 'Est. ${volumeFormat(
+      //               decimal: (investNewStore.position!.volumeBase ?? Decimal.zero) *
+      //                   investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? '') *
+      //                   (widget.instrument.closeFee ?? Decimal.zero),
+      //               accuracy: widget.instrument.priceAccuracy ?? 2,
+      //               symbol: 'USDT',
+      //             )}',
+      //           ),
+      //         ],
+      //       ),
+      //     ],
+      //   ),
+      // );
+
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -298,32 +341,20 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
               ),
             ),
           ),
-          const SpaceH11(),
-          SPaddingH24(
-            child: NewInvestHeader(
-              showRollover: false,
-              showModify: true,
-              showIcon: false,
-              showFull: false,
-              onButtonTap: () {
-                showInvestModifyBottomSheet(
-                  context: context,
-                  instrument: widget.instrument,
-                  position: investNewStore.position!,
-                  onPrimaryButtonTap: () {
-                    Navigator.pop(context);
-                  },
-                  onSecondaryButtonTap: () {
-                    investNewStore.saveLimits(investNewStore.position!.id!);
-                  },
-                );
-              },
-              title: intl.invest_limits,
-            ),
-          ),
           if (investNewStore.position!.stopLossType != TPSLType.undefined ||
               investNewStore.position!.takeProfitType != TPSLType.undefined) ...[
             if (investNewStore.position!.takeProfitType != TPSLType.undefined) ...[
+              const SpaceH11(),
+              SPaddingH24(
+                child: NewInvestHeader(
+                  showRollover: false,
+                  showModify: false,
+                  showIcon: false,
+                  showFull: false,
+                  onButtonTap: () {},
+                  title: intl.invest_limits,
+                ),
+              ),
               SPaddingH24(
                 child: DataLine(
                   withDot: true,
