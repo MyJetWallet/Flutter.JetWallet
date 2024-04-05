@@ -6,7 +6,6 @@ import 'package:charts/model/resolution_string_enum.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_webview_pro/webview_flutter.dart';
@@ -103,138 +102,133 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
       investNewStore.setIsOrderMode(type == 1);
     }
 
-    return KeyboardVisibilityBuilder(
-      builder: (context, isKeyboardVisible) {
-        return GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: isKeyboardVisible
-              ? () {
-                  FocusScope.of(context).unfocus();
-                }
-              : null,
-          child: SPageFrame(
-            loaderText: intl.register_pleaseWait,
-            header: SPaddingH24(
-              child: InvestHeader(
-                currency: currency,
-                withBackBlock: true,
-                onBackButton: () {
-                  Navigator.pop(context);
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      child: SPageFrame(
+        loaderText: intl.register_pleaseWait,
+        header: SPaddingH24(
+          child: InvestHeader(
+            currency: currency,
+            withBackBlock: true,
+            onBackButton: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        bottomNavigationBar: SizedBox(
+          height: 98,
+          child: Column(
+            children: [
+              const SpaceH20(),
+              SPaddingH24(
+                child: SIButton(
+                  onTap: () {
+                    if ((investNewStore.isOrderMode && investNewStore.hasPendingError()) ||
+                        (!investNewStore.isOrderMode && investNewStore.hasActiveError()) ||
+                        investNewStore.hasPendingPriceError()) {
+                      return;
+                    } else {
+                      sRouter.push(
+                        NewInvestConfirmationPageRouter(instrument: widget.instrument),
+                      );
+                    }
+                  },
+                  name: investNewStore.isBuyMode ? intl.invest_buy : intl.invest_sell,
+                  activeColor: investNewStore.isBuyMode ? colors.green : colors.red,
+                  activeNameColor: colors.white,
+                  icon: investNewStore.isBuyMode
+                      ? Assets.svg.invest.buy.simpleSvg(
+                          width: 20,
+                          height: 20,
+                          color: colors.white,
+                        )
+                      : Assets.svg.invest.sell.simpleSvg(
+                          width: 20,
+                          height: 20,
+                          color: colors.white,
+                        ),
+                  active: true,
+                  inactiveColor: investNewStore.isBuyMode ? colors.green : colors.red,
+                  inactiveNameColor: colors.white,
+                ),
+              ),
+              const SpaceH34(),
+            ],
+          ),
+        ),
+        child: ListView(
+          controller: controller,
+          padding: EdgeInsets.zero,
+          children: [
+            SPaddingH24(
+              child: SymbolInfoWithoutChart(
+                percent: investStore.getPercentSymbol(widget.instrument.symbol ?? ''),
+                price: investStore.getPriceBySymbol(widget.instrument.symbol ?? ''),
+                instrument: widget.instrument,
+                onTap: () {
+                  investStore.setActiveSection('all');
+                  showInvestMarketWatchBottomSheet(context);
                 },
               ),
             ),
-            bottomNavigationBar: SizedBox(
-              height: 98,
-              child: Column(
+            Observer(
+              builder: (BuildContext context) {
+                return Chart(
+                  localizedChartResolutionButton: localizedChartResolutionButton(context),
+                  onResolutionChanged: (resolution) {
+                    investNewStore.updateResolution(
+                      resolution,
+                      widget.instrument.symbol ?? '',
+                    );
+                  },
+                  onChartTypeChanged: (type) {},
+                  candleResolution: investNewStore.resolution,
+                  formatPrice: volumeFormat,
+                  candles: investNewStore.candles[investNewStore.resolution],
+                  onCandleSelected: (value) {},
+                  chartHeight: 240,
+                  chartWidgetHeight: 297,
+                  isAssetChart: true,
+                  loader: const LoaderSpinner(),
+                  accuracy: widget.instrument.priceAccuracy ?? 2,
+                );
+              },
+            ),
+            const SpaceH16(),
+            SPaddingH24(
+              child: Row(
                 children: [
-                  const SpaceH20(),
-                  SPaddingH24(
-                    child: SIButton(
-                      onTap: () {
-                        if ((investNewStore.isOrderMode && investNewStore.hasPendingError()) ||
-                            (!investNewStore.isOrderMode && investNewStore.hasActiveError()) ||
-                            investNewStore.hasPendingPriceError()) {
-                          return;
-                        } else {
-                          sRouter.push(
-                            NewInvestConfirmationPageRouter(instrument: widget.instrument),
-                          );
-                        }
-                      },
-                      name: investNewStore.isBuyMode ? intl.invest_buy : intl.invest_sell,
-                      activeColor: investNewStore.isBuyMode ? colors.green : colors.red,
-                      activeNameColor: colors.white,
-                      icon: investNewStore.isBuyMode
-                          ? Assets.svg.invest.buy.simpleSvg(
-                              width: 20,
-                              height: 20,
-                              color: colors.white,
-                            )
-                          : Assets.svg.invest.sell.simpleSvg(
-                              width: 20,
-                              height: 20,
-                              color: colors.white,
-                            ),
-                      active: true,
-                      inactiveColor: investNewStore.isBuyMode ? colors.green : colors.red,
-                      inactiveNameColor: colors.white,
-                    ),
+                  BuySellSwitch(
+                    onChangeTab: investNewStore.setIsBuyMode,
+                    isBuy: investNewStore.isBuyMode,
                   ),
-                  const SpaceH34(),
+                  const Spacer(),
+                  SecondarySwitch(
+                    onChangeTab: changeOrderType,
+                    activeTab: investNewStore.isOrderMode ? 1 : 0,
+                    fullWidth: false,
+                    tabs: [
+                      intl.invest_history_tab_market,
+                      intl.invest_history_tab_pending,
+                    ],
+                  ),
                 ],
               ),
             ),
-            child: ListView(
-              controller: controller,
-              padding: EdgeInsets.zero,
-              children: [
-                SPaddingH24(
-                  child: SymbolInfoWithoutChart(
-                    percent: investStore.getPercentSymbol(widget.instrument.symbol ?? ''),
-                    price: investStore.getPriceBySymbol(widget.instrument.symbol ?? ''),
-                    instrument: widget.instrument,
-                    onTap: () {
-                      investStore.setActiveSection('all');
-                      showInvestMarketWatchBottomSheet(context);
-                    },
-                  ),
+            const SpaceH8(),
+            SPaddingH24(
+              child: Text(
+                intl.invest_amount,
+                style: STStyles.body2InvestM.copyWith(
+                  color: colors.black,
                 ),
-                Observer(
-                  builder: (BuildContext context) {
-                    return Chart(
-                      localizedChartResolutionButton: localizedChartResolutionButton(context),
-                      onResolutionChanged: (resolution) {
-                        investNewStore.updateResolution(
-                          resolution,
-                          widget.instrument.symbol ?? '',
-                        );
-                      },
-                      onChartTypeChanged: (type) {},
-                      candleResolution: investNewStore.resolution,
-                      formatPrice: volumeFormat,
-                      candles: investNewStore.candles[investNewStore.resolution],
-                      onCandleSelected: (value) {},
-                      chartHeight: 240,
-                      chartWidgetHeight: 297,
-                      isAssetChart: true,
-                      loader: const LoaderSpinner(),
-                      accuracy: widget.instrument.priceAccuracy ?? 2,
-                    );
-                  },
-                ),
-                const SpaceH16(),
-                SPaddingH24(
-                  child: Row(
-                    children: [
-                      BuySellSwitch(
-                        onChangeTab: investNewStore.setIsBuyMode,
-                        isBuy: investNewStore.isBuyMode,
-                      ),
-                      const Spacer(),
-                      SecondarySwitch(
-                        onChangeTab: changeOrderType,
-                        activeTab: investNewStore.isOrderMode ? 1 : 0,
-                        fullWidth: false,
-                        tabs: [
-                          intl.invest_history_tab_market,
-                          intl.invest_history_tab_pending,
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                const SpaceH8(),
-                SPaddingH24(
-                  child: Text(
-                    intl.invest_amount,
-                    style: STStyles.body2InvestM.copyWith(
-                      color: colors.black,
-                    ),
-                  ),
-                ),
-                const SpaceH4(),
-                SPaddingH24(
-                  child: InvestInput(
+              ),
+            ),
+            const SpaceH4(),
+            SPaddingH24(
+              child: Observer(
+                builder: (context) {
+                  return InvestInput(
                     onChanged: investNewStore.onAmountInput,
                     inputFormatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.allow(RegExp('[0-9]')),
@@ -261,12 +255,16 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                     ),
                     controller: investNewStore.amountController,
                     keyboardType: TextInputType.number,
-                  ),
-                ),
-                if (sSignalRModules.investWalletData!.balance! >= Decimal.fromInt(30)) ...[
-                  const SpaceH8(),
-                  SPaddingH24(
-                    child: InvestSliderInput(
+                  );
+                },
+              ),
+            ),
+            if (sSignalRModules.investWalletData!.balance! >= Decimal.fromInt(30)) ...[
+              const SpaceH8(),
+              SPaddingH24(
+                child: Observer(
+                  builder: (context) {
+                    return InvestSliderInput(
                       maxValue: calculateAmountMax(
                         balance: sSignalRModules.investWalletData?.balance ?? Decimal.zero,
                         minVolume: widget.instrument.minVolume ?? Decimal.zero,
@@ -304,32 +302,36 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                         investNewStore.onAmountInput('${value.toInt()}');
                         investNewStore.amountController.text = '${value.toInt()}';
                       },
+                    );
+                  },
+                ),
+              ),
+            ],
+            const SpaceH12(),
+            SPaddingH24(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    intl.invest_multiplicator,
+                    style: STStyles.body2InvestM.copyWith(
+                      color: colors.black,
+                    ),
+                  ),
+                  Text(
+                    'x${investNewStore.multiplicator}',
+                    style: STStyles.body1InvestSM.copyWith(
+                      color: colors.black,
                     ),
                   ),
                 ],
-                const SpaceH12(),
-                SPaddingH24(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        intl.invest_multiplicator,
-                        style: STStyles.body2InvestM.copyWith(
-                          color: colors.black,
-                        ),
-                      ),
-                      Text(
-                        'x${investNewStore.multiplicator}',
-                        style: STStyles.body1InvestSM.copyWith(
-                          color: colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SpaceH8(),
-                SPaddingH24(
-                  child: InvestSliderInput(
+              ),
+            ),
+            const SpaceH8(),
+            SPaddingH24(
+              child: Observer(
+                builder: (context) {
+                  return InvestSliderInput(
                     maxValue: Decimal.fromInt(widget.instrument.maxMultiply ?? 0),
                     minValue: Decimal.fromInt(widget.instrument.minMultiply ?? 0),
                     currentValue: Decimal.fromInt(investNewStore.multiplicator),
@@ -343,164 +345,172 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                     onChange: (double value) {
                       investNewStore.setMultiplicator(value.toInt());
                     },
+                  );
+                },
+              ),
+            ),
+            const SpaceH12(),
+            if (investNewStore.isOrderMode) ...[
+              SPaddingH24(
+                child: Text(
+                  intl.invest_pending_price,
+                  style: STStyles.body2InvestM.copyWith(
+                    color: colors.black,
                   ),
                 ),
-                const SpaceH12(),
-                if (investNewStore.isOrderMode) ...[
-                  SPaddingH24(
-                    child: Text(
-                      intl.invest_pending_price,
-                      style: STStyles.body2InvestM.copyWith(
-                        color: colors.black,
-                      ),
-                    ),
-                  ),
-                  const SpaceH4(),
-                  SPaddingH24(
-                    child: InvestInput(
+              ),
+              const SpaceH4(),
+              SPaddingH24(
+                child: Observer(
+                  builder: (context) {
+                    return InvestInput(
                       onChanged: investNewStore.onPendingInput,
                       inputFormatters: <TextInputFormatter>[
                         FilteringTextInputFormatter.allow(RegExp('[0-9,.]')),
                       ],
                       controller: investNewStore.pendingPriceController,
                       keyboardType: TextInputType.number,
-                    ),
-                  ),
-                  const SpaceH12(),
-                ],
-                SPaddingH24(
-                  child: SizedBox(
-                    height: 40,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          intl.invest_limits,
-                          style: STStyles.body1InvestSM.copyWith(
-                            color: colors.black,
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            if (investNewStore.isLimitsVisible) ...[
-                              SecondarySwitch(
-                                onChangeTab: (value) {
-                                  investNewStore.setIsSLTPPrice(
-                                    value == 1,
-                                  );
-                                },
-                                activeTab: investNewStore.isSLTPPrice ? 1 : 0,
-                                fullWidth: false,
-                                tabs: [
-                                  'USDT',
-                                  intl.invest_price,
-                                ],
-                              ),
-                              const SpaceW10(),
-                              Transform.rotate(
-                                angle: pi,
-                                child: SIconButton(
-                                  onTap: () {
-                                    investNewStore.setIsLimitsVisible(false);
-                                  },
-                                  defaultIcon: Assets.svg.invest.investArrow.simpleSvg(
-                                    width: 24,
-                                    height: 24,
-                                    color: colors.black,
-                                  ),
-                                ),
-                              ),
-                            ] else
-                              SIconButton(
-                                onTap: () {
-                                  investNewStore.setIsLimitsVisible(true);
-                                  Timer(
-                                    const Duration(milliseconds: 100),
-                                    () {
-                                      controller.animateTo(
-                                        controller.position.maxScrollExtent,
-                                        duration: const Duration(milliseconds: 500),
-                                        curve: Curves.fastOutSlowIn,
-                                      );
-                                    },
-                                  );
-                                },
-                                defaultIcon: Assets.svg.invest.investArrow.simpleSvg(
-                                  width: 24,
-                                  height: 24,
-                                  color: colors.black,
-                                ),
-                              ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                    );
+                  },
                 ),
-                if (investNewStore.isLimitsVisible) ...[
-                  SPaddingH24(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+              const SpaceH12(),
+            ],
+            SPaddingH24(
+              child: SizedBox(
+                height: 40,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      intl.invest_limits,
+                      style: STStyles.body1InvestSM.copyWith(
+                        color: colors.black,
+                      ),
+                    ),
+                    Row(
                       children: [
-                        const SpaceH6(),
-                        Row(
-                          children: [
-                            SIconButton(
+                        if (investNewStore.isLimitsVisible) ...[
+                          SecondarySwitch(
+                            onChangeTab: (value) {
+                              investNewStore.setIsSLTPPrice(
+                                value == 1,
+                              );
+                            },
+                            activeTab: investNewStore.isSLTPPrice ? 1 : 0,
+                            fullWidth: false,
+                            tabs: [
+                              'USDT',
+                              intl.invest_price,
+                            ],
+                          ),
+                          const SpaceW10(),
+                          Transform.rotate(
+                            angle: pi,
+                            child: SIconButton(
                               onTap: () {
-                                investNewStore.setIsTPMode(!investNewStore.isTP);
-                                Timer(
-                                  const Duration(milliseconds: 100),
-                                  () {
-                                    controller.animateTo(
-                                      controller.position.maxScrollExtent,
-                                      duration: const Duration(milliseconds: 500),
-                                      curve: Curves.fastOutSlowIn,
-                                    );
-                                  },
-                                );
+                                investNewStore.setIsLimitsVisible(false);
                               },
-                              defaultIcon: investNewStore.isTP
-                                  ? Assets.svg.invest.checked.simpleSvg(
-                                      width: 20,
-                                      height: 20,
-                                    )
-                                  : Assets.svg.invest.check.simpleSvg(
-                                      width: 20,
-                                      height: 20,
-                                    ),
-                              pressedIcon: investNewStore.isTP
-                                  ? Assets.svg.invest.checked.simpleSvg(
-                                      width: 20,
-                                      height: 20,
-                                    )
-                                  : Assets.svg.invest.check.simpleSvg(
-                                      width: 20,
-                                      height: 20,
-                                    ),
-                            ),
-                            const SpaceW4(),
-                            Container(
-                              width: 6,
-                              height: 6,
-                              decoration: BoxDecoration(
-                                color: colors.green,
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                            ),
-                            const SpaceW4(),
-                            Text(
-                              intl.invest_limits_take_profit,
-                              style: STStyles.body2InvestM.copyWith(
+                              defaultIcon: Assets.svg.invest.investArrow.simpleSvg(
+                                width: 24,
+                                height: 24,
                                 color: colors.black,
                               ),
                             ),
-                          ],
+                          ),
+                        ] else
+                          SIconButton(
+                            onTap: () {
+                              investNewStore.setIsLimitsVisible(true);
+                              Timer(
+                                const Duration(milliseconds: 100),
+                                () {
+                                  controller.animateTo(
+                                    controller.position.maxScrollExtent,
+                                    duration: const Duration(milliseconds: 500),
+                                    curve: Curves.fastOutSlowIn,
+                                  );
+                                },
+                              );
+                            },
+                            defaultIcon: Assets.svg.invest.investArrow.simpleSvg(
+                              width: 24,
+                              height: 24,
+                              color: colors.black,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            if (investNewStore.isLimitsVisible) ...[
+              SPaddingH24(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SpaceH6(),
+                    Row(
+                      children: [
+                        SIconButton(
+                          onTap: () {
+                            investNewStore.setIsTPMode(!investNewStore.isTP);
+                            Timer(
+                              const Duration(milliseconds: 100),
+                              () {
+                                controller.animateTo(
+                                  controller.position.maxScrollExtent,
+                                  duration: const Duration(milliseconds: 500),
+                                  curve: Curves.fastOutSlowIn,
+                                );
+                              },
+                            );
+                          },
+                          defaultIcon: investNewStore.isTP
+                              ? Assets.svg.invest.checked.simpleSvg(
+                                  width: 20,
+                                  height: 20,
+                                )
+                              : Assets.svg.invest.check.simpleSvg(
+                                  width: 20,
+                                  height: 20,
+                                ),
+                          pressedIcon: investNewStore.isTP
+                              ? Assets.svg.invest.checked.simpleSvg(
+                                  width: 20,
+                                  height: 20,
+                                )
+                              : Assets.svg.invest.check.simpleSvg(
+                                  width: 20,
+                                  height: 20,
+                                ),
                         ),
-                        const SpaceH4(),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: InvestInput(
+                        const SpaceW4(),
+                        Container(
+                          width: 6,
+                          height: 6,
+                          decoration: BoxDecoration(
+                            color: colors.green,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                        ),
+                        const SpaceW4(),
+                        Text(
+                          intl.invest_limits_take_profit,
+                          style: STStyles.body2InvestM.copyWith(
+                            color: colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SpaceH4(),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Observer(
+                            builder: (context) {
+                              return InvestInput(
                                 inputFormatters: <TextInputFormatter>[
                                   FilteringTextInputFormatter.allow(RegExp('[0-9-]')),
                                 ],
@@ -519,11 +529,15 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                                 controller: investNewStore.tpAmountController,
                                 keyboardType: TextInputType.number,
                                 enabled: !investNewStore.isSLTPPrice && investNewStore.isTP,
-                              ),
-                            ),
-                            const SpaceW12(),
-                            Expanded(
-                              child: InvestInput(
+                              );
+                            },
+                          ),
+                        ),
+                        const SpaceW12(),
+                        Expanded(
+                          child: Observer(
+                            builder: (context) {
+                              return InvestInput(
                                 onChanged: investNewStore.onTPPriceInput,
                                 inputFormatters: <TextInputFormatter>[
                                   FilteringTextInputFormatter.allow(RegExp('[0-9,.]')),
@@ -532,16 +546,20 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                                 controller: investNewStore.tpPriceController,
                                 keyboardType: TextInputType.number,
                                 enabled: investNewStore.isSLTPPrice,
-                              ),
-                            ),
-                          ],
+                              );
+                            },
+                          ),
                         ),
-                        if (widget.instrument.takeProfitAmountLimits != null &&
-                            widget.instrument.takeProfitAmountLimits!.isNotEmpty &&
-                            widget.instrument.takeProfitPriceLimits != null &&
-                            widget.instrument.takeProfitPriceLimits!.isNotEmpty) ...[
-                          const SpaceH8(),
-                          InvestSliderInput(
+                      ],
+                    ),
+                    if (widget.instrument.takeProfitAmountLimits != null &&
+                        widget.instrument.takeProfitAmountLimits!.isNotEmpty &&
+                        widget.instrument.takeProfitPriceLimits != null &&
+                        widget.instrument.takeProfitPriceLimits!.isNotEmpty) ...[
+                      const SpaceH8(),
+                      Observer(
+                        builder: (context) {
+                          return InvestSliderInput(
                             isDisabled: !investNewStore.isTP,
                             maxValue: calculateLimitsPositions(
                               price: investNewStore.isOrderMode
@@ -590,67 +608,71 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                                 investNewStore.tpAmountController.text = '${value.toInt()}';
                               }
                             },
-                          ),
-                        ],
-                        const SpaceH12(),
-                        Row(
-                          children: [
-                            SIconButton(
-                              onTap: () {
-                                investNewStore.setIsSLMode(!investNewStore.isSl);
-                                Timer(
-                                  const Duration(milliseconds: 100),
-                                  () {
-                                    controller.animateTo(
-                                      controller.position.maxScrollExtent,
-                                      duration: const Duration(milliseconds: 500),
-                                      curve: Curves.fastOutSlowIn,
-                                    );
-                                  },
+                          );
+                        },
+                      ),
+                    ],
+                    const SpaceH12(),
+                    Row(
+                      children: [
+                        SIconButton(
+                          onTap: () {
+                            investNewStore.setIsSLMode(!investNewStore.isSl);
+                            Timer(
+                              const Duration(milliseconds: 100),
+                              () {
+                                controller.animateTo(
+                                  controller.position.maxScrollExtent,
+                                  duration: const Duration(milliseconds: 500),
+                                  curve: Curves.fastOutSlowIn,
                                 );
                               },
-                              defaultIcon: investNewStore.isSl
-                                  ? Assets.svg.invest.checked.simpleSvg(
-                                      width: 20,
-                                      height: 20,
-                                    )
-                                  : Assets.svg.invest.check.simpleSvg(
-                                      width: 20,
-                                      height: 20,
-                                    ),
-                              pressedIcon: investNewStore.isSl
-                                  ? Assets.svg.invest.checked.simpleSvg(
-                                      width: 20,
-                                      height: 20,
-                                    )
-                                  : Assets.svg.invest.check.simpleSvg(
-                                      width: 20,
-                                      height: 20,
-                                    ),
-                            ),
-                            const SpaceW4(),
-                            Container(
-                              width: 6,
-                              height: 6,
-                              decoration: BoxDecoration(
-                                color: colors.red,
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                            ),
-                            const SpaceW4(),
-                            Text(
-                              intl.invest_limits_stop_loss,
-                              style: STStyles.body2InvestM.copyWith(
-                                color: colors.black,
-                              ),
-                            ),
-                          ],
+                            );
+                          },
+                          defaultIcon: investNewStore.isSl
+                              ? Assets.svg.invest.checked.simpleSvg(
+                                  width: 20,
+                                  height: 20,
+                                )
+                              : Assets.svg.invest.check.simpleSvg(
+                                  width: 20,
+                                  height: 20,
+                                ),
+                          pressedIcon: investNewStore.isSl
+                              ? Assets.svg.invest.checked.simpleSvg(
+                                  width: 20,
+                                  height: 20,
+                                )
+                              : Assets.svg.invest.check.simpleSvg(
+                                  width: 20,
+                                  height: 20,
+                                ),
                         ),
-                        const SpaceH4(),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: InvestInput(
+                        const SpaceW4(),
+                        Container(
+                          width: 6,
+                          height: 6,
+                          decoration: BoxDecoration(
+                            color: colors.red,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                        ),
+                        const SpaceW4(),
+                        Text(
+                          intl.invest_limits_stop_loss,
+                          style: STStyles.body2InvestM.copyWith(
+                            color: colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SpaceH4(),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Observer(
+                            builder: (context) {
+                              return InvestInput(
                                 onChanged: investNewStore.onSLAmountInput,
                                 icon: Row(
                                   children: [
@@ -669,11 +691,15 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                                 controller: investNewStore.slAmountController,
                                 keyboardType: TextInputType.number,
                                 enabled: !investNewStore.isSLTPPrice && investNewStore.isSl,
-                              ),
-                            ),
-                            const SpaceW12(),
-                            Expanded(
-                              child: InvestInput(
+                              );
+                            },
+                          ),
+                        ),
+                        const SpaceW12(),
+                        Expanded(
+                          child: Observer(
+                            builder: (context) {
+                              return InvestInput(
                                 onChanged: investNewStore.onSLPriceInput,
                                 inputFormatters: <TextInputFormatter>[
                                   FilteringTextInputFormatter.allow(RegExp('[0-9,.]')),
@@ -682,16 +708,20 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                                 controller: investNewStore.slPriceController,
                                 keyboardType: TextInputType.number,
                                 enabled: investNewStore.isSLTPPrice,
-                              ),
-                            ),
-                          ],
+                              );
+                            },
+                          ),
                         ),
-                        if (widget.instrument.stopLossAmountLimits != null &&
-                            widget.instrument.stopLossAmountLimits!.isNotEmpty &&
-                            widget.instrument.stopLossPriceLimits != null &&
-                            widget.instrument.stopLossPriceLimits!.isNotEmpty) ...[
-                          const SpaceH8(),
-                          InvestSliderInput(
+                      ],
+                    ),
+                    if (widget.instrument.stopLossAmountLimits != null &&
+                        widget.instrument.stopLossAmountLimits!.isNotEmpty &&
+                        widget.instrument.stopLossPriceLimits != null &&
+                        widget.instrument.stopLossPriceLimits!.isNotEmpty) ...[
+                      const SpaceH8(),
+                      Observer(
+                        builder: (context) {
+                          return InvestSliderInput(
                             isDisabled: !investNewStore.isSl,
                             maxValue: calculateLimitsPositions(
                               price: investNewStore.isOrderMode
@@ -743,19 +773,19 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                                 investNewStore.slAmountController.text = '-${value.abs().toInt()}';
                               }
                             },
-                          ),
-                        ],
-                        const SpaceH12(),
-                      ],
-                    ),
-                  ),
-                ],
-                if (investNewStore.isLimitsVisible) const SpaceH40() else const SDivider(),
-              ],
-            ),
-          ),
-        );
-      },
+                          );
+                        },
+                      ),
+                    ],
+                    const SpaceH12(),
+                  ],
+                ),
+              ),
+            ],
+            if (investNewStore.isLimitsVisible) const SpaceH40() else const SDivider(),
+          ],
+        ),
+      ),
     );
   }
 }
