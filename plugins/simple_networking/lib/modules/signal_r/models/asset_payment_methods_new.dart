@@ -128,7 +128,7 @@ class SymbolNetworkDetails with _$SymbolNetworkDetails {
 @freezed
 class AssetPaymentProducts with _$AssetPaymentProducts {
   const factory AssetPaymentProducts({
-    AssetPaymentProductsEnum? id,
+    @JsonKey(unknownEnumValue: AssetPaymentProductsEnum.unknown) AssetPaymentProductsEnum? id,
     String? iconUrl,
     int? orderId,
   }) = _AssetPaymentProducts;
@@ -151,7 +151,9 @@ enum AssetPaymentProductsEnum {
   @JsonValue('InvestProgram')
   investProgram,
   @JsonValue('EarnProgram')
-  earnProgram
+  earnProgram,
+  @JsonValue('Unknows')
+  unknown
 }
 
 @freezed
