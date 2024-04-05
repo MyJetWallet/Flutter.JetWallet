@@ -291,7 +291,7 @@ class _InvestListScreenState extends State<InvestList> {
                             symbol: '',
                           ),
                   ),
-                  const SpaceH8(),
+                  if (widget.position.stopLossType == TPSLType.undefined) const SpaceH8(),
                 ],
               ],
               if (widget.position.stopLossType != TPSLType.undefined) ...[
