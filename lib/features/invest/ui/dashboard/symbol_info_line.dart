@@ -120,10 +120,12 @@ class SymbolInfoLine extends StatelessObserverWidget {
                     isAssetChart: false,
                     isInvestChart: true,
                     isLongInvest: true,
+                    isFullInvestChart: true,
                     loader: const LoaderSpinner(),
                     accuracy: 2,
                   ),
                 ),
+                const SizedBox(width: 8),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [

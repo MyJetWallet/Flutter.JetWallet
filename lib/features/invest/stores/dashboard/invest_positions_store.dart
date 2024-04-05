@@ -414,6 +414,41 @@ abstract class _InvestPositionsStoreBase with Store {
   }
 
   @action
+  void cancelPending(BuildContext context, String? id) {
+    loader!.startLoading();
+
+    try {
+      sNetwork.getWalletModule().cancelPendingPosition(positionId: id ?? '');
+
+      checkClosedPosition(
+        id ?? '',
+        () {
+          Navigator.pop(context);
+          Navigator.pop(context);
+          showInvestInfoBottomSheet(
+            context: context,
+            type: 'success',
+            onPrimaryButtonTap: () => Navigator.pop(context),
+            primaryButtonName: intl.invest_alert_got_it,
+            title: intl.invest_alert_success_delete,
+          );
+        },
+      );
+    } catch (e) {
+      Navigator.pop(context);
+      loader!.finishLoading();
+      showInvestInfoBottomSheet(
+        context: context,
+        type: 'error',
+        onPrimaryButtonTap: () => Navigator.pop(context),
+        primaryButtonName: intl.invest_alert_got_it,
+        title: intl.invest_alert_error,
+        subtitle: intl.invest_alert_error_description,
+      );
+    }
+  }
+
+  @action
   Future<void> checkClosedPosition(
     String id,
     Function() onClose,

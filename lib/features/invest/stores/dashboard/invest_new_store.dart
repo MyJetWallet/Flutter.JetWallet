@@ -365,62 +365,53 @@ abstract class _InvestNewStoreBase with Store {
   Future<void> createPosition() async {
     loader?.startLoading();
 
+    final isTPDefined = isLimitsVisible && tpPriceValue != Decimal.zero && tpAmountValue != Decimal.zero;
+    final isSLDefined = isLimitsVisible && slPriceValue != Decimal.zero && slAmountValue != Decimal.zero;
+
+    final takeProfitType = isTPDefined ? (isSLTPPrice ? TPSLType.price : TPSLType.amount) : TPSLType.undefined;
+
+    final stopLossType = isSLDefined ? (isSLTPPrice ? TPSLType.price : TPSLType.amount) : TPSLType.undefined;
+
+    final takeProfitValue = isTPDefined ? (isSLTPPrice ? tpPriceValue : tpAmountValue) : Decimal.zero;
+
+    final stopLossValue = isSLDefined ? (isSLTPPrice ? slPriceValue : slAmountValue.abs()) : Decimal.zero;
+
+    final model = NewInvestRequestModel(
+      symbol: instrument?.symbol ?? '',
+      amount: amountValue,
+      amountAssetId: 'USDT',
+      multiplicator: multiplicator,
+      direction: isBuyMode ? Direction.buy : Direction.sell,
+      takeProfitType: takeProfitType,
+      takeProfitValue: takeProfitValue,
+      stopLossType: stopLossType,
+      stopLossValue: stopLossValue,
+    );
+
     if (!isOrderMode) {
-      final model = NewInvestRequestModel(
-        symbol: instrument?.symbol ?? '',
-        amount: amountValue,
-        amountAssetId: 'USDT',
-        multiplicator: multiplicator,
-        direction: isBuyMode ? Direction.buy : Direction.sell,
-        takeProfitType: isLimitsVisible
-            ? isSLTPPrice
-                ? TPSLType.price
-                : TPSLType.amount
-            : TPSLType.undefined,
-        takeProfitValue: isLimitsVisible
-            ? isSLTPPrice
-                ? tpPriceValue
-                : tpAmountValue
-            : Decimal.zero,
-        stopLossType: isLimitsVisible
-            ? isSLTPPrice
-                ? TPSLType.price
-                : TPSLType.amount
-            : TPSLType.undefined,
-        stopLossValue: isLimitsVisible
-            ? isSLTPPrice
-                ? slPriceValue
-                : slAmountValue.abs()
-            : Decimal.zero,
-      );
       await createActivePosition(model);
     } else {
+      final isTPDefined = isLimitsVisible && tpPriceValue != Decimal.zero && tpAmountValue != Decimal.zero;
+      final isSLDefined = isLimitsVisible && slPriceValue != Decimal.zero && slAmountValue != Decimal.zero;
+
+      final takeProfitType = isTPDefined ? (isSLTPPrice ? TPSLType.price : TPSLType.amount) : TPSLType.undefined;
+
+      final stopLossType = isSLDefined ? (isSLTPPrice ? TPSLType.price : TPSLType.amount) : TPSLType.undefined;
+
+      final takeProfitValue = isTPDefined ? (isSLTPPrice ? tpPriceValue : tpAmountValue) : Decimal.zero;
+
+      final stopLossValue = isSLDefined ? (isSLTPPrice ? slPriceValue : slAmountValue.abs()) : Decimal.zero;
+
       final model = NewInvestOrderRequestModel(
         symbol: instrument?.symbol ?? '',
         amount: amountValue,
         amountAssetId: 'USDT',
         multiplicator: multiplicator,
         direction: isBuyMode ? Direction.buy : Direction.sell,
-        takeProfitType: isLimitsVisible
-            ? isSLTPPrice
-                ? TPSLType.price
-                : TPSLType.amount
-            : TPSLType.undefined,
-        takeProfitValue: isLimitsVisible
-            ? isSLTPPrice
-                ? tpPriceValue
-                : tpAmountValue
-            : Decimal.zero,
-        stopLossType: isLimitsVisible
-            ? isSLTPPrice
-                ? TPSLType.price
-                : TPSLType.amount
-            : TPSLType.undefined,
-        stopLossValue: isLimitsVisible
-            ? isSLTPPrice
-                ? slPriceValue
-                : slAmountValue.abs()
-            : Decimal.zero,
+        takeProfitType: takeProfitType,
+        takeProfitValue: takeProfitValue,
+        stopLossType: stopLossType,
+        stopLossValue: stopLossValue,
         targetPrice: pendingValue,
       );
       final investStore = getIt.get<InvestDashboardStore>();

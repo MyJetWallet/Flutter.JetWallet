@@ -5,14 +5,12 @@ import 'package:charts/main.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_new_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_positions_store.dart';
 import 'package:jetwallet/features/invest/ui/dashboard/invest_header.dart';
-import 'package:jetwallet/features/invest/ui/invests/above_list_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/symbol_info_without_chart.dart';
-import 'package:jetwallet/features/invest/ui/widgets/invest_close_bottom_sheet.dart';
+import 'package:jetwallet/features/invest/ui/widgets/invest_alert_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_modify_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
@@ -25,7 +23,6 @@ import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit/modules/shared/stack_loader/components/loader_spinner.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
@@ -104,7 +101,7 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
   @override
   Widget build(BuildContext context) {
     final currencies = sSignalRModules.currenciesList;
-    final investPositionStore = getIt.get<InvestPositionsStore>();
+    final investPositionsStore = getIt.get<InvestPositionsStore>();
     final investStore = getIt.get<InvestDashboardStore>();
     final investNewStore = getIt.get<InvestNewStore>();
 
@@ -144,7 +141,32 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
                           height: 20,
                         ),
                         name: intl.invest_delete,
-                        onTap: () {},
+                        onTap: () {
+                          showInvestInfoBottomSheet(
+                            context: context,
+                            type: 'info',
+                            onPrimaryButtonTap: () => Navigator.pop(context),
+                            onSecondaryButtonTap: () {
+                              Navigator.pop(context);
+                              showInvestInfoBottomSheet(
+                                context: context,
+                                type: 'pending',
+                                onPrimaryButtonTap: () => Navigator.pop(context),
+                                primaryButtonName: intl.invest_alert_got_it,
+                                title: intl.invest_alert_in_progress,
+                                subtitle: intl.invest_alert_in_progress_description,
+                              );
+                              investPositionsStore.cancelPending(
+                                context,
+                                widget.position.id,
+                              );
+                            },
+                            primaryButtonName: intl.invest_alert_cancel,
+                            secondaryButtonName: intl.invest_delete,
+                            title: intl.invest_alert_delete_pending_order,
+                            subtitle: intl.invest_alert_delete_pending_order_sub_titile,
+                          );
+                        },
                       ),
                     ),
                     const SpaceW10(),
@@ -184,75 +206,6 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
           ),
         ),
       ),
-
-      // showInvestCloseBottomSheet(
-      //   context: context,
-      //   isProfit: investStore.getProfitByPosition(investNewStore.position!) > Decimal.zero,
-      //   onPrimaryButtonTap: () {
-      //     Navigator.pop(context);
-      //   },
-      //   onSecondaryButtonTap: () {
-      //     investPositionStore.closeActivePosition(
-      //       context,
-      //       investNewStore.position!,
-      //       widget.instrument,
-      //     );
-      //   },
-      //   primaryButtonName: intl.invest_alert_cancel,
-      //   secondaryButtonName: intl.invest_close,
-      //   widget: Column(
-      //     children: [
-      //       AboveListLine(
-      //         mainColumn: intl.invest_list_instrument,
-      //         secondaryColumn: '${intl.invest_amount} (USDT)',
-      //         lastColumn: '${intl.invest_alert_close_all_profit} (USDT)',
-      //         onCheckboxTap: (value) {},
-      //       ),
-      //       InvestLine(
-      //         currency: currencyFrom(currencies, widget.instrument.name ?? ''),
-      //         price: investStore.getProfitByPosition(investNewStore.position!),
-      //         operationType: investNewStore.position!.direction ?? Direction.undefined,
-      //         isPending: false,
-      //         amount: investNewStore.position!.amount ?? Decimal.zero,
-      //         leverage: Decimal.fromInt(investNewStore.position!.multiplicator ?? 0),
-      //         isGroup: false,
-      //         historyCount: 1,
-      //         profit: investStore.getProfitByPosition(investNewStore.position!),
-      //         profitPercent: investStore.getYieldByPosition(investNewStore.position!),
-      //         accuracy: widget.instrument.priceAccuracy ?? 2,
-      //         onTap: () {},
-      //       ),
-      //       const SPaddingH24(child: SDivider()),
-      //       const SpaceH16(),
-      //       DataLine(
-      //         mainText: intl.invest_price,
-      //         secondaryText: volumeFormat(
-      //           decimal: investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
-      //           accuracy: widget.instrument.priceAccuracy ?? 2,
-      //           symbol: '',
-      //         ),
-      //       ),
-      //       const SpaceH16(),
-      //       Row(
-      //         mainAxisAlignment: MainAxisAlignment.center,
-      //         children: [
-      //           DataLine(
-      //             fullWidth: false,
-      //             mainText: intl.invest_close_fee,
-      //             secondaryText: 'Est. ${volumeFormat(
-      //               decimal: (investNewStore.position!.volumeBase ?? Decimal.zero) *
-      //                   investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? '') *
-      //                   (widget.instrument.closeFee ?? Decimal.zero),
-      //               accuracy: widget.instrument.priceAccuracy ?? 2,
-      //               symbol: 'USDT',
-      //             )}',
-      //           ),
-      //         ],
-      //       ),
-      //     ],
-      //   ),
-      // );
-
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -322,7 +275,7 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
           ),
           SPaddingH24(
             child: DataLine(
-              mainText: intl.invest_trigger_price,
+              mainText: intl.invest_pending_price,
               secondaryText: marketFormat(
                 decimal: investNewStore.position!.pendingPrice ?? Decimal.zero,
                 accuracy: 2,
