@@ -240,37 +240,43 @@ class _NewInvestConfirmationScreenState extends State<NewInvestConfirmationScree
           ),
           if ((investNewStore.isSl || investNewStore.isTP) && investNewStore.isLimitsVisible) ...[
             const SpaceH8(),
-            const SDivider(),
+            const SPaddingH24(child: SDivider()),
             const SpaceH8(),
-            NewInvestHeader(
-              showRollover: false,
-              showModify: false,
-              showIcon: false,
-              showFull: false,
-              title: intl.invest_limits,
+            SPaddingH24(
+              child: NewInvestHeader(
+                showRollover: false,
+                showModify: false,
+                showIcon: false,
+                showFull: false,
+                title: intl.invest_limits,
+              ),
             ),
             if (investNewStore.isTP && investNewStore.tpAmountValue != Decimal.zero) ...[
-              DataLine(
-                withDot: true,
-                dotColor: colors.green,
-                mainText: intl.invest_limits_take_profit,
-                secondaryText: volumeFormat(
-                  decimal: investNewStore.tpAmountValue,
-                  accuracy: 2,
-                  symbol: 'USDT',
+              SPaddingH24(
+                child: DataLine(
+                  withDot: true,
+                  dotColor: colors.green,
+                  mainText: intl.invest_limits_take_profit,
+                  secondaryText: volumeFormat(
+                    decimal: investNewStore.tpAmountValue,
+                    accuracy: 2,
+                    symbol: 'USDT',
+                  ),
                 ),
               ),
               const SpaceH8(),
             ],
             if (investNewStore.isSl && investNewStore.slAmountValue != Decimal.zero) ...[
-              DataLine(
-                withDot: true,
-                dotColor: colors.red,
-                mainText: intl.invest_limits_stop_loss,
-                secondaryText: volumeFormat(
-                  decimal: investNewStore.slAmountValue,
-                  accuracy: 2,
-                  symbol: 'USDT',
+              SPaddingH24(
+                child: DataLine(
+                  withDot: true,
+                  dotColor: colors.red,
+                  mainText: intl.invest_limits_stop_loss,
+                  secondaryText: volumeFormat(
+                    decimal: investNewStore.slAmountValue,
+                    accuracy: 2,
+                    symbol: 'USDT',
+                  ),
                 ),
               ),
               const SpaceH8(),
