@@ -42,8 +42,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final bottomBarItems = <BottomItemType>[
       BottomItemType.wallets,
       BottomItemType.market,
-      //! Alex S. remove this line
-      BottomItemType.invest,
       if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
           .any((element) => element.id == AssetPaymentProductsEnum.earnProgram)) ...[
         BottomItemType.earn,
