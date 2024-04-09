@@ -139,28 +139,49 @@ abstract class _InvestNewStoreBase with Store {
   @action
   void updateTPPrice() {
     final investStore = getIt.get<InvestDashboardStore>();
-    final marketPrice = isOrderMode ? pendingValue : investStore.getPendingPriceBySymbol(instrument?.symbol ?? '');
-    final investPositionTakeProfitAmount = tpAmountValue;
+
+    final marketPrice = isOrderMode
+        ? pendingValue
+        : Decimal.parse(investStore.getPendingPriceBySymbol(instrument?.symbol ?? '').toString());
+
     final volume = amountValue * Decimal.fromInt(multiplicator);
     final openFee = volume * (instrument?.openFee ?? Decimal.zero);
-    final closeFee = (volume + investPositionTakeProfitAmount) *
-        Decimal.fromInt(multiplicator) *
-        (instrument?.closeFee ?? Decimal.zero);
-    tpPriceValue = isBuyMode
-        ? marketPrice *
-            (Decimal.one +
-                Decimal.fromJson('${(investPositionTakeProfitAmount / volume).toDouble()}') +
-                Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'))
-        : marketPrice *
-            (Decimal.one -
-                Decimal.fromJson('${(investPositionTakeProfitAmount / volume).toDouble()}') -
-                Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'));
-    tpPriceController.text = 'est. ${volumeFormat(
-      decimal: tpPriceValue,
-      symbol: '',
-      accuracy: instrument?.priceAccuracy ?? 2,
-    )}';
+    final closeFee = (volume + tpAmountValue) * Decimal.fromInt(multiplicator) * (instrument?.closeFee ?? Decimal.zero);
+
+    final tpAmountOverVolume = (tpAmountValue / volume).toDecimal();
+    final feesOverVolume = ((openFee + closeFee) / volume).toDecimal();
+
+    tpPriceValue = marketPrice * (Decimal.one + tpAmountOverVolume + feesOverVolume);
+
+    tpPriceController.text =
+        'est. ${volumeFormat(decimal: tpPriceValue, symbol: '', accuracy: instrument?.priceAccuracy ?? 2)}';
   }
+
+  // @action
+  // void updateTPPrice() {
+  //   final investStore = getIt.get<InvestDashboardStore>();
+  //   final marketPrice = isOrderMode ? pendingValue : investStore.getPendingPriceBySymbol(instrument?.symbol ?? '');
+  //   final investPositionTakeProfitAmount = tpAmountValue;
+  //   final volume = amountValue * Decimal.fromInt(multiplicator);
+  //   final openFee = volume * (instrument?.openFee ?? Decimal.zero);
+  //   final closeFee = (volume + investPositionTakeProfitAmount) *
+  //       Decimal.fromInt(multiplicator) *
+  //       (instrument?.closeFee ?? Decimal.zero);
+  //   tpPriceValue = isBuyMode
+  //       ? marketPrice *
+  //           (Decimal.one +
+  //               Decimal.fromJson('${(investPositionTakeProfitAmount / volume).toDouble()}') +
+  //               Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'))
+  //       : marketPrice *
+  //           (Decimal.one -
+  //               Decimal.fromJson('${(investPositionTakeProfitAmount / volume).toDouble()}') -
+  //               Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'));
+  //   tpPriceController.text = 'est. ${volumeFormat(
+  //     decimal: tpPriceValue,
+  //     symbol: '',
+  //     accuracy: instrument?.priceAccuracy ?? 2,
+  //   )}';
+  // }
 
   @action
   void updateTPAmount() {
@@ -185,27 +206,26 @@ abstract class _InvestNewStoreBase with Store {
   @action
   void updateSlPrice() {
     final investStore = getIt.get<InvestDashboardStore>();
-    final marketPrice = isOrderMode ? pendingValue : investStore.getPendingPriceBySymbol(instrument?.symbol ?? '');
-    final investPositionStopLossAmount = slAmountValue;
+
+    final marketPrice = isOrderMode
+        ? pendingValue
+        : Decimal.parse(investStore.getPendingPriceBySymbol(instrument?.symbol ?? '').toString());
+
     final volume = amountValue * Decimal.fromInt(multiplicator);
     final openFee = volume * (instrument?.openFee ?? Decimal.zero);
-    final closeFee = (volume + investPositionStopLossAmount) *
-        Decimal.fromInt(multiplicator) *
-        (instrument?.closeFee ?? Decimal.zero);
-    slPriceValue = isBuyMode
-        ? marketPrice *
-            (Decimal.one +
-                Decimal.fromJson('${(investPositionStopLossAmount / volume).toDouble()}') +
-                Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'))
-        : marketPrice *
-            (Decimal.one -
-                Decimal.fromJson('${(investPositionStopLossAmount / volume).toDouble()}') -
-                Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'));
-    slPriceController.text = 'est. ${volumeFormat(
-      decimal: slPriceValue,
-      symbol: '',
-      accuracy: instrument?.priceAccuracy ?? 2,
-    )}';
+
+    final closeFee = (volume + slAmountValue) * Decimal.fromInt(multiplicator) * (instrument?.closeFee ?? Decimal.zero);
+
+    final slAmountOverVolume = (slAmountValue / volume).toDecimal();
+    final feesOverVolume = ((openFee + closeFee) / volume).toDecimal();
+
+    slPriceValue = marketPrice *
+        (Decimal.one +
+            (isBuyMode ? slAmountOverVolume : -slAmountOverVolume) +
+            (isBuyMode ? feesOverVolume : -feesOverVolume));
+
+    slPriceController.text =
+        'est. ${volumeFormat(decimal: slPriceValue, symbol: '', accuracy: instrument?.priceAccuracy ?? 2)}';
   }
 
   @action
