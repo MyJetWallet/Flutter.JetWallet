@@ -48,64 +48,62 @@ class SymbolInfoLine extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    return InkWell(
-      splashColor: Colors.transparent,
-      highlightColor: Colors.transparent,
-      hoverColor: Colors.transparent,
-      onTap: () {
-        onTap?.call();
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: 12,
-        ),
-        width: MediaQuery.of(context).size.width - 48,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (withActiveInvest) ...[
-              ActiveInvestLine(
-                profit: profit!,
-                amount: amount!,
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      width: MediaQuery.of(context).size.width - 48,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (withActiveInvest) ...[
+            ActiveInvestLine(
+              profit: profit!,
+              amount: amount!,
+            ),
+            const SpaceH3(),
+          ],
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              InkWell(
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                hoverColor: Colors.transparent,
+                onTap: () {
+                  onTap?.call();
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SvgPicture.network(
+                      iconUrlFrom(assetSymbol: instrument.name ?? ''),
+                      width: 20.0,
+                      height: 20.0,
+                      placeholderBuilder: (_) => const SAssetPlaceholderIcon(),
+                    ),
+                    const SpaceW4(),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          instrument.name!,
+                          style: STStyles.body2InvestSM.copyWith(color: colors.black),
+                        ),
+                        const SpaceH2(),
+                        Text(
+                          instrument.description!,
+                          style: STStyles.body3InvestM.copyWith(color: colors.grey2),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              const SpaceH3(),
-            ],
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SvgPicture.network(
-                  iconUrlFrom(assetSymbol: instrument.name ?? ''),
-                  width: 20.0,
-                  height: 20.0,
-                  placeholderBuilder: (_) {
-                    return const SAssetPlaceholderIcon();
-                  },
-                ),
-                const SpaceW4(),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        instrument.name!,
-                        style: STStyles.body2InvestSM.copyWith(
-                          color: colors.black,
-                        ),
-                      ),
-                      const SpaceH2(),
-                      Text(
-                        instrument.description!,
-                        style: STStyles.body3InvestM.copyWith(
-                          color: colors.grey2,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0), // Adjust padding as needed
                   child: Chart(
                     localizedChartResolutionButton: localizedChartResolutionButton(context),
                     onResolutionChanged: (resolution) {},
@@ -125,52 +123,52 @@ class SymbolInfoLine extends StatelessObserverWidget {
                     accuracy: 2,
                   ),
                 ),
-                const SizedBox(width: 8),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      price,
-                      style: STStyles.body2InvestB.copyWith(
-                        color: colors.black,
-                      ),
+              ),
+              const SizedBox(width: 8),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    price,
+                    style: STStyles.body2InvestB.copyWith(
+                      color: colors.black,
                     ),
-                    const SpaceH2(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          formatPercent(percent),
-                          overflow: TextOverflow.ellipsis,
-                          style: STStyles.body3InvestSM.copyWith(
-                            color: percent == Decimal.zero
-                                ? colors.grey3
-                                : percent > Decimal.zero
-                                    ? colors.green
-                                    : colors.red,
-                          ),
-                        ),
-                        percentIcon(percent),
-                      ],
-                    ),
-                  ],
-                ),
-                const SpaceW10(),
-                if (withFavorites)
-                  SIconButton(
-                    onTap: () {
-                      onTapFavorites?.call();
-                    },
-                    defaultIcon: isFavorite
-                        ? SStarPressedIcon(
-                            color: colors.black,
-                          )
-                        : const SStarPressedIcon(),
                   ),
-              ],
-            ),
-          ],
-        ),
+                  const SpaceH2(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        formatPercent(percent),
+                        overflow: TextOverflow.ellipsis,
+                        style: STStyles.body3InvestSM.copyWith(
+                          color: percent == Decimal.zero
+                              ? colors.grey3
+                              : percent > Decimal.zero
+                                  ? colors.green
+                                  : colors.red,
+                        ),
+                      ),
+                      percentIcon(percent),
+                    ],
+                  ),
+                ],
+              ),
+              const SpaceW10(),
+              if (withFavorites)
+                SIconButton(
+                  onTap: () {
+                    onTapFavorites?.call();
+                  },
+                  defaultIcon: isFavorite
+                      ? SStarPressedIcon(
+                          color: colors.black,
+                        )
+                      : const SStarPressedIcon(),
+                ),
+            ],
+          ),
+        ],
       ),
     );
   }
