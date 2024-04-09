@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
@@ -289,6 +290,9 @@ abstract class _InvestPositionsStoreBase with Store {
     }
   }
 
+  @computed
+  bool get isBalanceHide => getIt<AppStore>().isBalanceHide;
+
   @action
   void closeActivePosition(
     BuildContext context,
@@ -314,11 +318,13 @@ abstract class _InvestPositionsStoreBase with Store {
             const SpaceH16(),
             DataLine(
               mainText: intl.invest_alert_close_all_profit,
-              secondaryText: volumeFormat(
-                decimal: investStore.getProfitByPosition(position),
-                accuracy: 2,
-                symbol: 'USDT',
-              ),
+              secondaryText: isBalanceHide
+                  ? '**** USDT'
+                  : volumeFormat(
+                      decimal: investStore.getProfitByPosition(position),
+                      accuracy: 2,
+                      symbol: 'USDT',
+                    ),
               secondaryColor: SColorsLight().green,
             ),
             const SpaceH8(),
@@ -337,13 +343,15 @@ abstract class _InvestPositionsStoreBase with Store {
                 DataLine(
                   fullWidth: false,
                   mainText: intl.invest_close_fee,
-                  secondaryText: volumeFormat(
-                    decimal: (position.volumeBase ?? Decimal.zero) *
-                        investStore.getPendingPriceBySymbol(instrument.symbol ?? '') *
-                        (instrument.closeFee ?? Decimal.zero),
-                    accuracy: instrument.priceAccuracy ?? 2,
-                    symbol: 'USDT',
-                  ),
+                  secondaryText: isBalanceHide
+                      ? '**** USDT'
+                      : volumeFormat(
+                          decimal: (position.volumeBase ?? Decimal.zero) *
+                              investStore.getPendingPriceBySymbol(instrument.symbol ?? '') *
+                              (instrument.closeFee ?? Decimal.zero),
+                          accuracy: instrument.priceAccuracy ?? 2,
+                          symbol: 'USDT',
+                        ),
                 ),
                 const SpaceW20(),
                 SITextButton(

@@ -6,6 +6,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/chart/helper/format_merge_candles_count.dart';
 import 'package:jetwallet/features/chart/helper/format_resolution.dart';
 import 'package:jetwallet/features/chart/model/chart_union.dart';
@@ -453,6 +454,9 @@ abstract class _InvestNewStoreBase with Store {
     }
   }
 
+  @computed
+  bool get isBalanceHide => getIt<AppStore>().isBalanceHide;
+
   @action
   Future<void> createPendingLimitPosition(NewInvestOrderRequestModel model) async {
     if (!hasPendingError()) {
@@ -485,11 +489,13 @@ abstract class _InvestNewStoreBase with Store {
               children: [
                 DataLine(
                   mainText: intl.invest_amount,
-                  secondaryText: volumeFormat(
-                    decimal: model.amount,
-                    symbol: 'USDT',
-                    accuracy: 2,
-                  ),
+                  secondaryText: isBalanceHide
+                      ? '**** USDT'
+                      : volumeFormat(
+                          decimal: model.amount,
+                          symbol: 'USDT',
+                          accuracy: 2,
+                        ),
                 ),
                 const SpaceH8(),
                 DataLine(
@@ -499,11 +505,13 @@ abstract class _InvestNewStoreBase with Store {
                 const SpaceH8(),
                 DataLine(
                   mainText: intl.invest_trigger_price,
-                  secondaryText: volumeFormat(
-                    decimal: model.targetPrice,
-                    symbol: 'USDT',
-                    accuracy: 2,
-                  ),
+                  secondaryText: isBalanceHide
+                      ? '**** USDT'
+                      : volumeFormat(
+                          decimal: model.targetPrice,
+                          symbol: 'USDT',
+                          accuracy: 2,
+                        ),
                 ),
                 const SpaceH16(),
                 Row(
@@ -512,11 +520,13 @@ abstract class _InvestNewStoreBase with Store {
                     DataLine(
                       fullWidth: false,
                       mainText: intl.invest_open_fee,
-                      secondaryText: volumeFormat(
-                        decimal: openFee,
-                        symbol: 'USDT',
-                        accuracy: 2,
-                      ),
+                      secondaryText: isBalanceHide
+                          ? '**** USDT'
+                          : volumeFormat(
+                              decimal: openFee,
+                              symbol: 'USDT',
+                              accuracy: 2,
+                            ),
                     ),
                   ],
                 ),
@@ -568,11 +578,13 @@ abstract class _InvestNewStoreBase with Store {
               children: [
                 DataLine(
                   mainText: intl.invest_amount,
-                  secondaryText: volumeFormat(
-                    decimal: model.amount,
-                    symbol: 'USDT',
-                    accuracy: 2,
-                  ),
+                  secondaryText: isBalanceHide
+                      ? '**** USDT'
+                      : volumeFormat(
+                          decimal: model.amount,
+                          symbol: 'USDT',
+                          accuracy: 2,
+                        ),
                 ),
                 const SpaceH8(),
                 DataLine(
@@ -582,11 +594,13 @@ abstract class _InvestNewStoreBase with Store {
                 const SpaceH8(),
                 DataLine(
                   mainText: intl.invest_trigger_price,
-                  secondaryText: volumeFormat(
-                    decimal: model.targetPrice,
-                    symbol: 'USDT',
-                    accuracy: 2,
-                  ),
+                  secondaryText: isBalanceHide
+                      ? '**** USDT'
+                      : volumeFormat(
+                          decimal: model.targetPrice,
+                          symbol: 'USDT',
+                          accuracy: 2,
+                        ),
                 ),
                 const SpaceH16(),
                 Row(
@@ -595,11 +609,13 @@ abstract class _InvestNewStoreBase with Store {
                     DataLine(
                       fullWidth: false,
                       mainText: intl.invest_open_fee,
-                      secondaryText: volumeFormat(
-                        decimal: openFee,
-                        symbol: 'USDT',
-                        accuracy: 2,
-                      ),
+                      secondaryText: isBalanceHide
+                          ? '**** USDT'
+                          : volumeFormat(
+                              decimal: openFee,
+                              symbol: 'USDT',
+                              accuracy: 2,
+                            ),
                     ),
                   ],
                 ),
@@ -664,11 +680,13 @@ abstract class _InvestNewStoreBase with Store {
                   const SpaceH16(),
                   DataLine(
                     mainText: intl.invest_amount,
-                    secondaryText: volumeFormat(
-                      decimal: response.data!.position!.amount!,
-                      symbol: 'USDT',
-                      accuracy: 2,
-                    ),
+                    secondaryText: isBalanceHide
+                        ? '**** USDT'
+                        : volumeFormat(
+                            decimal: response.data!.position!.amount!,
+                            symbol: 'USDT',
+                            accuracy: 2,
+                          ),
                   ),
                   const SpaceH8(),
                   DataLine(
@@ -691,11 +709,13 @@ abstract class _InvestNewStoreBase with Store {
                       DataLine(
                         fullWidth: false,
                         mainText: intl.invest_open_fee,
-                        secondaryText: volumeFormat(
-                          decimal: response.data!.position?.openFee ?? Decimal.zero,
-                          symbol: 'USDT',
-                          accuracy: 2,
-                        ),
+                        secondaryText: isBalanceHide
+                            ? '**** USDT'
+                            : volumeFormat(
+                                decimal: response.data!.position?.openFee ?? Decimal.zero,
+                                symbol: 'USDT',
+                                accuracy: 2,
+                              ),
                       ),
                     ],
                   ),
@@ -772,16 +792,20 @@ abstract class _InvestNewStoreBase with Store {
                     dotColor: SColorsLight().green,
                     mainText: intl.invest_limits_take_profit,
                     secondaryText: response.data!.position!.takeProfitType == TPSLType.amount
-                        ? volumeFormat(
-                            decimal: response.data!.position!.takeProfitAmount ?? Decimal.zero,
-                            accuracy: 2,
-                            symbol: 'USDT',
-                          )
-                        : volumeFormat(
-                            decimal: response.data!.position!.takeProfitPrice ?? Decimal.zero,
-                            accuracy: instrument?.priceAccuracy ?? 2,
-                            symbol: '',
-                          ),
+                        ? isBalanceHide
+                            ? '**** USDT'
+                            : volumeFormat(
+                                decimal: response.data!.position!.takeProfitAmount ?? Decimal.zero,
+                                accuracy: 2,
+                                symbol: 'USDT',
+                              )
+                        : isBalanceHide
+                            ? '**** USDT'
+                            : volumeFormat(
+                                decimal: response.data!.position!.takeProfitPrice ?? Decimal.zero,
+                                accuracy: instrument?.priceAccuracy ?? 2,
+                                symbol: '',
+                              ),
                   ),
                 ],
                 if (response.data!.position!.stopLossType != TPSLType.undefined) ...[
@@ -791,11 +815,13 @@ abstract class _InvestNewStoreBase with Store {
                     dotColor: SColorsLight().red,
                     mainText: intl.invest_limits_stop_loss,
                     secondaryText: response.data!.position!.stopLossType == TPSLType.amount
-                        ? volumeFormat(
-                            decimal: response.data!.position!.stopLossAmount ?? Decimal.zero,
-                            accuracy: 2,
-                            symbol: 'USDT',
-                          )
+                        ? isBalanceHide
+                            ? '**** USDT'
+                            : volumeFormat(
+                                decimal: response.data!.position!.stopLossAmount ?? Decimal.zero,
+                                accuracy: 2,
+                                symbol: 'USDT',
+                              )
                         : volumeFormat(
                             decimal: response.data!.position!.stopLossPrice ?? Decimal.zero,
                             accuracy: instrument?.priceAccuracy ?? 2,

@@ -7,6 +7,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
 import 'package:jetwallet/features/invest/ui/invests/data_line.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
@@ -148,6 +149,8 @@ class _InvestListScreenState extends State<InvestList> {
     final currencies = sSignalRModules.currenciesList;
     final colors = sKit.colors;
     final currency = currencyFrom(currencies, widget.instrument.name ?? '');
+    final isBalanceHide = getIt<AppStore>().isBalanceHide;
+
     log('positon ${widget.position}');
     log('instrument ${widget.position}');
 
@@ -319,40 +322,48 @@ class _InvestListScreenState extends State<InvestList> {
               const SpaceH8(),
               DataLine(
                 mainText: intl.invest_report_market_pl,
-                secondaryText: marketFormat(
-                  decimal: investStore.getMarketPLByPosition(widget.position),
-                  accuracy: 6,
-                  symbol: 'USDT',
-                ),
+                secondaryText: isBalanceHide
+                    ? '**** USDT'
+                    : marketFormat(
+                        decimal: investStore.getMarketPLByPosition(widget.position),
+                        accuracy: 6,
+                        symbol: 'USDT',
+                      ),
               ),
               const SpaceH8(),
               DataLine(
                 mainText: intl.invest_report_open_fee,
-                secondaryText: marketFormat(
-                  decimal: (widget.position.openFee ?? Decimal.zero) * Decimal.parse('-1'),
-                  accuracy: 6,
-                  symbol: 'USDT',
-                ),
+                secondaryText: isBalanceHide
+                    ? '**** USDT'
+                    : marketFormat(
+                        decimal: (widget.position.openFee ?? Decimal.zero) * Decimal.parse('-1'),
+                        accuracy: 6,
+                        symbol: 'USDT',
+                      ),
               ),
               const SpaceH8(),
               if (widget.position.status == PositionStatus.closed) ...[
                 DataLine(
                   mainText: intl.invest_report_close_fee,
-                  secondaryText: marketFormat(
-                    decimal: (widget.position.closeFee ?? Decimal.zero) * Decimal.parse('-1'),
-                    accuracy: 6,
-                    symbol: 'USDT',
-                  ),
+                  secondaryText: isBalanceHide
+                      ? '**** USDT'
+                      : marketFormat(
+                          decimal: (widget.position.closeFee ?? Decimal.zero) * Decimal.parse('-1'),
+                          accuracy: 6,
+                          symbol: 'USDT',
+                        ),
                 ),
                 const SpaceH8(),
               ],
               DataLine(
                 mainText: intl.invest_report_rollover,
-                secondaryText: marketFormat(
-                  decimal: widget.position.rollOver ?? Decimal.zero,
-                  accuracy: 6,
-                  symbol: 'USDT',
-                ),
+                secondaryText: isBalanceHide
+                    ? '**** USDT'
+                    : marketFormat(
+                        decimal: widget.position.rollOver ?? Decimal.zero,
+                        accuracy: 6,
+                        symbol: 'USDT',
+                      ),
               ),
               const SpaceH8(),
               if (widget.position.status != PositionStatus.cancelled) ...[
