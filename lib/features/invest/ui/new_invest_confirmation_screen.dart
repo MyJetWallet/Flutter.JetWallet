@@ -5,6 +5,7 @@ import 'package:charts/main.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_new_store.dart';
 import 'package:jetwallet/features/invest/ui/dashboard/invest_header.dart';
@@ -81,6 +82,7 @@ class _NewInvestConfirmationScreenState extends State<NewInvestConfirmationScree
     final currencies = sSignalRModules.currenciesList;
     final investNewStore = getIt.get<InvestNewStore>();
     final investStore = getIt.get<InvestDashboardStore>();
+    final isBalanceHide = getIt<AppStore>().isBalanceHide;
 
     final colors = sKit.colors;
     final currency = currencyFrom(currencies, 'USDT');
@@ -107,22 +109,26 @@ class _NewInvestConfirmationScreenState extends State<NewInvestConfirmationScree
                   DataLine(
                     fullWidth: false,
                     mainText: intl.invest_open_fee,
-                    secondaryText: volumeFormat(
-                      decimal: investNewStore.amountValue *
-                          Decimal.fromInt(investNewStore.multiplicator) *
-                          (widget.instrument.openFee ?? Decimal.one),
-                      accuracy: 2,
-                      symbol: 'USDT',
-                    ),
+                    secondaryText: isBalanceHide
+                        ? '**** USDT'
+                        : volumeFormat(
+                            decimal: investNewStore.amountValue *
+                                Decimal.fromInt(investNewStore.multiplicator) *
+                                (widget.instrument.openFee ?? Decimal.one),
+                            accuracy: 2,
+                            symbol: 'USDT',
+                          ),
                   ),
                   DataLine(
                     fullWidth: false,
                     mainText: intl.invest_volume,
-                    secondaryText: volumeFormat(
-                      decimal: investNewStore.amountValue * Decimal.fromInt(investNewStore.multiplicator),
-                      accuracy: 2,
-                      symbol: 'USDT',
-                    ),
+                    secondaryText: isBalanceHide
+                        ? '**** USDT'
+                        : volumeFormat(
+                            decimal: investNewStore.amountValue * Decimal.fromInt(investNewStore.multiplicator),
+                            accuracy: 2,
+                            symbol: 'USDT',
+                          ),
                   ),
                 ],
               ),
@@ -224,11 +230,13 @@ class _NewInvestConfirmationScreenState extends State<NewInvestConfirmationScree
           SPaddingH24(
             child: DataLine(
               mainText: intl.invest_amount,
-              secondaryText: volumeFormat(
-                decimal: investNewStore.amountValue,
-                accuracy: 2,
-                symbol: 'USDT',
-              ),
+              secondaryText: isBalanceHide
+                  ? '**** USDT'
+                  : volumeFormat(
+                      decimal: investNewStore.amountValue,
+                      accuracy: 2,
+                      symbol: 'USDT',
+                    ),
             ),
           ),
           const SpaceH8(),
@@ -257,11 +265,13 @@ class _NewInvestConfirmationScreenState extends State<NewInvestConfirmationScree
                   withDot: true,
                   dotColor: colors.green,
                   mainText: intl.invest_limits_take_profit,
-                  secondaryText: volumeFormat(
-                    decimal: investNewStore.tpAmountValue,
-                    accuracy: 2,
-                    symbol: 'USDT',
-                  ),
+                  secondaryText: isBalanceHide
+                      ? '**** USDT'
+                      : volumeFormat(
+                          decimal: investNewStore.tpAmountValue,
+                          accuracy: 2,
+                          symbol: 'USDT',
+                        ),
                 ),
               ),
               const SpaceH8(),
@@ -272,11 +282,13 @@ class _NewInvestConfirmationScreenState extends State<NewInvestConfirmationScree
                   withDot: true,
                   dotColor: colors.red,
                   mainText: intl.invest_limits_stop_loss,
-                  secondaryText: volumeFormat(
-                    decimal: investNewStore.slAmountValue,
-                    accuracy: 2,
-                    symbol: 'USDT',
-                  ),
+                  secondaryText: isBalanceHide
+                      ? '**** USDT'
+                      : volumeFormat(
+                          decimal: investNewStore.slAmountValue,
+                          accuracy: 2,
+                          symbol: 'USDT',
+                        ),
                 ),
               ),
               const SpaceH8(),

@@ -6,6 +6,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
 import 'package:jetwallet/features/invest/ui/invests/data_line.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
@@ -141,6 +142,7 @@ class _InvestListScreenState extends State<InvestList> {
     final investStore = getIt.get<InvestDashboardStore>();
     final investPositionStore = getIt.get<InvestPositionsStore>();
     final currencies = sSignalRModules.currenciesList;
+    final isBalanceHide = getIt<AppStore>().isBalanceHide;
 
     return SPaddingH24(
       child: Observer(
@@ -199,11 +201,13 @@ class _InvestListScreenState extends State<InvestList> {
                 const SpaceH8(),
                 DataLine(
                   mainText: intl.invest_report_rollover,
-                  secondaryText: marketFormat(
-                    decimal: item.rollOverAmount,
-                    accuracy: 2,
-                    symbol: 'USDT',
-                  ),
+                  secondaryText: isBalanceHide
+                      ? '**** USDT'
+                      : marketFormat(
+                          decimal: item.rollOverAmount,
+                          accuracy: 2,
+                          symbol: 'USDT',
+                        ),
                 ),
                 const SpaceH8(),
                 DataLine(
