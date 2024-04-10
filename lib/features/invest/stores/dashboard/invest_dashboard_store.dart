@@ -484,7 +484,7 @@ abstract class _InvestDashboardStoreBase with Store {
         ? (price[0].lastPrice! - position.openPrice!) * position.volumeBase! + position.rollOver! - position.openFee!
         : -(price[0].lastPrice! - position.openPrice!) * position.volumeBase! + position.rollOver! - position.openFee!;
 
-    final result = Decimal.fromInt(100) * profit / position.amount!;
+    final result = profit * Decimal.fromInt(100) / position.amount!;
 
     return Decimal.fromJson('${result.toDouble()}');
   }
