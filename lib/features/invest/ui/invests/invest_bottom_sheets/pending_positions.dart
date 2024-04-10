@@ -165,7 +165,7 @@ class PendingInvestList extends StatelessObserverWidget {
                     for (final position in listToShow) ...[
                       InvestLine(
                         currency: currencyFrom(currencies, getInstrumentBySymbol(position.symbol ?? '').name ?? ''),
-                        price: position.profitLoss ?? Decimal.zero,
+                        price: position.pendingPrice ?? Decimal.zero,
                         operationType: position.direction ?? Direction.undefined,
                         isPending: true,
                         amount: position.amount ?? Decimal.zero,
