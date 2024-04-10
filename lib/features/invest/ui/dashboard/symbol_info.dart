@@ -6,6 +6,8 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -161,11 +163,13 @@ class SymbolInfo extends StatelessObserverWidget {
                     ),
                   ),
                   Text(
-                    marketFormat(
-                      decimal: profit!,
-                      accuracy: 2,
-                      symbol: instrument.currencyQuote ?? '',
-                    ),
+                    getIt<AppStore>().isBalanceHide
+                        ? '**** ${instrument.currencyQuote ?? ''}'
+                        : marketFormat(
+                            decimal: profit!,
+                            accuracy: 2,
+                            symbol: instrument.currencyQuote ?? '',
+                          ),
                     style: STStyles.body2InvestB.copyWith(
                       color: colors.black,
                     ),
