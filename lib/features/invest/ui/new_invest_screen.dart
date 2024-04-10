@@ -104,6 +104,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
+      onTap: () => FocusScope.of(context).unfocus(),
       child: SPageFrame(
         loaderText: intl.register_pleaseWait,
         header: SPaddingH24(
