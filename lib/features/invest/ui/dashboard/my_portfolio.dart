@@ -181,9 +181,7 @@ class MyPortfolio extends StatelessObserverWidget {
                 ),
                 const SpaceH2(),
                 Text(
-                  getIt<AppStore>().isBalanceHide
-                      ? '****'
-                      : '${marketFormat(decimal: percent, accuracy: 2, symbol: '')}%',
+                  '${marketFormat(decimal: percent, accuracy: 2, symbol: '')}%',
                   style: STStyles.body1InvestSM.copyWith(
                     color: colors.black,
                   ),
