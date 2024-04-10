@@ -18,7 +18,6 @@ import 'package:simple_networking/modules/signal_r/models/invest_sectors_model.d
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_response_model.dart';
-import 'dart:developer' as dev;
 
 import '../../../../core/di/di.dart';
 import '../../../../core/services/key_value_service.dart';
@@ -485,11 +484,7 @@ abstract class _InvestDashboardStoreBase with Store {
         ? (price[0].lastPrice! - position.openPrice!) * position.volumeBase! + position.rollOver! - position.openFee!
         : -(price[0].lastPrice! - position.openPrice!) * position.volumeBase! + position.rollOver! - position.openFee!;
 
-    dev.log(profit.toString());
-
     final result = profit * Decimal.fromInt(100) / position.amount!;
-
-    dev.log(result.toDouble().toString());
 
     return Decimal.fromJson('${result.toDouble()}');
   }
