@@ -38,7 +38,7 @@ class ActiveInvestList extends StatelessObserverWidget {
     final currencies = sSignalRModules.currenciesList;
     final currency = currencyFrom(currencies, 'USDT');
 
-    int getGroupedLength (String symbol) {
+    int getGroupedLength(String symbol) {
       final groupedPositions = investPositionsStore.activeList.where(
         (element) => element.symbol == symbol,
       );
@@ -46,10 +46,12 @@ class ActiveInvestList extends StatelessObserverWidget {
       return groupedPositions.length;
     }
 
-    Decimal getGroupedProfit (String symbol) {
-      final groupedPositions = investPositionsStore.activeList.where(
-        (element) => element.symbol == symbol,
-      ).toList();
+    Decimal getGroupedProfit(String symbol) {
+      final groupedPositions = investPositionsStore.activeList
+          .where(
+            (element) => element.symbol == symbol,
+          )
+          .toList();
       var profit = Decimal.zero;
       for (var i = 0; i < groupedPositions.length; i++) {
         profit += investStore.getProfitByPosition(groupedPositions[i]);
@@ -58,10 +60,12 @@ class ActiveInvestList extends StatelessObserverWidget {
       return profit;
     }
 
-    Decimal getGroupedProfitPercent (String symbol) {
-      final groupedPositions = investPositionsStore.activeList.where(
-        (element) => element.symbol == symbol,
-      ).toList();
+    Decimal getGroupedProfitPercent(String symbol) {
+      final groupedPositions = investPositionsStore.activeList
+          .where(
+            (element) => element.symbol == symbol,
+          )
+          .toList();
       var profit = Decimal.zero;
       var amount = Decimal.zero;
       for (var i = 0; i < groupedPositions.length; i++) {
@@ -72,10 +76,12 @@ class ActiveInvestList extends StatelessObserverWidget {
       return Decimal.fromJson('${(Decimal.fromInt(100) * profit / amount).toDouble()}');
     }
 
-    Decimal getGroupedLeverage (String symbol) {
-      final groupedPositions = investPositionsStore.activeList.where(
-        (element) => element.symbol == symbol,
-      ).toList();
+    Decimal getGroupedLeverage(String symbol) {
+      final groupedPositions = investPositionsStore.activeList
+          .where(
+            (element) => element.symbol == symbol,
+          )
+          .toList();
       var leverage = 0;
       for (var i = 0; i < groupedPositions.length; i++) {
         leverage += groupedPositions[i].multiplicator ?? 0;
@@ -84,10 +90,12 @@ class ActiveInvestList extends StatelessObserverWidget {
       return Decimal.fromJson('${(Decimal.fromInt(leverage) / Decimal.fromInt(groupedPositions.length)).toDouble()}');
     }
 
-    Decimal getGroupedAmount (String symbol) {
-      final groupedPositions = investPositionsStore.activeList.where(
-        (element) => element.symbol == symbol,
-      ).toList();
+    Decimal getGroupedAmount(String symbol) {
+      final groupedPositions = investPositionsStore.activeList
+          .where(
+            (element) => element.symbol == symbol,
+          )
+          .toList();
       var amount = Decimal.zero;
       for (var i = 0; i < groupedPositions.length; i++) {
         amount += groupedPositions[i].amount ?? Decimal.zero;
@@ -96,18 +104,22 @@ class ActiveInvestList extends StatelessObserverWidget {
       return amount;
     }
 
-    InvestPositionModel getPosition (String symbol) {
-      final groupedPositions = investPositionsStore.activeList.where(
-        (element) => element.symbol == symbol,
-      ).toList();
+    InvestPositionModel getPosition(String symbol) {
+      final groupedPositions = investPositionsStore.activeList
+          .where(
+            (element) => element.symbol == symbol,
+          )
+          .toList();
 
       return groupedPositions[0];
     }
 
-    InvestInstrumentModel getInstrumentBySymbol (String symbol) {
-      final instrument = investPositionsStore.instrumentsList.where(
-        (element) => element.symbol == symbol,
-      ).toList();
+    InvestInstrumentModel getInstrumentBySymbol(String symbol) {
+      final instrument = investPositionsStore.instrumentsList
+          .where(
+            (element) => element.symbol == symbol,
+          )
+          .toList();
 
       return instrument[0];
     }
@@ -122,10 +134,11 @@ class ActiveInvestList extends StatelessObserverWidget {
                 var profitSum = Decimal.zero;
                 if (sSignalRModules.investPositionsData != null &&
                     sSignalRModules.investPositionsData!.positions.isNotEmpty) {
-                  final activePositions = sSignalRModules.investPositionsData!
-                      .positions.where(
+                  final activePositions = sSignalRModules.investPositionsData!.positions
+                      .where(
                         (element) => element.status == PositionStatus.opened,
-                  ).toList();
+                      )
+                      .toList();
                   for (var i = 0; i < activePositions.length; i++) {
                     amountSum += activePositions[i].amount!;
                     profitSum += investStore.getProfitByPosition(activePositions[i]);
@@ -146,32 +159,27 @@ class ActiveInvestList extends StatelessObserverWidget {
 
                 return MainInvestBlock(
                   pending: Decimal.zero,
-                  amount: instrument != null
-                    ? getGroupedAmount(instrument!.symbol ?? '')
-                    : amountSum,
-                  balance:  instrument != null
-                    ? getGroupedProfit(instrument!.symbol ?? '')
-                    : profitSum,
+                  amount: instrument != null ? getGroupedAmount(instrument!.symbol ?? '') : amountSum,
+                  balance: instrument != null ? getGroupedProfit(instrument!.symbol ?? '') : profitSum,
                   percent: instrument != null
-                    ? getGroupedProfitPercent(instrument!.symbol ?? '')
-                    : Decimal.fromJson('${(Decimal.fromInt(100) * profitSum / amountSum).toDouble()}'),
+                      ? getGroupedProfitPercent(instrument!.symbol ?? '')
+                      : Decimal.fromJson('${(Decimal.fromInt(100) * profitSum / amountSum).toDouble()}'),
                   onShare: () {},
                   currency: currency,
                   title: intl.invest_active_invest,
                 );
               },
             ),
-            if (
-              !investPositionsStore.isActiveGrouped ||
-              (investPositionsStore.isActiveGrouped &&
-              investPositionsStore.instrumentsList.where(
-                (element) => getGroupedLength(element.symbol ?? '') > 1,
-              ).toList().isNotEmpty
-            ))
+            if (!investPositionsStore.isActiveGrouped ||
+                (investPositionsStore.isActiveGrouped &&
+                    investPositionsStore.instrumentsList
+                        .where(
+                          (element) => getGroupedLength(element.symbol ?? '') > 1,
+                        )
+                        .toList()
+                        .isNotEmpty))
               AboveListLine(
-                mainColumn:  instrument != null
-                  ? intl.invest_in_group
-                  : intl.invest_group,
+                mainColumn: instrument != null ? intl.invest_in_group : intl.invest_group,
                 secondaryColumn: '${intl.invest_list_amount} (${currency.symbol})',
                 lastColumn: '${intl.invest_list_pl} (${currency.symbol})',
                 withCheckbox: instrument == null,
@@ -188,11 +196,11 @@ class ActiveInvestList extends StatelessObserverWidget {
                     width: MediaQuery.of(context).size.width - 48,
                     height: MediaQuery.of(context).size.height - 284,
                     title: sSignalRModules.investWalletData?.balance == Decimal.zero
-                      ? intl.invest_active_empty_deposit
-                      : intl.invest_active_empty,
+                        ? intl.invest_active_empty_deposit
+                        : intl.invest_active_empty,
                     buttonName: sSignalRModules.investWalletData?.balance == Decimal.zero
-                      ? intl.invest_deposit
-                      : intl.invest_new_invest,
+                        ? intl.invest_deposit
+                        : intl.invest_new_invest,
                     onButtonTap: () {
                       if (sSignalRModules.investWalletData?.balance == Decimal.zero) {
                         final actualAsset = currency;
@@ -234,16 +242,13 @@ class ActiveInvestList extends StatelessObserverWidget {
                 }
 
                 if (instrument != null) {
-                  final positions = investPositionsStore.activeList
-                      .where((element) => element.symbol == instrument!.symbol)
-                      .toList();
+                  final positions =
+                      investPositionsStore.activeList.where((element) => element.symbol == instrument!.symbol).toList();
                   positions.sort((a, b) {
                     if (investPositionsStore.activeSortState == 1) {
-                      return investStore.getProfitByPosition(b)
-                          .compareTo(investStore.getProfitByPosition(a));
+                      return investStore.getProfitByPosition(b).compareTo(investStore.getProfitByPosition(a));
                     } else if (investPositionsStore.activeSortState == 2) {
-                      return investStore.getProfitByPosition(a)
-                          .compareTo(investStore.getProfitByPosition(b));
+                      return investStore.getProfitByPosition(a).compareTo(investStore.getProfitByPosition(b));
                     }
 
                     return 0.compareTo(1);
@@ -273,8 +278,7 @@ class ActiveInvestList extends StatelessObserverWidget {
                             );
                           },
                         ),
-                        if (position.id != positions.last.id)
-                          const SDivider(),
+                        if (position.id != positions.last.id) const SDivider(),
                       ],
                     ],
                   );
@@ -302,18 +306,24 @@ class ActiveInvestList extends StatelessObserverWidget {
                               );
                             },
                           ),
-                          if (instrument.symbol != investPositionsStore.instrumentsList.where(
-                            (element) => getGroupedLength(element.symbol ?? '') > 1,
-                          ).toList().last.symbol)
+                          if (instrument.symbol !=
+                              investPositionsStore.instrumentsList
+                                  .where(
+                                    (element) => getGroupedLength(element.symbol ?? '') > 1,
+                                  )
+                                  .toList()
+                                  .last
+                                  .symbol)
                             const SDivider(),
                         ],
                       ],
                       const SpaceH10(),
-                      if (
-                        investPositionsStore.instrumentsList.where(
-                          (element) => getGroupedLength(element.symbol ?? '') == 1,
-                        ).toList().isNotEmpty
-                      )
+                      if (investPositionsStore.instrumentsList
+                          .where(
+                            (element) => getGroupedLength(element.symbol ?? '') == 1,
+                          )
+                          .toList()
+                          .isNotEmpty)
                         AboveListLine(
                           mainColumn: intl.invest_single,
                           secondaryColumn: '${intl.invest_list_amount} (${currency.symbol})',
@@ -347,9 +357,14 @@ class ActiveInvestList extends StatelessObserverWidget {
                               );
                             },
                           ),
-                          if (instrument.symbol != investPositionsStore.instrumentsList.where(
-                                (element) => getGroupedLength(element.symbol ?? '') == 1,
-                          ).toList().last.symbol)
+                          if (instrument.symbol !=
+                              investPositionsStore.instrumentsList
+                                  .where(
+                                    (element) => getGroupedLength(element.symbol ?? '') == 1,
+                                  )
+                                  .toList()
+                                  .last
+                                  .symbol)
                             const SDivider(),
                         ],
                       ],
@@ -359,11 +374,9 @@ class ActiveInvestList extends StatelessObserverWidget {
                 final positions = investPositionsStore.activeList;
                 positions.sort((a, b) {
                   if (investPositionsStore.activeSortState == 1) {
-                    return investStore.getProfitByPosition(b)
-                        .compareTo(investStore.getProfitByPosition(a));
+                    return investStore.getProfitByPosition(b).compareTo(investStore.getProfitByPosition(a));
                   } else if (investPositionsStore.activeSortState == 2) {
-                    return investStore.getProfitByPosition(a)
-                        .compareTo(investStore.getProfitByPosition(b));
+                    return investStore.getProfitByPosition(a).compareTo(investStore.getProfitByPosition(b));
                   }
 
                   return 0.compareTo(1);

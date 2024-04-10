@@ -6,6 +6,7 @@ import 'package:charts/model/resolution_string_enum.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_new_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_positions_store.dart';
@@ -113,6 +114,8 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
 
     final colors = sKit.colors;
     final currency = currencyFrom(currencies, 'USDT');
+    final isBalanceHide = getIt<AppStore>().isBalanceHide;
+
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       loading: investNewStore.loader,
@@ -187,13 +190,15 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
                             DataLine(
                               fullWidth: false,
                               mainText: intl.invest_close_fee,
-                              secondaryText: 'Est. ${volumeFormat(
-                                decimal: (investNewStore.position!.volumeBase ?? Decimal.zero) *
-                                    investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? '') *
-                                    (widget.instrument.closeFee ?? Decimal.zero),
-                                accuracy: 2,
-                                symbol: 'USDT',
-                              )}',
+                              secondaryText: isBalanceHide
+                                  ? 'Est. **** USDT'
+                                  : 'Est. ${volumeFormat(
+                                      decimal: (investNewStore.position!.volumeBase ?? Decimal.zero) *
+                                          investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? '') *
+                                          (widget.instrument.closeFee ?? Decimal.zero),
+                                      accuracy: 2,
+                                      symbol: 'USDT',
+                                    )}',
                             ),
                           ],
                         ),
