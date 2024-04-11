@@ -174,7 +174,7 @@ class PendingInvestList extends StatelessObserverWidget {
                         historyCount: 1,
                         profit: investStore.getProfitByPosition(position),
                         profitPercent: investStore.getYieldByPosition(position),
-                        accuracy: getInstrumentBySymbol(position.symbol ?? '').priceAccuracy ?? 2,
+                        accuracy: currency.accuracy,
                         onTap: () {
                           sRouter.push(
                             PendingInvestManageRouter(
