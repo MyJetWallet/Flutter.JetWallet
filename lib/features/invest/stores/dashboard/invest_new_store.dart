@@ -496,7 +496,7 @@ abstract class _InvestNewStoreBase with Store {
                 ),
                 const SpaceH8(),
                 DataLine(
-                  mainText: intl.invest_trigger_price,
+                  mainText: intl.invest_pending_price,
                   secondaryText: isBalanceHide
                       ? '**** USDT'
                       : volumeFormat(
@@ -585,7 +585,7 @@ abstract class _InvestNewStoreBase with Store {
                 ),
                 const SpaceH8(),
                 DataLine(
-                  mainText: intl.invest_trigger_price,
+                  mainText: intl.invest_pending_price,
                   secondaryText: isBalanceHide
                       ? '**** USDT'
                       : volumeFormat(

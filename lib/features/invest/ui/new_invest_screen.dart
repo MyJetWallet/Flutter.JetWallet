@@ -546,7 +546,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                                 icon: const SizedBox(),
                                 controller: investNewStore.tpPriceController,
                                 keyboardType: TextInputType.number,
-                                enabled: investNewStore.isSLTPPrice,
+                                enabled: investNewStore.isSLTPPrice && investNewStore.isTP,
                               );
                             },
                           ),
@@ -708,7 +708,7 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                                 icon: const SizedBox(),
                                 controller: investNewStore.slPriceController,
                                 keyboardType: TextInputType.number,
-                                enabled: investNewStore.isSLTPPrice,
+                                enabled: investNewStore.isSLTPPrice && investNewStore.isSl,
                               );
                             },
                           ),
