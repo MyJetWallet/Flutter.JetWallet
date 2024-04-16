@@ -179,45 +179,53 @@ abstract class _InvestNewStoreBase with Store {
   @action
   void updateTPPrice() {
     final investStore = getIt.get<InvestDashboardStore>();
-    final effectiveMarketPrice = isOrderMode
-        ? pendingValue
-        : Decimal.parse(investStore.getPendingPriceBySymbol(instrument?.symbol ?? '').toString());
+    final marketPrice = isOrderMode ? pendingValue : investStore.getPendingPriceBySymbol(instrument?.symbol ?? '');
+    final investPositionTakeProfitAmount = tpAmountValue;
     final volume = amountValue * Decimal.fromInt(multiplicator);
     final openFee = volume * (instrument?.openFee ?? Decimal.zero);
-
-    final closeFee = isBuyMode
-        ? (volume + tpAmountValue) * Decimal.fromInt(multiplicator) * (instrument?.closeFee ?? Decimal.zero)
-        : (volume - tpAmountValue) * Decimal.fromInt(multiplicator) * (instrument?.closeFee ?? Decimal.zero);
-
-    final feesOverVolume = ((openFee + closeFee) / volume).toDecimal();
-
-    tpPriceValue = effectiveMarketPrice *
-        (Decimal.one + ((isBuyMode ? tpAmountValue : -tpAmountValue) / volume).toDecimal() + feesOverVolume);
-
-    tpPriceController.text =
-        'est. ${volumeFormat(decimal: tpPriceValue, symbol: '', accuracy: instrument?.priceAccuracy ?? 2)}';
+    final closeFee = (volume + investPositionTakeProfitAmount) *
+        Decimal.fromInt(multiplicator) *
+        (instrument?.closeFee ?? Decimal.zero);
+    tpPriceValue = isBuyMode
+        ? marketPrice *
+            (Decimal.one +
+                Decimal.fromJson('${(investPositionTakeProfitAmount / volume).toDouble()}') +
+                Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'))
+        : marketPrice *
+            (Decimal.one -
+                Decimal.fromJson('${(investPositionTakeProfitAmount / volume).toDouble()}') -
+                Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'));
+    tpPriceController.text = 'est. ${volumeFormat(
+      decimal: tpPriceValue,
+      symbol: '',
+      accuracy: instrument?.priceAccuracy ?? 2,
+    )}';
   }
 
   @action
   void updateSlPrice() {
     final investStore = getIt.get<InvestDashboardStore>();
-    final effectiveMarketPrice = isOrderMode
-        ? pendingValue
-        : Decimal.parse(investStore.getPendingPriceBySymbol(instrument?.symbol ?? '').toString());
+    final marketPrice = isOrderMode ? pendingValue : investStore.getPendingPriceBySymbol(instrument?.symbol ?? '');
+    final investPositionStopLossAmount = slAmountValue;
     final volume = amountValue * Decimal.fromInt(multiplicator);
     final openFee = volume * (instrument?.openFee ?? Decimal.zero);
-
-    final closeFee = isBuyMode
-        ? (volume + slAmountValue) * Decimal.fromInt(multiplicator) * (instrument?.closeFee ?? Decimal.zero)
-        : (volume - slAmountValue) * Decimal.fromInt(multiplicator) * (instrument?.closeFee ?? Decimal.zero);
-
-    final feesOverVolume = ((openFee + closeFee) / volume).toDecimal();
-
-    slPriceValue = effectiveMarketPrice *
-        (Decimal.one + ((isBuyMode ? -slAmountValue : slAmountValue) / volume).toDecimal() + feesOverVolume);
-
-    slPriceController.text =
-        'est. ${volumeFormat(decimal: slPriceValue, symbol: '', accuracy: instrument?.priceAccuracy ?? 2)}';
+    final closeFee = (volume + investPositionStopLossAmount) *
+        Decimal.fromInt(multiplicator) *
+        (instrument?.closeFee ?? Decimal.zero);
+    slPriceValue = isBuyMode
+        ? marketPrice *
+            (Decimal.one +
+                Decimal.fromJson('${(investPositionStopLossAmount / volume).toDouble()}') +
+                Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'))
+        : marketPrice *
+            (Decimal.one -
+                Decimal.fromJson('${(investPositionStopLossAmount / volume).toDouble()}') -
+                Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'));
+    slPriceController.text = 'est. ${volumeFormat(
+      decimal: slPriceValue,
+      symbol: '',
+      accuracy: instrument?.priceAccuracy ?? 2,
+    )}';
   }
 
   @observable
