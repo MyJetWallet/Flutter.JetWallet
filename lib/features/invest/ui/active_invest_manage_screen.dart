@@ -297,7 +297,7 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
               showFull: true,
               title: intl.invest_my_invest,
               onButtonTap: () {
-                showInvestReportBottomSheet(context, widget.position, widget.instrument);
+                showInvestReportBottomSheet(context, investNewStore.position!, widget.instrument);
               },
             ),
           ),
