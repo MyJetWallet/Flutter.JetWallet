@@ -52,4 +52,5 @@ flutter:
     - assets/svg/other/small/
     - assets/svg/assets/fiat/
     - assets/svg/assets/crypto/
+    - assets/svg/brand/small/
     - assets/images/

@@ -99,6 +99,10 @@ import 'package:jetwallet/features/payment_methods/ui/payment_methods.dart';
 import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/features/pin_screen/ui/pin_screen.dart';
+import 'package:jetwallet/features/prepaid_card/screens/buy_vouncher_amount_screen.dart';
+import 'package:jetwallet/features/prepaid_card/screens/pre_buy_tabs_screen.dart';
+import 'package:jetwallet/features/prepaid_card/screens/prepaid_card_details_screen.dart';
+import 'package:jetwallet/features/prepaid_card/screens/prepaid_card_service_screen.dart';
 import 'package:jetwallet/features/receive_gift/progres_screen.dart';
 import 'package:jetwallet/features/return_to_wallet/model/preview_return_to_wallet_input.dart';
 import 'package:jetwallet/features/return_to_wallet/ui/preview_return_to_wallet.dart';
@@ -138,6 +142,7 @@ import 'package:jetwallet/widgets/result_screens/verifying_screen/success_verify
 import 'package:jetwallet/widgets/result_screens/verifying_screen/verifying_screen.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:simple_kit/modules/account/phone_number/simple_number.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
@@ -152,6 +157,8 @@ import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/b
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_prepaid_card_intention_dto_list_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/prepaid_card/purchase_card_brand_list_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 
@@ -166,6 +173,7 @@ import '../../features/iban/widgets/iban_billing_address.dart';
 import '../../features/invest/invest_screen.dart';
 import '../../features/invest/ui/invest_history_screen.dart';
 import '../../features/invest/ui/new_invest_screen.dart';
+import '../../features/prepaid_card/screens/buy_vouncher_confirmation_screen.dart';
 import '../../features/send_gift/screens/gift_amount.dart';
 import '../../features/send_gift/screens/gift_order_summary.dart';
 import '../../features/send_gift/screens/gift_receivers_details_screen.dart';
@@ -740,6 +748,28 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/invest_withdraw_confrimation',
       page: InvestWithdrawConfrimationRoute.page,
+    ),
+    AutoRoute(
+      path: '/prepaid_card_service',
+      page: PrepaidCardServiceRouter.page,
+    ),
+    AutoRoute(
+      path: '/prepaid_card_pre_buy_tabs',
+      page: PrepaidCardPreBuyTabsRouter.page,
+      fullscreenDialog: true,
+    ),
+    AutoRoute(
+      path: '/buy_vouncher_amount',
+      page: BuyVouncherAmountRouter.page,
+    ),
+    AutoRoute(
+      path: '/prepaid_card_details',
+      page: PrepaidCardDetailsRouter.page,
+      fullscreenDialog: true,
+    ),
+    AutoRoute(
+      path: '/buy_vouncher_confirmation',
+      page: BuyVouncherConfirmationRoute.page,
     ),
   ];
 }

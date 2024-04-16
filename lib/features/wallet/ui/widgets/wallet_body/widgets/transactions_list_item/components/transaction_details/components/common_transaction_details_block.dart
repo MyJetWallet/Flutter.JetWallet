@@ -102,7 +102,8 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             transactionListItem.operationType == OperationType.earnDeposit ||
             transactionListItem.operationType == OperationType.earnPayroll ||
             transactionListItem.operationType == OperationType.earnWithdrawal ||
-            transactionListItem.operationType == OperationType.cardTransfer) ...[
+            transactionListItem.operationType == OperationType.cardTransfer ||
+            transactionListItem.operationType == OperationType.buyPrepaidCard) ...[
           const SpaceH26(),
         ] else ...[
           const SpaceH67(),
@@ -150,7 +151,8 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             transactionListItem.operationType == OperationType.earnDeposit ||
             transactionListItem.operationType == OperationType.earnPayroll ||
             transactionListItem.operationType == OperationType.earnWithdrawal ||
-            transactionListItem.operationType == OperationType.cardTransfer)
+            transactionListItem.operationType == OperationType.cardTransfer ||
+            transactionListItem.operationType == OperationType.buyPrepaidCard)
           const SizedBox()
         else if ((!nftTypes.contains(transactionListItem.operationType) || catchingTypes) &&
             !operationWithoutBalanceShow) ...[
@@ -205,7 +207,8 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             transactionListItem.operationType == OperationType.earnDeposit ||
             transactionListItem.operationType == OperationType.earnPayroll ||
             transactionListItem.operationType == OperationType.earnWithdrawal ||
-            transactionListItem.operationType == OperationType.cardTransfer)
+            transactionListItem.operationType == OperationType.cardTransfer ||
+            transactionListItem.operationType == OperationType.buyPrepaidCard)
           const SizedBox.shrink()
         else
           const SpaceH72(),

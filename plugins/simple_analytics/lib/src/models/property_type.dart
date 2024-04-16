@@ -114,4 +114,9 @@ class PropertyType {
   static const isFullWithdrawalType = 'Is full withdrawtype';
   static const fullWithdrawType = 'Full withdraw type';
   static const withdrawAmount = 'Withdraw amount';
+  static const amount = 'Amount';
+  static const country = 'Country';
+  static const isAvailableAppleGooglePay = 'Is available Apple/Google pay';
+  static const voucher = 'Voucher';
+  static const isCompleted = 'Is completed?';
 }

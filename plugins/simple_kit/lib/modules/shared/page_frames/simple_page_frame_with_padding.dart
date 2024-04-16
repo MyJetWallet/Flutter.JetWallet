@@ -16,6 +16,7 @@ class SPageFrameWithPadding extends StatelessObserverWidget {
     this.color = Colors.transparent,
     this.resizeToAvoidBottomInset = true,
     required this.child,
+    this.needPadding = true,
   });
 
   final Widget? header;
@@ -26,6 +27,7 @@ class SPageFrameWithPadding extends StatelessObserverWidget {
   final StackLoaderStore? loading;
   final Widget? customLoader;
   final Widget? bottomNavigationBar;
+  final bool needPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,8 @@ class SPageFrameWithPadding extends StatelessObserverWidget {
         loaderText: loaderText,
         loading: loading,
         customLoader: customLoader,
-        child: SPaddingH24(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: needPadding ? 24 : 0),
           child: Column(
             children: [
               if (header != null) header!,

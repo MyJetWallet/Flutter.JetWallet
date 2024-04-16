@@ -8,8 +8,7 @@ SPhoneNumber? countryCodeByUserRegister() {
 
   if (sUserInfo.countryOfRegistration.isNotEmpty) {
     for (final number in sPhoneNumbers) {
-      if (number.isoCode.toLowerCase() ==
-          sUserInfo.countryOfRegistration.toLowerCase()) {
+      if (number.isoCode.toLowerCase() == sUserInfo.countryOfRegistration.toLowerCase()) {
         phoneNumber = number;
       }
     }
@@ -17,12 +16,21 @@ SPhoneNumber? countryCodeByUserRegister() {
     final userCountry = getIt.get<ProfileGetUserCountry>();
 
     for (final number in sPhoneNumbers) {
-      if (number.isoCode.toLowerCase() ==
-          userCountry.profileUserCountry.countryCode.toLowerCase()) {
+      if (number.isoCode.toLowerCase() == userCountry.profileUserCountry.countryCode.toLowerCase()) {
         phoneNumber = number;
       }
     }
   }
 
   return phoneNumber;
+}
+
+SPhoneNumber getCountryByCode(String code) {
+  final country = sPhoneNumbers.firstWhere(
+    (element) => element.isoCode == code,
+    orElse: () {
+      throw Exception('Invalid country code');
+    },
+  );
+  return country;
 }

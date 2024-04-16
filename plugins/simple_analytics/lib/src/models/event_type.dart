@@ -602,4 +602,56 @@ class EventType {
   static const tapOnTheAddToAppleWalletButton = 'Tap on the ‘Add to Apple Wallet’ button';
   static const popupAddCardToWalletScreenView = 'Popup Add card to Wallet’ screen view';
   static const tapOnTheContinueAddToWalletButton = 'Tap on the ‘Continue add to wallet’ button';
+
+  // Prepaid card
+  static const tapOnTheBunnerPrepaidCardOnWallet = 'Tap on the  bunner ‘Prepaid card’ on Wallet';
+  static const tapOnTheCloseButtonOnBunnerPrepaidCard = 'Tap on the  Close button on bunner ‘Prepaid card’';
+  static const tapOnTheBunnerPrepaidCardsOnProfile = 'Tap on the  bunner ‘Prepaid cards’ on Profile';
+  static const prepaidCardServiceScreenView = '‘Prepaid card service’ screen view';
+  static const tapOnTheBackButtonFromPrepaidCardServiceScreen =
+      'Tap on the ‘Back’ button from ‘Prepaid card service’ screen';
+  static const tapOnTheCardManagementButtonOnPrepaidCardServiceScreen =
+      'Tap on the ‘Card management’ button on ‘Prepaid card service’ screen';
+  static const redirectingPrepaidCardPopupView = '‘Redirecting Prepaid card’ popup view';
+  static const tapOnTheContinueRedirectingButton = 'Tap on the ‘Continue Redirecting’ button';
+  static const tapOnTheCancelRedirectingButton = 'Tap on the ‘Cancel Redirecting’ button';
+  static const tapOnTheBuyCardButton = 'Tap on the ‘Buy Card’ button';
+  static const guideToUsingScreenView = '‘Guide to Using’ screen view';
+  static const tapOnTheNextButtonOnGuideToUsingScreen = 'Tap on the ‘Next’ button on ‘Guide to Using’ screen';
+  static const tapOnTheCloseButtonOnGuideToUsingScreen = 'Tap on the ‘Close’ button on ‘Guide to Using’ screen';
+  static const privacyScreenView = '‘Privacy’ screen view';
+  static const tapOnTheNextButtonOnPrivacyScreen = 'Tap on the ‘Next’ button on ‘Privacy’ screen';
+  static const tapOnTheCloseButtonOnPrivacyScreen = 'Tap on the ‘Close’ button on ‘Privacy’ screen';
+  static const tapOnTheBackButtonOnPrivacyScreen = 'Tap on the ‘Back’ button on ‘Privacy’ screen';
+  static const voucherActivationScreenView = '‘Voucher Activation’ screen view';
+  static const tapOnTheNextButtonOnVoucherActivationScreen = 'Tap on the ‘Next’ button on ‘Voucher Activation’ screen';
+  static const tapOnTheCloseButtonOnVoucherActivationScreen =
+      'Tap on the ‘Close’ button on ‘Voucher Activation’ screen';
+  static const tapOnTheBackButtonOnVoucherActivationScreen = 'Tap on the ‘Back’ button on ‘Voucher Activation’ screen';
+  static const choosePrepaidCardScreenView = '‘Choose prepaid card’ screen view';
+  static const tapOnTheBackButtonOnChoosePrepaidCardScreen = 'Tap on the ‘Back’ button on ‘Choose prepaid card’ screen';
+  static const tapOnTheCloseButtonOnChoosePrepaidCardScreen =
+      'Tap on the ‘Close’ button on ‘Choose prepaid card’ screen';
+  static const tapOnTheNextButtonOnChoosePrepaidCardScreen = 'Tap on the ‘Next’ button on ‘Choose prepaid card’ screen';
+  static const tapOnTheChooseResidentialCountryButtonOnChoosePrepaidCardScreen =
+      'Tap on the ‘Choose residential country’ button on ‘Choose prepaid card’ screen';
+  static const amountBuyVoucherScreenView = '‘Amount - buy voucher’ screen view';
+  static const tapOnTheBackButtonOnAmountBuyVoucherScreen = 'Tap on the ‘Back’ button on ‘Amount - buy voucher’ screen';
+  static const tapOnTheContinueButtonOnAmountBuyVoucherScreen =
+      'Tap on the ‘Continue’ button on ‘Amount - buy voucher’ screen';
+  static const orderSummaryBuyVoucherScreenView = '‘Order summary - buy voucher’ screen view';
+  static const tapOnTheBackButtonFromOrderSummaryBuyCoucherScreenView =
+      'Tap on the ‘Back’ button from ‘Order summary - buy voucher’ screen view';
+  static const tapOnTheConfirmButtonOnOrderSummaryBuyVoucherScreenView =
+      'Tap on the ‘Confirm’ button on ‘Order summary - buy voucher’ screen view';
+  static const successPrepaidPurchaseScreenView = '‘Success Prepaid  purchase’ screen view';
+  static const failedPrepaidPurchaseScreenView = '‘Failed Prepaid  purchase’ screen view';
+  static const tapOnTheAnyoucherButton = 'Tap on the ‘Any voucher’ button';
+  static const prepaidCardActivationScreenView = '‘Prepaid card activation’ screen view';
+  static const tapOnTheCloseButtonOnPrepaidCardActivationScreen =
+      'Tap on the ‘Close’ button on ‘Prepaid card activation’ screen';
+  static const tapOnTheCopyButtonOnPrepaidCardActivationScreen =
+      'Tap on the ‘Copy’ button on ‘Prepaid card activation’ screen';
+  static const tapOnTheIssueCardButtonOnPrepaidCardActivationScreen =
+      'Tap on the ‘Issue card’ button on ‘Prepaid card activation’ screen';
 }
