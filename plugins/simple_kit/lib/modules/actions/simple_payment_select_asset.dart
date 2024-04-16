@@ -5,7 +5,7 @@ import '../../simple_kit.dart';
 
 class SPaymentSelectAsset extends StatelessWidget {
   const SPaymentSelectAsset({
-    Key? key,
+    super.key,
     this.onTap,
     this.helper = '',
     this.amount = '',
@@ -13,7 +13,7 @@ class SPaymentSelectAsset extends StatelessWidget {
     required this.name,
     this.description,
     required this.widgetSize,
-  }) : super(key: key);
+  });
 
   final Function()? onTap;
   final String helper;

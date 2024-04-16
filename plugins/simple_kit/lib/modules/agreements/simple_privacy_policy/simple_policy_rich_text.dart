@@ -6,7 +6,7 @@ import '../../../../simple_kit.dart';
 
 class SimplePolicyRichText extends StatelessWidget {
   const SimplePolicyRichText({
-    Key? key,
+    super.key,
     required this.firstText,
     required this.userAgreementText,
     required this.onUserAgreementTap,
@@ -21,7 +21,7 @@ class SimplePolicyRichText extends StatelessWidget {
     this.firstAdditionalText,
     this.activeText2,
     this.onActiveText2Tap,
-  }) : super(key: key);
+  });
 
   final String firstText;
   final String userAgreementText;

@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/36x36/light/fingerprint/simple_light_fi
 import 'package:simple_kit/utils/enum.dart';
 
 class SFingerprintIcon extends StatelessObserverWidget {
-  const SFingerprintIcon({Key? key}) : super(key: key);
+  const SFingerprintIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

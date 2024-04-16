@@ -2,21 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 
 class SChipSuggestion extends HookWidget {
   const SChipSuggestion({
-    Key? key,
+    super.key,
     required this.leftIcon,
     required this.subTitle,
     required this.title,
     required this.rightValue,
     this.rightIcon,
     this.callback,
-  }) : super(key: key);
+  });
 
   final Widget leftIcon;
 

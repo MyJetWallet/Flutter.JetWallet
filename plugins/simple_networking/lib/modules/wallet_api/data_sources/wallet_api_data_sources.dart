@@ -3212,7 +3212,7 @@ class WalletApiDataSources {
   }) async {
     try {
       final response = await _apiClient.post(
-        '${_apiClient.options.walletApi}/InvestTrading/InvestAudit/get-position-history?positionId=${id}&skip=${skip}&take=${take}',
+        '${_apiClient.options.walletApi}/InvestTrading/InvestAudit/get-position-history?positionId=$id&skip=$skip&take=$take',
         data: {
           "positionId": id,
         },
@@ -3220,7 +3220,7 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse<Map>(responseData);
+        handleFullResponse<Map>(responseData);
 
         final out = <NewInvestJournalModel>[];
         for (final element in responseData['data']) {
@@ -3245,7 +3245,7 @@ class WalletApiDataSources {
   }) async {
     try {
       final response = await _apiClient.post(
-        '${_apiClient.options.walletApi}/InvestTrading/InvestAudit/get-position-rollover?positionId=${id}&skip=${skip}&take=${take}',
+        '${_apiClient.options.walletApi}/InvestTrading/InvestAudit/get-position-rollover?positionId=$id&skip=$skip&take=$take',
         data: {
           "positionId": id,
         },
@@ -3253,7 +3253,7 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse<Map>(responseData);
+        handleFullResponse<Map>(responseData);
 
         final out = <NewInvestJournalModel>[];
         for (final element in responseData['data']) {
@@ -3286,7 +3286,7 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse<Map>(responseData);
+        handleFullResponse<Map>(responseData);
 
         final out = <InvestPositionModel>[];
         for (final element in responseData['data']['positions']) {
@@ -3319,7 +3319,7 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse<Map>(responseData);
+        handleFullResponse<Map>(responseData);
 
         final out = <InvestPositionModel>[];
         for (final element in responseData['data']) {
@@ -3351,7 +3351,7 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse<Map>(responseData);
+        handleFullResponse<Map>(responseData);
 
         final out = <InvestSummaryModel>[];
         for (final element in responseData['data']) {
@@ -3384,7 +3384,7 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse<Map>(responseData);
+        handleFullResponse<Map>(responseData);
 
         final out = <EarnPositionClientModel>[];
         for (final element in responseData['data']) {
@@ -3419,7 +3419,7 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse<Map>(responseData);
+        handleFullResponse<Map>(responseData);
         final out = <EarnPositionAuditClientModel>[];
         for (final element in responseData['data']) {
           out.add(

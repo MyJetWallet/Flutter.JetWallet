@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/history_declined/simple_lig
 import 'package:simple_kit/utils/enum.dart';
 
 class SHistoryDeclinedIcon extends StatelessObserverWidget {
-  const SHistoryDeclinedIcon({Key? key, this.color}) : super(key: key);
+  const SHistoryDeclinedIcon({super.key, this.color});
 
   final Color? color;
 

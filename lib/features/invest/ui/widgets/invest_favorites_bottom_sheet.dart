@@ -38,29 +38,25 @@ void showInvestFavoritesBottomSheet(BuildContext context) {
               Observer(
                 builder: (BuildContext context) {
                   return investStore.isFavoritesEditMode
-                    ? InvestHeader(
-                      currency: currency,
-                      hideWallet: true,
-                      withBackBlock: true,
-                      withBigPadding: false,
-                      onBackButton: investStore.setFavoritesEditMode,
-                    )
-                    : NewInvestHeader(
-                      title: investStore.isFavoritesEditMode
-                          ? intl.invest_edit_favorites
-                          : intl.invest_favorites,
-                      showRollover: false,
-                      showModify: false,
-                      showIcon: false,
-                      showFull: false,
-                      showTextButton: true,
-                      textButtonName: investStore.isFavoritesEditMode
-                          ? intl.invest_reset_all
-                          : intl.invest_edit,
-                      onButtonTap: investStore.isFavoritesEditMode
-                          ? investStore.resetFavorites
-                          : investStore.setFavoritesEditMode,
-                    );
+                      ? InvestHeader(
+                          currency: currency,
+                          hideWallet: true,
+                          withBackBlock: true,
+                          withBigPadding: false,
+                          onBackButton: investStore.setFavoritesEditMode,
+                        )
+                      : NewInvestHeader(
+                          title: investStore.isFavoritesEditMode ? intl.invest_edit_favorites : intl.invest_favorites,
+                          showRollover: false,
+                          showModify: false,
+                          showIcon: false,
+                          showFull: false,
+                          showTextButton: true,
+                          textButtonName: investStore.isFavoritesEditMode ? intl.invest_reset_all : intl.invest_edit,
+                          onButtonTap: investStore.isFavoritesEditMode
+                              ? investStore.resetFavorites
+                              : investStore.setFavoritesEditMode,
+                        );
                 },
               ),
             ],
@@ -83,20 +79,21 @@ class InstrumentsList extends StatelessObserverWidget {
     final investStore = getIt.get<InvestDashboardStore>();
     final investChartStore = getIt.get<InvestChartStore>();
     final investPositionsStore = getIt.get<InvestPositionsStore>();
-    final currencies = sSignalRModules.currenciesList;
 
-    int getGroupedLength (String symbol) {
+    int getGroupedLength(String symbol) {
       final groupedPositions = investPositionsStore.activeList.where(
-            (element) => element.symbol == symbol,
+        (element) => element.symbol == symbol,
       );
 
       return groupedPositions.length;
     }
 
-    Decimal getGroupedProfit (String symbol) {
-      final groupedPositions = investPositionsStore.activeList.where(
+    Decimal getGroupedProfit(String symbol) {
+      final groupedPositions = investPositionsStore.activeList
+          .where(
             (element) => element.symbol == symbol,
-      ).toList();
+          )
+          .toList();
       var profit = Decimal.zero;
       for (var i = 0; i < groupedPositions.length; i++) {
         profit += investStore.getProfitByPosition(groupedPositions[i]);
@@ -105,10 +102,12 @@ class InstrumentsList extends StatelessObserverWidget {
       return profit;
     }
 
-    Decimal getGroupedAmount (String symbol) {
-      final groupedPositions = investPositionsStore.activeList.where(
+    Decimal getGroupedAmount(String symbol) {
+      final groupedPositions = investPositionsStore.activeList
+          .where(
             (element) => element.symbol == symbol,
-      ).toList();
+          )
+          .toList();
       var amount = Decimal.zero;
       for (var i = 0; i < groupedPositions.length; i++) {
         amount += groupedPositions[i].amount ?? Decimal.zero;
@@ -126,17 +125,13 @@ class InstrumentsList extends StatelessObserverWidget {
                 Observer(
                   builder: (BuildContext context) {
                     return NewInvestHeader(
-                      title: investStore.isFavoritesEditMode
-                          ? intl.invest_edit_favorites
-                          : intl.invest_favorites,
+                      title: investStore.isFavoritesEditMode ? intl.invest_edit_favorites : intl.invest_favorites,
                       showRollover: false,
                       showModify: false,
                       showIcon: false,
                       showFull: false,
                       showTextButton: true,
-                      textButtonName: investStore.isFavoritesEditMode
-                          ? intl.invest_reset_all
-                          : intl.invest_edit,
+                      textButtonName: investStore.isFavoritesEditMode ? intl.invest_reset_all : intl.invest_edit,
                       onButtonTap: investStore.isFavoritesEditMode
                           ? investStore.resetFavorites
                           : investStore.setFavoritesEditMode,
@@ -151,7 +146,7 @@ class InstrumentsList extends StatelessObserverWidget {
                     (element) => element.id == investStore.activeSection,
                   ),
                   tabs: [
-                    ...investStore.sections.map((section) => section.name!).toList(),
+                    ...investStore.sections.map((section) => section.name!),
                   ],
                 ),
                 const SpaceH4(),
@@ -176,15 +171,33 @@ class InstrumentsList extends StatelessObserverWidget {
                     SIconButton(
                       onTap: investStore.setInstrumentSort,
                       defaultIcon: investStore.instrumentSort == 0
-                          ? Assets.svg.invest.sortNotSet.simpleSvg(width: 14, height: 14,)
+                          ? Assets.svg.invest.sortNotSet.simpleSvg(
+                              width: 14,
+                              height: 14,
+                            )
                           : investStore.instrumentSort == 1
-                          ? Assets.svg.invest.sortUp.simpleSvg(width: 14, height: 14,)
-                          : Assets.svg.invest.sortDown.simpleSvg(width: 14, height: 14,),
+                              ? Assets.svg.invest.sortUp.simpleSvg(
+                                  width: 14,
+                                  height: 14,
+                                )
+                              : Assets.svg.invest.sortDown.simpleSvg(
+                                  width: 14,
+                                  height: 14,
+                                ),
                       pressedIcon: investStore.instrumentSort == 0
-                          ? Assets.svg.invest.sortNotSet.simpleSvg(width: 14, height: 14,)
+                          ? Assets.svg.invest.sortNotSet.simpleSvg(
+                              width: 14,
+                              height: 14,
+                            )
                           : investStore.instrumentSort == 1
-                          ? Assets.svg.invest.sortUp.simpleSvg(width: 14, height: 14,)
-                          : Assets.svg.invest.sortDown.simpleSvg(width: 14, height: 14,),
+                              ? Assets.svg.invest.sortUp.simpleSvg(
+                                  width: 14,
+                                  height: 14,
+                                )
+                              : Assets.svg.invest.sortDown.simpleSvg(
+                                  width: 14,
+                                  height: 14,
+                                ),
                     ),
                   ],
                 ),

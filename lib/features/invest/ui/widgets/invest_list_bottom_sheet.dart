@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_positions_store.dart';
 import 'package:jetwallet/features/invest/ui/invests/data_line.dart';
@@ -12,7 +11,6 @@ import 'package:jetwallet/features/invest/ui/invests/invest_bottom_sheets/pendin
 import 'package:jetwallet/features/invest/ui/widgets/invest_alert_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
@@ -21,7 +19,6 @@ import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.d
 
 import '../../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../../utils/helpers/currency_from.dart';
-import '../dashboard/invest_header.dart';
 import '../invests/invest_bottom_sheets/active_positions.dart';
 import '../invests/main_switch.dart';
 
@@ -34,21 +31,10 @@ void showInvestListBottomSheet(BuildContext context) {
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
-    enableDrag: false,
     expanded: true,
     pinned: SPaddingH24(
       child: Column(
         children: [
-          InvestHeader(
-            currency: currency,
-            hideWallet: true,
-            withBackBlock: true,
-            withBigPadding: false,
-            withDivider: false,
-            onBackButton: () {
-              Navigator.pop(context);
-            },
-          ),
           Observer(
             builder: (BuildContext context) {
               return MainSwitch(
@@ -112,8 +98,7 @@ void showInvestListBottomSheet(BuildContext context) {
                                       accuracy: 2,
                                       symbol: currency.symbol,
                                     ),
-                                    secondaryColor:
-                                    investStore.totalProfit >= Decimal.zero
+                                    secondaryColor: investStore.totalProfit >= Decimal.zero
                                         ? SColorsLight().green
                                         : SColorsLight().red,
                                   ),
@@ -138,7 +123,7 @@ void showInvestListBottomSheet(BuildContext context) {
                             ),
                             name: intl.invest_list_new_invest,
                             onTap: () {
-                              investStore.setActiveSection('S0');
+                              investStore.setActiveSection('all');
                               showInvestMarketWatchBottomSheet(context);
                             },
                           ),
@@ -212,7 +197,7 @@ void showInvestListBottomSheet(BuildContext context) {
                             ),
                             name: intl.invest_list_new_invest,
                             onTap: () {
-                              investStore.setActiveSection('S0');
+                              investStore.setActiveSection('all');
                               showInvestMarketWatchBottomSheet(context);
                             },
                           ),
@@ -246,7 +231,7 @@ void showInvestListBottomSheet(BuildContext context) {
                             ),
                             name: intl.invest_list_new_invest,
                             onTap: () {
-                              investStore.setActiveSection('S0');
+                              investStore.setActiveSection('all');
                               showInvestMarketWatchBottomSheet(context);
                             },
                           ),
@@ -265,12 +250,12 @@ void showInvestListBottomSheet(BuildContext context) {
     horizontalPinnedPadding: 0,
     removePinnedPadding: true,
     horizontalPadding: 0,
-    children: [InvestList()],
+    children: [const InvestList()],
   );
 }
 
 class InvestList extends StatelessObserverWidget {
-  InvestList();
+  const InvestList();
 
   @override
   Widget build(BuildContext context) {
@@ -280,14 +265,14 @@ class InvestList extends StatelessObserverWidget {
       child: Observer(
         builder: (BuildContext context) {
           if (investPositionsStore.activeTab == 0) {
-            return ActiveInvestList();
+            return const ActiveInvestList();
           } else if (investPositionsStore.activeTab == 1) {
-            return PendingInvestList();
+            return const PendingInvestList();
           } else if (investPositionsStore.activeTab == 2) {
             return const HistoryInvestList();
           }
 
-          return ActiveInvestList();
+          return const ActiveInvestList();
         },
       ),
     );

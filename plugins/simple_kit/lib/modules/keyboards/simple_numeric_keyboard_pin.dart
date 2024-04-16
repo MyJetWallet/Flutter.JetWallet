@@ -9,10 +9,10 @@ import 'components/numeric_keyboard_row.dart';
 /// BiometricButton.
 class SNumericKeyboardPin extends StatefulWidget {
   const SNumericKeyboardPin({
-    Key? key,
+    super.key,
     this.hideBiometricButton = false,
     required this.onKeyPressed,
-  }) : super(key: key);
+  });
 
   final bool hideBiometricButton;
   final void Function(String) onKeyPressed;

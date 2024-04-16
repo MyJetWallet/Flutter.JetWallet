@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/faq/simple_light_faq_icon.d
 import 'package:simple_kit/utils/enum.dart';
 
 class SFaqIcon extends StatelessObserverWidget {
-  const SFaqIcon({Key? key}) : super(key: key);
+  const SFaqIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

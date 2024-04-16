@@ -5,9 +5,9 @@ import '../../../simple_kit.dart';
 
 class SFieldDividerFrame extends StatelessWidget {
   const SFieldDividerFrame({
-    Key? key,
+    super.key,
     required this.child,
-  }) : super(key: key);
+  });
 
   final Widget child;
 

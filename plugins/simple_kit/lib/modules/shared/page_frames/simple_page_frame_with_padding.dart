@@ -7,7 +7,7 @@ import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.
 
 class SPageFrameWithPadding extends StatelessObserverWidget {
   const SPageFrameWithPadding({
-    Key? key,
+    super.key,
     this.header,
     this.loading,
     this.customLoader,
@@ -17,7 +17,7 @@ class SPageFrameWithPadding extends StatelessObserverWidget {
     this.resizeToAvoidBottomInset = true,
     required this.child,
     this.needPadding = true,
-  }) : super(key: key);
+  });
 
   final Widget? header;
   final String loaderText;

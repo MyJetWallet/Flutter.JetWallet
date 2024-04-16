@@ -11,7 +11,7 @@ class InvestCarousel extends StatelessWidget {
 
   final List<Widget> children;
   final double margin;
-  final double height;
+  final double? height;
   final bool isSwitch;
 
   @override

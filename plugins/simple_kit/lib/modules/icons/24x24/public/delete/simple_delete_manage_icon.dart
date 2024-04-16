@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/delete/simple_light_delete_
 import 'package:simple_kit/utils/enum.dart';
 
 class SDeleteManageIcon extends StatelessObserverWidget {
-  const SDeleteManageIcon({Key? key}) : super(key: key);
+  const SDeleteManageIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

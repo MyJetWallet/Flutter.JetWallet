@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/action_send/simple_light_ac
 import 'package:simple_kit/utils/enum.dart';
 
 class SActionSendIcon extends StatelessObserverWidget {
-  const SActionSendIcon({Key? key}) : super(key: key);
+  const SActionSendIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

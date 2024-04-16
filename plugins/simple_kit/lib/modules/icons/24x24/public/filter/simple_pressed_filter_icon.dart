@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/filter/simple_light_pressed
 import 'package:simple_kit/utils/enum.dart';
 
 class SPressedFilterIcon extends StatelessObserverWidget {
-  const SPressedFilterIcon({Key? key, this.color}) : super(key: key);
+  const SPressedFilterIcon({super.key, this.color});
 
   final Color? color;
 

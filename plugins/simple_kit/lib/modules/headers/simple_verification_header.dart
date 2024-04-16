@@ -5,7 +5,7 @@ import '../../simple_kit.dart';
 
 class SVerificationHeader extends StatelessWidget {
   const SVerificationHeader({
-    Key? key,
+    super.key,
     this.customIconButton,
     this.onLinkTap,
     this.onSearchButtonTap,
@@ -17,7 +17,7 @@ class SVerificationHeader extends StatelessWidget {
     this.showSearchButton = false,
     this.showSupportButton = false,
     required this.title,
-  }) : super(key: key);
+  });
 
   final Widget? customIconButton;
   final Function()? onLinkTap;

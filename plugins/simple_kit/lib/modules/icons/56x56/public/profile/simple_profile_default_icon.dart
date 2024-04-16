@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/56x56/light/profile/simple_light_profil
 import 'package:simple_kit/utils/enum.dart';
 
 class SProfileDefaultIcon extends StatelessObserverWidget {
-  const SProfileDefaultIcon({Key? key}) : super(key: key);
+  const SProfileDefaultIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

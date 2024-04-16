@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/add_cash/simple_light_add_c
 import 'package:simple_kit/utils/enum.dart';
 
 class SAddCashIcon extends StatelessObserverWidget {
-  const SAddCashIcon({Key? key, this.color}) : super(key: key);
+  const SAddCashIcon({super.key, this.color});
 
   final Color? color;
 

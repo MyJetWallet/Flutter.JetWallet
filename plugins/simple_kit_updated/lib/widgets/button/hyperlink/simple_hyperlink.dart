@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 
 class SHyperlink extends StatelessWidget {
   const SHyperlink({
-    Key? key,
+    super.key,
     required this.text,
     this.isDisabled = false,
     this.onTap,
-  }) : super(key: key);
+  });
 
   final String text;
 

@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/asset_placeholder/simple_li
 import 'package:simple_kit/utils/enum.dart';
 
 class SAssetPlaceholderIcon extends StatelessObserverWidget {
-  const SAssetPlaceholderIcon({Key? key}) : super(key: key);
+  const SAssetPlaceholderIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

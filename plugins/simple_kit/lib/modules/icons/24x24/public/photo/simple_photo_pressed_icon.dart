@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/photo/simple_light_photo_pr
 import 'package:simple_kit/utils/enum.dart';
 
 class SPhotoPressedIcon extends StatelessObserverWidget {
-  const SPhotoPressedIcon({Key? key}) : super(key: key);
+  const SPhotoPressedIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

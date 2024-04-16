@@ -88,7 +88,7 @@ void showInvestInfoBottomSheet({
       subtitle: subtitle,
       bottomWidget: bottomWidget,
       removeWidgetSpace: removeWidgetSpace,
-    )],
+    ),],
   );
 }
 

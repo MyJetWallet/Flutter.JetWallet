@@ -6,11 +6,11 @@ import 'package:simple_kit_updated/widgets/navigation/bottom_bar/simple_bottom_b
 
 class SBottomBar extends StatelessWidget {
   const SBottomBar({
-    Key? key,
+    super.key,
     required this.selectedIndex,
     required this.items,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   final int selectedIndex;
   final List<SBottomItemModel> items;

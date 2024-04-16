@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/support/simple_light_suppor
 import 'package:simple_kit/utils/enum.dart';
 
 class SSupportIcon extends StatelessObserverWidget {
-  const SSupportIcon({Key? key}) : super(key: key);
+  const SSupportIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

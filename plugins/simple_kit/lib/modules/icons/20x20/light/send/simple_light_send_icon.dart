@@ -3,9 +3,9 @@ import '../../base/simple_base_svg_20x20.dart';
 
 class SimpleLightSendIcon extends StatelessWidget {
   const SimpleLightSendIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

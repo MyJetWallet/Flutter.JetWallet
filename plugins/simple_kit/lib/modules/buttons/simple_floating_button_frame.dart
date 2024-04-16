@@ -5,10 +5,10 @@ import 'package:simple_kit/modules/shared/simple_spacers.dart';
 
 class SFloatingButtonFrame extends StatelessWidget {
   const SFloatingButtonFrame({
-    Key? key,
+    super.key,
     required this.button,
     this.hidePadding = false,
-  }) : super(key: key);
+  });
 
   final Widget button;
   final bool hidePadding;

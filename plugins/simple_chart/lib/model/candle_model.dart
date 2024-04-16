@@ -46,20 +46,25 @@ class CandlesWithIdModel {
 
   CandlesWithIdModel.fromJson(Map<String, dynamic> json) {
     var candleList = [];
-    final doubleList = List.from([...json['candles'] as List<dynamic>]);
+    final doubleList = List<CandleModel>.from(
+      [...json['candles'] as List<CandleModel>],
+    );
 
-    candleList = doubleList.map((e) => CandleModel(
-      open: e.open as double,
-      close: e.close as double,
-      high: e.high as double,
-      low: e.low as double,
-      date: e.date as int,
-    )).toList();
+    candleList = doubleList
+        .map(
+          (e) => CandleModel(
+            open: e.open,
+            close: e.close,
+            high: e.high,
+            low: e.low,
+            date: e.date,
+          ),
+        )
+        .toList();
 
     instrumentId = json['instrumentId'] as String;
     candles = candleList as List<CandleModel>;
   }
-
 
   late String instrumentId;
   late List<CandleModel> candles;

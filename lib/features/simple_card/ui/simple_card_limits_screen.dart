@@ -9,7 +9,6 @@ import 'package:rive/rive.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 
 @RoutePage(name: 'SimpleCardLimitsRouter')
 class SimpleCardLimitsScreen extends StatelessWidget {

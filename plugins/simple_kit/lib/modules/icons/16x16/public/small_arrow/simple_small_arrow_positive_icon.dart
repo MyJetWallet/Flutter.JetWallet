@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/16x16/light/small_arrow/simple_light_sm
 import 'package:simple_kit/utils/enum.dart';
 
 class SSmallArrowPositiveIcon extends StatelessObserverWidget {
-  const SSmallArrowPositiveIcon({Key? key}) : super(key: key);
+  const SSmallArrowPositiveIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

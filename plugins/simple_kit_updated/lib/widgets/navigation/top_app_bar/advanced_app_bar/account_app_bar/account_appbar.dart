@@ -10,7 +10,7 @@ import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 class AccountAppBar extends StatelessWidget {
   const AccountAppBar({
-    Key? key,
+    super.key,
     required this.mainTitle,
     this.mainSubtitle,
     this.ticker,
@@ -29,7 +29,7 @@ class AccountAppBar extends StatelessWidget {
     this.needCarousel = false,
     this.carouselItemsCount,
     this.carouselPageIndex,
-  }) : super(key: key);
+  });
 
   final bool mainBlockCenter;
 

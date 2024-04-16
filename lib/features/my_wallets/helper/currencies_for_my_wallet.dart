@@ -25,7 +25,7 @@ ObservableList<CurrencyModel> currenciesForMyWallet({
         .where(
           (currency) => currency.symbol != 'EUR',
         )
-        .toList());
+        .toList(),);
   }
 
   return ObservableList.of(activeCurrencies);
@@ -40,7 +40,7 @@ ObservableList<CurrencyModel> currenciesForSearchInMyWallet(
       )
       .toList();
 
-  activeCurrencies.sort((a, b) => (a.weight).compareTo(b.weight));
+  activeCurrencies.sort((a, b) => a.weight.compareTo(b.weight));
 
   return ObservableList.of(activeCurrencies);
 }

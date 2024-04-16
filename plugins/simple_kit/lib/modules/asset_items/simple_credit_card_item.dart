@@ -5,7 +5,7 @@ import '../../simple_kit.dart';
 
 class SCreditCardItem extends StatelessWidget {
   const SCreditCardItem({
-    Key? key,
+    super.key,
     this.helper = '',
     this.isSelected = false,
     this.divider = true,
@@ -17,7 +17,7 @@ class SCreditCardItem extends StatelessWidget {
     required this.amount,
     required this.description,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final String helper;
   final bool isSelected;

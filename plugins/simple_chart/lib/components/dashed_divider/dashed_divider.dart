@@ -4,10 +4,10 @@ import '../../chart_style.dart';
 
 class DashedDivider extends StatelessWidget {
   const DashedDivider({
-    Key? key,
+    super.key,
     required this.topPadding,
     this.addLeftPadding = true,
-  }) : super(key: key);
+  });
 
   final double topPadding;
   final bool addLeftPadding;

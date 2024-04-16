@@ -5,7 +5,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 
 @RoutePage(name: 'MarketRouter')
 class MarketScreen extends StatelessWidget {
-  const MarketScreen({Key? key}) : super(key: key);
+  const MarketScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

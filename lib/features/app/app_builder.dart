@@ -121,7 +121,7 @@ class _AppBuilderBodyState extends State<AppBuilderBody> with WidgetsBindingObse
         onShoulNavigate: (_) {},
         child: MediaQuery(
           data: widget.reactiveMediaQuery.copyWith(
-            textScaleFactor: 1.0,
+            textScaler: const TextScaler.linear(1.0),
           ),
           child: GlobalLoaderWidget(
             child: widget.child,

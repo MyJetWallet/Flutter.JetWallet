@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:simple_networking/api_client/api_client.dart';
 import 'package:simple_networking/config/options.dart';
 import 'package:simple_networking/core/simple_networking.dart';
+import 'package:simple_networking/modules/analytic_records/repository/analyctics_records_api_repository.dart';
 import 'package:simple_networking/modules/auth_api/repository/auth_api_repository.dart';
 import 'package:simple_networking/modules/candles_api/repository/candles_api_repository.dart';
 import 'package:simple_networking/modules/logs_api/repository/logs_api_repository.dart';
@@ -70,5 +71,10 @@ class SimpleNetworkingImpl implements SimpleNetworking {
   @override
   LogsApiRepository getLogsApiModule() {
     return LogsApiRepository(apiClient);
+  }
+
+  @override
+  AnalycticsRecordsApiRepository getAnalyticApiModule() {
+    return AnalycticsRecordsApiRepository(apiClient);
   }
 }

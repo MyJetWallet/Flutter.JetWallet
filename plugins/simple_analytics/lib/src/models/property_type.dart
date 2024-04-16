@@ -1,6 +1,6 @@
-/// The data we send together with event
 // ignore_for_file: lines_longer_than_80_chars
 
+/// The data we send together with event
 class PropertyType {
   static const kycStatus = 'KYCStatus';
   static const techAcc = 'TechAcc';

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class SIconButton extends StatefulWidget {
   const SIconButton({
-    Key? key,
+    super.key,
     this.onTap,
     this.pressedIcon,
     required this.defaultIcon,
-  }) : super(key: key);
+  });
 
   final Function()? onTap;
   final Widget? pressedIcon;

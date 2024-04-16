@@ -6,7 +6,7 @@ import 'simple_referral_stats_item.dart';
 
 class SReferralStats extends StatelessWidget {
   const SReferralStats({
-    Key? key,
+    super.key,
     this.currencyPrefix,
     this.currencySymbol = '',
     required this.referralInvited,
@@ -22,7 +22,7 @@ class SReferralStats extends StatelessWidget {
     required this.bonusEarnedText,
     required this.commissionEarnedText,
     required this.totalText,
-  }) : super(key: key);
+  });
 
   final String? currencyPrefix;
   final String currencySymbol;

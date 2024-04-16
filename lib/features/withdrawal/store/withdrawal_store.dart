@@ -327,7 +327,6 @@ abstract class _WithdrawalStoreBase with Store {
           sRouter.push(const WithdrawalAddressRouter());
         }
 
-        break;
       case WithdrawStep.ammount:
         if (isReplace) {
           sRouter.popUntil((route) => route.settings is WithdrawalAmmountRouter);
@@ -335,7 +334,6 @@ abstract class _WithdrawalStoreBase with Store {
           sRouter.push(const WithdrawalAmmountRouter());
         }
 
-        break;
       case WithdrawStep.preview:
         if (isReplace) {
           sRouter.popUntil((route) => route.settings is WithdrawalPreviewRouter);
@@ -343,7 +341,6 @@ abstract class _WithdrawalStoreBase with Store {
           sRouter.push(const WithdrawalPreviewRouter());
         }
 
-        break;
       case WithdrawStep.confirm:
         if (isReplace) {
           sRouter.popUntil((route) => route.settings is WithdrawalConfirmRouter);
@@ -351,7 +348,6 @@ abstract class _WithdrawalStoreBase with Store {
           sRouter.push(const WithdrawalConfirmRouter());
         }
 
-        break;
       default:
     }
   }
@@ -724,7 +720,7 @@ abstract class _WithdrawalStoreBase with Store {
         permissionDescription: intl.withdrawalAddress_pushAllowCamera,
         then: () async {
           Future.delayed(const Duration(microseconds: 100), () async {
-            await _pushQrView(context: context, fromSettings: false);
+            await _pushQrView(context: context);
           });
         },
       ),

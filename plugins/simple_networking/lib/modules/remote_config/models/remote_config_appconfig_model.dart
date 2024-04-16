@@ -34,7 +34,7 @@ class RemoteConfigAppconfigModel with _$RemoteConfigAppconfigModel {
     required int changePasswordLockHours,
     required int changePhoneLockHours,
     @Default('https://simple.app/terms-and-conditions-p2p/') String p2pTerms,
-    @Default(true) bool rate_up,
+    @Default(true) @JsonValue('rate_up') bool rateUp,
     @Default(false) bool displayCardPreorderScreen,
     @Default('') String prepaidCardPartnerLink,
     @Default('') String prepaidCardTermsAndConditionsLink,

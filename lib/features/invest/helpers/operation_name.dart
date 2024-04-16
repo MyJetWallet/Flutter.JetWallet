@@ -7,7 +7,7 @@ String operationPositionName(PositionAuditEvent event, InvestPositionModel posit
   switch (closeReason) {
     case PositionCloseReason.undefined: break;
     case PositionCloseReason.liquidation: return intl.invest_close;
-    case PositionCloseReason.marketClose: return intl.invest_stop_out;
+    case PositionCloseReason.marketClose: return intl.invest_liquidation;
     case PositionCloseReason.stopLoss: return intl.invest_limits_stop_loss;
     case PositionCloseReason.takeProfit: return intl.invest_limits_take_profit;
     default: break;

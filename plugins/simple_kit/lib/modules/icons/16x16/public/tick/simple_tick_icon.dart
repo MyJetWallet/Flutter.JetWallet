@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/16x16/light/tick/simple_light_tick_icon
 import 'package:simple_kit/utils/enum.dart';
 
 class STickIcon extends StatelessObserverWidget {
-  const STickIcon({Key? key}) : super(key: key);
+  const STickIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

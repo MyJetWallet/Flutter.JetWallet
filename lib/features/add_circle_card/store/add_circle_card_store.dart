@@ -22,12 +22,10 @@ import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:uuid/uuid.dart';
 part 'add_circle_card_store.g.dart';
 
-class AddCircleCardStore extends AddCircleCardStoreBase
-    with _$AddCircleCardStore {
+class AddCircleCardStore extends AddCircleCardStoreBase with _$AddCircleCardStore {
   AddCircleCardStore() : super();
 
-  static AddCircleCardStoreBase of(BuildContext context) =>
-      Provider.of<AddCircleCardStore>(context, listen: false);
+  static AddCircleCardStoreBase of(BuildContext context) => Provider.of<AddCircleCardStore>(context, listen: false);
 }
 
 abstract class AddCircleCardStoreBase with Store {
@@ -178,9 +176,7 @@ abstract class AddCircleCardStoreBase with Store {
 
   @computed
   bool get isStreetAddress2Valid {
-    return streetAddress2.isEmpty
-        ? true
-        : streetAddress2.length >= 2 && streetAddress2.length <= 150;
+    return streetAddress2.isEmpty ? true : streetAddress2.length >= 2 && streetAddress2.length <= 150;
   }
 
   @computed
@@ -200,19 +196,12 @@ abstract class AddCircleCardStoreBase with Store {
 
   @computed
   bool get isCardDetailsValid {
-    return isCardNumberValid &&
-        isCvvValid &&
-        isExpiryDateValid &&
-        isCardholderNameValid;
+    return isCardNumberValid && isCvvValid && isExpiryDateValid && isCardholderNameValid;
   }
 
   @computed
   bool get isBillingAddressValid {
-    return isStreetAddress1Valid &&
-        isStreetAddress2Valid &&
-        isCityValid &&
-        isDistrictValid &&
-        isPostalCodeValid;
+    return isStreetAddress1Valid && isStreetAddress2Valid && isCityValid && isDistrictValid && isPostalCodeValid;
   }
 
   @action
@@ -313,7 +302,6 @@ abstract class AddCircleCardStoreBase with Store {
             onError: (error) {
               sNotification.showError(
                 error.cause,
-                duration: 4,
                 id: 1,
                 needFeedback: true,
               );
@@ -325,7 +313,6 @@ abstract class AddCircleCardStoreBase with Store {
         onError: (error) {
           sNotification.showError(
             error.cause,
-            duration: 4,
             id: 1,
             needFeedback: true,
           );
@@ -336,7 +323,6 @@ abstract class AddCircleCardStoreBase with Store {
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,
-        duration: 4,
         id: 1,
         needFeedback: true,
       );
@@ -345,7 +331,6 @@ abstract class AddCircleCardStoreBase with Store {
     } catch (error) {
       sNotification.showError(
         intl.something_went_wrong_try_again2,
-        duration: 4,
         id: 1,
         needFeedback: true,
       );

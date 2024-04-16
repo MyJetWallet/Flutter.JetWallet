@@ -9,7 +9,7 @@ import 'components/notification_box.dart';
 
 class SBottomNavigationBar extends StatefulWidget {
   const SBottomNavigationBar({
-    Key? key,
+    super.key,
     required this.cardNotifications,
     this.portfolioNotifications = 0,
     required this.showReward,
@@ -25,7 +25,7 @@ class SBottomNavigationBar extends StatefulWidget {
     required this.isCardRequested,
     this.rewardCount = 0,
     required this.showInvest,
-  }) : super(key: key);
+  });
 
   final int portfolioNotifications;
   final int selectedIndex;

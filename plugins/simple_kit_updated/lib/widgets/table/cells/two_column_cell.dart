@@ -8,7 +8,7 @@ enum TwoColumnCellType { def, loading }
 
 class TwoColumnCell extends StatelessWidget {
   const TwoColumnCell({
-    Key? key,
+    super.key,
     required this.label,
     this.type = TwoColumnCellType.def,
     this.value,
@@ -21,7 +21,7 @@ class TwoColumnCell extends StatelessWidget {
     this.valueMaxLines = 1,
     this.onTab,
     this.customValueStyle,
-  }) : super(key: key);
+  });
 
   final TwoColumnCellType type;
 
@@ -70,7 +70,7 @@ class TwoColumnCell extends StatelessWidget {
                     if (haveInfoIcon) ...[
                       const Gap(4),
                       Padding(
-                         padding: const EdgeInsets.only(top: 4),
+                        padding: const EdgeInsets.only(top: 4),
                         child: Assets.svg.small.info.simpleSvg(
                           width: 16,
                           height: 16,

@@ -1,7 +1,5 @@
 // ignore_for_file: lines_longer_than_80_chars
 
-import 'package:amplitude_flutter/amplitude.dart';
-
 import '../simple_analytics.dart';
 import 'models/event_type.dart';
 import 'models/property_type.dart';
@@ -15,7 +13,7 @@ class SimpleAnalytics {
 
   static final SimpleAnalytics _instance = SimpleAnalytics._internal();
 
-  final _analytics = Amplitude.getInstance();
+  final _analytics = SendEventsService();
 
   bool isTechAcc = false;
   bool newBuyZeroScreenViewSent = false;
@@ -26,13 +24,17 @@ class SimpleAnalytics {
   /// Provide:
   /// 1. environmentKey for Amplitude workspace
   /// 2. userEmail if user is already authenticated
-  Future<void> init(
-    String environmentKey,
-    // ignore: avoid_positional_boolean_parameters
-    bool techAcc, [
+  /// 3. logEventFunc for send events to other apis
+  Future<void> init({
+    required String environmentKey,
+    required bool techAcc,
+    required LogEventFunc logEventFunc,
     String? userEmail,
-  ]) async {
-    await _analytics.init(environmentKey);
+  }) async {
+    await _analytics.init(
+      environmentKey,
+      logEventFunc: logEventFunc,
+    );
 
     if (userEmail != null) {
       await _analytics.setUserId(userEmail);
@@ -54,6 +56,10 @@ class SimpleAnalytics {
   // ignore: use_setters_to_change_properties
   void updateisTechAcc({required bool techAcc}) {
     isTechAcc = techAcc;
+  }
+
+  void updateLogEventFunc(LogEventFunc logEventFunc) {
+    _analytics.updateLogEventFunc(logEventFunc);
   }
 
   /// Sign Up & Sign In Flow

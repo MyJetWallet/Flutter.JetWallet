@@ -4,7 +4,7 @@ import 'package:simple_kit/modules/icons/24x24/light/complete/simple_light_compl
 import 'package:simple_kit/simple_kit.dart';
 
 class SCompleteSolidIcon extends StatelessObserverWidget {
-  const SCompleteSolidIcon({Key? key}) : super(key: key);
+  const SCompleteSolidIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

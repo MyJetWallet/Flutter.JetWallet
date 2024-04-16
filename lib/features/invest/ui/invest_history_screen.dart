@@ -40,7 +40,8 @@ class InvestHistoryScreen extends StatefulObserverWidget {
   State<InvestHistoryScreen> createState() => _InvestHistoryScreenState();
 }
 
-class _InvestHistoryScreenState extends State<InvestHistoryScreen> {bool canTapShare = true;
+class _InvestHistoryScreenState extends State<InvestHistoryScreen> {
+  bool canTapShare = true;
   late ScrollController controller;
   late WebViewController controllerWeb;
 
@@ -96,7 +97,7 @@ class _InvestHistoryScreenState extends State<InvestHistoryScreen> {bool canTapS
                       ),
                       name: intl.invest_list_new_invest,
                       onTap: () {
-                        investStore.setActiveSection('S0');
+                        investStore.setActiveSection('all');
                         showInvestMarketWatchBottomSheet(context);
                       },
                     ),
@@ -111,9 +112,11 @@ class _InvestHistoryScreenState extends State<InvestHistoryScreen> {bool canTapS
       child: SPaddingH24(
         child: Observer(
           builder: (BuildContext context) {
-            final summary = investPositionsStore.allSummary.where(
-              (element) => element.symbol == widget.instrument.symbol,
-            ).toList();
+            final summary = investPositionsStore.allSummary
+                .where(
+                  (element) => element.symbol == widget.instrument.symbol,
+                )
+                .toList();
 
             return Column(
               children: [
@@ -141,19 +144,20 @@ class _InvestHistoryScreenState extends State<InvestHistoryScreen> {bool canTapS
                                   ),
                                 ),
                                 const Spacer(),
-                                Observer(
-                                  builder: (BuildContext context) {
-                                    return SecondarySwitch(
-                                      onChangeTab: investPositionsStore.setHistoryTab,
-                                      activeTab: investPositionsStore.historyTab,
-                                      fullWidth: false,
-                                      tabs: [
-                                        intl.invest_history_tab_invest,
-                                        intl.invest_history_tab_pending,
-                                      ],
-                                    );
-                                  },
-                                ),
+                                if (investPositionsStore.pendingList.isNotEmpty)
+                                  Observer(
+                                    builder: (BuildContext context) {
+                                      return SecondarySwitch(
+                                        onChangeTab: investPositionsStore.setHistoryTab,
+                                        activeTab: investPositionsStore.historyTab,
+                                        fullWidth: false,
+                                        tabs: [
+                                          intl.invest_history_tab_invest,
+                                          intl.invest_history_tab_pending,
+                                        ],
+                                      );
+                                    },
+                                  ),
                               ],
                             ),
                           ),
@@ -214,19 +218,20 @@ class _InvestHistoryScreenState extends State<InvestHistoryScreen> {bool canTapS
                               ),
                             ),
                             const Spacer(),
-                            Observer(
-                              builder: (BuildContext context) {
-                                return SecondarySwitch(
-                                  onChangeTab: investPositionsStore.setHistoryTab,
-                                  activeTab: investPositionsStore.historyTab,
-                                  fullWidth: false,
-                                  tabs: [
-                                    intl.invest_history_tab_invest,
-                                    intl.invest_history_tab_pending,
-                                  ],
-                                );
-                              },
-                            ),
+                            if (investPositionsStore.pendingList.isNotEmpty)
+                              Observer(
+                                builder: (BuildContext context) {
+                                  return SecondarySwitch(
+                                    onChangeTab: investPositionsStore.setHistoryTab,
+                                    activeTab: investPositionsStore.historyTab,
+                                    fullWidth: false,
+                                    tabs: [
+                                      intl.invest_history_tab_invest,
+                                      intl.invest_history_tab_pending,
+                                    ],
+                                  );
+                                },
+                              ),
                           ],
                         ),
                         MainInvestBlock(

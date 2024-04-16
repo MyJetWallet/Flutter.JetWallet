@@ -5,7 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 class SSmallHeader extends StatelessWidget {
   const SSmallHeader({
-    Key? key,
+    super.key,
     this.icon,
     this.onStarButtonTap,
     this.onInfoButtonTap,
@@ -29,7 +29,7 @@ class SSmallHeader extends StatelessWidget {
     this.subTitle,
     this.subTitleStyle,
     this.titleStyle,
-  }) : super(key: key);
+  });
 
   final Widget? icon;
   final Function()? onStarButtonTap;
@@ -156,7 +156,7 @@ class SSmallHeader extends StatelessWidget {
 }
 
 class _IconPlaceholder extends StatelessWidget {
-  const _IconPlaceholder({Key? key}) : super(key: key);
+  const _IconPlaceholder();
 
   @override
   Widget build(BuildContext context) {

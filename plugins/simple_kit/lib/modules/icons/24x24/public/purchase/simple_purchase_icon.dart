@@ -7,9 +7,9 @@ import '../../light/purchase/simple_light_purchase_icon.dart';
 
 class SPurchaseIcon extends StatelessObserverWidget {
   const SPurchaseIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

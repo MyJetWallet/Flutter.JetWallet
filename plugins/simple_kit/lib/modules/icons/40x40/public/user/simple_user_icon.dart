@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/40x40/light/user/simple_light_user_icon
 import 'package:simple_kit/utils/enum.dart';
 
 class SUserTopIcon extends StatelessObserverWidget {
-  const SUserTopIcon({Key? key}) : super(key: key);
+  const SUserTopIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

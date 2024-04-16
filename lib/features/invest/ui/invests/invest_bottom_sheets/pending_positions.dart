@@ -24,7 +24,7 @@ import '../invest_line.dart';
 import '../main_invest_block.dart';
 
 class PendingInvestList extends StatelessObserverWidget {
-  PendingInvestList({
+  const PendingInvestList({
     this.instrument,
   });
 
@@ -37,18 +37,22 @@ class PendingInvestList extends StatelessObserverWidget {
     final currencies = sSignalRModules.currenciesList;
     final currency = currencyFrom(currencies, 'USDT');
 
-    InvestInstrumentModel getInstrumentBySymbol (String symbol) {
-      final instrument = investPositionsStore.instrumentsList.where(
-        (element) => element.symbol == symbol,
-      ).toList();
+    InvestInstrumentModel getInstrumentBySymbol(String symbol) {
+      final instrument = investPositionsStore.instrumentsList
+          .where(
+            (element) => element.symbol == symbol,
+          )
+          .toList();
 
       return instrument[0];
     }
 
-    Decimal getGroupedAmount (String symbol) {
-      final groupedPositions = investPositionsStore.pendingList.where(
+    Decimal getGroupedAmount(String symbol) {
+      final groupedPositions = investPositionsStore.pendingList
+          .where(
             (element) => element.symbol == symbol,
-      ).toList();
+          )
+          .toList();
       var amount = Decimal.zero;
       for (var i = 0; i < groupedPositions.length; i++) {
         amount += groupedPositions[i].amount ?? Decimal.zero;
@@ -66,9 +70,8 @@ class PendingInvestList extends StatelessObserverWidget {
                 return MainInvestBlock(
                   pending: Decimal.zero,
                   amount: investStore.totalPendingAmount,
-                  balance: instrument != null
-                    ? getGroupedAmount(instrument!.symbol ?? '')
-                    : investStore.totalPendingAmount,
+                  balance:
+                      instrument != null ? getGroupedAmount(instrument!.symbol ?? '') : investStore.totalPendingAmount,
                   percent: investStore.totalYield,
                   onShare: () {},
                   currency: currency,
@@ -83,10 +86,12 @@ class PendingInvestList extends StatelessObserverWidget {
             Observer(
               builder: (BuildContext context) {
                 final listToShow = instrument != null
-                  ? investPositionsStore.pendingList.where(
-                    (element) => element.symbol == instrument?.symbol,
-                  ).toList()
-                  : investPositionsStore.pendingList;
+                    ? investPositionsStore.pendingList
+                        .where(
+                          (element) => element.symbol == instrument?.symbol,
+                        )
+                        .toList()
+                    : investPositionsStore.pendingList;
                 if (listToShow.isEmpty) {
                   return InvestEmptyScreen(
                     width: MediaQuery.of(context).size.width - 48,
@@ -130,7 +135,7 @@ class PendingInvestList extends StatelessObserverWidget {
                           );
                         }
                       } else {
-                        investStore.setActiveSection('S0');
+                        investStore.setActiveSection('all');
                         showInvestMarketWatchBottomSheet(context);
                       }
                     },
@@ -138,9 +143,7 @@ class PendingInvestList extends StatelessObserverWidget {
                 }
 
                 return AboveListLine(
-                  mainColumn: instrument != null
-                      ? intl.invest_in_group
-                      : intl.invest_list_instrument,
+                  mainColumn: instrument != null ? intl.invest_in_group : intl.invest_list_instrument,
                   secondaryColumn: '${intl.invest_list_amount} (${currency.symbol})',
                   lastColumn: intl.invest_price,
                   onCheckboxTap: investPositionsStore.setIsActiveGrouped,
@@ -150,17 +153,19 @@ class PendingInvestList extends StatelessObserverWidget {
             Observer(
               builder: (BuildContext context) {
                 final listToShow = instrument != null
-                  ? investPositionsStore.pendingList.where(
-                      (element) => element.symbol == instrument?.symbol,
-                    ).toList()
-                  : investPositionsStore.pendingList;
+                    ? investPositionsStore.pendingList
+                        .where(
+                          (element) => element.symbol == instrument?.symbol,
+                        )
+                        .toList()
+                    : investPositionsStore.pendingList;
 
                 return Column(
                   children: [
                     for (final position in listToShow) ...[
                       InvestLine(
                         currency: currencyFrom(currencies, getInstrumentBySymbol(position.symbol ?? '').name ?? ''),
-                        price: position.profitLoss ?? Decimal.zero,
+                        price: position.pendingPrice ?? Decimal.zero,
                         operationType: position.direction ?? Direction.undefined,
                         isPending: true,
                         amount: position.amount ?? Decimal.zero,
@@ -169,7 +174,7 @@ class PendingInvestList extends StatelessObserverWidget {
                         historyCount: 1,
                         profit: investStore.getProfitByPosition(position),
                         profitPercent: investStore.getYieldByPosition(position),
-                        accuracy: getInstrumentBySymbol(position.symbol ?? '').priceAccuracy ?? 2,
+                        accuracy: currency.accuracy,
                         onTap: () {
                           sRouter.push(
                             PendingInvestManageRouter(
@@ -179,8 +184,7 @@ class PendingInvestList extends StatelessObserverWidget {
                           );
                         },
                       ),
-                      if (listToShow.last.id != position.id)
-                        const SDivider(),
+                      if (listToShow.last.id != position.id) const SDivider(),
                     ],
                   ],
                 );

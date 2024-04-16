@@ -4,9 +4,9 @@ import 'package:simple_kit/modules/icons/32x32/base/simple_base_svg_32x32.dart';
 
 class SimpleLightMyAssetsActiveIcon extends StatelessWidget {
   const SimpleLightMyAssetsActiveIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 
@@ -21,9 +21,9 @@ class SimpleLightMyAssetsActiveIcon extends StatelessWidget {
 
 class SimpleLightMyAssetsDefaultIcon extends StatelessWidget {
   const SimpleLightMyAssetsDefaultIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 
