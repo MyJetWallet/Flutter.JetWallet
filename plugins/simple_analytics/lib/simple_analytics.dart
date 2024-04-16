@@ -6,4 +6,5 @@ export 'src/models/sources/kyc_document_source.dart';
 export 'src/models/sources/kyc_source.dart';
 export 'src/models/sources/market_banner_source.dart';
 export 'src/models/sources/source.dart';
+export 'src/services/send_events_service.dart';
 export 'src/simple_analytics.dart';
