@@ -6,7 +6,7 @@ import 'package:simple_kit/utils/enum.dart';
 import '../../light/gift_send/simple_light_gift_send_icon.dart';
 
 class SGiftSendIcon extends StatelessObserverWidget {
-  const SGiftSendIcon({Key? key, this.color}) : super(key: key);
+  const SGiftSendIcon({super.key, this.color});
 
   final Color? color;
 

@@ -37,7 +37,6 @@ class _InvestChartState extends State<InvestChart> {
 
   @override
   Widget build(BuildContext context) {
-
     return SizedBox(
       height: MediaQuery.of(context).size.height - 575,
       child: TVChart(

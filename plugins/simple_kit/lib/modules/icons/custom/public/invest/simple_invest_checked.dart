@@ -6,11 +6,11 @@ import 'package:simple_kit/utils/enum.dart';
 
 class SICheckedIcon extends StatelessObserverWidget {
   const SICheckedIcon({
-    Key? key,
+    super.key,
     this.color,
     this.width,
     this.height,
-  }) : super(key: key);
+  });
 
   final Color? color;
   final double? width;

@@ -8,10 +8,10 @@ import '../../../simple_kit.dart';
 
 class SNetworkSvg24 extends StatelessWidget {
   const SNetworkSvg24({
-    Key? key,
+    super.key,
     this.color,
     required this.url,
-  }) : super(key: key);
+  });
 
   final Color? color;
   final String url;
@@ -32,13 +32,13 @@ class SNetworkSvg24 extends StatelessWidget {
 
 class SNetworkSvg extends StatelessWidget {
   const SNetworkSvg({
-    Key? key,
+    super.key,
     this.color,
     required this.url,
     required this.width,
     required this.height,
     this.placeholder,
-  }) : super(key: key);
+  });
 
   final Color? color;
   final String url;
@@ -62,13 +62,13 @@ class SNetworkSvg extends StatelessWidget {
 
 class SNetworkCachedSvg extends StatelessWidget {
   const SNetworkCachedSvg({
-    Key? key,
+    super.key,
     this.color,
     required this.url,
     required this.width,
     required this.height,
     required this.placeholder,
-  }) : super(key: key);
+  });
 
   final Color? color;
   final String url;

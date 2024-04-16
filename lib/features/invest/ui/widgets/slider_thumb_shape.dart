@@ -1,5 +1,3 @@
-
-import 'dart:math';
 import 'package:flutter/material.dart';
 
 class SliderThumbShape extends SliderComponentShape {
@@ -22,7 +20,7 @@ class SliderThumbShape extends SliderComponentShape {
   /// If no disabledRadius is provided, then it is equal to the
   /// [enabledThumbRadius]
   final double disabledThumbRadius;
-  double get _disabledThumbRadius => disabledThumbRadius ?? enabledThumbRadius;
+  double get _disabledThumbRadius => disabledThumbRadius;
 
   /// The resting elevation adds shadow to the unpressed thumb.
   ///
@@ -48,47 +46,40 @@ class SliderThumbShape extends SliderComponentShape {
 
   @override
   void paint(
-      PaintingContext context,
-      Offset center, {
-        required Animation<double> activationAnimation,
-        required Animation<double> enableAnimation,
-        required bool isDiscrete,
-        required TextPainter labelPainter,
-        required RenderBox parentBox,
-        required SliderThemeData sliderTheme,
-        required TextDirection textDirection,
-        required double value,
-        required double textScaleFactor,
-        required Size sizeWithOverflow,
-      }) {
-    assert(context != null);
-    assert(center != null);
-    assert(enableAnimation != null);
-    assert(sliderTheme != null);
+    PaintingContext context,
+    Offset center, {
+    required Animation<double> activationAnimation,
+    required Animation<double> enableAnimation,
+    required bool isDiscrete,
+    required TextPainter labelPainter,
+    required RenderBox parentBox,
+    required SliderThemeData sliderTheme,
+    required TextDirection textDirection,
+    required double value,
+    required double textScaleFactor,
+    required Size sizeWithOverflow,
+  }) {
     assert(sliderTheme.disabledThumbColor != null);
     assert(sliderTheme.thumbColor != null);
     assert(!sizeWithOverflow.isEmpty);
 
-    final Canvas canvas = context.canvas;
-    final Tween<double> radiusTween = Tween<double>(
+    final canvas = context.canvas;
+    final radiusTween = Tween<double>(
       begin: _disabledThumbRadius,
       end: enabledThumbRadius,
     );
 
-    final double radius = radiusTween.evaluate(enableAnimation);
+    radiusTween.evaluate(enableAnimation);
 
-    final Tween<double> elevationTween = Tween<double>(
+    final elevationTween = Tween<double>(
       begin: elevation,
       end: pressedElevation,
     );
 
-    final double evaluatedElevation = elevationTween.evaluate(activationAnimation);
+    elevationTween.evaluate(activationAnimation);
 
     {
-      final Path path = Path()
-        ..addArc(Rect.fromCenter(center: center, width: 1 * radius, height: 1 * radius), 0, pi * 2);
-
-      Paint paint = Paint()..color = Colors.black;
+      final paint = Paint()..color = Colors.black;
       paint.strokeWidth = 8;
       paint.style = PaintingStyle.stroke;
       canvas.drawCircle(
@@ -97,7 +88,7 @@ class SliderThumbShape extends SliderComponentShape {
         paint,
       );
       {
-        Paint paint = Paint()..color = Colors.white;
+        final paint = Paint()..color = Colors.white;
         paint.style = PaintingStyle.fill;
         canvas.drawCircle(
           center,

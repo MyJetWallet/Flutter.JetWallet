@@ -3,14 +3,14 @@ import 'package:simple_kit/simple_kit.dart';
 
 class SMegaHeader extends StatelessWidget {
   const SMegaHeader({
-    Key? key,
+    super.key,
     this.onBackButtonTap,
     this.crossAxisAlignment = CrossAxisAlignment.start,
     this.titleAlign = TextAlign.center,
     this.showBackButton = true,
     this.rightIcon,
     required this.title,
-  }) : super(key: key);
+  });
 
   final Function()? onBackButtonTap;
   final CrossAxisAlignment crossAxisAlignment;

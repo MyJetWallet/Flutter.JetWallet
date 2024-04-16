@@ -5,12 +5,12 @@ import '../../simple_kit.dart';
 
 class SPaymentSelectDefault extends StatelessWidget {
   const SPaymentSelectDefault({
-    Key? key,
+    super.key,
     required this.icon,
     required this.name,
     required this.widgetSize,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final Widget icon;
   final String name;

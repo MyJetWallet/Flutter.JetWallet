@@ -6,13 +6,13 @@ import 'components/keyboard_key_size.dart';
 
 class KeyboardIcon extends StatefulWidget {
   const KeyboardIcon({
-    Key? key,
+    super.key,
     this.hide,
     this.activeIcon,
     this.pressedIcon,
     required this.realValue,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final bool? hide;
   final Widget? activeIcon;

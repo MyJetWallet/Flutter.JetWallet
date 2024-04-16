@@ -5,11 +5,11 @@ import 'package:simple_kit/modules/colors/simple_colors_dark.dart';
 /// Called White Button in UI Kit for the Dark Theme
 class SimpleDarkTextButton1 extends StatelessWidget {
   const SimpleDarkTextButton1({
-    Key? key,
+    super.key,
     required this.active,
     required this.name,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final bool active;
   final String name;

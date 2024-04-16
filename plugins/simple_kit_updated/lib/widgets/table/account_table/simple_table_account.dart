@@ -6,7 +6,7 @@ import 'package:simple_kit_updated/widgets/table/account_table/simple_table_asse
 
 class SimpleTableAccount extends StatelessWidget {
   const SimpleTableAccount({
-    Key? key,
+    super.key,
     required this.label,
     this.onTableAssetTap,
     this.supplement,
@@ -24,7 +24,7 @@ class SimpleTableAccount extends StatelessWidget {
     this.buttonLabel,
     this.buttonTap,
     this.customRightWidget,
-  }) : super(key: key);
+  });
 
   final Widget? assetIcon;
   final bool isCard;

@@ -7,13 +7,13 @@ import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.
 
 class StackLoader extends StatefulObserverWidget {
   const StackLoader({
-    Key? key,
+    super.key,
     this.loadSuccess,
     required this.loaderText,
     this.customLoader,
     required this.child,
     required this.loading,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final Widget? customLoader;

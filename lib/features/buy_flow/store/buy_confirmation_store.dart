@@ -942,7 +942,6 @@ abstract class _BuyConfirmationStoreBase with Store {
             bankLastMethodId,
             card?.id ?? '',
           );
-          break;
 
         default:
       }

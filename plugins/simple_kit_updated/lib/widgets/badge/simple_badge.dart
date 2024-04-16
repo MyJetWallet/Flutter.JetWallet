@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 
 enum SBadgeStatus { neutral, positive, negative }
 
 class SBadge extends StatelessWidget {
   const SBadge({
-    Key? key,
+    super.key,
     required this.status,
     required this.text,
-  }) : super(key: key);
+  });
 
   final SBadgeStatus status;
   final String text;

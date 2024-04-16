@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/done/simple_light_blue_done
 import 'package:simple_kit/utils/enum.dart';
 
 class SBlueDoneIcon extends StatelessObserverWidget {
-  const SBlueDoneIcon({Key? key}) : super(key: key);
+  const SBlueDoneIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

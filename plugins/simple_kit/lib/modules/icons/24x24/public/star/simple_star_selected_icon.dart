@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/star/simple_light_star_sele
 import 'package:simple_kit/utils/enum.dart';
 
 class SStarSelectedIcon extends StatelessObserverWidget {
-  const SStarSelectedIcon({Key? key}) : super(key: key);
+  const SStarSelectedIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

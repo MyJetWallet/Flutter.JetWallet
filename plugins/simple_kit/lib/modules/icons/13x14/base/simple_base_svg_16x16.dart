@@ -3,10 +3,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class SimpleBaseSvg13X14 extends StatelessWidget {
   const SimpleBaseSvg13X14({
-    Key? key,
+    super.key,
     this.color,
     required this.assetName,
-  }) : super(key: key);
+  });
 
   final Color? color;
   final String assetName;

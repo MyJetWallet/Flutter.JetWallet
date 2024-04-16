@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/error/simple_light_error_pr
 import 'package:simple_kit/utils/enum.dart';
 
 class SErrorPressedIcon extends StatelessObserverWidget {
-  const SErrorPressedIcon({Key? key}) : super(key: key);
+  const SErrorPressedIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

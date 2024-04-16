@@ -6,9 +6,9 @@ import 'package:simple_kit/utils/enum.dart';
 
 class SShowDetailsIcon extends StatelessObserverWidget {
   const SShowDetailsIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

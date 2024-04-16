@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 
 enum SHeaderSize { s, m, l, xl }
 
 class STableHeader extends StatelessWidget {
   const STableHeader({
-    Key? key,
+    super.key,
     required this.title,
     this.subtitle,
     this.isCenter = false,
     this.size = SHeaderSize.s,
     this.needHorizontalPadding = true,
-  }) : super(key: key);
+  });
 
   final String title;
   final String? subtitle;

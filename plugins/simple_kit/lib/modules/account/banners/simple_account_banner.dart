@@ -10,7 +10,7 @@ import '../../icons/24x24/public/erase/simple_erase_market_icon.dart';
 
 class SimpleAccountBanner extends StatelessWidget {
   const SimpleAccountBanner({
-    Key? key,
+    super.key,
     this.canClose = false,
     this.onClose,
     required this.imageUrl,
@@ -18,7 +18,7 @@ class SimpleAccountBanner extends StatelessWidget {
     required this.description,
     required this.color,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final bool canClose;
   final Function()? onClose;

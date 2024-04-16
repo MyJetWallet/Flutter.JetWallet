@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
-import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 class SCommandBar extends StatelessWidget {
   const SCommandBar({
-    Key? key,
+    super.key,
     required this.title,
     required this.description,
     required this.buttonText,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final String title;
   final String description;

@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/102x56/light/numeric_keyboard_erase/sim
 import 'package:simple_kit/utils/enum.dart';
 
 class SNumericKeyboardEraseIcon extends StatelessObserverWidget {
-  const SNumericKeyboardEraseIcon({Key? key}) : super(key: key);
+  const SNumericKeyboardEraseIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

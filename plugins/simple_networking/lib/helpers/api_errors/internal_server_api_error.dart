@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
-class InternalServerApiError extends DioError {
-  final DioError dioError;
+class InternalServerApiError extends DioException {
+  final DioException dioError;
 
   InternalServerApiError({
     required this.dioError,

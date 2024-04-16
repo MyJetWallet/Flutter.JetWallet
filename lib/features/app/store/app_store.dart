@@ -111,7 +111,7 @@ abstract class _AppStoreBase with Store {
         }
       }
     } catch (e) {
-      locale = Locale.fromSubtags(languageCode: 'Platform.localeName');
+      locale = const Locale.fromSubtags(languageCode: 'Platform.localeName');
     }
   }
 
@@ -219,7 +219,7 @@ abstract class _AppStoreBase with Store {
             checkSelfie: () {
               if (lastRoute != 'face_check') {
                 getIt<AppRouter>().replaceAll([
-                  FaceCheckRoute(),
+                  const FaceCheckRoute(),
                 ]);
               }
 

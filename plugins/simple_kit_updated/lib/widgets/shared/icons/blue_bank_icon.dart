@@ -5,9 +5,9 @@ import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 
 class BlueBankIcon extends StatelessWidget {
   const BlueBankIcon({
-    Key? key,
+    super.key,
     this.size = 40.0,
-  }) : super(key: key);
+  });
 
   final double? size;
 

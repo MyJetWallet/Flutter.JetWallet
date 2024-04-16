@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/action_sell/simple_light_ac
 import 'package:simple_kit/utils/enum.dart';
 
 class SActionSellIcon extends StatelessObserverWidget {
-  const SActionSellIcon({Key? key}) : super(key: key);
+  const SActionSellIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

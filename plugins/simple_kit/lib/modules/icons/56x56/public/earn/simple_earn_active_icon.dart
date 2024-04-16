@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/56x56/light/earn/simple_light_earn_acti
 import 'package:simple_kit/utils/enum.dart';
 
 class SEarnActiveIcon extends StatelessObserverWidget {
-  const SEarnActiveIcon({Key? key}) : super(key: key);
+  const SEarnActiveIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

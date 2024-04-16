@@ -5,12 +5,12 @@ import '../../../../simple_kit.dart';
 
 class SimpleMarketHeaderTitle extends StatelessWidget {
   const SimpleMarketHeaderTitle({
-    Key? key,
+    super.key,
     this.onSearchButtonTap,
     this.onFilterButtonTap,
     required this.title,
     this.activeFilters = 0,
-  }) : super(key: key);
+  });
 
   final void Function()? onSearchButtonTap;
   final void Function()? onFilterButtonTap;

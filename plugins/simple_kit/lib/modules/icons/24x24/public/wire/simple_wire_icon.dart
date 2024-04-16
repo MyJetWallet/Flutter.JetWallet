@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/wire/simple_light_wire_icon
 import 'package:simple_kit/utils/enum.dart';
 
 class SWireIcon extends StatelessObserverWidget {
-  const SWireIcon({Key? key}) : super(key: key);
+  const SWireIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

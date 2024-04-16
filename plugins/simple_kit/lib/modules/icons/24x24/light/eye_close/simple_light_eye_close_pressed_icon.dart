@@ -4,9 +4,9 @@ import '../../base/simple_base_svg_24x24.dart';
 
 class SimpleLightEyeClosePressedIcon extends StatelessWidget {
   const SimpleLightEyeClosePressedIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

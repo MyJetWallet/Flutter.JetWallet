@@ -115,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   SBottomItemModel(
                     type: BottomItemType.invest,
                     text: intl.bottom_bar_invest,
-                    icon: Assets.svg.large.graph,
+                    icon: Assets.svg.large.crypto,
                   ),
                 if (bottomBarItems.contains(BottomItemType.card))
                   SBottomItemModel(
@@ -136,13 +136,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 switch (bottomBarItems[val]) {
                   case BottomItemType.wallets:
                     sAnalytics.tapOnTheTabWalletsInTabBar();
-                    break;
                   case BottomItemType.rewards:
                     sAnalytics.rewardsTapOnTheTabBar();
-                    break;
                   case BottomItemType.earn:
                     sAnalytics.tapOnTheTabbarButtonEarn();
-                    break;
                   default:
                 }
 
@@ -152,13 +149,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   switch (bottomBarItems[val]) {
                     case BottomItemType.wallets:
                       getIt.get<EventBus>().fire(ResetScrollMyWallets());
-                      break;
                     case BottomItemType.market:
                       getIt.get<EventBus>().fire(ResetScrollMarket());
-                      break;
                     case BottomItemType.card:
                       getIt.get<EventBus>().fire(ResetScrollCard());
-                      break;
                     default:
                   }
                 }

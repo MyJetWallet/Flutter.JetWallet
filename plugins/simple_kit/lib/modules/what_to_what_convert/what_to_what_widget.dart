@@ -91,6 +91,7 @@ class WhatToWhatConvertWidget extends StatelessWidget {
 
 class AssetRowWidget extends StatelessWidget {
   const AssetRowWidget({
+    super.key,
     required this.isLoading,
     required this.assetIconUrl,
     required this.assetDescription,

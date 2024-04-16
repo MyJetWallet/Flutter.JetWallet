@@ -4,12 +4,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 
 class SInput extends HookWidget {
   const SInput({
-    Key? key,
+    super.key,
     required this.controller,
     this.label,
     this.hint,
@@ -31,7 +30,7 @@ class SInput extends HookWidget {
     this.textCapitalization,
     this.obscureText = false,
     this.autofocus = false,
-  }) : super(key: key);
+  });
 
   final VoidCallback? onTextFieldTap;
   final FocusNode? focusNode;

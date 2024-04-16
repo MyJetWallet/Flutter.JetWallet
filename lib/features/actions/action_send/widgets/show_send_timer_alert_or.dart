@@ -73,8 +73,6 @@ void _showTimerAlert(
 
   sNotification.showError(
     '${intl.message_operation_is_suspended} $expireFormatted',
-    duration: 4,
     id: 1,
-    hideIcon: true,
   );
 }

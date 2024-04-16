@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/close/simple_light_close_pr
 import 'package:simple_kit/utils/enum.dart';
 
 class SClosePressedIcon extends StatelessObserverWidget {
-  const SClosePressedIcon({Key? key}) : super(key: key);
+  const SClosePressedIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

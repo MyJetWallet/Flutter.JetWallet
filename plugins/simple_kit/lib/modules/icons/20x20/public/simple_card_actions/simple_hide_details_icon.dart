@@ -6,9 +6,9 @@ import 'package:simple_kit/utils/enum.dart';
 
 class SHideDetailsIcon extends StatelessObserverWidget {
   const SHideDetailsIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

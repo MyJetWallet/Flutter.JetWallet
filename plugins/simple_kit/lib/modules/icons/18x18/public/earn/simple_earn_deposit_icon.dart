@@ -6,9 +6,9 @@ import 'package:simple_kit/utils/enum.dart';
 
 class SEarnDepositIcon extends StatelessObserverWidget {
   const SEarnDepositIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

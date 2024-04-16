@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class ResolutionButton extends StatelessWidget {
   const ResolutionButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.showUnderline,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final String text;
   final bool showUnderline;

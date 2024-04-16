@@ -3,9 +3,9 @@ import '../../base/simple_base_svg_20x20.dart';
 
 class SimpleLightRewardPaymentIcon extends StatelessWidget {
   const SimpleLightRewardPaymentIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

@@ -35,12 +35,12 @@ class Circle3dSecureWebView extends StatelessWidget {
   Widget build(BuildContext context) {
     late WebViewController controllerWeb;
 
-    return WillPopScope(
-      onWillPop: () {
+    return PopScope(
+      onPopInvoked: (_) {
         onCancel?.call(null);
         navigateToRouter();
 
-        return Future.value(true);
+        Future.value(true);
       },
       child: SPageFrame(
         loaderText: intl.register_pleaseWait,
@@ -77,13 +77,11 @@ class Circle3dSecureWebView extends StatelessWidget {
                 navigationDelegate: (request) {
                   final uri = Uri.parse(request.url);
 
-                  if (uri.path == '/circle/failure' ||
-                      uri.path == '/unlimint/failure') {
+                  if (uri.path == '/circle/failure' || uri.path == '/unlimint/failure') {
                     onFailed(intl.something_went_wrong);
 
                     return NavigationDecision.navigate;
-                  } else if (uri.path == '/circle/success' ||
-                      uri.path == '/unlimint/success') {
+                  } else if (uri.path == '/circle/success' || uri.path == '/unlimint/success') {
                     onSuccess(paymentId, url);
 
                     return NavigationDecision.navigate;
@@ -91,8 +89,7 @@ class Circle3dSecureWebView extends StatelessWidget {
                     onCancel?.call(paymentId);
 
                     return NavigationDecision.navigate;
-                  } else if (uri.path == '/unlimint/inprocess' ||
-                      uri.path == '/unlimint/return') {
+                  } else if (uri.path == '/unlimint/inprocess' || uri.path == '/unlimint/return') {
                     onSuccess(paymentId, url);
 
                     return NavigationDecision.navigate;

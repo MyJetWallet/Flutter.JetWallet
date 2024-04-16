@@ -71,10 +71,8 @@ abstract class GeneralSendGiftStoreBase with Store {
     switch (selectedContactType) {
       case ReceiverContacrType.email:
         receiverContact = email;
-        break;
       case ReceiverContacrType.phone:
         receiverContact = _phoneCountryCode + _phoneBody;
-        break;
     }
   }
 

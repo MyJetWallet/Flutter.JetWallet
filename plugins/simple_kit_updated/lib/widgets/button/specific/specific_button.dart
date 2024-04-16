@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
-import 'package:simple_kit_updated/widgets/shared/icons/blue_bank_icon.dart';
 import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 
 class SpecificButton extends HookWidget {
   const SpecificButton({
-    Key? key,
+    super.key,
     this.isLoading = false,
     this.hasCardIcon = false,
     this.hasRightArrow = true,
@@ -18,7 +15,7 @@ class SpecificButton extends HookWidget {
     this.isLabelBold = false,
     this.onTap,
     required this.label,
-  }) : super(key: key);
+  });
 
   final bool isLoading;
   final bool hasCardIcon;

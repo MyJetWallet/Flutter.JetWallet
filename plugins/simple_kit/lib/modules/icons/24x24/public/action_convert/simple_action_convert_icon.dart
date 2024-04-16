@@ -6,9 +6,9 @@ import 'package:simple_kit/utils/enum.dart';
 
 class SActionConvertIcon extends StatelessObserverWidget {
   const SActionConvertIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

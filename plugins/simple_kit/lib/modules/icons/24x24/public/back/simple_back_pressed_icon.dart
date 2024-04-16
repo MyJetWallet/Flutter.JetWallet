@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/back/simple_light_back_pres
 import 'package:simple_kit/utils/enum.dart';
 
 class SBackPressedIcon extends StatelessObserverWidget {
-  const SBackPressedIcon({Key? key}) : super(key: key);
+  const SBackPressedIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

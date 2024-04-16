@@ -6,10 +6,10 @@ import 'package:simple_kit/utils/enum.dart';
 
 class SIProfitWinIcon extends StatelessObserverWidget {
   const SIProfitWinIcon({
-    Key? key,
+    super.key,
     this.width,
     this.height,
-  }) : super(key: key);
+  });
 
   final double? width;
   final double? height;

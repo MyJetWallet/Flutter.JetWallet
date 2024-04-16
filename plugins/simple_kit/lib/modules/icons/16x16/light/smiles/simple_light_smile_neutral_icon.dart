@@ -4,9 +4,9 @@ import '../../base/simple_base_svg_16x16.dart';
 
 class SimpleLightSmileNeutralIcon extends StatelessWidget {
   const SimpleLightSmileNeutralIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

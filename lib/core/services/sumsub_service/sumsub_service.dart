@@ -4,7 +4,6 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
-import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:logger/logger.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -168,11 +167,11 @@ class SumsubService {
 
     final initToken = isBanking ? await getBankingToken() : await getSDKToken();
 
-    final SNSEventHandler onEvent = (SNSMobileSDKEvent event) {
+    void onEvent(SNSMobileSDKEvent event) {
       if (event.eventType == 'ApplicantLoaded') {
         getIt.get<GlobalLoader>().setLoading(false);
       }
-    };
+    }
 
     final snsMobileSDK = SNSMobileSDK.init(initToken ?? '', getSDKToken)
         .withHandlers(

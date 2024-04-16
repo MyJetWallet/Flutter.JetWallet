@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class STransparentInkWell extends StatelessWidget {
   const STransparentInkWell({
-    Key? key,
+    super.key,
     required this.child,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final Function() onTap;

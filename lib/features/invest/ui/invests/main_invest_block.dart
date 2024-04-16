@@ -2,10 +2,10 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 import '../../../../core/l10n/i10n.dart';
@@ -42,18 +42,15 @@ class MainInvestBlock extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final colors = sKit.colors;
+    final isBalanceHide = getIt<AppStore>().isBalanceHide;
 
     return Row(
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (showAmount)
-              const SpaceH9()
-            else
-              const SpaceH16(),
+            if (showAmount) const SpaceH9() else const SpaceH16(),
             Row(
               children: [
                 Text(
@@ -62,13 +59,6 @@ class MainInvestBlock extends StatelessObserverWidget {
                     color: colors.black,
                   ),
                 ),
-                if (showShare) ...[
-                  const SpaceW5(),
-                  SIconButton(
-                    defaultIcon: Assets.svg.invest.share.simpleSvg(width: 20, height: 20,),
-                    onTap: onShare,
-                  ),
-                ],
               ],
             ),
             if (showAmount) ...[
@@ -96,7 +86,7 @@ class MainInvestBlock extends StatelessObserverWidget {
                           ),
                           const SpaceW2(),
                           Text(
-                            marketFormat(decimal: amount, accuracy: 2, symbol: ''),
+                            isBalanceHide ? '****' : marketFormat(decimal: amount, accuracy: 2, symbol: ''),
                             style: STStyles.body3InvestSM.copyWith(
                               color: colors.black,
                             ),
@@ -108,10 +98,7 @@ class MainInvestBlock extends StatelessObserverWidget {
                 ],
               ),
             ],
-            if (showAmount)
-              const SpaceH9()
-            else
-              const SpaceH16(),
+            if (showAmount) const SpaceH9() else const SpaceH16(),
           ],
         ),
         const Spacer(),
@@ -131,7 +118,7 @@ class MainInvestBlock extends StatelessObserverWidget {
                   ),
                   const SpaceW4(),
                   Text(
-                    marketFormat(decimal: balance, accuracy: 2, symbol: ''),
+                    isBalanceHide ? '****' : marketFormat(decimal: balance, accuracy: 2, symbol: ''),
                     style: STStyles.header3Invest.copyWith(
                       color: colors.black,
                     ),
@@ -150,8 +137,8 @@ class MainInvestBlock extends StatelessObserverWidget {
                       color: percent == Decimal.zero
                           ? colors.grey3
                           : percent > Decimal.zero
-                          ? colors.green
-                          : colors.red,
+                              ? colors.green
+                              : colors.red,
                     ),
                   ),
                   percentIcon(percent),

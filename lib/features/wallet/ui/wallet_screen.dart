@@ -90,8 +90,9 @@ class _WalletState extends State<Wallet> with TickerProviderStateMixin {
 
             var allAccountsCount = bankAccountsCount;
             if (sSignalRModules.bankingProfileData?.simple != null) {
-              if (sSignalRModules.bankingProfileData?.simple?.account?.status == AccountStatus.active)
+              if (sSignalRModules.bankingProfileData?.simple?.account?.status == AccountStatus.active) {
                 allAccountsCount++;
+              }
             }
             sAnalytics.eurWalletAccountScreen(allAccountsCount);
 

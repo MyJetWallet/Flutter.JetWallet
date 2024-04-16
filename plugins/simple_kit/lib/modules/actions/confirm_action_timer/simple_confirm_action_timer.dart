@@ -6,10 +6,10 @@ import '../../../simple_kit.dart';
 
 class SConfirmActionTimer extends StatelessWidget {
   const SConfirmActionTimer({
-    Key? key,
+    super.key,
     required this.loading,
     required this.animation,
-  }) : super(key: key);
+  });
 
   final bool loading;
   final AnimationController animation;

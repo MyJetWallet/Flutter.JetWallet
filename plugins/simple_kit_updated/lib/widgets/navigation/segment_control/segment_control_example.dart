@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/widgets/navigation/segment_control/models/segment_control_data.dart';
 import 'package:simple_kit_updated/widgets/navigation/segment_control/segment_control.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
@@ -11,19 +10,19 @@ import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
   type: Column,
 )
 Column simpleSegmentControlExample(BuildContext context) {
-  return Column(
+  return const Column(
     children: [
       SegmentControlDemo1(),
-      const Gap(20),
+      Gap(20),
       SegmentControlDemo2(),
-      const Gap(20),
+      Gap(20),
       SegmentControlDemo3(),
     ],
   );
 }
 
 class SegmentControlDemo1 extends HookWidget {
-  const SegmentControlDemo1({Key? key}) : super(key: key);
+  const SegmentControlDemo1({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +41,7 @@ class SegmentControlDemo1 extends HookWidget {
 }
 
 class SegmentControlDemo2 extends HookWidget {
-  const SegmentControlDemo2({Key? key}) : super(key: key);
+  const SegmentControlDemo2({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +59,7 @@ class SegmentControlDemo2 extends HookWidget {
 }
 
 class SegmentControlDemo3 extends HookWidget {
-  const SegmentControlDemo3({Key? key}) : super(key: key);
+  const SegmentControlDemo3({super.key});
 
   @override
   Widget build(BuildContext context) {

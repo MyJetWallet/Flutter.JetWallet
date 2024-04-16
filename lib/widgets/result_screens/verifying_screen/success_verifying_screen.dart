@@ -65,10 +65,8 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
           fireImmediately: true,
         );
       },
-      child: WillPopScope(
-        onWillPop: () {
-          return Future.value(false);
-        },
+      child: PopScope(
+        canPop: false,
         child: SPageFrameWithPadding(
           loaderText: intl.register_pleaseWait,
           child: Observer(
@@ -81,12 +79,8 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
                       const Spacer(),
                       Image.asset(
                         verifyYourProfileAsset,
-                        width: widgetSizeFrom(deviceSize) == SWidgetSize.small
-                            ? 160
-                            : 225,
-                        height: widgetSizeFrom(deviceSize) == SWidgetSize.small
-                            ? 160
-                            : 225,
+                        width: widgetSizeFrom(deviceSize) == SWidgetSize.small ? 160 : 225,
+                        height: widgetSizeFrom(deviceSize) == SWidgetSize.small ? 160 : 225,
                       ),
                       const Spacer(),
                       Baseline(

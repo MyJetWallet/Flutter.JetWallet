@@ -5,9 +5,9 @@ import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 
 class SimpleLoaderSuccess extends StatelessWidget {
   const SimpleLoaderSuccess({
-    Key? key,
+    super.key,
     this.loadingText,
-  }) : super(key: key);
+  });
 
   final String? loadingText;
 

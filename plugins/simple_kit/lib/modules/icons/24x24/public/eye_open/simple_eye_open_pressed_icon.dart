@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/eye_open/simple_light_eye_o
 import 'package:simple_kit/utils/enum.dart';
 
 class SEyeOpenPressedIcon extends StatelessObserverWidget {
-  const SEyeOpenPressedIcon({Key? key}) : super(key: key);
+  const SEyeOpenPressedIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

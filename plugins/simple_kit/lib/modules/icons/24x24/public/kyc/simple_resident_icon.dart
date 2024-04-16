@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/kyc/simple_light_resident_i
 import 'package:simple_kit/utils/enum.dart';
 
 class SResidentIcon extends StatelessObserverWidget {
-  const SResidentIcon({Key? key}) : super(key: key);
+  const SResidentIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

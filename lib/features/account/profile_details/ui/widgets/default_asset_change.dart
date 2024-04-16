@@ -26,9 +26,10 @@ class DefaultAssetChange extends StatelessObserverWidget {
       iterableAssets.add(currencyByAsset);
     }
 
-    return WillPopScope(
-      onWillPop: () {
-        return Future.value(!baseAsset.loader!.loading);
+    return PopScope(
+      canPop: !baseAsset.loader!.loading,
+      onPopInvoked: (_) async {
+        await Future.value(!baseAsset.loader!.loading);
       },
       child: SPageFrame(
         loaderText: intl.register_pleaseWait,

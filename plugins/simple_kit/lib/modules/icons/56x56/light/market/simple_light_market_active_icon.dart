@@ -4,9 +4,9 @@ import '../../base/simple_base_svg_56x56.dart';
 
 class SimpleLightMarketActiveIcon extends StatelessWidget {
   const SimpleLightMarketActiveIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

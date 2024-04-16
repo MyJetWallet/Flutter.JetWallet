@@ -6,7 +6,7 @@ import 'helper/set_circle_background_image.dart';
 
 class SRewardBanner extends StatelessWidget {
   const SRewardBanner({
-    Key? key,
+    super.key,
     this.secondaryText,
     this.imageUrl,
     this.primaryTextStyle,
@@ -14,7 +14,7 @@ class SRewardBanner extends StatelessWidget {
     required this.color,
     required this.primaryText,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final String? secondaryText;
   final String? imageUrl;

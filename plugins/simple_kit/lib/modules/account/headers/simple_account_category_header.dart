@@ -5,7 +5,7 @@ import '../../../simple_kit.dart';
 
 class SimpleAccountCategoryHeader extends StatelessWidget {
   const SimpleAccountCategoryHeader({
-    Key? key,
+    super.key,
     required this.userEmail,
     required this.userFirstName,
     required this.userLastName,
@@ -14,7 +14,7 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
     required this.onIconTap,
     required this.icon,
     required this.iconText,
-  }) : super(key: key);
+  });
 
   final String userEmail;
   final String userFirstName;
