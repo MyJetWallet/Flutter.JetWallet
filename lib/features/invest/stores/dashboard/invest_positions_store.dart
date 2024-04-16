@@ -158,7 +158,7 @@ abstract class _InvestPositionsStoreBase with Store {
     final activePositions = <InvestPositionModel>[];
     if (activeList.isNotEmpty) {
       for (var i = 0; i < activeList.length; i++) {
-        if (activeList[i].status == PositionStatus.opened || activeList[i].status == PositionStatus.pending) {
+        if (activeList[i].status == PositionStatus.opened) {
           activePositions.add(activeList[i]);
         }
       }
