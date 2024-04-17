@@ -165,9 +165,22 @@ class _InvestScreenState extends State<InvestScreen> {
                                         profit: getGroupedProfit(instrument.symbol ?? ''),
                                         price: investStore.getPriceBySymbol(instrument.symbol ?? ''),
                                         onTap: () {
-                                          sRouter.push(
-                                            InstrumentPageRouter(instrument: instrument),
-                                          );
+                                          final positions = investPositionsStore.activeList
+                                              .where((element) => element.symbol == instrument.symbol)
+                                              .toList();
+
+                                          if (positions.length > 1) {
+                                            sRouter.push(
+                                              InstrumentPageRouter(instrument: instrument),
+                                            );
+                                          } else {
+                                            sRouter.push(
+                                              ActiveInvestManageRouter(
+                                                instrument: instrument,
+                                                position: positions.first,
+                                              ),
+                                            );
+                                          }
                                         },
                                         candles: investChartStore.getAssetCandles(instrument.symbol ?? ''),
                                       ),
