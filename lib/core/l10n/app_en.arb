@@ -2050,5 +2050,7 @@
                 "example": "200 USDT"
             }
         }
-    }
+    },
+    "prepaid_card_more": "more",
+    "prepaid_card_less": "less"
 }
