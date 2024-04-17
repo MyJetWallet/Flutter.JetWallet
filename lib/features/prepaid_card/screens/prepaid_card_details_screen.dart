@@ -140,21 +140,25 @@ class _PrepaidCardDetailsBody extends StatelessWidget {
                 right: 24,
                 bottom: MediaQuery.of(context).padding.bottom + 16,
               ),
-              child: SButton.black(
-                text: intl.prepaid_card_issue_card,
-                callback: store.voucher?.status != BuyPrepaidCardIntentionStatus.purchasing
-                    ? () {
-                        sAnalytics.tapOnTheIssueCardButtonOnPrepaidCardActivationScreen(
-                          isCompleted: store.voucher?.status != BuyPrepaidCardIntentionStatus.purchasing,
-                          voucher: store.voucher?.voucherCode ?? '',
-                        );
-                        launchURL(
-                          context,
-                          store.voucher?.voucherUrl ?? '',
-                          launchMode: LaunchMode.externalApplication,
-                        );
-                      }
-                    : null,
+              child: Observer(
+                builder: (context) {
+                  return SButton.black(
+                    text: intl.prepaid_card_issue_card,
+                    callback: store.voucher?.status != BuyPrepaidCardIntentionStatus.purchasing
+                        ? () {
+                            sAnalytics.tapOnTheIssueCardButtonOnPrepaidCardActivationScreen(
+                              isCompleted: store.voucher?.status != BuyPrepaidCardIntentionStatus.purchasing,
+                              voucher: store.voucher?.voucherCode ?? '',
+                            );
+                            launchURL(
+                              context,
+                              store.voucher?.voucherUrl ?? '',
+                              launchMode: LaunchMode.externalApplication,
+                            );
+                          }
+                        : null,
+                  );
+                },
               ),
             ),
           ),
