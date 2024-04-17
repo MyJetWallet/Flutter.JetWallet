@@ -40,6 +40,8 @@ class _PrepaidCardPreBuyTabsBodyState extends State<_PrepaidCardPreBuyTabsBody> 
 
   bool isShowBackButtton = false;
 
+  int previosTabIndex = 0;
+
   @override
   void initState() {
     tabController = TabController(
@@ -60,15 +62,36 @@ class _PrepaidCardPreBuyTabsBodyState extends State<_PrepaidCardPreBuyTabsBody> 
       if (!tabController.indexIsChanging) {
         switch (tabController.index) {
           case 0:
+            if (previosTabIndex == 1) {
+              sAnalytics.tapOnTheBackButtonOnPrivacyScreen();
+            }
             sAnalytics.guideToUsingScreenView();
+
           case 1:
+            if (previosTabIndex == 0) {
+              sAnalytics.tapOnTheNextButtonOnGuideToUsingScreen();
+            } else if (previosTabIndex == 2) {
+              sAnalytics.tapOnTheBackButtonOnVoucherActivationScreen();
+            }
             sAnalytics.privacyScreenView();
+
           case 2:
+            if (previosTabIndex == 1) {
+              sAnalytics.tapOnTheNextButtonOnPrivacyScreen();
+            } else if (previosTabIndex == 3) {
+              sAnalytics.tapOnTheBackButtonOnChoosePrepaidCardScreen();
+            }
             sAnalytics.voucherActivationScreenView();
+
           case 3:
+            if (previosTabIndex == 2) {
+              sAnalytics.tapOnTheNextButtonOnVoucherActivationScreen();
+            }
             sAnalytics.choosePrepaidCardScreenView();
+
           default:
         }
+        previosTabIndex = tabController.index;
       }
     });
 
@@ -84,15 +107,6 @@ class _PrepaidCardPreBuyTabsBodyState extends State<_PrepaidCardPreBuyTabsBody> 
   void _goToNextTab() {
     final currentIndex = tabController.index;
     if (currentIndex < countOfTabs - 1) {
-      switch (tabController.index) {
-        case 0:
-          sAnalytics.tapOnTheNextButtonOnGuideToUsingScreen();
-        case 1:
-          sAnalytics.tapOnTheNextButtonOnPrivacyScreen();
-        case 2:
-          sAnalytics.tapOnTheNextButtonOnVoucherActivationScreen();
-        default:
-      }
       tabController.animateTo(currentIndex + 1);
     } else {
       final selectedBrand = ChooseCountryAndPlanStore.of(context).selectedBrand;
@@ -111,15 +125,6 @@ class _PrepaidCardPreBuyTabsBodyState extends State<_PrepaidCardPreBuyTabsBody> 
 
   void _goToPreviosTab() {
     final currentIndex = tabController.index;
-    switch (currentIndex) {
-      case 1:
-        sAnalytics.tapOnTheBackButtonOnPrivacyScreen();
-      case 2:
-        sAnalytics.tapOnTheBackButtonOnVoucherActivationScreen();
-      case 3:
-        sAnalytics.tapOnTheBackButtonOnChoosePrepaidCardScreen();
-      default:
-    }
     tabController.animateTo(currentIndex - 1);
   }
 
