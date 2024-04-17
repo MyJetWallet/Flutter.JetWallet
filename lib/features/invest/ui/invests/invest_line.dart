@@ -32,6 +32,7 @@ class InvestLine extends StatelessObserverWidget {
     required this.profitPercent,
     required this.accuracy,
     required this.onTap,
+    this.priceAccuracy = 2,
   });
 
   final CurrencyModel currency;
@@ -45,6 +46,7 @@ class InvestLine extends StatelessObserverWidget {
   final Decimal leverage;
   final int historyCount;
   final int accuracy;
+  final int priceAccuracy;
   final Function() onTap;
 
   @override
@@ -184,8 +186,8 @@ class InvestLine extends StatelessObserverWidget {
                     isBalanceHide
                         ? '****'
                         : isPending
-                            ? marketFormat(decimal: price, accuracy: 2, symbol: '')
-                            : marketFormat(decimal: profit, accuracy: 2, symbol: ''),
+                            ? marketFormat(decimal: price, accuracy: priceAccuracy, symbol: '')
+                            : marketFormat(decimal: profit, accuracy: priceAccuracy, symbol: ''),
                     style: STStyles.body2InvestB.copyWith(
                       color: colors.black,
                     ),
