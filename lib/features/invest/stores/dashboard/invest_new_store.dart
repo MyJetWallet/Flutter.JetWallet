@@ -875,6 +875,25 @@ abstract class _InvestNewStoreBase with Store {
       }
       if (isLimitsVisible) {
         if (isBuyMode) {
+          if (tpAmountValue == Decimal.zero && isTP) {
+            sNotification.showError(
+              '${intl.invest_error_tp_zero}$tpAmountValue',
+              id: 1,
+              needFeedback: true,
+            );
+
+            return true;
+          }
+          if (slAmountValue == Decimal.zero && isSl) {
+            sNotification.showError(
+              '${intl.invest_error_sl_zero}$slAmountValue',
+              id: 1,
+              needFeedback: true,
+            );
+
+            return true;
+          }
+
           if (tpPriceValue > maxPriceMarket && isTP) {
             sNotification.showError(
               '${intl.invest_error_tp_higher}$maxPriceMarket',
