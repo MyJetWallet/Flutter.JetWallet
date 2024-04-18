@@ -4,6 +4,7 @@ import 'package:charts/model/candle_type_enum.dart';
 import 'package:charts/model/resolution_string_enum.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jetwallet/features/invest/ui/dashboard/active_invest_line.dart';
@@ -89,11 +90,14 @@ class SymbolInfoLine extends StatelessObserverWidget {
                           style: STStyles.body2InvestSM.copyWith(color: colors.black),
                         ),
                         const SpaceH2(),
-                        Text(
-                          instrument.description!,
-                          style: STStyles.body3InvestM.copyWith(color: colors.grey2),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                        SizedBox(
+                          width: 48,
+                          child: Text(
+                            instrument.description!,
+                            style: STStyles.body3InvestM.copyWith(color: colors.grey2),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ],
                     ),
