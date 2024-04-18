@@ -1,5 +1,6 @@
 import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:logger/logger.dart';
@@ -26,6 +27,14 @@ class IntercomService {
       );
 
       _isInited = true;
+
+      sRouter.addListener(() {
+        if (sRouter.stack.any((rout) => rout.name == 'HomeRouter')) {
+          Intercom.instance.setInAppMessagesVisibility(IntercomVisibility.visible);
+        } else {
+          Intercom.instance.setInAppMessagesVisibility(IntercomVisibility.gone);
+        }
+      });
 
       _logger.log(
         level: Level.info,
