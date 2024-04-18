@@ -57,12 +57,6 @@ class MyPortfolio extends StatelessObserverWidget {
                     ),
                   ),
                   const SpaceW5(),
-                  //! TODO! don't need in current release
-                  //! don't remvoe
-                  // SIconButton(
-                  //   defaultIcon: Assets.svg.invest.share.simpleSvg(width: 20, height: 20,),
-                  //   onTap: onShare,
-                  // ),
                 ],
               ),
               const SpaceH4(),

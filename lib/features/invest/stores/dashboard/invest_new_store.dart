@@ -510,7 +510,7 @@ abstract class _InvestNewStoreBase with Store {
                       : volumeFormat(
                           decimal: model.targetPrice,
                           symbol: 'USDT',
-                          accuracy: 2,
+                          accuracy: instrument?.priceAccuracy ?? 2,
                         ),
                 ),
                 const SpaceH16(),
@@ -599,7 +599,7 @@ abstract class _InvestNewStoreBase with Store {
                       : volumeFormat(
                           decimal: model.targetPrice,
                           symbol: 'USDT',
-                          accuracy: 2,
+                          accuracy: instrument?.priceAccuracy ?? 2,
                         ),
                 ),
                 const SpaceH16(),
