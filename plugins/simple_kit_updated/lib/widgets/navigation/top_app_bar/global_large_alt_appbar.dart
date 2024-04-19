@@ -42,81 +42,85 @@ class SimpleLargeAltAppbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-      child: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        child: Row(
-                          children: [
-                            Text(
-                              title,
-                              style: STStyles.header5.copyWith(
+      padding: const EdgeInsets.only(top: 53),
+      child: SizedBox(
+        height: 96,
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 32,
+                          child: Row(
+                            children: [
+                              Text(
+                                title,
+                                style: STStyles.header5.copyWith(
+                                  color: SColorsLight().black,
+                                ),
+                              ),
+                              const Gap(8),
+                              Opacity(
+                                opacity: showLabelIcon ? 1 : 0,
+                                child: SafeGesture(
+                                  onTap: hasRightIcon
+                                      ? onLabelIconTap != null
+                                          ? () => onLabelIconTap!()
+                                          : null
+                                      : null,
+                                  child: labelIcon ?? Assets.svg.medium.show.simpleSvg(),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Gap(4),
+                        if (isLoading)
+                          SSkeletonLoader(
+                            width: 160,
+                            height: 40,
+                            borderRadius: BorderRadius.circular(4),
+                          )
+                        else
+                          Opacity(
+                            opacity: value != null ? 1 : 0,
+                            child: Text(
+                              value ?? '',
+                              style: STStyles.header3.copyWith(
                                 color: SColorsLight().black,
                               ),
                             ),
-                            const Gap(8),
-                            Opacity(
-                              opacity: showLabelIcon ? 1 : 0,
-                              child: SafeGesture(
-                                onTap: hasRightIcon
-                                    ? onLabelIconTap != null
-                                        ? () => onLabelIconTap!()
-                                        : null
-                                    : null,
-                                child: labelIcon ?? Assets.svg.medium.show.simpleSvg(),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Gap(4),
-                      if (isLoading)
-                        SSkeletonLoader(
-                          width: 160,
-                          height: 40,
-                          borderRadius: BorderRadius.circular(4),
-                        )
-                      else
-                        Opacity(
-                          opacity: value != null ? 1 : 0,
-                          child: Text(
-                            value ?? '',
-                            style: STStyles.header3.copyWith(
-                              color: SColorsLight().black,
-                            ),
                           ),
-                        ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                const Gap(24),
-                if (hasSecondIcon) ...[
-                  secondIcon ?? Assets.svg.medium.user.simpleSvg(),
                   const Gap(24),
+                  if (hasSecondIcon) ...[
+                    secondIcon ?? Assets.svg.medium.user.simpleSvg(),
+                    const Gap(24),
+                  ],
                 ],
-              ],
+              ),
             ),
-          ),
-          Positioned(
-            right: 18,
-            top: 3,
-            child: Opacity(
-              opacity: hasRightIcon ? 1 : 0,
-              child: rightIcon ?? Assets.svg.medium.user.simpleSvg(),
+            Positioned(
+              right: 18,
+              top: 3,
+              child: Opacity(
+                opacity: hasRightIcon ? 1 : 0,
+                child: rightIcon ?? Assets.svg.medium.user.simpleSvg(),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
