@@ -2087,5 +2087,23 @@
     "prepaid_card_order_id": "ID zamówienia",
     "prepaid_card_the_issuance": "Wydanie vouchera zwykle zajmuje około 1 godziny.",
     "prepaid_card_country_explanation": "Kraj wydania vouchera musi odpowiadać krajowi wydania karty",
-    "prepaid_cardcomission_explanation": "Opłata za wydanie karty jest pobierana z Twojego portfela"
+    "prepaid_cardcomission_explanation": "Opłata za wydanie karty jest pobierana z Twojego portfela",
+    "invest_history_tab_positions": "Pozycje",
+    "invest_history_tab_market": "Rynek",
+    "invest_alert_delete_pending_order": "Usuń oczekujące zamówienie",
+    "invest_alert_delete_pending_order_sub_titile": "Zamierzasz usunąć oczekującą inwestycję",
+    "invest_liquidation_price": "Cena likwidacji",
+    "invest_liquidation": "Likwidacja",
+    "earn_deposit_of": "Depozyt {value}\nzainicjowano",
+    "@earn_deposit_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "200 USDT"
+            }
+        }
+    },
+    "prepaid_card_more": "więcej",
+    "prepaid_card_less": "mniej",
+    "prepaid_card_funds_for_purchased": "Środki za zakupiony voucher są bezzwrotne"
 }
