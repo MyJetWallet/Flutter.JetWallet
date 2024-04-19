@@ -212,9 +212,6 @@ class BalanceActionButtons extends StatelessObserverWidget {
               );
 
               handler.handle(
-                multiStatus: [
-                  kycState.tradeStatus,
-                ],
                 isProgress: kycState.verificationInProgress,
                 currentNavigate: () => showSendOptions(
                   context,
