@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -35,6 +39,14 @@ class IntercomService {
           Intercom.instance.setInAppMessagesVisibility(IntercomVisibility.gone);
         }
       });
+
+      final firebaseMessaging = FirebaseMessaging.instance;
+      final intercomToken =
+          Platform.isIOS ? await firebaseMessaging.getAPNSToken() : await firebaseMessaging.getToken();
+
+      if (intercomToken != null) {
+        unawaited(Intercom.instance.sendTokenToIntercom(intercomToken));
+      }
 
       _logger.log(
         level: Level.info,
