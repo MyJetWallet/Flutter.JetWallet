@@ -2052,5 +2052,6 @@
         }
     },
     "prepaid_card_more": "more",
-    "prepaid_card_less": "less"
+    "prepaid_card_less": "less",
+    "prepaid_card_funds_for_purchased": "Funds for a purchased voucher are non-refundable"
 }

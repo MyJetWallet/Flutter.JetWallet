@@ -33,6 +33,13 @@ class BuyVoucherTextFirstScreen extends StatelessWidget {
                 ),
                 const SpaceH16(),
                 SBannerBasic(
+                  text: intl.prepaid_card_funds_for_purchased,
+                  icon: Assets.svg.small.warning,
+                  color: colors.redExtralight,
+                  corners: BannerCorners.rounded,
+                ),
+                const SpaceH4(),
+                SBannerBasic(
                   text: intl.prepaid_card_the_purchased,
                   icon: Assets.svg.small.warning,
                   color: colors.yellowExtralight,
