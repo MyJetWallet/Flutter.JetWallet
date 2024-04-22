@@ -1019,6 +1019,10 @@ class WalletApiRepository {
 
   // invest
 
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> getAsset({required String assetId}) async {
+    return _walletApiDataSources.getAsset(assetId: assetId);
+  }
+
   Future<DC<ServerRejectException, InvestPositionResponseModel>> createActivePosition(
       NewInvestRequestModel request) async {
     return _walletApiDataSources.createActivePositionRequest(model: request);

@@ -108,6 +108,7 @@ class _InvestListScreenState extends State<InvestList> {
     super.initState();
     final investNewStore = getIt.get<InvestNewStore>();
     investNewStore.setPosition(widget.position);
+    investNewStore.getAsset('USDT');
     final a = DateTime.parse('${widget.instrument.nextRollOverTime}');
     final b = DateTime.now();
     final difference = a.difference(b);

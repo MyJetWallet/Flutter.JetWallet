@@ -43,6 +43,12 @@ abstract class _InvestNewStoreBase with Store {
   @observable
   StackLoaderStore? loader;
 
+  @action
+  Future<void> getAsset(String assetId) async {
+    final response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().getAsset(assetId: assetId);
+    print(response);
+  }
+
   @observable
   InvestInstrumentModel? instrument;
   @action
