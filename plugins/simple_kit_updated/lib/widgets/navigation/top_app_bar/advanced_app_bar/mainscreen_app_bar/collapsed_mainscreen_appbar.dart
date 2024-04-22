@@ -18,6 +18,7 @@ class CollapsedMainscreenAppbar extends HookWidget {
     this.onProfileTap,
     this.profileNotificationsCount = 0,
     this.isLoading = false,
+    this.onOnChatTap,
   });
 
   final ScrollController scrollController;
@@ -35,6 +36,8 @@ class CollapsedMainscreenAppbar extends HookWidget {
 
   final VoidCallback? onProfileTap;
   final int profileNotificationsCount;
+
+  final VoidCallback? onOnChatTap;
 
   final bool isLoading;
 
@@ -71,6 +74,7 @@ class CollapsedMainscreenAppbar extends HookWidget {
         onProfileTap: onProfileTap,
         profileNotificationsCount: profileNotificationsCount,
         isLoading: isLoading,
+        onOnChatTap: onOnChatTap,
         child: child,
       ),
       secondChild: Material(

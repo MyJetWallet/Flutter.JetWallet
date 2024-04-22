@@ -12,6 +12,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/intercom/intercom_service.dart';
+import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/kyc/models/kyc_verified_model.dart';
@@ -229,6 +231,17 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                   onProfileTap: () {
                     _headerTap();
                   },
+                  onOnChatTap: () async {
+                    if (showZendesk) {
+                      await getIt.get<IntercomService>().showMessenger();
+                    } else {
+                      await sRouter.push(
+                        CrispRouter(
+                          welcomeText: intl.crispSendMessage_hi,
+                        ),
+                      );
+                    }
+                  },
                   profileNotificationsCount: notificationsCount,
                   isLoading: store.isLoading,
                   child: const Padding(
@@ -311,6 +324,17 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                     },
                                     onProfileTap: () {
                                       _headerTap();
+                                    },
+                                    onOnChatTap: () async {
+                                      if (showZendesk) {
+                                        await getIt.get<IntercomService>().showMessenger();
+                                      } else {
+                                        await sRouter.push(
+                                          CrispRouter(
+                                            welcomeText: intl.crispSendMessage_hi,
+                                          ),
+                                        );
+                                      }
                                     },
                                     isLabelIconShow: getIt<AppStore>().isBalanceHide,
                                     profileNotificationsCount: notificationsCount,

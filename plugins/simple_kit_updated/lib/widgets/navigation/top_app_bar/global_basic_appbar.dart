@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
@@ -19,6 +20,8 @@ class GlobalBasicAppBar extends StatelessWidget {
     this.rightIcon,
     this.onRightIconTap,
     this.onLeftIconTap,
+    this.hasSecondIcon = false,
+    this.secondIcon,
   });
 
   final bool hasTitle;
@@ -30,6 +33,9 @@ class GlobalBasicAppBar extends StatelessWidget {
 
   final bool hasLeftIcon;
   final Widget? leftIcon;
+
+  final bool hasSecondIcon;
+  final Widget? secondIcon;
 
   final bool hasRightIcon;
   final Widget? rightIcon;
@@ -73,6 +79,13 @@ class GlobalBasicAppBar extends StatelessWidget {
                           ),
                         ),
                       ),
+                      if (hasSecondIcon) ...[
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: secondIcon ?? Assets.svg.medium.user.simpleSvg(),
+                        ),
+                        const Gap(24),
+                      ],
                       Opacity(
                         opacity: hasRightIcon ? 1 : 0,
                         child: SafeGesture(
