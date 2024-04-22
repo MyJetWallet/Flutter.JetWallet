@@ -45,7 +45,7 @@ abstract class _InvestNewStoreBase with Store {
 
   @action
   Future<void> getAsset(String assetId) async {
-    final response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().getAsset(assetId: assetId);
+    final response = await sNetwork.getWalletModule().getAsset(assetId: assetId);
     print(response);
   }
 

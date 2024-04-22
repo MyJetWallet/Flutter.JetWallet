@@ -3050,7 +3050,6 @@ class WalletApiDataSources {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/InvestTrading/InvestReader/get-asset?assetId=$assetId',
-        // data: model.toJson(),
       );
 
       dev.log('response: $response');
