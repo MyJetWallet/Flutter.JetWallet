@@ -69,10 +69,16 @@ class IntercomService {
         await init();
       }
 
-      final authInfo = getIt.get<AppStore>().authState;
-      await Intercom.instance.loginIdentifiedUser(
-        email: authInfo.email,
-      );
+      final email = getIt.get<AppStore>().authState.email;
+
+      if (email != '') {
+        await Intercom.instance.loginIdentifiedUser(
+          email: email,
+        );
+      } else {
+        await Intercom.instance.loginUnidentifiedUser();
+      }
+
       _logger.log(
         level: Level.info,
         place: 'Intercom login',

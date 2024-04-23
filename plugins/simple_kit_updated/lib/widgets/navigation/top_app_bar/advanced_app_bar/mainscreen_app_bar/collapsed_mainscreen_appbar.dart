@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:simple_kit_updated/widgets/navigation/top_app_bar/advanced_app_bar/mainscreen_app_bar/mainscreen_appbar.dart';
-import 'package:simple_kit_updated/widgets/navigation/top_app_bar/global_basic_appbar.dart';
-import 'package:simple_kit_updated/widgets/shared/icons/user_noty_icon.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class CollapsedMainscreenAppbar extends HookWidget {
   const CollapsedMainscreenAppbar({
@@ -88,6 +87,11 @@ class CollapsedMainscreenAppbar extends HookWidget {
             onTap: onProfileTap ?? () {},
             notificationsCount: profileNotificationsCount,
           ),
+          hasSecondIcon: true,
+          secondIcon: SafeGesture(
+              onTap: onOnChatTap,
+              child: Assets.svg.medium.chat.simpleSvg(),
+            ),
         ),
       ),
       crossFadeState: isTopPosition.value ? CrossFadeState.showFirst : CrossFadeState.showSecond,

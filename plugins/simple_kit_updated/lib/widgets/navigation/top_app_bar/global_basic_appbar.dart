@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
@@ -57,16 +58,19 @@ class GlobalBasicAppBar extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Opacity(
-                        opacity: hasLeftIcon ? 1 : 0,
-                        child: SafeGesture(
-                          onTap: hasLeftIcon
-                              ? () {
-                                  onLeftIconTap?.call();
-                                  Navigator.pop(context);
-                                }
-                              : null,
-                          child: leftIcon ?? Assets.svg.medium.arrowLeft.simpleSvg(),
+                      SizedBox(
+                        width: 88,
+                        child: Opacity(
+                          opacity: hasLeftIcon ? 1 : 0,
+                          child: SafeGesture(
+                            onTap: hasLeftIcon
+                                ? () {
+                                    onLeftIconTap?.call();
+                                    Navigator.pop(context);
+                                  }
+                                : null,
+                            child: leftIcon ?? Assets.svg.medium.arrowLeft.simpleSvg(),
+                          ),
                         ),
                       ),
                       Opacity(
@@ -79,26 +83,31 @@ class GlobalBasicAppBar extends StatelessWidget {
                           ),
                         ),
                       ),
-                      if (hasSecondIcon) ...[
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8),
-                          child: secondIcon ?? Assets.svg.medium.user.simpleSvg(),
-                        ),
-                        const Gap(24),
-                      ],
-                      Opacity(
-                        opacity: hasRightIcon ? 1 : 0,
-                        child: SafeGesture(
-                          onTap: hasRightIcon
-                              ? onRightIconTap != null
-                                  ? () => onRightIconTap!()
-                                  : null
-                              : null,
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 8),
-                            child: rightIcon ?? Assets.svg.medium.close.simpleSvg(),
+                      Row(
+                        children: [
+                          Opacity(
+                            opacity: hasSecondIcon ? 1 : 0,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 8),
+                              child: secondIcon ?? Assets.svg.medium.user.simpleSvg(),
+                            ),
                           ),
-                        ),
+                          const Gap(24),
+                          Opacity(
+                            opacity: hasRightIcon ? 1 : 0,
+                            child: SafeGesture(
+                              onTap: hasRightIcon
+                                  ? onRightIconTap != null
+                                      ? () => onRightIconTap!()
+                                      : null
+                                  : null,
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 8),
+                                child: rightIcon ?? Assets.svg.medium.close.simpleSvg(),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

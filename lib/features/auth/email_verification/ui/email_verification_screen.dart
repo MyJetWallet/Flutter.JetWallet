@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -14,8 +15,9 @@ import 'package:jetwallet/widgets/pin_code_field.dart';
 import 'package:jetwallet/widgets/texts/resend_in_text.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/headers/simple_auth_header.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:universal_io/io.dart';
 
 @RoutePage(name: 'EmailVerificationRoute')
@@ -45,8 +47,7 @@ class _EmailVerificationBody extends StatefulObserverWidget {
   State<_EmailVerificationBody> createState() => __EmailVerificationBodyState();
 }
 
-class __EmailVerificationBodyState extends State<_EmailVerificationBody>
-    with WidgetsBindingObserver {
+class __EmailVerificationBodyState extends State<_EmailVerificationBody> with WidgetsBindingObserver {
   final focusNode = FocusNode();
 
   @override
@@ -81,8 +82,7 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
 
           await Future.delayed(const Duration(milliseconds: 200));
 
-          if (verification.controller.value.text.length !=
-              emailVerificationCodeLength) {
+          if (verification.controller.value.text.length != emailVerificationCodeLength) {
             if (focusNode.hasFocus) {
               focusNode.unfocus();
               Future.delayed(
@@ -115,8 +115,7 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
 
     focusNode.addListener(() {
       if (focusNode.hasFocus &&
-          verification.controller.value.text.length ==
-              emailVerificationCodeLength &&
+          verification.controller.value.text.length == emailVerificationCodeLength &&
           verification.pinError.value) {
         verification.controller.clear();
       }
@@ -125,16 +124,31 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       loading: verification.loader,
-      header: SLargeHeader(
+      header: SimpleLargeAppbar(
         title: intl.emailVerification_emailVerification,
-        customIconButton: SIconButton(
+        hasRightIcon: true,
+        rightIcon: SafeGesture(
+          onTap: () async {
+            if (showZendesk) {
+               await getIt.get<IntercomService>().login();
+              await getIt.get<IntercomService>().showMessenger();
+            } else {
+              await sRouter.push(
+                CrispRouter(
+                  welcomeText: intl.crispSendMessage_hi,
+                ),
+              );
+            }
+          },
+          child: Assets.svg.medium.chat.simpleSvg(),
+        ),
+        leftIcon: SIconButton(
           onTap: () {
             sRouter.replaceAll([const OnboardingRoute()]);
           },
           defaultIcon: const SCloseIcon(),
           pressedIcon: const SClosePressedIcon(),
         ),
-        isAutoSize: true,
       ),
       child: SingleChildScrollView(
         child: SPaddingH24(
