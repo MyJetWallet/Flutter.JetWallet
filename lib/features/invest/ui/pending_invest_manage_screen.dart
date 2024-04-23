@@ -186,6 +186,7 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
                         onTap: () {
                           showInvestModifyBottomSheet(
                             context: context,
+                            isPendingInvest: true,
                             instrument: widget.instrument,
                             position: investNewStore.position!,
                             onPrimaryButtonTap: () {

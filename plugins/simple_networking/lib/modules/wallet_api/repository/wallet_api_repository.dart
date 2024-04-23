@@ -1034,6 +1034,13 @@ class WalletApiRepository {
     return _walletApiDataSources.createPendingStopPositionRequest(model: request);
   }
 
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> changePendingPrice({
+    required String id,
+    required int price,
+  }) async {
+    return _walletApiDataSources.changePendingPrice(id: id, price: price);
+  }
+
   Future<DC<ServerRejectException, InvestPositionResponseModel>> closeActivePosition({
     required String positionId,
   }) async {
