@@ -54,8 +54,7 @@ abstract class _InvestDashboardStoreBase with Store {
   @computed
   ObservableList<InvestInstrumentModel> get myInvestsList {
     final positions = positionsList;
-    final activePositions = positions
-        .where((position) => position.status == PositionStatus.opened || position.status == PositionStatus.pending);
+    final activePositions = positions.where((position) => position.status == PositionStatus.opened);
     final myInvestsList = instrumentsList
         .where(
           (instrument) => activePositions.any(
