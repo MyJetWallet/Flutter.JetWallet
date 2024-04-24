@@ -15,8 +15,8 @@ import 'package:mobx/mobx.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_networking/modules/auth_api/models/asset_model.dart';
 import 'package:simple_networking/modules/candles_api/models/candles_request_model.dart';
-
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
@@ -43,10 +43,15 @@ abstract class _InvestNewStoreBase with Store {
   @observable
   StackLoaderStore? loader;
 
+  @observable
+  AssetModelAdm? assetUSDT;
+
   @action
   Future<void> getAsset(String assetId) async {
     final response = await sNetwork.getWalletModule().getAsset(assetId: assetId);
-    print(response);
+    if (!response.hasError) {
+      assetUSDT = response.data;
+    }
   }
 
   @observable

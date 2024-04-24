@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:simple_networking/api_client/api_client.dart';
 import 'package:simple_networking/helpers/handle_api_responses.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/auth_api/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/create_banking_account_simple_response.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
@@ -3044,7 +3045,7 @@ class WalletApiDataSources {
   }
 
   // invest
-  Future<DC<ServerRejectException, InvestPositionResponseModel>> getAsset({
+  Future<DC<ServerRejectException, AssetModelAdm>> getAsset({
     required String assetId,
   }) async {
     try {
@@ -3061,7 +3062,7 @@ class WalletApiDataSources {
         final responseData = response.data as Map<String, dynamic>;
         final data = handleFullResponse<Map>(responseData);
 
-        return DC.data(InvestPositionResponseModel.fromJson(data));
+        return DC.data(AssetModelAdm.fromJson(data));
       } catch (e) {
         rethrow;
       }
