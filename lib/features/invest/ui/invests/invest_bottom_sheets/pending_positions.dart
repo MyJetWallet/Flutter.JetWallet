@@ -7,19 +7,12 @@ import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_stor
 import 'package:jetwallet/features/invest/stores/dashboard/invest_positions_store.dart';
 import 'package:jetwallet/features/invest/ui/invests/above_list_line.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
+import 'package:simple_kit_updated/widgets/table/placeholder/simple_placeholder.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
-
 import '../../../../../core/router/app_router.dart';
 import '../../../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../../../utils/helpers/currency_from.dart';
-import '../../../../actions/action_send/widgets/show_send_timer_alert_or.dart';
-import '../../../../kyc/helper/kyc_alert_handler.dart';
-import '../../../../kyc/kyc_service.dart';
-import '../../../../kyc/models/kyc_operation_status_model.dart';
-import '../../widgets/invest_empty_screen.dart';
-import '../../widgets/invest_market_watch_bottom_sheet.dart';
 import '../invest_line.dart';
 import '../main_invest_block.dart';
 
@@ -93,52 +86,9 @@ class PendingInvestList extends StatelessObserverWidget {
                         .toList()
                     : investPositionsStore.pendingList;
                 if (listToShow.isEmpty) {
-                  return InvestEmptyScreen(
-                    width: MediaQuery.of(context).size.width - 48,
-                    height: MediaQuery.of(context).size.height - 284,
-                    title: sSignalRModules.investWalletData?.balance == Decimal.zero
-                        ? intl.invest_active_empty_deposit
-                        : intl.invest_active_empty,
-                    buttonName: sSignalRModules.investWalletData?.balance == Decimal.zero
-                        ? intl.invest_deposit
-                        : intl.invest_new_invest,
-                    onButtonTap: () {
-                      if (sSignalRModules.investWalletData?.balance == Decimal.zero) {
-                        final actualAsset = currency;
-                        final kycState = getIt.get<KycService>();
-                        final kycAlertHandler = getIt.get<KycAlertHandler>();
-                        if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
-                          showSendTimerAlertOr(
-                            context: context,
-                            or: () => sRouter.push(
-                              ConvertRouter(
-                                fromCurrency: actualAsset,
-                              ),
-                            ),
-                            from: [BlockingType.trade],
-                          );
-                        } else {
-                          kycAlertHandler.handle(
-                            status: kycState.tradeStatus,
-                            isProgress: kycState.verificationInProgress,
-                            currentNavigate: () => showSendTimerAlertOr(
-                              context: context,
-                              or: () => sRouter.push(
-                                ConvertRouter(
-                                  fromCurrency: actualAsset,
-                                ),
-                              ),
-                              from: [BlockingType.trade],
-                            ),
-                            requiredDocuments: kycState.requiredDocuments,
-                            requiredVerifications: kycState.requiredVerifications,
-                          );
-                        }
-                      } else {
-                        investStore.setActiveSection('all');
-                        showInvestMarketWatchBottomSheet(context);
-                      }
-                    },
+                  return SPlaceholder(
+                    size: SPlaceholderSize.l,
+                    text: intl.wallet_simple_account_empty,
                   );
                 }
 
