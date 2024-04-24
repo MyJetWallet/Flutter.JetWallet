@@ -3049,7 +3049,10 @@ class WalletApiDataSources {
   }) async {
     try {
       final response = await _apiClient.post(
-        '${_apiClient.options.walletApi}/InvestTrading/InvestReader/get-asset?assetId=$assetId',
+        '${_apiClient.options.walletApi}/InvestTrading/InvestReader/get-asset',
+        data: {
+          "AssetId": assetId,
+        },
       );
 
       dev.log('response: $response');
