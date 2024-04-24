@@ -3111,6 +3111,32 @@ class WalletApiDataSources {
     }
   }
 
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> changePendingPrice({
+    required String id,
+    required int price,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/InvestTrading/InvestAction/change-pending-price',
+        data: {
+          "positionId": id,
+          "pendingPrice": price,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(InvestPositionResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
   Future<DC<ServerRejectException, InvestPositionResponseModel>> cancelPendingPositionRequest({
     required String positionId,
   }) async {

@@ -1638,7 +1638,7 @@
     "invest_alert_close_all_profit": "Profit",
     "invest_alert_close_all_title": "Close all active invest?",
     "invest_alert_close_all_subtitle": "You are going to close all active invest",
-    "invest_alert_delete_pending_order": "Delete pending order",
+    "invest_alert_delete_pending_order": "Delete pending order?",
     "invest_alert_delete_pending_order_sub_titile": "You are going to delete the pending invest",
     "invest_alert_delete_all": "Delete all",
     "invest_alert_delete_all_title": "Delete all orders?",

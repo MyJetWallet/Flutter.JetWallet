@@ -354,11 +354,11 @@ abstract class _InvestNewStoreBase with Store {
   @observable
   bool isOrderMode = false;
   @action
-  void setIsOrderMode(bool newValue) {
+  void setIsOrderMode(bool newValue, {bool isPending = false}) {
     isOrderMode = newValue;
     final investStore = getIt.get<InvestDashboardStore>();
     final marketPrice = investStore.getPendingPriceBySymbol(instrument?.symbol ?? '');
-    pendingPriceController.text = '$marketPrice';
+    pendingPriceController.text = isPending ? position!.pendingPrice.toString() : '$marketPrice';
     pendingValue = marketPrice;
   }
 
@@ -732,6 +732,26 @@ abstract class _InvestNewStoreBase with Store {
         intl.something_went_wrong,
       );
       loader!.finishLoading();
+    }
+  }
+
+  @action
+  Future<void> changePendingPrice({required String id, required int price}) async {
+    try {
+      final response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().changePendingPrice(
+            id: id,
+            price: price,
+          );
+
+      if (response.hasError) {
+        sNotification.showError(
+          intl.something_went_wrong,
+        );
+      }
+    } catch (e) {
+      sNotification.showError(
+        intl.something_went_wrong,
+      );
     }
   }
 
