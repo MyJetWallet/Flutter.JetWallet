@@ -41,14 +41,6 @@ class IntercomService {
         }
       });
 
-      final firebaseMessaging = FirebaseMessaging.instance;
-      final intercomToken =
-          Platform.isIOS ? await firebaseMessaging.getAPNSToken() : await firebaseMessaging.getToken();
-
-      if (intercomToken != null) {
-        unawaited(Intercom.instance.sendTokenToIntercom(intercomToken));
-      }
-
       _logger.log(
         level: Level.info,
         place: 'Intercom init',
@@ -62,6 +54,15 @@ class IntercomService {
       );
     }
     return this;
+  }
+
+  Future<void> initPushNotif() async {
+    final firebaseMessaging = FirebaseMessaging.instance;
+    final intercomToken = Platform.isIOS ? await firebaseMessaging.getAPNSToken() : await firebaseMessaging.getToken();
+
+    if (intercomToken != null) {
+      unawaited(Intercom.instance.sendTokenToIntercom(intercomToken));
+    }
   }
 
   Future<void> login() async {
@@ -81,6 +82,8 @@ class IntercomService {
       } else {
         await Intercom.instance.loginUnidentifiedUser();
       }
+
+      await initPushNotif();
 
       _logger.log(
         level: Level.info,
