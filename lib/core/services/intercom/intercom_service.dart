@@ -7,7 +7,6 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/session_check_service.dart';
-import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:logger/logger.dart';
 
 class IntercomService {
@@ -71,11 +70,10 @@ class IntercomService {
         await init();
       }
 
-      final email = getIt.get<AppStore>().authState.email;
       final info = getIt.get<SessionCheckService>().data;
       final userId = info?.trackId;
 
-      if (email != '') {
+      if (userId != null) {
         await Intercom.instance.loginIdentifiedUser(
           userId: userId,
         );
