@@ -76,12 +76,6 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
     final colors = sKit.colors;
     final currency = currencyFrom(currencies, 'USDT');
 
-    final pendingListToShow = investPositionsStore.pendingList
-        .where(
-          (element) => element.symbol == widget.instrument.symbol,
-        )
-        .toList();
-
     final activeListToShow = investPositionsStore.activeList
         .where(
           (element) => element.symbol == widget.instrument.symbol,
@@ -320,38 +314,27 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      if (pendingListToShow.isNotEmpty && activeListToShow.isNotEmpty)
-                        Row(
-                          children: [
-                            SecondarySwitch(
-                              onChangeTab: investPositionsStore.setActiveInstrumentTab,
-                              activeTab: investPositionsStore.activeInstrumentTab,
-                              tabs: [
-                                intl.invest_history_tab_positions,
-                                intl.invest_history_tab_pending,
-                              ],
-                            ),
-                          ],
-                        ),
+                      Row(
+                        children: [
+                          SecondarySwitch(
+                            onChangeTab: investPositionsStore.setActiveInstrumentTab,
+                            activeTab: investPositionsStore.activeInstrumentTab,
+                            tabs: [
+                              intl.invest_history_tab_positions,
+                              intl.invest_history_tab_pending,
+                            ],
+                          ),
+                        ],
+                      ),
                       Observer(
                         builder: (BuildContext context) {
-                          if (pendingListToShow.isNotEmpty && activeListToShow.isEmpty) {
-                            return PendingInvestList(
-                              instrument: widget.instrument,
-                            );
-                          } else if (activeListToShow.isNotEmpty && pendingListToShow.isEmpty) {
-                            return ActiveInvestList(
-                              instrument: widget.instrument,
-                            );
-                          } else {
-                            return investPositionsStore.activeInstrumentTab == 0
-                                ? ActiveInvestList(
-                                    instrument: widget.instrument,
-                                  )
-                                : PendingInvestList(
-                                    instrument: widget.instrument,
-                                  );
-                          }
+                          return activeListToShow.isNotEmpty || investPositionsStore.activeInstrumentTab == 0
+                              ? ActiveInvestList(
+                                  instrument: widget.instrument,
+                                )
+                              : PendingInvestList(
+                                  instrument: widget.instrument,
+                                );
                         },
                       ),
                     ],

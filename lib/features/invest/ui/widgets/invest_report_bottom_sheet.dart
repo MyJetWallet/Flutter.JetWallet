@@ -108,6 +108,7 @@ class _InvestListScreenState extends State<InvestList> {
     super.initState();
     final investNewStore = getIt.get<InvestNewStore>();
     investNewStore.setPosition(widget.position);
+    investNewStore.getAsset('USDT');
     final a = DateTime.parse('${widget.instrument.nextRollOverTime}');
     final b = DateTime.now();
     final difference = a.difference(b);
@@ -146,6 +147,7 @@ class _InvestListScreenState extends State<InvestList> {
   Widget build(BuildContext context) {
     final investStore = getIt.get<InvestDashboardStore>();
     final investPositionStore = getIt.get<InvestPositionsStore>();
+    final investNewStore = getIt.get<InvestNewStore>();
     final currencies = sSignalRModules.currenciesList;
     final colors = sKit.colors;
     final currency = currencyFrom(currencies, widget.instrument.name ?? '');
@@ -326,7 +328,7 @@ class _InvestListScreenState extends State<InvestList> {
                     ? '**** USDT'
                     : marketFormat(
                         decimal: investStore.getMarketPLByPosition(widget.position),
-                        accuracy: 6,
+                        accuracy: investNewStore.assetUSDT?.accuracy ?? 2,
                         symbol: 'USDT',
                       ),
               ),
@@ -337,7 +339,7 @@ class _InvestListScreenState extends State<InvestList> {
                     ? '**** USDT'
                     : marketFormat(
                         decimal: (widget.position.openFee ?? Decimal.zero) * Decimal.parse('-1'),
-                        accuracy: 6,
+                        accuracy: investNewStore.assetUSDT?.accuracy ?? 2,
                         symbol: 'USDT',
                       ),
               ),
@@ -349,7 +351,7 @@ class _InvestListScreenState extends State<InvestList> {
                       ? '**** USDT'
                       : marketFormat(
                           decimal: (widget.position.closeFee ?? Decimal.zero) * Decimal.parse('-1'),
-                          accuracy: 6,
+                          accuracy: investNewStore.assetUSDT?.accuracy ?? 2,
                           symbol: 'USDT',
                         ),
                 ),
@@ -361,7 +363,7 @@ class _InvestListScreenState extends State<InvestList> {
                     ? '**** USDT'
                     : marketFormat(
                         decimal: widget.position.rollOver ?? Decimal.zero,
-                        accuracy: 6,
+                        accuracy: investNewStore.assetUSDT?.accuracy ?? 2,
                         symbol: 'USDT',
                       ),
               ),

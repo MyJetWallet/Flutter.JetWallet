@@ -2,6 +2,7 @@ import 'package:data_channel/data_channel.dart';
 import 'package:dio/dio.dart';
 import 'package:simple_networking/api_client/api_client.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/auth_api/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/create_banking_account_simple_response.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_audit_history_model.dart';
@@ -1018,6 +1019,10 @@ class WalletApiRepository {
   }
 
   // invest
+
+  Future<DC<ServerRejectException, AssetModelAdm>> getAsset({required String assetId}) async {
+    return _walletApiDataSources.getAsset(assetId: assetId);
+  }
 
   Future<DC<ServerRejectException, InvestPositionResponseModel>> createActivePosition(
       NewInvestRequestModel request) async {
