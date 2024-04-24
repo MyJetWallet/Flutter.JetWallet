@@ -2023,5 +2023,23 @@
     "prepaid_card_order_id": "ID de orden",
     "prepaid_card_the_issuance": "La emisión del vale suele tardar alrededor de 1 hora.",
     "prepaid_card_country_explanation": "El país de emisión del vale debe coincidir con el país de emisión de la tarjeta",
-    "prepaid_cardcomission_explanation": "La comisión por la emisión de la tarjeta se paga desde tu cartera"
+    "prepaid_cardcomission_explanation": "La comisión por la emisión de la tarjeta se paga desde tu cartera",
+    "invest_history_tab_positions": "Posiciones",
+    "invest_history_tab_market": "Mercado",
+    "invest_alert_delete_pending_order": "Eliminar orden pendiente",
+    "invest_alert_delete_pending_order_sub_titile": "Vas a eliminar la inversión pendiente",
+    "invest_liquidation_price": "Precio de liquidación",
+    "invest_liquidation": "Liquidación",
+    "earn_deposit_of": "Depósito de {value}\nse inició",
+    "@earn_deposit_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "200 USDT"
+            }
+        }
+    },
+    "prepaid_card_more": "más",
+    "prepaid_card_less": "menos",
+    "prepaid_card_funds_for_purchased": "Los fondos de un vale comprado no son reembolsables"
 }

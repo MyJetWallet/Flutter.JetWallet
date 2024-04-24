@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 
 class SHyperlink extends StatelessWidget {
   const SHyperlink({
@@ -33,10 +32,11 @@ class SHyperlink extends StatelessWidget {
               ),
             ),
             const Gap(4),
-            SizedBox(
-              width: 16,
-              height: 16,
+            Padding(
+              padding: const EdgeInsets.only(top: 4.5),
               child: Assets.svg.medium.shevronRight.simpleSvg(
+                width: 16,
+                height: 16,
                 color: isDisabled ? SColorsLight().gray4 : SColorsLight().gray8,
               ),
             ),
