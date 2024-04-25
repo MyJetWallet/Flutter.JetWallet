@@ -207,7 +207,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                                 ),
                               )
                                   .then((value) {
-                                sRouter.pop();
+                                sRouter.maybePop();
                                 if (value is String) {
                                   try {
                                     sAnalytics.tapOnTheSaveChangesFromEditVirtualCardLabelButton(

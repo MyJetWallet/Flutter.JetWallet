@@ -55,7 +55,7 @@ class _AccountDetailsBody extends StatelessWidget {
         title: intl.account_bottom_sheet_header,
         hasLeftIcon: false,
         onRightIconTap: () {
-          sRouter.pop();
+          sRouter.maybePop();
         },
       ),
       child: CustomScrollView(

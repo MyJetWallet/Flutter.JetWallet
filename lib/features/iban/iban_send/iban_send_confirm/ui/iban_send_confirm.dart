@@ -261,7 +261,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                           );
                         },
                         onChangePhone: (String newPin) {
-                          sRouter.pop();
+                          sRouter.maybePop();
 
                           state.confirmIbanOut(
                             previewRequest,

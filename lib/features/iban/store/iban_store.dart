@@ -314,7 +314,7 @@ abstract class IbanStoreBase with Store {
       } else {
         loader!.finishLoading(
           onFinish: () {
-            sRouter.pop();
+            sRouter.maybePop();
           },
         );
       }

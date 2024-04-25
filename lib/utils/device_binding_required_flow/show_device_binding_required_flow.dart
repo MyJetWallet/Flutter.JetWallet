@@ -26,11 +26,11 @@ Future<void> showDeviceBindingRequiredFlow({
     ),
     onPrimaryButtonTap: () {
       continueBuying = true;
-      sRouter.pop();
+      sRouter.maybePop();
     },
     onSecondaryButtonTap: () {
       continueBuying = false;
-      sRouter.pop();
+      sRouter.maybePop();
       onCanceled?.call();
     },
   );
@@ -45,7 +45,7 @@ Future<void> showDeviceBindingRequiredFlow({
         phoneNumber: sUserInfo.phone,
         activeDialCode: phoneNumber,
         onVerified: () {
-          sRouter.pop();
+          sRouter.maybePop();
           onConfirmed?.call();
         },
       ),

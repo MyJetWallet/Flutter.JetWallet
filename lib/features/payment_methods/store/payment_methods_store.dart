@@ -171,14 +171,14 @@ abstract class _PaymentMethodsStoreBase with Store {
           sRouter.navigate(
             AddCircleCardRouter(
               onCardAdded: (card) {
-                sRouter.pop();
+                sRouter.maybePop();
               },
             ),
           );
         },
         secondaryButtonName: intl.previewBuyWithCircle_failureCancel,
         onSecondaryButtonTap: () {
-          sRouter.pop();
+          sRouter.maybePop();
         },
       ),
     );

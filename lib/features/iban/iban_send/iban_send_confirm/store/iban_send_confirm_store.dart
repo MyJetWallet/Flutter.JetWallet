@@ -86,11 +86,11 @@ abstract class _IbanSendConfirmStoreBase with Store {
         ),
         onPrimaryButtonTap: () {
           continueBuying = true;
-          sRouter.pop();
+          sRouter.maybePop();
         },
         onSecondaryButtonTap: () {
           continueBuying = false;
-          sRouter.pop();
+          sRouter.maybePop();
         },
       );
 
@@ -106,7 +106,7 @@ abstract class _IbanSendConfirmStoreBase with Store {
             activeDialCode: phoneNumber,
             onVerified: () {
               isVerifaierd = true;
-              sRouter.pop();
+              sRouter.maybePop();
             },
           ),
         ),

@@ -187,7 +187,7 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
 
                           //FocusScope.of(context).unfocus();
                           if (sUserInfo.phone == store.phoneNumber()) {
-                            sRouter.pop();
+                            sRouter.maybePop();
 
                             return;
                           }

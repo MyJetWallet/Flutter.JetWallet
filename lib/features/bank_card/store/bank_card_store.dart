@@ -444,8 +444,8 @@ abstract class _BankCardStoreBase with Store {
     required String cardLabel,
     required CircleCardNetwork network,
   }) async {
-    await sRouter.pop();
-    if (saveCard) await sRouter.pop();
+    await sRouter.maybePop();
+    if (saveCard) await sRouter.maybePop();
 
     Timer(const Duration(milliseconds: 300), () {
       final cardIndex = sSignalRModules.cards.cardInfos.indexWhere(
@@ -502,7 +502,7 @@ abstract class _BankCardStoreBase with Store {
             cardLabel,
           );
 
-      await sRouter.pop();
+      await sRouter.maybePop();
 
       loader.finishLoadingImmediately();
       sNotification.showError(

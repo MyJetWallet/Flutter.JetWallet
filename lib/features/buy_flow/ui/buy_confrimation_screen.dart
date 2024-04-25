@@ -95,7 +95,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
         subTitleStyle: sBodyText2Style.copyWith(
           color: colors.grey1,
         ),
-        onBackButtonTap: () => sRouter.pop(),
+        onBackButtonTap: () => sRouter.maybePop(),
       ),
       child: CustomScrollView(
         slivers: [
