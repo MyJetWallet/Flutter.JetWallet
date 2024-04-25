@@ -1006,7 +1006,7 @@ abstract class _InvestNewStoreBase with Store {
 
     final newPendingValue = pendingValue == Decimal.zero ? marketPrice : pendingValue;
 
-    if (slAmountValue == Decimal.zero) {
+    if (isSl && slAmountValue == Decimal.zero) {
       sNotification.showError(
         '${intl.invest_error_sl_zero}0',
         id: 1,
@@ -1015,7 +1015,7 @@ abstract class _InvestNewStoreBase with Store {
       return true;
     }
 
-    if (tpAmountValue == Decimal.zero) {
+    if (isTP && tpAmountValue == Decimal.zero) {
       sNotification.showError(
         '${intl.invest_error_tp_zero}0',
         id: 1,

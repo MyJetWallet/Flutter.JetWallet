@@ -195,16 +195,18 @@ class ActiveInvestList extends StatelessObserverWidget {
                 if (instrument != null) {
                   final positions =
                       investPositionsStore.activeList.where((element) => element.symbol == instrument!.symbol).toList();
+
                   positions.sort((a, b) {
-                    if (investPositionsStore.activeSortState == 1) {
-                      return investStore.getProfitByPosition(b).compareTo(investStore.getProfitByPosition(a));
-                    } else if (investPositionsStore.activeSortState == 2) {
-                      return investStore.getProfitByPosition(a).compareTo(investStore.getProfitByPosition(b));
+                    if (a.creationTimestamp == null && b.creationTimestamp == null) {
+                      return 0;
+                    } else if (a.creationTimestamp == null) {
+                      return 1;
+                    } else if (b.creationTimestamp == null) {
+                      return -1;
                     }
 
-                    return 0.compareTo(1);
+                    return a.creationTimestamp!.compareTo(b.creationTimestamp!);
                   });
-
                   return Column(
                     children: [
                       for (final position in positions) ...[
