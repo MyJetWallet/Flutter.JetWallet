@@ -517,10 +517,10 @@ abstract class _InvestNewStoreBase with Store {
                 DataLine(
                   mainText: intl.invest_pending_price,
                   secondaryText: isBalanceHide
-                      ? '**** USDT'
+                      ? '****'
                       : volumeFormat(
                           decimal: model.targetPrice,
-                          symbol: 'USDT',
+                          symbol: '',
                           accuracy: instrument?.priceAccuracy ?? 2,
                         ),
                 ),
@@ -606,10 +606,10 @@ abstract class _InvestNewStoreBase with Store {
                 DataLine(
                   mainText: intl.invest_pending_price,
                   secondaryText: isBalanceHide
-                      ? '**** USDT'
+                      ? '****'
                       : volumeFormat(
                           decimal: model.targetPrice,
-                          symbol: 'USDT',
+                          symbol: '',
                           accuracy: instrument?.priceAccuracy ?? 2,
                         ),
                 ),

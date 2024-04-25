@@ -81,7 +81,6 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
           (element) => element.symbol == widget.instrument.symbol,
         )
         .toList();
-
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       loading: investPositionsStore.loader,
@@ -328,7 +327,7 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                       ),
                       Observer(
                         builder: (BuildContext context) {
-                          return activeListToShow.isNotEmpty || investPositionsStore.activeInstrumentTab == 0
+                          return investPositionsStore.activeInstrumentTab == 0
                               ? ActiveInvestList(
                                   instrument: widget.instrument,
                                 )
