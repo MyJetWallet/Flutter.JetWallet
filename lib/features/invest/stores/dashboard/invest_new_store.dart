@@ -1006,6 +1006,24 @@ abstract class _InvestNewStoreBase with Store {
 
     final newPendingValue = pendingValue == Decimal.zero ? marketPrice : pendingValue;
 
+    if (slAmountValue == Decimal.zero) {
+      sNotification.showError(
+        '${intl.invest_error_sl_zero}0',
+        id: 1,
+        needFeedback: true,
+      );
+      return true;
+    }
+
+    if (tpAmountValue == Decimal.zero) {
+      sNotification.showError(
+        '${intl.invest_error_tp_zero}0',
+        id: 1,
+        needFeedback: true,
+      );
+      return true;
+    }
+
     if (newPendingValue < minPriceMarket) {
       sNotification.showError(
         '${intl.invest_error_pending_price} $minPriceMarket - $maxPriceMarket',
