@@ -517,10 +517,10 @@ abstract class _InvestNewStoreBase with Store {
                 DataLine(
                   mainText: intl.invest_pending_price,
                   secondaryText: isBalanceHide
-                      ? '**** USDT'
+                      ? '****'
                       : volumeFormat(
                           decimal: model.targetPrice,
-                          symbol: 'USDT',
+                          symbol: '',
                           accuracy: instrument?.priceAccuracy ?? 2,
                         ),
                 ),
@@ -606,10 +606,10 @@ abstract class _InvestNewStoreBase with Store {
                 DataLine(
                   mainText: intl.invest_pending_price,
                   secondaryText: isBalanceHide
-                      ? '**** USDT'
+                      ? '****'
                       : volumeFormat(
                           decimal: model.targetPrice,
-                          symbol: 'USDT',
+                          symbol: '',
                           accuracy: instrument?.priceAccuracy ?? 2,
                         ),
                 ),
@@ -1005,6 +1005,24 @@ abstract class _InvestNewStoreBase with Store {
     final maxPriceMarket = (Decimal.fromInt(1) + instrument!.pendingPriceRestrictions!) * marketPrice;
 
     final newPendingValue = pendingValue == Decimal.zero ? marketPrice : pendingValue;
+
+    if (isSl && slAmountValue == Decimal.zero) {
+      sNotification.showError(
+        '${intl.invest_error_sl_zero}0',
+        id: 1,
+        needFeedback: true,
+      );
+      return true;
+    }
+
+    if (isTP && tpAmountValue == Decimal.zero) {
+      sNotification.showError(
+        '${intl.invest_error_tp_zero}0',
+        id: 1,
+        needFeedback: true,
+      );
+      return true;
+    }
 
     if (newPendingValue < minPriceMarket) {
       sNotification.showError(

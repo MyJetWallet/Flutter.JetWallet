@@ -110,6 +110,18 @@ class PendingInvestList extends StatelessObserverWidget {
                         .toList()
                     : investPositionsStore.pendingList;
 
+                listToShow.sort((a, b) {
+                  if (a.creationTimestamp == null && b.creationTimestamp == null) {
+                    return 0;
+                  } else if (a.creationTimestamp == null) {
+                    return 1;
+                  } else if (b.creationTimestamp == null) {
+                    return -1;
+                  }
+
+                  return a.creationTimestamp!.compareTo(b.creationTimestamp!);
+                });
+
                 return Column(
                   children: [
                     for (final position in listToShow) ...[
