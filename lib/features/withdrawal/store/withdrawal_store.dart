@@ -768,11 +768,11 @@ abstract class _WithdrawalStoreBase with Store {
 
   var isRedirectedFromQr = false;
   @action
-  void _onQRScanned(Barcode carcode, BuildContext context) {
+  void _onQRScanned(BarcodeCapture capture, BuildContext context) {
     if (isRedirectedFromQr) return;
 
     isRedirectedFromQr = true;
-    Navigator.pop(context, carcode);
+    Navigator.pop(context, capture.barcodes.first);
   }
 
   @action
