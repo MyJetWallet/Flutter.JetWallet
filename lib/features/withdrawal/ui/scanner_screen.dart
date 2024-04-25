@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
@@ -5,7 +6,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage()
-class ScannerScreen extends StatelessWidget {
+class ScannerScreen extends StatefulWidget {
   const ScannerScreen({
     super.key,
     required this.qrKey,
@@ -13,7 +14,55 @@ class ScannerScreen extends StatelessWidget {
   });
 
   final Key qrKey;
-  final Function(BarcodeCapture, BuildContext) onQRScanned;
+  final Function(Barcode, BuildContext) onQRScanned;
+
+  @override
+  State<ScannerScreen> createState() => _ScannerScreenState();
+}
+
+class _ScannerScreenState extends State<ScannerScreen> with WidgetsBindingObserver {
+  final MobileScannerController controller = MobileScannerController(
+    torchEnabled: true,
+    useNewCameraSelector: true,
+  );
+
+  StreamSubscription<Object?>? _subscription;
+
+  void _handleBarcode(BarcodeCapture barcodes) {
+    if (mounted) {
+      widget.onQRScanned(barcodes.barcodes.first, context);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+
+    _subscription = controller.barcodes.listen(_handleBarcode);
+
+    unawaited(controller.start());
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    switch (state) {
+      case AppLifecycleState.detached:
+      case AppLifecycleState.hidden:
+      case AppLifecycleState.paused:
+        return;
+      case AppLifecycleState.resumed:
+        _subscription = controller.barcodes.listen(_handleBarcode);
+
+        unawaited(controller.start());
+      case AppLifecycleState.inactive:
+        unawaited(_subscription?.cancel());
+        _subscription = null;
+        unawaited(controller.stop());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +76,9 @@ class ScannerScreen extends StatelessWidget {
       body: Stack(
         children: [
           MobileScanner(
-            key: qrKey,
+            controller: controller,
+            key: widget.qrKey,
             scanWindow: scanWindow,
-            onDetect: (c) => onQRScanned(c, context),
           ),
           CustomPaint(
             painter: ScannerOverlay(scanWindow),
@@ -55,5 +104,14 @@ class ScannerScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  @override
+  Future<void> dispose() async {
+    WidgetsBinding.instance.removeObserver(this);
+    unawaited(_subscription?.cancel());
+    _subscription = null;
+    super.dispose();
+    await controller.dispose();
   }
 }

@@ -4,7 +4,7 @@ definitions:
     max_build_duration: 60
 
   versioning: &versioning
-    flutter: 3.19.2
+    flutter: 3.19.6
     xcode: latest
     cocoapods: default
 
