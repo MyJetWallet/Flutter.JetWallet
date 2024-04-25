@@ -56,6 +56,20 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
       ..resetStore()
       ..fetchAssetCandles(Period.day, widget.instrument.symbol ?? '');
 
+    final investPositionsStore = getIt.get<InvestPositionsStore>();
+
+    final activeListToShow = investPositionsStore.activeList
+        .where(
+          (element) => element.symbol == widget.instrument.symbol,
+        )
+        .toList();
+
+    if (activeListToShow.isNotEmpty) {
+      investPositionsStore.setActiveInstrumentTab(0);
+    } else {
+      investPositionsStore.setActiveInstrumentTab(1);
+    }
+
     super.initState();
     controller = ScrollController();
   }
@@ -75,12 +89,6 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
 
     final colors = sKit.colors;
     final currency = currencyFrom(currencies, 'USDT');
-
-    final activeListToShow = investPositionsStore.activeList
-        .where(
-          (element) => element.symbol == widget.instrument.symbol,
-        )
-        .toList();
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
@@ -328,7 +336,7 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                       ),
                       Observer(
                         builder: (BuildContext context) {
-                          return activeListToShow.isNotEmpty || investPositionsStore.activeInstrumentTab == 0
+                          return investPositionsStore.activeInstrumentTab == 0
                               ? ActiveInvestList(
                                   instrument: widget.instrument,
                                 )
