@@ -3,9 +3,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 class SBottomSheetHeader extends StatelessWidget {
   const SBottomSheetHeader({
-    Key? key,
+    super.key,
     required this.name,
-  }) : super(key: key);
+  });
 
   final String name;
 

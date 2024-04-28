@@ -51,10 +51,8 @@ class _VerifyingScreenBody extends StatelessObserverWidget {
 
     store.getVerificationId(onSuccess, cardId);
 
-    return WillPopScope(
-      onWillPop: () {
-        return Future.value(false);
-      },
+    return PopScope(
+      canPop: false,
       child: SPageFrameWithPadding(
         loaderText: intl.register_pleaseWait,
         child: Column(
@@ -63,10 +61,8 @@ class _VerifyingScreenBody extends StatelessObserverWidget {
             const Spacer(),
             Image.asset(
               verifyingNowAsset,
-              width:
-                  widgetSizeFrom(deviceSize) == SWidgetSize.small ? 160 : 225,
-              height:
-                  widgetSizeFrom(deviceSize) == SWidgetSize.small ? 160 : 225,
+              width: widgetSizeFrom(deviceSize) == SWidgetSize.small ? 160 : 225,
+              height: widgetSizeFrom(deviceSize) == SWidgetSize.small ? 160 : 225,
             ),
             const Spacer(),
             Baseline(

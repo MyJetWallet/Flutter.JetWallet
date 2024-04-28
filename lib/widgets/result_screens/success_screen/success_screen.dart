@@ -168,10 +168,8 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> with WidgetsBind
           fireImmediately: true,
         );
       },
-      child: WillPopScope(
-        onWillPop: () {
-          return Future.value(false);
-        },
+      child: PopScope(
+        canPop: false,
         child: SPageFrame(
           loaderText: intl.register_pleaseWait,
           child: Observer(

@@ -5,11 +5,11 @@ import '../../simple_kit.dart';
 
 class SPaymentSelectEmptyBalance extends StatelessWidget {
   const SPaymentSelectEmptyBalance({
-    Key? key,
+    super.key,
     required this.text,
     this.secondaryText,
     required this.widgetSize,
-  }) : super(key: key);
+  });
 
   final String text;
   final String? secondaryText;

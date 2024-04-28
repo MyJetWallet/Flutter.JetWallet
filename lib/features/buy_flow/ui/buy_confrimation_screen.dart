@@ -145,7 +145,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                   Builder(
                     builder: (context) {
                       final text =
-                          '''${intl.buy_confirm_with_unlimit_1_part} ${volumeFormat(symbol: store.payCurrency.symbol, accuracy: store.payCurrency.accuracy, decimal: store.paymentAmount ?? Decimal.zero)} ${intl.buy_confirm_with_unlimit_2_part} ${splitIban((store.ibanBuyDestination).trim())} ${intl.buy_confirm_with_unlimit_3_part} ${store.ibanBuyBeneficiary}''';
+                          '''${intl.buy_confirm_with_unlimit_1_part} ${volumeFormat(symbol: store.payCurrency.symbol, accuracy: store.payCurrency.accuracy, decimal: store.paymentAmount ?? Decimal.zero)} ${intl.buy_confirm_with_unlimit_2_part} ${splitIban(store.ibanBuyDestination.trim())} ${intl.buy_confirm_with_unlimit_3_part} ${store.ibanBuyBeneficiary}''';
 
                       return Text(
                         text,

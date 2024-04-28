@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/qr_code/simple_light_qr_cod
 import 'package:simple_kit/utils/enum.dart';
 
 class SQrCodeIcon extends StatelessObserverWidget {
-  const SQrCodeIcon({Key? key}) : super(key: key);
+  const SQrCodeIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

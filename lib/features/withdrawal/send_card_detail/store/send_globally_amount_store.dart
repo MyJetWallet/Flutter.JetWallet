@@ -171,7 +171,6 @@ abstract class _SendGloballyAmountStoreBase with Store {
     } else {
       sNotification.showError(
         response.error?.cause ?? '',
-        duration: 4,
         id: 1,
         needFeedback: true,
       );

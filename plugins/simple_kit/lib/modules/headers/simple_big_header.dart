@@ -5,7 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 class SBigHeader extends StatelessWidget {
   const SBigHeader({
-    Key? key,
+    super.key,
     this.customIconButton,
     this.onLinkTap,
     this.onSearchButtonTap,
@@ -17,7 +17,7 @@ class SBigHeader extends StatelessWidget {
     this.showSupportButton = false,
     this.isSmallSize = false,
     required this.title,
-  }) : super(key: key);
+  });
 
   final Widget? customIconButton;
   final Function()? onLinkTap;

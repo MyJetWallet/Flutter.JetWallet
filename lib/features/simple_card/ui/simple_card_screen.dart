@@ -279,7 +279,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                       isSimpleCard: true,
                       onError: (String reason) {
                         sAnalytics.viewErrorOnCardScreen(
-                            cardID: simpleCardStore.cardFull!.cardId ?? '', reason: reason);
+                            cardID: simpleCardStore.cardFull!.cardId ?? '', reason: reason,);
                       },
                     ),
                   ] else ...[

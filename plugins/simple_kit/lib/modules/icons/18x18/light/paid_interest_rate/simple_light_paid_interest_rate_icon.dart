@@ -3,9 +3,9 @@ import '../../base/simple_base_svg_18x18.dart';
 
 class SimpleLightPaidInterestRateIcon extends StatelessWidget {
   const SimpleLightPaidInterestRateIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

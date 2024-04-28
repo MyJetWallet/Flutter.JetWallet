@@ -6,7 +6,7 @@ import '../../../../simple_kit.dart';
 
 class SimpleBaseLinkButton extends StatefulWidget {
   const SimpleBaseLinkButton({
-    Key? key,
+    super.key,
     required this.name,
     required this.onTap,
     required this.active,
@@ -17,7 +17,7 @@ class SimpleBaseLinkButton extends StatefulWidget {
     this.inactiveIcon,
     this.textStyle,
     this.mainAxisAlignment,
-  }) : super(key: key);
+  });
 
   final String name;
   final Function() onTap;

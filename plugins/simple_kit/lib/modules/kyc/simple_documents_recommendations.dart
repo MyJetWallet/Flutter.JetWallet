@@ -4,14 +4,14 @@ import 'components/simple_document_recommendation.dart';
 
 class SDocumentsRecommendations extends StatelessWidget {
   const SDocumentsRecommendations({
-    Key? key,
+    super.key,
     required this.primaryText1,
     required this.primaryText2,
     required this.primaryText3,
     required this.primaryText4,
     required this.primaryText5,
     required this.primaryText6,
-  }) : super(key: key);
+  });
 
   final String primaryText1;
   final String primaryText2;

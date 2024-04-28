@@ -7,11 +7,11 @@ enum CollapsedAppBarType { mainScreen, wallet, account }
 
 class AdvancedAppBarBase extends StatelessWidget {
   const AdvancedAppBarBase({
-    Key? key,
+    super.key,
     required this.child,
     required this.flow,
     required this.isShortVersion,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final CollapsedAppBarType flow;
@@ -36,7 +36,7 @@ class AdvancedAppBarBase extends StatelessWidget {
     double getHeightWithoutCarousel() {
       switch (flow) {
         case CollapsedAppBarType.mainScreen:
-          return 270;
+          return 265;
         case CollapsedAppBarType.account:
           return 213;
         case CollapsedAppBarType.wallet:
@@ -49,7 +49,7 @@ class AdvancedAppBarBase extends StatelessWidget {
     double getHeightWithCarousel() {
       switch (flow) {
         case CollapsedAppBarType.mainScreen:
-          return 270;
+          return 265;
         case CollapsedAppBarType.account:
           return 251;
         case CollapsedAppBarType.wallet:

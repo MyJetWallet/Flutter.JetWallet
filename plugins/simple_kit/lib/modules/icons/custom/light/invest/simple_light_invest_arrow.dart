@@ -3,11 +3,11 @@ import 'package:simple_kit/modules/icons/custom/base/simple_custom_svg.dart';
 
 class SimpleLightInvestArrowIcon extends StatelessWidget {
   const SimpleLightInvestArrowIcon({
-    Key? key,
+    super.key,
     this.color,
     this.width,
     this.height,
-  }) : super(key: key);
+  });
 
   final Color? color;
   final double? width;

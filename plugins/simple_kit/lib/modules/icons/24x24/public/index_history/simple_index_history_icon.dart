@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/index_history/simple_light_
 import 'package:simple_kit/utils/enum.dart';
 
 class SIndexHistoryIcon extends StatelessObserverWidget {
-  const SIndexHistoryIcon({Key? key}) : super(key: key);
+  const SIndexHistoryIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

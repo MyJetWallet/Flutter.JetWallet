@@ -6,6 +6,8 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -40,7 +42,6 @@ class SymbolInfo extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final colors = sKit.colors;
 
     return InkWell(
@@ -53,14 +54,16 @@ class SymbolInfo extends StatelessObserverWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          border: showProfit ? null : Border.all(
-            color: colors.grey4,
-          ),
+          border: showProfit
+              ? null
+              : Border.all(
+                  color: colors.grey4,
+                ),
           color: colors.white,
         ),
         padding: const EdgeInsets.symmetric(
           vertical: 11,
-          horizontal: 12,
+          horizontal: 11,
         ),
         width: 130,
         child: Column(
@@ -73,7 +76,10 @@ class SymbolInfo extends StatelessObserverWidget {
                   width: 16.0,
                   height: 16.0,
                   placeholderBuilder: (_) {
-                    return Assets.svg.invest.investAssetPlaceholder.simpleSvg(width: 16, height: 16,);
+                    return Assets.svg.invest.investAssetPlaceholder.simpleSvg(
+                      width: 16,
+                      height: 16,
+                    );
                   },
                 ),
                 const SpaceW5(),
@@ -99,8 +105,8 @@ class SymbolInfo extends StatelessObserverWidget {
                         color: percent == Decimal.zero
                             ? colors.grey3
                             : percent > Decimal.zero
-                            ? colors.green
-                            : colors.red,
+                                ? colors.green
+                                : colors.red,
                       ),
                     ),
                     percentIcon(percent),
@@ -118,14 +124,10 @@ class SymbolInfo extends StatelessObserverWidget {
             Stack(
               children: [
                 Chart(
-                  localizedChartResolutionButton:
-                  localizedChartResolutionButton(context),
-                  onResolutionChanged: (resolution) {
-
-                  },
-                  onChartTypeChanged: (type) {
-
-                  },
+                  isLongInvest: true,
+                  localizedChartResolutionButton: localizedChartResolutionButton(context),
+                  onResolutionChanged: (resolution) {},
+                  onChartTypeChanged: (type) {},
                   chartType: ChartType.area,
                   candleResolution: Period.month,
                   formatPrice: volumeFormat,
@@ -161,11 +163,13 @@ class SymbolInfo extends StatelessObserverWidget {
                     ),
                   ),
                   Text(
-                    marketFormat(
-                      decimal: profit!,
-                      accuracy: 2,
-                      symbol: instrument.currencyQuote ?? '',
-                    ),
+                    getIt<AppStore>().isBalanceHide
+                        ? '**** ${instrument.currencyQuote ?? ''}'
+                        : marketFormat(
+                            decimal: profit!,
+                            accuracy: 2,
+                            symbol: instrument.currencyQuote ?? '',
+                          ),
                     style: STStyles.body2InvestB.copyWith(
                       color: colors.black,
                     ),

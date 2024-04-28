@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:mobx/mobx.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 part 'show_reference_sheet.g.dart';
 
@@ -57,16 +57,15 @@ void showReferenceSheet(BuildContext context, Function(String) onContinue) {
     children: [
       _ReferenceBody(
         onContinue: onContinue,
-      )
+      ),
     ],
   );
 }
 
 class _ReferenceBody extends StatefulObserverWidget {
   const _ReferenceBody({
-    Key? key,
     required this.onContinue,
-  }) : super(key: key);
+  });
   final Function(String) onContinue;
 
   @override

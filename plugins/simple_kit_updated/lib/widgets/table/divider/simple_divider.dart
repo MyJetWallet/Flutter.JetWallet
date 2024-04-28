@@ -3,11 +3,11 @@ import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 
 class SDivider extends StatelessWidget {
   const SDivider({
-    Key? key,
+    super.key,
     this.width,
     this.height,
     this.color,
-  }) : super(key: key);
+  });
 
   final double? width;
   final double? height;

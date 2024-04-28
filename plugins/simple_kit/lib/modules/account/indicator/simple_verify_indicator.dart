@@ -3,10 +3,10 @@ import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 
 class SVerifyIndicator extends StatelessWidget {
   const SVerifyIndicator({
-    Key? key,
+    super.key,
     required this.indicator,
     required this.indicatorToComplete,
-  }) : super(key: key);
+  });
 
   final int indicator;
   final int indicatorToComplete;

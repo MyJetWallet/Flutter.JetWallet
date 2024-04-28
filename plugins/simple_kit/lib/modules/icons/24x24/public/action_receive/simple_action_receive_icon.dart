@@ -6,9 +6,9 @@ import 'package:simple_kit/utils/enum.dart';
 
 class SActionReceiveIcon extends StatelessObserverWidget {
   const SActionReceiveIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

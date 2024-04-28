@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 
 class RoundButton extends HookWidget {
   const RoundButton({
-    Key? key,
+    super.key,
     required this.value,
     this.onTap,
     this.width,
     this.isDisabled = false,
-  }) : super(key: key);
+  });
 
   final bool isDisabled;
   final String value;

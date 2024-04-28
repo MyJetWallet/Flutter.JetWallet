@@ -37,7 +37,6 @@ abstract class _SelectedDateStoreBase with Store {
     if (isBirthDateValid(date)) {
       sNotification.showError(
         intl.user_data_date_of_birth_is_not_valid,
-        duration: 4,
         id: 1,
       );
     } else {

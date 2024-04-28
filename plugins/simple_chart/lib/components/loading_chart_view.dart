@@ -5,7 +5,7 @@ import 'resolution_button.dart';
 
 class LoadingChartView extends StatelessWidget {
   const LoadingChartView({
-    Key? key,
+    super.key,
     this.showWeek = true,
     this.showMonth = true,
     this.showYear = true,
@@ -16,7 +16,7 @@ class LoadingChartView extends StatelessWidget {
     required this.onResolutionChanged,
     required this.isBalanceChart,
     required this.localizedChartResolutionButton,
-  }) : super(key: key);
+  });
 
   final double height;
   final bool showLoader;
@@ -49,7 +49,7 @@ class LoadingChartView extends StatelessWidget {
             right: 0,
             bottom: isBalanceChart ? 40 : 0,
             child: SizedBox(
-              height: 36,
+              height: 38,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

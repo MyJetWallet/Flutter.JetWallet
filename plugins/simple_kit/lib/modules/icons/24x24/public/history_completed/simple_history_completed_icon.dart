@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/history_completed/simple_li
 import 'package:simple_kit/utils/enum.dart';
 
 class SHistoryCompletedIcon extends StatelessObserverWidget {
-  const SHistoryCompletedIcon({Key? key}) : super(key: key);
+  const SHistoryCompletedIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

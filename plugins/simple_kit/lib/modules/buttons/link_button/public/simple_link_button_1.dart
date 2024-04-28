@@ -7,11 +7,11 @@ import '../light/simple_light_link_button_1.dart';
 /// No dark theme for this button right now
 class SLinkButton1 extends StatelessObserverWidget {
   const SLinkButton1({
-    Key? key,
+    super.key,
     required this.name,
     required this.onTap,
     required this.active,
-  }) : super(key: key);
+  });
 
   final String name;
   final Function() onTap;

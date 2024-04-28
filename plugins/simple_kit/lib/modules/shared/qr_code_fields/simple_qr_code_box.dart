@@ -5,12 +5,12 @@ import 'package:simple_kit/utils/constants.dart';
 
 class SQrCodeBox extends StatelessWidget {
   const SQrCodeBox({
-    Key? key,
+    super.key,
     this.loading = false,
     required this.data,
     required this.qrBoxSize,
     required this.logoSize,
-  }) : super(key: key);
+  });
 
   final bool loading;
   final String data;

@@ -4,10 +4,10 @@ import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 
 class CarouselWidget extends HookWidget {
   const CarouselWidget({
-    Key? key,
+    super.key,
     required this.itemsCount,
     required this.pageIndex,
-  }) : super(key: key);
+  });
 
   final int itemsCount;
   final int pageIndex;

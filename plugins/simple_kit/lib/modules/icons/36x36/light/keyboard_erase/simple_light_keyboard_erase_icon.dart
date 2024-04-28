@@ -4,9 +4,9 @@ import '../../base/simple_base_svg_36x36.dart';
 
 class SimpleLightKeyboardEraseIcon extends StatelessWidget {
   const SimpleLightKeyboardEraseIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

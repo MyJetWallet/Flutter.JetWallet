@@ -78,6 +78,8 @@ String operationName(
       return intl.earn_sent;
     case OperationType.earnReserve:
       return intl.earn_received;
+    case OperationType.buyPrepaidCard:
+      return intl.prepaid_card_buy_voucher;
     default:
       return 'Unknown';
   }

@@ -53,23 +53,21 @@ class MainRenderer extends BaseChartRenderer<CandleModel> {
 
   @override
   void drawChart(
-      CandleModel lastPoint,
-      CandleModel curPoint,
-      CandleModel firstPoint,
-      double lastX,
-      double curX,
-      Size size,
-      Canvas canvas, {
-        required bool isLast,
-      }) {
+    CandleModel lastPoint,
+    CandleModel curPoint,
+    CandleModel firstPoint,
+    double lastX,
+    double curX,
+    Size size,
+    Canvas canvas, {
+    required bool isLast,
+  }) {
     switch (candleType) {
       case ChartType.candle:
         drawCandle(curPoint, canvas, curX);
-        break;
 
       case ChartType.area:
         drawArea(lastPoint.close, curPoint.close, canvas, lastX, curX);
-        break;
 
       case ChartType.line:
         drawLineChart(
@@ -81,19 +79,18 @@ class MainRenderer extends BaseChartRenderer<CandleModel> {
           curX,
           isLast: isLast,
         );
-        break;
 
       default:
     }
   }
 
   void drawArea(
-      double lastPrice,
-      double curPrice,
-      Canvas canvas,
-      double lastX,
-      double curX,
-      ) {
+    double lastPrice,
+    double curPrice,
+    Canvas canvas,
+    double lastX,
+    double curX,
+  ) {
     const mAreaLineStrokeWidth = 1.0;
     final mAreaPaint = Paint()
       ..isAntiAlias = true

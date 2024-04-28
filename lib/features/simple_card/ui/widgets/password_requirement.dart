@@ -8,10 +8,10 @@ import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 
 class PasswordRequirement extends StatelessWidget {
   const PasswordRequirement({
-    Key? key,
+    super.key,
     required this.isApproved,
     required this.name,
-  }) : super(key: key);
+  });
 
   final bool isApproved;
   final String name;

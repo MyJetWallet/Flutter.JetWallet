@@ -6,9 +6,9 @@ import 'package:simple_kit/utils/enum.dart';
 
 class SSecurityIcon extends StatelessObserverWidget {
   const SSecurityIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

@@ -1,6 +1,6 @@
-/// The data we send together with event
 // ignore_for_file: lines_longer_than_80_chars
 
+/// The data we send together with event
 class PropertyType {
   static const kycStatus = 'KYCStatus';
   static const techAcc = 'TechAcc';
@@ -114,4 +114,9 @@ class PropertyType {
   static const isFullWithdrawalType = 'Is full withdrawtype';
   static const fullWithdrawType = 'Full withdraw type';
   static const withdrawAmount = 'Withdraw amount';
+  static const amount = 'Amount';
+  static const country = 'Country';
+  static const isAvailableAppleGooglePay = 'Is available Apple/Google pay';
+  static const voucher = 'Voucher';
+  static const isCompleted = 'Is completed?';
 }

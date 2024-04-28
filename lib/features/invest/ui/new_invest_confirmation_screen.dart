@@ -1,18 +1,22 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:charts/main.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_new_store.dart';
 import 'package:jetwallet/features/invest/ui/dashboard/invest_header.dart';
 import 'package:jetwallet/features/invest/ui/invests/symbol_info_without_chart.dart';
+import 'package:jetwallet/utils/helpers/localized_chart_resolution_button.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
 import 'package:simple_kit/modules/shared/simple_divider.dart';
 import 'package:simple_kit/modules/shared/simple_paddings.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
+import 'package:simple_kit/modules/shared/stack_loader/components/loader_spinner.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
@@ -23,10 +27,8 @@ import '../../../core/l10n/i10n.dart';
 import '../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../utils/formatting/base/volume_format.dart';
 import '../../../utils/helpers/currency_from.dart';
-import 'chart/invest_chart.dart';
 import 'dashboard/new_invest_header.dart';
 import 'invests/data_line.dart';
-import 'invests/secondary_switch.dart';
 
 @RoutePage(name: 'NewInvestConfirmationPageRouter')
 class NewInvestConfirmationScreen extends StatefulObserverWidget {
@@ -58,11 +60,10 @@ class _NewInvestConfirmationScreenState extends State<NewInvestConfirmationScree
     updateTimer = Timer.periodic(
       const Duration(seconds: 1),
       (timer) {
-
         setState(() {
           price = investNewStore.isOrderMode
-            ? '${investNewStore.pendingValue}'
-            : '${investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? '')}';
+              ? '${investNewStore.pendingValue}'
+              : '${investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? '')}';
         });
       },
     );
@@ -81,10 +82,10 @@ class _NewInvestConfirmationScreenState extends State<NewInvestConfirmationScree
     final currencies = sSignalRModules.currenciesList;
     final investNewStore = getIt.get<InvestNewStore>();
     final investStore = getIt.get<InvestDashboardStore>();
+    final isBalanceHide = getIt<AppStore>().isBalanceHide;
 
     final colors = sKit.colors;
     final currency = currencyFrom(currencies, 'USDT');
-
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       loading: investNewStore.loader,
@@ -100,222 +101,200 @@ class _NewInvestConfirmationScreenState extends State<NewInvestConfirmationScree
       bottomNavigationBar: SizedBox(
         height: 126,
         child: Column(
+          children: [
+            SPaddingH24(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DataLine(
+                    fullWidth: false,
+                    mainText: intl.invest_open_fee,
+                    secondaryText: isBalanceHide
+                        ? '**** USDT'
+                        : volumeFormat(
+                            decimal: investNewStore.amountValue *
+                                Decimal.fromInt(investNewStore.multiplicator) *
+                                (widget.instrument.openFee ?? Decimal.one),
+                            accuracy: 2,
+                            symbol: 'USDT',
+                          ),
+                  ),
+                  DataLine(
+                    fullWidth: false,
+                    mainText: intl.invest_volume,
+                    secondaryText: isBalanceHide
+                        ? '**** USDT'
+                        : volumeFormat(
+                            decimal: investNewStore.amountValue * Decimal.fromInt(investNewStore.multiplicator),
+                            accuracy: 2,
+                            symbol: 'USDT',
+                          ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 98,
+              child: Column(
+                children: [
+                  const SpaceH20(),
+                  SPaddingH24(
+                    child: SIButton(
+                      onTap: () {
+                        if (investNewStore.canClick) {
+                          investNewStore.setCanClick(false);
+                          Timer(
+                            const Duration(
+                              seconds: 2,
+                            ),
+                            () => investNewStore.setCanClick(true),
+                          );
+                        } else {
+                          return;
+                        }
+                        investNewStore.createPosition();
+                      },
+                      name: investNewStore.isBuyMode ? '${intl.invest_buy} $price' : '${intl.invest_sell} $price',
+                      description: investNewStore.isOrderMode ? intl.invest_pending_invest : null,
+                      activeColor: investNewStore.isBuyMode ? colors.green : colors.red,
+                      activeNameColor: colors.white,
+                      icon: investNewStore.isBuyMode
+                          ? Assets.svg.invest.buy.simpleSvg(
+                              width: 20,
+                              height: 20,
+                              color: colors.white,
+                            )
+                          : Assets.svg.invest.sell.simpleSvg(
+                              width: 20,
+                              height: 20,
+                              color: colors.white,
+                            ),
+                      active: true,
+                      inactiveColor: investNewStore.isBuyMode ? colors.green : colors.red,
+                      inactiveNameColor: colors.white,
+                    ),
+                  ),
+                  const SpaceH34(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           SPaddingH24(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                DataLine(
-                  fullWidth: false,
-                  mainText: intl.invest_open_fee,
-                  secondaryText: 'Est. ${volumeFormat(
-                    decimal: investNewStore.amountValue *
-                        Decimal.fromInt(investNewStore.multiplicator) *
-                        (widget.instrument.openFee ?? Decimal.one),
-                    accuracy: 2,
-                    symbol: 'USDT',
-                  )}',
-                ),
-                DataLine(
-                  fullWidth: false,
-                  mainText: intl.invest_volume,
-                  secondaryText: volumeFormat(
-                    decimal: investNewStore.amountValue *
-                        Decimal.fromInt(investNewStore.multiplicator),
-                    accuracy: 2,
-                    symbol: 'USDT',
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 98,
-            child: Column(
-              children: [
-                const SpaceH20(),
-                SPaddingH24(
-                  child: SIButton(
-                    onTap: () {
-                      if (investNewStore.canClick) {
-                        investNewStore.setCanClick(false);
-                        Timer(
-                          const Duration(
-                            seconds: 2,
-                          ),
-                          () => investNewStore.setCanClick(true),
-                        );
-                      } else {
-                        return;
-                      }
-                      investNewStore.createPosition();
-                    },
-                    name: investNewStore.isBuyMode
-                      ? '${intl.invest_buy} $price'
-                      : '${intl.invest_sell} $price',
-                    description: investNewStore.isOrderMode ? intl.invest_pending_invest : null,
-                    activeColor: investNewStore.isBuyMode ? colors.green : colors.red,
-                    activeNameColor: colors.white,
-                    icon: investNewStore.isBuyMode
-                        ? Assets.svg.invest.buy.simpleSvg(
-                      width: 20,
-                      height: 20,
-                      color: colors.white,
-                    )
-                        : Assets.svg.invest.sell.simpleSvg(
-                      width: 20,
-                      height: 20,
-                      color: colors.white,
-                    ),
-                    active: true,
-                    inactiveColor: investNewStore.isBuyMode ? colors.green : colors.red,
-                    inactiveNameColor: colors.white,
-                  ),
-                ),
-                const SpaceH34(),
-              ],
-            ),
-          ),
-        ],
-      ),
-      ),
-      child: SPaddingH24(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SymbolInfoWithoutChart(
+            child: SymbolInfoWithoutChart(
               percent: investStore.getPercentSymbol(widget.instrument.symbol ?? ''),
               price: investStore.getPriceBySymbol(widget.instrument.symbol ?? ''),
               instrument: widget.instrument,
               onTap: () {},
             ),
-            Row(
-              children: [
-                Observer(
-                  builder: (BuildContext context) {
-                    return SecondarySwitch(
-                      onChangeTab: (value) {
-                        investNewStore.setChartInterval(value);
-                      },
-                      activeTab: investNewStore.chartInterval,
-                      fullWidth: false,
-                      fromRight: false,
-                      tabs: const [
-                        '15m',
-                        '1h',
-                        '4h',
-                        '1d',
-                      ],
-                    );
-                  },
-                ),
-                const Spacer(),
-                Observer(
-                  builder: (BuildContext context) {
-                    return SecondarySwitch(
-                      onChangeTab: (value) {
-                        investNewStore.setChartType(value);
-                      },
-                      activeTab: investNewStore.chartType,
-                      fullWidth: false,
-                      fromRight: false,
-                      tabs: const [],
-                      tabsAssets: [
-                        Assets.svg.invest.chartLine.simpleSvg(
-                          width: 16,
-                          height: 16,
-                          color: investNewStore.chartType == 0 ? colors.black : colors.grey2,
-                        ),
-                        Assets.svg.invest.chartCandles.simpleSvg(
-                          width: 16,
-                          height: 16,
-                          color: investNewStore.chartType == 1 ? colors.black : colors.grey2,
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ],
-            ),
-            const SpaceH8(),
-            Observer(
-              builder: (BuildContext context) {
-                return InvestChart(
-                  instrument: widget.instrument,
-                  chartInterval: investNewStore.getChartInterval(),
-                  chartType: investNewStore.getChartType(),
-                  width: '${MediaQuery.of(context).size.width - 48}',
-                  height: '${MediaQuery.of(context).size.height - 575}',
-                );
-              },
-            ),
-            const SpaceH16(),
-            NewInvestHeader(
+          ),
+          const SpaceH8(),
+          Observer(
+            builder: (BuildContext context) {
+              return Chart(
+                localizedChartResolutionButton: localizedChartResolutionButton(context),
+                onResolutionChanged: (resolution) {
+                  investNewStore.updateResolution(
+                    resolution,
+                    widget.instrument.symbol ?? '',
+                  );
+                },
+                onChartTypeChanged: (type) {},
+                candleResolution: investNewStore.resolution,
+                formatPrice: volumeFormat,
+                candles: investNewStore.candles[investNewStore.resolution],
+                onCandleSelected: (value) {},
+                chartHeight: 243,
+                chartWidgetHeight: 300,
+                isAssetChart: true,
+                loader: const LoaderSpinner(),
+                accuracy: widget.instrument.priceAccuracy ?? 2,
+              );
+            },
+          ),
+          const SpaceH16(),
+          SPaddingH24(
+            child: NewInvestHeader(
               showRollover: false,
               showModify: false,
               showIcon: false,
               showFull: false,
-              title: investNewStore.isOrderMode
-                ? intl.invest_new_pending_title
-                : intl.invest_new_title,
+              title: investNewStore.isOrderMode ? intl.invest_new_pending_title : intl.invest_new_title,
             ),
-            DataLine(
+          ),
+          SPaddingH24(
+            child: DataLine(
               mainText: intl.invest_amount,
-              secondaryText: volumeFormat(
-                decimal: investNewStore.amountValue,
-                accuracy: 2,
-                symbol: 'USDT',
-              ),
+              secondaryText: isBalanceHide
+                  ? '**** USDT'
+                  : volumeFormat(
+                      decimal: investNewStore.amountValue,
+                      accuracy: 2,
+                      symbol: 'USDT',
+                    ),
             ),
-            const SpaceH8(),
-            DataLine(
+          ),
+          const SpaceH8(),
+          SPaddingH24(
+            child: DataLine(
               mainText: intl.invest_multiplicator,
               secondaryText: 'x${investNewStore.multiplicator}',
             ),
-            if (
-              (investNewStore.isSl || investNewStore.isTP) &&
-              investNewStore.isLimitsVisible
-            ) ...[
-              const SpaceH8(),
-              const SDivider(),
-              const SpaceH8(),
-              NewInvestHeader(
+          ),
+          if ((investNewStore.isSl || investNewStore.isTP) && investNewStore.isLimitsVisible) ...[
+            const SpaceH8(),
+            const SPaddingH24(child: SDivider()),
+            const SpaceH8(),
+            SPaddingH24(
+              child: NewInvestHeader(
                 showRollover: false,
                 showModify: false,
                 showIcon: false,
                 showFull: false,
                 title: intl.invest_limits,
               ),
-              if (investNewStore.isTP && investNewStore.tpAmountValue != Decimal.zero) ...[
-                DataLine(
+            ),
+            if (investNewStore.isTP && investNewStore.tpAmountValue != Decimal.zero) ...[
+              SPaddingH24(
+                child: DataLine(
                   withDot: true,
                   dotColor: colors.green,
                   mainText: intl.invest_limits_take_profit,
-                  secondaryText: volumeFormat(
-                    decimal: investNewStore.tpAmountValue,
-                    accuracy: 2,
-                    symbol: 'USDT',
-                  ),
+                  secondaryText: isBalanceHide
+                      ? '**** USDT'
+                      : volumeFormat(
+                          decimal: investNewStore.tpAmountValue,
+                          accuracy: 2,
+                          symbol: 'USDT',
+                        ),
                 ),
-                const SpaceH8(),
-              ],
-              if (investNewStore.isSl && investNewStore.slAmountValue != Decimal.zero) ...[
-                DataLine(
+              ),
+              const SpaceH8(),
+            ],
+            if (investNewStore.isSl && investNewStore.slAmountValue != Decimal.zero) ...[
+              SPaddingH24(
+                child: DataLine(
                   withDot: true,
                   dotColor: colors.red,
                   mainText: intl.invest_limits_stop_loss,
-                  secondaryText: volumeFormat(
-                    decimal: investNewStore.slAmountValue,
-                    accuracy: 2,
-                    symbol: 'USDT',
-                  ),
+                  secondaryText: isBalanceHide
+                      ? '**** USDT'
+                      : volumeFormat(
+                          decimal: investNewStore.slAmountValue,
+                          accuracy: 2,
+                          symbol: 'USDT',
+                        ),
                 ),
-                const SpaceH8(),
-              ],
+              ),
+              const SpaceH8(),
             ],
           ],
-        ),
+        ],
       ),
     );
   }

@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/16x16/light/fee_alert/simple_light_fee_
 import 'package:simple_kit/utils/enum.dart';
 
 class SFeeAlertIcon extends StatelessObserverWidget {
-  const SFeeAlertIcon({Key? key}) : super(key: key);
+  const SFeeAlertIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

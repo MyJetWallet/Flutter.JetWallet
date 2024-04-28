@@ -6,7 +6,7 @@ import '../../simple_kit.dart';
 
 class SActionPriceField extends StatelessWidget {
   const SActionPriceField({
-    Key? key,
+    super.key,
     this.additionalWidget,
     required this.price,
     required this.helper,
@@ -15,7 +15,7 @@ class SActionPriceField extends StatelessWidget {
     required this.widgetSize,
     required this.pasteLabel,
     required this.onPaste,
-  }) : super(key: key);
+  });
 
   final String price;
   final String helper;
@@ -59,7 +59,7 @@ class SActionPriceField extends StatelessWidget {
                                 onPressed: () {
                                   ContextMenuController.removeAny();
 
-                                  onPaste!();
+                                  onPaste();
                                 },
                               ),
                             );
@@ -107,7 +107,7 @@ class SActionPriceField extends StatelessWidget {
                                     onPressed: () {
                                       ContextMenuController.removeAny();
 
-                                      onPaste!();
+                                      onPaste();
                                     },
                                   ),
                                 );

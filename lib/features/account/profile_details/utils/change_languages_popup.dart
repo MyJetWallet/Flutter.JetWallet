@@ -1,19 +1,15 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/widgets/flag_item.dart';
-import 'package:simple_kit/modules/bottom_sheets/components/basic_bottom_sheet/show_basic_modal_bottom_sheet.dart';
-import 'package:simple_kit/modules/bottom_sheets/components/simple_bottom_sheet_header.dart';
-import 'package:simple_kit/modules/notifications/show_notification.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class LangItem {
@@ -52,7 +48,6 @@ Future<bool?> changeLanguagePopup(BuildContext context) async {
                 .map(
                   (e) => SimpleTableAsset(
                     label: e.label,
-                    isCard: false,
                     assetIcon: FlagItem(
                       countryCode: e.countryCode,
                     ),

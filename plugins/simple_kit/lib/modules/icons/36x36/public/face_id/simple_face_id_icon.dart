@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/36x36/light/face_id/simple_light_face_i
 import 'package:simple_kit/utils/enum.dart';
 
 class SFaceIdIcon extends StatelessObserverWidget {
-  const SFaceIdIcon({Key? key}) : super(key: key);
+  const SFaceIdIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

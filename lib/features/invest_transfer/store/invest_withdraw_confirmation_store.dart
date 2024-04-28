@@ -196,9 +196,9 @@ abstract class _InvestWithdrawConfirmationStoreBase with Store {
       SuccessScreenRouter(
         secondaryText: intl.earn_withdrawal_of(
           volumeFormat(
-            decimal: baseAmount,
-            symbol: sSignalRModules.baseCurrency.symbol,
-            accuracy: eurCurrency.accuracy,
+            decimal: amount,
+            symbol: currency.symbol,
+            accuracy: currency.accuracy,
           ),
         ),
         buttonText: intl.previewBuyWithUmlimint_saveCard,

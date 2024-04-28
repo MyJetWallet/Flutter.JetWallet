@@ -7,10 +7,10 @@ import 'package:simple_kit/simple_kit.dart';
 @RoutePage()
 class ScannerScreen extends StatelessWidget {
   const ScannerScreen({
-    Key? key,
+    super.key,
     required this.qrKey,
     required this.onQRScanned,
-  }) : super(key: key);
+  });
 
   final Key qrKey;
   final Function(BarcodeCapture, BuildContext) onQRScanned;

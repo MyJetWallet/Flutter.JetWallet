@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/earn/simple_light_earn_with
 import 'package:simple_kit/utils/enum.dart';
 
 class SEarnWithdrawalIcon extends StatelessObserverWidget {
-  const SEarnWithdrawalIcon({Key? key}) : super(key: key);
+  const SEarnWithdrawalIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

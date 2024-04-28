@@ -170,8 +170,10 @@ class RemoteConfig {
     refundPolicyLink = remoteConfig!.appConfig.refundPolicyLink;
     cardLimitsLearnMoreLink = remoteConfig!.appConfig.cardLimitsLearnMoreLink;
     p2pTerms = remoteConfig!.appConfig.p2pTerms;
-    rateUp = remoteConfig!.appConfig.rate_up;
+    rateUp = remoteConfig!.appConfig.rateUp;
     displayCardPreorderScreen = remoteConfig!.appConfig.displayCardPreorderScreen;
+    prepaidCardPartnerLink = remoteConfig!.appConfig.prepaidCardPartnerLink;
+    prepaidCardTermsAndConditionsLink = remoteConfig!.appConfig.prepaidCardTermsAndConditionsLink;
   }
 
   void overrideVersioningValues() {

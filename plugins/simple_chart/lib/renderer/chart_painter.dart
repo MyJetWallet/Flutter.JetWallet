@@ -16,16 +16,16 @@ import 'main_renderer.dart';
 
 class ChartPainter extends BaseChartPainter {
   ChartPainter({
-    required List<CandleModel> datas,
-    required double scaleX,
-    required double scrollX,
+    required super.datas,
+    required super.scaleX,
+    required super.scrollX,
     required bool isLongPass,
-    required double selectX,
+    required super.selectX,
     this.sink,
-    String prefix = '\$',
-    required ChartType candleType,
-    required String resolution,
-    required double candleWidth,
+    super.prefix = '\$',
+    required super.candleType,
+    required super.resolution,
+    required super.candleWidth,
     this.controller,
     this.opacity = 0.0,
     required this.isAssetChart,
@@ -35,16 +35,8 @@ class ChartPainter extends BaseChartPainter {
     required this.isInvestChart,
     this.accuracy,
   }) : super(
-    datas: datas,
-    scaleX: scaleX,
-    scrollX: scrollX,
-    isLongPress: isLongPass,
-    selectX: selectX,
-    candleType: candleType,
-    candleWidth: candleWidth,
-    resolution: resolution,
-    prefix: prefix,
-  );
+          isLongPress: isLongPass,
+        );
 
   static double get maxScrollX => BaseChartPainter.maxScrollX;
   BaseChartRenderer? mMainRenderer;
@@ -85,15 +77,23 @@ class ChartPainter extends BaseChartPainter {
       chartColor = Colors.white;
       if (datas.isNotEmpty) {
         chartColor = datas.first.close > datas.last.close
-            ? isInvestChart ? ChartColors.positiveChartColor : ChartColors.negativeChartColor
+            ? isInvestChart
+                ? ChartColors.positiveChartColor
+                : ChartColors.negativeChartColor
             : datas.first.close == datas.last.close
-            ? ChartColors.equalChartColor
-            : isInvestChart ? ChartColors.negativeChartColor : ChartColors.positiveChartColor;
+                ? ChartColors.equalChartColor
+                : isInvestChart
+                    ? ChartColors.negativeChartColor
+                    : ChartColors.positiveChartColor;
         chartColorBg = datas.first.close > datas.last.close
-            ? isInvestChart ? ChartColors.positiveChartBgColor : ChartColors.negativeChartBgColor
+            ? isInvestChart
+                ? ChartColors.positiveChartBgColor
+                : ChartColors.negativeChartBgColor
             : datas.first.close == datas.last.close
-            ? ChartColors.equalChartBgColor
-            : isInvestChart ? ChartColors.negativeChartBgColor : ChartColors.positiveChartBgColor;
+                ? ChartColors.equalChartBgColor
+                : isInvestChart
+                    ? ChartColors.negativeChartBgColor
+                    : ChartColors.positiveChartBgColor;
       }
     }
 

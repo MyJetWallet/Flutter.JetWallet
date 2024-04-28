@@ -38,17 +38,14 @@ class RouteQueryService {
             sRouter.push(
               query[i].query!,
             );
-            break;
           case RouteQueryAction.navigate:
             sRouter.navigate(
               query[i].query!,
             );
-            break;
           case RouteQueryAction.replace:
             sRouter.replaceAll([
               query[i].query!,
             ]);
-            break;
           default:
         }
       }

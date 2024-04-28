@@ -4,9 +4,9 @@ import 'package:simple_kit/modules/icons/24x24/base/simple_base_svg_24x24.dart';
 
 class SimpleLightNumericKeyboardFaceIdIcon extends StatelessWidget {
   const SimpleLightNumericKeyboardFaceIdIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

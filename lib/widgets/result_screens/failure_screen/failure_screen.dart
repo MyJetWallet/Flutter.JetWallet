@@ -32,10 +32,8 @@ class FailureScreen extends StatelessObserverWidget {
     final deviceSize = sDeviceSize;
     final colors = sKit.colors;
 
-    return WillPopScope(
-      onWillPop: () {
-        return Future.value(false);
-      },
+    return PopScope(
+      canPop: false,
       child: SPageFrameWithPadding(
         loaderText: intl.register_pleaseWait,
         child: Column(

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 
 import '../../../simple_kit_updated.dart';
 
 class DescriptionCell extends StatelessWidget {
   const DescriptionCell({
-    Key? key,
+    super.key,
     required this.text,
-  }) : super(key: key);
+  });
 
   final String text;
 

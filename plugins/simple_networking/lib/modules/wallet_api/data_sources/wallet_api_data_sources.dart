@@ -83,6 +83,14 @@ import 'package:simple_networking/modules/wallet_api/models/payment_info/payment
 import 'package:simple_networking/modules/wallet_api/models/payment_info/payment_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/payment_preview/payment_preview_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/payment_preview/payment_preview_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_prepaid_card_intention_dto_list_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_purchase_card_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_purchase_card_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/prepaid_card/card_countries_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/prepaid_card/get_purchase_card_brands_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/prepaid_card/get_purchase_card_list_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/prepaid_card/get_vouncher_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/prepaid_card/purchase_card_brand_list_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/profile/profile_delete_account_request.dart';
 import 'package:simple_networking/modules/wallet_api/models/profile/profile_delete_reasons_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/profile/profile_delete_reasons_request_model.dart';
@@ -3204,7 +3212,7 @@ class WalletApiDataSources {
   }) async {
     try {
       final response = await _apiClient.post(
-        '${_apiClient.options.walletApi}/InvestTrading/InvestAudit/get-position-history?positionId=${id}&skip=${skip}&take=${take}',
+        '${_apiClient.options.walletApi}/InvestTrading/InvestAudit/get-position-history?positionId=$id&skip=$skip&take=$take',
         data: {
           "positionId": id,
         },
@@ -3212,7 +3220,7 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse<Map>(responseData);
+        handleFullResponse<Map>(responseData);
 
         final out = <NewInvestJournalModel>[];
         for (final element in responseData['data']) {
@@ -3237,7 +3245,7 @@ class WalletApiDataSources {
   }) async {
     try {
       final response = await _apiClient.post(
-        '${_apiClient.options.walletApi}/InvestTrading/InvestAudit/get-position-rollover?positionId=${id}&skip=${skip}&take=${take}',
+        '${_apiClient.options.walletApi}/InvestTrading/InvestAudit/get-position-rollover?positionId=$id&skip=$skip&take=$take',
         data: {
           "positionId": id,
         },
@@ -3245,7 +3253,7 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse<Map>(responseData);
+        handleFullResponse<Map>(responseData);
 
         final out = <NewInvestJournalModel>[];
         for (final element in responseData['data']) {
@@ -3278,7 +3286,7 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse<Map>(responseData);
+        handleFullResponse<Map>(responseData);
 
         final out = <InvestPositionModel>[];
         for (final element in responseData['data']['positions']) {
@@ -3311,7 +3319,7 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse<Map>(responseData);
+        handleFullResponse<Map>(responseData);
 
         final out = <InvestPositionModel>[];
         for (final element in responseData['data']) {
@@ -3343,7 +3351,7 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse<Map>(responseData);
+        handleFullResponse<Map>(responseData);
 
         final out = <InvestSummaryModel>[];
         for (final element in responseData['data']) {
@@ -3376,7 +3384,7 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse<Map>(responseData);
+        handleFullResponse<Map>(responseData);
 
         final out = <EarnPositionClientModel>[];
         for (final element in responseData['data']) {
@@ -3411,7 +3419,7 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse<Map>(responseData);
+        handleFullResponse<Map>(responseData);
         final out = <EarnPositionAuditClientModel>[];
         for (final element in responseData['data']) {
           out.add(
@@ -3536,6 +3544,137 @@ class WalletApiDataSources {
         final data = handleFullResponse<Map>(responseData);
 
         return DC.data(InvestTransferResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  // Prepaid card
+  Future<DC<ServerRejectException, BuyPrepaidCardIntentionDtoListResponseModel>> postGetPurchaseListRequest(
+    GetPurchaseCardListRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/mobile-gift-card/get-purchase-list',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<List>(responseData);
+
+        return DC.data(BuyPrepaidCardIntentionDtoListResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, CardCountriesResponseModel>> postCardGetCountriesRequest() async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/mobile-gift-card/get-countries',
+        data: {},
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(CardCountriesResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, PurchaseCardBrandDtoListResponseModel>> postGetBrandsRequest(
+    GetPurchaseCardBrandsRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/mobile-gift-card/get-brands',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<List>(responseData);
+
+        return DC.data(PurchaseCardBrandDtoListResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, BuyPurchaseCardResponseModel>> postBuyPrepaidCardPreviewRequest(
+    BuyPurchaseCardRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/mobile-gift-card/preview',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(BuyPurchaseCardResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, PrapaidCardVoucherModel>> postBuyPrepaidCardExecuteRequest(
+    BuyPurchaseCardRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/mobile-gift-card/execute-purchase',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(PrapaidCardVoucherModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, BuyPrepaidCardIntentionDtoListResponseModel>> postGetVouncherRequest(
+    GetVouncherRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/mobile-gift-card/get-purchase',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<List>(responseData);
+
+        return DC.data(BuyPrepaidCardIntentionDtoListResponseModel.fromJson(data));
       } catch (e) {
         rethrow;
       }

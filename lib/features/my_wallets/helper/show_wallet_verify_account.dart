@@ -18,7 +18,7 @@ void showWalletVerifyAccount(
 }) {
   final kycState = getIt.get<KycService>();
 
-  bool isClick = false;
+  var isClick = false;
 
   sShowAlertPopup(
     context,

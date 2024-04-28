@@ -7,7 +7,7 @@ import 'package:simple_kit_updated/widgets/navigation/top_app_bar/global_basic_a
 
 class CollapsedAccountAppbar extends HookWidget {
   const CollapsedAccountAppbar({
-    Key? key,
+    super.key,
     required this.scrollController,
     this.mainBlockCenter = false,
     required this.mainTitle,
@@ -21,7 +21,7 @@ class CollapsedAccountAppbar extends HookWidget {
     this.assetIcon,
     this.hasRightIcon = true,
     this.onRightIconTap,
-  }) : super(key: key);
+  });
 
   final ScrollController scrollController;
   final bool mainBlockCenter;

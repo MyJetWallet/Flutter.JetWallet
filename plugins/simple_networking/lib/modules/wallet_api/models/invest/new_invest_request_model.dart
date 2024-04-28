@@ -2,7 +2,6 @@ import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simple_networking/helpers/decimal_serialiser.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
-import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 
 part 'new_invest_request_model.freezed.dart';
 part 'new_invest_request_model.g.dart';

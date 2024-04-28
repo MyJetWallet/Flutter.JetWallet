@@ -3,9 +3,9 @@ import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 
 class SSkeletonQrCodeLoader extends StatefulWidget {
   const SSkeletonQrCodeLoader({
-    Key? key,
+    super.key,
     required this.size,
-  }) : super(key: key);
+  });
 
   final double size;
 

@@ -10,7 +10,7 @@ import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 class WalletAppBar extends StatelessWidget {
   const WalletAppBar({
-    Key? key,
+    super.key,
     required this.mainTitle,
     this.mainSubtitle,
     this.ticker,
@@ -28,7 +28,7 @@ class WalletAppBar extends StatelessWidget {
     this.needCarousel = false,
     this.carouselItemsCount,
     this.carouselPageIndex,
-  }) : super(key: key);
+  });
 
   final bool mainBlockCenter;
 

@@ -6,7 +6,7 @@ import 'components/simple_conditions_referral_invite.dart';
 
 class SReferralInviteBody extends StatelessWidget {
   const SReferralInviteBody({
-    Key? key,
+    super.key,
     required this.logoSize,
     required this.primaryText,
     required this.onReadMoreTap,
@@ -15,7 +15,7 @@ class SReferralInviteBody extends StatelessWidget {
     required this.referralLink,
     required this.copiedText,
     required this.referralText,
-  }) : super(key: key);
+  });
 
   final double logoSize;
   final String primaryText;

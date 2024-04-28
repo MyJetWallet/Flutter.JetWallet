@@ -6,9 +6,9 @@ import 'package:simple_kit/utils/enum.dart';
 
 class SCheckmarkIcon extends StatelessObserverWidget {
   const SCheckmarkIcon({
-    Key? key,
+    super.key,
     required this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

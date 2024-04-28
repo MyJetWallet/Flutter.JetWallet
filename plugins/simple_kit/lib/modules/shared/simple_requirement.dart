@@ -5,12 +5,12 @@ import '../../../simple_kit.dart';
 
 class SRequirement extends StatelessWidget {
   const SRequirement({
-    Key? key,
+    super.key,
     this.isError = false,
     this.loading = false,
     required this.passed,
     required this.description,
-  }) : super(key: key);
+  });
 
   final bool isError;
   final bool loading;
@@ -52,7 +52,7 @@ class SRequirement extends StatelessWidget {
 }
 
 class _RequirementLoading extends StatelessWidget {
-  const _RequirementLoading({Key? key}) : super(key: key);
+  const _RequirementLoading();
 
   @override
   Widget build(BuildContext context) {

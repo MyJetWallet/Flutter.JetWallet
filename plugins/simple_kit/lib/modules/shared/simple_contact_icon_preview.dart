@@ -6,12 +6,12 @@ import '../../../simple_kit.dart';
 
 class SContactIconPreview extends StatelessWidget {
   const SContactIconPreview({
-    Key? key,
+    super.key,
     this.valid = true,
     required this.isManualEnter,
     required this.name,
     required this.phone,
-  }) : super(key: key);
+  });
 
   final bool valid;
   final bool isManualEnter;

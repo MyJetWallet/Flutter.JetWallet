@@ -4,12 +4,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 
 class SInput extends HookWidget {
   const SInput({
-    Key? key,
+    super.key,
     required this.controller,
     this.label,
     this.hint,
@@ -21,6 +20,7 @@ class SInput extends HookWidget {
     this.onCloseIconTap,
     this.onLabelIconTap,
     this.onErrorIconTap,
+    this.suffixIcon,
 
     //
 
@@ -31,7 +31,7 @@ class SInput extends HookWidget {
     this.textCapitalization,
     this.obscureText = false,
     this.autofocus = false,
-  }) : super(key: key);
+  });
 
   final VoidCallback? onTextFieldTap;
   final FocusNode? focusNode;
@@ -40,6 +40,7 @@ class SInput extends HookWidget {
   final bool autofocus;
   final List<TextInputFormatter>? inputFormatters;
   final TextCapitalization? textCapitalization;
+  final Widget? suffixIcon;
 
   final String? label;
   final String? hint;
@@ -100,37 +101,38 @@ class SInput extends HookWidget {
                   color: SColorsLight().gray8,
                 ),
                 suffixIconConstraints: const BoxConstraints(),
-                suffixIcon: hasCloseIcon || hasErrorIcon
-                    ? Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Gap(24),
-                          if (hasCloseIcon) ...[
-                            SafeGesture(
-                              highlightColor: Colors.transparent,
-                              onTap: onCloseIconTap,
-                              child: Assets.svg.medium.closeAlt.simpleSvg(
-                                width: 24,
-                                height: 24,
-                                color: SColorsLight().gray6,
-                              ),
-                            ),
-                          ],
-                          if (hasErrorIcon) ...[
-                            const Gap(16),
-                            SafeGesture(
-                              highlightColor: Colors.transparent,
-                              onTap: onErrorIconTap,
-                              child: Assets.svg.small.warning.simpleSvg(
-                                width: 24,
-                                height: 24,
-                                color: SColorsLight().red,
-                              ),
-                            ),
-                          ],
-                        ],
-                      )
-                    : null,
+                suffixIcon: suffixIcon ??
+                    (hasCloseIcon || hasErrorIcon
+                        ? Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Gap(24),
+                              if (hasCloseIcon) ...[
+                                SafeGesture(
+                                  highlightColor: Colors.transparent,
+                                  onTap: onCloseIconTap,
+                                  child: Assets.svg.medium.closeAlt.simpleSvg(
+                                    width: 24,
+                                    height: 24,
+                                    color: SColorsLight().gray6,
+                                  ),
+                                ),
+                              ],
+                              if (hasErrorIcon) ...[
+                                const Gap(16),
+                                SafeGesture(
+                                  highlightColor: Colors.transparent,
+                                  onTap: onErrorIconTap,
+                                  child: Assets.svg.small.warning.simpleSvg(
+                                    width: 24,
+                                    height: 24,
+                                    color: SColorsLight().red,
+                                  ),
+                                ),
+                              ],
+                            ],
+                          )
+                        : null),
               ),
             ),
           ),

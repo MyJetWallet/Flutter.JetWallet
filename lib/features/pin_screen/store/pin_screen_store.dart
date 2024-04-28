@@ -391,7 +391,6 @@ abstract class _PinScreenStoreBase with Store {
               sNotification.showError(
                 '''Incorrect PIN has been entered more than $maxPinAttempts times, '''
                 'you have been logged out of your account.',
-                duration: 5,
               );
 
               await getIt.get<LogoutService>().logout(
@@ -408,7 +407,6 @@ abstract class _PinScreenStoreBase with Store {
             sNotification.showError(
               'Incorrect PIN has been entered more than $maxPinAttempts times, '
               'you have been logged out of your account.',
-              duration: 5,
             );
           }
         },

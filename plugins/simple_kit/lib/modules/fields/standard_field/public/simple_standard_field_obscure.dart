@@ -8,7 +8,7 @@ import '../light/simple_light_standard_field_obscure.dart';
 
 class SStandardFieldObscure extends StatelessObserverWidget {
   const SStandardFieldObscure({
-    Key? key,
+    super.key,
     this.autofocus = false,
     this.controller,
     this.focusNode,
@@ -23,7 +23,7 @@ class SStandardFieldObscure extends StatelessObserverWidget {
     required this.labelText,
     this.maxLength,
     this.onHideTap,
-  }) : super(key: key);
+  });
 
   final TextEditingController? controller;
   final FocusNode? focusNode;

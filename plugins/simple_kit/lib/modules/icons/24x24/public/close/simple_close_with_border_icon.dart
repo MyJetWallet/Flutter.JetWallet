@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/close/simple_light_close_wi
 import 'package:simple_kit/utils/enum.dart';
 
 class SCloseWithBorderIcon extends StatelessObserverWidget {
-  const SCloseWithBorderIcon({Key? key}) : super(key: key);
+  const SCloseWithBorderIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

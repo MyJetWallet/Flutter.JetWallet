@@ -7,7 +7,7 @@ import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 
 class SActionItem extends StatelessWidget {
   const SActionItem({
-    Key? key,
+    super.key,
     this.helper = '',
     this.withDivider = false,
     this.isSelected = false,
@@ -16,7 +16,7 @@ class SActionItem extends StatelessWidget {
     required this.name,
     required this.onTap,
     required this.description,
-  }) : super(key: key);
+  });
 
   final String helper;
   final bool withDivider;

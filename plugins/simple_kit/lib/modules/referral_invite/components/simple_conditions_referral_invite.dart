@@ -3,10 +3,10 @@ import '../../../simple_kit.dart';
 
 class SimpleConditionsReferralInvite extends StatelessWidget {
   const SimpleConditionsReferralInvite({
-    Key? key,
+    super.key,
     this.crossAxisAlignment,
     required this.conditionText,
-  }) : super(key: key);
+  });
 
   final String conditionText;
   final CrossAxisAlignment? crossAxisAlignment;

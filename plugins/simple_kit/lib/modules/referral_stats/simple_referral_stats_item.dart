@@ -5,12 +5,12 @@ import '../../simple_kit.dart';
 
 class SReferralStatsItem extends StatelessWidget {
   const SReferralStatsItem({
-    Key? key,
+    super.key,
     this.valueColor,
     this.baselineHeight = 40.0,
     required this.value,
     required this.text,
-  }) : super(key: key);
+  });
 
   final Color? valueColor;
   final double baselineHeight;

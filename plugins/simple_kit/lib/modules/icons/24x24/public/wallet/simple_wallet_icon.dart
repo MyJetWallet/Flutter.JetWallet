@@ -6,9 +6,9 @@ import 'package:simple_kit/utils/enum.dart';
 
 class SWalletIcon extends StatelessObserverWidget {
   const SWalletIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 
@@ -22,9 +22,9 @@ class SWalletIcon extends StatelessObserverWidget {
 
 class SWallet2Icon extends StatelessObserverWidget {
   const SWallet2Icon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

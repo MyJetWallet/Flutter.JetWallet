@@ -21,6 +21,7 @@ class NewInvestHeader extends StatelessObserverWidget {
     this.showTextButton = false,
     this.textButtonName = '',
     this.onButtonTap,
+    this.showViewAll = false,
   });
 
   final bool showRollover;
@@ -33,10 +34,10 @@ class NewInvestHeader extends StatelessObserverWidget {
   final String title;
   final String textButtonName;
   final Function()? onButtonTap;
+  final bool showViewAll;
 
   @override
   Widget build(BuildContext context) {
-
     final colors = sKit.colors;
 
     return Column(
@@ -64,8 +65,14 @@ class NewInvestHeader extends StatelessObserverWidget {
             const Spacer(),
             if (showIcon)
               SIconButton(
-                defaultIcon: Assets.svg.invest.setting.simpleSvg(width: 16, height: 16,),
-                pressedIcon: Assets.svg.invest.setting.simpleSvg(width: 16, height: 16,),
+                defaultIcon: Assets.svg.invest.setting.simpleSvg(
+                  width: 16,
+                  height: 16,
+                ),
+                pressedIcon: Assets.svg.invest.setting.simpleSvg(
+                  width: 16,
+                  height: 16,
+                ),
                 onTap: onButtonTap,
               ),
             if (showRollover)
@@ -91,7 +98,10 @@ class NewInvestHeader extends StatelessObserverWidget {
                 onTap: () {
                   onButtonTap?.call();
                 },
-                icon: Assets.svg.invest.report.simpleSvg(width: 16, height: 16,),
+                icon: Assets.svg.invest.report.simpleSvg(
+                  width: 16,
+                  height: 16,
+                ),
               ),
             if (showModify)
               SITextButton(
@@ -100,7 +110,34 @@ class NewInvestHeader extends StatelessObserverWidget {
                 onTap: () {
                   onButtonTap?.call();
                 },
-                icon: Assets.svg.invest.edit.simpleSvg(width: 16, height: 16,),
+                icon: Assets.svg.invest.edit.simpleSvg(
+                  width: 16,
+                  height: 16,
+                ),
+              ),
+            if (showViewAll)
+              InkWell(
+                onTap: () {
+                  onButtonTap?.call();
+                },
+                child: Row(
+                  children: [
+                    Text(
+                      intl.invest_all_coins,
+                      style: STStyles.header4SMInvest.copyWith(
+                        color: colors.black,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 3.5),
+                      child: Assets.svg.medium.shevronRight.simpleSvg(
+                        width: 16,
+                        height: 16,
+                        color: colors.grey2,
+                      ),
+                    ),
+                  ],
+                ),
               ),
           ],
         ),
