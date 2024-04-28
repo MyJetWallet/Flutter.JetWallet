@@ -1999,5 +1999,23 @@
     "prepaid_card_order_id": "ID de commande",
     "prepaid_card_the_issuance": "L'émission du bon prend généralement environ 1 heure.",
     "prepaid_card_country_explanation": "Le pays d'émission du bon doit correspondre au pays d'émission de la carte",
-    "prepaid_cardcomission_explanation": "La commission pour l'émission de la carte est payée depuis votre portefeuille"
+    "prepaid_cardcomission_explanation": "La commission pour l'émission de la carte est payée depuis votre portefeuille",
+    "invest_history_tab_positions": "Positions",
+    "invest_history_tab_market": "Marché",
+    "invest_alert_delete_pending_order": "Supprimer l'ordre en attente",
+    "invest_alert_delete_pending_order_sub_titile": "Vous allez supprimer l'investissement en attente",
+    "invest_liquidation_price": "Prix de liquidation",
+    "invest_liquidation": "Liquidation",
+    "earn_deposit_of": "Dépôt de {value}\ninitié",
+    "@earn_deposit_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "200 USDT"
+            }
+        }
+    },
+    "prepaid_card_more": "plus",
+    "prepaid_card_less": "moins",
+    "prepaid_card_funds_for_purchased": "Les fonds pour un bon acheté ne sont pas remboursables"
 }

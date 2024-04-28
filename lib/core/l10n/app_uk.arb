@@ -7775,5 +7775,23 @@
     "prepaid_card_order_id": "ID замовлення",
     "prepaid_card_the_issuance": "Випуск ваучера зазвичай займає близько 1 години.",
     "prepaid_card_country_explanation": "Країна випуску ваучера повинна відповідати країні випуску картки",
-    "prepaid_cardcomission_explanation": "Комісія за випуск картки сплачується з вашого гаманця"
+    "prepaid_cardcomission_explanation": "Комісія за випуск картки сплачується з вашого гаманця",
+    "invest_history_tab_positions": "Позиції",
+    "invest_history_tab_market": "Ринок",
+    "invest_alert_delete_pending_order": "Видалити очікуване замовлення",
+    "invest_alert_delete_pending_order_sub_titile": "Ви збираєтеся видалити інвестицію",
+    "invest_liquidation_price": "Ціна ліквідації",
+    "invest_liquidation": "Ліквідація",
+    "earn_deposit_of": "Депозит {value}\nініційовано",
+    "@earn_deposit_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "200 USDT"
+            }
+        }
+    },
+    "prepaid_card_more": "більше",
+    "prepaid_card_less": "менше",
+    "prepaid_card_funds_for_purchased": "Кошти за передплачений ваучер не повертаються"
 }

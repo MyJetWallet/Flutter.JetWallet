@@ -17,6 +17,7 @@ void showChooseCountreBottomShet({
   dynamic Function(dynamic)? then,
   required List<SPhoneNumber> countries,
 }) {
+  countries.sort((a, b) => a.countryName.compareTo(b.countryName));
   final store = SearchCountryStore(allCountries: ObservableList.of(countries));
   sShowBasicModalBottomSheet(
     context: context,

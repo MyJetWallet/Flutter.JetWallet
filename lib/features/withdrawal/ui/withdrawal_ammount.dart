@@ -63,7 +63,7 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
     switch (store.withAmmountInputError) {
       case InputError.enterHigherAmount:
         error =
-            '''${intl.withdrawalAmount_enterMoreThan} ${store.withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(store.networkController.text)}''';
+            '''${intl.withdrawalAmount_enterMoreThan} ${store.withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(network: store.networkController.text, amount: store.maxLimit ?? Decimal.zero)}''';
       case InputError.limitError:
         error = store.limitError;
       default:
@@ -129,9 +129,7 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
                   baselineType: TextBaseline.alphabetic,
                   child: Text(
                     '${intl.withdrawalAmount_available}: '
-                    '${getIt<AppStore>().isBalanceHide
-                      ? '**** ${store.withdrawalInputModel!.currency!.symbol}'
-                      : volumeFormat(
+                    '${getIt<AppStore>().isBalanceHide ? '**** ${store.withdrawalInputModel!.currency!.symbol}' : volumeFormat(
                         decimal: availableBalance,
                         accuracy: store.withdrawalInputModel!.currency!.accuracy,
                         symbol: store.withdrawalInputModel!.currency!.symbol,
@@ -227,6 +225,6 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
     return isInternal
         ? '${intl.noFee} / $youWillSend'
         : '${intl.fee}: '
-            '${currency.withdrawalFeeWithSymbol(store.networkController.text)} / $youWillSend';
+            '${currency.withdrawalFeeWithSymbol(network: store.networkController.text, amount: Decimal.parse(amount))} / $youWillSend';
   }
 }

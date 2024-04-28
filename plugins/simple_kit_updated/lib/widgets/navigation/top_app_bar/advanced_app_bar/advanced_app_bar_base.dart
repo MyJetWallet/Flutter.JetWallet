@@ -36,7 +36,7 @@ class AdvancedAppBarBase extends StatelessWidget {
     double getHeightWithoutCarousel() {
       switch (flow) {
         case CollapsedAppBarType.mainScreen:
-          return 270;
+          return 265;
         case CollapsedAppBarType.account:
           return 213;
         case CollapsedAppBarType.wallet:
@@ -49,7 +49,7 @@ class AdvancedAppBarBase extends StatelessWidget {
     double getHeightWithCarousel() {
       switch (flow) {
         case CollapsedAppBarType.mainScreen:
-          return 270;
+          return 265;
         case CollapsedAppBarType.account:
           return 251;
         case CollapsedAppBarType.wallet:

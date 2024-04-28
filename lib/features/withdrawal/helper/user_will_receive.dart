@@ -12,11 +12,11 @@ String userWillreceive({
 }) {
   final value = Decimal.parse(amount);
 
-  if (addressIsInternal || currency.isFeeInOtherCurrency) {
+  if (addressIsInternal) {
     return '$amount ${currency.symbol}';
   }
 
-  final fee = currency.withdrawalFeeSize(network);
+  final fee = currency.withdrawalFeeSize(network: network, amount: value);
 
   if (value <= fee) {
     return '0 ${currency.symbol}';
