@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
+import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 class SimpleLargeAppbar extends StatelessWidget {
@@ -50,11 +51,19 @@ class SimpleLargeAppbar extends StatelessWidget {
                   children: [
                     Opacity(
                       opacity: hasLeftIcon ? 1 : 0,
-                      child: leftIcon ?? Assets.svg.medium.arrowLeft.simpleSvg(),
+                      child: leftIcon ??
+                          SafeGesture(
+                            onTap: () => Navigator.of(context).pop(),
+                            child: Assets.svg.medium.arrowLeft.simpleSvg(),
+                          ),
                     ),
                     Opacity(
                       opacity: hasRightIcon ? 1 : 0,
-                      child: rightIcon ?? Assets.svg.medium.close.simpleSvg(),
+                      child: rightIcon ??
+                          SafeGesture(
+                            onTap: () => Navigator.of(context).pop(),
+                            child: Assets.svg.medium.close.simpleSvg(),
+                          ),
                     ),
                   ],
                 ),
@@ -72,16 +81,19 @@ class SimpleLargeAppbar extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const Gap(40),
-                    Opacity(
-                      opacity: hasSubicon1 ? 1 : 0,
-                      child: subicon1 ?? Assets.svg.medium.share.simpleSvg(),
-                    ),
-                    const Gap(24),
-                    Opacity(
-                      opacity: hasSubicon2 ? 1 : 0,
-                      child: subicon2 ?? Assets.svg.medium.user.simpleSvg(),
-                    ),
+                    if (hasSubicon1 || hasSubicon2) const Gap(40),
+                    if (hasSubicon1)
+                      Opacity(
+                        opacity: hasSubicon1 ? 1 : 0,
+                        child: subicon1 ?? Assets.svg.medium.share.simpleSvg(),
+                      ),
+                    if (hasSubicon2) ...[
+                      const Gap(24),
+                      Opacity(
+                        opacity: hasSubicon2 ? 1 : 0,
+                        child: subicon2 ?? Assets.svg.medium.user.simpleSvg(),
+                      ),
+                    ]
                   ],
                 ),
               ),

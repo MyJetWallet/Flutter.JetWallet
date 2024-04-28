@@ -95,20 +95,20 @@ class _SingInBody extends StatelessObserverWidget {
           title: intl.register_enterYourEmail,
           hasRightIcon: true,
           rightIcon: SafeGesture(
-              onTap:  () async {
-                    if (showZendesk) {
-                       await getIt.get<IntercomService>().login();
-                      await getIt.get<IntercomService>().showMessenger();
-                    } else {
-                      await sRouter.push(
-                        CrispRouter(
-                          welcomeText: intl.crispSendMessage_hi,
-                        ),
-                      );
-                    }
-                  },
-              child: Assets.svg.medium.chat.simpleSvg(),
-            ),
+            onTap: () async {
+              if (showZendesk) {
+                await getIt.get<IntercomService>().login();
+                await getIt.get<IntercomService>().showMessenger();
+              } else {
+                await sRouter.push(
+                  CrispRouter(
+                    welcomeText: intl.crispSendMessage_hi,
+                  ),
+                );
+              }
+            },
+            child: Assets.svg.medium.chat.simpleSvg(),
+          ),
         ),
         child: CustomScrollView(
           physics: const ClampingScrollPhysics(),
