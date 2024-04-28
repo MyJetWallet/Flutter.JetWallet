@@ -4,22 +4,22 @@ description: UI Kit for Simple design
 publish_to: "none"
 
 environment:
-  sdk: ">=3.3.4 <4.0.0"
-  flutter: ">=3.19.6"
+  sdk: ">=3.3.0 <4.0.0"
+  flutter: ">=3.19.2"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  flutter_svg: ^2.0.9 # SVG rendering and widget library
+  flutter_svg: ^2.0.7 # SVG rendering and widget library
   local_auth: ^2.2.0 # local authentication via fingerprint, touch ID, face ID, passcode, pin, or pattern
   flash: ^3.1.0
-  rive: 0.13.2 # rive animations
+  rive: 0.12.4 # rive animations
   qr_flutter: 4.1.0 # QR code rendering
-  mobx: ^2.3.3
-  flutter_mobx: ^2.2.1
+  mobx: ^2.3.0+1
+  flutter_mobx: ^2.2.0
   get_it: ^7.6.7
-  modal_bottom_sheet: 3.0.0
+  modal_bottom_sheet: 3.0.0-pre
   state_notifier: ^1.0.0
   auto_size_text: ^3.0.0
   flutter_cache_manager: ^3.3.1
@@ -29,11 +29,11 @@ dev_dependencies:
     sdk: flutter
 
   # Lint
-  flutter_lints: ^3.0.2
+  flutter_lints: ^3.0.1
 
   # AUTOGEN:
-  build_runner: ^2.4.9 # generating files using Dart code
-  mobx_codegen: ^2.6.1
+  build_runner: ^2.4.8 # generating files using Dart code
+  mobx_codegen: ^2.6.0
 
 flutter:
   assets:
