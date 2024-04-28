@@ -446,7 +446,6 @@ class DeepLinkService {
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
-          action: RouteQueryAction.push,
           func: () async {
             if (showZendesk) {
               await getIt.get<IntercomService>().showMessenger();
