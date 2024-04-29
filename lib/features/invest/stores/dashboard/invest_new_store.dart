@@ -200,10 +200,12 @@ abstract class _InvestNewStoreBase with Store {
     final marketPrice = isOrderMode ? pendingValue : investStore.getPendingPriceBySymbol(instrument?.symbol ?? '');
     final investPositionStopLossAmount = slAmountValue;
     final volume = amountValue * Decimal.fromInt(multiplicator);
+
     final openFee = volume * (instrument?.openFee ?? Decimal.zero);
     final closeFee = isBuyMode
         ? (volume + investPositionStopLossAmount + openFee) * (instrument?.closeFee ?? Decimal.zero)
         : (volume - investPositionStopLossAmount - openFee) * (instrument?.closeFee ?? Decimal.zero);
+
     slPriceValue = isBuyMode
         ? marketPrice *
             (Decimal.one +
@@ -213,6 +215,7 @@ abstract class _InvestNewStoreBase with Store {
             (Decimal.one -
                 Decimal.fromJson('${(investPositionStopLossAmount / volume).toDouble()}') -
                 Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'));
+
     slPriceController.text = 'est. ${volumeFormat(
       decimal: slPriceValue,
       symbol: '',
@@ -522,7 +525,7 @@ abstract class _InvestNewStoreBase with Store {
                           decimal: model.targetPrice,
                           symbol: '',
                           accuracy: instrument?.priceAccuracy ?? 2,
-                        ),
+                        ).trim(),
                 ),
                 const SpaceH16(),
                 Row(
@@ -611,7 +614,7 @@ abstract class _InvestNewStoreBase with Store {
                           decimal: model.targetPrice,
                           symbol: '',
                           accuracy: instrument?.priceAccuracy ?? 2,
-                        ),
+                        ).trim(),
                 ),
                 const SpaceH16(),
                 Row(
