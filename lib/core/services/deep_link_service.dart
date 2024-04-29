@@ -618,6 +618,11 @@ class DeepLinkService {
   Future<void> showEarnScreen(
     Map<String, String> parameters,
   ) async {
+    final isEarnAvailable = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
+        .any((element) => element.id == AssetPaymentProductsEnum.earnProgram);
+
+    if (!isEarnAvailable) return;
+
     final symbol = parameters[_jwSymbol];
 
     if (getIt.isRegistered<AppStore>() &&
@@ -680,20 +685,20 @@ class DeepLinkService {
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
-          sNotification.showError(
-            intl.something_went_wrong_try_again,
-            id: 1,
-            isError: false,
-          );
+      sNotification.showError(
+        intl.something_went_wrong_try_again,
+        id: 1,
+        isError: false,
+      );
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
           func: () async {
             sNotification.showError(
-            'Hi, it is tech popup to test deeplink. Parameter: $paremetr',
-            id: 1,
-            isError: false,
-          );
+              'Hi, it is tech popup to test deeplink. Parameter: $paremetr',
+              id: 1,
+              isError: false,
+            );
           },
         ),
       );
