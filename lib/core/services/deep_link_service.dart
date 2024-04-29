@@ -11,6 +11,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -160,6 +161,8 @@ class DeepLinkService {
       pushRateUp(parameters);
     } else if (command == _earnScreen) {
       showEarnScreen(parameters);
+    } else if (command == _techScreen) {
+      showTechToast(parameters);
     } else {
       if (parameters.containsKey('jw_operation_id')) {
         pushCryptoHistory(parameters);
@@ -665,6 +668,34 @@ class DeepLinkService {
             currency: currency,
           ),
         ],
+      );
+    }
+  }
+
+  Future<void> showTechToast(
+    Map<String, String> parameters,
+  ) async {
+    final paremetr = parameters[_jwParameter];
+
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+          sNotification.showError(
+            intl.something_went_wrong_try_again,
+            id: 1,
+            isError: false,
+          );
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            sNotification.showError(
+            'Hi, it is tech popup to test deeplink. Parameter: $paremetr',
+            id: 1,
+            isError: false,
+          );
+          },
+        ),
       );
     }
   }
