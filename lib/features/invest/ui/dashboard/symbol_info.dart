@@ -129,7 +129,7 @@ class SymbolInfo extends StatelessObserverWidget {
                   onResolutionChanged: (resolution) {},
                   onChartTypeChanged: (type) {},
                   chartType: ChartType.area,
-                  candleResolution: Period.month,
+                  candleResolution: Period.day,
                   formatPrice: volumeFormat,
                   candles: candles,
                   onCandleSelected: (value) {},
