@@ -89,7 +89,7 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
 
     final colors = sKit.colors;
     final currency = currencyFrom(currencies, 'USDT');
-
+    
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       loading: investPositionsStore.loader,
