@@ -2017,5 +2017,6 @@
     },
     "prepaid_card_more": "plus",
     "prepaid_card_less": "moins",
-    "prepaid_card_funds_for_purchased": "Les fonds pour un bon acheté ne sont pas remboursables"
+    "prepaid_card_funds_for_purchased": "Les fonds pour un bon acheté ne sont pas remboursables",
+    "prepaid_card_error": "Le bon pour la carte prépayée n'a pas été émis. Veuillez contacter le service client, nous tenterons de résoudre le problème au plus vite."
 }
