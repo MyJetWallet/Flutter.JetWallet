@@ -1,7 +1,4 @@
-import 'package:charts/main.dart';
 import 'package:charts/model/candle_model.dart';
-import 'package:charts/model/candle_type_enum.dart';
-import 'package:charts/model/resolution_string_enum.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -16,9 +13,8 @@ import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 
-import '../../../../utils/formatting/base/volume_format.dart';
-import '../../../../utils/helpers/localized_chart_resolution_button.dart';
 import '../../helpers/percent_info.dart';
+import '../widgets/small_chart.dart';
 
 class SymbolInfo extends StatelessObserverWidget {
   const SymbolInfo({
@@ -123,23 +119,7 @@ class SymbolInfo extends StatelessObserverWidget {
             ),
             Stack(
               children: [
-                Chart(
-                  isLongInvest: true,
-                  localizedChartResolutionButton: localizedChartResolutionButton(context),
-                  onResolutionChanged: (resolution) {},
-                  onChartTypeChanged: (type) {},
-                  chartType: ChartType.area,
-                  candleResolution: Period.day,
-                  formatPrice: volumeFormat,
-                  candles: candles,
-                  onCandleSelected: (value) {},
-                  chartHeight: 30,
-                  chartWidgetHeight: 30,
-                  isAssetChart: false,
-                  isInvestChart: true,
-                  loader: const LoaderSpinner(),
-                  accuracy: 2,
-                ),
+                SmallChart(candles: candles),
                 Positioned(
                   top: 0,
                   left: 0,
