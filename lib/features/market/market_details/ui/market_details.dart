@@ -49,7 +49,7 @@ class MarketDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return VisibilityDetector(
-      key: const Key('market-screen-key'),
+      key: const Key('market-details-screen-key'),
       onVisibilityChanged: (info) {
         if (info.visibleFraction == 1) {
           sAnalytics.marketAssetScreenView(asset: marketItem.symbol);
