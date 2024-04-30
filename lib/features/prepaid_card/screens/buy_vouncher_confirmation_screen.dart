@@ -166,6 +166,7 @@ class _BuyVouncherConfirmationBody extends StatelessObserverWidget {
                     onTab: () {
                       showCountryExplanationBottomSheet(context);
                     },
+                    valueMaxLines: 2,
                   ),
                   TwoColumnCell(
                     label: intl.prepaid_card_commission,
