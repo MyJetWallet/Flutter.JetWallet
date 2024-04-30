@@ -60,17 +60,21 @@ class GlobalBasicAppBar extends StatelessWidget {
                     children: [
                       SizedBox(
                         width: 88,
-                        child: Opacity(
-                          opacity: hasLeftIcon ? 1 : 0,
-                          child: SafeGesture(
-                            onTap: hasLeftIcon
-                                ? () {
-                                    onLeftIconTap?.call();
-                                    Navigator.pop(context);
-                                  }
-                                : null,
-                            child: leftIcon ?? Assets.svg.medium.arrowLeft.simpleSvg(),
-                          ),
+                        child: Row(
+                          children: [
+                            Opacity(
+                              opacity: hasLeftIcon ? 1 : 0,
+                              child: SafeGesture(
+                                onTap: hasLeftIcon
+                                    ? () {
+                                        onLeftIconTap?.call();
+                                        Navigator.pop(context);
+                                      }
+                                    : null,
+                                child: leftIcon ?? Assets.svg.medium.arrowLeft.simpleSvg(),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       Opacity(
