@@ -114,8 +114,21 @@ class IntercomService {
     }
   }
 
+  bool messangerJustOpened = false;
+
   Future<void> showMessenger() async {
     try {
+      if (messangerJustOpened) return;
+      messangerJustOpened = true;
+      unawaited(
+        Future.delayed(
+          const Duration(seconds: 2),
+          () {
+            messangerJustOpened = false;
+          },
+        ),
+      );
+
       await Intercom.instance.displayMessenger();
       _logger.log(
         level: Level.info,

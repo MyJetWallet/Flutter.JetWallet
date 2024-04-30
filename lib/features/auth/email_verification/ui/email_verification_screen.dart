@@ -127,6 +127,7 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody> with Wi
       header: SimpleLargeAppbar(
         title: intl.emailVerification_emailVerification,
         hasRightIcon: true,
+        titleMaxLines: 2,
         rightIcon: SafeGesture(
           onTap: () async {
             if (showZendesk) {

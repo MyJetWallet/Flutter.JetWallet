@@ -94,6 +94,7 @@ class _SingInBody extends StatelessObserverWidget {
         header: SimpleLargeAppbar(
           title: intl.register_enterYourEmail,
           hasRightIcon: true,
+          titleMaxLines: 2,
           rightIcon: SafeGesture(
             onTap: () async {
               if (showZendesk) {
