@@ -167,7 +167,7 @@ abstract class _BuyVouncherConfirmationStoreBase with Store {
     } catch (error) {
       loader.finishLoadingImmediately();
 
-      unawaited(_showFailureScreen(intl.something_went_wrong));
+      unawaited(_showFailureScreen(intl.prepaid_card_error));
     } finally {
       loader.finishLoadingImmediately();
 
@@ -274,7 +274,7 @@ abstract class _BuyVouncherConfirmationStoreBase with Store {
     } on ServerRejectException catch (error) {
       unawaited(_showFailureScreen(error.cause));
     } catch (error) {
-      unawaited(_showFailureScreen(intl.something_went_wrong));
+      unawaited(_showFailureScreen(intl.prepaid_card_error));
     }
   }
 

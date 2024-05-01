@@ -2057,5 +2057,6 @@
     },
     "prepaid_card_more": "more",
     "prepaid_card_less": "less",
-    "prepaid_card_funds_for_purchased": "Funds for a purchased voucher are non-refundable"
+    "prepaid_card_funds_for_purchased": "Funds for a purchased voucher are non-refundable",
+    "prepaid_card_error": "The voucher for the prepaid card was not issued. Please contact customer service, we will try to resolve the issue as soon as possible."
 }
