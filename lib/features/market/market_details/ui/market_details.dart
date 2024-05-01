@@ -37,6 +37,8 @@ import '../../../../utils/models/currency_model.dart';
 import '../../../app/store/app_store.dart';
 import '../../../wallet/helper/navigate_to_wallet.dart';
 
+int _lastTimeSendedEvent = 0;
+
 @RoutePage(name: 'MarketDetailsRouter')
 class MarketDetails extends StatelessWidget {
   const MarketDetails({
@@ -52,6 +54,13 @@ class MarketDetails extends StatelessWidget {
       key: const Key('market-details-screen-key'),
       onVisibilityChanged: (info) {
         if (info.visibleFraction == 1) {
+          final now = DateTime.now().millisecondsSinceEpoch;
+          if (now - _lastTimeSendedEvent < 3000) {
+            return;
+          }
+
+          _lastTimeSendedEvent = now;
+
           sAnalytics.marketAssetScreenView(asset: marketItem.symbol);
         }
       },
@@ -323,6 +332,10 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
                         ),
                   onTap: () {
                     sAnalytics.tapOnTheBalanceButtonOnMarketAssetScreen(asset: widget.marketItem.symbol);
+                    sAnalytics.cryptoFavouriteWalletScreen(
+                      openedAsset: widget.marketItem.symbol,
+                    );
+
                     onMarketItemTap(
                       context: context,
                       currency: currency,

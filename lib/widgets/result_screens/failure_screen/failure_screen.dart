@@ -58,7 +58,7 @@ class FailureScreen extends StatelessObserverWidget {
                 baselineType: TextBaseline.alphabetic,
                 child: Text(
                   secondaryText!,
-                  maxLines: 3,
+                  maxLines: 5,
                   textAlign: TextAlign.center,
                   style: sBodyText1Style.copyWith(
                     color: colors.grey1,

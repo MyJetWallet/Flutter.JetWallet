@@ -17,6 +17,9 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/purchase_card_brand_list_response_model.dart';
+import 'package:visibility_detector/visibility_detector.dart';
+
+int _lastTimeSendedEvent = 0;
 
 @RoutePage(name: 'BuyVouncherAmountRouter')
 class BuyVouncherAmountScreen extends StatelessWidget {
@@ -31,24 +34,39 @@ class BuyVouncherAmountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    sAnalytics.amountBuyVoucherScreenView();
-    return SPageFrame(
-      loaderText: '',
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.prepaid_card_buy_voucher,
-          onBackButtonTap: () {
-            sAnalytics.tapOnTheBackButtonOnAmountBuyVoucherScreen();
-            sRouter.maybePop();
-          },
+    return VisibilityDetector(
+      key: const Key('vouncher-amount-screen-key'),
+      onVisibilityChanged: (info) {
+        if (info.visibleFraction == 1) {
+          final now = DateTime.now().millisecondsSinceEpoch;
+          if (now - _lastTimeSendedEvent < 3000) {
+            return;
+          }
+
+          _lastTimeSendedEvent = now;
+
+          sAnalytics.amountBuyVoucherScreenView();
+        }
+      },
+      child: SPageFrame(
+        loaderText: '',
+        header: SPaddingH24(
+          child: SSmallHeader(
+            title: intl.prepaid_card_buy_voucher,
+            onBackButtonTap: () {
+              sAnalytics.tapOnTheBackButtonOnAmountBuyVoucherScreen();
+              sAnalytics.choosePrepaidCardScreenView();
+              sRouter.maybePop();
+            },
+          ),
         ),
-      ),
-      child: Provider<BuyVouncherAmountAtore>(
-        create: (_) => BuyVouncherAmountAtore(
-          brand: selectedBrand,
-          country: country,
+        child: Provider<BuyVouncherAmountAtore>(
+          create: (_) => BuyVouncherAmountAtore(
+            brand: selectedBrand,
+            country: country,
+          ),
+          child: const _EarnWithdrawalAmountBody(),
         ),
-        child: const _EarnWithdrawalAmountBody(),
       ),
     );
   }

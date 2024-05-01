@@ -194,7 +194,7 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
     );
 
     return VisibilityDetector(
-      key: const Key('market-details-screen-key'),
+      key: const Key('my_vallets-screen-key'),
       onVisibilityChanged: (info) {
         if (info.visibleFraction == 1) {
           sAnalytics.walletsScreenView(

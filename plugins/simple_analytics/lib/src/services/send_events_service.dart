@@ -7,12 +7,15 @@ import 'package:amplitude_flutter/amplitude.dart';
 typedef LogEventFunc = Future<void> Function({
   required String name,
   required Map<String, dynamic> body,
+  required int orderIndex,
 });
 
 class SendEventsService {
   final _amplitude = Amplitude.getInstance();
 
   late LogEventFunc _logEventFunc;
+
+  int orderIndex = DateTime.now().millisecondsSinceEpoch;
 
   Future<void> init(
     String apiKey, {
@@ -37,12 +40,18 @@ class SendEventsService {
     bool? outOfSession,
   }) async {
     try {
+      orderIndex++;
+      final localOrderIndex = orderIndex;
       await _amplitude.logEvent(
         eventType,
         eventProperties: eventProperties,
       );
 
-      await _logEventFunc(name: eventType, body: eventProperties);
+      await _logEventFunc(
+        name: eventType,
+        body: eventProperties,
+        orderIndex: localOrderIndex,
+      );
     } catch (e) {
       return;
     }

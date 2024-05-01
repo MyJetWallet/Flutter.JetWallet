@@ -86,10 +86,12 @@ class StartupService {
       logEventFunc: ({
         required String name,
         required Map<String, dynamic> body,
+        required int orderIndex,
       }) async {
         final model = AnalyticRecordModel(
           eventName: name,
           eventBody: body,
+          orderIndex: orderIndex,
         );
         if (authStatus) {
           await getIt.get<SNetwork>().simpleNetworking.getAnalyticApiModule().postAddAnalyticRecord([model]);

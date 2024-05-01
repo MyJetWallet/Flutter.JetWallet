@@ -32,6 +32,7 @@ import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:logger/logger.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 
 import 'local_storage_service.dart';
@@ -253,12 +254,12 @@ class DeepLinkService {
           (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
               .where((element) => element.id == AssetPaymentProductsEnum.rewardsOnboardingProgram)
               .isNotEmpty) {
-        getIt<AppStore>().setHomeTab(3);
+        getIt<AppStore>().setHomeTab(BottomItemType.rewards);
         if (getIt<AppStore>().tabsRouter != null) {
           getIt<AppStore>().tabsRouter!.setActiveIndex(3);
         }
       } else {
-        getIt<AppStore>().setHomeTab(0);
+        getIt<AppStore>().setHomeTab(BottomItemType.rewards);
         if (getIt<AppStore>().tabsRouter != null) {
           getIt<AppStore>().tabsRouter!.setActiveIndex(0);
         }
@@ -566,13 +567,13 @@ class DeepLinkService {
               ),
             );
           } else {
-            getIt<AppStore>().setHomeTab(1);
+            getIt<AppStore>().setHomeTab(BottomItemType.market);
             if (getIt<AppStore>().tabsRouter != null) {
               getIt<AppStore>().tabsRouter!.setActiveIndex(1);
             }
           }
         } else {
-          getIt<AppStore>().setHomeTab(1);
+          getIt<AppStore>().setHomeTab(BottomItemType.market);
           if (getIt<AppStore>().tabsRouter != null) {
             getIt<AppStore>().tabsRouter!.setActiveIndex(1);
           }
@@ -628,7 +629,8 @@ class DeepLinkService {
 
       if (!isEarnAvailable) return;
       await Future.delayed(const Duration(milliseconds: 650));
-      getIt<AppStore>().setHomeTab(2);
+      sRouter.popUntilRoot();
+      getIt<AppStore>().setHomeTab(BottomItemType.earn);
       if (getIt<AppStore>().tabsRouter != null) {
         getIt<AppStore>().tabsRouter!.setActiveIndex(2);
       }
@@ -645,7 +647,8 @@ class DeepLinkService {
             if (!isEarnAvailable) return;
 
             await Future.delayed(const Duration(milliseconds: 650));
-            getIt<AppStore>().setHomeTab(1);
+            sRouter.popUntilRoot();
+            getIt<AppStore>().setHomeTab(BottomItemType.earn);
             if (getIt<AppStore>().tabsRouter != null) {
               getIt<AppStore>().tabsRouter!.setActiveIndex(2);
             }

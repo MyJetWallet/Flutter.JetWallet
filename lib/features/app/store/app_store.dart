@@ -27,6 +27,7 @@ import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/analytic_records/models/analytic_record.dart';
 import 'package:uuid/uuid.dart';
 
@@ -416,9 +417,9 @@ abstract class _AppStoreBase with Store {
   bool setWithdrawDynamicLink(bool value) => withdrawDynamicLink = value;
 
   @observable
-  int homeTab = 0;
+  BottomItemType homeTab = BottomItemType.wallets;
   @action
-  void setHomeTab(int value) => homeTab = value;
+  void setHomeTab(BottomItemType value) => homeTab = value;
 
   @observable
   bool skipVersionCheck = false;
@@ -480,10 +481,12 @@ abstract class _AppStoreBase with Store {
         ({
           required String name,
           required Map<String, dynamic> body,
+          required int orderIndex,
         }) async {
           final model = AnalyticRecordModel(
             eventName: name,
             eventBody: body,
+            orderIndex: orderIndex,
           );
           if (authStatus == const AuthorizationUnion.authorized()) {
             await getIt.get<SNetwork>().simpleNetworking.getAnalyticApiModule().postAddAnalyticRecord([model]);
@@ -553,7 +556,7 @@ abstract class _AppStoreBase with Store {
     openBottomMenu = false;
     fromLoginRegister = false;
     withdrawDynamicLink = false;
-    homeTab = 0;
+    homeTab = BottomItemType.wallets;
     isBalanceHide = true;
     appStatus = AppStatus.start;
 

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
@@ -58,29 +59,27 @@ class GlobalBasicAppBar extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        width: 88,
-                        child: Row(
-                          children: [
-                            Opacity(
-                              opacity: hasLeftIcon ? 1 : 0,
-                              child: SafeGesture(
-                                onTap: hasLeftIcon
-                                    ? () {
-                                        onLeftIconTap?.call();
-                                        Navigator.pop(context);
-                                      }
-                                    : null,
-                                child: leftIcon ?? Assets.svg.medium.arrowLeft.simpleSvg(),
-                              ),
+                      Row(
+                        children: [
+                          Opacity(
+                            opacity: hasLeftIcon ? 1 : 0,
+                            child: SafeGesture(
+                              onTap: hasLeftIcon
+                                  ? () {
+                                      onLeftIconTap?.call();
+                                      Navigator.pop(context);
+                                    }
+                                  : null,
+                              child: leftIcon ?? Assets.svg.medium.arrowLeft.simpleSvg(),
                             ),
-                          ],
-                        ),
+                          ),
+                          const Gap(24),
+                          if (hasSecondIcon) const Gap(24),
+                        ],
                       ),
-                      Opacity(
-                        opacity: hasTitle ? 1 : 0,
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .7),
+                      Flexible(
+                        child: Opacity(
+                          opacity: hasTitle ? 1 : 0,
                           child: Text(
                             title ?? '',
                             style: STStyles.header6,
@@ -89,13 +88,14 @@ class GlobalBasicAppBar extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Opacity(
-                            opacity: hasSecondIcon ? 1 : 0,
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 8),
-                              child: secondIcon ?? Assets.svg.medium.user.simpleSvg(),
+                          if (hasSecondIcon)
+                            Opacity(
+                              opacity: hasSecondIcon ? 1 : 0,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: secondIcon ?? Assets.svg.medium.user.simpleSvg(),
+                              ),
                             ),
-                          ),
                           const Gap(24),
                           Opacity(
                             opacity: hasRightIcon ? 1 : 0,
@@ -105,10 +105,7 @@ class GlobalBasicAppBar extends StatelessWidget {
                                       ? () => onRightIconTap!()
                                       : null
                                   : null,
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 8),
-                                child: rightIcon ?? Assets.svg.medium.close.simpleSvg(),
-                              ),
+                              child: rightIcon ?? Assets.svg.medium.close.simpleSvg(),
                             ),
                           ),
                         ],
