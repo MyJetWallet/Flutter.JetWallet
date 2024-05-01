@@ -448,7 +448,7 @@ class DeepLinkService {
         RouteQueryModel(
           func: () async {
             if (showZendesk) {
-              await Future.delayed(const Duration(milliseconds: 100));
+              await Future.delayed(const Duration(milliseconds: 200));
               await getIt.get<IntercomService>().showMessenger();
             } else {
               await sRouter.push(
