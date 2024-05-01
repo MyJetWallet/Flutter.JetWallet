@@ -11,16 +11,29 @@ class SmallChart extends StatelessWidget {
     this.height = 30.0,
     this.width = 100.0,
   });
+
   final List<CandleModel> candles;
   final double height;
   final double width;
 
   @override
   Widget build(BuildContext context) {
+    final sampledCandles = sampleCandles(candles);
     return CustomPaint(
       size: Size(width, height),
-      painter: _ChartPainter(candles),
+      painter: _ChartPainter(sampledCandles),
     );
+  }
+
+  List<CandleModel> sampleCandles(List<CandleModel> candles, {int maxCandles = 50}) {
+    if (candles.length <= maxCandles) {
+      return candles;
+    }
+    final step = candles.length / maxCandles;
+    return List.generate(maxCandles, (index) {
+      final idx = (index * step).floor();
+      return candles[idx];
+    });
   }
 }
 

@@ -1041,7 +1041,7 @@ class WalletApiRepository {
 
   Future<DC<ServerRejectException, InvestPositionResponseModel>> changePendingPrice({
     required String id,
-    required int price,
+    required double price,
   }) async {
     return _walletApiDataSources.changePendingPrice(id: id, price: price);
   }
