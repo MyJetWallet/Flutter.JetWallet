@@ -628,6 +628,7 @@ class DeepLinkService {
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
+      await Future.delayed(const Duration(milliseconds: 650));
       getIt<AppStore>().setHomeTab(2);
       if (getIt<AppStore>().tabsRouter != null) {
         getIt<AppStore>().tabsRouter!.setActiveIndex(2);
