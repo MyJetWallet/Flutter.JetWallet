@@ -618,16 +618,15 @@ class DeepLinkService {
   Future<void> showEarnScreen(
     Map<String, String> parameters,
   ) async {
-    final isEarnAvailable = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
-        .any((element) => element.id == AssetPaymentProductsEnum.earnProgram);
-
-    if (!isEarnAvailable) return;
-
     final symbol = parameters[_jwSymbol];
 
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
+      final isEarnAvailable = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
+          .any((element) => element.id == AssetPaymentProductsEnum.earnProgram);
+
+      if (!isEarnAvailable) return;
       await Future.delayed(const Duration(milliseconds: 650));
       getIt<AppStore>().setHomeTab(2);
       if (getIt<AppStore>().tabsRouter != null) {
@@ -640,6 +639,12 @@ class DeepLinkService {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
           func: () async {
+            final isEarnAvailable = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
+                .any((element) => element.id == AssetPaymentProductsEnum.earnProgram);
+
+            if (!isEarnAvailable) return;
+
+            await Future.delayed(const Duration(milliseconds: 650));
             getIt<AppStore>().setHomeTab(1);
             if (getIt<AppStore>().tabsRouter != null) {
               getIt<AppStore>().tabsRouter!.setActiveIndex(2);
