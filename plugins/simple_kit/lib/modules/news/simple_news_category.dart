@@ -7,7 +7,7 @@ import '../../simple_kit.dart';
 
 class SNewsCategory extends StatelessWidget {
   const SNewsCategory({
-    Key? key,
+    super.key,
     this.height,
     required this.text1,
     required this.text2,
@@ -16,7 +16,7 @@ class SNewsCategory extends StatelessWidget {
     required this.newsText,
     required this.timestamp,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final String text1;
   final String text2;

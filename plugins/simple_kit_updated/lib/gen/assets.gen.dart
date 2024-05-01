@@ -25,6 +25,8 @@ class $AssetsSvgGen {
   const $AssetsSvgGen();
 
   $AssetsSvgAssetsGen get assets => const $AssetsSvgAssetsGen();
+  $AssetsSvgBrandGen get brand => const $AssetsSvgBrandGen();
+  $AssetsSvgInvestGen get invest => const $AssetsSvgInvestGen();
   $AssetsSvgLargeGen get large => const $AssetsSvgLargeGen();
   $AssetsSvgMediumGen get medium => const $AssetsSvgMediumGen();
   $AssetsSvgOtherGen get other => const $AssetsSvgOtherGen();
@@ -39,6 +41,112 @@ class $AssetsSvgAssetsGen {
   $AssetsSvgAssetsFiatGen get fiat => const $AssetsSvgAssetsFiatGen();
 }
 
+class $AssetsSvgBrandGen {
+  const $AssetsSvgBrandGen();
+
+  $AssetsSvgBrandSmallGen get small => const $AssetsSvgBrandSmallGen();
+}
+
+class $AssetsSvgInvestGen {
+  const $AssetsSvgInvestGen();
+
+  /// File path: assets/svg/invest/buy.svg
+  SvgGenImage get buy => const SvgGenImage('assets/svg/invest/buy.svg');
+
+  /// File path: assets/svg/invest/chart_candles.svg
+  SvgGenImage get chartCandles => const SvgGenImage('assets/svg/invest/chart_candles.svg');
+
+  /// File path: assets/svg/invest/chart_line.svg
+  SvgGenImage get chartLine => const SvgGenImage('assets/svg/invest/chart_line.svg');
+
+  /// File path: assets/svg/invest/check.svg
+  SvgGenImage get check => const SvgGenImage('assets/svg/invest/check.svg');
+
+  /// File path: assets/svg/invest/checked.svg
+  SvgGenImage get checked => const SvgGenImage('assets/svg/invest/checked.svg');
+
+  /// File path: assets/svg/invest/edit.svg
+  SvgGenImage get edit => const SvgGenImage('assets/svg/invest/edit.svg');
+
+  /// File path: assets/svg/invest/invest_arrow.svg
+  SvgGenImage get investArrow => const SvgGenImage('assets/svg/invest/invest_arrow.svg');
+
+  /// File path: assets/svg/invest/invest_asset_placeholder.svg
+  SvgGenImage get investAssetPlaceholder => const SvgGenImage('assets/svg/invest/invest_asset_placeholder.svg');
+
+  /// File path: assets/svg/invest/invest_calendar.svg
+  SvgGenImage get investCalendar => const SvgGenImage('assets/svg/invest/invest_calendar.svg');
+
+  /// File path: assets/svg/invest/invest_close.svg
+  SvgGenImage get investClose => const SvgGenImage('assets/svg/invest/invest_close.svg');
+
+  /// File path: assets/svg/invest/invest_plus.svg
+  SvgGenImage get investPlus => const SvgGenImage('assets/svg/invest/invest_plus.svg');
+
+  /// File path: assets/svg/invest/invest_search.svg
+  SvgGenImage get investSearch => const SvgGenImage('assets/svg/invest/invest_search.svg');
+
+  /// File path: assets/svg/invest/invest_wallet.svg
+  SvgGenImage get investWallet => const SvgGenImage('assets/svg/invest/invest_wallet.svg');
+
+  /// File path: assets/svg/invest/profit_equal.svg
+  SvgGenImage get profitEqual => const SvgGenImage('assets/svg/invest/profit_equal.svg');
+
+  /// File path: assets/svg/invest/profit_loss.svg
+  SvgGenImage get profitLoss => const SvgGenImage('assets/svg/invest/profit_loss.svg');
+
+  /// File path: assets/svg/invest/profit_win.svg
+  SvgGenImage get profitWin => const SvgGenImage('assets/svg/invest/profit_win.svg');
+
+  /// File path: assets/svg/invest/report.svg
+  SvgGenImage get report => const SvgGenImage('assets/svg/invest/report.svg');
+
+  /// File path: assets/svg/invest/sell.svg
+  SvgGenImage get sell => const SvgGenImage('assets/svg/invest/sell.svg');
+
+  /// File path: assets/svg/invest/setting.svg
+  SvgGenImage get setting => const SvgGenImage('assets/svg/invest/setting.svg');
+
+  /// File path: assets/svg/invest/share.svg
+  SvgGenImage get share => const SvgGenImage('assets/svg/invest/share.svg');
+
+  /// File path: assets/svg/invest/sort_down.svg
+  SvgGenImage get sortDown => const SvgGenImage('assets/svg/invest/sort_down.svg');
+
+  /// File path: assets/svg/invest/sort_not_set.svg
+  SvgGenImage get sortNotSet => const SvgGenImage('assets/svg/invest/sort_not_set.svg');
+
+  /// File path: assets/svg/invest/sort_up.svg
+  SvgGenImage get sortUp => const SvgGenImage('assets/svg/invest/sort_up.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [
+        buy,
+        chartCandles,
+        chartLine,
+        check,
+        checked,
+        edit,
+        investArrow,
+        investAssetPlaceholder,
+        investCalendar,
+        investClose,
+        investPlus,
+        investSearch,
+        investWallet,
+        profitEqual,
+        profitLoss,
+        profitWin,
+        report,
+        sell,
+        setting,
+        share,
+        sortDown,
+        sortNotSet,
+        sortUp
+      ];
+}
+
 class $AssetsSvgLargeGen {
   const $AssetsSvgLargeGen();
 
@@ -47,6 +155,9 @@ class $AssetsSvgLargeGen {
 
   /// File path: assets/svg/large/card.svg
   SvgGenImage get card => const SvgGenImage('assets/svg/large/card.svg');
+
+  /// File path: assets/svg/large/chart.svg
+  SvgGenImage get chart => const SvgGenImage('assets/svg/large/chart.svg');
 
   /// File path: assets/svg/large/crypto.svg
   SvgGenImage get crypto => const SvgGenImage('assets/svg/large/crypto.svg');
@@ -67,7 +178,7 @@ class $AssetsSvgLargeGen {
   SvgGenImage get wallets => const SvgGenImage('assets/svg/large/wallets.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [bank, card, crypto, graph, home, portfolio, rewards, wallets];
+  List<SvgGenImage> get values => [bank, card, chart, crypto, graph, home, portfolio, rewards, wallets];
 }
 
 class $AssetsSvgMediumGen {
@@ -172,6 +283,9 @@ class $AssetsSvgMediumGen {
   /// File path: assets/svg/medium/hide.svg
   SvgGenImage get hide => const SvgGenImage('assets/svg/medium/hide.svg');
 
+  /// File path: assets/svg/medium/history.svg
+  SvgGenImage get history => const SvgGenImage('assets/svg/medium/history.svg');
+
   /// File path: assets/svg/medium/linkedin.svg
   SvgGenImage get linkedin => const SvgGenImage('assets/svg/medium/linkedin.svg');
 
@@ -184,8 +298,14 @@ class $AssetsSvgMediumGen {
   /// File path: assets/svg/medium/mobile.svg
   SvgGenImage get mobile => const SvgGenImage('assets/svg/medium/mobile.svg');
 
+  /// File path: assets/svg/medium/mobile_unavailable.svg
+  SvgGenImage get mobileUnavailable => const SvgGenImage('assets/svg/medium/mobile_unavailable.svg');
+
   /// File path: assets/svg/medium/more.svg
   SvgGenImage get more => const SvgGenImage('assets/svg/medium/more.svg');
+
+  /// File path: assets/svg/medium/percent.svg
+  SvgGenImage get percent => const SvgGenImage('assets/svg/medium/percent.svg');
 
   /// File path: assets/svg/medium/phone.svg
   SvgGenImage get phone => const SvgGenImage('assets/svg/medium/phone.svg');
@@ -300,11 +420,14 @@ class $AssetsSvgMediumGen {
         gift,
         global,
         hide,
+        history,
         linkedin,
         loading,
         mail,
         mobile,
+        mobileUnavailable,
         more,
+        percent,
         phone,
         purchase,
         qrCode,
@@ -445,8 +568,24 @@ class $AssetsSvgAssetsFiatGen {
   /// File path: assets/svg/assets/fiat/external_transfer.svg
   SvgGenImage get externalTransfer => const SvgGenImage('assets/svg/assets/fiat/external_transfer.svg');
 
+  /// File path: assets/svg/assets/fiat/simple_invest.svg
+  SvgGenImage get simpleInvest => const SvgGenImage('assets/svg/assets/fiat/simple_invest.svg');
+
   /// List of all assets
-  List<SvgGenImage> get values => [account, altMethod, card, cardAlt, externalTransfer];
+  List<SvgGenImage> get values => [account, altMethod, card, cardAlt, externalTransfer, simpleInvest];
+}
+
+class $AssetsSvgBrandSmallGen {
+  const $AssetsSvgBrandSmallGen();
+
+  /// File path: assets/svg/brand/small/card.svg
+  SvgGenImage get card => const SvgGenImage('assets/svg/brand/small/card.svg');
+
+  /// File path: assets/svg/brand/small/info_blue.svg
+  SvgGenImage get infoBlue => const SvgGenImage('assets/svg/brand/small/info_blue.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [card, infoBlue];
 }
 
 class $AssetsSvgOtherLargeGen {

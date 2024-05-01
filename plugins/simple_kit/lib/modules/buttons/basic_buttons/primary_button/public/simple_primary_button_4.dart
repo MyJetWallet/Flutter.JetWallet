@@ -5,12 +5,12 @@ import 'package:simple_kit/simple_kit.dart';
 
 class SPrimaryButton4 extends StatelessObserverWidget {
   const SPrimaryButton4({
-    Key? key,
+    super.key,
     this.icon,
     required this.active,
     required this.name,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final Widget? icon;
   final bool active;

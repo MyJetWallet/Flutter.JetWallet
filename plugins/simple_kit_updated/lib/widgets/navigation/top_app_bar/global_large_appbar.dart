@@ -7,7 +7,7 @@ import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 class SimpleLargeAppbar extends StatelessWidget {
   const SimpleLargeAppbar({
-    Key? key,
+    super.key,
     required this.title,
     this.hasLeftIcon = true,
     this.leftIcon,
@@ -17,7 +17,7 @@ class SimpleLargeAppbar extends StatelessWidget {
     this.subicon1,
     this.hasSubicon2 = false,
     this.subicon2,
-  }) : super(key: key);
+  });
 
   final String title;
 

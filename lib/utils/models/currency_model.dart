@@ -11,6 +11,7 @@ import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_
 import 'package:simple_networking/modules/signal_r/models/asset_withdrawal_fee_model.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.dart';
+import 'package:simple_networking/simple_networking.dart' as networking;
 
 part 'currency_model.freezed.dart';
 part 'currency_model.g.dart';
@@ -115,7 +116,7 @@ class CurrencyModel with _$CurrencyModel {
 
   bool get isAssetBalanceNotEmpty => assetBalance != Decimal.zero;
 
-  Decimal withdrawalFeeSize(String network) {
+  Decimal withdrawalFeeSize({required String network, required Decimal amount}) {
     var feeCollection = assetWithdrawalFees;
     var newFeeCollection = assetWithdrawalFees;
     var feeBlockchainCollection = withdrawalBlockchains;
@@ -141,17 +142,34 @@ class CurrencyModel with _$CurrencyModel {
       }
     }
 
-    return feeCollection.isNotEmpty
-        ? feeCollection[0].size
+    final assetFee = feeCollection.isNotEmpty
+        ? feeCollection[0]
         : newFeeCollection.isNotEmpty
-            ? newFeeCollection[0].size
-            : Decimal.zero;
+            ? newFeeCollection[0]
+            : AssetFeeModel(
+                asset: symbol,
+                size: Decimal.zero,
+                feeType: networking.FeeType.absolute,
+              );
+
+    if (assetFee.feeType == networking.FeeType.percentage) {
+      return amount * (assetFee.size / Decimal.fromInt(100)).toDecimal();
+    } else {
+      return assetFee.size;
+    }
   }
 
   bool get isGrowing => dayPercentChange > 0;
 
-  String withdrawalFeeWithSymbol(String network) {
-    return '${withdrawalFeeSize(network)} $symbol';
+  String withdrawalFeeWithSymbol({required String network, required Decimal amount}) {
+    return volumeFormat(
+      decimal: withdrawalFeeSize(
+        network: network,
+        amount: amount,
+      ),
+      symbol: symbol,
+      accuracy: accuracy,
+    );
   }
 
   String get emptyWithdrawalFee => '0 $symbol';
@@ -176,6 +194,12 @@ class CurrencyModel with _$CurrencyModel {
 
   bool get supportsAtLeastOneBuyMethod {
     return buyMethods.isNotEmpty;
+  }
+
+  Decimal get decimalVolumeAssetBalance {
+    final sanitizedBalance = volumeAssetBalance.replaceAll(',', '').replaceAll('\$', '').trim();
+
+    return Decimal.tryParse(sanitizedBalance) ?? Decimal.zero;
   }
 
   bool get supportsCircle {

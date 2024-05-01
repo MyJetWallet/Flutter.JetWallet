@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/log_out/simple_log_out_icon
 import 'package:simple_kit/utils/enum.dart';
 
 class SLogOutIcon extends StatelessObserverWidget {
-  const SLogOutIcon({Key? key}) : super(key: key);
+  const SLogOutIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -5,9 +5,9 @@ import '../../../simple_kit.dart';
 
 class SSmileIcon extends StatelessWidget {
   const SSmileIcon({
-    Key? key,
+    super.key,
     required this.sentiment,
-  }) : super(key: key);
+  });
 
   final Color sentiment;
 

@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 
 enum SButtonContextType {
@@ -36,7 +34,7 @@ Set<SButtonContextType> _withIconButtonContextTypes = {
 
 class SButtonContext extends HookWidget {
   const SButtonContext({
-    Key? key,
+    super.key,
     required this.type,
     required this.text,
     this.onTap,
@@ -45,7 +43,7 @@ class SButtonContext extends HookWidget {
     this.backgroundColor,
     this.icon,
     this.iconCustomColor,
-  }) : super(key: key);
+  });
 
   final SButtonContextType type;
   final String text;

@@ -4,7 +4,7 @@ import 'package:simple_kit/modules/icons/16x16/light/reward_history/simple_light
 import 'package:simple_kit/utils/enum.dart';
 
 class SRewardHistoryIcon extends StatelessWidget {
-  const SRewardHistoryIcon({Key? key, this.color}) : super(key: key);
+  const SRewardHistoryIcon({super.key, this.color});
 
   final Color? color;
 

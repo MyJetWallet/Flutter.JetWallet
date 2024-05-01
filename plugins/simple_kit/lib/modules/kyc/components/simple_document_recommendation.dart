@@ -5,10 +5,10 @@ import '../../../simple_kit.dart';
 
 class SDocumentRecommendation extends StatelessWidget {
   const SDocumentRecommendation({
-    Key? key,
+    super.key,
     this.primaryTextColor,
     required this.primaryText,
-  }) : super(key: key);
+  });
 
   final Color? primaryTextColor;
   final String primaryText;

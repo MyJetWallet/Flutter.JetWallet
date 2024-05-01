@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -35,10 +34,12 @@ class AmountScreen extends StatefulWidget {
     this.toCard,
     this.fromAccount,
     this.toAccount,
+    this.toAsset,
   });
 
   final AmountScreenTab tab;
   final CurrencyModel? asset;
+  final CurrencyModel? toAsset;
 
   final CircleCard? card;
   final CardDataModel? simpleCard;
@@ -90,13 +91,10 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
       switch (tabController.index) {
         case 0:
           sAnalytics.tapOnTheBuyButtonOnBSCSegmentScreen();
-          break;
         case 1:
           sAnalytics.tapOnTheSellButtonOnBSCSegmentButton();
-          break;
         case 2:
           sAnalytics.tapOnTheConvertButtonOnBSCSegmentButton();
-          break;
         case 3:
           sAnalytics.transferAmountScreenView(
             sourceTransfer: 'Segment control',
@@ -159,20 +157,16 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
                           : 'Unlimint  ${widget.account?.last4IbanCharacters}',
                   sourceCurrency: 'EUR',
                 );
-                break;
               case 1:
                 sAnalytics.tapOnTheBackFromSellAmountButton();
-                break;
               case 2:
                 sAnalytics.tapOnTheBackFromConvertAmountButton();
-                break;
               case 3:
                 sAnalytics.tapOnTheBackFromTransferAmountButton();
-                break;
               default:
             }
 
-            sRouter.pop();
+            sRouter.maybePop();
           },
         ),
       ),
@@ -221,13 +215,13 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
                   account: (widget.account?.isNotEmptyBalance ?? false) ? widget.account : null,
                 ),
                 SellAmountTabBody(
-                  asset: widget.asset?.assetBalance != Decimal.zero ? widget.asset : null,
+                  asset: widget.asset,
                   account: widget.account,
                   simpleCard: widget.simpleCard,
                 ),
                 ConvertAmountTabBody(
                   fromAsset: widget.tab != AmountScreenTab.buy ? widget.asset : null,
-                  toAsset: widget.tab == AmountScreenTab.buy ? widget.asset : null,
+                  toAsset: widget.toAsset ?? (widget.tab == AmountScreenTab.buy ? widget.asset : null),
                 ),
                 if (countOfTabs >= 4)
                   TransferAmountTabBody(

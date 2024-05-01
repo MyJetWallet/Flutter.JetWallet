@@ -3,8 +3,8 @@ import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 
 class BottomSheetBar extends StatelessWidget {
   const BottomSheetBar({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

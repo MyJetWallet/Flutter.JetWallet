@@ -5,9 +5,9 @@ import 'package:simple_kit/utils/constants.dart';
 
 class SActionConfirmIconWithAnimation extends StatelessWidget {
   const SActionConfirmIconWithAnimation({
-    Key? key,
+    super.key,
     required this.iconUrl,
-  }) : super(key: key);
+  });
 
   final String iconUrl;
 
@@ -32,7 +32,6 @@ class SActionConfirmIconWithAnimation extends StatelessWidget {
                 iconUrl,
                 width: 48.0,
                 height: 48.0,
-                color: Colors.white,
               ),
             ],
           ),

@@ -7,11 +7,11 @@ enum CollapsedAppBarType { mainScreen, wallet, account }
 
 class AdvancedAppBarBase extends StatelessWidget {
   const AdvancedAppBarBase({
-    Key? key,
+    super.key,
     required this.child,
     required this.flow,
     required this.isShortVersion,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final CollapsedAppBarType flow;

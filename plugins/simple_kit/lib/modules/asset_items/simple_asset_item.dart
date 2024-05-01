@@ -5,7 +5,7 @@ import '../../simple_kit.dart';
 
 class SAssetItem extends StatelessWidget {
   const SAssetItem({
-    Key? key,
+    super.key,
     this.helper = '',
     this.isSelected = false,
     this.divider = true,
@@ -16,7 +16,7 @@ class SAssetItem extends StatelessWidget {
     required this.amount,
     required this.description,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final String helper;
   final bool isSelected;

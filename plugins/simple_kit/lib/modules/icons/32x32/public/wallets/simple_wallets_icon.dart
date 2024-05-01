@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/32x32/light/wallets/simple_light_wallet
 import 'package:simple_kit/utils/enum.dart';
 
 class SWalletsActiveIcon extends StatelessObserverWidget {
-  const SWalletsActiveIcon({Key? key}) : super(key: key);
+  const SWalletsActiveIcon({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class SWalletsActiveIcon extends StatelessObserverWidget {
 }
 
 class SWalletsIcon extends StatelessObserverWidget {
-  const SWalletsIcon({Key? key}) : super(key: key);
+  const SWalletsIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

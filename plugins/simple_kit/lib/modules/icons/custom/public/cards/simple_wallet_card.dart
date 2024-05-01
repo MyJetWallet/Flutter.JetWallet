@@ -6,10 +6,10 @@ import 'package:simple_kit/utils/enum.dart';
 
 class SWalletCardIcon extends StatelessObserverWidget {
   const SWalletCardIcon({
-    Key? key,
+    super.key,
     this.width,
     this.height,
-  }) : super(key: key);
+  });
 
   final double? width;
   final double? height;

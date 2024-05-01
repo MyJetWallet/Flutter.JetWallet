@@ -1,13 +1,22 @@
 import 'dart:async';
-
+import 'package:charts/main.dart';
+import 'package:charts/simple_chart.dart';
+import 'package:charts/utils/data_feed_util.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/chart/helper/format_merge_candles_count.dart';
+import 'package:jetwallet/features/chart/helper/format_resolution.dart';
+import 'package:jetwallet/features/chart/model/chart_union.dart';
 import 'package:jetwallet/features/invest/ui/invests/data_line.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_networking/modules/auth_api/models/asset_model.dart';
+import 'package:simple_networking/modules/candles_api/models/candles_request_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
@@ -33,6 +42,17 @@ abstract class _InvestNewStoreBase with Store {
 
   @observable
   StackLoaderStore? loader;
+
+  @observable
+  AssetModelAdm? assetUSDT;
+
+  @action
+  Future<void> getAsset(String assetId) async {
+    final response = await sNetwork.getWalletModule().getAsset(assetId: assetId);
+    if (!response.hasError) {
+      assetUSDT = response.data;
+    }
+  }
 
   @observable
   InvestInstrumentModel? instrument;
@@ -75,7 +95,6 @@ abstract class _InvestNewStoreBase with Store {
   Decimal amountValue = Decimal.zero;
   @action
   void onAmountInput(String newValue) {
-
     amountValue = Decimal.fromJson(newValue);
     amountController.text = '${Decimal.fromJson(newValue)}';
     if (isSLTPPrice) {
@@ -108,6 +127,7 @@ abstract class _InvestNewStoreBase with Store {
   @action
   void onPendingInput(String newValue) {
     pendingValue = Decimal.fromJson(newValue);
+
     if (isSLTPPrice) {
       updateSlAmount();
       updateTPAmount();
@@ -131,17 +151,23 @@ abstract class _InvestNewStoreBase with Store {
   @action
   void updateTPPrice() {
     final investStore = getIt.get<InvestDashboardStore>();
-    final marketPrice = isOrderMode
-        ? pendingValue
-        : investStore.getPendingPriceBySymbol(instrument?.symbol ?? '');
+    final marketPrice = isOrderMode ? pendingValue : investStore.getPendingPriceBySymbol(instrument?.symbol ?? '');
     final investPositionTakeProfitAmount = tpAmountValue;
     final volume = amountValue * Decimal.fromInt(multiplicator);
     final openFee = volume * (instrument?.openFee ?? Decimal.zero);
-    final closeFee = (volume + investPositionTakeProfitAmount) * Decimal.fromInt(multiplicator) * (instrument?.closeFee ?? Decimal.zero);
+    final closeFee = isBuyMode
+        ? (volume + investPositionTakeProfitAmount + openFee) * (instrument?.closeFee ?? Decimal.zero)
+        : (volume - investPositionTakeProfitAmount - openFee) * (instrument?.closeFee ?? Decimal.zero);
     tpPriceValue = isBuyMode
-        ? marketPrice * (Decimal.one + Decimal.fromJson('${(investPositionTakeProfitAmount / volume).toDouble()}') + Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'))
-        : marketPrice * (Decimal.one - Decimal.fromJson('${(investPositionTakeProfitAmount / volume).toDouble()}')  - Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'));
-    tpPriceController.text = 'Etc. ${volumeFormat(
+        ? marketPrice *
+            (Decimal.one +
+                Decimal.fromJson('${(investPositionTakeProfitAmount / volume).toDouble()}') +
+                Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'))
+        : marketPrice *
+            (Decimal.one -
+                Decimal.fromJson('${(investPositionTakeProfitAmount / volume).toDouble()}') -
+                Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'));
+    tpPriceController.text = 'est. ${volumeFormat(
       decimal: tpPriceValue,
       symbol: '',
       accuracy: instrument?.priceAccuracy ?? 2,
@@ -151,9 +177,7 @@ abstract class _InvestNewStoreBase with Store {
   @action
   void updateTPAmount() {
     final investStore = getIt.get<InvestDashboardStore>();
-    final marketPrice = isOrderMode
-        ? pendingValue
-        : investStore.getPendingPriceBySymbol(instrument?.symbol ?? '');
+    final marketPrice = isOrderMode ? pendingValue : investStore.getPendingPriceBySymbol(instrument?.symbol ?? '');
 
     final investPositionTakeProfitPrice = tpPriceValue;
     final volume = amountValue * Decimal.fromInt(multiplicator);
@@ -163,7 +187,7 @@ abstract class _InvestNewStoreBase with Store {
     tpAmountValue = isBuyMode
         ? (investPositionTakeProfitPrice - marketPrice) * volumeBase - openFee - closeFee
         : -(investPositionTakeProfitPrice - marketPrice) * volumeBase - openFee - closeFee;
-    tpAmountController.text = 'Etc. ${volumeFormat(
+    tpAmountController.text = 'est. ${volumeFormat(
       decimal: tpAmountValue,
       symbol: '',
       accuracy: 2,
@@ -173,17 +197,26 @@ abstract class _InvestNewStoreBase with Store {
   @action
   void updateSlPrice() {
     final investStore = getIt.get<InvestDashboardStore>();
-    final marketPrice = isOrderMode
-        ? pendingValue
-        : investStore.getPendingPriceBySymbol(instrument?.symbol ?? '');
+    final marketPrice = isOrderMode ? pendingValue : investStore.getPendingPriceBySymbol(instrument?.symbol ?? '');
     final investPositionStopLossAmount = slAmountValue;
     final volume = amountValue * Decimal.fromInt(multiplicator);
+
     final openFee = volume * (instrument?.openFee ?? Decimal.zero);
-    final closeFee = (volume + investPositionStopLossAmount) * Decimal.fromInt(multiplicator) * (instrument?.closeFee ?? Decimal.zero);
+    final closeFee = isBuyMode
+        ? (volume + investPositionStopLossAmount + openFee) * (instrument?.closeFee ?? Decimal.zero)
+        : (volume - investPositionStopLossAmount - openFee) * (instrument?.closeFee ?? Decimal.zero);
+
     slPriceValue = isBuyMode
-        ? marketPrice * (Decimal.one + Decimal.fromJson('${(investPositionStopLossAmount / volume).toDouble()}') + Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'))
-        : marketPrice * (Decimal.one - Decimal.fromJson('${(investPositionStopLossAmount / volume).toDouble()}')  - Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'));
-    slPriceController.text = 'Etc. ${volumeFormat(
+        ? marketPrice *
+            (Decimal.one +
+                Decimal.fromJson('${(investPositionStopLossAmount / volume).toDouble()}') +
+                Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'))
+        : marketPrice *
+            (Decimal.one -
+                Decimal.fromJson('${(investPositionStopLossAmount / volume).toDouble()}') -
+                Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'));
+
+    slPriceController.text = 'est. ${volumeFormat(
       decimal: slPriceValue,
       symbol: '',
       accuracy: instrument?.priceAccuracy ?? 2,
@@ -193,9 +226,7 @@ abstract class _InvestNewStoreBase with Store {
   @action
   void updateSlAmount() {
     final investStore = getIt.get<InvestDashboardStore>();
-    final marketPrice = isOrderMode
-        ? pendingValue
-        : investStore.getPendingPriceBySymbol(instrument?.symbol ?? '');
+    final marketPrice = isOrderMode ? pendingValue : investStore.getPendingPriceBySymbol(instrument?.symbol ?? '');
     final investPositionStopLossPrice = slPriceValue;
     final volume = amountValue * Decimal.fromInt(multiplicator);
     final volumeBase = Decimal.fromJson('${(volume / marketPrice).toDouble()}');
@@ -204,7 +235,7 @@ abstract class _InvestNewStoreBase with Store {
     slAmountValue = isBuyMode
         ? (investPositionStopLossPrice - marketPrice) * volumeBase - openFee - closeFee
         : -(investPositionStopLossPrice - marketPrice) * volumeBase - openFee - closeFee;
-    slAmountController.text = 'Etc. ${volumeFormat(
+    slAmountController.text = 'est. ${volumeFormat(
       decimal: slAmountValue,
       symbol: '',
       accuracy: 2,
@@ -283,12 +314,12 @@ abstract class _InvestNewStoreBase with Store {
   void setIsSLTPPrice(bool newValue) {
     isSLTPPrice = newValue;
     if (newValue) {
-      slAmountController.text = 'Etc. ${volumeFormat(
+      slAmountController.text = 'est. ${volumeFormat(
         decimal: slAmountValue,
         symbol: '',
         accuracy: 2,
       )}';
-      tpAmountController.text = 'Etc. ${volumeFormat(
+      tpAmountController.text = 'est. ${volumeFormat(
         decimal: tpAmountValue,
         symbol: '',
         accuracy: 2,
@@ -304,12 +335,12 @@ abstract class _InvestNewStoreBase with Store {
         accuracy: instrument?.priceAccuracy ?? 2,
       ).replaceAll(' ', '');
     } else {
-      slPriceController.text = 'Etc. ${volumeFormat(
+      slPriceController.text = 'est. ${volumeFormat(
         decimal: slPriceValue,
         symbol: '',
         accuracy: instrument?.priceAccuracy ?? 2,
       )}';
-      tpPriceController.text = 'Etc. ${volumeFormat(
+      tpPriceController.text = 'est. ${volumeFormat(
         decimal: tpPriceValue,
         symbol: '',
         accuracy: instrument?.priceAccuracy ?? 2,
@@ -337,11 +368,11 @@ abstract class _InvestNewStoreBase with Store {
   @observable
   bool isOrderMode = false;
   @action
-  void setIsOrderMode(bool newValue) {
+  void setIsOrderMode(bool newValue, {bool isPending = false}) {
     isOrderMode = newValue;
     final investStore = getIt.get<InvestDashboardStore>();
     final marketPrice = investStore.getPendingPriceBySymbol(instrument?.symbol ?? '');
-    pendingPriceController.text = '$marketPrice';
+    pendingPriceController.text = isPending ? position!.pendingPrice.toString() : '$marketPrice';
     pendingValue = marketPrice;
   }
 
@@ -349,70 +380,58 @@ abstract class _InvestNewStoreBase with Store {
   Future<void> createPosition() async {
     loader?.startLoading();
 
+    final isTPDefined = isLimitsVisible && tpPriceValue != Decimal.zero && tpAmountValue != Decimal.zero;
+    final isSLDefined = isLimitsVisible && slPriceValue != Decimal.zero && slAmountValue != Decimal.zero;
+
+    final takeProfitType = isTPDefined ? (isSLTPPrice ? TPSLType.price : TPSLType.amount) : TPSLType.undefined;
+
+    final stopLossType = isSLDefined ? (isSLTPPrice ? TPSLType.price : TPSLType.amount) : TPSLType.undefined;
+
+    final takeProfitValue = isTPDefined ? (isSLTPPrice ? tpPriceValue : tpAmountValue) : Decimal.zero;
+
+    final stopLossValue = isSLDefined ? (isSLTPPrice ? slPriceValue : slAmountValue.abs()) : Decimal.zero;
+
+    final model = NewInvestRequestModel(
+      symbol: instrument?.symbol ?? '',
+      amount: amountValue,
+      amountAssetId: 'USDT',
+      multiplicator: multiplicator,
+      direction: isBuyMode ? Direction.buy : Direction.sell,
+      takeProfitType: takeProfitType,
+      takeProfitValue: takeProfitValue,
+      stopLossType: stopLossType,
+      stopLossValue: stopLossValue,
+    );
+
     if (!isOrderMode) {
-      final model = NewInvestRequestModel(
-        symbol: instrument?.symbol ?? '',
-        amount: amountValue,
-        amountAssetId: 'USDT',
-        multiplicator: multiplicator,
-        direction: isBuyMode ? Direction.buy : Direction.sell,
-        takeProfitType: isLimitsVisible
-            ? isSLTPPrice
-            ? TPSLType.price
-            : TPSLType.amount
-            : TPSLType.undefined,
-        takeProfitValue: isLimitsVisible
-            ? isSLTPPrice
-            ? tpPriceValue
-            : tpAmountValue
-            : Decimal.zero,
-        stopLossType: isLimitsVisible
-            ? isSLTPPrice
-            ? TPSLType.price
-            : TPSLType.amount
-            : TPSLType.undefined,
-        stopLossValue: isLimitsVisible
-            ? isSLTPPrice
-            ? slPriceValue
-            : slAmountValue.abs()
-            : Decimal.zero,
-      );
       await createActivePosition(model);
     } else {
+      final isTPDefined = isLimitsVisible && tpPriceValue != Decimal.zero && tpAmountValue != Decimal.zero;
+      final isSLDefined = isLimitsVisible && slPriceValue != Decimal.zero && slAmountValue != Decimal.zero;
+
+      final takeProfitType = isTPDefined ? (isSLTPPrice ? TPSLType.price : TPSLType.amount) : TPSLType.undefined;
+
+      final stopLossType = isSLDefined ? (isSLTPPrice ? TPSLType.price : TPSLType.amount) : TPSLType.undefined;
+
+      final takeProfitValue = isTPDefined ? (isSLTPPrice ? tpPriceValue : tpAmountValue) : Decimal.zero;
+
+      final stopLossValue = isSLDefined ? (isSLTPPrice ? slPriceValue : slAmountValue.abs()) : Decimal.zero;
+
       final model = NewInvestOrderRequestModel(
         symbol: instrument?.symbol ?? '',
         amount: amountValue,
         amountAssetId: 'USDT',
         multiplicator: multiplicator,
         direction: isBuyMode ? Direction.buy : Direction.sell,
-        takeProfitType: isLimitsVisible
-            ? isSLTPPrice
-            ? TPSLType.price
-            : TPSLType.amount
-            : TPSLType.undefined,
-        takeProfitValue: isLimitsVisible
-            ? isSLTPPrice
-            ? tpPriceValue
-            : tpAmountValue
-            : Decimal.zero,
-        stopLossType: isLimitsVisible
-            ? isSLTPPrice
-            ? TPSLType.price
-            : TPSLType.amount
-            : TPSLType.undefined,
-        stopLossValue: isLimitsVisible
-            ? isSLTPPrice
-            ? slPriceValue
-            : slAmountValue.abs()
-            : Decimal.zero,
+        takeProfitType: takeProfitType,
+        takeProfitValue: takeProfitValue,
+        stopLossType: stopLossType,
+        stopLossValue: stopLossValue,
         targetPrice: pendingValue,
       );
       final investStore = getIt.get<InvestDashboardStore>();
       final marketPrice = investStore.getPendingPriceBySymbol(instrument?.symbol ?? '');
-      if (
-        (isBuyMode && pendingValue > marketPrice) ||
-        (!isBuyMode && pendingValue < marketPrice)
-      ) {
+      if ((isBuyMode && pendingValue > marketPrice) || (!isBuyMode && pendingValue < marketPrice)) {
         await createPendingStopPosition(model);
       } else {
         await createPendingLimitPosition(model);
@@ -424,16 +443,11 @@ abstract class _InvestNewStoreBase with Store {
   Future<void> createActivePosition(NewInvestRequestModel model) async {
     if (!hasActiveError()) {
       try {
-        final response = await getIt
-            .get<SNetwork>()
-            .simpleNetworking
-            .getWalletModule()
-            .createActivePosition(model);
+        final response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().createActivePosition(model);
 
         if (response.hasError) {
           sNotification.showError(
             response.error?.cause ?? '',
-            duration: 4,
             id: 1,
             needFeedback: true,
           );
@@ -454,24 +468,22 @@ abstract class _InvestNewStoreBase with Store {
     }
   }
 
+  @computed
+  bool get isBalanceHide => getIt<AppStore>().isBalanceHide;
+
   @action
   Future<void> createPendingLimitPosition(NewInvestOrderRequestModel model) async {
     if (!hasPendingError()) {
       try {
-        final response = await getIt
-            .get<SNetwork>()
-            .simpleNetworking
-            .getWalletModule()
-            .createPendingLimitPosition(model);
+        final response =
+            await getIt.get<SNetwork>().simpleNetworking.getWalletModule().createPendingLimitPosition(model);
         loader!.finishLoading();
         if (response.hasError) {
           sNotification.showError(
             response.error?.cause ?? '',
-            duration: 4,
             id: 1,
             needFeedback: true,
           );
-
         } else {
           final context = sRouter.navigatorKey.currentContext!;
           final volume = amountValue * Decimal.fromInt(multiplicator);
@@ -491,11 +503,13 @@ abstract class _InvestNewStoreBase with Store {
               children: [
                 DataLine(
                   mainText: intl.invest_amount,
-                  secondaryText: volumeFormat(
-                    decimal: model.amount,
-                    symbol: 'USDT',
-                    accuracy: 2,
-                  ),
+                  secondaryText: isBalanceHide
+                      ? '**** USDT'
+                      : volumeFormat(
+                          decimal: model.amount,
+                          symbol: 'USDT',
+                          accuracy: 2,
+                        ),
                 ),
                 const SpaceH8(),
                 DataLine(
@@ -504,12 +518,14 @@ abstract class _InvestNewStoreBase with Store {
                 ),
                 const SpaceH8(),
                 DataLine(
-                  mainText: intl.invest_trigger_price,
-                  secondaryText: volumeFormat(
-                    decimal: model.targetPrice,
-                    symbol: 'USDT',
-                    accuracy: 2,
-                  ),
+                  mainText: intl.invest_pending_price,
+                  secondaryText: isBalanceHide
+                      ? '****'
+                      : volumeFormat(
+                          decimal: model.targetPrice,
+                          symbol: '',
+                          accuracy: instrument?.priceAccuracy ?? 2,
+                        ).trim(),
                 ),
                 const SpaceH16(),
                 Row(
@@ -518,12 +534,13 @@ abstract class _InvestNewStoreBase with Store {
                     DataLine(
                       fullWidth: false,
                       mainText: intl.invest_open_fee,
-                      secondaryText: '${volumeFormat(
-                        decimal: openFee,
-                        symbol: 'USDT',
-                        accuracy: 2,
-                      )
-                      }',
+                      secondaryText: isBalanceHide
+                          ? '**** USDT'
+                          : volumeFormat(
+                              decimal: openFee,
+                              symbol: 'USDT',
+                              accuracy: 2,
+                            ),
                     ),
                   ],
                 ),
@@ -532,7 +549,6 @@ abstract class _InvestNewStoreBase with Store {
             title: intl.invest_pending_placed,
           );
         }
-
       } catch (e) {
         sNotification.showError(
           intl.something_went_wrong,
@@ -548,20 +564,15 @@ abstract class _InvestNewStoreBase with Store {
   Future<void> createPendingStopPosition(NewInvestOrderRequestModel model) async {
     if (!hasPendingError()) {
       try {
-        final response = await getIt
-            .get<SNetwork>()
-            .simpleNetworking
-            .getWalletModule()
-            .createPendingStopPosition(model);
+        final response =
+            await getIt.get<SNetwork>().simpleNetworking.getWalletModule().createPendingStopPosition(model);
         loader!.finishLoading();
         if (response.hasError) {
           sNotification.showError(
             response.error?.cause ?? '',
-            duration: 4,
             id: 1,
             needFeedback: true,
           );
-
         } else {
           final context = sRouter.navigatorKey.currentContext!;
           final volume = amountValue * Decimal.fromInt(multiplicator);
@@ -581,11 +592,13 @@ abstract class _InvestNewStoreBase with Store {
               children: [
                 DataLine(
                   mainText: intl.invest_amount,
-                  secondaryText: volumeFormat(
-                    decimal: model.amount,
-                    symbol: 'USDT',
-                    accuracy: 2,
-                  ),
+                  secondaryText: isBalanceHide
+                      ? '**** USDT'
+                      : volumeFormat(
+                          decimal: model.amount,
+                          symbol: 'USDT',
+                          accuracy: 2,
+                        ),
                 ),
                 const SpaceH8(),
                 DataLine(
@@ -594,12 +607,14 @@ abstract class _InvestNewStoreBase with Store {
                 ),
                 const SpaceH8(),
                 DataLine(
-                  mainText: intl.invest_trigger_price,
-                  secondaryText: volumeFormat(
-                    decimal: model.targetPrice,
-                    symbol: 'USDT',
-                    accuracy: 2,
-                  ),
+                  mainText: intl.invest_pending_price,
+                  secondaryText: isBalanceHide
+                      ? '****'
+                      : volumeFormat(
+                          decimal: model.targetPrice,
+                          symbol: '',
+                          accuracy: instrument?.priceAccuracy ?? 2,
+                        ).trim(),
                 ),
                 const SpaceH16(),
                 Row(
@@ -608,12 +623,13 @@ abstract class _InvestNewStoreBase with Store {
                     DataLine(
                       fullWidth: false,
                       mainText: intl.invest_open_fee,
-                      secondaryText: '${volumeFormat(
-                        decimal: openFee,
-                        symbol: 'USDT',
-                        accuracy: 2,
-                      )
-                      }',
+                      secondaryText: isBalanceHide
+                          ? '**** USDT'
+                          : volumeFormat(
+                              decimal: openFee,
+                              symbol: 'USDT',
+                              accuracy: 2,
+                            ),
                     ),
                   ],
                 ),
@@ -636,24 +652,17 @@ abstract class _InvestNewStoreBase with Store {
   @action
   Future<void> checkNewPosition(String id) async {
     try {
-      final response = await getIt
-          .get<SNetwork>()
-          .simpleNetworking
-          .getWalletModule()
-          .getPosition(positionId: id);
+      final response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().getPosition(positionId: id);
 
       if (response.hasError) {
         sNotification.showError(
           response.error?.cause ?? '',
-          duration: 4,
           id: 1,
           needFeedback: true,
         );
         loader!.finishLoading();
       } else {
-        if (
-          response.data?.position?.status == PositionStatus.opening
-        ) {
+        if (response.data?.position?.status == PositionStatus.opening) {
           Timer(
             const Duration(seconds: 1),
             () {
@@ -664,7 +673,6 @@ abstract class _InvestNewStoreBase with Store {
           loader!.finishLoading();
           if (!isOrderMode) {
             final context = sRouter.navigatorKey.currentContext!;
-            final volume = amountValue * Decimal.fromInt(multiplicator);
             final investStore = getIt.get<InvestDashboardStore>();
             final marketPrice = investStore.getPendingPriceBySymbol(instrument?.symbol ?? '');
             showInvestInfoBottomSheet(
@@ -686,11 +694,13 @@ abstract class _InvestNewStoreBase with Store {
                   const SpaceH16(),
                   DataLine(
                     mainText: intl.invest_amount,
-                    secondaryText: volumeFormat(
-                      decimal: response.data!.position!.amount!,
-                      symbol: 'USDT',
-                      accuracy: 2,
-                    ),
+                    secondaryText: isBalanceHide
+                        ? '**** USDT'
+                        : volumeFormat(
+                            decimal: response.data!.position!.amount!,
+                            symbol: 'USDT',
+                            accuracy: 2,
+                          ),
                   ),
                   const SpaceH8(),
                   DataLine(
@@ -713,11 +723,13 @@ abstract class _InvestNewStoreBase with Store {
                       DataLine(
                         fullWidth: false,
                         mainText: intl.invest_open_fee,
-                        secondaryText: volumeFormat(
-                          decimal: response.data!.position?.openFee ?? Decimal.zero,
-                          symbol: 'USDT',
-                          accuracy: 2,
-                        ),
+                        secondaryText: isBalanceHide
+                            ? '**** USDT'
+                            : volumeFormat(
+                                decimal: response.data!.position?.openFee ?? Decimal.zero,
+                                symbol: 'USDT',
+                                accuracy: 2,
+                              ),
                       ),
                     ],
                   ),
@@ -738,6 +750,26 @@ abstract class _InvestNewStoreBase with Store {
   }
 
   @action
+  Future<void> changePendingPrice({required String id, required int price}) async {
+    try {
+      final response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().changePendingPrice(
+            id: id,
+            price: price,
+          );
+
+      if (response.hasError) {
+        sNotification.showError(
+          intl.something_went_wrong,
+        );
+      }
+    } catch (e) {
+      sNotification.showError(
+        intl.something_went_wrong,
+      );
+    }
+  }
+
+  @action
   Future<void> saveLimits(String id) async {
     loader!.startLoading();
     if (!hasActiveError()) {
@@ -746,37 +778,32 @@ abstract class _InvestNewStoreBase with Store {
           positionId: id,
           takeProfitType: isTP
               ? isSLTPPrice
-              ? TPSLType.price
-              : TPSLType.amount
+                  ? TPSLType.price
+                  : TPSLType.amount
               : TPSLType.undefined,
           takeProfitValue: isTP
               ? isSLTPPrice
-              ? tpPriceValue
-              : tpAmountValue
+                  ? tpPriceValue
+                  : tpAmountValue
               : Decimal.zero,
           stopLossType: isSl
               ? isSLTPPrice
-              ? TPSLType.price
-              : TPSLType.amount
+                  ? TPSLType.price
+                  : TPSLType.amount
               : TPSLType.undefined,
           stopLossValue: isSl
               ? isSLTPPrice
-              ? slPriceValue
-              : slAmountValue.abs()
+                  ? slPriceValue
+                  : slAmountValue.abs()
               : Decimal.zero,
         );
 
-        final response = await getIt
-            .get<SNetwork>()
-            .simpleNetworking
-            .getWalletModule()
-            .setPositionTPSL(data: model);
+        final response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().setPositionTPSL(data: model);
         loader!.finishLoading();
 
         if (response.hasError) {
           sNotification.showError(
             response.error?.cause ?? '',
-            duration: 4,
             id: 1,
             needFeedback: true,
           );
@@ -799,34 +826,41 @@ abstract class _InvestNewStoreBase with Store {
                     dotColor: SColorsLight().green,
                     mainText: intl.invest_limits_take_profit,
                     secondaryText: response.data!.position!.takeProfitType == TPSLType.amount
-                        ? volumeFormat(
-                      decimal: response.data!.position!.takeProfitAmount ?? Decimal.zero,
-                      accuracy: 2,
-                      symbol: 'USDT',
-                    ) : volumeFormat(
-                      decimal: response.data!.position!.takeProfitPrice ?? Decimal.zero,
-                      accuracy: instrument?.priceAccuracy ?? 2,
-                      symbol: '',
-                    ),
+                        ? isBalanceHide
+                            ? '**** USDT'
+                            : volumeFormat(
+                                decimal: response.data!.position!.takeProfitAmount ?? Decimal.zero,
+                                accuracy: 2,
+                                symbol: 'USDT',
+                              )
+                        : isBalanceHide
+                            ? '**** USDT'
+                            : volumeFormat(
+                                decimal: response.data!.position!.takeProfitPrice ?? Decimal.zero,
+                                accuracy: instrument?.priceAccuracy ?? 2,
+                                symbol: '',
+                              ),
                   ),
                 ],
                 if (response.data!.position!.stopLossType != TPSLType.undefined) ...[
-                  if (response.data!.position!.takeProfitType != TPSLType.undefined)
-                    const SpaceH8(),
+                  if (response.data!.position!.takeProfitType != TPSLType.undefined) const SpaceH8(),
                   DataLine(
                     withDot: true,
                     dotColor: SColorsLight().red,
                     mainText: intl.invest_limits_stop_loss,
                     secondaryText: response.data!.position!.stopLossType == TPSLType.amount
-                        ? volumeFormat(
-                      decimal: response.data!.position!.stopLossAmount ?? Decimal.zero,
-                      accuracy: 2,
-                      symbol: 'USDT',
-                    ) : volumeFormat(
-                      decimal: response.data!.position!.stopLossPrice ?? Decimal.zero,
-                      accuracy: instrument?.priceAccuracy ?? 2,
-                      symbol: '',
-                    ),
+                        ? isBalanceHide
+                            ? '**** USDT'
+                            : volumeFormat(
+                                decimal: response.data!.position!.stopLossAmount ?? Decimal.zero,
+                                accuracy: 2,
+                                symbol: 'USDT',
+                              )
+                        : volumeFormat(
+                            decimal: response.data!.position!.stopLossPrice ?? Decimal.zero,
+                            accuracy: instrument?.priceAccuracy ?? 2,
+                            symbol: '',
+                          ),
                   ),
                 ],
               ],
@@ -858,7 +892,6 @@ abstract class _InvestNewStoreBase with Store {
       if (amountValue * Decimal.fromInt(multiplicator) > instrument!.maxVolume!) {
         sNotification.showError(
           '${intl.invest_error_amount_higher}${instrument!.maxVolume!}',
-          duration: 4,
           id: 1,
           needFeedback: true,
         );
@@ -868,7 +901,6 @@ abstract class _InvestNewStoreBase with Store {
       if (amountValue * Decimal.fromInt(multiplicator) < instrument!.minVolume!) {
         sNotification.showError(
           '${intl.invest_error_amount_lower}${instrument!.minVolume!}',
-          duration: 4,
           id: 1,
           needFeedback: true,
         );
@@ -877,10 +909,28 @@ abstract class _InvestNewStoreBase with Store {
       }
       if (isLimitsVisible) {
         if (isBuyMode) {
+          if (tpAmountValue == Decimal.zero && isTP) {
+            sNotification.showError(
+              '${intl.invest_error_tp_zero}$tpAmountValue',
+              id: 1,
+              needFeedback: true,
+            );
+
+            return true;
+          }
+          if (slAmountValue == Decimal.zero && isSl) {
+            sNotification.showError(
+              '${intl.invest_error_sl_zero}$slAmountValue',
+              id: 1,
+              needFeedback: true,
+            );
+
+            return true;
+          }
+
           if (tpPriceValue > maxPriceMarket && isTP) {
             sNotification.showError(
               '${intl.invest_error_tp_higher}$maxPriceMarket',
-              duration: 4,
               id: 1,
               needFeedback: true,
             );
@@ -890,7 +940,6 @@ abstract class _InvestNewStoreBase with Store {
           if (tpPriceValue <= marketPrice && isTP) {
             sNotification.showError(
               '${intl.invest_error_tp_lower}$marketPrice',
-              duration: 4,
               id: 1,
               needFeedback: true,
             );
@@ -900,7 +949,6 @@ abstract class _InvestNewStoreBase with Store {
           if (slPriceValue >= marketPrice && isSl) {
             sNotification.showError(
               '${intl.invest_error_sl_higher}$marketPrice',
-              duration: 4,
               id: 1,
               needFeedback: true,
             );
@@ -911,7 +959,6 @@ abstract class _InvestNewStoreBase with Store {
           if (tpPriceValue < minPriceMarket && isTP) {
             sNotification.showError(
               '${intl.invest_error_tp_lower}$minPriceMarket',
-              duration: 4,
               id: 1,
               needFeedback: true,
             );
@@ -921,7 +968,6 @@ abstract class _InvestNewStoreBase with Store {
           if (tpPriceValue >= marketPrice && isTP) {
             sNotification.showError(
               '${intl.invest_error_tp_higher}$marketPrice',
-              duration: 4,
               id: 1,
               needFeedback: true,
             );
@@ -931,7 +977,6 @@ abstract class _InvestNewStoreBase with Store {
           if (slPriceValue <= marketPrice && isSl) {
             sNotification.showError(
               '${intl.invest_error_sl_lower}$marketPrice',
-              duration: 4,
               id: 1,
               needFeedback: true,
             );
@@ -942,7 +987,6 @@ abstract class _InvestNewStoreBase with Store {
         if (isSl && slAmountValue.abs() > amountValue) {
           sNotification.showError(
             '${intl.invest_error_sl_lower}-$amountValue',
-            duration: 4,
             id: 1,
             needFeedback: true,
           );
@@ -956,17 +1000,64 @@ abstract class _InvestNewStoreBase with Store {
   }
 
   @action
+  bool hasPendingPriceError() {
+    final investStore = getIt.get<InvestDashboardStore>();
+    final marketPrice = investStore.getPendingPriceBySymbol(instrument?.symbol ?? '');
+
+    final minPriceMarket = (Decimal.fromInt(1) - instrument!.pendingPriceRestrictions!) * marketPrice;
+    final maxPriceMarket = (Decimal.fromInt(1) + instrument!.pendingPriceRestrictions!) * marketPrice;
+
+    final newPendingValue = pendingValue == Decimal.zero ? marketPrice : pendingValue;
+
+    if (isSl && slAmountValue == Decimal.zero) {
+      sNotification.showError(
+        '${intl.invest_error_sl_zero}0',
+        id: 1,
+        needFeedback: true,
+      );
+      return true;
+    }
+
+    if (isTP && tpAmountValue == Decimal.zero) {
+      sNotification.showError(
+        '${intl.invest_error_tp_zero}0',
+        id: 1,
+        needFeedback: true,
+      );
+      return true;
+    }
+
+    if (newPendingValue < minPriceMarket) {
+      sNotification.showError(
+        '${intl.invest_error_pending_price} $minPriceMarket - $maxPriceMarket',
+        id: 1,
+        needFeedback: true,
+      );
+      return true;
+    } else if (newPendingValue > maxPriceMarket) {
+      sNotification.showError(
+        '${intl.invest_error_pending_price} $minPriceMarket - $maxPriceMarket',
+        id: 1,
+        needFeedback: true,
+      );
+      return true;
+    }
+    return false;
+  }
+
+  @action
   bool hasPendingError() {
     if (instrument == null) {
       return true;
     } else {
       final marketPrice = pendingValue;
+
       final minPriceMarket = (Decimal.fromInt(1) - instrument!.pendingPriceRestrictions!) * pendingValue;
       final maxPriceMarket = (Decimal.fromInt(1) + instrument!.pendingPriceRestrictions!) * pendingValue;
+
       if (amountValue > instrument!.maxVolume!) {
         sNotification.showError(
           '${intl.invest_error_amount_higher}${instrument!.maxVolume!}',
-          duration: 4,
           id: 1,
           needFeedback: true,
         );
@@ -976,7 +1067,6 @@ abstract class _InvestNewStoreBase with Store {
       if (amountValue < instrument!.minVolume!) {
         sNotification.showError(
           '${intl.invest_error_amount_lower}${instrument!.minVolume!}',
-          duration: 4,
           id: 1,
           needFeedback: true,
         );
@@ -988,7 +1078,6 @@ abstract class _InvestNewStoreBase with Store {
           if (tpPriceValue > maxPriceMarket && isTP) {
             sNotification.showError(
               '${intl.invest_error_tp_higher}$maxPriceMarket',
-              duration: 4,
               id: 1,
               needFeedback: true,
             );
@@ -998,7 +1087,6 @@ abstract class _InvestNewStoreBase with Store {
           if (tpPriceValue <= marketPrice && isTP) {
             sNotification.showError(
               '${intl.invest_error_tp_lower}$marketPrice',
-              duration: 4,
               id: 1,
               needFeedback: true,
             );
@@ -1008,7 +1096,6 @@ abstract class _InvestNewStoreBase with Store {
           if (slPriceValue >= marketPrice && isSl) {
             sNotification.showError(
               '${intl.invest_error_sl_higher}$marketPrice',
-              duration: 4,
               id: 1,
               needFeedback: true,
             );
@@ -1019,7 +1106,6 @@ abstract class _InvestNewStoreBase with Store {
           if (tpPriceValue < minPriceMarket && isTP) {
             sNotification.showError(
               '${intl.invest_error_tp_lower}$minPriceMarket',
-              duration: 4,
               id: 1,
               needFeedback: true,
             );
@@ -1029,7 +1115,6 @@ abstract class _InvestNewStoreBase with Store {
           if (tpPriceValue >= marketPrice && isTP) {
             sNotification.showError(
               '${intl.invest_error_tp_higher}$marketPrice',
-              duration: 4,
               id: 1,
               needFeedback: true,
             );
@@ -1039,7 +1124,6 @@ abstract class _InvestNewStoreBase with Store {
           if (slPriceValue <= marketPrice && isSl) {
             sNotification.showError(
               '${intl.invest_error_sl_lower}$marketPrice',
-              duration: 4,
               id: 1,
               needFeedback: true,
             );
@@ -1087,5 +1171,113 @@ abstract class _InvestNewStoreBase with Store {
     isTP = false;
     isLimitsVisible = false;
     isOrderMode = false;
+    resolution = Period.day;
+    candlesList.clear();
+  }
+
+  @observable
+  String resolution = Period.day;
+
+  @observable
+  ChartUnion union = const ChartUnion.loading();
+
+  @observable
+  List<CandlesWithIdModel> candlesList = [];
+
+  @action
+  Future<void> fetchAssetCandles(String resolution, String instrumentId) async {
+    try {
+      if (union != const ChartUnion.candles()) {
+        union = const ChartUnion.loading();
+      }
+
+      await getDataFromCache();
+
+      final toDate = DateTime.now().toUtc();
+      final depth = DataFeedUtil.calculateHistoryDepth(resolution);
+      final fromDate = toDate.subtract(depth.intervalBackDuration);
+
+      final model = CandlesRequestModel(
+        candleId: instrumentId,
+        type: timeFrameFrom(resolution),
+        bidOrAsk: 0,
+        fromDate: fromDate.millisecondsSinceEpoch,
+        toDate: toDate.millisecondsSinceEpoch,
+        mergeCandlesCount: mergeCandlesCountFrom(resolution),
+      );
+
+      final candlesResponse = await sNetwork.getCandlesModule().getCandles(model);
+
+      candlesResponse.pick(
+        onData: (candles) {
+          final candles1 = candles.candles.map(
+            (e) => CandleModel(
+              open: e.open,
+              close: e.close,
+              high: e.high,
+              low: e.low,
+              date: e.date,
+            ),
+          );
+
+          updateCandles(candles1.toList(), resolution);
+        },
+        onError: (e) {
+          updateCandles([], resolution);
+        },
+      );
+    } catch (e) {
+      updateCandles([], resolution);
+    }
+  }
+
+  @action
+  void updateCandles(List<CandleModel>? newCandles, String resolution) {
+    final currentCandles = Map.of(candles);
+    currentCandles[resolution] = newCandles;
+
+    candles = currentCandles;
+    union = const Candles();
+
+    if (instrument?.symbol != null) {
+      getIt<LocalCacheService>().saveChart(
+        instrument?.symbol ?? '',
+        currentCandles,
+      );
+    }
+  }
+
+  @observable
+  Map<String, List<CandleModel>?> candles = {
+    Period.day: null,
+    Period.week: null,
+    Period.month: null,
+    Period.year: null,
+    Period.all: null,
+  };
+
+  @action
+  Future<void> updateResolution(
+    String newResolution,
+    String instrumentSymbol,
+  ) async {
+    await fetchAssetCandles(
+      newResolution,
+      instrumentSymbol,
+    );
+    showAnimation = true;
+    resolution = newResolution;
+  }
+
+  @action
+  Future<void> getDataFromCache() async {
+    if (instrument?.symbol != null) {
+      final getDataFromCache = await getIt<LocalCacheService>().getChart(instrument?.symbol ?? '');
+
+      if (getDataFromCache != null) {
+        candles = getDataFromCache.candle;
+        union = const Candles();
+      }
+    }
   }
 }

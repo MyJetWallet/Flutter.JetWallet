@@ -4,13 +4,13 @@ import '../../../../simple_kit.dart';
 
 class SimpleBaseLinkText extends StatefulWidget {
   const SimpleBaseLinkText({
-    Key? key,
+    super.key,
     required this.name,
     required this.onTap,
     required this.active,
     required this.activeColor,
     required this.inactiveColor,
-  }) : super(key: key);
+  });
 
   final String name;
   final Function() onTap;

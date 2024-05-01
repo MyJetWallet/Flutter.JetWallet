@@ -3,18 +3,18 @@ description: Library for Analytics.
 version: 0.0.1
 
 environment:
-  sdk: '>=3.1.2 <4.0.0'
+  sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  
-  crypto: ^3.0.1
-  amplitude_flutter: ^3.16.1
-  
+
+  crypto: ^3.0.3
+  amplitude_flutter: ^3.16.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  lint: ^1.8.1
+  lint: ^2.3.0
 
 flutter:

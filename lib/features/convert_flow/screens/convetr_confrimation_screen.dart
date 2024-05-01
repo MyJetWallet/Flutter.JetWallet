@@ -87,7 +87,7 @@ class _ConvertConfirmationScreenBody extends StatelessObserverWidget {
         ),
         onBackButtonTap: () {
           sAnalytics.tapOnTheBackFromCovertOrderSummaryButton();
-          sRouter.pop();
+          sRouter.maybePop();
         },
       ),
       child: CustomScrollView(

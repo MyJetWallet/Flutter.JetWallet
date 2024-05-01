@@ -59,7 +59,7 @@ abstract class _BiometricStoreBase with Store {
       );
     }
     if (isAccSettings) {
-      sRouter.pop();
+      sRouter.maybePop();
     } else {
       getIt.get<StartupService>().pinVerified();
     }

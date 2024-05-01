@@ -4,9 +4,9 @@ import '../../base/simple_base_svg_14x16.dart';
 
 class SimpleLightStartIcon extends StatelessWidget {
   const SimpleLightStartIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

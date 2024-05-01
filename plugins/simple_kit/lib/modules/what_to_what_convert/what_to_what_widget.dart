@@ -91,6 +91,7 @@ class WhatToWhatConvertWidget extends StatelessWidget {
 
 class AssetRowWidget extends StatelessWidget {
   const AssetRowWidget({
+    super.key,
     required this.isLoading,
     required this.assetIconUrl,
     required this.assetDescription,
@@ -128,53 +129,56 @@ class AssetRowWidget extends StatelessWidget {
           ),
         ],
         const SpaceW12(),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              assetDescription,
-              style: sBodyText2Style.copyWith(
-                color: colors.grey1,
-                fontWeight: FontWeight.w600,
-                fontSize: isSmallerVersion ? 12 : 14,
-              ),
-            ),
-            if (isLoading)
-              SSkeletonTextLoader(
-                width: 120,
-                height: 32,
-                borderRadius: BorderRadius.circular(4),
-              )
-            else
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               Text(
-                assetValue,
-                style: sTextH4Style.copyWith(
-                  color: isError
-                      ? colors.grey1
-                      : isSecandary && !isSmallerVersion
-                          ? colors.purple
-                          : null,
-                  decoration: isError ? TextDecoration.lineThrough : null,
-                  fontSize: isSmallerVersion ? 20 : 24,
+                maxLines: 2,
+                assetDescription,
+                style: sBodyText2Style.copyWith(
+                  color: colors.grey1,
+                  fontWeight: FontWeight.w600,
+                  fontSize: isSmallerVersion ? 12 : 14,
                 ),
               ),
-            if (assetBaseAmount != null)
-              if (isLoading) ...[
-                const SpaceH4(),
+              if (isLoading)
                 SSkeletonTextLoader(
-                  width: 80,
-                  height: 16,
+                  width: 120,
+                  height: 32,
                   borderRadius: BorderRadius.circular(4),
-                ),
-              ] else
+                )
+              else
                 Text(
-                  assetBaseAmount!,
-                  style: sBodyText2Style.copyWith(
-                    color: colors.grey1,
-                    height: 1.4,
+                  assetValue,
+                  style: sTextH4Style.copyWith(
+                    color: isError
+                        ? colors.grey1
+                        : isSecandary && !isSmallerVersion
+                            ? colors.purple
+                            : null,
+                    decoration: isError ? TextDecoration.lineThrough : null,
+                    fontSize: isSmallerVersion ? 20 : 24,
                   ),
                 ),
-          ],
+              if (assetBaseAmount != null)
+                if (isLoading) ...[
+                  const SpaceH4(),
+                  SSkeletonTextLoader(
+                    width: 80,
+                    height: 16,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ] else
+                  Text(
+                    assetBaseAmount!,
+                    style: sBodyText2Style.copyWith(
+                      color: colors.grey1,
+                      height: 1.4,
+                    ),
+                  ),
+            ],
+          ),
         ),
       ],
     );

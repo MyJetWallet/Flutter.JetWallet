@@ -1,0 +1,51 @@
+:root:not(.theme-dark) {
+  --tv-color-platform-background: transparent;
+  --tv-color-pane-background: transparent;
+  --tv-color-pane-background-secondary: transparent;
+  --tv-color-toolbar-button-background-hover: rgb(244, 143, 177);
+  --tv-color-toolbar-button-background-secondary-hover: red;
+  --tv-color-toolbar-button-background-expanded: rgb(244, 143, 177);
+  --tv-color-toolbar-button-text: rgb(136, 24, 79);
+  --tv-color-toolbar-button-text-hover: rgb(74, 20, 140);
+  --tv-color-toolbar-button-text-active: red;
+  --tv-color-toolbar-button-text-active-hover: red;
+  --tv-color-item-active-text: rgb(6, 255, 6);
+  --tv-color-toolbar-toggle-button-background-active: red;
+  --tv-color-toolbar-toggle-button-background-active-hover: magenta;
+}
+
+.theme-dark:root {
+  --tv-color-platform-background: transparent;
+  --tv-color-pane-background: transparent;
+  --tv-color-pane-background-secondary: transparent;
+  --tv-color-toolbar-button-background-hover: rgb(244, 143, 177);
+  --tv-color-toolbar-button-background-secondary-hover: red;
+  --tv-color-toolbar-button-background-expanded: rgb(244, 143, 177);
+  --tv-color-toolbar-button-text: rgb(136, 24, 79);
+  --tv-color-toolbar-button-text-hover: rgb(74, 20, 140);
+  --tv-color-toolbar-button-text-active: red;
+  --tv-color-toolbar-button-text-active-hover: red;
+  --tv-color-item-active-text: rgb(6, 255, 6);
+  --tv-color-toolbar-toggle-button-background-active: red;
+  --tv-color-toolbar-toggle-button-background-active-hover: magenta;
+}
+
+html.theme-dark .chart-page .chart-container-border {
+  background-color: transparent;
+}
+
+html.theme-dark ::selection {
+  background: none;
+}
+
+.chart-page.unselectable.on-widget {
+  background: none;
+}
+
+.legend-29zvAld0 {
+  color: transparent !important;
+}
+
+.noWrapWrapper-AC879h-w {
+  display: none !important;
+}

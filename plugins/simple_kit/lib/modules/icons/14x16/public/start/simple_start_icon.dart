@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/14x16/light/start/simple_light_start_ic
 import 'package:simple_kit/utils/enum.dart';
 
 class SStartIcon extends StatelessObserverWidget {
-  const SStartIcon({Key? key}) : super(key: key);
+  const SStartIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

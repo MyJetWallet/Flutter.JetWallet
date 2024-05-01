@@ -36,17 +36,17 @@ Future<void> setProxy(Dio dio, String? proxyName, String? proxyPort) async {
 
   final clientAdapter = dio.httpClientAdapter as IOHttpClientAdapter;
 
-  clientAdapter.onHttpClientCreate = (HttpClient client) {
+  clientAdapter.createHttpClient = () {
+    final client = HttpClient();
     // Hook into the findProxy callback to set the client's proxy.
     client.findProxy = (_) {
       // proxy all request to localhost:8888
       return 'PROXY $proxyName:$proxyPort';
     };
 
-    client.badCertificateCallback =
-        (X509Certificate cert, String host, int port) => true;
+    client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
 
-    return null;
+    return client;
   };
 
   final httpProxy = await HttpProxy.createHttpProxy();

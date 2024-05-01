@@ -4,31 +4,31 @@ description: UI Kit for Simple design
 publish_to: "none"
 
 environment:
-  sdk: '>=3.1.5 <4.0.0'
-  flutter: ">=1.17.0"
+  sdk: ">=3.3.0 <4.0.0"
+  flutter: ">=3.19.2"
 
 dependencies:
   flutter:
     sdk: flutter
-  
+
   flutter_svg: ^2.0.7
-  hooks_riverpod: ^2.4.4
-  flutter_hooks: ^0.20.3
+  hooks_riverpod: ^2.4.10
+  flutter_hooks: ^0.20.5
   decimal: ^2.3.3
   gap: ^3.0.1
   widgetbook_annotation: ^3.1.0
-  widgetbook: ^3.4.1
+  widgetbook: ^3.7.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
-  build_runner: ^2.4.6
+  flutter_lints: ^3.0.1
+  build_runner: ^2.4.8
 
-  flutter_gen_runner: ^5.3.1
+  flutter_gen_runner: ^5.4.0
 
   import_sorter: ^4.6.0
-  widgetbook_generator: ^3.3.0
+  widgetbook_generator: ^3.7.0
 
 flutter_gen:
   output: lib/gen/
@@ -41,6 +41,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/svg/invest/
     - assets/svg/large/
     - assets/svg/medium/
     - assets/svg/small/
@@ -51,4 +52,5 @@ flutter:
     - assets/svg/other/small/
     - assets/svg/assets/fiat/
     - assets/svg/assets/crypto/
+    - assets/svg/brand/small/
     - assets/images/

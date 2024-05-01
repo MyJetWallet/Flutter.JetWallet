@@ -7,7 +7,7 @@ import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 class GlobalBasicAppBar extends StatelessWidget {
   const GlobalBasicAppBar({
-    Key? key,
+    super.key,
     this.hasTitle = true,
     this.title,
     this.hasSubtitle = true,
@@ -18,7 +18,8 @@ class GlobalBasicAppBar extends StatelessWidget {
     this.hasRightIcon = true,
     this.rightIcon,
     this.onRightIconTap,
-  }) : super(key: key);
+    this.onLeftIconTap,
+  });
 
   final bool hasTitle;
   final String? title;
@@ -33,6 +34,7 @@ class GlobalBasicAppBar extends StatelessWidget {
   final bool hasRightIcon;
   final Widget? rightIcon;
   final VoidCallback? onRightIconTap;
+  final VoidCallback? onLeftIconTap;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +54,12 @@ class GlobalBasicAppBar extends StatelessWidget {
                       Opacity(
                         opacity: hasLeftIcon ? 1 : 0,
                         child: SafeGesture(
-                          onTap: hasLeftIcon ? () => Navigator.pop(context) : null,
+                          onTap: hasLeftIcon
+                              ? () {
+                                  onLeftIconTap?.call();
+                                  Navigator.pop(context);
+                                }
+                              : null,
                           child: leftIcon ?? Assets.svg.medium.arrowLeft.simpleSvg(),
                         ),
                       ),
@@ -66,10 +73,19 @@ class GlobalBasicAppBar extends StatelessWidget {
                           ),
                         ),
                       ),
-                      // Чтобы центрировать блок
                       Opacity(
-                        opacity: 0,
-                        child: Assets.svg.medium.close.simpleSvg(),
+                        opacity: hasRightIcon ? 1 : 0,
+                        child: SafeGesture(
+                          onTap: hasRightIcon
+                              ? onRightIconTap != null
+                                  ? () => onRightIconTap!()
+                                  : null
+                              : null,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: rightIcon ?? Assets.svg.medium.close.simpleSvg(),
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -83,21 +99,6 @@ class GlobalBasicAppBar extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
-            ),
-            Positioned(
-              right: 18,
-              top: 3,
-              child: Opacity(
-                opacity: hasRightIcon ? 1 : 0,
-                child: SafeGesture(
-                  onTap: hasRightIcon
-                      ? onRightIconTap != null
-                          ? () => onRightIconTap!()
-                          : null
-                      : null,
-                  child: rightIcon ?? Assets.svg.medium.close.simpleSvg(),
-                ),
               ),
             ),
           ],

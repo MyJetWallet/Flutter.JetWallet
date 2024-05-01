@@ -192,7 +192,7 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
             '${intl.previewBuyWithCircle_for} '
             '${card?.network.name} •••• ${card?.last4}',
         onCompleted: (newCvv) {
-          sRouter.pop();
+          sRouter.maybePop();
           cvv = newCvv;
           _createPayment();
         },
@@ -450,7 +450,7 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
 
         cvv = code;
 
-        await sRouter.pop();
+        await sRouter.maybePop();
         await _createPayment();
       } catch (e) {
         return;
@@ -506,18 +506,18 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
             sRouter.navigate(
               AddCircleCardRouter(
                 onCardAdded: (card) {
-                  sRouter.pop();
-                  sRouter.pop();
-                  sRouter.pop();
+                  sRouter.maybePop();
+                  sRouter.maybePop();
+                  sRouter.maybePop();
                 },
               ),
             );
           },
           secondaryButtonName: intl.previewBuyWithCircle_failureCancel,
           onSecondaryButtonTap: () {
-            sRouter.pop();
-            sRouter.pop();
-            sRouter.pop();
+            sRouter.maybePop();
+            sRouter.maybePop();
+            sRouter.maybePop();
           },
         ),
       );

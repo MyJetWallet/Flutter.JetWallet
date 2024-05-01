@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/button/progress_bar/progress_bar.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
 
 class LimitsButton extends StatelessWidget {

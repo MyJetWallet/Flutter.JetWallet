@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 
 enum ButtonType {
@@ -12,17 +11,19 @@ enum ButtonType {
 
 class BaseButton extends StatelessWidget {
   const BaseButton({
-    Key? key,
+    super.key,
     required this.child,
     required this.backgroundColor,
     this.border,
+    this.borderRadius,
     this.callback,
     this.onHighlightChanged,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final Color backgroundColor;
   final BoxBorder? border;
+  final BorderRadiusGeometry? borderRadius;
 
   final VoidCallback? callback;
   final Function(bool)? onHighlightChanged;
@@ -40,7 +41,7 @@ class BaseButton extends StatelessWidget {
           height: 56,
           decoration: BoxDecoration(
             color: backgroundColor,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: borderRadius ?? BorderRadius.circular(16),
             border: border,
           ),
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 48),

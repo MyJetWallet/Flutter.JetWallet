@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/lock/simple_light_lock_icon
 import 'package:simple_kit/utils/enum.dart';
 
 class SLockIcon extends StatelessObserverWidget {
-  const SLockIcon({Key? key}) : super(key: key);
+  const SLockIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

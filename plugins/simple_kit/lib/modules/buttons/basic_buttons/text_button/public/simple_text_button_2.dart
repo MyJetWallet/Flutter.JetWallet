@@ -7,14 +7,14 @@ import 'package:simple_kit/utils/enum.dart';
 
 class STextButton2 extends StatelessObserverWidget {
   const STextButton2({
-    Key? key,
+    super.key,
     this.icon,
     this.addPadding = false,
     this.autoSize = false,
     required this.active,
     required this.name,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final Widget? icon;
   final bool addPadding;

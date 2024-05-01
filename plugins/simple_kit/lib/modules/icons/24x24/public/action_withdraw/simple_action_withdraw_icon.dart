@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/action_withdraw/simple_ligh
 import 'package:simple_kit/utils/enum.dart';
 
 class SActionWithdrawIcon extends StatelessObserverWidget {
-  const SActionWithdrawIcon({Key? key}) : super(key: key);
+  const SActionWithdrawIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

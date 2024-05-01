@@ -16,7 +16,7 @@
     "login_password": "Hasło",
     "login_forgotPassword": "Zapomniałem hasło",
     "login_policyText1": "Logując się i kontynuując, niniejszym wyrażam zgodę na",
-    "login_policyText2": "Zasady i warunki",
+    "login_policyText2": "Zasady i Warunki",
     "@login_policyText2": {
         "description": "Privacy Policy Text (part 2)"
     },
@@ -65,7 +65,7 @@
     "aboutUs_text2": "Dzisiejszy system finansowy jest skomplikowany, ekskluzywny i drogi – co utrudnia dostęp, uzyskanie niższych opłat i preferencyjne traktowanie. Wierzymy, że system finansowy powinien działać dla wszystkich!",
     "aboutUs_text3": "Tworzymy produkt, który na nowo definiuje znaczenie inwestowania, upraszcza dostęp i przełamuje te złożone bariery i opłaty. Jest to łatwy w użyciu produkt finansowy, który pozwala dostrzec nowe możliwości dla Twoich pieniędzy i maksymalnie ich wykorzystać!",
     "aboutUs_text4": "Rozpoczniemy od prostego, ale innowacyjnego handlu kryptowalutami. Podczas gdy handlujesz, nasz zespół ciężko pracuje, aby dokończyć platformę handlową opartą na społeczności i zaoferować Ci akcje, surowce, a także płatności społecznościowe. Jedna prosta w obsłudze aplikacja. Mówimy na to, finance made SIMPLE.",
-    "aboutUs_termButton1": "Warunki Ogólne",
+    "aboutUs_termButton1": "Zasady i Warunki Ogólne",
     "aboutUs_termButton2": "Polityka prywatności",
     "aboutUs_termButton3": "Polityka programu partnerskiego",
     "aboutUs_privacyPolicy": "Polityka prywatności",
@@ -384,7 +384,7 @@
     "balanceActionButtons_sell": "Sprzedaj",
     "balanceActionButtons_buy": "Kup",
     "balanceActionButtons_receive": "Odbierz",
-    "actionReceive_bottomSheetHeaderName1": "Wybierz aktywa do otrzymania",
+    "actionReceive_bottomSheetHeaderName1": "Wybór aktywa",
     "actionReceive_receive": "Odbierz",
     "actionReceive_receive_crypto": "Odbierz Crypto",
     "maximum": "Maksymalny",
@@ -853,7 +853,7 @@
     "curencyBuy_actionItemDescriptionWithoutApplePay": "Visa, Mastercard",
     "currencyBuy_morePaymentMethod": "Więcej metod płatności",
     "previewBuyWithUmlimint_disclaimer": "Przeczytałem, rozumiem i zgadzam się z",
-    "previewBuyWithUmlimint_disclaimerTerms": "Zasady i warunki",
+    "previewBuyWithUmlimint_disclaimerTerms": "Zasady i Warunki",
     "previewBuyWithUmlimint_skipWait": "Pomiń oczekiwanie",
     "previewBuyWithUmlimint_disclaimerPolicy": "Polityka prywatności",
     "previewBuyWithUmlimint_saveCard": "Zapisz tę kartę",
@@ -1172,7 +1172,7 @@
     "buy_confirmation_total": "Razem",
     "buy_confirmation_local_info": "Kurs wymiany zostanie dostosowany zgodnie z ceną rynkową\nw momencie otrzymania potwierdzenia płatności",
     "buy_confirmation_privacy_checkbox_1": "Przeczytałem i akceptuję ",
-    "buy_confirmation_privacy_checkbox_2": "Regulamin",
+    "buy_confirmation_privacy_checkbox_2": "Zasady i Warunki",
     "buy_confirmation_privacy_checkbox_3": "Polityka prywatności",
     "buy_confirmation_privacy_p2p_checkbox_1": "1. Potwierdzam, że powyższe informacje są dokładne i kompletne.",
     "buy_confirmation_privacy_p2p_checkbox_1_5": "2. Zgadzam się z ",
@@ -1770,5 +1770,341 @@
     "simple_card_is_ready": "Karta Simple jest gotowa",
     "simple_card_password_repeatable_characters": "Nie może zawierać więcej niż 3 powtarzające się znaki pod rząd",
     "simple_card_password_whitespace": "Znak spacji jest niedozwolony",
-    "simple_card_password_repeatable_allowed_symbols": "Dozwolone są następujące symbole specjalne:"
+    "simple_card_password_repeatable_allowed_symbols": "Dozwolone są następujące symbole specjalne:",
+    "earn_earn": "Zarabiaj",
+    "earn_funds_are_calculated_based_on_the_current_value": "Fundusze są kalkulowane na podstawie bieżącej wartości kryptoaktywów",
+    "earn_total": "Łącznie",
+    "earn_revenue": "Dochód",
+    "earn_active_earns": "Aktywne zarobki",
+    "earn_view_all": "Przegląd",
+    "earn_balance": "Saldo",
+    "earn_most_profitable_earns": "Maks zyski",
+    "earn_top_offers": "Top oferty",
+    "earn_up_to": "Do",
+    "earn_earning": "Zarabianie",
+    "earn_closing": "Zamykanie...",
+    "earn_closed": "Zakończono",
+    "earn_unknown": "Nieznany",
+    "earn_variable_apy": "Zmienny APY",
+    "earn_started": "Rozpoczęto",
+    "earn_funds_will_be_withdrawn": "Twoje środki i zgromadzone zarobki są wypłacane po zamknięciu konta Earn. Wypłata środków za {days} dni",
+    "@earn_funds_will_be_withdrawn": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_top_up": "Doładuj",
+    "earn_withdraw": "Wypłać",
+    "earn_all_offers": "Wszystkie oferty",
+    "earn_earns_archive": "Archiwum Earn",
+    "earn_you_can_withdraw_deposit_funds_instantly": "Możesz natychmiast wypłacić środki z depozytu",
+    "earn_deposit": "Depozyt",
+    "earn_continue": "Kontynuuj",
+    "earn_choose_a_deposit_plan": "Wybierz plan depozytu i zarabiaj krypto",
+    "earn_freeze_period": "Okres zamrożenia ({days} dni)",
+    "@earn_freeze_period": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_flexible_tariff": "Elastyczne wykupienie",
+    "earn_are_you_sure": "Jesteś pewny?",
+    "earn_your_funds_and_accrued": "Twoje środki i zgromadzone zarobki są wypłacane przy zamknięciu konta Earn. Wypłata {date}.",
+    "@earn_your_funds_and_accrued": {
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "12.12.2024"
+            }
+        }
+    },
+    "earn_continue_earning": "Kontynuuj zarabianie",
+    "earn_yes_withdraw": "Tak, wypłać",
+    "earn_partial_withdrawal": "Wypłata częściowa",
+    "earn_the_minimum_amount_of_earn": "Minimalna kwota salda konta Earn nie może być niższa niż",
+    "earn_full_withdrawal": "Pełna wypłata",
+    "earn_closing_an_earn_account": "Zamknięcie konta Earn z wypłatą kwoty bazowej i dochodu",
+    "earn_confirm": "Potwierdź",
+    "earn_est": "Szac.",
+    "earn_max": "Maks",
+    "earn_from_earn": "Z Earn",
+    "earn_crypto_wallet": "Portfel krypto",
+    "earn_order_summary": "Podsumowanie zamówienia",
+    "earn_order_summary_partial_withdrawal_means": "Częściowa wypłata oznacza wypłatę środków z bazy obliczeniowej. Dochód jest wypłacany przy pełnym zamknięciu konta.",
+    "earn_send": "Wyślij",
+    "earn_withdraw_successfully": "Prośba o wykupienie środków została zaakceptowana",
+    "earn_full_withdraw": "Twoje środki i zgromadzone zarobki są wypłacane przy zamknięciu konta Earn.",
+    "earn_basis_amount": "Kwota bazowa",
+    "earn_withdrawal_period": "Okres wypłaty",
+    "earn_the_funds_will_be_disbursed": "Środki zostaną przelane na Twój portfel {date}. Będziesz również zarabiać dochód przez następne {days} dni",
+    "@earn_the_funds_will_be_disbursed": {
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "12.12.2024"
+            },
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_withdrawal_period_explanation_1": "Wypłata środków z twojego planu spowoduje zamknięcie odpowiadającego konta Earn. Należy zauważyć, że pełne przekazanie środków wraz z zarobionym dochodem nastąpi {days} dni po utworzeniu żądania.",
+    "@earn_withdrawal_period_explanation_1": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_withdrawal_period_explanation_2": "Ważne jest, aby zauważyć, że do ostatecznego zamknięcia konta, dochód będzie nadal naliczany na twoje konto Earn.",
+    "earn_from_crypto_wallet": "Z portfela krypto",
+    "earn_to_crypto_wallet": "Do portfela krypto",
+    "earn_to_earn": "Aby zarobić",
+    "earn_deposit_crypto_wallet": "Portfel krypto na depozyt",
+    "earn_top_up_value": "Doładuj {value}",
+    "@earn_top_up_value": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "BTC"
+            }
+        }
+    },
+    "earn_cancel": "Anuluj",
+    "earn_apy_rate": "Stopa APY",
+    "earn_earning_term": "Okres zarobkowy",
+    "earn_flexible": "Elastyczny",
+    "earn_instant": "Natychmiastowy",
+    "earn_i_have_read_and_agreed_to": "Przeczytałem i zgadzam się z",
+    "earn_terms_and_conditions": "Zasady i Warunki programu Earn",
+    "earn_transfer": "Przelew",
+    "earn_withdrawal": "Wypłata",
+    "earn_days_left": "Zostało {days} dni",
+    "@earn_days_left": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_disbursement_is_at": "Wypłata nastąpi o {time} {date}",
+    "@earn_disbursement_is_at": {
+        "placeholders": {
+            "time": {
+                "type": "String",
+                "example": "21:24"
+            },
+            "date": {
+                "type": "String",
+                "example": "12.12.2024"
+            }
+        }
+    },
+    "earn_privacy_policy": "Polityka Prywatności Smpl Global",
+    "earn_freeze": "Zamrozić na {days} dni",
+    "@earn_freeze": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_earn_account_id": "ID konta Earn",
+    "earn_sent": "Wysłano",
+    "earn_received": "Otrzymano",
+    "earn_withdrawal_of": "Transfer {value} do Earn\nzainicjowano",
+    "@earn_withdrawal_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "21:24"
+            }
+        }
+    },
+    "about_us_earn": "Zasady i Warunki programu Earn",
+    "about_transfer": "Przelew",
+    "earn_freeze_days": "Zamrozić na {days} dni",
+    "@earn_freeze_days": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_redeem_period": "Okres wykupu ({days} dni)",
+    "@earn_redeem_period": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_history": "Historia",
+    "earn_to": "Do",
+    "about_us_earn_program": "Zasady i Warunki programu Earn",
+    "about_us_smpl_global": "Polityka Prywatności Smpl Global",
+    "earn_finished": "Zakończono",
+    "transfer_confirm_via_sms": "Potwierdź SMS-em",
+    "transfer_we_sent": "Wysłano do telefonu **{numbers}",
+    "@transfer_we_sent": {
+        "placeholders": {
+            "numbers": {
+                "type": "String",
+                "example": "1845"
+            }
+        }
+    },
+    "profileDetails_waitForSMS": "Czekaj na SMS",
+    "earn_transfer_of": "Przelew {value} do\nEarn zostało zainicjowane",
+    "@earn_transfer_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "21:24"
+            }
+        }
+    },
+    "wallet_crypto_wallet": "Portfel Krypto",
+    "wallet_crypto_assets": "Aktywa Krypto",
+    "wallet_external_bank_transfer": "Zewnętrzny przelew bankowy",
+    "wallet_internal_transfer": "Przelew wewnętrzny",
+    "wallet_choose_asset_from_convert": "Wybierz aktywo do konwersji",
+    "error_message_insufficient_funds": "Niewystarczające środki na transakcję",
+    "convert_choose_account": "Wybierz konto",
+    "earn_earns_details": "Szczegóły Earns",
+    "earn_base_amount": "Kwota bazowa",
+    "earn_saving_income": "Dochód z oszczędności",
+    "invest_transfer_from_crypto_wallet": "Z portfela krypto",
+    "invest_transfer_to_invest": "Inwestować",
+    "invest_transfer_crypto_wallet": "Portfel krypto",
+    "invest_transfer_invest": "Inwestuj",
+    "invest_transfer_from_invest": "Z inwestycji",
+    "invest_transfer_to_crypto_wallet": "Do portfela krypto",
+    "invest_transfer_empty_balance": "Aby kontynuować, doładuj portfel Tether",
+    "wallets_add_to_wallet": "Dodaj do {value}",
+    "@wallets_add_to_wallet": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "wallets_add_to_apple_wallet": "Apple Wallet",
+    "wallets_add_to_google_wallet": "Google Wallet",
+    "wallets_redirecting": "Przekierowanie",
+    "wallets_modal_info": "Klikając Kontynuuj, zostaniesz przekierowany do {value}:\n\n1. Ręcznie wprowadź dane swojej karty\n2. Postępuj zgodnie z instrukcjami {value}\n3. Ciesz się zakupami bezkontaktowymi i wypłatami z bankomatów za pomocą twojej karty Simple!",
+    "@wallets_modal_info": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "wallets_continue": "Kontynuuj",
+    "earn_to_continue_you_need_to_top_up_fix": "Aby kontynuować, należy doładować portfel {wallet_symbol} kwotą co najmniej {topup_value}",
+    "@earn_to_continue_you_need_to_top_up_fix": {
+        "placeholders": {
+            "topup_value": {
+                "type": "String"
+            },
+            "wallet_symbol": {
+                "type": "String"
+            }
+        }
+    },
+    "prepaid_card_prepaid_card": "Karta przedpłacona",
+    "prepaid_card_in_your_profile": "w Twoim profilu",
+    "prepaid_card_buy_for_cryptocurrency": "Kup za kryptowalutę",
+    "prepaid_card_prepaid_card_service": "Usługa karty przedpłaconej",
+    "prepaid_card_explanation": "Możesz zakupić karty bankowe przedpłacone do użytku w systemach Apple Pay i Google Pay oraz do płatności online. Wydanie karty przedpłaconej jest realizowane przez partnerów Simple.",
+    "prepaid_card_card_management": "Zarządzanie kartą",
+    "prepaid_card_redirecting": "Przekierowanie",
+    "prepaid_card_popup_description": "Usługa karty przedpłaconej jest świadczona przez partnera.\n\nZarządzanie kartami, informacje o saldach kart i historia transakcji są dostępne na koncie osobistym partnera.\n\nAby zalogować się do konta osobistego, należy użyć numeru karty i kodu CVV.",
+    "prepaid_card_continue": "Kontynuuj",
+    "prepaid_card_cancel": "Anuluj",
+    "prepaid_card_my_vouchers": "Moje vouchery",
+    "prepaid_card_my_vouchers_placeholder": "Twoje vouchery przedpłacone zostaną tutaj wyświetlone",
+    "prepaid_card_buy_card": "Kup kartę",
+    "prepaid_card_next": "Dalej",
+    "prepaid_card_guide_to_using": "Przewodnik użytkowania",
+    "prepaid_card_you_purchase": "Kupujesz voucher, aby otrzymać kartę Visa lub Mastercard z ustalonym saldem.\n\nPo zakupie vouchera użycie vouchera i aktywacja karty odbywa się na stronie internetowej wydawcy karty.\n\nKarta ta może być używana do płatności online.",
+    "prepaid_card_the_purchased": "Saldo zakupionej karty nie może być doładowane",
+    "prepaid_card_ApplePay_and_GooglePay": "ApplePay i GooglePay",
+    "prepaid_card_cards_marked": "Karty oznaczone jako \"Portfel Mobilny\" obsługują dodawanie do ApplePay i GooglePay. Karty bez tego oznaczenia nie wspierają połączenia z portfelami mobilnymi.",
+    "prepaid_card_please_note": "Proszę zwrócić uwagę",
+    "prepaid_card_that_cards": "Że karty oznaczone jako 'Portfel Mobilny' mogą nie być dostępne we wszystkich krajach.",
+    "prepaid_card_privacy": "Prywatność",
+    "prepaid_card_simple_does_not": "Simple nie udostępnia osobistych informacji wydawcy karty. Zazwyczaj, podczas rejestracji, należy podać:",
+    "prepaid_card_the_full_name": "  • Pełne imię i nazwisko jak na karcie\n• Kraj zamieszkania i adres\n• Numer telefonu kontaktowego\n• Adres e-mail",
+    "prepaid_card_it_is_necessary": "Konieczne jest zweryfikowanie adresu e-mail, ponieważ będzie on używany do otrzymywania kodów weryfikacyjnych do transakcji z kartą.",
+    "prepaid_card_in_some_instances": "W niektórych przypadkach, wydawca karty może wymagać dokładniejszej weryfikacji tożsamości klienta i zasugerować ukończenie procedury KYC (Poznaj Swojego Klienta). W takich przypadkach zaleca się postępowanie zgodnie z instrukcjami wydawcy karty, aby uniknąć potencjalnych komplikacji i opóźnień w otrzymywaniu karty.",
+    "prepaid_card_only_the_individual": "Tylko osoba otrzymująca kartę musi przejść proces KYC. Weryfikacja na podstawie dokumentów podmiotu prawnego nie jest dozwolona.",
+    "prepaid_card_voucher_activation": "Aktywacja vouchera",
+    "prepaid_card_to_activate": "Aby aktywować voucher, należy odwiedzić stronę internetową wydawcy karty. Upewnij się, że kraj, który podajesz podczas aktywacji karty, odpowiada krajowi wybranemu w czasie zakupu vouchera.",
+    "prepaid_card_a_mismatch_between": "Niezgodność między krajem wskazanym w momencie zakupu vouchera a krajem określonym podczas wydawania karty może prowadzić do trudności w aktywacji vouchera i otrzymaniu karty.",
+    "prepaid_card_the_issuer_may": "Wydawca może wymagać dodatkowej weryfikacji tożsamości i ukończenia procedury KYC dla aktywacji karty. Istotne jest posiadanie dokumentów potwierdzających zamieszkanie w określonym kraju.",
+    "prepaid_card_choose_prepaid_card": "Wybierz kartę przedpłaconą",
+    "prepaid_card_choose_residential_country": "Wybierz kraj zamieszkania",
+    "prepaid_card_in_progress": "W trakcie...",
+    "prepaid_card_buy_voucher": "Kup voucher",
+    "prepaid_card_prepaid_card_activation": "Aktywacja karty przedpłaconej",
+    "prepaid_card_apple_pay_available": "Apple Pay dostępne",
+    "prepaid_card_apple_pay_unavailable": "Apple Pay niedostępne",
+    "prepaid_card_google_pay_available": "Google Pay dostępne",
+    "prepaid_card_google_pay_unavailable": "Google Pay niedostępne",
+    "prepaid_card_min_amount": "Min. kwota",
+    "prepaid_card_max_amount": "Maks. kwota",
+    "prepaid_card_commission": "Opłata",
+    "prepaid_card_free": "Za darmo",
+    "prepaid_card_choose_country": "Wybierz kraj",
+    "prepaid_card_no_available_tariffs": "Jeszcze nie ma dostępnych taryf dla wybranego kraju",
+    "prepaid_card_pay_with": "Zapłać za pomocą",
+    "prepaid_card_crypto_wallet": "Portfel kryptowalutowy",
+    "prepaid_card_prepaid_card_voucher": "Voucher na kartę przedpłaconą",
+    "prepaid_card_card_type": "Typ karty",
+    "prepaid_card_apple_pay": "Apple Pay",
+    "prepaid_card_google_pay": "Google Pay",
+    "prepaid_card_yes": "Tak",
+    "prepaid_card_no": "Nie",
+    "prepaid_card_card_balance": "Saldo karty",
+    "prepaid_card_country": "Kraj",
+    "prepaid_card_success": "Zakupiono voucher na kartę przedpłaconą z saldem {amount}",
+    "@prepaid_card_success": {
+        "placeholders": {
+            "amount": {
+                "type": "String",
+                "example": "1 408.10 USD"
+            }
+        }
+    },
+    "prepaid_card_apple_pay_is_unavailable": "Apple Pay niedostępne",
+    "prepaid_card_google_pay_is_unavailable": "Google Pay niedostępne",
+    "prepaid_card_issue_card": "Wydaj kartę",
+    "prepaid_card_activation_1": "Skopiuj kod i przejdź na stronę internetową wydawcy karty.",
+    "prepaid_card_activation_2": "Wprowadź kod weryfikacyjny, aby potwierdzić zakup.",
+    "prepaid_card_activation_3": "Postępuj zgodnie z instrukcjami, aby dokończyć konfigurację karty.",
+    "prepaid_card_voucher_code": "Kod vouchera",
+    "prepaid_card_order_id": "ID zamówienia",
+    "prepaid_card_the_issuance": "Wydanie vouchera zwykle zajmuje około 1 godziny.",
+    "prepaid_card_country_explanation": "Kraj wydania vouchera musi odpowiadać krajowi wydania karty",
+    "prepaid_cardcomission_explanation": "Opłata za wydanie karty jest pobierana z Twojego portfela",
+    "invest_history_tab_positions": "Pozycje",
+    "invest_history_tab_market": "Rynek",
+    "invest_alert_delete_pending_order": "Usuń oczekujące zamówienie",
+    "invest_alert_delete_pending_order_sub_titile": "Zamierzasz usunąć oczekującą inwestycję",
+    "invest_liquidation_price": "Cena likwidacji",
+    "invest_liquidation": "Likwidacja",
+    "earn_deposit_of": "Depozyt {value}\nzainicjowano",
+    "@earn_deposit_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "200 USDT"
+            }
+        }
+    },
+    "prepaid_card_more": "więcej",
+    "prepaid_card_less": "mniej",
+    "prepaid_card_funds_for_purchased": "Środki za zakupiony voucher są bezzwrotne",
+    "prepaid_card_error": "Voucher na kartę przedpłaconą nie został wydany. Prosimy o kontakt z obsługą klienta, postaramy się rozwiązać problem jak najszybciej."
 }

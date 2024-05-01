@@ -4,11 +4,11 @@ import '../../../simple_kit.dart';
 
 class SClickableLinkText extends StatefulWidget {
   const SClickableLinkText({
-    Key? key,
+    super.key,
     required this.text,
     required this.onTap,
     this.actualColor = const Color(0xFF374DFB),
-  }) : super(key: key);
+  });
 
   final String text;
   final void Function() onTap;

@@ -1,6 +1,6 @@
-/// The data we send together with event
 // ignore_for_file: lines_longer_than_80_chars
 
+/// The data we send together with event
 class PropertyType {
   static const kycStatus = 'KYCStatus';
   static const techAcc = 'TechAcc';
@@ -104,4 +104,19 @@ class PropertyType {
   static const reason = 'Reason';
   static const availableAssetsList = 'Available Asset list';
   static const assetName = 'Asset name';
+  static const earnPlanName = 'Earn Plan Name';
+  static const earnAPYrate = 'Earn APY rate';
+  static const earnWithdrawalType = 'Earn withdrawal type';
+  static const earnDepositAmount = 'Earn deposit amount';
+  static const earnOfferStatus = 'Earn offer status';
+  static const revenue = 'Revenue';
+  static const earnOfferId = 'Earn offer id';
+  static const isFullWithdrawalType = 'Is full withdrawtype';
+  static const fullWithdrawType = 'Full withdraw type';
+  static const withdrawAmount = 'Withdraw amount';
+  static const amount = 'Amount';
+  static const country = 'Country';
+  static const isAvailableAppleGooglePay = 'Is available Apple/Google pay';
+  static const voucher = 'Voucher';
+  static const isCompleted = 'Is completed?';
 }

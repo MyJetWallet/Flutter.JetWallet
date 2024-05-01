@@ -29,8 +29,7 @@ part 'add_bank_card_store.g.dart';
 class AddBankCardStore extends _AddBankCardStoreBase with _$AddBankCardStore {
   AddBankCardStore() : super();
 
-  static _AddBankCardStoreBase of(BuildContext context) =>
-      Provider.of<AddBankCardStore>(context, listen: false);
+  static _AddBankCardStoreBase of(BuildContext context) => Provider.of<AddBankCardStore>(context, listen: false);
 }
 
 abstract class _AddBankCardStoreBase with Store {
@@ -150,15 +149,11 @@ abstract class _AddBankCardStoreBase with Store {
 
   @computed
   bool get isCardDetailsValid {
-    if ((expiryYear.length != 4 && expiryYear.length != 2) ||
-        expiryMonth.length < 2) {
+    if ((expiryYear.length != 4 && expiryYear.length != 2) || expiryMonth.length < 2) {
       return false;
     }
 
-    return isCardNumberValid &&
-        isExpiryMonthValid &&
-        isExpiryYearValid &&
-        isCardholderNameValid;
+    return isCardNumberValid && isExpiryMonthValid && isExpiryYearValid && isCardholderNameValid;
   }
 
   @action
@@ -183,8 +178,7 @@ abstract class _AddBankCardStoreBase with Store {
     try {
       final response = await sNetwork.getWalletModule().encryptionKey();
 
-      final cardNumberString =
-          cardNumber.replaceAll('\u{2005}', '').replaceAll(' ', '');
+      final cardNumberString = cardNumber.replaceAll('\u{2005}', '').replaceAll(' ', '');
 
       final rsa = RsaKeyHelper();
       final key = '-----BEGIN RSA PUBLIC KEY-----\r\n'
@@ -214,8 +208,7 @@ abstract class _AddBankCardStoreBase with Store {
           if (isPreview) {
             final cardNumberFinal = cardNumber.replaceAll('\u{2005}', '');
             if (newCard.data?.data.status == CardStatus.verificationRequired) {
-              if (newCard.data?.data.requiredVerification ==
-                  CardVerificationType.cardCheck) {
+              if (newCard.data?.data.requiredVerification == CardVerificationType.cardCheck) {
                 await sRouter.push(
                   UploadVerificationPhotoRouter(
                     cardId: newCard.data?.data.cardId ?? '',
@@ -230,8 +223,7 @@ abstract class _AddBankCardStoreBase with Store {
                     },
                   ),
                 );
-              } else if (newCard.data?.data.requiredVerification ==
-                  CardVerificationType.cardWithSelfieCheck) {
+              } else if (newCard.data?.data.requiredVerification == CardVerificationType.cardWithSelfieCheck) {
                 await sRouter.push(
                   UploadVerificationPhotoRouter(
                     isSelfie: true,
@@ -265,7 +257,6 @@ abstract class _AddBankCardStoreBase with Store {
         onError: (error) {
           sNotification.showError(
             error.cause,
-            duration: 4,
             id: 1,
           );
           loader.finishLoading(onFinish: onError);
@@ -274,14 +265,12 @@ abstract class _AddBankCardStoreBase with Store {
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,
-        duration: 4,
         id: 1,
       );
       loader.finishLoading(onFinish: onError);
     } catch (error) {
       sNotification.showError(
         intl.something_went_wrong_try_again2,
-        duration: 4,
         id: 1,
       );
       loader.finishLoading(onFinish: onError);
@@ -297,7 +286,7 @@ abstract class _AddBankCardStoreBase with Store {
     bool showUaAlert = false,
   }) {
     final finalCardNumber = cardNumber.substring(cardNumber.length - 4);
-    sRouter.pop();
+    sRouter.maybePop();
     Timer(const Duration(milliseconds: 500), () {
       sRouter.push(
         CurrencyBuyRouter(
@@ -354,8 +343,7 @@ abstract class _AddBankCardStoreBase with Store {
       expiryMonth = sp.first;
       expiryYear = sp[1];
 
-      if ((expiryYear.length == 4 || expiryYear.length == 2) &&
-          expiryYear != '20') {
+      if ((expiryYear.length == 4 || expiryYear.length == 2) && expiryYear != '20') {
         expiryMonthError = !isExpiryMonthValid;
         expiryYearError = !isExpiryYearValid;
       } else {
@@ -407,8 +395,7 @@ abstract class _AddBankCardStoreBase with Store {
 
     expiryYear = expiryDate;
 
-    if ((expiryDate.length == 4 || expiryDate.length == 2) &&
-        expiryDate != '20') {
+    if ((expiryDate.length == 4 || expiryDate.length == 2) && expiryDate != '20') {
       expiryMonthError = !isExpiryMonthValid;
       expiryYearError = !isExpiryYearValid;
     } else {
@@ -438,9 +425,7 @@ abstract class _AddBankCardStoreBase with Store {
         for (var i = 0; i < code.length; i++) {
           buffer.write(code[i]);
           final nonZeroIndex = i + 1;
-          if (nonZeroIndex % 4 == 0 &&
-              nonZeroIndex != code.length &&
-              nonZeroIndex != (code.length - 1)) {
+          if (nonZeroIndex % 4 == 0 && nonZeroIndex != code.length && nonZeroIndex != (code.length - 1)) {
             buffer.write(' ');
           }
         }

@@ -144,8 +144,9 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
           fireImmediately: true,
         );
       },
-      child: WillPopScope(
-        onWillPop: () => Future.value(!widget.cannotLeave),
+      child: PopScope(
+        canPop: !widget.cannotLeave,
+        onPopInvoked: (_) => Future.value(!widget.cannotLeave),
         child: SPageFrame(
           resizeToAvoidBottomInset: false,
           loaderText: intl.register_pleaseWait,
@@ -207,7 +208,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                             callbackAfterSend: () {},
                           );
 
-                          getIt<AppRouter>().pop();
+                          getIt<AppRouter>().maybePop();
                         } else if (!widget.fromRegister) {
                           Navigator.pop(context);
                         } else {

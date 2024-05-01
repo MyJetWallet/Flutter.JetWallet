@@ -24,8 +24,7 @@ class AssetChart extends StatefulObserverWidget {
   State<AssetChart> createState() => _AssetChartState();
 }
 
-class _AssetChartState extends State<AssetChart>
-    with SingleTickerProviderStateMixin {
+class _AssetChartState extends State<AssetChart> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final chartStore = ChartStore.of(context);
@@ -34,8 +33,7 @@ class _AssetChartState extends State<AssetChart>
     return chartStore.union.when(
       candles: () {
         return Chart(
-          localizedChartResolutionButton:
-              localizedChartResolutionButton(context),
+          localizedChartResolutionButton: localizedChartResolutionButton(context),
           onResolutionChanged: (resolution) {
             chartStore.updateResolution(
               resolution,

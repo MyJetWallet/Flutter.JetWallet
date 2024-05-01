@@ -6,14 +6,14 @@ import '../rewards_banner/helper/set_circle_background_image.dart';
 
 class SMarketBanner extends StatelessWidget {
   const SMarketBanner({
-    Key? key,
+    super.key,
     this.secondaryText,
     this.imageUrl,
     this.onClose,
     this.primaryTextStyle,
     required this.color,
     required this.primaryText,
-  }) : super(key: key);
+  });
 
   final Function()? onClose;
   final String? secondaryText;

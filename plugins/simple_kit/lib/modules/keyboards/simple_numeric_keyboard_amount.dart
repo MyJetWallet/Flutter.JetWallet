@@ -7,14 +7,14 @@ import 'components/numeric_keyboard_row.dart';
 
 class SNumericKeyboardAmount extends StatelessWidget {
   const SNumericKeyboardAmount({
-    Key? key,
+    super.key,
     this.buttonType = SButtonType.primary1,
     required this.widgetSize,
     required this.onKeyPressed,
     required this.submitButtonActive,
     required this.submitButtonName,
     required this.onSubmitPressed,
-  }) : super(key: key);
+  });
 
   final SButtonType buttonType;
   final SWidgetSize widgetSize;

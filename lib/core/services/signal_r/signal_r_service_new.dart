@@ -29,6 +29,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
@@ -41,10 +42,17 @@ import 'package:simple_networking/modules/signal_r/models/campaign_response_mode
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/signal_r/models/cards_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
+import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 import 'package:simple_networking/modules/signal_r/models/fireblock_events_model.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/signal_r/models/incoming_gift_model.dart';
 import 'package:simple_networking/modules/signal_r/models/indices_model.dart';
+import 'package:simple_networking/modules/signal_r/models/invest_base_daily_price_model.dart';
+import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
+import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
+import 'package:simple_networking/modules/signal_r/models/invest_prices_model.dart';
+import 'package:simple_networking/modules/signal_r/models/invest_sectors_model.dart';
+import 'package:simple_networking/modules/signal_r/models/invest_wallet_model.dart';
 import 'package:simple_networking/modules/signal_r/models/key_value_model.dart';
 import 'package:simple_networking/modules/signal_r/models/kyc_countries_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/market_info_model.dart';
@@ -55,11 +63,6 @@ import 'package:simple_networking/modules/signal_r/models/referral_info_model.da
 import 'package:simple_networking/modules/signal_r/models/referral_stats_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/signalr_log.dart';
-import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
-import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
-import 'package:simple_networking/modules/signal_r/models/invest_prices_model.dart';
-import 'package:simple_networking/modules/signal_r/models/invest_sectors_model.dart';
-import 'package:simple_networking/modules/signal_r/models/invest_wallet_model.dart';
 
 import '../../../features/account/profile_details/store/change_base_asset_store.dart';
 
@@ -857,6 +860,33 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
   }
 
   @observable
+  InvestBaseDailyPriceModel? investBaseDailyPriceData;
+  @action
+  void setInvestBaseDailyPriceData(InvestBaseDailyPriceModel data) {
+    if (investBaseDailyPriceData != null && investBaseDailyPriceData!.dailyPrices.isNotEmpty) {
+      final newInvestPricesData = investBaseDailyPriceData;
+      for (final newPrice in data.dailyPrices) {
+        var isNewPrice = true;
+        for (final actualPrice in newInvestPricesData!.dailyPrices) {
+          if (actualPrice.symbol == newPrice.symbol) {
+            final index = newInvestPricesData.dailyPrices.indexOf(actualPrice);
+
+            newInvestPricesData.dailyPrices[index] = newPrice;
+            isNewPrice = false;
+          }
+        }
+        if (isNewPrice) {
+          newInvestPricesData.dailyPrices.add(newPrice);
+        }
+      }
+      investBaseDailyPriceData = newInvestPricesData;
+    } else {
+      investBaseDailyPriceData = data;
+    }
+  }
+
+
+  @observable
   bool showPaymentsMethods = false;
   @observable
   AssetPaymentMethods? assetPaymentMethods;
@@ -899,7 +929,7 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
 
       final sendMethods = (value.send ?? [])
           .where((sendMethod) =>
-              sendMethod.symbolNetworkDetails?.any((element) => element.symbol == currency.symbol) ?? false)
+              sendMethod.symbolNetworkDetails?.any((element) => element.symbol == currency.symbol) ?? false,)
           .toList();
 
       final receiveMethods = (value.receive ?? [])
@@ -994,6 +1024,20 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
         marketReferencesModel,
         currenciesList,
       );
+
+  @observable
+  ActiveEarnOffersMessage? activeEarnOffersMessage;
+  @action
+  void setEarnOffersData(ActiveEarnOffersMessage data) {
+    activeEarnOffersMessage = data;
+  }
+
+  @observable
+  ActiveEarnPositionsMessage? activeEarnPositionsMessage;
+  @action
+  void setEarnPositionsData(ActiveEarnPositionsMessage data) {
+    activeEarnPositionsMessage = data;
+  }
 
   @action
   void clearSignalRModule() {

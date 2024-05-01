@@ -6,14 +6,14 @@ import '../../simple_kit.dart';
 
 class SActionPriceFieldWithCurrency extends StatelessWidget {
   const SActionPriceFieldWithCurrency({
-    Key? key,
+    super.key,
     this.additionalWidget,
     required this.price,
     required this.helper,
     required this.error,
     required this.isErrorActive,
     required this.widgetSize,
-  }) : super(key: key);
+  });
 
   final String price;
   final String helper;

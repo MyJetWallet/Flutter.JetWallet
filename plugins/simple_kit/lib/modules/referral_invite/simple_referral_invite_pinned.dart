@@ -4,9 +4,9 @@ import '../../simple_kit.dart';
 
 class SReferralInvitePinned extends StatelessWidget {
   const SReferralInvitePinned({
-    Key? key,
+    super.key,
     this.child,
-  }) : super(key: key);
+  });
 
   final Widget? child;
 

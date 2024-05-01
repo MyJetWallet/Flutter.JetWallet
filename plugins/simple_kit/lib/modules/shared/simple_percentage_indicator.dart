@@ -5,11 +5,11 @@ import '../../../simple_kit.dart';
 
 class SimplePercentageIndicator extends StatelessWidget {
   const SimplePercentageIndicator({
-    Key? key,
+    super.key,
     this.expanded = false,
     this.isHot = false,
     required this.tiers,
-  }) : super(key: key);
+  });
 
   final List<SimpleTierModel> tiers;
   final bool expanded;

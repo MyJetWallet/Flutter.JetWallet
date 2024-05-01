@@ -5,19 +5,22 @@ import '../../../simple_kit.dart';
 
 class SMarketHeaderClosed extends StatelessWidget {
   const SMarketHeaderClosed({
-    Key? key,
+    super.key,
     this.onSearchButtonTap,
     this.isDivider = false,
+    this.color,
     required this.title,
-  }) : super(key: key);
+  });
 
   final void Function()? onSearchButtonTap;
   final bool isDivider;
   final String title;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      color: color,
       height: 120.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -14,6 +14,7 @@ import 'package:jetwallet/features/simple_card/ui/widgets/card_widget.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/show_simple_card_deposit_by_bottom_sheet.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/show_simple_card_withdraw_to_bottom_sheet.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/simple_card_circle_actions.dart';
+import 'package:jetwallet/features/simple_card/ui/widgets/wallet_button.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/transaction_list_item.dart';
 import 'package:jetwallet/utils/constants.dart';
@@ -161,9 +162,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                           sAnalytics.tapOnTheDepositButton(source: 'V.Card - Deposit');
                           handler.handle(
                             multiStatus: [
-                              kycState.tradeStatus,
                               kycState.depositStatus,
-                              kycState.withdrawalStatus,
                             ],
                             isProgress: kycState.verificationInProgress,
                             currentNavigate: () => showSimpleCardDepositBySelector(
@@ -208,7 +207,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                                 ),
                               )
                                   .then((value) {
-                                sRouter.pop();
+                                sRouter.maybePop();
                                 if (value is String) {
                                   try {
                                     sAnalytics.tapOnTheSaveChangesFromEditVirtualCardLabelButton(
@@ -241,8 +240,6 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                         onWithdraw: () {
                           handler.handle(
                             multiStatus: [
-                              kycState.tradeStatus,
-                              kycState.depositStatus,
                               kycState.withdrawalStatus,
                             ],
                             isProgress: kycState.verificationInProgress,
@@ -258,8 +255,11 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                       ),
                     ),
                   ),
-                  const SliverToBoxAdapter(
-                    child: SpaceH12(),
+                  SliverToBoxAdapter(
+                    child: WalletsButton(
+                      cardNumber: simpleCardStore.cardSensitiveData?.cardNumber ?? '',
+                      cardId: simpleCardStore.cardFull?.cardId ?? '',
+                    ),
                   ),
                   SliverToBoxAdapter(
                     child: SPaddingH24(
@@ -278,7 +278,8 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                       source: TransactionItemSource.simpleCard,
                       isSimpleCard: true,
                       onError: (String reason) {
-                        sAnalytics.viewErrorOnCardScreen(cardID: simpleCardStore.cardFull!.cardId ?? '', reason: reason);
+                        sAnalytics.viewErrorOnCardScreen(
+                            cardID: simpleCardStore.cardFull!.cardId ?? '', reason: reason,);
                       },
                     ),
                   ] else ...[

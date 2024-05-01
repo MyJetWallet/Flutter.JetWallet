@@ -209,7 +209,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
           ''' •••• ${input.cardNumber != null ? input.cardNumber?.substring((input.cardNumber?.length ?? 4) - 4) : ''}''',
       onCompleted: (cvvNew) {
         cvv = cvvNew;
-        sRouter.pop();
+        sRouter.maybePop();
         _createPayment();
       },
       input: input,
@@ -371,10 +371,10 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
                 _requestPaymentInfo(onAction, lastAction);
               },
               (payment) {
-                sRouter.pop();
+                sRouter.maybePop();
               },
               (error) {
-                sRouter.pop();
+                sRouter.maybePop();
                 _showFailureScreen(error);
               },
               paymentId,
@@ -470,7 +470,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
       try {
         int.parse(code);
         cvv = code;
-        await sRouter.pop();
+        await sRouter.maybePop();
         await _createPayment();
       } catch (e) {
         return;

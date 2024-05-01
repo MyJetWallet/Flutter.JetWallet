@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/20x20/light/deposit_in_progress/simple_
 import 'package:simple_kit/utils/enum.dart';
 
 class SDepositBuyIcon extends StatelessObserverWidget {
-  const SDepositBuyIcon({Key? key}) : super(key: key);
+  const SDepositBuyIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

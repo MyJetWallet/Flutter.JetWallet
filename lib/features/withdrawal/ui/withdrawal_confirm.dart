@@ -47,8 +47,8 @@ class WithdrawalConfirmScreenBody extends StatelessObserverWidget {
     final verb = intl.withdrawal_send_verb.toLowerCase();
     final noun = intl.withdrawal_send_noun.toLowerCase();
 
-    return WillPopScope(
-      onWillPop: () async => false,
+    return PopScope(
+      canPop: false,
       child: ReactionBuilder(
         builder: (context) {
           return reaction<WithdrawalConfirmUnion>(

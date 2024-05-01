@@ -4,9 +4,9 @@ import '../../base/simple_base_svg_36x36.dart';
 
 class SimpleLightFaceIdPressedIcon extends StatelessWidget {
   const SimpleLightFaceIdPressedIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

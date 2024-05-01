@@ -141,7 +141,7 @@ class _CardSettings extends StatelessObserverWidget {
           label: intl.simple_card_terminate_card,
           hasRightValue: false,
           onTableAssetTap: () {
-            sRouter.pop();
+            sRouter.maybePop();
             simpleCardStore.terminateCard();
           },
         ),

@@ -16,7 +16,7 @@
     "login_password": "Password",
     "login_forgotPassword": "Forgot password",
     "login_policyText1": "By logging in and continuing, I hereby agree and consent to the",
-    "login_policyText2": "Terms and conditions",
+    "login_policyText2": "Terms and Conditions",
     "@login_policyText2": {
         "description": "Privacy Policy Text (part 2)"
     },
@@ -759,7 +759,7 @@
     "withText": "With",
     "news": "News",
     "number": "number",
-    "days": "days",
+    "days": "day(s)",
     "hours": "hours",
     "hour": "hour",
     "hoursLeft": "hours left",
@@ -853,7 +853,7 @@
     "curencyBuy_actionItemDescriptionWithoutApplePay": "Visa, Mastercard",
     "currencyBuy_morePaymentMethod": "More payment methods",
     "previewBuyWithUmlimint_disclaimer": "I have read and agreed to",
-    "previewBuyWithUmlimint_disclaimerTerms": "Terms and conditions",
+    "previewBuyWithUmlimint_disclaimerTerms": "Terms and Conditions",
     "previewBuyWithUmlimint_skipWait": "Close",
     "previewBuyWithUmlimint_disclaimerPolicy": "Privacy Policy",
     "previewBuyWithUmlimint_saveCard": "Save this card",
@@ -1172,7 +1172,7 @@
     "buy_confirmation_total": "Total",
     "buy_confirmation_local_info": "Exchange rate will be adjusted according to the market\nprice at the moment we get a confirmation for the payment",
     "buy_confirmation_privacy_checkbox_1": "I have read and agreed to ",
-    "buy_confirmation_privacy_checkbox_2": "Terms and conditions",
+    "buy_confirmation_privacy_checkbox_2": "Terms and Conditions",
     "buy_confirmation_privacy_checkbox_3": "Privacy Policy",
     "buy_confirmation_privacy_p2p_checkbox_1": "1. I confirm that information above is accurate and complete.",
     "buy_confirmation_privacy_p2p_checkbox_1_5": "2. I agree with ",
@@ -1636,6 +1636,8 @@
     "invest_alert_close_all_profit": "Profit",
     "invest_alert_close_all_title": "Close all active invest?",
     "invest_alert_close_all_subtitle": "You are going to close all active invest",
+    "invest_alert_delete_pending_order": "Delete pending order?",
+    "invest_alert_delete_pending_order_sub_titile": "You are going to delete the pending invest",
     "invest_alert_delete_all": "Delete all",
     "invest_alert_delete_all_title": "Delete all orders?",
     "invest_alert_delete_all_subtitle": "You are going to delete all pending invest",
@@ -1672,6 +1674,8 @@
     "invest_error_tp_lower": "TakeProfit level cannot be lower than ",
     "invest_error_sl_higher": "StopLoss level cannot be higher than ",
     "invest_error_sl_lower": "StopLoss level cannot be lower than ",
+    "invest_error_sl_zero": "StopLoss level cannot be ",
+    "invest_error_tp_zero": "TakeProfit level cannot be ",
     "invest_error_amount_higher": "Amount cannot be higher than ",
     "invest_error_amount_lower": "Amount cannot be lower than ",
     "invest_save": "Save",
@@ -1718,5 +1722,341 @@
     "simple_card_is_ready": "Simple card is ready",
     "simple_card_password_repeatable_characters": "Must not include more than 3 consecutive repeatable characters",
     "simple_card_password_whitespace": "Whitespace character is not allowed",
-    "simple_card_password_repeatable_allowed_symbols": "The following special symbols are allowed:"
+    "simple_card_password_repeatable_allowed_symbols": "The following special symbols are allowed:",
+    "earn_earn": "Earn",
+    "earn_funds_are_calculated_based_on_the_current_value": "Funds are calculated based on the current value of cryptoassets",
+    "earn_total": "Total",
+    "earn_revenue": "Revenue",
+    "earn_active_earns": "Active earns",
+    "earn_view_all": "View all",
+    "earn_balance": "Balance",
+    "earn_most_profitable_earns": "The most profitable earns",
+    "earn_top_offers": "Top offers",
+    "earn_up_to": "Up to",
+    "earn_earning": "Earning",
+    "earn_closing": "Closing...",
+    "earn_closed": "Finished",
+    "earn_unknown": "Unknown",
+    "earn_variable_apy": "Variable APY",
+    "earn_started": "Started",
+    "earn_funds_will_be_withdrawn": "Your funds and accrued earnings are paid out upon closing your Earn Account. Disbursement of funds in {days} day(s)",
+    "@earn_funds_will_be_withdrawn": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_top_up": "Top up",
+    "earn_withdraw": "Withdraw",
+    "earn_all_offers": "All offers",
+    "earn_earns_archive": "Earns archive",
+    "earn_you_can_withdraw_deposit_funds_instantly": "You can withdraw deposit funds instantly",
+    "earn_deposit": "Deposit",
+    "earn_continue": "Continue",
+    "earn_choose_a_deposit_plan": "Choose a deposit plan and\nearn crypto",
+    "earn_freeze_period": "Freeze period ({days} day(s))",
+    "@earn_freeze_period": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_flexible_tariff": "Flexible tariff",
+    "earn_are_you_sure": "Are you sure?",
+    "earn_your_funds_and_accrued": "Your funds and accrued earnings are paid out upon closing your Earn Account. Disbursement on {date}.",
+    "@earn_your_funds_and_accrued": {
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "12.12.2024"
+            }
+        }
+    },
+    "earn_continue_earning": "Continue Earning",
+    "earn_yes_withdraw": "Yes, withdraw",
+    "earn_partial_withdrawal": "Partial withdrawal",
+    "earn_the_minimum_amount_of_earn": "The minimum amount of Earn account balances must not be less than",
+    "earn_full_withdrawal": "Full withdrawal",
+    "earn_closing_an_earn_account": "Closing an Earn account with withdrawal of the basis amount and revenue",
+    "earn_confirm": "Confirm",
+    "earn_est": "Est.",
+    "earn_max": "Max",
+    "earn_from_earn": "From earn",
+    "earn_crypto_wallet": "Crypto wallet",
+    "earn_order_summary": "Order summary",
+    "earn_order_summary_partial_withdrawal_means": "Partial withdrawal means withdrawal of funds from the calculation basis. Revenue is paid out at full closure of the account.",
+    "earn_send": "Send",
+    "earn_withdraw_successfully": "Your funds have been successfully disbursed",
+    "earn_full_withdraw": "Your funds and accrued earnings are paid out when you close your Earn account.",
+    "earn_basis_amount": "Basis amount",
+    "earn_withdrawal_period": "Withdrawal period",
+    "earn_the_funds_will_be_disbursed": "The funds will be disbursed to your wallet on {date}. You will also earn income for the next {days} day(s)",
+    "@earn_the_funds_will_be_disbursed": {
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "12.12.2024"
+            },
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_withdrawal_period_explanation_1": "Withdrawal of funds from your plan will result in the closure of the corresponding Earn account. Please note that the full transfer of funds together with the earned income will take place {days} days after the request has been created.",
+    "@earn_withdrawal_period_explanation_1": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_withdrawal_period_explanation_2": "It is important to note that until the final closure of the account, the income will continue to accrue to your Earn account.",
+    "earn_from_crypto_wallet": "From crypto wallet",
+    "earn_to_crypto_wallet": "To crypto wallet",
+    "earn_to_earn": "To earn",
+    "earn_deposit_crypto_wallet": "Deposit crypto wallet",
+    "earn_top_up_value": "Top up {value}",
+    "@earn_top_up_value": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "BTC"
+            }
+        }
+    },
+    "earn_cancel": "Cancel",
+    "earn_apy_rate": "APY Rate",
+    "earn_earning_term": "Earning term",
+    "earn_flexible": "Flexible",
+    "earn_instant": "Instant",
+    "earn_i_have_read_and_agreed_to": "I have read and agreed to",
+    "earn_terms_and_conditions": "Earn Program Terms and Conditions",
+    "earn_transfer": "Transfer",
+    "earn_withdrawal": "Withdrawal",
+    "earn_days_left": "{days} day(s) left",
+    "@earn_days_left": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_disbursement_is_at": "Disbursement is at {time} on {date}",
+    "@earn_disbursement_is_at": {
+        "placeholders": {
+            "time": {
+                "type": "String",
+                "example": "21:24"
+            },
+            "date": {
+                "type": "String",
+                "example": "12.12.2024"
+            }
+        }
+    },
+    "earn_privacy_policy": "Smpl Global Privacy Policy",
+    "earn_freeze": "Freeze {days} day(s)",
+    "@earn_freeze": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_earn_account_id": "Earn account ID",
+    "earn_sent": "Sent",
+    "earn_received": "Received",
+    "earn_withdrawal_of": "Withdrawal of {value}\nwas initiated",
+    "@earn_withdrawal_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "21:24"
+            }
+        }
+    },
+    "about_us_earn": "Terms & Conditions of Earn program",
+    "about_transfer": "Transfer",
+    "earn_freeze_days": "Freeze {days} day(s)",
+    "@earn_freeze_days": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_redeem_period": "Redeem period ({days} days)",
+    "@earn_redeem_period": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_history": "History",
+    "earn_to": "To",
+    "about_us_earn_program": "Earn Program Terms and Conditions",
+    "about_us_smpl_global": "Smpl Global Privacy Policy",
+    "earn_finished": "Finished",
+    "transfer_confirm_via_sms": "Confirm via SMS",
+    "transfer_we_sent": "We sent to the phone **{numbers}",
+    "@transfer_we_sent": {
+        "placeholders": {
+            "numbers": {
+                "type": "String",
+                "example": "1845"
+            }
+        }
+    },
+    "profileDetails_waitForSMS": "Wait for SMS",
+    "earn_transfer_of": "Transfer of {value} to\nEarn was initiated",
+    "@earn_transfer_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "21:24"
+            }
+        }
+    },
+    "wallet_crypto_wallet": "Crypto Wallet",
+    "wallet_crypto_assets": "Crypto assets",
+    "wallet_external_bank_transfer": "External bank transfer",
+    "wallet_internal_transfer": "Internal transfer",
+    "wallet_choose_asset_from_convert": "Choose asset from convert",
+    "error_message_insufficient_funds": "Insufficient funds for the transaction",
+    "convert_choose_account": "Choose account",
+    "earn_earns_details": "Earns details",
+    "earn_base_amount": "Base amount",
+    "earn_saving_income": "Saving income",
+    "invest_transfer_from_crypto_wallet": "From crypto wallet",
+    "invest_transfer_to_invest": "To invest",
+    "invest_transfer_crypto_wallet": "Crypto wallet",
+    "invest_transfer_invest": "Invest",
+    "invest_transfer_from_invest": "From invest",
+    "invest_transfer_to_crypto_wallet": "To crypto wallet",
+    "invest_transfer_empty_balance": "To continue, you need to top up your Tether wallet",
+    "wallets_add_to_wallet": "Add to {value}",
+    "@wallets_add_to_wallet": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "wallets_add_to_apple_wallet": "Apple Wallet",
+    "wallets_add_to_google_wallet": "Google Wallet",
+    "wallets_redirecting": "Redirecting",
+    "wallets_modal_info": "By clicking Continue you will be redirected to {value}:\n\n1. Manually fill in your card details\n2. Follow {value} instructions\n3. Enjoy contactless purchases and ATM withdrawals with your Simple Card!",
+    "@wallets_modal_info": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "wallets_continue": "Continue",
+    "earn_to_continue_you_need_to_top_up_fix": "To continue, you need to top up your {wallet_symbol} wallet with at least {topup_value}",
+    "@earn_to_continue_you_need_to_top_up_fix": {
+        "placeholders": {
+            "topup_value": {
+                "type": "String"
+            },
+            "wallet_symbol": {
+                "type": "String"
+            }
+        }
+    },
+    "prepaid_card_prepaid_card": "Prepaid card",
+    "prepaid_card_in_your_profile": "in your profile",
+    "prepaid_card_buy_for_cryptocurrency": "Buy for a cryptocurrency",
+    "prepaid_card_prepaid_card_service": "Prepaid card service",
+    "prepaid_card_explanation": "You can purchase prepaid bank cards for use in Apple Pay and Google Pay systems, as well as for making payments for online purchases. Prepaid card issuance is provided by Simple partners.",
+    "prepaid_card_card_management": "Card management",
+    "prepaid_card_redirecting": "Redirecting",
+    "prepaid_card_popup_description": "The Prepaid card service is provided by a partner.\n\nManagement of cards, information about card balances, and transaction history are available in the partner's personal account.\n\nTo log in to the personal account, use the card number and CVV code.",
+    "prepaid_card_continue": "Continue",
+    "prepaid_card_cancel": "Cancel",
+    "prepaid_card_my_vouchers": "My vouchers",
+    "prepaid_card_my_vouchers_placeholder": "Your prepaid vouchers will be shown here",
+    "prepaid_card_buy_card": "Buy card",
+    "prepaid_card_next": "Next",
+    "prepaid_card_guide_to_using": "Guide to Using",
+    "prepaid_card_you_purchase": "You purchase a voucher to get a Visa or Mastercard with a preset balance.\n\nAfter buying the voucher, using the voucher and activating the card takes place on the card issuer's website.\n\nThis card can be used for online payments.",
+    "prepaid_card_the_purchased": "The purchased card's balance cannot be reloaded",
+    "prepaid_card_ApplePay_and_GooglePay": "ApplePay and GooglePay",
+    "prepaid_card_cards_marked": "Cards marked \"Mobile Wallet\" support adding to ApplePay and GooglePay. Cards without this marking do not support linking to mobile wallets.",
+    "prepaid_card_please_note": "Please note",
+    "prepaid_card_that_cards": "That cards marked with 'Mobile Wallet' may not be available in all countries.",
+    "prepaid_card_privacy": "Privacy",
+    "prepaid_card_simple_does_not": "Simple does not share personal information with the card issuer. Typically, during registration, you need to provide:",
+    "prepaid_card_the_full_name": "  •  The full name as it appears on the card\n  •  Country of residence and address\n  •  Contact phone number\n  •  Email address",
+    "prepaid_card_it_is_necessary": "It is necessary to verify the email address, as it will be used to receive verification codes for transactions with the card.",
+    "prepaid_card_in_some_instances": "In some instances, the card issuer may require a more thorough verification of the client's identity and suggest completing the KYC (Know Your Customer) procedure. In such cases, it is advisable to follow the card issuer's instructions to avoid potential complications and delays in receiving the card.",
+    "prepaid_card_only_the_individual": "Only the individual receiving the card must undergo the KYC process. Verification based on a legal entity's documents is not permitted.",
+    "prepaid_card_voucher_activation": "Voucher Activation",
+    "prepaid_card_to_activate": "To activate the voucher, you need to visit the card issuer's website. Ensure that the country you specify during card activation matches the country selected at the time of the voucher purchase.",
+    "prepaid_card_a_mismatch_between": "A mismatch between the country indicated at the time of voucher purchase and the country specified during card issuance may lead to difficulties in activating the voucher and receiving the card.",
+    "prepaid_card_the_issuer_may": "The issuer may require additional verification of your identity and the completion of the KYC procedure for card activation. It's essential to have documents proving your residence in the specified country.",
+    "prepaid_card_choose_prepaid_card": "Choose prepaid card",
+    "prepaid_card_choose_residential_country": "Choose residential country",
+    "prepaid_card_in_progress": "In progress...",
+    "prepaid_card_buy_voucher": "Buy voucher",
+    "prepaid_card_prepaid_card_activation": "Prepaid card activation",
+    "prepaid_card_apple_pay_available": "Apple Pay available",
+    "prepaid_card_apple_pay_unavailable": "Apple Pay unavailable",
+    "prepaid_card_google_pay_available": "Google Pay available",
+    "prepaid_card_google_pay_unavailable": "Google Pay unavailable",
+    "prepaid_card_min_amount": "Min amount",
+    "prepaid_card_max_amount": "Max amount",
+    "prepaid_card_commission": "Commission",
+    "prepaid_card_free": "Free",
+    "prepaid_card_choose_country": "Choose country",
+    "prepaid_card_no_available_tariffs": "There are no available tariffs for the selected country yet",
+    "prepaid_card_pay_with": "Pay with",
+    "prepaid_card_crypto_wallet": "Crypto wallet",
+    "prepaid_card_prepaid_card_voucher": "Prepaid card voucher",
+    "prepaid_card_card_type": "Card type",
+    "prepaid_card_apple_pay": "Apple Pay",
+    "prepaid_card_google_pay": "Google Pay",
+    "prepaid_card_yes": "Yes",
+    "prepaid_card_no": "No",
+    "prepaid_card_card_balance": "Card balance",
+    "prepaid_card_country": "Country",
+    "prepaid_card_success": "Prepaid card voucher with a balance of {amount} purchased",
+    "@prepaid_card_success": {
+        "placeholders": {
+            "amount": {
+                "type": "String",
+                "example": "1 408.10 USD"
+            }
+        }
+    },
+    "prepaid_card_apple_pay_is_unavailable": "Apple Pay is unavailable",
+    "prepaid_card_google_pay_is_unavailable": "Google Pay is unavailable",
+    "prepaid_card_issue_card": "Issue card",
+    "prepaid_card_activation_1": "Copy the code and go to the card issuer's website.",
+    "prepaid_card_activation_2": "Enter the verification code to confirm your purchase.",
+    "prepaid_card_activation_3": "Follow the instructions to complete the card setup.",
+    "prepaid_card_voucher_code": "Voucher code",
+    "prepaid_card_order_id": "Order ID",
+    "prepaid_card_the_issuance": "The issuance of the voucher typically takes around 1 hour.",
+    "prepaid_card_country_explanation": "The country of issue of the voucher must match the country of issue of the card",
+    "prepaid_cardcomission_explanation": "The comission for issuing the card is paid from your wallet",
+    "invest_history_tab_positions": "Positions",
+    "invest_history_tab_market": "Market",
+    "invest_alert_delete_pending_order": "Delete pending order",
+    "invest_alert_delete_pending_order_sub_titile": "You are going to delete the pending invest",
+    "invest_liquidation_price": "Liquidation Price",
+    "invest_liquidation": "Liquidation",
+    "earn_deposit_of": "Deposit of {value}\nwas initiated",
+    "@earn_deposit_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "200 USDT"
+            }
+        }
+    },
+    "prepaid_card_more": "more",
+    "prepaid_card_less": "less",
+    "prepaid_card_funds_for_purchased": "Funds for a purchased voucher are non-refundable",
+    "prepaid_card_error": "The voucher for the prepaid card was not issued. Please contact customer service, we will try to resolve the issue as soon as possible."
 }

@@ -71,10 +71,8 @@ abstract class GeneralSendGiftStoreBase with Store {
     switch (selectedContactType) {
       case ReceiverContacrType.email:
         receiverContact = email;
-        break;
       case ReceiverContacrType.phone:
         receiverContact = _phoneCountryCode + _phoneBody;
-        break;
     }
   }
 
@@ -100,12 +98,6 @@ abstract class GeneralSendGiftStoreBase with Store {
       giftSubmethod: selectedContactType.name,
     );
 
-    Future.delayed(
-      const Duration(seconds: 40),
-      () {
-        loader.finishLoadingImmediately();
-      },
-    );
     DC<ServerRejectException, void>? response;
     if (selectedContactType == ReceiverContacrType.email) {
       final model = SendGiftByEmailRequestModel(
@@ -193,8 +185,7 @@ abstract class GeneralSendGiftStoreBase with Store {
       giftSubmethod: selectedContactType.name,
     );
 
-    return sRouter
-        .push(
+    return sRouter.push(
       SuccessScreenRouter(
         primaryText: intl.successScreen_success,
         secondaryText: '${intl.send_gift_you_sent} ${volumeFormat(
@@ -203,31 +194,34 @@ abstract class GeneralSendGiftStoreBase with Store {
           symbol: currency.symbol,
         )}\n${intl.send_gift_success_message_2}',
         showProgressBar: true,
-      ),
-    )
-        .then(
-      (value) {
-        sRouter.replaceAll([
-          const HomeRouter(
-            children: [
-              MyWalletsRouter(),
-            ],
-          ),
-        ]);
-        final context = sRouter.navigatorKey.currentContext!;
-        shareGiftResultBottomSheet(
-          context: context,
-          currency: currency,
-          amount: amount,
-          email: selectedContactType == ReceiverContacrType.email ? _email : null,
-          phoneNumber: selectedContactType == ReceiverContacrType.phone ? (_phoneCountryCode + _phoneBody) : null,
-          onClose: () {
-            sAnalytics.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet();
-          },
-        );
+        onSuccess: (p0) async {
+          await sRouter.replaceAll([
+            const HomeRouter(
+              children: [
+                MyWalletsRouter(),
+              ],
+            ),
+          ]);
 
-        shopRateUpPopup(sRouter.navigatorKey.currentContext!);
-      },
+          await Future.delayed(const Duration(milliseconds: 300), () {
+            final context = sRouter.navigatorKey.currentContext!;
+            shareGiftResultBottomSheet(
+              context: context,
+              currency: currency,
+              amount: amount,
+              email: selectedContactType == ReceiverContacrType.email ? _email : null,
+              phoneNumber: selectedContactType == ReceiverContacrType.phone ? (_phoneCountryCode + _phoneBody) : null,
+              onClose: () {
+                sAnalytics.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet();
+              },
+            );
+          });
+
+          await Future.delayed(const Duration(milliseconds: 300), () {
+            shopRateUpPopup(sRouter.navigatorKey.currentContext!);
+          });
+        },
+      ),
     );
   }
 }

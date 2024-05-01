@@ -7,12 +7,12 @@ import 'package:simple_kit/utils/enum.dart';
 
 class STextButton1 extends StatelessObserverWidget {
   const STextButton1({
-    Key? key,
+    super.key,
     this.color,
     required this.active,
     required this.name,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final bool active;
   final String name;

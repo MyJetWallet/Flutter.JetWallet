@@ -11,6 +11,7 @@ class SuggestionButtonWidget extends StatelessWidget {
     this.trailing,
     required this.onTap,
     this.isDisabled = false,
+    this.showArrow = true,
   });
 
   final Widget icon;
@@ -19,6 +20,7 @@ class SuggestionButtonWidget extends StatelessWidget {
   final String? trailing;
   final void Function() onTap;
   final bool isDisabled;
+  final bool showArrow;
 
   @override
   Widget build(BuildContext context) {
@@ -85,14 +87,16 @@ class SuggestionButtonWidget extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SpaceW8(),
-                SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: SBlueRightArrowIcon(
-                    color: isDisabled ? greyDisabled : colors.black,
+                if (showArrow) ...[
+                  const SpaceW8(),
+                  SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: SBlueRightArrowIcon(
+                      color: isDisabled ? greyDisabled : colors.black,
+                    ),
                   ),
-                ),
+                ],
               ],
             ),
           ],

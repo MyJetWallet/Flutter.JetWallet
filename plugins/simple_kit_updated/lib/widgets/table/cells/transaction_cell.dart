@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 
 enum TransactionCellSize { large, small }
 
@@ -27,12 +26,12 @@ class TransactionCellAsset {
 
 class TransactionCell extends StatelessWidget {
   const TransactionCell({
-    Key? key,
+    super.key,
     this.size = TransactionCellSize.large,
     this.type = TransactionCellType.def,
     required this.assetOne,
     this.asssetTwo,
-  }) : super(key: key);
+  });
 
   final TransactionCellSize size;
   final TransactionCellType type;

@@ -7,7 +7,7 @@ import 'package:simple_kit_updated/widgets/shared/icons/user_noty_icon.dart';
 
 class MainScreenAppbar extends StatelessWidget {
   const MainScreenAppbar({
-    Key? key,
+    super.key,
     this.showIcon = true,
     required this.child,
     required this.headerTitle,
@@ -17,7 +17,7 @@ class MainScreenAppbar extends StatelessWidget {
     this.onProfileTap,
     this.profileNotificationsCount = 0,
     this.isLoading = false,
-  }) : super(key: key);
+  });
 
   final bool showIcon;
   final Widget child;

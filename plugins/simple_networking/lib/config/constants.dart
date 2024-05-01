@@ -44,6 +44,9 @@ const investInstrumentsMessage = 'invest-instruments';
 const investPricesMessage = 'invest-current-prices';
 const investSectorsMessage = 'invest-sectors';
 const investWalletMessage = 'invest-wallet-profile';
+const investBaseDailyPricesMessage = 'invest-base-daily-prices';
+const earnOffers = 'earn-offers';
+const earnPositions = 'earn-positions';
 
 // KeyValue
 const watchlistKey = 'watchlist';

@@ -5,10 +5,10 @@ import '../../../simple_kit.dart';
 
 class SNotificationBox extends StatelessWidget {
   const SNotificationBox({
-    Key? key,
+    super.key,
     required this.text,
     this.isError = true,
-  }) : super(key: key);
+  });
 
   final String text;
   final bool isError;

@@ -6,10 +6,10 @@ import 'package:simple_kit/utils/enum.dart';
 
 class SVisaCardIcon extends StatelessObserverWidget {
   const SVisaCardIcon({
-    Key? key,
+    super.key,
     this.width,
     this.height,
-  }) : super(key: key);
+  });
 
   final double? width;
   final double? height;

@@ -10,7 +10,6 @@ import 'package:jetwallet/core/services/simple_networking/simple_networking.dart
 import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:mobx/mobx.dart';
-import 'package:openpgp/model/bridge_model_generated.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -214,7 +213,6 @@ abstract class _IbanAddressBookStoreBase with Store {
 
       sNotification.showError(
         response.error?.cause ?? '',
-        duration: 4,
         id: 1,
         needFeedback: true,
       );
@@ -254,7 +252,6 @@ abstract class _IbanAddressBookStoreBase with Store {
 
         sNotification.showError(
           response.error?.cause ?? '',
-          duration: 4,
           id: 1,
           needFeedback: true,
         );
@@ -266,7 +263,6 @@ abstract class _IbanAddressBookStoreBase with Store {
 
       sNotification.showError(
         intl.iban_edit_save_noty,
-        duration: 4,
         id: 1,
         needFeedback: true,
         isError: false,
@@ -294,7 +290,6 @@ abstract class _IbanAddressBookStoreBase with Store {
       loader.finishLoadingImmediately();
       sNotification.showError(
         response.error?.cause ?? '',
-        duration: 4,
         id: 1,
         needFeedback: true,
       );
@@ -307,7 +302,6 @@ abstract class _IbanAddressBookStoreBase with Store {
 
     sNotification.showError(
       intl.iban_edit_delete_noty,
-      duration: 4,
       id: 1,
       needFeedback: true,
       isError: false,

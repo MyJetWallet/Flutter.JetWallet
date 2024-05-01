@@ -5,7 +5,7 @@ import '../../simple_kit.dart';
 
 class SPaymentSelectCreditCard extends StatelessWidget {
   const SPaymentSelectCreditCard({
-    Key? key,
+    super.key,
     this.onTap,
     this.helper = '',
     this.amount = '',
@@ -16,7 +16,7 @@ class SPaymentSelectCreditCard extends StatelessWidget {
     required this.description,
     required this.widgetSize,
     required this.limit,
-  }) : super(key: key);
+  });
 
   final bool isApplePay;
   final bool isGooglePay;

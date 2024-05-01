@@ -3,14 +3,14 @@ import 'package:simple_kit/modules/agreements/simple_privacy_policy/simple_polic
 
 class SPolicyText extends StatelessWidget {
   const SPolicyText({
-    Key? key,
+    super.key,
     required this.firstText,
     required this.userAgreementText,
     required this.betweenText,
     required this.privacyPolicyText,
     required this.onUserAgreementTap,
     required this.onPrivacyPolicyTap,
-  }) : super(key: key);
+  });
 
   final String firstText;
   final String userAgreementText;

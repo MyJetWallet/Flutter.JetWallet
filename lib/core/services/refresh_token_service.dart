@@ -133,7 +133,7 @@ Future<RefreshTokenStatus> refreshToken({
 
       return RefreshTokenStatus.caught;
     }
-  } on DioError catch (error) {
+  } on DioException catch (error) {
     final code = error.response?.statusCode;
 
     getIt.get<SimpleLoggerService>().log(

@@ -9,7 +9,7 @@ import '../light/simple_light_standard_field.dart';
 
 class SStandardField extends StatelessObserverWidget {
   const SStandardField({
-    Key? key,
+    super.key,
     this.keyboardType,
     this.textInputAction,
     this.controller,
@@ -46,7 +46,7 @@ class SStandardField extends StatelessObserverWidget {
     this.height,
     this.weight,
     this.cursorHeight,
-  }) : super(key: key);
+  });
 
   final TextEditingController? controller;
   final TextInputType? keyboardType;

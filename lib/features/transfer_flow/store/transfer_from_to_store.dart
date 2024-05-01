@@ -25,7 +25,7 @@ abstract class _TransferFromToStoreBase with Store {
 
   @computed
   List<CardDataModel> get cards {
-    if (_toType == CredentialsType.clearjunctionAccount) {
+    if (_isFrom && _toType == CredentialsType.clearjunctionAccount) {
       return [];
     }
 
@@ -34,10 +34,7 @@ abstract class _TransferFromToStoreBase with Store {
             ? []
             : sSignalRModules.bankingProfileData?.banking?.cards
                     ?.where(
-                      (element) =>
-                          element.status == AccountStatusCard.active &&
-                          element.isNotEmptyBalance &&
-                          element.cardId != _skipId,
+                      (element) => element.status == AccountStatusCard.active && element.cardId != _skipId,
                     )
                     .toList() ??
                 []
@@ -57,9 +54,7 @@ abstract class _TransferFromToStoreBase with Store {
 
     if (simpleAccount != null && simpleAccount.accountId != _skipId && simpleAccount.status == AccountStatus.active) {
       if (_isFrom) {
-        if (simpleAccount.isNotEmptyBalance) {
-          accounts.add(simpleAccount);
-        }
+        accounts.add(simpleAccount);
       } else if (_fromType != CredentialsType.unlimitCard) {
         accounts.add(simpleAccount);
       }
@@ -69,7 +64,6 @@ abstract class _TransferFromToStoreBase with Store {
         ? sSignalRModules.bankingProfileData?.banking?.accounts
                 ?.where(
                   (element) =>
-                      element.isNotEmptyBalance &&
                       !(element.isHidden ?? false) &&
                       element.accountId != _skipId &&
                       element.status == AccountStatus.active,

@@ -21,18 +21,18 @@ class FlagItem extends StatelessObserverWidget {
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
       ),
-      height: 24,
-      width: 24,
+      height: 20,
+      width: 20,
       child: (countryFlagExist(countryCode))
           ? SvgPicture.asset(
               flagAssetName(countryCode),
               fit: BoxFit.cover,
-              height: 24,
-              width: 24,
+              height: 20,
+              width: 20,
             )
           : Container(
-              height: 24,
-              width: 24,
+              height: 20,
+              width: 20,
               color: colors.grey4,
             ),
     );

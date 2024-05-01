@@ -2,7 +2,10 @@ import 'package:data_channel/data_channel.dart';
 import 'package:dio/dio.dart';
 import 'package:simple_networking/api_client/api_client.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/auth_api/models/asset_model.dart';
+import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/create_banking_account_simple_response.dart';
+import 'package:simple_networking/modules/signal_r/models/earn_audit_history_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/data_sources/wallet_api_data_sources.dart';
@@ -41,8 +44,12 @@ import 'package:simple_networking/modules/wallet_api/models/deposit_address/depo
 import 'package:simple_networking/modules/wallet_api/models/deposit_address/deposit_address_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/disclaimer/disclaimers_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/disclaimer/disclaimers_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/earn_close_position/earn_close_position_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/earn_deposit_position/earn_deposit_position_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/earn_offer_deposit/earn_offer_deposit_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/earn_offer_request/earn_offer_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/earn_offer_withdrawal/earn_offer_withdrawal_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/earn_withdraw_position/earn_withdraw_position_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/encryption_key/encryption_key_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_response_model.dart';
@@ -50,6 +57,8 @@ import 'package:simple_networking/modules/wallet_api/models/google_pay/google_pa
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_preview_withdrawal_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_withdrawal_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/invest_transfer/invest_transfer_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/invest_transfer/invest_transfer_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/check_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/limits/buy_limits_request_model.dart';
@@ -78,6 +87,13 @@ import 'package:simple_networking/modules/wallet_api/models/payment_info/payment
 import 'package:simple_networking/modules/wallet_api/models/payment_info/payment_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/payment_preview/payment_preview_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/payment_preview/payment_preview_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_prepaid_card_intention_dto_list_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_purchase_card_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_purchase_card_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/prepaid_card/get_purchase_card_brands_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/prepaid_card/get_purchase_card_list_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/prepaid_card/get_vouncher_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/prepaid_card/purchase_card_brand_list_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/profile/profile_delete_reasons_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/profile_info/profile_info_reponse_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/recurring_manage/recurring_delete_request_model.dart';
@@ -127,6 +143,7 @@ import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/wi
 
 import '../../../simple_networking.dart';
 import '../models/iban_info/iban_info_response_model.dart';
+import '../models/prepaid_card/card_countries_response_model.dart';
 import '../models/profile/profile_set_address_request.dart';
 import '../models/simple_card/simple_card_create_request.dart';
 import '../models/simple_card/simple_card_create_response.dart';
@@ -388,6 +405,14 @@ class WalletApiRepository {
     EarnOfferWithdrawalRequestModel model,
   ) async {
     return _walletApiDataSources.postEarnOfferWithdrawalRequest(
+      model,
+    );
+  }
+
+  Future<DC<ServerRejectException, void>> postEarnOfferCreatePosition(
+    EarnOfferRequestModel model,
+  ) async {
+    return _walletApiDataSources.postEarnOfferCreatePosition(
       model,
     );
   }
@@ -995,16 +1020,30 @@ class WalletApiRepository {
 
   // invest
 
-  Future<DC<ServerRejectException, InvestPositionResponseModel>> createActivePosition(NewInvestRequestModel request) async {
+  Future<DC<ServerRejectException, AssetModelAdm>> getAsset({required String assetId}) async {
+    return _walletApiDataSources.getAsset(assetId: assetId);
+  }
+
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> createActivePosition(
+      NewInvestRequestModel request) async {
     return _walletApiDataSources.createActivePositionRequest(model: request);
   }
 
-  Future<DC<ServerRejectException, InvestPositionResponseModel>> createPendingLimitPosition(NewInvestOrderRequestModel request) async {
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> createPendingLimitPosition(
+      NewInvestOrderRequestModel request) async {
     return _walletApiDataSources.createPendingLimitPositionRequest(model: request);
   }
 
-  Future<DC<ServerRejectException, InvestPositionResponseModel>> createPendingStopPosition(NewInvestOrderRequestModel request) async {
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> createPendingStopPosition(
+      NewInvestOrderRequestModel request) async {
     return _walletApiDataSources.createPendingStopPositionRequest(model: request);
+  }
+
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> changePendingPrice({
+    required String id,
+    required int price,
+  }) async {
+    return _walletApiDataSources.changePendingPrice(id: id, price: price);
   }
 
   Future<DC<ServerRejectException, InvestPositionResponseModel>> closeActivePosition({
@@ -1068,5 +1107,113 @@ class WalletApiRepository {
     required String dateTo,
   }) async {
     return _walletApiDataSources.getInvestHistorySummaryRequest(dateFrom: dateFrom, dateTo: dateTo);
+  }
+
+  Future<DC<ServerRejectException, List<EarnPositionClientModel>>> getEarnPositionsClosed({
+    required String skip,
+    required String take,
+  }) async {
+    return _walletApiDataSources.getEarnPositionsClosed(
+      skip: skip,
+      take: take,
+    );
+  }
+
+  Future<DC<ServerRejectException, List<EarnPositionAuditClientModel>>> getEarnAuditPositons({
+    required String positionId,
+    required String skip,
+    required String take,
+  }) async {
+    return _walletApiDataSources.getEarnAuditPositons(
+      positionId: positionId,
+      skip: skip,
+      take: take,
+    );
+  }
+
+  Future<DC<ServerRejectException, EarnPositionClientModel>> postEarnWithdrawPosition(
+    EarnWithdrawPositionRequestModel model,
+  ) async {
+    return _walletApiDataSources.postEarnWithdrawPositionRequest(
+      model,
+    );
+  }
+
+  Future<DC<ServerRejectException, EarnPositionClientModel>> postEarnClosePosition(
+    EarnColosePositionRequestModel model,
+  ) async {
+    return _walletApiDataSources.postEarnClosePositionRequest(
+      model,
+    );
+  }
+
+  Future<DC<ServerRejectException, EarnPositionClientModel>> postEarnDepositPosition(
+    EarnDepositPositionRequestModel model,
+  ) async {
+    return _walletApiDataSources.postEarnDepositPositionRequest(
+      model,
+    );
+  }
+
+  //Invest transfer
+  Future<DC<ServerRejectException, InvestTransferResponseModel>> postInvestDeposite(
+    InvestTransferRequestModel model,
+  ) async {
+    return _walletApiDataSources.postInvestDepositeRequest(
+      model,
+    );
+  }
+
+  Future<DC<ServerRejectException, InvestTransferResponseModel>> postInvestWithdraw(
+    InvestTransferRequestModel model,
+  ) async {
+    return _walletApiDataSources.postInvestWithdrawRequest(
+      model,
+    );
+  }
+
+  // Prepaid card
+  Future<DC<ServerRejectException, BuyPrepaidCardIntentionDtoListResponseModel>> postGetPurchaseList(
+    GetPurchaseCardListRequestModel model,
+  ) async {
+    return _walletApiDataSources.postGetPurchaseListRequest(
+      model,
+    );
+  }
+
+  Future<DC<ServerRejectException, CardCountriesResponseModel>> postCardGetCountries() async {
+    return _walletApiDataSources.postCardGetCountriesRequest();
+  }
+
+  Future<DC<ServerRejectException, PurchaseCardBrandDtoListResponseModel>> postGetBrands(
+    GetPurchaseCardBrandsRequestModel model,
+  ) async {
+    return _walletApiDataSources.postGetBrandsRequest(
+      model,
+    );
+  }
+
+  Future<DC<ServerRejectException, BuyPurchaseCardResponseModel>> postBuyPrepaidCardPreview(
+    BuyPurchaseCardRequestModel model,
+  ) async {
+    return _walletApiDataSources.postBuyPrepaidCardPreviewRequest(
+      model,
+    );
+  }
+
+  Future<DC<ServerRejectException, PrapaidCardVoucherModel>> postBuyPrepaidCardExecute(
+    BuyPurchaseCardRequestModel model,
+  ) async {
+    return _walletApiDataSources.postBuyPrepaidCardExecuteRequest(
+      model,
+    );
+  }
+
+  Future<DC<ServerRejectException, BuyPrepaidCardIntentionDtoListResponseModel>> postGetVouncher(
+    GetVouncherRequestModel model,
+  ) async {
+    return _walletApiDataSources.postGetVouncherRequest(
+      model,
+    );
   }
 }

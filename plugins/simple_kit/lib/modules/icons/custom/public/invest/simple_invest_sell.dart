@@ -6,11 +6,11 @@ import 'package:simple_kit/utils/enum.dart';
 
 class SISellIcon extends StatelessObserverWidget {
   const SISellIcon({
-    Key? key,
+    super.key,
     this.color,
     this.width,
     this.height,
-  }) : super(key: key);
+  });
 
   final Color? color;
   final double? width;

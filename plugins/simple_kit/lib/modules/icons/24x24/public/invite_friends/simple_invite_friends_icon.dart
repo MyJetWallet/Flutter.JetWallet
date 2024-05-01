@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/invite_friends/simple_light
 import 'package:simple_kit/utils/enum.dart';
 
 class SInviteFriendsIcon extends StatelessObserverWidget {
-  const SInviteFriendsIcon({Key? key}) : super(key: key);
+  const SInviteFriendsIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

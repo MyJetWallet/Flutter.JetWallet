@@ -3,11 +3,11 @@ import 'package:simple_kit/modules/icons/custom/base/simple_custom_svg.dart';
 
 class SimpleLightGooglePayIcon extends StatelessWidget {
   const SimpleLightGooglePayIcon({
-    Key? key,
+    super.key,
     this.color,
     this.width,
     this.height,
-  }) : super(key: key);
+  });
 
   final Color? color;
   final double? width;

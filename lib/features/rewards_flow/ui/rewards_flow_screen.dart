@@ -194,5 +194,5 @@ class _RewardsFlowScreenBodyState extends State<_RewardsFlowScreenBody> {
 bool isAnyValidItemInRewardBalanceList(RewardsFlowStore store) {
   if (store.balances.isEmpty) return false;
 
-  return (store.balances).where((element) => element.amount != Decimal.zero).isEmpty;
+  return store.balances.where((element) => element.amount != Decimal.zero).isEmpty;
 }

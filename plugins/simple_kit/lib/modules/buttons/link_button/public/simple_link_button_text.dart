@@ -6,7 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 /// No dark theme for this button right now
 class SLinkButtonText extends StatelessObserverWidget {
   const SLinkButtonText({
-    Key? key,
+    super.key,
     this.defaultIcon,
     this.pressedIcon,
     this.inactiveIcon,
@@ -17,7 +17,7 @@ class SLinkButtonText extends StatelessObserverWidget {
     required this.name,
     required this.onTap,
     required this.active,
-  }) : super(key: key);
+  });
 
   final String name;
   final Function() onTap;

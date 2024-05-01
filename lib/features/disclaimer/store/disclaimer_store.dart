@@ -144,8 +144,7 @@ abstract class _DisclaimerStoreBase with Store {
             title = disclaimers[0].title;
             imageUrl = tempDisclaimers[0].imageUrl;
             questions = ObservableList.of(tempDisclaimers[0].questions);
-            activeButton =
-                _checkActiveButtonStatus(tempDisclaimers[0].questions);
+            activeButton = _checkActiveButtonStatus(tempDisclaimers[0].questions);
           }
 
           if (disclaimers.isNotEmpty) {
@@ -183,9 +182,10 @@ abstract class _DisclaimerStoreBase with Store {
 
     showsDisclaimer(
       context: context,
-      child: WillPopScope(
-        onWillPop: () {
-          return Future.value(false);
+      child: PopScope(
+        canPop: false,
+        onPopInvoked: (_) {
+          Future.value(false);
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -227,8 +227,7 @@ abstract class _DisclaimerStoreBase with Store {
                                     baselineType: TextBaseline.alphabetic,
                                     child: Text(
                                       title,
-                                      maxLines:
-                                          (description.isNotEmpty) ? 5 : 12,
+                                      maxLines: (description.isNotEmpty) ? 5 : 12,
                                       textAlign: TextAlign.center,
                                       style: sTextH5Style.copyWith(
                                         overflow: TextOverflow.visible,
@@ -260,8 +259,7 @@ abstract class _DisclaimerStoreBase with Store {
                                                 colors,
                                               ),
                                               firstText: question.text,
-                                              indexCheckBox:
-                                                  _findQuestionIndex(question),
+                                              indexCheckBox: _findQuestionIndex(question),
                                               onCheckboxTap: () => setState(() {
                                                 _onCheckboxTap(
                                                   _findQuestionIndex(question),
@@ -269,10 +267,7 @@ abstract class _DisclaimerStoreBase with Store {
                                                 );
                                               }),
                                             ),
-                                            if (question != questions.last)
-                                              const SpaceH18()
-                                            else
-                                              const SpaceH94(),
+                                            if (question != questions.last) const SpaceH18() else const SpaceH94(),
                                           ],
                                         ],
                                       ),

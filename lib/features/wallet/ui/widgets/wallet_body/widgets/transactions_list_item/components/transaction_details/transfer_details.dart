@@ -66,6 +66,7 @@ class TransferDetails extends StatelessObserverWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  const SizedBox(width: 10),
                   Flexible(
                     child: TransactionDetailsValueText(
                       text: transactionListItem.ibanTransferInfo?.fromAccountLabel ?? 'Account 1',
@@ -83,6 +84,7 @@ class TransferDetails extends StatelessObserverWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  const SizedBox(width: 10),
                   Flexible(
                     child: TransactionDetailsValueText(
                       text: transactionListItem.ibanTransferInfo?.toAccountLabel ?? 'Account 1',
@@ -142,10 +144,10 @@ class _TransferDetailsHeader extends StatelessWidget {
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${euroAsset.symbol}'
               : volumeFormat(
-            symbol: euroAsset.symbol,
-            accuracy: euroAsset.accuracy,
-            decimal: transactionListItem.ibanTransferInfo?.withdrawalAmount?.abs() ?? Decimal.zero,
-          ),
+                  symbol: euroAsset.symbol,
+                  accuracy: euroAsset.accuracy,
+                  decimal: transactionListItem.ibanTransferInfo?.withdrawalAmount?.abs() ?? Decimal.zero,
+                ),
           fromAssetCustomIcon: transactionListItem.ibanTransferInfo?.fromAccountType == IbanAccountType.bankCard
               ? Assets.svg.assets.fiat.card.simpleSvg(
                   width: 32,
@@ -158,10 +160,10 @@ class _TransferDetailsHeader extends StatelessWidget {
           toAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${euroAsset.symbol}'
               : volumeFormat(
-            symbol: euroAsset.symbol,
-            accuracy: euroAsset.accuracy,
-            decimal: transactionListItem.ibanTransferInfo?.receiveAmount?.abs() ?? Decimal.zero,
-          ),
+                  symbol: euroAsset.symbol,
+                  accuracy: euroAsset.accuracy,
+                  decimal: transactionListItem.ibanTransferInfo?.receiveAmount?.abs() ?? Decimal.zero,
+                ),
           toAssetCustomIcon: transactionListItem.ibanTransferInfo?.toAccountType == IbanAccountType.bankCard
               ? Assets.svg.assets.fiat.card.simpleSvg(
                   width: 32,

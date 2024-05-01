@@ -8,14 +8,12 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/features/face_check/store/face_check_store.dart';
-import 'package:simple_kit/modules/headers/simple_small_header.dart';
 import 'package:simple_kit/modules/icons/40x40/public/user/simple_user_icon.dart';
-import 'package:simple_kit/modules/shared/page_frames/simple_page_frame_with_padding.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage()
 class FaceCheckScreen extends StatefulWidget {
-  const FaceCheckScreen({Key? key}) : super(key: key);
+  const FaceCheckScreen({super.key});
 
   @override
   State<FaceCheckScreen> createState() => _FaceCheckScreenState();

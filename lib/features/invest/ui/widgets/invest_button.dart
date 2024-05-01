@@ -7,7 +7,7 @@ final _baseButtonRadius = BorderRadius.circular(12.0);
 
 class SIButton extends StatefulWidget {
   const SIButton({
-    Key? key,
+    super.key,
     this.icon,
     this.borderColor,
     this.isSecondary = false,
@@ -19,7 +19,7 @@ class SIButton extends StatefulWidget {
     required this.activeNameColor,
     required this.inactiveColor,
     required this.inactiveNameColor,
-  }) : super(key: key);
+  });
 
   final Widget? icon;
   final bool active;

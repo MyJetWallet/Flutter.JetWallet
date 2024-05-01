@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/13x14/light/tick/simple_light_stats_ico
 import 'package:simple_kit/utils/enum.dart';
 
 class SStatsIcon extends StatelessObserverWidget {
-  const SStatsIcon({Key? key}) : super(key: key);
+  const SStatsIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

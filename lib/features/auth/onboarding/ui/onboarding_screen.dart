@@ -85,13 +85,10 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody> with Ticker
                     switch (onboardingStore.currentIndex) {
                       case 0:
                         imageSize = 300;
-                        break;
                       case 1:
                         imageSize = 252.38;
-                        break;
                       case 2:
                         imageSize = 240;
-                        break;
                       default:
                         imageSize = size.width * 0.7;
                     }

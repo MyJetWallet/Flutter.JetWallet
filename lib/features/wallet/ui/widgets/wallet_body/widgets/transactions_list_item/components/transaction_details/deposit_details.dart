@@ -62,7 +62,7 @@ class DepositDetails extends StatelessObserverWidget {
                     ),
                   ),
                   const SpaceW10(),
-                  HistoryCopyIcon(transactionListItem.operationId),
+                  HistoryCopyIcon(transactionListItem.depositInfo?.txId ?? ''),
                 ],
               ),
             ),

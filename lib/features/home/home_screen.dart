@@ -43,6 +43,10 @@ class _HomeScreenState extends State<HomeScreen> {
       BottomItemType.wallets,
       BottomItemType.market,
       if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
+          .any((element) => element.id == AssetPaymentProductsEnum.earnProgram)) ...[
+        BottomItemType.earn,
+      ],
+      if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
           .where((element) => element.id == AssetPaymentProductsEnum.investProgram)
           .isNotEmpty) ...[
         BottomItemType.invest,
@@ -62,6 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
         final screens = <PageRouteInfo<dynamic>>[
           if (bottomBarItems.contains(BottomItemType.wallets)) const MyWalletsRouter(),
           if (bottomBarItems.contains(BottomItemType.market)) const MarketRouter(),
+          if (bottomBarItems.contains(BottomItemType.earn)) const EarnRouter(),
           if (bottomBarItems.contains(BottomItemType.invest)) const InvestPageRouter(),
           if (bottomBarItems.contains(BottomItemType.card)) const CardRouter(),
           if (bottomBarItems.contains(BottomItemType.rewards)) const RewardsFlowRouter(),
@@ -100,11 +105,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     text: intl.bottom_bar_market,
                     icon: Assets.svg.large.graph,
                   ),
+                if (bottomBarItems.contains(BottomItemType.earn))
+                  SBottomItemModel(
+                    type: BottomItemType.earn,
+                    text: intl.earn_earn,
+                    icon: Assets.svg.large.chart,
+                  ),
                 if (bottomBarItems.contains(BottomItemType.invest))
                   SBottomItemModel(
                     type: BottomItemType.invest,
                     text: intl.bottom_bar_invest,
-                    icon: Assets.svg.large.graph,
+                    icon: Assets.svg.large.crypto,
                   ),
                 if (bottomBarItems.contains(BottomItemType.card))
                   SBottomItemModel(
@@ -125,10 +136,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 switch (bottomBarItems[val]) {
                   case BottomItemType.wallets:
                     sAnalytics.tapOnTheTabWalletsInTabBar();
-                    break;
                   case BottomItemType.rewards:
                     sAnalytics.rewardsTapOnTheTabBar();
-                    break;
+                  case BottomItemType.earn:
+                    sAnalytics.tapOnTheTabbarButtonEarn();
+                  case BottomItemType.market:
+                    sAnalytics.tapOnTheTabbarButtonMarket();
                   default:
                 }
 
@@ -138,13 +151,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   switch (bottomBarItems[val]) {
                     case BottomItemType.wallets:
                       getIt.get<EventBus>().fire(ResetScrollMyWallets());
-                      break;
                     case BottomItemType.market:
                       getIt.get<EventBus>().fire(ResetScrollMarket());
-                      break;
                     case BottomItemType.card:
                       getIt.get<EventBus>().fire(ResetScrollCard());
-                      break;
                     default:
                   }
                 }

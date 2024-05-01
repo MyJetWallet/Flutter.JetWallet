@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/kyc/simple_light_passport_i
 import 'package:simple_kit/utils/enum.dart';
 
 class SPassportIcon extends StatelessObserverWidget {
-  const SPassportIcon({Key? key}) : super(key: key);
+  const SPassportIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

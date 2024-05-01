@@ -8,6 +8,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/send_options.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
+import 'package:jetwallet/features/convert_flow/utils/show_convert_to_bottom_sheet.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
@@ -142,8 +143,12 @@ class BalanceActionButtons extends StatelessObserverWidget {
                 source: 'Market - Buy',
               );
 
-              if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
-                showSendTimerAlertOr(
+              handler.handle(
+                multiStatus: [
+                  kycState.tradeStatus,
+                ],
+                isProgress: kycState.verificationInProgress,
+                currentNavigate: () => showSendTimerAlertOr(
                   context: context,
                   or: () => sRouter.push(
                     AmountRoute(
@@ -152,13 +157,10 @@ class BalanceActionButtons extends StatelessObserverWidget {
                     ),
                   ),
                   from: [BlockingType.trade],
-                );
-              } else {
-                sNotification.showError(
-                  intl.operation_bloked_text,
-                  id: 1,
-                );
-              }
+                ),
+                requiredDocuments: kycState.requiredDocuments,
+                requiredVerifications: kycState.requiredVerifications,
+              );
             },
             onReceive: () {
               sAnalytics.tapOnTheReceiveButton(
@@ -208,33 +210,39 @@ class BalanceActionButtons extends StatelessObserverWidget {
               sAnalytics.tabOnTheSendButton(
                 source: 'Market - Asset - Send',
               );
-              showSendOptions(
-                context,
-                currency,
-                navigateBack: false,
+
+              handler.handle(
+                isProgress: kycState.verificationInProgress,
+                currentNavigate: () => showSendOptions(
+                  context,
+                  currency,
+                  navigateBack: false,
+                ),
+                requiredDocuments: kycState.requiredDocuments,
+                requiredVerifications: kycState.requiredVerifications,
               );
             },
             onConvert: () {
               sAnalytics.tapOnTheConvertButton(
                 source: 'Market - Convert',
               );
-              if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
-                showSendTimerAlertOr(
+
+              handler.handle(
+                multiStatus: [
+                  kycState.tradeStatus,
+                ],
+                isProgress: kycState.verificationInProgress,
+                currentNavigate: () => showSendTimerAlertOr(
                   context: context,
-                  or: () => sRouter.push(
-                    AmountRoute(
-                      tab: AmountScreenTab.convert,
-                      asset: currency,
-                    ),
+                  or: () => showConvertToBottomSheet(
+                    context: context,
+                    fromAsset: currency,
                   ),
                   from: [BlockingType.trade],
-                );
-              } else {
-                sNotification.showError(
-                  intl.operation_bloked_text,
-                  id: 1,
-                );
-              }
+                ),
+                requiredDocuments: kycState.requiredDocuments,
+                requiredVerifications: kycState.requiredVerifications,
+              );
             },
           ),
         ],

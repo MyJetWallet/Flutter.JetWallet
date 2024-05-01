@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/recurring_buys/simple_light
 import 'package:simple_kit/utils/enum.dart';
 
 class SRecurringBuysIcon extends StatelessObserverWidget {
-  const SRecurringBuysIcon({Key? key}) : super(key: key);
+  const SRecurringBuysIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

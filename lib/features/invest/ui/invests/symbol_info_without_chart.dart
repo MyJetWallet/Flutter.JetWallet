@@ -2,26 +2,25 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 
 import '../../../../utils/helpers/icon_url_from.dart';
-import '../../../../utils/models/currency_model.dart';
 import '../../helpers/percent_info.dart';
 
 class SymbolInfoWithoutChart extends StatelessObserverWidget {
   const SymbolInfoWithoutChart({
     super.key,
     required this.instrument,
-    required this.currency,
     required this.price,
+    required this.percent,
     required this.onTap,
   });
 
   final InvestInstrumentModel instrument;
-  final CurrencyModel currency;
   final String price;
+  final Decimal percent;
   final Function() onTap;
 
   @override
@@ -57,14 +56,14 @@ class SymbolInfoWithoutChart extends StatelessObserverWidget {
                   children: [
                     Text(
                       instrument.name ?? '',
-                      style: sTextH4SMInvestStyle.copyWith(
+                      style: STStyles.header4SMInvest.copyWith(
                         color: colors.black,
                       ),
                     ),
                     const SpaceH2(),
                     Text(
                       instrument.description ?? '',
-                      style: sBody2InvestMStyle.copyWith(
+                      style: STStyles.body2InvestM.copyWith(
                         color: colors.grey2,
                       ),
                     ),
@@ -80,7 +79,7 @@ class SymbolInfoWithoutChart extends StatelessObserverWidget {
                 children: [
                   Text(
                     price,
-                    style: sTextH4SMInvestStyle.copyWith(
+                    style: STStyles.header4SMInvest.copyWith(
                       color: colors.black,
                     ),
                   ),
@@ -89,17 +88,17 @@ class SymbolInfoWithoutChart extends StatelessObserverWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        formatPercent(Decimal.fromJson(currency.dayPercentChange.toString())),
+                        formatPercent(percent),
                         overflow: TextOverflow.ellipsis,
-                        style: sBody3InvestSMStyle.copyWith(
-                          color: Decimal.fromJson(currency.dayPercentChange.toString()) == Decimal.zero
+                        style: STStyles.body3InvestSM.copyWith(
+                          color: percent == Decimal.zero
                               ? colors.grey3
-                              : Decimal.fromJson(currency.dayPercentChange.toString()) > Decimal.zero
+                              : percent > Decimal.zero
                               ? colors.green
                               : colors.red,
                         ),
                       ),
-                      percentIcon(Decimal.fromJson(currency.dayPercentChange.toString())),
+                      percentIcon(percent),
                     ],
                   ),
                 ],

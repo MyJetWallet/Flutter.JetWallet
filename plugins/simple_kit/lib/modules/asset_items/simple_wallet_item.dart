@@ -9,7 +9,7 @@ import '../../simple_kit.dart';
 /// This arguments are redundant, seperate widget for MarketDetails needed
 class SWalletItem extends StatelessWidget {
   const SWalletItem({
-    Key? key,
+    super.key,
     this.fullSizeBalance = false,
     this.currencyPrefix,
     this.currencySymbol = '',
@@ -35,7 +35,7 @@ class SWalletItem extends StatelessWidget {
     required this.primaryText,
     required this.secondaryText,
     this.priceFieldHeight,
-  }) : super(key: key);
+  });
 
   final bool? decline;
   final String? currencyPrefix;
