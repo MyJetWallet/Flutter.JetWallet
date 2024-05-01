@@ -11,6 +11,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -19,6 +20,8 @@ import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
 import 'package:jetwallet/features/auth/email_verification/store/email_verification_store.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
+import 'package:jetwallet/features/earn/store/earn_store.dart';
+import 'package:jetwallet/features/earn/widgets/offers_overlay_content.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
@@ -28,6 +31,7 @@ import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:logger/logger.dart';
+import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 
 import 'local_storage_service.dart';
@@ -68,6 +72,14 @@ const _jwSwap = 'jw_operation_history';
 const _jwTransferByPhoneSend = 'jw_transfer_by_phone_send';
 const _jwCrypto_withdrawal_decline = 'jw_crypto_withdrawal_decline';
 const _jwKycBanned = 'jw_kyc_banned';
+
+// Earn
+const _earnScreen = 'earn_screen';
+const _jwSymbol = 'jw_symbol';
+
+// Tech
+const _techScreen = 'tech_screen';
+const _jwParameter = 'jw_parameter';
 
 const String _loggerService = 'DeepLinkService';
 
@@ -147,6 +159,10 @@ class DeepLinkService {
       pushDocumentNotVerified(parameters);
     } else if (command == _rateUpCommand) {
       pushRateUp(parameters);
+    } else if (command == _earnScreen) {
+      showEarnScreen(parameters);
+    } else if (command == _techScreen) {
+      showTechToast(parameters);
     } else {
       if (parameters.containsKey('jw_operation_id')) {
         pushCryptoHistory(parameters);
@@ -593,6 +609,102 @@ class DeepLinkService {
         RouteQueryModel(
           func: () async {
             await shopRateUpPopup(context, force: true);
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> showEarnScreen(
+    Map<String, String> parameters,
+  ) async {
+    final symbol = parameters[_jwSymbol];
+
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      final isEarnAvailable = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
+          .any((element) => element.id == AssetPaymentProductsEnum.earnProgram);
+
+      if (!isEarnAvailable) return;
+      await Future.delayed(const Duration(milliseconds: 650));
+      getIt<AppStore>().setHomeTab(2);
+      if (getIt<AppStore>().tabsRouter != null) {
+        getIt<AppStore>().tabsRouter!.setActiveIndex(2);
+      }
+      if (symbol != null) {
+        await _openEarnOffersBottomSheet(symbol);
+      }
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            final isEarnAvailable = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
+                .any((element) => element.id == AssetPaymentProductsEnum.earnProgram);
+
+            if (!isEarnAvailable) return;
+
+            await Future.delayed(const Duration(milliseconds: 650));
+            getIt<AppStore>().setHomeTab(1);
+            if (getIt<AppStore>().tabsRouter != null) {
+              getIt<AppStore>().tabsRouter!.setActiveIndex(2);
+            }
+            if (symbol != null) {
+              await _openEarnOffersBottomSheet(symbol);
+            }
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> _openEarnOffersBottomSheet(String symbol) async {
+    final currency = currencyFrom(
+      sSignalRModules.currenciesList,
+      symbol,
+    );
+
+    final store = EarnStore();
+
+    final currencyOffers = store.filteredOffersGroupedByCurrency[currency.description] ?? [];
+
+    final context = sRouter.navigatorKey.currentContext;
+    if (context != null && context.mounted && currencyOffers.isNotEmpty) {
+      sShowBasicModalBottomSheet(
+        context: context,
+        scrollable: true,
+        children: [
+          OffersOverlayContent(
+            offers: currencyOffers,
+            currency: currency,
+          ),
+        ],
+      );
+    }
+  }
+
+  Future<void> showTechToast(
+    Map<String, String> parameters,
+  ) async {
+    final paremetr = parameters[_jwParameter];
+
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      sNotification.showError(
+        intl.something_went_wrong_try_again,
+        id: 1,
+        isError: false,
+      );
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            sNotification.showError(
+              'Hi, it is tech popup to test deeplink. Parameter: $paremetr',
+              id: 1,
+              isError: false,
+            );
           },
         ),
       );
