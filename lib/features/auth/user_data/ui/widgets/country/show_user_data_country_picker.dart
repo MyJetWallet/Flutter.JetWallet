@@ -73,7 +73,7 @@ void showCountryOfBank(BuildContext context, Function(Country) onTap) {
                     ),
                   );
 
-                  sRouter.pop();
+                  sRouter.maybePop();
                 },
                 countryCode: country.countryCode,
                 countryName: country.countryName,
@@ -189,7 +189,7 @@ class _Countries extends StatelessObserverWidget {
             } else {
               store.pickCountryFromSearch(country);
 
-              sRouter.pop();
+              sRouter.maybePop();
             }
           },
           countryCode: country.countryCode,

@@ -78,7 +78,7 @@ class _TransferFromToBody extends StatelessWidget {
                 width: 24,
               ),
               onTableAssetTap: () {
-                sRouter.pop();
+                sRouter.maybePop();
                 onSelected(newAccount: account);
               },
             ),
@@ -98,7 +98,7 @@ class _TransferFromToBody extends StatelessWidget {
                 ),
               isCard: true,
               onTableAssetTap: () {
-                sRouter.pop();
+                sRouter.maybePop();
                 onSelected(newCard: card);
               },
             ),

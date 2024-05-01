@@ -162,7 +162,7 @@ class DeepLinkService {
     } else if (source == SourceScreen.bannerOnRewards) {
       appStore.setOpenBottomMenu(true);
 
-      await sRouter.pop();
+      await sRouter.maybePop();
     }
   }
 

@@ -249,7 +249,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                             totalSendAmount: (data.amount ?? Decimal.zero).toString(),
                           );
 
-                          sRouter.pop();
+                          sRouter.maybePop();
                           state.confirmSendGlobally(newPin: newPin);
                         },
                         onWrongPin: (error) {

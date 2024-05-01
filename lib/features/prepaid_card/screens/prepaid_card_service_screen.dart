@@ -80,7 +80,7 @@ class _PrepaidCardServiceScreenBodyState extends State<_PrepaidCardServiceScreen
           title: '',
           onBackButtonTap: () {
             sAnalytics.tapOnTheBackButtonFromPrepaidCardServiceScreen();
-            sRouter.pop();
+            sRouter.maybePop();
           },
         ),
       ),

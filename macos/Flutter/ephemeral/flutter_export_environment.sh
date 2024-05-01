@@ -1,7 +1,7 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=/Users/darkdezert/fvm/versions/3.13.9"
-export "FLUTTER_APPLICATION_PATH=/Users/darkdezert/Desktop/Flutter/Flutter.JetWallet"
+export "FLUTTER_ROOT=/Users/apoli/fvm/versions/3.19.6"
+export "FLUTTER_APPLICATION_PATH=/Users/apoli/Documents/GitHub/Flutter.JetWallet"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_BUILD_DIR=build"
 export "FLUTTER_BUILD_NAME=3.0.0"

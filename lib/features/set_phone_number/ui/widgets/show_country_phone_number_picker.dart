@@ -66,7 +66,7 @@ class _DialCodes extends StatelessObserverWidget {
           onTap: () {
             store.pickDialCodeFromSearch(store.sortedDialCodes[code]);
 
-            sRouter.pop();
+            sRouter.maybePop();
           },
         );
       },

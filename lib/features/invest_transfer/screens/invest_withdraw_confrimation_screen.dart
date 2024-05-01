@@ -62,7 +62,7 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
           color: colors.grey1,
         ),
         onBackButtonTap: () {
-          sRouter.pop();
+          sRouter.maybePop();
         },
       ),
       child: CustomScrollView(

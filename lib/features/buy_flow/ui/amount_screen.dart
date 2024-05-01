@@ -166,7 +166,7 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
               default:
             }
 
-            sRouter.pop();
+            sRouter.maybePop();
           },
         ),
       ),

@@ -208,7 +208,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                             callbackAfterSend: () {},
                           );
 
-                          getIt<AppRouter>().pop();
+                          getIt<AppRouter>().maybePop();
                         } else if (!widget.fromRegister) {
                           Navigator.pop(context);
                         } else {

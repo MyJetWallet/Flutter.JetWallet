@@ -66,7 +66,7 @@ class _PrepaidCardDetailsBody extends StatelessWidget {
           showCloseButton: true,
           onCLoseButton: () {
             sAnalytics.tapOnTheCloseButtonOnPrepaidCardActivationScreen();
-            sRouter.pop();
+            sRouter.maybePop();
           },
         ),
       ),

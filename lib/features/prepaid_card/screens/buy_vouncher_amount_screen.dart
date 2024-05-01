@@ -39,7 +39,7 @@ class BuyVouncherAmountScreen extends StatelessWidget {
           title: intl.prepaid_card_buy_voucher,
           onBackButtonTap: () {
             sAnalytics.tapOnTheBackButtonOnAmountBuyVoucherScreen();
-            sRouter.pop();
+            sRouter.maybePop();
           },
         ),
       ),

@@ -189,7 +189,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                             paymentFee: store.addressIsInternal ? intl.noFee : feeSizeWithSymbol,
                           );
 
-                          sRouter.pop();
+                          sRouter.maybePop();
 
                           store.withdraw(newPin: newPin);
                         },

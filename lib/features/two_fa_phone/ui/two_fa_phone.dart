@@ -96,7 +96,7 @@ class _TwoFaPhoneBody extends StatelessObserverWidget {
                 withLoading: false,
                 callbackAfterSend: () {},
               ),
-              security: (_) => sRouter.pop(),
+              security: (_) => sRouter.maybePop(),
             ),
           ),
           child: Column(

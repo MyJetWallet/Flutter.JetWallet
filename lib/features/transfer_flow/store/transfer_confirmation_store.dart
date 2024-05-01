@@ -364,10 +364,10 @@ abstract class _TransferConfirmationStoreBase with Store {
       ),
       onPrimaryButtonTap: () {
         onConfirmed?.call();
-        sRouter.pop();
+        sRouter.maybePop();
       },
       onSecondaryButtonTap: () {
-        sRouter.pop();
+        sRouter.maybePop();
         onCanceled?.call();
       },
     );
@@ -385,7 +385,7 @@ abstract class _TransferConfirmationStoreBase with Store {
           isUnlimitTransferConfirm: true,
           transactionId: operationId,
           onVerified: () {
-            sRouter.pop();
+            sRouter.maybePop();
             onConfirmed?.call();
           },
         ),
