@@ -156,7 +156,7 @@ InputError onWithdrawInputErrorHandler(
 
     if (currency.assetBalance < value) {
       return InputError.notEnoughFunds;
-    } else if (currency.withdrawalFeeSize(network) >= value) {
+    } else if (currency.withdrawalFeeSize(network: network, amount: value) >= value) {
       return addressIsInternal ? InputError.none : InputError.enterHigherAmount;
     }
   }

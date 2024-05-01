@@ -1631,8 +1631,6 @@
     "invest_list_delete_all": "Delete all",
     "invest_history_tab_invest": "Invest",
     "invest_history_tab_pending": "Pending",
-    "invest_history_tab_positions": "Positions",
-    "invest_history_tab_market": "Market",
     "invest_alert_cancel": "Cancel",
     "invest_alert_close_all": "Close all",
     "invest_alert_close_all_profit": "Profit",
@@ -1703,7 +1701,6 @@
     "invest_report_delete_time": "Delete Time",
     "invest_report_rollover": "Rollover",
     "invest_report_so_price": "S/O Price",
-    "invest_liquidation_price": "Liquidation Price",
     "invest_report_journal": "Journal",
     "invest_report_rollover_report": "Rollover Report",
     "invest_report_rollover_rate": "Rollover Rate",
@@ -1717,7 +1714,6 @@
     "invest_closing": "Closing",
     "invest_delete": "Delete",
     "invest_stop_out": "Stop Out",
-    "invest_liquidation": "Liquidation",
     "invest_period": "Period",
     "invest_period_description": "You can search and view transaction history only within the 90-day range",
     "invest_period_days": "days",
@@ -2044,6 +2040,12 @@
     "prepaid_card_the_issuance": "The issuance of the voucher typically takes around 1 hour.",
     "prepaid_card_country_explanation": "The country of issue of the voucher must match the country of issue of the card",
     "prepaid_cardcomission_explanation": "The comission for issuing the card is paid from your wallet",
+    "invest_history_tab_positions": "Positions",
+    "invest_history_tab_market": "Market",
+    "invest_alert_delete_pending_order": "Delete pending order",
+    "invest_alert_delete_pending_order_sub_titile": "You are going to delete the pending invest",
+    "invest_liquidation_price": "Liquidation Price",
+    "invest_liquidation": "Liquidation",
     "earn_deposit_of": "Deposit of {value}\nwas initiated",
     "@earn_deposit_of": {
         "placeholders": {
@@ -2052,5 +2054,8 @@
                 "example": "200 USDT"
             }
         }
-    }
+    },
+    "prepaid_card_more": "more",
+    "prepaid_card_less": "less",
+    "prepaid_card_funds_for_purchased": "Funds for a purchased voucher are non-refundable"
 }

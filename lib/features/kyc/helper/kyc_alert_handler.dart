@@ -8,6 +8,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/features/kyc/helper/show_kyc_popup.dart';
+import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -32,6 +33,15 @@ class KycAlertHandler {
     required List<KycDocumentType> requiredDocuments,
     String? customBlockerText,
   }) {
+    late int? kycStatus;
+    if (status == null && multiStatus.isEmpty) {
+      kycStatus = getIt.get<KycService>().withdrawalStatus;
+      if (kycStatus == kycOperationStatus(KycStatus.blocked)) {
+        kycStatus = kycOperationStatus(KycStatus.allowed);
+      }
+    } else {
+      kycStatus = status;
+    }
     if (isProgress) {
       showVerifyingAlert();
 
@@ -47,21 +57,21 @@ class KycAlertHandler {
       return;
     }
 
-    if ((status == kycOperationStatus(KycStatus.kycRequired) ||
+    if ((kycStatus == kycOperationStatus(KycStatus.kycRequired) ||
             multiStatus.contains(kycOperationStatus(KycStatus.kycRequired))) &&
         needGifteExplanationPopup) {
       _showGiftExplanationAlert(
         requiredVerifications,
       );
-    } else if (status == kycOperationStatus(KycStatus.kycRequired) ||
+    } else if (kycStatus == kycOperationStatus(KycStatus.kycRequired) ||
         multiStatus.contains(kycOperationStatus(KycStatus.kycRequired))) {
       _showKycRequiredAlert(
         requiredVerifications,
       );
-    } else if (status == kycOperationStatus(KycStatus.kycInProgress) ||
+    } else if (kycStatus == kycOperationStatus(KycStatus.kycInProgress) ||
         multiStatus.contains(kycOperationStatus(KycStatus.kycInProgress))) {
       showVerifyingAlert();
-    } else if (status == kycOperationStatus(KycStatus.allowedWithKycAlert) ||
+    } else if (kycStatus == kycOperationStatus(KycStatus.allowedWithKycAlert) ||
         multiStatus.contains(kycOperationStatus(KycStatus.allowedWithKycAlert))) {
       _showAllowedWithAlert(
         requiredVerifications,
@@ -69,10 +79,10 @@ class KycAlertHandler {
         currentNavigate,
         navigatePop,
       );
-    } else if (status == kycOperationStatus(KycStatus.blocked) ||
+    } else if (kycStatus == kycOperationStatus(KycStatus.blocked) ||
         multiStatus.contains(kycOperationStatus(KycStatus.blocked))) {
       showBlockedAlert(customBlockerText: customBlockerText);
-    } else if (status == kycOperationStatus(KycStatus.allowed) ||
+    } else if (kycStatus == kycOperationStatus(KycStatus.allowed) ||
         multiStatus.contains(kycOperationStatus(KycStatus.allowed))) {
       currentNavigate.call();
     }

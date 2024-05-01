@@ -13,10 +13,10 @@ import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/loading
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/transaction_list_item.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:provider/provider.dart';
+import 'package:readmore/readmore.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_prepaid_card_intention_dto_list_response_model.dart';
@@ -253,29 +253,21 @@ class _TopPartOfPage extends StatelessWidget {
                   maxLines: 3,
                 ),
                 const SpaceH16(),
-                Text(
+                ReadMoreText(
                   intl.prepaid_card_explanation,
+                  isCollapsed: ValueNotifier<bool>(isShortDescription),
+                  trimMode: TrimMode.Line,
+                  colorClickableText: Colors.blue,
+                  trimCollapsedText: ' ${intl.prepaid_card_more}',
+                  trimExpandedText: ' ${intl.prepaid_card_less}',
                   style: STStyles.body1Medium.copyWith(
                     color: colors.gray10,
                   ),
-                  maxLines: isShortDescription ? 2 : 10,
-                ),
-                const SpaceH8(),
-                Center(
-                  child: SIconButton(
-                    onTap: onTap,
-                    defaultIcon: isShortDescription
-                        ? Assets.svg.invest.investArrow.simpleSvg(
-                            width: 14,
-                            height: 14,
-                          )
-                        : RotatedBox(
-                            quarterTurns: 2,
-                            child: Assets.svg.invest.investArrow.simpleSvg(
-                              width: 14,
-                              height: 14,
-                            ),
-                          ),
+                  moreStyle: STStyles.body1Medium.copyWith(
+                    color: colors.blue,
+                  ),
+                  lessStyle: STStyles.body1Medium.copyWith(
+                    color: colors.blue,
                   ),
                 ),
               ],

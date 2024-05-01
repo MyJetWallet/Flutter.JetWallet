@@ -105,8 +105,6 @@ class LocalStorageService {
     await _storage.delete(key: bankLastMethodId);
     await _storage.delete(key: localLastMethodId);
     await _storage.delete(key: p2pLastMethodId);
-    await _storage.delete(key: showRateUp);
-    await _storage.delete(key: rateUpCount);
     await _storage.delete(key: earnTermsAndConditionsWasChecked);
 
     final userMail = await _storage.read(key: lastUsedMail);
@@ -115,6 +113,8 @@ class LocalStorageService {
     final isCardBannerClosedUsed = await _storage.read(key: isCardBannerClosed);
     final userLocaleTemp = await _storage.read(key: userLocale);
     final isPerapaidCardBannerClosedTemp = await _storage.read(key: isPerapaidCardBannerClosed);
+    final showRateUpTemp = await _storage.read(key: showRateUp);
+    final rateUpCountTemp = await _storage.read(key: rateUpCount);
 
     await _storage.deleteAll();
     await _storage.write(key: lastUsedMail, value: userMail);
@@ -123,6 +123,8 @@ class LocalStorageService {
     await _storage.write(key: isCardBannerClosed, value: isCardBannerClosedUsed);
     await _storage.write(key: userLocale, value: userLocaleTemp);
     await _storage.write(key: isPerapaidCardBannerClosed, value: isPerapaidCardBannerClosedTemp);
+    await _storage.write(key: showRateUp, value: showRateUpTemp);
+    await _storage.write(key: rateUpCount, value: rateUpCountTemp);
   }
 
   Future<void> clearStorageForCrypto(List<CurrencyModel> currencies) async {
@@ -163,6 +165,8 @@ class LocalStorageService {
       final isCardBannerClosedUsed = await _storage.read(key: isCardBannerClosed);
       final userLocaleTemp = await _storage.read(key: userLocale);
       final isPerapaidCardBannerClosedTemp = await _storage.read(key: isPerapaidCardBannerClosed);
+      final showRateUpTemp = await _storage.read(key: showRateUp);
+      final rateUpCountTemp = await _storage.read(key: rateUpCount);
 
       await _storage.deleteAll();
 
@@ -172,6 +176,8 @@ class LocalStorageService {
       await _storage.write(key: isCardBannerClosed, value: isCardBannerClosedUsed);
       await _storage.write(key: userLocale, value: userLocaleTemp);
       await _storage.write(key: isPerapaidCardBannerClosed, value: isPerapaidCardBannerClosedTemp);
+      await _storage.write(key: showRateUp, value: showRateUpTemp);
+      await _storage.write(key: rateUpCount, value: rateUpCountTemp);
     }
   }
 }

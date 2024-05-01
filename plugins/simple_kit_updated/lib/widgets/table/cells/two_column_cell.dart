@@ -55,30 +55,35 @@ class TwoColumnCell extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Flexible(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 4),
-                        child: Text(
-                          label,
-                          style: STStyles.body2Medium.copyWith(color: SColorsLight().gray10),
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minWidth: MediaQuery.of(context).size.width * 0.272,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 4),
+                          child: Text(
+                            label,
+                            style: STStyles.body2Medium.copyWith(color: SColorsLight().gray10),
+                          ),
                         ),
                       ),
-                    ),
-                    if (haveInfoIcon) ...[
-                      const Gap(4),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4),
-                        child: Assets.svg.small.info.simpleSvg(
-                          width: 16,
-                          height: 16,
-                          color: SColorsLight().gray10,
+                      if (haveInfoIcon) ...[
+                        const Gap(4),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4),
+                          child: Assets.svg.small.info.simpleSvg(
+                            width: 16,
+                            height: 16,
+                            color: SColorsLight().gray10,
+                          ),
                         ),
-                      ),
+                      ],
                     ],
-                  ],
+                  ),
                 ),
                 const Gap(10),
                 if (type != TwoColumnCellType.loading) ...[
@@ -106,7 +111,7 @@ class TwoColumnCell extends StatelessWidget {
                             child: Text(
                               value ?? '',
                               maxLines: valueMaxLines,
-                              // textAlign: TextAlign.right,
+                              textAlign: TextAlign.right,
                               style: customValueStyle ?? STStyles.subtitle2,
                               overflow: TextOverflow.ellipsis,
                             ),

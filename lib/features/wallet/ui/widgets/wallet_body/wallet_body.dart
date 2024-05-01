@@ -301,9 +301,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                           final actualAsset = widget.currency;
 
                           handler.handle(
-                            multiStatus: [
-                              kycState.tradeStatus,
-                            ],
+                            multiStatus: [],
                             isProgress: kycState.verificationInProgress,
                             currentNavigate: () => showSendOptions(
                               context,
