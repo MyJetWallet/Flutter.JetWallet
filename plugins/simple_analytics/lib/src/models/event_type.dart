@@ -654,4 +654,12 @@ class EventType {
       'Tap on the ‘Copy’ button on ‘Prepaid card activation’ screen';
   static const tapOnTheIssueCardButtonOnPrepaidCardActivationScreen =
       'Tap on the ‘Issue card’ button on ‘Prepaid card activation’ screen';
+
+  // Markert
+  static const tapOnTheTabbarButtonMarket = 'Tap on the tabbar button ‘Market’';
+  static const marketListScreenView = '‘Market list’ screen view';
+  static const tapOnTheAnyAssetOnMarketList = 'Tap on the  ‘Any asset’ on Market list';
+  static const marketAssetScreenView = '‘Market Asset’ screen view';
+  static const tapOnTheBackButtonFromMarketAssetScreen = 'Tap on the ‘Back’ button from ‘Market Asset’ screen';
+  static const tapOnTheBalanceButtonOnMarketAssetScreen = 'Tap on the ‘Balance’ button on ‘Market Asset’ screen';
 }

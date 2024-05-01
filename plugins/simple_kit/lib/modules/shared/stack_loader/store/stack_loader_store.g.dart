@@ -73,7 +73,7 @@ mixin _$StackLoaderStore on _StackLoaderStoreBase, Store {
   }
 
   @override
-  void finishLoading({InvalidType onFinish}) {
+  void finishLoading({VoidCallback? onFinish}) {
     final _$actionInfo = _$_StackLoaderStoreBaseActionController.startAction(
         name: '_StackLoaderStoreBase.finishLoading');
     try {
