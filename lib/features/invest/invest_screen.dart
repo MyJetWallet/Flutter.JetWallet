@@ -157,7 +157,7 @@ class _InvestScreenState extends State<InvestScreen> {
                                 return InvestCarousel(
                                   height: 108,
                                   children: [
-                                    for (final instrument in myInvestsList) ...[
+                                    for (final instrument in myInvestsList)
                                       SymbolInfo(
                                         percent: investStore.getPercentSymbol(instrument.symbol ?? ''),
                                         instrument: instrument,
@@ -171,7 +171,6 @@ class _InvestScreenState extends State<InvestScreen> {
                                         },
                                         candles: investChartStore.getAssetCandles(instrument.symbol ?? ''),
                                       ),
-                                    ],
                                   ],
                                 );
                               },

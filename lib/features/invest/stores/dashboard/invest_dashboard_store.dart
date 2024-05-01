@@ -54,8 +54,7 @@ abstract class _InvestDashboardStoreBase with Store {
   @computed
   ObservableList<InvestInstrumentModel> get myInvestsList {
     final positions = positionsList;
-    final activePositions = positions
-        .where((position) => position.status == PositionStatus.opened || position.status == PositionStatus.pending);
+    final activePositions = positions.where((position) => position.status == PositionStatus.opened);
     final myInvestsList = instrumentsList
         .where(
           (instrument) => activePositions.any(
@@ -481,11 +480,19 @@ abstract class _InvestDashboardStoreBase with Store {
       return Decimal.zero;
     }
 
-    final profit = position.direction == Direction.buy
-        ? (price[0].lastPrice! - position.openPrice!) * position.volumeBase! + position.rollOver! - position.openFee!
-        : -(price[0].lastPrice! - position.openPrice!) * position.volumeBase! + position.rollOver! - position.openFee!;
+    var profit = position.direction == Direction.buy
+        ? (Decimal.parse(price[0].lastPrice.toString()) - Decimal.parse(position.openPrice.toString())) *
+                Decimal.parse(position.volumeBase.toString()) +
+            Decimal.parse(position.rollOver.toString()) -
+            Decimal.parse(position.openFee.toString())
+        : -(Decimal.parse(price[0].lastPrice.toString()) - Decimal.parse(position.openPrice.toString())) *
+                Decimal.parse(position.volumeBase.toString()) +
+            Decimal.parse(position.rollOver.toString()) -
+            Decimal.parse(position.openFee.toString());
 
-    final result = profit * Decimal.fromInt(100) / position.amount!;
+    profit = Decimal.parse(profit.toStringAsFixed(2));
+
+    final result = profit * Decimal.fromInt(100) / Decimal.parse(position.amount.toString());
 
     return Decimal.fromJson('${result.toDouble()}');
   }

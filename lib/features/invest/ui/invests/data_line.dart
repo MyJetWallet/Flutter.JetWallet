@@ -23,7 +23,6 @@ class DataLine extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final colors = sKit.colors;
 
     return SizedBox(
@@ -48,10 +47,7 @@ class DataLine extends StatelessObserverWidget {
               color: colors.grey1,
             ),
           ),
-          if (fullWidth)
-            const Spacer()
-          else
-            const SpaceW5(),
+          if (fullWidth) const Spacer() else const SpaceW5(),
           Text(
             secondaryText,
             style: STStyles.body1InvestSM.copyWith(

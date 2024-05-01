@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:simple_networking/api_client/api_client.dart';
 import 'package:simple_networking/helpers/handle_api_responses.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/auth_api/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/create_banking_account_simple_response.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
@@ -142,7 +143,7 @@ import 'package:simple_networking/modules/wallet_api/models/withdraw/withdraw_re
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/withdrawal_resend_request.dart';
-
+import 'dart:developer' as dev;
 import '../../../simple_networking.dart';
 import '../../signal_r/models/earn_audit_history_model.dart';
 import '../../signal_r/models/invest_positions_model.dart';
@@ -3044,6 +3045,31 @@ class WalletApiDataSources {
   }
 
   // invest
+  Future<DC<ServerRejectException, AssetModelAdm>> getAsset({
+    required String assetId,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/InvestTrading/InvestReader/get-asset',
+        data: {
+          "AssetId": assetId,
+        },
+      );
+
+      dev.log('response: $response');
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(AssetModelAdm.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
 
   Future<DC<ServerRejectException, InvestPositionResponseModel>> createActivePositionRequest({
     required NewInvestRequestModel model,
@@ -3096,6 +3122,32 @@ class WalletApiDataSources {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/InvestTrading/InvestAction/create-pending-stop-position',
         data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(InvestPositionResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, InvestPositionResponseModel>> changePendingPrice({
+    required String id,
+    required int price,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/InvestTrading/InvestAction/change-pending-price',
+        data: {
+          "positionId": id,
+          "pendingPrice": price,
+        },
       );
 
       try {

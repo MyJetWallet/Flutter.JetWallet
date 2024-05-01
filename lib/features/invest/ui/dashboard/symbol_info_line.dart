@@ -1,19 +1,15 @@
-import 'package:charts/main.dart';
 import 'package:charts/model/candle_model.dart';
-import 'package:charts/model/candle_type_enum.dart';
-import 'package:charts/model/resolution_string_enum.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jetwallet/features/invest/ui/dashboard/active_invest_line.dart';
+import 'package:jetwallet/features/invest/ui/widgets/small_chart.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 
-import '../../../../utils/formatting/base/volume_format.dart';
 import '../../../../utils/helpers/icon_url_from.dart';
-import '../../../../utils/helpers/localized_chart_resolution_button.dart';
 import '../../helpers/percent_info.dart';
 
 class SymbolInfoLine extends StatelessObserverWidget {
@@ -89,11 +85,14 @@ class SymbolInfoLine extends StatelessObserverWidget {
                           style: STStyles.body2InvestSM.copyWith(color: colors.black),
                         ),
                         const SpaceH2(),
-                        Text(
-                          instrument.description!,
-                          style: STStyles.body3InvestM.copyWith(color: colors.grey2),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                        SizedBox(
+                          width: 48,
+                          child: Text(
+                            instrument.description!,
+                            style: STStyles.body3InvestM.copyWith(color: colors.grey2),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ],
                     ),
@@ -104,23 +103,9 @@ class SymbolInfoLine extends StatelessObserverWidget {
                 flex: 2,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8.0), // Adjust padding as needed
-                  child: Chart(
-                    localizedChartResolutionButton: localizedChartResolutionButton(context),
-                    onResolutionChanged: (resolution) {},
-                    onChartTypeChanged: (type) {},
-                    chartType: ChartType.area,
-                    candleResolution: Period.month,
-                    formatPrice: volumeFormat,
+                  child: SmallChart(
                     candles: candles,
-                    onCandleSelected: (value) {},
-                    chartHeight: 32,
-                    chartWidgetHeight: 32,
-                    isAssetChart: false,
-                    isInvestChart: true,
-                    isLongInvest: true,
-                    isFullInvestChart: true,
-                    loader: const LoaderSpinner(),
-                    accuracy: 2,
+                    height: 32,
                   ),
                 ),
               ),
