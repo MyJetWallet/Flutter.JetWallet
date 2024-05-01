@@ -120,18 +120,6 @@ class ActiveInvestList extends StatelessObserverWidget {
 
     return Observer(
       builder: (BuildContext context) {
-        final listToShow = investPositionsStore.activeList
-            .where(
-              (element) => element.symbol == instrument?.symbol,
-            )
-            .toList();
-
-        if (listToShow.isEmpty) {
-          return SPlaceholder(
-            size: SPlaceholderSize.l,
-            text: intl.wallet_simple_account_empty,
-          );
-        }
         return Column(
           children: [
             Observer(
@@ -197,6 +185,13 @@ class ActiveInvestList extends StatelessObserverWidget {
               ),
             Observer(
               builder: (BuildContext context) {
+                if (investPositionsStore.activeList.isEmpty) {
+                  return SPlaceholder(
+                    size: SPlaceholderSize.l,
+                    text: intl.wallet_simple_account_empty,
+                  );
+                }
+
                 if (instrument != null) {
                   final positions =
                       investPositionsStore.activeList.where((element) => element.symbol == instrument!.symbol).toList();
