@@ -95,9 +95,16 @@ void showInvestModifyBottomSheet({
                           active: true,
                           name: intl.invest_save,
                           onTap: () async {
-                            await investNewStore.changePendingPrice(
-                                id: position.id!, price: int.parse(investNewStore.pendingPriceController.text));
-                            onSecondaryButtonTap.call();
+                            if (position.status == PositionStatus.pending) {
+                              await investNewStore.changePendingPrice(
+                                id: position.id!,
+                                price: double.parse(investNewStore.pendingPriceController.text),
+                              );
+                            }
+                            Future.delayed(
+                              const Duration(milliseconds: 500),
+                              onSecondaryButtonTap.call,
+                            );
                           },
                         ),
                       ),

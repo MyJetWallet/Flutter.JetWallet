@@ -71,6 +71,26 @@ abstract class _InvestDashboardStoreBase with Store {
     return ObservableList.of(myInvestsList);
   }
 
+  @computed
+  ObservableList<InvestInstrumentModel> get myInvestPendingList {
+    final positions = positionsList;
+    final activePositions = positions.where((position) => position.status == PositionStatus.pending);
+    final myInvestsList = instrumentsList
+        .where(
+          (instrument) => activePositions.any(
+            (position) => position.symbol == instrument.symbol,
+          ),
+        )
+        .toList();
+    myInvestsList.sort((first, second) {
+      final firstAmount = _getGroupedProfit(first.symbol ?? '');
+      final secondAmount = _getGroupedProfit(second.symbol ?? '');
+
+      return secondAmount.compareTo(firstAmount);
+    });
+    return ObservableList.of(myInvestsList);
+  }
+
   Decimal _getGroupedProfit(String symbol) {
     final investPositionsStore = getIt.get<InvestPositionsStore>();
 

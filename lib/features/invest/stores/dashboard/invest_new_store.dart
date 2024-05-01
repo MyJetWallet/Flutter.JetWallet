@@ -750,7 +750,7 @@ abstract class _InvestNewStoreBase with Store {
   }
 
   @action
-  Future<void> changePendingPrice({required String id, required int price}) async {
+  Future<void> changePendingPrice({required String id, required double price}) async {
     try {
       final response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().changePendingPrice(
             id: id,
