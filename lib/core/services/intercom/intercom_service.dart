@@ -1,7 +1,12 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
-import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/core/services/session_check_service.dart';
 import 'package:logger/logger.dart';
 
 class IntercomService {
@@ -27,6 +32,14 @@ class IntercomService {
 
       _isInited = true;
 
+      sRouter.addListener(() {
+        if (sRouter.stack.any((rout) => rout.name == 'HomeRouter')) {
+          Intercom.instance.setInAppMessagesVisibility(IntercomVisibility.visible);
+        } else {
+          Intercom.instance.setInAppMessagesVisibility(IntercomVisibility.gone);
+        }
+      });
+
       _logger.log(
         level: Level.info,
         place: 'Intercom init',
@@ -42,16 +55,34 @@ class IntercomService {
     return this;
   }
 
+  Future<void> initPushNotif() async {
+    final firebaseMessaging = FirebaseMessaging.instance;
+    final intercomToken = Platform.isIOS ? await firebaseMessaging.getAPNSToken() : await firebaseMessaging.getToken();
+
+    if (intercomToken != null) {
+      unawaited(Intercom.instance.sendTokenToIntercom(intercomToken));
+    }
+  }
+
   Future<void> login() async {
     try {
       if (!_isInited) {
         await init();
       }
 
-      final authInfo = getIt.get<AppStore>().authState;
-      await Intercom.instance.loginIdentifiedUser(
-        email: authInfo.email,
-      );
+      final info = getIt.get<SessionCheckService>().data;
+      final userId = info?.trackId;
+
+      if (userId != null) {
+        await Intercom.instance.loginIdentifiedUser(
+          userId: userId,
+        );
+      } else {
+        await Intercom.instance.loginUnidentifiedUser();
+      }
+
+      await initPushNotif();
+
       _logger.log(
         level: Level.info,
         place: 'Intercom login',
@@ -83,8 +114,21 @@ class IntercomService {
     }
   }
 
+  bool messangerJustOpened = false;
+
   Future<void> showMessenger() async {
     try {
+      if (messangerJustOpened) return;
+      messangerJustOpened = true;
+      unawaited(
+        Future.delayed(
+          const Duration(seconds: 2),
+          () {
+            messangerJustOpened = false;
+          },
+        ),
+      );
+
       await Intercom.instance.displayMessenger();
       _logger.log(
         level: Level.info,

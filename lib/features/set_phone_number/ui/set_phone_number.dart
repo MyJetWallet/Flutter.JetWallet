@@ -3,8 +3,11 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/intercom/intercom_service.dart';
+import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
 import 'package:jetwallet/features/set_phone_number/store/set_phone_number_store.dart';
@@ -14,6 +17,8 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../pin_screen/model/pin_flow_union.dart';
 
@@ -74,20 +79,33 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
       loaderText: intl.setPhoneNumber_pleaseWait,
       loading: store.loader,
       color: colors.grey5,
-      header: SPaddingH24(
-        child: SBigHeader(
-          title: intl.setPhoneNumber_phoneNumber,
-          isSmallSize: true,
-          customIconButton: fromRegister
-              ? SIconButton(
-                  onTap: () {
-                    showModalVerification(context);
-                  },
-                  defaultIcon: const SCloseIcon(),
-                  pressedIcon: const SClosePressedIcon(),
-                )
-              : null,
+      header: SimpleLargeAppbar(
+        title: intl.setPhoneNumber_phoneNumber,
+        hasRightIcon: true,
+        rightIcon: SafeGesture(
+          onTap: () async {
+            if (showZendesk) {
+              await getIt.get<IntercomService>().login();
+              await getIt.get<IntercomService>().showMessenger();
+            } else {
+              await sRouter.push(
+                CrispRouter(
+                  welcomeText: intl.crispSendMessage_hi,
+                ),
+              );
+            }
+          },
+          child: Assets.svg.medium.chat.simpleSvg(),
         ),
+        leftIcon: fromRegister
+            ? SIconButton(
+                onTap: () {
+                  showModalVerification(context);
+                },
+                defaultIcon: const SCloseIcon(),
+                pressedIcon: const SClosePressedIcon(),
+              )
+            : null,
       ),
       child: CustomScrollView(
         shrinkWrap: true,

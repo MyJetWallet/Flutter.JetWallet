@@ -131,9 +131,11 @@ class _ChoosedContry extends StatelessWidget {
                       countryCode: selectedCountry.isoCode,
                     ),
                     const SpaceW8(),
-                    Text(
-                      selectedCountry.countryName,
-                      style: STStyles.subtitle1,
+                    Flexible(
+                      child: Text(
+                        selectedCountry.countryName,
+                        style: STStyles.subtitle1,
+                      ),
                     ),
                   ],
                 ),

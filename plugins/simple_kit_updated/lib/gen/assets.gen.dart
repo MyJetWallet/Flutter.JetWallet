@@ -214,6 +214,9 @@ class $AssetsSvgMediumGen {
   /// File path: assets/svg/medium/cash.svg
   SvgGenImage get cash => const SvgGenImage('assets/svg/medium/cash.svg');
 
+  /// File path: assets/svg/medium/chat.svg
+  SvgGenImage get chat => const SvgGenImage('assets/svg/medium/chat.svg');
+
   /// File path: assets/svg/medium/checkmark.svg
   SvgGenImage get checkmark => const SvgGenImage('assets/svg/medium/checkmark.svg');
 
@@ -397,6 +400,7 @@ class $AssetsSvgMediumGen {
         bank,
         card,
         cash,
+        chat,
         checkmark,
         checkmarkAlt,
         chevronDownDouble,

@@ -49,4 +49,8 @@ class SessionCheckService {
       return infoRequest.data;
     }
   }
+
+  void clearSessionData() {
+    data = null;
+  }
 }
