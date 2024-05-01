@@ -91,7 +91,6 @@ class PendingInvestList extends StatelessObserverWidget {
                     text: intl.wallet_simple_account_empty,
                   );
                 }
-
                 return AboveListLine(
                   mainColumn: instrument != null ? intl.invest_in_group : intl.invest_list_instrument,
                   secondaryColumn: '${intl.invest_list_amount} (${currency.symbol})',
@@ -126,7 +125,7 @@ class PendingInvestList extends StatelessObserverWidget {
                   children: [
                     for (final position in listToShow) ...[
                       InvestLine(
-                        priceAccuracy: instrument?.priceAccuracy ?? 2,
+                        priceAccuracy: getInstrumentBySymbol(position.symbol ?? '').priceAccuracy ?? 2,
                         currency: currencyFrom(currencies, getInstrumentBySymbol(position.symbol ?? '').name ?? ''),
                         price: position.pendingPrice ?? Decimal.zero,
                         operationType: position.direction ?? Direction.undefined,
