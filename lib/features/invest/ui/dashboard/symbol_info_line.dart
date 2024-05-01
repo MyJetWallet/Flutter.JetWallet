@@ -46,14 +46,17 @@ class SymbolInfoLine extends StatelessObserverWidget {
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12),
-      width: MediaQuery.of(context).size.width - 48,
+      width: MediaQuery.of(context).size.width,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (withActiveInvest) ...[
-            ActiveInvestLine(
-              profit: profit!,
-              amount: amount!,
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: ActiveInvestLine(
+                profit: profit!,
+                amount: amount!,
+              ),
             ),
             const SpaceH3(),
           ],
@@ -102,7 +105,7 @@ class SymbolInfoLine extends StatelessObserverWidget {
               Expanded(
                 flex: 2,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 8.0), // Adjust padding as needed
+                  padding: const EdgeInsets.symmetric(horizontal: 32),
                   child: SmallChart(
                     candles: candles,
                     height: 32,
