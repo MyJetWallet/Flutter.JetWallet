@@ -318,10 +318,10 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
                 _requestPaymentInfo(onAction, lastAction);
               },
               (payment) {
-                sRouter.pop();
+                sRouter.maybePop();
               },
               (error) {
-                sRouter.pop();
+                sRouter.maybePop();
                 _showFailureScreen(error);
               },
               paymentId,

@@ -40,26 +40,26 @@ abstract class _InvestChartStoreBase with Store {
 
   @action
   List<CandleModel> getAssetCandles(String instrumentId) {
-      final candleAsset = candlesList.where((element) => element.instrumentId == instrumentId).toList();
-      if (candleAsset.isNotEmpty) {
-        final price = getIt<InvestDashboardStore>().getPendingPriceBySymbol(instrumentId);
-        final lastCandle = CandleModel(
-          open: price.toDouble(),
-          close: price.toDouble(),
-          high: price.toDouble(),
-          low: price.toDouble(),
-          date: DateTime.now().millisecondsSinceEpoch,
-        );
+    final candleAsset = candlesList.where((element) => element.instrumentId == instrumentId).toList();
+    if (candleAsset.isNotEmpty) {
+      final price = getIt<InvestDashboardStore>().getPendingPriceBySymbol(instrumentId);
+      final lastCandle = CandleModel(
+        open: price.toDouble(),
+        close: price.toDouble(),
+        high: price.toDouble(),
+        low: price.toDouble(),
+        date: DateTime.now().millisecondsSinceEpoch,
+      );
 
-        return [
-          lastCandle,
-          ...candleAsset[0].candles,
-        ];
-      } else {
-        fetchAssetCandles(instrumentId);
+      return [
+        lastCandle,
+        ...candleAsset[0].candles,
+      ];
+    } else {
+      fetchAssetCandles(instrumentId);
 
-        return [];
-      }
+      return [];
+    }
   }
 
   @action
@@ -71,7 +71,7 @@ abstract class _InvestChartStoreBase with Store {
 
       final model = CandlesRequestModel(
         candleId: instrumentId,
-        type: Timeframe.week,
+        type: Timeframe.day,
         bidOrAsk: 0,
         fromDate: fromDate.millisecondsSinceEpoch,
         toDate: toDate.millisecondsSinceEpoch,
@@ -82,20 +82,24 @@ abstract class _InvestChartStoreBase with Store {
 
       candlesResponse.pick(
         onData: (candles) {
-          final candles1 = candles.candles.map(
+          final candles1 = candles.candles
+              .map(
                 (e) => CandleModel(
-              open: e.open,
-              close: e.close,
-              high: e.high,
-              low: e.low,
-              date: e.date,
-            ),
-          ).toList();
+                  open: e.open,
+                  close: e.close,
+                  high: e.high,
+                  low: e.low,
+                  date: e.date,
+                ),
+              )
+              .toList();
 
-          candlesList.add(CandlesWithIdModel(
-            instrumentId: instrumentId,
-            candles: candles1,
-          ),);
+          candlesList.add(
+            CandlesWithIdModel(
+              instrumentId: instrumentId,
+              candles: candles1,
+            ),
+          );
 
           candlesToReturn = candles1;
         },
@@ -110,45 +114,45 @@ abstract class _InvestChartStoreBase with Store {
 
   @action
   Future<List<CandleModel>> getAssetCandlesFull(String instrument, String instrumentId) async {
-      final investNewStore = getIt.get<InvestNewStore>();
-      final candlesFullList = investNewStore.chartInterval == 0
+    final investNewStore = getIt.get<InvestNewStore>();
+    final candlesFullList = investNewStore.chartInterval == 0
         ? candlesFull1List
         : investNewStore.chartInterval == 1
-          ? candlesFull2List
-          : investNewStore.chartInterval == 2
-            ? candlesFull3List
-            : candlesFull4List;
-      final candleAsset = candlesFullList.where((element) => element.instrumentId == instrument).toList();
-      if (candleAsset.isNotEmpty) {
-        final price = getIt<InvestDashboardStore>().getPendingPriceBySymbol(instrumentId);
-        final lastCandle = CandleModel(
-          open: price.toDouble(),
-          close: price.toDouble(),
-          high: price.toDouble(),
-          low: price.toDouble(),
-          date: DateTime.now().millisecondsSinceEpoch,
-        );
+            ? candlesFull2List
+            : investNewStore.chartInterval == 2
+                ? candlesFull3List
+                : candlesFull4List;
+    final candleAsset = candlesFullList.where((element) => element.instrumentId == instrument).toList();
+    if (candleAsset.isNotEmpty) {
+      final price = getIt<InvestDashboardStore>().getPendingPriceBySymbol(instrumentId);
+      final lastCandle = CandleModel(
+        open: price.toDouble(),
+        close: price.toDouble(),
+        high: price.toDouble(),
+        low: price.toDouble(),
+        date: DateTime.now().millisecondsSinceEpoch,
+      );
 
-        return [
-          ...candleAsset[0].candles,
-          lastCandle,
-        ];
-      } else {
-        final fetchedCandles = await fetchAssetFullCandles(instrument);
-        final price = getIt<InvestDashboardStore>().getPendingPriceBySymbol(instrumentId);
-        final lastCandle = CandleModel(
-          open: price.toDouble(),
-          close: price.toDouble(),
-          high: price.toDouble(),
-          low: price.toDouble(),
-          date: DateTime.now().millisecondsSinceEpoch,
-        );
+      return [
+        ...candleAsset[0].candles,
+        lastCandle,
+      ];
+    } else {
+      final fetchedCandles = await fetchAssetFullCandles(instrument);
+      final price = getIt<InvestDashboardStore>().getPendingPriceBySymbol(instrumentId);
+      final lastCandle = CandleModel(
+        open: price.toDouble(),
+        close: price.toDouble(),
+        high: price.toDouble(),
+        low: price.toDouble(),
+        date: DateTime.now().millisecondsSinceEpoch,
+      );
 
-        return [
-          ...fetchedCandles,
-          lastCandle,
-        ];
-      }
+      return [
+        ...fetchedCandles,
+        lastCandle,
+      ];
+    }
   }
 
   @action
@@ -173,36 +177,46 @@ abstract class _InvestChartStoreBase with Store {
 
       candlesResponse.pick(
         onData: (candles) {
-          final candles1 = candles.candles.map(
+          final candles1 = candles.candles
+              .map(
                 (e) => CandleModel(
-              open: e.open,
-              close: e.close,
-              high: e.high,
-              low: e.low,
-              date: e.date,
-            ),
-          ).toList();
+                  open: e.open,
+                  close: e.close,
+                  high: e.high,
+                  low: e.low,
+                  date: e.date,
+                ),
+              )
+              .toList();
 
           if (investNewStore.chartInterval == 0) {
-            candlesFull1List.add(CandlesWithIdModel(
-              instrumentId: instrument,
-              candles: candles1,
-            ),);
+            candlesFull1List.add(
+              CandlesWithIdModel(
+                instrumentId: instrument,
+                candles: candles1,
+              ),
+            );
           } else if (investNewStore.chartInterval == 1) {
-            candlesFull2List.add(CandlesWithIdModel(
-              instrumentId: instrument,
-              candles: candles1,
-            ),);
+            candlesFull2List.add(
+              CandlesWithIdModel(
+                instrumentId: instrument,
+                candles: candles1,
+              ),
+            );
           } else if (investNewStore.chartInterval == 2) {
-            candlesFull3List.add(CandlesWithIdModel(
-              instrumentId: instrument,
-              candles: candles1,
-            ),);
+            candlesFull3List.add(
+              CandlesWithIdModel(
+                instrumentId: instrument,
+                candles: candles1,
+              ),
+            );
           } else if (investNewStore.chartInterval == 3) {
-            candlesFull4List.add(CandlesWithIdModel(
-              instrumentId: instrument,
-              candles: candles1,
-            ),);
+            candlesFull4List.add(
+              CandlesWithIdModel(
+                instrumentId: instrument,
+                candles: candles1,
+              ),
+            );
           }
 
           candlesToReturn = candles1;

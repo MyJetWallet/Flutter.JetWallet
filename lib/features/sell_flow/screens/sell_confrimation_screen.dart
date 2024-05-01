@@ -102,7 +102,7 @@ class _SellConfirmationScreenBody extends StatelessObserverWidget {
         ),
         onBackButtonTap: () {
           sAnalytics.tapOnTheBackFromSellConfirmationButton();
-          sRouter.pop();
+          sRouter.maybePop();
         },
       ),
       child: CustomScrollView(

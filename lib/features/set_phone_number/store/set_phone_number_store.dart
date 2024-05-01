@@ -145,7 +145,7 @@ abstract class _SetPhoneNumberStoreBase with Store {
         _logger.log(stateFlow, 'sendCode', resp.error);
         sNotification.showError(resp.error?.cause ?? '', id: 1);
 
-        if (!fromRegister) await sRouter.pop();
+        if (!fromRegister) await sRouter.maybePop();
 
         return;
       }
@@ -160,13 +160,13 @@ abstract class _SetPhoneNumberStoreBase with Store {
             place: 'sendCode',
             message: '$e',
           );
-      if (!fromRegister) await sRouter.pop();
+      if (!fromRegister) await sRouter.maybePop();
 
       sNotification.showError(e.cause, id: 1);
     } catch (e) {
       loader!.finishLoadingImmediately();
 
-      if (!fromRegister) await sRouter.pop();
+      if (!fromRegister) await sRouter.maybePop();
 
       _logger.log(stateFlow, 'sendCode', e);
       getIt.get<SimpleLoggerService>().log(

@@ -166,7 +166,7 @@ class _CreateBankingScreenState extends State<CreateBankingScreen> {
                         _afterVerification,
                       );
                     } else {
-                      await sRouter.pop();
+                      await sRouter.maybePop();
                     }
                   }
                 } catch (e) {

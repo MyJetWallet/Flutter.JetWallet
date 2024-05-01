@@ -56,7 +56,7 @@ abstract class _TransactionCancelStoreBase with Store {
 
   @action
   void _showSuccessScreen() {
-    sRouter.pop();
+    sRouter.maybePop();
 
     sShowAlertPopup(
       sRouter.navigatorKey.currentContext!,

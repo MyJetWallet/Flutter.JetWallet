@@ -154,7 +154,7 @@ class CircleBillingAddressBody extends StatelessObserverWidget {
                     await store.addCard(
                       onSuccess: onCardAdded,
                       onError: () {
-                        sRouter.pop();
+                        sRouter.maybePop();
                         store.clearBillingDetails();
                         store.billingAddressEnableButton = true;
                       },

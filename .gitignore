@@ -120,5 +120,7 @@ app.*.map.json
 temp
 
 #fvm
-.fvm/**
 *.fvmrc
+
+# FVM Version Cache
+.fvm/

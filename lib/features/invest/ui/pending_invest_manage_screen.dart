@@ -186,6 +186,7 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
                         onTap: () {
                           showInvestModifyBottomSheet(
                             context: context,
+                            isPendingInvest: true,
                             instrument: widget.instrument,
                             position: investNewStore.position!,
                             onPrimaryButtonTap: () {
@@ -278,7 +279,7 @@ class _PendingInvestManageScreenState extends State<PendingInvestManageScreen> {
               mainText: intl.invest_pending_price,
               secondaryText: marketFormat(
                 decimal: investNewStore.position!.pendingPrice ?? Decimal.zero,
-                accuracy: 2,
+                accuracy: widget.instrument.priceAccuracy ?? 2,
                 symbol: '',
               ),
             ),

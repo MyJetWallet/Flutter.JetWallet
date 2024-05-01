@@ -129,7 +129,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
             ? SIconButton(
                 onTap: () {
                   if (args.isDeviceBinding || args.isUnlimitTransferConfirm) {
-                    getIt<AppRouter>().pop();
+                    getIt<AppRouter>().maybePop();
                   } else {
                     getIt<AppRouter>().popUntilRoot();
                     getIt<LogoutService>().logout(
@@ -138,7 +138,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                       callbackAfterSend: () {},
                     );
 
-                    getIt<AppRouter>().pop();
+                    getIt<AppRouter>().maybePop();
                   }
                 },
                 defaultIcon: const SBackIcon(),

@@ -66,7 +66,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
         child: SSmallHeader(
           title: store.header,
           onBackButtonTap: () {
-            sRouter.pop();
+            sRouter.maybePop();
           },
         ),
       ),

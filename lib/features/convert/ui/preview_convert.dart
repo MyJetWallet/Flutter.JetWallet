@@ -86,7 +86,7 @@ class _PreviewConvertBodyState extends State<PreviewConvertBody> with SingleTick
         title: intl.buy_confirmation_title,
         onBackButtonTap: () {
           store.cancelTimer();
-          sRouter.pop();
+          sRouter.maybePop();
         },
       ),
       child: CustomScrollView(

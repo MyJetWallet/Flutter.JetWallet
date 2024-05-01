@@ -111,7 +111,7 @@ class _CountryState extends State<_Countries> {
                             } else {
                               widget.store.pickCountryFromSearch(country);
                               widget.pickCountryFromSearch(country);
-                              sRouter.pop();
+                              sRouter.maybePop();
                             }
                           },
                           countryCode: country.countryCode,

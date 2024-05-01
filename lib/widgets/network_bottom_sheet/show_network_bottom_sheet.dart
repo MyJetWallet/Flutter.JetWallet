@@ -28,7 +28,7 @@ void showNetworkBottomSheet(
     }
 
     if (val == null) {
-      sRouter.pop();
+      sRouter.maybePop();
       isClosed = true;
 
       return;

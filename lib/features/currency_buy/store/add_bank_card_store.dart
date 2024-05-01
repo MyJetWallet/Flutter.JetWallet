@@ -286,7 +286,7 @@ abstract class _AddBankCardStoreBase with Store {
     bool showUaAlert = false,
   }) {
     final finalCardNumber = cardNumber.substring(cardNumber.length - 4);
-    sRouter.pop();
+    sRouter.maybePop();
     Timer(const Duration(milliseconds: 500), () {
       sRouter.push(
         CurrencyBuyRouter(

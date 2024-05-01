@@ -35,7 +35,7 @@ Future<void> showPrepaidCardRedirectDialog({
     },
     onSecondaryButtonTap: () {
       sAnalytics.tapOnTheCancelRedirectingButton();
-      sRouter.pop();
+      sRouter.maybePop();
     },
   );
 }

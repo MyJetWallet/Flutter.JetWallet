@@ -89,7 +89,7 @@ class _BuyVouncherConfirmationBody extends StatelessObserverWidget {
               country: store.country?.isoCode ?? '',
               isAvailableAppleGooglePay: store.prewievResponce?.brand.isMobile ?? false,
             );
-            sRouter.pop();
+            sRouter.maybePop();
           },
         ),
       ),

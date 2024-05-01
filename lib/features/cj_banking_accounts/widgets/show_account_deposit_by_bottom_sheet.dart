@@ -62,7 +62,7 @@ class _DepositByBody extends StatelessWidget {
           ),
           hasRightValue: false,
           onTableAssetTap: () {
-            sRouter.pop();
+            sRouter.maybePop();
 
             sAnalytics.tapOnTheAnyAccountForDepositButton(
               accountType: 'Requisites',

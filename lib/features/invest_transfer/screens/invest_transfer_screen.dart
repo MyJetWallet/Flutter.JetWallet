@@ -48,7 +48,7 @@ class _InvestAmountScreen extends State<InvestTransferScreen> with TickerProvide
         child: SSmallHeader(
           title: '',
           onBackButtonTap: () {
-            sRouter.pop();
+            sRouter.maybePop();
           },
         ),
       ),

@@ -42,7 +42,7 @@ class ChooseCountryAndPlanScreen extends StatelessWidget {
                     context: context,
                     countries: store.countries,
                     onSelected: ({required SPhoneNumber newCountry}) {
-                      sRouter.pop();
+                      sRouter.maybePop();
                       store.setNewCountry(newCountry);
                     },
                   );

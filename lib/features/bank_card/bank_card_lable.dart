@@ -44,7 +44,7 @@ class BankCardLabel extends StatelessObserverWidget {
             sAnalytics.tapOnTheBackFromCardLabelCreationButton(
               destinationWallet: asset?.symbol ?? '',
             );
-            sRouter.pop();
+            sRouter.maybePop();
           },
         ),
       ),
