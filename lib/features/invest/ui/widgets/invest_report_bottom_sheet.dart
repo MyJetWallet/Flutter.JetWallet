@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:developer';
+import 'dart:developer' as dev;
 
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -153,8 +153,8 @@ class _InvestListScreenState extends State<InvestList> {
     final currency = currencyFrom(currencies, widget.instrument.name ?? '');
     final isBalanceHide = getIt<AppStore>().isBalanceHide;
 
-    log('positon ${widget.position}');
-    log('instrument ${widget.position}');
+    dev.log('positon ${widget.position}');
+    dev.log('instrument ${widget.position}');
 
     return SPaddingH24(
       child: Observer(
@@ -210,13 +210,18 @@ class _InvestListScreenState extends State<InvestList> {
                 const SpaceH8(),
                 DataLine(
                   mainText: intl.invest_report_open_data,
-                  secondaryText: DateFormat('dd.MM.yyyy').format(widget.position.openTimestamp!),
+                  secondaryText: _formatDateTime(
+                    widget.position.openTimestamp!,
+                    'dd.MM.yyyy',
+                  ),
                 ),
                 const SpaceH8(),
                 DataLine(
                   mainText: intl.invest_report_open_time,
-                  secondaryText:
-                      DateFormat('HH:mm:ss').format(DateTime.parse(widget.position.openTimestamp!.toString())),
+                  secondaryText: _formatDateTime(
+                    widget.position.openTimestamp!,
+                    'HH:mm:ss',
+                  ),
                 ),
               ] else ...[
                 DataLine(
@@ -230,12 +235,18 @@ class _InvestListScreenState extends State<InvestList> {
                 const SpaceH8(),
                 DataLine(
                   mainText: intl.invest_report_order_date,
-                  secondaryText: DateFormat('dd.MM.yyyy').format(widget.position.creationTimestamp!),
+                  secondaryText: _formatDateTime(
+                    widget.position.creationTimestamp!,
+                    'dd.MM.yyyy',
+                  ),
                 ),
                 const SpaceH8(),
                 DataLine(
                   mainText: intl.invest_report_order_time,
-                  secondaryText: DateFormat('hh:mm:ss').format(widget.position.creationTimestamp!),
+                  secondaryText: _formatDateTime(
+                    widget.position.creationTimestamp!,
+                    'hh:mm:ss',
+                  ),
                 ),
               ],
               const SpaceH8(),
@@ -384,13 +395,18 @@ class _InvestListScreenState extends State<InvestList> {
                   const SpaceH8(),
                   DataLine(
                     mainText: intl.invest_report_close_date,
-                    secondaryText: DateFormat('dd.MM.yyyy').format(widget.position.closeTimestamp!),
+                    secondaryText: _formatDateTime(
+                      widget.position.closeTimestamp!,
+                      'dd.MM.yyyy',
+                    ),
                   ),
                   const SpaceH8(),
                   DataLine(
                     mainText: intl.invest_report_close_time,
-                    secondaryText:
-                        DateFormat('HH:mm:ss').format(DateTime.parse(widget.position.closeTimestamp!.toString())),
+                    secondaryText: _formatDateTime(
+                      widget.position.closeTimestamp!,
+                      'HH:mm:ss',
+                    ),
                   ),
                   const SpaceH8(),
                 ],
@@ -414,12 +430,18 @@ class _InvestListScreenState extends State<InvestList> {
                 const SpaceH8(),
                 DataLine(
                   mainText: intl.invest_report_delete_date,
-                  secondaryText: DateFormat('dd.MM.yyyy').format(widget.position.closeTimestamp!),
+                  secondaryText: _formatDateTime(
+                    widget.position.closeTimestamp!,
+                    'dd.MM.yyyy',
+                  ),
                 ),
                 const SpaceH8(),
                 DataLine(
                   mainText: intl.invest_report_delete_time,
-                  secondaryText: DateFormat('hh:mm:ss').format(widget.position.closeTimestamp!),
+                  secondaryText: _formatDateTime(
+                    widget.position.closeTimestamp!,
+                    'hh:mm:ss',
+                  ),
                 ),
                 const SpaceH8(),
               ],
@@ -454,5 +476,26 @@ class _InvestListScreenState extends State<InvestList> {
         },
       ),
     );
+  }
+
+  String _formatDateTime(DateTime dateTime, String dateFormat) {
+    DateTime dateTimeLocal;
+
+    if (!dateTime.isUtc) {
+      dateTimeLocal = DateTime.utc(
+        dateTime.year,
+        dateTime.month,
+        dateTime.day,
+        dateTime.hour,
+        dateTime.minute,
+        dateTime.second,
+        dateTime.millisecond,
+        dateTime.microsecond,
+      ).toLocal();
+    } else {
+      dateTimeLocal = dateTime.toLocal();
+    }
+
+    return DateFormat(dateFormat).format(dateTimeLocal);
   }
 }
