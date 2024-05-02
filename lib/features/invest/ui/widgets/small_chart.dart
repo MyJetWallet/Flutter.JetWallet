@@ -25,7 +25,7 @@ class SmallChart extends StatelessWidget {
     );
   }
 
-  List<CandleModel> sampleCandles(List<CandleModel> candles, {int maxCandles = 50}) {
+  List<CandleModel> sampleCandles(List<CandleModel> candles, {int maxCandles = 60}) {
     if (candles.length <= maxCandles) {
       return candles;
     }
