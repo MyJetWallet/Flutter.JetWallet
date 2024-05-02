@@ -45,14 +45,6 @@ class _InvestScreenState extends State<InvestScreen> {
     final colors = sKit.colors;
     final currency = currencyFrom(currencies, 'USDT');
 
-    int getGroupedLength(String symbol) {
-      final groupedPositions = investPositionsStore.activeList.where(
-        (element) => element.symbol == symbol,
-      );
-
-      return groupedPositions.length;
-    }
-
     Decimal getGroupedProfit(String symbol) {
       final groupedPositions = investPositionsStore.activeList
           .where(
