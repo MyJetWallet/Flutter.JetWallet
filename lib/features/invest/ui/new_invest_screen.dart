@@ -263,47 +263,43 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
             if (sSignalRModules.investWalletData!.balance! >= Decimal.fromInt(30)) ...[
               const SpaceH8(),
               SPaddingH24(
-                child: Observer(
-                  builder: (context) {
-                    return InvestSliderInput(
-                      maxValue: calculateAmountMax(
-                        balance: sSignalRModules.investWalletData?.balance ?? Decimal.zero,
-                        minVolume: widget.instrument.minVolume ?? Decimal.zero,
-                        maxVolume: widget.instrument.maxVolume ?? Decimal.zero,
-                      ),
-                      minValue: calculateAmountMin(
-                        balance: sSignalRModules.investWalletData?.balance ?? Decimal.zero,
-                        minVolume: widget.instrument.minVolume ?? Decimal.zero,
-                        maxVolume: widget.instrument.maxVolume ?? Decimal.zero,
-                      ),
-                      currentValue: investNewStore.amountValue == Decimal.zero
-                          ? Decimal.zero
-                          : Decimal.fromJson('${log(investNewStore.amountValue.toDouble())}'),
-                      divisions: ((calculateAmountMaxReal(
-                                    balance: sSignalRModules.investWalletData?.balance ?? Decimal.zero,
-                                    minVolume: widget.instrument.minVolume ?? Decimal.zero,
-                                    maxVolume: widget.instrument.maxVolume ?? Decimal.zero,
-                                  ) -
-                                  calculateAmountMinReal(
-                                    balance: sSignalRModules.investWalletData?.balance ?? Decimal.zero,
-                                    minVolume: widget.instrument.minVolume ?? Decimal.zero,
-                                    maxVolume: widget.instrument.maxVolume ?? Decimal.zero,
-                                  )) *
-                              Decimal.fromInt(1000))
-                          .toDouble()
-                          .floor(),
-                      isLog: true,
-                      prefix: '    ',
-                      arrayOfValues: calculateAmountPositions(
-                        balance: sSignalRModules.investWalletData?.balance ?? Decimal.zero,
-                        minVolume: widget.instrument.minVolume ?? Decimal.zero,
-                        maxVolume: widget.instrument.maxVolume ?? Decimal.zero,
-                      ),
-                      onChange: (double value) {
-                        investNewStore.onAmountInput('${value.toInt()}');
-                        investNewStore.amountController.text = '${value.toInt()}';
-                      },
-                    );
+                child: InvestSliderInput(
+                  maxValue: calculateAmountMax(
+                    balance: sSignalRModules.investWalletData?.balance ?? Decimal.zero,
+                    minVolume: widget.instrument.minVolume ?? Decimal.zero,
+                    maxVolume: widget.instrument.maxVolume ?? Decimal.zero,
+                  ),
+                  minValue: calculateAmountMin(
+                    balance: sSignalRModules.investWalletData?.balance ?? Decimal.zero,
+                    minVolume: widget.instrument.minVolume ?? Decimal.zero,
+                    maxVolume: widget.instrument.maxVolume ?? Decimal.zero,
+                  ),
+                  currentValue: investNewStore.amountValue == Decimal.zero
+                      ? Decimal.zero
+                      : Decimal.fromJson('${log(investNewStore.amountValue.toDouble())}'),
+                  divisions: ((calculateAmountMaxReal(
+                                balance: sSignalRModules.investWalletData?.balance ?? Decimal.zero,
+                                minVolume: widget.instrument.minVolume ?? Decimal.zero,
+                                maxVolume: widget.instrument.maxVolume ?? Decimal.zero,
+                              ) -
+                              calculateAmountMinReal(
+                                balance: sSignalRModules.investWalletData?.balance ?? Decimal.zero,
+                                minVolume: widget.instrument.minVolume ?? Decimal.zero,
+                                maxVolume: widget.instrument.maxVolume ?? Decimal.zero,
+                              )) *
+                          Decimal.fromInt(1000))
+                      .toDouble()
+                      .floor(),
+                  isLog: true,
+                  prefix: '    ',
+                  arrayOfValues: calculateAmountPositions(
+                    balance: sSignalRModules.investWalletData?.balance ?? Decimal.zero,
+                    minVolume: widget.instrument.minVolume ?? Decimal.zero,
+                    maxVolume: widget.instrument.maxVolume ?? Decimal.zero,
+                  ),
+                  onChange: (double value) {
+                    investNewStore.onAmountInput('${value.toInt()}');
+                    investNewStore.amountController.text = '${value.toInt()}';
                   },
                 ),
               ),
@@ -330,23 +326,19 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
             ),
             const SpaceH8(),
             SPaddingH24(
-              child: Observer(
-                builder: (context) {
-                  return InvestSliderInput(
-                    maxValue: Decimal.fromInt(widget.instrument.maxMultiply ?? 0),
-                    minValue: Decimal.fromInt(widget.instrument.minMultiply ?? 0),
-                    currentValue: Decimal.fromInt(investNewStore.multiplicator),
-                    divisions: 4,
-                    prefix: 'x',
-                    fullScale: true,
-                    arrayOfValues: calculateMultiplyPositions(
-                      minVolume: Decimal.fromInt(widget.instrument.minMultiply ?? 0),
-                      maxVolume: Decimal.fromInt(widget.instrument.maxMultiply ?? 0),
-                    ),
-                    onChange: (double value) {
-                      investNewStore.setMultiplicator(value.toInt());
-                    },
-                  );
+              child: InvestSliderInput(
+                maxValue: Decimal.fromInt(widget.instrument.maxMultiply ?? 0),
+                minValue: Decimal.fromInt(widget.instrument.minMultiply ?? 0),
+                currentValue: Decimal.fromInt(investNewStore.multiplicator),
+                divisions: 4,
+                prefix: 'x',
+                fullScale: true,
+                arrayOfValues: calculateMultiplyPositions(
+                  minVolume: Decimal.fromInt(widget.instrument.minMultiply ?? 0),
+                  maxVolume: Decimal.fromInt(widget.instrument.maxMultiply ?? 0),
+                ),
+                onChange: (double value) {
+                  investNewStore.setMultiplicator(value.toInt());
                 },
               ),
             ),
@@ -558,58 +550,54 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                         widget.instrument.takeProfitPriceLimits != null &&
                         widget.instrument.takeProfitPriceLimits!.isNotEmpty) ...[
                       const SpaceH8(),
-                      Observer(
-                        builder: (context) {
-                          return InvestSliderInput(
-                            isDisabled: !investNewStore.isTP,
-                            maxValue: calculateLimitsPositions(
-                              price: investNewStore.isOrderMode
-                                  ? investNewStore.pendingValue
-                                  : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
-                              amount: investNewStore.amountValue,
-                              limits: investNewStore.isSLTPPrice
-                                  ? widget.instrument.takeProfitPriceLimits!
-                                  : widget.instrument.takeProfitAmountLimits!,
-                              isAmount: !investNewStore.isSLTPPrice,
-                              isSl: false,
-                            )[4],
-                            minValue: calculateLimitsPositions(
-                              price: investNewStore.isOrderMode
-                                  ? investNewStore.pendingValue
-                                  : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
-                              amount: investNewStore.amountValue,
-                              limits: investNewStore.isSLTPPrice
-                                  ? widget.instrument.takeProfitPriceLimits!
-                                  : widget.instrument.takeProfitAmountLimits!,
-                              isAmount: !investNewStore.isSLTPPrice,
-                              isSl: false,
-                            )[0],
-                            currentValue:
-                                investNewStore.isSLTPPrice ? investNewStore.tpPriceValue : investNewStore.tpAmountValue,
-                            divisions: 4,
-                            withArray: true,
-                            fullScale: !investNewStore.isSLTPPrice,
-                            arrayOfValues: calculateLimitsPositions(
-                              price: investNewStore.isOrderMode
-                                  ? investNewStore.pendingValue
-                                  : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
-                              amount: investNewStore.amountValue,
-                              limits: investNewStore.isSLTPPrice
-                                  ? widget.instrument.takeProfitPriceLimits!
-                                  : widget.instrument.takeProfitAmountLimits!,
-                              isAmount: !investNewStore.isSLTPPrice,
-                              isSl: false,
-                            ),
-                            onChange: (double value) {
-                              if (investNewStore.isSLTPPrice) {
-                                investNewStore.onTPPriceInput('$value');
-                                investNewStore.tpPriceController.text = '$value';
-                              } else {
-                                investNewStore.onTPAmountInput('${value.toInt()}');
-                                investNewStore.tpAmountController.text = '${value.toInt()}';
-                              }
-                            },
-                          );
+                      InvestSliderInput(
+                        isDisabled: !investNewStore.isTP,
+                        maxValue: calculateLimitsPositions(
+                          price: investNewStore.isOrderMode
+                              ? investNewStore.pendingValue
+                              : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
+                          amount: investNewStore.amountValue,
+                          limits: investNewStore.isSLTPPrice
+                              ? widget.instrument.takeProfitPriceLimits!
+                              : widget.instrument.takeProfitAmountLimits!,
+                          isAmount: !investNewStore.isSLTPPrice,
+                          isSl: false,
+                        )[4],
+                        minValue: calculateLimitsPositions(
+                          price: investNewStore.isOrderMode
+                              ? investNewStore.pendingValue
+                              : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
+                          amount: investNewStore.amountValue,
+                          limits: investNewStore.isSLTPPrice
+                              ? widget.instrument.takeProfitPriceLimits!
+                              : widget.instrument.takeProfitAmountLimits!,
+                          isAmount: !investNewStore.isSLTPPrice,
+                          isSl: false,
+                        )[0],
+                        currentValue:
+                            investNewStore.isSLTPPrice ? investNewStore.tpPriceValue : investNewStore.tpAmountValue,
+                        divisions: 4,
+                        withArray: true,
+                        fullScale: !investNewStore.isSLTPPrice,
+                        arrayOfValues: calculateLimitsPositions(
+                          price: investNewStore.isOrderMode
+                              ? investNewStore.pendingValue
+                              : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
+                          amount: investNewStore.amountValue,
+                          limits: investNewStore.isSLTPPrice
+                              ? widget.instrument.takeProfitPriceLimits!
+                              : widget.instrument.takeProfitAmountLimits!,
+                          isAmount: !investNewStore.isSLTPPrice,
+                          isSl: false,
+                        ),
+                        onChange: (double value) {
+                          if (investNewStore.isSLTPPrice) {
+                            investNewStore.onTPPriceInput('$value');
+                            investNewStore.tpPriceController.text = '$value';
+                          } else {
+                            investNewStore.onTPAmountInput('${value.toInt()}');
+                            investNewStore.tpAmountController.text = '${value.toInt()}';
+                          }
                         },
                       ),
                     ],
@@ -720,61 +708,57 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                         widget.instrument.stopLossPriceLimits != null &&
                         widget.instrument.stopLossPriceLimits!.isNotEmpty) ...[
                       const SpaceH8(),
-                      Observer(
-                        builder: (context) {
-                          return InvestSliderInput(
-                            isDisabled: !investNewStore.isSl,
-                            maxValue: calculateLimitsPositions(
-                              price: investNewStore.isOrderMode
-                                  ? investNewStore.pendingValue
-                                  : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
-                              amount: investNewStore.amountValue,
-                              limits: investNewStore.isSLTPPrice
-                                  ? widget.instrument.stopLossPriceLimits!
-                                  : widget.instrument.stopLossAmountLimits!,
-                              isAmount: !investNewStore.isSLTPPrice,
-                              isSl: true,
-                            )[4]
-                                .abs(),
-                            minValue: calculateLimitsPositions(
-                              price: investNewStore.isOrderMode
-                                  ? investNewStore.pendingValue
-                                  : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
-                              amount: investNewStore.amountValue,
-                              limits: investNewStore.isSLTPPrice
-                                  ? widget.instrument.stopLossPriceLimits!
-                                  : widget.instrument.stopLossAmountLimits!,
-                              isAmount: !investNewStore.isSLTPPrice,
-                              isSl: true,
-                            )[0]
-                                .abs(),
-                            currentValue: investNewStore.isSLTPPrice
-                                ? investNewStore.slPriceValue
-                                : investNewStore.slAmountValue.abs(),
-                            divisions: 4,
-                            withArray: true,
-                            fullScale: !investNewStore.isSLTPPrice,
-                            arrayOfValues: calculateLimitsPositions(
-                              price: investNewStore.isOrderMode
-                                  ? investNewStore.pendingValue
-                                  : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
-                              amount: investNewStore.amountValue,
-                              limits: investNewStore.isSLTPPrice
-                                  ? widget.instrument.stopLossPriceLimits!
-                                  : widget.instrument.stopLossAmountLimits!,
-                              isAmount: !investNewStore.isSLTPPrice,
-                              isSl: true,
-                            ),
-                            onChange: (double value) {
-                              if (investNewStore.isSLTPPrice) {
-                                investNewStore.onSLPriceInput('$value');
-                                investNewStore.slPriceController.text = '${value.abs()}';
-                              } else {
-                                investNewStore.onSLAmountInput('${value.toInt()}');
-                                investNewStore.slAmountController.text = '-${value.abs().toInt()}';
-                              }
-                            },
-                          );
+                      InvestSliderInput(
+                        isDisabled: !investNewStore.isSl,
+                        maxValue: calculateLimitsPositions(
+                          price: investNewStore.isOrderMode
+                              ? investNewStore.pendingValue
+                              : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
+                          amount: investNewStore.amountValue,
+                          limits: investNewStore.isSLTPPrice
+                              ? widget.instrument.stopLossPriceLimits!
+                              : widget.instrument.stopLossAmountLimits!,
+                          isAmount: !investNewStore.isSLTPPrice,
+                          isSl: true,
+                        )[4]
+                            .abs(),
+                        minValue: calculateLimitsPositions(
+                          price: investNewStore.isOrderMode
+                              ? investNewStore.pendingValue
+                              : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
+                          amount: investNewStore.amountValue,
+                          limits: investNewStore.isSLTPPrice
+                              ? widget.instrument.stopLossPriceLimits!
+                              : widget.instrument.stopLossAmountLimits!,
+                          isAmount: !investNewStore.isSLTPPrice,
+                          isSl: true,
+                        )[0]
+                            .abs(),
+                        currentValue: investNewStore.isSLTPPrice
+                            ? investNewStore.slPriceValue
+                            : investNewStore.slAmountValue.abs(),
+                        divisions: 4,
+                        withArray: true,
+                        fullScale: !investNewStore.isSLTPPrice,
+                        arrayOfValues: calculateLimitsPositions(
+                          price: investNewStore.isOrderMode
+                              ? investNewStore.pendingValue
+                              : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
+                          amount: investNewStore.amountValue,
+                          limits: investNewStore.isSLTPPrice
+                              ? widget.instrument.stopLossPriceLimits!
+                              : widget.instrument.stopLossAmountLimits!,
+                          isAmount: !investNewStore.isSLTPPrice,
+                          isSl: true,
+                        ),
+                        onChange: (double value) {
+                          if (investNewStore.isSLTPPrice) {
+                            investNewStore.onSLPriceInput('$value');
+                            investNewStore.slPriceController.text = '${value.abs()}';
+                          } else {
+                            investNewStore.onSLAmountInput('${value.toInt()}');
+                            investNewStore.slAmountController.text = '-${value.abs().toInt()}';
+                          }
                         },
                       ),
                     ],

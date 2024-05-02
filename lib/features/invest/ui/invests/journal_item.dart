@@ -36,7 +36,10 @@ class JournalItem extends StatelessObserverWidget {
     return Column(
       children: [
         RolloverLine(
-          mainText: DateFormat('dd.MM.yyyy / HH:mm:ss').format(item.timestamp),
+          mainText: _formatDateTime(
+            item.timestamp,
+            'dd.MM.yyyy / HH:mm:ss',
+          ),
           secondaryText: '',
         ),
         const SpaceH8(),
@@ -122,5 +125,26 @@ class JournalItem extends StatelessObserverWidget {
         const SpaceH8(),
       ],
     );
+  }
+
+  String _formatDateTime(DateTime dateTime, String dateFormat) {
+    DateTime dateTimeLocal;
+
+    if (!dateTime.isUtc) {
+      dateTimeLocal = DateTime.utc(
+        dateTime.year,
+        dateTime.month,
+        dateTime.day,
+        dateTime.hour,
+        dateTime.minute,
+        dateTime.second,
+        dateTime.millisecond,
+        dateTime.microsecond,
+      ).toLocal();
+    } else {
+      dateTimeLocal = dateTime.toLocal();
+    }
+
+    return DateFormat(dateFormat).format(dateTimeLocal);
   }
 }

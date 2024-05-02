@@ -262,7 +262,8 @@ class InstrumentsList extends StatelessObserverWidget {
                       price: investStore.getPriceBySymbol(instrument.symbol ?? ''),
                       candles: investChartStore.getAssetCandles(instrument.symbol ?? ''),
                       onTap: () {
-                        if (getGroupedLength(instrument.symbol!) > 0) {
+                        if (investStore.myInvestsList.contains(instrument) ||
+                            investStore.myInvestPendingList.contains(instrument)) {
                           sRouter.push(
                             InstrumentPageRouter(instrument: instrument),
                           );
