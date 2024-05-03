@@ -38,7 +38,6 @@ class Circle3dSecureWebView extends StatelessWidget {
     return PopScope(
       onPopInvoked: (_) {
         onCancel?.call(null);
-        navigateToRouter();
 
         Future.value(true);
       },
