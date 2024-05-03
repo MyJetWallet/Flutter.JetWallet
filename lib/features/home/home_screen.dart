@@ -91,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
             getIt.get<AppStore>().setTabsRouter(tabsRouter);
 
             return SBottomBar(
-              selectedIndex: getIt.get<AppStore>().homeTab,
+              selectedIndex: bottomBarItems.indexOf(getIt.get<AppStore>().homeTab),
               items: [
                 if (bottomBarItems.contains(BottomItemType.wallets))
                   SBottomItemModel(
@@ -147,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 getIt.get<EventBus>().fire(EndReordering());
 
-                if (val == getIt<AppStore>().homeTab) {
+                if (bottomBarItems[val] == getIt<AppStore>().homeTab) {
                   switch (bottomBarItems[val]) {
                     case BottomItemType.wallets:
                       getIt.get<EventBus>().fire(ResetScrollMyWallets());
@@ -159,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
                 }
 
-                getIt<AppStore>().setHomeTab(val);
+                getIt<AppStore>().setHomeTab(bottomBarItems[val]);
                 if (val < screens.length) {
                   tabsRouter.setActiveIndex(val);
                 } else {

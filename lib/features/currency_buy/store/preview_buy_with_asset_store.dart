@@ -16,6 +16,7 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/actions/confirm_action_timer/simple_timer_animation_countdown.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_response_model.dart';
@@ -251,7 +252,7 @@ abstract class _PreviewBuyWithAssetStoreBase with Store {
         SuccessScreenRouter(
           secondaryText: intl.previewBuyWithAsset_orderProcessing,
           onSuccess: (context) {
-            getIt<AppStore>().setHomeTab(1);
+            getIt<AppStore>().setHomeTab(BottomItemType.wallets);
             sRouter.push(
               const HomeRouter(
                 children: [

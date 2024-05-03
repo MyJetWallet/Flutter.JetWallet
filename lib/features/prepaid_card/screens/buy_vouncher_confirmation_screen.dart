@@ -6,9 +6,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/prepaid_card/store/buy_vouncher_confirmation_store.dart';
 import 'package:jetwallet/features/prepaid_card/utils/show_commision_explanation_bottom_sheet.dart';
 import 'package:jetwallet/features/prepaid_card/utils/show_country_explanation_bottom_sheet.dart';
@@ -114,18 +116,22 @@ class _BuyVouncherConfirmationBody extends StatelessObserverWidget {
                     isLoading: !store.isDataLoaded,
                     fromAssetIconUrl: store.payCurrency.iconUrl,
                     fromAssetDescription: intl.prepaid_card_crypto_wallet,
-                    fromAssetValue: volumeFormat(
-                      symbol: store.payCurrency.symbol,
-                      accuracy: store.payCurrency.accuracy,
-                      decimal: store.amount,
-                    ),
+                    fromAssetValue: getIt<AppStore>().isBalanceHide
+                        ? '**** ${store.payCurrency.symbol}'
+                        : volumeFormat(
+                            symbol: store.payCurrency.symbol,
+                            accuracy: store.payCurrency.accuracy,
+                            decimal: store.amount,
+                          ),
                     toAssetIconUrl: store.buyCurrency.iconUrl,
                     toAssetDescription: intl.prepaid_card_prepaid_card_voucher,
-                    toAssetValue: volumeFormat(
-                      decimal: store.amount,
-                      accuracy: store.buyCurrency.accuracy,
-                      symbol: store.buyCurrency.symbol,
-                    ),
+                    toAssetValue: getIt<AppStore>().isBalanceHide
+                        ? '**** ${store.buyCurrency.symbol}'
+                        : volumeFormat(
+                            decimal: store.amount,
+                            accuracy: store.buyCurrency.accuracy,
+                            symbol: store.buyCurrency.symbol,
+                          ),
                   ),
                   const SDivider(),
                   const SizedBox(height: 19),
@@ -151,11 +157,13 @@ class _BuyVouncherConfirmationBody extends StatelessObserverWidget {
                   ),
                   TwoColumnCell(
                     label: intl.prepaid_card_card_balance,
-                    value: marketFormat(
-                      decimal: store.prewievResponce?.amount ?? Decimal.zero,
-                      symbol: store.buyCurrency.symbol,
-                      accuracy: store.buyCurrency.accuracy,
-                    ),
+                    value: getIt<AppStore>().isBalanceHide
+                        ? '**** ${store.buyCurrency.symbol}'
+                        : marketFormat(
+                            decimal: store.prewievResponce?.amount ?? Decimal.zero,
+                            symbol: store.buyCurrency.symbol,
+                            accuracy: store.buyCurrency.accuracy,
+                          ),
                     needHorizontalPadding: false,
                   ),
                   TwoColumnCell(
@@ -170,14 +178,17 @@ class _BuyVouncherConfirmationBody extends StatelessObserverWidget {
                   ),
                   TwoColumnCell(
                     label: intl.prepaid_card_commission,
-                    value: (store.prewievResponce?.commission ?? Decimal.zero) == Decimal.zero
-                        ? intl.prepaid_card_free
-                        : volumeFormat(
-                            decimal: store.prewievResponce?.commission ?? Decimal.zero,
-                            symbol: store.buyCurrency.symbol,
-                          ),
+                    value: getIt<AppStore>().isBalanceHide
+                        ? '**** ${store.buyCurrency.symbol}'
+                        : (store.prewievResponce?.commission ?? Decimal.zero) == Decimal.zero
+                            ? intl.prepaid_card_free
+                            : volumeFormat(
+                                decimal: store.prewievResponce?.commission ?? Decimal.zero,
+                                symbol: store.buyCurrency.symbol,
+                              ),
                     customValueStyle: STStyles.subtitle2.copyWith(
-                      color: (store.prewievResponce?.commission ?? Decimal.zero) == Decimal.zero
+                      color: ((store.prewievResponce?.commission ?? Decimal.zero) == Decimal.zero &&
+                              !getIt<AppStore>().isBalanceHide)
                           ? SColorsLight().green
                           : null,
                     ),

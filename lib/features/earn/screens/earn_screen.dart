@@ -12,6 +12,7 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 @RoutePage(name: 'EarnRouter')
 class EarnScreen extends StatefulWidget {
@@ -25,12 +26,6 @@ class _EarnScreenState extends State<EarnScreen> {
   final ScrollController controller = ScrollController();
 
   @override
-  void initState() {
-    sAnalytics.earnMainScreenView();
-    super.initState();
-  }
-
-  @override
   void dispose() {
     controller.removeListener(() {});
     super.dispose();
@@ -38,11 +33,19 @@ class _EarnScreenState extends State<EarnScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Provider<EarnStore>(
-      create: (context) => EarnStore(),
-      builder: (context, child) {
-        return _EarnView(controller: controller);
+    return VisibilityDetector(
+      key: const Key('earn-screen-key'),
+      onVisibilityChanged: (info) {
+        if (info.visibleFraction == 1) {
+          sAnalytics.earnMainScreenView();
+        }
       },
+      child: Provider<EarnStore>(
+        create: (context) => EarnStore(),
+        builder: (context, child) {
+          return _EarnView(controller: controller);
+        },
+      ),
     );
   }
 }

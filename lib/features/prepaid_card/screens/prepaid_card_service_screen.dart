@@ -6,6 +6,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/format_service.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/prepaid_card/store/buy_vouncher_confirmation_store.dart';
 import 'package:jetwallet/features/prepaid_card/store/my_vounchers_store.dart';
 import 'package:jetwallet/features/prepaid_card/utils/show_repaid_card_reditect_dialog.dart';
@@ -21,6 +22,9 @@ import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_prepaid_card_intention_dto_list_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/get_purchase_card_list_request_model.dart';
+import 'package:visibility_detector/visibility_detector.dart';
+
+int _lastTimeSendedEvent = 0;
 
 @RoutePage(name: 'PrepaidCardServiceRouter')
 class PrepaidCardServiceScreen extends StatelessWidget {
@@ -28,13 +32,27 @@ class PrepaidCardServiceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    sAnalytics.prepaidCardServiceScreenView();
-    return Provider(
-      create: (context) => MyVounchersStore(),
-      dispose: (context, srore) {
-        srore.dispose();
+    return VisibilityDetector(
+      key: const Key('prepaid-card-screen-key'),
+      onVisibilityChanged: (info) {
+        if (info.visibleFraction == 1) {
+          final now = DateTime.now().millisecondsSinceEpoch;
+          if (now - _lastTimeSendedEvent < 3000) {
+            return;
+          }
+
+          _lastTimeSendedEvent = now;
+
+          sAnalytics.prepaidCardServiceScreenView();
+        }
       },
-      child: const _PrepaidCardServiceScreenBody(),
+      child: Provider(
+        create: (context) => MyVounchersStore(),
+        dispose: (context, srore) {
+          srore.dispose();
+        },
+        child: const _PrepaidCardServiceScreenBody(),
+      ),
     );
   }
 }
@@ -311,11 +329,13 @@ class _VouncherItem extends StatelessWidget {
       labele: voucher.status == BuyPrepaidCardIntentionStatus.purchasing
           ? intl.prepaid_card_in_progress
           : voucher.voucherCode ?? '',
-      balanceChange: marketFormat(
-        decimal: voucher.cardAmount,
-        accuracy: currency.accuracy,
-        symbol: currency.symbol,
-      ),
+      balanceChange: getIt<AppStore>().isBalanceHide
+          ? '**** ${currency.symbol}'
+          : marketFormat(
+              decimal: voucher.cardAmount,
+              accuracy: currency.accuracy,
+              symbol: currency.symbol,
+            ),
       status: voucher.status == BuyPrepaidCardIntentionStatus.purchasing
           ? Status.inProgress
           : voucher.status == BuyPrepaidCardIntentionStatus.failed

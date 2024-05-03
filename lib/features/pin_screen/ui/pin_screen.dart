@@ -159,7 +159,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                     return SLargeHeader(
                       title: intl.pin_screen_confirm_withPin,
                       onBackButtonTap: () {
-                        widget.onBackPressed != null ? widget.onBackPressed?.call() : sRouter.back();
+                        widget.onBackPressed != null ? widget.onBackPressed?.call() : sRouter.maybePop();
                       },
                       titleStyle: sTextH3Style,
                     );
@@ -168,7 +168,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                     return SLargeHeader(
                       title: intl.pin_screen_confirm_withPin,
                       onBackButtonTap: () {
-                        widget.onBackPressed != null ? widget.onBackPressed?.call() : sRouter.back();
+                        widget.onBackPressed != null ? widget.onBackPressed?.call() : sRouter.maybePop();
                       },
                       titleStyle: sTextH4Style,
                       hideBackButton: true,

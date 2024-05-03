@@ -11,6 +11,7 @@ import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -293,11 +294,13 @@ abstract class _BuyVouncherConfirmationStoreBase with Store {
     return sRouter.push(
       SuccessScreenRouter(
         secondaryText: intl.prepaid_card_success(
-          volumeFormat(
-            decimal: amount,
-            symbol: buyCurrency.symbol,
-            accuracy: buyCurrency.accuracy,
-          ),
+          getIt<AppStore>().isBalanceHide
+              ? '**** ${payCurrency.symbol}'
+              : volumeFormat(
+                  decimal: amount,
+                  symbol: buyCurrency.symbol,
+                  accuracy: buyCurrency.accuracy,
+                ),
         ),
         buttonText: intl.previewBuyWithUmlimint_saveCard,
         showProgressBar: true,
