@@ -20,6 +20,7 @@ import 'package:simple_kit/modules/shared/stack_loader/components/loader_spinner
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
+import 'package:simple_kit_updated/widgets/table/placeholder/simple_placeholder.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 
 import '../../../core/di/di.dart';
@@ -89,7 +90,7 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
 
     final colors = sKit.colors;
     final currency = currencyFrom(currencies, 'USDT');
-    
+
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       loading: investPositionsStore.loader,
@@ -336,10 +337,19 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                       ),
                       Observer(
                         builder: (BuildContext context) {
+                          final positions = investPositionsStore.activeList
+                              .where((element) => element.symbol == widget.instrument.symbol)
+                              .toList();
+
                           return investPositionsStore.activeInstrumentTab == 0
-                              ? ActiveInvestList(
-                                  instrument: widget.instrument,
-                                )
+                              ? positions.isEmpty
+                                  ? SPlaceholder(
+                                      size: SPlaceholderSize.l,
+                                      text: intl.wallet_simple_account_empty,
+                                    )
+                                  : ActiveInvestList(
+                                      instrument: widget.instrument,
+                                    )
                               : PendingInvestList(
                                   instrument: widget.instrument,
                                 );

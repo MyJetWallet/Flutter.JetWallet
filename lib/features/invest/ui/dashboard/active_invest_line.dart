@@ -20,83 +20,75 @@ class ActiveInvestLine extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final colors = sKit.colors;
 
-    return SizedBox(
-      width: MediaQuery.of(context).size.width - 48,
-      child: Row(
-        children: [
-          Container(
-            width: 4,
-            height: 4,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(2),
-              color: colors.green,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            Container(
+              width: 4,
+              height: 4,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(2),
+                color: colors.green,
+              ),
             ),
-          ),
-          const SpaceW2(),
-          Text(
-            intl.invest_active_invest,
-            style: STStyles.body3InvestM.copyWith(
-              color: colors.black,
+            const SpaceW2(),
+            Text(
+              intl.invest_active_invest,
+              style: STStyles.body3InvestM.copyWith(
+                color: colors.black,
+              ),
             ),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.only(right: 8),
+          child: Row(
+            children: [
+              Text(
+                intl.invest_amount,
+                style: STStyles.body3InvestM.copyWith(
+                  color: colors.grey1,
+                ),
+              ),
+              const SpaceW4(),
+              Text(
+                volumeFormat(decimal: amount, accuracy: 2, symbol: 'USDT'),
+                style: STStyles.body3InvestSM.copyWith(
+                  color: colors.black,
+                ),
+              ),
+            ],
           ),
-          const Spacer(),
-          SizedBox(
-            width: 130,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  intl.invest_amount,
-                  style: STStyles.body3InvestM.copyWith(
-                    color: colors.grey1,
-                  ),
-                ),
-                const SpaceW4(),
-                Text(
-                  volumeFormat(decimal: amount, accuracy: 2, symbol: 'USDT'),
-                  style: STStyles.body3InvestSM.copyWith(
-                    color: colors.black,
-                  ),
-                ),
-              ],
+        ),
+        Row(
+          children: [
+            Text(
+              'PL ',
+              style: STStyles.body3InvestM.copyWith(
+                color: colors.grey1,
+              ),
             ),
-          ),
-          const SpaceW24(),
-          SizedBox(
-            width: 60,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  'PL ',
-                  style: STStyles.body3InvestM.copyWith(
-                    color: colors.grey1,
-                  ),
-                ),
-                Text(
-                  volumeFormat(
-                    decimal: profit,
-                    accuracy: 2,
-                    symbol: '',
-                  ),
-                  style: STStyles.body2InvestB.copyWith(
-                    color: profit == Decimal.zero
-                        ? SColorsLight().grey3
-                        : profit > Decimal.zero
+            Text(
+              volumeFormat(
+                decimal: profit,
+                accuracy: 2,
+                symbol: '',
+              ),
+              style: STStyles.body2InvestB.copyWith(
+                color: profit == Decimal.zero
+                    ? SColorsLight().grey3
+                    : profit > Decimal.zero
                         ? SColorsLight().green
                         : SColorsLight().red,
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
+      ],
     );
   }
 }

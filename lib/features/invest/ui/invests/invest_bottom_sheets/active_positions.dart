@@ -8,7 +8,6 @@ import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_stor
 import 'package:jetwallet/features/invest/stores/dashboard/invest_positions_store.dart';
 import 'package:jetwallet/features/invest/ui/invests/above_list_line.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/widgets/table/placeholder/simple_placeholder.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
@@ -153,10 +152,10 @@ class ActiveInvestList extends StatelessObserverWidget {
 
                 return MainInvestBlock(
                   pending: Decimal.zero,
-                  amount: instrument != null ? getGroupedAmount(instrument!.symbol ?? '') : amountSum,
-                  balance: instrument != null ? getGroupedProfit(instrument!.symbol ?? '') : profitSum,
+                  amount: instrument != null ? getGroupedAmount(instrument?.symbol ?? '') : amountSum,
+                  balance: instrument != null ? getGroupedProfit(instrument?.symbol ?? '') : profitSum,
                   percent: instrument != null
-                      ? getGroupedProfitPercent(instrument!.symbol ?? '')
+                      ? getGroupedProfitPercent(instrument?.symbol ?? '')
                       : Decimal.fromJson('${(Decimal.fromInt(100) * profitSum / amountSum).toDouble()}'),
                   onShare: () {},
                   currency: currency,
@@ -185,13 +184,6 @@ class ActiveInvestList extends StatelessObserverWidget {
               ),
             Observer(
               builder: (BuildContext context) {
-                if (investPositionsStore.activeList.isEmpty) {
-                  return SPlaceholder(
-                    size: SPlaceholderSize.l,
-                    text: intl.wallet_simple_account_empty,
-                  );
-                }
-
                 if (instrument != null) {
                   final positions =
                       investPositionsStore.activeList.where((element) => element.symbol == instrument!.symbol).toList();

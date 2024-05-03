@@ -45,14 +45,6 @@ class _InvestScreenState extends State<InvestScreen> {
     final colors = sKit.colors;
     final currency = currencyFrom(currencies, 'USDT');
 
-    int getGroupedLength(String symbol) {
-      final groupedPositions = investPositionsStore.activeList.where(
-        (element) => element.symbol == symbol,
-      );
-
-      return groupedPositions.length;
-    }
-
     Decimal getGroupedProfit(String symbol) {
       final groupedPositions = investPositionsStore.activeList
           .where(
@@ -211,7 +203,8 @@ class _InvestScreenState extends State<InvestScreen> {
                                     showProfit: false,
                                     price: investStore.getPriceBySymbol(element.symbol ?? ''),
                                     onTap: () {
-                                      if (getGroupedLength(element.symbol ?? '') > 0) {
+                                      if (investStore.myInvestsList.contains(element) ||
+                                          investStore.myInvestPendingList.contains(element)) {
                                         sRouter.push(
                                           InstrumentPageRouter(instrument: element),
                                         );
@@ -259,7 +252,8 @@ class _InvestScreenState extends State<InvestScreen> {
                                       showProfit: false,
                                       price: investStore.getPriceBySymbol(element.symbol ?? ''),
                                       onTap: () {
-                                        if (getGroupedLength(element.symbol ?? '') > 0) {
+                                        if (investStore.myInvestsList.contains(element) ||
+                                            investStore.myInvestPendingList.contains(element)) {
                                           sRouter.push(
                                             InstrumentPageRouter(instrument: element),
                                           );
@@ -307,7 +301,8 @@ class _InvestScreenState extends State<InvestScreen> {
                                       showProfit: false,
                                       price: investStore.getPriceBySymbol(element.symbol ?? ''),
                                       onTap: () {
-                                        if (getGroupedLength(element.symbol ?? '') > 0) {
+                                        if (investStore.myInvestsList.contains(element) ||
+                                            investStore.myInvestPendingList.contains(element)) {
                                           sRouter.push(
                                             InstrumentPageRouter(instrument: element),
                                           );
