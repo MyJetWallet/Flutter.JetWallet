@@ -108,7 +108,7 @@ class ActionsAccountRowWidget extends StatelessWidget {
                       currentNavigate: () => showBuyChooseAssetBottomSheet(
                         context: context,
                         onChooseAsset: (currency) {
-                          sRouter.pop();
+                          sRouter.maybePop();
                           sRouter.push(
                             AmountRoute(
                               tab: AmountScreenTab.buy,

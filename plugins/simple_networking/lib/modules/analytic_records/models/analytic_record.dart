@@ -8,6 +8,7 @@ class AnalyticRecordModel with _$AnalyticRecordModel {
   const factory AnalyticRecordModel({
     required String eventName,
     required Map<String, dynamic> eventBody,
+    required int orderIndex,
   }) = _AnalyticRecordModel;
 
   factory AnalyticRecordModel.fromJson(Map<String, dynamic> json) =>

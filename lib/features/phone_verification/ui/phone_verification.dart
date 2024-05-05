@@ -15,6 +15,8 @@ import 'package:jetwallet/widgets/texts/verification_description_text.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/di/di.dart';
 import '../../../core/services/logout_service/logout_service.dart';
@@ -105,33 +107,44 @@ class PhoneVerificationBody extends StatelessObserverWidget {
     return SPageFrame(
       loaderText: intl.phoneVerification_pleaseWait,
       loading: store.loader,
-      header: SPaddingH24(
-        child: SBigHeader(
-          title: intl.confirm_with_sms,
-          onBackButtonTap: () {
-            getIt<AppRouter>().popUntilRoot();
+      header: SimpleLargeAppbar(
+        title: intl.confirm_with_sms,
+        hasRightIcon: true,
+        rightIcon: SafeGesture(
+          onTap: () async {
+            if (showZendesk) {
+              await getIt.get<IntercomService>().login();
+              await getIt.get<IntercomService>().showMessenger();
+            } else {
+              await sRouter.push(
+                CrispRouter(
+                  welcomeText: intl.crispSendMessage_hi,
+                ),
+              );
+            }
           },
-          isSmallSize: true,
-          customIconButton: args.sendCodeOnInitState
-              ? SIconButton(
-                  onTap: () {
-                    if (args.isDeviceBinding || args.isUnlimitTransferConfirm) {
-                      getIt<AppRouter>().pop();
-                    } else {
-                      getIt<LogoutService>().logout(
-                        'TWO FA, logout',
-                        withLoading: false,
-                        callbackAfterSend: () {},
-                      );
-
-                      getIt<AppRouter>().pop();
-                    }
-                  },
-                  defaultIcon: const SBackIcon(),
-                  pressedIcon: const SBackPressedIcon(),
-                )
-              : null,
+          child: Assets.svg.medium.chat.simpleSvg(),
         ),
+        leftIcon: args.sendCodeOnInitState
+            ? SIconButton(
+                onTap: () {
+                  if (args.isDeviceBinding || args.isUnlimitTransferConfirm) {
+                    getIt<AppRouter>().maybePop();
+                  } else {
+                    getIt<AppRouter>().popUntilRoot();
+                    getIt<LogoutService>().logout(
+                      'TWO FA, logout',
+                      withLoading: false,
+                      callbackAfterSend: () {},
+                    );
+
+                    getIt<AppRouter>().maybePop();
+                  }
+                },
+                defaultIcon: const SBackIcon(),
+                pressedIcon: const SBackPressedIcon(),
+              )
+            : null,
       ),
       child: SPaddingH24(
         child: Column(

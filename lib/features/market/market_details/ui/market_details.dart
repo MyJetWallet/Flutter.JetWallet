@@ -3,6 +3,7 @@ import 'package:charts/simple_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/chart/model/chart_input.dart';
 import 'package:jetwallet/features/chart/model/chart_union.dart';
@@ -24,15 +25,19 @@ import 'package:jetwallet/features/market/market_details/ui/widgets/return_rates
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/market/store/watchlist_store.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_info/market_info_response_model.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../core/di/di.dart';
 import '../../../../utils/formatting/base/volume_format.dart';
 import '../../../../utils/models/currency_model.dart';
 import '../../../app/store/app_store.dart';
 import '../../../wallet/helper/navigate_to_wallet.dart';
+
+int _lastTimeSendedEvent = 0;
 
 @RoutePage(name: 'MarketDetailsRouter')
 class MarketDetails extends StatelessWidget {
@@ -45,25 +50,40 @@ class MarketDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        Provider<ChartStore>(
-          create: (_) => ChartStore(
-            ChartInput(
-              creationDate: marketItem.startMarketTime,
-              instrumentId: marketItem.associateAssetPair,
+    return VisibilityDetector(
+      key: const Key('market-details-screen-key'),
+      onVisibilityChanged: (info) {
+        if (info.visibleFraction == 1) {
+          final now = DateTime.now().millisecondsSinceEpoch;
+          if (now - _lastTimeSendedEvent < 3000) {
+            return;
+          }
+
+          _lastTimeSendedEvent = now;
+
+          sAnalytics.marketAssetScreenView(asset: marketItem.symbol);
+        }
+      },
+      child: MultiProvider(
+        providers: [
+          Provider<ChartStore>(
+            create: (_) => ChartStore(
+              ChartInput(
+                creationDate: marketItem.startMarketTime,
+                instrumentId: marketItem.associateAssetPair,
+              ),
             ),
           ),
+          Provider<WatchlistStore>(
+            create: (_) => WatchlistStore(),
+          ),
+          Provider<MarketNewsStore>(
+            create: (_) => MarketNewsStore()..loadNews(marketItem.symbol),
+          ),
+        ],
+        builder: (context, child) => _MarketDetailsBody(
+          marketItem: marketItem,
         ),
-        Provider<WatchlistStore>(
-          create: (_) => WatchlistStore(),
-        ),
-        Provider<MarketNewsStore>(
-          create: (_) => MarketNewsStore()..loadNews(marketItem.symbol),
-        ),
-      ],
-      builder: (context, child) => _MarketDetailsBody(
-        marketItem: marketItem,
       ),
     );
   }
@@ -130,6 +150,10 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
                 watchlistIdsN.addToWatchlist(widget.marketItem.associateAsset);
                 isInWatchlist = true;
               }
+            },
+            onBackButtonTap: () {
+              sAnalytics.tapOnTheBackButtonFromMarketAssetScreen(asset: widget.marketItem.symbol);
+              sRouter.maybePop();
             },
           ),
         ),
@@ -292,21 +316,26 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
                   ),
                   primaryText: intl.portfolioHeader_balance,
                   amount: getIt<AppStore>().isBalanceHide
-                    ? '**** ${baseCurrency.symbol}'
-                    : volumeFormat(
-                      decimal: widget.marketItem.baseBalance,
-                      symbol: baseCurrency.symbol,
-                      accuracy: baseCurrency.accuracy,
-                    ),
+                      ? '**** ${baseCurrency.symbol}'
+                      : volumeFormat(
+                          decimal: widget.marketItem.baseBalance,
+                          symbol: baseCurrency.symbol,
+                          accuracy: baseCurrency.accuracy,
+                        ),
                   amountDecimal: double.parse('${widget.marketItem.baseBalance}'),
                   secondaryText: getIt<AppStore>().isBalanceHide
-                    ? '******* ${widget.marketItem.symbol}'
-                    : volumeFormat(
-                      decimal: widget.marketItem.assetBalance,
-                      symbol: widget.marketItem.symbol,
-                      accuracy: widget.marketItem.assetAccuracy,
-                    ),
+                      ? '******* ${widget.marketItem.symbol}'
+                      : volumeFormat(
+                          decimal: widget.marketItem.assetBalance,
+                          symbol: widget.marketItem.symbol,
+                          accuracy: widget.marketItem.assetAccuracy,
+                        ),
                   onTap: () {
+                    sAnalytics.tapOnTheBalanceButtonOnMarketAssetScreen(asset: widget.marketItem.symbol);
+                    sAnalytics.cryptoFavouriteWalletScreen(
+                      openedAsset: widget.marketItem.symbol,
+                    );
+
                     onMarketItemTap(
                       context: context,
                       currency: currency,

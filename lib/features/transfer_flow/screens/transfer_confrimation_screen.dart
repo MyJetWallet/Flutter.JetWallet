@@ -85,7 +85,7 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
             transferTo: store.toType.analyticsValue,
             enteredAmount: store.fromAmount.toString(),
           );
-          sRouter.pop();
+          sRouter.maybePop();
         },
       ),
       child: CustomScrollView(

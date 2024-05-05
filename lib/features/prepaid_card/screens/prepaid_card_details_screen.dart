@@ -3,9 +3,11 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/prepaid_card/store/prepaid_card_details_store.dart';
 import 'package:jetwallet/features/prepaid_card/utils/show_commision_explanation_bottom_sheet.dart';
 import 'package:jetwallet/features/prepaid_card/utils/show_country_explanation_bottom_sheet.dart';
@@ -66,7 +68,7 @@ class _PrepaidCardDetailsBody extends StatelessWidget {
           showCloseButton: true,
           onCLoseButton: () {
             sAnalytics.tapOnTheCloseButtonOnPrepaidCardActivationScreen();
-            sRouter.pop();
+            sRouter.maybePop();
           },
         ),
       ),
@@ -312,11 +314,13 @@ class _InfoGrid extends StatelessWidget {
         ),
         TwoColumnCell(
           label: intl.prepaid_card_card_balance,
-          value: marketFormat(
-            decimal: voucher?.cardAmount ?? Decimal.zero,
-            symbol: voucher?.cardAsset ?? '',
-            accuracy: 2,
-          ),
+          value: getIt<AppStore>().isBalanceHide
+              ? '**** ${voucher?.cardAsset ?? ''}'
+              : marketFormat(
+                  decimal: voucher?.cardAmount ?? Decimal.zero,
+                  symbol: voucher?.cardAsset ?? '',
+                  accuracy: 2,
+                ),
           type: status,
         ),
         if (voucher?.status != BuyPrepaidCardIntentionStatus.purchasing)
@@ -337,20 +341,22 @@ class _InfoGrid extends StatelessWidget {
         ),
         TwoColumnCell(
           label: intl.prepaid_card_commission,
-          value: (voucher?.feeAmount ?? Decimal.zero) == Decimal.zero
-              ? intl.prepaid_card_free
-              : marketFormat(
-                  decimal: voucher?.feeAmount ?? Decimal.zero,
-                  symbol: voucher?.feeAsset ?? '',
-                  accuracy: 2,
-                ),
+          value: getIt<AppStore>().isBalanceHide
+              ? '**** ${voucher?.feeAsset ?? ''}'
+              : (voucher?.feeAmount ?? Decimal.zero) == Decimal.zero
+                  ? intl.prepaid_card_free
+                  : marketFormat(
+                      decimal: voucher?.feeAmount ?? Decimal.zero,
+                      symbol: voucher?.feeAsset ?? '',
+                      accuracy: 2,
+                    ),
           haveInfoIcon: true,
           type: status,
           onTab: () {
             showCommisionExplanationBottomSheet(context);
           },
           customValueStyle: STStyles.subtitle2.copyWith(
-            color: (voucher?.feeAmount ?? Decimal.zero) == Decimal.zero ? SColorsLight().green : null,
+            color: ((voucher?.feeAmount ?? Decimal.zero) == Decimal.zero && !getIt<AppStore>().isBalanceHide) ? SColorsLight().green : null,
           ),
         ),
         const SizedBox(height: 16),

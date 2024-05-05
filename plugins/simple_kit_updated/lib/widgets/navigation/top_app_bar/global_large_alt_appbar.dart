@@ -104,19 +104,26 @@ class SimpleLargeAltAppbar extends StatelessWidget {
                     ),
                   ),
                   const Gap(24),
-                  if (hasSecondIcon) ...[
-                    secondIcon ?? Assets.svg.medium.user.simpleSvg(),
-                    const Gap(24),
-                  ],
                 ],
               ),
             ),
             Positioned(
               right: 18,
               top: 3,
-              child: Opacity(
-                opacity: hasRightIcon ? 1 : 0,
-                child: rightIcon ?? Assets.svg.medium.user.simpleSvg(),
+              child: Row(
+                children: [
+                  if (hasSecondIcon) ...[
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: secondIcon ?? Assets.svg.medium.user.simpleSvg(),
+                    ),
+                    const Gap(24),
+                  ],
+                  Opacity(
+                    opacity: hasRightIcon ? 1 : 0,
+                    child: rightIcon ?? Assets.svg.medium.user.simpleSvg(),
+                  ),
+                ],
               ),
             ),
           ],

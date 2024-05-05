@@ -536,7 +536,7 @@ abstract class _BuyConfirmationStoreBase with Store {
             isChangePhone: true,
             onChangePhone: (String newPin) async {
               pin = newPin;
-              await sRouter.pop();
+              await sRouter.maybePop();
             },
           ),
         );
@@ -792,7 +792,7 @@ abstract class _BuyConfirmationStoreBase with Store {
               },
               (payment) {
                 if (payment != null) {
-                  sRouter.pop();
+                  sRouter.maybePop();
                 }
               },
               (error) {

@@ -16,6 +16,7 @@ import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
@@ -200,7 +201,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                 }
               } else {
                 sRouter.popUntilRoot();
-                getIt<AppStore>().setHomeTab(2);
+                getIt<AppStore>().setHomeTab(BottomItemType.wallets);
                 if (getIt<AppStore>().tabsRouter != null) {
                   getIt<AppStore>().tabsRouter!.setActiveIndex(2);
                 }

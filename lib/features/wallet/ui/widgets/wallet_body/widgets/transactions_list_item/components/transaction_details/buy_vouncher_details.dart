@@ -109,11 +109,13 @@ class BuyVouncherDetails extends StatelessObserverWidget {
             TransactionDetailsItem(
               text: intl.prepaid_card_card_balance,
               value: TransactionDetailsValueText(
-                text: volumeFormat(
-                  decimal: transactionListItem.mobileGiftCardOperationInfo?.mobileCardBalance ?? Decimal.zero,
-                  symbol: transactionListItem.mobileGiftCardOperationInfo?.mobileCardAsset ?? '',
-                  accuracy: buyAsset.accuracy,
-                ),
+                text: getIt<AppStore>().isBalanceHide
+                    ? '**** ${transactionListItem.mobileGiftCardOperationInfo?.mobileCardAsset ?? ''}'
+                    : volumeFormat(
+                        decimal: transactionListItem.mobileGiftCardOperationInfo?.mobileCardBalance ?? Decimal.zero,
+                        symbol: transactionListItem.mobileGiftCardOperationInfo?.mobileCardAsset ?? '',
+                        accuracy: buyAsset.accuracy,
+                      ),
               ),
             ),
             const SpaceH18(),
@@ -138,10 +140,12 @@ class BuyVouncherDetails extends StatelessObserverWidget {
             const SpaceH8(),
             TwoColumnCell(
               label: intl.prepaid_card_commission,
-              value: volumeFormat(
-                decimal: Decimal.zero,
-                symbol: transactionListItem.assetId,
-              ),
+              value: getIt<AppStore>().isBalanceHide
+                  ? '**** ${transactionListItem.assetId}'
+                  : volumeFormat(
+                      decimal: Decimal.zero,
+                      symbol: transactionListItem.assetId,
+                    ),
               needHorizontalPadding: false,
               haveInfoIcon: true,
               onTab: () {

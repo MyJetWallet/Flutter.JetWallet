@@ -169,7 +169,7 @@ class KycAlertHandler {
         );
       },
       onSecondaryButtonTap: () {
-        sRouter.pop();
+        sRouter.maybePop();
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

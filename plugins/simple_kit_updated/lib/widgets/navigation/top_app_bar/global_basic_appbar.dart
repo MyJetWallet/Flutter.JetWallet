@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
@@ -19,6 +22,8 @@ class GlobalBasicAppBar extends StatelessWidget {
     this.rightIcon,
     this.onRightIconTap,
     this.onLeftIconTap,
+    this.hasSecondIcon = false,
+    this.secondIcon,
   });
 
   final bool hasTitle;
@@ -30,6 +35,9 @@ class GlobalBasicAppBar extends StatelessWidget {
 
   final bool hasLeftIcon;
   final Widget? leftIcon;
+
+  final bool hasSecondIcon;
+  final Widget? secondIcon;
 
   final bool hasRightIcon;
   final Widget? rightIcon;
@@ -51,41 +59,56 @@ class GlobalBasicAppBar extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Opacity(
-                        opacity: hasLeftIcon ? 1 : 0,
-                        child: SafeGesture(
-                          onTap: hasLeftIcon
-                              ? () {
-                                  onLeftIconTap?.call();
-                                  Navigator.pop(context);
-                                }
-                              : null,
-                          child: leftIcon ?? Assets.svg.medium.arrowLeft.simpleSvg(),
-                        ),
+                      Row(
+                        children: [
+                          Opacity(
+                            opacity: hasLeftIcon ? 1 : 0,
+                            child: SafeGesture(
+                              onTap: hasLeftIcon
+                                  ? () {
+                                      onLeftIconTap?.call();
+                                      Navigator.pop(context);
+                                    }
+                                  : null,
+                              child: leftIcon ?? Assets.svg.medium.arrowLeft.simpleSvg(),
+                            ),
+                          ),
+                          const Gap(24),
+                          if (hasSecondIcon) const Gap(24),
+                        ],
                       ),
-                      Opacity(
-                        opacity: hasTitle ? 1 : 0,
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .7),
+                      Flexible(
+                        child: Opacity(
+                          opacity: hasTitle ? 1 : 0,
                           child: Text(
                             title ?? '',
                             style: STStyles.header6,
                           ),
                         ),
                       ),
-                      Opacity(
-                        opacity: hasRightIcon ? 1 : 0,
-                        child: SafeGesture(
-                          onTap: hasRightIcon
-                              ? onRightIconTap != null
-                                  ? () => onRightIconTap!()
-                                  : null
-                              : null,
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 8),
-                            child: rightIcon ?? Assets.svg.medium.close.simpleSvg(),
+                      Row(
+                        children: [
+                          if (hasSecondIcon)
+                            Opacity(
+                              opacity: hasSecondIcon ? 1 : 0,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: secondIcon ?? Assets.svg.medium.user.simpleSvg(),
+                              ),
+                            ),
+                          const Gap(24),
+                          Opacity(
+                            opacity: hasRightIcon ? 1 : 0,
+                            child: SafeGesture(
+                              onTap: hasRightIcon
+                                  ? onRightIconTap != null
+                                      ? () => onRightIconTap!()
+                                      : null
+                                  : null,
+                              child: rightIcon ?? Assets.svg.medium.close.simpleSvg(),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ],
                   ),

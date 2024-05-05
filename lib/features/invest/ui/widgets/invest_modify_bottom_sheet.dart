@@ -28,6 +28,7 @@ void showInvestModifyBottomSheet({
   required InvestPositionModel position,
   required Function() onPrimaryButtonTap,
   required Function() onSecondaryButtonTap,
+  bool isPendingInvest = false,
 }) {
   final investNewStore = getIt.get<InvestNewStore>();
   investNewStore.resetStore();
@@ -37,7 +38,7 @@ void showInvestModifyBottomSheet({
   investNewStore.setIsSLMode(position.stopLossType != TPSLType.undefined);
   investNewStore.setIsTPMode(position.takeProfitType != TPSLType.undefined);
   investNewStore.setIsLimitsVisible(true);
-  investNewStore.setIsOrderMode(false);
+  investNewStore.setIsOrderMode(false, isPending: isPendingInvest);
   investNewStore.setIsSLTPPrice(
     position.stopLossType == TPSLType.price || position.takeProfitType == TPSLType.price,
   );
@@ -53,6 +54,8 @@ void showInvestModifyBottomSheet({
   } else if (position.stopLossType == TPSLType.amount) {
     investNewStore.onSLAmountInput('${position.stopLossAmount}');
   }
+
+  final colors = sKit.colors;
 
   sShowBasicModalBottomSheet(
     context: context,
@@ -91,8 +94,17 @@ void showInvestModifyBottomSheet({
                           inactiveNameColor: SColorsLight().grey2,
                           active: true,
                           name: intl.invest_save,
-                          onTap: () {
-                            onSecondaryButtonTap.call();
+                          onTap: () async {
+                            if (position.status == PositionStatus.pending) {
+                              await investNewStore.changePendingPrice(
+                                id: position.id!,
+                                price: double.parse(investNewStore.pendingPriceController.text),
+                              );
+                            }
+                            Future.delayed(
+                              const Duration(milliseconds: 500),
+                              onSecondaryButtonTap.call,
+                            );
                           },
                         ),
                       ),
@@ -110,6 +122,32 @@ void showInvestModifyBottomSheet({
     removePinnedPadding: true,
     horizontalPadding: 0,
     children: [
+      if (isPendingInvest) ...[
+        SPaddingH24(
+          child: Text(
+            intl.invest_pending_price,
+            style: STStyles.body2InvestM.copyWith(
+              color: colors.black,
+            ),
+          ),
+        ),
+        const SpaceH4(),
+        SPaddingH24(
+          child: Observer(
+            builder: (context) {
+              return InvestInput(
+                onChanged: investNewStore.onPendingInput,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp('[0-9,.]')),
+                ],
+                controller: investNewStore.pendingPriceController,
+                keyboardType: TextInputType.number,
+              );
+            },
+          ),
+        ),
+        const SpaceH12(),
+      ],
       InfoBlock(
         instrument: instrument,
         position: position,

@@ -303,7 +303,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                     showDelete: state.editMode,
                     onDelete: () => showDeleteDisclaimer(
                       onDelete: () async {
-                        await sRouter.pop();
+                        await sRouter.maybePop();
                         await state.deleteCard(card);
                       },
                     ),
@@ -348,7 +348,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                     showDelete: state.editMode,
                     onDelete: () => showDeleteDisclaimer(
                       onDelete: () async {
-                        await sRouter.pop();
+                        await sRouter.maybePop();
                         await state.deleteCard(card);
                       },
                     ),
@@ -394,7 +394,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                     showDelete: state.editMode,
                     onDelete: () => showDeleteDisclaimer(
                       onDelete: () async {
-                        await sRouter.pop();
+                        await sRouter.maybePop();
                         await state.deleteCard(card);
                       },
                     ),

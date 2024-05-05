@@ -148,7 +148,7 @@ class _ReferenceBodyState extends State<_ReferenceBody> {
                       if (store.referenceTextField.text.length >= 5) {
                         widget.onContinue(store.referenceTextField.text);
 
-                        sRouter.pop();
+                        sRouter.maybePop();
                       } else {
                         store.setError(true);
                       }

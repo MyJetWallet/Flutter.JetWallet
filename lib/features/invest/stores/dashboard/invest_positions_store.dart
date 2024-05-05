@@ -432,7 +432,6 @@ abstract class _InvestPositionsStoreBase with Store {
         id ?? '',
         () {
           Navigator.pop(context);
-          Navigator.pop(context);
           showInvestInfoBottomSheet(
             context: context,
             type: 'success',

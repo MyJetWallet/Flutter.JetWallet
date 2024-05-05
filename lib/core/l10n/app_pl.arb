@@ -2105,5 +2105,8 @@
     },
     "prepaid_card_more": "więcej",
     "prepaid_card_less": "mniej",
-    "prepaid_card_funds_for_purchased": "Środki za zakupiony voucher są bezzwrotne"
+    "prepaid_card_funds_for_purchased": "Środki za zakupiony voucher są bezzwrotne",
+    "prepaid_card_error": "Voucher na kartę przedpłaconą nie został wydany. Prosimy o kontakt z obsługą klienta, postaramy się rozwiązać problem jak najszybciej.",
+    "invest_error_sl_zero": "StopLoss nie może być ",
+    "invest_error_tp_zero": "Poziom TakeProfit nie może być "
 }

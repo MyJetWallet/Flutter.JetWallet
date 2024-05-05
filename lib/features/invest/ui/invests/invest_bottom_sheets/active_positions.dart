@@ -8,19 +8,12 @@ import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_stor
 import 'package:jetwallet/features/invest/stores/dashboard/invest_positions_store.dart';
 import 'package:jetwallet/features/invest/ui/invests/above_list_line.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
 
 import '../../../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../../../utils/helpers/currency_from.dart';
-import '../../../../actions/action_send/widgets/show_send_timer_alert_or.dart';
-import '../../../../kyc/helper/kyc_alert_handler.dart';
-import '../../../../kyc/kyc_service.dart';
-import '../../../../kyc/models/kyc_operation_status_model.dart';
-import '../../widgets/invest_empty_screen.dart';
-import '../../widgets/invest_market_watch_bottom_sheet.dart';
 import '../invest_line.dart';
 import '../main_invest_block.dart';
 
@@ -159,10 +152,10 @@ class ActiveInvestList extends StatelessObserverWidget {
 
                 return MainInvestBlock(
                   pending: Decimal.zero,
-                  amount: instrument != null ? getGroupedAmount(instrument!.symbol ?? '') : amountSum,
-                  balance: instrument != null ? getGroupedProfit(instrument!.symbol ?? '') : profitSum,
+                  amount: instrument != null ? getGroupedAmount(instrument?.symbol ?? '') : amountSum,
+                  balance: instrument != null ? getGroupedProfit(instrument?.symbol ?? '') : profitSum,
                   percent: instrument != null
-                      ? getGroupedProfitPercent(instrument!.symbol ?? '')
+                      ? getGroupedProfitPercent(instrument?.symbol ?? '')
                       : Decimal.fromJson('${(Decimal.fromInt(100) * profitSum / amountSum).toDouble()}'),
                   onShare: () {},
                   currency: currency,
@@ -191,69 +184,21 @@ class ActiveInvestList extends StatelessObserverWidget {
               ),
             Observer(
               builder: (BuildContext context) {
-                if (investPositionsStore.activeList.isEmpty) {
-                  return InvestEmptyScreen(
-                    width: MediaQuery.of(context).size.width - 48,
-                    height: MediaQuery.of(context).size.height - 284,
-                    title: sSignalRModules.investWalletData?.balance == Decimal.zero
-                        ? intl.invest_active_empty_deposit
-                        : intl.invest_active_empty,
-                    buttonName: sSignalRModules.investWalletData?.balance == Decimal.zero
-                        ? intl.invest_deposit
-                        : intl.invest_new_invest,
-                    onButtonTap: () {
-                      if (sSignalRModules.investWalletData?.balance == Decimal.zero) {
-                        final actualAsset = currency;
-                        final kycState = getIt.get<KycService>();
-                        final kycAlertHandler = getIt.get<KycAlertHandler>();
-                        if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
-                          showSendTimerAlertOr(
-                            context: context,
-                            or: () => sRouter.push(
-                              ConvertRouter(
-                                fromCurrency: actualAsset,
-                              ),
-                            ),
-                            from: [BlockingType.trade],
-                          );
-                        } else {
-                          kycAlertHandler.handle(
-                            status: kycState.tradeStatus,
-                            isProgress: kycState.verificationInProgress,
-                            currentNavigate: () => showSendTimerAlertOr(
-                              context: context,
-                              or: () => sRouter.push(
-                                ConvertRouter(
-                                  fromCurrency: actualAsset,
-                                ),
-                              ),
-                              from: [BlockingType.trade],
-                            ),
-                            requiredDocuments: kycState.requiredDocuments,
-                            requiredVerifications: kycState.requiredVerifications,
-                          );
-                        }
-                      } else {
-                        investStore.setActiveSection('all');
-                        showInvestMarketWatchBottomSheet(context);
-                      }
-                    },
-                  );
-                }
-
                 if (instrument != null) {
                   final positions =
                       investPositionsStore.activeList.where((element) => element.symbol == instrument!.symbol).toList();
+
                   positions.sort((a, b) {
-                    if (investPositionsStore.activeSortState == 1) {
-                      return investStore.getProfitByPosition(b).compareTo(investStore.getProfitByPosition(a));
-                    } else if (investPositionsStore.activeSortState == 2) {
-                      return investStore.getProfitByPosition(a).compareTo(investStore.getProfitByPosition(b));
+                    if (a.creationTimestamp == null && b.creationTimestamp == null) {
+                      return 0;
+                    } else if (a.creationTimestamp == null) {
+                      return 1;
+                    } else if (b.creationTimestamp == null) {
+                      return -1;
                     }
 
-                    return 0.compareTo(1);
+                    return a.creationTimestamp!.compareTo(b.creationTimestamp!);
                   });
-
                   return Column(
                     children: [
                       for (final position in positions) ...[

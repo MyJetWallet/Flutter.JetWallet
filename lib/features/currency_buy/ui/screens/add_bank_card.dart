@@ -92,7 +92,7 @@ class AddBankCardBody extends StatelessObserverWidget {
           title: intl.addCircleCard_bigHeaderTitle,
           showBackButton: false,
           onCLoseButton: () {
-            sRouter.pop();
+            sRouter.maybePop();
           },
           showCloseButton: true,
         ),

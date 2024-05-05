@@ -1955,7 +1955,7 @@
     "prepaid_card_to_activate": "Pour activer le bon, vous devez visiter le site web de l'émetteur de la carte. Assurez-vous que le pays que vous spécifiez lors de l'activation de la carte correspond au pays sélectionné lors de l'achat du bon.",
     "prepaid_card_a_mismatch_between": "Un décalage entre le pays indiqué au moment de l'achat du bon et le pays spécifié lors de l'émission de la carte peut entraîner des difficultés dans l'activation du bon et la réception de la carte.",
     "prepaid_card_the_issuer_may": "L'émetteur peut exiger une vérification supplémentaire de votre identité et la complétion de la procédure KYC pour l'activation de la carte. Il est essentiel d'avoir des documents prouvant votre résidence dans le pays spécifié.",
-    "prepaid_card_choose_prepaid_card": "Choisissez une carte prépayée",
+    "prepaid_card_choose_prepaid_card": "Choisir la carte prépayée",
     "prepaid_card_choose_residential_country": "Choisissez le pays de résidence",
     "prepaid_card_in_progress": "En cours...",
     "prepaid_card_buy_voucher": "Acheter un bon",
@@ -2017,5 +2017,8 @@
     },
     "prepaid_card_more": "plus",
     "prepaid_card_less": "moins",
-    "prepaid_card_funds_for_purchased": "Les fonds pour un bon acheté ne sont pas remboursables"
+    "prepaid_card_funds_for_purchased": "Les fonds pour un bon acheté ne sont pas remboursables",
+    "prepaid_card_error": "Le bon pour la carte prépayée n'a pas été émis. Veuillez contacter le service client, nous tenterons de résoudre le problème au plus vite.",
+    "invest_error_sl_zero": "Le niveau de StopLoss ne peut pas être ",
+    "invest_error_tp_zero": "Le niveau de TakeProfit ne peut pas être "
 }

@@ -20,6 +20,7 @@ import 'package:simple_kit/modules/shared/stack_loader/components/loader_spinner
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
+import 'package:simple_kit_updated/widgets/table/placeholder/simple_placeholder.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 
 import '../../../core/di/di.dart';
@@ -56,6 +57,20 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
       ..resetStore()
       ..fetchAssetCandles(Period.day, widget.instrument.symbol ?? '');
 
+    final investPositionsStore = getIt.get<InvestPositionsStore>();
+
+    final activeListToShow = investPositionsStore.activeList
+        .where(
+          (element) => element.symbol == widget.instrument.symbol,
+        )
+        .toList();
+
+    if (activeListToShow.isNotEmpty) {
+      investPositionsStore.setActiveInstrumentTab(0);
+    } else {
+      investPositionsStore.setActiveInstrumentTab(1);
+    }
+
     super.initState();
     controller = ScrollController();
   }
@@ -75,12 +90,6 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
 
     final colors = sKit.colors;
     final currency = currencyFrom(currencies, 'USDT');
-
-    final listToShow = investPositionsStore.pendingList
-        .where(
-          (element) => element.symbol == widget.instrument.symbol,
-        )
-        .toList();
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
@@ -314,25 +323,33 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      if (investPositionsStore.pendingList.isNotEmpty && listToShow.isNotEmpty)
-                        Row(
-                          children: [
-                            SecondarySwitch(
-                              onChangeTab: investPositionsStore.setActiveInstrumentTab,
-                              activeTab: investPositionsStore.activeInstrumentTab,
-                              tabs: [
-                                intl.invest_history_tab_positions,
-                                intl.invest_history_tab_pending,
-                              ],
-                            ),
-                          ],
-                        ),
+                      Row(
+                        children: [
+                          SecondarySwitch(
+                            onChangeTab: investPositionsStore.setActiveInstrumentTab,
+                            activeTab: investPositionsStore.activeInstrumentTab,
+                            tabs: [
+                              intl.invest_history_tab_positions,
+                              intl.invest_history_tab_pending,
+                            ],
+                          ),
+                        ],
+                      ),
                       Observer(
                         builder: (BuildContext context) {
+                          final positions = investPositionsStore.activeList
+                              .where((element) => element.symbol == widget.instrument.symbol)
+                              .toList();
+
                           return investPositionsStore.activeInstrumentTab == 0
-                              ? ActiveInvestList(
-                                  instrument: widget.instrument,
-                                )
+                              ? positions.isEmpty
+                                  ? SPlaceholder(
+                                      size: SPlaceholderSize.l,
+                                      text: intl.wallet_simple_account_empty,
+                                    )
+                                  : ActiveInvestList(
+                                      instrument: widget.instrument,
+                                    )
                               : PendingInvestList(
                                   instrument: widget.instrument,
                                 );

@@ -313,7 +313,7 @@ abstract class _EarnStoreBase with Store {
         package: 'simple_kit',
       ),
       onPrimaryButtonTap: () {
-        sRouter.pop();
+        sRouter.maybePop();
         sAnalytics.tapOnTheContinueEarningButton(
           assetName: earnPosition.assetId,
           earnWithdrawalType: earnPosition.withdrawType.name,
@@ -328,7 +328,7 @@ abstract class _EarnStoreBase with Store {
           earnOfferId: earnPosition.offerId,
           earnPlanName: earnPosition.offers.first.name ?? '',
         );
-        sRouter.pop();
+        sRouter.maybePop();
         sRouter.push(
           EarnWithdrawOrderSummaryRouter(
             amount: earnPosition.baseAmount + earnPosition.incomeAmount,

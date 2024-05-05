@@ -50,7 +50,7 @@ class _CardSettings extends StatelessObserverWidget {
           label: intl.account_settings_account_requisites,
           hasRightValue: false,
           onTableAssetTap: () {
-            sRouter.pop();
+            sRouter.maybePop();
             showAccountDetails(
               context: context,
               onClose: () {},

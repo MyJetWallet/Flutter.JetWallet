@@ -53,7 +53,7 @@ class _EditBankCardScreenBody extends StatelessObserverWidget {
         child: SSmallHeader(
           title: intl.editCircleCard_bigHeaderTitle,
           showBackButton: false,
-          onCLoseButton: () => sRouter.pop(),
+          onCLoseButton: () => sRouter.maybePop(),
           showCloseButton: true,
         ),
       ),
@@ -96,12 +96,12 @@ class _EditBankCardScreenBody extends StatelessObserverWidget {
                     showDeleteDisclaimer(
                       context,
                       onDelete: () async {
-                        await sRouter.pop();
+                        await sRouter.maybePop();
                         await store.deleteCard(card);
 
                         store.loader.finishLoadingImmediately();
 
-                        await sRouter.pop();
+                        await sRouter.maybePop();
                       },
                     );
                   },

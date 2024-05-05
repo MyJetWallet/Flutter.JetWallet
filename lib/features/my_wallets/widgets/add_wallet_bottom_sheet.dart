@@ -20,6 +20,12 @@ void showAddWalletBottomSheet(BuildContext context) {
       if (!isAssetChoosedTemp) {
         sAnalytics.tapOnTheButtonCloseOnAddWalletForFavouritesSheet();
         store.onCloseSearchBottomSheetWithoutChoose();
+        sAnalytics.walletsScreenView(
+          favouritesAssetsList: List.generate(
+            store.currencies.length,
+            (index) => store.currencies[index].symbol,
+          ),
+        );
       }
     },
     expanded: true,

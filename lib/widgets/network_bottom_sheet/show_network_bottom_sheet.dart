@@ -21,14 +21,14 @@ void showNetworkBottomSheet(
     if (!backOnClose) return;
     if (isClosed) return;
     if (val is bool && !val) {
-      sRouter.back();
+      sRouter.maybePop();
       isClosed = true;
 
       return;
     }
 
     if (val == null) {
-      sRouter.pop();
+      sRouter.maybePop();
       isClosed = true;
 
       return;

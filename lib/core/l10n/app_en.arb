@@ -2053,5 +2053,8 @@
     },
     "prepaid_card_more": "more",
     "prepaid_card_less": "less",
-    "prepaid_card_funds_for_purchased": "Funds for a purchased voucher are non-refundable"
+    "prepaid_card_funds_for_purchased": "Funds for a purchased voucher are non-refundable",
+    "prepaid_card_error": "The voucher for the prepaid card was not issued. Please contact customer service, we will try to resolve the issue as soon as possible.",
+    "invest_error_sl_zero": "StopLoss level cannot be ",
+    "invest_error_tp_zero": "TakeProfit level cannot be "
 }

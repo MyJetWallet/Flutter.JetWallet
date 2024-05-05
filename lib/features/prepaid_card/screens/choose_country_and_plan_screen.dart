@@ -42,7 +42,7 @@ class ChooseCountryAndPlanScreen extends StatelessWidget {
                     context: context,
                     countries: store.countries,
                     onSelected: ({required SPhoneNumber newCountry}) {
-                      sRouter.pop();
+                      sRouter.maybePop();
                       store.setNewCountry(newCountry);
                     },
                   );
@@ -131,9 +131,11 @@ class _ChoosedContry extends StatelessWidget {
                       countryCode: selectedCountry.isoCode,
                     ),
                     const SpaceW8(),
-                    Text(
-                      selectedCountry.countryName,
-                      style: STStyles.subtitle1,
+                    Flexible(
+                      child: Text(
+                        selectedCountry.countryName,
+                        style: STStyles.subtitle1,
+                      ),
                     ),
                   ],
                 ),

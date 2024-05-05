@@ -6,6 +6,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/credentials_service/credentials_service.dart';
+import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/auth/single_sign_in/models/single_sing_in_union.dart';
@@ -15,8 +16,9 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
-import 'package:simple_kit/modules/headers/simple_auth_header.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 @RoutePage(name: 'SingInRouter')
 class SingIn extends StatelessWidget {
@@ -89,8 +91,25 @@ class _SingInBody extends StatelessObserverWidget {
         loaderText: intl.register_pleaseWait,
         color: colors.grey5,
         loading: signInStore.loader,
-        header: SLargeHeader(
+        header: SimpleLargeAppbar(
           title: intl.register_enterYourEmail,
+          hasRightIcon: true,
+          titleMaxLines: 2,
+          rightIcon: SafeGesture(
+            onTap: () async {
+              if (showZendesk) {
+                await getIt.get<IntercomService>().login();
+                await getIt.get<IntercomService>().showMessenger();
+              } else {
+                await sRouter.push(
+                  CrispRouter(
+                    welcomeText: intl.crispSendMessage_hi,
+                  ),
+                );
+              }
+            },
+            child: Assets.svg.medium.chat.simpleSvg(),
+          ),
         ),
         child: CustomScrollView(
           physics: const ClampingScrollPhysics(),

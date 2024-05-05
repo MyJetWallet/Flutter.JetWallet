@@ -63,7 +63,7 @@ abstract class _ChangeBaseAssetStoreBase with Store {
         //await finishLoading();
       }
     } else {
-      await sRouter.pop();
+      await sRouter.maybePop();
     }
   }
 
@@ -78,7 +78,7 @@ abstract class _ChangeBaseAssetStoreBase with Store {
     if (loader!.loading) {
       loader!.finishLoading();
       loader!.finishLoadingImmediately();
-      await sRouter.pop();
+      await sRouter.maybePop();
     }
   }
 

@@ -148,7 +148,7 @@ Future<void> showWithdrawalTypeAreYouSurePopUp({
         earnPlanName: earnPosition.offers.first.name ?? '',
         earnWithdrawalType: earnPosition.withdrawType.name,
       );
-      sRouter.pop();
+      sRouter.maybePop();
     },
     onSecondaryButtonTap: () {
       sAnalytics.tapOnTheYesWithdrawButton(

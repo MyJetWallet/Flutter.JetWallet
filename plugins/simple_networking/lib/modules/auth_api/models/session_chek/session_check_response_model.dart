@@ -13,6 +13,9 @@ class SessionCheckResponseModel with _$SessionCheckResponseModel {
     required bool toCheckSelfie,
     required bool toSetupPhone,
     required bool toVerifyPhone,
+    String? sessionId,
+    // ClientId
+    String? trackId,
   }) = _SessionCheckResponseModel;
 
   factory SessionCheckResponseModel.fromJson(

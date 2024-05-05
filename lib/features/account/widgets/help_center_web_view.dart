@@ -24,16 +24,28 @@ class HelpCenterWebView extends StatefulWidget {
 class _HelpCenterWebViewState extends State<HelpCenterWebView> {
   late WebViewController controller;
 
+  bool isBackBottonPressed = false;
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      onPopInvoked: (_) => _onWillPop(),
+      onPopInvoked: (_) {
+        if (isBackBottonPressed) {
+          isBackBottonPressed = false;
+          return;
+        }
+
+        _onWillPop();
+      },
       child: SPageFrame(
         loaderText: intl.register_pleaseWait,
         header: SPaddingH24(
           child: SSmallHeader(
             title: widget.title ?? intl.helpCenterWebView,
-            onBackButtonTap: () => _onWillPop(),
+            onBackButtonTap: () {
+              isBackBottonPressed = true;
+              _onWillPop();
+            },
           ),
         ),
         child: LayoutBuilder(

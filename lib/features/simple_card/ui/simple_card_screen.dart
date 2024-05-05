@@ -207,7 +207,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                                 ),
                               )
                                   .then((value) {
-                                sRouter.pop();
+                                sRouter.maybePop();
                                 if (value is String) {
                                   try {
                                     sAnalytics.tapOnTheSaveChangesFromEditVirtualCardLabelButton(
@@ -279,7 +279,9 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                       isSimpleCard: true,
                       onError: (String reason) {
                         sAnalytics.viewErrorOnCardScreen(
-                            cardID: simpleCardStore.cardFull!.cardId ?? '', reason: reason,);
+                          cardID: simpleCardStore.cardFull!.cardId ?? '',
+                          reason: reason,
+                        );
                       },
                     ),
                   ] else ...[
@@ -318,21 +320,13 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                 alignment: Alignment.topCenter,
                 child: ColoredBox(
                   color: colors.white,
-                  child: SPaddingH24(
-                    child: SSmallHeader(
-                      title: simpleCardStore.cardFull?.label ?? 'Simple card',
-                      subTitle: intl.simple_card_type_virtual,
-                      titleStyle: STStyles.header6.copyWith(
-                        color: sKit.colors.black,
-                      ),
-                      subTitleStyle: STStyles.body2Medium.copyWith(
-                        color: sKit.colors.grey1,
-                      ),
-                      onBackButtonTap: () {
-                        Navigator.pop(context);
-                        sAnalytics.tapBackFromVirualCard(cardID: simpleCardStore.cardFull?.cardId ?? '');
-                      },
-                    ),
+                  child: GlobalBasicAppBar(
+                    title: simpleCardStore.cardFull?.label ?? 'Simple card',
+                    subtitle: intl.simple_card_type_virtual,
+                    hasRightIcon: false,
+                    onLeftIconTap: () {
+                      sAnalytics.tapBackFromVirualCard(cardID: simpleCardStore.cardFull?.cardId ?? '');
+                    },
                   ),
                 ),
               ),

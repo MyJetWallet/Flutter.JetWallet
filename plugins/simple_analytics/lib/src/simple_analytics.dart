@@ -7423,4 +7423,83 @@ class SimpleAnalytics {
       },
     );
   }
+
+  // Market
+  void tapOnTheTabbarButtonMarket() {
+    _analytics.logEvent(
+      EventType.tapOnTheTabbarButtonMarket,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '607',
+      },
+    );
+  }
+
+  void marketListScreenView() {
+    _analytics.logEvent(
+      EventType.marketListScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '608',
+      },
+    );
+  }
+
+  void tapOnTheAnyAssetOnMarketList({
+    required String asset,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheAnyAssetOnMarketList,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '609',
+        PropertyType.asset: asset,
+      },
+    );
+  }
+
+  void marketAssetScreenView({
+    required String asset,
+  }) {
+    _analytics.logEvent(
+      EventType.marketAssetScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '610',
+        PropertyType.asset: asset,
+      },
+    );
+  }
+
+  void tapOnTheBackButtonFromMarketAssetScreen({
+    required String asset,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheBackButtonFromMarketAssetScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '611',
+        PropertyType.asset: asset,
+      },
+    );
+  }
+
+  void tapOnTheBalanceButtonOnMarketAssetScreen({
+    required String asset,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheBalanceButtonOnMarketAssetScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '612',
+        PropertyType.asset: asset,
+      },
+    );
+  }
 }

@@ -2041,5 +2041,8 @@
     },
     "prepaid_card_more": "más",
     "prepaid_card_less": "menos",
-    "prepaid_card_funds_for_purchased": "Los fondos de un vale comprado no son reembolsables"
+    "prepaid_card_funds_for_purchased": "Los fondos de un vale comprado no son reembolsables",
+    "prepaid_card_error": "El vale para la tarjeta prepaga no fue emitido. Por favor, contacte al servicio al cliente, intentaremos resolver el problema lo antes posible.",
+    "invest_error_sl_zero": "El nivel de StopLoss no puede ser ",
+    "invest_error_tp_zero": "El nivel de TakeProfit no puede ser "
 }
