@@ -185,7 +185,6 @@ class _InvestListScreenState extends State<InvestList> {
                 isGroup: false,
                 historyCount: 1,
                 profit: investStore.getProfitByPosition(widget.position),
-                //! how to calculate for closed positon ???? widget.position.status == PositionStatus.closed
                 profitPercent: investStore.getYieldByPosition(widget.position),
                 accuracy: widget.instrument.priceAccuracy ?? 2,
                 onTap: () {},

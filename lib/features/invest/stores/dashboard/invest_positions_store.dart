@@ -41,7 +41,7 @@ abstract class _InvestPositionsStoreBase with Store {
   bool isActiveGrouped = true;
 
   @observable
-  bool isHistoryGrouped = true;
+  bool isHistoryGrouped = false;
 
   @observable
   int activeInstrumentTab = 0;
