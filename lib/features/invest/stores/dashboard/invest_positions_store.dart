@@ -434,17 +434,8 @@ abstract class _InvestPositionsStoreBase with Store {
     try {
       await sNetwork.getWalletModule().cancelPendingPosition(positionId: id ?? '');
 
-      final response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().getPosition(positionId: id ?? '');
-
-      if (response.hasError) {
-        sNotification.showError(
-          response.error?.cause ?? '',
-          id: 1,
-          needFeedback: true,
-        );
-        loader!.finishLoading();
-      } else {
-        await Future.delayed(const Duration(seconds: 2), () {
+      await checkClosedPosition(id ?? '', () {
+        Future.delayed(const Duration(seconds: 2), () {
           Navigator.pop(context);
         });
 
@@ -460,7 +451,7 @@ abstract class _InvestPositionsStoreBase with Store {
           title: intl.invest_alert_success_delete,
         );
         loader!.finishLoading();
-      }
+      });
     } catch (e) {
       Navigator.pop(context);
       loader!.finishLoading();
