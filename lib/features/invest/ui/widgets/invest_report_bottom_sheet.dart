@@ -185,6 +185,7 @@ class _InvestListScreenState extends State<InvestList> {
                 isGroup: false,
                 historyCount: 1,
                 profit: investStore.getProfitByPosition(widget.position),
+                //! how to calculate for closed positon ???? widget.position.status == PositionStatus.closed
                 profitPercent: investStore.getYieldByPosition(widget.position),
                 accuracy: widget.instrument.priceAccuracy ?? 2,
                 onTap: () {},
@@ -210,16 +211,16 @@ class _InvestListScreenState extends State<InvestList> {
                 const SpaceH8(),
                 DataLine(
                   mainText: intl.invest_report_open_data,
-                  secondaryText: _formatDateTime(
-                    widget.position.openTimestamp!,
+                  secondaryText: normalizeAndFormatDateTime(
+                    widget.position.openTimestamp.toString(),
                     'dd.MM.yyyy',
                   ),
                 ),
                 const SpaceH8(),
                 DataLine(
                   mainText: intl.invest_report_open_time,
-                  secondaryText: _formatDateTime(
-                    widget.position.openTimestamp!,
+                  secondaryText: normalizeAndFormatDateTime(
+                    widget.position.openTimestamp.toString(),
                     'HH:mm:ss',
                   ),
                 ),
@@ -235,16 +236,16 @@ class _InvestListScreenState extends State<InvestList> {
                 const SpaceH8(),
                 DataLine(
                   mainText: intl.invest_report_order_date,
-                  secondaryText: _formatDateTime(
-                    widget.position.creationTimestamp!,
+                  secondaryText: normalizeAndFormatDateTime(
+                    widget.position.creationTimestamp.toString(),
                     'dd.MM.yyyy',
                   ),
                 ),
                 const SpaceH8(),
                 DataLine(
                   mainText: intl.invest_report_order_time,
-                  secondaryText: _formatDateTime(
-                    widget.position.creationTimestamp!,
+                  secondaryText: normalizeAndFormatDateTime(
+                    widget.position.creationTimestamp.toString(),
                     'hh:mm:ss',
                   ),
                 ),
@@ -395,16 +396,16 @@ class _InvestListScreenState extends State<InvestList> {
                   const SpaceH8(),
                   DataLine(
                     mainText: intl.invest_report_close_date,
-                    secondaryText: _formatDateTime(
-                      widget.position.closeTimestamp!,
+                    secondaryText: normalizeAndFormatDateTime(
+                      widget.position.closeTimestamp.toString(),
                       'dd.MM.yyyy',
                     ),
                   ),
                   const SpaceH8(),
                   DataLine(
                     mainText: intl.invest_report_close_time,
-                    secondaryText: _formatDateTime(
-                      widget.position.closeTimestamp!,
+                    secondaryText: normalizeAndFormatDateTime(
+                      widget.position.closeTimestamp.toString(),
                       'HH:mm:ss',
                     ),
                   ),
@@ -430,16 +431,16 @@ class _InvestListScreenState extends State<InvestList> {
                 const SpaceH8(),
                 DataLine(
                   mainText: intl.invest_report_delete_date,
-                  secondaryText: _formatDateTime(
-                    widget.position.closeTimestamp!,
+                  secondaryText: normalizeAndFormatDateTime(
+                    widget.position.closeTimestamp.toString(),
                     'dd.MM.yyyy',
                   ),
                 ),
                 const SpaceH8(),
                 DataLine(
                   mainText: intl.invest_report_delete_time,
-                  secondaryText: _formatDateTime(
-                    widget.position.closeTimestamp!,
+                  secondaryText: normalizeAndFormatDateTime(
+                    widget.position.closeTimestamp.toString(),
                     'hh:mm:ss',
                   ),
                 ),
@@ -478,23 +479,15 @@ class _InvestListScreenState extends State<InvestList> {
     );
   }
 
-  String _formatDateTime(DateTime dateTime, String dateFormat) {
-    DateTime dateTimeLocal;
+  String normalizeAndFormatDateTime(String timestamp, String dateFormat) {
+    String normalizedTimestamp = timestamp;
 
-    if (!dateTime.isUtc) {
-      dateTimeLocal = DateTime.utc(
-        dateTime.year,
-        dateTime.month,
-        dateTime.day,
-        dateTime.hour,
-        dateTime.minute,
-        dateTime.second,
-        dateTime.millisecond,
-        dateTime.microsecond,
-      ).toLocal();
-    } else {
-      dateTimeLocal = dateTime.toLocal();
+    if (!normalizedTimestamp.endsWith('Z') && !RegExp(r'[+-]\d{2}:\d{2}$').hasMatch(normalizedTimestamp)) {
+      normalizedTimestamp = '${normalizedTimestamp}Z';
     }
+
+    final dateTimeUtc = DateTime.parse(normalizedTimestamp).toUtc();
+    final dateTimeLocal = dateTimeUtc.toLocal();
 
     return DateFormat(dateFormat).format(dateTimeLocal);
   }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -422,25 +423,39 @@ abstract class _InvestPositionsStoreBase with Store {
   }
 
   @action
-  void cancelPending(BuildContext context, String? id) {
+  Future<void> cancelPending(BuildContext context, String? id) async {
     loader!.startLoading();
 
     try {
-      sNetwork.getWalletModule().cancelPendingPosition(positionId: id ?? '');
+      await sNetwork.getWalletModule().cancelPendingPosition(positionId: id ?? '');
 
-      checkClosedPosition(
-        id ?? '',
-        () {
+      final response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().getPosition(positionId: id ?? '');
+
+      if (response.hasError) {
+        sNotification.showError(
+          response.error?.cause ?? '',
+          id: 1,
+          needFeedback: true,
+        );
+        loader!.finishLoading();
+      } else {
+        await Future.delayed(const Duration(seconds: 2), () {
           Navigator.pop(context);
-          showInvestInfoBottomSheet(
-            context: context,
-            type: 'success',
-            onPrimaryButtonTap: () => Navigator.pop(context),
-            primaryButtonName: intl.invest_alert_got_it,
-            title: intl.invest_alert_success_delete,
-          );
-        },
-      );
+        });
+
+        Navigator.pop(context);
+
+        showInvestInfoBottomSheet(
+          context: context,
+          type: 'success',
+          onPrimaryButtonTap: () {
+            sRouter.maybePop();
+          },
+          primaryButtonName: intl.invest_alert_got_it,
+          title: intl.invest_alert_success_delete,
+        );
+        loader!.finishLoading();
+      }
     } catch (e) {
       Navigator.pop(context);
       loader!.finishLoading();
