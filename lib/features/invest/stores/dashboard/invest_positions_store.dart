@@ -435,10 +435,7 @@ abstract class _InvestPositionsStoreBase with Store {
       await sNetwork.getWalletModule().cancelPendingPosition(positionId: id ?? '');
 
       await checkClosedPosition(id ?? '', () {
-        Future.delayed(const Duration(seconds: 2), () {
-          Navigator.pop(context);
-        });
-
+        Navigator.pop(context);
         Navigator.pop(context);
 
         showInvestInfoBottomSheet(
