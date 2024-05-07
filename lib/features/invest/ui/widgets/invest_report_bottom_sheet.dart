@@ -175,6 +175,7 @@ class _InvestListScreenState extends State<InvestList> {
                 ),
               InvestLine(
                 currency: currency,
+                isClosedPosition: widget.position.status == PositionStatus.closed,
                 price: widget.position.status == PositionStatus.closed
                     ? widget.position.profitLoss!
                     : investStore.getProfitByPosition(widget.position),
@@ -463,6 +464,7 @@ class _InvestListScreenState extends State<InvestList> {
               for (final item in investPositionStore.journalList) ...[
                 if (item.auditEvent != PositionAuditEvent.undefined &&
                     item.auditEvent != PositionAuditEvent.createMarketOpening &&
+                    item.auditEvent != PositionAuditEvent.openedToClosing &&
                     item.auditEvent != PositionAuditEvent.rollOverReCalc)
                   JournalItem(
                     item: item,
