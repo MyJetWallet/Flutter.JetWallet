@@ -69,6 +69,7 @@ class InvestSliderInput extends StatelessObserverWidget {
             valueIndicatorTextStyle: const TextStyle(color: Colors.transparent),
             activeTrackColor: colors.black,
             inactiveTrackColor: colors.grey5,
+            disabledInactiveTrackColor: colors.grey5,
             trackShape: const RoundedRectSliderTrackShape(),
             trackHeight: 6.0,
             thumbShape: const SliderThumbShape(disabledThumbRadius: 8),
