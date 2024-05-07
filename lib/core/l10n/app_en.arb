@@ -2038,7 +2038,7 @@
     "prepaid_cardcomission_explanation": "The comission for issuing the card is paid from your wallet",
     "invest_history_tab_positions": "Positions",
     "invest_history_tab_market": "Market",
-    "invest_alert_delete_pending_order": "Delete pending order",
+    "invest_alert_delete_pending_order": "Delete pending order?",
     "invest_alert_delete_pending_order_sub_titile": "You are going to delete the pending invest",
     "invest_liquidation_price": "Liquidation Price",
     "invest_liquidation": "Liquidation",

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -40,7 +41,7 @@ abstract class _InvestPositionsStoreBase with Store {
   bool isActiveGrouped = true;
 
   @observable
-  bool isHistoryGrouped = true;
+  bool isHistoryGrouped = false;
 
   @observable
   int activeInstrumentTab = 0;
@@ -301,72 +302,77 @@ abstract class _InvestPositionsStoreBase with Store {
   ) {
     try {
       sNetwork.getWalletModule().closeActivePosition(positionId: position.id ?? '');
-      final investStore = getIt.get<InvestDashboardStore>();
-      showInvestInfoBottomSheet(
-        context: context,
-        type: 'success',
-        onPrimaryButtonTap: () {
-          Navigator.pop(context);
-          Navigator.pop(context);
-          Navigator.pop(context);
-        },
-        primaryButtonName: intl.invest_alert_got_it,
-        title: intl.invest_alert_success_close_position,
-        removeWidgetSpace: true,
-        bottomWidget: Column(
-          children: [
-            const SpaceH16(),
-            DataLine(
-              mainText: intl.invest_alert_close_all_profit,
-              secondaryText: isBalanceHide
-                  ? '**** USDT'
-                  : volumeFormat(
-                      decimal: investStore.getProfitByPosition(position),
-                      accuracy: 2,
-                      symbol: 'USDT',
-                    ),
-              secondaryColor: SColorsLight().green,
-            ),
-            const SpaceH8(),
-            DataLine(
-              mainText: intl.invest_close_price,
-              secondaryText: volumeFormat(
-                decimal: investStore.getPendingPriceBySymbol(instrument.symbol ?? ''),
-                accuracy: instrument.priceAccuracy ?? 2,
-                symbol: '',
-              ),
-            ),
-            const SpaceH16(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+      checkClosedPosition(
+        position.id!,
+        () {
+          final investStore = getIt.get<InvestDashboardStore>();
+          showInvestInfoBottomSheet(
+            context: context,
+            type: 'success',
+            onPrimaryButtonTap: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+            primaryButtonName: intl.invest_alert_got_it,
+            title: intl.invest_alert_success_close_position,
+            removeWidgetSpace: true,
+            bottomWidget: Column(
               children: [
+                const SpaceH16(),
                 DataLine(
-                  fullWidth: false,
-                  mainText: intl.invest_close_fee,
+                  mainText: intl.invest_alert_close_all_profit,
                   secondaryText: isBalanceHide
                       ? '**** USDT'
                       : volumeFormat(
-                          decimal: (position.volumeBase ?? Decimal.zero) *
-                              investStore.getPendingPriceBySymbol(instrument.symbol ?? '') *
-                              (instrument.closeFee ?? Decimal.zero),
-                          accuracy: instrument.priceAccuracy ?? 2,
+                          decimal: investStore.getProfitByPosition(position),
+                          accuracy: 2,
                           symbol: 'USDT',
                         ),
+                  secondaryColor: SColorsLight().green,
                 ),
-                const SpaceW20(),
-                SITextButton(
-                  active: true,
-                  name: intl.invest_full_report,
-                  onTap: () {},
-                  icon: Assets.svg.invest.report.simpleSvg(
-                    width: 16,
-                    height: 16,
+                const SpaceH8(),
+                DataLine(
+                  mainText: intl.invest_close_price,
+                  secondaryText: volumeFormat(
+                    decimal: investStore.getPendingPriceBySymbol(instrument.symbol ?? ''),
+                    accuracy: instrument.priceAccuracy ?? 2,
+                    symbol: '',
                   ),
+                ),
+                const SpaceH16(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    DataLine(
+                      fullWidth: false,
+                      mainText: intl.invest_close_fee,
+                      secondaryText: isBalanceHide
+                          ? '**** USDT'
+                          : volumeFormat(
+                              decimal: (position.volumeBase ?? Decimal.zero) *
+                                  investStore.getPendingPriceBySymbol(instrument.symbol ?? '') *
+                                  (instrument.closeFee ?? Decimal.zero),
+                              accuracy: instrument.priceAccuracy ?? 2,
+                              symbol: 'USDT',
+                            ),
+                    ),
+                    const SpaceW20(),
+                    SITextButton(
+                      active: true,
+                      name: intl.invest_full_report,
+                      onTap: () {},
+                      icon: Assets.svg.invest.report.simpleSvg(
+                        width: 16,
+                        height: 16,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
+          );
+        },
       );
     } catch (e) {
       Navigator.pop(context);
@@ -422,25 +428,27 @@ abstract class _InvestPositionsStoreBase with Store {
   }
 
   @action
-  void cancelPending(BuildContext context, String? id) {
+  Future<void> cancelPending(BuildContext context, String? id) async {
     loader!.startLoading();
 
     try {
-      sNetwork.getWalletModule().cancelPendingPosition(positionId: id ?? '');
+      await sNetwork.getWalletModule().cancelPendingPosition(positionId: id ?? '');
 
-      checkClosedPosition(
-        id ?? '',
-        () {
-          Navigator.pop(context);
-          showInvestInfoBottomSheet(
-            context: context,
-            type: 'success',
-            onPrimaryButtonTap: () => Navigator.pop(context),
-            primaryButtonName: intl.invest_alert_got_it,
-            title: intl.invest_alert_success_delete,
-          );
-        },
-      );
+      await checkClosedPosition(id ?? '', () {
+        Navigator.pop(context);
+        Navigator.pop(context);
+
+        showInvestInfoBottomSheet(
+          context: context,
+          type: 'success',
+          onPrimaryButtonTap: () {
+            sRouter.maybePop();
+          },
+          primaryButtonName: intl.invest_alert_got_it,
+          title: intl.invest_alert_success_delete,
+        );
+        loader!.finishLoading();
+      });
     } catch (e) {
       Navigator.pop(context);
       loader!.finishLoading();
