@@ -577,7 +577,6 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                         currentValue:
                             investNewStore.isSLTPPrice ? investNewStore.tpPriceValue : investNewStore.tpAmountValue,
                         divisions: 4,
-                        withArray: true,
                         fullScale: !investNewStore.isSLTPPrice,
                         arrayOfValues: calculateLimitsPositions(
                           price: investNewStore.isOrderMode
@@ -738,7 +737,6 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                             ? investNewStore.slPriceValue
                             : investNewStore.slAmountValue.abs(),
                         divisions: 4,
-                        withArray: true,
                         fullScale: !investNewStore.isSLTPPrice,
                         arrayOfValues: calculateLimitsPositions(
                           price: investNewStore.isOrderMode
