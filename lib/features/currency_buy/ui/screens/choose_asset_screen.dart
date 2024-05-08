@@ -110,13 +110,26 @@ class ChooseAssetBody extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final baseCurrency = sSignalRModules.baseCurrency;
-    final state = searchStore;
 
-    sortByBalanceAndWeight(state.searchCurrencies);
+    final currencyFiltered = List<CurrencyModel>.from(searchStore.fCurrencies);
+
+    sortByWeight(currencyFiltered);
+
+    final watchListIds = sSignalRModules.keyValue.watchlist?.value ?? [];
+
+    final favAssets = <CurrencyModel>[];
+
+    for (final symbol in watchListIds) {
+      if (currencyFiltered.any((element) => element.symbol == symbol)) {
+        favAssets.add(currencyFiltered.firstWhere((element) => element.symbol == symbol));
+        currencyFiltered.removeWhere((element) => element.symbol == symbol);
+      }
+    }
+    currencyFiltered.insertAll(0, favAssets);
 
     return Column(
       children: [
-        for (final currency in state.searchCurrencies) ...[
+        for (final currency in currencyFiltered) ...[
           if (currency.type == AssetType.crypto)
             SimpleTableAsset(
               assetIcon: SNetworkSvg24(
