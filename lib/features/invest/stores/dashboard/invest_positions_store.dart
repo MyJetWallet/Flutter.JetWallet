@@ -306,13 +306,13 @@ abstract class _InvestPositionsStoreBase with Store {
         position.id!,
         () {
           final investStore = getIt.get<InvestDashboardStore>();
+          Navigator.pop(context);
+          Navigator.pop(context);
           showInvestInfoBottomSheet(
             context: context,
             type: 'success',
             onPrimaryButtonTap: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
-              Navigator.pop(context);
+              sRouter.maybePop();
             },
             primaryButtonName: intl.invest_alert_got_it,
             title: intl.invest_alert_success_close_position,
@@ -489,8 +489,10 @@ abstract class _InvestPositionsStoreBase with Store {
             },
           );
         } else {
-          loader!.finishLoading();
-          onClose();
+          Future.delayed(const Duration(seconds: 2), () {
+            loader!.finishLoading();
+            onClose();
+          });
         }
       }
     } catch (e) {
