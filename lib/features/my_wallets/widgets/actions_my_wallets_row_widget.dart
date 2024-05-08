@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_buy/action_buy.dart';
-import 'package:jetwallet/features/actions/action_receive/action_receive.dart';
 import 'package:jetwallet/features/actions/action_send/action_send.dart';
 import 'package:jetwallet/features/my_wallets/helper/show_select_account_for_add_cash.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_add_cash.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_buy.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_receive.dart';
+import 'package:jetwallet/widgets/circle_action_buttons/circle_action_sell.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_send.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/simple_paddings.dart';
@@ -52,6 +51,12 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
                         }
                       },
                     ),
+                    CircleActionSell(
+                      onTap: () {
+                        // TODO (Yaroslav): add logic in SPU-4282
+                      },
+                      isDisabled: isEmptyBalanse,
+                    ),
                     CircleActionSend(
                       onTap: () {
                         sAnalytics.tabOnTheSendButton(source: 'My Assets - Send');
@@ -62,16 +67,6 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
                         }
                       },
                       isDisabled: isEmptyBalanse,
-                    ),
-                    CircleActionReceive(
-                      onTap: () {
-                        sAnalytics.tapOnTheReceiveButton(source: 'My Assets - Receive');
-                        if (myWalletsSrore.isReordering) {
-                          myWalletsSrore.endReorderingImmediately();
-                        } else {
-                          showReceiveAction(context);
-                        }
-                      },
                     ),
                     if (showDepositButton())
                       CircleActionAddCash(
