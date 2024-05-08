@@ -189,9 +189,7 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
                   width: 24,
                 ),
                 label: account.label ?? 'Account 1',
-                supplement: account.accountId != 'clearjuction_account'
-                    ? intl.eur_wallet_personal_account
-                    : intl.eur_wallet_simple_account,
+                supplement: intl.internal_exchange,
                 onTableAssetTap: () {
                   sAnalytics.tapOnTheButtonSomePMForBuyOnPayWithPMSheet(
                     destinationWallet: asset?.symbol ?? '',
