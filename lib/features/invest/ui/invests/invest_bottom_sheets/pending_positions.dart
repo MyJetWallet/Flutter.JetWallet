@@ -7,7 +7,6 @@ import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_stor
 import 'package:jetwallet/features/invest/stores/dashboard/invest_positions_store.dart';
 import 'package:jetwallet/features/invest/ui/invests/above_list_line.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/widgets/table/placeholder/simple_placeholder.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
 import '../../../../../core/router/app_router.dart';
@@ -78,19 +77,6 @@ class PendingInvestList extends StatelessObserverWidget {
             const SpaceH4(),
             Observer(
               builder: (BuildContext context) {
-                final listToShow = instrument != null
-                    ? investPositionsStore.pendingList
-                        .where(
-                          (element) => element.symbol == instrument?.symbol,
-                        )
-                        .toList()
-                    : investPositionsStore.pendingList;
-                if (listToShow.isEmpty) {
-                  return SPlaceholder(
-                    size: SPlaceholderSize.l,
-                    text: intl.wallet_simple_account_empty,
-                  );
-                }
                 return AboveListLine(
                   mainColumn: instrument != null ? intl.invest_in_group : intl.invest_list_instrument,
                   secondaryColumn: '${intl.invest_list_amount} (${currency.symbol})',
