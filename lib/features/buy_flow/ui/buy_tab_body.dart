@@ -31,12 +31,17 @@ class BuyAmountTabBody extends StatefulObserverWidget {
     this.asset,
     this.card,
     this.account,
+    required this.navigateToConvert,
   });
 
   final CurrencyModel? asset;
 
   final CircleCard? card;
   final SimpleBankingAccount? account;
+  final void Function({
+    required CurrencyModel fromAsset,
+    required CurrencyModel toAsset,
+  }) navigateToConvert;
 
   @override
   State<BuyAmountTabBody> createState() => _BuyAmountScreenBodyState();
@@ -132,8 +137,8 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                     title: store.asset?.description,
                     subTitle: intl.amount_screen_buy,
                     trailing: getIt<AppStore>().isBalanceHide
-                      ? '**** ${store.asset?.symbol}'
-                      : store.asset?.volumeAssetBalance,
+                        ? '**** ${store.asset?.symbol}'
+                        : store.asset?.volumeAssetBalance,
                     icon: SNetworkSvg24(
                       url: store.asset?.iconUrl ?? '',
                     ),
@@ -172,12 +177,12 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                     title: store.account?.label,
                     subTitle: intl.amount_screen_pay_with,
                     trailing: getIt<AppStore>().isBalanceHide
-                      ? '**** ${store.account?.currency}'
-                      : volumeFormat(
-                        decimal: store.account?.balance ?? Decimal.zero,
-                        accuracy: store.asset?.accuracy ?? 1,
-                        symbol: store.account?.currency ?? '',
-                      ),
+                        ? '**** ${store.account?.currency}'
+                        : volumeFormat(
+                            decimal: store.account?.balance ?? Decimal.zero,
+                            accuracy: store.asset?.accuracy ?? 1,
+                            symbol: store.account?.currency ?? '',
+                          ),
                     icon: Container(
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
@@ -206,6 +211,12 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                             newAccount: account,
                           );
                           Navigator.of(context).pop();
+                        },
+                        onSelectedCryptoAsset: ({newCurrency}) {
+                          widget.navigateToConvert(
+                            fromAsset: newCurrency!,
+                            toAsset: store.asset!,
+                          );
                         },
                       );
                     },
@@ -247,6 +258,12 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                           );
                           Navigator.of(context).pop();
                         },
+                        onSelectedCryptoAsset: ({newCurrency}) {
+                          widget.navigateToConvert(
+                            fromAsset: newCurrency!,
+                            toAsset: store.asset!,
+                          );
+                        },
                       );
                     },
                   )
@@ -281,6 +298,12 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                             newAccount: account,
                           );
                           Navigator.of(context).pop();
+                        },
+                        onSelectedCryptoAsset: ({newCurrency}) {
+                          widget.navigateToConvert(
+                            fromAsset: newCurrency!,
+                            toAsset: store.asset!,
+                          );
                         },
                       );
                     },

@@ -25,6 +25,7 @@ import '../../app/store/app_store.dart';
 
 class ConvertAmountTabBody extends StatefulObserverWidget {
   const ConvertAmountTabBody({
+    super.key,
     this.fromAsset,
     this.toAsset,
   });
@@ -33,10 +34,25 @@ class ConvertAmountTabBody extends StatefulObserverWidget {
   final CurrencyModel? toAsset;
 
   @override
-  State<ConvertAmountTabBody> createState() => _BuyAmountScreenBodyState();
+  State<ConvertAmountTabBody> createState() => BuyAmountScreenBodyState();
 }
 
-class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with AutomaticKeepAliveClientMixin {
+class BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with AutomaticKeepAliveClientMixin {
+  final GlobalKey _key = GlobalKey();
+
+  void updateStorage({
+    CurrencyModel? newFromAsset,
+    CurrencyModel? newToAsset,
+  }) {
+    final contextWithStorage = _key.currentContext;
+    if (contextWithStorage == null) return;
+    final store = ConvertAmountStore.of(contextWithStorage);
+    store.init(
+      newFromAsset: newFromAsset,
+      newToAsset: newToAsset,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -53,6 +69,7 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
         final store = ConvertAmountStore.of(context);
 
         return Observer(
+          key: _key,
           builder: (context) {
             return Column(
               children: [
@@ -174,8 +191,8 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                     title: store.toAsset?.description,
                     subTitle: intl.convert_amount_convert_to,
                     trailing: getIt<AppStore>().isBalanceHide
-                      ? '**** ${store.toAsset?.symbol}'
-                      : store.toAsset?.volumeAssetBalance,
+                        ? '**** ${store.toAsset?.symbol}'
+                        : store.toAsset?.volumeAssetBalance,
                     icon: SNetworkSvg24(
                       url: store.toAsset?.iconUrl ?? '',
                     ),
