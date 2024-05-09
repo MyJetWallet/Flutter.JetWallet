@@ -197,7 +197,7 @@ class ActiveInvestList extends StatelessObserverWidget {
                       return -1;
                     }
 
-                    return a.creationTimestamp!.compareTo(b.creationTimestamp!);
+                    return b.creationTimestamp!.compareTo(a.creationTimestamp!);
                   });
                   return Column(
                     children: [
@@ -316,16 +316,7 @@ class ActiveInvestList extends StatelessObserverWidget {
                     ],
                   );
                 }
-                final positions = investPositionsStore.activeList;
-                positions.sort((a, b) {
-                  if (investPositionsStore.activeSortState == 1) {
-                    return investStore.getProfitByPosition(b).compareTo(investStore.getProfitByPosition(a));
-                  } else if (investPositionsStore.activeSortState == 2) {
-                    return investStore.getProfitByPosition(a).compareTo(investStore.getProfitByPosition(b));
-                  }
-
-                  return 0.compareTo(1);
-                });
+                final positions = _sortPositons(investPositionsStore, investStore);
 
                 return Column(
                   children: [
@@ -361,5 +352,33 @@ class ActiveInvestList extends StatelessObserverWidget {
         );
       },
     );
+  }
+
+  List<InvestPositionModel> _sortPositons(InvestPositionsStore investPositionsStore, InvestDashboardStore investStore) {
+    List<InvestPositionModel> positions;
+
+    if (instrument != null) {
+      positions = investPositionsStore.activeList.where((element) => element.symbol == instrument!.symbol).toList();
+    } else {
+      positions = investPositionsStore.activeList.toList();
+    }
+
+    if (investPositionsStore.activeSortState == 1) {
+      positions.sort((a, b) => investStore.getProfitByPosition(b).compareTo(investStore.getProfitByPosition(a)));
+    } else if (investPositionsStore.activeSortState == 2) {
+      positions.sort((a, b) => investStore.getProfitByPosition(a).compareTo(investStore.getProfitByPosition(b)));
+    } else {
+      positions.sort((a, b) {
+        if (a.creationTimestamp == null && b.creationTimestamp == null) {
+          return 0;
+        } else if (a.creationTimestamp == null) {
+          return 1;
+        } else if (b.creationTimestamp == null) {
+          return -1;
+        }
+        return b.creationTimestamp!.compareTo(a.creationTimestamp!);
+      });
+    }
+    return positions;
   }
 }
