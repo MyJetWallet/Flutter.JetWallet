@@ -214,7 +214,7 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
                 BuyAmountTabBody(
                   asset: widget.asset,
                   card: widget.card,
-                  account: (widget.account?.isNotEmptyBalance ?? false) ? widget.account : null,
+                  account: widget.account,
                   navigateToConvert: ({required fromAsset, required toAsset}) async {
                     sRouter.popUntilRouteWithName(AmountRoute.name);
 

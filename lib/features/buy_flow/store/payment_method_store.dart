@@ -37,7 +37,7 @@ abstract class _PaymentMethodStoreBase with Store {
 
     final simpleAccount = sSignalRModules.bankingProfileData?.simple?.account;
 
-    if ((simpleAccount != null) && isSimpleAccountAvaible && simpleAccount.balance != Decimal.zero) {
+    if ((simpleAccount != null) && isSimpleAccountAvaible) {
       accounts.add(simpleAccount);
     }
 
