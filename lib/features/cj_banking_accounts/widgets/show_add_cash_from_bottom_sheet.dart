@@ -24,7 +24,7 @@ void showAddCashFromBottomSheet({
 
   final baseCurrency = sSignalRModules.baseCurrency;
 
-  final initAssetsList = [...sSignalRModules.currenciesList.where((element) => element.symbol == skipAsset)];
+  final initAssetsList = [...sSignalRModules.currenciesList.where((element) => element.symbol != skipAsset)];
 
   final searchStore = ActionSearchStore()..init(customCurrencies: initAssetsList);
 
