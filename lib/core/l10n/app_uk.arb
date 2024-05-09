@@ -7091,7 +7091,7 @@
     "validReferralCode_delete": "Видалити",
     "invalidReferralCode_invalidReferralCode": "Невірний код рефералу",
     "checkingReferralCode_checking": "Перевірка...",
-    "referralCode_have_a_referral_code": "Маєте реферальний код?",
+    "referralCode_have_a_referral_code": "Є реферальний код?",
     "referralCode_add": "Додати",
     "showReferralCode_enterReferralCode": "Ввести реферальний код",
     "showReferralCode_referralCode": "Реферальний код",
