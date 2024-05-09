@@ -487,9 +487,7 @@ abstract class _InvestPositionsStoreBase with Store {
         );
         loader!.finishLoading();
       } else {
-        if (response.data?.position?.status == PositionStatus.closing ||
-            response.data?.position?.status == PositionStatus.cancelling ||
-            response.data?.position?.status == PositionStatus.pending) {
+        if (response.data?.position?.status != PositionStatus.closed) {
           Timer(
             const Duration(seconds: 1),
             () {
