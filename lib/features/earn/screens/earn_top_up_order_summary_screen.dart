@@ -97,91 +97,100 @@ class _OfferOrderSummaruBody extends StatelessWidget {
 
     return Observer(
       builder: (context) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            WhatToWhatConvertWidget(
-              isLoading: false,
-              fromAssetIconUrl: store.currency.iconUrl,
-              fromAssetDescription: intl.earn_crypto_wallet,
-              fromAssetValue: isBalanceHide
-                  ? '**** ${store.currency.symbol}'
-                  : volumeFormat(decimal: store.selectedAmount, symbol: store.currency.symbol),
-              fromAssetBaseAmount: isBalanceHide
-                  ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                  : '≈${marketFormat(decimal: store.baseAmount, symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
-              toAssetIconUrl: store.currency.iconUrl,
-              toAssetDescription: intl.earn_earn,
-              toAssetValue: isBalanceHide
-                  ? '**** ${store.currency.symbol}'
-                  : volumeFormat(decimal: store.selectedAmount, symbol: store.currency.symbol),
-              toAssetBaseAmount: isBalanceHide
-                  ? '**** ${sSignalRModules.baseCurrency.symbol}'
-                  : '≈${marketFormat(decimal: store.baseAmount, symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
-            ),
-            const SDivider(),
-            const SizedBox(height: 19),
-            TwoColumnCell(
-              label: intl.to1,
-              value: store.offer.name,
-              needHorizontalPadding: false,
-            ),
-            if (store.offer.apyRate != null)
-              TwoColumnCell(
-                label: intl.earn_apy_rate,
-                value:
-                    '${((store.offer.apyRate ?? Decimal.zero) * Decimal.fromInt(100)).toStringAsFixed(2).replaceFirst(RegExp(r'\.?0*$'), '')} %',
-                needHorizontalPadding: false,
+        return CustomScrollView(
+          physics: const ClampingScrollPhysics(),
+          shrinkWrap: true,
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  WhatToWhatConvertWidget(
+                    isLoading: false,
+                    fromAssetIconUrl: store.currency.iconUrl,
+                    fromAssetDescription: intl.earn_crypto_wallet,
+                    fromAssetValue: isBalanceHide
+                        ? '**** ${store.currency.symbol}'
+                        : volumeFormat(decimal: store.selectedAmount, symbol: store.currency.symbol),
+                    fromAssetBaseAmount: isBalanceHide
+                        ? '**** ${sSignalRModules.baseCurrency.symbol}'
+                        : '≈${marketFormat(decimal: store.baseAmount, symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
+                    toAssetIconUrl: store.currency.iconUrl,
+                    toAssetDescription: intl.earn_earn,
+                    toAssetValue: isBalanceHide
+                        ? '**** ${store.currency.symbol}'
+                        : volumeFormat(decimal: store.selectedAmount, symbol: store.currency.symbol),
+                    toAssetBaseAmount: isBalanceHide
+                        ? '**** ${sSignalRModules.baseCurrency.symbol}'
+                        : '≈${marketFormat(decimal: store.baseAmount, symbol: store.fiatSymbol, accuracy: store.eurCurrency.accuracy)}',
+                  ),
+                  const SDivider(),
+                  const SizedBox(height: 19),
+                  TwoColumnCell(
+                    label: intl.to1,
+                    value: store.offer.name,
+                    needHorizontalPadding: false,
+                  ),
+                  if (store.offer.apyRate != null)
+                    TwoColumnCell(
+                      label: intl.earn_apy_rate,
+                      value:
+                          '${((store.offer.apyRate ?? Decimal.zero) * Decimal.fromInt(100)).toStringAsFixed(2).replaceFirst(RegExp(r'\.?0*$'), '')} %',
+                      needHorizontalPadding: false,
+                    ),
+                  TwoColumnCell(
+                    label: intl.earn_earning_term,
+                    value: store.offer.withdrawType == WithdrawType.instant
+                        ? intl.earn_flexible
+                        : intl.earn_freeze_days(store.offer.lockPeriod ?? 0),
+                    needHorizontalPadding: false,
+                  ),
+                  const SizedBox(height: 7),
+                  ProcessingFeeRowWidget(
+                    fee: '0 ${store.currency.symbol}',
+                  ),
+                  const SizedBox(height: 16),
+                  const SDivider(),
+                  const SizedBox(height: 16),
+                  SPolicyCheckbox(
+                    onPrivacyPolicyTap: () {
+                      launchURL(context, privacyEarnLink);
+                    },
+                    onUserAgreementTap: () {
+                      launchURL(context, infoEarnLink);
+                    },
+                    firstText: '${intl.earn_i_have_read_and_agreed_to} ',
+                    userAgreementText: intl.earn_terms_and_conditions,
+                    betweenText: ', ',
+                    privacyPolicyText: intl.earn_privacy_policy,
+                    isChecked: store.isTermsAndConditionsChecked,
+                    onCheckboxTap: () {
+                      store.toggleCheckbox();
+                    },
+                  ),
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 24),
+                    child: SPrimaryButton2(
+                      active: store.isTermsAndConditionsChecked,
+                      name: intl.previewBuyWithAsset_confirm,
+                      onTap: () {
+                        sAnalytics.tapOnTheConfirmEarnDepositOrderSummaryButton(
+                          assetName: store.earnPosition.offers.first.assetId,
+                          earnAPYrate: store.earnPosition.offers.first.apyRate?.toString() ?? Decimal.zero.toString(),
+                          earnDepositAmount: store.amount.toString(),
+                          earnPlanName: store.earnPosition.offers.first.description ?? '',
+                          earnWithdrawalType: store.earnPosition.offers.first.withdrawType.name,
+                        );
+                        store.confirm();
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                ],
               ),
-            TwoColumnCell(
-              label: intl.earn_earning_term,
-              value: store.offer.withdrawType == WithdrawType.instant
-                  ? intl.earn_flexible
-                  : intl.earn_freeze_days(store.offer.lockPeriod ?? 0),
-              needHorizontalPadding: false,
             ),
-            const SizedBox(height: 7),
-            ProcessingFeeRowWidget(
-              fee: '0 ${store.currency.symbol}',
-            ),
-            const SizedBox(height: 16),
-            const SDivider(),
-            const SizedBox(height: 16),
-            SPolicyCheckbox(
-              onPrivacyPolicyTap: () {
-                launchURL(context, privacyEarnLink);
-              },
-              onUserAgreementTap: () {
-                launchURL(context, infoEarnLink);
-              },
-              firstText: '${intl.earn_i_have_read_and_agreed_to} ',
-              userAgreementText: intl.earn_terms_and_conditions,
-              betweenText: ', ',
-              privacyPolicyText: intl.earn_privacy_policy,
-              isChecked: store.isTermsAndConditionsChecked,
-              onCheckboxTap: () {
-                store.toggleCheckbox();
-              },
-            ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 24),
-              child: SPrimaryButton2(
-                active: store.isTermsAndConditionsChecked,
-                name: intl.previewBuyWithAsset_confirm,
-                onTap: () {
-                  sAnalytics.tapOnTheConfirmEarnDepositOrderSummaryButton(
-                    assetName: store.earnPosition.offers.first.assetId,
-                    earnAPYrate: store.earnPosition.offers.first.apyRate?.toString() ?? Decimal.zero.toString(),
-                    earnDepositAmount: store.amount.toString(),
-                    earnPlanName: store.earnPosition.offers.first.description ?? '',
-                    earnWithdrawalType: store.earnPosition.offers.first.withdrawType.name,
-                  );
-                  store.confirm();
-                },
-              ),
-            ),
-            const SizedBox(height: 8),
           ],
         );
       },
