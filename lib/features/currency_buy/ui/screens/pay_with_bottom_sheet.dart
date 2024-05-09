@@ -112,7 +112,7 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
             Padding(
               padding: const EdgeInsets.only(top: 16),
               child: PaymentMethodCardsWidget(
-                title: intl.payment_method_cards,
+                title: intl.buy_external_cards,
                 asset: asset,
                 onSelected: onSelected,
                 cards: store.cards,
