@@ -14,6 +14,7 @@ import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
+import 'package:jetwallet/features/sell_flow/widgets/sell_with_bottom_sheet.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -151,12 +152,27 @@ class BalanceActionButtons extends StatelessObserverWidget {
                 isProgress: kycState.verificationInProgress,
                 currentNavigate: () => showSendTimerAlertOr(
                   context: context,
-                  or: () => sRouter.push(
-                    AmountRoute(
-                      tab: AmountScreenTab.sell,
-                      asset: currency,
-                    ),
-                  ),
+                  or: () {
+                    showSellPayWithBottomSheet(
+                      context: context,
+                      currency: currency,
+                      onSelected: ({account, card}) {
+                        sRouter.push(
+                          AmountRoute(
+                            tab: AmountScreenTab.sell,
+                            asset: currency,
+                            account: account,
+                            simpleCard: card,
+                          ),
+                        );
+                      },
+                      then: (value) {
+                        if (value != true) {
+                          sAnalytics.tapOnCloseSheetSellToButton();
+                        }
+                      },
+                    );
+                  },
                   from: [BlockingType.trade],
                 ),
                 requiredDocuments: kycState.requiredDocuments,

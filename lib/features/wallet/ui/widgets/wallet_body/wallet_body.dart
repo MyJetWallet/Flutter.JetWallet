@@ -13,6 +13,7 @@ import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
+import 'package:jetwallet/features/sell_flow/widgets/sell_with_bottom_sheet.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/transaction_list_item.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
@@ -247,11 +248,24 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                               context: context,
                               from: [BlockingType.trade],
                               or: () {
-                                sRouter.push(
-                                  AmountRoute(
-                                    tab: AmountScreenTab.sell,
-                                    asset: actualAsset,
-                                  ),
+                                showSellPayWithBottomSheet(
+                                  context: context,
+                                  currency: actualAsset,
+                                  onSelected: ({account, card}) {
+                                    sRouter.push(
+                                      AmountRoute(
+                                        tab: AmountScreenTab.sell,
+                                        asset: actualAsset,
+                                        account: account,
+                                        simpleCard: card,
+                                      ),
+                                    );
+                                  },
+                                  then: (value) {
+                                    if (value != true) {
+                                      sAnalytics.tapOnCloseSheetSellToButton();
+                                    }
+                                  },
                                 );
                               },
                             ),
