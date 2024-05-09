@@ -31,12 +31,17 @@ class BuyAmountTabBody extends StatefulObserverWidget {
     this.asset,
     this.card,
     this.account,
+    required this.navigateToConvert,
   });
 
   final CurrencyModel? asset;
 
   final CircleCard? card;
   final SimpleBankingAccount? account;
+  final void Function({
+    required CurrencyModel fromAsset,
+    required CurrencyModel toAsset,
+  }) navigateToConvert;
 
   @override
   State<BuyAmountTabBody> createState() => _BuyAmountScreenBodyState();
@@ -214,6 +219,12 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                                         );
                                         Navigator.of(context).pop();
                                       },
+                                      onSelectedCryptoAsset: ({newCurrency}) {
+                                        widget.navigateToConvert(
+                                          fromAsset: newCurrency!,
+                                          toAsset: store.asset!,
+                                        );
+                                      },
                                     );
                                   },
                                 )
@@ -254,6 +265,12 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                                         );
                                         Navigator.of(context).pop();
                                       },
+                                      onSelectedCryptoAsset: ({newCurrency}) {
+                                        widget.navigateToConvert(
+                                          fromAsset: newCurrency!,
+                                          toAsset: store.asset!,
+                                        );
+                                      },
                                     );
                                   },
                                 )
@@ -288,6 +305,12 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                                           newAccount: account,
                                         );
                                         Navigator.of(context).pop();
+                                      },
+                                      onSelectedCryptoAsset: ({newCurrency}) {
+                                        widget.navigateToConvert(
+                                          fromAsset: newCurrency!,
+                                          toAsset: store.asset!,
+                                        );
                                       },
                                     );
                                   },

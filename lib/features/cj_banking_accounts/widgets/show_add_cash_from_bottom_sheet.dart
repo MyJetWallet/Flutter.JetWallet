@@ -18,12 +18,15 @@ void showAddCashFromBottomSheet({
   required BuildContext context,
   required VoidCallback onClose,
   required void Function(CurrencyModel currency) onChooseAsset,
+  String? skipAsset,
 }) {
   sAnalytics.addCashFromTrScreenView();
 
   final baseCurrency = sSignalRModules.baseCurrency;
 
-  final searchStore = ActionSearchStore();
+  final initAssetsList = [...sSignalRModules.currenciesList.where((element) => element.symbol == skipAsset)];
+
+  final searchStore = ActionSearchStore()..init(customCurrencies: initAssetsList);
 
   var currencyFiltered = List<CurrencyModel>.from(searchStore.fCurrencies);
   currencyFiltered = currencyFiltered

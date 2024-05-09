@@ -62,6 +62,8 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
 
   int _currentTabIndex = 0;
 
+  final GlobalKey<BuyAmountScreenBodyState> _keyConvertTab = GlobalKey();
+
   @override
   void initState() {
     final isShowTransferTab = checkNeedForTransferTab();
@@ -213,6 +215,15 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
                   asset: widget.asset,
                   card: widget.card,
                   account: (widget.account?.isNotEmptyBalance ?? false) ? widget.account : null,
+                  navigateToConvert: ({required fromAsset, required toAsset}) {
+                    sRouter.popUntilRouteWithName(AmountRoute.name);
+
+                    tabController.animateTo(2);
+                    _keyConvertTab.currentState?.updateStorage(
+                      newFromAsset: fromAsset,
+                      newToAsset: toAsset,
+                    );
+                  },
                 ),
                 SellAmountTabBody(
                   asset: widget.asset,
@@ -220,6 +231,7 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
                   simpleCard: widget.simpleCard,
                 ),
                 ConvertAmountTabBody(
+                  key: _keyConvertTab,
                   fromAsset: widget.tab != AmountScreenTab.buy ? widget.asset : null,
                   toAsset: widget.toAsset ?? (widget.tab == AmountScreenTab.buy ? widget.asset : null),
                 ),

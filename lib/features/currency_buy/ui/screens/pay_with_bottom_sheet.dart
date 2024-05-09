@@ -5,18 +5,22 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/bank_card/add_bank_card.dart';
 import 'package:jetwallet/features/buy_flow/store/payment_method_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
-import 'package:jetwallet/features/buy_flow/ui/widgets/payment_methods_widgets/balances_widget.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/payment_methods_widgets/payment_method_cards_widget.dart';
+import 'package:jetwallet/features/cj_banking_accounts/widgets/show_add_cash_from_bottom_sheet.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
+import 'package:jetwallet/utils/balances/crypto_balance.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
@@ -29,6 +33,9 @@ void showPayWithBottomSheet({
     SimpleBankingAccount? account,
   })? onSelected,
   bool hideCards = false,
+  void Function({
+    CurrencyModel? newCurrency,
+  })? onSelectedCryptoAsset,
 }) {
   final store = PaymentMethodStore()
     ..init(
@@ -78,6 +85,7 @@ void showPayWithBottomSheet({
           asset: currency,
           onSelected: onSelected,
           store: store,
+          onSelectedCryptoAsset: onSelectedCryptoAsset,
         ),
       ],
     );
@@ -112,6 +120,7 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
     required this.asset,
     required this.store,
     this.onSelected,
+    this.onSelectedCryptoAsset,
   });
 
   final CurrencyModel? asset;
@@ -120,6 +129,9 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
     SimpleBankingAccount? account,
   })? onSelected;
   final PaymentMethodStore store;
+  final void Function({
+    CurrencyModel? newCurrency,
+  })? onSelectedCryptoAsset;
 
   @override
   Widget build(BuildContext context) {
@@ -138,33 +150,73 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
               ),
             ),
           ],
-          if (store.accounts.isNotEmpty) ...[
-            const SpaceH24(),
-            BalancesWidget(
-              onTap: (account) {
-                sAnalytics.tapOnTheButtonSomePMForBuyOnPayWithPMSheet(
-                  destinationWallet: asset?.symbol ?? '',
-                  pmType:
-                      account.isClearjuctionAccount ? PaymenthMethodType.cjAccount : PaymenthMethodType.unlimitAccount,
-                  buyPM: account.isClearjuctionAccount
-                      ? 'CJ  ${account.last4IbanCharacters}'
-                      : 'Unlimint  ${account.last4IbanCharacters}',
-                );
-
-                if (onSelected != null) {
-                  onSelected!(account: account);
-                } else {
-                  sRouter.push(
-                    AmountRoute(
-                      tab: AmountScreenTab.buy,
-                      asset: asset,
-                      account: account,
-                    ),
-                  );
-                }
-              },
-              accounts: store.accounts,
+          const SpaceH24(),
+          STextDivider(intl.sell_amount_accounts),
+          SimpleTableAsset(
+            label: intl.market_crypto,
+            supplement: intl.internal_exchange,
+            assetIcon: Assets.svg.assets.crypto.defaultPlaceholder.simpleSvg(
+              width: 24,
             ),
+            rightValue: !getIt<AppStore>().isBalanceHide
+                ? calculateCryptoBalance()
+                : '**** ${sSignalRModules.baseCurrency.symbol}',
+            onTableAssetTap: () {
+              showAddCashFromBottomSheet(
+                context: context,
+                onClose: () {},
+                skipAsset: asset?.symbol,
+                onChooseAsset: (currency) {
+                  if (onSelectedCryptoAsset != null) {
+                    onSelectedCryptoAsset?.call(newCurrency: currency);
+                  } else {
+                    sRouter.push(
+                      AmountRoute(
+                        tab: AmountScreenTab.convert,
+                        asset: currency,
+                        toAsset: asset,
+                      ),
+                    );
+                  }
+                },
+              );
+            },
+          ),
+          if (store.accounts.isNotEmpty) ...[
+            for (final account in store.accounts)
+              SimpleTableAsset(
+                assetIcon: Assets.svg.assets.fiat.account.simpleSvg(
+                  width: 24,
+                ),
+                label: account.label ?? 'Account 1',
+                supplement: intl.internal_exchange,
+                onTableAssetTap: () {
+                  sAnalytics.tapOnTheButtonSomePMForBuyOnPayWithPMSheet(
+                    destinationWallet: asset?.symbol ?? '',
+                    pmType: account.isClearjuctionAccount
+                        ? PaymenthMethodType.cjAccount
+                        : PaymenthMethodType.unlimitAccount,
+                    buyPM: account.isClearjuctionAccount
+                        ? 'CJ  ${account.last4IbanCharacters}'
+                        : 'Unlimint  ${account.last4IbanCharacters}',
+                  );
+
+                  if (onSelected != null) {
+                    onSelected!(account: account);
+                  } else {
+                    sRouter.push(
+                      AmountRoute(
+                        tab: AmountScreenTab.buy,
+                        asset: asset,
+                        account: account,
+                      ),
+                    );
+                  }
+                },
+                rightValue: getIt<AppStore>().isBalanceHide
+                    ? '**** ${account.currency}'
+                    : '${account.balance} ${account.currency}',
+              ),
           ],
           const SpaceH45(),
         ],
