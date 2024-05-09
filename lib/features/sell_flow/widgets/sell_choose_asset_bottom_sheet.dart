@@ -1,4 +1,3 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -22,9 +21,7 @@ void showSellChooseAssetBottomSheet({
 }) {
   final searchStore = getIt.get<ActionSearchStore>();
 
-  final currenciesList = sSignalRModules.currenciesList.where((currency) {
-    return currency.assetBalance != Decimal.zero;
-  }).toList();
+  final currenciesList = sSignalRModules.currenciesList;
 
   searchStore.init(
     customCurrencies: currenciesList,

@@ -91,7 +91,6 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
                           );
                         }
                       },
-                      isDisabled: isEmptyBalanse,
                     ),
                     CircleActionSend(
                       onTap: () {
