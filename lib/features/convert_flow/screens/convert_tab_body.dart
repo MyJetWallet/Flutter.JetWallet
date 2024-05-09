@@ -34,10 +34,10 @@ class ConvertAmountTabBody extends StatefulObserverWidget {
   final CurrencyModel? toAsset;
 
   @override
-  State<ConvertAmountTabBody> createState() => BuyAmountScreenBodyState();
+  State<ConvertAmountTabBody> createState() => ConvertAmountScreenBodyState();
 }
 
-class BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with AutomaticKeepAliveClientMixin {
+class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with AutomaticKeepAliveClientMixin {
   final GlobalKey _key = GlobalKey();
 
   void updateStorage({

@@ -62,7 +62,7 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
 
   int _currentTabIndex = 0;
 
-  final GlobalKey<BuyAmountScreenBodyState> _keyConvertTab = GlobalKey();
+  final GlobalKey<ConvertAmountScreenBodyState> _keyConvertTab = GlobalKey();
 
   @override
   void initState() {
@@ -215,10 +215,11 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
                   asset: widget.asset,
                   card: widget.card,
                   account: (widget.account?.isNotEmptyBalance ?? false) ? widget.account : null,
-                  navigateToConvert: ({required fromAsset, required toAsset}) {
+                  navigateToConvert: ({required fromAsset, required toAsset}) async {
                     sRouter.popUntilRouteWithName(AmountRoute.name);
 
                     tabController.animateTo(2);
+                    await Future.delayed(const Duration(milliseconds: 500));
                     _keyConvertTab.currentState?.updateStorage(
                       newFromAsset: fromAsset,
                       newToAsset: toAsset,
@@ -229,6 +230,16 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
                   asset: widget.asset,
                   account: widget.account,
                   simpleCard: widget.simpleCard,
+                  navigateToConvert: ({required fromAsset, required toAsset}) async {
+                    sRouter.popUntilRouteWithName(AmountRoute.name);
+
+                    tabController.animateTo(2);
+                    await Future.delayed(const Duration(milliseconds: 500));
+                    _keyConvertTab.currentState?.updateStorage(
+                      newFromAsset: fromAsset,
+                      newToAsset: toAsset,
+                    );
+                  },
                 ),
                 ConvertAmountTabBody(
                   key: _keyConvertTab,

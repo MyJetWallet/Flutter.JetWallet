@@ -34,17 +34,22 @@ class SellAmountTabBody extends StatefulObserverWidget {
     this.asset,
     this.account,
     this.simpleCard,
+    required this.navigateToConvert,
   });
 
   final CurrencyModel? asset;
   final SimpleBankingAccount? account;
   final CardDataModel? simpleCard;
+  final void Function({
+    required CurrencyModel fromAsset,
+    required CurrencyModel toAsset,
+  }) navigateToConvert;
 
   @override
-  State<SellAmountTabBody> createState() => _BuyAmountScreenBodyState();
+  State<SellAmountTabBody> createState() => _SellAmountScreenBodyState();
 }
 
-class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticKeepAliveClientMixin {
+class _SellAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -233,6 +238,12 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                                           sAnalytics.tapOnCloseSheetSellToButton();
                                         }
                                       },
+                                      onSelectedCryptoAsset: ({newCurrency}) {
+                                        widget.navigateToConvert(
+                                          fromAsset: store.asset!,
+                                          toAsset: newCurrency!,
+                                        );
+                                      },
                                     );
                                   },
                                   isDisabled: store.isNoAccounts,
@@ -278,6 +289,12 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                                         if (value != true) {
                                           sAnalytics.tapOnCloseSheetSellToButton();
                                         }
+                                      },
+                                      onSelectedCryptoAsset: ({newCurrency}) {
+                                        widget.navigateToConvert(
+                                          fromAsset: store.asset!,
+                                          toAsset: newCurrency!,
+                                        );
                                       },
                                     );
                                   },
@@ -326,6 +343,12 @@ class _BuyAmountScreenBodyState extends State<SellAmountTabBody> with AutomaticK
                                         if (value != true) {
                                           sAnalytics.tapOnCloseSheetSellToButton();
                                         }
+                                      },
+                                      onSelectedCryptoAsset: ({newCurrency}) {
+                                        widget.navigateToConvert(
+                                          fromAsset: store.asset!,
+                                          toAsset: newCurrency!,
+                                        );
                                       },
                                     );
                                   },

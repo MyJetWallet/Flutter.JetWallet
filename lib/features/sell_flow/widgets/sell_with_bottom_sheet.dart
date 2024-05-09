@@ -28,6 +28,9 @@ void showSellPayWithBottomSheet({
     CardDataModel? card,
   })? onSelected,
   dynamic Function(dynamic)? then,
+  void Function({
+    CurrencyModel? newCurrency,
+  })? onSelectedCryptoAsset,
 }) {
   final store = SellPaymentMethodStore()
     ..init(
@@ -50,6 +53,7 @@ void showSellPayWithBottomSheet({
           asset: currency,
           onSelected: onSelected,
           store: store,
+          onSelectedCryptoAsset: onSelectedCryptoAsset,
         ),
       ],
     );
@@ -61,6 +65,7 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
     required this.asset,
     required this.store,
     this.onSelected,
+    this.onSelectedCryptoAsset,
   });
 
   final CurrencyModel? asset;
@@ -69,6 +74,9 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
     CardDataModel? card,
   })? onSelected;
   final SellPaymentMethodStore store;
+  final void Function({
+    CurrencyModel? newCurrency,
+  })? onSelectedCryptoAsset;
 
   @override
   Widget build(BuildContext context) {
@@ -86,13 +94,17 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
               showConvertToChooseAssetBottomSheet(
                 context: context,
                 onChooseAsset: (currency) {
-                  sRouter.push(
-                    AmountRoute(
-                      tab: AmountScreenTab.convert,
-                      asset: asset,
-                      toAsset: currency,
-                    ),
-                  );
+                  if (onSelectedCryptoAsset != null) {
+                    onSelectedCryptoAsset?.call(newCurrency: currency);
+                  } else {
+                    sRouter.push(
+                      AmountRoute(
+                        tab: AmountScreenTab.convert,
+                        asset: asset,
+                        toAsset: currency,
+                      ),
+                    );
+                  }
                 },
                 skipAssetSymbol: asset?.symbol,
                 then: (value) {
