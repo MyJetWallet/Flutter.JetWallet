@@ -5,11 +5,13 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
+import 'package:jetwallet/features/convert_flow/widgets/convert_to_choose_asset_bottom_sheet.dart';
 import 'package:jetwallet/features/sell_flow/store/sell_payment_method_store.dart';
 import 'package:jetwallet/utils/balances/crypto_balance.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -80,7 +82,26 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
             ),
             label: intl.wallet_crypto_wallet,
             supplement: intl.wallet_crypto_assets,
-            onTableAssetTap: () {},
+            onTableAssetTap: () {
+              showConvertToChooseAssetBottomSheet(
+                context: context,
+                onChooseAsset: (currency) {
+                  sRouter.push(
+                    AmountRoute(
+                      tab: AmountScreenTab.convert,
+                      asset: asset,
+                      toAsset: currency,
+                    ),
+                  );
+                },
+                skipAssetSymbol: asset?.symbol,
+                then: (value) {
+                  if (value != true) {
+                    sAnalytics.tapOnCloseSheetConvertToButton();
+                  }
+                },
+              );
+            },
             rightValue: !getIt<AppStore>().isBalanceHide
                 ? calculateCryptoBalance()
                 : '**** ${sSignalRModules.baseCurrency.symbol}',
