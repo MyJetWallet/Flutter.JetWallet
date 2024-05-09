@@ -84,9 +84,6 @@ class _ChooseAssetBody extends StatelessObserverWidget {
 
     return Column(
       children: [
-        STextDivider(
-          intl.sell_amount_cryptocurrencies,
-        ),
         for (final currency in state.searchCurrencies) ...[
           if (currency.type == AssetType.crypto)
             Builder(
