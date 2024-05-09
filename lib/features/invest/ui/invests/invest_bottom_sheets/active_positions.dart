@@ -166,9 +166,9 @@ class ActiveInvestList extends StatelessObserverWidget {
                 secondaryColumn: '${intl.invest_list_amount} (${currency.symbol})',
                 lastColumn: '${intl.invest_list_pl} (${currency.symbol})',
                 withCheckbox: instrument == null,
-                withSort: true,
                 checked: investPositionsStore.isActiveGrouped,
                 onCheckboxTap: investPositionsStore.setIsActiveGrouped,
+                withSort: !investPositionsStore.isActiveGrouped,
                 sortState: investPositionsStore.activeSortState,
                 onSortTap: investPositionsStore.setActiveSort,
               ),
@@ -219,9 +219,22 @@ class ActiveInvestList extends StatelessObserverWidget {
                   );
                 }
                 if (investPositionsStore.isActiveGrouped) {
-                  final allPositions = _sortPositons(investPositionsStore, investStore);
-                  final uniquePositons = _filterOutRepeatedSymbols(allPositions);
-                  final groupedPositons = _getGroupedUniquePositions(allPositions);
+                  List<InvestPositionModel> positions;
+                  if (instrument != null) {
+                    positions = investPositionsStore.activeList
+                        .where((element) => element.symbol == instrument!.symbol)
+                        .toList();
+                  } else {
+                    positions = investPositionsStore.activeList.toList();
+                  }
+                  final groupedPositons = _getGroupedUniquePositions(positions);
+                  final uniquePositons = _filterOutRepeatedSymbols(positions);
+
+                  final sortedUniquePositons = _sortPositons(
+                    investPositionsStore,
+                    investStore,
+                    uniquePositons,
+                  );
 
                   return Column(
                     children: [
@@ -257,13 +270,13 @@ class ActiveInvestList extends StatelessObserverWidget {
                           mainColumn: intl.invest_single,
                           secondaryColumn: '${intl.invest_list_amount} (${currency.symbol})',
                           lastColumn: '${intl.invest_list_pl} (${currency.symbol})',
-                          withSort: true,
                           checked: investPositionsStore.isActiveGrouped,
                           onCheckboxTap: investPositionsStore.setIsActiveGrouped,
+                          withSort: true,
                           sortState: investPositionsStore.activeSortState,
                           onSortTap: investPositionsStore.setActiveSort,
                         ),
-                      for (final position in uniquePositons) ...[
+                      for (final position in sortedUniquePositons) ...[
                         InvestLine(
                           currency: currencyFrom(currencies, getInstrumentBySymbol(position.symbol ?? '').name ?? ''),
                           price: investStore.getProfitByPosition(position),
@@ -290,11 +303,24 @@ class ActiveInvestList extends StatelessObserverWidget {
                     ],
                   );
                 }
-                final positions = _sortPositons(investPositionsStore, investStore);
+                List<InvestPositionModel> positions;
+
+                if (instrument != null) {
+                  positions =
+                      investPositionsStore.activeList.where((element) => element.symbol == instrument!.symbol).toList();
+                } else {
+                  positions = investPositionsStore.activeList.toList();
+                }
+
+                final sortedPositions = _sortPositons(
+                  investPositionsStore,
+                  investStore,
+                  positions,
+                );
 
                 return Column(
                   children: [
-                    for (final position in positions) ...[
+                    for (final position in sortedPositions) ...[
                       InvestLine(
                         currency: currencyFrom(currencies, getInstrumentBySymbol(position.symbol ?? '').name ?? ''),
                         price: investStore.getProfitByPosition(position),
@@ -328,15 +354,11 @@ class ActiveInvestList extends StatelessObserverWidget {
     );
   }
 
-  List<InvestPositionModel> _sortPositons(InvestPositionsStore investPositionsStore, InvestDashboardStore investStore) {
-    List<InvestPositionModel> positions;
-
-    if (instrument != null) {
-      positions = investPositionsStore.activeList.where((element) => element.symbol == instrument!.symbol).toList();
-    } else {
-      positions = investPositionsStore.activeList.toList();
-    }
-
+  List<InvestPositionModel> _sortPositons(
+    InvestPositionsStore investPositionsStore,
+    InvestDashboardStore investStore,
+    List<InvestPositionModel> positions,
+  ) {
     if (investPositionsStore.activeSortState == 1) {
       positions.sort((a, b) => investStore.getProfitByPosition(b).compareTo(investStore.getProfitByPosition(a)));
     } else if (investPositionsStore.activeSortState == 2) {
