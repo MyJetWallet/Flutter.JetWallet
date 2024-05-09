@@ -56,6 +56,9 @@ abstract class _InvestPositionsStoreBase with Store {
   int activeSortState = 0;
 
   @observable
+  int activeGroupedSortState = 0;
+
+  @observable
   int historySortState = 0;
 
   @observable
@@ -246,6 +249,11 @@ abstract class _InvestPositionsStoreBase with Store {
   @action
   void setActiveSort() {
     activeSortState = activeSortState == 2 ? 0 : activeSortState + 1;
+  }
+
+  @action
+  void setActiveGroupedSort() {
+    activeGroupedSortState = activeGroupedSortState == 2 ? 0 : activeGroupedSortState + 1;
   }
 
   @action

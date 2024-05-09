@@ -97,16 +97,6 @@ class ActiveInvestList extends StatelessObserverWidget {
       return amount;
     }
 
-    InvestPositionModel getPosition(String symbol) {
-      final groupedPositions = investPositionsStore.activeList
-          .where(
-            (element) => element.symbol == symbol,
-          )
-          .toList();
-
-      return groupedPositions[0];
-    }
-
     InvestInstrumentModel getInstrumentBySymbol(String symbol) {
       final instrument = investPositionsStore.instrumentsList
           .where(
@@ -229,38 +219,32 @@ class ActiveInvestList extends StatelessObserverWidget {
                   );
                 }
                 if (investPositionsStore.isActiveGrouped) {
+                  final allPositions = _sortPositons(investPositionsStore, investStore);
+                  final uniquePositons = _filterOutRepeatedSymbols(allPositions);
+                  final groupedPositons = _getGroupedUniquePositions(allPositions);
+
                   return Column(
                     children: [
-                      for (final instrument in investPositionsStore.instrumentsList) ...[
-                        if (getGroupedLength(instrument.symbol ?? '') > 1) ...[
-                          InvestLine(
-                            currency: currencyFrom(currencies, instrument.name ?? ''),
-                            price: Decimal.zero,
-                            operationType: Direction.undefined,
-                            isPending: false,
-                            amount: getGroupedAmount(instrument.symbol ?? ''),
-                            leverage: getGroupedLeverage(instrument.symbol ?? ''),
-                            isGroup: true,
-                            historyCount: getGroupedLength(instrument.symbol ?? ''),
-                            profit: getGroupedProfit(instrument.symbol ?? ''),
-                            profitPercent: getGroupedProfitPercent(instrument.symbol ?? ''),
-                            accuracy: instrument.priceAccuracy ?? 2,
-                            onTap: () {
-                              sRouter.push(
-                                InstrumentPageRouter(instrument: instrument),
-                              );
-                            },
-                          ),
-                          if (instrument.symbol !=
-                              investPositionsStore.instrumentsList
-                                  .where(
-                                    (element) => getGroupedLength(element.symbol ?? '') > 1,
-                                  )
-                                  .toList()
-                                  .last
-                                  .symbol)
-                            const SDivider(),
-                        ],
+                      for (final position in groupedPositons) ...[
+                        InvestLine(
+                          currency: currencyFrom(currencies, getInstrumentBySymbol(position.symbol ?? '').name ?? ''),
+                          price: Decimal.zero,
+                          operationType: Direction.undefined,
+                          isPending: false,
+                          amount: getGroupedAmount(position.symbol ?? ''),
+                          leverage: getGroupedLeverage(position.symbol ?? ''),
+                          isGroup: true,
+                          historyCount: getGroupedLength(position.symbol ?? ''),
+                          profit: getGroupedProfit(position.symbol ?? ''),
+                          profitPercent: getGroupedProfitPercent(position.symbol ?? ''),
+                          accuracy: getInstrumentBySymbol(position.symbol ?? '').priceAccuracy ?? 2,
+                          onTap: () {
+                            sRouter.push(
+                              InstrumentPageRouter(instrument: getInstrumentBySymbol(position.symbol ?? '')),
+                            );
+                          },
+                        ),
+                        if (position != groupedPositons.last) const SDivider(),
                       ],
                       const SpaceH10(),
                       if (investPositionsStore.instrumentsList
@@ -279,39 +263,29 @@ class ActiveInvestList extends StatelessObserverWidget {
                           sortState: investPositionsStore.activeSortState,
                           onSortTap: investPositionsStore.setActiveSort,
                         ),
-                      for (final instrument in investPositionsStore.instrumentsList) ...[
-                        if (getGroupedLength(instrument.symbol ?? '') == 1) ...[
-                          InvestLine(
-                            currency: currencyFrom(currencies, instrument.name ?? ''),
-                            price: Decimal.zero,
-                            operationType: getPosition(instrument.symbol ?? '').direction ?? Direction.undefined,
-                            isPending: false,
-                            amount: getPosition(instrument.symbol ?? '').amount ?? Decimal.zero,
-                            leverage: getGroupedLeverage(instrument.symbol ?? ''),
-                            isGroup: false,
-                            historyCount: 1,
-                            profit: getGroupedProfit(instrument.symbol ?? ''),
-                            profitPercent: getGroupedProfitPercent(instrument.symbol ?? ''),
-                            accuracy: instrument.priceAccuracy ?? 2,
-                            onTap: () {
-                              sRouter.push(
-                                ActiveInvestManageRouter(
-                                  instrument: instrument,
-                                  position: getPosition(instrument.symbol ?? ''),
-                                ),
-                              );
-                            },
-                          ),
-                          if (instrument.symbol !=
-                              investPositionsStore.instrumentsList
-                                  .where(
-                                    (element) => getGroupedLength(element.symbol ?? '') == 1,
-                                  )
-                                  .toList()
-                                  .last
-                                  .symbol)
-                            const SDivider(),
-                        ],
+                      for (final position in uniquePositons) ...[
+                        InvestLine(
+                          currency: currencyFrom(currencies, getInstrumentBySymbol(position.symbol ?? '').name ?? ''),
+                          price: investStore.getProfitByPosition(position),
+                          operationType: position.direction ?? Direction.undefined,
+                          isPending: false,
+                          amount: position.amount ?? Decimal.zero,
+                          leverage: Decimal.fromInt(position.multiplicator ?? 0),
+                          isGroup: false,
+                          historyCount: 1,
+                          profit: investStore.getProfitByPosition(position),
+                          profitPercent: investStore.getYieldByPosition(position),
+                          accuracy: getInstrumentBySymbol(position.symbol ?? '').priceAccuracy ?? 2,
+                          onTap: () {
+                            sRouter.push(
+                              ActiveInvestManageRouter(
+                                instrument: getInstrumentBySymbol(position.symbol ?? ''),
+                                position: position,
+                              ),
+                            );
+                          },
+                        ),
+                        const SDivider(),
                       ],
                     ],
                   );
@@ -381,4 +355,48 @@ class ActiveInvestList extends StatelessObserverWidget {
     }
     return positions;
   }
+}
+
+List<InvestPositionModel> _filterOutRepeatedSymbols(List<InvestPositionModel> positions) {
+  final symbolCounts = <String, int>{};
+
+  for (final position in positions) {
+    final symbol = position.symbol;
+
+    if (symbol != null) {
+      symbolCounts[symbol] = (symbolCounts[symbol] ?? 0) + 1;
+    }
+  }
+
+  final filteredPositions = positions.where((position) {
+    final symbol = position.symbol;
+    return symbol != null && symbolCounts[symbol] == 1;
+  }).toList();
+
+  return filteredPositions;
+}
+
+List<InvestPositionModel> _getGroupedUniquePositions(List<InvestPositionModel> positions) {
+  final symbolCounts = <String, int>{};
+  final uniqueGroupedPositions = <String>{};
+  final groupedUniquePositions = <InvestPositionModel>[];
+
+  for (final position in positions) {
+    final symbol = position.symbol;
+
+    if (symbol != null) {
+      symbolCounts[symbol] = (symbolCounts[symbol] ?? 0) + 1;
+    }
+  }
+
+  for (final position in positions) {
+    final symbol = position.symbol;
+
+    if (symbol != null && symbolCounts[symbol]! > 1 && !uniqueGroupedPositions.contains(symbol)) {
+      groupedUniquePositions.add(position);
+      uniqueGroupedPositions.add(symbol);
+    }
+  }
+
+  return groupedUniquePositions;
 }
