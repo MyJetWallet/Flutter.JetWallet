@@ -121,69 +121,84 @@ class _EarnWithdrawalAmountBody extends StatelessWidget {
       builder: (context) {
         return Column(
           children: [
-            deviceSize.when(
-              small: () => const SpaceH40(),
-              medium: () => const Spacer(),
-            ),
-            SNewActionPriceField(
-              widgetSize: widgetSizeFrom(deviceSize),
-              primaryAmount: formatCurrencyStringAmount(
-                value: store.cryptoInputValue,
-              ),
-              primarySymbol: store.cryptoSymbol,
-              secondaryAmount:
-                  '${intl.earn_est} ${marketFormat(decimal: Decimal.parse(store.fiatInputValue), symbol: '', accuracy: store.baseCurrency.accuracy)}',
-              secondarySymbol: store.fiatSymbol,
-              onSwap: null,
-              showSwopButton: false,
-              errorText: store.errorText,
-              optionText: store.cryptoInputValue == '0'
-                  ? '''${intl.earn_max} ${getIt<AppStore>().isBalanceHide ? '**** ${store.cryptoSymbol}' : volumeFormat(decimal: store.withdrawAllValue, accuracy: store.currency.accuracy, symbol: store.cryptoSymbol)}'''
-                  : null,
-              optionOnTap: () {
-                store.onSellAll();
-              },
-              pasteLabel: intl.paste,
-              onPaste: () async {
-                final data = await Clipboard.getData('text/plain');
-                if (data?.text != null) {
-                  final n = double.tryParse(data!.text!);
-                  if (n != null) {
-                    store.pasteValue(n.toString().trim());
-                  }
-                }
-              },
-            ),
-            const Spacer(),
-            SuggestionButtonWidget(
-              title: store.currency.description,
-              subTitle: intl.earn_from_crypto_wallet,
-              trailing:
-                  getIt<AppStore>().isBalanceHide ? '**** ${store.currency.symbol}' : store.currency.volumeAssetBalance,
-              icon: SNetworkSvg24(
-                url: store.currency.iconUrl,
-              ),
-              onTap: () {},
-              showArrow: false,
-            ),
-            const SpaceH8(),
-            SuggestionButtonWidget(
-              title: store.offer.name,
-              subTitle: intl.earn_to_earn,
-              trailing: getIt<AppStore>().isBalanceHide
-                  ? '**** ${store.currency.symbol}'
-                  : volumeFormat(
-                      decimal: store.earnPosition.baseAmount,
-                      accuracy: store.currency.accuracy,
-                      symbol: store.cryptoSymbol,
+            Expanded(
+              child: CustomScrollView(
+                physics: const ClampingScrollPhysics(),
+                slivers: [
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Column(
+                      children: [
+                        deviceSize.when(
+                          small: () => const SpaceH40(),
+                          medium: () => const Spacer(),
+                        ),
+                        SNewActionPriceField(
+                          widgetSize: widgetSizeFrom(deviceSize),
+                          primaryAmount: formatCurrencyStringAmount(
+                            value: store.cryptoInputValue,
+                          ),
+                          primarySymbol: store.cryptoSymbol,
+                          secondaryAmount:
+                              '${intl.earn_est} ${marketFormat(decimal: Decimal.parse(store.fiatInputValue), symbol: '', accuracy: store.baseCurrency.accuracy)}',
+                          secondarySymbol: store.fiatSymbol,
+                          onSwap: null,
+                          showSwopButton: false,
+                          errorText: store.errorText,
+                          optionText: store.cryptoInputValue == '0'
+                              ? '''${intl.earn_max} ${getIt<AppStore>().isBalanceHide ? '**** ${store.cryptoSymbol}' : volumeFormat(decimal: store.withdrawAllValue, accuracy: store.currency.accuracy, symbol: store.cryptoSymbol)}'''
+                              : null,
+                          optionOnTap: () {
+                            store.onSellAll();
+                          },
+                          pasteLabel: intl.paste,
+                          onPaste: () async {
+                            final data = await Clipboard.getData('text/plain');
+                            if (data?.text != null) {
+                              final n = double.tryParse(data!.text!);
+                              if (n != null) {
+                                store.pasteValue(n.toString().trim());
+                              }
+                            }
+                          },
+                        ),
+                        const Spacer(),
+                        SuggestionButtonWidget(
+                          title: store.currency.description,
+                          subTitle: intl.earn_from_crypto_wallet,
+                          trailing: getIt<AppStore>().isBalanceHide
+                              ? '**** ${store.currency.symbol}'
+                              : store.currency.volumeAssetBalance,
+                          icon: SNetworkSvg24(
+                            url: store.currency.iconUrl,
+                          ),
+                          onTap: () {},
+                          showArrow: false,
+                        ),
+                        const SpaceH8(),
+                        SuggestionButtonWidget(
+                          title: store.offer.name,
+                          subTitle: intl.earn_to_earn,
+                          trailing: getIt<AppStore>().isBalanceHide
+                              ? '**** ${store.currency.symbol}'
+                              : volumeFormat(
+                                  decimal: store.earnPosition.baseAmount,
+                                  accuracy: store.currency.accuracy,
+                                  symbol: store.cryptoSymbol,
+                                ),
+                          icon: SNetworkSvg24(
+                            url: store.currency.iconUrl,
+                          ),
+                          onTap: () {},
+                          showArrow: false,
+                        ),
+                        const SpaceH20(),
+                      ],
                     ),
-              icon: SNetworkSvg24(
-                url: store.currency.iconUrl,
+                  ),
+                ],
               ),
-              onTap: () {},
-              showArrow: false,
             ),
-            const SpaceH20(),
             SNumericKeyboardAmount(
               widgetSize: widgetSizeFrom(deviceSize),
               onKeyPressed: (value) {

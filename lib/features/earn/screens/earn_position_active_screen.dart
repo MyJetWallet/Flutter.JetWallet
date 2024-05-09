@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -10,7 +12,7 @@ import 'package:jetwallet/features/earn/widgets/earn_active_position_badge.dart'
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/core/simple_kit.dart';
+import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/widgets/button/main/simple_button.dart';
@@ -48,55 +50,58 @@ class EarnPositionActiveScreen extends StatelessWidget {
 
         final store = Provider.of<EarnStore>(context);
 
-        return Scaffold(
-          backgroundColor: colors.white,
-          body: Column(
+        return SPageFrame(
+          loaderText: '',
+          color: colors.white,
+          header: GlobalBasicAppBar(
+            onRightIconTap: () {
+              sRouter.push(
+                EarnsDetailsRouter(
+                  positionId: earnPosition.id,
+                  assetName: currency.description,
+                ),
+              );
+              sAnalytics.tapOnTheHistoryFromActiveCryptoSavingsButton(
+                assetName: earnPosition.assetId,
+                earnAPYrate: earnPosition.offers.firstOrNull?.apyRate?.toString() ?? Decimal.zero.toString(),
+                earnDepositAmount: earnPosition.baseAmount.toString(),
+                earnOfferStatus: getTextForStatusAnalytics(earnPosition.status),
+                earnPlanName: earnPosition.offers.firstOrNull?.description ?? '',
+                earnWithdrawalType: earnPosition.withdrawType.name,
+                revenue: earnPosition.incomeAmount.toString(),
+              );
+            },
+            onLeftIconTap: () {
+              sAnalytics.tapOnTheBackFromActiveCryptoSavingsButton(
+                earnOfferId: earnPosition.offerId,
+                assetName: earnPosition.assetId,
+                earnAPYrate: earnPosition.offers.firstOrNull?.apyRate?.toString() ?? Decimal.zero.toString(),
+                earnDepositAmount: earnPosition.baseAmount.toString(),
+                earnOfferStatus: getTextForStatusAnalytics(earnPosition.status),
+                earnPlanName: earnPosition.offers.firstOrNull?.description ?? '',
+                earnWithdrawalType: earnPosition.withdrawType.name,
+                revenue: earnPosition.incomeAmount.toString(),
+              );
+            },
+            title: currency.description,
+            rightIcon: Assets.svg.medium.history.simpleSvg(),
+            subtitle: earnPosition.status == EarnPositionStatus.closed
+                ? earnPosition.offerName
+                : earnPosition.offers.firstOrNull?.name,
+          ),
+          child: Column(
             children: [
-              GlobalBasicAppBar(
-                onRightIconTap: () {
-                  sRouter.push(
-                    EarnsDetailsRouter(
-                      positionId: earnPosition.id,
-                      assetName: currency.description,
-                    ),
-                  );
-                  sAnalytics.tapOnTheHistoryFromActiveCryptoSavingsButton(
-                    assetName: earnPosition.assetId,
-                    earnAPYrate: earnPosition.offers.firstOrNull?.apyRate?.toString() ?? Decimal.zero.toString(),
-                    earnDepositAmount: earnPosition.baseAmount.toString(),
-                    earnOfferStatus: getTextForStatusAnalytics(earnPosition.status),
-                    earnPlanName: earnPosition.offers.firstOrNull?.description ?? '',
-                    earnWithdrawalType: earnPosition.withdrawType.name,
-                    revenue: earnPosition.incomeAmount.toString(),
-                  );
-                },
-                onLeftIconTap: () {
-                  sAnalytics.tapOnTheBackFromActiveCryptoSavingsButton(
-                    earnOfferId: earnPosition.offerId,
-                    assetName: earnPosition.assetId,
-                    earnAPYrate: earnPosition.offers.firstOrNull?.apyRate?.toString() ?? Decimal.zero.toString(),
-                    earnDepositAmount: earnPosition.baseAmount.toString(),
-                    earnOfferStatus: getTextForStatusAnalytics(earnPosition.status),
-                    earnPlanName: earnPosition.offers.firstOrNull?.description ?? '',
-                    earnWithdrawalType: earnPosition.withdrawType.name,
-                    revenue: earnPosition.incomeAmount.toString(),
-                  );
-                },
-                title: currency.description,
-                rightIcon: Assets.svg.medium.history.simpleSvg(),
-                subtitle: earnPosition.status == EarnPositionStatus.closed
-                    ? earnPosition.offerName
-                    : earnPosition.offers.firstOrNull?.name,
-              ),
               Expanded(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 24,
-                        right: 24,
+                child: CustomScrollView(
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          left: 24,
+                          right: 24,
+                        ),
+                        child: ActiveEarnWidget(earnPosition: earnPosition),
                       ),
-                      child: ActiveEarnWidget(earnPosition: earnPosition),
                     ),
                   ],
                 ),
