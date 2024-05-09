@@ -14,6 +14,7 @@ import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
@@ -89,21 +90,15 @@ class _SendGloballyAmountScreenBodyState extends State<SendGloballyAmountScreenB
     return SPageFrame(
       loading: store.loader,
       loaderText: intl.register_pleaseWait,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.send_globally,
-          subTitle: '${intl.withdrawalAmount_available}: '
-              '${getIt<AppStore>().isBalanceHide
-              ? '**** ${store.sendCurrency!.symbol}'
-              : volumeFormat(
-            decimal: store.availableBalabce,
-            accuracy: store.sendCurrency!.accuracy,
-            symbol: store.sendCurrency!.symbol,
-          )}',
-          subTitleStyle: sBodyText2Style.copyWith(
-            color: colors.grey1,
-          ),
-        ),
+      header: GlobalBasicAppBar(
+        title: intl.send_globally,
+        subtitle: '${intl.withdrawalAmount_available}: '
+            '${getIt<AppStore>().isBalanceHide ? '**** ${store.sendCurrency!.symbol}' : volumeFormat(
+                decimal: store.availableBalabce,
+                accuracy: store.sendCurrency!.accuracy,
+                symbol: store.sendCurrency!.symbol,
+              )}',
+        hasRightIcon: false,
       ),
       child: Column(
         children: [
