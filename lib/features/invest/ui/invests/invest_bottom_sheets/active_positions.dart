@@ -227,7 +227,11 @@ class ActiveInvestList extends StatelessObserverWidget {
                   } else {
                     positions = investPositionsStore.activeList.toList();
                   }
-                  final groupedPositons = _getGroupedUniquePositions(positions);
+                  final groupedPositons = _getGroupedUniquePositionsSortedByProfit(
+                    positions,
+                    investPositionsStore,
+                    investStore,
+                  );
                   final uniquePositons = _filterOutRepeatedSymbols(positions);
 
                   final sortedUniquePositons = _sortPositons(
@@ -398,9 +402,25 @@ List<InvestPositionModel> _filterOutRepeatedSymbols(List<InvestPositionModel> po
   return filteredPositions;
 }
 
-List<InvestPositionModel> _getGroupedUniquePositions(List<InvestPositionModel> positions) {
+/// Returns the grouped profit for the specified symbol
+Decimal _getGroupedProfit(String symbol, InvestPositionsStore investPositionsStore, InvestDashboardStore investStore) {
+  final groupedPositions = investPositionsStore.activeList.where((position) => position.symbol == symbol).toList();
+  var profit = Decimal.zero;
+
+  for (final position in groupedPositions) {
+    profit += investStore.getProfitByPosition(position);
+  }
+
+  return profit;
+}
+
+List<InvestPositionModel> _getGroupedUniquePositionsSortedByProfit(
+  List<InvestPositionModel> positions,
+  InvestPositionsStore investPositionsStore,
+  InvestDashboardStore investStore,
+) {
   final symbolCounts = <String, int>{};
-  final uniqueGroupedPositions = <String>{};
+  final uniqueGroupedSymbols = <String>{};
   final groupedUniquePositions = <InvestPositionModel>[];
 
   for (final position in positions) {
@@ -414,11 +434,18 @@ List<InvestPositionModel> _getGroupedUniquePositions(List<InvestPositionModel> p
   for (final position in positions) {
     final symbol = position.symbol;
 
-    if (symbol != null && symbolCounts[symbol]! > 1 && !uniqueGroupedPositions.contains(symbol)) {
+    if (symbol != null && symbolCounts[symbol]! > 1 && !uniqueGroupedSymbols.contains(symbol)) {
       groupedUniquePositions.add(position);
-      uniqueGroupedPositions.add(symbol);
+      uniqueGroupedSymbols.add(symbol);
     }
   }
+
+  groupedUniquePositions.sort((a, b) {
+    final profitA = _getGroupedProfit(a.symbol ?? '', investPositionsStore, investStore);
+    final profitB = _getGroupedProfit(b.symbol ?? '', investPositionsStore, investStore);
+
+    return profitB.compareTo(profitA);
+  });
 
   return groupedUniquePositions;
 }
