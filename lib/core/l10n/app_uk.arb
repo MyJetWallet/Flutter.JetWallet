@@ -7796,5 +7796,6 @@
     "prepaid_card_funds_for_purchased": "Кошти за передплачений ваучер не повертаються",
     "prepaid_card_error": "Ваучер на передплачену картку не виданий. Будь ласка, зверніться до служби підтримки, ми постараємось вирішити проблему якнайшвидше.",
     "invest_error_sl_zero": "Рівень StopLoss не може бути ",
-    "invest_error_tp_zero": "Рівень TakeProfit не можу бути "
+    "invest_error_tp_zero": "Рівень TakeProfit не можу бути ",
+    "buy_external_cards": "Сторонні картки"
 }
