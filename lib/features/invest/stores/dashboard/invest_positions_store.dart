@@ -479,18 +479,19 @@ abstract class _InvestPositionsStoreBase with Store {
         );
         loader!.finishLoading();
       } else {
-        if (response.data?.position?.status != PositionStatus.closed) {
+        if (response.data?.position?.status == PositionStatus.closed ||
+            response.data?.position?.status == PositionStatus.cancelled) {
+          Future.delayed(const Duration(seconds: 2), () {
+            loader!.finishLoading();
+            onClose();
+          });
+        } else {
           Timer(
             const Duration(seconds: 1),
             () {
               checkClosedPosition(id, onClose);
             },
           );
-        } else {
-          Future.delayed(const Duration(seconds: 2), () {
-            loader!.finishLoading();
-            onClose();
-          });
         }
       }
     } catch (e) {
