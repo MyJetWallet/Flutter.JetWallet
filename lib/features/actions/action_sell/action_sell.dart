@@ -1,80 +1,52 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
-import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/actions/helpers/show_currency_search.dart';
-import 'package:jetwallet/features/actions/store/action_search_store.dart';
-import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
-import 'package:simple_kit/simple_kit.dart';
-
-import '../../app/store/app_store.dart';
+import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
+import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
+import 'package:jetwallet/features/kyc/kyc_service.dart';
+import 'package:jetwallet/features/sell_flow/widgets/sell_choose_asset_bottom_sheet.dart';
+import 'package:jetwallet/features/sell_flow/widgets/sell_with_bottom_sheet.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 
 void showSellAction(BuildContext context) {
-  final showSearch = showSellCurrencySearch(context);
-  Navigator.pop(context); // close BasicBottomSheet from Menu
-  sShowBasicModalBottomSheet(
-    context: context,
-    scrollable: true,
-    then: (value) {},
-    pinned: ActionBottomSheetHeader(
-      name: intl.actionSell_bottomSheetHeaderName,
-      showSearch: showSearch,
-      onChanged: (String value) {
-        getIt.get<ActionSearchStore>().search(value);
-      },
-    ),
-    horizontalPinnedPadding: 0.0,
-    removePinnedPadding: true,
-    children: [const _ActionSell()],
+  final kyc = getIt.get<KycService>();
+  final handler = getIt.get<KycAlertHandler>();
+  handler.handle(
+    isProgress: kyc.verificationInProgress,
+    currentNavigate: () => _sellAction(context),
+    requiredDocuments: kyc.requiredDocuments,
+    requiredVerifications: kyc.requiredVerifications,
   );
 }
 
-class _ActionSell extends StatelessObserverWidget {
-  const _ActionSell();
-
-  @override
-  Widget build(BuildContext context) {
-    final baseCurrency = sSignalRModules.baseCurrency;
-    final state = getIt.get<ActionSearchStore>();
-
-    final assetWithBalance = <CurrencyModel>[];
-
-    for (final currency in state.filteredCurrencies) {
-      if (currency.baseBalance != Decimal.zero) {
-        assetWithBalance.add(currency);
-      }
-    }
-
-    return Column(
-      children: [
-        for (final currency in assetWithBalance) ...[
-          if (currency.isAssetBalanceNotEmpty)
-            SWalletItem(
-              decline: currency.dayPercentChange.isNegative,
-              icon: SNetworkSvg24(
-                url: currency.iconUrl,
-              ),
-              primaryText: currency.description,
-              amount: getIt<AppStore>().isBalanceHide
-                ? '**** ${baseCurrency.symbol}'
-                : currency.volumeBaseBalance(baseCurrency),
-              secondaryText: getIt<AppStore>().isBalanceHide
-                  ? '******* ${currency.symbol}'
-                  : currency.volumeAssetBalance,
-              removeDivider: currency == assetWithBalance.last,
-              onTap: () {
-                sRouter.navigate(
-                  CurrencySellRouter(currency: currency),
-                );
-              },
-              hideBalance: getIt<AppStore>().isBalanceHide,
+void _sellAction(BuildContext context) {
+  showSellChooseAssetBottomSheet(
+    context: context,
+    onChooseAsset: (currency) {
+      showSellPayWithBottomSheet(
+        context: context,
+        currency: currency,
+        onSelected: ({account, card}) {
+          sRouter.push(
+            AmountRoute(
+              tab: AmountScreenTab.sell,
+              asset: currency,
+              account: account,
+              simpleCard: card,
             ),
-        ],
-      ],
-    );
-  }
+          );
+        },
+        then: (value) {
+          if (value != true) {
+            sAnalytics.tapOnCloseSheetSellToButton();
+          }
+        },
+      );
+    },
+    then: (value) {
+      if (value != true) {
+        sAnalytics.tapOnCloseSheetFromSellButton();
+      }
+    },
+  );
 }

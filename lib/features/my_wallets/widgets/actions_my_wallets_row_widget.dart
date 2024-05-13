@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_buy/action_buy.dart';
+import 'package:jetwallet/features/actions/action_sell/action_sell.dart';
 import 'package:jetwallet/features/actions/action_send/action_send.dart';
-import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/my_wallets/helper/show_select_account_for_add_cash.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
-import 'package:jetwallet/features/sell_flow/widgets/sell_choose_asset_bottom_sheet.dart';
-import 'package:jetwallet/features/sell_flow/widgets/sell_with_bottom_sheet.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_add_cash.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_buy.dart';
@@ -60,35 +57,7 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
                         if (myWalletsSrore.isReordering) {
                           myWalletsSrore.endReorderingImmediately();
                         } else {
-                          showSellChooseAssetBottomSheet(
-                            context: context,
-                            onChooseAsset: (currency) {
-                              showSellPayWithBottomSheet(
-                                context: context,
-                                currency: currency,
-                                onSelected: ({account, card}) {
-                                  sRouter.push(
-                                    AmountRoute(
-                                      tab: AmountScreenTab.sell,
-                                      asset: currency,
-                                      account: account,
-                                      simpleCard: card,
-                                    ),
-                                  );
-                                },
-                                then: (value) {
-                                  if (value != true) {
-                                    sAnalytics.tapOnCloseSheetSellToButton();
-                                  }
-                                },
-                              );
-                            },
-                            then: (value) {
-                              if (value != true) {
-                                sAnalytics.tapOnCloseSheetFromSellButton();
-                              }
-                            },
-                          );
+                          showSellAction(context);
                         }
                       },
                     ),
