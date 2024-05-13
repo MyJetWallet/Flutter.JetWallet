@@ -167,7 +167,9 @@ abstract class _BuyAmountStoreBase with Store {
   }) {
     asset = inputAsset;
     card = inputCard;
-    this.account = account;
+    if (account?.isClearjuctionAccount ?? false) {
+      this.account = account;
+    }
 
     if (category == PaymentMethodCategory.cards) {
       paymentAsset = inputAsset?.buyMethods
