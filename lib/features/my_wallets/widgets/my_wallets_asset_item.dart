@@ -58,9 +58,8 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
       final isSimpleInCreating =
           sSignalRModules.bankingProfileData?.simple?.account?.status == AccountStatus.inCreation;
 
-      final isLoadingState = store.buttonStatus == BankingShowState.inProgress ||
-          isAnyBankAccountInCreating ||
-          isSimpleInCreating;
+      final isLoadingState =
+          store.buttonStatus == BankingShowState.inProgress || isAnyBankAccountInCreating || isSimpleInCreating;
 
       final isCardInCreating = (sSignalRModules.bankingProfileData?.banking?.cards ?? [])
           .where((element) => element.status == AccountStatusCard.inCreation)
@@ -78,21 +77,27 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
         supplement: secondaryText,
         rightValue:
             getIt<AppStore>().isBalanceHide ? '**** ${baseCurrency.symbol}' : currency.volumeBaseBalance(baseCurrency),
-        hasButton: !isMoving,
+        hasButton: !isMoving &&
+            (isLoadingState ||
+                (store.buttonStatus == BankingShowState.getAccount) ||
+                store.buttonStatus == BankingShowState.getAccountBlock),
         isButtonLoading: isLoadingState || isCardInCreating,
         buttonHasRightArrow: !isButtonSmall && !isSimpleInCreating,
-        buttonHasCardIcon: (sSignalRModules
-            .bankingProfileData?.banking
-            ?.cards?.where(
-              (element) =>
-          element.status == AccountStatusCard.active ||
-              element.status == AccountStatusCard.frozen,
-        ).toList().length ?? 0) > 0 && userInfo.isSimpleCardAvailable,
+        buttonHasCardIcon: (sSignalRModules.bankingProfileData?.banking?.cards
+                        ?.where(
+                          (element) =>
+                              element.status == AccountStatusCard.active || element.status == AccountStatusCard.frozen,
+                        )
+                        .toList()
+                        .length ??
+                    0) >
+                0 &&
+            userInfo.isSimpleCardAvailable,
         buttonLabel: isLoadingState
-          ? intl.my_wallets_create_account
-          : isCardInCreating
-          ? intl.my_wallets_card_creating
-          : store.simpleCardButtonText,
+            ? intl.my_wallets_create_account
+            : isCardInCreating
+                ? intl.my_wallets_card_creating
+                : store.simpleCardButtonText,
         isButtonSmall: isButtonSmall,
         isButtonLabelBold: isButtonSmall,
         buttonTap: () {
