@@ -27,10 +27,8 @@ void showSellChooseAssetBottomSheet({
     customCurrencies: currenciesList,
   );
 
-  final showSearch = showBuyCurrencySearch(
+  final showSearch = showSellCurrencySearch(
     context,
-    fromCard: true,
-    searchStore: searchStore,
   );
 
   sortByBalanceAndWeight(searchStore.filteredCurrencies);
