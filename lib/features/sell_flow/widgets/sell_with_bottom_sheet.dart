@@ -88,8 +88,8 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
             assetIcon: Assets.svg.assets.crypto.defaultPlaceholder.simpleSvg(
               width: 24,
             ),
-            label: intl.wallet_crypto_wallet,
-            supplement: intl.wallet_crypto_assets,
+            label: intl.actionDeposit_crypto,
+            supplement: intl.internal_exchange,
             onTableAssetTap: () {
               showConvertToChooseAssetBottomSheet(
                 context: context,
@@ -124,9 +124,7 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
                 width: 24,
               ),
               label: account.label ?? 'Account 1',
-              supplement: account.accountId != 'clearjuction_account'
-                  ? intl.eur_wallet_personal_account
-                  : intl.eur_wallet_simple_account,
+              supplement: intl.internal_exchange,
               onTableAssetTap: () {
                 if (onSelected != null) {
                   onSelected!(account: account);
@@ -149,7 +147,7 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
             for (final card in store.cards)
               SimpleTableAsset(
                 label: card.label ?? 'Simple card',
-                supplement: '${card.cardType?.frontName} ••• ${card.last4NumberCharacters}',
+                supplement: intl.internal_exchange,
                 rightValue: getIt<AppStore>().isBalanceHide
                     ? '**** ${card.currency ?? 'EUR'}'
                     : volumeFormat(
