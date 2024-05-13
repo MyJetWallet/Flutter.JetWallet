@@ -211,13 +211,18 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                               from: [BlockingType.deposit],
                             );
                           } else if (isBuyAvaible) {
-                            showSendTimerAlertOr(
-                              context: context,
-                              or: () => showPayWithBottomSheet(
+                            handler.handle(
+                              isProgress: kycState.verificationInProgress,
+                              currentNavigate: () => showSendTimerAlertOr(
                                 context: context,
-                                currency: actualAsset,
+                                or: () => showPayWithBottomSheet(
+                                  context: context,
+                                  currency: actualAsset,
+                                ),
+                                from: [BlockingType.trade],
                               ),
-                              from: [BlockingType.trade],
+                              requiredDocuments: kycState.requiredDocuments,
+                              requiredVerifications: kycState.requiredVerifications,
                             );
                           } else {
                             handler.handle(
