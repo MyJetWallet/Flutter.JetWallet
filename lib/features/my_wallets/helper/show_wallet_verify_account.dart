@@ -36,7 +36,13 @@ void showWalletVerifyAccount(
 
       sAnalytics.eurWalletTapOnVerifyAccount();
 
+      Future.delayed(const Duration(seconds: 1), () {
+        isClick = false;
+      });
+
       isClick = true;
+
+      Navigator.pop(context);
 
       getIt.get<GlobalLoader>().setLoading(true);
 

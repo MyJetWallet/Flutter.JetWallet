@@ -29,10 +29,13 @@ class KycVerification extends StatefulObserverWidget {
 class _KycVerificationState extends State<KycVerification> {
   bool isPhoneDone = false;
 
+  List<RequiredVerified> requiredVerifications = <RequiredVerified>[];
+
   @override
   void initState() {
     super.initState();
     isPhoneDone = !widget.requiredVerifications.contains(RequiredVerified.proofOfPhone);
+    requiredVerifications = widget.requiredVerifications;
     sAnalytics.kycFlowVerificationScreenView();
   }
 
@@ -41,7 +44,7 @@ class _KycVerificationState extends State<KycVerification> {
     final colors = sKit.colors;
 
     void navigateVerifiedNavigate() {
-      if (widget.requiredVerifications.contains(RequiredVerified.proofOfPhone)) {
+      if (requiredVerifications.contains(RequiredVerified.proofOfPhone)) {
         sRouter.push(
           SetPhoneNumberRouter(
             successText: intl.kycAlertHandler_factorVerificationEnabled,
@@ -51,6 +54,8 @@ class _KycVerificationState extends State<KycVerification> {
               });
 
               sRouter.popUntilRouteWithName(KycVerificationRouter.name);
+
+              requiredVerifications.remove(RequiredVerified.proofOfPhone);
 
               await getIt<SumsubService>().launch(
                 onFinish: () {},
