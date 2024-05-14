@@ -27,27 +27,37 @@ class KycVerification extends StatefulObserverWidget {
 }
 
 class _KycVerificationState extends State<KycVerification> {
+  bool isPhoneDone = false;
+
   @override
   void initState() {
     super.initState();
+    isPhoneDone = !widget.requiredVerifications.contains(RequiredVerified.proofOfPhone);
     sAnalytics.kycFlowVerificationScreenView();
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final isPhoneDone = !widget.requiredVerifications.contains(RequiredVerified.proofOfPhone);
 
     void navigateVerifiedNavigate() {
       if (widget.requiredVerifications.contains(RequiredVerified.proofOfPhone)) {
         sRouter.push(
           SetPhoneNumberRouter(
             successText: intl.kycAlertHandler_factorVerificationEnabled,
-            then: () => sRouter.push(
-              KycVerifyYourProfileRouter(
-                requiredVerifications: widget.requiredVerifications,
-              ),
-            ),
+            then: () async {
+              setState(() {
+                isPhoneDone = true;
+              });
+
+              sRouter.popUntilRouteWithName(KycVerificationRouter.name);
+
+              await getIt<SumsubService>().launch(
+                onFinish: () {},
+                isBanking: false,
+                needPush: false,
+              );
+            },
           ),
         );
       } else {
@@ -106,6 +116,7 @@ class _KycVerificationState extends State<KycVerification> {
             '1',
             isDone: isPhoneDone,
             linkText: intl.provide_information,
+            haveLink: !isPhoneDone,
             linkAction: () {
               navigateVerifiedNavigate();
             },
