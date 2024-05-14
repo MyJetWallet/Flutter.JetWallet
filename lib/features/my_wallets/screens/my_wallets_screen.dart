@@ -20,6 +20,7 @@ import 'package:jetwallet/features/kyc/models/kyc_verified_model.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/features/my_wallets/widgets/actions_my_wallets_row_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/add_wallet_bottom_sheet.dart';
+import 'package:jetwallet/features/my_wallets/widgets/banners_carusel.dart';
 import 'package:jetwallet/features/my_wallets/widgets/change_order_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/my_wallets_asset_item.dart';
 import 'package:jetwallet/features/my_wallets/widgets/pending_transactions_widget.dart';
@@ -375,6 +376,9 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                       ],
                                     ),
                                   ),
+                                const SliverToBoxAdapter(
+                                  child: BannerCarusel(),
+                                ),
                                 if (store.countOfPendingTransactions > 0) ...[
                                   SliverToBoxAdapter(
                                     child: PendingTransactionsWidget(

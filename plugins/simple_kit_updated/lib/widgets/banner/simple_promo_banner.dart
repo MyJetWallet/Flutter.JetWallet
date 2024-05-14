@@ -14,14 +14,15 @@ class SPromoBanner extends StatelessWidget {
 
   final String title;
   final String? description;
-  final Widget promoImage;
+  final ImageProvider<Object> promoImage;
   final void Function() onCloseBannerTap;
   final void Function() onBannerTap;
 
   @override
   Widget build(BuildContext context) {
     final colors = SColorsLight();
-    return Padding(
+    return Container(
+      height: MediaQuery.of(context).size.width * 0.281346,
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: InkWell(
         onTap: onBannerTap,
@@ -35,7 +36,10 @@ class SPromoBanner extends StatelessWidget {
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
-                color: colors.extraLightsBlue,
+                image: DecorationImage(
+                  image: promoImage,
+                  fit: BoxFit.fitWidth,
+                ),
               ),
               child: Row(
                 children: [
@@ -60,7 +64,6 @@ class SPromoBanner extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  promoImage,
                 ],
               ),
             ),

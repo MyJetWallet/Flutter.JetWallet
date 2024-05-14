@@ -26,9 +26,8 @@ class GetCardBanner extends StatelessWidget {
         simpleCardStore.closeBanner();
       },
       title: intl.simple_card_get_card_now,
-      promoImage: Image.asset(
+      promoImage: const AssetImage(
         simpleCardBannerAsset,
-        height: 68,
       ),
     );
   }

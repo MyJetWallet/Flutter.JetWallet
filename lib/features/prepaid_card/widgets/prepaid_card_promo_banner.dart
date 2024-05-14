@@ -33,9 +33,8 @@ class _PrepaidCardPromoBannerBody extends StatelessWidget {
                 onCloseBannerTap: store.onCloseBannerTap,
                 title: intl.prepaid_card_prepaid_card,
                 description: intl.prepaid_card_in_your_profile,
-                promoImage: Image.asset(
+                promoImage: const AssetImage(
                   prepaidCardBanner,
-                  height: 68,
                 ),
               )
             : const Offstage();
