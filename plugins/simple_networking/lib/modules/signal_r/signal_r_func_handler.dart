@@ -4,6 +4,7 @@ import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_withdrawal_fee_model.dart';
 import 'package:simple_networking/modules/signal_r/models/balance_model.dart';
+import 'package:simple_networking/modules/signal_r/models/baner_model.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/base_prices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
@@ -453,6 +454,18 @@ class SignalRFuncHandler {
       final activeEarnPositions = ActiveEarnPositionsMessage.fromJson(_json(data));
 
       sTransport.activeEarnPositions(activeEarnPositions);
+
+      SignalRModuleNew.handlePackage();
+    } catch (e) {
+      instance.handleError(investWalletMessage, e);
+    }
+  }
+
+  void bannerListMessageHandler(List<Object?>? data) {
+    try {
+      final activeEarnPositions = BanersListMessage.fromJson(_json(data));
+
+      sTransport.banersListMessage(activeEarnPositions);
 
       SignalRModuleNew.handlePackage();
     } catch (e) {

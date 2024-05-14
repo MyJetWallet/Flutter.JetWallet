@@ -528,6 +528,12 @@ class SignalRModuleNew {
       earnPositions,
       method: handler.earnPositionsMessageHandler,
     );
+
+    // Baners
+    _hubConnection?.off(
+      bannerList,
+      method: handler.bannerListMessageHandler,
+    );
   }
 
   Future<void> setupMessageHandler() async {
@@ -624,5 +630,8 @@ class SignalRModuleNew {
     _hubConnection?.on(earnPositions, handler.earnPositionsMessageHandler);
 
     _hubConnection?.on(pongMessage, pongMessageHandler);
+
+    // Baners
+    _hubConnection?.on(bannerList, handler.bannerListMessageHandler);
   }
 }

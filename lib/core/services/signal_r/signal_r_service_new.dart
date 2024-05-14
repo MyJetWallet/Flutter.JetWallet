@@ -35,6 +35,7 @@ import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_withdrawal_fee_model.dart';
 import 'package:simple_networking/modules/signal_r/models/balance_model.dart';
+import 'package:simple_networking/modules/signal_r/models/baner_model.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/base_prices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
@@ -1037,6 +1038,13 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
   @action
   void setEarnPositionsData(ActiveEarnPositionsMessage data) {
     activeEarnPositionsMessage = data;
+  }
+
+  @observable
+  BanersListMessage? banersListMessage;
+  @action
+  void setBanersListData(BanersListMessage data) {
+    banersListMessage = data;
   }
 
   @action
