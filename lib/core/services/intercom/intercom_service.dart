@@ -21,9 +21,9 @@ class IntercomService {
   Future<IntercomService> init() async {
     try {
       await Intercom.instance.initialize(
-        const String.fromEnvironment('INTERCOM_APP_ID'),
-        iosApiKey: const String.fromEnvironment('INTERCOM_ANDROID_KEY'),
-        androidApiKey: const String.fromEnvironment('INTERCOM_IOS_KEY'),
+        _appId,
+        iosApiKey: _iOSKey,
+        androidApiKey: _androidKey,
       );
 
       _isInited = true;
