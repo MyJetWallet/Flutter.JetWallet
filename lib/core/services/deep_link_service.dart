@@ -646,7 +646,6 @@ class DeepLinkService {
 
             if (!isEarnAvailable) return;
 
-            await Future.delayed(const Duration(milliseconds: 650));
             sRouter.popUntilRoot();
             getIt<AppStore>().setHomeTab(BottomItemType.earn);
             if (getIt<AppStore>().tabsRouter != null) {
