@@ -6,7 +6,7 @@ part 'baner_model.g.dart';
 @freezed
 class BanersListMessage with _$BanersListMessage {
   const factory BanersListMessage({
-    required List<BanerModel> list,
+    @Default([]) List<BanerModel> banners,
   }) = _BanersListMessage;
 
   factory BanersListMessage.fromJson(Map<String, dynamic> json) => _$BanersListMessageFromJson(json);
@@ -15,12 +15,12 @@ class BanersListMessage with _$BanersListMessage {
 @freezed
 class BanerModel with _$BanerModel {
   const factory BanerModel({
-    required String id,
+    required String bannerId,
     required String title,
     required String description,
     required String cta,
     required String image,
-    required double allign,
+    required double align,
     required String action,
     @Default(BanerType.unclosable) @JsonKey(unknownEnumValue: BanerType.unclosable) BanerType type,
     required int order,

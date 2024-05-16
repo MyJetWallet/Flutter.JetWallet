@@ -1042,37 +1042,14 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
   }
 
   @observable
-  BanersListMessage? banersListMessage = const BanersListMessage(
-    list: [
-      BanerModel(
-        id: '1',
-        title: 'First',
-        description: 'f desc',
-        cta: 'cta',
-        image:
-            'https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-souvenirpixels-417074.jpg&fm=jpg',
-        action:
-            'https://mobile.simple.app/?link=https://simple.app/action/earn_screen&apn=app.simple.com&ibi=app.simple.com&isi=1603406843&efr=1',
-        allign: 0.5,
-        order: 1,
-      ),
-      BanerModel(
-        id: '2',
-        title: 'Second',
-        description: 's desc',
-        cta: 'cta',
-        image:
-            'https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-souvenirpixels-417074.jpg&fm=jpg',
-        action:
-            'https://mobile.simple.app/?link=https://simple.app/action/earn_screen/jw_symbol/TRX&apn=app.simple.com&ibi=app.simple.com&isi=1603406843&efr=1',
-        allign: 0.3,
-        order: 2,
-      ),
-    ],
-  );
+  BanersListMessage banersListMessage = const BanersListMessage();
   @action
   void setBanersListData(BanersListMessage data) {
     banersListMessage = data;
+
+    final banners = [...banersListMessage.banners];
+    banners.sort((a, b) => a.order.compareTo(b.order));
+    banersListMessage = BanersListMessage(banners: banners);
   }
 
   @action

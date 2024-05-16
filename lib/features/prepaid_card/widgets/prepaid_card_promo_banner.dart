@@ -36,6 +36,7 @@ class _PrepaidCardPromoBannerBody extends StatelessWidget {
                 promoImage: const AssetImage(
                   prepaidCardBanner,
                 ),
+                textWidthPercent: 0.5,
               )
             : const Offstage();
       },

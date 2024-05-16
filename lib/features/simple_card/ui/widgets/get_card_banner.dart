@@ -29,6 +29,7 @@ class GetCardBanner extends StatelessWidget {
       promoImage: const AssetImage(
         simpleCardBannerAsset,
       ),
+      textWidthPercent: 0.5,
     );
   }
 }
