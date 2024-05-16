@@ -4,6 +4,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/navigation/carousel/carousel_widget.dart';
 import 'package:simple_networking/modules/signal_r/models/baner_model.dart';
@@ -46,9 +47,17 @@ class _BannerCaruselState extends State<BannerCarusel> with TickerProviderStateM
               for (final baner in banners)
                 SPromoBanner(
                   onBannerTap: () {
+                    sAnalytics.tapOnTheBanner(
+                      bannerId: baner.bannerId,
+                      bannerTitle: baner.title,
+                    );
                     getIt.get<DeepLinkService>().handle(Uri.parse(baner.action));
                   },
                   onCloseBannerTap: () async {
+                    sAnalytics.closeBanner(
+                      bannerId: baner.bannerId,
+                      bannerTitle: baner.title,
+                    );
                     setState(() {
                       banners.removeWhere((element) => element.bannerId == baner.bannerId);
                     });

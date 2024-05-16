@@ -7502,4 +7502,36 @@ class SimpleAnalytics {
       },
     );
   }
+
+  void tapOnTheBanner({
+    required String bannerId,
+    required String bannerTitle,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheBanner,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '613',
+        PropertyType.bannerId: bannerId,
+        PropertyType.bannerTitle: bannerTitle,
+      },
+    );
+  }
+
+  void closeBanner({
+    required String bannerId,
+    required String bannerTitle,
+  }) {
+    _analytics.logEvent(
+      EventType.closeBanner,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '614',
+        PropertyType.bannerId: bannerId,
+        PropertyType.bannerTitle: bannerTitle,
+      },
+    );
+  }
 }
