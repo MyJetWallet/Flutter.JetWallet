@@ -7502,4 +7502,15 @@ class SimpleAnalytics {
       },
     );
   }
+
+  void tapOnTheSellButtonOnWalletsScr() {
+    _analytics.logEvent(
+      EventType.tapOnTheSellButtonOnWalletsScr,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '615',
+      },
+    );
+  }
 }

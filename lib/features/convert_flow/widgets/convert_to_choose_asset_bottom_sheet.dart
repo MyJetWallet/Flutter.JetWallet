@@ -3,6 +3,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/choose_asset_screen.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/di/di.dart';
@@ -17,6 +18,7 @@ void showConvertToChooseAssetBottomSheet({
   String? skipAssetSymbol,
   dynamic Function(dynamic)? then,
 }) {
+  sAnalytics.convertToSheetView();
   final searchStore = getIt.get<ActionSearchStore>();
   final currenciesList = sSignalRModules.currenciesList.where((currency) {
     return currency.symbol != skipAssetSymbol;

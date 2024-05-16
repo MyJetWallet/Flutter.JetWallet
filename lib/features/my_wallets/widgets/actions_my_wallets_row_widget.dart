@@ -54,6 +54,7 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
                     ),
                     CircleActionSell(
                       onTap: () {
+                        sAnalytics.tapOnTheSellButtonOnWalletsScr();
                         if (myWalletsSrore.isReordering) {
                           myWalletsSrore.endReorderingImmediately();
                         } else {

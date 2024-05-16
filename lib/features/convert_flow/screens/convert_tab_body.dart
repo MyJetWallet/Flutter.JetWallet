@@ -146,7 +146,7 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                     sAnalytics.tapOnTheConvertFromButton(
                                       currentFromValueForSell: store.fromAsset?.symbol ?? '',
                                     );
-                                    sAnalytics.convertFromSheetView();
+                                    
                                     showConvertFromChooseAssetBottomSheet(
                                       context: context,
                                       onChooseAsset: (currency) {
@@ -174,7 +174,7 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                     sAnalytics.tapOnTheConvertFromButton(
                                       currentFromValueForSell: store.fromAsset?.symbol ?? '',
                                     );
-                                    sAnalytics.convertFromSheetView();
+                                  
                                     showConvertFromChooseAssetBottomSheet(
                                       context: context,
                                       onChooseAsset: (currency) {
@@ -209,7 +209,7 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                     sAnalytics.tapOnTheConvertToButton(
                                       currentToValueForConvert: store.toAsset?.symbol ?? '',
                                     );
-                                    sAnalytics.convertToSheetView();
+
                                     showConvertToChooseAssetBottomSheet(
                                       context: context,
                                       onChooseAsset: (currency) {
@@ -236,7 +236,7 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                     sAnalytics.tapOnTheConvertToButton(
                                       currentToValueForConvert: store.toAsset?.symbol ?? '',
                                     );
-                                    sAnalytics.convertToSheetView();
+
                                     showConvertToChooseAssetBottomSheet(
                                       context: context,
                                       onChooseAsset: (currency) {
