@@ -59,12 +59,7 @@ void showBuyAction({
       blockingTypeCheck: BlockingType.deposit,
     );
   } else if (isBuyAvaible) {
-    handler.handle(
-      isProgress: kyc.verificationInProgress,
-      currentNavigate: () => _showAction(context: context),
-      requiredDocuments: kyc.requiredDocuments,
-      requiredVerifications: kyc.requiredVerifications,
-    );
+    _showAction(context: context);
   } else {
     handler.handle(
       status: kyc.tradeStatus,
