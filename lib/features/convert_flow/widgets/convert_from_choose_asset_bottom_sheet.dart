@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
@@ -21,6 +22,7 @@ void showConvertFromChooseAssetBottomSheet({
   String? skipAssetSymbol,
   dynamic Function(dynamic)? then,
 }) {
+  sAnalytics.convertFromSheetView();
   final searchStore = getIt.get<ActionSearchStore>();
   final currenciesList = sSignalRModules.currenciesList.where((currency) {
     return (currency.assetBalance != Decimal.zero) && (currency.symbol != skipAssetSymbol);

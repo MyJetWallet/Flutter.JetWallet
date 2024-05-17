@@ -25,6 +25,7 @@ import '../../app/store/app_store.dart';
 
 class ConvertAmountTabBody extends StatefulObserverWidget {
   const ConvertAmountTabBody({
+    super.key,
     this.fromAsset,
     this.toAsset,
   });
@@ -33,10 +34,25 @@ class ConvertAmountTabBody extends StatefulObserverWidget {
   final CurrencyModel? toAsset;
 
   @override
-  State<ConvertAmountTabBody> createState() => _BuyAmountScreenBodyState();
+  State<ConvertAmountTabBody> createState() => ConvertAmountScreenBodyState();
 }
 
-class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with AutomaticKeepAliveClientMixin {
+class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with AutomaticKeepAliveClientMixin {
+  final GlobalKey _key = GlobalKey();
+
+  void updateStorage({
+    CurrencyModel? newFromAsset,
+    CurrencyModel? newToAsset,
+  }) {
+    final contextWithStorage = _key.currentContext;
+    if (contextWithStorage == null) return;
+    final store = ConvertAmountStore.of(contextWithStorage);
+    store.init(
+      newFromAsset: newFromAsset,
+      newToAsset: newToAsset,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -60,6 +76,7 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
             sAnalytics.convertAmountScreenView();
           },
           child: Observer(
+            key: _key,
             builder: (context) {
               return Column(
                 children: [
@@ -129,7 +146,7 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                                     sAnalytics.tapOnTheConvertFromButton(
                                       currentFromValueForSell: store.fromAsset?.symbol ?? '',
                                     );
-                                    sAnalytics.convertFromSheetView();
+
                                     showConvertFromChooseAssetBottomSheet(
                                       context: context,
                                       onChooseAsset: (currency) {
@@ -157,7 +174,7 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                                     sAnalytics.tapOnTheConvertFromButton(
                                       currentFromValueForSell: store.fromAsset?.symbol ?? '',
                                     );
-                                    sAnalytics.convertFromSheetView();
+
                                     showConvertFromChooseAssetBottomSheet(
                                       context: context,
                                       onChooseAsset: (currency) {
@@ -192,22 +209,14 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                                     sAnalytics.tapOnTheConvertToButton(
                                       currentToValueForConvert: store.toAsset?.symbol ?? '',
                                     );
-                                    sAnalytics.convertToSheetView();
+
                                     showConvertToChooseAssetBottomSheet(
                                       context: context,
                                       onChooseAsset: (currency) {
                                         store.setNewToAsset(currency);
-                                        sAnalytics.tapOnSelectedNewConvertToButton(
-                                          newConvertToAsset: currency.symbol,
-                                        );
                                         Navigator.of(context).pop(true);
                                       },
                                       skipAssetSymbol: store.fromAsset?.symbol,
-                                      then: (value) {
-                                        if (value != true) {
-                                          sAnalytics.tapOnCloseSheetConvertToButton();
-                                        }
-                                      },
                                     );
                                   },
                                 )
@@ -219,22 +228,14 @@ class _BuyAmountScreenBodyState extends State<ConvertAmountTabBody> with Automat
                                     sAnalytics.tapOnTheConvertToButton(
                                       currentToValueForConvert: store.toAsset?.symbol ?? '',
                                     );
-                                    sAnalytics.convertToSheetView();
+
                                     showConvertToChooseAssetBottomSheet(
                                       context: context,
                                       onChooseAsset: (currency) {
                                         store.setNewToAsset(currency);
-                                        sAnalytics.tapOnSelectedNewConvertToButton(
-                                          newConvertToAsset: currency.symbol,
-                                        );
                                         Navigator.of(context).pop(true);
                                       },
                                       skipAssetSymbol: store.fromAsset?.symbol,
-                                      then: (value) {
-                                        if (value != true) {
-                                          sAnalytics.tapOnCloseSheetConvertToButton();
-                                        }
-                                      },
                                     );
                                   },
                                 ),

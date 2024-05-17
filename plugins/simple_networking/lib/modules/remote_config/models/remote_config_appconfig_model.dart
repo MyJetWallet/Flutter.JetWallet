@@ -38,6 +38,7 @@ class RemoteConfigAppconfigModel with _$RemoteConfigAppconfigModel {
     @Default(false) bool displayCardPreorderScreen,
     @Default('') String prepaidCardPartnerLink,
     @Default('') String prepaidCardTermsAndConditionsLink,
+    @Default(true) bool useAmplitude,
   }) = _RemoteConfigAppconfigModel;
 
   factory RemoteConfigAppconfigModel.fromJson(Map<String, dynamic> json) => _$RemoteConfigAppconfigModelFromJson(json);

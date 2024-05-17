@@ -17,17 +17,26 @@ class SendEventsService {
 
   int orderIndex = DateTime.now().millisecondsSinceEpoch;
 
+  bool _useAmplitude = true;
+
   Future<void> init(
     String apiKey, {
     String? userId,
     required LogEventFunc logEventFunc,
+    bool useAmplitude = true,
   }) async {
     _logEventFunc = logEventFunc;
-    await _amplitude.init(apiKey);
+    _useAmplitude = useAmplitude;
+
+    if (_useAmplitude) {
+      await _amplitude.init(apiKey);
+    }
   }
 
   Future<void> setUserId(String? userId, {bool? startNewSession}) async {
-    await _amplitude.setUserId(userId);
+    if (_useAmplitude) {
+      await _amplitude.setUserId(userId);
+    }
   }
 
   void updateLogEventFunc(LogEventFunc newLogEventFunc) {
@@ -42,10 +51,12 @@ class SendEventsService {
     try {
       orderIndex++;
       final localOrderIndex = orderIndex;
-      await _amplitude.logEvent(
-        eventType,
-        eventProperties: eventProperties,
-      );
+      if (_useAmplitude) {
+        await _amplitude.logEvent(
+          eventType,
+          eventProperties: eventProperties,
+        );
+      }
 
       await _logEventFunc(
         name: eventType,
