@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/convert_flow/widgets/convert_to_choose_asset_bottom_sheet.dart';
@@ -38,32 +37,25 @@ void showSellPayWithBottomSheet({
       asset: currency,
     );
 
-  if (store.accounts.isNotEmpty) {
-    sShowBasicModalBottomSheet(
-      context: context,
-      then: then,
-      scrollable: true,
-      pinned: ActionBottomSheetHeader(
-        name: intl.sell_amount_sell_to,
-        needBottomPadding: false,
+  sShowBasicModalBottomSheet(
+    context: context,
+    then: then,
+    scrollable: true,
+    pinned: ActionBottomSheetHeader(
+      name: intl.sell_amount_sell_to,
+      needBottomPadding: false,
+    ),
+    horizontalPinnedPadding: 0.0,
+    removePinnedPadding: true,
+    children: [
+      _PaymentMethodScreenBody(
+        asset: currency,
+        onSelected: onSelected,
+        store: store,
+        onSelectedCryptoAsset: onSelectedCryptoAsset,
       ),
-      horizontalPinnedPadding: 0.0,
-      removePinnedPadding: true,
-      children: [
-        _PaymentMethodScreenBody(
-          asset: currency,
-          onSelected: onSelected,
-          store: store,
-          onSelectedCryptoAsset: onSelectedCryptoAsset,
-        ),
-      ],
-    );
-  } else {
-    sNotification.showError(
-      intl.operation_bloked_text,
-      id: 1,
-    );
-  }
+    ],
+  );
 }
 
 class _PaymentMethodScreenBody extends StatelessObserverWidget {
