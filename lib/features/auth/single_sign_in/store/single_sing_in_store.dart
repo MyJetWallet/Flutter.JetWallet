@@ -48,68 +48,68 @@ abstract class _SingleSingInStoreBase with Store {
 
   @action
   Future<void> singleSingIn() async {
-    _logger.log(
-      level: Level.info,
-      place: 'Sign in',
-      message: 'singleSingIn',
-    );
-
-    if (union is Loading) {
+    try {
       _logger.log(
         level: Level.info,
         place: 'Sign in',
-        message: 'union = $union',
+        message: 'singleSingIn',
       );
-      return;
-    }
 
-    _logger.log(
-      level: Level.info,
-      place: 'Sign in',
-      message: 'skip union',
-    );
+      if (union is Loading) {
+        _logger.log(
+          level: Level.info,
+          place: 'Sign in',
+          message: 'union = $union',
+        );
+        return;
+      }
 
-    final deviceInfoModel = sDeviceInfo;
+      _logger.log(
+        level: Level.info,
+        place: 'Sign in',
+        message: 'skip union',
+      );
 
-    _logger.log(
-      level: Level.info,
-      place: 'Sign in',
-      message: deviceInfoModel.toString(),
-    );
+      final deviceInfoModel = sDeviceInfo;
 
-    final appsFlyerService = getIt.get<AppsFlyerService>();
+      _logger.log(
+        level: Level.info,
+        place: 'Sign in',
+        message: deviceInfoModel.toString(),
+      );
 
-    _logger.log(
-      level: Level.info,
-      place: 'Sign in',
-      message: appsFlyerService.toString(),
-    );
+      final appsFlyerService = getIt.get<AppsFlyerService>();
 
-    final appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID() ?? '';
+      _logger.log(
+        level: Level.info,
+        place: 'Sign in',
+        message: appsFlyerService.toString(),
+      );
 
-    _logger.log(
-      level: Level.info,
-      place: 'Sign in',
-      message: appsFlyerID,
-    );
+      final appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID() ?? '';
 
-    final authInfoN = getIt.get<AppStore>();
+      _logger.log(
+        level: Level.info,
+        place: 'Sign in',
+        message: appsFlyerID,
+      );
 
-    _logger.log(
-      level: Level.info,
-      place: 'Sign in',
-      message: authInfoN.toString(),
-    );
+      final authInfoN = getIt.get<AppStore>();
 
-    final credentials = getIt.get<CredentialsService>();
+      _logger.log(
+        level: Level.info,
+        place: 'Sign in',
+        message: authInfoN.toString(),
+      );
 
-    _logger.log(
-      level: Level.info,
-      place: 'Sign in',
-      message: credentials.toString(),
-    );
+      final credentials = getIt.get<CredentialsService>();
 
-    try {
+      _logger.log(
+        level: Level.info,
+        place: 'Sign in',
+        message: credentials.toString(),
+      );
+
       union = const SingleSingInStateUnion.loading();
 
       _logger.log(
