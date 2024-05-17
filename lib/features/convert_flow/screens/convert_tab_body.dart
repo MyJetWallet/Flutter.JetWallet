@@ -146,7 +146,7 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                     sAnalytics.tapOnTheConvertFromButton(
                                       currentFromValueForSell: store.fromAsset?.symbol ?? '',
                                     );
-                                    
+
                                     showConvertFromChooseAssetBottomSheet(
                                       context: context,
                                       onChooseAsset: (currency) {
@@ -174,7 +174,7 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                     sAnalytics.tapOnTheConvertFromButton(
                                       currentFromValueForSell: store.fromAsset?.symbol ?? '',
                                     );
-                                  
+
                                     showConvertFromChooseAssetBottomSheet(
                                       context: context,
                                       onChooseAsset: (currency) {
@@ -214,17 +214,9 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                       context: context,
                                       onChooseAsset: (currency) {
                                         store.setNewToAsset(currency);
-                                        sAnalytics.tapOnSelectedNewConvertToButton(
-                                          newConvertToAsset: currency.symbol,
-                                        );
                                         Navigator.of(context).pop(true);
                                       },
                                       skipAssetSymbol: store.fromAsset?.symbol,
-                                      then: (value) {
-                                        if (value != true) {
-                                          sAnalytics.tapOnCloseSheetConvertToButton();
-                                        }
-                                      },
                                     );
                                   },
                                 )
@@ -241,17 +233,9 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                       context: context,
                                       onChooseAsset: (currency) {
                                         store.setNewToAsset(currency);
-                                        sAnalytics.tapOnSelectedNewConvertToButton(
-                                          newConvertToAsset: currency.symbol,
-                                        );
                                         Navigator.of(context).pop(true);
                                       },
                                       skipAssetSymbol: store.fromAsset?.symbol,
-                                      then: (value) {
-                                        if (value != true) {
-                                          sAnalytics.tapOnCloseSheetConvertToButton();
-                                        }
-                                      },
                                     );
                                   },
                                 ),

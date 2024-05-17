@@ -112,11 +112,6 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
                   }
                 },
                 skipAssetSymbol: asset?.symbol,
-                then: (value) {
-                  if (value != true) {
-                    sAnalytics.tapOnCloseSheetConvertToButton();
-                  }
-                },
               );
             },
             rightValue: !getIt<AppStore>().isBalanceHide

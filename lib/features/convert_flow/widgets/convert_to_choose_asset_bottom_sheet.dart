@@ -38,7 +38,12 @@ void showConvertToChooseAssetBottomSheet({
     context: context,
     scrollable: true,
     expanded: true,
-    then: then,
+    then: (value) {
+      if (value != true) {
+        sAnalytics.tapOnCloseSheetConvertToButton();
+      }
+      then?.call(value);
+    },
     pinned: ActionBottomSheetHeader(
       name: intl.convert_amount_convert_to,
       showSearch: showSearch,
@@ -55,7 +60,12 @@ void showConvertToChooseAssetBottomSheet({
     children: [
       ChooseAssetBody(
         searchStore: searchStore,
-        onChooseAsset: onChooseAsset,
+        onChooseAsset: (currency) {
+          sAnalytics.tapOnSelectedNewConvertToButton(
+            newConvertToAsset: currency.symbol,
+          );
+          onChooseAsset.call(currency);
+        },
       ),
     ],
   );
