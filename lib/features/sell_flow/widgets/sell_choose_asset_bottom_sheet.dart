@@ -21,7 +21,7 @@ void showSellChooseAssetBottomSheet({
 }) {
   final searchStore = getIt.get<ActionSearchStore>();
 
-  final currenciesList = sSignalRModules.currenciesList.where((cyr) => cyr.isAssetBalanceNotEmpty).toList();
+  final currenciesList = sSignalRModules.currenciesList;
 
   searchStore.init(
     customCurrencies: currenciesList,
