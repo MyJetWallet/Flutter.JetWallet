@@ -3,6 +3,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -131,21 +132,29 @@ class ChooseAssetBody extends StatelessObserverWidget {
       children: [
         for (final currency in currencyFiltered) ...[
           if (currency.type == AssetType.crypto)
-            SimpleTableAsset(
-              assetIcon: SNetworkSvg24(
-                url: currency.iconUrl,
-              ),
-              label: currency.description,
-              rightValue: marketFormat(
-                decimal: baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice,
-                symbol: baseCurrency.symbol,
-                accuracy: baseCurrency.accuracy,
-              ),
-              supplement: currency.symbol,
-              isRightValueMarket: true,
-              rightMarketValue: formatPercent(currency.dayPercentChange),
-              rightValueMarketPositive: currency.dayPercentChange > 0,
-              onTableAssetTap: () => onChooseAsset(currency),
+            Builder(
+              builder: (context) {
+                final marketItem = sSignalRModules.getMarketPrices.firstWhere(
+                  (marketItem) => marketItem.symbol == currency.symbol,
+                  orElse: () => MarketItemModel.empty(),
+                );
+                return SimpleTableAsset(
+                  assetIcon: SNetworkSvg24(
+                    url: currency.iconUrl,
+                  ),
+                  label: currency.description,
+                  rightValue: marketFormat(
+                    decimal: baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice,
+                    symbol: baseCurrency.symbol,
+                    accuracy: marketItem.priceAccuracy,
+                  ),
+                  supplement: currency.symbol,
+                  isRightValueMarket: true,
+                  rightMarketValue: formatPercent(currency.dayPercentChange),
+                  rightValueMarketPositive: currency.dayPercentChange > 0,
+                  onTableAssetTap: () => onChooseAsset(currency),
+                );
+              },
             ),
         ],
         const SpaceH42(),
