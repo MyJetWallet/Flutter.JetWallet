@@ -3,12 +3,17 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/bank_card/add_bank_card.dart';
 import 'package:jetwallet/features/buy_flow/store/payment_method_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/payment_methods_widgets/payment_method_cards_widget.dart';
 import 'package:jetwallet/features/cj_banking_accounts/widgets/show_add_cash_from_bottom_sheet.dart';
+import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
+import 'package:jetwallet/features/kyc/kyc_service.dart';
+import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/balances/crypto_balance.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
@@ -16,6 +21,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
@@ -37,28 +43,86 @@ void showPayWithBottomSheet({
       hideCards: hideCards,
     );
 
-  sAnalytics.payWithPMSheetView(
-    destinationWallet: currency?.symbol ?? '',
-    listOfAvailablePMs: [
-      if (store.isCardsAvailable) ...[
-        'New card',
-        ...List.generate(
-          store.cards.length,
-          (index) => 'Saved card ${store.cards[index].last4}',
-        ),
+  if (store.cards.isNotEmpty || store.accounts.isNotEmpty) {
+    sAnalytics.payWithPMSheetView(
+      destinationWallet: currency?.symbol ?? '',
+      listOfAvailablePMs: [
+        if (store.isCardsAvailable) ...[
+          'New card',
+          ...List.generate(
+            store.cards.length,
+            (index) => 'Saved card ${store.cards[index].last4}',
+          ),
+        ],
+        if (store.isBankingAccountsAvaible)
+          ...List.generate(
+            store.accounts.length,
+            (index) {
+              return index == 0
+                  ? 'CJ ${store.accounts[index].last4IbanCharacters}'
+                  : 'Unlimint ${store.accounts[index].last4IbanCharacters}';
+            },
+          ),
       ],
-      if (store.isBankingAccountsAvaible)
-        ...List.generate(
-          store.accounts.length,
-          (index) {
-            return index == 0
-                ? 'CJ ${store.accounts[index].last4IbanCharacters}'
-                : 'Unlimint ${store.accounts[index].last4IbanCharacters}';
-          },
-        ),
-    ],
-  );
+    );
 
+    _showPayWithBottomSheet(
+      context: context,
+      currency: currency,
+      onSelected: onSelected,
+      onSelectedCryptoAsset: onSelectedCryptoAsset,
+      store: store,
+    );
+  } else {
+    final kycState = getIt.get<KycService>();
+    final kycHandler = getIt.get<KycAlertHandler>();
+
+    final isCardsAvailable = sSignalRModules.buyMethods.any((element) => element.id == PaymentMethodType.bankCard);
+
+    final status = kycOperationStatus(KycStatus.allowed);
+    if (!isCardsAvailable) {
+      sNotification.showError(
+        intl.operation_bloked_text,
+        id: 1,
+      );
+    } else if (kycState.depositStatus == status) {
+      _showPayWithBottomSheet(
+        context: context,
+        currency: currency,
+        onSelected: onSelected,
+        onSelectedCryptoAsset: onSelectedCryptoAsset,
+        store: store,
+      );
+    } else {
+      kycHandler.handle(
+        status: kycState.depositStatus,
+        isProgress: kycState.verificationInProgress,
+        currentNavigate: () => _showPayWithBottomSheet(
+          context: context,
+          currency: currency,
+          onSelected: onSelected,
+          onSelectedCryptoAsset: onSelectedCryptoAsset,
+          store: store,
+        ),
+        requiredDocuments: kycState.requiredDocuments,
+        requiredVerifications: kycState.requiredVerifications,
+      );
+    }
+  }
+}
+
+void _showPayWithBottomSheet({
+  required BuildContext context,
+  CurrencyModel? currency,
+  void Function({
+    CircleCard? inputCard,
+    SimpleBankingAccount? account,
+  })? onSelected,
+  void Function({
+    CurrencyModel? newCurrency,
+  })? onSelectedCryptoAsset,
+  required PaymentMethodStore store,
+}) {
   sShowBasicModalBottomSheet(
     context: context,
     then: (value) {
@@ -192,4 +256,35 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
       ),
     );
   }
+}
+
+void _onAddCardTap(BuildContext context, CurrencyModel? asset) {
+  Navigator.push(
+    context,
+    PageRouteBuilder(
+      opaque: false,
+      barrierColor: Colors.white,
+      pageBuilder: (BuildContext _, __, ___) {
+        return AddBankCardScreen(
+          onCardAdded: () {},
+          amount: '',
+          isPreview: true,
+          asset: asset,
+          divideDateAndLabel: true,
+        );
+      },
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(0.0, 1.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    ),
+  );
 }
