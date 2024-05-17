@@ -13,35 +13,35 @@ import '../local_storage_service.dart';
 final sDeviceInfo = getIt.get<DeviceInfo>();
 
 class DeviceInfo {
-  final _deviceUid = Observable('');
+  static final _deviceUid = Observable('Fake_deviceUid');
   String get deviceUid => _deviceUid.value;
   set deviceUid(String newValue) => _deviceUid.value = newValue;
 
-  final _osName = Observable('');
+  static final _osName = Observable('Fake_osName');
   String get osName => _osName.value;
   set osName(String newValue) => _osName.value = newValue;
 
-  final _version = Observable('');
+  static final _version = Observable('Fake_version');
   String get version => _version.value;
   set version(String newValue) => _version.value = newValue;
 
-  final _manufacturer = Observable('');
+  static final _manufacturer = Observable('Fake_manufacturer');
   String get manufacturer => _manufacturer.value;
   set manufacturer(String newValue) => _manufacturer.value = newValue;
 
-  final _model = Observable('');
+  static final _model = Observable('Fake_model');
   String get model => _model.value;
   set model(String newValue) => _model.value = newValue;
 
-  final _sdk = Observable('');
+  static final _sdk = Observable('Fake_sdk');
   String get sdk => _sdk.value;
   set sdk(String newValue) => _sdk.value = newValue;
 
-  final _name = Observable('');
+  static final _name = Observable('Fake_name');
   String get name => _name.value;
   set name(String newValue) => _name.value = newValue;
 
-  final _marketingName = Observable('');
+  static final _marketingName = Observable('Fake_marketingName');
   String get marketingName => _marketingName.value;
   set marketingName(String newValue) => _marketingName.value = newValue;
 
@@ -94,7 +94,8 @@ class DeviceInfo {
             place: 'DeviceInfo',
             message: e.toString(),
           );
-      rethrow;
+
+      return DeviceInfo();
     }
   }
 }
