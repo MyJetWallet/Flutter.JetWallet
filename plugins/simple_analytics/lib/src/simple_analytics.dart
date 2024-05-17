@@ -30,10 +30,12 @@ class SimpleAnalytics {
     required bool techAcc,
     required LogEventFunc logEventFunc,
     String? userEmail,
+    bool useAmplitude = true,
   }) async {
     await _analytics.init(
       environmentKey,
       logEventFunc: logEventFunc,
+      useAmplitude: useAmplitude,
     );
 
     if (userEmail != null) {
