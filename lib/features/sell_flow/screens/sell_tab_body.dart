@@ -143,20 +143,12 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                     sAnalytics.tapOnTheSellFromButton(
                                       currentFromValueForSell: store.asset?.symbol ?? '',
                                     );
-                                    sAnalytics.sellFromSheetView();
+
                                     showSellChooseAssetBottomSheet(
                                       context: context,
                                       onChooseAsset: (currency) {
                                         store.setNewAsset(currency);
                                         Navigator.of(context).pop(true);
-                                        sAnalytics.tapOnSelectedNewSellFromAssetButton(
-                                          newSellFromAsset: currency.symbol,
-                                        );
-                                      },
-                                      then: (value) {
-                                        if (value != true) {
-                                          sAnalytics.tapOnCloseSheetFromSellButton();
-                                        }
                                       },
                                     );
                                   },
@@ -170,17 +162,12 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                     sAnalytics.tapOnTheSellFromButton(
                                       currentFromValueForSell: store.asset?.symbol ?? '',
                                     );
-                                    sAnalytics.sellFromSheetView();
+
                                     showSellChooseAssetBottomSheet(
                                       context: context,
                                       onChooseAsset: (currency) {
                                         store.setNewAsset(currency);
                                         Navigator.of(context).pop(true);
-                                      },
-                                      then: (value) {
-                                        if (value != true) {
-                                          sAnalytics.tapOnCloseSheetFromSellButton();
-                                        }
                                       },
                                     );
                                   },
@@ -216,7 +203,6 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                           ? 'CJ account'
                                           : 'Unlimit account',
                                     );
-                                    sAnalytics.sellToSheetView();
 
                                     showSellPayWithBottomSheet(
                                       context: context,
@@ -226,17 +212,8 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                           newAccount: account,
                                           newCard: card,
                                         );
-                                        sAnalytics.tapOnSelectedNewSellToButton(
-                                          newSellToMethod: account?.isClearjuctionAccount ?? false
-                                              ? 'CJ account'
-                                              : 'Unlimit account',
-                                        );
+
                                         Navigator.of(context).pop(true);
-                                      },
-                                      then: (value) {
-                                        if (value != true) {
-                                          sAnalytics.tapOnCloseSheetSellToButton();
-                                        }
                                       },
                                       onSelectedCryptoAsset: ({newCurrency}) {
                                         widget.navigateToConvert(
@@ -268,7 +245,6 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                           ? 'CJ account'
                                           : 'Unlimit account',
                                     );
-                                    sAnalytics.sellToSheetView();
 
                                     showSellPayWithBottomSheet(
                                       context: context,
@@ -278,17 +254,8 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                           newAccount: account,
                                           newCard: card,
                                         );
-                                        sAnalytics.tapOnSelectedNewSellToButton(
-                                          newSellToMethod: account?.isClearjuctionAccount ?? false
-                                              ? 'CJ account'
-                                              : 'Unlimit account',
-                                        );
+
                                         Navigator.of(context).pop(true);
-                                      },
-                                      then: (value) {
-                                        if (value != true) {
-                                          sAnalytics.tapOnCloseSheetSellToButton();
-                                        }
                                       },
                                       onSelectedCryptoAsset: ({newCurrency}) {
                                         widget.navigateToConvert(
@@ -322,8 +289,6 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                           : 'Unlimit account',
                                     );
 
-                                    sAnalytics.sellToSheetView();
-
                                     showSellPayWithBottomSheet(
                                       context: context,
                                       currency: store.asset,
@@ -332,17 +297,8 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                           newAccount: account,
                                           newCard: card,
                                         );
-                                        sAnalytics.tapOnSelectedNewSellToButton(
-                                          newSellToMethod: account?.isClearjuctionAccount ?? false
-                                              ? 'CJ account'
-                                              : 'Unlimit account',
-                                        );
+
                                         Navigator.of(context).pop(true);
-                                      },
-                                      then: (value) {
-                                        if (value != true) {
-                                          sAnalytics.tapOnCloseSheetSellToButton();
-                                        }
                                       },
                                       onSelectedCryptoAsset: ({newCurrency}) {
                                         widget.navigateToConvert(

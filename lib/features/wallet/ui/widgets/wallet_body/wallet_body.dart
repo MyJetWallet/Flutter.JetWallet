@@ -261,11 +261,6 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                                       ),
                                     );
                                   },
-                                  then: (value) {
-                                    if (value != true) {
-                                      sAnalytics.tapOnCloseSheetSellToButton();
-                                    }
-                                  },
                                 );
                               },
                             ),

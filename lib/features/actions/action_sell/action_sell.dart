@@ -7,7 +7,6 @@ import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/sell_flow/widgets/sell_choose_asset_bottom_sheet.dart';
 import 'package:jetwallet/features/sell_flow/widgets/sell_with_bottom_sheet.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 void showSellAction(BuildContext context) {
@@ -46,17 +45,7 @@ void _sellAction(BuildContext context) {
             ),
           );
         },
-        then: (value) {
-          if (value != true) {
-            sAnalytics.tapOnCloseSheetSellToButton();
-          }
-        },
       );
-    },
-    then: (value) {
-      if (value != true) {
-        sAnalytics.tapOnCloseSheetFromSellButton();
-      }
     },
   );
 }

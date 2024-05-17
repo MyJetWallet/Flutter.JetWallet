@@ -166,11 +166,6 @@ class BalanceActionButtons extends StatelessObserverWidget {
                           ),
                         );
                       },
-                      then: (value) {
-                        if (value != true) {
-                          sAnalytics.tapOnCloseSheetSellToButton();
-                        }
-                      },
                     );
                   },
                   from: [BlockingType.trade],

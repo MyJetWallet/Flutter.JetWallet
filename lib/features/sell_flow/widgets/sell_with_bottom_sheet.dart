@@ -32,6 +32,8 @@ void showSellPayWithBottomSheet({
     CurrencyModel? newCurrency,
   })? onSelectedCryptoAsset,
 }) {
+  sAnalytics.sellToSheetView();
+
   final store = SellPaymentMethodStore()
     ..init(
       asset: currency,
@@ -39,7 +41,12 @@ void showSellPayWithBottomSheet({
 
   sShowBasicModalBottomSheet(
     context: context,
-    then: then,
+    then: (value) {
+      if (value != true) {
+        sAnalytics.tapOnCloseSheetSellToButton();
+      }
+      then?.call(value);
+    },
     scrollable: true,
     pinned: ActionBottomSheetHeader(
       name: intl.sell_amount_sell_to,
@@ -124,6 +131,9 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
               label: account.label ?? 'Account 1',
               supplement: intl.internal_exchange,
               onTableAssetTap: () {
+                sAnalytics.tapOnSelectedNewSellToButton(
+                  newSellToMethod: account.isClearjuctionAccount ? 'CJ account' : 'Unlimit account',
+                );
                 if (onSelected != null) {
                   onSelected!(account: account);
                 } else {
@@ -155,6 +165,9 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
                       ),
                 isCard: true,
                 onTableAssetTap: () {
+                  sAnalytics.tapOnSelectedNewSellToButton(
+                    newSellToMethod: 'Simple card',
+                  );
                   if (onSelected != null) {
                     onSelected!(card: card);
                   } else {
