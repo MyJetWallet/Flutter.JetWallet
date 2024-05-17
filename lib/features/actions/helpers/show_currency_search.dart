@@ -87,6 +87,12 @@ bool showWithdrawalCurrencySearch(BuildContext context) {
   return _displaySearch(assets);
 }
 
+bool showConverToCurrencySearch(BuildContext context) {
+  final state = ActionSearchStore();
+
+  return _displaySearch(state.filteredCurrencies);
+}
+
 bool _displaySearch(List<CurrencyModel> currencies) {
   return currencies.length > _minCurrencies ? true : false;
 }
