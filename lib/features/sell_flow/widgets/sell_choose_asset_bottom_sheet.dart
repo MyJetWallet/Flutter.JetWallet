@@ -22,7 +22,7 @@ void showSellChooseAssetBottomSheet({
 }) {
   sAnalytics.sellFromSheetView();
 
-  final searchStore = getIt.get<ActionSearchStore>();
+  final searchStore = ActionSearchStore();
 
   final currenciesList = sSignalRModules.currenciesList;
 
