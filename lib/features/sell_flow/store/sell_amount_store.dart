@@ -217,6 +217,8 @@ abstract class _SellAmountStoreBase with Store {
     );
     loadLimits();
 
+    _checkShowTosts();
+
     fiatInputValue = '0';
 
     cryptoInputValue = '0';
