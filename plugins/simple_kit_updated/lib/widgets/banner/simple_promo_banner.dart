@@ -37,7 +37,7 @@ class SPromoBanner extends StatelessWidget {
           child: Stack(
             children: [
               Container(
-                padding: const EdgeInsets.only(left: 20, right: 40, top: 20, bottom: 20),
+                padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   image: DecorationImage(
@@ -48,8 +48,8 @@ class SPromoBanner extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    SizedBox(
-                      width: textWidth,
+                    Container(
+                      constraints: BoxConstraints(maxWidth: textWidth),
                       child: Flexible(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
