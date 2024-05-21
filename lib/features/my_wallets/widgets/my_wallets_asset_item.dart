@@ -79,6 +79,7 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
             getIt<AppStore>().isBalanceHide ? '**** ${baseCurrency.symbol}' : currency.volumeBaseBalance(baseCurrency),
         hasButton: !isMoving &&
             (isLoadingState ||
+                isCardInCreating ||
                 (store.buttonStatus == BankingShowState.getAccount) ||
                 store.buttonStatus == BankingShowState.getAccountBlock),
         isButtonLoading: isLoadingState || isCardInCreating,
