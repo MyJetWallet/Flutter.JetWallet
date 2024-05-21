@@ -16,12 +16,12 @@ class BanersListMessage with _$BanersListMessage {
 class BanerModel with _$BanerModel {
   const factory BanerModel({
     required String bannerId,
-    required String title,
-    required String description,
-    required String cta,
-    required String image,
-    required double align,
-    required String action,
+    @Default('') String title,
+    @Default('') String description,
+    String? cta,
+    String? image,
+    @Default(0.5) double align,
+    String? action,
     @Default(BanerType.unclosable) @JsonKey(unknownEnumValue: BanerType.unclosable) BanerType type,
     required int order,
   }) = _BanerModel;

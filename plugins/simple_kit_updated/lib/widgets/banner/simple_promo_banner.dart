@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -14,7 +15,7 @@ class SPromoBanner extends StatelessWidget {
     this.hasCloseButton = true,
   });
 
-  final String title;
+  final String? title;
   final String? description;
   final ImageProvider<Object> promoImage;
   final void Function() onCloseBannerTap;
@@ -36,11 +37,7 @@ class SPromoBanner extends StatelessWidget {
           child: Stack(
             children: [
               Container(
-                padding: const EdgeInsets.only(
-                  left: 20,
-                  right: 40,
-                  top: 20,
-                ),
+                padding: const EdgeInsets.only(left: 20, right: 40, top: 20, bottom: 20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   image: DecorationImage(
@@ -53,21 +50,28 @@ class SPromoBanner extends StatelessWidget {
                   children: [
                     SizedBox(
                       width: textWidth,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            title,
-                            style: STStyles.body1Bold,
-                            maxLines: 3,
-                          ),
-                          if (description != null)
-                            Text(
-                              description!,
-                              style: STStyles.body1Medium,
-                              maxLines: 3,
-                            ),
-                        ],
+                      child: Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (title != null)
+                              Flexible(
+                                child: AutoSizeText(
+                                  title!,
+                                  style: STStyles.body1Bold,
+                                  maxLines: 3,
+                                ),
+                              ),
+                            if (description != null)
+                              Flexible(
+                                child: AutoSizeText(
+                                  description!,
+                                  style: STStyles.body1Medium,
+                                  maxLines: 3,
+                                ),
+                              ),
+                          ],
+                        ),
                       ),
                     ),
                   ],

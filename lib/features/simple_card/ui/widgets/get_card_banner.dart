@@ -8,6 +8,7 @@ import '../../../../core/di/di.dart';
 import '../../../../core/l10n/i10n.dart';
 import '../../store/simple_card_store.dart';
 
+// TODO (Yaroslav): remove this widget
 class GetCardBanner extends StatelessWidget {
   const GetCardBanner({
     super.key,

@@ -52,7 +52,6 @@ const showRateUp = 'showRateUp';
 const rateUpCount = 'rateUpCount';
 const isCardBannerClosed = 'isCardBannerClosed';
 const earnTermsAndConditionsWasChecked = 'earnTermsAndConditionsWasChecked';
-const isPerapaidCardBannerClosed = 'isPerapaidCardBannerClosed';
 
 final sLocalStorageService = getIt.get<LocalStorageService>();
 
@@ -112,7 +111,6 @@ class LocalStorageService {
     final deviceIdUsed = await _storage.read(key: deviceId);
     final isCardBannerClosedUsed = await _storage.read(key: isCardBannerClosed);
     final userLocaleTemp = await _storage.read(key: userLocale);
-    final isPerapaidCardBannerClosedTemp = await _storage.read(key: isPerapaidCardBannerClosed);
     final showRateUpTemp = await _storage.read(key: showRateUp);
     final rateUpCountTemp = await _storage.read(key: rateUpCount);
 
@@ -122,7 +120,6 @@ class LocalStorageService {
     await _storage.write(key: deviceId, value: deviceIdUsed);
     await _storage.write(key: isCardBannerClosed, value: isCardBannerClosedUsed);
     await _storage.write(key: userLocale, value: userLocaleTemp);
-    await _storage.write(key: isPerapaidCardBannerClosed, value: isPerapaidCardBannerClosedTemp);
     await _storage.write(key: showRateUp, value: showRateUpTemp);
     await _storage.write(key: rateUpCount, value: rateUpCountTemp);
   }
@@ -164,7 +161,6 @@ class LocalStorageService {
       final deviceIdUsed = await _storage.read(key: deviceId);
       final isCardBannerClosedUsed = await _storage.read(key: isCardBannerClosed);
       final userLocaleTemp = await _storage.read(key: userLocale);
-      final isPerapaidCardBannerClosedTemp = await _storage.read(key: isPerapaidCardBannerClosed);
       final showRateUpTemp = await _storage.read(key: showRateUp);
       final rateUpCountTemp = await _storage.read(key: rateUpCount);
 
@@ -175,7 +171,6 @@ class LocalStorageService {
       await _storage.write(key: deviceId, value: deviceIdUsed);
       await _storage.write(key: isCardBannerClosed, value: isCardBannerClosedUsed);
       await _storage.write(key: userLocale, value: userLocaleTemp);
-      await _storage.write(key: isPerapaidCardBannerClosed, value: isPerapaidCardBannerClosedTemp);
       await _storage.write(key: showRateUp, value: showRateUpTemp);
       await _storage.write(key: rateUpCount, value: rateUpCountTemp);
     }

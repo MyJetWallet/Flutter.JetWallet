@@ -36,60 +36,65 @@ class _BannerCaruselState extends State<BannerCarusel> with TickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.width * 0.281346,
-          child: TabBarView(
-            controller: controller,
+    return banners.isEmpty
+        ? const Offstage()
+        : Column(
             children: [
-              for (final baner in banners)
-                SPromoBanner(
-                  onBannerTap: () {
-                    sAnalytics.tapOnTheBanner(
-                      bannerId: baner.bannerId,
-                      bannerTitle: baner.title,
-                    );
-                    getIt.get<DeepLinkService>().handle(Uri.parse(baner.action));
-                  },
-                  onCloseBannerTap: () async {
-                    sAnalytics.closeBanner(
-                      bannerId: baner.bannerId,
-                      bannerTitle: baner.title,
-                    );
-                    setState(() {
-                      banners.removeWhere((element) => element.bannerId == baner.bannerId);
-                    });
-
-                    await sNetwork.getWalletModule().postCloseBanner(
-                          CloseBannerRequestModel(
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.width * 0.281346,
+                child: TabBarView(
+                  controller: controller,
+                  children: [
+                    for (final baner in banners)
+                      SPromoBanner(
+                        onBannerTap: () {
+                          sAnalytics.tapOnTheBanner(
                             bannerId: baner.bannerId,
-                          ),
-                        );
-                  },
-                  title: baner.title,
-                  description: baner.description,
-                  promoImage: CachedNetworkImageProvider(
-                    baner.image,
-                  ),
-                  textWidthPercent: baner.align,
-                  hasCloseButton: baner.type == BanerType.closable,
+                            bannerTitle: baner.title,
+                          );
+                          final action = baner.action;
+                          if (action != null) {
+                            getIt.get<DeepLinkService>().handle(Uri.parse(action));
+                          }
+                        },
+                        onCloseBannerTap: () async {
+                          sAnalytics.closeBanner(
+                            bannerId: baner.bannerId,
+                            bannerTitle: baner.title,
+                          );
+                          setState(() {
+                            banners.removeWhere((element) => element.bannerId == baner.bannerId);
+                          });
+
+                          await sNetwork.getWalletModule().postCloseBanner(
+                                CloseBannerRequestModel(
+                                  bannerId: baner.bannerId,
+                                ),
+                              );
+                        },
+                        title: baner.title,
+                        description: baner.description,
+                        promoImage: CachedNetworkImageProvider(
+                          baner.image ?? '',
+                        ),
+                        textWidthPercent: baner.align,
+                        hasCloseButton: baner.type == BanerType.closable,
+                      ),
+                  ],
                 ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 14,
+                ),
+                child: CarouselWidget(
+                  itemsCount: banners.length,
+                  pageIndex: controller.index,
+                ),
+              ),
             ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 24,
-            vertical: 14,
-          ),
-          child: CarouselWidget(
-            itemsCount: banners.length,
-            pageIndex: controller.index,
-          ),
-        ),
-      ],
-    );
+          );
   }
 }
