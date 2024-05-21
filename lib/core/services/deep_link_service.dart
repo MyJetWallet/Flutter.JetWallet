@@ -27,7 +27,9 @@ import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/send_gift/widgets/share_gift_result_bottom_sheet.dart';
+import 'package:jetwallet/features/simple_card/ui/widgets/card_options.dart';
 import 'package:jetwallet/features/withdrawal/model/withdrawal_confirm_model.dart';
+import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
@@ -40,6 +42,7 @@ import 'package:simple_networking/modules/signal_r/models/client_detail_model.da
 import 'local_storage_service.dart';
 import 'remote_config/models/remote_config_union.dart';
 import 'simple_networking/simple_networking.dart';
+import 'user_info/user_info_service.dart';
 
 /// Parameters
 const _code = 'jw_code';
@@ -86,6 +89,9 @@ const _jwParameter = 'jw_parameter';
 
 // Profile screen
 const _profile_screen = 'profile_screen';
+
+// Simple Card
+const _get_simple_card = 'get_simple_card';
 
 const String _loggerService = 'DeepLinkService';
 
@@ -171,6 +177,8 @@ class DeepLinkService {
       showTechToast(parameters);
     } else if (command == _profile_screen) {
       pushProfileScreen(parameters);
+    } else if (command == _get_simple_card) {
+      showGetSimpleCard(parameters);
     } else {
       if (parameters.containsKey('jw_operation_id')) {
         pushCryptoHistory(parameters);
@@ -769,6 +777,39 @@ class DeepLinkService {
         );
 
       default:
+    }
+  }
+
+  Future<void> showGetSimpleCard(
+    Map<String, String> parameters,
+  ) async {
+    final context = sRouter.navigatorKey.currentContext!;
+
+    final kycState = getIt.get<KycService>();
+    final kycBlocked = checkKycBlocked(
+      kycState.depositStatus,
+      kycState.tradeStatus,
+      kycState.withdrawalStatus,
+    );
+    final userInfo = getIt.get<UserInfoService>();
+    final isFlowAvaible = userInfo.isSimpleCardAvailable &&
+        (sSignalRModules.bankingProfileData?.availableCardsCount ?? 0) > 0 &&
+        !kycBlocked;
+
+    if (!isFlowAvaible) return;
+
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      showCardOptions(context);
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            showCardOptions(context);
+          },
+        ),
+      );
     }
   }
 }
