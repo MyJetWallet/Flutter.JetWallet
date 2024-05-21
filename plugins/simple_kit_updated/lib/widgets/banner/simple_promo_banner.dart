@@ -62,6 +62,7 @@ class SPromoBanner extends StatelessWidget {
                                   maxLines: 3,
                                 ),
                               ),
+                            const SizedBox(height: 4),
                             if (description != null)
                               Flexible(
                                 child: AutoSizeText(
