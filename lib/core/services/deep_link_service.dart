@@ -752,6 +752,11 @@ class DeepLinkService {
   Future<void> poshToScreenInProfileScreen(String? pageSympol) async {
     switch (pageSympol) {
       case '1':
+        final isPrepaidCardAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
+            .any((element) => element.id == AssetPaymentProductsEnum.prepaidCard);
+
+        if (!isPrepaidCardAvaible) return;
+
         final kycState = getIt.get<KycService>();
         final handler = getIt.get<KycAlertHandler>();
 
