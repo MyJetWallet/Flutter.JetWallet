@@ -48,6 +48,7 @@ class DeviceInfo {
 
   Future<DeviceInfo> deviceInfo() async {
     try {
+      throw Exception('Feeeeeeeeeeeeeiiiiiiiiiil');
       final deviceInfoPlugin = DeviceInfoPlugin();
       final deviceMarketingPlugin = DeviceMarketingNames();
       const androidIdPlugin = AndroidId();
