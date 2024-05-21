@@ -15,6 +15,7 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
@@ -34,6 +35,7 @@ import 'package:logger/logger.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
+import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 import 'local_storage_service.dart';
 import 'remote_config/models/remote_config_union.dart';
@@ -81,6 +83,9 @@ const _jwSymbol = 'jw_symbol';
 // Tech
 const _techScreen = 'tech_screen';
 const _jwParameter = 'jw_parameter';
+
+// Profile screen
+const _profile_screen = 'profile_screen';
 
 const String _loggerService = 'DeepLinkService';
 
@@ -164,6 +169,8 @@ class DeepLinkService {
       showEarnScreen(parameters);
     } else if (command == _techScreen) {
       showTechToast(parameters);
+    } else if (command == _profile_screen) {
+      pushProfileScreen(parameters);
     } else {
       if (parameters.containsKey('jw_operation_id')) {
         pushCryptoHistory(parameters);
@@ -710,6 +717,58 @@ class DeepLinkService {
           },
         ),
       );
+    }
+  }
+
+  Future<void> pushProfileScreen(
+    Map<String, String> parameters,
+  ) async {
+    final symbol = parameters[_jwSymbol];
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      unawaited(sRouter.push(const AccountRouter()));
+      await poshToScreenInProfileScreen(symbol);
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            unawaited(sRouter.push(const AccountRouter()));
+            await poshToScreenInProfileScreen(symbol);
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> poshToScreenInProfileScreen(String? pageSympol) async {
+    switch (pageSympol) {
+      case '1':
+        final kycState = getIt.get<KycService>();
+        final handler = getIt.get<KycAlertHandler>();
+
+        handler.handle(
+          multiStatus: [
+            kycState.withdrawalStatus,
+          ],
+          isProgress: kycState.verificationInProgress,
+          currentNavigate: () {
+            final context = sRouter.navigatorKey.currentContext;
+            if (context != null) {
+              showSendTimerAlertOr(
+                context: context,
+                from: [BlockingType.withdrawal],
+                or: () {
+                  sRouter.push(const PrepaidCardServiceRouter());
+                },
+              );
+            }
+          },
+          requiredDocuments: kycState.requiredDocuments,
+          requiredVerifications: kycState.requiredVerifications,
+        );
+
+      default:
     }
   }
 }
