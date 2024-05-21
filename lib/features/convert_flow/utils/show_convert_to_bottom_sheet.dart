@@ -7,6 +7,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/convert_flow/utils/show_convert_to_fiat_bottom_sheet.dart';
+import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
@@ -81,6 +82,10 @@ void showConvertToBottomSheet({
                 Builder(
                   builder: (context) {
                     final isEurAsset = currency.symbol == 'EUR';
+                    final marketItem = sSignalRModules.getMarketPrices.firstWhere(
+                      (marketItem) => marketItem.symbol == currency.symbol,
+                      orElse: () => MarketItemModel.empty(),
+                    );
 
                     return SimpleTableAsset(
                       assetIcon: SNetworkSvg24(
@@ -90,7 +95,7 @@ void showConvertToBottomSheet({
                       rightValue: marketFormat(
                         decimal: baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice,
                         symbol: baseCurrency.symbol,
-                        accuracy: baseCurrency.accuracy,
+                        accuracy: marketItem.priceAccuracy,
                       ),
                       supplement: isEurAsset ? null : currency.symbol,
                       isRightValueMarket: true,

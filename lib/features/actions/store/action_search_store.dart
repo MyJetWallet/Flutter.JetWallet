@@ -32,9 +32,9 @@ abstract class _ActionSearchStoreBase with Store {
   @computed
   List<CurrencyModel> get fCurrencies {
     if (searchValue.isEmpty) {
-      return sSignalRModules.currenciesList;
+      return currencies;
     } else {
-      final localCurr = sSignalRModules.currenciesList.toList();
+      final localCurr = currencies.toList();
 
       localCurr.removeWhere((element) {
         return !element.description.toLowerCase().startsWith(searchValue) &&

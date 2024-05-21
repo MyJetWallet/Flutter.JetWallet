@@ -7,11 +7,13 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/credentials_service/credentials_service.dart';
 import 'package:jetwallet/core/services/intercom/intercom_service.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/auth/single_sign_in/models/single_sing_in_union.dart';
 import 'package:jetwallet/features/auth/single_sign_in/store/single_sing_in_store.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
+import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -198,12 +200,40 @@ class _SingInBody extends StatelessObserverWidget {
                         active: credentials.emailIsNotEmptyAndPolicyChecked,
                         name: intl.register_continue,
                         onTap: () {
+                          final logger = getIt.get<SimpleLoggerService>();
+                          logger.log(
+                            level: Level.info,
+                            place: 'Sign in',
+                            message: 'Press button',
+                          );
+                          logger.log(
+                            level: Level.info,
+                            place: 'Sign in',
+                            message: 'credentials.emailValid = ${credentials.emailValid}',
+                          );
                           if (credentials.emailValid) {
                             sAnalytics.signInFlowEmailContinue();
 
+                            logger.log(
+                              level: Level.info,
+                              place: 'Sign in',
+                              message: 'befor signInStore.singleSingIn',
+                            );
+
                             signInStore.singleSingIn();
                           } else {
+                            logger.log(
+                              level: Level.info,
+                              place: 'Sign in',
+                              message: 'befor setIsEmailError(true)',
+                            );
                             SingleSingInStore.of(context).setIsEmailError(true);
+
+                            logger.log(
+                              level: Level.info,
+                              place: 'Sign in',
+                              message: 'befor showError',
+                            );
 
                             sNotification.showError(intl.register_invalidEmail);
                           }

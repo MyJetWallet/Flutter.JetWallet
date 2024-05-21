@@ -88,7 +88,10 @@ class _DepositByBody extends StatelessWidget {
             );
           },
         ),
-        STextDivider(intl.deposit_by_accounts),
+        if (store.isCryptoAvaible ||
+            (store.isAccountsAvaible && store.accounts.isNotEmpty) ||
+            (store.isCardsAvaible && store.cards.isNotEmpty))
+          STextDivider(intl.deposit_by_accounts),
         if (store.isCryptoAvaible) ...[
           SimpleTableAsset(
             label: intl.market_crypto,
