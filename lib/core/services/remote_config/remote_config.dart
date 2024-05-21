@@ -174,6 +174,7 @@ class RemoteConfig {
     displayCardPreorderScreen = remoteConfig!.appConfig.displayCardPreorderScreen;
     prepaidCardPartnerLink = remoteConfig!.appConfig.prepaidCardPartnerLink;
     prepaidCardTermsAndConditionsLink = remoteConfig!.appConfig.prepaidCardTermsAndConditionsLink;
+    useAmplitude = remoteConfig!.appConfig.useAmplitude;
   }
 
   void overrideVersioningValues() {

@@ -30,10 +30,12 @@ class SimpleAnalytics {
     required bool techAcc,
     required LogEventFunc logEventFunc,
     String? userEmail,
+    bool useAmplitude = true,
   }) async {
     await _analytics.init(
       environmentKey,
       logEventFunc: logEventFunc,
+      useAmplitude: useAmplitude,
     );
 
     if (userEmail != null) {
@@ -7531,6 +7533,17 @@ class SimpleAnalytics {
         PropertyType.eventId: '614',
         PropertyType.bannerId: bannerId,
         PropertyType.bannerTitle: bannerTitle,
+      },
+    );
+  }
+
+  void tapOnTheSellButtonOnWalletsScr() {
+    _analytics.logEvent(
+      EventType.tapOnTheSellButtonOnWalletsScr,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '615',
       },
     );
   }

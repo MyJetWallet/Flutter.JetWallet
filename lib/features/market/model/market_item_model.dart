@@ -26,8 +26,25 @@ class MarketItemModel with _$MarketItemModel {
     required int priceAccuracy,
   }) = _MarketItemModel;
 
-  factory MarketItemModel.fromJson(Map<String, dynamic> json) =>
-      _$MarketItemModelFromJson(json);
+  factory MarketItemModel.empty() => MarketItemModel(
+        assetBalance: Decimal.zero,
+        baseBalance: Decimal.zero,
+        dayPriceChange: Decimal.zero,
+        symbol: '',
+        name: '',
+        iconUrl: '',
+        associateAsset: '',
+        associateAssetPair: '',
+        weight: 1,
+        dayPercentChange: 0,
+        startMarketTime: '',
+        type: AssetType.crypto,
+        lastPrice: Decimal.zero,
+        assetAccuracy: 0,
+        priceAccuracy: 0,
+      );
+
+  factory MarketItemModel.fromJson(Map<String, dynamic> json) => _$MarketItemModelFromJson(json);
 
   const MarketItemModel._();
 

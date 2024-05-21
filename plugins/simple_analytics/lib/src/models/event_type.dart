@@ -665,4 +665,5 @@ class EventType {
 
   static const tapOnTheBanner = 'Tap on the banner';
   static const closeBanner = 'Close Banner';
+  static const tapOnTheSellButtonOnWalletsScr = 'Tap on the ‘Sell’ button on wallets scr';
 }

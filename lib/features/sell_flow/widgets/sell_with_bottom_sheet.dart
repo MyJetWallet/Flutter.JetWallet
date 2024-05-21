@@ -3,13 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
-import 'package:jetwallet/features/buy_flow/ui/widgets/payment_methods_widgets/balances_widget.dart';
+import 'package:jetwallet/features/convert_flow/widgets/convert_to_choose_asset_bottom_sheet.dart';
 import 'package:jetwallet/features/sell_flow/store/sell_payment_method_store.dart';
+import 'package:jetwallet/utils/balances/crypto_balance.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
@@ -24,32 +28,41 @@ void showSellPayWithBottomSheet({
     CardDataModel? card,
   })? onSelected,
   dynamic Function(dynamic)? then,
+  void Function({
+    CurrencyModel? newCurrency,
+  })? onSelectedCryptoAsset,
 }) {
+  sAnalytics.sellToSheetView();
+
   final store = SellPaymentMethodStore()
     ..init(
       asset: currency,
     );
 
-  if (store.accounts.isNotEmpty) {
-    sShowBasicModalBottomSheet(
-      context: context,
-      then: then,
-      scrollable: true,
-      pinned: ActionBottomSheetHeader(
-        name: intl.sell_amount_sell_to,
-        needBottomPadding: false,
+  sShowBasicModalBottomSheet(
+    context: context,
+    then: (value) {
+      if (value != true) {
+        sAnalytics.tapOnCloseSheetSellToButton();
+      }
+      then?.call(value);
+    },
+    scrollable: true,
+    pinned: ActionBottomSheetHeader(
+      name: intl.sell_amount_sell_to,
+      needBottomPadding: false,
+    ),
+    horizontalPinnedPadding: 0.0,
+    removePinnedPadding: true,
+    children: [
+      _PaymentMethodScreenBody(
+        asset: currency,
+        onSelected: onSelected,
+        store: store,
+        onSelectedCryptoAsset: onSelectedCryptoAsset,
       ),
-      horizontalPinnedPadding: 0.0,
-      removePinnedPadding: true,
-      children: [
-        _PaymentMethodScreenBody(
-          asset: currency,
-          onSelected: onSelected,
-          store: store,
-        ),
-      ],
-    );
-  }
+    ],
+  );
 }
 
 class _PaymentMethodScreenBody extends StatelessObserverWidget {
@@ -57,6 +70,7 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
     required this.asset,
     required this.store,
     this.onSelected,
+    this.onSelectedCryptoAsset,
   });
 
   final CurrencyModel? asset;
@@ -65,15 +79,56 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
     CardDataModel? card,
   })? onSelected;
   final SellPaymentMethodStore store;
+  final void Function({
+    CurrencyModel? newCurrency,
+  })? onSelectedCryptoAsset;
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
-          if (store.accounts.isNotEmpty) ...[
-            BalancesWidget(
-              onTap: (account) {
+          STextDivider(intl.sell_amount_accounts),
+          SimpleTableAsset(
+            assetIcon: Assets.svg.assets.crypto.defaultPlaceholder.simpleSvg(
+              width: 24,
+            ),
+            label: intl.actionDeposit_crypto,
+            supplement: intl.internal_exchange,
+            onTableAssetTap: () {
+              showConvertToChooseAssetBottomSheet(
+                context: context,
+                onChooseAsset: (currency) {
+                  if (onSelectedCryptoAsset != null) {
+                    onSelectedCryptoAsset?.call(newCurrency: currency);
+                  } else {
+                    sRouter.push(
+                      AmountRoute(
+                        tab: AmountScreenTab.convert,
+                        asset: asset,
+                        toAsset: currency,
+                      ),
+                    );
+                  }
+                },
+                skipAssetSymbol: asset?.symbol,
+              );
+            },
+            rightValue: !getIt<AppStore>().isBalanceHide
+                ? calculateCryptoBalance()
+                : '**** ${sSignalRModules.baseCurrency.symbol}',
+          ),
+          for (final account in store.accounts)
+            SimpleTableAsset(
+              assetIcon: Assets.svg.assets.fiat.account.simpleSvg(
+                width: 24,
+              ),
+              label: account.label ?? 'Account 1',
+              supplement: intl.internal_exchange,
+              onTableAssetTap: () {
+                sAnalytics.tapOnSelectedNewSellToButton(
+                  newSellToMethod: account.isClearjuctionAccount ? 'CJ account' : 'Unlimit account',
+                );
                 if (onSelected != null) {
                   onSelected!(account: account);
                 } else {
@@ -86,24 +141,28 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
                   );
                 }
               },
-              accounts: store.accounts,
+              rightValue: getIt<AppStore>().isBalanceHide
+                  ? '**** ${account.currency}'
+                  : '${account.balance} ${account.currency}',
             ),
-          ],
           if (store.isCardsAvaible && store.cards.isNotEmpty) ...[
             STextDivider(intl.deposit_by_cards),
             for (final card in store.cards)
               SimpleTableAsset(
                 label: card.label ?? 'Simple card',
-                supplement: '${card.cardType?.frontName} ••• ${card.last4NumberCharacters}',
+                supplement: intl.internal_exchange,
                 rightValue: getIt<AppStore>().isBalanceHide
-                  ? '**** ${card.currency ?? 'EUR'}'
-                  : volumeFormat(
-                    decimal: card.balance ?? Decimal.zero,
-                    accuracy: 2,
-                    symbol: card.currency ?? 'EUR',
-                  ),
+                    ? '**** ${card.currency ?? 'EUR'}'
+                    : volumeFormat(
+                        decimal: card.balance ?? Decimal.zero,
+                        accuracy: 2,
+                        symbol: card.currency ?? 'EUR',
+                      ),
                 isCard: true,
                 onTableAssetTap: () {
+                  sAnalytics.tapOnSelectedNewSellToButton(
+                    newSellToMethod: 'Simple card',
+                  );
                   if (onSelected != null) {
                     onSelected!(card: card);
                   } else {

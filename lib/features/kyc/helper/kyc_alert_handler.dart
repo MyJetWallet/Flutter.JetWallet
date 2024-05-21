@@ -1,12 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
-import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/features/kyc/helper/show_kyc_popup.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
@@ -188,24 +185,9 @@ class KycAlertHandler {
     List<RequiredVerified> requiredVerifications,
     List<KycDocumentType> documents,
   ) {
-    if (requiredVerifications.contains(RequiredVerified.proofOfPhone)) {
-      sRouter.push(
-        SetPhoneNumberRouter(
-          successText: intl.kycAlertHandler_factorVerificationEnabled,
-          then: () => sRouter.push(
-            KycVerifyYourProfileRouter(
-              requiredVerifications: requiredVerifications,
-            ),
-          ),
-        ),
-      );
-    } else {
-      unawaited(
-        getIt<SumsubService>().launch(
-          isBanking: false,
-        ),
-      );
-    }
+    sRouter.push(
+      KycVerificationRouter(requiredVerifications: requiredVerifications),
+    );
   }
 
   void _navigateTo(Function() currentNavigate, bool navigatePop) {

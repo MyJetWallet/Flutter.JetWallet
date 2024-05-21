@@ -100,6 +100,7 @@ class StartupService {
         }
       },
       userEmail: parsedEmail,
+      useAmplitude: useAmplitude,
     );
 
     if (getIt<AppStore>().afterInstall) {

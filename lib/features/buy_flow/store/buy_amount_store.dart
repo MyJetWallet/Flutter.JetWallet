@@ -76,7 +76,7 @@ abstract class _BuyAmountStoreBase with Store {
   bool get isContinueAvaible {
     return inputValid &&
         Decimal.parse(primaryAmount) != Decimal.zero &&
-        (account != null || card != null) &&
+        ((account != null && (account?.isNotEmptyBalance ?? false)) || card != null) &&
         asset != null;
   }
 
@@ -167,7 +167,9 @@ abstract class _BuyAmountStoreBase with Store {
   }) {
     asset = inputAsset;
     card = inputCard;
-    this.account = account;
+    if (account?.isClearjuctionAccount ?? false) {
+      this.account = account;
+    }
 
     if (category == PaymentMethodCategory.cards) {
       paymentAsset = inputAsset?.buyMethods
@@ -182,6 +184,8 @@ abstract class _BuyAmountStoreBase with Store {
     );
 
     loadLimits();
+
+    _checkShowTosts();
 
     Timer(
       const Duration(milliseconds: 500),
@@ -203,6 +207,28 @@ abstract class _BuyAmountStoreBase with Store {
               sAnalytics.tapOnTheGotItButtonOnUnsupportedCurrencyScreen();
               Navigator.pop(sRouter.navigatorKey.currentContext!);
             },
+          );
+        }
+      },
+    );
+  }
+
+  @action
+  void _checkShowTosts() {
+    var isNoBalance = false;
+
+    if (account != null && !(account?.isNotEmptyBalance ?? false)) {
+      isNoBalance = true;
+    }
+
+    Timer(
+      const Duration(milliseconds: 200),
+      () {
+        if (isNoBalance) {
+          sNotification.showError(
+            intl.error_message_insufficient_funds,
+            id: 1,
+            isError: false,
           );
         }
       },
@@ -262,6 +288,8 @@ abstract class _BuyAmountStoreBase with Store {
     errorText = null;
 
     _validateInput();
+
+    _checkShowTosts();
   }
 
   @action

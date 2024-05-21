@@ -1,10 +1,10 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
@@ -20,20 +20,18 @@ void showSellChooseAssetBottomSheet({
   required void Function(CurrencyModel currency) onChooseAsset,
   dynamic Function(dynamic)? then,
 }) {
-  final searchStore = getIt.get<ActionSearchStore>();
+  sAnalytics.sellFromSheetView();
 
-  final currenciesList = sSignalRModules.currenciesList.where((currency) {
-    return currency.assetBalance != Decimal.zero;
-  }).toList();
+  final searchStore = ActionSearchStore();
+
+  final currenciesList = sSignalRModules.currenciesList;
 
   searchStore.init(
     customCurrencies: currenciesList,
   );
 
-  final showSearch = showBuyCurrencySearch(
+  final showSearch = showSellCurrencySearch(
     context,
-    fromCard: true,
-    searchStore: searchStore,
   );
 
   sortByBalanceAndWeight(searchStore.filteredCurrencies);
@@ -42,7 +40,12 @@ void showSellChooseAssetBottomSheet({
     context: context,
     scrollable: true,
     expanded: showSearch,
-    then: then,
+    then: (value) {
+      if (value != true) {
+        sAnalytics.tapOnCloseSheetFromSellButton();
+      }
+      then?.call(value);
+    },
     pinned: ActionBottomSheetHeader(
       name: intl.amount_screen_sell,
       showSearch: showSearch,
@@ -84,9 +87,6 @@ class _ChooseAssetBody extends StatelessObserverWidget {
 
     return Column(
       children: [
-        STextDivider(
-          intl.sell_amount_cryptocurrencies,
-        ),
         for (final currency in state.searchCurrencies) ...[
           if (currency.type == AssetType.crypto)
             Builder(
@@ -108,6 +108,9 @@ class _ChooseAssetBody extends StatelessObserverWidget {
                       : currency.volumeBaseBalance(baseCurrency),
                   supplement: secondaryText,
                   onTableAssetTap: () {
+                    sAnalytics.tapOnSelectedNewSellFromAssetButton(
+                      newSellFromAsset: currency.symbol,
+                    );
                     onChooseAsset(currency);
                   },
                 );

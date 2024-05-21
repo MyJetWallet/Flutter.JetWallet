@@ -62,6 +62,8 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
 
   int _currentTabIndex = 0;
 
+  final GlobalKey<ConvertAmountScreenBodyState> _keyConvertTab = GlobalKey();
+
   @override
   void initState() {
     final isShowTransferTab = checkNeedForTransferTab();
@@ -212,14 +214,35 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
                 BuyAmountTabBody(
                   asset: widget.asset,
                   card: widget.card,
-                  account: (widget.account?.isNotEmptyBalance ?? false) ? widget.account : null,
+                  account: widget.account,
+                  navigateToConvert: ({required fromAsset, required toAsset}) async {
+                    sRouter.popUntilRouteWithName(AmountRoute.name);
+
+                    tabController.animateTo(2);
+                    await Future.delayed(const Duration(milliseconds: 500));
+                    _keyConvertTab.currentState?.updateStorage(
+                      newFromAsset: fromAsset,
+                      newToAsset: toAsset,
+                    );
+                  },
                 ),
                 SellAmountTabBody(
                   asset: widget.asset,
                   account: widget.account,
                   simpleCard: widget.simpleCard,
+                  navigateToConvert: ({required fromAsset, required toAsset}) async {
+                    sRouter.popUntilRouteWithName(AmountRoute.name);
+
+                    tabController.animateTo(2);
+                    await Future.delayed(const Duration(milliseconds: 500));
+                    _keyConvertTab.currentState?.updateStorage(
+                      newFromAsset: fromAsset,
+                      newToAsset: toAsset,
+                    );
+                  },
                 ),
                 ConvertAmountTabBody(
+                  key: _keyConvertTab,
                   fromAsset: widget.tab != AmountScreenTab.buy ? widget.asset : null,
                   toAsset: widget.toAsset ?? (widget.tab == AmountScreenTab.buy ? widget.asset : null),
                 ),

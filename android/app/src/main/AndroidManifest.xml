@@ -28,8 +28,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="Simple"
         android:usesCleartextTraffic="true"
-        android:allowBackup="true"
-        android:fullBackupContent="true"
+        android:allowBackup="false"
+        android:fullBackupContent="false"
         tools:replace="android:fullBackupContent">
         <activity
             android:name=".MainActivity"
