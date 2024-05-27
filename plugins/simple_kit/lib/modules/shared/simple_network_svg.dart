@@ -81,17 +81,7 @@ class SNetworkCachedSvg extends StatelessWidget {
     return FutureBuilder(
       future: DefaultCacheManager().getSingleFile(url),
       builder: (context, AsyncSnapshot<File> snapshot) {
-        return snapshot.hasData
-            ? SvgPicture.file(
-                snapshot.data!,
-                width: width,
-                height: height,
-                color: color,
-                placeholderBuilder: (_) {
-                  return placeholder;
-                },
-              )
-            : placeholder;
+        return placeholder;
       },
     );
   }

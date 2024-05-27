@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:android_id/android_id.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:device_marketing_names/device_marketing_names.dart';
+import 'package:flutter/foundation.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:logger/logger.dart';
@@ -53,6 +54,9 @@ class DeviceInfo {
       final deviceMarketingName = await deviceMarketingPlugin.getSingleName();
       final storageService = getIt.get<LocalStorageService>();
       final deviceIdUsed = await storageService.getValue(deviceId);
+      if (kIsWeb) {
+        throw Exception();
+      }
 
       if (Platform.isAndroid) {
         final androidInfo = await deviceInfoPlugin.androidInfo;

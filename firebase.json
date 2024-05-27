@@ -1,0 +1,22 @@
+{
+  "flutter": {
+    "platforms": {
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "todoflutter-7865e",
+          "configurations": {
+            "web": "1:143182019421:web:d6928c993fe716343f46b4"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "/",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

@@ -30,9 +30,9 @@ class IntercomService {
 
       sRouter.addListener(() {
         if (sRouter.stack.any((rout) => rout.name == 'HomeRouter')) {
-          Intercom.instance.setInAppMessagesVisibility(IntercomVisibility.visible);
+         // Intercom.instance.setInAppMessagesVisibility(IntercomVisibility.visible);
         } else {
-          Intercom.instance.setInAppMessagesVisibility(IntercomVisibility.gone);
+         // Intercom.instance.setInAppMessagesVisibility(IntercomVisibility.gone);
         }
       });
 

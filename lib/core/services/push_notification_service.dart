@@ -6,6 +6,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
+import 'package:jetwallet/firebase_options.dart';
 import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -64,7 +65,7 @@ class PushNotificationService {
 
     if (await Permission.notification.isGranted) {
       FirebaseMessaging.onMessage.listen(_onMessage);
-      
+
       await _plugin.initialize(
         initializationSettings,
         onDidReceiveNotificationResponse: (details) async {
@@ -179,7 +180,9 @@ class PushNotificationService {
 /// background message handler must be a top-level function
 /// (e.g. not a class method which requires initialization)
 Future<void> messagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   await getIt.get<DeepLinkService>().handlePushNotificationLink(message);
 
@@ -192,7 +195,9 @@ Future<void> messagingBackgroundHandler(RemoteMessage message) async {
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   await getIt.get<DeepLinkService>().handlePushNotificationLink(message);
 
