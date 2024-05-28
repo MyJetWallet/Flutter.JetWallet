@@ -29,7 +29,6 @@ import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/send_gift/widgets/share_gift_result_bottom_sheet.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/card_options.dart';
 import 'package:jetwallet/features/withdrawal/model/withdrawal_confirm_model.dart';
-import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
@@ -790,30 +789,79 @@ class DeepLinkService {
   Future<void> showGetSimpleCard(
     Map<String, String> parameters,
   ) async {
-    final context = sRouter.navigatorKey.currentContext!;
-
-    final kycState = getIt.get<KycService>();
-    final kycBlocked = checkKycBlocked(
-      kycState.depositStatus,
-      kycState.tradeStatus,
-      kycState.withdrawalStatus,
-    );
-    final userInfo = getIt.get<UserInfoService>();
-    final isFlowAvaible = userInfo.isSimpleCardAvailable &&
-        (sSignalRModules.bankingProfileData?.availableCardsCount ?? 0) > 0 &&
-        !kycBlocked;
-
-    if (!isFlowAvaible) return;
-
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
-      showCardOptions(context);
+      final context = sRouter.navigatorKey.currentContext!;
+
+      final kycState = getIt.get<KycService>();
+      final handler = getIt.get<KycAlertHandler>();
+
+      final userInfo = getIt.get<UserInfoService>();
+      final isFlowAvaible =
+          userInfo.isSimpleCardAvailable && (sSignalRModules.bankingProfileData?.availableCardsCount ?? 0) > 0;
+
+      if (!isFlowAvaible) return;
+      handler.handle(
+        multiStatus: [
+          kycState.depositStatus,
+          kycState.tradeStatus,
+          kycState.withdrawalStatus,
+        ],
+        isProgress: kycState.verificationInProgress,
+        currentNavigate: () {
+          showSendTimerAlertOr(
+            context: context,
+            from: [
+              BlockingType.withdrawal,
+              BlockingType.deposit,
+              BlockingType.trade,
+            ],
+            or: () {
+              showCardOptions(context);
+            },
+          );
+        },
+        requiredDocuments: kycState.requiredDocuments,
+        requiredVerifications: kycState.requiredVerifications,
+      );
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
           func: () async {
-            showCardOptions(context);
+            final context = sRouter.navigatorKey.currentContext!;
+
+            final kycState = getIt.get<KycService>();
+            final handler = getIt.get<KycAlertHandler>();
+
+            final userInfo = getIt.get<UserInfoService>();
+            final isFlowAvaible =
+                userInfo.isSimpleCardAvailable && (sSignalRModules.bankingProfileData?.availableCardsCount ?? 0) > 0;
+
+            if (!isFlowAvaible) return;
+            handler.handle(
+              multiStatus: [
+                kycState.depositStatus,
+                kycState.tradeStatus,
+                kycState.withdrawalStatus,
+              ],
+              isProgress: kycState.verificationInProgress,
+              currentNavigate: () {
+                showSendTimerAlertOr(
+                  context: context,
+                  from: [
+                    BlockingType.withdrawal,
+                    BlockingType.deposit,
+                    BlockingType.trade,
+                  ],
+                  or: () {
+                    showCardOptions(context);
+                  },
+                );
+              },
+              requiredDocuments: kycState.requiredDocuments,
+              requiredVerifications: kycState.requiredVerifications,
+            );
           },
         ),
       );
