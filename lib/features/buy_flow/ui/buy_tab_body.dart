@@ -108,11 +108,11 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                                 ),
                                 primarySymbol: store.primarySymbol,
                                 secondaryAmount: store.asset != null
-                                    ? volumeFormat(
+                                    ? '${intl.earn_est} ${volumeFormat(
                                         decimal: Decimal.parse(store.secondaryAmount),
                                         symbol: '',
                                         accuracy: store.secondaryAccuracy,
-                                      )
+                                      )}'
                                     : null,
                                 secondarySymbol: store.asset != null ? store.secondarySymbol : null,
                                 onSwap: () {
