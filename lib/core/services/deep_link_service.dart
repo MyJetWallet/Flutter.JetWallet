@@ -27,6 +27,7 @@ import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/send_gift/widgets/share_gift_result_bottom_sheet.dart';
+import 'package:jetwallet/features/simple_card/store/simple_card_store.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/card_options.dart';
 import 'package:jetwallet/features/withdrawal/model/withdrawal_confirm_model.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
@@ -37,6 +38,7 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 
 import 'local_storage_service.dart';
 import 'remote_config/models/remote_config_union.dart';
@@ -91,6 +93,7 @@ const _profile_screen = 'profile_screen';
 
 // Simple Card
 const _get_simple_card = 'get_simple_card';
+const _card_screen = 'card_screen';
 
 const String _loggerService = 'DeepLinkService';
 
@@ -178,6 +181,8 @@ class DeepLinkService {
       pushProfileScreen(parameters);
     } else if (command == _get_simple_card) {
       showGetSimpleCard(parameters);
+    } else if (command == _card_screen) {
+      pushSimpleCardScreen(parameters);
     } else {
       if (parameters.containsKey('jw_operation_id')) {
         pushCryptoHistory(parameters);
@@ -861,6 +866,67 @@ class DeepLinkService {
               },
               requiredDocuments: kycState.requiredDocuments,
               requiredVerifications: kycState.requiredVerifications,
+            );
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> pushSimpleCardScreen(
+    Map<String, String> parameters,
+  ) async {
+    final cardID = parameters[_jwParameter];
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      final allCards = sSignalRModules.bankingProfileData?.banking?.cards?.where(
+            (element) =>
+                element.status != AccountStatusCard.inactive && element.status != AccountStatusCard.unsupported,
+          ) ??
+          [];
+      if (allCards.isEmpty) return;
+      final card = allCards.firstWhere(
+        (card) => card.cardId == cardID,
+        orElse: () => allCards.first,
+      );
+      final simpleCardStore = getIt.get<SimpleCardStore>();
+      unawaited(simpleCardStore.initFullCardIn(card.cardId ?? ''));
+      await sRouter.push(
+        SimpleCardRouter(
+          isAddCashAvailable: sSignalRModules.currenciesList
+              .where((currency) {
+                return currency.assetBalance != Decimal.zero;
+              })
+              .toList()
+              .isNotEmpty,
+        ),
+      );
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            final allCards = sSignalRModules.bankingProfileData?.banking?.cards?.where(
+                  (element) =>
+                      element.status != AccountStatusCard.inactive && element.status != AccountStatusCard.unsupported,
+                ) ??
+                [];
+            if (allCards.isEmpty) return;
+            final card = allCards.firstWhere(
+              (card) => card.cardId == cardID,
+              orElse: () => allCards.first,
+            );
+            final simpleCardStore = getIt.get<SimpleCardStore>();
+            unawaited(simpleCardStore.initFullCardIn(card.cardId ?? ''));
+            await sRouter.push(
+              SimpleCardRouter(
+                isAddCashAvailable: sSignalRModules.currenciesList
+                    .where((currency) {
+                      return currency.assetBalance != Decimal.zero;
+                    })
+                    .toList()
+                    .isNotEmpty,
+              ),
             );
           },
         ),
