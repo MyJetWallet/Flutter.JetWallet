@@ -736,14 +736,14 @@ class DeepLinkService {
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
       unawaited(sRouter.push(const AccountRouter()));
-      await Future.delayed(const Duration(microseconds: 650));
+      await Future.delayed(const Duration(milliseconds: 650));
       await poshToScreenInProfileScreen(symbol);
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
           func: () async {
             unawaited(sRouter.push(const AccountRouter()));
-            await Future.delayed(const Duration(microseconds: 650));
+            await Future.delayed(const Duration(milliseconds: 650));
             await poshToScreenInProfileScreen(symbol);
           },
         ),
