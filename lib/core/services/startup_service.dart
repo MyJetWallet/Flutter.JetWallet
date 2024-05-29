@@ -350,8 +350,10 @@ class StartupService {
       const uuid = Uuid();
 
       final installID = uuid.v1();
+      final storageService = getIt.get<LocalStorageService>();
 
       await getIt<LocalCacheService>().saveInstallID(installID);
+      final utmSource = await storageService.getValue(utmSourceKey);
 
       final packageInfo = getIt.get<PackageInfoService>().info;
 
@@ -365,6 +367,7 @@ class StartupService {
         idfa: await AppTrackingTransparency.getAdvertisingIdentifier(),
         idfv: sDeviceInfo.deviceUid,
         adid: '',
+        utmSource: utmSource,
       );
 
       final _ = await getIt.get<SNetwork>().simpleNetworkingUnathorized.getAuthModule().postInstall(

@@ -205,8 +205,9 @@ abstract class _EmailVerificationStoreBase with Store {
 
     final storageService = sLocalStorageService;
     final rsaService = getIt.get<RsaService>();
-
     final authInfo = getIt.get<AppStore>();
+
+    final utmSource = await storageService.getValue(utmSourceKey);
 
     rsaService.init();
     await rsaService.savePrivateKey(storageService);
@@ -218,6 +219,7 @@ abstract class _EmailVerificationStoreBase with Store {
         code: controller.text,
         publicKeyPem: publicKey,
         email: authInfo.authState.email,
+        utmSource: utmSource,
       );
 
       final response =

@@ -51,6 +51,7 @@ const _code = 'jw_code';
 const _command = 'jw_command';
 const _operationId = 'jw_operation_id';
 const _email = 'jw_email';
+const _utmSource = 'utm_source';
 
 // when parameters come in "/" format as part of the link
 const _action = 'action';
@@ -135,6 +136,11 @@ class DeepLinkService {
     }
 
     final command = parameters[_command];
+    final utmSource = parameters[_utmSource];
+
+    if (utmSource != null) {
+      _saveUtmSourse(utm: utmSource);
+    }
 
     getIt.get<SimpleLoggerService>().log(
           level: Level.info,
@@ -923,5 +929,12 @@ class DeepLinkService {
         ),
       );
     }
+  }
+
+  Future<void> _saveUtmSourse({required String utm}) async {
+    final encodedUtm = Uri.decodeFull(utm);
+    final storageService = getIt.get<LocalStorageService>();
+
+    await storageService.setString(utmSourceKey, encodedUtm);
   }
 }
