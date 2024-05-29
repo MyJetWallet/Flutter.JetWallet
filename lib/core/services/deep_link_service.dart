@@ -272,8 +272,7 @@ class DeepLinkService {
           (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
               .where((element) => element.id == AssetPaymentProductsEnum.rewardsOnboardingProgram)
               .isNotEmpty) {
-        getIt<BottomBarStore>().setHomeTab(BottomItemType.rewards);
-      } else {
+        sRouter.popUntilRoot();
         getIt<BottomBarStore>().setHomeTab(BottomItemType.rewards);
       }
     }
