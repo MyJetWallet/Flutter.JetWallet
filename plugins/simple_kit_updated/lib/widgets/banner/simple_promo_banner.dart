@@ -48,31 +48,31 @@ class SPromoBanner extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    Container(
+                    ConstrainedBox(
                       constraints: BoxConstraints(maxWidth: textWidth),
-                      child: Flexible(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            if (title != null)
-                              Flexible(
-                                child: AutoSizeText(
-                                  title!,
-                                  style: STStyles.body1Bold,
-                                  maxLines: 3,
-                                ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (title != null)
+                            Flexible(
+                              child: AutoSizeText(
+                                title ?? '',
+                                style: STStyles.body1Bold,
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                            const SizedBox(height: 4),
-                            if (description != null)
-                              Flexible(
-                                child: AutoSizeText(
-                                  description!,
-                                  style: STStyles.body1Medium,
-                                  maxLines: 3,
-                                ),
+                            ),
+                          const SizedBox(height: 4),
+                          if (description != null)
+                            Flexible(
+                              child: AutoSizeText(
+                                description ?? '',
+                                style: STStyles.body1Medium,
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                          ],
-                        ),
+                            ),
+                        ],
                       ),
                     ),
                   ],
