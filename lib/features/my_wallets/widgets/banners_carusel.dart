@@ -42,7 +42,7 @@ class _BannerCaruselState extends State<BannerCarusel> with TickerProviderStateM
             children: [
               SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.width * 0.281346,
+                height: (MediaQuery.of(context).size.width - 48) * 0.281346,
                 child: TabBarView(
                   controller: controller,
                   children: [

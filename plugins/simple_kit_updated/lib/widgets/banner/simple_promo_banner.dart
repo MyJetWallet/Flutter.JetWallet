@@ -38,8 +38,10 @@ class SPromoBanner extends StatelessWidget {
             children: [
               Container(
                 padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
+                decoration: ShapeDecoration(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
                   image: DecorationImage(
                     image: promoImage,
                     fit: BoxFit.fitWidth,
@@ -53,25 +55,32 @@ class SPromoBanner extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (title != null)
-                            Flexible(
-                              child: AutoSizeText(
-                                title ?? '',
-                                style: STStyles.body1Bold,
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
+                          Flexible(
+                            child: AutoSizeText.rich(
+                              TextSpan(
+                                children: [
+                                  if (title != null)
+                                    TextSpan(
+                                      text: title ?? '',
+                                      style: STStyles.body1Bold,
+                                    ),
+                                  if (description != null && title != null)
+                                    TextSpan(
+                                      text: '\n',
+                                      style: STStyles.body1Medium,
+                                    ),
+                                  if (description != null)
+                                    TextSpan(
+                                      text: description ?? '',
+                                      style: STStyles.body1Medium,
+                                    ),
+                                ],
                               ),
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                              minFontSize: 10,
                             ),
-                          const SizedBox(height: 4),
-                          if (description != null)
-                            Flexible(
-                              child: AutoSizeText(
-                                description ?? '',
-                                style: STStyles.body1Medium,
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
+                          ),
                         ],
                       ),
                     ),
