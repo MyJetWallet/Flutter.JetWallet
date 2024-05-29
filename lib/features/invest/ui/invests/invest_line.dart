@@ -33,6 +33,7 @@ class InvestLine extends StatelessObserverWidget {
     required this.accuracy,
     required this.onTap,
     this.priceAccuracy = 2,
+    this.isClosedPosition = false,
   });
 
   final CurrencyModel currency;
@@ -48,6 +49,7 @@ class InvestLine extends StatelessObserverWidget {
   final int accuracy;
   final int priceAccuracy;
   final Function() onTap;
+  final bool isClosedPosition;
 
   @override
   Widget build(BuildContext context) {
@@ -182,16 +184,24 @@ class InvestLine extends StatelessObserverWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(
-                    isBalanceHide
-                        ? '****'
-                        : isPending
-                            ? marketFormat(decimal: price, accuracy: priceAccuracy, symbol: '')
-                            : marketFormat(decimal: profit, accuracy: priceAccuracy, symbol: ''),
-                    style: STStyles.body2InvestB.copyWith(
-                      color: colors.black,
+                  if (isClosedPosition)
+                    Text(
+                      isBalanceHide ? '****' : marketFormat(decimal: price, accuracy: priceAccuracy, symbol: ''),
+                      style: STStyles.body2InvestB.copyWith(
+                        color: colors.black,
+                      ),
+                    )
+                  else
+                    Text(
+                      isBalanceHide
+                          ? '****'
+                          : isPending
+                              ? marketFormat(decimal: price, accuracy: priceAccuracy, symbol: '')
+                              : marketFormat(decimal: profit, accuracy: priceAccuracy, symbol: ''),
+                      style: STStyles.body2InvestB.copyWith(
+                        color: colors.black,
+                      ),
                     ),
-                  ),
                   if (!isPending) ...[
                     const SpaceH2(),
                     Row(
