@@ -20,15 +20,35 @@ class BannerCarusel extends StatefulWidget {
 class _BannerCaruselState extends State<BannerCarusel> with TickerProviderStateMixin {
   late final TabController controller;
 
+  int _selectedIndex = 0;
+
   @override
   void initState() {
     controller = TabController(
+      initialIndex: _selectedIndex,
       length: banners.length,
       vsync: this,
     );
-    controller.addListener(() {
-      setState(() {});
-    });
+    controller.animation!.addListener(
+      () {
+        if (controller.indexIsChanging) {
+          if (_selectedIndex != controller.index) {
+            setState(() {
+              _selectedIndex = controller.index;
+            });
+          }
+        } else {
+          final temp = controller.animation!.value.round();
+          if (_selectedIndex != temp) {
+            setState(() {
+              _selectedIndex = temp;
+            });
+
+            controller.index = _selectedIndex;
+          }
+        }
+      },
+    );
     super.initState();
   }
 
@@ -91,7 +111,7 @@ class _BannerCaruselState extends State<BannerCarusel> with TickerProviderStateM
                 ),
                 child: CarouselWidget(
                   itemsCount: banners.length,
-                  pageIndex: controller.index,
+                  pageIndex: _selectedIndex,
                 ),
               ),
             ],
