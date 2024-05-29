@@ -580,9 +580,11 @@ class DeepLinkService {
               ),
             );
           } else {
+            sRouter.popUntilRoot();
             getIt<BottomBarStore>().setHomeTab(BottomItemType.market);
           }
         } else {
+          sRouter.popUntilRoot();
           getIt<BottomBarStore>().setHomeTab(BottomItemType.market);
         }
       }
