@@ -15,6 +15,7 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
@@ -22,10 +23,13 @@ import 'package:jetwallet/features/auth/email_verification/store/email_verificat
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
 import 'package:jetwallet/features/earn/store/earn_store.dart';
 import 'package:jetwallet/features/earn/widgets/offers_overlay_content.dart';
+import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/send_gift/widgets/share_gift_result_bottom_sheet.dart';
+import 'package:jetwallet/features/simple_card/store/simple_card_store.dart';
+import 'package:jetwallet/features/simple_card/ui/widgets/card_options.dart';
 import 'package:jetwallet/features/withdrawal/model/withdrawal_confirm_model.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
@@ -34,10 +38,13 @@ import 'package:logger/logger.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
+import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 
 import 'local_storage_service.dart';
 import 'remote_config/models/remote_config_union.dart';
 import 'simple_networking/simple_networking.dart';
+import 'user_info/user_info_service.dart';
 
 /// Parameters
 const _code = 'jw_code';
@@ -81,6 +88,13 @@ const _jwSymbol = 'jw_symbol';
 // Tech
 const _techScreen = 'tech_screen';
 const _jwParameter = 'jw_parameter';
+
+// Profile screen
+const _profile_screen = 'profile_screen';
+
+// Simple Card
+const _get_simple_card = 'get_simple_card';
+const _card_screen = 'card_screen';
 
 const String _loggerService = 'DeepLinkService';
 
@@ -164,6 +178,12 @@ class DeepLinkService {
       showEarnScreen(parameters);
     } else if (command == _techScreen) {
       showTechToast(parameters);
+    } else if (command == _profile_screen) {
+      pushProfileScreen(parameters);
+    } else if (command == _get_simple_card) {
+      showGetSimpleCard(parameters);
+    } else if (command == _card_screen) {
+      pushSimpleCardScreen(parameters);
     } else {
       if (parameters.containsKey('jw_operation_id')) {
         pushCryptoHistory(parameters);
@@ -254,15 +274,9 @@ class DeepLinkService {
           (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
               .where((element) => element.id == AssetPaymentProductsEnum.rewardsOnboardingProgram)
               .isNotEmpty) {
-        getIt<AppStore>().setHomeTab(BottomItemType.rewards);
-        if (getIt<AppStore>().tabsRouter != null) {
-          getIt<AppStore>().tabsRouter!.setActiveIndex(3);
-        }
+        getIt<BottomBarStore>().setHomeTab(BottomItemType.rewards);
       } else {
-        getIt<AppStore>().setHomeTab(BottomItemType.rewards);
-        if (getIt<AppStore>().tabsRouter != null) {
-          getIt<AppStore>().tabsRouter!.setActiveIndex(0);
-        }
+        getIt<BottomBarStore>().setHomeTab(BottomItemType.rewards);
       }
     }
 
@@ -567,16 +581,10 @@ class DeepLinkService {
               ),
             );
           } else {
-            getIt<AppStore>().setHomeTab(BottomItemType.market);
-            if (getIt<AppStore>().tabsRouter != null) {
-              getIt<AppStore>().tabsRouter!.setActiveIndex(1);
-            }
+            getIt<BottomBarStore>().setHomeTab(BottomItemType.market);
           }
         } else {
-          getIt<AppStore>().setHomeTab(BottomItemType.market);
-          if (getIt<AppStore>().tabsRouter != null) {
-            getIt<AppStore>().tabsRouter!.setActiveIndex(1);
-          }
+          getIt<BottomBarStore>().setHomeTab(BottomItemType.market);
         }
       }
     }
@@ -630,10 +638,8 @@ class DeepLinkService {
       if (!isEarnAvailable) return;
       await Future.delayed(const Duration(milliseconds: 650));
       sRouter.popUntilRoot();
-      getIt<AppStore>().setHomeTab(BottomItemType.earn);
-      if (getIt<AppStore>().tabsRouter != null) {
-        getIt<AppStore>().tabsRouter!.setActiveIndex(2);
-      }
+      getIt<BottomBarStore>().setHomeTab(BottomItemType.earn);
+
       if (symbol != null) {
         await _openEarnOffersBottomSheet(symbol);
       }
@@ -646,12 +652,9 @@ class DeepLinkService {
 
             if (!isEarnAvailable) return;
 
-            await Future.delayed(const Duration(milliseconds: 650));
             sRouter.popUntilRoot();
-            getIt<AppStore>().setHomeTab(BottomItemType.earn);
-            if (getIt<AppStore>().tabsRouter != null) {
-              getIt<AppStore>().tabsRouter!.setActiveIndex(2);
-            }
+            getIt<BottomBarStore>().setHomeTab(BottomItemType.earn);
+
             if (symbol != null) {
               await _openEarnOffersBottomSheet(symbol);
             }
@@ -707,6 +710,214 @@ class DeepLinkService {
               'Hi, it is tech popup to test deeplink. Parameter: $paremetr',
               id: 1,
               isError: false,
+            );
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> pushProfileScreen(
+    Map<String, String> parameters,
+  ) async {
+    final symbol = parameters[_jwSymbol];
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      final isAccountRouterNow = sRouter.stack.any((rout) => rout.name == AccountRouter.name);
+      if (!isAccountRouterNow) {
+        unawaited(sRouter.push(const AccountRouter()));
+      }
+      await Future.delayed(const Duration(milliseconds: 650));
+      await poshToScreenInProfileScreen(symbol);
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            final isAccountRouterNow = sRouter.stack.any((rout) => rout.name == AccountRouter.name);
+            if (!isAccountRouterNow) {
+              unawaited(sRouter.push(const AccountRouter()));
+            }
+            await Future.delayed(const Duration(milliseconds: 650));
+            await poshToScreenInProfileScreen(symbol);
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> poshToScreenInProfileScreen(String? pageSympol) async {
+    switch (pageSympol) {
+      case '1':
+        final isPrepaidCardAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
+            .any((element) => element.id == AssetPaymentProductsEnum.prepaidCard);
+
+        if (!isPrepaidCardAvaible) return;
+
+        final kycState = getIt.get<KycService>();
+        final handler = getIt.get<KycAlertHandler>();
+
+        handler.handle(
+          multiStatus: [
+            kycState.withdrawalStatus,
+          ],
+          isProgress: kycState.verificationInProgress,
+          currentNavigate: () {
+            final context = sRouter.navigatorKey.currentContext;
+            if (context != null) {
+              showSendTimerAlertOr(
+                context: context,
+                from: [BlockingType.withdrawal],
+                or: () {
+                  sRouter.push(const PrepaidCardServiceRouter());
+                },
+              );
+            }
+          },
+          requiredDocuments: kycState.requiredDocuments,
+          requiredVerifications: kycState.requiredVerifications,
+        );
+
+      default:
+    }
+  }
+
+  Future<void> showGetSimpleCard(
+    Map<String, String> parameters,
+  ) async {
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      final context = sRouter.navigatorKey.currentContext!;
+
+      final kycState = getIt.get<KycService>();
+      final handler = getIt.get<KycAlertHandler>();
+
+      final userInfo = getIt.get<UserInfoService>();
+      final isFlowAvaible =
+          userInfo.isSimpleCardAvailable && (sSignalRModules.bankingProfileData?.availableCardsCount ?? 0) > 0;
+
+      if (!isFlowAvaible) return;
+      handler.handle(
+        multiStatus: [
+          kycState.depositStatus,
+          kycState.tradeStatus,
+          kycState.withdrawalStatus,
+        ],
+        isProgress: kycState.verificationInProgress,
+        currentNavigate: () {
+          showSendTimerAlertOr(
+            context: context,
+            from: [
+              BlockingType.withdrawal,
+              BlockingType.deposit,
+              BlockingType.trade,
+            ],
+            or: () {
+              showCardOptions(context);
+            },
+          );
+        },
+        requiredDocuments: kycState.requiredDocuments,
+        requiredVerifications: kycState.requiredVerifications,
+      );
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            final context = sRouter.navigatorKey.currentContext!;
+
+            final kycState = getIt.get<KycService>();
+            final handler = getIt.get<KycAlertHandler>();
+
+            final userInfo = getIt.get<UserInfoService>();
+            final isFlowAvaible =
+                userInfo.isSimpleCardAvailable && (sSignalRModules.bankingProfileData?.availableCardsCount ?? 0) > 0;
+
+            if (!isFlowAvaible) return;
+            handler.handle(
+              multiStatus: [
+                kycState.depositStatus,
+                kycState.tradeStatus,
+                kycState.withdrawalStatus,
+              ],
+              isProgress: kycState.verificationInProgress,
+              currentNavigate: () {
+                showSendTimerAlertOr(
+                  context: context,
+                  from: [
+                    BlockingType.withdrawal,
+                    BlockingType.deposit,
+                    BlockingType.trade,
+                  ],
+                  or: () {
+                    showCardOptions(context);
+                  },
+                );
+              },
+              requiredDocuments: kycState.requiredDocuments,
+              requiredVerifications: kycState.requiredVerifications,
+            );
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> pushSimpleCardScreen(
+    Map<String, String> parameters,
+  ) async {
+    final cardID = parameters[_jwParameter];
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      final allCards = sSignalRModules.bankingProfileData?.banking?.cards?.where(
+            (element) =>
+                element.status != AccountStatusCard.inactive && element.status != AccountStatusCard.unsupported,
+          ) ??
+          [];
+      if (allCards.isEmpty) return;
+      final card = allCards.firstWhere(
+        (card) => card.cardId == cardID,
+        orElse: () => allCards.first,
+      );
+      final simpleCardStore = getIt.get<SimpleCardStore>();
+      unawaited(simpleCardStore.initFullCardIn(card.cardId ?? ''));
+      await sRouter.push(
+        SimpleCardRouter(
+          isAddCashAvailable: sSignalRModules.currenciesList
+              .where((currency) {
+                return currency.assetBalance != Decimal.zero;
+              })
+              .toList()
+              .isNotEmpty,
+        ),
+      );
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            final allCards = sSignalRModules.bankingProfileData?.banking?.cards?.where(
+                  (element) =>
+                      element.status != AccountStatusCard.inactive && element.status != AccountStatusCard.unsupported,
+                ) ??
+                [];
+            if (allCards.isEmpty) return;
+            final card = allCards.firstWhere(
+              (card) => card.cardId == cardID,
+              orElse: () => allCards.first,
+            );
+            final simpleCardStore = getIt.get<SimpleCardStore>();
+            unawaited(simpleCardStore.initFullCardIn(card.cardId ?? ''));
+            await sRouter.push(
+              SimpleCardRouter(
+                isAddCashAvailable: sSignalRModules.currenciesList
+                    .where((currency) {
+                      return currency.assetBalance != Decimal.zero;
+                    })
+                    .toList()
+                    .isNotEmpty,
+              ),
             );
           },
         ),

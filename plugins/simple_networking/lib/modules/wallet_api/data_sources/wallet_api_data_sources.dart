@@ -14,6 +14,7 @@ import 'package:simple_networking/modules/wallet_api/models/apple_pay_response_m
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_request.dart';
+import 'package:simple_networking/modules/wallet_api/models/banners/close_banner_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/base_asset/get_base_assets_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/base_asset/set_base_assets_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/calculate_earn_offer_apy/calculate_earn_offer_apy_request_model.dart';
@@ -3727,6 +3728,30 @@ class WalletApiDataSources {
         final data = handleFullResponse<List>(responseData);
 
         return DC.data(BuyPrepaidCardIntentionDtoListResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  // Banners
+  Future<DC<ServerRejectException, bool>> postCloseBannerRequest(
+    CloseBannerRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/banner/close-banner',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        handleResultResponse(responseData);
+
+        return DC.data(true);
       } catch (e) {
         rethrow;
       }

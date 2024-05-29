@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/simple_card/store/simple_card_store.dart';
@@ -34,11 +35,9 @@ const _expandedCardHeight = 270.0;
 class SimpleCardScreen extends StatefulObserverWidget {
   const SimpleCardScreen({
     super.key,
-    required this.eurCurrency,
     required this.isAddCashAvailable,
   });
 
-  final CurrencyModel eurCurrency;
   final bool isAddCashAvailable;
 
   @override
@@ -83,6 +82,11 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
 
     final kycState = getIt.get<KycService>();
     final handler = getIt.get<KycAlertHandler>();
+
+    final eurCurrency = sSignalRModules.currenciesList.firstWhere(
+      (asset) => asset.symbol == 'EUR',
+      orElse: () => CurrencyModel.empty(),
+    );
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
@@ -137,11 +141,11 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                       child: Center(
                         child: Text(
                           getIt<AppStore>().isBalanceHide
-                              ? '**** ${widget.eurCurrency.symbol}'
+                              ? '**** ${eurCurrency.symbol}'
                               : volumeFormat(
                                   decimal: simpleCardStore.cardFull?.balance ?? Decimal.zero,
-                                  accuracy: widget.eurCurrency.accuracy,
-                                  symbol: widget.eurCurrency.symbol,
+                                  accuracy: eurCurrency.accuracy,
+                                  symbol: eurCurrency.symbol,
                                 ),
                           style: STStyles.header3,
                         ),

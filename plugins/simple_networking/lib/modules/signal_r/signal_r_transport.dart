@@ -2,6 +2,7 @@ import 'package:simple_networking/modules/signal_r/models/active_earn_positions_
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_withdrawal_fee_model.dart';
 import 'package:simple_networking/modules/signal_r/models/balance_model.dart';
+import 'package:simple_networking/modules/signal_r/models/baner_model.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/base_prices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
@@ -73,6 +74,7 @@ class SignalRTransport {
     required this.investBaseDailyPrice,
     required this.earnOffers,
     required this.activeEarnPositions,
+    required this.banersListMessage,
   });
 
   final void Function(bool) initFinished;
@@ -120,6 +122,8 @@ class SignalRTransport {
 
   final void Function(ActiveEarnOffersMessage) earnOffers;
   final void Function(ActiveEarnPositionsMessage) activeEarnPositions;
+
+  final void Function(BanersListMessage) banersListMessage;
 
   /// Logs
 

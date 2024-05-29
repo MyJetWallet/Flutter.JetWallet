@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -27,7 +26,6 @@ import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/analytic_records/models/analytic_record.dart';
 import 'package:uuid/uuid.dart';
 
@@ -387,11 +385,6 @@ abstract class _AppStoreBase with Store {
   }
 
   @observable
-  TabsRouter? tabsRouter;
-  @action
-  void setTabsRouter(TabsRouter value) => tabsRouter = value;
-
-  @observable
   AuthInfoState authState = const AuthInfoState();
 
   @observable
@@ -415,11 +408,6 @@ abstract class _AppStoreBase with Store {
   bool withdrawDynamicLink = false;
   @action
   bool setWithdrawDynamicLink(bool value) => withdrawDynamicLink = value;
-
-  @observable
-  BottomItemType homeTab = BottomItemType.wallets;
-  @action
-  void setHomeTab(BottomItemType value) => homeTab = value;
 
   @observable
   bool skipVersionCheck = false;
@@ -556,7 +544,7 @@ abstract class _AppStoreBase with Store {
     openBottomMenu = false;
     fromLoginRegister = false;
     withdrawDynamicLink = false;
-    homeTab = BottomItemType.wallets;
+
     isBalanceHide = true;
     appStatus = AppStatus.start;
 

@@ -8,6 +8,7 @@ import 'package:jetwallet/core/services/remote_config/remote_config_values.dart'
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_asset_input.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_asset_union.dart';
+import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:jetwallet/widgets/quote_updated_dialog.dart';
@@ -23,7 +24,6 @@ import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_
 import 'package:simple_networking/modules/wallet_api/models/swap_execute_quote/execute_quote_request_model.dart';
 
 import '../../../core/di/di.dart';
-import '../../app/store/app_store.dart';
 
 part 'preview_buy_with_asset_store.g.dart';
 
@@ -252,7 +252,7 @@ abstract class _PreviewBuyWithAssetStoreBase with Store {
         SuccessScreenRouter(
           secondaryText: intl.previewBuyWithAsset_orderProcessing,
           onSuccess: (context) {
-            getIt<AppStore>().setHomeTab(BottomItemType.wallets);
+            getIt<BottomBarStore>().setHomeTab(BottomItemType.wallets);
             sRouter.push(
               const HomeRouter(
                 children: [

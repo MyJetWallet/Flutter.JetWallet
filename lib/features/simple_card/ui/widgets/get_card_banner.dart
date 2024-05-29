@@ -8,6 +8,7 @@ import '../../../../core/di/di.dart';
 import '../../../../core/l10n/i10n.dart';
 import '../../store/simple_card_store.dart';
 
+// TODO (Yaroslav): remove this widget
 class GetCardBanner extends StatelessWidget {
   const GetCardBanner({
     super.key,
@@ -26,10 +27,10 @@ class GetCardBanner extends StatelessWidget {
         simpleCardStore.closeBanner();
       },
       title: intl.simple_card_get_card_now,
-      promoImage: Image.asset(
+      promoImage: const AssetImage(
         simpleCardBannerAsset,
-        height: 68,
       ),
+      textWidthPercent: 0.5,
     );
   }
 }
