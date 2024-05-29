@@ -8,7 +8,6 @@ import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_a
 import 'package:jetwallet/features/actions/helpers/show_currency_search.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -19,16 +18,11 @@ import 'package:simple_networking/modules/signal_r/models/client_detail_model.da
 
 import '../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../utils/models/currency_model.dart';
-import '../../kyc/kyc_service.dart';
-import '../../kyc/models/kyc_operation_status_model.dart';
 
 void showReceiveAction(BuildContext context) {
-  final kyc = getIt.get<KycService>();
-  final handler = getIt.get<KycAlertHandler>();
-
   final isReceiveMethodsAvailable = sSignalRModules.currenciesList.any((element) => element.supportsCryptoDeposit);
 
-  if ((kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) && isReceiveMethodsAvailable) {
+  if (isReceiveMethodsAvailable) {
     showSendTimerAlertOr(
       context: context,
       or: () {
@@ -36,18 +30,10 @@ void showReceiveAction(BuildContext context) {
       },
       from: [BlockingType.deposit],
     );
-  } else if (!isReceiveMethodsAvailable) {
+  } else {
     sNotification.showError(
       intl.operation_bloked_text,
       id: 1,
-    );
-  } else {
-    handler.handle(
-      status: kyc.depositStatus,
-      isProgress: kyc.verificationInProgress,
-      currentNavigate: () => _showReceive(context),
-      requiredDocuments: kyc.requiredDocuments,
-      requiredVerifications: kyc.requiredVerifications,
     );
   }
 }

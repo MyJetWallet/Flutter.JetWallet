@@ -329,7 +329,6 @@ class InfoBlock extends StatelessObserverWidget {
                     currentValue:
                         investNewStore.isSLTPPrice ? investNewStore.tpPriceValue : investNewStore.tpAmountValue,
                     divisions: 4,
-                    withArray: true,
                     fullScale: !investNewStore.isSLTPPrice,
                     arrayOfValues: calculateLimitsPositions(
                       price: investNewStore.isOrderMode
@@ -471,7 +470,6 @@ class InfoBlock extends StatelessObserverWidget {
                     currentValue:
                         investNewStore.isSLTPPrice ? investNewStore.slPriceValue : investNewStore.slAmountValue.abs(),
                     divisions: 4,
-                    withArray: true,
                     fullScale: !investNewStore.isSLTPPrice,
                     arrayOfValues: calculateLimitsPositions(
                       price: investNewStore.isOrderMode

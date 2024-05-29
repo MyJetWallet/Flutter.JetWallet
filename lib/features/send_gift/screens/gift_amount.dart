@@ -56,13 +56,12 @@ class _GiftAmountState extends State<GiftAmount> {
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.send_gift_title,
-          subTitle: '${intl.send_gift_available}: ${getIt<AppStore>().isBalanceHide
-            ? '**** ${widget.sendGiftInfo.currency?.symbol ?? ''}'
-            : volumeFormat(
-            decimal: geftSendAmountStore.availableCurrency,
-            accuracy: widget.sendGiftInfo.currency?.accuracy ?? 0,
-            symbol: widget.sendGiftInfo.currency?.symbol ?? '',
-          )}',
+          subTitle:
+              '${intl.send_gift_available}: ${getIt<AppStore>().isBalanceHide ? '**** ${widget.sendGiftInfo.currency?.symbol ?? ''}' : volumeFormat(
+                  decimal: geftSendAmountStore.availableCurrency,
+                  accuracy: widget.sendGiftInfo.currency?.accuracy ?? 0,
+                  symbol: widget.sendGiftInfo.currency?.symbol ?? '',
+                )}',
           subTitleStyle: sBodyText2Style.copyWith(
             color: sColors.grey1,
           ),
@@ -85,13 +84,7 @@ class _GiftAmountState extends State<GiftAmount> {
                     value: geftSendAmountStore.withAmount,
                     symbol: geftSendAmountStore.selectedCurrency.symbol,
                   ),
-                  helper: '≈ ${marketFormat(
-                    accuracy: geftSendAmountStore.baseCurrency.accuracy,
-                    decimal: Decimal.parse(
-                      geftSendAmountStore.baseConversionValue,
-                    ),
-                    symbol: geftSendAmountStore.baseCurrency.symbol,
-                  )}',
+                  helper: '',
                   error: geftSendAmountStore.withAmmountInputError == InputError.limitError
                       ? geftSendAmountStore.limitError
                       : geftSendAmountStore.withAmmountInputError.value(),

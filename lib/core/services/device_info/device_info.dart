@@ -7,6 +7,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
+import 'package:uuid/uuid.dart';
 
 import '../local_storage_service.dart';
 
@@ -95,7 +96,36 @@ class DeviceInfo {
             message: e.toString(),
           );
 
+      await handlingIncorrectDeviceId();
+
       return DeviceInfo();
+    }
+  }
+
+  Future<void> handlingIncorrectDeviceId() async {
+    try {
+      if (deviceUid == 'Fake_deviceUid') {
+        final storage = sLocalStorageService;
+
+        final localDeviceId = await sLocalStorageService.getValue(spareDeviceId);
+
+        if (localDeviceId != null) {
+          deviceUid = localDeviceId;
+        } else {
+          const uuid = Uuid();
+          deviceUid = 'fake_${uuid.v4()}';
+          await storage.setString(
+            spareDeviceId,
+            deviceUid,
+          );
+        }
+      }
+    } catch (e) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.info,
+            place: 'DeviceInfo',
+            message: e.toString(),
+          );
     }
   }
 }
