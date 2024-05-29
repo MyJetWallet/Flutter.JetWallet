@@ -71,6 +71,10 @@ class _HomeScreenState extends State<HomeScreen> {
           bottomNavigationBuilder: (_, tabsRouter) {
             store.setTabsRouter(tabsRouter);
 
+            if (tabsRouter.activeIndex != store.cerrentIndex) {
+              tabsRouter.setActiveIndex(store.cerrentIndex);
+            }
+
             return SBottomBar(
               selectedIndex: store.cerrentIndex,
               items: [
