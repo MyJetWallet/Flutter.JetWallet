@@ -205,7 +205,6 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                               );
                               sAnalytics.tapOnSimpleCard();
                               simpleCardStore.initFullCardIn(el.cardId ?? '');
-                              sAnalytics.viewVirtualCardScreen(cardID: el.cardId ?? '');
                               sRouter.push(
                                 SimpleCardRouter(
                                   isAddCashAvailable: sSignalRModules.currenciesList
