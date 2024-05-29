@@ -7,16 +7,16 @@ class SPromoBanner extends StatelessWidget {
   const SPromoBanner({
     super.key,
     required this.onCloseBannerTap,
-    required this.title,
-    this.description,
+    this.title = '',
+    this.description = '',
     required this.promoImage,
     required this.onBannerTap,
     required this.textWidthPercent,
     this.hasCloseButton = true,
   });
 
-  final String? title;
-  final String? description;
+  final String title;
+  final String description;
   final ImageProvider<Object> promoImage;
   final void Function() onCloseBannerTap;
   final void Function() onBannerTap;
@@ -54,24 +54,25 @@ class SPromoBanner extends StatelessWidget {
                       constraints: BoxConstraints(maxWidth: textWidth),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Flexible(
                             child: AutoSizeText.rich(
                               TextSpan(
                                 children: [
-                                  if (title != null)
+                                  if (title != '')
                                     TextSpan(
-                                      text: title ?? '',
+                                      text: title,
                                       style: STStyles.body1Bold,
                                     ),
-                                  if (description != null && title != null)
+                                  if (description != '' && title != '')
                                     TextSpan(
                                       text: '\n',
                                       style: STStyles.body1Medium,
                                     ),
-                                  if (description != null)
+                                  if (description != '')
                                     TextSpan(
-                                      text: description ?? '',
+                                      text: description,
                                       style: STStyles.body1Medium,
                                     ),
                                 ],
