@@ -23,6 +23,7 @@ import 'package:jetwallet/features/auth/email_verification/store/email_verificat
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
 import 'package:jetwallet/features/earn/store/earn_store.dart';
 import 'package:jetwallet/features/earn/widgets/offers_overlay_content.dart';
+import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
@@ -273,15 +274,9 @@ class DeepLinkService {
           (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
               .where((element) => element.id == AssetPaymentProductsEnum.rewardsOnboardingProgram)
               .isNotEmpty) {
-        getIt<AppStore>().setHomeTab(BottomItemType.rewards);
-        if (getIt<AppStore>().tabsRouter != null) {
-          getIt<AppStore>().tabsRouter!.setActiveIndex(3);
-        }
+        getIt<BottomBarStore>().setHomeTab(BottomItemType.rewards);
       } else {
-        getIt<AppStore>().setHomeTab(BottomItemType.rewards);
-        if (getIt<AppStore>().tabsRouter != null) {
-          getIt<AppStore>().tabsRouter!.setActiveIndex(0);
-        }
+        getIt<BottomBarStore>().setHomeTab(BottomItemType.rewards);
       }
     }
 
@@ -586,16 +581,10 @@ class DeepLinkService {
               ),
             );
           } else {
-            getIt<AppStore>().setHomeTab(BottomItemType.market);
-            if (getIt<AppStore>().tabsRouter != null) {
-              getIt<AppStore>().tabsRouter!.setActiveIndex(1);
-            }
+            getIt<BottomBarStore>().setHomeTab(BottomItemType.market);
           }
         } else {
-          getIt<AppStore>().setHomeTab(BottomItemType.market);
-          if (getIt<AppStore>().tabsRouter != null) {
-            getIt<AppStore>().tabsRouter!.setActiveIndex(1);
-          }
+          getIt<BottomBarStore>().setHomeTab(BottomItemType.market);
         }
       }
     }
@@ -649,10 +638,8 @@ class DeepLinkService {
       if (!isEarnAvailable) return;
       await Future.delayed(const Duration(milliseconds: 650));
       sRouter.popUntilRoot();
-      getIt<AppStore>().setHomeTab(BottomItemType.earn);
-      if (getIt<AppStore>().tabsRouter != null) {
-        getIt<AppStore>().tabsRouter!.setActiveIndex(2);
-      }
+      getIt<BottomBarStore>().setHomeTab(BottomItemType.earn);
+
       if (symbol != null) {
         await _openEarnOffersBottomSheet(symbol);
       }
@@ -666,10 +653,8 @@ class DeepLinkService {
             if (!isEarnAvailable) return;
 
             sRouter.popUntilRoot();
-            getIt<AppStore>().setHomeTab(BottomItemType.earn);
-            if (getIt<AppStore>().tabsRouter != null) {
-              getIt<AppStore>().tabsRouter!.setActiveIndex(2);
-            }
+            getIt<BottomBarStore>().setHomeTab(BottomItemType.earn);
+
             if (symbol != null) {
               await _openEarnOffersBottomSheet(symbol);
             }

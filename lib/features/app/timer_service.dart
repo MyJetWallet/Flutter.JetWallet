@@ -6,6 +6,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
+import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -24,7 +25,7 @@ class TimerService extends ChangeNotifier {
         getIt.get<AppStore>().authorizedStatus is Home) {
       sAnalytics.pinAfterWaiting(timeAfterBlock: 300);
 
-      getIt.get<AppStore>().setHomeTab(BottomItemType.wallets);
+      getIt.get<BottomBarStore>().setHomeTab(BottomItemType.wallets);
 
       getIt<AppRouter>().replaceAll([
         PinScreenRoute(
