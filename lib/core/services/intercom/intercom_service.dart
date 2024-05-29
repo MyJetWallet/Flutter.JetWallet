@@ -12,9 +12,9 @@ import 'package:logger/logger.dart';
 class IntercomService {
   final _logger = getIt.get<SimpleLoggerService>();
 
-  static const _appId = String.fromEnvironment('INTERCOM_APP_ID');
-  static const _androidKey = String.fromEnvironment('INTERCOM_ANDROID_KEY');
-  static const _iOSKey = String.fromEnvironment('INTERCOM_IOS_KEY');
+  static const _appId = 'lci42mfw';
+  static const _androidKey = 'android_sdk-684bae5a9d75b05e583aeb048fbfa1be7774247c';
+  static const _iOSKey = 'ios_sdk-798dd512c506503fc2da6c81797ac8428e0eb419';
 
   bool _isInited = false;
 
