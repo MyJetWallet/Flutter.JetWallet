@@ -3,12 +3,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class SimpleCustomSvg extends StatelessWidget {
   const SimpleCustomSvg({
-    Key? key,
+    super.key,
     this.color,
     this.width,
     this.height,
     required this.assetName,
-  }) : super(key: key);
+  });
 
   final double? width;
   final double? height;

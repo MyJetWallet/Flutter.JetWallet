@@ -9,7 +9,7 @@ bool showAnimation = false;
 
 class Chart extends StatefulWidget {
   const Chart({
-    Key? key,
+    super.key,
     required this.onResolutionChanged,
     required this.onChartTypeChanged,
     required this.onCandleSelected,
@@ -29,7 +29,7 @@ class Chart extends StatefulWidget {
     this.isLongInvest = false,
     this.isFullInvestChart = false,
     this.accuracy = 3,
-  }) : super(key: key);
+  });
 
   final void Function(String) onResolutionChanged;
   final void Function(ChartType) onChartTypeChanged;
@@ -185,14 +185,15 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                       prefix: widget.prefix,
                       accuracy: widget.accuracy,
                     ),
-                    SlideTransition(
-                      position: _offsetAnimation,
-                      child: Container(
-                        color: Colors.white,
-                        height: widget.isAssetChart ? 230 : 190,
-                        width: screenWidth,
+                    if (!widget.isInvestChart)
+                      SlideTransition(
+                        position: _offsetAnimation,
+                        child: Container(
+                          color: Colors.white,
+                          height: widget.isAssetChart ? 230 : 190,
+                          width: screenWidth,
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ),

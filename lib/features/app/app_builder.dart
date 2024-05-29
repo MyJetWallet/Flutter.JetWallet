@@ -30,28 +30,31 @@ class AppBuilder extends StatelessObserverWidget {
     // mediaQuery inside useMemorized hook
     final reactiveMediaQuery = MediaQuery.of(context);
 
-    return Observer(
-      builder: (context) {
-        getIt.get<DeviceSize>().setSize(reactiveMediaQuery.size.height);
+    return Theme(
+      data: ThemeData(useMaterial3: false),
+      child: Observer(
+        builder: (context) {
+          getIt.get<DeviceSize>().setSize(reactiveMediaQuery.size.height);
 
-        /// Register AppLocalizations, register here, because we need context
-        if (!getIt.isRegistered<AppLocalizations>()) {
-          getIt.registerSingleton<AppLocalizations>(
-            AppLocalizations.of(context)!,
-          );
+          /// Register AppLocalizations, register here, because we need context
+          if (!getIt.isRegistered<AppLocalizations>()) {
+            getIt.registerSingleton<AppLocalizations>(
+              AppLocalizations.of(context)!,
+            );
 
-          if (getIt.isRegistered<AppStore>()) {
-            getIt.get<AppStore>().initLocale(context: context);
+            if (getIt.isRegistered<AppStore>()) {
+              getIt.get<AppStore>().initLocale(context: context);
+            }
           }
-        }
 
-        return getIt.get<AppStore>().remoteConfigStatus is Success
-            ? AppBuilderBody(
-                reactiveMediaQuery: reactiveMediaQuery,
-                child: child ?? const SplashScreen(),
-              )
-            : const SplashScreen();
-      },
+          return getIt.get<AppStore>().remoteConfigStatus is Success
+              ? AppBuilderBody(
+                  reactiveMediaQuery: reactiveMediaQuery,
+                  child: child ?? const SplashScreen(),
+                )
+              : const SplashScreen();
+        },
+      ),
     );
   }
 }
@@ -118,7 +121,7 @@ class _AppBuilderBodyState extends State<AppBuilderBody> with WidgetsBindingObse
         onShoulNavigate: (_) {},
         child: MediaQuery(
           data: widget.reactiveMediaQuery.copyWith(
-            textScaleFactor: 1.0,
+            textScaler: const TextScaler.linear(1.0),
           ),
           child: GlobalLoaderWidget(
             child: widget.child,

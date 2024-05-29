@@ -53,7 +53,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   callbackAfterSend: () {},
                 );
 
-                getIt<AppRouter>().pop();
+                getIt<AppRouter>().maybePop();
               },
               activeColor: colors.blue,
               inactiveColor: colors.grey4,
@@ -99,7 +99,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
               sAnalytics.verificationProfileProvideInfo();
               sAnalytics.kycFlowProvideInformation();
 
-              getIt<AppRouter>().pop();
+              getIt<AppRouter>().maybePop();
             },
             isDisabled: !store.isPhoneDone &&
                 store.step != VerificationScreenStep.phone,
@@ -117,7 +117,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
               sAnalytics.verificationProfileProvideInfo();
               sAnalytics.kycFlowProvideInformation();
 
-              getIt<AppRouter>().pop();
+              getIt<AppRouter>().maybePop();
               //sRouter.replace(const UserDataScreenRouter());
             },
             isDisabled: !store.isPersonalDetailsDone &&
@@ -135,7 +135,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
             linkAction: () {
               sAnalytics.verificationProfileCreatePIN();
 
-              getIt<AppRouter>().pop();
+              getIt<AppRouter>().maybePop();
               /*
               getIt<AppRouter>().replaceAll([
                 PinScreenRoute(

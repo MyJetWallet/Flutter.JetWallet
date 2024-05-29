@@ -3,9 +3,9 @@ import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 
 class SimpleAccountProtectionIndicator extends StatelessWidget {
   const SimpleAccountProtectionIndicator({
-    Key? key,
+    super.key,
     required this.indicatorColor,
-  }) : super(key: key);
+  });
 
   final Color indicatorColor;
 

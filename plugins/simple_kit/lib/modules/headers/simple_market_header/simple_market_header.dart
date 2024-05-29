@@ -6,7 +6,7 @@ import 'components/simple_market_header_title.dart';
 
 class SMarketHeader extends StatelessWidget {
   const SMarketHeader({
-    Key? key,
+    super.key,
     this.onSearchButtonTap,
     this.onFilterButtonTap,
     this.activeFilters = 0,
@@ -16,7 +16,7 @@ class SMarketHeader extends StatelessWidget {
     required this.isPositive,
     required this.showInfo,
     required this.isLoader,
-  }) : super(key: key);
+  });
 
   final int activeFilters;
   final void Function()? onSearchButtonTap;

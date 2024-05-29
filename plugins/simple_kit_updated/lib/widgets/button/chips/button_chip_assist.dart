@@ -7,13 +7,13 @@ import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 
 class ButtonChipAssist extends HookWidget {
   const ButtonChipAssist({
-    Key? key,
+    super.key,
     required this.leftIcon,
     required this.text,
     required this.rightText,
     this.rightIcon,
     this.callback,
-  }) : super(key: key);
+  });
 
   final SvgGenImage leftIcon;
   final SvgGenImage? rightIcon;

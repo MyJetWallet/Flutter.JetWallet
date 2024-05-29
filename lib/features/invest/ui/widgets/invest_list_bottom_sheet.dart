@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_positions_store.dart';
 import 'package:jetwallet/features/invest/ui/invests/data_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/invest_bottom_sheets/history_positions.dart';
 import 'package:jetwallet/features/invest/ui/invests/invest_bottom_sheets/pending_positions.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_alert_bottom_sheet.dart';
-import 'package:jetwallet/features/invest/ui/widgets/invest_button.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
 
 import '../../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../../utils/helpers/currency_from.dart';
@@ -33,13 +33,17 @@ void showInvestListBottomSheet(BuildContext context) {
     scrollable: true,
     expanded: true,
     pinned: SPaddingH24(
-      child: Observer(
-        builder: (BuildContext context) {
-          return MainSwitch(
-            onChangeTab: investPositionsStore.setActiveTab,
-            activeTab: investPositionsStore.activeTab,
-          );
-        },
+      child: Column(
+        children: [
+          Observer(
+            builder: (BuildContext context) {
+              return MainSwitch(
+                onChangeTab: investPositionsStore.setActiveTab,
+                activeTab: investPositionsStore.activeTab,
+              );
+            },
+          ),
+        ],
       ),
     ),
     pinnedBottom: Material(
@@ -63,7 +67,7 @@ void showInvestListBottomSheet(BuildContext context) {
                               inactiveColor: SColorsLight().grey2,
                               inactiveNameColor: SColorsLight().grey4,
                               active: true,
-                              icon: const SICloseIcon(
+                              icon: Assets.svg.invest.investClose.simpleSvg(
                                 width: 20,
                                 height: 20,
                               ),
@@ -94,8 +98,7 @@ void showInvestListBottomSheet(BuildContext context) {
                                       accuracy: 2,
                                       symbol: currency.symbol,
                                     ),
-                                    secondaryColor:
-                                    investStore.totalProfit >= Decimal.zero
+                                    secondaryColor: investStore.totalProfit >= Decimal.zero
                                         ? SColorsLight().green
                                         : SColorsLight().red,
                                   ),
@@ -114,13 +117,13 @@ void showInvestListBottomSheet(BuildContext context) {
                             inactiveColor: SColorsLight().grey4,
                             inactiveNameColor: SColorsLight().grey2,
                             active: true,
-                            icon: const SIPlusIcon(
+                            icon: Assets.svg.invest.investPlus.simpleSvg(
                               width: 20,
                               height: 20,
                             ),
                             name: intl.invest_list_new_invest,
                             onTap: () {
-                              investStore.setActiveSection('S0');
+                              investStore.setActiveSection('all');
                               showInvestMarketWatchBottomSheet(context);
                             },
                           ),
@@ -149,7 +152,7 @@ void showInvestListBottomSheet(BuildContext context) {
                               inactiveColor: SColorsLight().grey2,
                               inactiveNameColor: SColorsLight().grey4,
                               active: true,
-                              icon: const SICloseIcon(
+                              icon: Assets.svg.invest.investClose.simpleSvg(
                                 width: 20,
                                 height: 20,
                               ),
@@ -188,13 +191,13 @@ void showInvestListBottomSheet(BuildContext context) {
                             inactiveColor: SColorsLight().grey4,
                             inactiveNameColor: SColorsLight().grey2,
                             active: true,
-                            icon: const SIPlusIcon(
+                            icon: Assets.svg.invest.investPlus.simpleSvg(
                               width: 20,
                               height: 20,
                             ),
                             name: intl.invest_list_new_invest,
                             onTap: () {
-                              investStore.setActiveSection('S0');
+                              investStore.setActiveSection('all');
                               showInvestMarketWatchBottomSheet(context);
                             },
                           ),
@@ -222,13 +225,13 @@ void showInvestListBottomSheet(BuildContext context) {
                             inactiveColor: SColorsLight().grey4,
                             inactiveNameColor: SColorsLight().grey2,
                             active: true,
-                            icon: const SIPlusIcon(
+                            icon: Assets.svg.invest.investPlus.simpleSvg(
                               width: 20,
                               height: 20,
                             ),
                             name: intl.invest_list_new_invest,
                             onTap: () {
-                              investStore.setActiveSection('S0');
+                              investStore.setActiveSection('all');
                               showInvestMarketWatchBottomSheet(context);
                             },
                           ),
@@ -247,12 +250,12 @@ void showInvestListBottomSheet(BuildContext context) {
     horizontalPinnedPadding: 0,
     removePinnedPadding: true,
     horizontalPadding: 0,
-    children: [InvestList()],
+    children: [const InvestList()],
   );
 }
 
 class InvestList extends StatelessObserverWidget {
-  InvestList();
+  const InvestList();
 
   @override
   Widget build(BuildContext context) {
@@ -262,14 +265,14 @@ class InvestList extends StatelessObserverWidget {
       child: Observer(
         builder: (BuildContext context) {
           if (investPositionsStore.activeTab == 0) {
-            return ActiveInvestList();
+            return const ActiveInvestList();
           } else if (investPositionsStore.activeTab == 1) {
-            return PendingInvestList();
+            return const PendingInvestList();
           } else if (investPositionsStore.activeTab == 2) {
             return const HistoryInvestList();
           }
 
-          return ActiveInvestList();
+          return const ActiveInvestList();
         },
       ),
     );

@@ -1,8 +1,3 @@
-import 'package:decimal/decimal.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:simple_kit/modules/icons/custom/public/invest/simple_invest_profit_equal.dart';
-import 'package:simple_kit/modules/icons/custom/public/invest/simple_invest_profit_loss.dart';
-import 'package:simple_kit/modules/icons/custom/public/invest/simple_invest_profit_win.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
 
@@ -12,7 +7,7 @@ String operationPositionName(PositionAuditEvent event, InvestPositionModel posit
   switch (closeReason) {
     case PositionCloseReason.undefined: break;
     case PositionCloseReason.liquidation: return intl.invest_close;
-    case PositionCloseReason.marketClose: return intl.invest_stop_out;
+    case PositionCloseReason.marketClose: return intl.invest_liquidation;
     case PositionCloseReason.stopLoss: return intl.invest_limits_stop_loss;
     case PositionCloseReason.takeProfit: return intl.invest_limits_take_profit;
     default: break;

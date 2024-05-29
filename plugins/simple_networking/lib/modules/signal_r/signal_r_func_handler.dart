@@ -1,10 +1,10 @@
-import 'dart:developer';
-
 import 'package:simple_networking/config/constants.dart';
+import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_withdrawal_fee_model.dart';
 import 'package:simple_networking/modules/signal_r/models/balance_model.dart';
+import 'package:simple_networking/modules/signal_r/models/baner_model.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/base_prices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
@@ -12,6 +12,7 @@ import 'package:simple_networking/modules/signal_r/models/campaign_response_mode
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/signal_r/models/cards_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
+import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 import 'package:simple_networking/modules/signal_r/models/fireblock_events_model.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/signal_r/models/indices_model.dart';
@@ -31,6 +32,7 @@ import 'package:simple_networking/modules/signal_r/signal_r_new.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_transport.dart';
 
 import 'models/incoming_gift_model.dart';
+import 'models/invest_base_daily_price_model.dart';
 import 'models/invest_sectors_model.dart';
 import 'models/invest_wallet_model.dart';
 
@@ -364,7 +366,6 @@ class SignalRFuncHandler {
 
   void investAllActivePositionsMessageHandler(List<Object?>? data) {
     try {
-
       final investPositionsModel = InvestPositionsModel.fromJson(_json(data));
 
       sTransport.investPositions(investPositionsModel);
@@ -377,7 +378,6 @@ class SignalRFuncHandler {
 
   void investInstrumentsMessageHandler(List<Object?>? data) {
     try {
-
       final investInstrumentsModel = InvestInstrumentsModel.fromJson(_json(data));
 
       sTransport.investInstruments(investInstrumentsModel);
@@ -417,6 +417,55 @@ class SignalRFuncHandler {
       final investWalletModel = InvestWalletModel.fromJson(_json(data));
 
       sTransport.investWallet(investWalletModel);
+
+      SignalRModuleNew.handlePackage();
+    } catch (e) {
+      instance.handleError(investWalletMessage, e);
+    }
+  }
+
+  void investBaseDailyPricesMessageHandler(List<Object?>? data) {
+    try {
+      final investBaseDailyPriceModel = InvestBaseDailyPriceModel.fromJson(_json(data));
+
+      sTransport.investBaseDailyPrice(investBaseDailyPriceModel);
+
+      SignalRModuleNew.handlePackage();
+    } catch (e) {
+      instance.handleError(investBaseDailyPricesMessage, e);
+    }
+  }
+
+  //Earn
+  void earnOffersMessageHandler(List<Object?>? data) {
+    try {
+      final earnOffersModel = ActiveEarnOffersMessage.fromJson(_json(data));
+
+      sTransport.earnOffers(earnOffersModel);
+
+      SignalRModuleNew.handlePackage();
+    } catch (e) {
+      instance.handleError(investWalletMessage, e);
+    }
+  }
+
+  void earnPositionsMessageHandler(List<Object?>? data) {
+    try {
+      final activeEarnPositions = ActiveEarnPositionsMessage.fromJson(_json(data));
+
+      sTransport.activeEarnPositions(activeEarnPositions);
+
+      SignalRModuleNew.handlePackage();
+    } catch (e) {
+      instance.handleError(investWalletMessage, e);
+    }
+  }
+
+  void bannerListMessageHandler(List<Object?>? data) {
+    try {
+      final activeEarnPositions = BanersListMessage.fromJson(_json(data));
+
+      sTransport.banersListMessage(activeEarnPositions);
 
       SignalRModuleNew.handlePackage();
     } catch (e) {

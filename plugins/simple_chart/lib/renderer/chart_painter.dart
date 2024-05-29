@@ -16,33 +16,26 @@ import 'main_renderer.dart';
 
 class ChartPainter extends BaseChartPainter {
   ChartPainter({
-    required List<CandleModel> datas,
-    required double scaleX,
-    required double scrollX,
+    required super.datas,
+    required super.scaleX,
+    required super.scrollX,
     required bool isLongPass,
-    required double selectX,
+    required super.selectX,
     this.sink,
-    String prefix = '\$',
-    required ChartType candleType,
-    required String resolution,
-    required double candleWidth,
+    super.prefix = '\$',
+    required super.candleType,
+    required super.resolution,
+    required super.candleWidth,
     this.controller,
     this.opacity = 0.0,
     required this.isAssetChart,
     required this.chartWidth,
     required this.onCandleSelected,
     required this.formatPrice,
+    required this.isInvestChart,
     this.accuracy,
   }) : super(
-          datas: datas,
-          scaleX: scaleX,
-          scrollX: scrollX,
           isLongPress: isLongPass,
-          selectX: selectX,
-          candleType: candleType,
-          candleWidth: candleWidth,
-          resolution: resolution,
-          prefix: prefix,
         );
 
   static double get maxScrollX => BaseChartPainter.maxScrollX;
@@ -61,6 +54,7 @@ class ChartPainter extends BaseChartPainter {
   final double chartWidth;
   late Color chartColor;
   late Color chartColorBg;
+  late bool isInvestChart;
   final int? accuracy;
 
   @override
@@ -83,15 +77,23 @@ class ChartPainter extends BaseChartPainter {
       chartColor = Colors.white;
       if (datas.isNotEmpty) {
         chartColor = datas.first.close > datas.last.close
-            ? ChartColors.negativeChartColor
+            ? isInvestChart
+                ? ChartColors.positiveChartColor
+                : ChartColors.negativeChartColor
             : datas.first.close == datas.last.close
                 ? ChartColors.equalChartColor
-                : ChartColors.positiveChartColor;
+                : isInvestChart
+                    ? ChartColors.negativeChartColor
+                    : ChartColors.positiveChartColor;
         chartColorBg = datas.first.close > datas.last.close
-            ? ChartColors.negativeChartBgColor
+            ? isInvestChart
+                ? ChartColors.positiveChartBgColor
+                : ChartColors.negativeChartBgColor
             : datas.first.close == datas.last.close
                 ? ChartColors.equalChartBgColor
-                : ChartColors.positiveChartBgColor;
+                : isInvestChart
+                    ? ChartColors.negativeChartBgColor
+                    : ChartColors.positiveChartBgColor;
       }
     }
 
@@ -139,7 +141,7 @@ class ChartPainter extends BaseChartPainter {
   @override
   void drawChart(Canvas canvas, Size size) {
     canvas.save();
-    canvas.translate(mTranslateX * scaleX, 0.0);
+    canvas.translate(mTranslateX * scaleX, isInvestChart ? 10 : 0);
     canvas.scale(scaleX, 1.0);
 
     for (var i = mStartIndex; i <= mStopIndex; i++) {

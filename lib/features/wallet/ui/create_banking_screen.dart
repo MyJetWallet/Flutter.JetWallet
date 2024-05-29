@@ -135,15 +135,6 @@ class _CreateBankingScreenState extends State<CreateBankingScreen> {
                 try {
                   sAnalytics.eurWalletTapOnContinuePersonalEUR();
 
-                  void _afterVerification() {
-                    sRouter.popUntilRoot();
-
-                    getIt.get<GlobalLoader>().setLoading(false);
-
-                    sNotification.showError(intl.let_us_create_account, isError: false);
-                    sAnalytics.eurWalletShowToastLestCreateAccount();
-                  }
-
                   final resp =
                       await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postAccountCreate(requestId);
 
@@ -175,7 +166,7 @@ class _CreateBankingScreenState extends State<CreateBankingScreen> {
                         _afterVerification,
                       );
                     } else {
-                      await sRouter.pop();
+                      await sRouter.maybePop();
                     }
                   }
                 } catch (e) {
@@ -190,5 +181,14 @@ class _CreateBankingScreenState extends State<CreateBankingScreen> {
         ],
       ),
     );
+  }
+
+  void _afterVerification() {
+    sRouter.popUntilRoot();
+
+    getIt.get<GlobalLoader>().setLoading(false);
+
+    sNotification.showError(intl.let_us_create_account, isError: false);
+    sAnalytics.eurWalletShowToastLestCreateAccount();
   }
 }

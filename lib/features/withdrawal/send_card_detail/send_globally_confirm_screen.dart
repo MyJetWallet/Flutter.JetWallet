@@ -8,7 +8,6 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_globally_confirm_store.dart';
-import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -250,7 +249,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                             totalSendAmount: (data.amount ?? Decimal.zero).toString(),
                           );
 
-                          sRouter.pop();
+                          sRouter.maybePop();
                           state.confirmSendGlobally(newPin: newPin);
                         },
                         onWrongPin: (error) {

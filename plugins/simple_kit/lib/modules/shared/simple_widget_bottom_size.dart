@@ -4,10 +4,10 @@ import 'package:flutter/scheduler.dart';
 /// Widget that gets size of the child and returns it on the onChange callback
 class SWidgetBottomSize extends StatefulWidget {
   const SWidgetBottomSize({
-    Key? key,
+    super.key,
     required this.child,
     required this.onChange,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final Function(Size?) onChange;

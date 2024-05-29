@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/56x56/light/news/simple_light_news_acti
 import 'package:simple_kit/utils/enum.dart';
 
 class SNewsActiveIcon extends StatelessObserverWidget {
-  const SNewsActiveIcon({Key? key}) : super(key: key);
+  const SNewsActiveIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

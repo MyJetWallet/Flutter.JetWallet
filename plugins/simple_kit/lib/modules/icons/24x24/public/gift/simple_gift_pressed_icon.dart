@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/gift/simple_light_gift_pres
 import 'package:simple_kit/utils/enum.dart';
 
 class SGiftPressedIcon extends StatelessObserverWidget {
-  const SGiftPressedIcon({Key? key}) : super(key: key);
+  const SGiftPressedIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

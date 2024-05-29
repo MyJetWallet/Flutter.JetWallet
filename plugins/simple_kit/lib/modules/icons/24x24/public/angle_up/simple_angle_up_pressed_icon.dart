@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/angle_up/simple_light_angle
 import 'package:simple_kit/utils/enum.dart';
 
 class SAngleUpPressedIcon extends StatelessObserverWidget {
-  const SAngleUpPressedIcon({Key? key}) : super(key: key);
+  const SAngleUpPressedIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

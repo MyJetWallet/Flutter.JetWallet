@@ -7,9 +7,9 @@ const _defaultAlert = 'Connecting to server… Please wait or try again later';
 
 class SActionConfirmAlert extends StatelessWidget {
   const SActionConfirmAlert({
-    Key? key,
+    super.key,
     this.alert,
-  }) : super(key: key);
+  });
 
   final String? alert;
 

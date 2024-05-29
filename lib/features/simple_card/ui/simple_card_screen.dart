@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/simple_card/store/simple_card_store.dart';
@@ -14,6 +15,7 @@ import 'package:jetwallet/features/simple_card/ui/widgets/card_widget.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/show_simple_card_deposit_by_bottom_sheet.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/show_simple_card_withdraw_to_bottom_sheet.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/simple_card_circle_actions.dart';
+import 'package:jetwallet/features/simple_card/ui/widgets/wallet_button.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/transaction_list_item.dart';
 import 'package:jetwallet/utils/constants.dart';
@@ -33,11 +35,9 @@ const _expandedCardHeight = 270.0;
 class SimpleCardScreen extends StatefulObserverWidget {
   const SimpleCardScreen({
     super.key,
-    required this.eurCurrency,
     required this.isAddCashAvailable,
   });
 
-  final CurrencyModel eurCurrency;
   final bool isAddCashAvailable;
 
   @override
@@ -82,6 +82,11 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
 
     final kycState = getIt.get<KycService>();
     final handler = getIt.get<KycAlertHandler>();
+
+    final eurCurrency = sSignalRModules.currenciesList.firstWhere(
+      (asset) => asset.symbol == 'EUR',
+      orElse: () => CurrencyModel.empty(),
+    );
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,
@@ -136,11 +141,11 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                       child: Center(
                         child: Text(
                           getIt<AppStore>().isBalanceHide
-                              ? '**** ${widget.eurCurrency.symbol}'
+                              ? '**** ${eurCurrency.symbol}'
                               : volumeFormat(
                                   decimal: simpleCardStore.cardFull?.balance ?? Decimal.zero,
-                                  accuracy: widget.eurCurrency.accuracy,
-                                  symbol: widget.eurCurrency.symbol,
+                                  accuracy: eurCurrency.accuracy,
+                                  symbol: eurCurrency.symbol,
                                 ),
                           style: STStyles.header3,
                         ),
@@ -161,9 +166,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                           sAnalytics.tapOnTheDepositButton(source: 'V.Card - Deposit');
                           handler.handle(
                             multiStatus: [
-                              kycState.tradeStatus,
                               kycState.depositStatus,
-                              kycState.withdrawalStatus,
                             ],
                             isProgress: kycState.verificationInProgress,
                             currentNavigate: () => showSimpleCardDepositBySelector(
@@ -208,7 +211,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                                 ),
                               )
                                   .then((value) {
-                                sRouter.pop();
+                                sRouter.maybePop();
                                 if (value is String) {
                                   try {
                                     sAnalytics.tapOnTheSaveChangesFromEditVirtualCardLabelButton(
@@ -241,8 +244,6 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                         onWithdraw: () {
                           handler.handle(
                             multiStatus: [
-                              kycState.tradeStatus,
-                              kycState.depositStatus,
                               kycState.withdrawalStatus,
                             ],
                             isProgress: kycState.verificationInProgress,
@@ -258,8 +259,11 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                       ),
                     ),
                   ),
-                  const SliverToBoxAdapter(
-                    child: SpaceH12(),
+                  SliverToBoxAdapter(
+                    child: WalletsButton(
+                      cardNumber: simpleCardStore.cardSensitiveData?.cardNumber ?? '',
+                      cardId: simpleCardStore.cardFull?.cardId ?? '',
+                    ),
                   ),
                   SliverToBoxAdapter(
                     child: SPaddingH24(
@@ -278,7 +282,10 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                       source: TransactionItemSource.simpleCard,
                       isSimpleCard: true,
                       onError: (String reason) {
-                        sAnalytics.viewErrorOnCardScreen(cardID: simpleCardStore.cardFull!.cardId ?? '', reason: reason);
+                        sAnalytics.viewErrorOnCardScreen(
+                          cardID: simpleCardStore.cardFull!.cardId ?? '',
+                          reason: reason,
+                        );
                       },
                     ),
                   ] else ...[
@@ -317,21 +324,13 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                 alignment: Alignment.topCenter,
                 child: ColoredBox(
                   color: colors.white,
-                  child: SPaddingH24(
-                    child: SSmallHeader(
-                      title: simpleCardStore.cardFull?.label ?? 'Simple card',
-                      subTitle: intl.simple_card_type_virtual,
-                      titleStyle: STStyles.header6.copyWith(
-                        color: sKit.colors.black,
-                      ),
-                      subTitleStyle: STStyles.body2Medium.copyWith(
-                        color: sKit.colors.grey1,
-                      ),
-                      onBackButtonTap: () {
-                        Navigator.pop(context);
-                        sAnalytics.tapBackFromVirualCard(cardID: simpleCardStore.cardFull?.cardId ?? '');
-                      },
-                    ),
+                  child: GlobalBasicAppBar(
+                    title: simpleCardStore.cardFull?.label ?? 'Simple card',
+                    subtitle: intl.simple_card_type_virtual,
+                    hasRightIcon: false,
+                    onLeftIconTap: () {
+                      sAnalytics.tapBackFromVirualCard(cardID: simpleCardStore.cardFull?.cardId ?? '');
+                    },
                   ),
                 ),
               ),

@@ -95,7 +95,6 @@ class _ActionCryptoSearch extends StatelessObserverWidget {
               ),
               name: state.filteredMarketCurrencies[i].name,
               price: marketFormat(
-                prefix: baseCurrency.prefix,
                 decimal: state.filteredMarketCurrencies[i].lastPrice,
                 symbol: baseCurrency.symbol,
                 accuracy: state.filteredMarketCurrencies[i].priceAccuracy,

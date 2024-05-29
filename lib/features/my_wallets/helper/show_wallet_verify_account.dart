@@ -18,7 +18,7 @@ void showWalletVerifyAccount(
 }) {
   final kycState = getIt.get<KycService>();
 
-  bool isClick = false;
+  var isClick = false;
 
   sShowAlertPopup(
     context,
@@ -37,25 +37,29 @@ void showWalletVerifyAccount(
       sAnalytics.eurWalletTapOnVerifyAccount();
 
       Future.delayed(const Duration(seconds: 1), () {
-        Navigator.pop(context);
-
         isClick = false;
       });
 
       isClick = true;
 
+      Navigator.pop(context);
+
       getIt.get<GlobalLoader>().setLoading(true);
 
       if (kycState.requiredVerifications.contains(RequiredVerified.proofOfPhone)) {
+        getIt.get<GlobalLoader>().setLoading(false);
         await sRouter.push(
           SetPhoneNumberRouter(
             successText: intl.kycAlertHandler_factorVerificationEnabled,
-            then: () => sRouter.push(
-              KycVerifyYourProfileRouter(
-                requiredVerifications: kycState.requiredVerifications,
+            then: () async {
+              sRouter.popUntilRoot();
+
+              await getIt<SumsubService>().launch(
                 onFinish: after,
-              ),
-            ),
+                isBanking: isBanking,
+                needPush: false,
+              );
+            },
           ),
         );
       } else {

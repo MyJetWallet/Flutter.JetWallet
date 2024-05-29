@@ -10,10 +10,10 @@ import 'package:jetwallet/features/invest/ui/widgets/invest_history_list.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_history_pending_list.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_history_summary_list.dart';
 import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/icons/custom/public/invest/simple_invest_arrow.dart';
-import 'package:simple_kit/modules/icons/custom/public/invest/simple_invest_calendar.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
-import 'package:simple_kit/modules/texts/simple_text_styles.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 import '../../../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../../../utils/enum.dart';
@@ -36,7 +36,6 @@ class HistoryInvestList extends StatelessObserverWidget {
 
     return Observer(
       builder: (BuildContext context) {
-
         return Column(
           children: [
             const SpaceH12(),
@@ -48,19 +47,20 @@ class HistoryInvestList extends StatelessObserverWidget {
                       Row(
                         children: [
                           const Spacer(),
-                          Observer(
-                            builder: (BuildContext context) {
-                              return SecondarySwitch(
-                                onChangeTab: investPositionsStore.setHistoryTab,
-                                activeTab: investPositionsStore.historyTab,
-                                fullWidth: false,
-                                tabs: [
-                                  intl.invest_history_tab_invest,
-                                  intl.invest_history_tab_pending,
-                                ],
-                              );
-                            },
-                          ),
+                          if (investPositionsStore.pendingList.isNotEmpty)
+                            Observer(
+                              builder: (BuildContext context) {
+                                return SecondarySwitch(
+                                  onChangeTab: investPositionsStore.setHistoryTab,
+                                  activeTab: investPositionsStore.historyTab,
+                                  fullWidth: false,
+                                  tabs: [
+                                    intl.invest_history_tab_invest,
+                                    intl.invest_history_tab_pending,
+                                  ],
+                                );
+                              },
+                            ),
                         ],
                       ),
                       MainInvestBlock(
@@ -78,6 +78,7 @@ class HistoryInvestList extends StatelessObserverWidget {
                       ),
                       const SpaceH4(),
                       AboveListLine(
+                        showDivider: false,
                         mainColumn: intl.invest_list_instrument,
                         secondaryColumn: '${intl.invest_list_amount} (${currency.symbol})',
                         lastColumn: intl.invest_price,
@@ -115,7 +116,7 @@ class HistoryInvestList extends StatelessObserverWidget {
                           hoverColor: Colors.transparent,
                           child: Row(
                             children: [
-                              SICalendarIcon(
+                              Assets.svg.invest.investCalendar.simpleSvg(
                                 width: 16,
                                 height: 16,
                                 color: colors.black,
@@ -123,10 +124,10 @@ class HistoryInvestList extends StatelessObserverWidget {
                               const SpaceW4(),
                               Text(
                                 '${getDaysByPeriod(investStore.period)} ${intl.invest_period_days}',
-                                style: sBody1InvestSMStyle,
+                                style: STStyles.body1InvestSM,
                               ),
                               const SpaceW4(),
-                              SIArrowIcon(
+                              Assets.svg.invest.investArrow.simpleSvg(
                                 width: 14,
                                 height: 14,
                                 color: colors.black,
@@ -135,19 +136,20 @@ class HistoryInvestList extends StatelessObserverWidget {
                           ),
                         ),
                         const Spacer(),
-                        Observer(
-                          builder: (BuildContext context) {
-                            return SecondarySwitch(
-                              onChangeTab: investPositionsStore.setHistoryTab,
-                              activeTab: investPositionsStore.historyTab,
-                              fullWidth: false,
-                              tabs: [
-                                intl.invest_history_tab_invest,
-                                intl.invest_history_tab_pending,
-                              ],
-                            );
-                          },
-                        ),
+                        if (investPositionsStore.pendingList.isNotEmpty)
+                          Observer(
+                            builder: (BuildContext context) {
+                              return SecondarySwitch(
+                                onChangeTab: investPositionsStore.setHistoryTab,
+                                activeTab: investPositionsStore.historyTab,
+                                fullWidth: false,
+                                tabs: [
+                                  intl.invest_history_tab_invest,
+                                  intl.invest_history_tab_pending,
+                                ],
+                              );
+                            },
+                          ),
                       ],
                     ),
                     MainInvestBlock(
@@ -170,6 +172,7 @@ class HistoryInvestList extends StatelessObserverWidget {
                         onCheckboxTap: investPositionsStore.setIsHistoryGrouped,
                         sortState: investPositionsStore.historySortState,
                         onSortTap: investPositionsStore.setHistorySort,
+                        showDivider: false,
                       )
                     else
                       AboveListLine(
@@ -177,6 +180,7 @@ class HistoryInvestList extends StatelessObserverWidget {
                         secondaryColumn: '${intl.invest_list_amount} (${currency.symbol})',
                         lastColumn: intl.invest_price,
                         onCheckboxTap: investPositionsStore.setIsHistoryGrouped,
+                        showDivider: false,
                       ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height - 304,

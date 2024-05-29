@@ -6,9 +6,9 @@ import 'package:simple_kit/utils/enum.dart';
 
 class SInfoPressedIcon extends StatelessObserverWidget {
   const SInfoPressedIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

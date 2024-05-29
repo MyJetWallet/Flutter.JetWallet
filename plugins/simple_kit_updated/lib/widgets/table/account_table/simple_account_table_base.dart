@@ -3,11 +3,11 @@ import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 
 class SAccountTableBase extends StatelessWidget {
   const SAccountTableBase({
-    Key? key,
+    super.key,
     this.hasButton = false,
     this.isHighlated = false,
     required this.child,
-  }) : super(key: key);
+  });
 
   final bool hasButton;
   final Widget child;

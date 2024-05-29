@@ -350,7 +350,7 @@ class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with Ticke
         showRCloseButton: true,
         showBackButton: false,
         onCLoseButton: () {
-          sRouter.back();
+          sRouter.maybePop();
 
           if (store.showBottomButton) {
             sAnalytics.rewardsCloseFlowAfterCardFlip(source: widget.source);
@@ -438,7 +438,7 @@ class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with Ticke
                       onTap: () async {
                         sAnalytics.rewardsCloseFlowAfterCardFlip(source: widget.source);
 
-                        sRouter.back();
+                        await sRouter.maybePop();
                       },
                       name: intl.reward_close,
                     ),

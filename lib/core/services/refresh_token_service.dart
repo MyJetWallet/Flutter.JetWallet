@@ -33,11 +33,7 @@ Future<RefreshTokenStatus> refreshToken({
   final authInfo = getIt.get<AppStore>().authState;
 
   try {
-    final serverTimeResponse = await getIt
-        .get<SNetwork>()
-        .simpleNetworkingUnathorized
-        .getAuthModule()
-        .getServerTime();
+    final serverTimeResponse = await getIt.get<SNetwork>().simpleNetworkingUnathorized.getAuthModule().getServerTime();
 
     if (serverTimeResponse.data != null) {
       final privateKey = await storageService.getValue(privateKeyKey);
@@ -60,11 +56,7 @@ Future<RefreshTokenStatus> refreshToken({
 
       if (isResumed) {
         unawaited(
-          getIt
-              .get<SNetwork>()
-              .simpleNetworkingUnathorized
-              .getLogsApiModule()
-              .postAddLog(
+          getIt.get<SNetwork>().simpleNetworkingUnathorized.getLogsApiModule().postAddLog(
                 AddLogModel(
                   level: 'info',
                   message: 'Updating the token after minimising the app',
@@ -83,18 +75,13 @@ Future<RefreshTokenStatus> refreshToken({
         lang: intl.localeName,
       );
 
-      final refreshRequest = await getIt
-          .get<SNetwork>()
-          .simpleNetworkingUnathorized
-          .getAuthModule()
-          .postRefresh(model);
+      final refreshRequest = await getIt.get<SNetwork>().simpleNetworkingUnathorized.getAuthModule().postRefresh(model);
 
       if (refreshRequest.hasError) {
         getIt.get<SimpleLoggerService>().log(
           level: Level.error,
           place: 'RefreshToken',
-          message:
-              '''Refresh request return error: ${refreshRequest.error?.cause}''',
+          message: '''Refresh request return error: ${refreshRequest.error?.cause}''',
         );
 
         return RefreshTokenStatus.caught;
@@ -146,22 +133,17 @@ Future<RefreshTokenStatus> refreshToken({
 
       return RefreshTokenStatus.caught;
     }
-  } on DioError catch (error) {
+  } on DioException catch (error) {
     final code = error.response?.statusCode;
 
     getIt.get<SimpleLoggerService>().log(
       level: Level.error,
       place: 'RefreshToken',
-      message:
-          '''TOKEN CANT UPDATE\nReason: 3\nCode: $code\nMessage: ${error.message}''',
+      message: '''TOKEN CANT UPDATE\nReason: 3\nCode: $code\nMessage: ${error.message}''',
     );
 
     unawaited(
-      getIt
-          .get<SNetwork>()
-          .simpleNetworkingUnathorized
-          .getLogsApiModule()
-          .postAddLog(
+      getIt.get<SNetwork>().simpleNetworkingUnathorized.getLogsApiModule().postAddLog(
             AddLogModel(
               level: 'error',
               message: error.message,

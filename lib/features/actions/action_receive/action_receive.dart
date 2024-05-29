@@ -7,27 +7,22 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/actions/helpers/show_currency_search.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
-import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 import '../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../utils/models/currency_model.dart';
-import '../../app/store/app_store.dart';
-import '../../kyc/kyc_service.dart';
-import '../../kyc/models/kyc_operation_status_model.dart';
 
 void showReceiveAction(BuildContext context) {
-  final kyc = getIt.get<KycService>();
-  final handler = getIt.get<KycAlertHandler>();
-
   final isReceiveMethodsAvailable = sSignalRModules.currenciesList.any((element) => element.supportsCryptoDeposit);
 
-  if ((kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) && isReceiveMethodsAvailable) {
+  if (isReceiveMethodsAvailable) {
     showSendTimerAlertOr(
       context: context,
       or: () {
@@ -35,18 +30,10 @@ void showReceiveAction(BuildContext context) {
       },
       from: [BlockingType.deposit],
     );
-  } else if (!isReceiveMethodsAvailable) {
+  } else {
     sNotification.showError(
       intl.operation_bloked_text,
       id: 1,
-    );
-  } else {
-    handler.handle(
-      status: kyc.depositStatus,
-      isProgress: kyc.verificationInProgress,
-      currentNavigate: () => _showReceive(context),
-      requiredDocuments: kyc.requiredDocuments,
-      requiredVerifications: kyc.requiredVerifications,
     );
   }
 }
@@ -109,24 +96,32 @@ Widget receiveItem({
 }
 
 void showCryptoReceiveAction(BuildContext context) {
-  getIt.get<ActionSearchStore>().init();
   final searchStore = getIt.get<ActionSearchStore>();
+  searchStore.init();
 
   sAnalytics.chooseAssetToReceiveScreenView();
 
+  final showSearch = showReceiveCurrencySearch(context);
+
   sShowBasicModalBottomSheet(
     context: context,
-    scrollable: true,
-    expanded: true,
     then: (value) {},
     pinned: ActionBottomSheetHeader(
       name: intl.actionReceive_bottomSheetHeaderName1,
       onChanged: (String value) {
-        getIt.get<ActionSearchStore>().search(value);
+        searchStore.search(value);
       },
+      showSearch: showSearch,
+      horizontalDividerPadding: 24,
+      addPaddingBelowTitle: true,
+      isNewDesign: true,
+      needBottomPadding: false,
     ),
-    horizontalPinnedPadding: 0.0,
+    horizontalPinnedPadding: 0,
     removePinnedPadding: true,
+    horizontalPadding: 0,
+    scrollable: true,
+    expanded: true,
     children: [
       _ActionReceive(
         searchStore: searchStore,
@@ -153,46 +148,31 @@ class _ActionReceive extends StatelessObserverWidget {
           (element) => element.type == AssetType.crypto && element.supportsCryptoDeposit,
         )
         .toList();
-
-    final showSearch = showReceiveCurrencySearch(context);
+    final baseCurrency = sSignalRModules.baseCurrency;
 
     return Column(
       children: [
-        if (showSearch) ...[
-          SPaddingH24(
-            child: SStandardField(
-              controller: state.searchController,
-              labelText: intl.actionBottomSheetHeader_search,
-              onChanged: (String value) => state.search(value),
-              maxLines: 1,
-            ),
-          ),
-          const SDivider(),
-        ],
-        Column(
-          children: [
-            for (final currency in state.fCurrencies)
-              if (currency.type == AssetType.crypto)
-                if (currency.supportsCryptoDeposit)
-                  SWalletItem(
-                    icon: SNetworkSvg24(
-                      url: currency.iconUrl,
-                    ),
-                    primaryText: currency.description,
-                    secondaryText: currency.symbol,
-                    removeDivider: currency == currencyFiltered.last,
-                    onTap: () {
-                      getIt.get<AppRouter>().push(
-                            CryptoDepositRouter(
-                              header: intl.actionReceive_receive,
-                              currency: currency,
-                            ),
-                          );
-                    },
-                    hideBalance: getIt<AppStore>().isBalanceHide,
-                  ),
-          ],
-        ),
+        for (final currency in state.fCurrencies)
+          if (currency.type == AssetType.crypto)
+            if (currency.supportsCryptoDeposit)
+              SimpleTableAccount(
+                assetIcon: SNetworkSvg24(
+                  url: currency.iconUrl,
+                ),
+                label: currency.description,
+                supplement: currency.symbol,
+                rightValue: getIt<AppStore>().isBalanceHide
+                    ? '**** ${baseCurrency.symbol}'
+                    : currency.volumeBaseBalance(baseCurrency),
+                onTableAssetTap: () {
+                  getIt.get<AppRouter>().push(
+                        CryptoDepositRouter(
+                          header: intl.actionReceive_receive,
+                          currency: currency,
+                        ),
+                      );
+                },
+              ),
         const SpaceH42(),
       ],
     );

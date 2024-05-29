@@ -18,7 +18,7 @@ abstract class _SimpleCardDepositByStoreBase with Store {
   bool isAccountsAvaible = true;
 
   @observable
-  bool isCardsAvaible = false;
+  bool isCardsAvaible = true;
 
   @observable
   CardDataModel? card;
@@ -30,10 +30,7 @@ abstract class _SimpleCardDepositByStoreBase with Store {
   List<CardDataModel> get cards =>
       sSignalRModules.bankingProfileData?.banking?.cards
           ?.where(
-            (element) =>
-                element.status == AccountStatusCard.active &&
-                element.isNotEmptyBalance &&
-                element.cardId != card?.cardId,
+            (element) => element.status == AccountStatusCard.active && element.cardId != card?.cardId,
           )
           .toList() ??
       [];
@@ -44,12 +41,12 @@ abstract class _SimpleCardDepositByStoreBase with Store {
 
     final simpleAccount = sSignalRModules.bankingProfileData?.simple?.account;
 
-    if (simpleAccount != null && simpleAccount.isNotEmptyBalance) {
+    if (simpleAccount != null && simpleAccount.status == AccountStatus.active) {
       accounts.add(simpleAccount);
     }
 
     final bankingAccounts = sSignalRModules.bankingProfileData?.banking?.accounts
-            ?.where((element) => element.isNotEmptyBalance && !(element.isHidden ?? false))
+            ?.where((element) => element.status == AccountStatus.active && !(element.isHidden ?? false))
             .toList() ??
         <SimpleBankingAccount>[];
 

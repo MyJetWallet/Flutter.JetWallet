@@ -80,7 +80,7 @@
         "description": "Войдя в систему и продолжая пользоваться ею, я соглашаюсь и даю согласие на",
         "type": "text"
     },
-    "login_policyText2": "Terms and conditions",
+    "login_policyText2": "Положення та Умови",
     "@login_policyText2": {
         "description": "Privacy Policy Text (part 2)"
     },
@@ -293,7 +293,7 @@
         "description": "Simple была создана как криптовалютная платформа, однако мы постоянно расширяем ее функционал. Пока вы пользуетесь имеющимися возможностями приложения, наша команда упорно работает над тем, чтобы вы могли делать все необходимые финансовые операции в одном простом приложении. Именно это мы и называем Simple финансами.",
         "type": "text"
     },
-    "aboutUs_termButton1": "Загальні положення та умови",
+    "aboutUs_termButton1": "Загальні Положення та Умови",
     "@aboutUs_termButton1": {
         "description": "Общие положения и условия",
         "type": "text"
@@ -304,7 +304,7 @@
         "description": "Политика переадресации",
         "type": "text"
     },
-    "aboutUs_privacyPolicy": "Privacy Policy",
+    "aboutUs_privacyPolicy": "Політика конфіденційності",
     "sActionItem_description1": "Купуйте криптовалюту банківською карткою",
     "@sActionItem_description1": {
         "description": "Покупайте криптовалюту банковской карточкой",
@@ -1338,7 +1338,7 @@
         "type": "text"
     },
     "operationName_simplex": "Simplex",
-    "operationName_topped_up": "Поповнено Заробляйте",
+    "operationName_topped_up": "Поповнено Earn",
     "@operationName_topped_up": {
         "description": "Пополнено Зарабатывайте",
         "type": "text"
@@ -3647,7 +3647,7 @@
         "description": "до",
         "type": "text"
     },
-    "to1": "Кому",
+    "to1": "До",
     "@to1": {
         "description": "Кому",
         "type": "text"
@@ -3679,7 +3679,7 @@
         "description": "номер",
         "type": "text"
     },
-    "days": "дні",
+    "days": "дн.",
     "@days": {
         "description": "дни",
         "type": "text"
@@ -4105,13 +4105,13 @@
         "description": "Я прочитал и согласен с",
         "type": "text"
     },
-    "previewBuyWithUmlimint_disclaimerTerms": "Terms and conditions",
+    "previewBuyWithUmlimint_disclaimerTerms": "Положення та Умови",
     "previewBuyWithUmlimint_skipWait": "Закрити",
     "@previewBuyWithUmlimint_skipWait": {
         "description": "Закрыть",
         "type": "text"
     },
-    "previewBuyWithUmlimint_disclaimerPolicy": "Privacy Policy",
+    "previewBuyWithUmlimint_disclaimerPolicy": "Політика конфіденційності",
     "previewBuyWithUmlimint_saveCard": "Зберегти цю картку",
     "@previewBuyWithUmlimint_saveCard": {
         "description": "Сохранить эту карточку",
@@ -5648,8 +5648,8 @@
         "description": "Я прочитал и согласен с␣",
         "type": "text"
     },
-    "buy_confirmation_privacy_checkbox_2": "Terms and conditions",
-    "buy_confirmation_privacy_checkbox_3": "Privacy Policy",
+    "buy_confirmation_privacy_checkbox_2": "Положення та Умови",
+    "buy_confirmation_privacy_checkbox_3": "Політика конфіденційності",
     "buy_confirmation_privacy_p2p_checkbox_1": "1. Я підтверджую, що наведена вище інформація є точною та повною.",
     "@buy_confirmation_privacy_p2p_checkbox_1": {
         "description": "1. Я подтверждаю, что приведенная выше информация является точной и полной.",
@@ -7091,7 +7091,7 @@
     "validReferralCode_delete": "Видалити",
     "invalidReferralCode_invalidReferralCode": "Невірний код рефералу",
     "checkingReferralCode_checking": "Перевірка...",
-    "referralCode_have_a_referral_code": "Маєте реферальний код?",
+    "referralCode_have_a_referral_code": "Є реферальний код?",
     "referralCode_add": "Додати",
     "showReferralCode_enterReferralCode": "Ввести реферальний код",
     "showReferralCode_referralCode": "Реферальний код",
@@ -7402,5 +7402,400 @@
     "simple_card_is_ready": "Карта Simple готова",
     "simple_card_password_repeatable_characters": "Не має містити більше 3 повторюваних символів підряд",
     "simple_card_password_whitespace": "Пробіл не дозволений",
-    "simple_card_password_repeatable_allowed_symbols": "Дозволені наступні спеціальні символи:"
+    "simple_card_password_repeatable_allowed_symbols": "Дозволені наступні спеціальні символи:",
+    "earn_earn": "Дохід",
+    "@earn_earn": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/XKUJ00h5dZvM2PFYGRwm5qvf.png",
+        "type": "text"
+    },
+    "earn_funds_are_calculated_based_on_the_current_value": "Кошти розраховані згідно з поточною вартістю криптоактивів",
+    "@earn_funds_are_calculated_based_on_the_current_value": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/XKUJ00h5dZvM2PFYGRwm5qvf.png",
+        "type": "text"
+    },
+    "earn_total": "Загалом",
+    "@earn_total": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/XKUJ00h5dZvM2PFYGRwm5qvf.png",
+        "type": "text"
+    },
+    "earn_revenue": "Дохід",
+    "@earn_revenue": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/XKUJ00h5dZvM2PFYGRwm5qvf.png",
+        "type": "text"
+    },
+    "earn_active_earns": "Активні вкладення",
+    "@earn_active_earns": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/XKUJ00h5dZvM2PFYGRwm5qvf.png",
+        "type": "text"
+    },
+    "earn_view_all": "Переглянути всі",
+    "@earn_view_all": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/4BIQY6Y7Z2YOA2063BBYdkBI.png",
+        "type": "text"
+    },
+    "earn_balance": "Баланс",
+    "@earn_balance": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/POmX66TCy4cJElIIkJGknw5s.png",
+        "type": "text"
+    },
+    "earn_most_profitable_earns": "Найвигідніші варіанти",
+    "@earn_most_profitable_earns": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/4BIQY6Y7Z2YOA2063BBYdkBI.png",
+        "type": "text"
+    },
+    "earn_top_offers": "Топ пропозицій",
+    "@earn_top_offers": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/4BIQY6Y7Z2YOA2063BBYdkBI.png",
+        "type": "text"
+    },
+    "earn_up_to": "До",
+    "@earn_up_to": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/4BIQY6Y7Z2YOA2063BBYdkBI.png",
+        "type": "text"
+    },
+    "earn_earning": "Заробіток",
+    "@earn_earning": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/POmX66TCy4cJElIIkJGknw5s.png",
+        "type": "text"
+    },
+    "earn_closing": "Закриття...",
+    "@earn_closing": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/POmX66TCy4cJElIIkJGknw5s.png",
+        "type": "text"
+    },
+    "earn_closed": "Завершено",
+    "earn_unknown": "Невідомий",
+    "@earn_unknown": {
+        "description": "Статусы эрна",
+        "type": "text"
+    },
+    "earn_variable_apy": "Змінний APY",
+    "@earn_variable_apy": {
+        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/POmX66TCy4cJElIIkJGknw5s.png",
+        "type": "text"
+    },
+    "earn_started": "Розпочато",
+    "earn_funds_will_be_withdrawn": "Ваші кошти та нараховані доходи будуть виплачені після закриття вашого рахунку. Виплата коштів за {days} дн.",
+    "@earn_funds_will_be_withdrawn": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_top_up": "Поповнити",
+    "earn_withdraw": "Вивести",
+    "earn_all_offers": "Усі пропозиції",
+    "earn_earns_archive": "Архів вкладень",
+    "earn_you_can_withdraw_deposit_funds_instantly": "Ви можете миттєво вивести депозитні кошти",
+    "earn_deposit": "Депозит",
+    "earn_continue": "Продовжити",
+    "earn_choose_a_deposit_plan": "Оберіть план депозиту та заробляйте",
+    "earn_freeze_period": "Період заморожування ({days} дн.)",
+    "@earn_freeze_period": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_flexible_tariff": "Гнучке повернення",
+    "earn_are_you_sure": "Ви впевнені?",
+    "earn_your_funds_and_accrued": "Ваші кошти та нараховані доходи будуть виплачені після закриття вашого рахунку Earn. Виплата буде {date}.",
+    "@earn_your_funds_and_accrued": {
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "12.12.2024"
+            }
+        }
+    },
+    "earn_continue_earning": "Продовжити заробляти",
+    "earn_yes_withdraw": "Так, вивести",
+    "earn_partial_withdrawal": "Часткове виведення",
+    "earn_the_minimum_amount_of_earn": "Мінімальна сума балансу рахунку Earn не може бути менше ніж",
+    "earn_full_withdrawal": "Повне виведення",
+    "earn_closing_an_earn_account": "Закриття рахунку Earn з виведенням основної суми та доходу",
+    "earn_confirm": "Підтвердити",
+    "earn_est": "Прибл.",
+    "earn_max": "Макс.",
+    "earn_from_earn": "З заробітку",
+    "earn_crypto_wallet": "Криптогаманець",
+    "earn_order_summary": "Підсумок замовлення",
+    "earn_order_summary_partial_withdrawal_means": "Часткове виведення означає виведення коштів з розрахункової бази. Дохід виплачується при повному закритті рахунку.",
+    "earn_send": "Відправити",
+    "earn_withdraw_successfully": "Запит на повернення коштів прийнято",
+    "earn_full_withdraw": "Ваші кошти та нараховані доходи виплачуються при закритті вашого рахунку Earn.",
+    "earn_basis_amount": "Основна сума",
+    "earn_withdrawal_period": "Період виведення",
+    "earn_the_funds_will_be_disbursed": "Кошти будуть перераховані на ваш гаманець {date}. Ви також заробите дохід наступні {days} дн.",
+    "@earn_the_funds_will_be_disbursed": {
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "12.12.2024"
+            },
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_withdrawal_period_explanation_1": "Виведення коштів з вашого плану призведе до закриття відповідного рахунку Earn. Зверніть увагу, що повне переведення коштів разом з заробленим доходом відбудеться через {days} дн. після створення запиту.",
+    "@earn_withdrawal_period_explanation_1": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_withdrawal_period_explanation_2": "Важливо зазначити, що до остаточного закриття рахунку дохід продовжуватиме нараховуватися на ваш рахунок Earn.",
+    "earn_from_crypto_wallet": "З криптогаманця",
+    "earn_to_crypto_wallet": "На криптогаманець",
+    "earn_to_earn": "Для заробітку",
+    "earn_deposit_crypto_wallet": "Гаманець для депозитів",
+    "earn_top_up_value": "Поповнити на {value}",
+    "@earn_top_up_value": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "BTC"
+            }
+        }
+    },
+    "earn_cancel": "Скасувати",
+    "earn_apy_rate": "Ставка APY",
+    "earn_earning_term": "Термін заробітку",
+    "earn_flexible": "Гнучкий",
+    "earn_instant": "Миттєвий",
+    "earn_i_have_read_and_agreed_to": "Я прочитав(ла) і погоджуюсь з",
+    "earn_terms_and_conditions": "Умови та Положення програми Earn",
+    "earn_transfer": "Переказ",
+    "earn_withdrawal": "Виведення",
+    "earn_days_left": "Залишилося {days} дн.",
+    "@earn_days_left": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_disbursement_is_at": "Виплата в {time} {date}",
+    "@earn_disbursement_is_at": {
+        "placeholders": {
+            "time": {
+                "type": "String",
+                "example": "21:24"
+            },
+            "date": {
+                "type": "String",
+                "example": "12.12.2024"
+            }
+        }
+    },
+    "earn_privacy_policy": "Політика конфіденційності Smpl Global",
+    "earn_freeze": "Заморозити на {days} дн.",
+    "@earn_freeze": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_earn_account_id": "ID рахунку Earn",
+    "earn_sent": "Відправлено",
+    "earn_received": "Отримано",
+    "earn_withdrawal_of": "Переказ {value} до Earn\nініційовано",
+    "@earn_withdrawal_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "21:24"
+            }
+        }
+    },
+    "about_us_earn": "Положення та Умови програми Earn",
+    "about_transfer": "Переказ",
+    "earn_freeze_days": "Заморозити на {days} дн.",
+    "@earn_freeze_days": {
+        "placeholders": {
+            "days": {
+                "type": "num",
+                "example": "30"
+            }
+        }
+    },
+    "earn_redeem_period": "Період погашення ({days} дн.)",
+    "@earn_redeem_period": {
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "earn_history": "Історія",
+    "earn_to": "До",
+    "about_us_earn_program": "Умови та Положення програми Earn",
+    "about_us_smpl_global": "Політика конфіденційності Smpl Global",
+    "earn_finished": "Завершено",
+    "transfer_confirm_via_sms": "Підтвердити через SMS",
+    "transfer_we_sent": "Надіслано на номер **{numbers}",
+    "@transfer_we_sent": {
+        "placeholders": {
+            "numbers": {
+                "type": "String",
+                "example": "1845"
+            }
+        }
+    },
+    "profileDetails_waitForSMS": "Чекайте на SMS",
+    "earn_transfer_of": "Переказ {value} до\nEarn було розпочато",
+    "@earn_transfer_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "21:24"
+            }
+        }
+    },
+    "wallet_crypto_wallet": "Криптогаманець",
+    "wallet_crypto_assets": "Криптоактиви",
+    "wallet_external_bank_transfer": "Зовнішній банківський переказ",
+    "wallet_internal_transfer": "Внутрішній переказ",
+    "wallet_choose_asset_from_convert": "Оберіть актив для конвертації",
+    "error_message_insufficient_funds": "Недостатньо коштів для транзакції",
+    "convert_choose_account": "Оберіть рахунок",
+    "earn_earns_details": "Деталі Earn",
+    "earn_base_amount": "Основна сума",
+    "earn_saving_income": "Дохід від заощаджень",
+    "invest_transfer_from_crypto_wallet": "З криптогаманця",
+    "invest_transfer_to_invest": "Інвестувати",
+    "invest_transfer_crypto_wallet": "Криптогаманець",
+    "invest_transfer_invest": "Інвестувати",
+    "invest_transfer_from_invest": "З інвестицій",
+    "invest_transfer_to_crypto_wallet": "До криптогаманеця",
+    "invest_transfer_empty_balance": "Щоб продовжити, поповніть гаманець Tether",
+    "wallets_add_to_wallet": "Додати до {value}",
+    "@wallets_add_to_wallet": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "wallets_add_to_apple_wallet": "Apple Wallet",
+    "wallets_add_to_google_wallet": "Apple Wallet",
+    "wallets_redirecting": "Перенаправлення",
+    "wallets_modal_info": "Натиснувши Продовжити, ви будете перенаправлені до {value}:\n\n1. Вручну введіть деталі вашої картки\n2. Дотримуйтесь інструкцій {value}\n3. Користуйтеся безконтактними покупками та зняттям готівки в банкоматах з вашою карткою Simple!",
+    "@wallets_modal_info": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "wallets_continue": "Продовжити",
+    "earn_to_continue_you_need_to_top_up_fix": "Щоб продовжити, вам потрібно поповнити ваш гаманець {wallet_symbol} щонайменше на {topup_value}",
+    "@earn_to_continue_you_need_to_top_up_fix": {
+        "placeholders": {
+            "topup_value": {
+                "type": "String"
+            },
+            "wallet_symbol": {
+                "type": "String"
+            }
+        }
+    },
+    "prepaid_card_prepaid_card": "Передплачена картка",
+    "prepaid_card_in_your_profile": "у профілі",
+    "prepaid_card_buy_for_cryptocurrency": "Купити за криптовалюту",
+    "prepaid_card_prepaid_card_service": "Сервіс передплаченої картки",
+    "prepaid_card_explanation": "Ви можете придбати передплачені банківські картки для використання в системах Apple Pay та Google Pay, а також для оплати онлайн покупок. Випуск передплаченої картки здійснюється партнерами Simple.",
+    "prepaid_card_card_management": "Управління карткою",
+    "prepaid_card_redirecting": "Перенаправлення",
+    "prepaid_card_popup_description": "Сервіс передплаченої картки надається партнером.\n\nУправління картками, інформація про баланси карток та історія транзакцій доступні в особистому кабінеті партнера.\n\nДля входу в особистий кабінет використовуйте номер картки та код CVV.",
+    "prepaid_card_continue": "Продовжити",
+    "prepaid_card_cancel": "Скасувати",
+    "prepaid_card_my_vouchers": "Мої ваучери",
+    "prepaid_card_my_vouchers_placeholder": "Тут будуть відображені ваші передплачені ваучери",
+    "prepaid_card_buy_card": "Купити картку",
+    "prepaid_card_next": "Далі",
+    "prepaid_card_guide_to_using": "Гайд з використання",
+    "prepaid_card_you_purchase": "Ви купуєте ваучер, щоб отримати Visa або Mastercard з попередньо встановленим балансом.\n\nПісля придбання ваучера, використання ваучера та активація картки відбувається на сайті емітента картки.\n\nЦю картку можна використовувати для онлайн-платежів.",
+    "prepaid_card_the_purchased": "Баланс придбаної картки не може бути поповнений",
+    "prepaid_card_ApplePay_and_GooglePay": "ApplePay та GooglePay",
+    "prepaid_card_cards_marked": "Картки з позначкою \"Мобільний гаманець\" підтримують додавання до ApplePay та GooglePay. Картки без цієї позначки не підтримують зв'язок з мобільними гаманцями.",
+    "prepaid_card_please_note": "Будь ласка, зауважте",
+    "prepaid_card_that_cards": "Що картки з позначкою 'Мобільний гаманець' можуть бути недоступні в деяких країнах.",
+    "prepaid_card_privacy": "Приватність",
+    "prepaid_card_simple_does_not": "Simple не передає особисту інформацію емітенту картки. Зазвичай, під час реєстрації, вам потрібно надати:",
+    "prepaid_card_the_full_name": "  • Повне ім'я, як на картці\n• Країну проживання та адресу\n• Контактний телефонний номер\n• Адресу електронної пошти",
+    "prepaid_card_it_is_necessary": "Необхідно підтвердити адресу електронної пошти, оскільки вона буде використовуватися для отримання кодів верифікації для транзакцій з карткою.",
+    "prepaid_card_in_some_instances": "У деяких випадках емітент картки може вимагати більш ретельної верифікації особи клієнта та запропонувати завершення процедури KYC (Знай свого клієнта). У таких випадках радимо слідувати інструкціям випускника картки, щоб уникнути потенційних ускладнень та затримок у отриманні картки.",
+    "prepaid_card_only_the_individual": "Тільки особа, яка отримує картку, повинна пройти процес KYC. Верифікація на підставі документів юридичної особи не допускається.",
+    "prepaid_card_voucher_activation": "Активація ваучера",
+    "prepaid_card_to_activate": "Для активації ваучера потрібно відвідати веб-сайт емітента картки. Переконайтеся, що країна, яку ви вказуєте під час активації картки, відповідає країні, обраній під час покупки ваучера.",
+    "prepaid_card_a_mismatch_between": "Невідповідність між країною, вказаною на момент покупки ваучера, та країною, вказаною під час випуску картки, може призвести до труднощів у активації ваучера та отриманні картки.",
+    "prepaid_card_the_issuer_may": "Емітент картки може вимагати додаткової верифікації вашої особи та завершення процедури KYC для активації картки. Важливо мати документи, які підтверджують ваше проживання у зазначеній країні.",
+    "prepaid_card_choose_prepaid_card": "Оберіть ваучер",
+    "prepaid_card_choose_residential_country": "Оберіть країну проживання",
+    "prepaid_card_in_progress": "В процесі...",
+    "prepaid_card_buy_voucher": "Купити ваучер",
+    "prepaid_card_prepaid_card_activation": "Активація передплаченої картки",
+    "prepaid_card_apple_pay_available": "Apple Pay доступний",
+    "prepaid_card_apple_pay_unavailable": "Apple Pay недоступний",
+    "prepaid_card_google_pay_available": "Google Pay доступний",
+    "prepaid_card_google_pay_unavailable": "Google Pay недоступний",
+    "prepaid_card_min_amount": "Мінімальна сума",
+    "prepaid_card_max_amount": "Максимальна сума",
+    "prepaid_card_commission": "Комісія",
+    "prepaid_card_free": "Безкоштовно",
+    "prepaid_card_choose_country": "Обрати країну",
+    "prepaid_card_no_available_tariffs": "Немає доступних тарифів для обраної країни",
+    "prepaid_card_pay_with": "Оплата за допомогою",
+    "prepaid_card_crypto_wallet": "Криптогаманець",
+    "prepaid_card_prepaid_card_voucher": "Ваучер передплаченої картки",
+    "prepaid_card_card_type": "Тип картки",
+    "prepaid_card_apple_pay": "Apple Pay",
+    "prepaid_card_google_pay": "Google Pay",
+    "prepaid_card_yes": "Так",
+    "prepaid_card_no": "Ні",
+    "prepaid_card_card_balance": "Баланс картки",
+    "prepaid_card_country": "Країна",
+    "prepaid_card_success": "Придбано ваучер передплаченої картки з балансом {amount}",
+    "@prepaid_card_success": {
+        "placeholders": {
+            "amount": {
+                "type": "String",
+                "example": "1 408.10 USD"
+            }
+        }
+    },
+    "prepaid_card_apple_pay_is_unavailable": "Apple Pay недоступний",
+    "prepaid_card_google_pay_is_unavailable": "Google Pay недоступний",
+    "prepaid_card_issue_card": "Випустити картку",
+    "prepaid_card_activation_1": "Скопіюйте код і перейдіть на веб-сайт емітента картки.",
+    "prepaid_card_activation_2": "Введіть код верифікації, щоб підтвердити покупку.",
+    "prepaid_card_activation_3": "Дотримуйтесь інструкцій для завершення налаштування картки.",
+    "prepaid_card_voucher_code": "Код ваучера",
+    "prepaid_card_order_id": "ID замовлення",
+    "prepaid_card_the_issuance": "Випуск ваучера зазвичай займає близько 1 години.",
+    "prepaid_card_country_explanation": "Країна випуску ваучера повинна відповідати країні випуску картки",
+    "prepaid_cardcomission_explanation": "Комісія за випуск картки сплачується з вашого гаманця",
+    "invest_history_tab_positions": "Позиції",
+    "invest_history_tab_market": "Ринок",
+    "invest_alert_delete_pending_order": "Видалити очікуване замовлення",
+    "invest_alert_delete_pending_order_sub_titile": "Ви збираєтеся видалити інвестицію",
+    "invest_liquidation_price": "Ціна ліквідації",
+    "invest_liquidation": "Ліквідація",
+    "earn_deposit_of": "Депозит {value}\nініційовано",
+    "@earn_deposit_of": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "200 USDT"
+            }
+        }
+    },
+    "prepaid_card_more": "більше",
+    "prepaid_card_less": "менше",
+    "prepaid_card_funds_for_purchased": "Кошти за передплачений ваучер не повертаються",
+    "prepaid_card_error": "Ваучер на передплачену картку не виданий. Будь ласка, зверніться до служби підтримки, ми постараємось вирішити проблему якнайшвидше.",
+    "invest_error_sl_zero": "Рівень StopLoss не може бути ",
+    "invest_error_tp_zero": "Рівень TakeProfit не можу бути ",
+    "buy_external_cards": "Сторонні картки"
 }

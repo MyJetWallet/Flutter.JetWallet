@@ -61,10 +61,12 @@ abstract class _SellAmountStoreBase with Store {
 
   @computed
   bool get isContinueAvaible {
+    final isCryptoBalanceNotZero = asset?.isAssetBalanceNotEmpty ?? false;
     return inputValid &&
         Decimal.parse(primaryAmount) != Decimal.zero &&
         (account != null || card != null) &&
-        asset != null;
+        asset != null &&
+        isCryptoBalanceNotZero;
   }
 
   @observable
@@ -152,6 +154,8 @@ abstract class _SellAmountStoreBase with Store {
       return currency.assetBalance != Decimal.zero && currency.symbol != 'EUR';
     });
     isNoAccounts = !(sSignalRModules.bankingProfileData?.isAvaibleAnyAccount ?? false);
+
+    final isCryptoBalanceEmpty = asset?.isAssetBalanceEmpty ?? false;
     Timer(
       const Duration(milliseconds: 200),
       () {
@@ -172,6 +176,12 @@ abstract class _SellAmountStoreBase with Store {
             id: 3,
           );
           sAnalytics.errorYouNeedToCreateEURAccountFirst();
+        } else if (isCryptoBalanceEmpty) {
+          sNotification.showError(
+            intl.error_message_insufficient_funds,
+            id: 1,
+            isError: false,
+          );
         }
       },
     );
@@ -206,6 +216,8 @@ abstract class _SellAmountStoreBase with Store {
       cryptoSymbol,
     );
     loadLimits();
+
+    _checkShowTosts();
 
     fiatInputValue = '0';
 
@@ -433,7 +445,7 @@ abstract class _SellAmountStoreBase with Store {
 
   @action
   Future<void> loadLimits() async {
-    if (account == null || asset == null) {
+    if (category == PaymentMethodCategory.none || asset == null) {
       return;
     }
 

@@ -7,12 +7,12 @@ import '../light/simple_light_secondary_button_2.dart';
 
 class SSecondaryButton2 extends StatelessObserverWidget {
   const SSecondaryButton2({
-    Key? key,
+    super.key,
     this.icon,
     required this.active,
     required this.name,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final Widget? icon;
   final bool active;

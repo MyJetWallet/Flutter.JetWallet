@@ -29,6 +29,9 @@ late String cardLimitsLearnMoreLink;
 late String p2pTerms;
 bool rateUp = true;
 bool displayCardPreorderScreen = false;
+String prepaidCardPartnerLink = '';
+String prepaidCardTermsAndConditionsLink = '';
+bool useAmplitude = true;
 
 // Versioning
 late String recommendedVersion;

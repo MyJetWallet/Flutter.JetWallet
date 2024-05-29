@@ -6,7 +6,7 @@ import '../../../../simple_kit.dart';
 // TODO rename to SAccount
 class SimpleAccountCategoryButton extends StatelessWidget {
   const SimpleAccountCategoryButton({
-    Key? key,
+    super.key,
     this.onTap,
     required this.icon,
     required this.title,
@@ -15,7 +15,7 @@ class SimpleAccountCategoryButton extends StatelessWidget {
     this.switchValue = false,
     this.notification = false,
     this.showEditIcon = false,
-  }) : super(key: key);
+  });
 
   final Widget icon;
   final Function()? onTap;

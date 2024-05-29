@@ -5,7 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 class SMarketItem extends StatelessWidget {
   const SMarketItem({
-    Key? key,
+    super.key,
     this.last = false,
     this.showFavoriteIcon = false,
     this.isStarActive = false,
@@ -17,7 +17,7 @@ class SMarketItem extends StatelessWidget {
     required this.ticker,
     required this.percent,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final Widget icon;
   final String name;

@@ -9,7 +9,7 @@ import 'package:simple_kit_updated/widgets/table/account_table/simple_table_asse
 
 class SimpleTableAccount extends HookWidget {
   const SimpleTableAccount({
-    Key? key,
+    super.key,
     required this.label,
     this.onTableAssetTap,
     this.supplement,
@@ -29,7 +29,7 @@ class SimpleTableAccount extends HookWidget {
     this.buttonTap,
     this.customRightWidget,
     this.onTableTap,
-  }) : super(key: key);
+  });
 
   final Widget? assetIcon;
   final bool isCard;

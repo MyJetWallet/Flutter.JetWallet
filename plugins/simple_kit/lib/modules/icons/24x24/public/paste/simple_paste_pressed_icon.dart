@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/paste/simple_light_paste_pr
 import 'package:simple_kit/utils/enum.dart';
 
 class SPastePressedIcon extends StatelessObserverWidget {
-  const SPastePressedIcon({Key? key}) : super(key: key);
+  const SPastePressedIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

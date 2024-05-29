@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
+import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -17,17 +18,20 @@ void showAddCashFromBottomSheet({
   required BuildContext context,
   required VoidCallback onClose,
   required void Function(CurrencyModel currency) onChooseAsset,
+  String? skipAsset,
 }) {
   sAnalytics.addCashFromTrScreenView();
 
   final baseCurrency = sSignalRModules.baseCurrency;
 
-  final searchStore = ActionSearchStore();
+  final initAssetsList = [...sSignalRModules.currenciesList.where((element) => element.symbol != skipAsset)];
+
+  final searchStore = ActionSearchStore()..init(customCurrencies: initAssetsList);
 
   var currencyFiltered = List<CurrencyModel>.from(searchStore.fCurrencies);
   currencyFiltered = currencyFiltered
       .where(
-        (element) => element.isAssetBalanceNotEmpty && element.type == AssetType.crypto,
+        (element) => element.type == AssetType.crypto,
       )
       .toList();
 
@@ -36,7 +40,7 @@ void showAddCashFromBottomSheet({
   sShowBasicModalBottomSheet(
     context: context,
     pinned: ActionBottomSheetHeader(
-      name: intl.add_cash_from,
+      name: intl.wallet_choose_asset_from_convert,
       showSearch: showSearch,
       onChanged: (String value) {
         searchStore.search(value);
@@ -53,67 +57,41 @@ void showAddCashFromBottomSheet({
     scrollable: true,
     expanded: showSearch,
     children: [
-      STextDivider(intl.sell_amount_cryptocurrencies),
-      if (sSignalRModules.currenciesList
-          .where((element) => element.symbol != 'EUR' && element.isAssetBalanceNotEmpty)
-          .isEmpty)
-        Builder(
-          builder: (context) {
-            final currency = sSignalRModules.currenciesList.firstWhere((element) => element.symbol == 'USDT');
+      Observer(
+        builder: (context) {
+          var currencyFiltered = List<CurrencyModel>.from(searchStore.fCurrencies);
+          currencyFiltered = currencyFiltered
+              .where(
+                (element) => element.type == AssetType.crypto,
+              )
+              .toList();
 
-            return SimpleTableAccount(
-              assetIcon: SNetworkSvg24(
-                url: currency.iconUrl,
-              ),
-              label: currency.description,
-              supplement: getIt<AppStore>().isBalanceHide
-                  ? '******* ${currency.symbol}'
-                  : currency.volumeAssetBalance,
-              rightValue: getIt<AppStore>().isBalanceHide
-                  ? '**** ${baseCurrency.symbol}'
-                  : currency.volumeBaseBalance(baseCurrency),
-              onTableAssetTap: () {
-                sAnalytics.tapOnTheAnyCryptoForDepositButton(cryptoAsset: currency.symbol);
-                onChooseAsset(currency);
-              },
-            );
-          },
-        )
-      else
-        Observer(
-          builder: (context) {
-            var currencyFiltered = List<CurrencyModel>.from(searchStore.fCurrencies);
-            currencyFiltered = currencyFiltered
-                .where(
-                  (element) => element.isAssetBalanceNotEmpty && element.type == AssetType.crypto,
-                )
-                .toList();
+          final watchList = sSignalRModules.keyValue.watchlist?.value ?? [];
+          sortByBalanceWatchlistAndWeight(currencyFiltered, watchList);
 
-            return Column(
-              children: [
-                for (final currency in currencyFiltered) ...[
-                  if (currency.isAssetBalanceNotEmpty)
-                    SimpleTableAccount(
-                      assetIcon: SNetworkSvg24(
-                        url: currency.iconUrl,
-                      ),
-                      label: currency.description,
-                      supplement: getIt<AppStore>().isBalanceHide
-                          ? '******* ${currency.symbol}'
-                          : currency.volumeAssetBalance,
-                      rightValue: getIt<AppStore>().isBalanceHide
-                        ? '**** ${baseCurrency.symbol ?? 'EUR'}'
-                        : currency.volumeBaseBalance(baseCurrency),
-                      onTableAssetTap: () {
-                        sAnalytics.tapOnTheAnyCryptoForDepositButton(cryptoAsset: currency.symbol);
-                        onChooseAsset(currency);
-                      },
-                    ),
-                ],
+          return Column(
+            children: [
+              for (final currency in currencyFiltered) ...[
+                SimpleTableAccount(
+                  assetIcon: SNetworkSvg24(
+                    url: currency.iconUrl,
+                  ),
+                  label: currency.description,
+                  supplement:
+                      getIt<AppStore>().isBalanceHide ? '******* ${currency.symbol}' : currency.volumeAssetBalance,
+                  rightValue: getIt<AppStore>().isBalanceHide
+                      ? '**** ${baseCurrency.symbol}'
+                      : currency.volumeBaseBalance(baseCurrency),
+                  onTableAssetTap: () {
+                    sAnalytics.tapOnTheAnyCryptoForDepositButton(cryptoAsset: currency.symbol);
+                    onChooseAsset(currency);
+                  },
+                ),
               ],
-            );
-          },
-        ),
+            ],
+          );
+        },
+      ),
       const SpaceH42(),
     ],
   );

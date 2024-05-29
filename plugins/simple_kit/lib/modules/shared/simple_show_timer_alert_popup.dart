@@ -59,12 +59,11 @@ abstract class __TimerStateBase with Store {
 
 class _TimerAlertPopup extends StatelessObserverWidget {
   const _TimerAlertPopup({
-    Key? key,
     required this.expireIn,
     required this.description,
     required this.buttonName,
     required this.onButtonTap,
-  }) : super(key: key);
+  });
 
   final String expireIn;
   final String description;

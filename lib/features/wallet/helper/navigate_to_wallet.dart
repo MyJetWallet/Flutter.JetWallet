@@ -3,6 +3,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/my_wallets/helper/currencies_for_my_wallet.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/wallet_body.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 
 void navigateToWallet(BuildContext context, CurrencyModel currency) {
   final savedCurrencies = currenciesForMyWallet();
@@ -10,19 +11,31 @@ void navigateToWallet(BuildContext context, CurrencyModel currency) {
   final isCurrencySaved = savedCurrencies.any((element) => element.symbol == currency.symbol);
 
   if (isCurrencySaved) {
-    sRouter.push(
+    sRouter
+        .push(
       WalletRouter(
         currency: currency,
       ),
-    );
+    )
+        .then((value) {
+      sAnalytics.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen(
+        openedAsset: currency.symbol,
+      );
+    });
   } else {
-    Navigator.of(context).push(
+    Navigator.of(context)
+        .push(
       MaterialPageRoute(
         builder: (context) => WalletBody(
           currency: currency,
           isSinglePage: true,
         ),
       ),
-    );
+    )
+        .then((value) {
+      sAnalytics.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen(
+        openedAsset: currency.symbol,
+      );
+    });
   }
 }

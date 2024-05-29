@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
-import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/colors/simple_colors_light.dart';
 
 enum SPlaceholderSize {
   l,
@@ -17,11 +14,11 @@ enum SPlaceholderMood {
 
 class SPlaceholder extends StatelessWidget {
   const SPlaceholder({
-    Key? key,
+    super.key,
     required this.size,
     required this.text,
     this.mood = SPlaceholderMood.happy,
-  }) : super(key: key);
+  });
 
   final SPlaceholderSize size;
   final String text;
@@ -32,7 +29,7 @@ class SPlaceholder extends StatelessWidget {
     double getHeightBaseOnSize() {
       switch (size) {
         case SPlaceholderSize.l:
-          return 152;
+          return 177;
         case SPlaceholderSize.xl:
           return 288;
         default:

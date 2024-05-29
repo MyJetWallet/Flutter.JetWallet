@@ -7,11 +7,11 @@ import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 
 class SChooseDocument extends StatelessWidget {
   const SChooseDocument({
-    Key? key,
+    super.key,
     this.active = false,
     required this.primaryText,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final bool active;
   final String primaryText;

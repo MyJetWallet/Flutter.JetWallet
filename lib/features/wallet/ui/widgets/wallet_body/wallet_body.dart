@@ -8,10 +8,12 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
+import 'package:jetwallet/features/convert_flow/utils/show_convert_to_bottom_sheet.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
+import 'package:jetwallet/features/sell_flow/widgets/sell_with_bottom_sheet.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/transaction_list_item.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
@@ -86,7 +88,6 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
 
     final kycState = getIt.get<KycService>();
     final handler = getIt.get<KycAlertHandler>();
-
     return Material(
       color: colors.white,
       child: Column(
@@ -99,39 +100,39 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
             ticker: widget.currency.symbol,
             mainTitle: widget.currency.symbol == 'EUR'
                 ? getIt<AppStore>().isBalanceHide
-                  ? '**** ${widget.currency.symbol}'
-                  : volumeFormat(
-                    decimal: sSignalRModules.totalEurWalletBalance,
-                    accuracy: widget.currency.accuracy,
-                    symbol: widget.currency.symbol,
-                  )
+                    ? '**** ${widget.currency.symbol}'
+                    : volumeFormat(
+                        decimal: sSignalRModules.totalEurWalletBalance,
+                        accuracy: widget.currency.accuracy,
+                        symbol: widget.currency.symbol,
+                      )
                 : getIt<AppStore>().isBalanceHide
-                  ? '**** ${getIt.get<FormatService>().baseCurrency.symbol}'
-                  : widget.currency.volumeBaseBalance(
-                    getIt.get<FormatService>().baseCurrency,
-                  ),
+                    ? '**** ${getIt.get<FormatService>().baseCurrency.symbol}'
+                    : widget.currency.volumeBaseBalance(
+                        getIt.get<FormatService>().baseCurrency,
+                      ),
             mainSubtitle: getIt.get<FormatService>().baseCurrency.symbol != widget.currency.symbol
                 ? widget.currency.symbol == 'EUR'
-                  ? getIt<AppStore>().isBalanceHide
-                    ? '**** ${getIt.get<FormatService>().baseCurrency.symbol}'
-                    : widget.currency.volumeBaseBalance(getIt.get<FormatService>().baseCurrency)
-                  : getIt<AppStore>().isBalanceHide
-                      ? '******* ${widget.currency.symbol}'
-                      : widget.currency.volumeAssetBalance
+                    ? getIt<AppStore>().isBalanceHide
+                        ? '**** ${getIt.get<FormatService>().baseCurrency.symbol}'
+                        : widget.currency.volumeBaseBalance(getIt.get<FormatService>().baseCurrency)
+                    : getIt<AppStore>().isBalanceHide
+                        ? '******* ${widget.currency.symbol}'
+                        : widget.currency.volumeAssetBalance
                 : null,
             mainHeaderTitle: widget.currency.description,
             mainHeaderSubtitle: intl.eur_wallet,
             mainHeaderCollapsedTitle: widget.currency.symbol == 'EUR'
                 ? getIt<AppStore>().isBalanceHide
-                  ? '**** ${widget.currency.symbol}'
-                  : volumeFormat(
-                    decimal: sSignalRModules.totalEurWalletBalance,
-                    accuracy: widget.currency.accuracy,
-                    symbol: widget.currency.symbol,
-                  )
-                :  getIt<AppStore>().isBalanceHide
-                  ? '**** ${getIt.get<FormatService>().baseCurrency.symbol}'
-                  : widget.currency.volumeBaseBalance(getIt.get<FormatService>().baseCurrency),
+                    ? '**** ${widget.currency.symbol}'
+                    : volumeFormat(
+                        decimal: sSignalRModules.totalEurWalletBalance,
+                        accuracy: widget.currency.accuracy,
+                        symbol: widget.currency.symbol,
+                      )
+                : getIt<AppStore>().isBalanceHide
+                    ? '**** ${getIt.get<FormatService>().baseCurrency.symbol}'
+                    : widget.currency.volumeBaseBalance(getIt.get<FormatService>().baseCurrency),
             mainHeaderCollapsedSubtitle: widget.currency.description,
             carouselItemsCount: widget.pageCount,
             carouselPageIndex: widget.indexNow,
@@ -238,23 +239,34 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
 
                           final actualAsset = widget.currency;
 
-                          if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
-                            showSendTimerAlertOr(
+                          handler.handle(
+                            multiStatus: [
+                              kycState.tradeStatus,
+                            ],
+                            isProgress: kycState.verificationInProgress,
+                            currentNavigate: () => showSendTimerAlertOr(
                               context: context,
-                              or: () => sRouter.push(
-                                AmountRoute(
-                                  tab: AmountScreenTab.sell,
-                                  asset: actualAsset,
-                                ),
-                              ),
                               from: [BlockingType.trade],
-                            );
-                          } else {
-                            sNotification.showError(
-                              intl.operation_bloked_text,
-                              id: 1,
-                            );
-                          }
+                              or: () {
+                                showSellPayWithBottomSheet(
+                                  context: context,
+                                  currency: actualAsset,
+                                  onSelected: ({account, card}) {
+                                    sRouter.push(
+                                      AmountRoute(
+                                        tab: AmountScreenTab.sell,
+                                        asset: actualAsset,
+                                        account: account,
+                                        simpleCard: card,
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                            requiredDocuments: kycState.requiredDocuments,
+                            requiredVerifications: kycState.requiredVerifications,
+                          );
                         },
                         onReceive: () {
                           final actualAsset = widget.currency;
@@ -296,10 +308,17 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                           );
 
                           final actualAsset = widget.currency;
-                          showSendOptions(
-                            context,
-                            actualAsset,
-                            navigateBack: false,
+
+                          handler.handle(
+                            multiStatus: [],
+                            isProgress: kycState.verificationInProgress,
+                            currentNavigate: () => showSendOptions(
+                              context,
+                              actualAsset,
+                              navigateBack: false,
+                            ),
+                            requiredDocuments: kycState.requiredDocuments,
+                            requiredVerifications: kycState.requiredVerifications,
                           );
                         },
                         onConvert: () {
@@ -307,23 +326,25 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                             source: 'Wallet - Convert',
                           );
                           final actualAsset = widget.currency;
-                          if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
-                            showSendTimerAlertOr(
+
+                          handler.handle(
+                            multiStatus: [
+                              kycState.tradeStatus,
+                            ],
+                            isProgress: kycState.verificationInProgress,
+                            currentNavigate: () => showSendTimerAlertOr(
                               context: context,
-                              or: () => sRouter.push(
-                                AmountRoute(
-                                  tab: AmountScreenTab.convert,
-                                  asset: actualAsset,
-                                ),
-                              ),
+                              or: () {
+                                showConvertToBottomSheet(
+                                  context: context,
+                                  fromAsset: actualAsset,
+                                );
+                              },
                               from: [BlockingType.trade],
-                            );
-                          } else {
-                            sNotification.showError(
-                              intl.operation_bloked_text,
-                              id: 1,
-                            );
-                          }
+                            ),
+                            requiredDocuments: kycState.requiredDocuments,
+                            requiredVerifications: kycState.requiredVerifications,
+                          );
                         },
                       ),
                     ),

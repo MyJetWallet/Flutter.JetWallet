@@ -5,10 +5,10 @@ import '../../simple_kit.dart';
 
 class SPaymentSelectContactWithoutName extends StatelessWidget {
   const SPaymentSelectContactWithoutName({
-    Key? key,
+    super.key,
     required this.phone,
     required this.widgetSize,
-  }) : super(key: key);
+  });
 
   final String phone;
   final SWidgetSize widgetSize;

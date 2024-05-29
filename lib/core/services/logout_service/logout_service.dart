@@ -19,6 +19,8 @@ import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/auth_api/models/logout/logout_request_moder.dart';
 
+import '../session_check_service.dart';
+
 part 'logout_service.g.dart';
 
 class LogoutService = _LogoutServiceBase with _$LogoutService;
@@ -122,7 +124,20 @@ abstract class _LogoutServiceBase with Store {
       // Make init router unauthorized
       await pushToFirstPage();
 
-      sSignalRModules.clearSignalRModule();
+      await Future.delayed(Duration.zero);
+
+      try {
+        sSignalRModules.clearSignalRModule();
+      } catch (e) {
+        _logger.log(
+          level: Level.error,
+          place: _loggerValue,
+          message: 'Error with logout request: $e',
+        );
+
+        await _clearUserData();
+        await pushToFirstPage();
+      }
 
       _logger.log(
         level: Level.debug,
@@ -163,8 +178,13 @@ abstract class _LogoutServiceBase with Store {
       getIt<IbanStore>().clearData();
     }
 
-    await getIt.get<IntercomService>().logout();
+    if (getIt.isRegistered<SessionCheckService>()) {
+      getIt.get<SessionCheckService>().clearSessionData();
+    }
 
+    if (getIt.isRegistered<IntercomService>()) {
+      await getIt.get<IntercomService>().logout();
+    }
     //if (getIt.isRegistered<ZenDeskService>()) {
     //  await getIt.get<ZenDeskService>().logoutZenDesk();
     //}
@@ -172,6 +192,7 @@ abstract class _LogoutServiceBase with Store {
 
   Future<void> pushToFirstPage() async {
     await getIt<AppStore>().pushToUnlogin();
+    await Future.delayed(Duration.zero);
     await sRouter.replaceAll([
       const OnboardingRoute(),
     ]);

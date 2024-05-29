@@ -4,9 +4,9 @@ import '../../base/simple_base_svg_20x20.dart';
 
 class SimpleLightDepositInProgressEarnIcon extends StatelessWidget {
   const SimpleLightDepositInProgressEarnIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

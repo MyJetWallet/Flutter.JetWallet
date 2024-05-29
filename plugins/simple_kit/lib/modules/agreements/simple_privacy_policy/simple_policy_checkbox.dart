@@ -5,7 +5,7 @@ import '../../../simple_kit.dart';
 
 class SPolicyCheckbox extends StatelessWidget {
   const SPolicyCheckbox({
-    Key? key,
+    super.key,
     required this.firstText,
     required this.userAgreementText,
     required this.betweenText,
@@ -23,7 +23,7 @@ class SPolicyCheckbox extends StatelessWidget {
     this.activeText2,
     this.firstAdditionalText,
     this.onActiveText2Tap,
-  }) : super(key: key);
+  });
 
   final String firstText;
   final String userAgreementText;

@@ -282,6 +282,13 @@ const sPhoneNumbers = [
     alphaCode: 'CAN',
   ),
   SPhoneNumber(
+    numCode: '599',
+    isoCode: 'BQ',
+    countryName: 'Caribbean Netherlands',
+    countryCode: '+31',
+    alphaCode: 'BQ',
+  ),
+  SPhoneNumber(
     numCode: '136',
     countryName: 'Cayman Islands',
     countryCode: '+1345',
@@ -392,6 +399,13 @@ const sPhoneNumbers = [
     countryCode: '+53',
     isoCode: 'CU',
     alphaCode: 'CUB',
+  ),
+  SPhoneNumber(
+    numCode: '599',
+    isoCode: 'CW',
+    countryName: 'Curacao',
+    countryCode: '+599',
+    alphaCode: 'CW',
   ),
   SPhoneNumber(
     numCode: '196',

@@ -24,9 +24,10 @@ void sShowDisclaimerPopup(
     context: context,
     barrierDismissible: false,
     builder: (context) {
-      return WillPopScope(
-        onWillPop: () {
-          return Future.value(false);
+      return PopScope(
+        canPop: false,
+        onPopInvoked: (_) {
+          Future.value(false);
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,

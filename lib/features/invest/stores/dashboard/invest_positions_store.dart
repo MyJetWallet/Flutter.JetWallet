@@ -3,13 +3,17 @@ import 'dart:async';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/modules/icons/custom/public/invest/simple_invest_report.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_text_button.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
@@ -21,7 +25,6 @@ import '../../../../utils/formatting/base/volume_format.dart';
 import '../../helpers/invest_period_info.dart';
 import '../../ui/invests/data_line.dart';
 import '../../ui/widgets/invest_alert_bottom_sheet.dart';
-import '../../ui/widgets/invest_text_button.dart';
 import 'invest_dashboard_store.dart';
 
 part 'invest_positions_store.g.dart';
@@ -38,7 +41,7 @@ abstract class _InvestPositionsStoreBase with Store {
   bool isActiveGrouped = true;
 
   @observable
-  bool isHistoryGrouped = true;
+  bool isHistoryGrouped = false;
 
   @observable
   int activeInstrumentTab = 0;
@@ -83,6 +86,11 @@ abstract class _InvestPositionsStoreBase with Store {
   @observable
   Decimal totalProfitPercent = Decimal.zero;
 
+  @computed
+  InvestInstrumentsModel? get investInstrumentsData => sSignalRModules.investInstrumentsData;
+  @computed
+  InvestPositionsModel? get investPositionsData => sSignalRModules.investPositionsData;
+
   @action
   void setTotals(
     Decimal amount,
@@ -96,19 +104,18 @@ abstract class _InvestPositionsStoreBase with Store {
 
   @action
   Future<void> requestInvestHistorySummary(
-      bool needLoader,
+    bool needLoader,
   ) async {
-
     final investStore = getIt.get<InvestDashboardStore>();
 
     final response = await sNetwork.getWalletModule().getInvestHistorySummary(
-      dateFrom: '${DateTime.now().subtract(
-        Duration(
-          days: getDaysByPeriod(investStore.period),
-        ),
-      )}',
-      dateTo: '${DateTime.now()}',
-    );
+          dateFrom: '${DateTime.now().subtract(
+            Duration(
+              days: getDaysByPeriod(investStore.period),
+            ),
+          )}',
+          dateTo: '${DateTime.now()}',
+        );
 
     var amount = Decimal.zero;
     var profit = Decimal.zero;
@@ -133,28 +140,22 @@ abstract class _InvestPositionsStoreBase with Store {
     if (!response.hasError && response.data != null) {
       journalList = response.data!;
     }
-    final responseRollover = await sNetwork.getWalletModule().getPositionHistoryRollover(id: position.id!, skip: '0', take: '20');
+    final responseRollover =
+        await sNetwork.getWalletModule().getPositionHistoryRollover(id: position.id!, skip: '0', take: '20');
     if (!responseRollover.hasError && responseRollover.data != null) {
       rolloverList = responseRollover.data!;
     }
   }
 
   @computed
-  ObservableList<InvestInstrumentModel> get instrumentsList =>
-      sSignalRModules.investInstrumentsData != null ? ObservableList.of([
-    ...sSignalRModules.investInstrumentsData!.instruments,
-  ]) : ObservableList.of([]);
+  List<InvestInstrumentModel> get instrumentsList => investInstrumentsData?.instruments ?? [];
 
   @computed
-  ObservableList<InvestPositionModel> get positionsList =>
-      sSignalRModules.investPositionsData != null ? ObservableList.of([
-    ...sSignalRModules.investPositionsData!.positions,
-  ]) : ObservableList.of([]);
+  List<InvestPositionModel> get positionsList => investPositionsData?.positions ?? [];
 
   @computed
   ObservableList<InvestPositionModel> get activeList {
-    final activeList = sSignalRModules.investPositionsData != null
-        ? sSignalRModules.investPositionsData!.positions : <InvestPositionModel>[];
+    final activeList = positionsList;
     final activePositions = <InvestPositionModel>[];
     if (activeList.isNotEmpty) {
       for (var i = 0; i < activeList.length; i++) {
@@ -169,8 +170,7 @@ abstract class _InvestPositionsStoreBase with Store {
 
   @computed
   ObservableList<InvestPositionModel> get pendingList {
-    final activeList = sSignalRModules.investPositionsData != null
-        ? sSignalRModules.investPositionsData!.positions : <InvestPositionModel>[];
+    final activeList = positionsList;
     final pendingPositions = <InvestPositionModel>[];
     if (activeList.isNotEmpty) {
       for (var i = 0; i < activeList.length; i++) {
@@ -185,8 +185,7 @@ abstract class _InvestPositionsStoreBase with Store {
 
   @computed
   ObservableList<InvestPositionModel> get closedList {
-    final activeList = sSignalRModules.investPositionsData != null
-        ? sSignalRModules.investPositionsData!.positions : <InvestPositionModel>[];
+    final activeList = positionsList;
     final closedPositions = <InvestPositionModel>[];
     if (activeList.isNotEmpty) {
       for (var i = 0; i < activeList.length; i++) {
@@ -201,8 +200,7 @@ abstract class _InvestPositionsStoreBase with Store {
 
   @computed
   ObservableList<InvestPositionModel> get cancelledList {
-    final activeList = sSignalRModules.investPositionsData != null
-        ? sSignalRModules.investPositionsData!.positions : <InvestPositionModel>[];
+    final activeList = positionsList;
     final cancelledPositions = <InvestPositionModel>[];
     if (activeList.isNotEmpty) {
       for (var i = 0; i < activeList.length; i++) {
@@ -293,7 +291,8 @@ abstract class _InvestPositionsStoreBase with Store {
     }
   }
 
-
+  @computed
+  bool get isBalanceHide => getIt<AppStore>().isBalanceHide;
 
   @action
   void closeActivePosition(
@@ -303,67 +302,77 @@ abstract class _InvestPositionsStoreBase with Store {
   ) {
     try {
       sNetwork.getWalletModule().closeActivePosition(positionId: position.id ?? '');
-      final investStore = getIt.get<InvestDashboardStore>();
-      showInvestInfoBottomSheet(
-        context: context,
-        type: 'success',
-        onPrimaryButtonTap: () {
+      checkClosedPosition(
+        position.id!,
+        () {
+          final investStore = getIt.get<InvestDashboardStore>();
           Navigator.pop(context);
           Navigator.pop(context);
-          Navigator.pop(context);
-        },
-        primaryButtonName: intl.invest_alert_got_it,
-        title: intl.invest_alert_success_close_position,
-        removeWidgetSpace: true,
-        bottomWidget: Column(
-          children: [
-            const SpaceH16(),
-            DataLine(
-              mainText: intl.invest_alert_close_all_profit,
-              secondaryText: volumeFormat(
-                decimal: investStore.getProfitByPosition(position),
-                accuracy: 2,
-                symbol: 'USDT',
-              ),
-              secondaryColor: SColorsLight().green,
-            ),
-            const SpaceH8(),
-            DataLine(
-              mainText: intl.invest_close_price,
-              secondaryText: volumeFormat(
-                decimal: investStore.getPendingPriceBySymbol(instrument.symbol ?? ''),
-                accuracy: instrument.priceAccuracy ?? 2,
-                symbol: '',
-              ),
-            ),
-            const SpaceH16(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+          showInvestInfoBottomSheet(
+            context: context,
+            type: 'success',
+            onPrimaryButtonTap: () {
+              sRouter.maybePop();
+            },
+            primaryButtonName: intl.invest_alert_got_it,
+            title: intl.invest_alert_success_close_position,
+            removeWidgetSpace: true,
+            bottomWidget: Column(
               children: [
+                const SpaceH16(),
                 DataLine(
-                  fullWidth: false,
-                  mainText: intl.invest_close_fee,
+                  mainText: intl.invest_alert_close_all_profit,
+                  secondaryText: isBalanceHide
+                      ? '**** USDT'
+                      : volumeFormat(
+                          decimal: investStore.getProfitByPosition(position),
+                          accuracy: 2,
+                          symbol: 'USDT',
+                        ),
+                  secondaryColor: SColorsLight().green,
+                ),
+                const SpaceH8(),
+                DataLine(
+                  mainText: intl.invest_close_price,
                   secondaryText: volumeFormat(
-                    decimal: (position.volumeBase ?? Decimal.zero) *
-                        investStore.getPendingPriceBySymbol(instrument.symbol ?? '') *
-                        (instrument.closeFee ?? Decimal.zero),
+                    decimal: investStore.getPendingPriceBySymbol(instrument.symbol ?? ''),
                     accuracy: instrument.priceAccuracy ?? 2,
-                    symbol: 'USDT',
+                    symbol: '',
                   ),
                 ),
-                const SpaceW20(),
-                SITextButton(
-                  active: true,
-                  name: intl.invest_full_report,
-                  onTap: () {
-
-                  },
-                  icon: const SIReportIcon(width: 16, height: 16,),
+                const SpaceH16(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    DataLine(
+                      fullWidth: false,
+                      mainText: intl.invest_close_fee,
+                      secondaryText: isBalanceHide
+                          ? '**** USDT'
+                          : volumeFormat(
+                              decimal: (position.volumeBase ?? Decimal.zero) *
+                                  investStore.getPendingPriceBySymbol(instrument.symbol ?? '') *
+                                  (instrument.closeFee ?? Decimal.zero),
+                              accuracy: instrument.priceAccuracy ?? 2,
+                              symbol: 'USDT',
+                            ),
+                    ),
+                    const SpaceW20(),
+                    SITextButton(
+                      active: true,
+                      name: intl.invest_full_report,
+                      onTap: () {},
+                      icon: Assets.svg.invest.report.simpleSvg(
+                        width: 16,
+                        height: 16,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
+          );
+        },
       );
     } catch (e) {
       Navigator.pop(context);
@@ -419,39 +428,70 @@ abstract class _InvestPositionsStoreBase with Store {
   }
 
   @action
+  Future<void> cancelPending(BuildContext context, String? id) async {
+    loader!.startLoading();
+
+    try {
+      await sNetwork.getWalletModule().cancelPendingPosition(positionId: id ?? '');
+
+      await checkClosedPosition(id ?? '', () {
+        Navigator.pop(context);
+        Navigator.pop(context);
+
+        showInvestInfoBottomSheet(
+          context: context,
+          type: 'success',
+          onPrimaryButtonTap: () {
+            sRouter.maybePop();
+          },
+          primaryButtonName: intl.invest_alert_got_it,
+          title: intl.invest_alert_success_delete,
+        );
+        loader!.finishLoading();
+      });
+    } catch (e) {
+      Navigator.pop(context);
+      loader!.finishLoading();
+      showInvestInfoBottomSheet(
+        context: context,
+        type: 'error',
+        onPrimaryButtonTap: () => Navigator.pop(context),
+        primaryButtonName: intl.invest_alert_got_it,
+        title: intl.invest_alert_error,
+        subtitle: intl.invest_alert_error_description,
+      );
+    }
+  }
+
+  @action
   Future<void> checkClosedPosition(
     String id,
     Function() onClose,
   ) async {
     try {
-      final response = await getIt
-          .get<SNetwork>()
-          .simpleNetworking
-          .getWalletModule()
-          .getPosition(positionId: id);
+      final response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().getPosition(positionId: id);
 
       if (response.hasError) {
         sNotification.showError(
           response.error?.cause ?? '',
-          duration: 4,
           id: 1,
           needFeedback: true,
         );
         loader!.finishLoading();
       } else {
-        if (
-          response.data?.position?.status == PositionStatus.closing ||
-          response.data?.position?.status == PositionStatus.cancelling
-        ) {
+        if (response.data?.position?.status == PositionStatus.closed ||
+            response.data?.position?.status == PositionStatus.cancelled) {
+          Future.delayed(const Duration(seconds: 2), () {
+            loader!.finishLoading();
+            onClose();
+          });
+        } else {
           Timer(
             const Duration(seconds: 1),
             () {
               checkClosedPosition(id, onClose);
             },
           );
-        } else {
-          loader!.finishLoading();
-          onClose();
         }
       }
     } catch (e) {
@@ -461,5 +501,4 @@ abstract class _InvestPositionsStoreBase with Store {
       loader!.finishLoading();
     }
   }
-
 }

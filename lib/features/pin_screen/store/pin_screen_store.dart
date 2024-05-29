@@ -385,13 +385,12 @@ abstract class _PinScreenStoreBase with Store {
               _updatePinBoxState(PinBoxEnum.empty);
             } else {
               if (isChangePhone) {
-                await sRouter.pop();
-                await sRouter.pop();
+                await sRouter.maybePop();
+                await sRouter.maybePop();
               }
               sNotification.showError(
                 '''Incorrect PIN has been entered more than $maxPinAttempts times, '''
                 'you have been logged out of your account.',
-                duration: 5,
               );
 
               await getIt.get<LogoutService>().logout(
@@ -403,12 +402,11 @@ abstract class _PinScreenStoreBase with Store {
             await resetPin();
           } else {
             if (isChangePhone) {
-              await sRouter.pop();
+              await sRouter.maybePop();
             }
             sNotification.showError(
               'Incorrect PIN has been entered more than $maxPinAttempts times, '
               'you have been logged out of your account.',
-              duration: 5,
             );
           }
         },
@@ -528,7 +526,7 @@ abstract class _PinScreenStoreBase with Store {
     await _animateSuccess();
     await pinAction;
 
-    await sRouter.pop();
+    await sRouter.maybePop();
   }
 
   @action

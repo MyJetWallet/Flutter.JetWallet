@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/56x56/light/market/simple_light_market_
 import 'package:simple_kit/utils/enum.dart';
 
 class SMarketDefaultIcon extends StatelessObserverWidget {
-  const SMarketDefaultIcon({Key? key}) : super(key: key);
+  const SMarketDefaultIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

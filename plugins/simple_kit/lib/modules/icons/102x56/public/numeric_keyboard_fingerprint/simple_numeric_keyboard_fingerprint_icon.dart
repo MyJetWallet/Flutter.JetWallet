@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/102x56/light/numeric_keyboard_fingerpri
 import 'package:simple_kit/utils/enum.dart';
 
 class SNumericKeyboardFingerprintIcon extends StatelessObserverWidget {
-  const SNumericKeyboardFingerprintIcon({Key? key}) : super(key: key);
+  const SNumericKeyboardFingerprintIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

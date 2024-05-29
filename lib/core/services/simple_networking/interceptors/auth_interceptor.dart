@@ -31,7 +31,7 @@ void setAuthInterceptor(
             );
 
             handler.reject(
-              DioError(
+              DioException(
                 requestOptions: options,
               ),
             );
@@ -51,7 +51,7 @@ void setAuthInterceptor(
         } else {
           /// We dont hava token, so we can't send the request
           handler.reject(
-            DioError(
+            DioException(
               requestOptions: options,
             ),
           );
@@ -64,7 +64,6 @@ void setAuthInterceptor(
         return handler.next(options);
       },
       onError: (dioError, handler) async {
-
         if (getIt.isRegistered<AppStore>()) {
           if (getIt<AppStore>().appStatus == AppStatus.end) {
             handler.reject(dioError);
@@ -74,7 +73,7 @@ void setAuthInterceptor(
         }
 
         log.e(
-          '''${dioError.response}\n${dioError.error}\n${dioError.message}\n${dioError}''',
+          '''${dioError.response}\n${dioError.error}\n${dioError.message}\n$dioError''',
         );
 
         log.e(

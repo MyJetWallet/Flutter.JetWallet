@@ -408,7 +408,7 @@ abstract class _SellConfirmationStoreBase with Store {
             isChangePhone: true,
             onChangePhone: (String newPin) async {
               pin = newPin;
-              await sRouter.pop();
+              await sRouter.maybePop();
             },
           ),
         );

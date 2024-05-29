@@ -553,8 +553,117 @@ class EventType {
   static const failedTransferEndScreenView = 'Failed Transfer end’ screen view';
 
   static const pushNotificationSV = "'Push permission' screen view";
-  static const pushNotificationButtonTap = "Tap on the button ‘Get price updates’ on Push permission screen";
+  static const pushNotificationButtonTap = 'Tap on the button ‘Get price updates’ on Push permission screen';
   static const pushNotificationAlertView = "'Push alert' screen view";
-  static const pushNotificationAgree = "Tap on the button ‘Agree’ on Push alert screen";
-  static const pushNotificationDisagree = "Tap on the button ‘Not now’ on Push alert screen";
+  static const pushNotificationAgree = 'Tap on the button ‘Agree’ on Push alert screen';
+  static const pushNotificationDisagree = 'Tap on the button ‘Not now’ on Push alert screen';
+
+  //Earn
+  static const tapOnTheTabbarButtonEarn = 'Tap on the tabbar button ‘Earn’';
+  static const earnMainScreenView = '‘Earn main’ screen view';
+  static const tapOnTheViewAllTopOffersButton = 'Tap on the ‘View all top offers’ button';
+  static const allOffersScreenView = 'All offers’ screen view';
+  static const tapOnTheAnyOfferButton = 'Tap on the ‘Any offer’ button';
+  static const chooseEarnPlanScreenView = 'Choose earn plan’ screen view';
+  static const tapOnTheContinueWithEarnPlanButton = 'Tap on the ‘Continue with earn plan’ button';
+  static const earnDepositCryptoWalletPopupView = 'Earn Deposit crypto wallet’ popup view';
+  static const earnDepositAmountScreenView = 'Earn deposit amount’ screen view';
+  static const tapOnTheTopUpEarnWalletButton = 'Tap on the ‘Top up earn wallet’ button';
+  static const tapOnTheCancelTopUpEarnWalletButton = 'Tap on the ‘Cancel Top up earn wallet’ button';
+  static const tapOnTheContinueEarnAmountDepositButton = 'Tap on the ‘Continue earn amount deposit’ button';
+  static const earnDepositOrderSummaryScreenView = 'Earn deposit order summary’ screen view';
+  static const tapOnTheConfirmEarnDepositOrderSummaryButton = 'Tap on the ‘Confirm Earn deposit order summary’ button';
+  static const successEarnDepositScreenView = 'Success Earn deposit’ screen view';
+  static const failedEarnDepositScreenView = 'Failed Earn deposit’ screen view';
+  static const tapOnTheAnyActiveEarnButton = 'Tap on the ‘Any active earn’ button';
+  static const activeCryptoSavingsScreenView = 'Active Crypto savings’ screen view';
+  static const tapOnTheBackFromActiveCryptoSavingsButton = 'Tap on the ‘Back from Active Crypto savings’ button';
+  static const tapOnTheHistoryFromActiveCryptoSavingsButton = 'Tap on the ‘History from Active Crypto savings’ button';
+  static const tapOnTheTopUpFromActiveCryptoSavingsButton = 'Tap on the ‘Top up from Active Crypto savings’ button';
+  static const tapOnTheWithdrawFromActiveCryptoSavingsButton =
+      'Tap on the ‘Withdraw from Active Crypto savings’ button';
+  static const earnWithdrawTypeScreenView = 'Earn withdraw type’ screen view';
+  static const sureFullEarnWithdrawPopupView = 'Sure full earn withdraw’ popup view';
+  static const tapOnTheContinueEarningButton = 'Tap on the ‘Continue Earning’ button';
+  static const tapOnTheYesWithdrawButton = 'Tap on the ‘Yes, withdraw’ button';
+  static const tapOnTheContinueWithEarnWithdrawTypeButton = 'Tap on the ‘Continue with earn withdraw type’ button';
+  static const earnWithdrawAmountScreenView = 'Earn Withdraw amount’ screen view';
+  static const tapOnTheBackFromEarnWithdrawAmountButton = 'Tap on the ‘Back from earn withdraw amount’ button';
+  static const tapOnTheContinueWithEarnWithdrawAmountButton = 'Tap on the ‘Continue with earn withdraw amount’ button';
+  static const earnWithdrawOrderSummaryScreenView = 'Earn withdraw order summary’ screen view';
+  static const tapOnTheBackFromEarnWithdrawOrderSummaryButton =
+      'Tap on the ‘Back from earn withdraw order summary’ button';
+  static const tapOnTheConfirmWithdrawOrderSummaryButton = 'Tap on the ‘Confirm withdraw order summary’ button';
+  static const successEarnWithdrawScreenView = 'Success Earn withdraw’ screen view';
+  static const failedEarnMainScreenView = 'Failed Earn main’ screen view';
+  static const tapOnTheHistoryEarnbutton = 'Tap on the ‘History earn’ button';
+  static const earnsArchiveScreenView = 'Earns archive’ screen view';
+  static const tapOnTheAddToGoogleWalletButton = 'Tap on the ‘Add to Google Wallet’ button';
+  static const tapOnTheAddToAppleWalletButton = 'Tap on the ‘Add to Apple Wallet’ button';
+  static const popupAddCardToWalletScreenView = 'Popup Add card to Wallet’ screen view';
+  static const tapOnTheContinueAddToWalletButton = 'Tap on the ‘Continue add to wallet’ button';
+
+  // Prepaid card
+  static const tapOnTheBunnerPrepaidCardOnWallet = 'Tap on the  bunner ‘Prepaid card’ on Wallet';
+  static const tapOnTheCloseButtonOnBunnerPrepaidCard = 'Tap on the  Close button on bunner ‘Prepaid card’';
+  static const tapOnTheBunnerPrepaidCardsOnProfile = 'Tap on the  bunner ‘Prepaid cards’ on Profile';
+  static const prepaidCardServiceScreenView = '‘Prepaid card service’ screen view';
+  static const tapOnTheBackButtonFromPrepaidCardServiceScreen =
+      'Tap on the ‘Back’ button from ‘Prepaid card service’ screen';
+  static const tapOnTheCardManagementButtonOnPrepaidCardServiceScreen =
+      'Tap on the ‘Card management’ button on ‘Prepaid card service’ screen';
+  static const redirectingPrepaidCardPopupView = '‘Redirecting Prepaid card’ popup view';
+  static const tapOnTheContinueRedirectingButton = 'Tap on the ‘Continue Redirecting’ button';
+  static const tapOnTheCancelRedirectingButton = 'Tap on the ‘Cancel Redirecting’ button';
+  static const tapOnTheBuyCardButton = 'Tap on the ‘Buy Card’ button';
+  static const guideToUsingScreenView = '‘Guide to Using’ screen view';
+  static const tapOnTheNextButtonOnGuideToUsingScreen = 'Tap on the ‘Next’ button on ‘Guide to Using’ screen';
+  static const tapOnTheCloseButtonOnGuideToUsingScreen = 'Tap on the ‘Close’ button on ‘Guide to Using’ screen';
+  static const privacyScreenView = '‘Privacy’ screen view';
+  static const tapOnTheNextButtonOnPrivacyScreen = 'Tap on the ‘Next’ button on ‘Privacy’ screen';
+  static const tapOnTheCloseButtonOnPrivacyScreen = 'Tap on the ‘Close’ button on ‘Privacy’ screen';
+  static const tapOnTheBackButtonOnPrivacyScreen = 'Tap on the ‘Back’ button on ‘Privacy’ screen';
+  static const voucherActivationScreenView = '‘Voucher Activation’ screen view';
+  static const tapOnTheNextButtonOnVoucherActivationScreen = 'Tap on the ‘Next’ button on ‘Voucher Activation’ screen';
+  static const tapOnTheCloseButtonOnVoucherActivationScreen =
+      'Tap on the ‘Close’ button on ‘Voucher Activation’ screen';
+  static const tapOnTheBackButtonOnVoucherActivationScreen = 'Tap on the ‘Back’ button on ‘Voucher Activation’ screen';
+  static const choosePrepaidCardScreenView = '‘Choose prepaid card’ screen view';
+  static const tapOnTheBackButtonOnChoosePrepaidCardScreen = 'Tap on the ‘Back’ button on ‘Choose prepaid card’ screen';
+  static const tapOnTheCloseButtonOnChoosePrepaidCardScreen =
+      'Tap on the ‘Close’ button on ‘Choose prepaid card’ screen';
+  static const tapOnTheNextButtonOnChoosePrepaidCardScreen = 'Tap on the ‘Next’ button on ‘Choose prepaid card’ screen';
+  static const tapOnTheChooseResidentialCountryButtonOnChoosePrepaidCardScreen =
+      'Tap on the ‘Choose residential country’ button on ‘Choose prepaid card’ screen';
+  static const amountBuyVoucherScreenView = '‘Amount - buy voucher’ screen view';
+  static const tapOnTheBackButtonOnAmountBuyVoucherScreen = 'Tap on the ‘Back’ button on ‘Amount - buy voucher’ screen';
+  static const tapOnTheContinueButtonOnAmountBuyVoucherScreen =
+      'Tap on the ‘Continue’ button on ‘Amount - buy voucher’ screen';
+  static const orderSummaryBuyVoucherScreenView = '‘Order summary - buy voucher’ screen view';
+  static const tapOnTheBackButtonFromOrderSummaryBuyCoucherScreenView =
+      'Tap on the ‘Back’ button from ‘Order summary - buy voucher’ screen view';
+  static const tapOnTheConfirmButtonOnOrderSummaryBuyVoucherScreenView =
+      'Tap on the ‘Confirm’ button on ‘Order summary - buy voucher’ screen view';
+  static const successPrepaidPurchaseScreenView = '‘Success Prepaid  purchase’ screen view';
+  static const failedPrepaidPurchaseScreenView = '‘Failed Prepaid  purchase’ screen view';
+  static const tapOnTheAnyoucherButton = 'Tap on the ‘Any voucher’ button';
+  static const prepaidCardActivationScreenView = '‘Prepaid card activation’ screen view';
+  static const tapOnTheCloseButtonOnPrepaidCardActivationScreen =
+      'Tap on the ‘Close’ button on ‘Prepaid card activation’ screen';
+  static const tapOnTheCopyButtonOnPrepaidCardActivationScreen =
+      'Tap on the ‘Copy’ button on ‘Prepaid card activation’ screen';
+  static const tapOnTheIssueCardButtonOnPrepaidCardActivationScreen =
+      'Tap on the ‘Issue card’ button on ‘Prepaid card activation’ screen';
+
+  // Markert
+  static const tapOnTheTabbarButtonMarket = 'Tap on the tabbar button ‘Market’';
+  static const marketListScreenView = '‘Market list’ screen view';
+  static const tapOnTheAnyAssetOnMarketList = 'Tap on the  ‘Any asset’ on Market list';
+  static const marketAssetScreenView = '‘Market Asset’ screen view';
+  static const tapOnTheBackButtonFromMarketAssetScreen = 'Tap on the ‘Back’ button from ‘Market Asset’ screen';
+  static const tapOnTheBalanceButtonOnMarketAssetScreen = 'Tap on the ‘Balance’ button on ‘Market Asset’ screen';
+
+  static const tapOnTheBanner = 'Tap on the banner';
+  static const closeBanner = 'Close Banner';
+  static const tapOnTheSellButtonOnWalletsScr = 'Tap on the ‘Sell’ button on wallets scr';
 }

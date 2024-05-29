@@ -7,11 +7,11 @@ import 'components/keyboard_key_size.dart';
 
 class KeyboardKey extends StatefulWidget {
   const KeyboardKey({
-    Key? key,
+    super.key,
     required this.realValue,
     required this.frontKey,
     required this.onKeyPressed,
-  }) : super(key: key);
+  });
 
   /// The value that will be returned onPressed
   final String realValue;

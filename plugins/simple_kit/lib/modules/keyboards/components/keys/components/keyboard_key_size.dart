@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class KeyboardKeySize extends StatelessWidget {
   const KeyboardKeySize({
-    Key? key,
+    super.key,
     required this.child,
-  }) : super(key: key);
+  });
 
   final Widget child;
 

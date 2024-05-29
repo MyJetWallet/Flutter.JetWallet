@@ -4,9 +4,9 @@ import '../../base/simple_base_svg_36x36.dart';
 
 class SimpleLightFingerprintIcon extends StatelessWidget {
   const SimpleLightFingerprintIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

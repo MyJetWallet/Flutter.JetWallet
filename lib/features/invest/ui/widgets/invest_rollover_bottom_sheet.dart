@@ -6,11 +6,12 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/invest/stores/dashboard/invest_dashboard_store.dart';
 import 'package:jetwallet/features/invest/ui/invests/data_line.dart';
-import 'package:jetwallet/features/invest/ui/widgets/invest_button.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/invest/new_invest_request_model.dart';
@@ -23,15 +24,13 @@ import '../../stores/dashboard/invest_positions_store.dart';
 import '../dashboard/invest_header.dart';
 import '../dashboard/new_invest_header.dart';
 import '../invests/invest_line.dart';
-import '../invests/journal_item.dart';
 import '../invests/rollover_line.dart';
 
 void showInvestRolloverBottomSheet(
-    BuildContext context,
-    InvestPositionModel position,
-    InvestInstrumentModel instrument,
+  BuildContext context,
+  InvestPositionModel position,
+  InvestInstrumentModel instrument,
 ) {
-
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
@@ -74,7 +73,12 @@ void showInvestRolloverBottomSheet(
     horizontalPinnedPadding: 0,
     removePinnedPadding: true,
     horizontalPadding: 0,
-    children: [InvestList(position: position, instrument: instrument,)],
+    children: [
+      InvestList(
+        position: position,
+        instrument: instrument,
+      )
+    ],
   );
 }
 
@@ -111,7 +115,7 @@ class _InvestListScreenState extends State<InvestList> {
 
     updateTimer = Timer.periodic(
       const Duration(seconds: 1),
-          (timer) {
+      (timer) {
         final a = DateTime.parse('${widget.instrument.nextRollOverTime}');
         final b = DateTime.now();
         final difference = a.difference(b);
@@ -138,7 +142,7 @@ class _InvestListScreenState extends State<InvestList> {
     final investStore = getIt.get<InvestDashboardStore>();
     final investPositionStore = getIt.get<InvestPositionsStore>();
     final currencies = sSignalRModules.currenciesList;
-    final colors = sKit.colors;
+    final isBalanceHide = getIt<AppStore>().isBalanceHide;
 
     return SPaddingH24(
       child: Observer(
@@ -155,13 +159,15 @@ class _InvestListScreenState extends State<InvestList> {
                   Navigator.pop(context);
                 },
               ),
-              if (widget.position.status != PositionStatus.cancelled &&
-                  widget.position.status != PositionStatus.closed)
+              if (widget.position.status != PositionStatus.cancelled && widget.position.status != PositionStatus.closed)
                 Observer(
                   builder: (BuildContext context) {
+                    final rolloverPercent =
+                        '${((widget.position.direction == Direction.buy ? widget.instrument.rollBuy! : widget.instrument.rollSell!) * Decimal.fromInt(100)).toStringAsFixed(4)}%';
+
                     return RolloverLine(
                       mainText: intl.invest_next_rollover,
-                      secondaryText: '${widget.position.rollOver}% / $timerUpdated',
+                      secondaryText: '$rolloverPercent / $timerUpdated',
                     );
                   },
                 ),
@@ -195,11 +201,13 @@ class _InvestListScreenState extends State<InvestList> {
                 const SpaceH8(),
                 DataLine(
                   mainText: intl.invest_report_rollover,
-                  secondaryText: marketFormat(
-                    decimal: item.rollOverAmount,
-                    accuracy: 2,
-                    symbol: 'USDT',
-                  ),
+                  secondaryText: isBalanceHide
+                      ? '**** USDT'
+                      : marketFormat(
+                          decimal: item.rollOverAmount,
+                          accuracy: 2,
+                          symbol: 'USDT',
+                        ),
                 ),
                 const SpaceH8(),
                 DataLine(

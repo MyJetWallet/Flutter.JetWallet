@@ -66,7 +66,7 @@ class TransactionListItem extends StatelessWidget {
         : currencies[0];
     final baseCurrency = sSignalRModules.baseCurrency;
 
-    return _TransactionBaseItem(
+    return TransactionBaseItem(
       onTap: () {
         if (fromCJAccount) {
           sAnalytics.eurWalletTapAnyHistoryTRXEUR(
@@ -213,11 +213,44 @@ class TransactionListItem extends StatelessWidget {
             ? SMinusIcon(color: isFailed ? failedColor : null)
             : SPlusIcon(color: isFailed ? failedColor : null);
       case OperationType.bankingTransfer:
-        return Assets.svg.medium.altDeposit.simpleSvg(
+        return source == TransactionItemSource.history
+            ? Assets.svg.medium.altDeposit.simpleSvg(
+                width: 24,
+                color: isFailed ? failedColor : colors.blue,
+              )
+            : transactionListItem.balanceChange > Decimal.zero
+                ? Assets.svg.medium.addCash.simpleSvg(
+                    width: 24,
+                    color: isFailed ? failedColor : colors.green,
+                  )
+                : Assets.svg.medium.withdrawal.simpleSvg(
+                    width: 24,
+                    color: isFailed ? failedColor : colors.red,
+                  );
+      case OperationType.earnReserve:
+        return SPlusIcon(color: isFailed ? failedColor : null);
+      case OperationType.earnSend:
+        return SMinusIcon(color: isFailed ? failedColor : null);
+      case OperationType.cardTransfer:
+        return source == TransactionItemSource.history
+            ? Assets.svg.medium.altDeposit.simpleSvg(
+                width: 24,
+                color: isFailed ? failedColor : colors.blue,
+              )
+            : transactionListItem.balanceChange > Decimal.zero
+                ? Assets.svg.medium.addCash.simpleSvg(
+                    width: 24,
+                    color: isFailed ? failedColor : colors.green,
+                  )
+                : Assets.svg.medium.withdrawal.simpleSvg(
+                    width: 24,
+                    color: isFailed ? failedColor : colors.red,
+                  );
+      case OperationType.buyPrepaidCard:
+        return Assets.svg.medium.arrowUp.simpleSvg(
           width: 24,
-          color: isFailed ? failedColor : colors.blue,
+          color: isFailed ? failedColor : colors.red,
         );
-
       default:
         return SPlusIcon(color: isFailed ? failedColor : null);
     }
@@ -341,8 +374,8 @@ class TransactionListItem extends StatelessWidget {
   }
 }
 
-class _TransactionBaseItem extends StatelessWidget {
-  const _TransactionBaseItem({
+class TransactionBaseItem extends StatelessWidget {
+  const TransactionBaseItem({
     required this.onTap,
     required this.icon,
     required this.labele,
@@ -351,6 +384,7 @@ class _TransactionBaseItem extends StatelessWidget {
     required this.status,
     required this.timeStamp,
     this.rightSupplement,
+    this.supplement,
   });
 
   final void Function() onTap;
@@ -361,6 +395,7 @@ class _TransactionBaseItem extends StatelessWidget {
   final Status status;
   final String timeStamp;
   final String? rightSupplement;
+  final String? supplement;
 
   @override
   Widget build(BuildContext context) {
@@ -432,27 +467,45 @@ class _TransactionBaseItem extends StatelessWidget {
                 ],
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const SpaceW34(),
-                  TransactionListItemText(
-                    text: '${formatDateToDMY(timeStamp)}, ${formatDateToHm(timeStamp)}',
-                    color: colors.grey1,
+                  Flexible(
+                    child: Row(
+                      children: [
+                        const SpaceW34(),
+                        Flexible(
+                          child: TransactionListItemText(
+                            text: supplement ?? '${formatDateToDMY(timeStamp)}, ${formatDateToHm(timeStamp)}',
+                            color: colors.grey1,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  const Spacer(),
-                  if (rightSupplement != null)
-                    TransactionListItemText(
-                      text: rightSupplement!,
-                      color: colors.grey1,
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      minWidth: 120,
                     ),
-                  const SpaceW5(),
-                  if (status == Status.inProgress)
-                    const SimpleLoader()
-                  else if (status == Status.completed)
-                    const SHistoryCompletedIcon()
-                  else if (status == Status.declined)
-                    SHistoryDeclinedIcon(
-                      color: colors.grey2,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        if (rightSupplement != null)
+                          TransactionListItemText(
+                            text: rightSupplement!,
+                            color: colors.grey1,
+                          ),
+                        const SpaceW5(),
+                        if (status == Status.inProgress)
+                          const SimpleLoader()
+                        else if (status == Status.completed)
+                          const SHistoryCompletedIcon()
+                        else if (status == Status.declined)
+                          SHistoryDeclinedIcon(
+                            color: colors.grey2,
+                          ),
+                      ],
                     ),
+                  ),
                 ],
               ),
             ],

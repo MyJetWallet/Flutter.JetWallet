@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -27,6 +26,7 @@ import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_networking/modules/analytic_records/models/analytic_record.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../utils/helpers/country_code_by_user_register.dart';
@@ -111,7 +111,7 @@ abstract class _AppStoreBase with Store {
         }
       }
     } catch (e) {
-      locale = Locale.fromSubtags(languageCode: 'Platform.localeName');
+      locale = const Locale.fromSubtags(languageCode: 'Platform.localeName');
     }
   }
 
@@ -219,7 +219,7 @@ abstract class _AppStoreBase with Store {
             checkSelfie: () {
               if (lastRoute != 'face_check') {
                 getIt<AppRouter>().replaceAll([
-                  FaceCheckRoute(),
+                  const FaceCheckRoute(),
                 ]);
               }
 
@@ -385,11 +385,6 @@ abstract class _AppStoreBase with Store {
   }
 
   @observable
-  TabsRouter? tabsRouter;
-  @action
-  void setTabsRouter(TabsRouter value) => tabsRouter = value;
-
-  @observable
   AuthInfoState authState = const AuthInfoState();
 
   @observable
@@ -413,11 +408,6 @@ abstract class _AppStoreBase with Store {
   bool withdrawDynamicLink = false;
   @action
   bool setWithdrawDynamicLink(bool value) => withdrawDynamicLink = value;
-
-  @observable
-  int homeTab = 0;
-  @action
-  void setHomeTab(int value) => homeTab = value;
 
   @observable
   bool skipVersionCheck = false;
@@ -473,6 +463,29 @@ abstract class _AppStoreBase with Store {
 
       authState = authState.copyWith(
         initSessionReceived: true,
+      );
+
+      sAnalytics.updateLogEventFunc(
+        ({
+          required String name,
+          required Map<String, dynamic> body,
+          required int orderIndex,
+        }) async {
+          final model = AnalyticRecordModel(
+            eventName: name,
+            eventBody: body,
+            orderIndex: orderIndex,
+          );
+          if (authStatus == const AuthorizationUnion.authorized()) {
+            await getIt.get<SNetwork>().simpleNetworking.getAnalyticApiModule().postAddAnalyticRecord([model]);
+          } else {
+            await getIt
+                .get<SNetwork>()
+                .simpleNetworkingUnathorized
+                .getAnalyticApiModule()
+                .postAddAnalyticRecord([model]);
+          }
+        },
       );
 
       await getIt.get<IntercomService>().login();
@@ -531,7 +544,7 @@ abstract class _AppStoreBase with Store {
     openBottomMenu = false;
     fromLoginRegister = false;
     withdrawDynamicLink = false;
-    homeTab = 0;
+
     isBalanceHide = true;
     appStatus = AppStatus.start;
 

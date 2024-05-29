@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/copy/simple_light_copy_pres
 import 'package:simple_kit/utils/enum.dart';
 
 class SCopyPressedIcon extends StatelessObserverWidget {
-  const SCopyPressedIcon({Key? key}) : super(key: key);
+  const SCopyPressedIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/features/invest/ui/widgets/invest_button.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
+import 'package:simple_kit_updated/widgets/button/invest_buttons/invest_button.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 import '../../../../utils/constants.dart';
 
@@ -55,7 +58,7 @@ void showInvestInfoBottomSheet({
                             inactiveColor: SColorsLight().grey4,
                             inactiveNameColor: SColorsLight().grey2,
                             active: true,
-                            icon: const SICloseIcon(
+                            icon: Assets.svg.invest.investClose.simpleSvg(
                               width: 20,
                               height: 20,
                             ),
@@ -85,7 +88,7 @@ void showInvestInfoBottomSheet({
       subtitle: subtitle,
       bottomWidget: bottomWidget,
       removeWidgetSpace: removeWidgetSpace,
-    )],
+    ),],
   );
 }
 
@@ -128,7 +131,7 @@ class InfoBlock extends StatelessObserverWidget {
           const SpaceH16(),
           Text(
             title,
-            style: sTextH2InvestStyle.copyWith(
+            style: STStyles.header2Invest.copyWith(
               color: SColorsLight().black,
             ),
             textAlign: TextAlign.center,
@@ -138,7 +141,7 @@ class InfoBlock extends StatelessObserverWidget {
             const SpaceH8(),
             Text(
               subtitle!,
-              style: sBody1InvestMStyle.copyWith(color: SColorsLight().grey1),
+              style: STStyles.body1InvestM.copyWith(color: SColorsLight().grey1),
               textAlign: TextAlign.center,
               maxLines: 4,
             ),

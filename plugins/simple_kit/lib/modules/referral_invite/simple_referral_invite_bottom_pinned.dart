@@ -6,10 +6,10 @@ import '../../simple_kit.dart';
 
 class SReferralInviteBottomPinned extends StatefulWidget {
   const SReferralInviteBottomPinned({
-    Key? key,
+    super.key,
     required this.onShare,
     required this.text,
-  }) : super(key: key);
+  });
 
   final Function() onShare;
   final String text;

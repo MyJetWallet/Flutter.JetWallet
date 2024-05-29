@@ -4,9 +4,9 @@ import 'package:simple_kit/modules/icons/24x24/base/simple_base_svg_24x24.dart';
 
 class SimpleLightWalletsActiveIcon extends StatelessWidget {
   const SimpleLightWalletsActiveIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 
@@ -22,9 +22,9 @@ class SimpleLightWalletsActiveIcon extends StatelessWidget {
 
 class SimpleLightWalletsDefaultIcon extends StatelessWidget {
   const SimpleLightWalletsDefaultIcon({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

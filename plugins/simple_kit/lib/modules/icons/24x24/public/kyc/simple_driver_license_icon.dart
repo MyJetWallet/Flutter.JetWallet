@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/24x24/light/kyc/simple_light_driver_lic
 import 'package:simple_kit/utils/enum.dart';
 
 class SDriverLicenseIcon extends StatelessObserverWidget {
-  const SDriverLicenseIcon({Key? key}) : super(key: key);
+  const SDriverLicenseIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

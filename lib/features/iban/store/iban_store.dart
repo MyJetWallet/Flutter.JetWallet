@@ -306,7 +306,6 @@ abstract class IbanStoreBase with Store {
       if (response.hasError) {
         sNotification.showError(
           response.error?.cause ?? '',
-          duration: 4,
           id: 1,
           needFeedback: true,
         );
@@ -315,14 +314,13 @@ abstract class IbanStoreBase with Store {
       } else {
         loader!.finishLoading(
           onFinish: () {
-            sRouter.pop();
+            sRouter.maybePop();
           },
         );
       }
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,
-        duration: 4,
         id: 1,
         needFeedback: true,
       );
@@ -331,7 +329,6 @@ abstract class IbanStoreBase with Store {
     } catch (error) {
       sNotification.showError(
         intl.something_went_wrong_try_again2,
-        duration: 4,
         id: 1,
         needFeedback: true,
       );

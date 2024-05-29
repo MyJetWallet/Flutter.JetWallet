@@ -7,14 +7,14 @@ import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 
 class SChipSuggestion extends HookWidget {
   const SChipSuggestion({
-    Key? key,
+    super.key,
     required this.leftIcon,
     required this.subTitle,
     required this.title,
     required this.rightValue,
     this.rightIcon,
     this.callback,
-  }) : super(key: key);
+  });
 
   final Widget leftIcon;
 

@@ -6,10 +6,10 @@ import 'package:simple_kit/utils/enum.dart';
 
 class SMasterCardIcon extends StatelessObserverWidget {
   const SMasterCardIcon({
-    Key? key,
+    super.key,
     this.width,
     this.height,
-  }) : super(key: key);
+  });
 
   final double? width;
   final double? height;

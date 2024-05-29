@@ -41,7 +41,8 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
       paymentFee: store.addressIsInternal
           ? intl.noFee
           : store.withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
-              store.networkController.text,
+              network: store.networkController.text,
+              amount: Decimal.parse(store.withAmount),
             ),
     );
 
@@ -62,6 +63,17 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
 
     final formatService = getIt.get<FormatService>();
 
+    final feeSize = store.withdrawalInputModel!.currency!.withdrawalFeeSize(
+      network: store.networkController.text,
+      amount: Decimal.parse(store.withAmount),
+    );
+
+    final feeSizeWithSymbol = volumeFormat(
+      decimal: feeSize,
+      symbol: store.withdrawalInputModel?.currency?.symbol ?? '',
+      accuracy: store.withdrawalInputModel?.currency?.accuracy ?? 2,
+    );
+
     return SPageFrameWithPadding(
       loaderText: intl.register_pleaseWait,
       loading: store.previewLoader,
@@ -78,9 +90,6 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
         subTitleStyle: sBodyText2Style.copyWith(
           color: sKit.colors.grey1,
         ),
-        onBackButtonTap: () {
-          sRouter.back();
-        },
       ),
       child: CustomScrollView(
         slivers: [
@@ -100,10 +109,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                             symbol: store.withdrawalInputModel!.currency!.symbol,
                           )
                         : volumeFormat(
-                            decimal: Decimal.parse(store.withAmount) -
-                                store.withdrawalInputModel!.currency!.withdrawalFeeSize(
-                                  store.networkController.text,
-                                ),
+                            decimal: Decimal.parse(store.withAmount) - feeSize,
                             accuracy: store.withdrawalInputModel!.currency!.accuracy,
                             symbol: store.withdrawalInputModel!.currency!.symbol,
                           ),
@@ -112,10 +118,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                         fromCurrency: store.withdrawalInputModel!.currency!.symbol,
                         fromCurrencyAmmount: store.addressIsInternal
                             ? Decimal.parse(store.withAmount)
-                            : Decimal.parse(store.withAmount) -
-                                store.withdrawalInputModel!.currency!.withdrawalFeeSize(
-                                  store.networkController.text,
-                                ),
+                            : Decimal.parse(store.withAmount) - feeSize,
                         toCurrency: sSignalRModules.baseCurrency.symbol,
                         baseCurrency: sSignalRModules.baseCurrency.symbol,
                         isMin: false,
@@ -150,11 +153,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                   needHorizontalPadding: false,
                 ),
                 ProcessingFeeRowWidget(
-                  fee: store.addressIsInternal
-                      ? intl.noFee
-                      : store.withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
-                          store.networkController.text,
-                        ),
+                  fee: store.addressIsInternal ? intl.noFee : feeSizeWithSymbol,
                   onTabListener: () {},
                   onBotomSheetClose: (_) {},
                   needPadding: true,
@@ -171,11 +170,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                       network: store.network.description,
                       sendMethodType: '0',
                       totalSendAmount: store.withAmount,
-                      paymentFee: store.addressIsInternal
-                          ? intl.noFee
-                          : store.withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
-                              store.networkController.text,
-                            ),
+                      paymentFee: store.addressIsInternal ? intl.noFee : feeSizeWithSymbol,
                     );
 
                     sRouter.push(
@@ -188,14 +183,10 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                             network: store.network.description,
                             sendMethodType: '0',
                             totalSendAmount: store.withAmount,
-                            paymentFee: store.addressIsInternal
-                                ? intl.noFee
-                                : store.withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
-                                    store.networkController.text,
-                                  ),
+                            paymentFee: store.addressIsInternal ? intl.noFee : feeSizeWithSymbol,
                           );
 
-                          sRouter.pop();
+                          sRouter.maybePop();
 
                           store.withdraw(newPin: newPin);
                         },

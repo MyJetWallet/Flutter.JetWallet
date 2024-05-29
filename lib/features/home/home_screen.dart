@@ -5,16 +5,15 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/bottom_sheets/components/simple_shade_animation_stack.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 
 import '../../utils/helpers/check_kyc_status.dart';
 import '../kyc/kyc_service.dart';
@@ -39,29 +38,16 @@ class _HomeScreenState extends State<HomeScreen> {
       kycState.withdrawalStatus,
     );
 
-    final bottomBarItems = <BottomItemType>[
-      BottomItemType.wallets,
-      BottomItemType.market,
-      if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
-          .where((element) => element.id == AssetPaymentProductsEnum.investProgram)
-          .isNotEmpty) ...[
-        BottomItemType.invest,
-      ],
-      if (sUserInfo.cardAvailable && displayCardPreorderScreen) ...[
-        BottomItemType.card,
-      ],
-      if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
-          .where((element) => element.id == AssetPaymentProductsEnum.rewardsOnboardingProgram)
-          .isNotEmpty) ...[
-        BottomItemType.rewards,
-      ],
-    ];
+    final store = getIt.get<BottomBarStore>();
 
     return Observer(
       builder: (context) {
+        final bottomBarItems = store.bottomBarItems;
+
         final screens = <PageRouteInfo<dynamic>>[
           if (bottomBarItems.contains(BottomItemType.wallets)) const MyWalletsRouter(),
           if (bottomBarItems.contains(BottomItemType.market)) const MarketRouter(),
+          if (bottomBarItems.contains(BottomItemType.earn)) const EarnRouter(),
           if (bottomBarItems.contains(BottomItemType.invest)) const InvestPageRouter(),
           if (bottomBarItems.contains(BottomItemType.card)) const CardRouter(),
           if (bottomBarItems.contains(BottomItemType.rewards)) const RewardsFlowRouter(),
@@ -83,10 +69,14 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           },
           bottomNavigationBuilder: (_, tabsRouter) {
-            getIt.get<AppStore>().setTabsRouter(tabsRouter);
+            store.setTabsRouter(tabsRouter);
+
+            if (tabsRouter.activeIndex != store.cerrentIndex) {
+              tabsRouter.setActiveIndex(store.cerrentIndex);
+            }
 
             return SBottomBar(
-              selectedIndex: getIt.get<AppStore>().homeTab,
+              selectedIndex: store.cerrentIndex,
               items: [
                 if (bottomBarItems.contains(BottomItemType.wallets))
                   SBottomItemModel(
@@ -100,11 +90,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     text: intl.bottom_bar_market,
                     icon: Assets.svg.large.graph,
                   ),
+                if (bottomBarItems.contains(BottomItemType.earn))
+                  SBottomItemModel(
+                    type: BottomItemType.earn,
+                    text: intl.earn_earn,
+                    icon: Assets.svg.large.chart,
+                  ),
                 if (bottomBarItems.contains(BottomItemType.invest))
                   SBottomItemModel(
                     type: BottomItemType.invest,
                     text: intl.bottom_bar_invest,
-                    icon: Assets.svg.large.graph,
+                    icon: Assets.svg.large.crypto,
                   ),
                 if (bottomBarItems.contains(BottomItemType.card))
                   SBottomItemModel(
@@ -125,31 +121,30 @@ class _HomeScreenState extends State<HomeScreen> {
                 switch (bottomBarItems[val]) {
                   case BottomItemType.wallets:
                     sAnalytics.tapOnTheTabWalletsInTabBar();
-                    break;
                   case BottomItemType.rewards:
                     sAnalytics.rewardsTapOnTheTabBar();
-                    break;
+                  case BottomItemType.earn:
+                    sAnalytics.tapOnTheTabbarButtonEarn();
+                  case BottomItemType.market:
+                    sAnalytics.tapOnTheTabbarButtonMarket();
                   default:
                 }
 
                 getIt.get<EventBus>().fire(EndReordering());
 
-                if (val == getIt<AppStore>().homeTab) {
+                if (bottomBarItems[val] == store.homeTab) {
                   switch (bottomBarItems[val]) {
                     case BottomItemType.wallets:
                       getIt.get<EventBus>().fire(ResetScrollMyWallets());
-                      break;
                     case BottomItemType.market:
                       getIt.get<EventBus>().fire(ResetScrollMarket());
-                      break;
                     case BottomItemType.card:
                       getIt.get<EventBus>().fire(ResetScrollCard());
-                      break;
                     default:
                   }
                 }
 
-                getIt<AppStore>().setHomeTab(val);
+                store.setHomeTab(bottomBarItems[val]);
                 if (val < screens.length) {
                   tabsRouter.setActiveIndex(val);
                 } else {

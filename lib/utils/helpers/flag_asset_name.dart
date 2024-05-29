@@ -251,4 +251,6 @@ const countryIsoCodes = [
   'YE',
   'ZM',
   'ZW',
+  'CW',
+  'BQ',
 ];

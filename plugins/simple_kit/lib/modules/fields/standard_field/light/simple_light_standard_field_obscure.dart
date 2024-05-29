@@ -6,7 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 class SimpleLightStandardFieldObscure extends StatefulWidget {
   const SimpleLightStandardFieldObscure({
-    Key? key,
+    super.key,
     this.controller,
     this.autofillHints,
     this.focusNode,
@@ -21,7 +21,7 @@ class SimpleLightStandardFieldObscure extends StatefulWidget {
     required this.labelText,
     this.maxLength,
     this.onHideTap,
-  }) : super(key: key);
+  });
 
   final TextEditingController? controller;
   final FocusNode? focusNode;

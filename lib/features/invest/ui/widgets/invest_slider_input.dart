@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/features/invest/ui/widgets/slider_thumb_shape.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
 class InvestSliderInput extends StatelessObserverWidget {
   const InvestSliderInput({
@@ -19,6 +20,7 @@ class InvestSliderInput extends StatelessObserverWidget {
     this.isLog = false,
     required this.arrayOfValues,
     required this.onChange,
+    this.isDisabled = false,
   });
 
   final Decimal currentValue;
@@ -29,6 +31,7 @@ class InvestSliderInput extends StatelessObserverWidget {
   final bool withArray;
   final bool fullScale;
   final bool isLog;
+  final bool isDisabled;
   final List<Decimal> arrayOfValues;
   final Function(double) onChange;
 
@@ -38,15 +41,14 @@ class InvestSliderInput extends StatelessObserverWidget {
     var currentNewValue = currentValue > maxValue
         ? maxValue
         : currentValue < minValue
-        ? minValue
-        : currentValue;
-
+            ? minValue
+            : currentValue;
 
     if (withArray && !fullScale && !isLog) {
       var minValue = Decimal.fromInt(100000000);
       var valueToChange = 0;
       for (var i = 0; i <= divisions; i++) {
-        final value = (arrayOfValues[i] ?? Decimal.zero) - currentValue;
+        final value = (arrayOfValues[i]) - currentValue;
         if (value.abs() < minValue) {
           minValue = value.abs();
           valueToChange = i;
@@ -59,8 +61,15 @@ class InvestSliderInput extends StatelessObserverWidget {
       children: [
         SliderTheme(
           data: SliderTheme.of(context).copyWith(
+            disabledActiveTickMarkColor: Colors.transparent,
+            disabledInactiveTickMarkColor: Colors.transparent,
+            disabledSecondaryActiveTrackColor: Colors.transparent,
+            valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
+            valueIndicatorColor: Colors.transparent,
+            valueIndicatorTextStyle: const TextStyle(color: Colors.transparent),
             activeTrackColor: colors.black,
             inactiveTrackColor: colors.grey5,
+            disabledInactiveTrackColor: colors.grey5,
             trackShape: const RoundedRectSliderTrackShape(),
             trackHeight: 6.0,
             thumbShape: const SliderThumbShape(disabledThumbRadius: 8),
@@ -68,36 +77,33 @@ class InvestSliderInput extends StatelessObserverWidget {
             overlayColor: Colors.transparent,
             overlayShape: const RoundSliderOverlayShape(overlayRadius: 0),
             tickMarkShape: const RoundSliderTickMarkShape(tickMarkRadius: 2),
-            activeTickMarkColor: colors.black,
-            inactiveTickMarkColor: colors.grey4,
-            valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
-            valueIndicatorColor: colors.blue,
-            valueIndicatorTextStyle: TextStyle(
-              color: colors.brown,
-            ),
+            activeTickMarkColor: Colors.transparent,
+            inactiveTickMarkColor: Colors.transparent,
           ),
           child: Slider(
             value: currentNewValue.toDouble(),
             min: fullScale
-              ? minValue.toDouble()
-              : withArray
-                ? 0
-                : minValue.toDouble(),
+                ? minValue.toDouble()
+                : withArray
+                    ? 0
+                    : minValue.toDouble(),
             max: fullScale
-              ? maxValue.toDouble()
-              : withArray
-                ? divisions.toDouble()
-                : maxValue.toDouble(),
+                ? maxValue.toDouble()
+                : withArray
+                    ? divisions.toDouble()
+                    : maxValue.toDouble(),
             divisions: fullScale ? (maxValue - minValue).toDouble().floor() : divisions,
-            onChanged: (double value) {
-              if (withArray) {
-                onChange(arrayOfValues[value.toInt()].toDouble() ?? 0);
-              } else if (isLog) {
-                onChange(exp(value).floorToDouble());
-              } else {
-                onChange(value);
-              }
-            },
+            onChanged: isDisabled
+                ? null
+                : (double value) {
+                    if (withArray) {
+                      onChange(arrayOfValues[value.toInt()].toDouble());
+                    } else if (isLog) {
+                      onChange(exp(value).floorToDouble());
+                    } else {
+                      onChange(value);
+                    }
+                  },
           ),
         ),
         const SpaceH4(),
@@ -114,7 +120,7 @@ class InvestSliderInput extends StatelessObserverWidget {
                 },
                 child: Text(
                   '$prefix${arrayOfValues[i]}',
-                  style: sBody3InvestMStyle.copyWith(
+                  style: STStyles.body3InvestM.copyWith(
                     color: colors.grey1,
                   ),
                 ),

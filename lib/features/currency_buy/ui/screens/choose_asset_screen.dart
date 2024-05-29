@@ -3,6 +3,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/utils/formatting/base/format_percent.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -110,29 +111,50 @@ class ChooseAssetBody extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final baseCurrency = sSignalRModules.baseCurrency;
-    final state = searchStore;
 
-    sortByBalanceAndWeight(state.searchCurrencies);
+    final currencyFiltered = List<CurrencyModel>.from(searchStore.fCurrencies);
+
+    sortByWeight(currencyFiltered);
+
+    final watchListIds = sSignalRModules.keyValue.watchlist?.value ?? [];
+
+    final favAssets = <CurrencyModel>[];
+
+    for (final symbol in watchListIds) {
+      if (currencyFiltered.any((element) => element.symbol == symbol)) {
+        favAssets.add(currencyFiltered.firstWhere((element) => element.symbol == symbol));
+        currencyFiltered.removeWhere((element) => element.symbol == symbol);
+      }
+    }
+    currencyFiltered.insertAll(0, favAssets);
 
     return Column(
       children: [
-        for (final currency in state.searchCurrencies) ...[
+        for (final currency in currencyFiltered) ...[
           if (currency.type == AssetType.crypto)
-            SimpleTableAsset(
-              assetIcon: SNetworkSvg24(
-                url: currency.iconUrl,
-              ),
-              label: currency.description,
-              rightValue: marketFormat(
-                decimal: baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice,
-                symbol: baseCurrency.symbol,
-                accuracy: baseCurrency.accuracy,
-              ),
-              supplement: currency.symbol,
-              isRightValueMarket: true,
-              rightMarketValue: formatPercent(currency.dayPercentChange),
-              rightValueMarketPositive: currency.dayPercentChange > 0,
-              onTableAssetTap: () => onChooseAsset(currency),
+            Builder(
+              builder: (context) {
+                final marketItem = sSignalRModules.getMarketPrices.firstWhere(
+                  (marketItem) => marketItem.symbol == currency.symbol,
+                  orElse: () => MarketItemModel.empty(),
+                );
+                return SimpleTableAsset(
+                  assetIcon: SNetworkSvg24(
+                    url: currency.iconUrl,
+                  ),
+                  label: currency.description,
+                  rightValue: marketFormat(
+                    decimal: baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice,
+                    symbol: baseCurrency.symbol,
+                    accuracy: marketItem.priceAccuracy,
+                  ),
+                  supplement: currency.symbol,
+                  isRightValueMarket: true,
+                  rightMarketValue: formatPercent(currency.dayPercentChange),
+                  rightValueMarketPositive: currency.dayPercentChange > 0,
+                  onTableAssetTap: () => onChooseAsset(currency),
+                );
+              },
             ),
         ],
         const SpaceH42(),

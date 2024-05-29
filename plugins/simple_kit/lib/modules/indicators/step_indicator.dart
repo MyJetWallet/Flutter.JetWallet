@@ -3,9 +3,9 @@ import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 
 class SStepIndicator extends StatelessWidget {
   const SStepIndicator({
-    Key? key,
+    super.key,
     required this.loadedPercent,
-  }) : super(key: key);
+  });
 
   final int loadedPercent;
 

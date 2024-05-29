@@ -6,11 +6,11 @@ import 'package:simple_kit/utils/enum.dart';
 
 class SCardIcon extends StatelessObserverWidget {
   const SCardIcon({
-    Key? key,
+    super.key,
     this.width,
     this.height,
     this.color,
-  }) : super(key: key);
+  });
 
   final double? width;
   final double? height;

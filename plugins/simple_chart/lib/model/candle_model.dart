@@ -37,3 +37,47 @@ class CandleModel {
         'date: $date}';
   }
 }
+
+class CandlesWithIdModel {
+  CandlesWithIdModel({
+    this.instrumentId = '',
+    this.candles = const [],
+  });
+
+  CandlesWithIdModel.fromJson(Map<String, dynamic> json) {
+    var candleList = [];
+    final doubleList = List<CandleModel>.from(
+      [...json['candles'] as List<CandleModel>],
+    );
+
+    candleList = doubleList
+        .map(
+          (e) => CandleModel(
+            open: e.open,
+            close: e.close,
+            high: e.high,
+            low: e.low,
+            date: e.date,
+          ),
+        )
+        .toList();
+
+    instrumentId = json['instrumentId'] as String;
+    candles = candleList as List<CandleModel>;
+  }
+
+  late String instrumentId;
+  late List<CandleModel> candles;
+
+  Map<String, dynamic> toJson() {
+    final data = <String, dynamic>{};
+    data['instrumentId'] = instrumentId;
+    data['candles'] = candles.toString();
+    return data;
+  }
+
+  @override
+  String toString() {
+    return 'CandlesWithIdModel{instrumentId: $instrumentId, candles: $candles}';
+  }
+}

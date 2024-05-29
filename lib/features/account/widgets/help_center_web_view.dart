@@ -24,21 +24,33 @@ class HelpCenterWebView extends StatefulWidget {
 class _HelpCenterWebViewState extends State<HelpCenterWebView> {
   late WebViewController controller;
 
+  bool isBackBottonPressed = false;
+
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => _onWillPop(),
+    return PopScope(
+      onPopInvoked: (_) {
+        if (isBackBottonPressed) {
+          isBackBottonPressed = false;
+          return;
+        }
+
+        _onWillPop();
+      },
       child: SPageFrame(
         loaderText: intl.register_pleaseWait,
         header: SPaddingH24(
           child: SSmallHeader(
             title: widget.title ?? intl.helpCenterWebView,
-            onBackButtonTap: () => _onWillPop(),
+            onBackButtonTap: () {
+              isBackBottonPressed = true;
+              _onWillPop();
+            },
           ),
         ),
         child: LayoutBuilder(
           builder: (context, constraints) {
-            double width = 700.0;
+            var width = 700.0;
             final height = constraints.maxHeight;
             width = (constraints.maxWidth > width) ? width : constraints.maxWidth;
             if (height <= width) {
@@ -46,7 +58,7 @@ class _HelpCenterWebViewState extends State<HelpCenterWebView> {
             }
 
             return WebView(
-              gestureRecognizers: Set()
+              gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{}
                 ..add(Factory<VerticalDragGestureRecognizer>(() => VerticalDragGestureRecognizer())),
               initialUrl: widget.link,
               gestureNavigationEnabled: true,

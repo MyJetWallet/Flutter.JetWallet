@@ -221,40 +221,28 @@ abstract class _SendCardDetailStoreBase with Store {
       switch (methodList[i].info.fieldId) {
         case FieldInfoId.cardNumber:
           cardNumber = methodList[i].value.replaceAll(' ', '');
-          break;
         case FieldInfoId.iban:
           iban = methodList[i].value;
-          break;
         case FieldInfoId.phoneNumber:
           phoneNumber = methodList[i].value;
-          break;
         case FieldInfoId.recipientName:
           recipientName = methodList[i].value;
-          break;
         case FieldInfoId.panNumber:
           panNumber = methodList[i].value;
-          break;
         case FieldInfoId.upiAddress:
           upiAddress = methodList[i].value;
-          break;
         case FieldInfoId.accountNumber:
           accountNumber = methodList[i].value;
-          break;
         case FieldInfoId.beneficiaryName:
           beneficiaryName = methodList[i].value;
-          break;
         case FieldInfoId.bankName:
           bankName = methodList[i].value;
-          break;
         case FieldInfoId.bankAccount:
           bankAccount = methodList[i].value;
-          break;
         case FieldInfoId.ifscCode:
           ifscCode = methodList[i].value;
-          break;
         case FieldInfoId.wise:
           wise = methodList[i].value;
-          break;
         default:
           break;
       }

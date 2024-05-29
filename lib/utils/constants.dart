@@ -139,3 +139,8 @@ const simpleGlitter = 'assets/images/glitter.svg';
 
 const simpleWalletShape = 'assets/images/wallet_shape.png';
 const simpleWalletCircle = 'assets/images/wallet_circle.png';
+
+const assetsPath = 'assets/tvchart/tvchart.html';
+
+// Prepaid card
+const prepaidCardBanner = 'assets/images/prepaid_card_banner.png';

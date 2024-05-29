@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class SPaddingH24 extends StatelessWidget {
   const SPaddingH24({
-    Key? key,
+    super.key,
     required this.child,
-  }) : super(key: key);
+  });
 
   final Widget child;
 

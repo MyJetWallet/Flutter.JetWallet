@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/56x56/light/action/simple_light_action_
 import 'package:simple_kit/utils/enum.dart';
 
 class SActionDefaultIcon extends StatelessObserverWidget {
-  const SActionDefaultIcon({Key? key}) : super(key: key);
+  const SActionDefaultIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

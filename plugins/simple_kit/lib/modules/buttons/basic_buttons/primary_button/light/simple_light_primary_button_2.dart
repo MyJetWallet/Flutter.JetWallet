@@ -4,12 +4,12 @@ import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 
 class SimpleLightPrimaryButton2 extends StatelessWidget {
   const SimpleLightPrimaryButton2({
-    Key? key,
+    super.key,
     this.icon,
     required this.active,
     required this.name,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final Widget? icon;
   final bool active;

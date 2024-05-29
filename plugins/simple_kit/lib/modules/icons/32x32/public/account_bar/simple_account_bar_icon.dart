@@ -5,7 +5,7 @@ import 'package:simple_kit/modules/icons/32x32/light/account_bar/simple_light_ac
 import 'package:simple_kit/utils/enum.dart';
 
 class SAccountBarActiveIcon extends StatelessObserverWidget {
-  const SAccountBarActiveIcon({Key? key}) : super(key: key);
+  const SAccountBarActiveIcon({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class SAccountBarActiveIcon extends StatelessObserverWidget {
 }
 
 class SAccountBarIcon extends StatelessObserverWidget {
-  const SAccountBarIcon({Key? key}) : super(key: key);
+  const SAccountBarIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

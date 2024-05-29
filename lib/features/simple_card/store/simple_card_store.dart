@@ -589,7 +589,7 @@ abstract class _SimpleCardStoreBase with Store {
           secondaryText: intl.simple_card_terminate_only_available_alert,
           primaryButtonName: intl.simple_card_terminate_got_it,
           onPrimaryButtonTap: () {
-            sRouter.pop();
+            sRouter.maybePop();
           },
         );
 
@@ -609,14 +609,14 @@ abstract class _SimpleCardStoreBase with Store {
         onPrimaryButtonTap: () {
           sAnalytics.tapOnTheConfirmTerminateButton(cardID: cardFull?.cardId ?? '');
           continueTrminate = true;
-          sRouter.pop();
+          sRouter.maybePop();
         },
         primaryButtonType: SButtonType.primary3,
         secondaryButtonName: intl.simple_card_terminate_cancel,
         onSecondaryButtonTap: () {
           sAnalytics.tapOnTheCancelTerminateButton(cardID: cardFull?.cardId ?? '');
           continueTrminate = false;
-          sRouter.pop();
+          sRouter.maybePop();
         },
       );
 
@@ -630,7 +630,7 @@ abstract class _SimpleCardStoreBase with Store {
         context: context,
         onCompled: () {
           isVerifaierd = true;
-          sRouter.pop();
+          sRouter.maybePop();
         },
       );
 
@@ -650,7 +650,7 @@ abstract class _SimpleCardStoreBase with Store {
         onNoError: (data) {
           allCards?.removeWhere((element) => element.cardId == cardFull?.cardId);
 
-          sRouter.pop();
+          sRouter.maybePop();
 
           sAnalytics.theCardHasBeenTerminateToastView(cardID: cardFull?.cardId ?? '');
 

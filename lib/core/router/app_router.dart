@@ -28,6 +28,8 @@ import 'package:jetwallet/features/auth/verification_reg/verification_screen.dar
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/buy_confrimation_screen.dart';
 import 'package:jetwallet/features/card_coming_soon/card_screen.dart';
+import 'package:jetwallet/features/cj_banking_accounts/screens/cj_account_label_screen.dart';
+import 'package:jetwallet/features/cj_banking_accounts/screens/cj_account_screen.dart';
 import 'package:jetwallet/features/convert/model/preview_convert_input.dart';
 import 'package:jetwallet/features/convert/ui/convert.dart';
 import 'package:jetwallet/features/convert/ui/preview_convert.dart';
@@ -51,6 +53,18 @@ import 'package:jetwallet/features/debug_info/debug_history.dart';
 import 'package:jetwallet/features/debug_info/debug_info.dart';
 import 'package:jetwallet/features/debug_info/invest_ui_kit.dart';
 import 'package:jetwallet/features/debug_info/signalr_debug_info.dart';
+import 'package:jetwallet/features/earn/screens/earn_deposit_screen.dart';
+import 'package:jetwallet/features/earn/screens/earn_details_screen.dart';
+import 'package:jetwallet/features/earn/screens/earn_position_active_screen.dart';
+import 'package:jetwallet/features/earn/screens/earn_screen.dart';
+import 'package:jetwallet/features/earn/screens/earn_top_up_amount_screen.dart';
+import 'package:jetwallet/features/earn/screens/earn_top_up_order_summary_screen.dart';
+import 'package:jetwallet/features/earn/screens/earn_withdraw_order_summary_screen.dart';
+import 'package:jetwallet/features/earn/screens/earn_withdrawal_amount_screen.dart';
+import 'package:jetwallet/features/earn/screens/earn_withdrawn_type_screen.dart';
+import 'package:jetwallet/features/earn/screens/earns_archive_screen.dart';
+import 'package:jetwallet/features/earn/screens/offer_order_summary.dart';
+import 'package:jetwallet/features/earn/screens/offers_screen.dart';
 import 'package:jetwallet/features/email_confirmation/ui/email_confirmation_screen.dart';
 import 'package:jetwallet/features/face_check/ui/face_check_screen.dart';
 import 'package:jetwallet/features/home/home_screen.dart';
@@ -63,6 +77,9 @@ import 'package:jetwallet/features/invest/ui/active_invest_manage_screen.dart';
 import 'package:jetwallet/features/invest/ui/instrument_screen.dart';
 import 'package:jetwallet/features/invest/ui/new_invest_confirmation_screen.dart';
 import 'package:jetwallet/features/invest/ui/pending_invest_manage_screen.dart';
+import 'package:jetwallet/features/invest_transfer/screens/invest_deposite_confrimation_screen.dart';
+import 'package:jetwallet/features/invest_transfer/screens/invest_transfer_screen.dart';
+import 'package:jetwallet/features/invest_transfer/screens/invest_withdraw_confrimation_screen.dart';
 import 'package:jetwallet/features/kyc/allow_camera/ui/allow_camera_screen.dart';
 import 'package:jetwallet/features/kyc/choose_documents/ui/choose_documents.dart';
 import 'package:jetwallet/features/kyc/kyc_selfie/ui/kyc_selfie.dart';
@@ -77,13 +94,15 @@ import 'package:jetwallet/features/market/market_details/ui/market_details.dart'
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/pdf_view_screen.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/market/ui/market_screen.dart';
-import 'package:jetwallet/features/cj_banking_accounts/screens/cj_account_label_screen.dart';
-import 'package:jetwallet/features/cj_banking_accounts/screens/cj_account_screen.dart';
 import 'package:jetwallet/features/my_wallets/screens/my_wallets_screen.dart';
 import 'package:jetwallet/features/payment_methods/ui/payment_methods.dart';
 import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/features/pin_screen/ui/pin_screen.dart';
+import 'package:jetwallet/features/prepaid_card/screens/buy_vouncher_amount_screen.dart';
+import 'package:jetwallet/features/prepaid_card/screens/pre_buy_tabs_screen.dart';
+import 'package:jetwallet/features/prepaid_card/screens/prepaid_card_details_screen.dart';
+import 'package:jetwallet/features/prepaid_card/screens/prepaid_card_service_screen.dart';
 import 'package:jetwallet/features/receive_gift/progres_screen.dart';
 import 'package:jetwallet/features/return_to_wallet/model/preview_return_to_wallet_input.dart';
 import 'package:jetwallet/features/return_to_wallet/ui/preview_return_to_wallet.dart';
@@ -123,10 +142,13 @@ import 'package:jetwallet/widgets/result_screens/verifying_screen/success_verify
 import 'package:jetwallet/widgets/result_screens/verifying_screen/verifying_screen.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:simple_kit/modules/account/phone_number/simple_number.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
+import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
@@ -135,6 +157,8 @@ import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/b
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_prepaid_card_intention_dto_list_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/prepaid_card/purchase_card_brand_list_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 
@@ -147,8 +171,9 @@ import '../../features/debug_info/logs_screen.dart';
 import '../../features/iban/iban_screen.dart';
 import '../../features/iban/widgets/iban_billing_address.dart';
 import '../../features/invest/invest_screen.dart';
-import '../../features/invest/ui/new_invest_screen.dart';
 import '../../features/invest/ui/invest_history_screen.dart';
+import '../../features/invest/ui/new_invest_screen.dart';
+import '../../features/prepaid_card/screens/buy_vouncher_confirmation_screen.dart';
 import '../../features/send_gift/screens/gift_amount.dart';
 import '../../features/send_gift/screens/gift_order_summary.dart';
 import '../../features/send_gift/screens/gift_receivers_details_screen.dart';
@@ -238,7 +263,35 @@ class AppRouter extends _$AppRouter {
           path: 'invest',
           page: InvestPageRouter.page,
         ),
+        AutoRoute(
+          path: 'earn',
+          page: EarnRouter.page,
+        ),
       ],
+    ),
+    AutoRoute(
+      path: '/earn_positon',
+      page: EarnPositionActiveRouter.page,
+    ),
+    AutoRoute(
+      path: '/offers',
+      page: OffersRouter.page,
+    ),
+    AutoRoute(
+      path: '/earns_arcive',
+      page: EarnsArchiveRouter.page,
+    ),
+    AutoRoute(
+      path: '/earns_details',
+      page: EarnsDetailsRouter.page,
+    ),
+    AutoRoute(
+      path: '/earns_deposit',
+      page: EarnDepositScreenRouter.page,
+    ),
+    AutoRoute(
+      path: '/offer_order_summary',
+      page: OfferOrderSummaryRouter.page,
     ),
     CustomRoute(
       path: '/verification_screen',
@@ -663,6 +716,60 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/pending_invest_manage',
       page: PendingInvestManageRouter.page,
+    ),
+    AutoRoute(
+      path: '/earn_withdrawn_type',
+      page: EarnWithdrawnTypeRouter.page,
+    ),
+    AutoRoute(
+      path: '/earn_withdrawal_amount',
+      page: EarnWithdrawalAmountRouter.page,
+    ),
+    AutoRoute(
+      path: '/earn_withdraw_order_summary',
+      page: EarnWithdrawOrderSummaryRouter.page,
+    ),
+    AutoRoute(
+      path: '/earn_top_up_amount',
+      page: EarnTopUpAmountRouter.page,
+    ),
+    AutoRoute(
+      path: '/earn_top_up_order_summary',
+      page: EarnTopUpOrderSummaryRouter.page,
+    ),
+    AutoRoute(
+      path: '/invest_transfer',
+      page: InvestTransferRoute.page,
+    ),
+    AutoRoute(
+      path: '/invest_deposite_confrimation',
+      page: InvestDepositeConfrimationRoute.page,
+    ),
+    AutoRoute(
+      path: '/invest_withdraw_confrimation',
+      page: InvestWithdrawConfrimationRoute.page,
+    ),
+    AutoRoute(
+      path: '/prepaid_card_service',
+      page: PrepaidCardServiceRouter.page,
+    ),
+    AutoRoute(
+      path: '/prepaid_card_pre_buy_tabs',
+      page: PrepaidCardPreBuyTabsRouter.page,
+      fullscreenDialog: true,
+    ),
+    AutoRoute(
+      path: '/buy_vouncher_amount',
+      page: BuyVouncherAmountRouter.page,
+    ),
+    AutoRoute(
+      path: '/prepaid_card_details',
+      page: PrepaidCardDetailsRouter.page,
+      fullscreenDialog: true,
+    ),
+    AutoRoute(
+      path: '/buy_vouncher_confirmation',
+      page: BuyVouncherConfirmationRoute.page,
     ),
   ];
 }

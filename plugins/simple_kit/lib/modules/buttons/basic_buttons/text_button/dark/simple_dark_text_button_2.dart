@@ -5,14 +5,14 @@ import 'package:simple_kit/modules/colors/simple_colors_dark.dart';
 /// Called Blue Button in UI Kit for the Dark Theme
 class SimpleDarkTextButton2 extends StatelessWidget {
   const SimpleDarkTextButton2({
-    Key? key,
+    super.key,
     this.icon,
     this.addPadding = false,
     this.autoSize = false,
     required this.active,
     required this.name,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final Widget? icon;
   final bool addPadding;

@@ -18,7 +18,6 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../core/di/di.dart';
 import '../../app/store/app_store.dart';
@@ -75,96 +74,107 @@ class _TrancferBody extends StatelessWidget {
       builder: (context) {
         return Column(
           children: [
-            const Spacer(),
-            VisibilityDetector(
-              key: const Key('transfer-flow-widget-key'),
-              onVisibilityChanged: (visibilityInfo) {
-                if (visibilityInfo.visibleFraction != 1) return;
-              },
-              child: SNewActionPriceField(
-                widgetSize: widgetSizeFrom(deviceSize),
-                primaryAmount: formatCurrencyStringAmount(
-                  value: store.inputValue,
-                ),
-                primarySymbol: 'EUR',
-                errorText: store.errorText,
-                onSwap: () {},
-                pasteLabel: intl.paste,
-                onPaste: () async {
-                  final data = await Clipboard.getData('text/plain');
-                  if (data?.text != null) {
-                    final n = double.tryParse(data!.text!);
-                    if (n != null) {
-                      store.pasteValue(n.toString());
-                    }
-                  }
-                },
-                optionText: store.inputValue == '0' && store.isBothAssetsSeted
-                    ? '''${intl.transfer_amount_transfer_all} ${getIt<AppStore>().isBalanceHide ? '**** EUR' : volumeFormat(decimal: store.maxLimit, symbol: 'EUR')}'''
-                    : null,
-                optionOnTap: () {
-                  store.onTransfetAll();
-                },
-                showSwopButton: false,
+            Expanded(
+              child: CustomScrollView(
+                physics: const ClampingScrollPhysics(),
+                slivers: [
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Column(
+                      children: [
+                        deviceSize.when(
+                          small: () => const SpaceH40(),
+                          medium: () => const Spacer(),
+                        ),
+                        SNewActionPriceField(
+                          widgetSize: widgetSizeFrom(deviceSize),
+                          primaryAmount: formatCurrencyStringAmount(
+                            value: store.inputValue,
+                          ),
+                          primarySymbol: 'EUR',
+                          errorText: store.errorText,
+                          onSwap: () {},
+                          pasteLabel: intl.paste,
+                          onPaste: () async {
+                            final data = await Clipboard.getData('text/plain');
+                            if (data?.text != null) {
+                              final n = double.tryParse(data!.text!);
+                              if (n != null) {
+                                store.pasteValue(n.toString());
+                              }
+                            }
+                          },
+                          optionText: store.inputValue == '0' && store.isBothAssetsSeted
+                              ? '''${intl.transfer_amount_transfer_all} ${getIt<AppStore>().isBalanceHide ? '**** EUR' : volumeFormat(decimal: store.maxLimit, symbol: 'EUR')}'''
+                              : null,
+                          optionOnTap: () {
+                            store.onTransfetAll();
+                          },
+                          showSwopButton: false,
+                        ),
+                        const Spacer(),
+                        _AsssetWidget(
+                          card: store.fromCard,
+                          account: store.fromAccount,
+                          onTap: () {
+                            sAnalytics.tapOnTheTransferFromButton(
+                              currentFromValueForTransfer: store.fromType?.analyticsValue ?? 'none',
+                            );
+                            sAnalytics.transferFromSheetView();
+                            showTransferFromToBottomSheet(
+                              context: context,
+                              isFrom: true,
+                              onSelected: ({SimpleBankingAccount? newAccount, CardDataModel? newCard}) {
+                                store.setNewFromAsset(
+                                  newFromCard: newCard,
+                                  newFromAccount: newAccount,
+                                );
+                                sAnalytics.tapOnSelectedNewTransferFromAccountButton(
+                                  newTransferFromAccount: store.fromType?.analyticsValue ?? 'none',
+                                );
+                              },
+                              skipId: store.toAccount?.accountId ?? store.toCard?.cardId,
+                              fromType: store.fromType,
+                              toType: store.toType,
+                            );
+                          },
+                          isFrom: true,
+                        ),
+                        const SpaceH8(),
+                        _AsssetWidget(
+                          card: store.toCard,
+                          account: store.toAccount,
+                          onTap: () {
+                            sAnalytics.tapOnTheTransferToButton(
+                              currentToValueForTransfer: store.toType?.analyticsValue ?? 'none',
+                            );
+                            sAnalytics.transferToSheetView();
+                            showTransferFromToBottomSheet(
+                              context: context,
+                              isFrom: false,
+                              onSelected: ({SimpleBankingAccount? newAccount, CardDataModel? newCard}) {
+                                store.setNewToAsset(
+                                  newToCard: newCard,
+                                  newToAccount: newAccount,
+                                );
+                                sAnalytics.tapOnSelectedNewTransferToButton(
+                                  newTransferToAccount: store.toType?.analyticsValue ?? 'none',
+                                );
+                              },
+                              skipId: store.fromAccount?.accountId ?? store.fromCard?.cardId,
+                              fromType: store.fromType,
+                              toType: store.toType,
+                            );
+                          },
+                          isFrom: false,
+                        ),
+                        const SpaceH20(),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
-            const Spacer(),
-            _AsssetWidget(
-              card: store.fromCard,
-              account: store.fromAccount,
-              onTap: () {
-                sAnalytics.tapOnTheTransferFromButton(
-                  currentFromValueForTransfer: store.fromType?.analyticsValue ?? 'none',
-                );
-                sAnalytics.transferFromSheetView();
-                showTransferFromToBottomSheet(
-                  context: context,
-                  isFrom: true,
-                  onSelected: ({SimpleBankingAccount? newAccount, CardDataModel? newCard}) {
-                    store.setNewFromAsset(
-                      newFromCard: newCard,
-                      newFromAccount: newAccount,
-                    );
-                    sAnalytics.tapOnSelectedNewTransferFromAccountButton(
-                      newTransferFromAccount: store.fromType?.analyticsValue ?? 'none',
-                    );
-                  },
-                  skipId: store.toAccount?.accountId ?? store.toCard?.cardId,
-                  fromType: store.fromType,
-                  toType: store.toType,
-                );
-              },
-              isFrom: true,
-            ),
-            const SpaceH8(),
-            _AsssetWidget(
-              card: store.toCard,
-              account: store.toAccount,
-              onTap: () {
-                sAnalytics.tapOnTheTransferToButton(
-                  currentToValueForTransfer: store.toType?.analyticsValue ?? 'none',
-                );
-                sAnalytics.transferToSheetView();
-                showTransferFromToBottomSheet(
-                  context: context,
-                  isFrom: false,
-                  onSelected: ({SimpleBankingAccount? newAccount, CardDataModel? newCard}) {
-                    store.setNewToAsset(
-                      newToCard: newCard,
-                      newToAccount: newAccount,
-                    );
-                    sAnalytics.tapOnSelectedNewTransferToButton(
-                      newTransferToAccount: store.toType?.analyticsValue ?? 'none',
-                    );
-                  },
-                  skipId: store.fromAccount?.accountId ?? store.fromCard?.cardId,
-                  fromType: store.fromType,
-                  toType: store.toType,
-                );
-              },
-              isFrom: false,
-            ),
-            const SpaceH20(),
             SNumericKeyboardAmount(
               widgetSize: widgetSizeFrom(deviceSize),
               onKeyPressed: (value) {
@@ -203,12 +213,15 @@ class _AsssetWidget extends StatelessWidget {
     this.card,
     required this.onTap,
     required this.isFrom,
+    // ignore: unused_element
+    this.isDisabled = false,
   });
 
   final CardDataModel? card;
   final SimpleBankingAccount? account;
   final void Function() onTap;
   final bool isFrom;
+  final bool isDisabled;
 
   @override
   Widget build(BuildContext context) {
@@ -218,12 +231,12 @@ class _AsssetWidget extends StatelessWidget {
       trailing: account == null && card == null
           ? null
           : getIt<AppStore>().isBalanceHide
-          ? '**** ${account?.currency}'
-          : volumeFormat(
-              decimal: account?.balance ?? card?.balance ?? Decimal.zero,
-              accuracy: 2,
-              symbol: account?.currency ?? card?.currency ?? '',
-            ),
+              ? '**** ${account?.currency}'
+              : volumeFormat(
+                  decimal: account?.balance ?? card?.balance ?? Decimal.zero,
+                  accuracy: 2,
+                  symbol: account?.currency ?? card?.currency ?? '',
+                ),
       icon: account != null
           ? Assets.svg.other.medium.bankAccount.simpleSvg(
               width: 24,
@@ -245,6 +258,7 @@ class _AsssetWidget extends StatelessWidget {
                   ),
                 ),
       onTap: onTap,
+      isDisabled: isDisabled,
     );
   }
 }

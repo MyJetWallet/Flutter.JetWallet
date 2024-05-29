@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 import '../../../../core/di/di.dart';
@@ -40,16 +41,13 @@ class InvestHeader extends StatelessObserverWidget {
 
     return Column(
       children: [
-        if (withBigPadding)
-          const SpaceH64()
-        else
-          const SpaceH8(),
+        if (withBigPadding) const SpaceH64() else const SpaceH8(),
         Row(
           children: [
             if (!withBackBlock)
               Text(
                 intl.invest_title,
-                style: sTextH4SMInvestStyle.copyWith(
+                style: STStyles.header4SMInvest.copyWith(
                   color: colors.black,
                 ),
               )
@@ -68,14 +66,11 @@ class InvestHeader extends StatelessObserverWidget {
                 highlightColor: Colors.transparent,
                 hoverColor: Colors.transparent,
                 onTap: () {
-                  final actualAsset = currency;
                   if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
                     showSendTimerAlertOr(
                       context: context,
                       or: () => sRouter.push(
-                        ConvertRouter(
-                          fromCurrency: actualAsset,
-                        ),
+                        const InvestTransferRoute(),
                       ),
                       from: [BlockingType.trade],
                     );
@@ -86,9 +81,7 @@ class InvestHeader extends StatelessObserverWidget {
                       currentNavigate: () => showSendTimerAlertOr(
                         context: context,
                         or: () => sRouter.push(
-                          ConvertRouter(
-                            fromCurrency: actualAsset,
-                          ),
+                          const InvestTransferRoute(),
                         ),
                         from: [BlockingType.trade],
                       ),

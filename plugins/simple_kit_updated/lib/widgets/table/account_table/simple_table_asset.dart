@@ -4,11 +4,10 @@ import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/button/round/round_button.dart';
-import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 
 class SimpleTableAsset extends HookWidget {
   const SimpleTableAsset({
-    Key? key,
+    super.key,
     this.onTableAssetTap,
     this.isCard = false,
     this.isCardWallet = false,
@@ -27,7 +26,7 @@ class SimpleTableAsset extends HookWidget {
     this.rightValueMarketPositive = true,
     this.isLoading = false,
     this.isHighlated = false,
-  }) : super(key: key);
+  });
 
   final VoidCallback? onTableAssetTap;
 

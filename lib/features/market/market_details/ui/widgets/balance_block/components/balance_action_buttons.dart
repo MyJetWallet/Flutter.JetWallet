@@ -8,20 +8,23 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/send_options.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
+import 'package:jetwallet/features/convert_flow/utils/show_convert_to_bottom_sheet.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
+import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
+import 'package:jetwallet/features/sell_flow/widgets/sell_with_bottom_sheet.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 import '../../../../../../actions/circle_actions/circle_actions.dart';
-import '../../../../../../app/store/app_store.dart';
 import '../../../../helper/currency_from.dart';
 
 class BalanceActionButtons extends StatelessObserverWidget {
@@ -142,23 +145,34 @@ class BalanceActionButtons extends StatelessObserverWidget {
                 source: 'Market - Buy',
               );
 
-              if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
-                showSendTimerAlertOr(
+              handler.handle(
+                multiStatus: [
+                  kycState.tradeStatus,
+                ],
+                isProgress: kycState.verificationInProgress,
+                currentNavigate: () => showSendTimerAlertOr(
                   context: context,
-                  or: () => sRouter.push(
-                    AmountRoute(
-                      tab: AmountScreenTab.sell,
-                      asset: currency,
-                    ),
-                  ),
+                  or: () {
+                    showSellPayWithBottomSheet(
+                      context: context,
+                      currency: currency,
+                      onSelected: ({account, card}) {
+                        sRouter.push(
+                          AmountRoute(
+                            tab: AmountScreenTab.sell,
+                            asset: currency,
+                            account: account,
+                            simpleCard: card,
+                          ),
+                        );
+                      },
+                    );
+                  },
                   from: [BlockingType.trade],
-                );
-              } else {
-                sNotification.showError(
-                  intl.operation_bloked_text,
-                  id: 1,
-                );
-              }
+                ),
+                requiredDocuments: kycState.requiredDocuments,
+                requiredVerifications: kycState.requiredVerifications,
+              );
             },
             onReceive: () {
               sAnalytics.tapOnTheReceiveButton(
@@ -198,43 +212,46 @@ class BalanceActionButtons extends StatelessObserverWidget {
                 }
               } else {
                 sRouter.popUntilRoot();
-                getIt<AppStore>().setHomeTab(2);
-                if (getIt<AppStore>().tabsRouter != null) {
-                  getIt<AppStore>().tabsRouter!.setActiveIndex(2);
-                }
+                getIt<BottomBarStore>().setHomeTab(BottomItemType.wallets);
               }
             },
             onSend: () {
               sAnalytics.tabOnTheSendButton(
                 source: 'Market - Asset - Send',
               );
-              showSendOptions(
-                context,
-                currency,
-                navigateBack: false,
+
+              handler.handle(
+                isProgress: kycState.verificationInProgress,
+                currentNavigate: () => showSendOptions(
+                  context,
+                  currency,
+                  navigateBack: false,
+                ),
+                requiredDocuments: kycState.requiredDocuments,
+                requiredVerifications: kycState.requiredVerifications,
               );
             },
             onConvert: () {
               sAnalytics.tapOnTheConvertButton(
                 source: 'Market - Convert',
               );
-              if (kycState.tradeStatus == kycOperationStatus(KycStatus.allowed)) {
-                showSendTimerAlertOr(
+
+              handler.handle(
+                multiStatus: [
+                  kycState.tradeStatus,
+                ],
+                isProgress: kycState.verificationInProgress,
+                currentNavigate: () => showSendTimerAlertOr(
                   context: context,
-                  or: () => sRouter.push(
-                    AmountRoute(
-                      tab: AmountScreenTab.convert,
-                      asset: currency,
-                    ),
+                  or: () => showConvertToBottomSheet(
+                    context: context,
+                    fromAsset: currency,
                   ),
                   from: [BlockingType.trade],
-                );
-              } else {
-                sNotification.showError(
-                  intl.operation_bloked_text,
-                  id: 1,
-                );
-              }
+                ),
+                requiredDocuments: kycState.requiredDocuments,
+                requiredVerifications: kycState.requiredVerifications,
+              );
             },
           ),
         ],

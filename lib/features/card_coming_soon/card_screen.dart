@@ -272,7 +272,6 @@ class _CardScreenBodyState extends State<CardScreen> {
                                   loader.finishLoading();
                                   sNotification.showError(
                                     intl.something_went_wrong_try_again2,
-                                    duration: 4,
                                     id: 1,
                                     needFeedback: true,
                                   );

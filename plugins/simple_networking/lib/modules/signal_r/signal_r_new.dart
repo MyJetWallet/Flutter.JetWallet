@@ -518,6 +518,22 @@ class SignalRModuleNew {
       investAllActivePositionsMessage,
       method: handler.investAllActivePositionsMessageHandler,
     );
+
+    _hubConnection?.off(
+      earnOffers,
+      method: handler.earnOffersMessageHandler,
+    );
+
+    _hubConnection?.off(
+      earnPositions,
+      method: handler.earnPositionsMessageHandler,
+    );
+
+    // Baners
+    _hubConnection?.off(
+      bannerList,
+      method: handler.bannerListMessageHandler,
+    );
   }
 
   Future<void> setupMessageHandler() async {
@@ -570,6 +586,7 @@ class SignalRModuleNew {
     _hubConnection?.on(investPricesMessage, handler.investPricesMessageHandler);
     _hubConnection?.on(investSectorsMessage, handler.investSectorsMessageHandler);
     _hubConnection?.on(investWalletMessage, handler.investWalletMessageHandler);
+    _hubConnection?.on(investBaseDailyPricesMessage, handler.investBaseDailyPricesMessageHandler);
 
     _hubConnection?.on(indicesMessage, handler.indicesMessageHandler);
 
@@ -608,8 +625,13 @@ class SignalRModuleNew {
 
     _hubConnection?.on(pendingOperationCountMessage, handler.pendingOperationCountHandler);
 
-    ///
+    // Earn
+    _hubConnection?.on(earnOffers, handler.earnOffersMessageHandler);
+    _hubConnection?.on(earnPositions, handler.earnPositionsMessageHandler);
 
     _hubConnection?.on(pongMessage, pongMessageHandler);
+
+    // Baners
+    _hubConnection?.on(bannerList, handler.bannerListMessageHandler);
   }
 }

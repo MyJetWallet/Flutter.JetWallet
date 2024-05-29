@@ -272,7 +272,7 @@ abstract class _WithdrawalStoreBase with Store {
       );
 
   @computed
-  Decimal? get _minLimit => _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
+  Decimal? get minLimit => _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
         (element) => element.network == network.id && element.symbol == withdrawalInputModel?.currency?.symbol,
         orElse: () {
           return const SymbolNetworkDetails();
@@ -280,7 +280,7 @@ abstract class _WithdrawalStoreBase with Store {
       ).minAmount;
 
   @computed
-  Decimal? get _maxLimit => _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
+  Decimal? get maxLimit => _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
         (element) => element.network == network.id && element.symbol == withdrawalInputModel?.currency?.symbol,
         orElse: () {
           return const SymbolNetworkDetails();
@@ -327,7 +327,6 @@ abstract class _WithdrawalStoreBase with Store {
           sRouter.push(const WithdrawalAddressRouter());
         }
 
-        break;
       case WithdrawStep.ammount:
         if (isReplace) {
           sRouter.popUntil((route) => route.settings is WithdrawalAmmountRouter);
@@ -335,7 +334,6 @@ abstract class _WithdrawalStoreBase with Store {
           sRouter.push(const WithdrawalAmmountRouter());
         }
 
-        break;
       case WithdrawStep.preview:
         if (isReplace) {
           sRouter.popUntil((route) => route.settings is WithdrawalPreviewRouter);
@@ -343,7 +341,6 @@ abstract class _WithdrawalStoreBase with Store {
           sRouter.push(const WithdrawalPreviewRouter());
         }
 
-        break;
       case WithdrawStep.confirm:
         if (isReplace) {
           sRouter.popUntil((route) => route.settings is WithdrawalConfirmRouter);
@@ -351,7 +348,6 @@ abstract class _WithdrawalStoreBase with Store {
           sRouter.push(const WithdrawalConfirmRouter());
         }
 
-        break;
       default:
     }
   }
@@ -724,7 +720,7 @@ abstract class _WithdrawalStoreBase with Store {
         permissionDescription: intl.withdrawalAddress_pushAllowCamera,
         then: () async {
           Future.delayed(const Duration(microseconds: 100), () async {
-            await _pushQrView(context: context, fromSettings: false);
+            await _pushQrView(context: context);
           });
         },
       ),
@@ -818,15 +814,15 @@ abstract class _WithdrawalStoreBase with Store {
         errorCode: withAmmountInputError.name,
       );
     }
-    if (_minLimit != null && _minLimit! > value) {
+    if (minLimit != null && minLimit! > value) {
       limitError = '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
-        decimal: _minLimit!,
+        decimal: minLimit!,
         accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
         symbol: withdrawalInputModel?.currency?.symbol ?? '',
       )}';
-    } else if (_maxLimit != null && _maxLimit! < value) {
+    } else if (maxLimit != null && maxLimit! < value) {
       limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
-        decimal: _maxLimit!,
+        decimal: maxLimit!,
         accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
         symbol: withdrawalInputModel?.currency?.symbol ?? '',
       )}';
@@ -873,7 +869,8 @@ abstract class _WithdrawalStoreBase with Store {
       paymentFee: addressIsInternal
           ? 'No fee'
           : withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
-              networkController.text,
+              network: networkController.text,
+              amount: Decimal.parse(withAmount),
             ),
     );
 
@@ -997,7 +994,8 @@ abstract class _WithdrawalStoreBase with Store {
       paymentFee: addressIsInternal
           ? 'No fee'
           : withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
-              networkController.text,
+              network: networkController.text,
+              amount: Decimal.parse(withAmount),
             ),
       failedReason: error.cause,
     );
@@ -1132,7 +1130,8 @@ abstract class _WithdrawalStoreBase with Store {
       paymentFee: addressIsInternal
           ? 'No fee'
           : withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
-              networkController.text,
+              network: networkController.text,
+              amount: Decimal.parse(withAmount),
             ),
     );
 

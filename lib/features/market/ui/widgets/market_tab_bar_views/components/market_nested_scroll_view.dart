@@ -282,6 +282,7 @@ class __MarketNestedScrollViewBodyState extends State<_MarketNestedScrollViewBod
                             last: !store.watchListFiltred.isNotEmpty || item == store.watchListFiltred.last,
                             percent: item.dayPercentChange,
                             onTap: () {
+                              sAnalytics.tapOnTheAnyAssetOnMarketList(asset: item.symbol);
                               sRouter.push(
                                 MarketDetailsRouter(
                                   marketItem: item,
@@ -335,6 +336,7 @@ class __MarketNestedScrollViewBodyState extends State<_MarketNestedScrollViewBod
                   last: item == store.cryptoListFiltred.last,
                   percent: item.dayPercentChange,
                   onTap: () {
+                    sAnalytics.tapOnTheAnyAssetOnMarketList(asset: item.symbol);
                     sRouter.push(
                       MarketDetailsRouter(
                         marketItem: item,

@@ -51,6 +51,9 @@ const userLocale = 'userLocale';
 const showRateUp = 'showRateUp';
 const rateUpCount = 'rateUpCount';
 const isCardBannerClosed = 'isCardBannerClosed';
+const earnTermsAndConditionsWasChecked = 'earnTermsAndConditionsWasChecked';
+const isPerapaidCardBannerClosed = 'isPerapaidCardBannerClosed';
+const spareDeviceId = 'spareDeviceId';
 
 final sLocalStorageService = getIt.get<LocalStorageService>();
 
@@ -103,14 +106,16 @@ class LocalStorageService {
     await _storage.delete(key: bankLastMethodId);
     await _storage.delete(key: localLastMethodId);
     await _storage.delete(key: p2pLastMethodId);
-    await _storage.delete(key: showRateUp);
-    await _storage.delete(key: rateUpCount);
+    await _storage.delete(key: earnTermsAndConditionsWasChecked);
 
     final userMail = await _storage.read(key: lastUsedMail);
     final slot = await _storage.read(key: activeSlot);
     final deviceIdUsed = await _storage.read(key: deviceId);
     final isCardBannerClosedUsed = await _storage.read(key: isCardBannerClosed);
     final userLocaleTemp = await _storage.read(key: userLocale);
+    final showRateUpTemp = await _storage.read(key: showRateUp);
+    final rateUpCountTemp = await _storage.read(key: rateUpCount);
+    final spareDeviceIdTemp = await _storage.read(key: spareDeviceId);
 
     await _storage.deleteAll();
     await _storage.write(key: lastUsedMail, value: userMail);
@@ -118,6 +123,9 @@ class LocalStorageService {
     await _storage.write(key: deviceId, value: deviceIdUsed);
     await _storage.write(key: isCardBannerClosed, value: isCardBannerClosedUsed);
     await _storage.write(key: userLocale, value: userLocaleTemp);
+    await _storage.write(key: showRateUp, value: showRateUpTemp);
+    await _storage.write(key: rateUpCount, value: rateUpCountTemp);
+    await _storage.write(key: spareDeviceId, value: spareDeviceIdTemp);
   }
 
   Future<void> clearStorageForCrypto(List<CurrencyModel> currencies) async {
@@ -157,6 +165,9 @@ class LocalStorageService {
       final deviceIdUsed = await _storage.read(key: deviceId);
       final isCardBannerClosedUsed = await _storage.read(key: isCardBannerClosed);
       final userLocaleTemp = await _storage.read(key: userLocale);
+      final showRateUpTemp = await _storage.read(key: showRateUp);
+      final rateUpCountTemp = await _storage.read(key: rateUpCount);
+      final spareDeviceIdTemp = await _storage.read(key: spareDeviceId);
 
       await _storage.deleteAll();
 
@@ -165,6 +176,9 @@ class LocalStorageService {
       await _storage.write(key: deviceId, value: deviceIdUsed);
       await _storage.write(key: isCardBannerClosed, value: isCardBannerClosedUsed);
       await _storage.write(key: userLocale, value: userLocaleTemp);
+      await _storage.write(key: showRateUp, value: showRateUpTemp);
+      await _storage.write(key: rateUpCount, value: rateUpCountTemp);
+      await _storage.write(key: spareDeviceId, value: spareDeviceIdTemp);
     }
   }
 }
