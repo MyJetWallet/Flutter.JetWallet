@@ -28,6 +28,7 @@ class _BannerCaruselState extends State<BannerCarusel> with TickerProviderStateM
       initialIndex: _selectedIndex,
       length: banners.length,
       vsync: this,
+      animationDuration: const Duration(milliseconds: 100),
     );
     controller.animation!.addListener(
       () {
