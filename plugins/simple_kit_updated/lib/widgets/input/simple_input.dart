@@ -62,8 +62,11 @@ class SInput extends HookWidget {
   Widget build(BuildContext context) {
     useListenable(controller);
 
-    return Material(
-      color: Colors.white,
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border(bottom: BorderSide(width: 1, color: SColorsLight().gray4)),
+      ),
       child: ConstrainedBox(
         constraints: BoxConstraints(
           minHeight: height ?? 80,

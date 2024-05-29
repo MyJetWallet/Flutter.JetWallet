@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/button/round/round_button.dart';
-import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 
-class SimpleTableAsset extends StatelessWidget {
+class SimpleTableAsset extends HookWidget {
   const SimpleTableAsset({
     super.key,
     this.onTableAssetTap,
@@ -21,8 +21,11 @@ class SimpleTableAsset extends StatelessWidget {
     this.rightValue,
     this.rightMarketValue,
     this.customRightWidget,
+    this.isDot = false,
     this.isRightValueMarket = false,
     this.rightValueMarketPositive = true,
+    this.isLoading = false,
+    this.isHighlated = false,
   });
 
   final VoidCallback? onTableAssetTap;
@@ -46,143 +49,237 @@ class SimpleTableAsset extends StatelessWidget {
   final bool hasLabelIcon;
   final Widget? labelIcon;
 
+  final bool isDot;
+
+  final bool isLoading;
+  final bool isHighlated;
+
   @override
   Widget build(BuildContext context) {
+    final isHighlated = useState(false);
+
     return SafeGesture(
       onTap: onTableAssetTap,
-      child: SizedBox(
-        height: needPadding
-            ? supplement == null
-              ? 64
-              : isCardWallet
-                ? 72
-                : 80
-            : 48,
-        child: Padding(
-          padding: needPadding
-              ? EdgeInsets.only(
-                  left: 24,
-                  right: 24,
-                  top: 16,
-                  bottom: isCardWallet ? 8 : 16,
-                )
-              : EdgeInsets.zero,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              if (isCardWallet) ...[
-                Padding(
-                  padding: const EdgeInsets.only(top: 8, bottom: 4),
-                  child: assetIcon,
-                ),
-              ] else if (!isCard) ...[
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 2),
-                  child: SizedBox(
+      highlightColor: SColorsLight().gray2,
+      onHighlightChanged: (p0) {
+        isHighlated.value = p0;
+      },
+      child: ColoredBox(
+        color: isHighlated.value ? SColorsLight().gray2 : Colors.transparent,
+        child: SizedBox(
+          height: needPadding
+              ? supplement == null
+                  ? 64
+                  : isCardWallet
+                      ? 72
+                      : 80
+              : 48,
+          child: Padding(
+            padding: needPadding
+                ? EdgeInsets.only(
+                    left: 24,
+                    right: 24,
+                    top: 16,
+                    bottom: isCardWallet ? 8 : 16,
+                  )
+                : EdgeInsets.zero,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                if (isLoading) ...[
+                  Container(
                     width: 24,
                     height: 24,
-                    child: assetIcon ?? Assets.svg.medium.crypto.simpleSvg(),
+                    decoration: BoxDecoration(
+                      color: SColorsLight().gray4,
+                      shape: BoxShape.circle,
+                    ),
                   ),
-                ),
-              ] else ...[
-                Padding(
-                  padding: const EdgeInsets.only(top: 8, bottom: 4),
-                  child: Assets.svg.paymentMethodsCards.simple.defaultCard.simpleSvg(
-                    width: 24,
-                  ),
-                ),
-              ],
-              const Gap(12),
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 28,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              label,
-                              style: STStyles.subtitle1,
-                            ),
-                          ),
-                          const Gap(4),
-                          if (hasLabelIcon)
-                            SizedBox(
-                              width: 16,
-                              height: 16,
-                              child: labelIcon ??
-                                  Assets.svg.medium.freeze.simpleSvg(
-                                    color: SColorsLight().gray8,
-                                  ),
-                            ),
-                        ],
+                ] else ...[
+                  if (isCardWallet) ...[
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 4),
+                      child: assetIcon,
+                    ),
+                  ] else if (!isCard) ...[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 2),
+                      child: SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: assetIcon ?? Assets.svg.medium.crypto.simpleSvg(),
                       ),
                     ),
-                    if (supplement != null)
-                      Text(
-                        supplement ?? '',
-                        style: STStyles.body2Medium.copyWith(
-                          color: SColorsLight().gray10,
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-              if (hasRightValue) ...[
-                //const Spacer(),
-                if (customRightWidget != null) ...[
-                  customRightWidget!,
-                ] else ...[
-                  if (isRightValueMarket) ...[
-                    SizedBox(
-                      height: 48,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            rightValue ?? '',
-                            style: STStyles.subtitle1,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                rightMarketValue ?? '',
-                                style: STStyles.body2Semibold.copyWith(
-                                  color: rightValueMarketPositive ? SColorsLight().green : SColorsLight().red,
-                                ),
-                              ),
-                              const Gap(2),
-                              rightValueMarketPositive
-                                  ? Assets.svg.medium.arrowUp.simpleSvg(
-                                      width: 16,
-                                      height: 16,
-                                      color: SColorsLight().green,
-                                    )
-                                  : Assets.svg.medium.arrowDown.simpleSvg(
-                                      width: 16,
-                                      height: 16,
-                                      color: SColorsLight().red,
-                                    ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    )
                   ] else ...[
-                    RoundButton(
-                      value: rightValue ?? '',
-                    )
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 4),
+                      child: Assets.svg.paymentMethodsCards.simple.defaultCard.simpleSvg(
+                        width: 24,
+                      ),
+                    ),
                   ],
                 ],
-              ]
-            ],
+                const Gap(12),
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 28,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            if (!isLoading) ...[
+                              Flexible(
+                                child: Text(
+                                  label,
+                                  style: STStyles.subtitle1,
+                                ),
+                              ),
+                            ] else ...[
+                              Container(
+                                width: 80,
+                                height: 24,
+                                decoration: BoxDecoration(
+                                  color: SColorsLight().gray4,
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                              ),
+                            ],
+                            const Gap(4),
+                            if (hasLabelIcon)
+                              SizedBox(
+                                width: 16,
+                                height: 16,
+                                child: labelIcon ??
+                                    Assets.svg.medium.freeze.simpleSvg(
+                                      color: SColorsLight().gray8,
+                                    ),
+                              ),
+                          ],
+                        ),
+                      ),
+                      if (isLoading) ...[
+                        const Gap(4),
+                        Container(
+                          width: 32,
+                          height: 16,
+                          decoration: BoxDecoration(
+                            color: SColorsLight().gray4,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                        ),
+                      ] else ...[
+                        if (supplement != null)
+                          Text(
+                            supplement ?? '',
+                            style: STStyles.body2Medium.copyWith(
+                              color: SColorsLight().gray10,
+                            ),
+                          ),
+                      ],
+                    ],
+                  ),
+                ),
+                if (hasRightValue) ...[
+                  //const Spacer(),
+                  if (customRightWidget != null) ...[
+                    customRightWidget!,
+                  ] else ...[
+                    if (isRightValueMarket) ...[
+                      SizedBox(
+                        height: 48,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            if (isLoading) ...[
+                              Container(
+                                width: 80,
+                                height: 24,
+                                decoration: BoxDecoration(
+                                  color: SColorsLight().gray4,
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                              ),
+                            ] else ...[
+                              Text(
+                                rightValue ?? '',
+                                style: STStyles.subtitle1,
+                              ),
+                            ],
+                            if (isLoading) ...[
+                              const Gap(8),
+                              Container(
+                                width: 32,
+                                height: 16,
+                                decoration: BoxDecoration(
+                                  color: SColorsLight().gray4,
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                              ),
+                            ] else ...[
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    rightMarketValue ?? '',
+                                    style: STStyles.body2Semibold.copyWith(
+                                      color: rightValueMarketPositive ? SColorsLight().green : SColorsLight().red,
+                                    ),
+                                  ),
+                                  const Gap(2),
+                                  rightValueMarketPositive
+                                      ? isDot
+                                          ? Assets.svg.medium.dot.simpleSvg(
+                                              width: 16,
+                                              height: 16,
+                                              color: SColorsLight().green,
+                                            )
+                                          : Assets.svg.medium.arrowUp.simpleSvg(
+                                              width: 16,
+                                              height: 16,
+                                              color: SColorsLight().green,
+                                            )
+                                      : isDot
+                                          ? Assets.svg.medium.dot.simpleSvg(
+                                              width: 16,
+                                              height: 16,
+                                              color: SColorsLight().red,
+                                            )
+                                          : Assets.svg.medium.arrowDown.simpleSvg(
+                                              width: 16,
+                                              height: 16,
+                                              color: SColorsLight().red,
+                                            ),
+                                ],
+                              ),
+                            ],
+                          ],
+                        ),
+                      )
+                    ] else ...[
+                      if (!isLoading) ...[
+                        RoundButton(
+                          value: rightValue ?? '',
+                        ),
+                      ] else ...[
+                        Container(
+                          width: 96,
+                          height: 44,
+                          decoration: BoxDecoration(
+                            color: SColorsLight().gray4,
+                            borderRadius: BorderRadius.circular(22),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ],
+                ]
+              ],
+            ),
           ),
         ),
       ),

@@ -13,6 +13,7 @@ class SpecificButton extends HookWidget {
     this.hasRightArrow = true,
     this.isButtonSmall = false,
     this.isLabelBold = false,
+    this.isParentHighlated = false,
     this.onTap,
     required this.label,
   });
@@ -24,6 +25,8 @@ class SpecificButton extends HookWidget {
 
   final String label;
   final bool isLabelBold;
+
+  final bool isParentHighlated;
 
   final VoidCallback? onTap;
 
@@ -41,7 +44,11 @@ class SpecificButton extends HookWidget {
         height: 40,
         child: Container(
           decoration: BoxDecoration(
-            color: isHighlated.value ? SColorsLight().gray4 : SColorsLight().gray2,
+            color: isHighlated.value
+                ? SColorsLight().gray4
+                : isParentHighlated
+                    ? SColorsLight().gray4
+                    : SColorsLight().gray2,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Padding(
