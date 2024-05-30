@@ -12,14 +12,18 @@ import 'package:logger/logger.dart';
 class IntercomService {
   final _logger = getIt.get<SimpleLoggerService>();
 
+  static const _appId = String.fromEnvironment('INTERCOM_APP_ID');
+  static const _androidKey = String.fromEnvironment('INTERCOM_ANDROID_KEY');
+  static const _iOSKey = String.fromEnvironment('INTERCOM_IOS_KEY');
+
   bool _isInited = false;
 
   Future<IntercomService> init() async {
     try {
       await Intercom.instance.initialize(
-        'lci42mfw',
-        iosApiKey: 'android_sdk-684bae5a9d75b05e583aeb048fbfa1be7774247c',
-        androidApiKey: 'ios_sdk-798dd512c506503fc2da6c81797ac8428e0eb419',
+        _appId,
+        iosApiKey: _iOSKey,
+        androidApiKey: _androidKey,
       );
 
       _isInited = true;
@@ -35,13 +39,13 @@ class IntercomService {
       _logger.log(
         level: Level.info,
         place: 'Intercom init',
-        message: 'success',
+        message: 'success [_appId: $_appId, _androidKey: $_androidKey, _iOSKey: $_iOSKey]',
       );
     } catch (e) {
       _logger.log(
         level: Level.error,
         place: 'Intercom showMessenger',
-        message: '$e',
+        message: '$e [_appId: $_appId, _androidKey: $_androidKey, _iOSKey: $_iOSKey]]',
       );
     }
     return this;
