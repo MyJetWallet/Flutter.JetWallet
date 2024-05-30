@@ -5,12 +5,12 @@ import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/wallet_body.dar
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 
-void navigateToWallet(BuildContext context, CurrencyModel currency) {
+void navigateToWallet(BuildContext context, CurrencyModel currency, {bool isSinglePage = false}) {
   final savedCurrencies = currenciesForMyWallet();
 
   final isCurrencySaved = savedCurrencies.any((element) => element.symbol == currency.symbol);
 
-  if (isCurrencySaved) {
+  if (isCurrencySaved && !isSinglePage) {
     sRouter
         .push(
       WalletRouter(
