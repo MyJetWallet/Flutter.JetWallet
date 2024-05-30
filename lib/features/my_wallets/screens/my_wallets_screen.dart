@@ -446,8 +446,8 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                       ),
                                     ),
                                   ),
-                                SliverToBoxAdapter(
-                                  child: list.length < 6 ? const SizedBox(height: 160) : const SpaceH76(),
+                                const SliverToBoxAdapter(
+                                  child: SizedBox(height: 200),
                                 ),
                               ],
                             ),
