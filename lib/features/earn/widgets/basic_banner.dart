@@ -6,9 +6,12 @@ import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 class SBasicBanner extends StatelessWidget {
   const SBasicBanner({
     required this.text,
+    this.onClose,
     super.key,
   });
+
   final String text;
+  final Function()? onClose;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +39,18 @@ class SBasicBanner extends StatelessWidget {
                 maxLines: 2,
               ),
             ),
+            if (onClose != null) ...[
+              const SizedBox(width: 16),
+              SizedBox(
+                height: 20,
+                width: 20,
+                child: SIconButton(
+                  onTap: onClose,
+                  defaultIcon: const SCloseIcon(),
+                  pressedIcon: const SClosePressedIcon(),
+                ),
+              ),
+            ],
           ],
         ),
       ),

@@ -14,6 +14,9 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../core/di/di.dart';
+import '../../../core/services/local_storage_service.dart';
+
 @RoutePage(name: 'EarnRouter')
 class EarnScreen extends StatefulWidget {
   const EarnScreen({super.key});
@@ -50,7 +53,7 @@ class _EarnScreenState extends State<EarnScreen> {
   }
 }
 
-class _EarnView extends StatelessWidget {
+class _EarnView extends StatefulWidget {
   const _EarnView({
     required this.controller,
   });
@@ -58,9 +61,33 @@ class _EarnView extends StatelessWidget {
   final ScrollController controller;
 
   @override
+  State<_EarnView> createState() => _EarnViewState();
+}
+
+class _EarnViewState extends State<_EarnView> {
+  bool showBanner = true;
+  final storageService = getIt.get<LocalStorageService>();
+
+  @override
+  void initState() {
+    _checkBannerVisibility();
+    super.initState();
+  }
+
+  Future<void> _checkBannerVisibility() async {
+    final showInfoBanner = await storageService.getValue(showInfoBannerOnEarnScreenKey);
+    if (showInfoBanner != null) {
+      setState(() {
+        showBanner = false;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final store = Provider.of<EarnStore>(context);
     final colors = sKit.colors;
+
     return SPageFrame(
       loaderText: '',
       color: colors.white,
@@ -72,9 +99,12 @@ class _EarnView extends StatelessWidget {
         builder: (context) {
           return CustomScrollView(
             slivers: [
-              if (store.earnPositions.isNotEmpty)
+              if (store.earnPositions.isNotEmpty && showBanner)
                 SliverToBoxAdapter(
-                  child: SBasicBanner(text: intl.earn_funds_are_calculated_based_on_the_current_value),
+                  child: SBasicBanner(
+                    text: intl.earn_funds_are_calculated_based_on_the_current_value,
+                    onClose: _closeBanner,
+                  ),
                 ),
               SliverToBoxAdapter(
                 child: SPriceHeader(
@@ -114,5 +144,12 @@ class _EarnView extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Future<void> _closeBanner() async {
+    setState(() {
+      showBanner = false;
+    });
+    await storageService.setString(showInfoBannerOnEarnScreenKey, 'false');
   }
 }
