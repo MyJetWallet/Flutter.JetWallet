@@ -4,7 +4,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/store/earn_store.dart';
-import 'package:jetwallet/features/earn/widgets/basic_banner.dart';
 import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
 import 'package:jetwallet/features/earn/widgets/earn_positions_list.dart';
 import 'package:jetwallet/features/earn/widgets/price_header.dart';
@@ -12,6 +11,8 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../core/di/di.dart';
@@ -101,8 +102,11 @@ class _EarnViewState extends State<_EarnView> {
             slivers: [
               if (store.earnPositions.isNotEmpty && showBanner)
                 SliverToBoxAdapter(
-                  child: SBasicBanner(
+                  child: SBannerBasic(
                     text: intl.earn_funds_are_calculated_based_on_the_current_value,
+                    icon: Assets.svg.small.info,
+                    color: colors.yellowLight,
+                    corners: BannerCorners.sharp,
                     onClose: _closeBanner,
                   ),
                 ),
