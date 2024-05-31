@@ -7,14 +7,9 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 String userWillreceive({
   required String amount,
   required CurrencyModel currency,
-  required bool addressIsInternal,
   required String network,
 }) {
   final value = Decimal.parse(amount);
-
-  if (addressIsInternal) {
-    return '$amount ${currency.symbol}';
-  }
 
   final fee = currency.withdrawalFeeSize(network: network, amount: value);
 
