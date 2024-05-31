@@ -1,14 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:jetwallet/core/di/di.dart';
-import 'package:jetwallet/core/services/deep_link_service.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
-import 'package:simple_analytics/simple_analytics.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/features/my_wallets/store/banners_store.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/navigation/carousel/carousel_widget.dart';
 import 'package:simple_networking/modules/signal_r/models/baner_model.dart';
-import 'package:simple_networking/modules/wallet_api/models/banners/close_banner_request_model.dart';
 
 class BannerCarusel extends StatefulWidget {
   const BannerCarusel({super.key});
@@ -18,104 +15,60 @@ class BannerCarusel extends StatefulWidget {
 }
 
 class _BannerCaruselState extends State<BannerCarusel> with TickerProviderStateMixin {
-  late final TabController controller;
-
-  int _selectedIndex = 0;
-
-  @override
-  void initState() {
-    controller = TabController(
-      initialIndex: _selectedIndex,
-      length: banners.length,
-      vsync: this,
-      animationDuration: const Duration(milliseconds: 100),
-    );
-    controller.animation!.addListener(
-      () {
-        if (controller.indexIsChanging) {
-          if (_selectedIndex != controller.index) {
-            setState(() {
-              _selectedIndex = controller.index;
-            });
-          }
-        } else {
-          final temp = controller.animation!.value.round();
-          if (_selectedIndex != temp) {
-            setState(() {
-              _selectedIndex = temp;
-            });
-
-            controller.index = _selectedIndex;
-          }
-        }
-      },
-    );
-    super.initState();
-  }
-
-  var banners = [...sSignalRModules.banersListMessage.banners];
-
   @override
   Widget build(BuildContext context) {
-    return banners.isEmpty
-        ? const Offstage()
-        : Column(
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: (MediaQuery.of(context).size.width - 48) * 0.281346,
-                child: TabBarView(
-                  controller: controller,
-                  children: [
-                    for (final baner in banners)
-                      SPromoBanner(
-                        onBannerTap: () {
-                          sAnalytics.tapOnTheBanner(
-                            bannerId: baner.bannerId,
-                            bannerTitle: baner.title,
-                          );
-                          final action = baner.action;
-                          if (action != null) {
-                            getIt.get<DeepLinkService>().handle(Uri.parse(action));
-                          }
-                        },
-                        onCloseBannerTap: () async {
-                          sAnalytics.closeBanner(
-                            bannerId: baner.bannerId,
-                            bannerTitle: baner.title,
-                          );
-                          setState(() {
-                            banners.removeWhere((element) => element.bannerId == baner.bannerId);
-                          });
+    return Provider(
+      create: (context) => BannersStore(vsync: this),
+      dispose: (context, store) => store.dispose(),
+      builder: (context, child) {
+        final store = BannersStore.of(context);
 
-                          await sNetwork.getWalletModule().postCloseBanner(
-                                CloseBannerRequestModel(
-                                  bannerId: baner.bannerId,
+        return Observer(
+          builder: (context) {
+            return store.banners.isEmpty
+                ? const Offstage()
+                : Column(
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: (MediaQuery.of(context).size.width - 48) * 0.281346,
+                        child: TabBarView(
+                          controller: store.controller,
+                          children: [
+                            for (final baner in store.banners)
+                              SPromoBanner(
+                                onBannerTap: () {
+                                  store.onBannerTap(baner);
+                                },
+                                onCloseBannerTap: () {
+                                  store.onCloseBannerTap(baner);
+                                },
+                                title: baner.title,
+                                description: baner.description,
+                                promoImage: CachedNetworkImageProvider(
+                                  baner.image ?? '',
                                 ),
-                              );
-                        },
-                        title: baner.title,
-                        description: baner.description,
-                        promoImage: CachedNetworkImageProvider(
-                          baner.image ?? '',
+                                textWidthPercent: baner.align,
+                                hasCloseButton: baner.type == BanerType.closable,
+                              ),
+                          ],
                         ),
-                        textWidthPercent: baner.align,
-                        hasCloseButton: baner.type == BanerType.closable,
                       ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 14,
-                ),
-                child: CarouselWidget(
-                  itemsCount: banners.length,
-                  pageIndex: _selectedIndex,
-                ),
-              ),
-            ],
-          );
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 14,
+                        ),
+                        child: CarouselWidget(
+                          itemsCount: store.banners.length,
+                          pageIndex: store.selectedIndex,
+                        ),
+                      ),
+                    ],
+                  );
+          },
+        );
+      },
+    );
   }
 }

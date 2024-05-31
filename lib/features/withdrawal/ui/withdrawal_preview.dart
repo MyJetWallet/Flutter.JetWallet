@@ -64,7 +64,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
     final formatService = getIt.get<FormatService>();
 
     final feeSize = store.withdrawalInputModel!.currency!.withdrawalFeeSize(
-      network: store.networkController.text,
+      network: store.addressIsInternal ? 'internal-send' : store.networkController.text,
       amount: Decimal.parse(store.withAmount),
     );
 
@@ -153,7 +153,7 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
                   needHorizontalPadding: false,
                 ),
                 ProcessingFeeRowWidget(
-                  fee: store.addressIsInternal ? intl.noFee : feeSizeWithSymbol,
+                  fee: feeSize == Decimal.zero ? intl.noFee : feeSizeWithSymbol,
                   onTabListener: () {},
                   onBotomSheetClose: (_) {},
                   needPadding: true,
