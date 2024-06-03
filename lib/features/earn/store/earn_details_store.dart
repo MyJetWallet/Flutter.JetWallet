@@ -49,31 +49,6 @@ abstract class _EarnsDetailsStoreBase with Store {
       if (positionAudits.isNotEmpty) {
         positionAuditsList.addAll(positionAudits);
         skip += positionAudits.length;
-
-        positionAuditsList.sort((a, b) {
-          final yearComparison = a.timestamp!.year.compareTo(b.timestamp!.year);
-          if (yearComparison != 0) {
-            return yearComparison;
-          }
-
-          final monthComparison = a.timestamp!.month.compareTo(b.timestamp!.month);
-          if (monthComparison != 0) {
-            return monthComparison;
-          }
-
-          final dayComparison = a.timestamp!.day.compareTo(b.timestamp!.day);
-          if (dayComparison != 0) {
-            return dayComparison;
-          }
-
-          final hourComparison = a.timestamp!.hour.compareTo(b.timestamp!.hour);
-          if (hourComparison != 0) {
-            return hourComparison;
-          }
-
-          return a.timestamp!.minute.compareTo(b.timestamp!.minute);
-        });
-
         isLoadingInitialData = false;
       } else {
         hasMore = false;
@@ -109,30 +84,6 @@ abstract class _EarnsDetailsStoreBase with Store {
       if (positionAudits.isNotEmpty) {
         positionAuditsList.addAll(positionAudits);
         skip += positionAudits.length;
-
-        positionAuditsList.sort((a, b) {
-          final yearComparison = a.timestamp!.year.compareTo(b.timestamp!.year);
-          if (yearComparison != 0) {
-            return yearComparison;
-          }
-
-          final monthComparison = a.timestamp!.month.compareTo(b.timestamp!.month);
-          if (monthComparison != 0) {
-            return monthComparison;
-          }
-
-          final dayComparison = a.timestamp!.day.compareTo(b.timestamp!.day);
-          if (dayComparison != 0) {
-            return dayComparison;
-          }
-
-          final hourComparison = a.timestamp!.hour.compareTo(b.timestamp!.hour);
-          if (hourComparison != 0) {
-            return hourComparison;
-          }
-
-          return a.timestamp!.minute.compareTo(b.timestamp!.minute);
-        });
       } else {
         hasMore = false;
       }
