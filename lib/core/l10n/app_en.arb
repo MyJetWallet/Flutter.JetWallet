@@ -2057,5 +2057,6 @@
     "prepaid_card_error": "The voucher for the prepaid card was not issued. Please contact customer service, we will try to resolve the issue as soon as possible.",
     "invest_error_sl_zero": "StopLoss level cannot be ",
     "invest_error_tp_zero": "TakeProfit level cannot be ",
-    "buy_external_cards": "External cards"
+    "buy_external_cards": "External cards",
+    "history_payment_amount": "Payment amount"
 }
