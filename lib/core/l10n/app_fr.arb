@@ -2021,5 +2021,6 @@
     "prepaid_card_error": "Le bon pour la carte prépayée n'a pas été émis. Veuillez contacter le service client, nous tenterons de résoudre le problème au plus vite.",
     "invest_error_sl_zero": "Le niveau de StopLoss ne peut pas être ",
     "invest_error_tp_zero": "Le niveau de TakeProfit ne peut pas être ",
-    "buy_external_cards": "Cartes externes"
+    "buy_external_cards": "Cartes externes",
+    "history_payment_amount": "Montant du paiement"
 }
