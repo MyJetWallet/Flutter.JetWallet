@@ -112,28 +112,31 @@ class CardPurchaseDetails extends StatelessObserverWidget {
                 fee: volumeFormat(
                   decimal: transactionListItem.cardPurchaseInfo?.paymentFeeAmount ?? Decimal.zero,
                   accuracy: currency.accuracy,
-                  symbol: currency.symbol,
+                  symbol: transactionListItem.cardPurchaseInfo?.paymentFeeAssetId ??
+                      transactionListItem.cardPurchaseInfo?.paymentAssetId ??
+                      'EUR',
                 ),
                 value: TransactionDetailsNewValueText(
                   text: volumeFormat(
                     decimal: transactionListItem.cardPurchaseInfo?.paymentFeeAmount ?? Decimal.zero,
                     accuracy: currency.accuracy,
-                    symbol: currency.symbol,
+                    symbol: transactionListItem.cardPurchaseInfo?.paymentFeeAssetId ??
+                        transactionListItem.cardPurchaseInfo?.paymentAssetId ??
+                        'EUR',
                   ),
                 ),
               );
             },
           ),
           TransactionDetailsNewItem(
-            text: intl.card_history_total_charge,
+            text: intl.history_payment_amount,
             value: TransactionDetailsNewValueText(
               text: getIt<AppStore>().isBalanceHide
                   ? '**** ${currency.symbol}'
                   : volumeFormat(
-                      decimal: (transactionListItem.cardPurchaseInfo?.paymentFeeAmount ?? Decimal.zero) +
-                          transactionListItem.balanceChange.abs(),
+                      decimal: transactionListItem.cardPurchaseInfo?.paymentAmount ?? Decimal.zero,
                       accuracy: currency.accuracy,
-                      symbol: currency.symbol,
+                      symbol: transactionListItem.cardPurchaseInfo?.paymentAssetId ?? 'EUR',
                     ),
             ),
           ),
@@ -175,6 +178,12 @@ class CardPurchaseDetailsHeader extends StatelessWidget {
       orElse: () => CurrencyModel.empty(),
     );
 
+    final assetBaseAmount =
+        transactionListItem.cardPurchaseInfo?.paymentAssetId == transactionListItem.cardPurchaseInfo?.paymentFeeAssetId
+            ? ((transactionListItem.cardPurchaseInfo?.paymentAmount ?? Decimal.zero) +
+                (transactionListItem.cardPurchaseInfo?.paymentFeeAmount ?? Decimal.zero))
+            : (transactionListItem.cardPurchaseInfo?.paymentAmount ?? Decimal.zero);
+
     return SPaddingH24(
       child: Column(
         children: [
@@ -193,7 +202,7 @@ class CardPurchaseDetailsHeader extends StatelessWidget {
                     ? '**** ${transactionListItem.cardPurchaseInfo?.paymentAssetId}'
                     : volumeFormat(
                         symbol: transactionListItem.cardPurchaseInfo?.paymentAssetId ?? '',
-                        decimal: (transactionListItem.cardPurchaseInfo?.paymentAmount ?? Decimal.zero).negative,
+                        decimal: assetBaseAmount.negative,
                       )
                 : null,
             isError: transactionListItem.status == Status.declined,
