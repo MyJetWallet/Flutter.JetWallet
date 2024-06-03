@@ -662,5 +662,8 @@ class EventType {
   static const marketAssetScreenView = '‘Market Asset’ screen view';
   static const tapOnTheBackButtonFromMarketAssetScreen = 'Tap on the ‘Back’ button from ‘Market Asset’ screen';
   static const tapOnTheBalanceButtonOnMarketAssetScreen = 'Tap on the ‘Balance’ button on ‘Market Asset’ screen';
+
+  static const tapOnTheBanner = 'Tap on the banner';
+  static const closeBanner = 'Close Banner';
   static const tapOnTheSellButtonOnWalletsScr = 'Tap on the ‘Sell’ button on wallets scr';
 }

@@ -4619,7 +4619,7 @@
         "description": "Проверено",
         "type": "text"
     },
-    "verification_your_profile": "Підтвердження вашого профілю",
+    "verification_your_profile": "Верифікуйте свій профіль",
     "@verification_your_profile": {
         "description": "Подтверждение вашего профиля",
         "type": "text"

@@ -57,7 +57,7 @@ class SBadgeLarge extends StatelessWidget {
         padding: const EdgeInsets.only(
           right: 40,
           top: 6,
-          bottom: 8,
+          bottom: 6,
           left: 8,
         ),
         child: Row(

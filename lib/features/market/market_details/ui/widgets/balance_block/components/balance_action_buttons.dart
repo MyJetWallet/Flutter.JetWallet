@@ -10,6 +10,7 @@ import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_a
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/convert_flow/utils/show_convert_to_bottom_sheet.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
+import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
@@ -24,7 +25,6 @@ import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 import '../../../../../../actions/circle_actions/circle_actions.dart';
-import '../../../../../../app/store/app_store.dart';
 import '../../../../helper/currency_from.dart';
 
 class BalanceActionButtons extends StatelessObserverWidget {
@@ -212,10 +212,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                 }
               } else {
                 sRouter.popUntilRoot();
-                getIt<AppStore>().setHomeTab(BottomItemType.wallets);
-                if (getIt<AppStore>().tabsRouter != null) {
-                  getIt<AppStore>().tabsRouter!.setActiveIndex(2);
-                }
+                getIt<BottomBarStore>().setHomeTab(BottomItemType.wallets);
               }
             },
             onSend: () {

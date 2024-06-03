@@ -21,6 +21,7 @@ import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/store/kyc_profile_countries_store.dart';
 import 'package:jetwallet/features/auth/verification_reg/store/verification_store.dart';
+import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 
@@ -137,6 +138,10 @@ Future<GetIt> getItInit({
 
   getIt.registerSingletonAsync<IntercomService>(
     () async => IntercomService().init(),
+  );
+
+  getIt.registerLazySingleton<BottomBarStore>(
+    () => BottomBarStore(),
   );
 
   return getIt.init(

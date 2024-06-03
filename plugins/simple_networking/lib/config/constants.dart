@@ -47,6 +47,7 @@ const investWalletMessage = 'invest-wallet-profile';
 const investBaseDailyPricesMessage = 'invest-base-daily-prices';
 const earnOffers = 'earn-offers';
 const earnPositions = 'earn-positions';
+const bannerList = 'banner-list';
 
 // KeyValue
 const watchlistKey = 'watchlist';

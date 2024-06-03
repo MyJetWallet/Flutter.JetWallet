@@ -176,6 +176,7 @@ class SignalRService {
       investBaseDailyPrice: sSignalRModules.setInvestBaseDailyPriceData,
       earnOffers: sSignalRModules.setEarnOffersData,
       activeEarnPositions: sSignalRModules.setEarnPositionsData,
+      banersListMessage: sSignalRModules.setBanersListData,
 
       ///
       createNewSessionLog: () {

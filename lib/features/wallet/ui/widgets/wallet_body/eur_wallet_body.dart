@@ -205,10 +205,8 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                               );
                               sAnalytics.tapOnSimpleCard();
                               simpleCardStore.initFullCardIn(el.cardId ?? '');
-                              sAnalytics.viewVirtualCardScreen(cardID: el.cardId ?? '');
                               sRouter.push(
                                 SimpleCardRouter(
-                                  eurCurrency: widget.eurCurrency,
                                   isAddCashAvailable: sSignalRModules.currenciesList
                                       .where((currency) {
                                         return currency.assetBalance != Decimal.zero;

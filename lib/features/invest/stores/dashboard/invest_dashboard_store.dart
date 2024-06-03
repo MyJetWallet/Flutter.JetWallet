@@ -514,6 +514,11 @@ abstract class _InvestDashboardStoreBase with Store {
 
     final result = profit * Decimal.fromInt(100) / Decimal.parse(position.amount.toString());
 
+    if (position.status == PositionStatus.closed) {
+      final result = position.profitLoss! * Decimal.fromInt(100) / Decimal.parse(position.amount.toString());
+      return Decimal.fromJson('${result.toDouble()}');
+    }
+
     return Decimal.fromJson('${result.toDouble()}');
   }
 

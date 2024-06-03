@@ -14,6 +14,7 @@ import 'package:jetwallet/features/invest/ui/dashboard/invest_header.dart';
 import 'package:jetwallet/features/invest/ui/invests/above_list_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/rollover_line.dart';
 import 'package:jetwallet/features/invest/ui/invests/symbol_info_without_chart.dart';
+import 'package:jetwallet/features/invest/ui/widgets/invest_alert_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_close_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_market_watch_bottom_sheet.dart';
 import 'package:jetwallet/features/invest/ui/widgets/invest_modify_bottom_sheet.dart';
@@ -143,6 +144,15 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
                       Navigator.pop(context);
                     },
                     onSecondaryButtonTap: () {
+                      Navigator.pop(context);
+                      showInvestInfoBottomSheet(
+                        context: context,
+                        type: 'pending',
+                        onPrimaryButtonTap: () => Navigator.pop(context),
+                        primaryButtonName: intl.invest_alert_got_it,
+                        title: intl.invest_alert_in_progress,
+                        subtitle: intl.invest_alert_in_progress_description,
+                      );
                       investPositionStore.closeActivePosition(
                         context,
                         investNewStore.position!,

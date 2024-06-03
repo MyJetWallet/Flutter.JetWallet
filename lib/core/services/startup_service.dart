@@ -36,6 +36,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/helpers/models/refresh_token_status.dart';
 import 'package:simple_networking/modules/analytic_records/models/analytic_record.dart';
 import 'package:simple_networking/modules/auth_api/models/install_model.dart';
+import 'package:simple_networking/modules/auth_api/models/session_chek/session_check_response_model.dart';
 import 'package:simple_networking/modules/logs_api/models/add_log_model.dart';
 import 'package:simple_sift/sift.dart';
 import 'package:universal_io/io.dart';
@@ -223,6 +224,8 @@ class StartupService {
     }
   }
 
+  SessionCheckResponseModel? sessionInfo;
+
   Future<void> makeSessionCheck() async {
     final info = await getIt.get<SessionCheckService>().sessionCheck();
 
@@ -259,6 +262,7 @@ class StartupService {
               const PinVerification(),
             );
       }
+      sessionInfo = info;
     }
 
     unawaited(getIt.get<AppStore>().checkInitRouter());

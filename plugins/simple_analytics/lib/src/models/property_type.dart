@@ -119,4 +119,6 @@ class PropertyType {
   static const isAvailableAppleGooglePay = 'Is available Apple/Google pay';
   static const voucher = 'Voucher';
   static const isCompleted = 'Is completed?';
+  static const bannerId = 'BannerId';
+  static const bannerTitle = 'BannerTitle';
 }

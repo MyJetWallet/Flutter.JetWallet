@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
@@ -46,20 +47,31 @@ class SNumericInput extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(
-                            value,
-                            style: STStyles.header1.copyWith(
-                              color: value != '0' ? SColorsLight().black : SColorsLight().gray6,
+                          ConstrainedBox(
+                            constraints: BoxConstraints(
+                              maxWidth: MediaQuery.of(context).size.width * .53,
+                            ),
+                            child: AutoSizeText(
+                              value,
+                              minFontSize: 32,
+                              maxLines: 1,
+                              style: STStyles.header1.copyWith(
+                                color: value != '0' ? SColorsLight().black : SColorsLight().gray6,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           const Gap(8),
-                          Text(
-                            ticker,
-                            style: STStyles.header3.copyWith(
-                              color: value != '0' ? SColorsLight().black : SColorsLight().gray6,
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 4),
+                            child: Text(
+                              ticker,
+                              style: STStyles.header3.copyWith(
+                                color: value != '0' ? SColorsLight().black : SColorsLight().gray6,
+                              ),
                             ),
                           ),
                         ],

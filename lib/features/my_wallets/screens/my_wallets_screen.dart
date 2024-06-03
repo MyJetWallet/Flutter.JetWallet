@@ -20,10 +20,10 @@ import 'package:jetwallet/features/kyc/models/kyc_verified_model.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/features/my_wallets/widgets/actions_my_wallets_row_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/add_wallet_bottom_sheet.dart';
+import 'package:jetwallet/features/my_wallets/widgets/banners_carusel.dart';
 import 'package:jetwallet/features/my_wallets/widgets/change_order_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/my_wallets_asset_item.dart';
 import 'package:jetwallet/features/my_wallets/widgets/pending_transactions_widget.dart';
-import 'package:jetwallet/features/prepaid_card/widgets/prepaid_card_promo_banner.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
@@ -46,7 +46,6 @@ import '../../../core/services/user_info/user_info_service.dart';
 import '../../../utils/helpers/check_kyc_status.dart';
 import '../../kyc/kyc_service.dart';
 import '../../simple_card/store/simple_card_store.dart';
-import '../../simple_card/ui/widgets/get_card_banner.dart';
 
 @RoutePage(name: 'MyWalletsRouter')
 class MyWalletsScreen extends StatefulWidget {
@@ -173,9 +172,7 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final userInfo = getIt.get<UserInfoService>();
     final kycState = getIt.get<KycService>();
-    final simpleCardStore = getIt.get<SimpleCardStore>();
 
     store = MyWalletsSrore.of(context) as MyWalletsSrore;
 
@@ -350,31 +347,9 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                       ),
                                     ),
                                   ),
-                                if (userInfo.isSimpleCardAvailable &&
-                                    (sSignalRModules.bankingProfileData?.banking?.cards?.length ?? 0) < 1 &&
-                                    !simpleCardStore.wasCardBannerClosed &&
-                                    checkKycPassed(
-                                      kycState.depositStatus,
-                                      kycState.tradeStatus,
-                                      kycState.withdrawalStatus,
-                                    ))
-                                  const SliverToBoxAdapter(
-                                    child: Column(
-                                      children: [
-                                        GetCardBanner(),
-                                        SpaceH16(),
-                                      ],
-                                    ),
-                                  )
-                                else
-                                  const SliverToBoxAdapter(
-                                    child: Column(
-                                      children: [
-                                        PrepaidCardPromoBanner(),
-                                        SpaceH16(),
-                                      ],
-                                    ),
-                                  ),
+                                const SliverToBoxAdapter(
+                                  child: BannerCarusel(),
+                                ),
                                 if (store.countOfPendingTransactions > 0) ...[
                                   SliverToBoxAdapter(
                                     child: PendingTransactionsWidget(
@@ -471,8 +446,8 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                       ),
                                     ),
                                   ),
-                                SliverToBoxAdapter(
-                                  child: list.length < 6 ? const SizedBox(height: 160) : const SpaceH76(),
+                                const SliverToBoxAdapter(
+                                  child: SizedBox(height: 200),
                                 ),
                               ],
                             ),

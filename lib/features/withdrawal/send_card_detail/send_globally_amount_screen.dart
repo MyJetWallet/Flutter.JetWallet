@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -20,6 +21,7 @@ import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 
 import '../../../core/di/di.dart';
+import '../../../utils/formatting/base/market_format.dart';
 import '../../app/store/app_store.dart';
 import 'widgets/payment_method_card.dart';
 
@@ -115,7 +117,11 @@ class _SendGloballyAmountScreenBodyState extends State<SendGloballyAmountScreenB
                 value: store.withAmount,
                 symbol: store.sendCurrency!.symbol,
               ),
-              helper: '',
+              helper: '≈ ${marketFormat(
+                accuracy: store.baseCurrency.accuracy,
+                decimal: Decimal.parse(store.baseConversionValue),
+                symbol: store.baseCurrency.symbol,
+              )}',
               error: store.withAmmountInputError == InputError.limitError
                   ? store.limitError
                   : store.withAmmountInputError.value(),

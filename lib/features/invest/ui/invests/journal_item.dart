@@ -36,8 +36,8 @@ class JournalItem extends StatelessObserverWidget {
     return Column(
       children: [
         RolloverLine(
-          mainText: _formatDateTime(
-            item.timestamp,
+          mainText: normalizeAndFormatDateTime(
+            item.timestamp.toString(),
             'dd.MM.yyyy / HH:mm:ss',
           ),
           secondaryText: '',
@@ -127,23 +127,15 @@ class JournalItem extends StatelessObserverWidget {
     );
   }
 
-  String _formatDateTime(DateTime dateTime, String dateFormat) {
-    DateTime dateTimeLocal;
+  String normalizeAndFormatDateTime(String timestamp, String dateFormat) {
+    String normalizedTimestamp = timestamp;
 
-    if (!dateTime.isUtc) {
-      dateTimeLocal = DateTime.utc(
-        dateTime.year,
-        dateTime.month,
-        dateTime.day,
-        dateTime.hour,
-        dateTime.minute,
-        dateTime.second,
-        dateTime.millisecond,
-        dateTime.microsecond,
-      ).toLocal();
-    } else {
-      dateTimeLocal = dateTime.toLocal();
+    if (!normalizedTimestamp.endsWith('Z') && !RegExp(r'[+-]\d{2}:\d{2}$').hasMatch(normalizedTimestamp)) {
+      normalizedTimestamp = '${normalizedTimestamp}Z';
     }
+
+    final dateTimeUtc = DateTime.parse(normalizedTimestamp).toUtc();
+    final dateTimeLocal = dateTimeUtc.toLocal();
 
     return DateFormat(dateFormat).format(dateTimeLocal);
   }

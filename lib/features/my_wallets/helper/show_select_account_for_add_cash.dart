@@ -8,6 +8,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_receive/action_receive.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/cj_banking_accounts/widgets/show_account_deposit_by_bottom_sheet.dart';
+import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/simple_card/ui/widgets/show_simple_card_deposit_by_bottom_sheet.dart';
@@ -26,6 +27,9 @@ import '../../app/store/app_store.dart';
 
 Future<void> showSelectAccountForAddCash(BuildContext context) async {
   final kycState = getIt.get<KycService>();
+  final handler = getIt.get<KycAlertHandler>();
+
+  final isSimpleKyc = kycState.isSimpleKyc;
 
   if (kycState.depositStatus == kycOperationStatus(KycStatus.blocked)) {
     sNotification.showError(
@@ -39,6 +43,26 @@ Future<void> showSelectAccountForAddCash(BuildContext context) async {
     return;
   }
 
+  if (isSimpleKyc) {
+    _showDepositToBottomSheet(context);
+  } else {
+    handler.handle(
+      status: kycState.depositStatus,
+      isProgress: kycState.verificationInProgress,
+      currentNavigate: () => showSendTimerAlertOr(
+        context: context,
+        or: () {
+          _showDepositToBottomSheet(context);
+        },
+        from: [BlockingType.deposit],
+      ),
+      requiredDocuments: kycState.requiredDocuments,
+      requiredVerifications: kycState.requiredVerifications,
+    );
+  }
+}
+
+void _showDepositToBottomSheet(BuildContext context) {
   sAnalytics.depositToScreenView();
 
   showSendTimerAlertOr(

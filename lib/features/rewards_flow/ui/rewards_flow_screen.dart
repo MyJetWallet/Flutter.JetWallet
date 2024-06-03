@@ -47,8 +47,6 @@ class _RewardsFlowScreenBodyState extends State<_RewardsFlowScreenBody> {
   void initState() {
     final store = RewardsFlowStore.of(context);
 
-    sAnalytics.rewardsTapOnTheTabBar();
-
     final assetList = store.balances.where((element) => element.amount != Decimal.zero);
 
     sAnalytics.rewardsMainScreenView(
@@ -148,9 +146,7 @@ class _RewardsFlowScreenBodyState extends State<_RewardsFlowScreenBody> {
                 const SpaceH32(),
                 SPaddingH24(
                   child: Text(
-                    '${intl.reward_your_reward_subtitle_1} ${getIt<AppStore>().isBalanceHide
-                      ? '**** ${getIt.get<FormatService>().baseCurrency.symbol}'
-                      : volumeFormat(
+                    '${intl.reward_your_reward_subtitle_1} ${getIt<AppStore>().isBalanceHide ? '**** ${getIt.get<FormatService>().baseCurrency.symbol}' : volumeFormat(
                         decimal: store.totalEarnedBaseCurrency,
                         accuracy: getIt.get<FormatService>().baseCurrency.accuracy,
                         symbol: getIt.get<FormatService>().baseCurrency.symbol,

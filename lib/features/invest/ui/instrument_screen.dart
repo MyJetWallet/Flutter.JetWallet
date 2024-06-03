@@ -91,6 +91,12 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
     final colors = sKit.colors;
     final currency = currencyFrom(currencies, 'USDT');
 
+    final activePositionsListToShow =
+        investPositionsStore.activeList.where((e) => e.symbol == widget.instrument.symbol);
+
+    final pendingPositionsListToShow =
+        investPositionsStore.pendingList.where((e) => e.symbol == widget.instrument.symbol);
+
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       loading: investPositionsStore.loader,
@@ -117,7 +123,7 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                       SPaddingH24(
                         child: Row(
                           children: [
-                            if (investPositionsStore.activeList.isNotEmpty) ...[
+                            if (activePositionsListToShow.isNotEmpty) ...[
                               Expanded(
                                 child: SIButton(
                                   activeColor: colors.black,
@@ -337,12 +343,8 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                       ),
                       Observer(
                         builder: (BuildContext context) {
-                          final positions = investPositionsStore.activeList
-                              .where((element) => element.symbol == widget.instrument.symbol)
-                              .toList();
-
                           return investPositionsStore.activeInstrumentTab == 0
-                              ? positions.isEmpty
+                              ? activePositionsListToShow.isEmpty
                                   ? SPlaceholder(
                                       size: SPlaceholderSize.l,
                                       text: intl.wallet_simple_account_empty,
@@ -350,9 +352,14 @@ class _InstrumentScreenState extends State<InstrumentScreen> {
                                   : ActiveInvestList(
                                       instrument: widget.instrument,
                                     )
-                              : PendingInvestList(
-                                  instrument: widget.instrument,
-                                );
+                              : pendingPositionsListToShow.isEmpty
+                                  ? SPlaceholder(
+                                      size: SPlaceholderSize.l,
+                                      text: intl.wallet_simple_account_empty,
+                                    )
+                                  : PendingInvestList(
+                                      instrument: widget.instrument,
+                                    );
                         },
                       ),
                     ],
