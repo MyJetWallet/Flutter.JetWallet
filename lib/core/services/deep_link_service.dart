@@ -943,13 +943,15 @@ class DeepLinkService {
       final currency = sSignalRModules.currenciesList.firstWhereOrNull((e) => e.symbol == jwSymbol);
       final context = sRouter.navigatorKey.currentContext;
       final accountIsActive = sSignalRModules.bankingProfileData?.simple?.account?.status == AccountStatus.active;
+      final showState = sSignalRModules.bankingProfileData?.showState == BankingShowState.accountList;
+
+      sRouter.popUntilRoot();
+      getIt<BottomBarStore>().setHomeTab(BottomItemType.wallets);
 
       if (currency != null && context != null && currency.symbol != 'EUR') {
         navigateToWallet(context, currency, isSinglePage: true);
-      } else if (currency != null && context != null && currency.symbol == 'EUR' && accountIsActive) {
-        navigateToWallet(context, currency, isSinglePage: true);
-      } else {
-        getIt<BottomBarStore>().setHomeTab(BottomItemType.wallets);
+      } else if (currency != null && context != null && currency.symbol == 'EUR' && accountIsActive && showState) {
+        navigateToEurWallet(context: context, currency: currency, isSinglePage: true);
       }
     }
 
