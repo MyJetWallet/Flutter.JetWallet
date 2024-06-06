@@ -959,7 +959,7 @@
     "showDepositDisclaimer_primatyTextOnly": "Only",
     "profileDetails_changePhoneAlert2": "Please be aware that after changing your phone number, all withdrawals will be locked for ",
     "account_verified": "Verified",
-    "verification_your_profile": "Verification your profile",
+    "verification_your_profile": "Verify your profile",
     "verification_your_profile_descr": "In accordance with KYC and AML Policy, you are required to pass the verification process.",
     "logout": "Logout",
     "email_verification": "Email verification",
@@ -2038,7 +2038,7 @@
     "prepaid_cardcomission_explanation": "The comission for issuing the card is paid from your wallet",
     "invest_history_tab_positions": "Positions",
     "invest_history_tab_market": "Market",
-    "invest_alert_delete_pending_order": "Delete pending order?",
+    "invest_alert_delete_pending_order": "Delete pending order",
     "invest_alert_delete_pending_order_sub_titile": "You are going to delete the pending invest",
     "invest_liquidation_price": "Liquidation Price",
     "invest_liquidation": "Liquidation",
@@ -2057,5 +2057,6 @@
     "prepaid_card_error": "The voucher for the prepaid card was not issued. Please contact customer service, we will try to resolve the issue as soon as possible.",
     "invest_error_sl_zero": "StopLoss level cannot be ",
     "invest_error_tp_zero": "TakeProfit level cannot be ",
-    "buy_external_cards": "External cards"
+    "buy_external_cards": "External cards",
+    "history_payment_amount": "Payment amount"
 }

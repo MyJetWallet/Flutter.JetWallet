@@ -959,7 +959,7 @@
     "showDepositDisclaimer_primatyTextOnly": "Solo",
     "profileDetails_changePhoneAlert2": "Tenga en cuenta que después de cambiar su número de teléfono, todos los retiros se bloquearán por ",
     "account_verified": "Verificado",
-    "verification_your_profile": "Verificar su perfil",
+    "verification_your_profile": "Verifica tu perfil",
     "verification_your_profile_descr": "De acuerdo con la Política KYC y AML, debe pasar el proceso de verificación.",
     "logout": "Salir",
     "email_verification": "Verificación de correo electrónico",
@@ -2045,5 +2045,6 @@
     "prepaid_card_error": "El vale para la tarjeta prepaga no fue emitido. Por favor, contacte al servicio al cliente, intentaremos resolver el problema lo antes posible.",
     "invest_error_sl_zero": "El nivel de StopLoss no puede ser ",
     "invest_error_tp_zero": "El nivel de TakeProfit no puede ser ",
-    "buy_external_cards": "Tarjetas externas"
+    "buy_external_cards": "Tarjetas externas",
+    "history_payment_amount": "Monto del pago"
 }

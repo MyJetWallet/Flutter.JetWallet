@@ -272,16 +272,13 @@ class DeepLinkService {
     getIt.get<EventBus>().fire(WithdrawalConfirmModel(code: code, operationID: id));
   }
 
-  void _inviteFriendCommand() {
+  Future<void> _inviteFriendCommand() async {
     Future<void> openRewards() async {
-      await Future.delayed(const Duration(seconds: 1));
-
       if (getIt.get<AppStore>().authStatus == const AuthorizationUnion.authorized() &&
           (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
               .where((element) => element.id == AssetPaymentProductsEnum.rewardsOnboardingProgram)
               .isNotEmpty) {
-        getIt<BottomBarStore>().setHomeTab(BottomItemType.rewards);
-      } else {
+        sRouter.popUntilRoot();
         getIt<BottomBarStore>().setHomeTab(BottomItemType.rewards);
       }
     }
@@ -289,11 +286,13 @@ class DeepLinkService {
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
-      openRewards();
+      await Future.delayed(const Duration(microseconds: 100));
+      await openRewards();
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
           func: () async {
+            await Future.delayed(const Duration(seconds: 1));
             await openRewards();
           },
         ),
@@ -587,9 +586,11 @@ class DeepLinkService {
               ),
             );
           } else {
+            sRouter.popUntilRoot();
             getIt<BottomBarStore>().setHomeTab(BottomItemType.market);
           }
         } else {
+          sRouter.popUntilRoot();
           getIt<BottomBarStore>().setHomeTab(BottomItemType.market);
         }
       }
@@ -642,7 +643,7 @@ class DeepLinkService {
           .any((element) => element.id == AssetPaymentProductsEnum.earnProgram);
 
       if (!isEarnAvailable) return;
-      await Future.delayed(const Duration(milliseconds: 650));
+      await Future.delayed(const Duration(milliseconds: 100));
       sRouter.popUntilRoot();
       getIt<BottomBarStore>().setHomeTab(BottomItemType.earn);
 

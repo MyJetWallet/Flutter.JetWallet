@@ -959,7 +959,7 @@
     "showDepositDisclaimer_primatyTextOnly": "Seulement",
     "profileDetails_changePhoneAlert2": "Veuillez noter qu'après avoir changé votre numéro de téléphone, tous les retraits seront bloqués.",
     "account_verified": "Vérifié",
-    "verification_your_profile": "Validez votre profil",
+    "verification_your_profile": "Vérifiez votre profil",
     "verification_your_profile_descr": "Conformément à la politique KYC et AML, vous devez passer le processus de vérification.",
     "logout": "Déconnexion",
     "email_verification": "Vérification de l'email",
@@ -2021,5 +2021,6 @@
     "prepaid_card_error": "Le bon pour la carte prépayée n'a pas été émis. Veuillez contacter le service client, nous tenterons de résoudre le problème au plus vite.",
     "invest_error_sl_zero": "Le niveau de StopLoss ne peut pas être ",
     "invest_error_tp_zero": "Le niveau de TakeProfit ne peut pas être ",
-    "buy_external_cards": "Cartes externes"
+    "buy_external_cards": "Cartes externes",
+    "history_payment_amount": "Montant du paiement"
 }

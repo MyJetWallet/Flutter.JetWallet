@@ -216,15 +216,12 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
     final result = userWillreceive(
       amount: amount,
       currency: store.withdrawalInputModel!.currency!,
-      addressIsInternal: isInternal,
-      network: store.networkController.text,
+      network: isInternal ? 'internal-send' : store.networkController.text,
     );
 
     final youWillSend = '${intl.withdrawalAmount_youWillSend}: $result';
 
-    return isInternal
-        ? '${intl.noFee} / $youWillSend'
-        : '${intl.fee}: '
-            '${currency.withdrawalFeeWithSymbol(network: store.networkController.text, amount: Decimal.parse(amount))} / $youWillSend';
+    return '${intl.fee}: '
+        '${currency.withdrawalFeeWithSymbol(network: isInternal ? 'internal-send' : store.networkController.text, amount: Decimal.parse(amount))} / $youWillSend';
   }
 }

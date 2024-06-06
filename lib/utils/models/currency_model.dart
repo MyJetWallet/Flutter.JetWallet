@@ -139,6 +139,8 @@ class CurrencyModel with _$CurrencyModel {
               (element) => element.network == feeBlockchainCollection[0].id,
             )
             .toList();
+      } else {
+        newFeeCollection = [];
       }
     }
 
