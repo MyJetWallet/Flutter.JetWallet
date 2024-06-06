@@ -37,11 +37,12 @@ export 'widgets/table/cells/footer_cell.dart';
 export 'widgets/table/divider/simple_text_divider.dart';
 export 'widgets/table/phone_codes/simple_phone_codes.dart';
 export 'widgets/table/copyable/simple_copyable.dart';
-
+export 'widgets/table/editable/simple_editable.dart';
 
 export 'widgets/button/specific/specific_button.dart';
 export 'widgets/button/limits/limits_button.dart';
 export 'widgets/button/hyperlink/simple_hyperlink.dart';
+export 'widgets/button/price_header/simple_price_header.dart';
 
 export 'widgets/shared/icons/blue_bank_icon.dart';
 export 'widgets/shared/icons/user_noty_icon.dart';
@@ -68,3 +69,5 @@ export 'widgets/badge/simple_badge_large.dart';
 export 'widgets/badge/simple_badge_medium.dart';
 
 export 'widgets/control/simple_check_with_table.dart';
+
+export 'gen/assets.gen.dart';

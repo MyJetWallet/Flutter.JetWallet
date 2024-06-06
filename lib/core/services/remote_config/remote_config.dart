@@ -175,6 +175,8 @@ class RemoteConfig {
     prepaidCardPartnerLink = remoteConfig!.appConfig.prepaidCardPartnerLink;
     prepaidCardTermsAndConditionsLink = remoteConfig!.appConfig.prepaidCardTermsAndConditionsLink;
     useAmplitude = remoteConfig!.appConfig.useAmplitude;
+    simpleCoinDisclaimerLink = remoteConfig!.appConfig.simpleCoinDisclaimerLink;
+    simpleTapLink = remoteConfig!.appConfig.simpleTapLink;
   }
 
   void overrideVersioningValues() {

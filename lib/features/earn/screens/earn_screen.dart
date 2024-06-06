@@ -7,11 +7,11 @@ import 'package:jetwallet/features/earn/store/earn_store.dart';
 import 'package:jetwallet/features/earn/widgets/basic_banner.dart';
 import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
 import 'package:jetwallet/features/earn/widgets/earn_positions_list.dart';
-import 'package:jetwallet/features/earn/widgets/price_header.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 @RoutePage(name: 'EarnRouter')
@@ -78,20 +78,21 @@ class _EarnView extends StatelessWidget {
                 ),
               SliverToBoxAdapter(
                 child: SPriceHeader(
-                  totalSum: store.isBalanceHide
+                  lable: intl.rewards_total,
+                  value: store.isBalanceHide
                       ? marketFormat(
                           decimal: store.positionsTotalValueInVaseCurrency,
                           symbol: sSignalRModules.baseCurrency.symbol,
                           accuracy: 2,
                         )
                       : '**** ${sSignalRModules.baseCurrency.symbol}',
-                  revenueSum: store.isBalanceHide
+                  baseValue: '${intl.earn_revenue} ${store.isBalanceHide
                       ? marketFormat(
                           decimal: store.positionsTotalRevenueInVaseCurrency,
                           symbol: sSignalRModules.baseCurrency.symbol,
                           accuracy: 2,
                         )
-                      : '**** ${sSignalRModules.baseCurrency.symbol}',
+                      : '**** ${sSignalRModules.baseCurrency.symbol}'}',
                 ),
               ),
               SliverToBoxAdapter(

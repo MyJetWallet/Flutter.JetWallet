@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 enum BannerCorners { sharp, rounded }
@@ -11,12 +10,14 @@ class SBannerBasic extends StatelessWidget {
     required this.icon,
     required this.color,
     required this.corners,
+    this.customTextWidget,
   });
 
   final String text;
   final SvgGenImage icon;
   final Color color;
   final BannerCorners corners;
+  final Widget? customTextWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +34,7 @@ class SBannerBasic extends StatelessWidget {
         icon: icon,
         text: text,
         needHorizontalPading: false,
+        customTextWidget: customTextWidget,
       ),
     );
   }

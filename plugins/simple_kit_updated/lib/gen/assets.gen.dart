@@ -550,8 +550,11 @@ class $AssetsSvgAssetsCryptoGen {
   /// File path: assets/svg/assets/crypto/default_placeholder.svg
   SvgGenImage get defaultPlaceholder => const SvgGenImage('assets/svg/assets/crypto/default_placeholder.svg');
 
+  /// File path: assets/svg/assets/crypto/smpl.svg
+  SvgGenImage get smpl => const SvgGenImage('assets/svg/assets/crypto/smpl.svg');
+
   /// List of all assets
-  List<SvgGenImage> get values => [defaultPlaceholder];
+  List<SvgGenImage> get values => [defaultPlaceholder, smpl];
 }
 
 class $AssetsSvgAssetsFiatGen {

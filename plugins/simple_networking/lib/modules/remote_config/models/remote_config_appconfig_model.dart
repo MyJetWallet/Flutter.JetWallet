@@ -39,6 +39,8 @@ class RemoteConfigAppconfigModel with _$RemoteConfigAppconfigModel {
     @Default('') String prepaidCardPartnerLink,
     @Default('') String prepaidCardTermsAndConditionsLink,
     @Default(true) bool useAmplitude,
+    @Default('https://simple.app/disclaimer/?tpl=blank') String simpleCoinDisclaimerLink,
+    @Default('https://t.me/Simple_Tap_Bot') String simpleTapLink,
   }) = _RemoteConfigAppconfigModel;
 
   factory RemoteConfigAppconfigModel.fromJson(Map<String, dynamic> json) => _$RemoteConfigAppconfigModelFromJson(json);

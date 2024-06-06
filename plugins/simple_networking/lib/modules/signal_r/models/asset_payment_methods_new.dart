@@ -154,6 +154,8 @@ enum AssetPaymentProductsEnum {
   earnProgram,
   @JsonValue('PrepaidCard')
   prepaidCard,
+  @JsonValue('SimpleTapToken')
+  simpleTapToken,
   @JsonValue('Unknows')
   unknown,
 }

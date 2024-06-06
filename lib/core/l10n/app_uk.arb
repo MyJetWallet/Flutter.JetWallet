@@ -7798,5 +7798,46 @@
     "invest_error_sl_zero": "Рівень StopLoss не може бути ",
     "invest_error_tp_zero": "Рівень TakeProfit не можу бути ",
     "buy_external_cards": "Сторонні картки",
-    "history_payment_amount": "Сума платежу"
+    "history_payment_amount": "Сума платежу",
+    "simplecoin_simplecoin": "Simplecoin",
+    "simplecoin_my_balance": "Мій баланс",
+    "simplecoin_roadmap": "План",
+    "simplecoin_description": "Ми раді представити наш новий міні-додаток для Telegram! Починайте заробляти та зберігати наші віртуальні монети вже зараз, і незабаром ви дізнаєтеся про всі чудові речі, які можна за них отримати.",
+    "simplecoin_join_simple_tap": "Приєднуйся до Simple Coin",
+    "simplecoin_my_simplecoin": "Мої Simplecoin",
+    "simplecoin_launch_game": "Запустити гру Simple Coin",
+    "simplecoin_boost_tasks": "Бусти та завдання в Simple Coin",
+    "simplecoin_collect_coins": "Збирай монети в Simple App",
+    "simplecoin_scheduled_for_q2_2024": "Заплановано на II квартал 2024",
+    "simplecoin_token_smpl": "Токен SMPL",
+    "simplecoin_scheduled_for_q3_q4_2024": "Заплановано на III–IV квартал 2024",
+    "simplecoin_partner_engagement": "Залучення партнерів",
+    "simplecoin_scheduled_for_q4_2024": "'Заплановано на IV квартал 2024",
+    "simplecoin_listing": "Лістинг",
+    "simplecoin_scheduled_for_q1_2025": "Заплановано на I квартал 2025",
+    "simplecoin_simple_space": "Simple Space",
+    "simplecoin_beta": "Бета",
+    "simplecoin_collect_simplecoin": "Збирай Simplecoin",
+    "simplecoin_you_have_been_sent": "Вам надіслано {value} від бота Simple Coin. Натисніть, щоб зібрати.",
+    "@simplecoin_you_have_been_sent": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "8 236 SMPL"
+            }
+        }
+    },
+    "simplecoin_collect_smpl": "Забирай {value}",
+    "@simplecoin_collect_smpl": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "8 236 SMPL"
+            }
+        }
+    },
+    "simplecoin_decline": "Відхилити",
+    "simplecoin_by_clicking_collect": "Натискаючи \"Зібрати\", ви погоджуєтесь з",
+    "simplecoin_disclaimer": "Застереження",
+    "simplecoin_transaction_historyr": "Історія транзакцій"
 }
