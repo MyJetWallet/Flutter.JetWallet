@@ -92,9 +92,10 @@ class _EarnViewState extends State<_EarnView> {
     return SPageFrame(
       loaderText: '',
       color: colors.white,
-      header: SMarketHeaderClosed(
-        color: colors.white,
+      header: SimpleLargeAltAppbar(
         title: intl.earn_earn,
+        showLabelIcon: false,
+        hasRightIcon: false,
       ),
       child: Observer(
         builder: (context) {
