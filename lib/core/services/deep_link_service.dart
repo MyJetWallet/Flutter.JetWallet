@@ -935,6 +935,8 @@ class DeepLinkService {
     final encodedUtm = Uri.decodeFull(utm);
     final storageService = getIt.get<LocalStorageService>();
 
-    await storageService.setString(utmSourceKey, encodedUtm);
+    final currentUtm = await storageService.getValue(utmSourceKey);
+
+    if (currentUtm == null) await storageService.setString(utmSourceKey, encodedUtm);
   }
 }
