@@ -90,7 +90,8 @@ class SimpleLargeAltAppbar extends StatelessWidget {
                           color: SColorsLight().black,
                         ),
                       ),
-              ],
+              ] else
+                const Gap(8),
             ],
           ),
           Row(
