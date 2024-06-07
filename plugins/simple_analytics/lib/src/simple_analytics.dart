@@ -7547,4 +7547,115 @@ class SimpleAnalytics {
       },
     );
   }
+
+  // Simple Coin
+  void tapOnTheButtonMySimplecoinOnProfileOrSimpleSpaceScreens() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonMySimplecoinOnProfileOrSimpleSpaceScreens,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '625',
+      },
+    );
+  }
+
+  void tapOnTheButtonSimpleSpaceOnProfileScreen() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonSimpleSpaceOnProfileScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '626',
+      },
+    );
+  }
+
+  void simplecoinLandingScreenView() {
+    _analytics.logEvent(
+      EventType.simplecoinLandingScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '627',
+      },
+    );
+  }
+
+  void tapOnTheButtonBackOnSimplecoinLandingScreen() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonBackOnSimplecoinLandingScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '628',
+      },
+    );
+  }
+
+  void tapOnTheButtonTrxHistoryOnSimplecoinLandingScreen() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonTrxHistoryOnSimplecoinLandingScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '629',
+      },
+    );
+  }
+
+  void tapOnTheButtonJoinSimpleTapOnSimplecoinLandingScreen() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonJoinSimpleTapOnSimplecoinLandingScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '630',
+      },
+    );
+  }
+
+  void collectSimplecoinPopupScreenView() {
+    _analytics.logEvent(
+      EventType.collectSimplecoinPopupScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '631',
+      },
+    );
+  }
+
+  void tapOnTheButtonCollectOnCollectSimplecoinPopup() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonCollectOnCollectSimplecoinPopup,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '632',
+      },
+    );
+  }
+
+  void tapOnTheButtonDeclineOnCollectSimplecoinPopup() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonDeclineOnCollectSimplecoinPopup,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '633',
+      },
+    );
+  }
+
+  void tapOnTheButtonDisclamerOnCollectSimplecoinPopup() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonDisclamerOnCollectSimplecoinPopup,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '634',
+      },
+    );
+  }
 }

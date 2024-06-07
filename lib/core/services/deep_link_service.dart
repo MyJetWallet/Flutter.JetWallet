@@ -739,10 +739,10 @@ class DeepLinkService {
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
-      final isAccountRouterNow = sRouter.stack.any((rout) => rout.name == AccountRouter.name);
-      if (!isAccountRouterNow) {
-        unawaited(sRouter.push(const AccountRouter()));
-      }
+      sRouter.popUntilRoot();
+
+      unawaited(sRouter.push(const AccountRouter()));
+
       await Future.delayed(const Duration(milliseconds: 650));
       await poshToScreenInProfileScreen(symbol);
     } else {
@@ -792,7 +792,12 @@ class DeepLinkService {
           requiredDocuments: kycState.requiredDocuments,
           requiredVerifications: kycState.requiredVerifications,
         );
+      case '2':
+        final isSimpleTapTokenAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
+            .any((element) => element.id == AssetPaymentProductsEnum.simpleTapToken);
 
+        if (!isSimpleTapTokenAvaible) return;
+        await sRouter.push(const MySimpleCoinsRouter());
       default:
     }
   }

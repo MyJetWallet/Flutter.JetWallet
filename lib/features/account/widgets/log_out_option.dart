@@ -28,15 +28,14 @@ class LogOutOption extends StatelessObserverWidget {
           onTap: onTap,
           highlightColor: colors.grey5,
           child: Container(
-            height: 30.0,
-            margin: const EdgeInsets.symmetric(
-              vertical: 18.0,
-              horizontal: 24.0,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24,
+              vertical: 16,
             ),
             child: Row(
               children: <Widget>[
                 const SLogOutIcon(),
-                const SpaceW20(),
+                const SpaceW12(),
                 Baseline(
                   baseline: 20,
                   baselineType: TextBaseline.alphabetic,

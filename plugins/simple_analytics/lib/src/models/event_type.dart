@@ -666,4 +666,23 @@ class EventType {
   static const tapOnTheBanner = 'Tap on the banner';
   static const closeBanner = 'Close Banner';
   static const tapOnTheSellButtonOnWalletsScr = 'Tap on the ‘Sell’ button on wallets scr';
+
+  // Simple Coin
+  static const tapOnTheButtonMySimplecoinOnProfileOrSimpleSpaceScreens =
+      'Tap on the button ‘My Simplecoin‘ on ‘Profile‘ or ‘Simple Space’ screens';
+  static const tapOnTheButtonSimpleSpaceOnProfileScreen = 'Tap on the button ’Simple Space’ on ‘Profile’ screen';
+  static const simplecoinLandingScreenView = ''''Simplecoin landing' screen view''';
+  static const tapOnTheButtonBackOnSimplecoinLandingScreen =
+      '''Tap on the button ‘Back' on ‘Simplecoin landing’ screen''';
+  static const tapOnTheButtonTrxHistoryOnSimplecoinLandingScreen =
+      '''Tap on the button ‘Trx history' on ‘Simplecoin landing’ screen''';
+  static const tapOnTheButtonJoinSimpleTapOnSimplecoinLandingScreen =
+      '''Tap on the button ‘Join Simple Tap' on ‘Simplecoin landing’ screen''';
+  static const collectSimplecoinPopupScreenView = ''''Collect Simplecoin' popup screen view''';
+  static const tapOnTheButtonCollectOnCollectSimplecoinPopup =
+      '''Tap on the button ‘Collect' on ‘Collect Simplecoin’ popup''';
+  static const tapOnTheButtonDeclineOnCollectSimplecoinPopup =
+      '''Tap on the button ‘Decline' on ‘Collect Simplecoin’ popup''';
+  static const tapOnTheButtonDisclamerOnCollectSimplecoinPopup =
+      '''Tap on the button ‘Disclamer' on ‘Collect Simplecoin’ popup''';
 }

@@ -26,6 +26,7 @@ import 'package:simple_networking/modules/signal_r/models/referral_info_model.da
 import 'package:simple_networking/modules/signal_r/models/referral_stats_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
+import 'package:simple_networking/modules/signal_r/models/smpl_wallet_model.dart';
 
 import 'models/incoming_gift_model.dart';
 import 'models/invest_positions_model.dart';
@@ -75,6 +76,7 @@ class SignalRTransport {
     required this.earnOffers,
     required this.activeEarnPositions,
     required this.banersListMessage,
+    required this.smplWalletModel,
   });
 
   final void Function(bool) initFinished;
@@ -124,6 +126,8 @@ class SignalRTransport {
   final void Function(ActiveEarnPositionsMessage) activeEarnPositions;
 
   final void Function(BanersListMessage) banersListMessage;
+
+  final void Function(SmplWalletModel) smplWalletModel;
 
   /// Logs
 

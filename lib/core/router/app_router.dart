@@ -117,6 +117,9 @@ import 'package:jetwallet/features/set_phone_number/ui/set_phone_number.dart';
 import 'package:jetwallet/features/simple_card/ui/simple_card_label_screen.dart';
 import 'package:jetwallet/features/simple_card/ui/simple_card_limits_screen.dart';
 import 'package:jetwallet/features/simple_card/ui/simple_card_screen.dart';
+import 'package:jetwallet/features/simple_coin/screens/my_simple_coins_screen.dart';
+import 'package:jetwallet/features/simple_coin/screens/simple_coin_transaction_history_screen.dart';
+import 'package:jetwallet/features/simple_space/screens/simple_space_screen.dart';
 import 'package:jetwallet/features/sms_autheticator/sms_authenticator.dart';
 import 'package:jetwallet/features/transaction_history/ui/transaction_hisotry_screen.dart';
 import 'package:jetwallet/features/transfer_flow/screens/transfer_confrimation_screen.dart';
@@ -770,6 +773,18 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/buy_vouncher_confirmation',
       page: BuyVouncherConfirmationRoute.page,
+    ),
+    AutoRoute(
+      path: '/my_simple_coins',
+      page: MySimpleCoinsRouter.page,
+    ),
+    AutoRoute(
+      path: '/simple_space',
+      page: SimpleSpaceRouter.page,
+    ),
+    AutoRoute(
+      path: '/simple_coin_transaction_history',
+      page: SimpleCoinTransactionHistoryRoute.page,
     ),
   ];
 }

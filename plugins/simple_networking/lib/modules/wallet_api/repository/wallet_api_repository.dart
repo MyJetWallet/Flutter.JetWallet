@@ -8,6 +8,7 @@ import 'package:simple_networking/modules/signal_r/models/create_banking_account
 import 'package:simple_networking/modules/signal_r/models/earn_audit_history_model.dart';
 import 'package:simple_networking/modules/signal_r/models/invest_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
+import 'package:simple_networking/modules/signal_r/models/simple_coin_history_model.dart';
 import 'package:simple_networking/modules/wallet_api/data_sources/wallet_api_data_sources.dart';
 import 'package:simple_networking/modules/wallet_api/models/add_card/add_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
@@ -1224,6 +1225,29 @@ class WalletApiRepository {
   ) async {
     return _walletApiDataSources.postCloseBannerRequest(
       model,
+    );
+  }
+
+  // Simple coins
+  Future<DC<ServerRejectException, void>> postClaimSimplCoins({
+    required List<String> ids,
+  }) async {
+    return _walletApiDataSources.postClaimSimplCoinsRequest(ids: ids);
+  }
+
+  Future<DC<ServerRejectException, void>> postCancelSimplCoinsRequest({
+    required List<String> ids,
+  }) async {
+    return _walletApiDataSources.postCancelSimplCoinsRequest(ids: ids);
+  }
+
+  Future<DC<ServerRejectException, SimpleCoinHistoryModel>> postSimpleCoinHistory({
+    required String skip,
+    required String take,
+  }) async {
+    return _walletApiDataSources.postSimpleCoinHistoryRequest(
+      skip: skip,
+      take: take,
     );
   }
 }

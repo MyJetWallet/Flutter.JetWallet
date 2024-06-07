@@ -48,6 +48,7 @@ const investBaseDailyPricesMessage = 'invest-base-daily-prices';
 const earnOffers = 'earn-offers';
 const earnPositions = 'earn-positions';
 const bannerList = 'banner-list';
+const smplWalletProfile = 'smpl-wallet-profile';
 
 // KeyValue
 const watchlistKey = 'watchlist';

@@ -12,3 +12,5 @@ const infoLightAsset = 'assets/images/info_light.png';
 const congratsAsset = 'assets/images/congrats.png';
 const ratingAsset = 'assets/images/rating.png';
 const messageAsset = 'assets/images/message.png';
+
+const collectSmplAsset = 'assets/images/collect_smpl.png';

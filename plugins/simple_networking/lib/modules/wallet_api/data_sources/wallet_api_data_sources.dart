@@ -7,6 +7,7 @@ import 'package:simple_networking/modules/auth_api/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/create_banking_account_simple_response.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
+import 'package:simple_networking/modules/signal_r/models/simple_coin_history_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/add_card/add_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/all_cards/all_cards_response_model.dart';
@@ -3752,6 +3753,81 @@ class WalletApiDataSources {
         handleResultResponse(responseData);
 
         return DC.data(true);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  // Simple Coin
+  Future<DC<ServerRejectException, void>> postClaimSimplCoinsRequest({
+    required List<String> ids,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/smpl/claim',
+        data: {
+          'ids': ids,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final _ = handleFullResponse<Map>(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> postCancelSimplCoinsRequest({
+    required List<String> ids,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/smpl/cancel',
+        data: {
+          'ids': ids,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final _ = handleFullResponse<Map>(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, SimpleCoinHistoryModel>> postSimpleCoinHistoryRequest({
+    required String skip,
+    required String take,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/smpl/history',
+        data: {
+          "skip": skip,
+          "take": take,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(SimpleCoinHistoryModel.fromJson(data));
       } catch (e) {
         rethrow;
       }

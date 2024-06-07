@@ -48,12 +48,15 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
             child: Stack(
               children: [
                 Container(
-                  alignment: Alignment.center,
                   width: 48,
                   height: 48,
-                  decoration: BoxDecoration(
-                    color: SColorsLight().black,
-                    borderRadius: BorderRadius.circular(24.0),
+                  decoration: const ShapeDecoration(
+                    gradient: LinearGradient(
+                      end: Alignment(0.90, -0.44),
+                      begin: Alignment(-0.9, 0.44),
+                      colors: [Color(0xFFCBB9FF), Color(0xFF9575F3)],
+                    ),
+                    shape: OvalBorder(),
                   ),
                 ),
                 Positioned(

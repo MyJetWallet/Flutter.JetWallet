@@ -177,6 +177,7 @@ class SignalRService {
       earnOffers: sSignalRModules.setEarnOffersData,
       activeEarnPositions: sSignalRModules.setEarnPositionsData,
       banersListMessage: sSignalRModules.setBanersListData,
+      smplWalletModel: sSignalRModules.setSmplWalletModelData,
 
       ///
       createNewSessionLog: () {

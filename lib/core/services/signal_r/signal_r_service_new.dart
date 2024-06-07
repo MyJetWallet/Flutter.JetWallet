@@ -19,6 +19,7 @@ import 'package:jetwallet/features/market/market_details/model/return_rates_mode
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/market/store/search_store.dart';
 import 'package:jetwallet/features/receive_gift/receive_gift_bottom_sheet.dart';
+import 'package:jetwallet/features/simple_coin/utils/collect_simplecoin.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
@@ -64,6 +65,7 @@ import 'package:simple_networking/modules/signal_r/models/referral_info_model.da
 import 'package:simple_networking/modules/signal_r/models/referral_stats_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/signalr_log.dart';
+import 'package:simple_networking/modules/signal_r/models/smpl_wallet_model.dart';
 
 import '../../../features/account/profile_details/store/change_base_asset_store.dart';
 
@@ -1050,6 +1052,21 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
     final banners = [...banersListMessage.banners];
     banners.sort((a, b) => a.order.compareTo(b.order));
     banersListMessage = BanersListMessage(banners: banners);
+  }
+
+  @observable
+  SmplWalletModel smplWalletModel = SmplWalletModel(
+    profile: SmplWalletProfileModel(
+      balance: Decimal.zero,
+    ),
+  );
+
+  @action
+  void setSmplWalletModelData(SmplWalletModel data) {
+    smplWalletModel = data;
+    if (smplWalletModel.requests.isNotEmpty) {
+      ClaimSimplecoin().pushCollectSimplecoinDialog(requests: smplWalletModel.requests);
+    }
   }
 
   @action
