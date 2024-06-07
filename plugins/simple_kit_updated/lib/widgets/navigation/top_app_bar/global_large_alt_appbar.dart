@@ -42,92 +42,84 @@ class SimpleLargeAltAppbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 53),
-      child: SizedBox(
-        height: 96,
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+      padding: const EdgeInsets.only(
+        top: 53 + 10, //отступ шторки (53) + отступ аппбара (10)
+        bottom: 10,
+        left: 24,
+        right: 24,
+      ),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 32,
-                          child: Row(
-                            children: [
-                              Text(
-                                title,
-                                style: STStyles.header5.copyWith(
-                                  color: SColorsLight().black,
-                                ),
-                              ),
-                              const Gap(8),
-                              Opacity(
-                                opacity: showLabelIcon ? 1 : 0,
-                                child: SafeGesture(
-                                  onTap: hasRightIcon
-                                      ? onLabelIconTap != null
-                                          ? () => onLabelIconTap!()
-                                          : null
-                                      : null,
-                                  child: labelIcon ?? Assets.svg.medium.show.simpleSvg(),
-                                ),
-                              ),
-                            ],
-                          ),
+                  Row(
+                    children: [
+                      Text(
+                        title,
+                        style: STStyles.header5.copyWith(
+                          color: SColorsLight().black,
                         ),
-                        const Gap(4),
-                        if (isLoading)
-                          SSkeletonLoader(
+                      ),
+                      if (showLabelIcon) ...[
+                        const Gap(8),
+                        SafeGesture(
+                          onTap: hasRightIcon
+                              ? onLabelIconTap != null
+                                  ? () => onLabelIconTap!()
+                                  : null
+                              : null,
+                          child: labelIcon ?? Assets.svg.medium.show.simpleSvg(),
+                        ),
+                      ],
+                    ],
+                  ),
+                  if (value != null) ...[
+                    const Gap(4),
+                    isLoading
+                        ? SSkeletonLoader(
                             width: 160,
                             height: 40,
                             borderRadius: BorderRadius.circular(4),
                           )
-                        else
-                          Opacity(
-                            opacity: value != null ? 1 : 0,
-                            child: Text(
-                              value ?? '',
-                              style: STStyles.header3.copyWith(
-                                color: SColorsLight().black,
-                              ),
+                        : Text(
+                            value ?? '',
+                            style: STStyles.header3.copyWith(
+                              color: SColorsLight().black,
                             ),
                           ),
-                      ],
-                    ),
-                  ),
+                  ] else
+                    const Gap(8),
+                ],
+              ),
+            ],
+          ),
+          Positioned(
+            right: 0,
+            top: -8,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (hasSecondIcon) ...[
                   const Gap(24),
-                ],
-              ),
-            ),
-            Positioned(
-              right: 18,
-              top: 3,
-              child: Row(
-                children: [
-                  if (hasSecondIcon) ...[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: secondIcon ?? Assets.svg.medium.user.simpleSvg(),
-                    ),
-                    const Gap(24),
-                  ],
-                  Opacity(
-                    opacity: hasRightIcon ? 1 : 0,
-                    child: rightIcon ?? Assets.svg.medium.user.simpleSvg(),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: secondIcon ?? Assets.svg.medium.user.simpleSvg(),
                   ),
                 ],
-              ),
+                if (hasRightIcon) ...[
+                  const Gap(24),
+                  rightIcon ?? Assets.svg.medium.user.simpleSvg(),
+                ]
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

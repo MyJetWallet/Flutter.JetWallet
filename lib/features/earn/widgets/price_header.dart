@@ -21,7 +21,7 @@ class SPriceHeader extends StatelessWidget {
       padding: const EdgeInsets.only(
         left: 24,
         right: 24,
-        top: 24,
+        top: 20,
         bottom: 16,
       ),
       child: Column(

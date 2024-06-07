@@ -4,7 +4,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/store/earn_store.dart';
-import 'package:jetwallet/features/earn/widgets/basic_banner.dart';
 import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
 import 'package:jetwallet/features/earn/widgets/earn_positions_list.dart';
 import 'package:jetwallet/features/earn/widgets/price_header.dart';
@@ -12,7 +11,12 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+
+import '../../../core/di/di.dart';
+import '../../../core/services/local_storage_service.dart';
 
 @RoutePage(name: 'EarnRouter')
 class EarnScreen extends StatefulWidget {
@@ -50,7 +54,7 @@ class _EarnScreenState extends State<EarnScreen> {
   }
 }
 
-class _EarnView extends StatelessWidget {
+class _EarnView extends StatefulWidget {
   const _EarnView({
     required this.controller,
   });
@@ -58,23 +62,54 @@ class _EarnView extends StatelessWidget {
   final ScrollController controller;
 
   @override
+  State<_EarnView> createState() => _EarnViewState();
+}
+
+class _EarnViewState extends State<_EarnView> {
+  bool showBanner = true;
+  final storageService = getIt.get<LocalStorageService>();
+
+  @override
+  void initState() {
+    _checkBannerVisibility();
+    super.initState();
+  }
+
+  Future<void> _checkBannerVisibility() async {
+    final showInfoBanner = await storageService.getValue(showInfoBannerOnEarnScreenKey);
+    if (showInfoBanner != null) {
+      setState(() {
+        showBanner = false;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final store = Provider.of<EarnStore>(context);
     final colors = sKit.colors;
+
     return SPageFrame(
       loaderText: '',
       color: colors.white,
-      header: SMarketHeaderClosed(
-        color: colors.white,
+      header: SimpleLargeAltAppbar(
         title: intl.earn_earn,
+        showLabelIcon: false,
+        hasRightIcon: false,
       ),
       child: Observer(
         builder: (context) {
           return CustomScrollView(
             slivers: [
-              if (store.earnPositions.isNotEmpty)
+              if (store.earnPositions.isNotEmpty && showBanner)
                 SliverToBoxAdapter(
-                  child: SBasicBanner(text: intl.earn_funds_are_calculated_based_on_the_current_value),
+                  child: SBannerBasic(
+                    text: intl.earn_funds_are_calculated_based_on_the_current_value,
+                    icon: Assets.svg.small.info,
+                    color: colors.yellowLight,
+                    corners: BannerCorners.sharp,
+                    onClose: _closeBanner,
+                  ),
                 ),
               SliverToBoxAdapter(
                 child: SPriceHeader(
@@ -114,5 +149,12 @@ class _EarnView extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Future<void> _closeBanner() async {
+    setState(() {
+      showBanner = false;
+    });
+    await storageService.setString(showInfoBannerOnEarnScreenKey, 'false');
   }
 }
