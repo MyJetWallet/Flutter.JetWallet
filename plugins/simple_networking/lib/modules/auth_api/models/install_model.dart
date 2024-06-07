@@ -15,8 +15,8 @@ class InstallModel with _$InstallModel {
     String? idfa,
     String? idfv,
     String? adid,
+    String? utmSource,
   }) = _InstallModel;
 
-  factory InstallModel.fromJson(Map<String, dynamic> json) =>
-      _$InstallModelFromJson(json);
+  factory InstallModel.fromJson(Map<String, dynamic> json) => _$InstallModelFromJson(json);
 }
