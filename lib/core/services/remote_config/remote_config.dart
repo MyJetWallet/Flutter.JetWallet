@@ -177,6 +177,7 @@ class RemoteConfig {
     useAmplitude = remoteConfig!.appConfig.useAmplitude;
     simpleCoinDisclaimerLink = remoteConfig!.appConfig.simpleCoinDisclaimerLink;
     simpleTapLink = remoteConfig!.appConfig.simpleTapLink;
+    usePhoneForSendGift = remoteConfig!.appConfig.usePhoneForSendGift;
   }
 
   void overrideVersioningValues() {

@@ -41,6 +41,7 @@ class RemoteConfigAppconfigModel with _$RemoteConfigAppconfigModel {
     @Default(true) bool useAmplitude,
     @Default('https://simple.app/disclaimer/?tpl=blank') String simpleCoinDisclaimerLink,
     @Default('https://t.me/Simple_Tap_Bot') String simpleTapLink,
+    @Default(true) bool usePhoneForSendGift,
   }) = _RemoteConfigAppconfigModel;
 
   factory RemoteConfigAppconfigModel.fromJson(Map<String, dynamic> json) => _$RemoteConfigAppconfigModelFromJson(json);

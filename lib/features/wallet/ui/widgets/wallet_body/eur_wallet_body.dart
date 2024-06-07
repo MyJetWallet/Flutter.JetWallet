@@ -27,16 +27,18 @@ import '../../../../simple_card/ui/widgets/card_options.dart';
 class EurWalletBody extends StatefulObserverWidget {
   const EurWalletBody({
     super.key,
-    required this.pageController,
-    required this.pageCount,
-    required this.indexNow,
+    this.pageController,
+    this.pageCount,
+    this.indexNow,
     required this.eurCurrency,
+    this.isSinglePage = false,
   });
 
   final CurrencyModel eurCurrency;
-  final PageController pageController;
-  final int pageCount;
-  final int indexNow;
+  final PageController? pageController;
+  final int? pageCount;
+  final int? indexNow;
+  final bool isSinglePage;
 
   @override
   State<EurWalletBody> createState() => _EurWalletBodyState();
@@ -149,6 +151,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
             mainHeaderCollapsedSubtitle: widget.eurCurrency.description,
             carouselItemsCount: widget.pageCount,
             carouselPageIndex: widget.indexNow,
+            needCarousel: !widget.isSinglePage,
           ),
           Expanded(
             child: CustomScrollView(

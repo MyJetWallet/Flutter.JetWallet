@@ -34,6 +34,7 @@ String prepaidCardTermsAndConditionsLink = '';
 bool useAmplitude = true;
 String simpleCoinDisclaimerLink = '';
 String simpleTapLink = '';
+bool usePhoneForSendGift = true;
 
 // Versioning
 late String recommendedVersion;
