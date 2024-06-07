@@ -2045,5 +2045,6 @@
     "prepaid_card_error": "El vale para la tarjeta prepaga no fue emitido. Por favor, contacte al servicio al cliente, intentaremos resolver el problema lo antes posible.",
     "invest_error_sl_zero": "El nivel de StopLoss no puede ser ",
     "invest_error_tp_zero": "El nivel de TakeProfit no puede ser ",
-    "buy_external_cards": "Tarjetas externas"
+    "buy_external_cards": "Tarjetas externas",
+    "history_payment_amount": "Monto del pago"
 }

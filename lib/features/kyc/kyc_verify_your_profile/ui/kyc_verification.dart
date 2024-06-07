@@ -60,7 +60,6 @@ class _KycVerificationState extends State<KycVerification> {
               await getIt<SumsubService>().launch(
                 onFinish: () {},
                 isBanking: false,
-                needPush: false,
               );
             },
           ),

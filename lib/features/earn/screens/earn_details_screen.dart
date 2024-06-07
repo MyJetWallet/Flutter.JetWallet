@@ -85,8 +85,8 @@ class _EarnsDetailsScreenState extends State<EarnsDetailsScreen> {
                           child: SizedBox.shrink(),
                         ),
                       SliverGroupedListView<EarnPositionAuditClientModel, String>(
+                        sort: false,
                         elements: store.positionAuditsList,
-                        order: GroupedListOrder.DESC,
                         groupBy: (positionAudit) {
                           return formatDate(DateFormat('yyyy-MM-dd HH:mm').format(positionAudit.timestamp!));
                         },
