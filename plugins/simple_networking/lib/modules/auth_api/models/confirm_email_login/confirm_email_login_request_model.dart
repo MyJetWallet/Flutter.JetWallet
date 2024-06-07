@@ -10,6 +10,7 @@ class ConfirmEmailLoginRequestModel with _$ConfirmEmailLoginRequestModel {
     required String code,
     required String publicKeyPem,
     required String email,
+    String? utmSource,
   }) = _ConfirmEmailLoginRequestModel;
   factory ConfirmEmailLoginRequestModel.fromJson(Map<String, dynamic> json) =>
       _$ConfirmEmailLoginRequestModelFromJson(json);

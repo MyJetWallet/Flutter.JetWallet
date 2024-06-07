@@ -55,6 +55,7 @@ const earnTermsAndConditionsWasChecked = 'earnTermsAndConditionsWasChecked';
 const isPerapaidCardBannerClosed = 'isPerapaidCardBannerClosed';
 const spareDeviceId = 'spareDeviceId';
 const showInfoBannerOnEarnScreenKey = 'showInfoBannerOnEarnScreen';
+const utmSourceKey = 'utm_source';
 
 final sLocalStorageService = getIt.get<LocalStorageService>();
 
@@ -117,6 +118,7 @@ class LocalStorageService {
     final showRateUpTemp = await _storage.read(key: showRateUp);
     final rateUpCountTemp = await _storage.read(key: rateUpCount);
     final spareDeviceIdTemp = await _storage.read(key: spareDeviceId);
+    final utmSourceTemp = await _storage.read(key: utmSourceKey);
 
     await _storage.deleteAll();
     await _storage.write(key: lastUsedMail, value: userMail);
@@ -127,6 +129,7 @@ class LocalStorageService {
     await _storage.write(key: showRateUp, value: showRateUpTemp);
     await _storage.write(key: rateUpCount, value: rateUpCountTemp);
     await _storage.write(key: spareDeviceId, value: spareDeviceIdTemp);
+    await _storage.write(key: utmSourceKey, value: utmSourceTemp);
   }
 
   Future<void> clearStorageForCrypto(List<CurrencyModel> currencies) async {
@@ -169,6 +172,7 @@ class LocalStorageService {
       final showRateUpTemp = await _storage.read(key: showRateUp);
       final rateUpCountTemp = await _storage.read(key: rateUpCount);
       final spareDeviceIdTemp = await _storage.read(key: spareDeviceId);
+      final utmSourceTemp = await _storage.read(key: utmSourceKey);
 
       await _storage.deleteAll();
 
@@ -180,6 +184,7 @@ class LocalStorageService {
       await _storage.write(key: showRateUp, value: showRateUpTemp);
       await _storage.write(key: rateUpCount, value: rateUpCountTemp);
       await _storage.write(key: spareDeviceId, value: spareDeviceIdTemp);
+      await _storage.write(key: utmSourceKey, value: utmSourceTemp);
     }
   }
 }
