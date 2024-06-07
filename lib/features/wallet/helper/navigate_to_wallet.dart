@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/my_wallets/helper/currencies_for_my_wallet.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/wallet_body.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 
-void navigateToWallet(BuildContext context, CurrencyModel currency) {
+import '../ui/widgets/wallet_body/eur_wallet_body.dart';
+import '../ui/widgets/wallet_body/wallet_body.dart';
+
+void navigateToWallet(BuildContext context, CurrencyModel currency, {bool isSinglePage = false}) {
   final savedCurrencies = currenciesForMyWallet();
 
   final isCurrencySaved = savedCurrencies.any((element) => element.symbol == currency.symbol);
 
-  if (isCurrencySaved) {
+  if (isCurrencySaved && !isSinglePage) {
     sRouter
         .push(
       WalletRouter(
@@ -38,4 +40,21 @@ void navigateToWallet(BuildContext context, CurrencyModel currency) {
       );
     });
   }
+}
+
+void navigateToEurWallet({required BuildContext context, required CurrencyModel currency, bool isSinglePage = false}) {
+  Navigator.of(context)
+      .push(
+    MaterialPageRoute(
+      builder: (context) => EurWalletBody(
+        eurCurrency: currency,
+        isSinglePage: isSinglePage,
+      ),
+    ),
+  )
+      .then((value) {
+    sAnalytics.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen(
+      openedAsset: currency.symbol,
+    );
+  });
 }
