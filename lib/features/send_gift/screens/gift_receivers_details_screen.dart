@@ -8,6 +8,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/l10n/i10n.dart';
 import '../../../core/router/app_router.dart';
+import '../../../core/services/remote_config/remote_config_values.dart';
 import '../store/receiver_datails_store.dart';
 import '../widgets/email_field_tab.dart';
 import '../widgets/gift_policy_checkbox.dart';
@@ -20,12 +21,10 @@ class GiftReceiversDetailsScreen extends StatefulWidget {
   final SendGiftInfoModel sendGiftInfo;
 
   @override
-  State<GiftReceiversDetailsScreen> createState() =>
-      _GiftReceiversDetailsScreenState();
+  State<GiftReceiversDetailsScreen> createState() => _GiftReceiversDetailsScreenState();
 }
 
-class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
-    with TickerProviderStateMixin {
+class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen> with TickerProviderStateMixin {
   late TabController _tabController;
   final store = ReceiverDatailsStore()..getInitialCheck();
 
@@ -37,9 +36,7 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
       vsync: this,
     );
     _tabController.addListener(() {
-      store.selectedContactType = _tabController.index == 0
-          ? ReceiverContacrType.email
-          : ReceiverContacrType.phone;
+      store.selectedContactType = _tabController.index == 0 ? ReceiverContacrType.email : ReceiverContacrType.phone;
     });
     super.initState();
   }
@@ -69,63 +66,74 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
             hasScrollBody: false,
             child: Column(
               children: [
-                ColoredBox(
-                  color: colors.white,
-                  child: SPaddingH24(
-                    child: Container(
-                      height: 32,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: colors.grey5,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: TabBar(
-                        controller: _tabController,
-                        indicator: BoxDecoration(
-                          color: colors.black,
+                if (usePhoneForSendGift) ...[
+                  ColoredBox(
+                    color: colors.white,
+                    child: SPaddingH24(
+                      child: Container(
+                        height: 32,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: colors.grey5,
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        labelColor: colors.white,
-                        labelStyle: sSubtitle3Style,
-                        unselectedLabelColor: colors.grey1,
-                        unselectedLabelStyle: sSubtitle3Style,
-                        splashBorderRadius: BorderRadius.circular(16),
-                        tabs: [
-                          Tab(
-                            text: intl.send_gift_e_mail,
+                        child: TabBar(
+                          controller: _tabController,
+                          indicator: BoxDecoration(
+                            color: colors.black,
+                            borderRadius: BorderRadius.circular(16),
                           ),
-                          Tab(
-                            text: intl.send_gift_phone,
-                          ),
-                        ],
+                          labelColor: colors.white,
+                          labelStyle: sSubtitle3Style,
+                          unselectedLabelColor: colors.grey1,
+                          unselectedLabelStyle: sSubtitle3Style,
+                          splashBorderRadius: BorderRadius.circular(16),
+                          tabs: [
+                            Tab(
+                              text: intl.send_gift_e_mail,
+                            ),
+                            Tab(
+                              text: intl.send_gift_phone,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Container(
-                  color: colors.white,
-                  height: 16,
-                ),
+                  Container(
+                    color: colors.white,
+                    height: 16,
+                  ),
+                ],
                 SizedBox(
                   height: 88,
-                  child: TabBarView(
-                    controller: _tabController,
-                    children: [
-                      ColoredBox(
-                        color: colors.white,
-                        child: Observer(
-                          builder: (context) {
-                            return EmailFieldTab(store: store);
-                          },
+                  child: usePhoneForSendGift
+                      ? TabBarView(
+                          controller: _tabController,
+                          children: [
+                            ColoredBox(
+                              color: colors.white,
+                              child: Observer(
+                                builder: (context) {
+                                  return EmailFieldTab(store: store);
+                                },
+                              ),
+                            ),
+                            Observer(
+                              builder: (_) => PhoneNumberFieldTab(
+                                store: store,
+                              ),
+                            ),
+                          ],
+                        )
+                      : ColoredBox(
+                          color: colors.white,
+                          child: Observer(
+                            builder: (context) {
+                              return EmailFieldTab(store: store);
+                            },
+                          ),
                         ),
-                      ),
-                      Observer(
-                        builder: (_) => PhoneNumberFieldTab(
-                          store: store,
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
                 const Spacer(),
                 SPaddingH24(
@@ -150,8 +158,7 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
                           active: store.isformValid,
                           name: intl.setPhoneNumber_continue,
                           onTap: () {
-                            sAnalytics
-                                .tapOnTheContinueWithReceiverSDetailsButton(
+                            sAnalytics.tapOnTheContinueWithReceiverSDetailsButton(
                               giftSubmethod: store.selectedContactType.name,
                             );
 
@@ -161,8 +168,7 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
                                   email: store.email,
                                   phoneBody: store.phoneBody,
                                   phoneCountryCode: store.phoneCountryCode,
-                                  selectedContactType:
-                                      store.selectedContactType,
+                                  selectedContactType: store.selectedContactType,
                                 ),
                               ),
                             );

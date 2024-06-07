@@ -175,6 +175,7 @@ class RemoteConfig {
     prepaidCardPartnerLink = remoteConfig!.appConfig.prepaidCardPartnerLink;
     prepaidCardTermsAndConditionsLink = remoteConfig!.appConfig.prepaidCardTermsAndConditionsLink;
     useAmplitude = remoteConfig!.appConfig.useAmplitude;
+    usePhoneForSendGift = remoteConfig!.appConfig.usePhoneForSendGift;
   }
 
   void overrideVersioningValues() {
