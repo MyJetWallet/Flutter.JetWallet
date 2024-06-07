@@ -95,13 +95,11 @@ class SimpleLargeAltAppbar extends StatelessWidget {
             ],
           ),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (hasSecondIcon) ...[
                 const Gap(24),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8),
-                  child: secondIcon ?? Assets.svg.medium.user.simpleSvg(),
-                ),
+                secondIcon ?? Assets.svg.medium.user.simpleSvg(),
               ],
               if (hasRightIcon) ...[
                 const Gap(24),
