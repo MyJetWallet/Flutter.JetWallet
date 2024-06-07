@@ -48,64 +48,76 @@ class SimpleLargeAltAppbar extends StatelessWidget {
         left: 24,
         right: 24,
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Stack(
+        clipBehavior: Clip.none,
         children: [
-          Column(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    style: STStyles.header5.copyWith(
-                      color: SColorsLight().black,
-                    ),
-                  ),
-                  if (showLabelIcon) ...[
-                    const Gap(8),
-                    SafeGesture(
-                      onTap: hasRightIcon
-                          ? onLabelIconTap != null
-                              ? () => onLabelIconTap!()
-                              : null
-                          : null,
-                      child: labelIcon ?? Assets.svg.medium.show.simpleSvg(),
-                    ),
-                  ],
-                ],
-              ),
-              if (value != null) ...[
-                const Gap(4),
-                isLoading
-                    ? SSkeletonLoader(
-                        width: 160,
-                        height: 40,
-                        borderRadius: BorderRadius.circular(4),
-                      )
-                    : Text(
-                        value ?? '',
-                        style: STStyles.header3.copyWith(
+                  Row(
+                    children: [
+                      Text(
+                        title,
+                        style: STStyles.header5.copyWith(
                           color: SColorsLight().black,
                         ),
                       ),
-              ] else
-                const Gap(8),
+                      if (showLabelIcon) ...[
+                        const Gap(8),
+                        SafeGesture(
+                          onTap: hasRightIcon
+                              ? onLabelIconTap != null
+                                  ? () => onLabelIconTap!()
+                                  : null
+                              : null,
+                          child: labelIcon ?? Assets.svg.medium.show.simpleSvg(),
+                        ),
+                      ],
+                    ],
+                  ),
+                  if (value != null) ...[
+                    const Gap(4),
+                    isLoading
+                        ? SSkeletonLoader(
+                            width: 160,
+                            height: 40,
+                            borderRadius: BorderRadius.circular(4),
+                          )
+                        : Text(
+                            value ?? '',
+                            style: STStyles.header3.copyWith(
+                              color: SColorsLight().black,
+                            ),
+                          ),
+                  ] else
+                    const Gap(8),
+                ],
+              ),
             ],
           ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (hasSecondIcon) ...[
-                const Gap(24),
-                secondIcon ?? Assets.svg.medium.user.simpleSvg(),
+          Positioned(
+            right: 0,
+            top: -8,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (hasSecondIcon) ...[
+                  const Gap(24),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: secondIcon ?? Assets.svg.medium.user.simpleSvg(),
+                  ),
+                ],
+                if (hasRightIcon) ...[
+                  const Gap(24),
+                  rightIcon ?? Assets.svg.medium.user.simpleSvg(),
+                ]
               ],
-              if (hasRightIcon) ...[
-                const Gap(24),
-                rightIcon ?? Assets.svg.medium.user.simpleSvg(),
-              ]
-            ],
+            ),
           ),
         ],
       ),

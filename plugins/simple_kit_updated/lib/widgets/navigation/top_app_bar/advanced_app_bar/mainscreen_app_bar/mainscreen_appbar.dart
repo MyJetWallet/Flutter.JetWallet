@@ -50,13 +50,9 @@ class MainScreenAppbar extends StatelessWidget {
             showLabelIcon: true,
             labelIcon: isLabelIconShow ? Assets.svg.medium.hide.simpleSvg() : Assets.svg.medium.show.simpleSvg(),
             onLabelIconTap: onLabelIconTap,
-            rightIcon: SizedBox(
-              height: 24,
-              width: 24,
-              child: UserNotyIcon(
-                onTap: onProfileTap ?? () {},
-                notificationsCount: profileNotificationsCount,
-              ),
+            rightIcon: UserNotyIcon(
+              onTap: onProfileTap ?? () {},
+              notificationsCount: profileNotificationsCount,
             ),
             secondIcon: SafeGesture(
               onTap: onOnChatTap,
