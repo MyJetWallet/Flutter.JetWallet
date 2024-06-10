@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 
 // Service to prevent sending duplicate events to analytics
-// The service saves the time of the last event sending.
+// The service saves the time of the last event sending by id.
 // If less than _timeDiff seconds have passed, the same event will not be sent.
 
 @LazySingleton()
