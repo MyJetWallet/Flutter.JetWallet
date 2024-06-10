@@ -199,9 +199,7 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                   ),
                                   onTap: () {
                                     sAnalytics.tapOnTheSellToButton(
-                                      currentToValueForSell: store.account?.isClearjuctionAccount ?? false
-                                          ? 'CJ account'
-                                          : 'Unlimit account',
+                                      currentToValueForSell: store.account?.isClearjuctionAccount ?? false,
                                     );
 
                                     showSellPayWithBottomSheet(
@@ -241,9 +239,7 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                   ),
                                   onTap: () {
                                     sAnalytics.tapOnTheSellToButton(
-                                      currentToValueForSell: store.account?.isClearjuctionAccount ?? false
-                                          ? 'CJ account'
-                                          : 'Unlimit account',
+                                      currentToValueForSell: store.account?.isClearjuctionAccount ?? false,
                                     );
 
                                     showSellPayWithBottomSheet(
@@ -284,9 +280,7 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                   ),
                                   onTap: () {
                                     sAnalytics.tapOnTheSellToButton(
-                                      currentToValueForSell: store.account?.isClearjuctionAccount ?? false
-                                          ? 'CJ account'
-                                          : 'Unlimit account',
+                                      currentToValueForSell: store.account?.isClearjuctionAccount ?? false,
                                     );
 
                                     showSellPayWithBottomSheet(

@@ -273,7 +273,7 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                             name: intl.iban_edit_save_changes,
                             onTap: () async {
                               sAnalytics.eurWithdrawTapSaveChangesEdit(
-                                eurAccountType: 'Unlimit',
+                                isCJ: false,
                                 accountIban: widget.bankingAccount?.iban ?? '',
                                 accountLabel: widget.bankingAccount?.label ?? '',
                               );
@@ -296,7 +296,7 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                             name: intl.iban_edit_delete_account,
                             onTap: () {
                               sAnalytics.eurWithdrawTapDeleteEdit(
-                                eurAccountType: 'Unlimit',
+                                isCJ: false,
                                 accountIban: widget.bankingAccount?.iban ?? '',
                                 accountLabel: widget.bankingAccount?.label ?? '',
                               );
@@ -309,7 +309,7 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                                 primaryButtonType: SButtonType.primary3,
                                 onPrimaryButtonTap: () {
                                   sAnalytics.eurWithdrawTapConfirmDeleteEdit(
-                                    eurAccountType: 'Unlimit',
+                                    isCJ: false,
                                     accountIban: widget.bankingAccount?.iban ?? '',
                                     accountLabel: widget.bankingAccount?.label ?? '',
                                   );
@@ -335,7 +335,7 @@ class _BodyAdressBookUnlimitState extends State<_BodyAdressBookUnlimit> {
                             name: intl.create_continue,
                             onTap: () async {
                               sAnalytics.eurWithdrawTapContinueAddReceiving(
-                                eurAccountType: 'Unlimit',
+                                isCJ: false,
                                 accountIban: widget.bankingAccount?.iban ?? '',
                                 accountLabel: widget.bankingAccount?.label ?? '',
                               );

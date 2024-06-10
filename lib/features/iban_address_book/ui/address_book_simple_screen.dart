@@ -167,7 +167,7 @@ class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
                             name: intl.iban_edit_save_changes,
                             onTap: () async {
                               sAnalytics.eurWithdrawTapSaveChangesEdit(
-                                eurAccountType: 'CJ',
+                                isCJ: true,
                                 accountIban: widget.bankingAccount?.iban ?? '',
                                 accountLabel: widget.bankingAccount?.label ?? '',
                               );
@@ -190,7 +190,7 @@ class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
                             name: intl.iban_edit_delete_account,
                             onTap: () {
                               sAnalytics.eurWithdrawTapDeleteEdit(
-                                eurAccountType: 'CJ',
+                                isCJ: true,
                                 accountIban: widget.bankingAccount?.iban ?? '',
                                 accountLabel: widget.bankingAccount?.label ?? '',
                               );
@@ -203,7 +203,7 @@ class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
                                 primaryButtonType: SButtonType.primary3,
                                 onPrimaryButtonTap: () {
                                   sAnalytics.eurWithdrawTapConfirmDeleteEdit(
-                                    eurAccountType: 'CJ',
+                                    isCJ: true,
                                     accountIban: widget.bankingAccount?.iban ?? '',
                                     accountLabel: widget.bankingAccount?.label ?? '',
                                   );
@@ -231,7 +231,7 @@ class _BodyAddressBookSimpleState extends State<_BodyAddressBookSimple> {
                               final result = await IbanAddressBookStore.of(context).addAccount();
 
                               sAnalytics.eurWithdrawTapContinueAddReceiving(
-                                eurAccountType: 'CJ',
+                                isCJ: true,
                                 accountIban: widget.bankingAccount?.iban ?? '',
                                 accountLabel: widget.bankingAccount?.label ?? '',
                               );

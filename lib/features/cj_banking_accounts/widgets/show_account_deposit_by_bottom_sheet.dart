@@ -146,7 +146,7 @@ class _DepositByBody extends StatelessWidget {
               ),
               onTableAssetTap: () {
                 sAnalytics.tapOnTheAnyAccountForDepositButton(
-                  accountType: account.isClearjuctionAccount ? 'CJ' : 'Unlimit',
+                  accountType: account.isClearjuctionAccount ? 'Simple account' : 'Personal account',
                 );
 
                 sRouter.push(

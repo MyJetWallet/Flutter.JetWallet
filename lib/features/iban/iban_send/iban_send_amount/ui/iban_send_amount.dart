@@ -77,7 +77,7 @@ class IbanSendAmountBody extends StatelessObserverWidget {
           ),
           onBackButtonTap: () {
             sAnalytics.eurWithdrawBackAmountSV(
-              eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+              isCJ: isCJ,
               accountIban: bankingAccount.iban ?? '',
               accountLabel: bankingAccount.label ?? '',
               eurAccType: contact.iban ?? '',
@@ -177,7 +177,7 @@ class IbanSendAmountBody extends StatelessObserverWidget {
             submitButtonName: intl.addCircleCard_continue,
             onSubmitPressed: () {
               sAnalytics.eurWithdrawContinueFromAmoountB(
-                eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+                isCJ: isCJ,
                 accountIban: bankingAccount.iban ?? '',
                 accountLabel: bankingAccount.label ?? '',
                 eurAccType: contact.iban ?? '',
