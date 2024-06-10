@@ -16,6 +16,7 @@ import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -85,6 +86,8 @@ class ClaimSimplecoin {
 
     isPopUpAlredyShoving = true;
 
+    sAnalytics.collectSimplecoinPopupScreenView();
+
     await sShowAlertPopup(
       context,
       barrierDismissible: false,
@@ -121,6 +124,7 @@ class ClaimSimplecoin {
                   ),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
+                      sAnalytics.tapOnTheButtonDisclamerOnCollectSimplecoinPopup();
                       launchURL(
                         context,
                         simpleCoinDisclaimerLink,
@@ -133,9 +137,11 @@ class ClaimSimplecoin {
         ),
       ),
       onPrimaryButtonTap: () {
+        sAnalytics.tapOnTheButtonCollectOnCollectSimplecoinPopup();
         collectCoins();
       },
       onSecondaryButtonTap: () {
+        sAnalytics.tapOnTheButtonDeclineOnCollectSimplecoinPopup();
         declineCoins();
       },
       onWillPop: () {
