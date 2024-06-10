@@ -7678,7 +7678,7 @@
         }
     },
     "wallets_add_to_apple_wallet": "Apple Wallet",
-    "wallets_add_to_google_wallet": "Apple Wallet",
+    "wallets_add_to_google_wallet": "Google Wallet",
     "wallets_redirecting": "Перенаправлення",
     "wallets_modal_info": "Натиснувши Продовжити, ви будете перенаправлені до {value}:\n\n1. Вручну введіть деталі вашої картки\n2. Дотримуйтесь інструкцій {value}\n3. Користуйтеся безконтактними покупками та зняттям готівки в банкоматах з вашою карткою Simple!",
     "@wallets_modal_info": {
