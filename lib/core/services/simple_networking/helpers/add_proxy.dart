@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http_proxy/http_proxy.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/dio_proxy_service.dart';
@@ -12,6 +13,7 @@ import 'package:native_flutter_proxy/native_proxy_reader.dart';
 Future<void> addProxy(
   Dio dio,
 ) async {
+  if (kIsWeb) return;
   final dioProxy = getIt.get<DioProxyService>();
 
   final flavor = flavorService();

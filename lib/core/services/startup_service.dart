@@ -363,7 +363,7 @@ class StartupService {
         deviceUid: getIt.get<DeviceInfo>().deviceUid,
         version: packageInfo.version,
         lang: intl.localeName,
-        appsflyerId: await getIt.get<AppsFlyerService>().appsflyerSdk.getAppsFlyerUID() ?? '',
+        appsflyerId: '',
         idfa: await AppTrackingTransparency.getAdvertisingIdentifier(),
         idfv: sDeviceInfo.deviceUid,
         adid: '',

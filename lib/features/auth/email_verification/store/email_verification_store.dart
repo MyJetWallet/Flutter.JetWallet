@@ -100,7 +100,7 @@ abstract class _EmailVerificationStoreBase with Store {
 
     final deviceInfoModel = sDeviceInfo;
     final appsFlyerService = getIt.get<AppsFlyerService>();
-    final appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID() ?? '';
+    //final appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID() ?? '';
     final credentials = getIt.get<CredentialsService>();
 
     _updateIsResending(true);
@@ -111,7 +111,7 @@ abstract class _EmailVerificationStoreBase with Store {
         deviceUid: deviceInfoModel.deviceUid,
         lang: intl.localeName,
         application: currentAppPlatform,
-        appsflyerId: appsFlyerID,
+        appsflyerId: '',
       );
       final response =
           await getIt.get<SNetwork>().simpleNetworkingUnathorized.getAuthModule().postStartEmailLogin(model);
@@ -307,17 +307,17 @@ abstract class _EmailVerificationStoreBase with Store {
 
   @action
   Future<void> startSession(String email) async {
-    final appsFlyerService = getIt.get<AppsFlyerService>();
+   // final appsFlyerService = getIt.get<AppsFlyerService>();
 
-    final appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID();
+    //final appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID();
     final bytes = utf8.encode(email);
     final hashEmail = sha256.convert(bytes).toString();
-    appsFlyerService.appsflyerSdk.setCustomerUserId(hashEmail);
-    await appsFlyerService.appsflyerSdk.logEvent('Start Session', {
-      'Customer User iD': hashEmail,
-      'Appsflyer ID': appsFlyerID,
-      'Registration/Login/SSO': 'SSO',
-    });
+    // appsFlyerService.appsflyerSdk.setCustomerUserId(hashEmail);
+    // await appsFlyerService.appsflyerSdk.logEvent('Start Session', {
+    //   'Customer User iD': hashEmail,
+    //   'Appsflyer ID': '',
+    //   'Registration/Login/SSO': 'SSO',
+    // });
   }
 
   @action

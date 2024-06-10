@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
+//import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -162,7 +162,7 @@ abstract class _AppStoreBase with Store {
 
   @action
   Future<void> checkInitRouter() async {
-    FlutterNativeSplash.remove();
+   // FlutterNativeSplash.remove();
 
     if (remoteConfigStatus is Success) {
       if (env == 'stage' && !getIt.get<DioProxyService>().proxySkiped) {

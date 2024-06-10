@@ -86,12 +86,12 @@ abstract class _SingleSingInStoreBase with Store {
         message: appsFlyerService.toString(),
       );
 
-      final appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID() ?? '';
+      //final appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID() ?? '';
 
       _logger.log(
         level: Level.info,
         place: 'Sign in',
-        message: appsFlyerID,
+        message: '',
       );
 
       final authInfoN = getIt.get<AppStore>();
@@ -155,7 +155,7 @@ abstract class _SingleSingInStoreBase with Store {
         deviceUid: deviceInfoModel.deviceUid,
         lang: intl.localeName,
         application: currentAppPlatform,
-        appsflyerId: appsFlyerID,
+        appsflyerId: "appsFlyerID",
         //adid: _advertisingId,
         idfv: adId,
         idfa: advID,
