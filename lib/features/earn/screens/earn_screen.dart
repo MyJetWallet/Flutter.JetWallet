@@ -15,6 +15,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../core/di/di.dart';
 import '../../../core/services/local_storage_service.dart';
+import '../../../core/services/prevent_duplication_events_servise.dart';
 
 @RoutePage(name: 'EarnRouter')
 class EarnScreen extends StatefulWidget {
@@ -39,7 +40,10 @@ class _EarnScreenState extends State<EarnScreen> {
       key: const Key('earn-screen-key'),
       onVisibilityChanged: (info) {
         if (info.visibleFraction == 1) {
-          sAnalytics.earnMainScreenView();
+          PreventDuplicationEventsService().sendEvent(
+            id: 'earn-screen-key',
+            event: sAnalytics.earnMainScreenView,
+          );
         }
       },
       child: Provider<EarnStore>(

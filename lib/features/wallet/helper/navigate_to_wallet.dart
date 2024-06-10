@@ -35,6 +35,9 @@ void navigateToWallet(BuildContext context, CurrencyModel currency, {bool isSing
       ),
     )
         .then((value) {
+      sAnalytics.cryptoFavouriteWalletScreen(
+        openedAsset: currency.symbol,
+      );
       sAnalytics.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen(
         openedAsset: currency.symbol,
       );
@@ -53,6 +56,9 @@ void navigateToEurWallet({required BuildContext context, required CurrencyModel 
     ),
   )
       .then((value) {
+    sAnalytics.cryptoFavouriteWalletScreen(
+      openedAsset: currency.symbol,
+    );
     sAnalytics.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen(
       openedAsset: currency.symbol,
     );
