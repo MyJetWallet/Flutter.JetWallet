@@ -35,10 +35,10 @@ class PrepaidCardServiceScreen extends StatelessWidget {
     return VisibilityDetector(
       key: const Key('prepaid-card-screen-key'),
       onVisibilityChanged: (info) {
-        PreventDuplicationEventsService().sendEvent(
-          id: 'prepaid-card-screen-key',
-          event: sAnalytics.prepaidCardServiceScreenView,
-        );
+        getIt.get<PreventDuplicationEventsService>().sendEvent(
+              id: 'prepaid-card-screen-key',
+              event: sAnalytics.prepaidCardServiceScreenView,
+            );
       },
       child: Provider(
         create: (context) => MyVounchersStore(),

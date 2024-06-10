@@ -1,7 +1,16 @@
-Map<String, int> _lastTimeSendedEvents = {};
-const _timeDiff = 3000;
+import 'package:injectable/injectable.dart';
 
+// Service to prevent sending duplicate events to analytics
+// The service saves the time of the last event sending.
+// If less than _timeDiff seconds have passed, the same event will not be sent.
+
+@LazySingleton()
 class PreventDuplicationEventsService {
+  PreventDuplicationEventsService();
+
+  final Map<String, int> _lastTimeSendedEvents = {};
+  static const _timeDiff = 3000;
+
   void sendEvent({
     required String id,
     required void Function() event,

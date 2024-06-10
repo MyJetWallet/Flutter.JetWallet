@@ -53,10 +53,10 @@ class MarketDetails extends StatelessWidget {
       key: const Key('market-details-screen-key'),
       onVisibilityChanged: (info) {
         if (info.visibleFraction == 1) {
-          PreventDuplicationEventsService().sendEvent(
-            id: 'market-details-screen-key',
-            event: () => sAnalytics.marketAssetScreenView(asset: marketItem.symbol),
-          );
+          getIt.get<PreventDuplicationEventsService>().sendEvent(
+                id: 'market-details-screen-key',
+                event: () => sAnalytics.marketAssetScreenView(asset: marketItem.symbol),
+              );
         }
       },
       child: MultiProvider(

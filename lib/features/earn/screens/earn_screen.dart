@@ -40,10 +40,10 @@ class _EarnScreenState extends State<EarnScreen> {
       key: const Key('earn-screen-key'),
       onVisibilityChanged: (info) {
         if (info.visibleFraction == 1) {
-          PreventDuplicationEventsService().sendEvent(
-            id: 'earn-screen-key',
-            event: sAnalytics.earnMainScreenView,
-          );
+          getIt.get<PreventDuplicationEventsService>().sendEvent(
+                id: 'earn-screen-key',
+                event: sAnalytics.earnMainScreenView,
+              );
         }
       },
       child: Provider<EarnStore>(

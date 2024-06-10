@@ -25,6 +25,10 @@ void navigateToWallet(BuildContext context, CurrencyModel currency, {bool isSing
       );
     });
   } else {
+    sAnalytics.cryptoFavouriteWalletScreen(
+      openedAsset: currency.symbol,
+    );
+
     Navigator.of(context)
         .push(
       MaterialPageRoute(
@@ -35,9 +39,6 @@ void navigateToWallet(BuildContext context, CurrencyModel currency, {bool isSing
       ),
     )
         .then((value) {
-      sAnalytics.cryptoFavouriteWalletScreen(
-        openedAsset: currency.symbol,
-      );
       sAnalytics.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen(
         openedAsset: currency.symbol,
       );
@@ -46,6 +47,10 @@ void navigateToWallet(BuildContext context, CurrencyModel currency, {bool isSing
 }
 
 void navigateToEurWallet({required BuildContext context, required CurrencyModel currency, bool isSinglePage = false}) {
+  sAnalytics.cryptoFavouriteWalletScreen(
+    openedAsset: currency.symbol,
+  );
+
   Navigator.of(context)
       .push(
     MaterialPageRoute(
@@ -56,9 +61,6 @@ void navigateToEurWallet({required BuildContext context, required CurrencyModel 
     ),
   )
       .then((value) {
-    sAnalytics.cryptoFavouriteWalletScreen(
-      openedAsset: currency.symbol,
-    );
     sAnalytics.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen(
       openedAsset: currency.symbol,
     );

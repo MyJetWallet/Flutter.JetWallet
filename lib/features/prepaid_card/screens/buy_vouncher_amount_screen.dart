@@ -37,10 +37,10 @@ class BuyVouncherAmountScreen extends StatelessWidget {
     return VisibilityDetector(
       key: const Key('vouncher-amount-screen-key'),
       onVisibilityChanged: (info) {
-        PreventDuplicationEventsService().sendEvent(
-          id: 'vouncher-amount-screen-key',
-          event: sAnalytics.amountBuyVoucherScreenView,
-        );
+        getIt.get<PreventDuplicationEventsService>().sendEvent(
+              id: 'vouncher-amount-screen-key',
+              event: sAnalytics.amountBuyVoucherScreenView,
+            );
       },
       child: SPageFrame(
         loaderText: '',

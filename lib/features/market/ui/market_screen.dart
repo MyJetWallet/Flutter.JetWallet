@@ -4,6 +4,7 @@ import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/compon
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../core/di/di.dart';
 import '../../../core/services/prevent_duplication_events_servise.dart';
 
 @RoutePage(name: 'MarketRouter')
@@ -16,10 +17,10 @@ class MarketScreen extends StatelessWidget {
       key: const Key('market-screen-key'),
       onVisibilityChanged: (info) {
         if (info.visibleFraction == 1) {
-          PreventDuplicationEventsService().sendEvent(
-            id: 'market-screen-key',
-            event: sAnalytics.marketListScreenView,
-          );
+          getIt.get<PreventDuplicationEventsService>().sendEvent(
+                id: 'market-screen-key',
+                event: sAnalytics.marketListScreenView,
+              );
         }
       },
       child: const Scaffold(
