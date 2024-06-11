@@ -28,6 +28,7 @@ import 'package:simple_networking/modules/signal_r/models/price_accuracies.dart'
 import 'package:simple_networking/modules/signal_r/models/referral_info_model.dart';
 import 'package:simple_networking/modules/signal_r/models/referral_stats_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
+import 'package:simple_networking/modules/signal_r/models/smpl_wallet_model.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_new.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_transport.dart';
 
@@ -466,6 +467,18 @@ class SignalRFuncHandler {
       final activeEarnPositions = BanersListMessage.fromJson(_json(data));
 
       sTransport.banersListMessage(activeEarnPositions);
+
+      SignalRModuleNew.handlePackage();
+    } catch (e) {
+      instance.handleError(investWalletMessage, e);
+    }
+  }
+
+  void smplWalletProfileMessageHandler(List<Object?>? data) {
+    try {
+      final activeEarnPositions = SmplWalletModel.fromJson(_json(data));
+
+      sTransport.smplWalletModel(activeEarnPositions);
 
       SignalRModuleNew.handlePackage();
     } catch (e) {

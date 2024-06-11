@@ -2110,5 +2110,46 @@
     "invest_error_sl_zero": "StopLoss nie może być ",
     "invest_error_tp_zero": "Poziom TakeProfit nie może być ",
     "buy_external_cards": "Zewnętrzne karty",
-    "history_payment_amount": "Kwota płatności"
+    "history_payment_amount": "Kwota płatności",
+    "simplecoin_simplecoin": "Simplecoin",
+    "simplecoin_my_balance": "Moje saldo",
+    "simplecoin_roadmap": "Mapa drogowa",
+    "simplecoin_description": "Z radością przedstawiamy naszą nową mini-aplikację na Telegramie! Zacznij zarabiać i oszczędzać nasze wirtualne monety już teraz, a wkrótce dowiesz się, co wspaniałego możesz za nie otrzymać.",
+    "simplecoin_join_simple_tap": "Dołącz do Simple Coin",
+    "simplecoin_my_simplecoin": "Moje Simplecoin",
+    "simplecoin_launch_game": "Uruchom grę Simple Coin",
+    "simplecoin_boost_tasks": "Wzmocnienia i zadania w Simple Coin",
+    "simplecoin_collect_coins": "Zbieraj monety w Simple App",
+    "simplecoin_scheduled_for_q2_2024": "Zaplanowane na II kwartał 2024",
+    "simplecoin_token_smpl": "Token SMPL",
+    "simplecoin_scheduled_for_q3_q4_2024": "Zaplanowane na III–IV kwartał 2024",
+    "simplecoin_partner_engagement": "Zaangażowanie partnerów",
+    "simplecoin_scheduled_for_q4_2024": "'Zaplanowane na IV kwartał 2024",
+    "simplecoin_listing": "Notowanie",
+    "simplecoin_scheduled_for_q1_2025": "Zaplanowane na I kwartał 2025",
+    "simplecoin_simple_space": "Simple Space",
+    "simplecoin_beta": "Beta",
+    "simplecoin_collect_simplecoin": "Zbierz Simplecoin",
+    "simplecoin_you_have_been_sent": "Otrzymałeś {value} od bota Simple Coin. Kliknij, by zebrać.",
+    "@simplecoin_you_have_been_sent": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "8 236 SMPL"
+            }
+        }
+    },
+    "simplecoin_collect_smpl": "Zbierz {value}",
+    "@simplecoin_collect_smpl": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "8 236 SMPL"
+            }
+        }
+    },
+    "simplecoin_decline": "Odrzuć",
+    "simplecoin_by_clicking_collect": "Klikając \"Zbierz\", zgadzasz się na",
+    "simplecoin_disclaimer": "Zrzeczenie się",
+    "simplecoin_transaction_historyr": "Historia transakcji"
 }

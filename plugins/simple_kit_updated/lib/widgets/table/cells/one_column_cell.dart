@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class OneColumnCell extends StatelessWidget {
@@ -10,11 +9,13 @@ class OneColumnCell extends StatelessWidget {
     required this.icon,
     required this.text,
     this.needHorizontalPading = true,
+    this.customTextWidget,
   });
 
   final SvgGenImage icon;
   final String text;
   final bool needHorizontalPading;
+  final Widget? customTextWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +35,14 @@ class OneColumnCell extends StatelessWidget {
           ),
           const Gap(12),
           Flexible(
-            child: Text(
-              text,
-              style: STStyles.body2Medium.copyWith(
-                color: SColorsLight().black,
-              ),
-              maxLines: 12,
-            ),
+            child: customTextWidget ??
+                Text(
+                  text,
+                  style: STStyles.body2Medium.copyWith(
+                    color: SColorsLight().black,
+                  ),
+                  maxLines: 12,
+                ),
           ),
         ],
       ),

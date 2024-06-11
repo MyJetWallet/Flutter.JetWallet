@@ -2046,5 +2046,46 @@
     "invest_error_sl_zero": "El nivel de StopLoss no puede ser ",
     "invest_error_tp_zero": "El nivel de TakeProfit no puede ser ",
     "buy_external_cards": "Tarjetas externas",
-    "history_payment_amount": "Monto del pago"
+    "history_payment_amount": "Monto del pago",
+    "simplecoin_simplecoin": "Simplecoin",
+    "simplecoin_my_balance": "Mi saldo",
+    "simplecoin_roadmap": "Hoja de ruta",
+    "simplecoin_description": "¡Estamos emocionados de presentar nuestra nueva mini-aplicación de Telegram! Comienza a ganar y ahorrar nuestras monedas virtuales ahora, y pronto descubrirás todas las grandes cosas que puedes obtener con ellas.",
+    "simplecoin_join_simple_tap": "Únete a Simple Coin",
+    "simplecoin_my_simplecoin": "Mis Simplecoin",
+    "simplecoin_launch_game": "Lanzar juego Simple Coin",
+    "simplecoin_boost_tasks": "Potenciadores y tareas en Simple Coin",
+    "simplecoin_collect_coins": "Recolecta monedas en Simple App",
+    "simplecoin_scheduled_for_q2_2024": "Programado para el segundo trimestre de 2024",
+    "simplecoin_token_smpl": "Token SMPL",
+    "simplecoin_scheduled_for_q3_q4_2024": "Programado para el tercer y cuarto trimestre de 2024",
+    "simplecoin_partner_engagement": "Compromiso de socios",
+    "simplecoin_scheduled_for_q4_2024": "'Programado para el cuarto trimestre de 2024",
+    "simplecoin_listing": "Listado",
+    "simplecoin_scheduled_for_q1_2025": "Programado para el primer trimestre de 2025",
+    "simplecoin_simple_space": "Espacio Simple",
+    "simplecoin_beta": "Beta",
+    "simplecoin_collect_simplecoin": "Recolecta Simplecoin",
+    "simplecoin_you_have_been_sent": "Has recibido {value} del bot Simple Coin. Toca para recolectar.",
+    "@simplecoin_you_have_been_sent": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "8 236 SMPL"
+            }
+        }
+    },
+    "simplecoin_collect_smpl": "Recolecta {value}",
+    "@simplecoin_collect_smpl": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "8 236 SMPL"
+            }
+        }
+    },
+    "simplecoin_decline": "Rechazar",
+    "simplecoin_by_clicking_collect": "Al hacer clic en \"Recolectar\", aceptas el",
+    "simplecoin_disclaimer": "Descargo de responsabilidad",
+    "simplecoin_transaction_historyr": "Historial de transacciones"
 }

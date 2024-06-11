@@ -2058,5 +2058,46 @@
     "invest_error_sl_zero": "StopLoss level cannot be ",
     "invest_error_tp_zero": "TakeProfit level cannot be ",
     "buy_external_cards": "External cards",
-    "history_payment_amount": "Payment amount"
+    "history_payment_amount": "Payment amount",
+    "simplecoin_simplecoin": "Simplecoin",
+    "simplecoin_my_balance": "My balance",
+    "simplecoin_roadmap": "Roadmap",
+    "simplecoin_description": "We're excited to introduce our new Telegram mini-app! Start earning and saving our virtual coins now, and soon you'll find out all the great things you can get for them.",
+    "simplecoin_join_simple_tap": "Join Simple Coin",
+    "simplecoin_my_simplecoin": "My Simplecoin",
+    "simplecoin_launch_game": "Launch game Simple Coin",
+    "simplecoin_boost_tasks": "Boost & Tasks in Simple Coin",
+    "simplecoin_collect_coins": "Collect coins in Simple App",
+    "simplecoin_scheduled_for_q2_2024": "Scheduled for Q2 2024",
+    "simplecoin_token_smpl": "Token SMPL",
+    "simplecoin_scheduled_for_q3_q4_2024": "Scheduled for Q3–Q4 2024",
+    "simplecoin_partner_engagement": "Partner engagement",
+    "simplecoin_scheduled_for_q4_2024": "'Scheduled for Q4 2024",
+    "simplecoin_listing": "Listing",
+    "simplecoin_scheduled_for_q1_2025": "Scheduled for Q1 2025",
+    "simplecoin_simple_space": "Simple Space",
+    "simplecoin_beta": "Beta",
+    "simplecoin_collect_simplecoin": "Collect Simplecoin",
+    "simplecoin_you_have_been_sent": "You have been sent with {value} from the Simple Coin bot. Tap to collect.",
+    "@simplecoin_you_have_been_sent": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "8 236 SMPL"
+            }
+        }
+    },
+    "simplecoin_collect_smpl": "Collect {value}",
+    "@simplecoin_collect_smpl": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "8 236 SMPL"
+            }
+        }
+    },
+    "simplecoin_decline": "Decline",
+    "simplecoin_by_clicking_collect": "By clicking the \"Collect\", you agree to the",
+    "simplecoin_disclaimer": "Disclaimer",
+    "simplecoin_transaction_historyr": "Transaction history"
 }

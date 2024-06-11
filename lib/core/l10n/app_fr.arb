@@ -2022,5 +2022,46 @@
     "invest_error_sl_zero": "Le niveau de StopLoss ne peut pas être ",
     "invest_error_tp_zero": "Le niveau de TakeProfit ne peut pas être ",
     "buy_external_cards": "Cartes externes",
-    "history_payment_amount": "Montant du paiement"
+    "history_payment_amount": "Montant du paiement",
+    "simplecoin_simplecoin": "Simplecoin",
+    "simplecoin_my_balance": "Mon solde",
+    "simplecoin_roadmap": "Feuille de route",
+    "simplecoin_description": "Nous sommes ravis de vous présenter notre nouvelle mini-application Telegram! Commencez dès maintenant à gagner et à économiser nos pièces virtuelles, et découvrez bientôt toutes les superbes choses que vous pouvez obtenir avec.",
+    "simplecoin_join_simple_tap": "Rejoignez Simple Coin",
+    "simplecoin_my_simplecoin": "Mes Simplecoin",
+    "simplecoin_launch_game": "Lancer le jeu Simple Coin",
+    "simplecoin_boost_tasks": "Boosts et tâches dans Simple Coin",
+    "simplecoin_collect_coins": "Collectez des pièces dans Simple App",
+    "simplecoin_scheduled_for_q2_2024": "Prévu pour le 2e trimestre 2024",
+    "simplecoin_token_smpl": "Token SMPL",
+    "simplecoin_scheduled_for_q3_q4_2024": "Prévu pour le 3e–4e trimestre 2024",
+    "simplecoin_partner_engagement": "Engagement des partenaires",
+    "simplecoin_scheduled_for_q4_2024": "'Prévu pour le 4e trimestre 2024",
+    "simplecoin_listing": "Listing",
+    "simplecoin_scheduled_for_q1_2025": "Prévu pour le 1er trimestre 2025",
+    "simplecoin_simple_space": "Simple Space",
+    "simplecoin_beta": "Bêta",
+    "simplecoin_collect_simplecoin": "Collectez des Simplecoin",
+    "simplecoin_you_have_been_sent": "Vous avez reçu {value} du bot Simple Coin. Appuyez pour collecter.",
+    "@simplecoin_you_have_been_sent": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "8 236 SMPL"
+            }
+        }
+    },
+    "simplecoin_collect_smpl": "Collectez des {value}",
+    "@simplecoin_collect_smpl": {
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "8 236 SMPL"
+            }
+        }
+    },
+    "simplecoin_decline": "Refuser",
+    "simplecoin_by_clicking_collect": "En cliquant sur \"Collecter\", vous acceptez le",
+    "simplecoin_disclaimer": "Avertissement",
+    "simplecoin_transaction_historyr": "Historique des transactions"
 }

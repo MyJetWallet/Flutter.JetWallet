@@ -633,5 +633,8 @@ class SignalRModuleNew {
 
     // Baners
     _hubConnection?.on(bannerList, handler.bannerListMessageHandler);
+
+    // Simple Coin
+    _hubConnection?.on(smplWalletProfile, handler.smplWalletProfileMessageHandler);
   }
 }

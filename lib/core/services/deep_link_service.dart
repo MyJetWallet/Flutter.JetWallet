@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -38,9 +39,11 @@ import 'package:logger/logger.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 
+import '../../features/wallet/helper/navigate_to_wallet.dart';
 import 'local_storage_service.dart';
 import 'remote_config/models/remote_config_union.dart';
 import 'simple_networking/simple_networking.dart';
@@ -51,6 +54,7 @@ const _code = 'jw_code';
 const _command = 'jw_command';
 const _operationId = 'jw_operation_id';
 const _email = 'jw_email';
+const _utmSource = 'utm_source';
 
 // when parameters come in "/" format as part of the link
 const _action = 'action';
@@ -96,6 +100,9 @@ const _profile_screen = 'profile_screen';
 const _get_simple_card = 'get_simple_card';
 const _card_screen = 'card_screen';
 
+// Asset screen
+const _assetScreen = 'asset_screen';
+
 const String _loggerService = 'DeepLinkService';
 
 enum SourceScreen {
@@ -135,6 +142,11 @@ class DeepLinkService {
     }
 
     final command = parameters[_command];
+    final utmSource = parameters[_utmSource];
+
+    if (utmSource != null) {
+      _saveUtmSourse(utm: utmSource);
+    }
 
     getIt.get<SimpleLoggerService>().log(
           level: Level.info,
@@ -184,6 +196,8 @@ class DeepLinkService {
       showGetSimpleCard(parameters);
     } else if (command == _card_screen) {
       pushSimpleCardScreen(parameters);
+    } else if (command == _assetScreen) {
+      _pushAssetScreen(parameters);
     } else {
       if (parameters.containsKey('jw_operation_id')) {
         pushCryptoHistory(parameters);
@@ -725,10 +739,10 @@ class DeepLinkService {
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
-      final isAccountRouterNow = sRouter.stack.any((rout) => rout.name == AccountRouter.name);
-      if (!isAccountRouterNow) {
-        unawaited(sRouter.push(const AccountRouter()));
-      }
+      sRouter.popUntilRoot();
+
+      unawaited(sRouter.push(const AccountRouter()));
+
       await Future.delayed(const Duration(milliseconds: 650));
       await poshToScreenInProfileScreen(symbol);
     } else {
@@ -778,7 +792,12 @@ class DeepLinkService {
           requiredDocuments: kycState.requiredDocuments,
           requiredVerifications: kycState.requiredVerifications,
         );
+      case '2':
+        final isSimpleTapTokenAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
+            .any((element) => element.id == AssetPaymentProductsEnum.simpleTapToken);
 
+        if (!isSimpleTapTokenAvaible) return;
+        await sRouter.push(const MySimpleCoinsRouter());
       default:
     }
   }
@@ -924,5 +943,50 @@ class DeepLinkService {
         ),
       );
     }
+  }
+
+  Future<void> _pushAssetScreen(
+    Map<String, String> parameters,
+  ) async {
+    final jwSymbol = parameters['jw_symbol'];
+
+    Future<void> openWallet() async {
+      final currency = sSignalRModules.currenciesList.firstWhereOrNull((e) => e.symbol == jwSymbol);
+      final context = sRouter.navigatorKey.currentContext;
+      final accountIsActive = sSignalRModules.bankingProfileData?.simple?.account?.status == AccountStatus.active;
+      final showState = sSignalRModules.bankingProfileData?.showState == BankingShowState.accountList;
+
+      sRouter.popUntilRoot();
+      getIt<BottomBarStore>().setHomeTab(BottomItemType.wallets);
+
+      if (currency != null && context != null && currency.symbol != 'EUR') {
+        navigateToWallet(context, currency, isSinglePage: true);
+      } else if (currency != null && context != null && currency.symbol == 'EUR' && accountIsActive && showState) {
+        navigateToEurWallet(context: context, currency: currency, isSinglePage: true);
+      }
+    }
+
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      await openWallet();
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            await openWallet();
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> _saveUtmSourse({required String utm}) async {
+    final encodedUtm = Uri.decodeFull(utm);
+    final storageService = getIt.get<LocalStorageService>();
+
+    final currentUtm = await storageService.getValue(utmSourceKey);
+
+    if (currentUtm == null) await storageService.setString(utmSourceKey, encodedUtm);
   }
 }

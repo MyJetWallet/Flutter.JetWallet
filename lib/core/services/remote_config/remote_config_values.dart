@@ -32,6 +32,9 @@ bool displayCardPreorderScreen = false;
 String prepaidCardPartnerLink = '';
 String prepaidCardTermsAndConditionsLink = '';
 bool useAmplitude = true;
+String simpleCoinDisclaimerLink = '';
+String simpleTapLink = '';
+bool usePhoneForSendGift = true;
 
 // Versioning
 late String recommendedVersion;

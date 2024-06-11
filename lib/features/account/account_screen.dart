@@ -10,12 +10,13 @@ import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/account/widgets/account_banner_list.dart';
+import 'package:jetwallet/features/account/widgets/account_button_widget.dart';
 import 'package:jetwallet/features/account/widgets/log_out_option.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
-import 'package:jetwallet/features/prepaid_card/widgets/prepaid_card_profile_banner.dart';
+import 'package:jetwallet/features/simple_space/widgets/account_screen_banner.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -51,9 +52,6 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
     final userInfoN = getIt.get<UserInfoService>();
     userInfoN.initBiometricStatus();
 
-    //TODO REFACTOR
-    //final cardFailed = useProvider(bottomNavigationNotipod);
-
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
@@ -63,17 +61,6 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
           (element) => element.deepLink.contains('InviteFriend'),
         )
         .toList();
-
-    /*
-    logout.union.when(
-      result: (error, st) {
-        if (error != null) {
-          showPlainSnackbar(context, '$error');
-        }
-      },
-      loading: () {},
-    );
-    */
 
     return Material(
       color: colors.white,
@@ -165,13 +152,14 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
                     );
                   },
                 ),
-                const PrepaidCardProfileBanner(),
+                const SPaddingH24(
+                  child: AccountScreenBanner(),
+                ),
                 Column(
                   children: <Widget>[
-                    SimpleAccountCategoryButton(
+                    AccountButtonWidget(
                       title: intl.account_profileDetails,
                       icon: const SProfileDetailsIcon(),
-                      isSDivider: true,
                       onTap: () {
                         sRouter.push(
                           const ProfileDetailsRouter(),
@@ -179,10 +167,9 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
                       },
                     ),
                     if (marketCampaigns.isNotEmpty)
-                      SimpleAccountCategoryButton(
+                      AccountButtonWidget(
                         title: intl.onboarding_inviteFriends,
                         icon: const SInviteFriendsIcon(),
-                        isSDivider: true,
                         onTap: () {
                           deepLinkService.handle(
                             Uri.parse(marketCampaigns[0].deepLink),
@@ -190,32 +177,29 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
                           );
                         },
                       ),
-                    SimpleAccountCategoryButton(
+                    AccountButtonWidget(
                       title: intl.account_security,
                       icon: const SSecurityIcon(),
-                      isSDivider: true,
                       onTap: () {
                         sRouter.push(
                           const AccountSecurityRouter(),
                         );
                       },
                     ),
-                    SimpleAccountCategoryButton(
+                    AccountButtonWidget(
                       title: intl.account_paymentMethods,
                       icon: SActionDepositIcon(
                         color: colors.black,
                       ),
-                      isSDivider: true,
                       onTap: () {
                         sRouter.push(
                           const PaymentMethodsRouter(),
                         );
                       },
                     ),
-                    SimpleAccountCategoryButton(
+                    AccountButtonWidget(
                       title: intl.account_transactionHistory,
                       icon: const SIndexHistoryIcon(),
-                      isSDivider: true,
                       onTap: () {
                         historyTab = GlobalHistoryTab.all;
                         sRouter.push(
@@ -236,10 +220,9 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
                         );
                       },
                     ),
-                    SimpleAccountCategoryButton(
+                    AccountButtonWidget(
                       title: intl.account_support,
                       icon: const SSupportIcon(),
-                      isSDivider: true,
                       onTap: () async {
                         if (showZendesk) {
                           await getIt.get<IntercomService>().showMessenger();
@@ -252,10 +235,9 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
                         }
                       },
                     ),
-                    SimpleAccountCategoryButton(
+                    AccountButtonWidget(
                       title: intl.account_helpCenter,
                       icon: const SQuestionIcon(),
-                      isSDivider: true,
                       onTap: () {
                         sRouter.push(
                           HelpCenterWebViewRouter(
@@ -264,10 +246,9 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
                         );
                       },
                     ),
-                    SimpleAccountCategoryButton(
+                    AccountButtonWidget(
                       title: intl.account_aboutUs,
                       icon: const SAboutUsIcon(),
-                      isSDivider: true,
                       onTap: () {
                         sRouter.push(
                           const AboutUsRouter(),
@@ -275,10 +256,9 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
                       },
                     ),
                     if (flavor == Flavor.dev || flavor == Flavor.stage)
-                      SimpleAccountCategoryButton(
+                      AccountButtonWidget(
                         title: intl.account_debugInfo,
                         icon: const SInfoIcon(),
-                        isSDivider: true,
                         onTap: () {
                           sRouter.push(
                             const DebugInfoRouter(),
