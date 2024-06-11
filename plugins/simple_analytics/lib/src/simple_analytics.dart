@@ -44,7 +44,7 @@ class SimpleAnalytics {
     );
 
     if (userEmail != null) {
-      await _analytics.setUserId(userEmail);
+      await _analytics.setUserId(userEmail.toLowerCase());
     }
 
     isTechAcc = techAcc;
