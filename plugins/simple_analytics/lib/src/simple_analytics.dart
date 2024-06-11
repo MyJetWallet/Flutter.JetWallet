@@ -1181,7 +1181,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '87',
-        PropertyType.errorText: errorText,
+        PropertyType.errorCode: errorText,
         PropertyType.asset: asset,
         PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
         PropertyType.giftSendSubmethod: giftSubmethod,
@@ -2739,40 +2739,6 @@ class SimpleAnalytics {
     );
   }
 
-  void eurWalletSwipeHistoryListEURAccount({
-    required bool isCJ,
-  }) {
-    _analytics.logEvent(
-      EventType.eurWalletSwipeHistoryListEURAccount,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '295',
-        PropertyType.eurAccountType: isCJ ? _accountTypeSimple : _accountTypePersonal,
-      },
-    );
-  }
-
-  void eurWalletWithdrawEURAccountScreen({
-    required bool isCJ,
-    required String eurAccountLabel,
-    required bool isHasTransaction,
-    required String copyType,
-  }) {
-    _analytics.logEvent(
-      EventType.eurWalletWithdrawEURAccountScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '296',
-        PropertyType.eurAccountType: isCJ ? 'CJ' : 'Unlimint',
-        PropertyType.eurAccountLabel: eurAccountLabel,
-        PropertyType.isHasTransactions: isHasTransaction,
-        PropertyType.copyType: copyType,
-      },
-    );
-  }
-
   void eurWalletTapAnyHistoryTRXEUR({
     required bool isCJ,
     required String eurAccountLabel,
@@ -3234,7 +3200,7 @@ class SimpleAnalytics {
   }
 
   void eurWithdrawReferenceSV({
-    required String eurAccountType,
+    required bool isCJ,
     required String accountIban,
     required String accountLabel,
     required String eurAccType,
@@ -3247,7 +3213,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '424',
-        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
         PropertyType.eurAccountType: eurAccType,
@@ -3258,7 +3224,7 @@ class SimpleAnalytics {
   }
 
   void eurWithdrawContinueReferecenceButton({
-    required String eurAccountType,
+    required bool isCJ,
     required String accountIban,
     required String accountLabel,
     required String eurAccType,
@@ -3272,7 +3238,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '425',
-        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
         PropertyType.eurAccountType: eurAccType,
@@ -3332,30 +3298,6 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '416',
-        PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
-        PropertyType.eurAccountFromIBAN: accountIban,
-        PropertyType.eurAccountFromLabel: accountLabel,
-        PropertyType.eurAccountType: eurAccType,
-        PropertyType.eurAccountLabel: eurAccLabel,
-        PropertyType.enteredAmount: enteredAmount,
-      },
-    );
-  }
-
-  void eurWithdrawProcessingFeePopup({
-    required bool isCJ,
-    required String accountIban,
-    required String accountLabel,
-    required String eurAccType,
-    required String eurAccLabel,
-    required String enteredAmount,
-  }) {
-    _analytics.logEvent(
-      EventType.eurWithdrawProcessingFeePopup,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '417',
         PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
@@ -3708,7 +3650,7 @@ class SimpleAnalytics {
         PropertyType.eventId: '330',
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
-        PropertyType.sourceCurrency: sourceCurrency,
+        PropertyType.currency: sourceCurrency,
       },
     );
   }
@@ -4407,7 +4349,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '368',
-        PropertyType.asset: destinationWallet,
+        PropertyType.currency: destinationWallet,
         PropertyType.amountInCrypto: cryptoAmount,
         PropertyType.amountInFiat: fiatAmount,
         PropertyType.assetFrom: sellFromWallet,
@@ -5792,20 +5734,6 @@ class SimpleAnalytics {
     );
   }
 
-  void tapOnAnyEurAccountOnDepositButton({
-    required bool isCJ,
-  }) {
-    _analytics.logEvent(
-      EventType.tapOnAnyEurAccountOnDepositButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '501',
-        PropertyType.account: isCJ ? _accountTypeSimple : _accountTypePersonal,
-      },
-    );
-  }
-
   void depositByScreenView() {
     _analytics.logEvent(
       EventType.depositByScreenView,
@@ -6943,6 +6871,116 @@ class SimpleAnalytics {
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '559',
         PropertyType.cardID: cardId,
+      },
+    );
+  }
+
+  // Confirm Transfer via SMS
+
+  void confirmTransferViaSMSScreenView({
+    required String transferFrom,
+    required String transferTo,
+    required String amount,
+  }) {
+    _analytics.logEvent(
+      EventType.confirmTransferViaSMSScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '561',
+        PropertyType.transferFrom: transferFrom,
+        PropertyType.transferTo: transferTo,
+        PropertyType.amount: amount,
+      },
+    );
+  }
+
+  void tapOnTheButtonContinueOnConfirmViaSMSScreen({
+    required String transferFrom,
+    required String transferTo,
+    required String amount,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonContinueOnConfirmViaSMSScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '562',
+        PropertyType.transferFrom: transferFrom,
+        PropertyType.transferTo: transferTo,
+        PropertyType.amount: amount,
+      },
+    );
+  }
+
+  void tapOnTheButtonCancelOnConfirmViaSMSScreen({
+    required String transferFrom,
+    required String transferTo,
+    required String amount,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonCancelOnConfirmViaSMSScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '563',
+        PropertyType.transferFrom: transferFrom,
+        PropertyType.transferTo: transferTo,
+        PropertyType.amount: amount,
+      },
+    );
+  }
+
+  void confirmCodeTransferViaSMSScreenView({
+    required String transferFrom,
+    required String transferTo,
+    required String amount,
+  }) {
+    _analytics.logEvent(
+      EventType.confirmCodeTransferViaSMSScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '564',
+        PropertyType.transferFrom: transferFrom,
+        PropertyType.transferTo: transferTo,
+        PropertyType.amount: amount,
+      },
+    );
+  }
+
+  void tapOnTheButtonBackOnConfirmCodeViaSMSScreen({
+    required String transferFrom,
+    required String transferTo,
+    required String amount,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonBackOnConfirmCodeViaSMSScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '565',
+        PropertyType.transferFrom: transferFrom,
+        PropertyType.transferTo: transferTo,
+        PropertyType.amount: amount,
+      },
+    );
+  }
+
+  void loaderWithSMSCodeOnConfirmTransferScreenView({
+    required String transferFrom,
+    required String transferTo,
+    required String amount,
+  }) {
+    _analytics.logEvent(
+      EventType.loaderWithSMSCodeOnConfirmTransferScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '566',
+        PropertyType.transferFrom: transferFrom,
+        PropertyType.transferTo: transferTo,
+        PropertyType.amount: amount,
       },
     );
   }

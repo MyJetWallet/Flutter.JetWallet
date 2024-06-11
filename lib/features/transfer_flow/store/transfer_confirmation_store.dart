@@ -204,12 +204,28 @@ abstract class _TransferConfirmationStoreBase with Store {
       var isConfirmed = false;
 
       if (smsVerificationRequired) {
+        sAnalytics.confirmTransferViaSMSScreenView(
+          transferFrom: fromType.analyticsValue,
+          transferTo: toType.analyticsValue,
+          amount: fromAmount.toString(),
+        );
+
         await showSMSVerificationPopUp(
           onConfirmed: () {
             isConfirmed = true;
+            sAnalytics.tapOnTheButtonContinueOnConfirmViaSMSScreen(
+              transferFrom: fromType.analyticsValue,
+              transferTo: toType.analyticsValue,
+              amount: fromAmount.toString(),
+            );
           },
           onCanceled: () {
             requestId = DateTime.now().microsecondsSinceEpoch.toString();
+            sAnalytics.tapOnTheButtonCancelOnConfirmViaSMSScreen(
+              transferFrom: fromType.analyticsValue,
+              transferTo: toType.analyticsValue,
+              amount: fromAmount.toString(),
+            );
           },
         );
         if (!isConfirmed) return;
@@ -376,6 +392,12 @@ abstract class _TransferConfirmationStoreBase with Store {
   Future<void> showSMSVerificationScreen({
     void Function()? onConfirmed,
   }) async {
+    sAnalytics.confirmCodeTransferViaSMSScreenView(
+      transferFrom: fromType.analyticsValue,
+      transferTo: toType.analyticsValue,
+      amount: fromAmount.toString(),
+    );
+
     final phoneNumber = countryCodeByUserRegister();
     await sRouter.push(
       PhoneVerificationRouter(
@@ -387,6 +409,20 @@ abstract class _TransferConfirmationStoreBase with Store {
           onVerified: () {
             sRouter.maybePop();
             onConfirmed?.call();
+          },
+          onBackTap: () {
+            sAnalytics.tapOnTheButtonBackOnConfirmCodeViaSMSScreen(
+              transferFrom: fromType.analyticsValue,
+              transferTo: toType.analyticsValue,
+              amount: fromAmount.toString(),
+            );
+          },
+          onLoaderStart: () {
+            sAnalytics.loaderWithSMSCodeOnConfirmTransferScreenView(
+              transferFrom: fromType.analyticsValue,
+              transferTo: toType.analyticsValue,
+              amount: fromAmount.toString(),
+            );
           },
         ),
       ),

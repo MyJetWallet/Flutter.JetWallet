@@ -603,6 +603,14 @@ class EventType {
   static const popupAddCardToWalletScreenView = 'Popup Add card to Wallet’ screen view';
   static const tapOnTheContinueAddToWalletButton = 'Tap on the ‘Continue add to wallet’ button';
 
+  // Confirm Transfer via SMS
+  static const confirmTransferViaSMSScreenView = '‘Confirm Transfer via SMS’ screen view';
+  static const tapOnTheButtonContinueOnConfirmViaSMSScreen = 'Tap on the button ‘Continue’ on Confirm via SMS screen';
+  static const tapOnTheButtonCancelOnConfirmViaSMSScreen = 'Tap on the button ‘Cancel’ on Confirm via SMS screen';
+  static const confirmCodeTransferViaSMSScreenView = '‘Confirm Code Transfer via SMS’ screen view';
+  static const tapOnTheButtonBackOnConfirmCodeViaSMSScreen = 'Tap on the button ‘Back’ on Confirm Code via SMS screen';
+  static const loaderWithSMSCodeOnConfirmTransferScreenView = '‘Loader with SMS Code on Confirm Transfer’ screen view';
+
   // Prepaid card
   static const tapOnTheBunnerPrepaidCardOnWallet = 'Tap on the  bunner ‘Prepaid card’ on Wallet';
   static const tapOnTheCloseButtonOnBunnerPrepaidCard = 'Tap on the  Close button on bunner ‘Prepaid card’';

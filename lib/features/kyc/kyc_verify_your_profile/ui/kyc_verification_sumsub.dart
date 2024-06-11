@@ -15,6 +15,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../core/services/sumsub_service/sumsub_service.dart';
 
+// TODO remove
 @RoutePage(name: 'KycVerificationSumsubRouter')
 class KycVerificationSumsub extends StatefulObserverWidget {
   const KycVerificationSumsub({

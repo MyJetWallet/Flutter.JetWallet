@@ -189,7 +189,7 @@ class IbanSendAmountBody extends StatelessObserverWidget {
                 store.loadPreview(null, isCJ);
               } else {
                 sAnalytics.eurWithdrawReferenceSV(
-                  eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+                  isCJ: isCJ,
                   accountIban: bankingAccount.iban ?? '',
                   accountLabel: bankingAccount.label ?? '',
                   eurAccType: contact.iban ?? '',
@@ -201,7 +201,7 @@ class IbanSendAmountBody extends StatelessObserverWidget {
                   context,
                   (description) {
                     sAnalytics.eurWithdrawContinueReferecenceButton(
-                      eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+                      isCJ: isCJ,
                       accountIban: bankingAccount.iban ?? '',
                       accountLabel: bankingAccount.label ?? '',
                       eurAccType: contact.iban ?? '',

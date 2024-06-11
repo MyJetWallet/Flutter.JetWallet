@@ -31,9 +31,9 @@ class CredentialsModel with _$CredentialsModel {
 
 enum CredentialsType {
   @JsonValue(0)
-  clearjunctionAccount(analyticsValue: 'CJ'),
+  clearjunctionAccount(analyticsValue: 'Simple Account'),
   @JsonValue(1)
-  unlimitAccount(analyticsValue: 'Unlimit'),
+  unlimitAccount(analyticsValue: 'Personal Account'),
   @JsonValue(2)
   unlimitCard(analyticsValue: 'V.Card');
 

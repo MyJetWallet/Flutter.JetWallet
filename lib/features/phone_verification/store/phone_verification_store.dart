@@ -286,9 +286,10 @@ abstract class _PhoneVerificationStoreBase with Store {
   }
 
   @action
-  Future<void> verifyFullCode() async {
+  Future<void> verifyFullCode(void Function() onLoaderStart) async {
     try {
       loader.startLoadingImmediately();
+      onLoaderStart.call();
 
       late DC<ServerRejectException, void> response;
 

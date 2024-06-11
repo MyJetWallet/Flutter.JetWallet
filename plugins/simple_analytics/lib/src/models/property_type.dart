@@ -29,10 +29,8 @@ class PropertyType {
   static const earnWithdrawalType = 'Earn withdrawal type';
   static const enteredAmount = 'Entered amount';
   static const errorCode = 'error code';
-  static const errorText = 'error text';
   static const eurAccountFromIBAN = 'EUR Account_From IBAN';
   static const eurAccountFromLabel = 'EUR Account_From label';
-  static const eurAccountFromType = 'EUR Account_From type';
   static const eurAccountLabel = 'EUR Account label';
   static const eurAccountType = 'EUR Account type';
   static const eventId = 'Event id';
@@ -67,7 +65,6 @@ class PropertyType {
   static const sendMethodType = 'Send method type';
   static const sendMethodsType = 'Send method type';
   static const source = 'Source';
-  static const sourceCurrency = 'Source Currency';
   static const sourceTransfer = 'Source Transfer';
   static const techAcc = 'TechAcc';
   static const timeAfterBlock = 'Time after block, sec';

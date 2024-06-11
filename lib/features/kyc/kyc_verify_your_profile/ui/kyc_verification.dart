@@ -12,6 +12,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../utils/constants.dart';
+import '../../choose_documents/store/kyc_country_store.dart';
 
 @RoutePage(name: 'KycVerificationRouter')
 class KycVerification extends StatefulObserverWidget {
@@ -132,7 +133,11 @@ class _KycVerificationState extends State<KycVerification> {
             haveLink: isPhoneDone,
             linkText: intl.provide_information,
             linkAction: () {
+              final countries = getIt.get<KycCountryStore>();
               sAnalytics.kycFlowProvideInformation();
+              sAnalytics.kycFlowVerifyWait(
+                country: countries.activeCountry?.countryName ?? '',
+              );
               navigateVerifiedNavigate();
             },
             isDisabled: !isPhoneDone,

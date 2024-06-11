@@ -75,8 +75,8 @@ class _BalanceCellState extends State<_BalanceCell> {
       hoverColor: Colors.transparent,
       onTap: () {
         sAnalytics.rewardsClickOnReward(
-          transferAmount: widget.data.assetSymbol ?? '',
-          transferAseet: '${widget.data.amount}',
+          transferAmount: '${widget.data.amount}',
+          transferAseet: widget.data.assetSymbol ?? '',
         );
 
         showDialog(
@@ -166,8 +166,8 @@ class _BalanceCellState extends State<_BalanceCell> {
 
 void showSuccessRewardSheet(String assetSymbol, String amount, String fAmout) {
   sAnalytics.rewardsSuccessRewardTransfer(
-    transferAmount: assetSymbol,
-    transferAseet: amount,
+    transferAmount: amount,
+    transferAseet: assetSymbol,
   );
 
   sShowAlertPopup(
@@ -184,8 +184,8 @@ void showSuccessRewardSheet(String assetSymbol, String amount, String fAmout) {
       Navigator.pop(sRouter.navigatorKey.currentContext!);
 
       sAnalytics.rewardsSuccessTransferGotItClick(
-        transferAmount: assetSymbol,
-        transferAseet: amount,
+        transferAmount: amount,
+        transferAseet: assetSymbol,
       );
     },
     onSecondaryButtonTap: () => Navigator.pop(sRouter.navigatorKey.currentContext!),
@@ -212,8 +212,8 @@ class _RewardTransferPopupState extends State<RewardTransferPopup> {
   @override
   void initState() {
     sAnalytics.rewardsRewardTransferPopup(
-      transferAmount: widget.data.assetSymbol ?? '',
-      transferAseet: '${widget.data.amount}',
+      transferAmount: '${widget.data.amount}',
+      transferAseet: widget.data.assetSymbol ?? '',
     );
     super.initState();
   }
@@ -271,8 +271,8 @@ class _RewardTransferPopupState extends State<RewardTransferPopup> {
                   active: isClaimButtonActive,
                   onTap: () async {
                     sAnalytics.rewardsTransferPopupClickTransfer(
-                      transferAmount: widget.data.assetSymbol ?? '',
-                      transferAseet: '${widget.data.amount}',
+                      transferAmount: '${widget.data.amount}',
+                      transferAseet: widget.data.assetSymbol ?? '',
                     );
 
                     setState(() {
@@ -320,10 +320,9 @@ class _RewardTransferPopupState extends State<RewardTransferPopup> {
                   name: intl.reward_cancel,
                   onTap: () {
                     sAnalytics.rewardsTransferPopupClickCancel(
-                      transferAmount: widget.data.assetSymbol ?? '',
-                      transferAseet: '${widget.data.amount}',
+                      transferAmount: '${widget.data.amount}',
+                      transferAseet: widget.data.assetSymbol ?? '',
                     );
-
                     Navigator.pop(sRouter.navigatorKey.currentContext!);
                   },
                 ),
