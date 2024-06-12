@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -17,8 +19,38 @@ import 'package:visibility_detector/visibility_detector.dart';
 int _lastTimeSendedEvent = 0;
 
 @RoutePage(name: 'MySimpleCoinsRouter')
-class MySimpleCoinsScreen extends StatelessWidget {
+class MySimpleCoinsScreen extends StatefulWidget {
   const MySimpleCoinsScreen({super.key});
+
+  @override
+  State<MySimpleCoinsScreen> createState() => _MySimpleCoinsScreenState();
+}
+
+class _MySimpleCoinsScreenState extends State<MySimpleCoinsScreen> {
+  late ScrollController controller;
+
+  int alpha = 0;
+
+  @override
+  void initState() {
+    controller = ScrollController();
+    controller.addListener(() {
+      final offset = (controller.offset * 1.5).round();
+      if (offset != alpha) {
+        setState(() {
+          alpha = min(offset, 255);
+        });
+      }
+    });
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +80,7 @@ class MySimpleCoinsScreen extends StatelessWidget {
         child: Stack(
           children: [
             CustomScrollView(
+              controller: controller,
               physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
               slivers: [
@@ -101,17 +134,20 @@ class MySimpleCoinsScreen extends StatelessWidget {
                 ),
               ],
             ),
-            GlobalBasicAppBar(
-              onRightIconTap: () {
-                sAnalytics.tapOnTheButtonTrxHistoryOnSimplecoinLandingScreen();
-                sRouter.push(const SimpleCoinTransactionHistoryRoute());
-              },
-              onLeftIconTap: () {
-                sAnalytics.tapOnTheButtonBackOnSimplecoinLandingScreen();
-                sRouter.maybePop();
-              },
-              title: intl.simplecoin_simplecoin,
-              rightIcon: Assets.svg.medium.history.simpleSvg(),
+            ColoredBox(
+              color: Color.fromARGB(alpha, 255, 255, 255),
+              child: GlobalBasicAppBar(
+                onRightIconTap: () {
+                  sAnalytics.tapOnTheButtonTrxHistoryOnSimplecoinLandingScreen();
+                  sRouter.push(const SimpleCoinTransactionHistoryRoute());
+                },
+                onLeftIconTap: () {
+                  sAnalytics.tapOnTheButtonBackOnSimplecoinLandingScreen();
+                  sRouter.maybePop();
+                },
+                title: intl.simplecoin_simplecoin,
+                rightIcon: Assets.svg.medium.history.simpleSvg(),
+              ),
             ),
           ],
         ),
