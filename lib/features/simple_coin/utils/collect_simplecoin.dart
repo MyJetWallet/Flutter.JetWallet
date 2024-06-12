@@ -162,8 +162,6 @@ class ClaimSimplecoin {
           _querySimpleCoinRequests.clear();
           sRouter.popUntilRoot();
 
-          unawaited(sRouter.push(const AccountRouter()));
-          await Future.delayed(const Duration(milliseconds: 650));
           await sRouter.push(const MySimpleCoinsRouter());
         },
         onError: (error) {
