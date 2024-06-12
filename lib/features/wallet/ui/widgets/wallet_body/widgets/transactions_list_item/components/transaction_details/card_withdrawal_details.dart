@@ -135,7 +135,7 @@ class CardWithdrawalDetails extends StatelessObserverWidget {
                   : volumeFormat(
                       decimal: transactionListItem.cardWithdrawalInfo?.paymentAmount ?? Decimal.zero,
                       accuracy: currency.accuracy,
-                      symbol: transactionListItem.cardPurchaseInfo?.paymentAssetId ?? 'EUR',
+                      symbol: transactionListItem.cardWithdrawalInfo?.paymentAssetId ?? 'EUR',
                     ),
             ),
           ),
@@ -162,7 +162,7 @@ class CardWithdrawalDetailsHeader extends StatelessWidget {
     );
 
     final assetBaseAmount = transactionListItem.cardWithdrawalInfo?.paymentAssetId ==
-            transactionListItem.cardPurchaseInfo?.paymentFeeAssetId
+            transactionListItem.cardWithdrawalInfo?.paymentFeeAssetId
         ? ((transactionListItem.cardWithdrawalInfo?.paymentAmount ?? Decimal.zero) +
             (transactionListItem.cardWithdrawalInfo?.paymentFeeAmount ?? Decimal.zero))
         : (transactionListItem.cardWithdrawalInfo?.paymentAmount ?? Decimal.zero);
