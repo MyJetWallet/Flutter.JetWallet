@@ -340,6 +340,44 @@ class _DebugInfoState extends State<DebugInfo> with SingleTickerProviderStateMix
                     'Collect Simple Coin Popup',
                   ),
                 ),
+                TextButton(
+                  onPressed: () {
+                    sLocalStorageService.forceClearStorage();
+                  },
+                  child: const Text(
+                    'Force Clear Local Storage',
+                  ),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    var key = '';
+                    await showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('Enter Key'),
+                          content: TextField(
+                            onChanged: (value) {
+                              key = value;
+                            },
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context, key);
+                              },
+                              child: const Text('Delete'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    await sLocalStorageService.deleteValueByKey(key);
+                  },
+                  child: const Text(
+                    'Delete Value from Local Storage',
+                  ),
+                ),
                 const SizedBox(height: 300),
               ],
             ),
