@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/simple_coin/widgets/roadmap_step_widget.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class SimpleCoinRoadmap extends StatelessWidget {
   SimpleCoinRoadmap({super.key});
@@ -41,11 +42,28 @@ class SimpleCoinRoadmap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverList.builder(
-      itemCount: events.length,
-      itemBuilder: (context, index) {
-        return RoadmapStepWidget(event: events[index]);
-      },
+    final colors = SColorsLight();
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+      child: Container(
+        decoration: ShapeDecoration(
+          color: colors.gray2,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        child: ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          padding: EdgeInsets.zero,
+          itemCount: events.length,
+          itemBuilder: (context, index) {
+            return RoadmapStepWidget(event: events[index]);
+          },
+        ),
+      ),
     );
   }
 }

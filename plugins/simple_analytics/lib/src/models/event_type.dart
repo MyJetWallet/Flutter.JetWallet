@@ -668,9 +668,6 @@ class EventType {
   static const tapOnTheSellButtonOnWalletsScr = 'Tap on the ‘Sell’ button on wallets scr';
 
   // Simple Coin
-  static const tapOnTheButtonMySimplecoinOnProfileOrSimpleSpaceScreens =
-      'Tap on the button ‘My Simplecoin‘ on ‘Profile‘ or ‘Simple Space’ screens';
-  static const tapOnTheButtonSimpleSpaceOnProfileScreen = 'Tap on the button ’Simple Space’ on ‘Profile’ screen';
   static const simplecoinLandingScreenView = ''''Simplecoin landing' screen view''';
   static const tapOnTheButtonBackOnSimplecoinLandingScreen =
       '''Tap on the button ‘Back' on ‘Simplecoin landing’ screen''';
@@ -685,4 +682,5 @@ class EventType {
       '''Tap on the button ‘Decline' on ‘Collect Simplecoin’ popup''';
   static const tapOnTheButtonDisclamerOnCollectSimplecoinPopup =
       '''Tap on the button ‘Disclamer' on ‘Collect Simplecoin’ popup''';
+  static const tapOnTheButtonSimplecoinOnWalletScreen = '''Tap on the button ‘Simplecoin' on ‘Wallet'  screen''';
 }

@@ -7549,28 +7549,6 @@ class SimpleAnalytics {
   }
 
   // Simple Coin
-  void tapOnTheButtonMySimplecoinOnProfileOrSimpleSpaceScreens() {
-    _analytics.logEvent(
-      EventType.tapOnTheButtonMySimplecoinOnProfileOrSimpleSpaceScreens,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '625',
-      },
-    );
-  }
-
-  void tapOnTheButtonSimpleSpaceOnProfileScreen() {
-    _analytics.logEvent(
-      EventType.tapOnTheButtonSimpleSpaceOnProfileScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '626',
-      },
-    );
-  }
-
   void simplecoinLandingScreenView() {
     _analytics.logEvent(
       EventType.simplecoinLandingScreenView,
@@ -7655,6 +7633,17 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '634',
+      },
+    );
+  }
+
+  void tapOnTheButtonSimplecoinOnWalletScreen() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonSimplecoinOnWalletScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '635',
       },
     );
   }

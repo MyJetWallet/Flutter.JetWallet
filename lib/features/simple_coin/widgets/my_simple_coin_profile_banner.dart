@@ -4,9 +4,9 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
+// TODO (Yaroslav): this widget isn't using
 class MySimpleCoinProfileBanner extends StatelessWidget {
   const MySimpleCoinProfileBanner({super.key});
 
@@ -20,7 +20,6 @@ class MySimpleCoinProfileBanner extends StatelessWidget {
         );
         return SafeGesture(
           onTap: () {
-            sAnalytics.tapOnTheButtonMySimplecoinOnProfileOrSimpleSpaceScreens();
             sRouter.push(const MySimpleCoinsRouter());
           },
           child: Container(

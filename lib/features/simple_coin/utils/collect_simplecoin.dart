@@ -14,6 +14,7 @@ import 'package:jetwallet/core/services/simple_networking/simple_networking.dart
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
+import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -96,9 +97,9 @@ class ClaimSimplecoin {
       primaryButtonName: intl.simplecoin_collect_smpl(formatedAmount),
       secondaryButtonName: intl.simplecoin_decline,
       image: Image.asset(
-        collectSmplAsset,
-        width: 160,
-        height: 136,
+        simpleCoinAsset,
+        width: 104.50,
+        height: 120.45,
       ),
       child: Padding(
         padding: const EdgeInsets.only(bottom: 32),
@@ -161,8 +162,6 @@ class ClaimSimplecoin {
           _querySimpleCoinRequests.clear();
           sRouter.popUntilRoot();
 
-          unawaited(sRouter.push(const AccountRouter()));
-          await Future.delayed(const Duration(milliseconds: 650));
           await sRouter.push(const MySimpleCoinsRouter());
         },
         onError: (error) {

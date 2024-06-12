@@ -145,3 +145,7 @@ const assetsPath = 'assets/tvchart/tvchart.html';
 
 // Prepaid card
 const prepaidCardBanner = 'assets/images/prepaid_card_banner.png';
+
+const simpleCoinAssetBackground = 'assets/images/simple_coin_asset_background.png';
+const simpleCoinAsset = 'assets/images/simple_coin.png';
+const mySimpleLendingBg = 'assets/images/my_simple_lending_bg.webp';

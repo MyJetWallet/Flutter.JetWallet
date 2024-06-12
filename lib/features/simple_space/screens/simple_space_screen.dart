@@ -9,6 +9,7 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 
+// TODO (Yaroslav): this widget isn't using
 @RoutePage(name: 'SimpleSpaceRouter')
 class SimpleSpaceScreen extends StatelessWidget {
   const SimpleSpaceScreen({super.key});
