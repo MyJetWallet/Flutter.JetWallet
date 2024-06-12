@@ -1,5 +1,4 @@
-import 'package:flutter/widgets.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:flutter/material.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class RoadmapStepModel {
@@ -26,8 +25,9 @@ class RoadmapStepWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = SColorsLight();
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+
+    const purple = Color(0xFF9B79FF);
+    return SizedBox(
       height: event.isCompleted ? 40 : 60,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,22 +38,22 @@ class RoadmapStepWidget extends StatelessWidget {
                 width: 2,
                 height: 12,
                 color: event.isPreviosCompleted
-                    ? colors.greenLight
+                    ?purple
                     : event.isFirst
-                        ? colors.white
+                        ? Colors.transparent
                         : event.isCompleted
-                            ? colors.greenLight
+                            ? purple
                             : colors.gray4,
               ),
               if (event.isCompleted)
-                Assets.svg.small.checkCircle.simpleSvg(width: 20, height: 20, color: colors.green)
+                Assets.svg.small.checkCircle.simpleSvg(width: 20, height: 20, color:purple)
               else
                 Assets.svg.small.minusCircle.simpleSvg(width: 20, height: 20, color: colors.gray8),
               if (!event.isLast)
                 Container(
                   width: 2,
                   height: event.isCompleted ? 8 : 28,
-                  color: event.isCompleted ? colors.greenLight : colors.gray4,
+                  color: event.isCompleted ? purple : colors.gray4,
                 ),
             ],
           ),
@@ -66,7 +66,7 @@ class RoadmapStepWidget extends StatelessWidget {
                 Text(
                   event.title,
                   style: STStyles.body1Semibold.copyWith(
-                    color: event.isCompleted ? colors.green : colors.black,
+                    color: event.isCompleted ? purple : colors.black,
                   ),
                 ),
                 if (event.schedule != null)

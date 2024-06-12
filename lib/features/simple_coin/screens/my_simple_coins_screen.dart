@@ -61,8 +61,11 @@ class MySimpleCoinsScreen extends StatelessWidget {
           slivers: [
             SliverToBoxAdapter(
               child: SPriceHeader(
-                lable: intl.simplecoin_my_balance,
+                lable: intl.simplecoin_my_simplecoins,
                 value: balance,
+                icon: Assets.svg.assets.crypto.smpl.simpleSvg(
+                  width: 32,
+                ),
               ),
             ),
             SliverToBoxAdapter(
@@ -100,7 +103,9 @@ class MySimpleCoinsScreen extends StatelessWidget {
                 title: intl.simplecoin_roadmap,
               ),
             ),
-            SimpleCoinRoadmap(),
+            SliverToBoxAdapter(
+              child: SimpleCoinRoadmap(),
+            ),
             const SliverToBoxAdapter(
               child: SpaceH100(),
             ),

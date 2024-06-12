@@ -2099,5 +2099,6 @@
     "simplecoin_decline": "Decline",
     "simplecoin_by_clicking_collect": "By clicking the \"Collect\", you agree to the",
     "simplecoin_disclaimer": "Disclaimer",
-    "simplecoin_transaction_historyr": "Transaction history"
+    "simplecoin_transaction_historyr": "Transaction history",
+    "simplecoin_my_simplecoins": "My Simplecoins"
 }
