@@ -66,40 +66,49 @@ class _SimpleCoinTransactionHistoryScreenState extends State<SimpleCoinTransacti
                     controller: scrollController,
                     slivers: [
                       if (store.historyItems.isEmpty)
-                        const SliverToBoxAdapter(
-                          child: SizedBox.shrink(),
+                        SliverFillRemaining(
+                          child: Center(
+                            child: Padding(
+                              padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.top),
+                              child: SPlaceholder(
+                                size: SPlaceholderSize.l,
+                                text: intl.wallet_simple_account_empty,
+                              ),
+                            ),
+                          ),
+                        )
+                      else
+                        SliverGroupedListView<SimpleCoinHistoryItemModel, String>(
+                          sort: false,
+                          elements: store.historyItems,
+                          groupBy: (positionAudit) {
+                            return formatDate(DateFormat('yyyy-MM-dd HH:mm').format(positionAudit.createdAt!));
+                          },
+                          groupSeparatorBuilder: (String date) {
+                            return TransactionMonthSeparator(text: date);
+                          },
+                          itemBuilder: (context, positionAudit) {
+                            return PositionAuditItem(
+                              key: ValueKey(positionAudit.id),
+                              onTap: () {},
+                              balanceChange: volumeFormat(
+                                decimal: positionAudit.amount,
+                                symbol: 'SMPL',
+                              ),
+                              icon: Assets.svg.medium.arrowDown.simpleSvg(
+                                width: 24,
+                                color: colors.green,
+                              ),
+                              labele: 'SMPL',
+                              status: Status.completed,
+                              timeStamp: positionAudit.completedAt != null
+                                  ? '${formatDateToDMY(positionAudit.completedAt?.toString())}'
+                                      ', ${formatDateToHm(positionAudit.completedAt?.toString())}'
+                                  : '',
+                              labelIcon: const SizedBox.shrink(),
+                            );
+                          },
                         ),
-                      SliverGroupedListView<SimpleCoinHistoryItemModel, String>(
-                        sort: false,
-                        elements: store.historyItems,
-                        groupBy: (positionAudit) {
-                          return formatDate(DateFormat('yyyy-MM-dd HH:mm').format(positionAudit.createdAt!));
-                        },
-                        groupSeparatorBuilder: (String date) {
-                          return TransactionMonthSeparator(text: date);
-                        },
-                        itemBuilder: (context, positionAudit) {
-                          return PositionAuditItem(
-                            key: ValueKey(positionAudit.id),
-                            onTap: () {},
-                            balanceChange: volumeFormat(
-                              decimal: positionAudit.amount,
-                              symbol: 'SMPL',
-                            ),
-                            icon: Assets.svg.medium.arrowDown.simpleSvg(
-                              width: 24,
-                              color: colors.green,
-                            ),
-                            labele: 'SMPL',
-                            status: Status.completed,
-                            timeStamp: positionAudit.completedAt != null
-                                ? '${formatDateToDMY(positionAudit.completedAt?.toString())}'
-                                    ', ${formatDateToHm(positionAudit.completedAt?.toString())}'
-                                : '',
-                            labelIcon: const SizedBox.shrink(),
-                          );
-                        },
-                      ),
                       if (store.isLoadingPagination)
                         SliverToBoxAdapter(
                           child: Container(

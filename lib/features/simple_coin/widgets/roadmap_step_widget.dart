@@ -38,7 +38,7 @@ class RoadmapStepWidget extends StatelessWidget {
                 width: 2,
                 height: 12,
                 color: event.isPreviosCompleted
-                    ?purple
+                    ? purple
                     : event.isFirst
                         ? Colors.transparent
                         : event.isCompleted
@@ -46,7 +46,7 @@ class RoadmapStepWidget extends StatelessWidget {
                             : colors.gray4,
               ),
               if (event.isCompleted)
-                Assets.svg.small.checkCircle.simpleSvg(width: 20, height: 20, color:purple)
+                Assets.svg.small.checkCircle.simpleSvg(width: 20, height: 20, color: purple)
               else
                 Assets.svg.small.minusCircle.simpleSvg(width: 20, height: 20, color: colors.gray8),
               if (!event.isLast)
@@ -58,25 +58,27 @@ class RoadmapStepWidget extends StatelessWidget {
             ],
           ),
           const SizedBox(width: 12),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  event.title,
-                  style: STStyles.body1Semibold.copyWith(
-                    color: event.isCompleted ? purple : colors.black,
-                  ),
-                ),
-                if (event.schedule != null)
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Text(
-                    event.schedule ?? '',
-                    style: STStyles.body2Medium.copyWith(
-                      color: colors.gray8,
+                    event.title,
+                    style: STStyles.body1Semibold.copyWith(
+                      color: event.isCompleted ? purple : colors.black,
                     ),
                   ),
-              ],
+                  if (event.schedule != null)
+                    Text(
+                      event.schedule ?? '',
+                      style: STStyles.body2Medium.copyWith(
+                        color: colors.gray8,
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
         ],

@@ -998,6 +998,8 @@ class DeepLinkService {
       final isSimpleCoinAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
           .any((element) => element.id == AssetPaymentProductsEnum.simpleTapToken);
       if (isSimpleCoinAvaible) {
+        sRouter.popUntilRoot();
+        getIt<BottomBarStore>().setHomeTab(BottomItemType.wallets);
         await sRouter.push(const MySimpleCoinsRouter());
       }
     } else {
