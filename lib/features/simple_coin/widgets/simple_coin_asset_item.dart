@@ -5,6 +5,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/button/round/round_button.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
@@ -28,6 +29,7 @@ class SimpleCoinAssetItem extends StatelessWidget {
       ),
       child: SafeGesture(
         onTap: () async {
+          sAnalytics.tapOnTheButtonSimplecoinOnWalletScreen();
           await sRouter.push(const MySimpleCoinsRouter());
         },
         child: Container(

@@ -3,9 +3,9 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/utils/constants.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
+// TODO (Yaroslav): this widget isn't using
 class SimpleSpaceBanner extends StatelessWidget {
   const SimpleSpaceBanner({super.key});
 
@@ -16,7 +16,6 @@ class SimpleSpaceBanner extends StatelessWidget {
       builder: (context) {
         return SafeGesture(
           onTap: () {
-            sAnalytics.tapOnTheButtonSimpleSpaceOnProfileScreen();
             sRouter.push(const SimpleSpaceRouter());
           },
           child: Container(
