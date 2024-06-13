@@ -146,7 +146,6 @@ class _MySimpleCoinsScreenState extends State<MySimpleCoinsScreen> {
                   sAnalytics.tapOnTheButtonBackOnSimplecoinLandingScreen();
                   sRouter.maybePop();
                 },
-                title: intl.simplecoin_simplecoin,
                 rightIcon: Assets.svg.medium.history.simpleSvg(),
               ),
             ),

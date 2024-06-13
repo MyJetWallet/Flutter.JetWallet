@@ -149,6 +149,8 @@ class ClaimSimplecoin {
         isPopUpAlredyShoving = false;
       },
     );
+
+    isPopUpAlredyShoving = false;
   }
 
   Future<void> collectCoins() async {
@@ -158,8 +160,22 @@ class ClaimSimplecoin {
       final responce = await sNetwork.getWalletModule().postClaimSimplCoins(ids: ids);
       responce.pick(
         onNoError: (data) async {
+          final amount = _querySimpleCoinRequests.fold(
+            Decimal.zero,
+            (prev, element) {
+              return prev + element.amount;
+            },
+          );
+
           _alredyShowedSimpleCoinRequests.addAll(_querySimpleCoinRequests);
           _querySimpleCoinRequests.clear();
+
+          sSignalRModules.smplWalletModel = sSignalRModules.smplWalletModel.copyWith(
+            profile: sSignalRModules.smplWalletModel.profile.copyWith(
+              balance: sSignalRModules.smplWalletModel.profile.balance + amount,
+            ),
+          );
+
           sRouter.popUntilRoot();
 
           await sRouter.push(const MySimpleCoinsRouter());

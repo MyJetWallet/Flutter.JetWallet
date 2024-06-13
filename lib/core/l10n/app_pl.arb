@@ -2118,7 +2118,7 @@
     "simplecoin_join_simple_tap": "Dołącz do Simple Coin",
     "simplecoin_my_simplecoin": "Moje Simplecoin",
     "simplecoin_launch_game": "Uruchom grę Simple Coin",
-    "simplecoin_boost_tasks": "Wzmocnienia i zadania w Simple Coin",
+    "simplecoin_boost_tasks": "Zwiększ & Zadania w Simple Coin",
     "simplecoin_collect_coins": "Zbieraj monety w Simple App",
     "simplecoin_scheduled_for_q2_2024": "Zaplanowane na II kwartał 2024",
     "simplecoin_token_smpl": "Token SMPL",
@@ -2151,5 +2151,6 @@
     "simplecoin_decline": "Odrzuć",
     "simplecoin_by_clicking_collect": "Klikając \"Zbierz\", zgadzasz się na",
     "simplecoin_disclaimer": "Zrzeczenie się",
-    "simplecoin_transaction_historyr": "Historia transakcji"
+    "simplecoin_transaction_historyr": "Historia transakcji",
+    "simplecoin_my_simplecoins": "Moje Simplecoins"
 }

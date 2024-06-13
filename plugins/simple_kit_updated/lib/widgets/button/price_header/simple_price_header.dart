@@ -47,13 +47,10 @@ class SPriceHeader extends StatelessWidget {
                   const SizedBox(width: 12),
                 ],
                 Expanded(
-                  child: SizedBox(
-                    child: AutoSizeText(
-                      value ?? '',
-                      style: STStyles.header2.copyWith(
-                        color: colors.black,
-                      ),
-                    ),
+                  child: AutoSizeText(
+                    value ?? '',
+                    style: STStyles.header2,
+                    maxLines: 1,
                   ),
                 ),
               ],

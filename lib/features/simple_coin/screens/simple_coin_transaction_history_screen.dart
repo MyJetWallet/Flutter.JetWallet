@@ -13,9 +13,7 @@ import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transac
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
-import 'package:simple_kit/core/simple_kit.dart';
-import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
-import 'package:simple_kit/utils/constants.dart';
+import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/simple_coin_history_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
@@ -55,10 +53,15 @@ class _SimpleCoinTransactionHistoryScreenState extends State<SimpleCoinTransacti
           return SPageFrame(
             loaderText: '',
             color: colors.white,
-            header: GlobalBasicAppBar(
-              title: intl.simplecoin_transaction_historyr,
-              subtitle: 'SMPL',
-              hasRightIcon: false,
+            header: SPaddingH24(
+              child: SSmallHeader(
+                title: intl.simplecoin_transaction_historyr,
+                subTitle: 'SMPL',
+                subTitleStyle: sBodyText2Style.copyWith(
+                  color: colors.grey1,
+                ),
+                titleMaxLines: 1,
+              ),
             ),
             child: store.isLoadingInitialData
                 ? const EarnDetailsSkeleton()
