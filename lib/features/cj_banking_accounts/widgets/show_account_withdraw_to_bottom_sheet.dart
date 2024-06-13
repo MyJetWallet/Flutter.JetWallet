@@ -66,7 +66,7 @@ class _WithdrawToBody extends StatelessWidget {
           onTableAssetTap: () {
             final isCJAccount = store.account?.isClearjuctionAccount ?? true;
             sAnalytics.eurWithdrawTapOnTheButtonWithdraw(
-              eurAccountType: isCJAccount ? 'CJ' : 'Unlimit',
+              isCJ: isCJAccount,
               accountIban: store.account?.iban ?? '',
               accountLabel: store.account?.label ?? '',
             );
@@ -86,7 +86,7 @@ class _WithdrawToBody extends StatelessWidget {
               from: [BlockingType.withdrawal],
               or: () {
                 sAnalytics.eurWithdrawBankTransferWithEurSheet(
-                  eurAccountType: isCJAccount ? 'CJ' : 'Unlimit',
+                  isCJAccount: isCJAccount,
                   accountIban: store.account?.iban ?? '',
                   accountLabel: store.account?.label ?? '',
                 );
@@ -104,12 +104,12 @@ class _WithdrawToBody extends StatelessWidget {
               supplement:
                   account.isClearjuctionAccount ? intl.eur_wallet_simple_account : intl.eur_wallet_personal_account,
               rightValue: getIt<AppStore>().isBalanceHide
-                ? '**** ${account.currency ?? 'EUR'}'
-                : volumeFormat(
-                  decimal: account.balance ?? Decimal.zero,
-                  accuracy: 2,
-                  symbol: account.currency ?? 'EUR',
-                ),
+                  ? '**** ${account.currency ?? 'EUR'}'
+                  : volumeFormat(
+                      decimal: account.balance ?? Decimal.zero,
+                      accuracy: 2,
+                      symbol: account.currency ?? 'EUR',
+                    ),
               assetIcon: Assets.svg.assets.fiat.account.simpleSvg(
                 width: 24,
               ),
@@ -131,12 +131,12 @@ class _WithdrawToBody extends StatelessWidget {
               label: card.label ?? 'Simple card',
               supplement: '${card.cardType?.frontName} ••• ${card.last4NumberCharacters}',
               rightValue: getIt<AppStore>().isBalanceHide
-                ? '**** ${card.currency ?? 'EUR'}'
-                : volumeFormat(
-                  decimal: card.balance ?? Decimal.zero,
-                  accuracy: 2,
-                  symbol: card.currency ?? 'EUR',
-                ),
+                  ? '**** ${card.currency ?? 'EUR'}'
+                  : volumeFormat(
+                      decimal: card.balance ?? Decimal.zero,
+                      accuracy: 2,
+                      symbol: card.currency ?? 'EUR',
+                    ),
               isCard: true,
               onTableAssetTap: () {
                 sRouter.push(

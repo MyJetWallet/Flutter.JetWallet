@@ -138,7 +138,6 @@ class _GiftAmountState extends State<GiftAmount> {
                     asset: geftSendAmountStore.selectedCurrency.symbol,
                     giftSubmethod: tempSendGiftInfo.selectedContactType?.name ?? '',
                     totalSendAmount: tempSendGiftInfo.amount.toString(),
-                    preset: 'false',
                   );
                   sAnalytics.orderSummarySendScreenView(
                     giftSubmethod: tempSendGiftInfo.selectedContactType?.name ?? '',

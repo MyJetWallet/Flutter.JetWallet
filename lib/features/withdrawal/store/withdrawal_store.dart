@@ -910,7 +910,7 @@ abstract class _WithdrawalStoreBase with Store {
     } on ServerRejectException catch (error) {
       _showFailureScreen(error);
     } catch (error) {
-      _showNoResponseScreen();
+      _showNoResponseScreen(error.toString());
     }
 
     previewLoading = false;
@@ -950,7 +950,7 @@ abstract class _WithdrawalStoreBase with Store {
     } on ServerRejectException catch (error) {
       _showFailureScreen(error);
     } catch (error) {
-      _showNoResponseScreen();
+      _showNoResponseScreen(error.toString());
     }
 
     previewLoading = false;
@@ -958,7 +958,21 @@ abstract class _WithdrawalStoreBase with Store {
   }
 
   @action
-  void _showNoResponseScreen() {
+  void _showNoResponseScreen(String error) {
+    sAnalytics.cryptoSendFailedSend(
+      asset: withdrawalInputModel!.currency!.symbol,
+      network: network.description,
+      sendMethodType: '0',
+      totalSendAmount: withAmount,
+      paymentFee: addressIsInternal
+          ? 'No fee'
+          : withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
+              network: networkController.text,
+              amount: Decimal.parse(withAmount),
+            ),
+      failedReason: error,
+    );
+
     sRouter.push(
       FailureScreenRouter(
         primaryText: intl.showNoResponseScreen_text,
