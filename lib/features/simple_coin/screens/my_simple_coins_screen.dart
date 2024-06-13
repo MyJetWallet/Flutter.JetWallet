@@ -89,6 +89,7 @@ class _MySimpleCoinsScreenState extends State<MySimpleCoinsScreen> {
                     children: [
                       Image.asset(mySimpleLendingBg),
                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 384),
                           SPriceHeader(
