@@ -110,7 +110,6 @@ class CardWithdrawalDetails extends StatelessObserverWidget {
                 showInfoIcon: true,
                 fee: volumeFormat(
                   decimal: transactionListItem.cardWithdrawalInfo?.paymentFeeAmount ?? Decimal.zero,
-                  accuracy: currency.accuracy,
                   symbol: transactionListItem.cardWithdrawalInfo?.paymentFeeAssetId ??
                       transactionListItem.cardWithdrawalInfo?.paymentAssetId ??
                       'EUR',
@@ -118,7 +117,6 @@ class CardWithdrawalDetails extends StatelessObserverWidget {
                 value: TransactionDetailsNewValueText(
                   text: volumeFormat(
                     decimal: transactionListItem.cardWithdrawalInfo?.paymentFeeAmount ?? Decimal.zero,
-                    accuracy: currency.accuracy,
                     symbol: transactionListItem.cardWithdrawalInfo?.paymentFeeAssetId ??
                         transactionListItem.cardWithdrawalInfo?.paymentAssetId ??
                         'EUR',
@@ -134,7 +132,6 @@ class CardWithdrawalDetails extends StatelessObserverWidget {
                   ? '**** ${currency.symbol}'
                   : volumeFormat(
                       decimal: transactionListItem.cardWithdrawalInfo?.paymentAmount ?? Decimal.zero,
-                      accuracy: currency.accuracy,
                       symbol: transactionListItem.cardWithdrawalInfo?.paymentAssetId ?? 'EUR',
                     ),
             ),
