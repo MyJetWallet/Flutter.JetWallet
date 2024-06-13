@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -67,7 +69,7 @@ class SimpleCoinAssetItem extends StatelessWidget {
                     symbol: 'SMPL',
                   );
                   return RoundButton(
-                    value: balance,
+                    value: getIt<AppStore>().isBalanceHide ? '**** SMPL' : balance,
                   );
                 },
               ),

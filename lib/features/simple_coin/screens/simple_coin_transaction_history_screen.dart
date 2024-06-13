@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
 import 'package:intl/intl.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/earn/widgets/earn_details_skeleton.dart';
 import 'package:jetwallet/features/earn/widgets/position_audit_item.dart';
 import 'package:jetwallet/features/simple_coin/store/simple_coin_transaction_history_store.dart';
@@ -94,10 +96,12 @@ class _SimpleCoinTransactionHistoryScreenState extends State<SimpleCoinTransacti
                             return PositionAuditItem(
                               key: ValueKey(positionAudit.id),
                               onTap: () {},
-                              balanceChange: volumeFormat(
-                                decimal: positionAudit.amount,
-                                symbol: 'SMPL',
-                              ),
+                              balanceChange: getIt<AppStore>().isBalanceHide
+                                  ? '**** SMPL'
+                                  : volumeFormat(
+                                      decimal: positionAudit.amount,
+                                      symbol: 'SMPL',
+                                    ),
                               icon: Assets.svg.medium.arrowDown.simpleSvg(
                                 width: 24,
                                 color: colors.green,

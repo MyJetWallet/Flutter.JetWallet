@@ -2,10 +2,12 @@ import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/simple_coin/widgets/simple_coin_roadmap.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
@@ -94,7 +96,7 @@ class _MySimpleCoinsScreenState extends State<MySimpleCoinsScreen> {
                           const SizedBox(height: 384),
                           SPriceHeader(
                             lable: intl.simplecoin_my_simplecoins,
-                            value: balance,
+                            value: getIt<AppStore>().isBalanceHide ? '**** SMPL' : balance,
                             icon: Assets.svg.assets.crypto.smpl.simpleSvg(
                               width: 32,
                             ),
