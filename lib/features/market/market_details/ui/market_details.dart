@@ -32,12 +32,11 @@ import 'package:simple_networking/modules/wallet_api/models/market_info/market_i
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../core/di/di.dart';
+import '../../../../core/services/prevent_duplication_events_servise.dart';
 import '../../../../utils/formatting/base/volume_format.dart';
 import '../../../../utils/models/currency_model.dart';
 import '../../../app/store/app_store.dart';
 import '../../../wallet/helper/navigate_to_wallet.dart';
-
-int _lastTimeSendedEvent = 0;
 
 @RoutePage(name: 'MarketDetailsRouter')
 class MarketDetails extends StatelessWidget {
@@ -54,14 +53,10 @@ class MarketDetails extends StatelessWidget {
       key: const Key('market-details-screen-key'),
       onVisibilityChanged: (info) {
         if (info.visibleFraction == 1) {
-          final now = DateTime.now().millisecondsSinceEpoch;
-          if (now - _lastTimeSendedEvent < 3000) {
-            return;
-          }
-
-          _lastTimeSendedEvent = now;
-
-          sAnalytics.marketAssetScreenView(asset: marketItem.symbol);
+          getIt.get<PreventDuplicationEventsService>().sendEvent(
+                id: 'market-details-screen-key',
+                event: () => sAnalytics.marketAssetScreenView(asset: marketItem.symbol),
+              );
         }
       },
       child: MultiProvider(
@@ -332,9 +327,6 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
                         ),
                   onTap: () {
                     sAnalytics.tapOnTheBalanceButtonOnMarketAssetScreen(asset: widget.marketItem.symbol);
-                    sAnalytics.cryptoFavouriteWalletScreen(
-                      openedAsset: widget.marketItem.symbol,
-                    );
 
                     onMarketItemTap(
                       context: context,

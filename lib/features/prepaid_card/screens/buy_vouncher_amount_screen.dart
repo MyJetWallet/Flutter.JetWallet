@@ -19,7 +19,7 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/purchase_card_brand_list_response_model.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-int _lastTimeSendedEvent = 0;
+import '../../../core/services/prevent_duplication_events_servise.dart';
 
 @RoutePage(name: 'BuyVouncherAmountRouter')
 class BuyVouncherAmountScreen extends StatelessWidget {
@@ -37,16 +37,10 @@ class BuyVouncherAmountScreen extends StatelessWidget {
     return VisibilityDetector(
       key: const Key('vouncher-amount-screen-key'),
       onVisibilityChanged: (info) {
-        if (info.visibleFraction == 1) {
-          final now = DateTime.now().millisecondsSinceEpoch;
-          if (now - _lastTimeSendedEvent < 3000) {
-            return;
-          }
-
-          _lastTimeSendedEvent = now;
-
-          sAnalytics.amountBuyVoucherScreenView();
-        }
+        getIt.get<PreventDuplicationEventsService>().sendEvent(
+              id: 'vouncher-amount-screen-key',
+              event: sAnalytics.amountBuyVoucherScreenView,
+            );
       },
       child: SPageFrame(
         loaderText: '',
