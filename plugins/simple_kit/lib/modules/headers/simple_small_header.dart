@@ -29,6 +29,7 @@ class SSmallHeader extends StatelessWidget {
     this.subTitle,
     this.subTitleStyle,
     this.titleStyle,
+    this.titleMaxLines = 2,
   });
 
   final Widget? icon;
@@ -56,6 +57,8 @@ class SSmallHeader extends StatelessWidget {
 
   final String? subTitle;
   final TextStyle? subTitleStyle;
+
+  final int titleMaxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +94,7 @@ class SSmallHeader extends StatelessWidget {
                       title,
                       overflow: TextOverflow.ellipsis,
                       textAlign: titleAlign,
-                      maxLines: 2,
+                      maxLines: titleMaxLines,
                       style: titleStyle ?? sTextH5Style,
                     ),
                     if (subTitle != null) ...[

@@ -50,7 +50,7 @@ class _IbanSendConfirmState extends State<IbanSendConfirm> {
   @override
   void initState() {
     sAnalytics.eurWithdrawWithdrawOrderSummarySV(
-      eurAccountType: widget.isCJ ? 'CJ' : 'Unlimit',
+      isCJ: widget.isCJ,
       accountIban: widget.account.iban ?? '',
       accountLabel: widget.account.label ?? '',
       eurAccType: widget.contact.iban ?? '',
@@ -241,7 +241,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                   name: intl.previewBuyWithAsset_confirm,
                   onTap: () {
                     sAnalytics.eurWithdrawTapConfirmOrderSummary(
-                      eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+                      isCJ: isCJ,
                       accountIban: account.iban ?? '',
                       accountLabel: account.label ?? '',
                       eurAccType: contact.iban ?? '',

@@ -118,7 +118,7 @@ abstract class _IbanSendAmountStoreBase with Store {
     requestId = const Uuid().v1();
 
     sAnalytics.eurWithdrawEurAmountSV(
-      eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+      isCJ: isCJ,
       accountIban: bankingAccount.iban ?? '',
       accountLabel: bankingAccount.label ?? '',
       eurAccType: value.iban ?? '',
@@ -183,7 +183,7 @@ abstract class _IbanSendAmountStoreBase with Store {
       )
           .then((value) {
         sAnalytics.eurWithdrawTapBackOrderSummary(
-          eurAccountType: isCJAcc! ? 'CJ' : 'Unlimit',
+          isCJ: isCJAcc!,
           accountIban: account?.iban ?? '',
           accountLabel: account?.label ?? '',
           eurAccType: contact?.iban ?? '',
@@ -281,9 +281,8 @@ abstract class _IbanSendAmountStoreBase with Store {
         : InputError.none;
 
     if (error != InputError.none) {
-
       sAnalytics.eurWithdrawErrorShowConvert(
-        eurAccountType: isCJAcc! ? 'CJ' : 'Unlimit',
+        isCJ: isCJAcc!,
         accountIban: account?.iban ?? '',
         accountLabel: account?.label ?? '',
         eurAccType: contact?.iban ?? '',

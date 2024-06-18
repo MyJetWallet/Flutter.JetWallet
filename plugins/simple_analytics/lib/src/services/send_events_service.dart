@@ -35,7 +35,7 @@ class SendEventsService {
 
   Future<void> setUserId(String? userId, {bool? startNewSession}) async {
     if (_useAmplitude) {
-      await _amplitude.setUserId(userId);
+      await _amplitude.setUserId(userId?.toLowerCase());
     }
   }
 

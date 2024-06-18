@@ -110,29 +110,29 @@ class CardWithdrawalDetails extends StatelessObserverWidget {
                 showInfoIcon: true,
                 fee: volumeFormat(
                   decimal: transactionListItem.cardWithdrawalInfo?.paymentFeeAmount ?? Decimal.zero,
-                  accuracy: currency.accuracy,
-                  symbol: currency.symbol,
+                  symbol: transactionListItem.cardWithdrawalInfo?.paymentFeeAssetId ??
+                      transactionListItem.cardWithdrawalInfo?.paymentAssetId ??
+                      'EUR',
                 ),
                 value: TransactionDetailsNewValueText(
                   text: volumeFormat(
                     decimal: transactionListItem.cardWithdrawalInfo?.paymentFeeAmount ?? Decimal.zero,
-                    accuracy: currency.accuracy,
-                    symbol: currency.symbol,
+                    symbol: transactionListItem.cardWithdrawalInfo?.paymentFeeAssetId ??
+                        transactionListItem.cardWithdrawalInfo?.paymentAssetId ??
+                        'EUR',
                   ),
                 ),
               );
             },
           ),
           TransactionDetailsNewItem(
-            text: intl.card_history_total_charge,
+            text: intl.history_payment_amount,
             value: TransactionDetailsNewValueText(
               text: getIt<AppStore>().isBalanceHide
                   ? '**** ${currency.symbol}'
                   : volumeFormat(
-                      decimal: (transactionListItem.cardWithdrawalInfo?.paymentFeeAmount ?? Decimal.zero) +
-                          transactionListItem.balanceChange.abs(),
-                      accuracy: currency.accuracy,
-                      symbol: currency.symbol,
+                      decimal: transactionListItem.cardWithdrawalInfo?.paymentAmount ?? Decimal.zero,
+                      symbol: transactionListItem.cardWithdrawalInfo?.paymentAssetId ?? 'EUR',
                     ),
             ),
           ),
@@ -158,6 +158,12 @@ class CardWithdrawalDetailsHeader extends StatelessWidget {
       orElse: () => CurrencyModel.empty(),
     );
 
+    final assetBaseAmount = transactionListItem.cardWithdrawalInfo?.paymentAssetId ==
+            transactionListItem.cardWithdrawalInfo?.paymentFeeAssetId
+        ? ((transactionListItem.cardWithdrawalInfo?.paymentAmount ?? Decimal.zero) +
+            (transactionListItem.cardWithdrawalInfo?.paymentFeeAmount ?? Decimal.zero))
+        : (transactionListItem.cardWithdrawalInfo?.paymentAmount ?? Decimal.zero);
+
     return SPaddingH24(
       child: Column(
         children: [
@@ -176,7 +182,7 @@ class CardWithdrawalDetailsHeader extends StatelessWidget {
                     ? '**** ${transactionListItem.cardWithdrawalInfo?.paymentAssetId}'
                     : volumeFormat(
                         symbol: transactionListItem.cardWithdrawalInfo?.paymentAssetId ?? '',
-                        decimal: (transactionListItem.cardWithdrawalInfo?.paymentAmount ?? Decimal.zero).negative,
+                        decimal: assetBaseAmount.negative,
                       )
                 : null,
             isError: transactionListItem.status == Status.declined,

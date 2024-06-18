@@ -2072,7 +2072,7 @@
     "simplecoin_token_smpl": "Token SMPL",
     "simplecoin_scheduled_for_q3_q4_2024": "Scheduled for Q3–Q4 2024",
     "simplecoin_partner_engagement": "Partner engagement",
-    "simplecoin_scheduled_for_q4_2024": "'Scheduled for Q4 2024",
+    "simplecoin_scheduled_for_q4_2024": "Scheduled for Q4 2024",
     "simplecoin_listing": "Listing",
     "simplecoin_scheduled_for_q1_2025": "Scheduled for Q1 2025",
     "simplecoin_simple_space": "Simple Space",
@@ -2099,5 +2099,6 @@
     "simplecoin_decline": "Decline",
     "simplecoin_by_clicking_collect": "By clicking the \"Collect\", you agree to the",
     "simplecoin_disclaimer": "Disclaimer",
-    "simplecoin_transaction_historyr": "Transaction history"
+    "simplecoin_transaction_historyr": "Transaction history",
+    "simplecoin_my_simplecoins": "My Simplecoins"
 }

@@ -24,6 +24,7 @@ import 'package:jetwallet/features/my_wallets/widgets/banners_carusel.dart';
 import 'package:jetwallet/features/my_wallets/widgets/change_order_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/my_wallets_asset_item.dart';
 import 'package:jetwallet/features/my_wallets/widgets/pending_transactions_widget.dart';
+import 'package:jetwallet/features/simple_coin/widgets/simple_coin_asset_item.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
@@ -403,6 +404,9 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                       ),
                                     ),
                                   ),
+                                const SliverToBoxAdapter(
+                                  child: SimpleCoinAssetItem(),
+                                ),
                                 SliverReorderableList(
                                   proxyDecorator: (child, index, animation) {
                                     return _proxyDecorator(

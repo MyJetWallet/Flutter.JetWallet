@@ -187,4 +187,12 @@ class LocalStorageService {
       await _storage.write(key: utmSourceKey, value: utmSourceTemp);
     }
   }
+
+  Future<void> forceClearStorage() async {
+    await _storage.deleteAll();
+  }
+
+  Future<void> deleteValueByKey(String key) async {
+    await _storage.delete(key: key);
+  }
 }

@@ -10,6 +10,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/simple_coin/utils/collect_simplecoin.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -331,6 +332,53 @@ class _DebugInfoState extends State<DebugInfo> with SingleTickerProviderStateMix
                     'Rate up',
                   ),
                 ),
+                TextButton(
+                  onPressed: () {
+                    ClaimSimplecoin().showCollectSimplecoinDialog(context: context);
+                  },
+                  child: const Text(
+                    'Collect Simple Coin Popup',
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    sLocalStorageService.forceClearStorage();
+                  },
+                  child: const Text(
+                    'Force Clear Local Storage',
+                  ),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    var key = '';
+                    await showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('Enter Key'),
+                          content: TextField(
+                            onChanged: (value) {
+                              key = value;
+                            },
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context, key);
+                              },
+                              child: const Text('Delete'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    await sLocalStorageService.deleteValueByKey(key);
+                  },
+                  child: const Text(
+                    'Delete Value from Local Storage',
+                  ),
+                ),
+                const SizedBox(height: 300),
               ],
             ),
           ),

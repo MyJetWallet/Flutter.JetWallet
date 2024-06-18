@@ -7812,13 +7812,13 @@
     "simplecoin_token_smpl": "Токен SMPL",
     "simplecoin_scheduled_for_q3_q4_2024": "Заплановано на III–IV квартал 2024",
     "simplecoin_partner_engagement": "Залучення партнерів",
-    "simplecoin_scheduled_for_q4_2024": "'Заплановано на IV квартал 2024",
+    "simplecoin_scheduled_for_q4_2024": "Заплановано на IV квартал 2024",
     "simplecoin_listing": "Лістинг",
     "simplecoin_scheduled_for_q1_2025": "Заплановано на I квартал 2025",
     "simplecoin_simple_space": "Simple Space",
     "simplecoin_beta": "Бета",
-    "simplecoin_collect_simplecoin": "Збирай Simplecoin",
-    "simplecoin_you_have_been_sent": "Вам надіслано {value} від бота Simple Coin. Натисніть, щоб зібрати.",
+    "simplecoin_collect_simplecoin": "Забирай Simplecoin",
+    "simplecoin_you_have_been_sent": "Вам надіслано {value} від бота Simple Coin. Натисніть, щоб забрати.",
     "@simplecoin_you_have_been_sent": {
         "placeholders": {
             "value": {
@@ -7837,7 +7837,8 @@
         }
     },
     "simplecoin_decline": "Відхилити",
-    "simplecoin_by_clicking_collect": "Натискаючи \"Зібрати\", ви погоджуєтесь з",
+    "simplecoin_by_clicking_collect": "Натискаючи \"Забрати\", ви погоджуєтесь з",
     "simplecoin_disclaimer": "Застереження",
-    "simplecoin_transaction_historyr": "Історія транзакцій"
+    "simplecoin_transaction_historyr": "Історія транзакцій",
+    "simplecoin_my_simplecoins": "Мої Simplecoins"
 }

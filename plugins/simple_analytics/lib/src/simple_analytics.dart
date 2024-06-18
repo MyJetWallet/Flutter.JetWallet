@@ -4,6 +4,11 @@ import '../simple_analytics.dart';
 import 'models/event_type.dart';
 import 'models/property_type.dart';
 
+const _simpleAccountText = 'Simple account';
+const _personalAccountText = 'Personal account';
+const _accountTypeSimple = 'Simple';
+const _accountTypePersonal = 'Personal';
+
 final sAnalytics = SimpleAnalytics();
 
 class SimpleAnalytics {
@@ -39,7 +44,7 @@ class SimpleAnalytics {
     );
 
     if (userEmail != null) {
-      await _analytics.setUserId(userEmail);
+      await _analytics.setUserId(userEmail.toLowerCase());
     }
 
     isTechAcc = techAcc;
@@ -635,7 +640,6 @@ class SimpleAnalytics {
     required String network,
     required String sendMethodType,
     required String totalSendAmount,
-    required String preset,
   }) {
     _analytics.logEvent(
       EventType.cryptoSendTapContinueAmountScreen,
@@ -647,7 +651,6 @@ class SimpleAnalytics {
         PropertyType.network: network,
         PropertyType.sendMethodsType: sendMethodType,
         PropertyType.sendAmount: totalSendAmount,
-        PropertyType.preset: preset,
       },
     );
   }
@@ -759,7 +762,7 @@ class SimpleAnalytics {
         PropertyType.sendMethodsType: sendMethodType,
         PropertyType.sendAmount: totalSendAmount,
         PropertyType.paymentFee: paymentFee,
-        PropertyType.failedReason: failedReason,
+        PropertyType.errorCode: failedReason,
       },
     );
   }
@@ -970,7 +973,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '182',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.countryKYC: country,
+        PropertyType.country: country,
         PropertyType.documentList: documentList,
       },
     );
@@ -985,7 +988,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '183',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.countryKYC: country,
+        PropertyType.country: country,
       },
     );
   }
@@ -999,7 +1002,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '184',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.countryKYC: country,
+        PropertyType.country: country,
       },
     );
   }
@@ -1013,7 +1016,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '185',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.countryKYC: country,
+        PropertyType.country: country,
       },
     );
   }
@@ -1027,7 +1030,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '186',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.countryKYC: country,
+        PropertyType.country: country,
       },
     );
   }
@@ -1094,7 +1097,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '81',
-        PropertyType.sendMethodTypeAllAvailableList: sendMethodsCodes,
+        PropertyType.sendMethodType: sendMethodsCodes,
       },
     );
   }
@@ -1178,7 +1181,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '87',
-        PropertyType.errorText: errorText,
+        PropertyType.errorCode: errorText,
         PropertyType.asset: asset,
         PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
         PropertyType.giftSendSubmethod: giftSubmethod,
@@ -1190,7 +1193,6 @@ class SimpleAnalytics {
     required String giftSubmethod,
     required String asset,
     required String totalSendAmount,
-    required dynamic preset,
   }) {
     _analytics.logEvent(
       EventType.tapOnTheButtonContinueWithSendGiftAmountScreen,
@@ -1202,7 +1204,6 @@ class SimpleAnalytics {
         PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
         PropertyType.giftSendSubmethod: giftSubmethod,
         PropertyType.totalSendAmount: totalSendAmount,
-        PropertyType.preset: preset,
       },
     );
   }
@@ -1266,7 +1267,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '92',
-        PropertyType.errorText: errorText,
+        PropertyType.errorCode: errorText,
         PropertyType.asset: asset,
         PropertyType.sendMethodType: sendMethod.code,
         PropertyType.giftSendSubmethod: giftSubmethod,
@@ -1322,7 +1323,7 @@ class SimpleAnalytics {
         PropertyType.asset: asset,
         PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
         PropertyType.giftSendSubmethod: giftSubmethod,
-        PropertyType.failedReason: failedReason,
+        PropertyType.errorCode: failedReason,
       },
     );
   }
@@ -1407,7 +1408,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '138',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.destinationCountryName: destCountry,
+        PropertyType.country: destCountry,
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
@@ -1487,7 +1488,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '139',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.destinationCountryName: destCountry,
+        PropertyType.country: destCountry,
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
@@ -1523,7 +1524,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '140',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.destinationCountry: destCountry,
+        PropertyType.country: destCountry,
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
@@ -1559,7 +1560,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '141',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.destinationCountry: destCountry,
+        PropertyType.country: destCountry,
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
@@ -1595,7 +1596,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '142',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.destinationCountry: destCountry,
+        PropertyType.country: destCountry,
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
@@ -1632,7 +1633,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '143',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.destinationCountry: destCountry,
+        PropertyType.country: destCountry,
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.globalMethods: globalSendType,
         PropertyType.asset: asset,
@@ -1670,7 +1671,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '144',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.destinationCountry: destCountry,
+        PropertyType.country: destCountry,
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.globalMethods: globalSendType,
         PropertyType.asset: asset,
@@ -1708,7 +1709,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '145',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.destinationCountry: destCountry,
+        PropertyType.country: destCountry,
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.globalMethods: globalSendType,
         PropertyType.asset: asset,
@@ -1748,7 +1749,7 @@ class SimpleAnalytics {
         PropertyType.eventId: '146',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.errorCode: errorCode,
-        PropertyType.destinationCountry: destCountry,
+        PropertyType.country: destCountry,
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.globalMethods: globalSendType,
         PropertyType.asset: asset,
@@ -1780,7 +1781,6 @@ class SimpleAnalytics {
     required String asset,
     required String sendMethodType,
     required String totalSendAmount,
-    required String preset,
   }) {
     _analytics.logEvent(
       EventType.globalSendContinueAmountSc,
@@ -1788,13 +1788,12 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '147',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.destinationCountry: destCountry,
+        PropertyType.country: destCountry,
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.globalMethods: globalSendType,
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
         PropertyType.sendAmount: totalSendAmount,
-        PropertyType.preset: preset,
       },
     );
   }
@@ -1813,7 +1812,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '148',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.destinationCountry: destCountry,
+        PropertyType.country: destCountry,
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.globalMethods: globalSendType,
         PropertyType.asset: asset,
@@ -1837,7 +1836,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '149',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.destinationCountry: destCountry,
+        PropertyType.country: destCountry,
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.globalMethods: globalSendType,
         PropertyType.asset: asset,
@@ -1861,7 +1860,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '150',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.destinationCountry: destCountry,
+        PropertyType.country: destCountry,
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.globalMethods: globalSendType,
         PropertyType.asset: asset,
@@ -1885,7 +1884,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '151',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.destinationCountry: destCountry,
+        PropertyType.country: destCountry,
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.globalMethods: globalSendType,
         PropertyType.asset: asset,
@@ -1910,12 +1909,13 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '152',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.destinationCountry: destCountry,
+        PropertyType.country: destCountry,
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.globalMethods: globalSendType,
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
         PropertyType.sendAmount: totalSendAmount,
+        PropertyType.errorCode: failedReason,
       },
     );
   }
@@ -1933,7 +1933,7 @@ class SimpleAnalytics {
         PropertyType.eventId: '114',
         PropertyType.giftAmount: giftAmount,
         PropertyType.giftFrom: giftFrom,
-        PropertyType.failedReason: failedReason,
+        PropertyType.errorCode: failedReason,
       },
     );
   }
@@ -1952,7 +1952,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '153',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.destinationCountry: destCountry,
+        PropertyType.country: destCountry,
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.globalMethods: globalSendType,
         PropertyType.asset: asset,
@@ -2015,7 +2015,7 @@ class SimpleAnalytics {
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.rewardsToClaim: rewardsToClaim,
         PropertyType.totalReceiveSum: totalReceiveSum,
-        PropertyType.activeRewardsAssets: assetList.toList(),
+        PropertyType.assetsList: assetList.toList(),
       },
     );
   }
@@ -2106,8 +2106,8 @@ class SimpleAnalytics {
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.source: source,
         PropertyType.rewardsToClaim: rewardToClaime,
-        PropertyType.winAsset: winAsset,
-        PropertyType.winAmount: winAmount,
+        PropertyType.asset: winAsset,
+        PropertyType.amount: winAmount,
       },
     );
   }
@@ -2164,8 +2164,8 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '202',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.transferAseet: transferAseet,
-        PropertyType.transferAmount: transferAmount,
+        PropertyType.asset: transferAseet,
+        PropertyType.amount: transferAmount,
       },
     );
   }
@@ -2180,8 +2180,8 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '203',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.transferAseet: transferAseet,
-        PropertyType.transferAmount: transferAmount,
+        PropertyType.asset: transferAseet,
+        PropertyType.amount: transferAmount,
       },
     );
   }
@@ -2196,8 +2196,8 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '204',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.transferAseet: transferAseet,
-        PropertyType.transferAmount: transferAmount,
+        PropertyType.asset: transferAseet,
+        PropertyType.amount: transferAmount,
       },
     );
   }
@@ -2212,8 +2212,8 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '205',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.transferAseet: transferAseet,
-        PropertyType.transferAmount: transferAmount,
+        PropertyType.asset: transferAseet,
+        PropertyType.amount: transferAmount,
       },
     );
   }
@@ -2228,8 +2228,8 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '206',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.transferAseet: transferAseet,
-        PropertyType.transferAmount: transferAmount,
+        PropertyType.asset: transferAseet,
+        PropertyType.amount: transferAmount,
       },
     );
   }
@@ -2244,8 +2244,8 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '207',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.transferAseet: transferAseet,
-        PropertyType.transferAmount: transferAmount,
+        PropertyType.asset: transferAseet,
+        PropertyType.amount: transferAmount,
       },
     );
   }
@@ -2333,7 +2333,7 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.openedAsset: openedAsset,
+        PropertyType.asset: openedAsset,
         PropertyType.eventId: '261',
       },
     );
@@ -2380,7 +2380,7 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.addedFavouritesAssetName: addedFavouritesAssetName,
+        PropertyType.asset: addedFavouritesAssetName,
         PropertyType.eventId: '265',
       },
     );
@@ -2571,7 +2571,7 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.openedAsset: openedAsset,
+        PropertyType.asset: openedAsset,
         PropertyType.eventId: '283',
       },
     );
@@ -2585,7 +2585,7 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.openedAsset: openedAsset,
+        PropertyType.asset: openedAsset,
         PropertyType.eventId: '284',
       },
     );
@@ -2599,7 +2599,7 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.openedAsset: openedAsset,
+        PropertyType.asset: openedAsset,
         PropertyType.eventId: '285',
       },
     );
@@ -2616,7 +2616,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '286',
-        PropertyType.eurAccountType: isCJ ? 'CJ' : 'Unlimint',
+        PropertyType.eurAccountType: isCJ ? _accountTypeSimple : _accountTypePersonal,
         PropertyType.eurAccountLabel: eurAccountLabel,
         PropertyType.isHasTransactions: isHasTransaction,
       },
@@ -2634,7 +2634,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '287',
-        PropertyType.eurAccountType: isCJ ? 'CJ' : 'Unlimint',
+        PropertyType.eurAccountType: isCJ ? _accountTypeSimple : _accountTypePersonal,
         PropertyType.eurAccountLabel: eurAccountLabel,
         PropertyType.isHasTransactions: isHasTransaction,
       },
@@ -2652,7 +2652,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '288',
-        PropertyType.eurAccountType: isCJ ? 'CJ' : 'Unlimint',
+        PropertyType.eurAccountType: isCJ ? _accountTypeSimple : _accountTypePersonal,
         PropertyType.eurAccountLabel: eurAccountLabel,
         PropertyType.isHasTransactions: isHasTransaction,
       },
@@ -2693,7 +2693,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '292',
-        PropertyType.eurAccountType: isCJ ? 'CJ' : 'Unlimint',
+        PropertyType.eurAccountType: isCJ ? _accountTypeSimple : _accountTypePersonal,
         PropertyType.eurAccountLabel: eurAccountLabel,
         PropertyType.isHasTransactions: isHasTransaction,
         PropertyType.source: source,
@@ -2712,7 +2712,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '293',
-        PropertyType.eurAccountType: isCJ ? 'CJ' : 'Unlimint',
+        PropertyType.eurAccountType: isCJ ? _accountTypeSimple : _accountTypePersonal,
         PropertyType.eurAccountLabel: eurAccountLabel,
         PropertyType.isHasTransactions: isHasTransaction,
       },
@@ -2731,38 +2731,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '294',
-        PropertyType.eurAccountType: isCJ ? 'CJ' : 'Unlimint',
-        PropertyType.eurAccountLabel: eurAccountLabel,
-        PropertyType.isHasTransactions: isHasTransaction,
-        PropertyType.copyType: copyType,
-      },
-    );
-  }
-
-  void eurWalletSwipeHistoryListEURAccount() {
-    _analytics.logEvent(
-      EventType.eurWalletSwipeHistoryListEURAccount,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '295',
-      },
-    );
-  }
-
-  void eurWalletWithdrawEURAccountScreen({
-    required bool isCJ,
-    required String eurAccountLabel,
-    required bool isHasTransaction,
-    required String copyType,
-  }) {
-    _analytics.logEvent(
-      EventType.eurWalletWithdrawEURAccountScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '296',
-        PropertyType.eurAccountType: isCJ ? 'CJ' : 'Unlimint',
+        PropertyType.eurAccountType: isCJ ? _accountTypeSimple : _accountTypePersonal,
         PropertyType.eurAccountLabel: eurAccountLabel,
         PropertyType.isHasTransactions: isHasTransaction,
         PropertyType.copyType: copyType,
@@ -2781,7 +2750,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '297',
-        PropertyType.eurAccountType: isCJ ? 'CJ' : 'Unlimint',
+        PropertyType.eurAccountType: isCJ ? _accountTypeSimple : _accountTypePersonal,
         PropertyType.eurAccountLabel: eurAccountLabel,
         PropertyType.isHasTransactions: isHasTransaction,
       },
@@ -2796,7 +2765,7 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.openedAsset: openedAsset,
+        PropertyType.asset: openedAsset,
         PropertyType.eventId: '298',
       },
     );
@@ -2903,9 +2872,9 @@ class SimpleAnalytics {
   //
 
   void eurWithdrawTapOnTheButtonWithdraw({
-    required String eurAccountType,
     required String accountIban,
     required String accountLabel,
+    required bool isCJ,
   }) {
     _analytics.logEvent(
       EventType.eurWithdrawTapOnTheButtonWithdraw,
@@ -2913,7 +2882,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '398',
-        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
       },
@@ -2921,7 +2890,7 @@ class SimpleAnalytics {
   }
 
   void eurWithdrawBankTransferWithEurSheet({
-    required String eurAccountType,
+    required bool isCJAccount,
     required String accountIban,
     required String accountLabel,
   }) {
@@ -2931,7 +2900,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '399',
-        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.accountFrom: isCJAccount ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
       },
@@ -2939,7 +2908,7 @@ class SimpleAnalytics {
   }
 
   void eurWithdrawUserTapsOnButtonEdit({
-    required String eurAccountType,
+    required bool isCJ,
     required String accountIban,
     required String accountLabel,
   }) {
@@ -2949,7 +2918,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '400',
-        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
       },
@@ -2957,7 +2926,7 @@ class SimpleAnalytics {
   }
 
   void eurWithdrawEditBankAccountWithSV({
-    required String eurAccountType,
+    required bool isCJ,
     required String accountIban,
     required String accountLabel,
   }) {
@@ -2967,7 +2936,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '401',
-        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
       },
@@ -2975,7 +2944,7 @@ class SimpleAnalytics {
   }
 
   void eurWithdrawTapSaveChangesEdit({
-    required String eurAccountType,
+    required bool isCJ,
     required String accountIban,
     required String accountLabel,
   }) {
@@ -2985,7 +2954,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '402',
-        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
       },
@@ -2993,7 +2962,7 @@ class SimpleAnalytics {
   }
 
   void eurWithdrawTapCloseEdit({
-    required String eurAccountType,
+    required bool isCJ,
     required String accountIban,
     required String accountLabel,
   }) {
@@ -3003,7 +2972,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '403',
-        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
       },
@@ -3011,7 +2980,7 @@ class SimpleAnalytics {
   }
 
   void eurWithdrawTapDeleteEdit({
-    required String eurAccountType,
+    required bool isCJ,
     required String accountIban,
     required String accountLabel,
   }) {
@@ -3021,7 +2990,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '404',
-        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
       },
@@ -3029,7 +2998,7 @@ class SimpleAnalytics {
   }
 
   void eurWithdrawTapConfirmDeleteEdit({
-    required String eurAccountType,
+    required bool isCJ,
     required String accountIban,
     required String accountLabel,
   }) {
@@ -3039,7 +3008,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '405',
-        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
       },
@@ -3047,7 +3016,7 @@ class SimpleAnalytics {
   }
 
   void eurWithdrawTapReceive({
-    required String eurAccountType,
+    required bool isCJ,
     required String accountIban,
     required String accountLabel,
   }) {
@@ -3057,7 +3026,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '406',
-        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
       },
@@ -3065,7 +3034,7 @@ class SimpleAnalytics {
   }
 
   void eurWithdrawTapExistingAccount({
-    required String eurAccountType,
+    required bool isCJ,
     required String accountIban,
     required String accountLabel,
   }) {
@@ -3075,7 +3044,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '407',
-        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
       },
@@ -3083,7 +3052,7 @@ class SimpleAnalytics {
   }
 
   void eurWithdrawAddReceiving({
-    required String eurAccountType,
+    required bool isCJ,
     required String accountIban,
     required String accountLabel,
   }) {
@@ -3093,7 +3062,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '408',
-        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
       },
@@ -3101,7 +3070,7 @@ class SimpleAnalytics {
   }
 
   void eurWithdrawTapBackReceiving({
-    required String eurAccountType,
+    required bool isCJ,
     required String accountIban,
     required String accountLabel,
   }) {
@@ -3111,7 +3080,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '409',
-        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
       },
@@ -3119,7 +3088,7 @@ class SimpleAnalytics {
   }
 
   void eurWithdrawTapContinueAddReceiving({
-    required String eurAccountType,
+    required bool isCJ,
     required String accountIban,
     required String accountLabel,
   }) {
@@ -3129,7 +3098,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '410',
-        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
       },
@@ -3137,7 +3106,7 @@ class SimpleAnalytics {
   }
 
   void eurWithdrawEurAmountSV({
-    required String eurAccountType,
+    required bool isCJ,
     required String accountIban,
     required String accountLabel,
     required String eurAccType,
@@ -3149,7 +3118,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '411',
-        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
         PropertyType.eurAccountType: eurAccType,
@@ -3159,7 +3128,7 @@ class SimpleAnalytics {
   }
 
   void eurWithdrawBackAmountSV({
-    required String eurAccountType,
+    required bool isCJ,
     required String accountIban,
     required String accountLabel,
     required String eurAccType,
@@ -3171,7 +3140,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '412',
-        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
         PropertyType.eurAccountType: eurAccType,
@@ -3181,7 +3150,7 @@ class SimpleAnalytics {
   }
 
   void eurWithdrawErrorShowConvert({
-    required String eurAccountType,
+    required bool isCJ,
     required String accountIban,
     required String accountLabel,
     required String eurAccType,
@@ -3195,19 +3164,19 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '413',
-        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
         PropertyType.eurAccountType: eurAccType,
         PropertyType.eurAccountLabel: eurAccLabel,
-        PropertyType.errorText: errorText,
+        PropertyType.errorCode: errorText,
         PropertyType.enteredAmount: enteredAmount,
       },
     );
   }
 
   void eurWithdrawContinueFromAmoountB({
-    required String eurAccountType,
+    required bool isCJ,
     required String accountIban,
     required String accountLabel,
     required String eurAccType,
@@ -3220,7 +3189,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '414',
-        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
         PropertyType.eurAccountType: eurAccType,
@@ -3231,7 +3200,7 @@ class SimpleAnalytics {
   }
 
   void eurWithdrawReferenceSV({
-    required String eurAccountType,
+    required bool isCJ,
     required String accountIban,
     required String accountLabel,
     required String eurAccType,
@@ -3244,7 +3213,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '424',
-        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
         PropertyType.eurAccountType: eurAccType,
@@ -3255,7 +3224,7 @@ class SimpleAnalytics {
   }
 
   void eurWithdrawContinueReferecenceButton({
-    required String eurAccountType,
+    required bool isCJ,
     required String accountIban,
     required String accountLabel,
     required String eurAccType,
@@ -3269,7 +3238,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '425',
-        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
         PropertyType.eurAccountType: eurAccType,
@@ -3292,7 +3261,7 @@ class SimpleAnalytics {
   }
 
   void eurWithdrawWithdrawOrderSummarySV({
-    required String eurAccountType,
+    required bool isCJ,
     required String accountIban,
     required String accountLabel,
     required String eurAccType,
@@ -3305,7 +3274,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '415',
-        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
         PropertyType.eurAccountType: eurAccType,
@@ -3316,7 +3285,7 @@ class SimpleAnalytics {
   }
 
   void eurWithdrawTapBackOrderSummary({
-    required String eurAccountType,
+    required bool isCJ,
     required String accountIban,
     required String accountLabel,
     required String eurAccType,
@@ -3329,31 +3298,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '416',
-        PropertyType.eurAccountFromType: eurAccountType,
-        PropertyType.eurAccountFromIBAN: accountIban,
-        PropertyType.eurAccountFromLabel: accountLabel,
-        PropertyType.eurAccountType: eurAccType,
-        PropertyType.eurAccountLabel: eurAccLabel,
-        PropertyType.enteredAmount: enteredAmount,
-      },
-    );
-  }
-
-  void eurWithdrawProcessingFeePopup({
-    required String eurAccountType,
-    required String accountIban,
-    required String accountLabel,
-    required String eurAccType,
-    required String eurAccLabel,
-    required String enteredAmount,
-  }) {
-    _analytics.logEvent(
-      EventType.eurWithdrawProcessingFeePopup,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '417',
-        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
         PropertyType.eurAccountType: eurAccType,
@@ -3364,7 +3309,7 @@ class SimpleAnalytics {
   }
 
   void eurWithdrawTapConfirmOrderSummary({
-    required String eurAccountType,
+    required bool isCJ,
     required String accountIban,
     required String accountLabel,
     required String eurAccType,
@@ -3377,7 +3322,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '418',
-        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
         PropertyType.eurAccountType: eurAccType,
@@ -3388,7 +3333,7 @@ class SimpleAnalytics {
   }
 
   void eurWithdrawSuccessWithdrawEndSV({
-    required String eurAccountType,
+    required bool isCJ,
     required String accountIban,
     required String accountLabel,
     required String eurAccType,
@@ -3401,7 +3346,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '419',
-        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
         PropertyType.eurAccountType: eurAccType,
@@ -3412,7 +3357,7 @@ class SimpleAnalytics {
   }
 
   void eurWithdrawFailed({
-    required String eurAccountType,
+    required bool isCJ,
     required String accountIban,
     required String accountLabel,
     required String eurAccType,
@@ -3425,7 +3370,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '420',
-        PropertyType.eurAccountFromType: eurAccountType,
+        PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
         PropertyType.eurAccountType: eurAccType,
@@ -3493,7 +3438,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '317',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
       },
     );
   }
@@ -3507,7 +3452,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '318',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
       },
     );
   }
@@ -3521,7 +3466,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '319',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
       },
     );
   }
@@ -3535,7 +3480,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '320',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
       },
     );
   }
@@ -3549,7 +3494,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '321',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
       },
     );
   }
@@ -3563,7 +3508,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '322',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
       },
     );
   }
@@ -3577,7 +3522,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '323',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
       },
     );
   }
@@ -3592,7 +3537,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '324',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
         PropertyType.listOfAvailablePMs: listOfAvailablePMs,
       },
     );
@@ -3607,7 +3552,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '325',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
       },
     );
   }
@@ -3623,7 +3568,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '326',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
       },
@@ -3642,10 +3587,10 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '327',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
-        PropertyType.sourceCurrency: sourceCurrency,
+        PropertyType.currency: sourceCurrency,
       },
     );
   }
@@ -3662,10 +3607,10 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '328',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
-        PropertyType.sourceCurrency: sourceCurrency,
+        PropertyType.currency: sourceCurrency,
       },
     );
   }
@@ -3683,10 +3628,10 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '329',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
-        PropertyType.sourceCurrency: sourceCurrency,
+        PropertyType.currency: sourceCurrency,
         PropertyType.nowInput: nowInput.name,
       },
     );
@@ -3705,7 +3650,7 @@ class SimpleAnalytics {
         PropertyType.eventId: '330',
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
-        PropertyType.sourceCurrency: sourceCurrency,
+        PropertyType.currency: sourceCurrency,
       },
     );
   }
@@ -3722,10 +3667,10 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '331',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
-        PropertyType.sourceCurrency: sourceCurrency,
+        PropertyType.currency: sourceCurrency,
       },
     );
   }
@@ -3744,12 +3689,12 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '332',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
-        PropertyType.sourceCurrency: sourceCurrency,
-        PropertyType.sourceBuyAmount: sourceBuyAmount,
-        PropertyType.destinationBuyAmount: destinationBuyAmount,
+        PropertyType.currency: sourceCurrency,
+        PropertyType.amountInFiat: sourceBuyAmount,
+        PropertyType.amountInCrypto: destinationBuyAmount,
       },
     );
   }
@@ -3768,12 +3713,12 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '333',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
-        PropertyType.sourceCurrency: sourceCurrency,
-        PropertyType.sourceBuyAmount: sourceBuyAmount,
-        PropertyType.destinationBuyAmount: destinationBuyAmount,
+        PropertyType.currency: sourceCurrency,
+        PropertyType.amountInFiat: sourceBuyAmount,
+        PropertyType.amountInCrypto: destinationBuyAmount,
       },
     );
   }
@@ -3793,12 +3738,12 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '334',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
-        PropertyType.sourceCurrency: sourceCurrency,
-        PropertyType.sourceBuyAmount: sourceBuyAmount,
-        PropertyType.destinationBuyAmount: destinationBuyAmount,
+        PropertyType.currency: sourceCurrency,
+        PropertyType.amountInFiat: sourceBuyAmount,
+        PropertyType.amountInCrypto: destinationBuyAmount,
         PropertyType.isCheckboxNowTrue: isCheckboxNowTrue,
       },
     );
@@ -3830,12 +3775,12 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '336',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
-        PropertyType.sourceCurrency: sourceCurrency,
-        PropertyType.sourceBuyAmount: sourceBuyAmount,
-        PropertyType.destinationBuyAmount: destinationBuyAmount,
+        PropertyType.currency: sourceCurrency,
+        PropertyType.amountInFiat: sourceBuyAmount,
+        PropertyType.amountInCrypto: destinationBuyAmount,
         PropertyType.type: feeType.name,
       },
     );
@@ -3856,12 +3801,12 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '337',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
-        PropertyType.sourceCurrency: sourceCurrency,
-        PropertyType.sourceBuyAmount: sourceBuyAmount,
-        PropertyType.destinationBuyAmount: destinationBuyAmount,
+        PropertyType.currency: sourceCurrency,
+        PropertyType.amountInFiat: sourceBuyAmount,
+        PropertyType.amountInCrypto: destinationBuyAmount,
         PropertyType.type: feeType.name,
       },
     );
@@ -3881,12 +3826,12 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '338',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
-        PropertyType.sourceCurrency: sourceCurrency,
-        PropertyType.sourceBuyAmount: sourceBuyAmount,
-        PropertyType.destinationBuyAmount: destinationBuyAmount,
+        PropertyType.currency: sourceCurrency,
+        PropertyType.amountInFiat: sourceBuyAmount,
+        PropertyType.amountInCrypto: destinationBuyAmount,
       },
     );
   }
@@ -3905,12 +3850,12 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '339',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
-        PropertyType.sourceCurrency: sourceCurrency,
-        PropertyType.sourceBuyAmount: sourceBuyAmount,
-        PropertyType.destinationBuyAmount: destinationBuyAmount,
+        PropertyType.currency: sourceCurrency,
+        PropertyType.amountInFiat: sourceBuyAmount,
+        PropertyType.amountInCrypto: destinationBuyAmount,
       },
     );
   }
@@ -3929,12 +3874,12 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '340',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
-        PropertyType.sourceCurrency: sourceCurrency,
-        PropertyType.sourceBuyAmount: sourceBuyAmount,
-        PropertyType.destinationBuyAmount: destinationBuyAmount,
+        PropertyType.currency: sourceCurrency,
+        PropertyType.amountInFiat: sourceBuyAmount,
+        PropertyType.amountInCrypto: destinationBuyAmount,
       },
     );
   }
@@ -3953,12 +3898,12 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '341',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
-        PropertyType.sourceCurrency: sourceCurrency,
-        PropertyType.sourceBuyAmount: sourceBuyAmount,
-        PropertyType.destinationBuyAmount: destinationBuyAmount,
+        PropertyType.currency: sourceCurrency,
+        PropertyType.amountInFiat: sourceBuyAmount,
+        PropertyType.amountInCrypto: destinationBuyAmount,
       },
     );
   }
@@ -3977,12 +3922,12 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '342',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
-        PropertyType.sourceCurrency: sourceCurrency,
-        PropertyType.sourceBuyAmount: sourceBuyAmount,
-        PropertyType.destinationBuyAmount: destinationBuyAmount,
+        PropertyType.currency: sourceCurrency,
+        PropertyType.amountInFiat: sourceBuyAmount,
+        PropertyType.amountInCrypto: destinationBuyAmount,
       },
     );
   }
@@ -4001,12 +3946,12 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '343',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
-        PropertyType.sourceCurrency: sourceCurrency,
-        PropertyType.sourceBuyAmount: sourceBuyAmount,
-        PropertyType.destinationBuyAmount: destinationBuyAmount,
+        PropertyType.currency: sourceCurrency,
+        PropertyType.amountInFiat: sourceBuyAmount,
+        PropertyType.amountInCrypto: destinationBuyAmount,
       },
     );
   }
@@ -4025,12 +3970,12 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '344',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
-        PropertyType.sourceCurrency: sourceCurrency,
-        PropertyType.sourceBuyAmount: sourceBuyAmount,
-        PropertyType.destinationBuyAmount: destinationBuyAmount,
+        PropertyType.currency: sourceCurrency,
+        PropertyType.amountInFiat: sourceBuyAmount,
+        PropertyType.amountInCrypto: destinationBuyAmount,
       },
     );
   }
@@ -4049,12 +3994,12 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '345',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
-        PropertyType.sourceCurrency: sourceCurrency,
-        PropertyType.sourceBuyAmount: sourceBuyAmount,
-        PropertyType.destinationBuyAmount: destinationBuyAmount,
+        PropertyType.currency: sourceCurrency,
+        PropertyType.amountInFiat: sourceBuyAmount,
+        PropertyType.amountInCrypto: destinationBuyAmount,
       },
     );
   }
@@ -4073,12 +4018,12 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '346',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
-        PropertyType.sourceCurrency: sourceCurrency,
-        PropertyType.sourceBuyAmount: sourceBuyAmount,
-        PropertyType.destinationBuyAmount: destinationBuyAmount,
+        PropertyType.currency: sourceCurrency,
+        PropertyType.amountInFiat: sourceBuyAmount,
+        PropertyType.amountInCrypto: destinationBuyAmount,
       },
     );
   }
@@ -4097,12 +4042,12 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '347',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
-        PropertyType.sourceCurrency: sourceCurrency,
-        PropertyType.sourceBuyAmount: sourceBuyAmount,
-        PropertyType.destinationBuyAmount: destinationBuyAmount,
+        PropertyType.currency: sourceCurrency,
+        PropertyType.amountInFiat: sourceBuyAmount,
+        PropertyType.amountInCrypto: destinationBuyAmount,
       },
     );
   }
@@ -4121,12 +4066,12 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '348',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.asset: destinationWallet,
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
-        PropertyType.sourceCurrency: sourceCurrency,
-        PropertyType.sourceBuyAmount: sourceBuyAmount,
-        PropertyType.destinationBuyAmount: destinationBuyAmount,
+        PropertyType.currency: sourceCurrency,
+        PropertyType.amountInFiat: sourceBuyAmount,
+        PropertyType.amountInCrypto: destinationBuyAmount,
       },
     );
   }
@@ -4244,7 +4189,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '355',
-        PropertyType.currentFromValueForSell: currentFromValueForSell,
+        PropertyType.assetFrom: currentFromValueForSell,
       },
     );
   }
@@ -4280,13 +4225,13 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '358',
-        PropertyType.newSellFromAsset: newSellFromAsset,
+        PropertyType.assetFrom: newSellFromAsset,
       },
     );
   }
 
   void tapOnTheSellToButton({
-    required String currentToValueForSell,
+    required bool currentToValueForSell,
   }) {
     _analytics.logEvent(
       EventType.tapOnTheSellToButton,
@@ -4294,7 +4239,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '359',
-        PropertyType.currentToValueForSell: currentToValueForSell,
+        PropertyType.sellTo: currentToValueForSell ? _simpleAccountText : _personalAccountText,
       },
     );
   }
@@ -4330,7 +4275,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '362',
-        PropertyType.newSellToMethod: newSellToMethod,
+        PropertyType.sellTo: newSellToMethod,
       },
     );
   }
@@ -4381,11 +4326,11 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '367',
-        PropertyType.destinationWallet: destinationWallet,
+        PropertyType.currency: destinationWallet,
         PropertyType.nowInput: nowInput,
-        PropertyType.sellFromWallet: sellFromWallet,
-        PropertyType.sellToPMType: sellToPMType.name,
-        PropertyType.enteredAmount: enteredAmount,
+        PropertyType.assetFrom: sellFromWallet,
+        PropertyType.sellTo: sellToPMType.name,
+        PropertyType.amount: enteredAmount,
       },
     );
   }
@@ -4404,11 +4349,11 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '368',
-        PropertyType.destinationWallet: destinationWallet,
-        PropertyType.cryptoAmount: cryptoAmount,
-        PropertyType.fiatAmount: fiatAmount,
-        PropertyType.sellFromWallet: sellFromWallet,
-        PropertyType.sellToPMType: sellToPMType.name,
+        PropertyType.currency: destinationWallet,
+        PropertyType.amountInCrypto: cryptoAmount,
+        PropertyType.amountInFiat: fiatAmount,
+        PropertyType.assetFrom: sellFromWallet,
+        PropertyType.sellTo: sellToPMType.name,
         PropertyType.fiatAccountLabel: fiatAccountLabel,
       },
     );
@@ -4464,11 +4409,11 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '372',
-        PropertyType.destinationWallet: destinationWallet,
-        PropertyType.cryptoAmount: cryptoAmount,
-        PropertyType.fiatAmount: fiatAmount,
-        PropertyType.sellFromWallet: sellFromWallet,
-        PropertyType.sellToPMType: sellToPMType.name,
+        PropertyType.currency: destinationWallet,
+        PropertyType.amountInCrypto: cryptoAmount,
+        PropertyType.amountInFiat: fiatAmount,
+        PropertyType.assetFrom: sellFromWallet,
+        PropertyType.sellTo: sellToPMType.name,
         PropertyType.fiatAccountLabel: fiatAccountLabel,
       },
     );
@@ -4488,11 +4433,11 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '373',
-        PropertyType.destinationWallet: destinationWallet,
-        PropertyType.cryptoAmount: cryptoAmount,
-        PropertyType.fiatAmount: fiatAmount,
-        PropertyType.sellFromWallet: sellFromWallet,
-        PropertyType.sellToPMType: sellToPMType.name,
+        PropertyType.currency: destinationWallet,
+        PropertyType.amountInCrypto: cryptoAmount,
+        PropertyType.amountInFiat: fiatAmount,
+        PropertyType.assetFrom: sellFromWallet,
+        PropertyType.sellTo: sellToPMType.name,
         PropertyType.fiatAccountLabel: fiatAccountLabel,
       },
     );
@@ -4512,11 +4457,11 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '374',
-        PropertyType.destinationWallet: destinationWallet,
-        PropertyType.cryptoAmount: cryptoAmount,
-        PropertyType.fiatAmount: fiatAmount,
-        PropertyType.sellFromWallet: sellFromWallet,
-        PropertyType.sellToPMType: sellToPMType.name,
+        PropertyType.currency: destinationWallet,
+        PropertyType.amountInCrypto: cryptoAmount,
+        PropertyType.amountInFiat: fiatAmount,
+        PropertyType.assetFrom: sellFromWallet,
+        PropertyType.sellTo: sellToPMType.name,
         PropertyType.fiatAccountLabel: fiatAccountLabel,
       },
     );
@@ -4580,7 +4525,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '379',
-        PropertyType.currentFromValueForSell: currentFromValueForSell,
+        PropertyType.assetFrom: currentFromValueForSell,
       },
     );
   }
@@ -4616,7 +4561,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '382',
-        PropertyType.newConvertFromAsset: newConvertFromAsset,
+        PropertyType.assetFrom: newConvertFromAsset,
       },
     );
   }
@@ -4630,7 +4575,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '383',
-        PropertyType.currentToValueForConvert: currentToValueForConvert,
+        PropertyType.assetTo: currentToValueForConvert,
       },
     );
   }
@@ -4666,7 +4611,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '386',
-        PropertyType.newConvertToAsset: newConvertToAsset,
+        PropertyType.assetTo: newConvertToAsset,
       },
     );
   }
@@ -4691,7 +4636,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '389',
-        PropertyType.errorText: errorText,
+        PropertyType.errorCode: errorText,
       },
     );
   }
@@ -4719,10 +4664,10 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '391',
-        PropertyType.convertFromAsset: convertFromAsset,
-        PropertyType.convertToAsset: convertToAsset,
+        PropertyType.assetFrom: convertFromAsset,
+        PropertyType.assetTo: convertToAsset,
         PropertyType.nowInput: nowInput,
-        PropertyType.enteredAmount: enteredAmount,
+        PropertyType.amount: enteredAmount,
       },
     );
   }
@@ -4739,10 +4684,10 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '392',
-        PropertyType.convertFromAsset: convertFromAsset,
-        PropertyType.convertToAsset: convertToAsset,
+        PropertyType.assetFrom: convertFromAsset,
+        PropertyType.assetTo: convertToAsset,
         PropertyType.nowInput: nowInput,
-        PropertyType.enteredAmount: enteredAmount,
+        PropertyType.amount: enteredAmount,
       },
     );
   }
@@ -4781,10 +4726,10 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '395',
-        PropertyType.convertFromAsset: convertFromAsset,
-        PropertyType.convertToAsset: convertToAsset,
+        PropertyType.assetFrom: convertFromAsset,
+        PropertyType.assetTo: convertToAsset,
         PropertyType.nowInput: nowInput,
-        PropertyType.enteredAmount: enteredAmount,
+        PropertyType.amount: enteredAmount,
       },
     );
   }
@@ -4801,10 +4746,10 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '396',
-        PropertyType.convertFromAsset: convertFromAsset,
-        PropertyType.convertToAsset: convertToAsset,
+        PropertyType.assetFrom: convertFromAsset,
+        PropertyType.assetTo: convertToAsset,
         PropertyType.nowInput: nowInput,
-        PropertyType.enteredAmount: enteredAmount,
+        PropertyType.amount: enteredAmount,
       },
     );
   }
@@ -4814,6 +4759,7 @@ class SimpleAnalytics {
     required String convertFromAsset,
     required String convertToAsset,
     required String nowInput,
+    required String errorText,
   }) {
     _analytics.logEvent(
       EventType.failedConvertEndScreenView,
@@ -4821,10 +4767,11 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '397',
-        PropertyType.convertFromAsset: convertFromAsset,
-        PropertyType.convertToAsset: convertToAsset,
+        PropertyType.assetFrom: convertFromAsset,
+        PropertyType.assetTo: convertToAsset,
         PropertyType.nowInput: nowInput,
-        PropertyType.enteredAmount: enteredAmount,
+        PropertyType.amount: enteredAmount,
+        PropertyType.errorCode: errorText,
       },
     );
   }
@@ -5787,20 +5734,6 @@ class SimpleAnalytics {
     );
   }
 
-  void tapOnAnyEurAccountOnDepositButton({
-    required String accountType,
-  }) {
-    _analytics.logEvent(
-      EventType.tapOnAnyEurAccountOnDepositButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '501',
-        PropertyType.accountType: accountType,
-      },
-    );
-  }
-
   void depositByScreenView() {
     _analytics.logEvent(
       EventType.depositByScreenView,
@@ -5821,7 +5754,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '503',
-        PropertyType.accountType: accountType,
+        PropertyType.account: accountType,
       },
     );
   }
@@ -5846,7 +5779,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '505',
-        PropertyType.cryptoAsset: cryptoAsset,
+        PropertyType.asset: cryptoAsset,
       },
     );
   }
@@ -5874,7 +5807,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '507',
-        PropertyType.currentFromValueForTransfer: currentFromValueForTransfer,
+        PropertyType.transferFrom: currentFromValueForTransfer,
       },
     );
   }
@@ -5899,7 +5832,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '509',
-        PropertyType.newTransferFromAccount: newTransferFromAccount,
+        PropertyType.transferFrom: newTransferFromAccount,
       },
     );
   }
@@ -5913,7 +5846,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '510',
-        PropertyType.currentToValueForTransfer: currentToValueForTransfer,
+        PropertyType.transferTo: currentToValueForTransfer,
       },
     );
   }
@@ -5938,7 +5871,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '512',
-        PropertyType.newTransferToAccount: newTransferToAccount,
+        PropertyType.transferTo: newTransferToAccount,
       },
     );
   }
@@ -5967,7 +5900,7 @@ class SimpleAnalytics {
         PropertyType.eventId: '514',
         PropertyType.transferFrom: transferFrom,
         PropertyType.transferTo: transferTo,
-        PropertyType.enteredAmount: enteredAmount,
+        PropertyType.amount: enteredAmount,
       },
     );
   }
@@ -5985,7 +5918,7 @@ class SimpleAnalytics {
         PropertyType.eventId: '515',
         PropertyType.transferFrom: transferFrom,
         PropertyType.transferTo: transferTo,
-        PropertyType.enteredAmount: enteredAmount,
+        PropertyType.amount: enteredAmount,
       },
     );
   }
@@ -6003,7 +5936,7 @@ class SimpleAnalytics {
         PropertyType.eventId: '516',
         PropertyType.transferFrom: transferFrom,
         PropertyType.transferTo: transferTo,
-        PropertyType.enteredAmount: enteredAmount,
+        PropertyType.amount: enteredAmount,
       },
     );
   }
@@ -6021,7 +5954,7 @@ class SimpleAnalytics {
         PropertyType.eventId: '517',
         PropertyType.transferFrom: transferFrom,
         PropertyType.transferTo: transferTo,
-        PropertyType.enteredAmount: enteredAmount,
+        PropertyType.amount: enteredAmount,
       },
     );
   }
@@ -6039,7 +5972,7 @@ class SimpleAnalytics {
         PropertyType.eventId: '518',
         PropertyType.transferFrom: transferFrom,
         PropertyType.transferTo: transferTo,
-        PropertyType.enteredAmount: enteredAmount,
+        PropertyType.amount: enteredAmount,
       },
     );
   }
@@ -6057,7 +5990,7 @@ class SimpleAnalytics {
         PropertyType.eventId: '519',
         PropertyType.transferFrom: transferFrom,
         PropertyType.transferTo: transferTo,
-        PropertyType.enteredAmount: enteredAmount,
+        PropertyType.amount: enteredAmount,
       },
     );
   }
@@ -6942,6 +6875,116 @@ class SimpleAnalytics {
     );
   }
 
+  // Confirm Transfer via SMS
+
+  void confirmTransferViaSMSScreenView({
+    required String transferFrom,
+    required String transferTo,
+    required String amount,
+  }) {
+    _analytics.logEvent(
+      EventType.confirmTransferViaSMSScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '561',
+        PropertyType.transferFrom: transferFrom,
+        PropertyType.transferTo: transferTo,
+        PropertyType.amount: amount,
+      },
+    );
+  }
+
+  void tapOnTheButtonContinueOnConfirmViaSMSScreen({
+    required String transferFrom,
+    required String transferTo,
+    required String amount,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonContinueOnConfirmViaSMSScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '562',
+        PropertyType.transferFrom: transferFrom,
+        PropertyType.transferTo: transferTo,
+        PropertyType.amount: amount,
+      },
+    );
+  }
+
+  void tapOnTheButtonCancelOnConfirmViaSMSScreen({
+    required String transferFrom,
+    required String transferTo,
+    required String amount,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonCancelOnConfirmViaSMSScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '563',
+        PropertyType.transferFrom: transferFrom,
+        PropertyType.transferTo: transferTo,
+        PropertyType.amount: amount,
+      },
+    );
+  }
+
+  void confirmCodeTransferViaSMSScreenView({
+    required String transferFrom,
+    required String transferTo,
+    required String amount,
+  }) {
+    _analytics.logEvent(
+      EventType.confirmCodeTransferViaSMSScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '564',
+        PropertyType.transferFrom: transferFrom,
+        PropertyType.transferTo: transferTo,
+        PropertyType.amount: amount,
+      },
+    );
+  }
+
+  void tapOnTheButtonBackOnConfirmCodeViaSMSScreen({
+    required String transferFrom,
+    required String transferTo,
+    required String amount,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonBackOnConfirmCodeViaSMSScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '565',
+        PropertyType.transferFrom: transferFrom,
+        PropertyType.transferTo: transferTo,
+        PropertyType.amount: amount,
+      },
+    );
+  }
+
+  void loaderWithSMSCodeOnConfirmTransferScreenView({
+    required String transferFrom,
+    required String transferTo,
+    required String amount,
+  }) {
+    _analytics.logEvent(
+      EventType.loaderWithSMSCodeOnConfirmTransferScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '566',
+        PropertyType.transferFrom: transferFrom,
+        PropertyType.transferTo: transferTo,
+        PropertyType.amount: amount,
+      },
+    );
+  }
+
   // Prepaid card
 
   void tapOnTheBunnerPrepaidCardOnWallet() {
@@ -7549,28 +7592,6 @@ class SimpleAnalytics {
   }
 
   // Simple Coin
-  void tapOnTheButtonMySimplecoinOnProfileOrSimpleSpaceScreens() {
-    _analytics.logEvent(
-      EventType.tapOnTheButtonMySimplecoinOnProfileOrSimpleSpaceScreens,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '625',
-      },
-    );
-  }
-
-  void tapOnTheButtonSimpleSpaceOnProfileScreen() {
-    _analytics.logEvent(
-      EventType.tapOnTheButtonSimpleSpaceOnProfileScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '626',
-      },
-    );
-  }
-
   void simplecoinLandingScreenView() {
     _analytics.logEvent(
       EventType.simplecoinLandingScreenView,
@@ -7655,6 +7676,17 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '634',
+      },
+    );
+  }
+
+  void tapOnTheButtonSimplecoinOnWalletScreen() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonSimplecoinOnWalletScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '635',
       },
     );
   }

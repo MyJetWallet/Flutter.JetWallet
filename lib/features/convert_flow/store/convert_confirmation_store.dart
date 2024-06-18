@@ -228,6 +228,7 @@ abstract class _ConvertConfirmationStoreBase with Store {
       convertFromAsset: paymentAsset ?? '',
       convertToAsset: buyAsset ?? '',
       nowInput: isFromFixed ? 'ConvertFrom' : 'ConvertTo',
+      errorText: error,
     );
 
     if (sRouter.currentPath != '/convetr_confirmation') {

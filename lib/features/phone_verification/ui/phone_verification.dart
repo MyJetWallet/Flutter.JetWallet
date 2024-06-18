@@ -15,7 +15,6 @@ import 'package:jetwallet/widgets/texts/verification_description_text.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/di/di.dart';
@@ -33,6 +32,8 @@ class PhoneVerificationArgs {
     this.activeDialCode,
     this.isUnlimitTransferConfirm = false,
     this.transactionId,
+    this.onBackTap,
+    this.onLoaderStart,
   }) {
     if (isUnlimitTransferConfirm) {
       codeLength = 6;
@@ -47,6 +48,8 @@ class PhoneVerificationArgs {
   final SPhoneNumber? activeDialCode;
   final bool isUnlimitTransferConfirm;
   final String? transactionId;
+  final void Function()? onBackTap;
+  final void Function()? onLoaderStart;
 }
 
 @RoutePage(name: 'PhoneVerificationRouter')
@@ -140,6 +143,8 @@ class PhoneVerificationBody extends StatelessObserverWidget {
 
                     getIt<AppRouter>().maybePop();
                   }
+
+                  args.onBackTap?.call();
                 },
                 defaultIcon: const SBackIcon(),
                 pressedIcon: const SBackPressedIcon(),
@@ -220,7 +225,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   onCompleted: (_) {
                     if (args.sendCodeOnInitState) {
-                      store.verifyFullCode();
+                      store.verifyFullCode(args.onLoaderStart ?? () {});
                     } else {
                       store.verifyCode();
                     }

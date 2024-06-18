@@ -24,7 +24,7 @@ import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_pre
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/get_purchase_card_list_request_model.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-int _lastTimeSendedEvent = 0;
+import '../../../core/services/prevent_duplication_events_servise.dart';
 
 @RoutePage(name: 'PrepaidCardServiceRouter')
 class PrepaidCardServiceScreen extends StatelessWidget {
@@ -35,16 +35,10 @@ class PrepaidCardServiceScreen extends StatelessWidget {
     return VisibilityDetector(
       key: const Key('prepaid-card-screen-key'),
       onVisibilityChanged: (info) {
-        if (info.visibleFraction == 1) {
-          final now = DateTime.now().millisecondsSinceEpoch;
-          if (now - _lastTimeSendedEvent < 3000) {
-            return;
-          }
-
-          _lastTimeSendedEvent = now;
-
-          sAnalytics.prepaidCardServiceScreenView();
-        }
+        getIt.get<PreventDuplicationEventsService>().sendEvent(
+              id: 'prepaid-card-screen-key',
+              event: sAnalytics.prepaidCardServiceScreenView,
+            );
       },
       child: Provider(
         create: (context) => MyVounchersStore(),

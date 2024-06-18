@@ -138,7 +138,7 @@ abstract class _IbanSendConfirmStoreBase with Store {
 
     if (response.hasError) {
       sAnalytics.eurWithdrawFailed(
-        eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+        isCJ: isCJ,
         accountIban: account.iban ?? '',
         accountLabel: account.label ?? '',
         eurAccType: contact.iban ?? '',
@@ -149,7 +149,7 @@ abstract class _IbanSendConfirmStoreBase with Store {
       await showFailureScreen(response.error?.cause ?? '');
     } else {
       sAnalytics.eurWithdrawSuccessWithdrawEndSV(
-        eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+        isCJ: isCJ,
         accountIban: account.iban ?? '',
         accountLabel: account.label ?? '',
         eurAccType: contact.iban ?? '',

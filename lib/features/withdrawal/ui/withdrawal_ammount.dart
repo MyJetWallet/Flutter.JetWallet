@@ -193,7 +193,6 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
                 network: store.network.description,
                 sendMethodType: '0',
                 totalSendAmount: store.withAmount,
-                preset: 'false',
               );
 
               store.withdrawalPush(WithdrawStep.preview);

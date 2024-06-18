@@ -228,7 +228,6 @@ class _SendGloballyAmountScreenBodyState extends State<SendGloballyAmountScreenB
                 paymentMethod: store.method?.name ?? '',
                 globalSendType: widget.method.methodId ?? '',
                 totalSendAmount: store.withAmount,
-                preset: 'false',
               );
 
               store.loadPreview();
