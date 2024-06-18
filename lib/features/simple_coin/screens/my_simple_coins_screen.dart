@@ -128,7 +128,7 @@ class _MySimpleCoinsScreenState extends State<MySimpleCoinsScreen> {
                             size: SHeaderSize.m,
                             title: intl.simplecoin_roadmap,
                           ),
-                          SimpleCoinRoadmap(),
+                          const SimpleCoinRoadmap(),
                           const SpaceH100(),
                         ],
                       ),

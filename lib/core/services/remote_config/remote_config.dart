@@ -178,6 +178,7 @@ class RemoteConfig {
     simpleCoinDisclaimerLink = remoteConfig!.appConfig.simpleCoinDisclaimerLink;
     simpleTapLink = remoteConfig!.appConfig.simpleTapLink;
     usePhoneForSendGift = remoteConfig!.appConfig.usePhoneForSendGift;
+    simpleCoinRoadmapCompletedSteep = remoteConfig!.appConfig.simpleCoinRoadmapCompletedSteep;
   }
 
   void overrideVersioningValues() {
