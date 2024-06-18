@@ -2030,13 +2030,13 @@
     "simplecoin_join_simple_tap": "Rejoignez Simple Coin",
     "simplecoin_my_simplecoin": "Mes Simplecoin",
     "simplecoin_launch_game": "Lancer le jeu Simple Coin",
-    "simplecoin_boost_tasks": "Boosts et tâches dans Simple Coin",
-    "simplecoin_collect_coins": "Collectez des pièces dans Simple App",
+    "simplecoin_boost_tasks": "Boosts et tâches Simple Coin",
+    "simplecoin_collect_coins": "Pièces à collecter sur Simple App",
     "simplecoin_scheduled_for_q2_2024": "Prévu pour le 2e trimestre 2024",
     "simplecoin_token_smpl": "Token SMPL",
     "simplecoin_scheduled_for_q3_q4_2024": "Prévu pour le 3e–4e trimestre 2024",
     "simplecoin_partner_engagement": "Engagement des partenaires",
-    "simplecoin_scheduled_for_q4_2024": "'Prévu pour le 4e trimestre 2024",
+    "simplecoin_scheduled_for_q4_2024": "Prévu pour le 4e trimestre 2024",
     "simplecoin_listing": "Listing",
     "simplecoin_scheduled_for_q1_2025": "Prévu pour le 1er trimestre 2025",
     "simplecoin_simple_space": "Simple Space",
@@ -2063,5 +2063,6 @@
     "simplecoin_decline": "Refuser",
     "simplecoin_by_clicking_collect": "En cliquant sur \"Collecter\", vous acceptez le",
     "simplecoin_disclaimer": "Avertissement",
-    "simplecoin_transaction_historyr": "Historique des transactions"
+    "simplecoin_transaction_historyr": "Historique des transactions",
+    "simplecoin_my_simplecoins": "Mes Simplecoins"
 }

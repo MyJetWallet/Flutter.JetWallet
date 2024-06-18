@@ -69,6 +69,8 @@ abstract class _TransferConfirmationStoreBase with Store {
   String benificiary = '';
   @observable
   String reference = '';
+  @observable
+  String receiverPhoneNumber = '';
 
   @observable
   String paymentFee = '';
@@ -161,6 +163,7 @@ abstract class _TransferConfirmationStoreBase with Store {
           benificiary = data.beneficiaryFullName ?? '';
           reference = data.reference ?? '';
           operationId = data.operationId;
+          receiverPhoneNumber = data.receiverPhoneNumber ?? '';
         },
         onError: (error) {
           loader.finishLoadingImmediately();
@@ -204,12 +207,28 @@ abstract class _TransferConfirmationStoreBase with Store {
       var isConfirmed = false;
 
       if (smsVerificationRequired) {
+        sAnalytics.confirmTransferViaSMSScreenView(
+          transferFrom: fromType.analyticsValue,
+          transferTo: toType.analyticsValue,
+          amount: fromAmount.toString(),
+        );
+
         await showSMSVerificationPopUp(
           onConfirmed: () {
             isConfirmed = true;
+            sAnalytics.tapOnTheButtonContinueOnConfirmViaSMSScreen(
+              transferFrom: fromType.analyticsValue,
+              transferTo: toType.analyticsValue,
+              amount: fromAmount.toString(),
+            );
           },
           onCanceled: () {
             requestId = DateTime.now().microsecondsSinceEpoch.toString();
+            sAnalytics.tapOnTheButtonCancelOnConfirmViaSMSScreen(
+              transferFrom: fromType.analyticsValue,
+              transferTo: toType.analyticsValue,
+              amount: fromAmount.toString(),
+            );
           },
         );
         if (!isConfirmed) return;
@@ -347,12 +366,14 @@ abstract class _TransferConfirmationStoreBase with Store {
     void Function()? onConfirmed,
     void Function()? onCanceled,
   }) async {
-    final userPhoneNumber = sUserInfo.phone;
+    final userPhoneNumber = receiverPhoneNumber.length > 5
+        ? receiverPhoneNumber.substring(receiverPhoneNumber.length - 4)
+        : receiverPhoneNumber;
 
     await sShowAlertPopup(
       sRouter.navigatorKey.currentContext!,
       primaryText: intl.transfer_confirm_via_sms,
-      secondaryText: intl.transfer_we_sent(userPhoneNumber.substring(userPhoneNumber.length - 4)),
+      secondaryText: intl.transfer_we_sent(userPhoneNumber),
       primaryButtonName: intl.showSmsAuthWarning_continue,
       secondaryButtonName: intl.binding_phone_dialog_cancel,
       barrierDismissible: false,
@@ -376,6 +397,12 @@ abstract class _TransferConfirmationStoreBase with Store {
   Future<void> showSMSVerificationScreen({
     void Function()? onConfirmed,
   }) async {
+    sAnalytics.confirmCodeTransferViaSMSScreenView(
+      transferFrom: fromType.analyticsValue,
+      transferTo: toType.analyticsValue,
+      amount: fromAmount.toString(),
+    );
+
     final phoneNumber = countryCodeByUserRegister();
     await sRouter.push(
       PhoneVerificationRouter(
@@ -387,6 +414,20 @@ abstract class _TransferConfirmationStoreBase with Store {
           onVerified: () {
             sRouter.maybePop();
             onConfirmed?.call();
+          },
+          onBackTap: () {
+            sAnalytics.tapOnTheButtonBackOnConfirmCodeViaSMSScreen(
+              transferFrom: fromType.analyticsValue,
+              transferTo: toType.analyticsValue,
+              amount: fromAmount.toString(),
+            );
+          },
+          onLoaderStart: () {
+            sAnalytics.loaderWithSMSCodeOnConfirmTransferScreenView(
+              transferFrom: fromType.analyticsValue,
+              transferTo: toType.analyticsValue,
+              amount: fromAmount.toString(),
+            );
           },
         ),
       ),

@@ -103,6 +103,9 @@ const _card_screen = 'card_screen';
 // Asset screen
 const _assetScreen = 'asset_screen';
 
+//Simple coin
+const _mySimpleCoinsScreen = 'my_simple_coins_screen';
+
 const String _loggerService = 'DeepLinkService';
 
 enum SourceScreen {
@@ -198,6 +201,8 @@ class DeepLinkService {
       pushSimpleCardScreen(parameters);
     } else if (command == _assetScreen) {
       _pushAssetScreen(parameters);
+    } else if (command == _mySimpleCoinsScreen) {
+      _pushMySimpleCoinsScreen(parameters);
     } else {
       if (parameters.containsKey('jw_operation_id')) {
         pushCryptoHistory(parameters);
@@ -792,12 +797,6 @@ class DeepLinkService {
           requiredDocuments: kycState.requiredDocuments,
           requiredVerifications: kycState.requiredVerifications,
         );
-      case '2':
-        final isSimpleTapTokenAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
-            .any((element) => element.id == AssetPaymentProductsEnum.simpleTapToken);
-
-        if (!isSimpleTapTokenAvaible) return;
-        await sRouter.push(const MySimpleCoinsRouter());
       default:
     }
   }
@@ -988,5 +987,33 @@ class DeepLinkService {
     final currentUtm = await storageService.getValue(utmSourceKey);
 
     if (currentUtm == null) await storageService.setString(utmSourceKey, encodedUtm);
+  }
+
+  Future<void> _pushMySimpleCoinsScreen(
+    Map<String, String> parameters,
+  ) async {
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      final isSimpleCoinAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
+          .any((element) => element.id == AssetPaymentProductsEnum.simpleTapToken);
+      if (isSimpleCoinAvaible) {
+        sRouter.popUntilRoot();
+        getIt<BottomBarStore>().setHomeTab(BottomItemType.wallets);
+        await sRouter.push(const MySimpleCoinsRouter());
+      }
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            final isSimpleCoinAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
+                .any((element) => element.id == AssetPaymentProductsEnum.simpleTapToken);
+            if (isSimpleCoinAvaible) {
+              await sRouter.push(const MySimpleCoinsRouter());
+            }
+          },
+        ),
+      );
+    }
   }
 }

@@ -127,7 +127,7 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
               supplement: intl.internal_exchange,
               onTableAssetTap: () {
                 sAnalytics.tapOnSelectedNewSellToButton(
-                  newSellToMethod: account.isClearjuctionAccount ? 'CJ account' : 'Unlimit account',
+                  newSellToMethod: account.isClearjuctionAccount ? 'Simple account' : 'Personal account',
                 );
                 if (onSelected != null) {
                   onSelected!(account: account);
@@ -161,7 +161,7 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
                 isCard: true,
                 onTableAssetTap: () {
                   sAnalytics.tapOnSelectedNewSellToButton(
-                    newSellToMethod: 'Simple card',
+                    newSellToMethod: 'card',
                   );
                   if (onSelected != null) {
                     onSelected!(card: card);

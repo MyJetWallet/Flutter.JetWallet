@@ -111,7 +111,6 @@ class CardPurchaseDetails extends StatelessObserverWidget {
                 showInfoIcon: true,
                 fee: volumeFormat(
                   decimal: transactionListItem.cardPurchaseInfo?.paymentFeeAmount ?? Decimal.zero,
-                  accuracy: currency.accuracy,
                   symbol: transactionListItem.cardPurchaseInfo?.paymentFeeAssetId ??
                       transactionListItem.cardPurchaseInfo?.paymentAssetId ??
                       'EUR',
@@ -119,7 +118,6 @@ class CardPurchaseDetails extends StatelessObserverWidget {
                 value: TransactionDetailsNewValueText(
                   text: volumeFormat(
                     decimal: transactionListItem.cardPurchaseInfo?.paymentFeeAmount ?? Decimal.zero,
-                    accuracy: currency.accuracy,
                     symbol: transactionListItem.cardPurchaseInfo?.paymentFeeAssetId ??
                         transactionListItem.cardPurchaseInfo?.paymentAssetId ??
                         'EUR',
@@ -135,7 +133,6 @@ class CardPurchaseDetails extends StatelessObserverWidget {
                   ? '**** ${currency.symbol}'
                   : volumeFormat(
                       decimal: transactionListItem.cardPurchaseInfo?.paymentAmount ?? Decimal.zero,
-                      accuracy: currency.accuracy,
                       symbol: transactionListItem.cardPurchaseInfo?.paymentAssetId ?? 'EUR',
                     ),
             ),

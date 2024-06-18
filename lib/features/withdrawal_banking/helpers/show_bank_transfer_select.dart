@@ -162,13 +162,13 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
                 child: SIconButton(
                   onTap: () {
                     sAnalytics.eurWithdrawUserTapsOnButtonEdit(
-                      eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+                      isCJ: isCJ,
                       accountIban: bankingAccount.iban ?? '',
                       accountLabel: bankingAccount.label ?? '',
                     );
 
                     sAnalytics.eurWithdrawEditBankAccountWithSV(
-                      eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+                      isCJ: isCJ,
                       accountIban: bankingAccount.iban ?? '',
                       accountLabel: bankingAccount.label ?? '',
                     );
@@ -185,7 +185,7 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
                       )
                           .then((value) {
                         sAnalytics.eurWithdrawTapCloseEdit(
-                          eurAccountType: 'CJ',
+                          isCJ: true,
                           accountIban: bankingAccount.iban ?? '',
                           accountLabel: bankingAccount.label ?? '',
                         );
@@ -202,7 +202,7 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
                       )
                           .then((value) {
                         sAnalytics.eurWithdrawTapCloseEdit(
-                          eurAccountType: 'Unlimit',
+                          isCJ: false,
                           accountIban: bankingAccount.iban ?? '',
                           accountLabel: bankingAccount.label ?? '',
                         );
@@ -224,7 +224,7 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
               needSpacer: true,
               onTap: () {
                 sAnalytics.eurWithdrawTapExistingAccount(
-                  eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+                  isCJ: isCJ,
                   accountIban: bankingAccount.iban ?? '',
                   accountLabel: bankingAccount.label ?? '',
                 );
@@ -259,13 +259,13 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
           description: '',
           onTap: () {
             sAnalytics.eurWithdrawTapReceive(
-              eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+              isCJ: isCJ,
               accountIban: bankingAccount.iban ?? '',
               accountLabel: bankingAccount.label ?? '',
             );
 
             sAnalytics.eurWithdrawAddReceiving(
-              eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+              isCJ: isCJ,
               accountIban: bankingAccount.iban ?? '',
               accountLabel: bankingAccount.label ?? '',
             );
@@ -284,7 +284,7 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
                   }
                   if (!(value as bool)) {
                     sAnalytics.eurWithdrawTapBackReceiving(
-                      eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+                      isCJ: isCJ,
                       accountIban: bankingAccount.iban ?? '',
                       accountLabel: bankingAccount.label ?? '',
                     );
@@ -306,7 +306,7 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
                     getIt.get<IbanStore>().getAddressBook();
 
                     sAnalytics.eurWithdrawTapBackReceiving(
-                      eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+                      isCJ: isCJ,
                       accountIban: bankingAccount.iban ?? '',
                       accountLabel: bankingAccount.label ?? '',
                     );
@@ -327,7 +327,7 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
                   }
                   if (!(value as bool)) {
                     sAnalytics.eurWithdrawTapBackReceiving(
-                      eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+                      isCJ: isCJ,
                       accountIban: bankingAccount.iban ?? '',
                       accountLabel: bankingAccount.label ?? '',
                     );
@@ -349,7 +349,7 @@ class ShowBankTransferSelect extends StatelessObserverWidget {
                     getIt.get<IbanStore>().getAddressBook();
 
                     sAnalytics.eurWithdrawTapBackReceiving(
-                      eurAccountType: isCJ ? 'CJ' : 'Unlimit',
+                      isCJ: isCJ,
                       accountIban: bankingAccount.iban ?? '',
                       accountLabel: bankingAccount.label ?? '',
                     );

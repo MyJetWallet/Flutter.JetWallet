@@ -58,7 +58,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
         children: [
           SProfileDetailsButton(
             label: intl.profileDetails_email,
-            value: getIt.get<AppStore>().authState.email,
+            value: getIt.get<AppStore>().authState.email.toLowerCase(),
             onTap: () {},
           ),
           if (sUserInfo.isPhoneNumberSet)
