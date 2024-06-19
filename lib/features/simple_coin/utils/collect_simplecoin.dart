@@ -14,6 +14,7 @@ import 'package:jetwallet/core/services/simple_networking/simple_networking.dart
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
+import 'package:jetwallet/features/app/timer_service.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
@@ -45,7 +46,11 @@ class ClaimSimplecoin {
 
     if (_querySimpleCoinRequests.isEmpty || isPopUpAlredyShoving) return;
 
-    if (getIt.isRegistered<AppStore>() && getIt.get<AppStore>().authorizedStatus is Home) {
+    final context = sRouter.navigatorKey.currentContext!;
+
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        TimerService.of(context).isRunning) {
       final context = sRouter.navigatorKey.currentContext!;
       if (context.mounted) {
         await showCollectSimplecoinDialog(

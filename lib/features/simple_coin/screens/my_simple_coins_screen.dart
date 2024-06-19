@@ -1,10 +1,9 @@
-import 'dart:math';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/prevent_duplication_events_servise.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -18,41 +17,9 @@ import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-int _lastTimeSendedEvent = 0;
-
 @RoutePage(name: 'MySimpleCoinsRouter')
-class MySimpleCoinsScreen extends StatefulWidget {
+class MySimpleCoinsScreen extends StatelessWidget {
   const MySimpleCoinsScreen({super.key});
-
-  @override
-  State<MySimpleCoinsScreen> createState() => _MySimpleCoinsScreenState();
-}
-
-class _MySimpleCoinsScreenState extends State<MySimpleCoinsScreen> {
-  late ScrollController controller;
-
-  int alpha = 0;
-
-  @override
-  void initState() {
-    controller = ScrollController();
-    controller.addListener(() {
-      final offset = (controller.offset * 1.5).round();
-      if (offset != alpha) {
-        setState(() {
-          alpha = min(offset, 255);
-        });
-      }
-    });
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,89 +34,82 @@ class _MySimpleCoinsScreenState extends State<MySimpleCoinsScreen> {
       key: const Key('my_simple_coins-screen-key'),
       onVisibilityChanged: (info) {
         if (info.visibleFraction == 1) {
-          final now = DateTime.now().millisecondsSinceEpoch;
-          if (now - _lastTimeSendedEvent < 3000) {
-            return;
-          }
-
-          _lastTimeSendedEvent = now;
-
-          sAnalytics.simplecoinLandingScreenView();
+          getIt.get<PreventDuplicationEventsService>().sendEvent(
+                id: 'my_simple_coins-screen-key',
+                event: sAnalytics.simplecoinLandingScreenView,
+              );
         }
       },
       child: SPageFrame(
         loaderText: '',
+        header: GlobalBasicAppBar(
+          onRightIconTap: () {
+            sAnalytics.tapOnTheButtonTrxHistoryOnSimplecoinLandingScreen();
+            sRouter.push(const SimpleCoinTransactionHistoryRoute());
+          },
+          onLeftIconTap: () {
+            sAnalytics.tapOnTheButtonBackOnSimplecoinLandingScreen();
+            sRouter.maybePop();
+          },
+          rightIcon: Assets.svg.medium.history.simpleSvg(),
+        ),
         child: Stack(
           children: [
             CustomScrollView(
-              controller: controller,
               physics: const ClampingScrollPhysics(),
-              shrinkWrap: true,
               slivers: [
                 SliverToBoxAdapter(
-                  child: Stack(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Image.asset(mySimpleLendingBg),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 384),
-                          SPriceHeader(
-                            lable: intl.simplecoin_my_simplecoins,
-                            value: getIt<AppStore>().isBalanceHide ? '**** SMPL' : balance,
-                            icon: Assets.svg.assets.crypto.smpl.simpleSvg(
-                              width: 32,
-                            ),
-                          ),
-                          SPaddingH24(
-                            child: Text(
-                              intl.simplecoin_description,
-                              style: STStyles.body1Medium.copyWith(
-                                color: colors.gray10,
-                              ),
-                              maxLines: 10,
-                            ),
-                          ),
-                          const SpaceH16(),
-                          SPaddingH24(
-                            child: SHyperlink(
-                              text: intl.simplecoin_join_simple_tap,
-                              onTap: () {
-                                sAnalytics.tapOnTheButtonJoinSimpleTapOnSimplecoinLandingScreen();
-                                launchURL(
-                                  context,
-                                  simpleTapLink,
-                                  launchMode: LaunchMode.externalApplication,
-                                );
-                              },
-                            ),
-                          ),
-                          STableHeader(
-                            size: SHeaderSize.m,
-                            title: intl.simplecoin_roadmap,
-                          ),
-                          SimpleCoinRoadmap(),
-                          const SpaceH100(),
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 24,
+                          right: 24,
+                          bottom: 12,
+                        ),
+                        child: Image.asset(simpleCoinHeader),
                       ),
+                      SPriceHeader(
+                        lable: intl.simplecoin_my_simplecoins,
+                        value: getIt<AppStore>().isBalanceHide ? '**** SMPL' : balance,
+                        icon: Assets.svg.assets.crypto.smpl.simpleSvg(
+                          width: 32,
+                        ),
+                      ),
+                      SPaddingH24(
+                        child: Text(
+                          intl.simplecoin_description,
+                          style: STStyles.body1Medium.copyWith(
+                            color: colors.gray10,
+                          ),
+                          maxLines: 10,
+                        ),
+                      ),
+                      const SpaceH16(),
+                      SPaddingH24(
+                        child: SHyperlink(
+                          text: intl.simplecoin_join_simple_tap,
+                          onTap: () {
+                            sAnalytics.tapOnTheButtonJoinSimpleTapOnSimplecoinLandingScreen();
+                            launchURL(
+                              context,
+                              simpleTapLink,
+                              launchMode: LaunchMode.externalApplication,
+                            );
+                          },
+                        ),
+                      ),
+                      STableHeader(
+                        size: SHeaderSize.m,
+                        title: intl.simplecoin_roadmap,
+                      ),
+                      const SimpleCoinRoadmap(),
+                      const SpaceH100(),
                     ],
                   ),
                 ),
               ],
-            ),
-            ColoredBox(
-              color: Color.fromARGB(alpha, 255, 255, 255),
-              child: GlobalBasicAppBar(
-                onRightIconTap: () {
-                  sAnalytics.tapOnTheButtonTrxHistoryOnSimplecoinLandingScreen();
-                  sRouter.push(const SimpleCoinTransactionHistoryRoute());
-                },
-                onLeftIconTap: () {
-                  sAnalytics.tapOnTheButtonBackOnSimplecoinLandingScreen();
-                  sRouter.maybePop();
-                },
-                rightIcon: Assets.svg.medium.history.simpleSvg(),
-              ),
             ),
           ],
         ),
