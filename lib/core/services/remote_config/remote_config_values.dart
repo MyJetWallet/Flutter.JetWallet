@@ -35,6 +35,7 @@ bool useAmplitude = true;
 String simpleCoinDisclaimerLink = '';
 String simpleTapLink = '';
 bool usePhoneForSendGift = true;
+int simpleCoinRoadmapCompletedSteep = 3;
 
 // Versioning
 late String recommendedVersion;

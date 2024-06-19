@@ -1,22 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jetwallet/features/simple_coin/models/road_map_steep_model.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-
-class RoadmapStepModel {
-  RoadmapStepModel({
-    required this.title,
-    required this.isCompleted,
-    this.schedule,
-    this.isFirst = false,
-    this.isLast = false,
-    this.isPreviosCompleted = false,
-  });
-  final String title;
-  final bool isCompleted;
-  final String? schedule;
-  final bool isFirst;
-  final bool isLast;
-  final bool isPreviosCompleted;
-}
 
 class RoadmapStepWidget extends StatelessWidget {
   const RoadmapStepWidget({required this.event});
@@ -70,7 +54,7 @@ class RoadmapStepWidget extends StatelessWidget {
                       color: event.isCompleted ? purple : colors.black,
                     ),
                   ),
-                  if (event.schedule != null)
+                  if (event.schedule != null && !event.isCompleted)
                     Text(
                       event.schedule ?? '',
                       style: STStyles.body2Medium.copyWith(

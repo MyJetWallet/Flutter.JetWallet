@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -24,59 +25,63 @@ class SimpleCoinAssetItem extends StatelessWidget {
 
     if (!isSimpleCoinAvaible) return const Offstage();
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 10,
-        horizontal: 7,
-      ),
-      child: SafeGesture(
-        onTap: () async {
-          sAnalytics.tapOnTheButtonSimplecoinOnWalletScreen();
-          await sRouter.push(const MySimpleCoinsRouter());
-        },
-        child: Container(
-          height: 67,
-          decoration: ShapeDecoration(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            image: const DecorationImage(
-              image: AssetImage(simpleCoinAssetBackground),
-              fit: BoxFit.contain,
-              alignment: Alignment(0.2, 0),
-            ),
-            color: colors.extraLightsPurple,
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 9),
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 4),
-                child: Assets.svg.assets.crypto.smpl.simpleSvg(
-                  width: 24,
+    return Observer(
+      builder: (context) {
+        final balance = sSignalRModules.smplWalletModel.profile.balance;
+        final formatedBalance = volumeFormat(
+          decimal: balance,
+          symbol: 'SMPL',
+        );
+
+        return balance != Decimal.zero
+            ? Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 7,
                 ),
-              ),
-              const SizedBox(width: 12),
-              Text(
-                intl.simplecoin_simplecoin,
-                style: STStyles.subtitle1,
-              ),
-              const Spacer(),
-              Observer(
-                builder: (context) {
-                  final balance = volumeFormat(
-                    decimal: sSignalRModules.smplWalletModel.profile.balance,
-                    symbol: 'SMPL',
-                  );
-                  return RoundButton(
-                    value: getIt<AppStore>().isBalanceHide ? '**** SMPL' : balance,
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
+                child: SafeGesture(
+                  onTap: () async {
+                    sAnalytics.tapOnTheButtonSimplecoinOnWalletScreen();
+                    await sRouter.push(const MySimpleCoinsRouter());
+                  },
+                  child: Container(
+                    height: 67,
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      image: const DecorationImage(
+                        image: AssetImage(simpleCoinAssetBackground),
+                        fit: BoxFit.contain,
+                        alignment: Alignment(0.2, 0),
+                      ),
+                      color: colors.extraLightsPurple,
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 9),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8, bottom: 4),
+                          child: Assets.svg.assets.crypto.smpl.simpleSvg(
+                            width: 24,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Text(
+                          intl.simplecoin_simplecoin,
+                          style: STStyles.subtitle1,
+                        ),
+                        const Spacer(),
+                        RoundButton(
+                          value: getIt<AppStore>().isBalanceHide ? '**** SMPL' : formatedBalance,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            : const Offstage();
+      },
     );
   }
 }
