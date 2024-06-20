@@ -2100,5 +2100,10 @@
     "simplecoin_by_clicking_collect": "By clicking \"Collect\", you agree to the",
     "simplecoin_disclaimer": "Disclaimer",
     "simplecoin_transaction_historyr": "Transaction history",
-    "simplecoin_my_simplecoins": "My Simplecoins"
+    "simplecoin_my_simplecoins": "My Simplecoins",
+    "buy_local_methods": "Local methods",
+    "buy_p2p_service": "P2P service",
+    "buy_transfer": "Transfer",
+    "buy_wallets_accounts": "Wallets & Accounts",
+    "buy_normally_transfer": "Normally transfer is processed within 30 min, sometimes up to 24 hours"
 }
