@@ -8,8 +8,9 @@
 // ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
 
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:vector_graphics/vector_graphics.dart';
 
 class $AssetsImagesGen {
   const $AssetsImagesGen();
@@ -24,26 +25,45 @@ class $AssetsImagesGen {
 class $AssetsSvgGen {
   const $AssetsSvgGen();
 
+  /// Directory path: assets/svg/assets
   $AssetsSvgAssetsGen get assets => const $AssetsSvgAssetsGen();
+
+  /// Directory path: assets/svg/brand
   $AssetsSvgBrandGen get brand => const $AssetsSvgBrandGen();
+
+  /// Directory path: assets/svg/invest
   $AssetsSvgInvestGen get invest => const $AssetsSvgInvestGen();
+
+  /// Directory path: assets/svg/large
   $AssetsSvgLargeGen get large => const $AssetsSvgLargeGen();
+
+  /// Directory path: assets/svg/medium
   $AssetsSvgMediumGen get medium => const $AssetsSvgMediumGen();
+
+  /// Directory path: assets/svg/other
   $AssetsSvgOtherGen get other => const $AssetsSvgOtherGen();
+
+  /// Directory path: assets/svg/payment_methods_cards
   $AssetsSvgPaymentMethodsCardsGen get paymentMethodsCards => const $AssetsSvgPaymentMethodsCardsGen();
+
+  /// Directory path: assets/svg/small
   $AssetsSvgSmallGen get small => const $AssetsSvgSmallGen();
 }
 
 class $AssetsSvgAssetsGen {
   const $AssetsSvgAssetsGen();
 
+  /// Directory path: assets/svg/assets/crypto
   $AssetsSvgAssetsCryptoGen get crypto => const $AssetsSvgAssetsCryptoGen();
+
+  /// Directory path: assets/svg/assets/fiat
   $AssetsSvgAssetsFiatGen get fiat => const $AssetsSvgAssetsFiatGen();
 }
 
 class $AssetsSvgBrandGen {
   const $AssetsSvgBrandGen();
 
+  /// Directory path: assets/svg/brand/small
   $AssetsSvgBrandSmallGen get small => const $AssetsSvgBrandSmallGen();
 }
 
@@ -382,6 +402,9 @@ class $AssetsSvgMediumGen {
   /// File path: assets/svg/medium/wallet.svg
   SvgGenImage get wallet => const SvgGenImage('assets/svg/medium/wallet.svg');
 
+  /// File path: assets/svg/medium/wallets.svg
+  SvgGenImage get wallets => const SvgGenImage('assets/svg/medium/wallets.svg');
+
   /// File path: assets/svg/medium/whatsapp.svg
   SvgGenImage get whatsapp => const SvgGenImage('assets/svg/medium/whatsapp.svg');
 
@@ -456,6 +479,7 @@ class $AssetsSvgMediumGen {
         userAlt,
         verify,
         wallet,
+        wallets,
         whatsapp,
         withdrawal
       ];
@@ -476,7 +500,10 @@ class $AssetsSvgOtherGen {
   /// File path: assets/svg/other/happy_simple_small.svg
   SvgGenImage get happySimpleSmall => const SvgGenImage('assets/svg/other/happy_simple_small.svg');
 
+  /// Directory path: assets/svg/other/large
   $AssetsSvgOtherLargeGen get large => const $AssetsSvgOtherLargeGen();
+
+  /// Directory path: assets/svg/other/medium
   $AssetsSvgOtherMediumGen get medium => const $AssetsSvgOtherMediumGen();
 
   /// File path: assets/svg/other/sad_simple_large.svg
@@ -485,6 +512,7 @@ class $AssetsSvgOtherGen {
   /// File path: assets/svg/other/sad_simple_small.svg
   SvgGenImage get sadSimpleSmall => const SvgGenImage('assets/svg/other/sad_simple_small.svg');
 
+  /// Directory path: assets/svg/other/small
   $AssetsSvgOtherSmallGen get small => const $AssetsSvgOtherSmallGen();
 
   /// List of all assets
@@ -494,6 +522,7 @@ class $AssetsSvgOtherGen {
 class $AssetsSvgPaymentMethodsCardsGen {
   const $AssetsSvgPaymentMethodsCardsGen();
 
+  /// Directory path: assets/svg/payment_methods_cards/simple
   $AssetsSvgPaymentMethodsCardsSimpleGen get simple => const $AssetsSvgPaymentMethodsCardsSimpleGen();
 }
 
@@ -689,9 +718,11 @@ class Assets {
 }
 
 class AssetGenImage {
-  const AssetGenImage(this._assetName);
+  const AssetGenImage(this._assetName, {this.size = null});
 
   final String _assetName;
+
+  final Size? size;
 
   Image image({
     Key? key,
@@ -763,9 +794,20 @@ class AssetGenImage {
 }
 
 class SvgGenImage {
-  const SvgGenImage(this._assetName);
+  const SvgGenImage(
+    this._assetName, {
+    this.size = null,
+  }) : _isVecFormat = false;
+
+  const SvgGenImage.vec(
+    this._assetName, {
+    this.size = null,
+  }) : _isVecFormat = true;
 
   final String _assetName;
+
+  final Size? size;
+  final bool _isVecFormat;
 
   SvgPicture svg({
     Key? key,
@@ -780,19 +822,19 @@ class SvgGenImage {
     WidgetBuilder? placeholderBuilder,
     String? semanticsLabel,
     bool excludeFromSemantics = false,
-    SvgTheme theme = const SvgTheme(),
+    SvgTheme? theme,
     ColorFilter? colorFilter,
     Clip clipBehavior = Clip.hardEdge,
     @deprecated Color? color,
     @deprecated BlendMode colorBlendMode = BlendMode.srcIn,
     @deprecated bool cacheColorFilter = false,
   }) {
-    return SvgPicture.asset(
-      _assetName,
+    return SvgPicture(
+      _isVecFormat
+          ? AssetBytesLoader(_assetName, assetBundle: bundle, packageName: package)
+          : SvgAssetLoader(_assetName, assetBundle: bundle, packageName: package),
       key: key,
       matchTextDirection: matchTextDirection,
-      bundle: bundle,
-      package: package,
       width: width,
       height: height,
       fit: fit,
@@ -802,9 +844,7 @@ class SvgGenImage {
       semanticsLabel: semanticsLabel,
       excludeFromSemantics: excludeFromSemantics,
       theme: theme,
-      colorFilter: colorFilter,
-      color: color,
-      colorBlendMode: colorBlendMode,
+      colorFilter: colorFilter ?? (color == null ? null : ColorFilter.mode(color, colorBlendMode)),
       clipBehavior: clipBehavior,
       cacheColorFilter: cacheColorFilter,
     );

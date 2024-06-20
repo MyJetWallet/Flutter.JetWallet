@@ -83,7 +83,7 @@ class SButton extends HookWidget {
       case ButtonType.text:
         return isLoading ? SColorsLight().gray2 : Colors.transparent;
       case ButtonType.outlined:
-        return isLoading ? SColorsLight().gray2 : Colors.transparent;
+        return isLoading ? SColorsLight().gray2 : SColorsLight().white;
     }
   }
 

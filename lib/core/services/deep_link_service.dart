@@ -833,7 +833,7 @@ class DeepLinkService {
               BlockingType.trade,
             ],
             or: () {
-              showCardOptions(context);
+              showGetSimpleCardModal(context: context);
             },
           );
         },
@@ -870,7 +870,7 @@ class DeepLinkService {
                     BlockingType.trade,
                   ],
                   or: () {
-                    showCardOptions(context);
+                    showGetSimpleCardModal(context: context);
                   },
                 );
               },

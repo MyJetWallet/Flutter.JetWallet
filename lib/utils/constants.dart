@@ -120,6 +120,7 @@ const flagsAsset = 'assets/images/flags.png';
 // Card page
 const simpleCardAsset = 'assets/images/card_example.png';
 const simpleCardBannerAsset = 'assets/images/simple_card_banner.png';
+const simpleCardRotatedAsset = 'assets/images/simple_card.png';
 
 // Send gift
 const shareGiftBackgroundAsset = 'assets/images/share_gift_background.png';

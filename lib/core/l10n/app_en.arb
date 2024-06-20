@@ -2063,11 +2063,11 @@
     "simplecoin_my_balance": "My balance",
     "simplecoin_roadmap": "Roadmap",
     "simplecoin_description": "We're excited to introduce our new Telegram mini-app! Start earning and saving our virtual coins now, and soon you'll find out all the great things you can get for them.",
-    "simplecoin_join_simple_tap": "Join Simple Coin",
+    "simplecoin_join_simple_tap": "Launch Simple Coin",
     "simplecoin_my_simplecoin": "My Simplecoin",
-    "simplecoin_launch_game": "Launch game Simple Coin",
-    "simplecoin_boost_tasks": "Boost & Tasks in Simple Coin",
-    "simplecoin_collect_coins": "Collect coins in Simple App",
+    "simplecoin_launch_game": "Simple Coin released!",
+    "simplecoin_boost_tasks": "Boosts, Tasks & Wheel of Fortune",
+    "simplecoin_collect_coins": "Collecting coins in Simple App",
     "simplecoin_scheduled_for_q2_2024": "Scheduled for Q2 2024",
     "simplecoin_token_smpl": "Token SMPL",
     "simplecoin_scheduled_for_q3_q4_2024": "Scheduled for Q3–Q4 2024",
@@ -2078,7 +2078,7 @@
     "simplecoin_simple_space": "Simple Space",
     "simplecoin_beta": "Beta",
     "simplecoin_collect_simplecoin": "Collect Simplecoin",
-    "simplecoin_you_have_been_sent": "You have been sent with {value} from the Simple Coin bot. Tap to collect.",
+    "simplecoin_you_have_been_sent": "You have been sent {value} from the Simple Coin bot. Tap to collect.",
     "@simplecoin_you_have_been_sent": {
         "placeholders": {
             "value": {
@@ -2097,8 +2097,18 @@
         }
     },
     "simplecoin_decline": "Decline",
-    "simplecoin_by_clicking_collect": "By clicking the \"Collect\", you agree to the",
+    "simplecoin_by_clicking_collect": "By clicking \"Collect\", you agree to the",
     "simplecoin_disclaimer": "Disclaimer",
     "simplecoin_transaction_historyr": "Transaction history",
-    "simplecoin_my_simplecoins": "My Simplecoins"
+    "simplecoin_my_simplecoins": "My Simplecoins",
+    "get_simple_card_this_can_be": "This can be:",
+    "get_simple_card_provide_documents": "To issue a Simple Card and open an account, you need to provide documents confirming your residency in one of the EU countries.",
+    "get_simple_card_eu_citizen_passport": "EU citizen passport",
+    "get_simple_card_residence_permit": "Residence permit",
+    "get_simple_card_need_confirm_residential_address": "You will also need to confirm your residential address:",
+    "get_simple_card_bank_statement": "Bank statement containing your name and address",
+    "get_simple_card_provide_tin": "During the verification process, you will also need to provide your TIN (Tax Identification Number).",
+    "get_simple_card_utility_bill": "Utility bill",
+    "next": "next",
+    "cancel": "cancel"
 }
