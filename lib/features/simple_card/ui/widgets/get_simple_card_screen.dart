@@ -54,9 +54,9 @@ class GetSimpleCardScreen extends StatelessWidget {
                 const Gap(16),
                 _StyledList(
                   firstLine: intl.get_simple_card_eu_citizen_passport,
-                  firstLineIcon: Assets.svg.large.home.simpleSvg(),
+                  firstLineIcon: Assets.svg.large.euro.simpleSvg(),
                   secondLine: intl.get_simple_card_residence_permit,
-                  secondLineIcon: Assets.svg.medium.wallets.simpleSvg(),
+                  secondLineIcon: Assets.svg.large.home.simpleSvg(),
                 ),
                 const Gap(16),
                 _StyledText(
@@ -67,7 +67,7 @@ class GetSimpleCardScreen extends StatelessWidget {
                   firstLine: intl.get_simple_card_bank_statement,
                   firstLineIcon: Assets.svg.large.bank.simpleSvg(),
                   secondLine: intl.get_simple_card_utility_bill,
-                  secondLineIcon: Assets.svg.large.home.simpleSvg(),
+                  secondLineIcon: Assets.svg.medium.document.simpleSvg(),
                 ),
                 const Gap(16),
                 _StyledText(

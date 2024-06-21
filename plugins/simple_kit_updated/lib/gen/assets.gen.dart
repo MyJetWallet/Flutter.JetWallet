@@ -182,6 +182,9 @@ class $AssetsSvgLargeGen {
   /// File path: assets/svg/large/crypto.svg
   SvgGenImage get crypto => const SvgGenImage('assets/svg/large/crypto.svg');
 
+  /// File path: assets/svg/large/euro.svg
+  SvgGenImage get euro => const SvgGenImage('assets/svg/large/euro.svg');
+
   /// File path: assets/svg/large/graph.svg
   SvgGenImage get graph => const SvgGenImage('assets/svg/large/graph.svg');
 
@@ -198,7 +201,7 @@ class $AssetsSvgLargeGen {
   SvgGenImage get wallets => const SvgGenImage('assets/svg/large/wallets.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [bank, card, chart, crypto, graph, home, portfolio, rewards, wallets];
+  List<SvgGenImage> get values => [bank, card, chart, crypto, euro, graph, home, portfolio, rewards, wallets];
 }
 
 class $AssetsSvgMediumGen {

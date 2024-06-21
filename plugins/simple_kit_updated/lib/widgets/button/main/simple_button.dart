@@ -129,6 +129,15 @@ class SButton extends HookWidget {
     }
   }
 
+  EdgeInsets? getPadding() {
+    switch (type) {
+      case ButtonType.outlined:
+        return const EdgeInsets.symmetric(vertical: 14, horizontal: 48);
+      default:
+        return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final isHighlighted = useState(false);
@@ -138,18 +147,20 @@ class SButton extends HookWidget {
       callback: isLoading ? null : callback,
       backgroundColor: isHighlighted.value ? backgroundHighlightedColor() : backgroundColor(),
       border: getBorder(),
+      padding: getPadding(),
       onHighlightChanged: (p0) {
         isHighlighted.value = p0;
       },
       child: isLoading
           ? SizedBox(
-              width: 20,
-              height: 20,
+              width: 24,
+              height: 24,
               child: CircularProgressIndicator(
                 color: textColor(),
               ),
             )
-          : Center(
+          : Padding(
+              padding: const EdgeInsets.symmetric(vertical: 3),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -157,11 +168,14 @@ class SButton extends HookWidget {
                     icon!,
                     const SizedBox(width: 8),
                   ],
-                  Text(
-                    text,
-                    maxLines: 3,
-                    style: STStyles.button.copyWith(
-                      color: textColor(),
+                  Expanded(
+                    child: Text(
+                      text,
+                      style: STStyles.button.copyWith(
+                        color: textColor(),
+                        height: 1,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ],
