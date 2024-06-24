@@ -184,7 +184,7 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
         buyAmount: buyAmount,
         buyAsset: buyAsset ?? '',
         paymentAsset: paymentAssetSumbol,
-        buyFixed: isFromFixed,
+        buyFixed: !isFromFixed,
         paymentMethod: CirclePaymentMethod.paymeP2P,
         p2PPaymentData: P2PPaymentData(
           receiveMethodId: p2pMethod?.methodId ?? '',
