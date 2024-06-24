@@ -98,7 +98,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                 WhatToWhatConvertWidget(
                   isLoading: !store.isDataLoaded,
                   fromAssetIconUrl: store.buyCurrency.iconUrl,
-                  fromAssetDescription: store.buyCurrency.symbol,
+                  fromAssetDescription: store.buyCurrency.description,
                   fromAssetValue: volumeFormat(
                     symbol: store.buyCurrency.symbol,
                     accuracy: store.buyCurrency.accuracy,

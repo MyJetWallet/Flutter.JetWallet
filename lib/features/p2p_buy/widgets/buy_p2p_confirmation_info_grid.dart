@@ -1,7 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/p2p_buy/store/buy_p2p_confirmation_store.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
@@ -78,7 +77,7 @@ class _ConfirmationInfoGridState extends State<BuyP2PConfirmationInfoGrid> with 
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                intl.sell_confirmation_sell_to,
+                'Paid with',
                 style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
               ),
               if (store.isDataLoaded) ...[
@@ -117,7 +116,7 @@ class _ConfirmationInfoGridState extends State<BuyP2PConfirmationInfoGrid> with 
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              intl.buy_confirmation_price,
+              'Conversion rate',
               style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
             ),
             const Spacer(),

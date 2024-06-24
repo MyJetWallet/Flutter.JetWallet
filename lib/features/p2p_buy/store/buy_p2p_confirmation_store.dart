@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:data_channel/data_channel.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +13,6 @@ import 'package:jetwallet/core/services/remote_config/remote_config_values.dart'
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/utils/device_binding_required_flow/show_device_binding_required_flow.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
@@ -217,12 +215,8 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
         },
       );
     } on ServerRejectException catch (error) {
-      loader.finishLoadingImmediately();
-
       unawaited(_showFailureScreen(error.cause));
     } catch (error) {
-      loader.finishLoadingImmediately();
-
       unawaited(_showFailureScreen(intl.something_went_wrong));
     } finally {
       loader.finishLoadingImmediately();
@@ -237,7 +231,7 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
 
     errorHasHeppened = true;
 
-    if (sRouter.currentPath != '/buy_flow_confirmation') {
+    if (sRouter.currentPath != '/buy_p2p_confirmation') {
       return;
     }
 
@@ -327,22 +321,8 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
 
   @action
   Future<void> _requestPaymentAccaunt() async {
-    var pin = '';
     try {
       termiteUpdate();
-
-      await sRouter.push(
-        PinScreenRoute(
-          union: const Change(),
-          isChangePhone: true,
-          onChangePhone: (String newPin) async {
-            pin = newPin;
-            await sRouter.maybePop();
-          },
-        ),
-      );
-
-      if (pin == '') return;
 
       showProcessing = true;
       wasAction = true;
@@ -361,8 +341,6 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
 
       loader.startLoadingImmediately();
 
-      late DC<ServerRejectException, dynamic> resp;
-
       final model = CardBuyExecuteRequestModel(
         paymentId: paymentId,
         paymentMethod: CirclePaymentMethod.paymeP2P,
@@ -371,7 +349,7 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
         ),
       );
 
-      resp = await sNetwork.getWalletModule().postCardBuyExecute(
+      final resp = await sNetwork.getWalletModule().postCardBuyExecute(
             model,
             cancelToken: cancelToken,
           );
