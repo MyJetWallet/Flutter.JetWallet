@@ -75,7 +75,7 @@ class _BuyP2pPeymentMethodScreenState extends State<BuyP2pPeymentMethodScreen> {
                 crossAxisCount: 2,
                 mainAxisSpacing: 8,
                 crossAxisSpacing: 12,
-                childAspectRatio: 1 / .59,
+                childAspectRatio: 1 / .64,
               ),
               itemCount: methods.length,
               itemBuilder: (context, i) => PaymentMethodCard.card(
