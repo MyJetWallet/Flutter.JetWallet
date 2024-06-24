@@ -33,7 +33,9 @@ class PropertyType {
   static const eurAccountFromLabel = 'EUR Account_From label';
   static const eurAccountLabel = 'EUR Account label';
   static const eurAccountType = 'EUR Account type';
+  static const eventCategory = 'Event category';
   static const eventId = 'Event id';
+  static const eventType = 'Event type';
   static const favouritesAssetsList = 'Favourites assets list';
   static const fiatAccountLabel = 'Fiat account label';
   static const fullWithdrawType = 'Full withdraw type';
