@@ -116,7 +116,7 @@ class _AppBuilderBodyState extends State<AppBuilderBody> with WidgetsBindingObse
   @override
   Widget build(BuildContext context) {
     return TimerServiceProvider(
-      service: TimerService(),
+      service: getIt<TimerService>(),
       child: SimpleActivityDetector(
         onShoulNavigate: (_) {},
         child: MediaQuery(

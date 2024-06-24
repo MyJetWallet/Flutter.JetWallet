@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
@@ -11,20 +12,24 @@ import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
+import '../../core/services/route_query_service.dart';
+
+@lazySingleton
 class TimerService extends ChangeNotifier {
   Timer? _timer;
+  bool _isPinScreenOpen = false;
 
   Duration get currentDuration => _currentDuration;
   final Duration _currentDuration = Duration.zero;
 
-  bool get isRunning => _timer != null;
+  bool get isPinScreenOpen => _isPinScreenOpen;
 
   void _finish(Timer timer) {
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
       sAnalytics.pinAfterWaiting(timeAfterBlock: 300);
-
+      _isPinScreenOpen = true;
       getIt.get<BottomBarStore>().setHomeTab(BottomItemType.wallets);
 
       getIt<AppRouter>().replaceAll([
@@ -33,6 +38,7 @@ class TimerService extends ChangeNotifier {
           cannotLeave: true,
           displayHeader: false,
           onVerificationEnd: () {
+            _isPinScreenOpen = false;
             sRouter.replaceAll([
               const HomeRouter(
                 children: [
@@ -40,6 +46,14 @@ class TimerService extends ChangeNotifier {
                 ],
               ),
             ]);
+            Future.delayed(
+              const Duration(milliseconds: 150),
+              () {
+                if (!getIt<RouteQueryService>().isNavigate) {
+                  getIt<RouteQueryService>().runQuery();
+                }
+              },
+            );
           },
         ),
       ]);
@@ -98,16 +112,17 @@ class SimpleActivityDetector extends StatefulWidget {
 }
 
 class _SimpleActivityDetectorState extends State<SimpleActivityDetector> {
-  TimerService? _timerService;
+  final TimerService _timerService = getIt<TimerService>();
+
+  @override
+  void initState() {
+    super.initState();
+    _timerService.start();
+    _timerService.addListener(_handleTimerNotifier);
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (_timerService == null) {
-      _timerService = TimerService.of(context);
-      _timerService!.start();
-      _timerService!.addListener(_handleTimerNotifier);
-    }
-
     return GestureDetector(
       onTap: _hangeUserInteraction,
       onPanDown: _hangeUserInteraction,
@@ -117,7 +132,7 @@ class _SimpleActivityDetectorState extends State<SimpleActivityDetector> {
   }
 
   void _hangeUserInteraction([_]) {
-    _timerService!.reset();
+    _timerService.reset();
   }
 
   void _handleTimerNotifier() {}

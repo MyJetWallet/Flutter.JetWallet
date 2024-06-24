@@ -33,6 +33,7 @@ class ClaimSimplecoin {
   static bool isPopUpAlredyShoving = false;
 
   Future<void> pushCollectSimplecoinDialog({required List<SmplRequestModel> requests}) async {
+    final timerService = getIt<TimerService>();
     final isSimpleTapTokenAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
         .any((element) => element.id == AssetPaymentProductsEnum.simpleTapToken);
 
@@ -46,11 +47,9 @@ class ClaimSimplecoin {
 
     if (_querySimpleCoinRequests.isEmpty || isPopUpAlredyShoving) return;
 
-    final context = sRouter.navigatorKey.currentContext!;
-
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().authorizedStatus is Home &&
-        TimerService.of(context).isRunning) {
+        timerService.isPinScreenOpen == false) {
       final context = sRouter.navigatorKey.currentContext!;
       if (context.mounted) {
         await showCollectSimplecoinDialog(
