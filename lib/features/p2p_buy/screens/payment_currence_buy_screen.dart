@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,7 +8,6 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/countries_service.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/buy_flow/store/payment_method_store.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
@@ -91,26 +89,9 @@ class PaymentCurrenceBuyScreen extends StatelessWidget {
 
     final baseCurrency = sSignalRModules.baseCurrency;
 
-    for (var i = 0; i < currency.buyMethods.length; i++) {
-      for (var g = 0; g < currency.buyMethods[i].paymentAssets!.length; g++) {
-        if (!checkIsCurrencyAlreadyAdd(
-          currency.buyMethods[i].paymentAssets![g].asset,
-          availableCurrency,
-        )) {
-          final isLimitNotReach = currency.buyMethods[i].paymentAssets![g].maxAmount != Decimal.zero;
+    final p2pBuyMethod = currency.buyMethods.firstWhere((buyMethod) => buyMethod.id == PaymentMethodType.paymeP2P);
 
-          if (currency.buyMethods[i].category == PaymentMethodCategory.cards) {
-            if (!isCardReachLimit(currency.buyMethods[i].paymentAssets![g]) && isLimitNotReach) {
-              availableCurrency.add(currency.buyMethods[i].paymentAssets![g]);
-            }
-          } else {
-            if (isLimitNotReach) {
-              availableCurrency.add(currency.buyMethods[i].paymentAssets![g]);
-            }
-          }
-        }
-      }
-    }
+    availableCurrency.addAll(p2pBuyMethod.paymentAssets ?? []);
 
     availableCurrency.sort(
       (a, b) {

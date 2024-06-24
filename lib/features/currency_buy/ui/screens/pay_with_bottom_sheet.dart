@@ -190,7 +190,8 @@ class PayWithScreen extends StatelessObserverWidget {
                 ),
                 hasRightValue: false,
                 onTableAssetTap: () {
-                  if (sSignalRModules.pendingOperationCount > 1) {
+                  // TODO (yaroslav): change this late
+                  if (!(sSignalRModules.pendingOperationCount > 1)) {
                     showUnfinishedOperationPopUp(context);
                   } else {
                     sRouter.push(PaymentCurrenceBuyRouter(currency: asset!));

@@ -42,8 +42,13 @@ class _BuyP2pPeymentMethodScreenState extends State<BuyP2pPeymentMethodScreen> {
       getIt.get<GlobalLoader>().setLoading(true);
       final responce = await sNetwork.getWalletModule().getP2PMethods();
 
-      setState(() {
-        methods = responce.data?.methods ?? [];
+      final result =
+          (responce.data?.methods.where((method) => method.asset == widget.paymentCurrecy.asset) ?? []).toList();
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        setState(() {
+          methods.addAll(result);
+        });
       });
     } catch (e) {
       getIt.get<GlobalLoader>().setLoading(false);
