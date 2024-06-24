@@ -190,7 +190,11 @@ class PayWithScreen extends StatelessObserverWidget {
                 ),
                 hasRightValue: false,
                 onTableAssetTap: () {
-                  sRouter.push(PaymentCurrenceBuyRouter(currency: asset!));
+                  if (sSignalRModules.pendingOperationCount > 1) {
+                    showUnfinishedOperationPopUp(context);
+                  } else {
+                    sRouter.push(PaymentCurrenceBuyRouter(currency: asset!));
+                  }
                 },
               ),
             ],
@@ -267,4 +271,31 @@ class PayWithScreen extends StatelessObserverWidget {
       ),
     );
   }
+}
+
+Future<void> showUnfinishedOperationPopUp(BuildContext context) async {
+  await sShowAlertPopup(
+    context,
+    primaryText: intl.p2p_buy_unfinished_operation,
+    secondaryText: intl.p2p_buy_you_have_unfinished,
+    primaryButtonName: intl.prepaid_card_continue,
+    secondaryButtonName: intl.profileDetails_cancel,
+    textAlign: TextAlign.left,
+    image: Image.asset(
+      infoLightAsset,
+      width: 80,
+      height: 80,
+      package: 'simple_kit',
+    ),
+    onPrimaryButtonTap: () async {
+      await sRouter.push(
+        TransactionHistoryRouter(
+          initialIndex: 1,
+        ),
+      );
+    },
+    onSecondaryButtonTap: () {
+      Navigator.pop(context);
+    },
+  );
 }
