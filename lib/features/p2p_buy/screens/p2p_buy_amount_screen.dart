@@ -3,9 +3,11 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/p2p_buy/store/buy_p2p_amount_store.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
@@ -85,6 +87,12 @@ class P2PBuyAmountScreen extends StatelessWidget {
                                   store.swapAssets();
                                 },
                                 errorText: store.paymentMethodInputError,
+                                optionText: store.fiatInputValue == '0'
+                                    ? '''${intl.return_to_wallet_max} ${getIt<AppStore>().isBalanceHide ? '**** ${store.asset?.symbol}' : volumeFormat(decimal: store.maxBuyAmount, accuracy: store.asset?.accuracy ?? 1, symbol: store.asset?.symbol ?? '')}'''
+                                    : null,
+                                optionOnTap: () {
+                                  store.onBuyAll();
+                                },
                                 pasteLabel: intl.paste,
                                 onPaste: () async {
                                   final data = await Clipboard.getData('text/plain');
@@ -97,6 +105,7 @@ class P2PBuyAmountScreen extends StatelessWidget {
                                   }
                                 },
                               ),
+                              const Spacer(),
                               SuggestionButtonWidget(
                                 title: store.asset?.description,
                                 subTitle: intl.amount_screen_buy,

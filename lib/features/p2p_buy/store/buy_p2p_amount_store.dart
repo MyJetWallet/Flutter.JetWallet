@@ -8,7 +8,6 @@ import 'package:jetwallet/core/services/conversion_price_service/conversion_pric
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
@@ -159,7 +158,28 @@ abstract class _BuyP2PAmountStoreBase with Store {
 
   @computed
   int get fiatAccuracy {
-    return sSignalRModules.currenciesList.firstWhere((element) => element.symbol == fiatSymbol).accuracy;
+    return 2;
+  }
+
+  @action
+  void onBuyAll() {
+    if (isFiatEntering) {
+      fiatInputValue = responseOnInputAction(
+        oldInput: primaryAmount,
+        newInput: maxLimit.toString(),
+        accuracy: asset?.accuracy ?? 2,
+      );
+      _calculateCryptoConversion();
+    } else {
+      cryptoInputValue = responseOnInputAction(
+        oldInput: primaryAmount,
+        newInput: maxLimit.toString(),
+        accuracy: asset?.accuracy ?? 2,
+      );
+      _calculateFiatConversion();
+    }
+
+    _validateInput();
   }
 
   @action
@@ -267,32 +287,32 @@ abstract class _BuyP2PAmountStoreBase with Store {
   }
 
   @observable
-  Decimal _minSellAmount = Decimal.zero;
+  Decimal minSellAmount = Decimal.zero;
 
   @observable
-  Decimal _maxSellAmount = Decimal.zero;
+  Decimal maxSellAmount = Decimal.zero;
 
   @observable
-  Decimal _minBuyAmount = Decimal.zero;
+  Decimal minBuyAmount = Decimal.zero;
 
   @observable
-  Decimal _maxBuyAmount = Decimal.zero;
+  Decimal maxBuyAmount = Decimal.zero;
 
   @computed
-  Decimal get minLimit => isFiatEntering ? _minSellAmount : _minBuyAmount;
+  Decimal get minLimit => isFiatEntering ? minSellAmount : minBuyAmount;
 
   @computed
-  Decimal get maxLimit => isFiatEntering ? _maxSellAmount : _maxBuyAmount;
+  Decimal get maxLimit => isFiatEntering ? maxSellAmount : maxBuyAmount;
 
   @computed
   int get maxWholePrartLenght => (maxLimit != Decimal.zero) ? maxLimit.round().toString().length + 1 : 15;
 
   @action
   Future<void> loadLimits() async {
-    _minSellAmount = Decimal.zero;
-    _maxSellAmount = Decimal.zero;
-    _minBuyAmount = Decimal.zero;
-    _maxBuyAmount = Decimal.zero;
+    minSellAmount = Decimal.zero;
+    maxSellAmount = Decimal.zero;
+    minBuyAmount = Decimal.zero;
+    maxBuyAmount = Decimal.zero;
 
     try {
       final model = BuyLimitsRequestModel(
@@ -304,10 +324,10 @@ abstract class _BuyP2PAmountStoreBase with Store {
       final response = await sNetwork.getWalletModule().postBuyLimits(model);
       response.pick(
         onData: (data) {
-          _minSellAmount = data.minSellAmount;
-          _maxSellAmount = data.maxSellAmount;
-          _minBuyAmount = data.minBuyAmount;
-          _maxBuyAmount = data.maxBuyAmount;
+          minSellAmount = data.minSellAmount;
+          maxSellAmount = data.maxSellAmount;
+          minBuyAmount = data.minBuyAmount;
+          maxBuyAmount = data.maxBuyAmount;
         },
         onError: (error) {
           sNotification.showError(
