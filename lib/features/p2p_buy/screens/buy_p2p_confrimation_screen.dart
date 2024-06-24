@@ -97,20 +97,14 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
               children: [
                 WhatToWhatConvertWidget(
                   isLoading: !store.isDataLoaded,
-                  fromAssetIconUrl: store.payCurrency.iconUrl,
-                  fromAssetDescription: store.payCurrency.symbol,
+                  fromAssetIconUrl: store.buyCurrency.iconUrl,
+                  fromAssetDescription: store.buyCurrency.symbol,
                   fromAssetValue: volumeFormat(
-                    symbol: store.payCurrency.symbol,
-                    accuracy: store.payCurrency.accuracy,
+                    symbol: store.buyCurrency.symbol,
+                    accuracy: store.buyCurrency.accuracy,
                     decimal: store.paymentAmount ?? Decimal.zero,
                   ),
-                  toAssetIconUrl: store.buyCurrency.iconUrl,
-                  toAssetDescription: store.buyCurrency.description,
-                  toAssetValue: volumeFormat(
-                    decimal: store.buyAmount ?? Decimal.zero,
-                    accuracy: store.buyCurrency.accuracy,
-                    symbol: store.buyCurrency.symbol,
-                  ),
+                  hasSecondAsset: false,
                 ),
                 BuyP2PConfirmationInfoGrid(
                   paymentFee: volumeFormat(

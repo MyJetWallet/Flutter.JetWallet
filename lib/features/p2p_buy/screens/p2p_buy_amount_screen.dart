@@ -108,6 +108,7 @@ class P2PBuyAmountScreen extends StatelessWidget {
                               ),
                               const SpaceH8(),
                               SuggestionButtonWidget(
+                                title: store.p2pMethod?.name,
                                 subTitle: intl.amount_screen_pay_with,
                                 icon: SNetworkCachedSvg(
                                   url: iconForPaymentMethod(
@@ -138,7 +139,7 @@ class P2PBuyAmountScreen extends StatelessWidget {
                     onSubmitPressed: () {
                       sRouter.push(
                         BuyP2PConfirmationRoute(
-                          asset: store.buyCurrency,
+                          asset: store.asset!,
                           paymentAsset: store.paymentAsset!,
                           p2pMethod: store.p2pMethod!,
                           isFromFixed: store.isFiatEntering,
