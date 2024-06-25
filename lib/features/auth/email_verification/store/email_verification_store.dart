@@ -9,7 +9,6 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/apps_flyer_service.dart';
-import 'package:jetwallet/core/services/credentials_service/credentials_service.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
@@ -101,12 +100,12 @@ abstract class _EmailVerificationStoreBase with Store {
     final deviceInfoModel = sDeviceInfo;
     final appsFlyerService = getIt.get<AppsFlyerService>();
     final appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID() ?? '';
-    final credentials = getIt.get<CredentialsService>();
+    final email = getIt.get<AppStore>().authState.email;
 
     _updateIsResending(true);
     try {
       final model = StartEmailLoginRequestModel(
-        email: credentials.email,
+        email: email,
         platform: currentPlatform,
         deviceUid: deviceInfoModel.deviceUid,
         lang: intl.localeName,
@@ -118,7 +117,7 @@ abstract class _EmailVerificationStoreBase with Store {
 
       response.pick(
         onData: (data) {
-          getIt.get<AppStore>().updateAuthState(email: credentials.email);
+          getIt.get<AppStore>().updateAuthState(email: email);
           getIt.get<AppStore>().updateVerificationToken(data.verificationToken);
 
           timer.refreshTimer();
