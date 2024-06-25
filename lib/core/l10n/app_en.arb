@@ -2109,5 +2109,15 @@
     "p2p_buy_unfinished_operation": "Unfinished operation",
     "p2p_buy_you_have_unfinished": "You have unfinished transactions through the P2P service.\n\nTo check the status of the transaction or to cancel it, click the Continue.",
     "p2p_buy_conversion_rate": "Conversion rate",
-    "p2p_buy_payment_management": "Payment management"
+    "p2p_buy_payment_management": "Payment management",
+    "get_simple_card_this_can_be": "This can be:",
+    "get_simple_card_provide_documents": "To issue a Simple Card and open an account, you need to provide documents confirming your residency in one of the EU countries.",
+    "get_simple_card_eu_citizen_passport": "EU citizen passport",
+    "get_simple_card_residence_permit": "Residence permit",
+    "get_simple_card_need_confirm_residential_address": "You will also need to confirm your residential address:",
+    "get_simple_card_bank_statement": "Bank statement containing your name and address",
+    "get_simple_card_provide_tin": "During the verification process, you will also need to provide your TIN (Tax Identification Number).",
+    "get_simple_card_utility_bill": "Utility bill",
+    "next": "next",
+    "cancel": "cancel"
 }

@@ -189,6 +189,7 @@ import '../../features/send_gift/screens/gift_amount.dart';
 import '../../features/send_gift/screens/gift_order_summary.dart';
 import '../../features/send_gift/screens/gift_receivers_details_screen.dart';
 import '../../features/send_gift/screens/gift_select_asset_screen.dart';
+import '../../features/simple_card/ui/widgets/get_simple_card_screen.dart';
 
 part 'app_router.gr.dart';
 
@@ -813,6 +814,11 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/buy_p2p_confirmation',
       page: BuyP2PConfirmationRoute.page,
+    ),
+    AutoRoute(
+      path: '/get_simple_card',
+      page: GetSimpleCardRouter.page,
+      fullscreenDialog: true,
     ),
   ];
 }
