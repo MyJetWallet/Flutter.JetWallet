@@ -4,14 +4,17 @@ import 'package:flutter/widgets.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/prevent_duplication_events_servise.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/widgets/payment_method_card.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/wallet_api/models/p2p_methods/p2p_methods_responce_model.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 @RoutePage(name: 'BuyP2pPeymentMethodRouter')
 class BuyP2pPeymentMethodScreen extends StatefulWidget {
@@ -59,43 +62,71 @@ class _BuyP2pPeymentMethodScreenState extends State<BuyP2pPeymentMethodScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SPageFrame(
-      loaderText: '',
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.buy_flow_payment_method,
-        ),
-      ),
-      child: CustomScrollView(
-        slivers: [
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            sliver: SliverGrid.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 8,
-                crossAxisSpacing: 12,
-                childAspectRatio: 1 / .64,
-              ),
-              itemCount: methods.length,
-              itemBuilder: (context, i) => PaymentMethodCard.card(
-                name: methods[i].name,
-                url: iconForPaymentMethod(
-                  methodId: methods[i].methodId,
-                ),
-                onTap: () {
-                  sRouter.push(
-                    P2PBuyAmountRouter(
-                      currency: widget.currency,
-                      p2pMethod: methods[i],
-                      paymentCurrecy: widget.paymentCurrecy,
-                    ),
+    return VisibilityDetector(
+      key: const Key('buy_p2p_peyment_method_screen'),
+      onVisibilityChanged: (info) {
+        if (info.visibleFraction == 1) {
+          getIt.get<PreventDuplicationEventsService>().sendEvent(
+                id: 'buy_p2p_peyment_method_screen',
+                event: () {
+                  sAnalytics.ptpBuyPaymentMethodScreenView(
+                    asset: widget.currency.symbol,
+                    ptpCurrency: widget.paymentCurrecy.asset,
                   );
                 },
+              );
+        }
+      },
+      child: SPageFrame(
+        loaderText: '',
+        header: SPaddingH24(
+          child: SSmallHeader(
+            title: intl.buy_flow_payment_method,
+            onBackButtonTap: () {
+              sAnalytics.tapOnTheBackFromPTPBuyPaymentMethodButton(
+                asset: widget.currency.symbol,
+                ptpCurrency: widget.paymentCurrecy.asset,
+              );
+              sRouter.maybePop();
+            },
+          ),
+        ),
+        child: CustomScrollView(
+          slivers: [
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              sliver: SliverGrid.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 8,
+                  crossAxisSpacing: 12,
+                  childAspectRatio: 1 / .64,
+                ),
+                itemCount: methods.length,
+                itemBuilder: (context, i) => PaymentMethodCard.card(
+                  name: methods[i].name,
+                  url: iconForPaymentMethod(
+                    methodId: methods[i].methodId,
+                  ),
+                  onTap: () {
+                    sAnalytics.tapOnThePTPBuyMethodButton(
+                      asset: widget.currency.symbol,
+                      ptpCurrency: widget.paymentCurrecy.asset,
+                      ptpBuyMethod: methods[i].name,
+                    );
+                    sRouter.push(
+                      P2PBuyAmountRouter(
+                        currency: widget.currency,
+                        p2pMethod: methods[i],
+                        paymentCurrecy: widget.paymentCurrecy,
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -61,6 +61,7 @@ void showPayWithBottomSheet({
                   : 'Unlimint ${store.accounts[index].last4IbanCharacters}';
             },
           ),
+        if (store.isP2PAvaible) 'PTP',
       ],
     );
 
@@ -190,6 +191,12 @@ class PayWithScreen extends StatelessObserverWidget {
                 ),
                 hasRightValue: false,
                 onTableAssetTap: () {
+                  sAnalytics.tapOnTheButtonSomePMForBuyOnPayWithPMSheet(
+                    destinationWallet: asset?.symbol ?? '',
+                    pmType: PaymenthMethodType.ptp,
+                    buyPM: 'PTP',
+                  );
+
                   if (sSignalRModules.pendingOperationCount > 1) {
                     showUnfinishedOperationPopUp(context);
                   } else {
