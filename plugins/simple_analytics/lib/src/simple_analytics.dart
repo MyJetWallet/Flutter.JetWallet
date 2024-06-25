@@ -1,6 +1,8 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import '../simple_analytics.dart';
+import 'models/event_category.dart';
+import 'models/event_name.dart';
 import 'models/event_type.dart';
 import 'models/property_type.dart';
 
@@ -73,266 +75,314 @@ class SimpleAnalytics {
 
   void signInFlowEnterEmailView() {
     _analytics.logEvent(
-      EventType.signInFlowEnterEmailView,
+      EventName.signInFlowEnterEmailView,
       eventProperties: {
         PropertyType.techAcc: 'none',
         PropertyType.eventId: '37',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
       },
     );
   }
 
   void signInFlowTapToAgreeTCPP() {
     _analytics.logEvent(
-      EventType.signInFlowTapToAgreeTCPP,
+      EventName.signInFlowTapToAgreeTCPP,
       eventProperties: {
         PropertyType.techAcc: 'none',
         PropertyType.eventId: '38',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
       },
     );
   }
 
   void signInFlowEmailContinue() {
     _analytics.logEvent(
-      EventType.signInFlowEmailContinue,
+      EventName.signInFlowEmailContinue,
       eventProperties: {
         PropertyType.techAcc: 'none',
         PropertyType.eventId: '39',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
       },
     );
   }
 
   void signInFlowEmailVerificationView() {
     _analytics.logEvent(
-      EventType.signInFlowEmailVerificationView,
+      EventName.signInFlowEmailVerificationView,
       eventProperties: {
         PropertyType.techAcc: 'none',
         PropertyType.eventId: '40',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
       },
     );
   }
 
   void signInFlowOpenEmailApp() {
     _analytics.logEvent(
-      EventType.signInFlowOpenEmailApp,
+      EventName.signInFlowOpenEmailApp,
       eventProperties: {
         PropertyType.techAcc: 'none',
         PropertyType.eventId: '41',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
       },
     );
   }
 
   void signInFlowSelectAnAppScreenView() {
     _analytics.logEvent(
-      EventType.signInFlowSelectAnAppScreenView,
+      EventName.signInFlowSelectAnAppScreenView,
       eventProperties: {
         PropertyType.techAcc: 'none',
         PropertyType.eventId: '42',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
       },
     );
   }
 
   void signInFlowTapRememberMyChoice() {
     _analytics.logEvent(
-      EventType.signInFlowTapRememberMyChoice,
+      EventName.signInFlowTapRememberMyChoice,
       eventProperties: {
         PropertyType.techAcc: 'none',
         PropertyType.eventId: '43',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
       },
     );
   }
 
   void signInFlowTapResend() {
     _analytics.logEvent(
-      EventType.signInFlowTapResend,
+      EventName.signInFlowTapResend,
       eventProperties: {
         PropertyType.techAcc: 'none',
         PropertyType.eventId: '44',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
       },
     );
   }
 
   void signInFlowPleaseWait() {
     _analytics.logEvent(
-      EventType.signInFlowPleaseWait,
+      EventName.signInFlowPleaseWait,
       eventProperties: {
         PropertyType.techAcc: 'none',
         PropertyType.eventId: '45',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
       },
     );
   }
 
   void signInFlowErrorVerificationCode() {
     _analytics.logEvent(
-      EventType.signInFlowErrorVerificationCode,
+      EventName.signInFlowErrorVerificationCode,
       eventProperties: {
         PropertyType.techAcc: 'none',
         PropertyType.eventId: '46',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.error.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
       },
     );
   }
 
   void signInFlowPhoneNumberView() {
     _analytics.logEvent(
-      EventType.signInFlowPhoneNumberView,
+      EventName.signInFlowPhoneNumberView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '47',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
       },
     );
   }
 
   void signInFlowPhoneNumberContinue() {
     _analytics.logEvent(
-      EventType.signInFlowPhoneNumberContinue,
+      EventName.signInFlowPhoneNumberContinue,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '48',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
       },
     );
   }
 
   void signInFlowPhoneConfirmView() {
     _analytics.logEvent(
-      EventType.signInFlowPhoneConfirmView,
+      EventName.signInFlowPhoneConfirmView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '49',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
       },
     );
   }
 
   void signInFlowPhoneReceiveCodePhoneCall() {
     _analytics.logEvent(
-      EventType.signInFlowPhoneReceiveCodePhoneCall,
+      EventName.signInFlowPhoneReceiveCodePhoneCall,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '50',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
       },
     );
   }
 
   void signInFlowPhoneConfirmWrongPhone({required String errorCode}) {
     _analytics.logEvent(
-      EventType.signInFlowPhoneConfirmWrongPhone,
+      EventName.signInFlowPhoneConfirmWrongPhone,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '51',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.errorCode: errorCode,
+        PropertyType.eventType: EventType.error.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
       },
     );
   }
 
   void signInFlowPersonalDetailsView() {
     _analytics.logEvent(
-      EventType.signInFlowPersonalDetailsView,
+      EventName.signInFlowPersonalDetailsView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '52',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.signUp.id,
       },
     );
   }
 
   void signInFlowDateSheetView() {
     _analytics.logEvent(
-      EventType.signInFlowDateSheetView,
+      EventName.signInFlowDateSheetView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '53',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.signUp.id,
       },
     );
   }
 
   void signInFlowDateContinue() {
     _analytics.logEvent(
-      EventType.signInFlowDateContinue,
+      EventName.signInFlowDateContinue,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '54',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.signUp.id,
       },
     );
   }
 
   void signInFlowSelectCountryView() {
     _analytics.logEvent(
-      EventType.signInFlowSelectCountryView,
+      EventName.signInFlowSelectCountryView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '55',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.signUp.id,
       },
     );
   }
 
   void signInFlowErrorCountryBlocked({required String erroCode}) {
     _analytics.logEvent(
-      EventType.signInFlowErrorCountryBlocked,
+      EventName.signInFlowErrorCountryBlocked,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '56',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.errorCode: erroCode,
+        PropertyType.eventType: EventType.error.name,
+        PropertyType.eventCategory: EventCategory.signUp.id,
       },
     );
   }
 
   void signInFlowPersonalContinue() {
     _analytics.logEvent(
-      EventType.signInFlowPersonalContinue,
+      EventName.signInFlowPersonalContinue,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '57',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.signUp.id,
       },
     );
   }
 
   void signInFlowPersonalScreenViewLoading() {
     _analytics.logEvent(
-      EventType.signInFlowPersonalScreenViewLoading,
+      EventName.signInFlowPersonalScreenViewLoading,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '58',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.signUp.id,
       },
     );
   }
 
   void signInFlowCreatePinView() {
     _analytics.logEvent(
-      EventType.signInFlowCreatePinView,
+      EventName.signInFlowCreatePinView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '63',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.signUp.id,
       },
     );
   }
 
   void signInFlowConfirmPinView() {
     _analytics.logEvent(
-      EventType.signInFlowConfirmPinView,
+      EventName.signInFlowConfirmPinView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '64',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.signUp.id,
       },
     );
   }
@@ -341,12 +391,14 @@ class SimpleAnalytics {
     required String error,
   }) {
     _analytics.logEvent(
-      EventType.signInFlowErrorPin,
+      EventName.signInFlowErrorPin,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '65',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.errorCode: error,
+        PropertyType.eventType: EventType.error.name,
+        PropertyType.eventCategory: EventCategory.signUp.id,
       },
     );
   }
@@ -355,12 +407,14 @@ class SimpleAnalytics {
     required String biometric,
   }) {
     _analytics.logEvent(
-      EventType.signInFlowEnableBiometricView,
+      EventName.signInFlowEnableBiometricView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '66',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.biometric: biometric,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
       },
     );
   }
@@ -369,12 +423,14 @@ class SimpleAnalytics {
     required String biometric,
   }) {
     _analytics.logEvent(
-      EventType.signInFlowEnableFaceID,
+      EventName.signInFlowEnableFaceID,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '67',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.biometric: biometric,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
       },
     );
   }
@@ -383,12 +439,14 @@ class SimpleAnalytics {
     required String biometric,
   }) {
     _analytics.logEvent(
-      EventType.signInFlowLaterFaceID,
+      EventName.signInFlowLaterFaceID,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '68',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.biometric: biometric,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
       },
     );
   }
@@ -397,12 +455,14 @@ class SimpleAnalytics {
     required String biometric,
   }) {
     _analytics.logEvent(
-      EventType.signInFlowFaceIDScreenView,
+      EventName.signInFlowFaceIDScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '69',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.biometric: biometric,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
       },
     );
   }
@@ -411,12 +471,14 @@ class SimpleAnalytics {
     required String biometric,
   }) {
     _analytics.logEvent(
-      EventType.signInFlowFaceAllowFaceID,
+      EventName.signInFlowFaceAllowFaceID,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '70',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.biometric: biometric,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
       },
     );
   }
@@ -425,78 +487,92 @@ class SimpleAnalytics {
     required String biometric,
   }) {
     _analytics.logEvent(
-      EventType.signInFlowFaceDontAllowFaceID,
+      EventName.signInFlowFaceDontAllowFaceID,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '71',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.biometric: biometric,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
       },
     );
   }
 
   void signInFlowEnterPinView() {
     _analytics.logEvent(
-      EventType.signInFlowEnterPinView,
+      EventName.signInFlowEnterPinView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '72',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.signIn.id,
       },
     );
   }
 
   void signInFlowVerificationPassed() {
     _analytics.logEvent(
-      EventType.signInFlowVerificationPassed,
+      EventName.signInFlowVerificationPassed,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '73',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.signUp.id,
       },
     );
   }
 
   void verificationProfileScreenView() {
     _analytics.logEvent(
-      EventType.verificationProfileScreenView,
+      EventName.verificationProfileScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '116',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.signUp.id,
       },
     );
   }
 
   void verificationProfileLogout() {
     _analytics.logEvent(
-      EventType.verificationProfileLogout,
+      EventName.verificationProfileLogout,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '117',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.signUp.id,
       },
     );
   }
 
   void verificationProfileProvideInfo() {
     _analytics.logEvent(
-      EventType.verificationProfileProvideInfo,
+      EventName.verificationProfileProvideInfo,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '118',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.signUp.id,
       },
     );
   }
 
   void verificationProfileCreatePIN() {
     _analytics.logEvent(
-      EventType.verificationProfileCreatePIN,
+      EventName.verificationProfileCreatePIN,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '119',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.signUp.id,
       },
     );
   }
@@ -507,12 +583,14 @@ class SimpleAnalytics {
     required String sendMethodType,
   }) {
     _analytics.logEvent(
-      EventType.cryptoSendChooseAssetScreenView,
+      EventName.cryptoSendChooseAssetScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '120',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.sendMethodsType: sendMethodType,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -522,13 +600,15 @@ class SimpleAnalytics {
     required String sendMethodType,
   }) {
     _analytics.logEvent(
-      EventType.cryptoSendSendAssetNameScreenView,
+      EventName.cryptoSendSendAssetNameScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '121',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -538,13 +618,15 @@ class SimpleAnalytics {
     required String sendMethodType,
   }) {
     _analytics.logEvent(
-      EventType.cryptoSendChooseNetworkScreenView,
+      EventName.cryptoSendChooseNetworkScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '122',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -554,13 +636,15 @@ class SimpleAnalytics {
     required String sendMethodType,
   }) {
     _analytics.logEvent(
-      EventType.cryptoSendTapQr,
+      EventName.cryptoSendTapQr,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '123',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -570,13 +654,15 @@ class SimpleAnalytics {
     required String sendMethodType,
   }) {
     _analytics.logEvent(
-      EventType.cryptoSendTapPaste,
+      EventName.cryptoSendTapPaste,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '124',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -586,13 +672,15 @@ class SimpleAnalytics {
     required String sendMethodType,
   }) {
     _analytics.logEvent(
-      EventType.cryptoSendTapContinue,
+      EventName.cryptoSendTapContinue,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '125',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -603,7 +691,7 @@ class SimpleAnalytics {
     required String sendMethodType,
   }) {
     _analytics.logEvent(
-      EventType.cryptoSendAssetNameAmountScreenView,
+      EventName.cryptoSendAssetNameAmountScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '126',
@@ -611,6 +699,8 @@ class SimpleAnalytics {
         PropertyType.asset: asset,
         PropertyType.network: network,
         PropertyType.sendMethodsType: sendMethodType,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -622,7 +712,7 @@ class SimpleAnalytics {
     required String sendMethodType,
   }) {
     _analytics.logEvent(
-      EventType.cryptoSendErrorLimit,
+      EventName.cryptoSendErrorLimit,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '127',
@@ -631,6 +721,8 @@ class SimpleAnalytics {
         PropertyType.asset: asset,
         PropertyType.network: network,
         PropertyType.sendMethodsType: sendMethodType,
+        PropertyType.eventType: EventType.error.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -642,7 +734,7 @@ class SimpleAnalytics {
     required String totalSendAmount,
   }) {
     _analytics.logEvent(
-      EventType.cryptoSendTapContinueAmountScreen,
+      EventName.cryptoSendTapContinueAmountScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '128',
@@ -651,6 +743,8 @@ class SimpleAnalytics {
         PropertyType.network: network,
         PropertyType.sendMethodsType: sendMethodType,
         PropertyType.sendAmount: totalSendAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -663,7 +757,7 @@ class SimpleAnalytics {
     required String paymentFee,
   }) {
     _analytics.logEvent(
-      EventType.cryptoSendOrderSummarySend,
+      EventName.cryptoSendOrderSummarySend,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '129',
@@ -673,6 +767,8 @@ class SimpleAnalytics {
         PropertyType.sendMethodsType: sendMethodType,
         PropertyType.sendAmount: totalSendAmount,
         PropertyType.paymentFee: paymentFee,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -685,7 +781,7 @@ class SimpleAnalytics {
     required String paymentFee,
   }) {
     _analytics.logEvent(
-      EventType.cryptoSendTapConfirmOrder,
+      EventName.cryptoSendTapConfirmOrder,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '130',
@@ -695,6 +791,8 @@ class SimpleAnalytics {
         PropertyType.sendMethodsType: sendMethodType,
         PropertyType.sendAmount: totalSendAmount,
         PropertyType.paymentFee: paymentFee,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -707,7 +805,7 @@ class SimpleAnalytics {
     required String paymentFee,
   }) {
     _analytics.logEvent(
-      EventType.cryptoSendLoadingOrderSummary,
+      EventName.cryptoSendLoadingOrderSummary,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '131',
@@ -717,6 +815,8 @@ class SimpleAnalytics {
         PropertyType.sendMethodsType: sendMethodType,
         PropertyType.sendAmount: totalSendAmount,
         PropertyType.paymentFee: paymentFee,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -729,7 +829,7 @@ class SimpleAnalytics {
     required String paymentFee,
   }) {
     _analytics.logEvent(
-      EventType.cryptoSendBioApprove,
+      EventName.cryptoSendBioApprove,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '132',
@@ -739,6 +839,8 @@ class SimpleAnalytics {
         PropertyType.sendMethodsType: sendMethodType,
         PropertyType.sendAmount: totalSendAmount,
         PropertyType.paymentFee: paymentFee,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -752,7 +854,7 @@ class SimpleAnalytics {
     required String failedReason,
   }) {
     _analytics.logEvent(
-      EventType.cryptoSendFailedSend,
+      EventName.cryptoSendFailedSend,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '133',
@@ -763,6 +865,8 @@ class SimpleAnalytics {
         PropertyType.sendAmount: totalSendAmount,
         PropertyType.paymentFee: paymentFee,
         PropertyType.errorCode: failedReason,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -775,7 +879,7 @@ class SimpleAnalytics {
     required String paymentFee,
   }) {
     _analytics.logEvent(
-      EventType.cryptoSendSuccessSend,
+      EventName.cryptoSendSuccessSend,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '134',
@@ -785,33 +889,39 @@ class SimpleAnalytics {
         PropertyType.sendMethodsType: sendMethodType,
         PropertyType.sendAmount: totalSendAmount,
         PropertyType.paymentFee: paymentFee,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
 
-  //
+  // Receive flow 169-176
 
   void tapOnTheReceiveButton({
     required String source,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheReceiveButton,
+      EventName.tapOnTheReceiveButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '169',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.source: source,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.receiveFlow.id,
       },
     );
   }
 
   void chooseAssetToReceiveScreenView() {
     _analytics.logEvent(
-      EventType.chooseAssetToReceiveScreenView,
+      EventName.chooseAssetToReceiveScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '170',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.receiveFlow.id,
       },
     );
   }
@@ -820,12 +930,14 @@ class SimpleAnalytics {
     required String asset,
   }) {
     _analytics.logEvent(
-      EventType.chooseNetworkPopupView,
+      EventName.chooseNetworkPopupView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '171',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.asset: asset,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.receiveFlow.id,
       },
     );
   }
@@ -835,13 +947,15 @@ class SimpleAnalytics {
     required String network,
   }) {
     _analytics.logEvent(
-      EventType.receiveAssetScreenView,
+      EventName.receiveAssetScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '172',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.asset: asset,
         PropertyType.network: network,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.receiveFlow.id,
       },
     );
   }
@@ -850,12 +964,14 @@ class SimpleAnalytics {
     required String asset,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheButtonNetworkOnReceiveAssetScreen,
+      EventName.tapOnTheButtonNetworkOnReceiveAssetScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '173',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.asset: asset,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.receiveFlow.id,
       },
     );
   }
@@ -864,12 +980,14 @@ class SimpleAnalytics {
     required String asset,
   }) {
     _analytics.logEvent(
-      EventType.chooseNetworkPopupViewShowedOnReceiveAssetScreen,
+      EventName.chooseNetworkPopupViewShowedOnReceiveAssetScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '174',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.asset: asset,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.receiveFlow.id,
       },
     );
   }
@@ -879,13 +997,15 @@ class SimpleAnalytics {
     required String network,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheButtonCopyOnReceiveAssetScreen,
+      EventName.tapOnTheButtonCopyOnReceiveAssetScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '175',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.asset: asset,
         PropertyType.network: network,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.receiveFlow.id,
       },
     );
   }
@@ -895,13 +1015,15 @@ class SimpleAnalytics {
     required String network,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheButtonShareOnReceiveAssetScreen,
+      EventName.tapOnTheButtonShareOnReceiveAssetScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '176',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.asset: asset,
         PropertyType.network: network,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.receiveFlow.id,
       },
     );
   }
@@ -910,71 +1032,26 @@ class SimpleAnalytics {
 
   void kycFlowVerificationScreenView() {
     _analytics.logEvent(
-      EventType.kycFlowVerificationScreenView,
+      EventName.kycFlowVerificationScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '177',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.kyc.id,
       },
     );
   }
 
   void kycFlowProvideInformation() {
     _analytics.logEvent(
-      EventType.kycFlowProvideInformation,
+      EventName.kycFlowProvideInformation,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '178',
         PropertyType.kycStatus: kycDepositStatus,
-      },
-    );
-  }
-
-  void kycFlowVerifyYourIdentify() {
-    _analytics.logEvent(
-      EventType.kycFlowVerifyYourIdentify,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '179',
-        PropertyType.kycStatus: kycDepositStatus,
-      },
-    );
-  }
-
-  void kycFlowCoutryOfIssueShow() {
-    _analytics.logEvent(
-      EventType.kycFlowCoutryOfIssueShow,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '180',
-        PropertyType.kycStatus: kycDepositStatus,
-      },
-    );
-  }
-
-  void kycFlowCoutryOfIssueSheetView() {
-    _analytics.logEvent(
-      EventType.kycFlowCoutryOfIssueSheetView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '181',
-        PropertyType.kycStatus: kycDepositStatus,
-      },
-    );
-  }
-
-  void kycFlowTapContinueOnVerifyYourIdentity({
-    required String country,
-    required String documentList,
-  }) {
-    _analytics.logEvent(
-      EventType.kycFlowTapContinueOnVerifyYourIdentity,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '182',
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.country: country,
-        PropertyType.documentList: documentList,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.kyc.id,
       },
     );
   }
@@ -983,12 +1060,14 @@ class SimpleAnalytics {
     required String country,
   }) {
     _analytics.logEvent(
-      EventType.kycFlowVerifyWait,
+      EventName.kycFlowVerifyWait,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '183',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.country: country,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.kyc.id,
       },
     );
   }
@@ -997,12 +1076,14 @@ class SimpleAnalytics {
     required String country,
   }) {
     _analytics.logEvent(
-      EventType.kycFlowSumsubShow,
+      EventName.kycFlowSumsubShow,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '184',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.country: country,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.kyc.id,
       },
     );
   }
@@ -1011,12 +1092,14 @@ class SimpleAnalytics {
     required String country,
   }) {
     _analytics.logEvent(
-      EventType.kycFlowSumsubClose,
+      EventName.kycFlowSumsubClose,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '185',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.country: country,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.kyc.id,
       },
     );
   }
@@ -1025,59 +1108,69 @@ class SimpleAnalytics {
     required String country,
   }) {
     _analytics.logEvent(
-      EventType.kycFlowVerifyingNowSV,
+      EventName.kycFlowVerifyingNowSV,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '186',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.country: country,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.kyc.id,
       },
     );
   }
 
   void kycFlowVerifyingNowPopup() {
     _analytics.logEvent(
-      EventType.kycFlowVerifyingNowPopup,
+      EventName.kycFlowVerifyingNowPopup,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '187',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.kyc.id,
       },
     );
   }
 
   void kycFlowYouBlockedPopup() {
     _analytics.logEvent(
-      EventType.kycFlowYouBlockedPopup,
+      EventName.kycFlowYouBlockedPopup,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '188',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.kyc.id,
       },
     );
   }
 
   void kycFlowYouBlockedSupportTap() {
     _analytics.logEvent(
-      EventType.kycFlowYouBlockedSupportTap,
+      EventName.kycFlowYouBlockedSupportTap,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '189',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.kyc.id,
       },
     );
   }
 
-  // SEND
+  // SEND flow 80-95 120-153
 
   void tabOnTheSendButton({required String source}) {
     _analytics.logEvent(
-      EventType.tapOnTheSendButton,
+      EventName.tapOnTheSendButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '80',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.source: source,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1092,48 +1185,56 @@ class SimpleAnalytics {
     }
 
     _analytics.logEvent(
-      EventType.sendToSheetScreenView,
+      EventName.sendToSheetScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '81',
         PropertyType.sendMethodType: sendMethodsCodes,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
 
   void tapOnTheGiftButton() {
     _analytics.logEvent(
-      EventType.tapOnTheGiftButton,
+      EventName.tapOnTheGiftButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '82',
         PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
 
   void sendingAssetScreenView() {
     _analytics.logEvent(
-      EventType.sendingAssetScreenView,
+      EventName.sendingAssetScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '83',
         PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
 
   void receiverSDetailsScreenView() {
     _analytics.logEvent(
-      EventType.receiverSDetailsScreenView,
+      EventName.receiverSDetailsScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '84',
         PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1142,13 +1243,15 @@ class SimpleAnalytics {
     required String giftSubmethod,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheContinueWithReceiverSDetailsButton,
+      EventName.tapOnTheContinueWithReceiverSDetailsButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '85',
         PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
         PropertyType.giftSendSubmethod: giftSubmethod,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1158,7 +1261,7 @@ class SimpleAnalytics {
     required String asset,
   }) {
     _analytics.logEvent(
-      EventType.sendGiftAmountScreenView,
+      EventName.sendGiftAmountScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -1166,6 +1269,8 @@ class SimpleAnalytics {
         PropertyType.asset: asset,
         PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
         PropertyType.giftSendSubmethod: giftSubmethod,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1176,7 +1281,7 @@ class SimpleAnalytics {
     required String errorText,
   }) {
     _analytics.logEvent(
-      EventType.errorSendLimitExceeded,
+      EventName.errorSendLimitExceeded,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -1185,6 +1290,8 @@ class SimpleAnalytics {
         PropertyType.asset: asset,
         PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
         PropertyType.giftSendSubmethod: giftSubmethod,
+        PropertyType.eventType: EventType.error.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1195,7 +1302,7 @@ class SimpleAnalytics {
     required String totalSendAmount,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheButtonContinueWithSendGiftAmountScreen,
+      EventName.tapOnTheButtonContinueWithSendGiftAmountScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -1204,6 +1311,8 @@ class SimpleAnalytics {
         PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
         PropertyType.giftSendSubmethod: giftSubmethod,
         PropertyType.totalSendAmount: totalSendAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1212,13 +1321,15 @@ class SimpleAnalytics {
     required String giftSubmethod,
   }) {
     _analytics.logEvent(
-      EventType.orderSummarySendScreenView,
+      EventName.orderSummarySendScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '89',
         PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
         PropertyType.giftSendSubmethod: giftSubmethod,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1230,7 +1341,7 @@ class SimpleAnalytics {
     required String paymentFee,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheButtonConfirmOrderSummarySend,
+      EventName.tapOnTheButtonConfirmOrderSummarySend,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -1240,17 +1351,21 @@ class SimpleAnalytics {
         PropertyType.giftSendSubmethod: giftSubmethod,
         PropertyType.totalSendAmount: totalSendAmount,
         PropertyType.paymentFee: paymentFee,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
 
   void confirmWithPINScreenView() {
     _analytics.logEvent(
-      EventType.confirmWithPINScreenView,
+      EventName.confirmWithPINScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '91',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1262,7 +1377,7 @@ class SimpleAnalytics {
     String? giftSubmethod,
   }) {
     _analytics.logEvent(
-      EventType.errorWrongPin,
+      EventName.errorWrongPin,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -1271,6 +1386,8 @@ class SimpleAnalytics {
         PropertyType.asset: asset,
         PropertyType.sendMethodType: sendMethod.code,
         PropertyType.giftSendSubmethod: giftSubmethod,
+        PropertyType.eventType: EventType.error.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1280,7 +1397,7 @@ class SimpleAnalytics {
     required String giftSubmethod,
   }) {
     _analytics.logEvent(
-      EventType.processingSendScreenView,
+      EventName.processingSendScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -1288,6 +1405,8 @@ class SimpleAnalytics {
         PropertyType.asset: asset,
         PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
         PropertyType.giftSendSubmethod: giftSubmethod,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1297,7 +1416,7 @@ class SimpleAnalytics {
     required String giftSubmethod,
   }) {
     _analytics.logEvent(
-      EventType.successSendScreenView,
+      EventName.successSendScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -1305,6 +1424,8 @@ class SimpleAnalytics {
         PropertyType.asset: asset,
         PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
         PropertyType.giftSendSubmethod: giftSubmethod,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1315,7 +1436,7 @@ class SimpleAnalytics {
     required String failedReason,
   }) {
     _analytics.logEvent(
-      EventType.failedSendScreenView,
+      EventName.failedSendScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -1324,6 +1445,8 @@ class SimpleAnalytics {
         PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
         PropertyType.giftSendSubmethod: giftSubmethod,
         PropertyType.errorCode: failedReason,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1332,66 +1455,39 @@ class SimpleAnalytics {
 
   void chooseAssetToSendScreenView() {
     _analytics.logEvent(
-      EventType.chooseAssetToSendScreenView,
+      EventName.chooseAssetToSendScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '135',
         PropertyType.kycStatus: kycDepositStatus,
-      },
-    );
-  }
-
-  void shareGiftSheetScreenView() {
-    _analytics.logEvent(
-      EventType.shareGiftSheetScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '96',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
 
   void destinationCountryScreenView() {
     _analytics.logEvent(
-      EventType.destinationCountryScreenView,
+      EventName.destinationCountryScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '136',
         PropertyType.kycStatus: kycDepositStatus,
-      },
-    );
-  }
-
-  void tapOnTheButtonShareOnShareSheet() {
-    _analytics.logEvent(
-      EventType.tapOnTheButtonShareOnShareSheet,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '97',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
 
   void paymentMethodScreenViewGlobalSend() {
     _analytics.logEvent(
-      EventType.paymentMethodScreenViewGlobalSend,
+      EventName.paymentMethodScreenViewGlobalSend,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '137',
         PropertyType.kycStatus: kycDepositStatus,
-      },
-    );
-  }
-
-  void tapOnTheButtonCopyOnShareSheet() {
-    _analytics.logEvent(
-      EventType.tapOnTheButtonCopyOnShareSheet,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '98',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1403,7 +1499,7 @@ class SimpleAnalytics {
     required String sendMethodType,
   }) {
     _analytics.logEvent(
-      EventType.globalSendReceiverDetails,
+      EventName.globalSendReceiverDetails,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '138',
@@ -1412,66 +1508,8 @@ class SimpleAnalytics {
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
-      },
-    );
-  }
-
-  void tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet() {
-    _analytics.logEvent(
-      EventType.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '99',
-      },
-    );
-  }
-
-  void tapOnTheButtonRemindOnSentHistoryDetailsSheet() {
-    _analytics.logEvent(
-      EventType.tapOnTheButtonRemindOnSentHistoryDetailsSheet,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '100',
-      },
-    );
-  }
-
-  void tapOnTheButtonCancelTransactiononSentHistoryDetails() {
-    _analytics.logEvent(
-      EventType.tapOnTheButtonCancelTransactiononSentHistoryDetailsSheet,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '101',
-      },
-    );
-  }
-
-  void tapOnTheButtonCloseOrTapOnSentHistoryDetailsSheet() {
-    _analytics.logEvent(
-      EventType.tapOnTheButtonCloseOrTapOnSentHistoryDetailsSheet,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '102',
-      },
-    );
-  }
-
-  void claimGiftScreenView({
-    required String giftAmount,
-    required String giftFrom,
-  }) {
-    _analytics.logEvent(
-      EventType.claimGiftScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '105',
-        PropertyType.giftAmount: giftAmount,
-        PropertyType.giftFrom: giftFrom,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1483,7 +1521,7 @@ class SimpleAnalytics {
     required String sendMethodType,
   }) {
     _analytics.logEvent(
-      EventType.globalSendTCCheckbox,
+      EventName.globalSendTCCheckbox,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '139',
@@ -1492,22 +1530,8 @@ class SimpleAnalytics {
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
-      },
-    );
-  }
-
-  void tapOnTheButtonClaimOnClaimGiftSheet({
-    required String giftAmount,
-    required String giftFrom,
-  }) {
-    _analytics.logEvent(
-      EventType.tapOnTheButtonClaimOnClaimGiftSheet,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '106',
-        PropertyType.giftAmount: giftAmount,
-        PropertyType.giftFrom: giftFrom,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1519,7 +1543,7 @@ class SimpleAnalytics {
     required String sendMethodType,
   }) {
     _analytics.logEvent(
-      EventType.globalSendMoreDetailsButton,
+      EventName.globalSendMoreDetailsButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '140',
@@ -1528,22 +1552,8 @@ class SimpleAnalytics {
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
-      },
-    );
-  }
-
-  void tapOnTheButtonCloseOrTapInEmptyPlaceForClosingClaimGiftSheet({
-    required String giftAmount,
-    required String giftFrom,
-  }) {
-    _analytics.logEvent(
-      EventType.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingClaimGiftSheet,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '107',
-        PropertyType.giftAmount: giftAmount,
-        PropertyType.giftFrom: giftFrom,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1555,7 +1565,7 @@ class SimpleAnalytics {
     required String sendMethodType,
   }) {
     _analytics.logEvent(
-      EventType.globalSendMoreDetailsPopup,
+      EventName.globalSendMoreDetailsPopup,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '141',
@@ -1564,22 +1574,8 @@ class SimpleAnalytics {
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
-      },
-    );
-  }
-
-  void tapOnTheButtonRejectOnClaimGiftSheet({
-    required String giftAmount,
-    required String giftFrom,
-  }) {
-    _analytics.logEvent(
-      EventType.tapOnTheButtonRejectOnClaimGiftSheet,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '108',
-        PropertyType.giftAmount: giftAmount,
-        PropertyType.giftFrom: giftFrom,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1591,7 +1587,7 @@ class SimpleAnalytics {
     required String sendMethodType,
   }) {
     _analytics.logEvent(
-      EventType.globalSendGotItButton,
+      EventName.globalSendGotItButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '142',
@@ -1600,22 +1596,8 @@ class SimpleAnalytics {
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
-      },
-    );
-  }
-
-  void cancelClaimTransactionGiftScreenView({
-    required String giftAmount,
-    required String giftFrom,
-  }) {
-    _analytics.logEvent(
-      EventType.cancelClaimTransactionGiftScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '109',
-        PropertyType.giftAmount: giftAmount,
-        PropertyType.giftFrom: giftFrom,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1628,7 +1610,7 @@ class SimpleAnalytics {
     required String sendMethodType,
   }) {
     _analytics.logEvent(
-      EventType.globalSendContinueReceiveDetail,
+      EventName.globalSendContinueReceiveDetail,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '143',
@@ -1638,22 +1620,8 @@ class SimpleAnalytics {
         PropertyType.globalMethods: globalSendType,
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
-      },
-    );
-  }
-
-  void tapOnTheButtonYesCancelOnCancelClaimTransactionGiftPopup({
-    required String giftAmount,
-    required String giftFrom,
-  }) {
-    _analytics.logEvent(
-      EventType.tapOnTheButtonYesCancelOnCancelClaimTransactionGiftPopup,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '110',
-        PropertyType.giftAmount: giftAmount,
-        PropertyType.giftFrom: giftFrom,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1666,7 +1634,7 @@ class SimpleAnalytics {
     required String sendMethodType,
   }) {
     _analytics.logEvent(
-      EventType.globalSendAmountScreenView,
+      EventName.globalSendAmountScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '144',
@@ -1676,22 +1644,8 @@ class SimpleAnalytics {
         PropertyType.globalMethods: globalSendType,
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
-      },
-    );
-  }
-
-  void tapOnTheButtonNoOnCancelClaimTransactionGiftPopup({
-    required String giftAmount,
-    required String giftFrom,
-  }) {
-    _analytics.logEvent(
-      EventType.tapOnTheButtonNoOnCancelClaimTransactionGiftPopup,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '111',
-        PropertyType.giftAmount: giftAmount,
-        PropertyType.giftFrom: giftFrom,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1704,7 +1658,7 @@ class SimpleAnalytics {
     required String sendMethodType,
   }) {
     _analytics.logEvent(
-      EventType.globalSendAmountLimitsSV,
+      EventName.globalSendAmountLimitsSV,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '145',
@@ -1714,22 +1668,8 @@ class SimpleAnalytics {
         PropertyType.globalMethods: globalSendType,
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
-      },
-    );
-  }
-
-  void processingClaimGiftScreenView({
-    required String giftAmount,
-    required String giftFrom,
-  }) {
-    _analytics.logEvent(
-      EventType.processingClaimGiftScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '112',
-        PropertyType.giftAmount: giftAmount,
-        PropertyType.giftFrom: giftFrom,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1743,7 +1683,7 @@ class SimpleAnalytics {
     required String errorCode,
   }) {
     _analytics.logEvent(
-      EventType.globalSendErrorLimit,
+      EventName.globalSendErrorLimit,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '146',
@@ -1754,22 +1694,8 @@ class SimpleAnalytics {
         PropertyType.globalMethods: globalSendType,
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
-      },
-    );
-  }
-
-  void failedClaimGiftScreenView({
-    required String giftAmount,
-    required String giftFrom,
-  }) {
-    _analytics.logEvent(
-      EventType.failedClaimGiftScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '113',
-        PropertyType.giftAmount: giftAmount,
-        PropertyType.giftFrom: giftFrom,
+        PropertyType.eventType: EventType.error.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1783,7 +1709,7 @@ class SimpleAnalytics {
     required String totalSendAmount,
   }) {
     _analytics.logEvent(
-      EventType.globalSendContinueAmountSc,
+      EventName.globalSendContinueAmountSc,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '147',
@@ -1794,6 +1720,8 @@ class SimpleAnalytics {
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
         PropertyType.sendAmount: totalSendAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1807,7 +1735,7 @@ class SimpleAnalytics {
     required String totalSendAmount,
   }) {
     _analytics.logEvent(
-      EventType.globalSendOrderSV,
+      EventName.globalSendOrderSV,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '148',
@@ -1818,6 +1746,8 @@ class SimpleAnalytics {
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
         PropertyType.sendAmount: totalSendAmount,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1831,7 +1761,7 @@ class SimpleAnalytics {
     required String totalSendAmount,
   }) {
     _analytics.logEvent(
-      EventType.globalSendConfirmOrderSummary,
+      EventName.globalSendConfirmOrderSummary,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '149',
@@ -1842,6 +1772,8 @@ class SimpleAnalytics {
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
         PropertyType.sendAmount: totalSendAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1855,7 +1787,7 @@ class SimpleAnalytics {
     required String totalSendAmount,
   }) {
     _analytics.logEvent(
-      EventType.globalSendLoadingSV,
+      EventName.globalSendLoadingSV,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '150',
@@ -1866,6 +1798,8 @@ class SimpleAnalytics {
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
         PropertyType.sendAmount: totalSendAmount,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1879,7 +1813,7 @@ class SimpleAnalytics {
     required String totalSendAmount,
   }) {
     _analytics.logEvent(
-      EventType.globalSenBioApprove,
+      EventName.globalSenBioApprove,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '151',
@@ -1890,6 +1824,8 @@ class SimpleAnalytics {
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
         PropertyType.sendAmount: totalSendAmount,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1904,7 +1840,7 @@ class SimpleAnalytics {
     required String failedReason,
   }) {
     _analytics.logEvent(
-      EventType.globalSendFailedSV,
+      EventName.globalSendFailedSV,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '152',
@@ -1916,24 +1852,8 @@ class SimpleAnalytics {
         PropertyType.sendMethodsType: sendMethodType,
         PropertyType.sendAmount: totalSendAmount,
         PropertyType.errorCode: failedReason,
-      },
-    );
-  }
-
-  void tapOnTheButtonCloseOnFailedClaimGiftScreen({
-    required String giftAmount,
-    required String giftFrom,
-    required String failedReason,
-  }) {
-    _analytics.logEvent(
-      EventType.tapOnTheButtonCloseOnFailedClaimGiftScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '114',
-        PropertyType.giftAmount: giftAmount,
-        PropertyType.giftFrom: giftFrom,
-        PropertyType.errorCode: failedReason,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
       },
     );
   }
@@ -1947,7 +1867,7 @@ class SimpleAnalytics {
     required String totalSendAmount,
   }) {
     _analytics.logEvent(
-      EventType.globalSendSuccessSV,
+      EventName.globalSendSuccessSV,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '153',
@@ -1958,6 +1878,285 @@ class SimpleAnalytics {
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: sendMethodType,
         PropertyType.sendAmount: totalSendAmount,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
+      },
+    );
+  }
+
+  // Send gift 96-104
+
+  void shareGiftSheetScreenView() {
+    _analytics.logEvent(
+      EventName.shareGiftSheetScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '96',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
+      },
+    );
+  }
+
+  void tapOnTheButtonShareOnShareSheet() {
+    _analytics.logEvent(
+      EventName.tapOnTheButtonShareOnShareSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '97',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
+      },
+    );
+  }
+
+  void tapOnTheButtonCopyOnShareSheet() {
+    _analytics.logEvent(
+      EventName.tapOnTheButtonCopyOnShareSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '98',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
+      },
+    );
+  }
+
+  void tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet() {
+    _analytics.logEvent(
+      EventName.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '99',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
+      },
+    );
+  }
+
+  void tapOnTheButtonRemindOnSentHistoryDetailsSheet() {
+    _analytics.logEvent(
+      EventName.tapOnTheButtonRemindOnSentHistoryDetailsSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '100',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
+      },
+    );
+  }
+
+  void tapOnTheButtonCancelTransactiononSentHistoryDetails() {
+    _analytics.logEvent(
+      EventName.tapOnTheButtonCancelTransactiononSentHistoryDetailsSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '101',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
+      },
+    );
+  }
+
+  void tapOnTheButtonCloseOrTapOnSentHistoryDetailsSheet() {
+    _analytics.logEvent(
+      EventName.tapOnTheButtonCloseOrTapOnSentHistoryDetailsSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '102',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sendFlow.id,
+      },
+    );
+  }
+
+  // claim gift
+
+  void claimGiftScreenView({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventName.claimGiftScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '105',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.receiveGift.id,
+      },
+    );
+  }
+
+  void tapOnTheButtonClaimOnClaimGiftSheet({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventName.tapOnTheButtonClaimOnClaimGiftSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '106',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.receiveGift.id,
+      },
+    );
+  }
+
+  void tapOnTheButtonCloseOrTapInEmptyPlaceForClosingClaimGiftSheet({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventName.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingClaimGiftSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '107',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.receiveGift.id,
+      },
+    );
+  }
+
+  void tapOnTheButtonRejectOnClaimGiftSheet({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventName.tapOnTheButtonRejectOnClaimGiftSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '108',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.receiveGift.id,
+      },
+    );
+  }
+
+  void cancelClaimTransactionGiftScreenView({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventName.cancelClaimTransactionGiftScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '109',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.receiveGift.id,
+      },
+    );
+  }
+
+  void tapOnTheButtonYesCancelOnCancelClaimTransactionGiftPopup({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventName.tapOnTheButtonYesCancelOnCancelClaimTransactionGiftPopup,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '110',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.receiveGift.id,
+      },
+    );
+  }
+
+  void tapOnTheButtonNoOnCancelClaimTransactionGiftPopup({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventName.tapOnTheButtonNoOnCancelClaimTransactionGiftPopup,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '111',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.receiveGift.id,
+      },
+    );
+  }
+
+  void processingClaimGiftScreenView({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventName.processingClaimGiftScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '112',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.receiveGift.id,
+      },
+    );
+  }
+
+  void failedClaimGiftScreenView({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventName.failedClaimGiftScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '113',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.receiveGift.id,
+      },
+    );
+  }
+
+  void tapOnTheButtonCloseOnFailedClaimGiftScreen({
+    required String giftAmount,
+    required String giftFrom,
+    required String failedReason,
+  }) {
+    _analytics.logEvent(
+      EventName.tapOnTheButtonCloseOnFailedClaimGiftScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '114',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+        PropertyType.errorCode: failedReason,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.receiveGift.id,
       },
     );
   }
@@ -1967,13 +2166,15 @@ class SimpleAnalytics {
     required String giftFrom,
   }) {
     _analytics.logEvent(
-      EventType.successClaimedGiftScreenView,
+      EventName.successClaimedGiftScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '115',
         PropertyType.giftAmount: giftAmount,
         PropertyType.giftFrom: giftFrom,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.receiveGift.id,
       },
     );
   }
@@ -1982,22 +2183,26 @@ class SimpleAnalytics {
 
   void rewardsTapOnTheTabBar() {
     _analytics.logEvent(
-      EventType.rewardsTapOnTheTabBar,
+      EventName.rewardsTapOnTheTabBar,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '190',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.rewards.id,
       },
     );
   }
 
   void rewardsEmptyRewards() {
     _analytics.logEvent(
-      EventType.rewardsEmptyRewards,
+      EventName.rewardsEmptyRewards,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '191',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.rewards.id,
       },
     );
   }
@@ -2008,7 +2213,7 @@ class SimpleAnalytics {
     required List<String> assetList,
   }) {
     _analytics.logEvent(
-      EventType.rewardsMainScreenView,
+      EventName.rewardsMainScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '192',
@@ -2016,6 +2221,8 @@ class SimpleAnalytics {
         PropertyType.rewardsToClaim: rewardsToClaim,
         PropertyType.totalReceiveSum: totalReceiveSum,
         PropertyType.assetsList: assetList.toList(),
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.rewards.id,
       },
     );
   }
@@ -2024,12 +2231,14 @@ class SimpleAnalytics {
     required int rewardsToClaim,
   }) {
     _analytics.logEvent(
-      EventType.rewardsClickOpenReward,
+      EventName.rewardsClickOpenReward,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '193',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.rewardsToClaim: rewardsToClaim,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.rewards.id,
       },
     );
   }
@@ -2038,12 +2247,14 @@ class SimpleAnalytics {
     required String source,
   }) {
     _analytics.logEvent(
-      EventType.rewardsChooseRewardCard,
+      EventName.rewardsChooseRewardCard,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '194',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.source: source,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.rewards.id,
       },
     );
   }
@@ -2052,12 +2263,14 @@ class SimpleAnalytics {
     required String source,
   }) {
     _analytics.logEvent(
-      EventType.rewardsOpenRewardClose,
+      EventName.rewardsOpenRewardClose,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '195',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.source: source,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.rewards.id,
       },
     );
   }
@@ -2067,13 +2280,15 @@ class SimpleAnalytics {
     required String source,
   }) {
     _analytics.logEvent(
-      EventType.rewardsOpenRewardTapCard,
+      EventName.rewardsOpenRewardTapCard,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '196',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.source: source,
         PropertyType.cardNumber: cardNumber,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.rewards.id,
       },
     );
   }
@@ -2082,12 +2297,14 @@ class SimpleAnalytics {
     required String source,
   }) {
     _analytics.logEvent(
-      EventType.rewardsOpenCardProcesing,
+      EventName.rewardsOpenCardProcesing,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '197',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.source: source,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.rewards.id,
       },
     );
   }
@@ -2099,7 +2316,7 @@ class SimpleAnalytics {
     required String rewardToClaime,
   }) {
     _analytics.logEvent(
-      EventType.rewardsCardFlipSuccess,
+      EventName.rewardsCardFlipSuccess,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '198',
@@ -2108,6 +2325,8 @@ class SimpleAnalytics {
         PropertyType.rewardsToClaim: rewardToClaime,
         PropertyType.asset: winAsset,
         PropertyType.amount: winAmount,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.rewards.id,
       },
     );
   }
@@ -2116,12 +2335,14 @@ class SimpleAnalytics {
     required String source,
   }) {
     _analytics.logEvent(
-      EventType.rewardsCloseFlowAfterCardFlip,
+      EventName.rewardsCloseFlowAfterCardFlip,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '199',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.source: source,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.rewards.id,
       },
     );
   }
@@ -2130,12 +2351,14 @@ class SimpleAnalytics {
     required String source,
   }) {
     _analytics.logEvent(
-      EventType.rewardsCardShare,
+      EventName.rewardsCardShare,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '200',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.source: source,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.rewards.id,
       },
     );
   }
@@ -2144,12 +2367,14 @@ class SimpleAnalytics {
     required String source,
   }) {
     _analytics.logEvent(
-      EventType.rewardsClickNextReward,
+      EventName.rewardsClickNextReward,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '201',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.source: source,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.rewards.id,
       },
     );
   }
@@ -2159,13 +2384,15 @@ class SimpleAnalytics {
     required String transferAmount,
   }) {
     _analytics.logEvent(
-      EventType.rewardsClickOnReward,
+      EventName.rewardsClickOnReward,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '202',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.asset: transferAseet,
         PropertyType.amount: transferAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.rewards.id,
       },
     );
   }
@@ -2175,13 +2402,15 @@ class SimpleAnalytics {
     required String transferAmount,
   }) {
     _analytics.logEvent(
-      EventType.rewardsRewardTransferPopup,
+      EventName.rewardsRewardTransferPopup,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '203',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.asset: transferAseet,
         PropertyType.amount: transferAmount,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.rewards.id,
       },
     );
   }
@@ -2191,13 +2420,15 @@ class SimpleAnalytics {
     required String transferAmount,
   }) {
     _analytics.logEvent(
-      EventType.rewardsTransferPopupClickTransfer,
+      EventName.rewardsTransferPopupClickTransfer,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '204',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.asset: transferAseet,
         PropertyType.amount: transferAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.rewards.id,
       },
     );
   }
@@ -2207,13 +2438,15 @@ class SimpleAnalytics {
     required String transferAmount,
   }) {
     _analytics.logEvent(
-      EventType.rewardsTransferPopupClickCancel,
+      EventName.rewardsTransferPopupClickCancel,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '205',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.asset: transferAseet,
         PropertyType.amount: transferAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.rewards.id,
       },
     );
   }
@@ -2223,13 +2456,15 @@ class SimpleAnalytics {
     required String transferAmount,
   }) {
     _analytics.logEvent(
-      EventType.rewardsSuccessRewardTransfer,
+      EventName.rewardsSuccessRewardTransfer,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '206',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.asset: transferAseet,
         PropertyType.amount: transferAmount,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.rewards.id,
       },
     );
   }
@@ -2239,49 +2474,59 @@ class SimpleAnalytics {
     required String transferAmount,
   }) {
     _analytics.logEvent(
-      EventType.rewardsSuccessTransferGotItClick,
+      EventName.rewardsSuccessTransferGotItClick,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '207',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.asset: transferAseet,
         PropertyType.amount: transferAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.rewards.id,
       },
     );
   }
 
   void rewardsClickShare() {
     _analytics.logEvent(
-      EventType.rewardsClickShare,
+      EventName.rewardsClickShare,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '208',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.rewards.id,
       },
     );
   }
+
+  // wallet screen with favourites assets
 
   void walletsScreenView({
     required List<String> favouritesAssetsList,
   }) {
     _analytics.logEvent(
-      EventType.walletsScreenView,
+      EventName.walletsScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.favouritesAssetsList: favouritesAssetsList,
         PropertyType.eventId: '256',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
 
   void tapOnTheButtonProfileOnWalletsScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheButtonProfileOnWalletsScreen,
+      EventName.tapOnTheButtonProfileOnWalletsScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '257',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
@@ -2290,23 +2535,27 @@ class SimpleAnalytics {
     required bool isShowNow,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheButtonShowHideBalancesOnWalletsScreen,
+      EventName.tapOnTheButtonShowHideBalancesOnWalletsScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.isShowNow: isShowNow,
         PropertyType.eventId: '258',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
 
   void tapOnTheTabWalletsInTabBar() {
     _analytics.logEvent(
-      EventType.tapOnTheTabWalletsInTabBar,
+      EventName.tapOnTheTabWalletsInTabBar,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '259',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
@@ -2315,12 +2564,14 @@ class SimpleAnalytics {
     required int numberOfPendingTrx,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheButtonPendingTransactionsOnWalletsScreen,
+      EventName.tapOnTheButtonPendingTransactionsOnWalletsScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.numberOfPendingTrx: numberOfPendingTrx,
         PropertyType.eventId: '260',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
@@ -2329,45 +2580,53 @@ class SimpleAnalytics {
     required String openedAsset,
   }) {
     _analytics.logEvent(
-      EventType.tapOnFavouriteWalletOnWalletsScreen,
+      EventName.tapOnFavouriteWalletOnWalletsScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.asset: openedAsset,
         PropertyType.eventId: '261',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
 
   void tapOnTheButtonAddWalletOnWalletsScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheButtonAddWalletOnWalletsScreen,
+      EventName.tapOnTheButtonAddWalletOnWalletsScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '262',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
 
   void addWalletForFavouritesScreenView() {
     _analytics.logEvent(
-      EventType.addWalletForFavouritesScreenView,
+      EventName.addWalletForFavouritesScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '263',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
 
   void tapOnTheButtonCloseOnAddWalletForFavouritesSheet() {
     _analytics.logEvent(
-      EventType.tapOnTheButtonCloseOnAddWalletForFavouritesSheet,
+      EventName.tapOnTheButtonCloseOnAddWalletForFavouritesSheet,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '264',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
@@ -2376,189 +2635,223 @@ class SimpleAnalytics {
     required String addedFavouritesAssetName,
   }) {
     _analytics.logEvent(
-      EventType.tapOnAssetForAddToFavouritesOnAddWalletForFavouritesSheet,
+      EventName.tapOnAssetForAddToFavouritesOnAddWalletForFavouritesSheet,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.asset: addedFavouritesAssetName,
         PropertyType.eventId: '265',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
 
   void tapOnTheDeleteButtonOnTheWalletScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheDeleteButtonOnTheWalletScreen,
+      EventName.tapOnTheDeleteButtonOnTheWalletScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '266',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
 
   void tapOnTheButtonDoneForChangeWalletsOrderOnTheWalletScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheButtonDoneForChangeWalletsOrderOnTheWalletScreen,
+      EventName.tapOnTheButtonDoneForChangeWalletsOrderOnTheWalletScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '267',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
 
   void tapOnTheButtonGetAccountEUROnWalletsScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheButtonGetAccountEUROnWalletsScreen,
+      EventName.tapOnTheButtonGetAccountEUROnWalletsScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '268',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
 
   void eurWalletVerifyYourAccount() {
     _analytics.logEvent(
-      EventType.eurWalletVerifyYourAccount,
+      EventName.eurWalletVerifyYourAccount,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '269',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
 
   void eurWalletTapOnVerifyAccount() {
     _analytics.logEvent(
-      EventType.eurWalletTapOnVerifyAccount,
+      EventName.eurWalletTapOnVerifyAccount,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '270',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
 
   void eurWalletShowUpdateAddressInfo() {
     _analytics.logEvent(
-      EventType.eurWalletShowUpdateAddressInfo,
+      EventName.eurWalletShowUpdateAddressInfo,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '271',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
 
   void eurWalletTapContinueOnAdreeInfo() {
     _analytics.logEvent(
-      EventType.eurWalletTapContinueOnAdreeInfo,
+      EventName.eurWalletTapContinueOnAdreeInfo,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '272',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
 
   void eurWalletShowToastLestCreateAccount() {
     _analytics.logEvent(
-      EventType.eurWalletShowToastLestCreateAccount,
+      EventName.eurWalletShowToastLestCreateAccount,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '273',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
 
   void eurWalletAccountScreen(int numberOfEurAccounts) {
     _analytics.logEvent(
-      EventType.eurWalletAccountScreen,
+      EventName.eurWalletAccountScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '274',
         PropertyType.numberOfOpenedEurAccounts: numberOfEurAccounts,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
 
   void eurWalletSwipeBetweenWallets() {
     _analytics.logEvent(
-      EventType.eurWalletSwipeBetweenWallets,
+      EventName.eurWalletSwipeBetweenWallets,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '276',
+        PropertyType.eventType: EventType.swipe.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
 
   void eurWalletAddAccountEur() {
     _analytics.logEvent(
-      EventType.eurWalletAddAccountEur,
+      EventName.eurWalletAddAccountEur,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '277',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
 
   void eurWalletPersonalEURAccount() {
     _analytics.logEvent(
-      EventType.eurWalletPersonalEURAccount,
+      EventName.eurWalletPersonalEURAccount,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '278',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
 
   void eurWalletBackOnPersonalAccount() {
     _analytics.logEvent(
-      EventType.eurWalletBackOnPersonalAccount,
+      EventName.eurWalletBackOnPersonalAccount,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '279',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
 
   void eurWalletTapOnContinuePersonalEUR() {
     _analytics.logEvent(
-      EventType.eurWalletTapOnContinuePersonalEUR,
+      EventName.eurWalletTapOnContinuePersonalEUR,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '280',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
 
   void eurWalletPleasePassVerificaton() {
     _analytics.logEvent(
-      EventType.eurWalletPleasePassVerificaton,
+      EventName.eurWalletPleasePassVerificaton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '281',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
 
   void eurWalletVerifyAccountPartnerSide() {
     _analytics.logEvent(
-      EventType.eurWalletVerifyAccountPartnerSide,
+      EventName.eurWalletVerifyAccountPartnerSide,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '282',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
@@ -2567,12 +2860,14 @@ class SimpleAnalytics {
     required String openedAsset,
   }) {
     _analytics.logEvent(
-      EventType.cryptoFavouriteWalletScreen,
+      EventName.cryptoFavouriteWalletScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.asset: openedAsset,
         PropertyType.eventId: '283',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
@@ -2581,12 +2876,14 @@ class SimpleAnalytics {
     required String openedAsset,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen,
+      EventName.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.asset: openedAsset,
         PropertyType.eventId: '284',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
@@ -2595,12 +2892,14 @@ class SimpleAnalytics {
     required String openedAsset,
   }) {
     _analytics.logEvent(
-      EventType.swipeHistoryListOnCryptoFavouriteWalletScreen,
+      EventName.swipeHistoryListOnCryptoFavouriteWalletScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.asset: openedAsset,
         PropertyType.eventId: '285',
+        PropertyType.eventType: EventType.swipe.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
@@ -2611,7 +2910,7 @@ class SimpleAnalytics {
     required bool isHasTransaction,
   }) {
     _analytics.logEvent(
-      EventType.eurWalletEURAccountWallet,
+      EventName.eurWalletEURAccountWallet,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -2619,6 +2918,8 @@ class SimpleAnalytics {
         PropertyType.eurAccountType: isCJ ? _accountTypeSimple : _accountTypePersonal,
         PropertyType.eurAccountLabel: eurAccountLabel,
         PropertyType.isHasTransactions: isHasTransaction,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
@@ -2629,7 +2930,7 @@ class SimpleAnalytics {
     required bool isHasTransaction,
   }) {
     _analytics.logEvent(
-      EventType.eurWalletTapBackOnAccountWalletScreen,
+      EventName.eurWalletTapBackOnAccountWalletScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -2637,6 +2938,8 @@ class SimpleAnalytics {
         PropertyType.eurAccountType: isCJ ? _accountTypeSimple : _accountTypePersonal,
         PropertyType.eurAccountLabel: eurAccountLabel,
         PropertyType.isHasTransactions: isHasTransaction,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
@@ -2647,7 +2950,7 @@ class SimpleAnalytics {
     required bool isHasTransaction,
   }) {
     _analytics.logEvent(
-      EventType.eurWalletTapEditEURAccointScreen,
+      EventName.eurWalletTapEditEURAccointScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -2655,28 +2958,34 @@ class SimpleAnalytics {
         PropertyType.eurAccountType: isCJ ? _accountTypeSimple : _accountTypePersonal,
         PropertyType.eurAccountLabel: eurAccountLabel,
         PropertyType.isHasTransactions: isHasTransaction,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
 
   void eurWalletEditLabelScreen() {
     _analytics.logEvent(
-      EventType.eurWalletEditLabelScreen,
+      EventName.eurWalletEditLabelScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '289',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
 
   void eurWalletTapSaveChanges() {
     _analytics.logEvent(
-      EventType.eurWalletTapSaveChanges,
+      EventName.eurWalletTapSaveChanges,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '290',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
@@ -2688,7 +2997,7 @@ class SimpleAnalytics {
     required String source,
   }) {
     _analytics.logEvent(
-      EventType.eurWalletDepositDetailsSheet,
+      EventName.eurWalletDepositDetailsSheet,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -2697,6 +3006,8 @@ class SimpleAnalytics {
         PropertyType.eurAccountLabel: eurAccountLabel,
         PropertyType.isHasTransactions: isHasTransaction,
         PropertyType.source: source,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
@@ -2707,7 +3018,7 @@ class SimpleAnalytics {
     required bool isHasTransaction,
   }) {
     _analytics.logEvent(
-      EventType.eurWalletTapCloseOnDeposirSheet,
+      EventName.eurWalletTapCloseOnDeposirSheet,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -2715,6 +3026,8 @@ class SimpleAnalytics {
         PropertyType.eurAccountType: isCJ ? _accountTypeSimple : _accountTypePersonal,
         PropertyType.eurAccountLabel: eurAccountLabel,
         PropertyType.isHasTransactions: isHasTransaction,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
@@ -2726,7 +3039,7 @@ class SimpleAnalytics {
     required String copyType,
   }) {
     _analytics.logEvent(
-      EventType.eurWalletTapCopyDeposit,
+      EventName.eurWalletTapCopyDeposit,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -2735,6 +3048,8 @@ class SimpleAnalytics {
         PropertyType.eurAccountLabel: eurAccountLabel,
         PropertyType.isHasTransactions: isHasTransaction,
         PropertyType.copyType: copyType,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
@@ -2745,7 +3060,7 @@ class SimpleAnalytics {
     required bool isHasTransaction,
   }) {
     _analytics.logEvent(
-      EventType.eurWalletTapAnyHistoryTRXEUR,
+      EventName.eurWalletTapAnyHistoryTRXEUR,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -2753,6 +3068,8 @@ class SimpleAnalytics {
         PropertyType.eurAccountType: isCJ ? _accountTypeSimple : _accountTypePersonal,
         PropertyType.eurAccountLabel: eurAccountLabel,
         PropertyType.isHasTransactions: isHasTransaction,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
@@ -2761,12 +3078,14 @@ class SimpleAnalytics {
     required String openedAsset,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheButtonAnyHistoryTrxOnCryptoFavouriteWalletScreen,
+      EventName.tapOnTheButtonAnyHistoryTrxOnCryptoFavouriteWalletScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.asset: openedAsset,
         PropertyType.eventId: '298',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
@@ -2775,12 +3094,14 @@ class SimpleAnalytics {
     required GlobalHistoryTab globalHistoryTab,
   }) {
     _analytics.logEvent(
-      EventType.globalTransactionHistoryScreenView,
+      EventName.globalTransactionHistoryScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.globalHistoryTab: globalHistoryTab.name,
         PropertyType.eventId: '299',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
@@ -2789,12 +3110,14 @@ class SimpleAnalytics {
     required GlobalHistoryTab globalHistoryTab,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheButtonAllOnGlobalTransactionHistoryScreen,
+      EventName.tapOnTheButtonAllOnGlobalTransactionHistoryScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.globalHistoryTab: globalHistoryTab.name,
         PropertyType.eventId: '300',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
@@ -2803,12 +3126,14 @@ class SimpleAnalytics {
     required GlobalHistoryTab globalHistoryTab,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheButtonPendingOnGlobalTransactionHistoryScreen,
+      EventName.tapOnTheButtonPendingOnGlobalTransactionHistoryScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.globalHistoryTab: globalHistoryTab.name,
         PropertyType.eventId: '301',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
@@ -2817,12 +3142,14 @@ class SimpleAnalytics {
     required GlobalHistoryTab globalHistoryTab,
   }) {
     _analytics.logEvent(
-      EventType.swipeHistoryListOnGlobalTransactionHistoryScreen,
+      EventName.swipeHistoryListOnGlobalTransactionHistoryScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.globalHistoryTab: globalHistoryTab.name,
         PropertyType.eventId: '302',
+        PropertyType.eventType: EventType.swipe.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
@@ -2831,12 +3158,14 @@ class SimpleAnalytics {
     required GlobalHistoryTab globalHistoryTab,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheButtonAnyHistoryTrxOnGlobalTransactionHistoryScreen,
+      EventName.tapOnTheButtonAnyHistoryTrxOnGlobalTransactionHistoryScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.globalHistoryTab: globalHistoryTab.name,
         PropertyType.eventId: '303',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
@@ -2845,12 +3174,14 @@ class SimpleAnalytics {
     required GlobalHistoryTab globalHistoryTab,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheButtonBackOnGlobalTransactionHistoryScreen,
+      EventName.tapOnTheButtonBackOnGlobalTransactionHistoryScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.globalHistoryTab: globalHistoryTab.name,
         PropertyType.eventId: '304',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.walletWithFavourites.id,
       },
     );
   }
@@ -2859,12 +3190,14 @@ class SimpleAnalytics {
     required int timeAfterBlock,
   }) {
     _analytics.logEvent(
-      EventType.pinAfterWaiting,
+      EventName.pinAfterWaiting,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.timeAfterBlock: timeAfterBlock,
         PropertyType.eventId: '305',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
       },
     );
   }
@@ -2877,7 +3210,7 @@ class SimpleAnalytics {
     required bool isCJ,
   }) {
     _analytics.logEvent(
-      EventType.eurWithdrawTapOnTheButtonWithdraw,
+      EventName.eurWithdrawTapOnTheButtonWithdraw,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -2885,6 +3218,8 @@ class SimpleAnalytics {
         PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.withdrawal.id,
       },
     );
   }
@@ -2895,7 +3230,7 @@ class SimpleAnalytics {
     required String accountLabel,
   }) {
     _analytics.logEvent(
-      EventType.eurWithdrawBankTransferWithEurSheet,
+      EventName.eurWithdrawBankTransferWithEurSheet,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -2903,6 +3238,8 @@ class SimpleAnalytics {
         PropertyType.accountFrom: isCJAccount ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.withdrawal.id,
       },
     );
   }
@@ -2913,7 +3250,7 @@ class SimpleAnalytics {
     required String accountLabel,
   }) {
     _analytics.logEvent(
-      EventType.eurWithdrawUserTapsOnButtonEdit,
+      EventName.eurWithdrawUserTapsOnButtonEdit,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -2921,6 +3258,8 @@ class SimpleAnalytics {
         PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.withdrawal.id,
       },
     );
   }
@@ -2931,7 +3270,7 @@ class SimpleAnalytics {
     required String accountLabel,
   }) {
     _analytics.logEvent(
-      EventType.eurWithdrawEditBankAccountWithSV,
+      EventName.eurWithdrawEditBankAccountWithSV,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -2939,6 +3278,8 @@ class SimpleAnalytics {
         PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.withdrawal.id,
       },
     );
   }
@@ -2949,7 +3290,7 @@ class SimpleAnalytics {
     required String accountLabel,
   }) {
     _analytics.logEvent(
-      EventType.eurWithdrawTapSaveChangesEdit,
+      EventName.eurWithdrawTapSaveChangesEdit,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -2957,6 +3298,8 @@ class SimpleAnalytics {
         PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.withdrawal.id,
       },
     );
   }
@@ -2967,7 +3310,7 @@ class SimpleAnalytics {
     required String accountLabel,
   }) {
     _analytics.logEvent(
-      EventType.eurWithdrawTapCloseEdit,
+      EventName.eurWithdrawTapCloseEdit,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -2975,6 +3318,8 @@ class SimpleAnalytics {
         PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.withdrawal.id,
       },
     );
   }
@@ -2985,7 +3330,7 @@ class SimpleAnalytics {
     required String accountLabel,
   }) {
     _analytics.logEvent(
-      EventType.eurWithdrawTapDeleteEdit,
+      EventName.eurWithdrawTapDeleteEdit,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -2993,6 +3338,8 @@ class SimpleAnalytics {
         PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.withdrawal.id,
       },
     );
   }
@@ -3003,7 +3350,7 @@ class SimpleAnalytics {
     required String accountLabel,
   }) {
     _analytics.logEvent(
-      EventType.eurWithdrawTapConfirmDeleteEdit,
+      EventName.eurWithdrawTapConfirmDeleteEdit,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3011,6 +3358,8 @@ class SimpleAnalytics {
         PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.withdrawal.id,
       },
     );
   }
@@ -3021,7 +3370,7 @@ class SimpleAnalytics {
     required String accountLabel,
   }) {
     _analytics.logEvent(
-      EventType.eurWithdrawTapReceive,
+      EventName.eurWithdrawTapReceive,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3029,6 +3378,8 @@ class SimpleAnalytics {
         PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.withdrawal.id,
       },
     );
   }
@@ -3039,7 +3390,7 @@ class SimpleAnalytics {
     required String accountLabel,
   }) {
     _analytics.logEvent(
-      EventType.eurWithdrawTapExistingAccount,
+      EventName.eurWithdrawTapExistingAccount,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3047,6 +3398,8 @@ class SimpleAnalytics {
         PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.withdrawal.id,
       },
     );
   }
@@ -3057,7 +3410,7 @@ class SimpleAnalytics {
     required String accountLabel,
   }) {
     _analytics.logEvent(
-      EventType.eurWithdrawAddReceiving,
+      EventName.eurWithdrawAddReceiving,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3065,6 +3418,8 @@ class SimpleAnalytics {
         PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.withdrawal.id,
       },
     );
   }
@@ -3075,7 +3430,7 @@ class SimpleAnalytics {
     required String accountLabel,
   }) {
     _analytics.logEvent(
-      EventType.eurWithdrawTapBackReceiving,
+      EventName.eurWithdrawTapBackReceiving,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3083,6 +3438,8 @@ class SimpleAnalytics {
         PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.withdrawal.id,
       },
     );
   }
@@ -3093,7 +3450,7 @@ class SimpleAnalytics {
     required String accountLabel,
   }) {
     _analytics.logEvent(
-      EventType.eurWithdrawTapContinueAddReceiving,
+      EventName.eurWithdrawTapContinueAddReceiving,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3101,6 +3458,8 @@ class SimpleAnalytics {
         PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.withdrawal.id,
       },
     );
   }
@@ -3113,7 +3472,7 @@ class SimpleAnalytics {
     required String eurAccLabel,
   }) {
     _analytics.logEvent(
-      EventType.eurWithdrawEurAmountSV,
+      EventName.eurWithdrawEurAmountSV,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3123,6 +3482,8 @@ class SimpleAnalytics {
         PropertyType.eurAccountFromLabel: accountLabel,
         PropertyType.eurAccountType: eurAccType,
         PropertyType.eurAccountLabel: eurAccLabel,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.withdrawal.id,
       },
     );
   }
@@ -3135,7 +3496,7 @@ class SimpleAnalytics {
     required String eurAccLabel,
   }) {
     _analytics.logEvent(
-      EventType.eurWithdrawBackAmountSV,
+      EventName.eurWithdrawBackAmountSV,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3145,6 +3506,8 @@ class SimpleAnalytics {
         PropertyType.eurAccountFromLabel: accountLabel,
         PropertyType.eurAccountType: eurAccType,
         PropertyType.eurAccountLabel: eurAccLabel,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.withdrawal.id,
       },
     );
   }
@@ -3159,7 +3522,7 @@ class SimpleAnalytics {
     required String enteredAmount,
   }) {
     _analytics.logEvent(
-      EventType.eurWithdrawErrorShowConvert,
+      EventName.eurWithdrawErrorShowConvert,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3171,6 +3534,8 @@ class SimpleAnalytics {
         PropertyType.eurAccountLabel: eurAccLabel,
         PropertyType.errorCode: errorText,
         PropertyType.enteredAmount: enteredAmount,
+        PropertyType.eventType: EventType.error.name,
+        PropertyType.eventCategory: EventCategory.withdrawal.id,
       },
     );
   }
@@ -3184,7 +3549,7 @@ class SimpleAnalytics {
     required String enteredAmount,
   }) {
     _analytics.logEvent(
-      EventType.eurWithdrawContinueFromAmoountB,
+      EventName.eurWithdrawContinueFromAmoountB,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3195,6 +3560,8 @@ class SimpleAnalytics {
         PropertyType.eurAccountType: eurAccType,
         PropertyType.eurAccountLabel: eurAccLabel,
         PropertyType.enteredAmount: enteredAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.withdrawal.id,
       },
     );
   }
@@ -3208,7 +3575,7 @@ class SimpleAnalytics {
     required String enteredAmount,
   }) {
     _analytics.logEvent(
-      EventType.eurWithdrawReferenceSV,
+      EventName.eurWithdrawReferenceSV,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3219,6 +3586,8 @@ class SimpleAnalytics {
         PropertyType.eurAccountType: eurAccType,
         PropertyType.eurAccountLabel: eurAccLabel,
         PropertyType.enteredAmount: enteredAmount,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.withdrawal.id,
       },
     );
   }
@@ -3233,7 +3602,7 @@ class SimpleAnalytics {
     required String referenceText,
   }) {
     _analytics.logEvent(
-      EventType.eurWithdrawContinueReferecenceButton,
+      EventName.eurWithdrawContinueReferecenceButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3245,13 +3614,15 @@ class SimpleAnalytics {
         PropertyType.eurAccountLabel: eurAccLabel,
         PropertyType.enteredAmount: enteredAmount,
         PropertyType.referenceText: referenceText,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.withdrawal.id,
       },
     );
   }
 
   void tapOnTheButtonAddCashWalletsOnWalletsScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheButtonAddCashWalletsOnWalletsScreen,
+      EventName.tapOnTheButtonAddCashWalletsOnWalletsScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3269,7 +3640,7 @@ class SimpleAnalytics {
     required String enteredAmount,
   }) {
     _analytics.logEvent(
-      EventType.eurWithdrawWithdrawOrderSummarySV,
+      EventName.eurWithdrawWithdrawOrderSummarySV,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3280,6 +3651,8 @@ class SimpleAnalytics {
         PropertyType.eurAccountType: eurAccType,
         PropertyType.eurAccountLabel: eurAccLabel,
         PropertyType.enteredAmount: enteredAmount,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.withdrawal.id,
       },
     );
   }
@@ -3293,7 +3666,7 @@ class SimpleAnalytics {
     required String enteredAmount,
   }) {
     _analytics.logEvent(
-      EventType.eurWithdrawTapBackOrderSummary,
+      EventName.eurWithdrawTapBackOrderSummary,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3304,6 +3677,8 @@ class SimpleAnalytics {
         PropertyType.eurAccountType: eurAccType,
         PropertyType.eurAccountLabel: eurAccLabel,
         PropertyType.enteredAmount: enteredAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.withdrawal.id,
       },
     );
   }
@@ -3317,7 +3692,7 @@ class SimpleAnalytics {
     required String enteredAmount,
   }) {
     _analytics.logEvent(
-      EventType.eurWithdrawTapConfirmOrderSummary,
+      EventName.eurWithdrawTapConfirmOrderSummary,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3328,6 +3703,8 @@ class SimpleAnalytics {
         PropertyType.eurAccountType: eurAccType,
         PropertyType.eurAccountLabel: eurAccLabel,
         PropertyType.enteredAmount: enteredAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.withdrawal.id,
       },
     );
   }
@@ -3341,7 +3718,7 @@ class SimpleAnalytics {
     required String enteredAmount,
   }) {
     _analytics.logEvent(
-      EventType.eurWithdrawSuccessWithdrawEndSV,
+      EventName.eurWithdrawSuccessWithdrawEndSV,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3352,6 +3729,8 @@ class SimpleAnalytics {
         PropertyType.eurAccountType: eurAccType,
         PropertyType.eurAccountLabel: eurAccLabel,
         PropertyType.enteredAmount: enteredAmount,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.withdrawal.id,
       },
     );
   }
@@ -3365,7 +3744,7 @@ class SimpleAnalytics {
     required String enteredAmount,
   }) {
     _analytics.logEvent(
-      EventType.eurWithdrawFailed,
+      EventName.eurWithdrawFailed,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3376,6 +3755,8 @@ class SimpleAnalytics {
         PropertyType.eurAccountType: eurAccType,
         PropertyType.eurAccountLabel: eurAccLabel,
         PropertyType.enteredAmount: enteredAmount,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.withdrawal.id,
       },
     );
   }
@@ -3386,45 +3767,53 @@ class SimpleAnalytics {
     required String source,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheBuyWalletButton,
+      EventName.tapOnTheBuyWalletButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '313',
         PropertyType.source: source,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
 
   void errorBuyIsUnavailable() {
     _analytics.logEvent(
-      EventType.errorBuyIsUnavailable,
+      EventName.errorBuyIsUnavailable,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '314',
+        PropertyType.eventType: EventType.error.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
 
   void chooseWalletScreenView() {
     _analytics.logEvent(
-      EventType.chooseWalletScreenView,
+      EventName.chooseWalletScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '315',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
 
   void tapOnTheBackFromChooseWalletButton() {
     _analytics.logEvent(
-      EventType.tapOnTheBackFromChooseWalletButton,
+      EventName.tapOnTheBackFromChooseWalletButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '316',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3433,12 +3822,14 @@ class SimpleAnalytics {
     required String destinationWallet,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheAnyWalletForBuyButton,
+      EventName.tapOnTheAnyWalletForBuyButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '317',
         PropertyType.asset: destinationWallet,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3447,12 +3838,14 @@ class SimpleAnalytics {
     required String destinationWallet,
   }) {
     _analytics.logEvent(
-      EventType.addCardDetailsScreenView,
+      EventName.addCardDetailsScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '318',
         PropertyType.asset: destinationWallet,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3461,12 +3854,14 @@ class SimpleAnalytics {
     required String destinationWallet,
   }) {
     _analytics.logEvent(
-      EventType.tapOnSaveCardForFurtherPurchaseButton,
+      EventName.tapOnSaveCardForFurtherPurchaseButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '319',
         PropertyType.asset: destinationWallet,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3475,12 +3870,14 @@ class SimpleAnalytics {
     required String destinationWallet,
   }) {
     _analytics.logEvent(
-      EventType.tapOnContinueCrNewCardButton,
+      EventName.tapOnContinueCrNewCardButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '320',
         PropertyType.asset: destinationWallet,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3489,12 +3886,14 @@ class SimpleAnalytics {
     required String destinationWallet,
   }) {
     _analytics.logEvent(
-      EventType.addACustomNameScreenView,
+      EventName.addACustomNameScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '321',
         PropertyType.asset: destinationWallet,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3503,12 +3902,14 @@ class SimpleAnalytics {
     required String destinationWallet,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheBackFromCardLabelCreationButton,
+      EventName.tapOnTheBackFromCardLabelCreationButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '322',
         PropertyType.asset: destinationWallet,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3517,12 +3918,14 @@ class SimpleAnalytics {
     required String destinationWallet,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheContinueSaveCardLabelButton,
+      EventName.tapOnTheContinueSaveCardLabelButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '323',
         PropertyType.asset: destinationWallet,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3532,13 +3935,15 @@ class SimpleAnalytics {
     List<String> listOfAvailablePMs = const [],
   }) {
     _analytics.logEvent(
-      EventType.payWithPMSheetView,
+      EventName.payWithPMSheetView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '324',
         PropertyType.asset: destinationWallet,
         PropertyType.listOfAvailablePMs: listOfAvailablePMs,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3547,12 +3952,14 @@ class SimpleAnalytics {
     required String destinationWallet,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheButtonCloseForClosingSheetOnPayWithPMSheet,
+      EventName.tapOnTheButtonCloseForClosingSheetOnPayWithPMSheet,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '325',
         PropertyType.asset: destinationWallet,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3563,7 +3970,7 @@ class SimpleAnalytics {
     required String buyPM,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheButtonSomePMForBuyOnPayWithPMSheet,
+      EventName.tapOnTheButtonSomePMForBuyOnPayWithPMSheet,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3571,6 +3978,8 @@ class SimpleAnalytics {
         PropertyType.asset: destinationWallet,
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3582,7 +3991,7 @@ class SimpleAnalytics {
     required String sourceCurrency,
   }) {
     _analytics.logEvent(
-      EventType.buyAmountScreenView,
+      EventName.buyAmountScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3591,6 +4000,8 @@ class SimpleAnalytics {
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
         PropertyType.currency: sourceCurrency,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3602,7 +4013,7 @@ class SimpleAnalytics {
     required String sourceCurrency,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheBackFromAmountScreenButton,
+      EventName.tapOnTheBackFromAmountScreenButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3611,6 +4022,8 @@ class SimpleAnalytics {
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
         PropertyType.currency: sourceCurrency,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3623,7 +4036,7 @@ class SimpleAnalytics {
     required NowInputType nowInput,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheChangeInputBuyButton,
+      EventName.tapOnTheChangeInputBuyButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3633,6 +4046,8 @@ class SimpleAnalytics {
         PropertyType.buyPM: buyPM,
         PropertyType.currency: sourceCurrency,
         PropertyType.nowInput: nowInput.name,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3643,7 +4058,7 @@ class SimpleAnalytics {
     required String sourceCurrency,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheChooseAssetButton,
+      EventName.tapOnTheChooseAssetButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3651,6 +4066,8 @@ class SimpleAnalytics {
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
         PropertyType.currency: sourceCurrency,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3662,7 +4079,7 @@ class SimpleAnalytics {
     required String sourceCurrency,
   }) {
     _analytics.logEvent(
-      EventType.tapOnThePayWithButton,
+      EventName.tapOnThePayWithButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3671,6 +4088,8 @@ class SimpleAnalytics {
         PropertyType.pmType: pmType.name,
         PropertyType.buyPM: buyPM,
         PropertyType.currency: sourceCurrency,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3684,7 +4103,7 @@ class SimpleAnalytics {
     required String destinationBuyAmount,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheContinueWithBuyAmountButton,
+      EventName.tapOnTheContinueWithBuyAmountButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3695,6 +4114,8 @@ class SimpleAnalytics {
         PropertyType.currency: sourceCurrency,
         PropertyType.amountInFiat: sourceBuyAmount,
         PropertyType.amountInCrypto: destinationBuyAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3708,7 +4129,7 @@ class SimpleAnalytics {
     required String destinationBuyAmount,
   }) {
     _analytics.logEvent(
-      EventType.buyOrderSummaryScreenView,
+      EventName.buyOrderSummaryScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3719,6 +4140,8 @@ class SimpleAnalytics {
         PropertyType.currency: sourceCurrency,
         PropertyType.amountInFiat: sourceBuyAmount,
         PropertyType.amountInCrypto: destinationBuyAmount,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3733,7 +4156,7 @@ class SimpleAnalytics {
     required bool isCheckboxNowTrue,
   }) {
     _analytics.logEvent(
-      EventType.tapToAgreeToTheTCAndPrivacyPolicyBuy,
+      EventName.tapToAgreeToTheTCAndPrivacyPolicyBuy,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3745,17 +4168,21 @@ class SimpleAnalytics {
         PropertyType.amountInFiat: sourceBuyAmount,
         PropertyType.amountInCrypto: destinationBuyAmount,
         PropertyType.isCheckboxNowTrue: isCheckboxNowTrue,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
 
   void tapOnTheButtonPaymentFeeInfoOnBuyCheckout() {
     _analytics.logEvent(
-      EventType.tapOnTheButtonPaymentFeeInfoOnBuyCheckout,
+      EventName.tapOnTheButtonPaymentFeeInfoOnBuyCheckout,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '335',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3770,7 +4197,7 @@ class SimpleAnalytics {
     required FeeType feeType,
   }) {
     _analytics.logEvent(
-      EventType.paymentProcessingFeePopupView,
+      EventName.paymentProcessingFeePopupView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3782,6 +4209,8 @@ class SimpleAnalytics {
         PropertyType.amountInFiat: sourceBuyAmount,
         PropertyType.amountInCrypto: destinationBuyAmount,
         PropertyType.type: feeType.name,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3796,7 +4225,7 @@ class SimpleAnalytics {
     required FeeType feeType,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheCloseOnPPopap,
+      EventName.tapOnTheCloseOnPPopap,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3808,6 +4237,8 @@ class SimpleAnalytics {
         PropertyType.amountInFiat: sourceBuyAmount,
         PropertyType.amountInCrypto: destinationBuyAmount,
         PropertyType.type: feeType.name,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3821,7 +4252,7 @@ class SimpleAnalytics {
     required String destinationBuyAmount,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheButtonConfirmOnBuyOrderSummary,
+      EventName.tapOnTheButtonConfirmOnBuyOrderSummary,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3832,6 +4263,8 @@ class SimpleAnalytics {
         PropertyType.currency: sourceCurrency,
         PropertyType.amountInFiat: sourceBuyAmount,
         PropertyType.amountInCrypto: destinationBuyAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3845,7 +4278,7 @@ class SimpleAnalytics {
     required String destinationBuyAmount,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheButtonTermsAndConditionsOnBuyOrderSummary,
+      EventName.tapOnTheButtonTermsAndConditionsOnBuyOrderSummary,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3856,6 +4289,8 @@ class SimpleAnalytics {
         PropertyType.currency: sourceCurrency,
         PropertyType.amountInFiat: sourceBuyAmount,
         PropertyType.amountInCrypto: destinationBuyAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3869,7 +4304,7 @@ class SimpleAnalytics {
     required String destinationBuyAmount,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheButtonPrivacyPolicyOnBuyOrderSummary,
+      EventName.tapOnTheButtonPrivacyPolicyOnBuyOrderSummary,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3880,6 +4315,8 @@ class SimpleAnalytics {
         PropertyType.currency: sourceCurrency,
         PropertyType.amountInFiat: sourceBuyAmount,
         PropertyType.amountInCrypto: destinationBuyAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3893,7 +4330,7 @@ class SimpleAnalytics {
     required String destinationBuyAmount,
   }) {
     _analytics.logEvent(
-      EventType.enterCVVForBuyScreenView,
+      EventName.enterCVVForBuyScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3904,6 +4341,8 @@ class SimpleAnalytics {
         PropertyType.currency: sourceCurrency,
         PropertyType.amountInFiat: sourceBuyAmount,
         PropertyType.amountInCrypto: destinationBuyAmount,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3917,7 +4356,7 @@ class SimpleAnalytics {
     required String destinationBuyAmount,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheCloseOnCVVPopup,
+      EventName.tapOnTheCloseOnCVVPopup,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3928,6 +4367,8 @@ class SimpleAnalytics {
         PropertyType.currency: sourceCurrency,
         PropertyType.amountInFiat: sourceBuyAmount,
         PropertyType.amountInCrypto: destinationBuyAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3941,7 +4382,7 @@ class SimpleAnalytics {
     required String destinationBuyAmount,
   }) {
     _analytics.logEvent(
-      EventType.threeDSecureScreenView,
+      EventName.threeDSecureScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3952,6 +4393,8 @@ class SimpleAnalytics {
         PropertyType.currency: sourceCurrency,
         PropertyType.amountInFiat: sourceBuyAmount,
         PropertyType.amountInCrypto: destinationBuyAmount,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3965,7 +4408,7 @@ class SimpleAnalytics {
     required String destinationBuyAmount,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheCloseButtonOn3DSecureScreen,
+      EventName.tapOnTheCloseButtonOn3DSecureScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -3976,6 +4419,8 @@ class SimpleAnalytics {
         PropertyType.currency: sourceCurrency,
         PropertyType.amountInFiat: sourceBuyAmount,
         PropertyType.amountInCrypto: destinationBuyAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -3989,7 +4434,7 @@ class SimpleAnalytics {
     required String destinationBuyAmount,
   }) {
     _analytics.logEvent(
-      EventType.successBuyEndScreenView,
+      EventName.successBuyEndScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -4000,6 +4445,8 @@ class SimpleAnalytics {
         PropertyType.currency: sourceCurrency,
         PropertyType.amountInFiat: sourceBuyAmount,
         PropertyType.amountInCrypto: destinationBuyAmount,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -4013,7 +4460,7 @@ class SimpleAnalytics {
     required String destinationBuyAmount,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheCloseButtonOnSuccessBuyEndScreen,
+      EventName.tapOnTheCloseButtonOnSuccessBuyEndScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -4024,6 +4471,8 @@ class SimpleAnalytics {
         PropertyType.currency: sourceCurrency,
         PropertyType.amountInFiat: sourceBuyAmount,
         PropertyType.amountInCrypto: destinationBuyAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -4037,7 +4486,7 @@ class SimpleAnalytics {
     required String destinationBuyAmount,
   }) {
     _analytics.logEvent(
-      EventType.failedBuyEndScreenView,
+      EventName.failedBuyEndScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -4048,6 +4497,8 @@ class SimpleAnalytics {
         PropertyType.currency: sourceCurrency,
         PropertyType.amountInFiat: sourceBuyAmount,
         PropertyType.amountInCrypto: destinationBuyAmount,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -4061,7 +4512,7 @@ class SimpleAnalytics {
     required String destinationBuyAmount,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheCloseButtonOnFailedBuyEndScreen,
+      EventName.tapOnTheCloseButtonOnFailedBuyEndScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -4072,61 +4523,73 @@ class SimpleAnalytics {
         PropertyType.currency: sourceCurrency,
         PropertyType.amountInFiat: sourceBuyAmount,
         PropertyType.amountInCrypto: destinationBuyAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
 
   void unsupportedCurrencyPopupView() {
     _analytics.logEvent(
-      EventType.unsupportedCurrencyPopupView,
+      EventName.unsupportedCurrencyPopupView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '349',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
 
   void tapOnTheGotItButtonOnUnsupportedCurrencyScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheGotItButtonOnUnsupportedCurrencyScreen,
+      EventName.tapOnTheGotItButtonOnUnsupportedCurrencyScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '350',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
 
   void tapOnTheBuyButtonOnBSCSegmentScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheBuyButtonOnBSCSegmentScreen,
+      EventName.tapOnTheBuyButtonOnBSCSegmentScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '421',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
 
   void tapOnTheSellButtonOnBSCSegmentButton() {
     _analytics.logEvent(
-      EventType.tapOnTheSellButtonOnBSCSegmentButton,
+      EventName.tapOnTheSellButtonOnBSCSegmentButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '422',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
 
   void tapOnTheConvertButtonOnBSCSegmentButton() {
     _analytics.logEvent(
-      EventType.tapOnTheConvertButtonOnBSCSegmentButton,
+      EventName.tapOnTheConvertButtonOnBSCSegmentButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '423',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }
@@ -4135,12 +4598,14 @@ class SimpleAnalytics {
     required String source,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheSellButton,
+      EventName.tapOnTheSellButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '351',
         PropertyType.source: source,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
   }
@@ -4149,33 +4614,39 @@ class SimpleAnalytics {
 
   void tapOnTheSellAll() {
     _analytics.logEvent(
-      EventType.tapOnTheSellAll,
+      EventName.tapOnTheSellAll,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '352',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
   }
 
   void tapOnTheChangeCurrencySell() {
     _analytics.logEvent(
-      EventType.tapOnTheChangeCurrencySell,
+      EventName.tapOnTheChangeCurrencySell,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '353',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
   }
 
   void sellAmountScreenView() {
     _analytics.logEvent(
-      EventType.sellAmountScreenView,
+      EventName.sellAmountScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '354',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
   }
@@ -4184,34 +4655,40 @@ class SimpleAnalytics {
     required String currentFromValueForSell,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheSellFromButton,
+      EventName.tapOnTheSellFromButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '355',
         PropertyType.assetFrom: currentFromValueForSell,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
   }
 
   void sellFromSheetView() {
     _analytics.logEvent(
-      EventType.sellFromSheetView,
+      EventName.sellFromSheetView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '356',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
   }
 
   void tapOnCloseSheetFromSellButton() {
     _analytics.logEvent(
-      EventType.tapOnCloseSheetFromSellButton,
+      EventName.tapOnCloseSheetFromSellButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '357',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
   }
@@ -4220,12 +4697,14 @@ class SimpleAnalytics {
     required String newSellFromAsset,
   }) {
     _analytics.logEvent(
-      EventType.tapOnSelectedNewSellFromAssetButton,
+      EventName.tapOnSelectedNewSellFromAssetButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '358',
         PropertyType.assetFrom: newSellFromAsset,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
   }
@@ -4234,34 +4713,40 @@ class SimpleAnalytics {
     required bool currentToValueForSell,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheSellToButton,
+      EventName.tapOnTheSellToButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '359',
         PropertyType.sellTo: currentToValueForSell ? _simpleAccountText : _personalAccountText,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
   }
 
   void sellToSheetView() {
     _analytics.logEvent(
-      EventType.sellToSheetView,
+      EventName.sellToSheetView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '360',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
   }
 
   void tapOnCloseSheetSellToButton() {
     _analytics.logEvent(
-      EventType.tapOnCloseSheetSellToButton,
+      EventName.tapOnCloseSheetSellToButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '361',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
   }
@@ -4270,45 +4755,53 @@ class SimpleAnalytics {
     required String newSellToMethod,
   }) {
     _analytics.logEvent(
-      EventType.tapOnSelectedNewSellToButton,
+      EventName.tapOnSelectedNewSellToButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '362',
         PropertyType.sellTo: newSellToMethod,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
   }
 
   void errorYouNeedToCreateEURAccountFirst() {
     _analytics.logEvent(
-      EventType.errorYouNeedToCreateEURAccountFirst,
+      EventName.errorYouNeedToCreateEURAccountFirst,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '364',
+        PropertyType.eventType: EventType.error.name,
+        PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
   }
 
   void errorShowingErrorUnderSellAmount() {
     _analytics.logEvent(
-      EventType.errorShowingErrorUnderSellAmount,
+      EventName.errorShowingErrorUnderSellAmount,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '365',
+        PropertyType.eventType: EventType.error.name,
+        PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
   }
 
   void tapOnTheBackFromSellAmountButton() {
     _analytics.logEvent(
-      EventType.tapOnTheBackFromSellAmountButton,
+      EventName.tapOnTheBackFromSellAmountButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '366',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
   }
@@ -4321,7 +4814,7 @@ class SimpleAnalytics {
     required String enteredAmount,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheContinueWithSellAmountButton,
+      EventName.tapOnTheContinueWithSellAmountButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -4331,6 +4824,8 @@ class SimpleAnalytics {
         PropertyType.assetFrom: sellFromWallet,
         PropertyType.sellTo: sellToPMType.name,
         PropertyType.amount: enteredAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
   }
@@ -4344,7 +4839,7 @@ class SimpleAnalytics {
     required String fiatAccountLabel,
   }) {
     _analytics.logEvent(
-      EventType.sellOrderSummaryScreenView,
+      EventName.sellOrderSummaryScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -4355,28 +4850,34 @@ class SimpleAnalytics {
         PropertyType.assetFrom: sellFromWallet,
         PropertyType.sellTo: sellToPMType.name,
         PropertyType.fiatAccountLabel: fiatAccountLabel,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
   }
 
   void tapOnTheBackFromSellConfirmationButton() {
     _analytics.logEvent(
-      EventType.tapOnTheBackFromSellConfirmationButton,
+      EventName.tapOnTheBackFromSellConfirmationButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '369',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
   }
 
   void tapToAgreeToTheTCAndPrivacyPolicySell() {
     _analytics.logEvent(
-      EventType.tapToAgreeToTheTCAndPrivacyPolicySell,
+      EventName.tapToAgreeToTheTCAndPrivacyPolicySell,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '370',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
   }
@@ -4385,12 +4886,14 @@ class SimpleAnalytics {
     required FeeType feeType,
   }) {
     _analytics.logEvent(
-      EventType.paymentProcessingFeeSellPopupView,
+      EventName.paymentProcessingFeeSellPopupView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '371',
         PropertyType.type: feeType.name,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
   }
@@ -4404,7 +4907,7 @@ class SimpleAnalytics {
     required String fiatAccountLabel,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheButtonConfirmOnSellOrderSummary,
+      EventName.tapOnTheButtonConfirmOnSellOrderSummary,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -4415,6 +4918,8 @@ class SimpleAnalytics {
         PropertyType.assetFrom: sellFromWallet,
         PropertyType.sellTo: sellToPMType.name,
         PropertyType.fiatAccountLabel: fiatAccountLabel,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
   }
@@ -4428,7 +4933,7 @@ class SimpleAnalytics {
     required String fiatAccountLabel,
   }) {
     _analytics.logEvent(
-      EventType.successSellEndScreenView,
+      EventName.successSellEndScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -4439,6 +4944,8 @@ class SimpleAnalytics {
         PropertyType.assetFrom: sellFromWallet,
         PropertyType.sellTo: sellToPMType.name,
         PropertyType.fiatAccountLabel: fiatAccountLabel,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
   }
@@ -4452,7 +4959,7 @@ class SimpleAnalytics {
     required String fiatAccountLabel,
   }) {
     _analytics.logEvent(
-      EventType.failedSellEndScreenView,
+      EventName.failedSellEndScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -4463,6 +4970,8 @@ class SimpleAnalytics {
         PropertyType.assetFrom: sellFromWallet,
         PropertyType.sellTo: sellToPMType.name,
         PropertyType.fiatAccountLabel: fiatAccountLabel,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
   }
@@ -4473,45 +4982,53 @@ class SimpleAnalytics {
     required String source,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheConvertButton,
+      EventName.tapOnTheConvertButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '375',
         PropertyType.source: source,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.convertFlow.id,
       },
     );
   }
 
   void tapOnTheConvertAll() {
     _analytics.logEvent(
-      EventType.tapOnTheConvertAll,
+      EventName.tapOnTheConvertAll,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '376',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.convertFlow.id,
       },
     );
   }
 
   void tapOnTheChangeInputAssetConvert() {
     _analytics.logEvent(
-      EventType.tapOnTheChangeInputAssetConvert,
+      EventName.tapOnTheChangeInputAssetConvert,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '377',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.convertFlow.id,
       },
     );
   }
 
   void convertAmountScreenView() {
     _analytics.logEvent(
-      EventType.convertAmountScreenView,
+      EventName.convertAmountScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '378',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.convertFlow.id,
       },
     );
   }
@@ -4520,34 +5037,40 @@ class SimpleAnalytics {
     required String currentFromValueForSell,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheConvertFromButton,
+      EventName.tapOnTheConvertFromButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '379',
         PropertyType.assetFrom: currentFromValueForSell,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.convertFlow.id,
       },
     );
   }
 
   void convertFromSheetView() {
     _analytics.logEvent(
-      EventType.convertFromSheetView,
+      EventName.convertFromSheetView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '380',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.convertFlow.id,
       },
     );
   }
 
   void tapOnCloseSheetConvertFromButton() {
     _analytics.logEvent(
-      EventType.tapOnCloseSheetConvertFromButton,
+      EventName.tapOnCloseSheetConvertFromButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '381',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.convertFlow.id,
       },
     );
   }
@@ -4556,12 +5079,14 @@ class SimpleAnalytics {
     required String newConvertFromAsset,
   }) {
     _analytics.logEvent(
-      EventType.tapOnSelectedNewConvertFromAssetButton,
+      EventName.tapOnSelectedNewConvertFromAssetButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '382',
         PropertyType.assetFrom: newConvertFromAsset,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.convertFlow.id,
       },
     );
   }
@@ -4570,34 +5095,40 @@ class SimpleAnalytics {
     required String currentToValueForConvert,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheConvertToButton,
+      EventName.tapOnTheConvertToButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '383',
         PropertyType.assetTo: currentToValueForConvert,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.convertFlow.id,
       },
     );
   }
 
   void convertToSheetView() {
     _analytics.logEvent(
-      EventType.convertToSheetView,
+      EventName.convertToSheetView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '384',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.convertFlow.id,
       },
     );
   }
 
   void tapOnCloseSheetConvertToButton() {
     _analytics.logEvent(
-      EventType.tapOnCloseSheetConvertToButton,
+      EventName.tapOnCloseSheetConvertToButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '385',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.convertFlow.id,
       },
     );
   }
@@ -4606,23 +5137,27 @@ class SimpleAnalytics {
     required String newConvertToAsset,
   }) {
     _analytics.logEvent(
-      EventType.tapOnSelectedNewConvertToButton,
+      EventName.tapOnSelectedNewConvertToButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '386',
         PropertyType.assetTo: newConvertToAsset,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.convertFlow.id,
       },
     );
   }
 
   void errorYourCryptoBalanceIsZeroPleaseGetCryptoFirst() {
     _analytics.logEvent(
-      EventType.errorYourCryptoBalanceIsZeroPleaseGetCryptoFirst,
+      EventName.errorYourCryptoBalanceIsZeroPleaseGetCryptoFirst,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '387',
+        PropertyType.eventType: EventType.error.name,
+        PropertyType.eventCategory: EventCategory.convertFlow.id,
       },
     );
   }
@@ -4631,23 +5166,27 @@ class SimpleAnalytics {
     required String errorText,
   }) {
     _analytics.logEvent(
-      EventType.errorShowingErrorUnderConvertAmount,
+      EventName.errorShowingErrorUnderConvertAmount,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '389',
         PropertyType.errorCode: errorText,
+        PropertyType.eventType: EventType.error.name,
+        PropertyType.eventCategory: EventCategory.convertFlow.id,
       },
     );
   }
 
   void tapOnTheBackFromConvertAmountButton() {
     _analytics.logEvent(
-      EventType.tapOnTheBackFromConvertAmountButton,
+      EventName.tapOnTheBackFromConvertAmountButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '390',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.convertFlow.id,
       },
     );
   }
@@ -4659,7 +5198,7 @@ class SimpleAnalytics {
     required String nowInput,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTContinueWithConvertAmountCutton,
+      EventName.tapOnTContinueWithConvertAmountCutton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -4668,6 +5207,8 @@ class SimpleAnalytics {
         PropertyType.assetTo: convertToAsset,
         PropertyType.nowInput: nowInput,
         PropertyType.amount: enteredAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.convertFlow.id,
       },
     );
   }
@@ -4679,7 +5220,7 @@ class SimpleAnalytics {
     required String nowInput,
   }) {
     _analytics.logEvent(
-      EventType.convertOrderSummaryScreenView,
+      EventName.convertOrderSummaryScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -4688,28 +5229,34 @@ class SimpleAnalytics {
         PropertyType.assetTo: convertToAsset,
         PropertyType.nowInput: nowInput,
         PropertyType.amount: enteredAmount,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.convertFlow.id,
       },
     );
   }
 
   void tapOnTheBackFromCovertOrderSummaryButton() {
     _analytics.logEvent(
-      EventType.tapOnTheBackFromCovertOrderSummaryButton,
+      EventName.tapOnTheBackFromCovertOrderSummaryButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '393',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.convertFlow.id,
       },
     );
   }
 
   void processingFeeConvertPopupView() {
     _analytics.logEvent(
-      EventType.processingFeeConvertPopupView,
+      EventName.processingFeeConvertPopupView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '394',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.convertFlow.id,
       },
     );
   }
@@ -4721,7 +5268,7 @@ class SimpleAnalytics {
     required String nowInput,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheButtonConfirmOnConvertOrderSummary,
+      EventName.tapOnTheButtonConfirmOnConvertOrderSummary,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -4730,6 +5277,8 @@ class SimpleAnalytics {
         PropertyType.assetTo: convertToAsset,
         PropertyType.nowInput: nowInput,
         PropertyType.amount: enteredAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.convertFlow.id,
       },
     );
   }
@@ -4741,7 +5290,7 @@ class SimpleAnalytics {
     required String nowInput,
   }) {
     _analytics.logEvent(
-      EventType.successConvertEndScreenView,
+      EventName.successConvertEndScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -4750,6 +5299,8 @@ class SimpleAnalytics {
         PropertyType.assetTo: convertToAsset,
         PropertyType.nowInput: nowInput,
         PropertyType.amount: enteredAmount,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.convertFlow.id,
       },
     );
   }
@@ -4762,7 +5313,7 @@ class SimpleAnalytics {
     required String errorText,
   }) {
     _analytics.logEvent(
-      EventType.failedConvertEndScreenView,
+      EventName.failedConvertEndScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -4772,6 +5323,8 @@ class SimpleAnalytics {
         PropertyType.nowInput: nowInput,
         PropertyType.amount: enteredAmount,
         PropertyType.errorCode: errorText,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.convertFlow.id,
       },
     );
   }
@@ -4779,11 +5332,13 @@ class SimpleAnalytics {
   // Simple card
   void viewGetSimpleCard() {
     _analytics.logEvent(
-      EventType.viewGetSimpleCard,
+      EventName.viewGetSimpleCard,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '429',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -4792,34 +5347,40 @@ class SimpleAnalytics {
     required String source,
   }) {
     _analytics.logEvent(
-      EventType.tapOnGetSimpleCard,
+      EventName.tapOnGetSimpleCard,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '430',
         PropertyType.source: source,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
 
   void viewCardTypeSheet() {
     _analytics.logEvent(
-      EventType.viewCardTypeSheet,
+      EventName.viewCardTypeSheet,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '431',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
 
   void tapOnVirtualCard() {
     _analytics.logEvent(
-      EventType.tapOnVirtualCard,
+      EventName.tapOnVirtualCard,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '432',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -4828,12 +5389,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.confirmWithPinView,
+      EventName.confirmWithPinView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '433',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -4842,12 +5405,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.viewSetupPassword,
+      EventName.viewSetupPassword,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '434',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -4856,12 +5421,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.tapCloseSetUpPassword,
+      EventName.tapCloseSetUpPassword,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '435',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -4870,12 +5437,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.tapHideSetupPassword,
+      EventName.tapHideSetupPassword,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '436',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -4884,12 +5453,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.tapShowSetupPassword,
+      EventName.tapShowSetupPassword,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '437',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -4898,122 +5469,144 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.tapContinueSetupPassword,
+      EventName.tapContinueSetupPassword,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '438',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
 
   void viewCompleteKYCForCard() {
     _analytics.logEvent(
-      EventType.viewCompleteKYCForCard,
+      EventName.viewCompleteKYCForCard,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '439',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
 
   void tapVerifyAccountForCard() {
     _analytics.logEvent(
-      EventType.tapVerifyAccountForCard,
+      EventName.tapVerifyAccountForCard,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '440',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
 
   void tapCancelKYCForCard() {
     _analytics.logEvent(
-      EventType.tapCancelKYCForCard,
+      EventName.tapCancelKYCForCard,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '441',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
 
   void viewPleaseWaitLoading() {
     _analytics.logEvent(
-      EventType.viewPleaseWaitLoading,
+      EventName.viewPleaseWaitLoading,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '442',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
 
   void viewKYCSumsubCreation() {
     _analytics.logEvent(
-      EventType.viewKYCSumsubCreation,
+      EventName.viewKYCSumsubCreation,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '443',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
 
   void viewWorkingOnYourCard() {
     _analytics.logEvent(
-      EventType.viewWorkingOnYourCard,
+      EventName.viewWorkingOnYourCard,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '444',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
 
   void viewCardIsReady() {
     _analytics.logEvent(
-      EventType.viewCardIsReady,
+      EventName.viewCardIsReady,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '445',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
 
   void viewEURWalletWithoutButton() {
     _analytics.logEvent(
-      EventType.viewEURWalletWithoutButton,
+      EventName.viewEURWalletWithoutButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '446',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
 
   void viewEURWalletWithButton() {
     _analytics.logEvent(
-      EventType.viewEURWalletWithButton,
+      EventName.viewEURWalletWithButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '447',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
 
   void tapOnSimpleCard() {
     _analytics.logEvent(
-      EventType.tapOnSimpleCard,
+      EventName.tapOnSimpleCard,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '448',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5022,12 +5615,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.viewVirtualCardScreen,
+      EventName.viewVirtualCardScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '449',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5036,12 +5631,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.tapShowCard,
+      EventName.tapShowCard,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '450',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5050,12 +5647,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.tapHideCard,
+      EventName.tapHideCard,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '451',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5064,12 +5663,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.tapCopyCardNumber,
+      EventName.tapCopyCardNumber,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '452',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5079,13 +5680,15 @@ class SimpleAnalytics {
     required String reason,
   }) {
     _analytics.logEvent(
-      EventType.viewErrorOnCardScreen,
+      EventName.viewErrorOnCardScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '453',
         PropertyType.cardID: cardID,
         PropertyType.reason: reason,
+        PropertyType.eventType: EventType.error.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5094,12 +5697,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.tapBackFromVirualCard,
+      EventName.tapBackFromVirualCard,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '454',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5108,12 +5713,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.tapFreezeCard,
+      EventName.tapFreezeCard,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '455',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5122,12 +5729,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.viewFreezeCardPopup,
+      EventName.viewFreezeCardPopup,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '456',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5136,12 +5745,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.tapConfirmFreezeCard,
+      EventName.tapConfirmFreezeCard,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '457',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5150,12 +5761,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.tapCancelFreeze,
+      EventName.tapCancelFreeze,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '458',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5164,12 +5777,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.viewFrozenCard,
+      EventName.viewFrozenCard,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '459',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5178,186 +5793,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.tapOnUnfreeze,
+      EventName.tapOnUnfreeze,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '460',
         PropertyType.cardID: cardID,
-      },
-    );
-  }
-
-  void tapOnAddCash({
-    required String cardID,
-  }) {
-    _analytics.logEvent(
-      EventType.tapOnAddCash,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '469',
-        PropertyType.cardID: cardID,
-      },
-    );
-  }
-
-  void viewAddCashSheet({
-    required String cardID,
-    required String assets,
-  }) {
-    _analytics.logEvent(
-      EventType.viewAddCashSheet,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '470',
-        PropertyType.cardID: cardID,
-        PropertyType.availableAssetsList: assets,
-      },
-    );
-  }
-
-  void tapOnAddCashFromAsset({
-    required String cardID,
-    required String asset,
-  }) {
-    _analytics.logEvent(
-      EventType.tapOnAddCashFromAsset,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '471',
-        PropertyType.cardID: cardID,
-        PropertyType.asset: asset,
-      },
-    );
-  }
-
-  void viewErrorOnSellScreen({
-    required String cardID,
-    required String reason,
-  }) {
-    _analytics.logEvent(
-      EventType.viewErrorOnSellScreen,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '472',
-        PropertyType.cardID: cardID,
-        PropertyType.reason: reason,
-      },
-    );
-  }
-
-  void tapOnSettings({
-    required String cardID,
-  }) {
-    _analytics.logEvent(
-      EventType.tapOnSettings,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '473',
-        PropertyType.cardID: cardID,
-      },
-    );
-  }
-
-  void viewCardSettings({
-    required String cardID,
-  }) {
-    _analytics.logEvent(
-      EventType.viewCardSettings,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '474',
-        PropertyType.cardID: cardID,
-      },
-    );
-  }
-
-  void tapOnRemindPin({
-    required String cardID,
-  }) {
-    _analytics.logEvent(
-      EventType.tapOnRemindPin,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '475',
-        PropertyType.cardID: cardID,
-      },
-    );
-  }
-
-  void viewRemindPinSheet({
-    required String cardID,
-  }) {
-    _analytics.logEvent(
-      EventType.viewRemindPinSheet,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '476',
-        PropertyType.cardID: cardID,
-      },
-    );
-  }
-
-  void tapOnCancelRemindPin({
-    required String cardID,
-  }) {
-    _analytics.logEvent(
-      EventType.tapOnCancelRemindPin,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '477',
-        PropertyType.cardID: cardID,
-      },
-    );
-  }
-
-  void tapInContinueRemindPin({
-    required String cardID,
-  }) {
-    _analytics.logEvent(
-      EventType.tapInContinueRemindPin,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '478',
-        PropertyType.cardID: cardID,
-      },
-    );
-  }
-
-  void tapOnSetPassword({
-    required String cardID,
-  }) {
-    _analytics.logEvent(
-      EventType.tapOnSetPassword,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '479',
-        PropertyType.cardID: cardID,
-      },
-    );
-  }
-
-  void viewConfirmWithPin({
-    required String cardID,
-  }) {
-    _analytics.logEvent(
-      EventType.viewConfirmWithPin,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '480',
-        PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5367,12 +5810,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheTerminateButton,
+      EventName.tapOnTheTerminateButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '461',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5381,12 +5826,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.terminateWithBalancePopupScreenView,
+      EventName.terminateWithBalancePopupScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '462',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5395,12 +5842,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.approveTerminatePopupScreenView,
+      EventName.approveTerminatePopupScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '463',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5409,12 +5858,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheCancelTerminateButton,
+      EventName.tapOnTheCancelTerminateButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '464',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5423,12 +5874,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheConfirmTerminateButton,
+      EventName.tapOnTheConfirmTerminateButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '465',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5437,12 +5890,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.confirmTerminateWithPinScreenView,
+      EventName.confirmTerminateWithPinScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '466',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5451,12 +5906,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.pleaseWaitLoaderOnCardTerminateLoadingView,
+      EventName.pleaseWaitLoaderOnCardTerminateLoadingView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '467',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5465,12 +5922,212 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.theCardHasBeenTerminateToastView,
+      EventName.theCardHasBeenTerminateToastView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '468',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
+      },
+    );
+  }
+
+  void tapOnAddCash({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventName.tapOnAddCash,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '469',
+        PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
+      },
+    );
+  }
+
+  void viewAddCashSheet({
+    required String cardID,
+    required String assets,
+  }) {
+    _analytics.logEvent(
+      EventName.viewAddCashSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '470',
+        PropertyType.cardID: cardID,
+        PropertyType.availableAssetsList: assets,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
+      },
+    );
+  }
+
+  void tapOnAddCashFromAsset({
+    required String cardID,
+    required String asset,
+  }) {
+    _analytics.logEvent(
+      EventName.tapOnAddCashFromAsset,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '471',
+        PropertyType.cardID: cardID,
+        PropertyType.asset: asset,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
+      },
+    );
+  }
+
+  void viewErrorOnSellScreen({
+    required String cardID,
+    required String reason,
+  }) {
+    _analytics.logEvent(
+      EventName.viewErrorOnSellScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '472',
+        PropertyType.cardID: cardID,
+        PropertyType.reason: reason,
+        PropertyType.eventType: EventType.error.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
+      },
+    );
+  }
+
+  void tapOnSettings({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventName.tapOnSettings,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '473',
+        PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
+      },
+    );
+  }
+
+  void viewCardSettings({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventName.viewCardSettings,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '474',
+        PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
+      },
+    );
+  }
+
+  void tapOnRemindPin({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventName.tapOnRemindPin,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '475',
+        PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
+      },
+    );
+  }
+
+  void viewRemindPinSheet({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventName.viewRemindPinSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '476',
+        PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
+      },
+    );
+  }
+
+  void tapOnCancelRemindPin({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventName.tapOnCancelRemindPin,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '477',
+        PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
+      },
+    );
+  }
+
+  void tapInContinueRemindPin({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventName.tapInContinueRemindPin,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '478',
+        PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
+      },
+    );
+  }
+
+  void tapOnSetPassword({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventName.tapOnSetPassword,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '479',
+        PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
+      },
+    );
+  }
+
+  void viewConfirmWithPin({
+    required String cardID,
+  }) {
+    _analytics.logEvent(
+      EventName.viewConfirmWithPin,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '480',
+        PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5480,12 +6137,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheSpendingVirtualCardLimitsButton,
+      EventName.tapOnTheSpendingVirtualCardLimitsButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '481',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5494,12 +6153,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.spendingVirtualCardLimitsScreenView,
+      EventName.spendingVirtualCardLimitsScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '482',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5508,133 +6169,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheBackFromSpendingVirtualCardLimitsButton,
+      EventName.tapOnTheBackFromSpendingVirtualCardLimitsButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '483',
         PropertyType.cardID: cardID,
-      },
-    );
-  }
-
-  void tapOnAddRefCodeButton() {
-    _analytics.logEvent(
-      EventType.tapOnAddRefCodeButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '306',
-      },
-    );
-  }
-
-  void enterReferralCodeScreenView() {
-    _analytics.logEvent(
-      EventType.enterReferralCodeScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '307',
-      },
-    );
-  }
-
-  void tapOnPasteButtonOnEnterReferralCode() {
-    _analytics.logEvent(
-      EventType.tapOnPasteButtonOnEnterReferralCode,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '308',
-      },
-    );
-  }
-
-  void validReferralCodeScreenView() {
-    _analytics.logEvent(
-      EventType.validReferralCodeScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '309',
-      },
-    );
-  }
-
-  void errorInvalidReferralCode() {
-    _analytics.logEvent(
-      EventType.errorInvalidReferralCode,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '310',
-      },
-    );
-  }
-
-  void tapOnContinueButtonOnEnterReferralCode() {
-    _analytics.logEvent(
-      EventType.tapOnContinueButtonOnEnterReferralCode,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '311',
-      },
-    );
-  }
-
-  void tapOnDeleteRefCodeButton() {
-    _analytics.logEvent(
-      EventType.tapOnDeleteRefCodeButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '312',
-      },
-    );
-  }
-
-  void onboardingFinanceIsSimpleScreenView() {
-    _analytics.logEvent(
-      EventType.onboardingFinanceIsSimpleScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '489',
-      },
-    );
-  }
-
-  void onboardingCryptoIsSimpleScreenView() {
-    _analytics.logEvent(
-      EventType.onboardingCryptoIsSimpleScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '490',
-      },
-    );
-  }
-
-  void onboardingSendMoneyGloballyScreenView() {
-    _analytics.logEvent(
-      EventType.onboardingSendMoneyGloballyScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '491',
-      },
-    );
-  }
-
-  void tapOnTheOnboardingGetStartedButton() {
-    _analytics.logEvent(
-      EventType.tapOnTheOnboardingGetStartedButton,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '492',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5644,12 +6186,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheEditVirtualCardLabelButton,
+      EventName.tapOnTheEditVirtualCardLabelButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '484',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5658,12 +6202,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.editVirtualCardLabelScreenView,
+      EventName.editVirtualCardLabelScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '485',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5672,12 +6218,14 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheBackFromEditVirtualCardLabelButton,
+      EventName.tapOnTheBackFromEditVirtualCardLabelButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '486',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -5686,12 +6234,157 @@ class SimpleAnalytics {
     required String cardID,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheSaveChangesFromEditVirtualCardLabelButton,
+      EventName.tapOnTheSaveChangesFromEditVirtualCardLabelButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '487',
         PropertyType.cardID: cardID,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
+      },
+    );
+  }
+
+  void tapOnAddRefCodeButton() {
+    _analytics.logEvent(
+      EventName.tapOnAddRefCodeButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '306',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
+      },
+    );
+  }
+
+  void enterReferralCodeScreenView() {
+    _analytics.logEvent(
+      EventName.enterReferralCodeScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '307',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
+      },
+    );
+  }
+
+  void tapOnPasteButtonOnEnterReferralCode() {
+    _analytics.logEvent(
+      EventName.tapOnPasteButtonOnEnterReferralCode,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '308',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
+      },
+    );
+  }
+
+  void validReferralCodeScreenView() {
+    _analytics.logEvent(
+      EventName.validReferralCodeScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '309',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
+      },
+    );
+  }
+
+  void errorInvalidReferralCode() {
+    _analytics.logEvent(
+      EventName.errorInvalidReferralCode,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '310',
+        PropertyType.eventType: EventType.error.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
+      },
+    );
+  }
+
+  void tapOnContinueButtonOnEnterReferralCode() {
+    _analytics.logEvent(
+      EventName.tapOnContinueButtonOnEnterReferralCode,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '311',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
+      },
+    );
+  }
+
+  void tapOnDeleteRefCodeButton() {
+    _analytics.logEvent(
+      EventName.tapOnDeleteRefCodeButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '312',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.signUpSignIn.id,
+      },
+    );
+  }
+
+  void onboardingFinanceIsSimpleScreenView() {
+    _analytics.logEvent(
+      EventName.onboardingFinanceIsSimpleScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '489',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.onboarding.id,
+      },
+    );
+  }
+
+  void onboardingCryptoIsSimpleScreenView() {
+    _analytics.logEvent(
+      EventName.onboardingCryptoIsSimpleScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '490',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.onboarding.id,
+      },
+    );
+  }
+
+  void onboardingSendMoneyGloballyScreenView() {
+    _analytics.logEvent(
+      EventName.onboardingSendMoneyGloballyScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '491',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.onboarding.id,
+      },
+    );
+  }
+
+  void tapOnTheOnboardingGetStartedButton() {
+    _analytics.logEvent(
+      EventName.tapOnTheOnboardingGetStartedButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '492',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.onboarding.id,
       },
     );
   }
@@ -5702,45 +6395,53 @@ class SimpleAnalytics {
     required String source,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheDepositButton,
+      EventName.tapOnTheDepositButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '498',
         PropertyType.source: source,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
 
   void errorDepositIsUnavailable() {
     _analytics.logEvent(
-      EventType.errorDepositIsUnavailable,
+      EventName.errorDepositIsUnavailable,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '499',
+        PropertyType.eventType: EventType.error.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
 
   void depositToScreenView() {
     _analytics.logEvent(
-      EventType.depositToScreenView,
+      EventName.depositToScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '500',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
 
   void depositByScreenView() {
     _analytics.logEvent(
-      EventType.depositByScreenView,
+      EventName.depositByScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '502',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
@@ -5749,23 +6450,27 @@ class SimpleAnalytics {
     required String accountType,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheAnyAccountForDepositButton,
+      EventName.tapOnTheAnyAccountForDepositButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '503',
         PropertyType.account: accountType,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
 
   void addCashFromTrScreenView() {
     _analytics.logEvent(
-      EventType.addCashFromTrScreenView,
+      EventName.addCashFromTrScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '504',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
@@ -5774,12 +6479,14 @@ class SimpleAnalytics {
     required String cryptoAsset,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheAnyCryptoForDepositButton,
+      EventName.tapOnTheAnyCryptoForDepositButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '505',
         PropertyType.asset: cryptoAsset,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
@@ -5788,12 +6495,14 @@ class SimpleAnalytics {
     required String sourceTransfer,
   }) {
     _analytics.logEvent(
-      EventType.transferAmountScreenView,
+      EventName.transferAmountScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '506',
         PropertyType.sourceTransfer: sourceTransfer,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
@@ -5802,23 +6511,27 @@ class SimpleAnalytics {
     required String currentFromValueForTransfer,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheTransferFromButton,
+      EventName.tapOnTheTransferFromButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '507',
         PropertyType.transferFrom: currentFromValueForTransfer,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
 
   void transferFromSheetView() {
     _analytics.logEvent(
-      EventType.transferFromSheetView,
+      EventName.transferFromSheetView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '508',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
@@ -5827,12 +6540,14 @@ class SimpleAnalytics {
     required String newTransferFromAccount,
   }) {
     _analytics.logEvent(
-      EventType.tapOnSelectedNewTransferFromAccountButton,
+      EventName.tapOnSelectedNewTransferFromAccountButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '509',
         PropertyType.transferFrom: newTransferFromAccount,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
@@ -5841,23 +6556,27 @@ class SimpleAnalytics {
     required String currentToValueForTransfer,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheTransferToButton,
+      EventName.tapOnTheTransferToButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '510',
         PropertyType.transferTo: currentToValueForTransfer,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
 
   void transferToSheetView() {
     _analytics.logEvent(
-      EventType.transferToSheetView,
+      EventName.transferToSheetView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '511',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
@@ -5866,23 +6585,27 @@ class SimpleAnalytics {
     required String newTransferToAccount,
   }) {
     _analytics.logEvent(
-      EventType.tapOnSelectedNewTransferToButton,
+      EventName.tapOnSelectedNewTransferToButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '512',
         PropertyType.transferTo: newTransferToAccount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
 
   void tapOnTheBackFromTransferAmountButton() {
     _analytics.logEvent(
-      EventType.tapOnTheBackFromTransferAmountButton,
+      EventName.tapOnTheBackFromTransferAmountButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '513',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
@@ -5893,7 +6616,7 @@ class SimpleAnalytics {
     required String enteredAmount,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheContinueWithTransferAmountButton,
+      EventName.tapOnTheContinueWithTransferAmountButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -5901,6 +6624,8 @@ class SimpleAnalytics {
         PropertyType.transferFrom: transferFrom,
         PropertyType.transferTo: transferTo,
         PropertyType.amount: enteredAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
@@ -5911,7 +6636,7 @@ class SimpleAnalytics {
     required String enteredAmount,
   }) {
     _analytics.logEvent(
-      EventType.transferOrderSummaryScreenView,
+      EventName.transferOrderSummaryScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -5919,6 +6644,8 @@ class SimpleAnalytics {
         PropertyType.transferFrom: transferFrom,
         PropertyType.transferTo: transferTo,
         PropertyType.amount: enteredAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
@@ -5929,7 +6656,7 @@ class SimpleAnalytics {
     required String enteredAmount,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheBackFromTransferOrderSummaryButton,
+      EventName.tapOnTheBackFromTransferOrderSummaryButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -5937,6 +6664,8 @@ class SimpleAnalytics {
         PropertyType.transferFrom: transferFrom,
         PropertyType.transferTo: transferTo,
         PropertyType.amount: enteredAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
@@ -5947,7 +6676,7 @@ class SimpleAnalytics {
     required String enteredAmount,
   }) {
     _analytics.logEvent(
-      EventType.tapAnTheButtonConfirmOnTransferOrderSummary,
+      EventName.tapAnTheButtonConfirmOnTransferOrderSummary,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -5955,6 +6684,8 @@ class SimpleAnalytics {
         PropertyType.transferFrom: transferFrom,
         PropertyType.transferTo: transferTo,
         PropertyType.amount: enteredAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
@@ -5965,7 +6696,7 @@ class SimpleAnalytics {
     required String enteredAmount,
   }) {
     _analytics.logEvent(
-      EventType.successTransferEndScreenView,
+      EventName.successTransferEndScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -5973,6 +6704,8 @@ class SimpleAnalytics {
         PropertyType.transferFrom: transferFrom,
         PropertyType.transferTo: transferTo,
         PropertyType.amount: enteredAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
@@ -5983,7 +6716,7 @@ class SimpleAnalytics {
     required String enteredAmount,
   }) {
     _analytics.logEvent(
-      EventType.failedTransferEndScreenView,
+      EventName.failedTransferEndScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -5991,6 +6724,8 @@ class SimpleAnalytics {
         PropertyType.transferFrom: transferFrom,
         PropertyType.transferTo: transferTo,
         PropertyType.amount: enteredAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
@@ -5999,99 +6734,117 @@ class SimpleAnalytics {
 
   void pushNotificationSV() {
     _analytics.logEvent(
-      EventType.pushNotificationSV,
+      EventName.pushNotificationSV,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '493',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.pushPermission.id,
       },
     );
   }
 
   void pushNotificationButtonTap() {
     _analytics.logEvent(
-      EventType.pushNotificationButtonTap,
+      EventName.pushNotificationButtonTap,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '494',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.pushPermission.id,
       },
     );
   }
 
   void pushNotificationAlertView() {
     _analytics.logEvent(
-      EventType.pushNotificationAlertView,
+      EventName.pushNotificationAlertView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '495',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.pushPermission.id,
       },
     );
   }
 
   void pushNotificationAgree() {
     _analytics.logEvent(
-      EventType.pushNotificationAgree,
+      EventName.pushNotificationAgree,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '496',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.pushPermission.id,
       },
     );
   }
 
   void pushNotificationDisagree() {
     _analytics.logEvent(
-      EventType.pushNotificationDisagree,
+      EventName.pushNotificationDisagree,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '497',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.pushPermission.id,
       },
     );
   }
 
   void tapOnTheTabbarButtonEarn() {
     _analytics.logEvent(
-      EventType.tapOnTheTabbarButtonEarn,
+      EventName.tapOnTheTabbarButtonEarn,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '520',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
 
   void earnMainScreenView() {
     _analytics.logEvent(
-      EventType.earnMainScreenView,
+      EventName.earnMainScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '521',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
 
   void tapOnTheViewAllTopOffersButton() {
     _analytics.logEvent(
-      EventType.tapOnTheViewAllTopOffersButton,
+      EventName.tapOnTheViewAllTopOffersButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '522',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
 
   void allOffersScreenView() {
     _analytics.logEvent(
-      EventType.allOffersScreenView,
+      EventName.allOffersScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '523',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6101,25 +6854,29 @@ class SimpleAnalytics {
     required String sourse,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheAnyOfferButton,
+      EventName.tapOnTheAnyOfferButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '524',
         PropertyType.assetName: assetName,
         PropertyType.source: sourse,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
 
   void chooseEarnPlanScreenView({required String assetName}) {
     _analytics.logEvent(
-      EventType.chooseEarnPlanScreenView,
+      EventName.chooseEarnPlanScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '525',
         PropertyType.assetName: assetName,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6132,7 +6889,7 @@ class SimpleAnalytics {
   }) {
     final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
     _analytics.logEvent(
-      EventType.tapOnTheContinueWithEarnPlanButton,
+      EventName.tapOnTheContinueWithEarnPlanButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6141,6 +6898,8 @@ class SimpleAnalytics {
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnAPYrate: finalEarnAPYrate,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6154,7 +6913,7 @@ class SimpleAnalytics {
     final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
 
     _analytics.logEvent(
-      EventType.earnDepositAmountScreenView,
+      EventName.earnDepositAmountScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6163,6 +6922,8 @@ class SimpleAnalytics {
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnAPYrate: finalEarnAPYrate,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6176,7 +6937,7 @@ class SimpleAnalytics {
     final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
 
     _analytics.logEvent(
-      EventType.earnDepositCryptoWalletPopupView,
+      EventName.earnDepositCryptoWalletPopupView,
       eventProperties: {
         PropertyType.assetName: assetName,
         PropertyType.techAcc: isTechAcc,
@@ -6185,6 +6946,8 @@ class SimpleAnalytics {
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnAPYrate: finalEarnAPYrate,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6198,7 +6961,7 @@ class SimpleAnalytics {
     final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
 
     _analytics.logEvent(
-      EventType.tapOnTheTopUpEarnWalletButton,
+      EventName.tapOnTheTopUpEarnWalletButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6207,6 +6970,8 @@ class SimpleAnalytics {
         PropertyType.earnAPYrate: finalEarnAPYrate,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
         PropertyType.earnPlanName: earnPlanName,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6220,7 +6985,7 @@ class SimpleAnalytics {
     final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
 
     _analytics.logEvent(
-      EventType.tapOnTheCancelTopUpEarnWalletButton,
+      EventName.tapOnTheCancelTopUpEarnWalletButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6229,6 +6994,8 @@ class SimpleAnalytics {
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnAPYrate: finalEarnAPYrate,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6243,7 +7010,7 @@ class SimpleAnalytics {
     final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
 
     _analytics.logEvent(
-      EventType.tapOnTheContinueEarnAmountDepositButton,
+      EventName.tapOnTheContinueEarnAmountDepositButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6253,6 +7020,8 @@ class SimpleAnalytics {
         PropertyType.earnAPYrate: finalEarnAPYrate,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
         PropertyType.earnDepositAmount: earnDepositAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6267,7 +7036,7 @@ class SimpleAnalytics {
     final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
 
     _analytics.logEvent(
-      EventType.earnDepositOrderSummaryScreenView,
+      EventName.earnDepositOrderSummaryScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6277,6 +7046,8 @@ class SimpleAnalytics {
         PropertyType.earnAPYrate: finalEarnAPYrate,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
         PropertyType.earnDepositAmount: earnDepositAmount,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6291,7 +7062,7 @@ class SimpleAnalytics {
     final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
 
     _analytics.logEvent(
-      EventType.tapOnTheConfirmEarnDepositOrderSummaryButton,
+      EventName.tapOnTheConfirmEarnDepositOrderSummaryButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6301,6 +7072,8 @@ class SimpleAnalytics {
         PropertyType.earnAPYrate: finalEarnAPYrate,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
         PropertyType.earnDepositAmount: earnDepositAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6315,7 +7088,7 @@ class SimpleAnalytics {
     final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
 
     _analytics.logEvent(
-      EventType.successEarnDepositScreenView,
+      EventName.successEarnDepositScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6325,6 +7098,8 @@ class SimpleAnalytics {
         PropertyType.earnAPYrate: finalEarnAPYrate,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
         PropertyType.earnDepositAmount: earnDepositAmount,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6339,7 +7114,7 @@ class SimpleAnalytics {
     final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
 
     _analytics.logEvent(
-      EventType.failedEarnDepositScreenView,
+      EventName.failedEarnDepositScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6349,6 +7124,8 @@ class SimpleAnalytics {
         PropertyType.earnAPYrate: finalEarnAPYrate,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
         PropertyType.earnDepositAmount: earnDepositAmount,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6365,7 +7142,7 @@ class SimpleAnalytics {
     final finalEarnAPYrate = '${double.parse(earnAPYrate)}%';
 
     _analytics.logEvent(
-      EventType.tapOnTheAnyActiveEarnButton,
+      EventName.tapOnTheAnyActiveEarnButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6377,6 +7154,8 @@ class SimpleAnalytics {
         PropertyType.earnDepositAmount: earnDepositAmount,
         PropertyType.earnOfferStatus: earnOfferStatus,
         PropertyType.revenue: revenue,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6394,7 +7173,7 @@ class SimpleAnalytics {
     final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
 
     _analytics.logEvent(
-      EventType.activeCryptoSavingsScreenView,
+      EventName.activeCryptoSavingsScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6407,6 +7186,8 @@ class SimpleAnalytics {
         PropertyType.earnOfferStatus: earnOfferStatus,
         PropertyType.revenue: revenue,
         PropertyType.earnOfferId: earnOfferId,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6424,7 +7205,7 @@ class SimpleAnalytics {
     final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
 
     _analytics.logEvent(
-      EventType.tapOnTheBackFromActiveCryptoSavingsButton,
+      EventName.tapOnTheBackFromActiveCryptoSavingsButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6437,6 +7218,8 @@ class SimpleAnalytics {
         PropertyType.earnOfferStatus: earnOfferStatus,
         PropertyType.revenue: revenue,
         PropertyType.earnOfferId: earnOfferId,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6453,7 +7236,7 @@ class SimpleAnalytics {
     final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
 
     _analytics.logEvent(
-      EventType.tapOnTheHistoryFromActiveCryptoSavingsButton,
+      EventName.tapOnTheHistoryFromActiveCryptoSavingsButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6465,6 +7248,8 @@ class SimpleAnalytics {
         PropertyType.earnDepositAmount: earnDepositAmount,
         PropertyType.earnOfferStatus: earnOfferStatus,
         PropertyType.revenue: revenue,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6482,7 +7267,7 @@ class SimpleAnalytics {
     final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
 
     _analytics.logEvent(
-      EventType.tapOnTheTopUpFromActiveCryptoSavingsButton,
+      EventName.tapOnTheTopUpFromActiveCryptoSavingsButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6495,6 +7280,8 @@ class SimpleAnalytics {
         PropertyType.earnOfferStatus: earnOfferStatus,
         PropertyType.revenue: revenue,
         PropertyType.earnOfferId: earnOfferId,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6512,7 +7299,7 @@ class SimpleAnalytics {
     final finalEarnAPYrate = '${double.parse(earnAPYrate) * 100}%';
 
     _analytics.logEvent(
-      EventType.tapOnTheWithdrawFromActiveCryptoSavingsButton,
+      EventName.tapOnTheWithdrawFromActiveCryptoSavingsButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6525,6 +7312,8 @@ class SimpleAnalytics {
         PropertyType.earnOfferStatus: earnOfferStatus,
         PropertyType.revenue: revenue,
         PropertyType.earnOfferId: earnOfferId,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6536,7 +7325,7 @@ class SimpleAnalytics {
     required String earnOfferId,
   }) {
     _analytics.logEvent(
-      EventType.earnWithdrawTypeScreenView,
+      EventName.earnWithdrawTypeScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6545,6 +7334,8 @@ class SimpleAnalytics {
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6556,7 +7347,7 @@ class SimpleAnalytics {
     required String earnOfferId,
   }) {
     _analytics.logEvent(
-      EventType.sureFullEarnWithdrawPopupView,
+      EventName.sureFullEarnWithdrawPopupView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6565,6 +7356,8 @@ class SimpleAnalytics {
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6576,7 +7369,7 @@ class SimpleAnalytics {
     required String earnOfferId,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheContinueEarningButton,
+      EventName.tapOnTheContinueEarningButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6585,6 +7378,8 @@ class SimpleAnalytics {
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6596,7 +7391,7 @@ class SimpleAnalytics {
     required String earnOfferId,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheYesWithdrawButton,
+      EventName.tapOnTheYesWithdrawButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6605,6 +7400,8 @@ class SimpleAnalytics {
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6617,7 +7414,7 @@ class SimpleAnalytics {
     required String earnOfferId,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheContinueWithEarnWithdrawTypeButton,
+      EventName.tapOnTheContinueWithEarnWithdrawTypeButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6627,6 +7424,8 @@ class SimpleAnalytics {
         PropertyType.earnOfferId: earnOfferId,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
         PropertyType.fullWithdrawType: fullWithdrawType,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6639,7 +7438,7 @@ class SimpleAnalytics {
     required bool fullWithdrawType,
   }) {
     _analytics.logEvent(
-      EventType.earnWithdrawAmountScreenView,
+      EventName.earnWithdrawAmountScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6649,6 +7448,8 @@ class SimpleAnalytics {
         PropertyType.earnOfferId: earnOfferId,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
         PropertyType.fullWithdrawType: fullWithdrawType,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6660,7 +7461,7 @@ class SimpleAnalytics {
     required String earnOfferId,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheBackFromEarnWithdrawAmountButton,
+      EventName.tapOnTheBackFromEarnWithdrawAmountButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6669,6 +7470,8 @@ class SimpleAnalytics {
         PropertyType.earnPlanName: earnPlanName,
         PropertyType.earnOfferId: earnOfferId,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6681,7 +7484,7 @@ class SimpleAnalytics {
     required String withdrawAmount,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheContinueWithEarnWithdrawAmountButton,
+      EventName.tapOnTheContinueWithEarnWithdrawAmountButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6691,6 +7494,8 @@ class SimpleAnalytics {
         PropertyType.earnOfferId: earnOfferId,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
         PropertyType.withdrawAmount: withdrawAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6703,7 +7508,7 @@ class SimpleAnalytics {
     required String withdrawAmount,
   }) {
     _analytics.logEvent(
-      EventType.earnWithdrawOrderSummaryScreenView,
+      EventName.earnWithdrawOrderSummaryScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6713,6 +7518,8 @@ class SimpleAnalytics {
         PropertyType.earnOfferId: earnOfferId,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
         PropertyType.withdrawAmount: withdrawAmount,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6725,7 +7532,7 @@ class SimpleAnalytics {
     required String withdrawAmount,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheBackFromEarnWithdrawOrderSummaryButton,
+      EventName.tapOnTheBackFromEarnWithdrawOrderSummaryButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6735,6 +7542,8 @@ class SimpleAnalytics {
         PropertyType.earnOfferId: earnOfferId,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
         PropertyType.withdrawAmount: withdrawAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6747,7 +7556,7 @@ class SimpleAnalytics {
     required String withdrawAmount,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheContinueWithEarnWithdrawAmountButton,
+      EventName.tapOnTheContinueWithEarnWithdrawAmountButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6757,6 +7566,8 @@ class SimpleAnalytics {
         PropertyType.earnOfferId: earnOfferId,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
         PropertyType.withdrawAmount: withdrawAmount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6769,7 +7580,7 @@ class SimpleAnalytics {
     required String withdrawAnount,
   }) {
     _analytics.logEvent(
-      EventType.successEarnWithdrawScreenView,
+      EventName.successEarnWithdrawScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6779,6 +7590,8 @@ class SimpleAnalytics {
         PropertyType.earnOfferId: earnOfferId,
         PropertyType.withdrawAmount: withdrawAnount,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
@@ -6791,7 +7604,7 @@ class SimpleAnalytics {
     required String withdrawAnount,
   }) {
     _analytics.logEvent(
-      EventType.failedEarnMainScreenView,
+      EventName.failedEarnMainScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6801,76 +7614,90 @@ class SimpleAnalytics {
         PropertyType.earnOfferId: earnOfferId,
         PropertyType.winAmount: withdrawAnount,
         PropertyType.earnWithdrawalType: earnWithdrawalType,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
 
   void tapOnTheHistoryEarnbutton() {
     _analytics.logEvent(
-      EventType.tapOnTheHistoryEarnbutton,
+      EventName.tapOnTheHistoryEarnbutton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '555',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
 
   void earnsArchiveScreenView() {
     _analytics.logEvent(
-      EventType.earnsArchiveScreenView,
+      EventName.earnsArchiveScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '556',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.earn.id,
       },
     );
   }
 
   void tapOnTheAddToGoogleWalletButton({required String cardId}) {
     _analytics.logEvent(
-      EventType.tapOnTheAddToGoogleWalletButton,
+      EventName.tapOnTheAddToGoogleWalletButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '557',
         PropertyType.cardID: cardId,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
 
   void tapOnTheAddToAppleWalletButton({required String cardId}) {
     _analytics.logEvent(
-      EventType.tapOnTheAddToAppleWalletButton,
+      EventName.tapOnTheAddToAppleWalletButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '558',
         PropertyType.cardID: cardId,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
 
   void popupAddCardToWalletScreenView({required String cardId}) {
     _analytics.logEvent(
-      EventType.popupAddCardToWalletScreenView,
+      EventName.popupAddCardToWalletScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '559',
         PropertyType.cardID: cardId,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
 
   void tapOnTheContinueAddToWalletButton({required String cardId}) {
     _analytics.logEvent(
-      EventType.tapOnTheContinueAddToWalletButton,
+      EventName.tapOnTheContinueAddToWalletButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '559',
+        PropertyType.eventId: '560',
         PropertyType.cardID: cardId,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.cardFlow.id,
       },
     );
   }
@@ -6883,7 +7710,7 @@ class SimpleAnalytics {
     required String amount,
   }) {
     _analytics.logEvent(
-      EventType.confirmTransferViaSMSScreenView,
+      EventName.confirmTransferViaSMSScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6891,6 +7718,8 @@ class SimpleAnalytics {
         PropertyType.transferFrom: transferFrom,
         PropertyType.transferTo: transferTo,
         PropertyType.amount: amount,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
@@ -6901,7 +7730,7 @@ class SimpleAnalytics {
     required String amount,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheButtonContinueOnConfirmViaSMSScreen,
+      EventName.tapOnTheButtonContinueOnConfirmViaSMSScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6909,6 +7738,8 @@ class SimpleAnalytics {
         PropertyType.transferFrom: transferFrom,
         PropertyType.transferTo: transferTo,
         PropertyType.amount: amount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
@@ -6919,7 +7750,7 @@ class SimpleAnalytics {
     required String amount,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheButtonCancelOnConfirmViaSMSScreen,
+      EventName.tapOnTheButtonCancelOnConfirmViaSMSScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6927,6 +7758,8 @@ class SimpleAnalytics {
         PropertyType.transferFrom: transferFrom,
         PropertyType.transferTo: transferTo,
         PropertyType.amount: amount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
@@ -6937,7 +7770,7 @@ class SimpleAnalytics {
     required String amount,
   }) {
     _analytics.logEvent(
-      EventType.confirmCodeTransferViaSMSScreenView,
+      EventName.confirmCodeTransferViaSMSScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6945,6 +7778,8 @@ class SimpleAnalytics {
         PropertyType.transferFrom: transferFrom,
         PropertyType.transferTo: transferTo,
         PropertyType.amount: amount,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
@@ -6955,7 +7790,7 @@ class SimpleAnalytics {
     required String amount,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheButtonBackOnConfirmCodeViaSMSScreen,
+      EventName.tapOnTheButtonBackOnConfirmCodeViaSMSScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6963,6 +7798,8 @@ class SimpleAnalytics {
         PropertyType.transferFrom: transferFrom,
         PropertyType.transferTo: transferTo,
         PropertyType.amount: amount,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
@@ -6973,7 +7810,7 @@ class SimpleAnalytics {
     required String amount,
   }) {
     _analytics.logEvent(
-      EventType.loaderWithSMSCodeOnConfirmTransferScreenView,
+      EventName.loaderWithSMSCodeOnConfirmTransferScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -6981,6 +7818,8 @@ class SimpleAnalytics {
         PropertyType.transferFrom: transferFrom,
         PropertyType.transferTo: transferTo,
         PropertyType.amount: amount,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
   }
@@ -6989,308 +7828,364 @@ class SimpleAnalytics {
 
   void tapOnTheBunnerPrepaidCardOnWallet() {
     _analytics.logEvent(
-      EventType.tapOnTheBunnerPrepaidCardOnWallet,
+      EventName.tapOnTheBunnerPrepaidCardOnWallet,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '567',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void tapOnTheCloseButtonOnBunnerPrepaidCard() {
     _analytics.logEvent(
-      EventType.tapOnTheCloseButtonOnBunnerPrepaidCard,
+      EventName.tapOnTheCloseButtonOnBunnerPrepaidCard,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '568',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void tapOnTheBunnerPrepaidCardsOnProfile() {
     _analytics.logEvent(
-      EventType.tapOnTheBunnerPrepaidCardsOnProfile,
+      EventName.tapOnTheBunnerPrepaidCardsOnProfile,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '569',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void prepaidCardServiceScreenView() {
     _analytics.logEvent(
-      EventType.prepaidCardServiceScreenView,
+      EventName.prepaidCardServiceScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '570',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void tapOnTheBackButtonFromPrepaidCardServiceScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheBackButtonFromPrepaidCardServiceScreen,
+      EventName.tapOnTheBackButtonFromPrepaidCardServiceScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '571',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void tapOnTheCardManagementButtonOnPrepaidCardServiceScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheCardManagementButtonOnPrepaidCardServiceScreen,
+      EventName.tapOnTheCardManagementButtonOnPrepaidCardServiceScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '572',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void redirectingPrepaidCardPopupView() {
     _analytics.logEvent(
-      EventType.redirectingPrepaidCardPopupView,
+      EventName.redirectingPrepaidCardPopupView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '573',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void tapOnTheContinueRedirectingButton() {
     _analytics.logEvent(
-      EventType.tapOnTheContinueRedirectingButton,
+      EventName.tapOnTheContinueRedirectingButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '574',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void tapOnTheCancelRedirectingButton() {
     _analytics.logEvent(
-      EventType.tapOnTheCancelRedirectingButton,
+      EventName.tapOnTheCancelRedirectingButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '575',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void tapOnTheBuyCardButton() {
     _analytics.logEvent(
-      EventType.tapOnTheBuyCardButton,
+      EventName.tapOnTheBuyCardButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '576',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void guideToUsingScreenView() {
     _analytics.logEvent(
-      EventType.guideToUsingScreenView,
+      EventName.guideToUsingScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '577',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void tapOnTheNextButtonOnGuideToUsingScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheNextButtonOnGuideToUsingScreen,
+      EventName.tapOnTheNextButtonOnGuideToUsingScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '578',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void tapOnTheCloseButtonOnGuideToUsingScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheCloseButtonOnGuideToUsingScreen,
+      EventName.tapOnTheCloseButtonOnGuideToUsingScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '579',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void privacyScreenView() {
     _analytics.logEvent(
-      EventType.privacyScreenView,
+      EventName.privacyScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '580',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void tapOnTheNextButtonOnPrivacyScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheNextButtonOnPrivacyScreen,
+      EventName.tapOnTheNextButtonOnPrivacyScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '581',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void tapOnTheCloseButtonOnPrivacyScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheCloseButtonOnPrivacyScreen,
+      EventName.tapOnTheCloseButtonOnPrivacyScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '582',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void tapOnTheBackButtonOnPrivacyScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheBackButtonOnPrivacyScreen,
+      EventName.tapOnTheBackButtonOnPrivacyScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '583',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void voucherActivationScreenView() {
     _analytics.logEvent(
-      EventType.voucherActivationScreenView,
+      EventName.voucherActivationScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '584',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void tapOnTheNextButtonOnVoucherActivationScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheNextButtonOnVoucherActivationScreen,
+      EventName.tapOnTheNextButtonOnVoucherActivationScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '585',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void tapOnTheCloseButtonOnVoucherActivationScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheCloseButtonOnVoucherActivationScreen,
+      EventName.tapOnTheCloseButtonOnVoucherActivationScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '586',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void tapOnTheBackButtonOnVoucherActivationScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheBackButtonOnVoucherActivationScreen,
+      EventName.tapOnTheBackButtonOnVoucherActivationScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '587',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void choosePrepaidCardScreenView() {
     _analytics.logEvent(
-      EventType.choosePrepaidCardScreenView,
+      EventName.choosePrepaidCardScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '588',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void tapOnTheBackButtonOnChoosePrepaidCardScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheBackButtonOnChoosePrepaidCardScreen,
+      EventName.tapOnTheBackButtonOnChoosePrepaidCardScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '589',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void tapOnTheCloseButtonOnChoosePrepaidCardScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheCloseButtonOnChoosePrepaidCardScreen,
+      EventName.tapOnTheCloseButtonOnChoosePrepaidCardScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '590',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void tapOnTheNextButtonOnChoosePrepaidCardScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheNextButtonOnChoosePrepaidCardScreen,
+      EventName.tapOnTheNextButtonOnChoosePrepaidCardScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '591',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void tapOnTheChooseResidentialCountryButtonOnChoosePrepaidCardScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheChooseResidentialCountryButtonOnChoosePrepaidCardScreen,
+      EventName.tapOnTheChooseResidentialCountryButtonOnChoosePrepaidCardScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '592',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void amountBuyVoucherScreenView() {
     _analytics.logEvent(
-      EventType.amountBuyVoucherScreenView,
+      EventName.amountBuyVoucherScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '593',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void tapOnTheBackButtonOnAmountBuyVoucherScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheBackButtonOnAmountBuyVoucherScreen,
+      EventName.tapOnTheBackButtonOnAmountBuyVoucherScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '594',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
@@ -7300,13 +8195,15 @@ class SimpleAnalytics {
     required String country,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheContinueButtonOnAmountBuyVoucherScreen,
+      EventName.tapOnTheContinueButtonOnAmountBuyVoucherScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '595',
         PropertyType.amount: amount,
         PropertyType.country: country,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
@@ -7317,7 +8214,7 @@ class SimpleAnalytics {
     required bool isAvailableAppleGooglePay,
   }) {
     _analytics.logEvent(
-      EventType.orderSummaryBuyVoucherScreenView,
+      EventName.orderSummaryBuyVoucherScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -7325,6 +8222,8 @@ class SimpleAnalytics {
         PropertyType.amount: amount,
         PropertyType.country: country,
         PropertyType.isAvailableAppleGooglePay: isAvailableAppleGooglePay,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
@@ -7335,7 +8234,7 @@ class SimpleAnalytics {
     required bool isAvailableAppleGooglePay,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheBackButtonFromOrderSummaryBuyCoucherScreenView,
+      EventName.tapOnTheBackButtonFromOrderSummaryBuyCoucherScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -7343,6 +8242,8 @@ class SimpleAnalytics {
         PropertyType.amount: amount,
         PropertyType.country: country,
         PropertyType.isAvailableAppleGooglePay: isAvailableAppleGooglePay,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
@@ -7353,7 +8254,7 @@ class SimpleAnalytics {
     required bool isAvailableAppleGooglePay,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheConfirmButtonOnOrderSummaryBuyVoucherScreenView,
+      EventName.tapOnTheConfirmButtonOnOrderSummaryBuyVoucherScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -7361,6 +8262,8 @@ class SimpleAnalytics {
         PropertyType.amount: amount,
         PropertyType.country: country,
         PropertyType.isAvailableAppleGooglePay: isAvailableAppleGooglePay,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
@@ -7371,7 +8274,7 @@ class SimpleAnalytics {
     required bool isAvailableAppleGooglePay,
   }) {
     _analytics.logEvent(
-      EventType.successPrepaidPurchaseScreenView,
+      EventName.successPrepaidPurchaseScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -7379,6 +8282,8 @@ class SimpleAnalytics {
         PropertyType.amount: amount,
         PropertyType.country: country,
         PropertyType.isAvailableAppleGooglePay: isAvailableAppleGooglePay,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
@@ -7389,7 +8294,7 @@ class SimpleAnalytics {
     required bool isAvailableAppleGooglePay,
   }) {
     _analytics.logEvent(
-      EventType.failedPrepaidPurchaseScreenView,
+      EventName.failedPrepaidPurchaseScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
@@ -7397,6 +8302,8 @@ class SimpleAnalytics {
         PropertyType.amount: amount,
         PropertyType.country: country,
         PropertyType.isAvailableAppleGooglePay: isAvailableAppleGooglePay,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
@@ -7405,12 +8312,14 @@ class SimpleAnalytics {
     required String voucher,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheAnyoucherButton,
+      EventName.tapOnTheAnyoucherButton,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '601',
         PropertyType.voucher: voucher,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
@@ -7420,35 +8329,41 @@ class SimpleAnalytics {
     required bool isCompleted,
   }) {
     _analytics.logEvent(
-      EventType.prepaidCardActivationScreenView,
+      EventName.prepaidCardActivationScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '602',
         PropertyType.voucher: voucher,
         PropertyType.isCompleted: isCompleted,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void tapOnTheCloseButtonOnPrepaidCardActivationScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheCloseButtonOnPrepaidCardActivationScreen,
+      EventName.tapOnTheCloseButtonOnPrepaidCardActivationScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '603',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
 
   void tapOnTheCopyButtonOnPrepaidCardActivationScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheCopyButtonOnPrepaidCardActivationScreen,
+      EventName.tapOnTheCopyButtonOnPrepaidCardActivationScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '604',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
@@ -7458,13 +8373,15 @@ class SimpleAnalytics {
     required bool isCompleted,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheIssueCardButtonOnPrepaidCardActivationScreen,
+      EventName.tapOnTheIssueCardButtonOnPrepaidCardActivationScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '605',
         PropertyType.voucher: voucher,
         PropertyType.isCompleted: isCompleted,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.prepaidCard.id,
       },
     );
   }
@@ -7472,22 +8389,26 @@ class SimpleAnalytics {
   // Market
   void tapOnTheTabbarButtonMarket() {
     _analytics.logEvent(
-      EventType.tapOnTheTabbarButtonMarket,
+      EventName.tapOnTheTabbarButtonMarket,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '607',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.market.id,
       },
     );
   }
 
   void marketListScreenView() {
     _analytics.logEvent(
-      EventType.marketListScreenView,
+      EventName.marketListScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '608',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.market.id,
       },
     );
   }
@@ -7496,12 +8417,14 @@ class SimpleAnalytics {
     required String asset,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheAnyAssetOnMarketList,
+      EventName.tapOnTheAnyAssetOnMarketList,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '609',
         PropertyType.asset: asset,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.market.id,
       },
     );
   }
@@ -7510,12 +8433,14 @@ class SimpleAnalytics {
     required String asset,
   }) {
     _analytics.logEvent(
-      EventType.marketAssetScreenView,
+      EventName.marketAssetScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '610',
         PropertyType.asset: asset,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.market.id,
       },
     );
   }
@@ -7524,12 +8449,14 @@ class SimpleAnalytics {
     required String asset,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheBackButtonFromMarketAssetScreen,
+      EventName.tapOnTheBackButtonFromMarketAssetScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '611',
         PropertyType.asset: asset,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.market.id,
       },
     );
   }
@@ -7538,12 +8465,14 @@ class SimpleAnalytics {
     required String asset,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheBalanceButtonOnMarketAssetScreen,
+      EventName.tapOnTheBalanceButtonOnMarketAssetScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '612',
         PropertyType.asset: asset,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.market.id,
       },
     );
   }
@@ -7553,13 +8482,15 @@ class SimpleAnalytics {
     required String bannerTitle,
   }) {
     _analytics.logEvent(
-      EventType.tapOnTheBanner,
+      EventName.tapOnTheBanner,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '613',
         PropertyType.bannerId: bannerId,
         PropertyType.bannerTitle: bannerTitle,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.banners.id,
       },
     );
   }
@@ -7569,24 +8500,28 @@ class SimpleAnalytics {
     required String bannerTitle,
   }) {
     _analytics.logEvent(
-      EventType.closeBanner,
+      EventName.closeBanner,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '614',
         PropertyType.bannerId: bannerId,
         PropertyType.bannerTitle: bannerTitle,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.banners.id,
       },
     );
   }
 
   void tapOnTheSellButtonOnWalletsScr() {
     _analytics.logEvent(
-      EventType.tapOnTheSellButtonOnWalletsScr,
+      EventName.tapOnTheSellButtonOnWalletsScr,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '615',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
   }
@@ -7594,99 +8529,117 @@ class SimpleAnalytics {
   // Simple Coin
   void simplecoinLandingScreenView() {
     _analytics.logEvent(
-      EventType.simplecoinLandingScreenView,
+      EventName.simplecoinLandingScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '627',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.withdrawSimpleCoin.id,
       },
     );
   }
 
   void tapOnTheButtonBackOnSimplecoinLandingScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheButtonBackOnSimplecoinLandingScreen,
+      EventName.tapOnTheButtonBackOnSimplecoinLandingScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '628',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.withdrawSimpleCoin.id,
       },
     );
   }
 
   void tapOnTheButtonTrxHistoryOnSimplecoinLandingScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheButtonTrxHistoryOnSimplecoinLandingScreen,
+      EventName.tapOnTheButtonTrxHistoryOnSimplecoinLandingScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '629',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.withdrawSimpleCoin.id,
       },
     );
   }
 
   void tapOnTheButtonJoinSimpleTapOnSimplecoinLandingScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheButtonJoinSimpleTapOnSimplecoinLandingScreen,
+      EventName.tapOnTheButtonJoinSimpleTapOnSimplecoinLandingScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '630',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.withdrawSimpleCoin.id,
       },
     );
   }
 
   void collectSimplecoinPopupScreenView() {
     _analytics.logEvent(
-      EventType.collectSimplecoinPopupScreenView,
+      EventName.collectSimplecoinPopupScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '631',
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.withdrawSimpleCoin.id,
       },
     );
   }
 
   void tapOnTheButtonCollectOnCollectSimplecoinPopup() {
     _analytics.logEvent(
-      EventType.tapOnTheButtonCollectOnCollectSimplecoinPopup,
+      EventName.tapOnTheButtonCollectOnCollectSimplecoinPopup,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '632',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.withdrawSimpleCoin.id,
       },
     );
   }
 
   void tapOnTheButtonDeclineOnCollectSimplecoinPopup() {
     _analytics.logEvent(
-      EventType.tapOnTheButtonDeclineOnCollectSimplecoinPopup,
+      EventName.tapOnTheButtonDeclineOnCollectSimplecoinPopup,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '633',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.withdrawSimpleCoin.id,
       },
     );
   }
 
   void tapOnTheButtonDisclamerOnCollectSimplecoinPopup() {
     _analytics.logEvent(
-      EventType.tapOnTheButtonDisclamerOnCollectSimplecoinPopup,
+      EventName.tapOnTheButtonDisclamerOnCollectSimplecoinPopup,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '634',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.withdrawSimpleCoin.id,
       },
     );
   }
 
   void tapOnTheButtonSimplecoinOnWalletScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheButtonSimplecoinOnWalletScreen,
+      EventName.tapOnTheButtonSimplecoinOnWalletScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '635',
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.withdrawSimpleCoin.id,
       },
     );
   }

@@ -34,7 +34,6 @@ class KycVerificationSumsub extends StatefulObserverWidget {
 class _KycVerificationSumsubState extends State<KycVerificationSumsub> {
   @override
   void initState() {
-    sAnalytics.kycFlowVerifyYourIdentify();
     super.initState();
   }
 
@@ -64,7 +63,6 @@ class _KycVerificationSumsubState extends State<KycVerificationSumsub> {
                     KycCountry(
                       activeCountry: countries.activeCountry!,
                       openCountryList: () {
-                        sAnalytics.kycFlowCoutryOfIssueShow();
                         showKycCountryPicker(context);
                       },
                     ),
@@ -142,18 +140,6 @@ class _KycVerificationSumsubState extends State<KycVerificationSumsub> {
           SFloatingButtonFrame(
             button: SPrimaryButton2(
               onTap: () async {
-                sAnalytics.kycFlowTapContinueOnVerifyYourIdentity(
-                  country: countries.activeCountry?.countryName ?? '',
-                  documentList: state.documents
-                      .map(
-                        (element) => stringKycDocumentType(
-                          element.document,
-                          context,
-                        ),
-                      )
-                      .toString(),
-                );
-
                 loading.startLoadingImmediately();
 
                 sAnalytics.kycFlowVerifyWait(
