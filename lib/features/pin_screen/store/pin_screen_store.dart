@@ -669,8 +669,6 @@ abstract class _PinScreenStoreBase with Store {
         return isChangePin ? intl.enterPin_enter_new_pin : intl.pin_screen_set_new_pin;
       },
       confirmPin: () {
-        sAnalytics.signInFlowConfirmPinView();
-
         return intl.pin_screen_confirm_newPin;
       },
     );
