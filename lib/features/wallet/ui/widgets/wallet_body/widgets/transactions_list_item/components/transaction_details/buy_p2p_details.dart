@@ -93,7 +93,7 @@ class BuyP2PDetails extends StatelessObserverWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   const SpaceW8(),
-                  // TODO (Yaroslav): change icon
+                  // TODO (SPU-4677)(Yaroslav): change icon
                   Assets.svg.other.medium.bankAccount.simpleSvg(
                     width: 20,
                   ),
@@ -161,7 +161,7 @@ class BuyP2PDetails extends StatelessObserverWidget {
                 ),
               ),
               onTap: () async {
-                // TODO (Yaroslav): add url lunch
+                // TODO (SPU-4677)(Yaroslav): add url lunch
               },
               mainAxisSize: MainAxisSize.max,
             ),

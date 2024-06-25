@@ -52,6 +52,7 @@ class TransactionsList extends StatelessWidget {
         accountId,
         isSimpleCard,
         onError,
+        null,
       )..initOperationHistory(),
       builder: (context, child) => _TransactionsListBody(
         scrollController: scrollController,

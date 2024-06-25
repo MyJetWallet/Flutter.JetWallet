@@ -190,7 +190,7 @@ class PayWithScreen extends StatelessObserverWidget {
                 ),
                 hasRightValue: false,
                 onTableAssetTap: () {
-                  // TODO (yaroslav): change this late
+                  // TODO (SPU-4677)(yaroslav): change this late
                   if (!(sSignalRModules.pendingOperationCount > 1)) {
                     showUnfinishedOperationPopUp(context);
                   } else {

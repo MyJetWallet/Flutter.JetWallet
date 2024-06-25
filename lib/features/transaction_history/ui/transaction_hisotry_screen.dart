@@ -18,6 +18,7 @@ class TransactionHistory extends StatefulObserverWidget {
     this.assetSymbol,
     this.initialIndex = 0,
     this.jwOperationId,
+    this.jwOperationPtpManage,
     this.onTabChanged,
   });
 
@@ -25,6 +26,7 @@ class TransactionHistory extends StatefulObserverWidget {
   final String? assetSymbol;
   final int initialIndex;
   final String? jwOperationId;
+  final String? jwOperationPtpManage;
   final void Function(int index)? onTabChanged;
 
   @override
@@ -111,12 +113,14 @@ class _TransactionHistoryState extends State<TransactionHistory> with TickerProv
                   zeroPadding: true,
                   symbol: widget.assetSymbol,
                   jwOperationId: widget.jwOperationId,
+                  jwOperationPtpManage: widget.jwOperationPtpManage,
                 ),
                 TransactionsMainList(
                   zeroPadding: true,
                   symbol: widget.assetSymbol,
                   jwOperationId: widget.jwOperationId,
                   pendingOnly: true,
+                  jwOperationPtpManage: widget.jwOperationPtpManage,
                 ),
               ],
             ),

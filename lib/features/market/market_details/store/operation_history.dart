@@ -32,6 +32,7 @@ class OperationHistory extends _OperationHistoryBase with _$OperationHistory {
     super.accountId,
     super.isCard,
     super.onError,
+    super.jwOperationPtpManage,
   );
 
   static _OperationHistoryBase of(BuildContext context) => Provider.of<OperationHistory>(context, listen: false);
@@ -47,6 +48,7 @@ abstract class _OperationHistoryBase with Store {
     this.accountId,
     this.isCard,
     this.onError,
+    this.jwOperationPtpManage,
   ) {
     getIt<EventBus>().on<GetNewHistoryEvent>().listen((event) {
       refreshHistory(needLoader: false);
@@ -62,6 +64,8 @@ abstract class _OperationHistoryBase with Store {
 
   // Указывает на конкретную операцию, используем после тапа по пушу
   String? jwOperationId;
+
+  final String? jwOperationPtpManage;
 
   @observable
   ScrollController scrollController = ScrollController();
@@ -150,6 +154,10 @@ abstract class _OperationHistoryBase with Store {
               detailsShowed = false;
             },
           );
+
+          if (jwOperationPtpManage == '1') {
+            // TODO (SPU-4677): add launch url
+          }
         } else {
           await getOperationHistoryOperation(jwOperationId!);
         }
