@@ -15,7 +15,6 @@ import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../../../../../core/di/di.dart';
 import '../../../../../../../../app/store/app_store.dart';
@@ -89,56 +88,25 @@ class BuyP2PDetails extends StatelessObserverWidget {
           const SpaceH18(),
           TransactionDetailsItem(
             text: intl.history_paid_with,
-            value: transactionListItem.cryptoBuyInfo?.paymentMethod == PaymentMethodType.bankCard
-                ? Flexible(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(4),
-                          decoration: ShapeDecoration(
-                            color: sKit.colors.white,
-                            shape: OvalBorder(
-                              side: BorderSide(
-                                color: colors.grey4,
-                              ),
-                            ),
-                          ),
-                          child: SizedBox(
-                            width: 16,
-                            height: 16,
-                            child: getCardIcon(transactionListItem.cryptoBuyInfo?.cardType),
-                          ),
-                        ),
-                        const SpaceW8(),
-                        Flexible(
-                          child: TransactionDetailsValueText(
-                            text:
-                                '${transactionListItem.cryptoBuyInfo?.cardLabel} •• ${transactionListItem.cryptoBuyInfo?.cardLast4}',
-                            maxLines: 1,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                : Flexible(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        const SpaceW8(),
-                        Assets.svg.other.medium.bankAccount.simpleSvg(
-                          width: 20,
-                        ),
-                        const SpaceW8(),
-                        Flexible(
-                          child: TransactionDetailsValueText(
-                            text: transactionListItem.cryptoBuyInfo?.accountLabel ?? 'Account 1',
-                            maxLines: 1,
-                          ),
-                        ),
-                      ],
+            value: Flexible(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  const SpaceW8(),
+                  // TODO (Yaroslav): change icon
+                  Assets.svg.other.medium.bankAccount.simpleSvg(
+                    width: 20,
+                  ),
+                  const SpaceW8(),
+                  Flexible(
+                    child: TransactionDetailsValueText(
+                      text: transactionListItem.cryptoBuyInfo?.accountLabel ?? 'Account 1',
+                      maxLines: 1,
                     ),
                   ),
+                ],
+              ),
+            ),
           ),
           const SpaceH18(),
           Builder(
@@ -178,8 +146,27 @@ class BuyP2PDetails extends StatelessObserverWidget {
               );
             },
           ),
-          const SpaceH18(),
-          const SpaceH40(),
+          if (transactionListItem.status == Status.inProgress) ...[
+            const SpaceH30(),
+            SIconTextButton(
+              text: intl.p2p_buy_payment_management,
+              icon: Container(
+                width: 20,
+                height: 20,
+                margin: const EdgeInsets.symmetric(
+                  vertical: 6,
+                ),
+                child: Assets.svg.medium.settings.simpleSvg(
+                  color: colors.blue,
+                ),
+              ),
+              onTap: () async {
+                // TODO (Yaroslav): add url lunch
+              },
+              mainAxisSize: MainAxisSize.max,
+            ),
+          ],
+          const SpaceH58(),
         ],
       ),
     );
@@ -238,19 +225,19 @@ class _BuyDetailsHeader extends StatelessWidget {
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${paymentAsset.symbol}'
               : volumeFormat(
-            symbol: paymentAsset.symbol,
-            accuracy: paymentAsset.accuracy,
-            decimal: transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero,
-          ),
+                  symbol: paymentAsset.symbol,
+                  accuracy: paymentAsset.accuracy,
+                  decimal: transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero,
+                ),
           toAssetIconUrl: buyAsset.iconUrl,
           toAssetDescription: buyAsset.description,
           toAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${buyAsset.symbol}'
               : volumeFormat(
-            symbol: buyAsset.symbol,
-            accuracy: buyAsset.accuracy,
-            decimal: transactionListItem.cryptoBuyInfo?.buyAmount ?? Decimal.zero,
-          ),
+                  symbol: buyAsset.symbol,
+                  accuracy: buyAsset.accuracy,
+                  decimal: transactionListItem.cryptoBuyInfo?.buyAmount ?? Decimal.zero,
+                ),
           isError: transactionListItem.status == Status.declined,
           isSmallerVersion: true,
         ),
@@ -267,22 +254,5 @@ class _BuyDetailsHeader extends StatelessWidget {
         const SizedBox(height: 24),
       ],
     );
-  }
-}
-
-Widget getCardIcon(String? network) {
-  switch (network?.toUpperCase()) {
-    case 'VISA':
-      return const SVisaCardIcon(
-        width: 40,
-        height: 25,
-      );
-    case 'MASTER CARD':
-      return const SMasterCardIcon(
-        width: 40,
-        height: 25,
-      );
-    default:
-      return const SActionDepositIcon();
   }
 }
