@@ -2152,5 +2152,15 @@
     "simplecoin_by_clicking_collect": "Klikając \"Zbierz\", zgadzasz się na",
     "simplecoin_disclaimer": "Zrzeczenie się",
     "simplecoin_transaction_historyr": "Historia transakcji",
-    "simplecoin_my_simplecoins": "Moje Simplecoins"
+    "simplecoin_my_simplecoins": "Moje Simplecoins",
+    "get_simple_card_this_can_be": "To może być:",
+    "get_simple_card_provide_documents": "Aby wydać Simple Card i otworzyć konto, musisz dostarczyć dokumenty potwierdzające twoje zamieszkanie w jednym z krajów UE.",
+    "get_simple_card_eu_citizen_passport": "Paszport obywatela UE",
+    "get_simple_card_residence_permit": "Zezwolenie na pobyt",
+    "get_simple_card_need_confirm_residential_address": "Musisz również potwierdzić swój adres zamieszkania:",
+    "get_simple_card_bank_statement": "Wyciąg bankowy zawierający twoje imię i adres",
+    "get_simple_card_provide_tin": "W trakcie procesu weryfikacji musisz również podać swój NIP (Numer Identyfikacji Podatkowej).",
+    "get_simple_card_utility_bill": "Rachunek za media",
+    "next": "dalej",
+    "cancel": "anuluj"
 }

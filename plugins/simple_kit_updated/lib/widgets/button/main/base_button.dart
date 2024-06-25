@@ -18,12 +18,14 @@ class BaseButton extends StatelessWidget {
     this.borderRadius,
     this.callback,
     this.onHighlightChanged,
+    this.padding,
   });
 
   final Widget child;
   final Color backgroundColor;
   final BoxBorder? border;
   final BorderRadiusGeometry? borderRadius;
+  final EdgeInsets? padding;
 
   final VoidCallback? callback;
   final Function(bool)? onHighlightChanged;
@@ -38,13 +40,12 @@ class BaseButton extends StatelessWidget {
         onHighlightChanged: onHighlightChanged,
         radius: 16,
         child: Container(
-          height: 56,
           decoration: BoxDecoration(
             color: backgroundColor,
             borderRadius: borderRadius ?? BorderRadius.circular(16),
             border: border,
           ),
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 48),
+          padding: padding ?? const EdgeInsets.symmetric(vertical: 16, horizontal: 48),
           child: Center(
             child: child,
           ),

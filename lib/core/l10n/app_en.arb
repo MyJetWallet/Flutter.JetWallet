@@ -2100,5 +2100,15 @@
     "simplecoin_by_clicking_collect": "By clicking \"Collect\", you agree to the",
     "simplecoin_disclaimer": "Disclaimer",
     "simplecoin_transaction_historyr": "Transaction history",
-    "simplecoin_my_simplecoins": "My Simplecoins"
+    "simplecoin_my_simplecoins": "My Simplecoins",
+    "get_simple_card_this_can_be": "This can be:",
+    "get_simple_card_provide_documents": "To issue a Simple Card and open an account, you need to provide documents confirming your residency in one of the EU countries.",
+    "get_simple_card_eu_citizen_passport": "EU citizen passport",
+    "get_simple_card_residence_permit": "Residence permit",
+    "get_simple_card_need_confirm_residential_address": "You will also need to confirm your residential address:",
+    "get_simple_card_bank_statement": "Bank statement containing your name and address",
+    "get_simple_card_provide_tin": "During the verification process, you will also need to provide your TIN (Tax Identification Number).",
+    "get_simple_card_utility_bill": "Utility bill",
+    "next": "next",
+    "cancel": "cancel"
 }
