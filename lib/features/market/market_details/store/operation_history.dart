@@ -291,6 +291,7 @@ Set<oh_resp.OperationType> avaibleOperationTypes = {
   oh_resp.OperationType.earnWithdrawal,
   oh_resp.OperationType.earnPayroll,
   oh_resp.OperationType.buyPrepaidCard,
+  oh_resp.OperationType.p2pBuy,
 };
 
 List<oh_resp.OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(
