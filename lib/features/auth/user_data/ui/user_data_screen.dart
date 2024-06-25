@@ -177,7 +177,6 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                       name: intl.register_continue,
                       onTap: () {
                         sAnalytics.signInFlowPersonalContinue();
-                        sAnalytics.signInFlowCreatePinView();
                         getIt.get<UserInfoService>().updateIsJustRegistered(value: true);
 
                         UserDataStore.of(context).saveUserData(
