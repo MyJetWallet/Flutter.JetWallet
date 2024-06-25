@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_create/card_buy_create_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/p2p_methods/p2p_payment_data.dart';
 
 part 'card_buy_execute_request_model.freezed.dart';
 part 'card_buy_execute_request_model.g.dart';
@@ -15,10 +16,10 @@ class CardBuyExecuteRequestModel with _$CardBuyExecuteRequestModel {
     BankCardPaymentDataExecuteModel? cardPaymentData,
     IbanPaymentData? ibanPaymentData,
     String? gToken,
+    P2PPaymentData? p2PPaymentData,
   }) = _CardBuyExecuteRequestModel;
 
-  factory CardBuyExecuteRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$CardBuyExecuteRequestModelFromJson(json);
+  factory CardBuyExecuteRequestModel.fromJson(Map<String, dynamic> json) => _$CardBuyExecuteRequestModelFromJson(json);
 }
 
 @freezed
@@ -40,8 +41,7 @@ class IbanPaymentData with _$IbanPaymentData {
     String? pin,
   }) = _IbanPaymentData;
 
-  factory IbanPaymentData.fromJson(Map<String, dynamic> json) =>
-      _$IbanPaymentDataFromJson(json);
+  factory IbanPaymentData.fromJson(Map<String, dynamic> json) => _$IbanPaymentDataFromJson(json);
 }
 
 @freezed
@@ -55,8 +55,7 @@ class UnlimintPaymentDataExecuteModel with _$UnlimintPaymentDataExecuteModel {
 }
 
 @freezed
-class UnlimintAltPaymentDataExecuteModel
-    with _$UnlimintAltPaymentDataExecuteModel {
+class UnlimintAltPaymentDataExecuteModel with _$UnlimintAltPaymentDataExecuteModel {
   const factory UnlimintAltPaymentDataExecuteModel({
     String? locale,
   }) = _UnlimintAltPaymentDataExecuteModel;

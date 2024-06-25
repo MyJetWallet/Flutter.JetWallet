@@ -1,17 +1,23 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
-import 'package:jetwallet/utils/formatting/formatting.dart';
-import 'package:jetwallet/utils/helpers/price_accuracy.dart';
+import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
+import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
+import 'package:simple_kit_updated/gen/assets.gen.dart';
+import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
-import '../../../../../../../../../utils/helpers/check_local_operation.dart';
+import '../../../../../../../../../core/di/di.dart';
+import '../../../../../../../../app/store/app_store.dart';
 import '../../../../../../../helper/format_date_to_hm.dart';
 import 'components/transaction_details_item.dart';
 import 'components/transaction_details_status.dart';
@@ -29,133 +35,224 @@ class BuyP2PDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final baseCurrency = sSignalRModules.baseCurrency;
-    final currenciesFull = sSignalRModules.currenciesWithHiddenList;
-    final currentCurrency = currencyFrom(
-      currenciesFull,
-      transactionListItem.assetId,
-    );
+    final colors = sKit.colors;
+    final paymentAsset = nonIndicesWithBalanceFrom(
+      sSignalRModules.currenciesWithHiddenList,
+    )
+        .where(
+          (element) => element.symbol == (transactionListItem.cryptoBuyInfo?.paymentAssetId ?? 'EUR'),
+        )
+        .first;
 
-    final buyCurrency = currencyFrom(
-      currenciesFull,
-      transactionListItem.cryptoBuyInfo!.buyAssetId,
-    );
-
-    final paymentCurrency = currencyFrom(
-      currenciesFull,
-      transactionListItem.cryptoBuyInfo!.paymentAssetId ?? '',
-    );
-
-    final depositCurrency = currencyFrom(
-      currenciesFull,
-      transactionListItem.cryptoBuyInfo!.depositFeeAsset ?? '',
-    );
-
-    String rateFor() {
-      final accuracy = priceAccuracy(
-        buyCurrency.symbol,
-        baseCurrency.symbol,
-      );
-
-      final base = volumeFormat(
-        decimal: transactionListItem.cryptoBuyInfo!.baseRate,
-        accuracy: buyCurrency.accuracy,
-        symbol: buyCurrency.symbol,
-      );
-
-      final quote = volumeFormat(
-        decimal: transactionListItem.cryptoBuyInfo!.quoteRate,
-        accuracy: accuracy,
-        symbol: paymentCurrency.symbol,
-      );
-
-      return '$base = $quote';
-    }
+    final buyAsset = nonIndicesWithBalanceFrom(
+      sSignalRModules.currenciesWithHiddenList,
+    )
+        .where(
+          (element) => element.symbol == (transactionListItem.cryptoBuyInfo?.buyAssetId ?? 'EUR'),
+        )
+        .first;
 
     return SPaddingH24(
       child: Column(
         children: [
+          _BuyDetailsHeader(
+            transactionListItem: transactionListItem,
+          ),
           TransactionDetailsItem(
-            text: intl.date,
+            text: intl.send_globally_date,
             value: TransactionDetailsValueText(
               text: '${formatDateToDMY(transactionListItem.timeStamp)}'
                   ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
-          if (transactionListItem.status != Status.declined) ...[
-            const SpaceH18(),
-            TransactionDetailsItem(
-              text: 'Txid',
-              value: Row(
+          const SpaceH18(),
+          TransactionDetailsItem(
+            text: intl.iban_send_history_transaction_id,
+            value: Row(
+              children: [
+                TransactionDetailsValueText(
+                  text: shortTxhashFrom(transactionListItem.operationId),
+                ),
+                const SpaceW10(),
+                HistoryCopyIcon(transactionListItem.operationId),
+              ],
+            ),
+          ),
+          const SpaceH18(),
+          TransactionDetailsItem(
+            text: intl.buy_confirmation_price,
+            value: TransactionDetailsValueText(
+              text: rateFor(buyAsset, paymentAsset),
+            ),
+          ),
+          const SpaceH18(),
+          TransactionDetailsItem(
+            text: intl.history_paid_with,
+            value: Flexible(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  TransactionDetailsValueText(
-                    text: shortTxhashFrom(transactionListItem.operationId),
+                  const SpaceW8(),
+                  // TODO (SPU-4677)(Yaroslav): change icon
+                  Assets.svg.other.medium.bankAccount.simpleSvg(
+                    width: 20,
                   ),
-                  const SpaceW10(),
-                  HistoryCopyIcon(transactionListItem.operationId),
+                  const SpaceW8(),
+                  Flexible(
+                    child: TransactionDetailsValueText(
+                      text: transactionListItem.cryptoBuyInfo?.accountLabel ?? 'Account 1',
+                      maxLines: 1,
+                    ),
+                  ),
                 ],
               ),
             ),
-            const SpaceH18(),
-            TransactionDetailsItem(
-              text: intl.withText,
-              value: TransactionDetailsValueText(
-                text: volumeFormat(
-                  decimal: transactionListItem.cryptoBuyInfo!.paymentAmount,
-                  accuracy: paymentCurrency.accuracy,
-                  symbol: transactionListItem.cryptoBuyInfo!.paymentAssetId ?? '',
-                ),
-              ),
-            ),
-            const SpaceH18(),
-            TransactionDetailsItem(
-              text: intl.previewConvert_exchangeRate,
-              value: TransactionDetailsValueText(
-                text: rateFor(),
-              ),
-            ),
-          ],
-          if (transactionListItem.cryptoBuyInfo?.paymentMethod != null) ...[
-            const SpaceH18(),
-            TransactionDetailsItem(
-              text: intl.history_payment_method,
-              value: TransactionDetailsValueText(
-                text: transactionListItem.cryptoBuyInfo?.paymentMethodName ??
-                    getLocalOperationName(
-                      transactionListItem.cryptoBuyInfo?.paymentMethod ?? PaymentMethodType.unsupported,
-                    ),
-              ),
-            ),
-          ],
-          if (transactionListItem.status != Status.declined) ...[
-            const SpaceH18(),
-            TransactionDetailsItem(
-              text: intl.history_payment_fee,
-              value: TransactionDetailsValueText(
-                text: volumeFormat(
-                  decimal: transactionListItem.cryptoBuyInfo!.depositFeeAmount,
-                  accuracy: depositCurrency.accuracy,
-                  symbol: depositCurrency.symbol,
-                ),
-              ),
-            ),
-            const SpaceH18(),
-            TransactionDetailsItem(
-              text: intl.history_our_fee,
-              value: TransactionDetailsValueText(
-                text: volumeFormat(
-                  decimal: transactionListItem.cryptoBuyInfo!.tradeFeeAmount,
-                  accuracy: currentCurrency.accuracy,
-                  symbol: currentCurrency.symbol,
-                ),
-              ),
-            ),
-          ],
+          ),
           const SpaceH18(),
-          TransactionDetailsStatus(status: transactionListItem.status),
-          const SpaceH40(),
+          Builder(
+            builder: (context) {
+              final currency = currencyFrom(
+                sSignalRModules.currenciesWithHiddenList,
+                transactionListItem.cryptoBuyInfo?.depositFeeAsset ??
+                    transactionListItem.cryptoBuyInfo?.paymentAssetId ??
+                    '',
+              );
+
+              return PaymentFeeRowWidget(
+                fee: volumeFormat(
+                  decimal: transactionListItem.cryptoBuyInfo?.depositFeeAmount ?? Decimal.zero,
+                  accuracy: currency.accuracy,
+                  symbol: currency.symbol,
+                ),
+              );
+            },
+          ),
+          const SpaceH18(),
+          Builder(
+            builder: (context) {
+              final currency = currencyFrom(
+                sSignalRModules.currenciesWithHiddenList,
+                transactionListItem.cryptoBuyInfo?.tradeFeeAsset ??
+                    transactionListItem.cryptoBuyInfo?.paymentAssetId ??
+                    '',
+              );
+
+              return ProcessingFeeRowWidget(
+                fee: volumeFormat(
+                  decimal: transactionListItem.cryptoBuyInfo?.tradeFeeAmount ?? Decimal.zero,
+                  accuracy: currency.accuracy,
+                  symbol: currency.symbol,
+                ),
+              );
+            },
+          ),
+          if (transactionListItem.status == Status.inProgress) ...[
+            const SpaceH30(),
+            SIconTextButton(
+              text: intl.p2p_buy_payment_management,
+              icon: Container(
+                width: 20,
+                height: 20,
+                margin: const EdgeInsets.symmetric(
+                  vertical: 6,
+                ),
+                child: Assets.svg.medium.settings.simpleSvg(
+                  color: colors.blue,
+                ),
+              ),
+              onTap: () async {
+                // TODO (SPU-4677)(Yaroslav): add url lunch
+              },
+              mainAxisSize: MainAxisSize.max,
+            ),
+          ],
+          const SpaceH58(),
         ],
       ),
+    );
+  }
+
+  String rateFor(
+    CurrencyModel currency1,
+    CurrencyModel currency2,
+  ) {
+    final base = volumeFormat(
+      decimal: transactionListItem.cryptoBuyInfo!.baseRate,
+      symbol: currency1.symbol,
+    );
+
+    final quote = volumeFormat(
+      decimal: transactionListItem.cryptoBuyInfo!.quoteRate,
+      symbol: currency2.symbol,
+    );
+
+    return '$base = $quote';
+  }
+}
+
+class _BuyDetailsHeader extends StatelessWidget {
+  const _BuyDetailsHeader({
+    required this.transactionListItem,
+  });
+
+  final OperationHistoryItem transactionListItem;
+
+  @override
+  Widget build(BuildContext context) {
+    final paymentAsset = nonIndicesWithBalanceFrom(
+      sSignalRModules.currenciesWithHiddenList,
+    )
+        .where(
+          (element) => element.symbol == (transactionListItem.cryptoBuyInfo?.paymentAssetId ?? 'EUR'),
+        )
+        .first;
+
+    final buyAsset = nonIndicesWithBalanceFrom(
+      sSignalRModules.currenciesWithHiddenList,
+    )
+        .where(
+          (element) => element.symbol == (transactionListItem.cryptoBuyInfo?.buyAssetId ?? 'EUR'),
+        )
+        .first;
+
+    return Column(
+      children: [
+        WhatToWhatConvertWidget(
+          removeDefaultPaddings: true,
+          isLoading: false,
+          fromAssetIconUrl: paymentAsset.iconUrl,
+          fromAssetDescription: '${paymentAsset.description} (${paymentAsset.symbol})',
+          fromAssetValue: getIt<AppStore>().isBalanceHide
+              ? '**** ${paymentAsset.symbol}'
+              : volumeFormat(
+                  symbol: paymentAsset.symbol,
+                  accuracy: paymentAsset.accuracy,
+                  decimal: transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero,
+                ),
+          toAssetIconUrl: buyAsset.iconUrl,
+          toAssetDescription: buyAsset.description,
+          toAssetValue: getIt<AppStore>().isBalanceHide
+              ? '**** ${buyAsset.symbol}'
+              : volumeFormat(
+                  symbol: buyAsset.symbol,
+                  accuracy: buyAsset.accuracy,
+                  decimal: transactionListItem.cryptoBuyInfo?.buyAmount ?? Decimal.zero,
+                ),
+          isError: transactionListItem.status == Status.declined,
+          isSmallerVersion: true,
+        ),
+        const SizedBox(height: 24),
+        SBadge(
+          status: transactionListItem.status == Status.inProgress
+              ? SBadgeStatus.primary
+              : transactionListItem.status == Status.completed
+                  ? SBadgeStatus.success
+                  : SBadgeStatus.error,
+          text: transactionDetailsStatusText(transactionListItem.status),
+          isLoading: transactionListItem.status == Status.inProgress,
+        ),
+        const SizedBox(height: 24),
+      ],
     );
   }
 }

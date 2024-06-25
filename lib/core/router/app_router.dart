@@ -25,6 +25,7 @@ import 'package:jetwallet/features/auth/push_permission/push_permission_screen.d
 import 'package:jetwallet/features/auth/single_sign_in/ui/sing_in.dart';
 import 'package:jetwallet/features/auth/user_data/ui/user_data_screen.dart';
 import 'package:jetwallet/features/auth/verification_reg/verification_screen.dart';
+import 'package:jetwallet/features/buy_flow/store/payment_method_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/buy_confrimation_screen.dart';
 import 'package:jetwallet/features/card_coming_soon/card_screen.dart';
@@ -39,6 +40,11 @@ import 'package:jetwallet/features/currency_buy/models/preview_buy_with_asset_in
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_unlimint_input.dart';
 import 'package:jetwallet/features/currency_buy/ui/curency_buy.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/add_bank_card.dart';
+import 'package:jetwallet/features/p2p_buy/screens/buy_p2p_confrimation_screen.dart';
+import 'package:jetwallet/features/p2p_buy/screens/buy_p2p_peyment_method_screen.dart';
+import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
+import 'package:jetwallet/features/p2p_buy/screens/p2p_buy_amount_screen.dart';
+import 'package:jetwallet/features/p2p_buy/screens/payment_currence_buy_screen.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_asset.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_bank_card.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_circle/circle_3d_secure_web_view/circle_3d_secure_web_view.dart';
@@ -149,6 +155,7 @@ import 'package:simple_kit/modules/account/phone_number/simple_number.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/modules/signal_r/models/active_earn_positions_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model_new.dart';
@@ -160,6 +167,7 @@ import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/b
 import 'package:simple_networking/modules/wallet_api/models/banking_withdrawal/banking_withdrawal_preview_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/p2p_methods/p2p_methods_responce_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_prepaid_card_intention_dto_list_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/purchase_card_brand_list_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
@@ -181,6 +189,7 @@ import '../../features/send_gift/screens/gift_amount.dart';
 import '../../features/send_gift/screens/gift_order_summary.dart';
 import '../../features/send_gift/screens/gift_receivers_details_screen.dart';
 import '../../features/send_gift/screens/gift_select_asset_screen.dart';
+import '../../features/simple_card/ui/widgets/get_simple_card_screen.dart';
 
 part 'app_router.gr.dart';
 
@@ -785,6 +794,31 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/simple_coin_transaction_history',
       page: SimpleCoinTransactionHistoryRoute.page,
+    ),
+    AutoRoute(
+      path: '/pay_with_screen',
+      page: PayWithScreenRouter.page,
+    ),
+    AutoRoute(
+      path: '/payment_currence_buy',
+      page: PaymentCurrenceBuyRouter.page,
+    ),
+    AutoRoute(
+      path: '/buy_p2p_meyment_method',
+      page: BuyP2pPeymentMethodRouter.page,
+    ),
+    AutoRoute(
+      path: '/p2p_buy_amount',
+      page: P2PBuyAmountRouter.page,
+    ),
+    AutoRoute(
+      path: '/buy_p2p_confirmation',
+      page: BuyP2PConfirmationRoute.page,
+    ),
+    AutoRoute(
+      path: '/get_simple_card',
+      page: GetSimpleCardRouter.page,
+      fullscreenDialog: true,
     ),
   ];
 }

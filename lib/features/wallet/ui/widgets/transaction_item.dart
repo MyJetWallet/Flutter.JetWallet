@@ -137,7 +137,8 @@ class _TransactionItemState extends State<TransactionItem> with SingleTickerProv
                     widget.transactionListItem.operationType == OperationType.earnPayroll ||
                     widget.transactionListItem.operationType == OperationType.earnWithdrawal ||
                     widget.transactionListItem.operationType == OperationType.cardTransfer ||
-                    widget.transactionListItem.operationType == OperationType.buyPrepaidCard) ...[
+                    widget.transactionListItem.operationType == OperationType.buyPrepaidCard ||
+                    widget.transactionListItem.operationType == OperationType.p2pBuy) ...[
                   const SizedBox.shrink(),
                 ] else if (widget.transactionListItem.operationType != OperationType.sendGlobally) ...[
                   if (isOperationSupportCopy(widget.transactionListItem))

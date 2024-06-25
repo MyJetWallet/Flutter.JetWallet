@@ -5,14 +5,34 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../core/di/di.dart';
+import '../../../../core/router/app_router.dart';
+import '../../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../pin_screen/model/pin_flow_union.dart';
 import '../../../pin_screen/ui/pin_screen.dart';
 import '../../store/simple_card_store.dart';
 import 'card_option.dart';
 
-void showCardOptions(
-  BuildContext context,
-) {
+void showGetSimpleCardModal({
+  required BuildContext context,
+}) {
+  final clientDetail = sSignalRModules.clientDetail;
+
+  clientDetail.isCountryDiff ? _showInfoModal(context: context) : _showCardOptions(context: context);
+}
+
+void _showInfoModal({
+  required BuildContext context,
+}) {
+  sRouter.push(const GetSimpleCardRouter()).then((value) {
+    if (value == true) {
+      _showCardOptions(context: context);
+    }
+  });
+}
+
+void _showCardOptions({
+  required BuildContext context,
+}) {
   sAnalytics.viewCardTypeSheet();
 
   sShowBasicModalBottomSheet(
@@ -64,8 +84,7 @@ class _CardOptions extends StatelessObserverWidget {
             const end = Offset.zero;
             const curve = Curves.ease;
 
-            final tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+            final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
             return SlideTransition(
               position: animation.drive(tween),
