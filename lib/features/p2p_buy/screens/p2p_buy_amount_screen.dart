@@ -16,6 +16,7 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/wallet_api/models/p2p_methods/p2p_methods_responce_model.dart';
@@ -85,6 +86,13 @@ class P2PBuyAmountScreen extends StatelessWidget {
                                 secondarySymbol: store.asset != null ? store.secondarySymbol : null,
                                 onSwap: () {
                                   store.swapAssets();
+                                  sAnalytics.tapOnTheChangeInputBuyButton(
+                                    pmType: PaymenthMethodType.ptp,
+                                    buyPM: 'PTP',
+                                    sourceCurrency: store.paymentAsset?.asset ?? '',
+                                    destinationWallet: store.asset?.symbol ?? '',
+                                    nowInput: store.isFiatEntering ? NowInputType.fiat : NowInputType.crypro,
+                                  );
                                 },
                                 errorText: store.paymentMethodInputError,
                                 optionText: store.fiatInputValue == '0'
@@ -146,6 +154,14 @@ class P2PBuyAmountScreen extends StatelessWidget {
                     submitButtonActive: store.isContinueAvaible,
                     submitButtonName: intl.addCircleCard_continue,
                     onSubmitPressed: () {
+                      sAnalytics.tapOnTheContinueWithBuyAmountButton(
+                        pmType: PaymenthMethodType.ptp,
+                        buyPM: 'PTP',
+                        sourceCurrency: store.paymentAsset?.asset ?? '',
+                        destinationWallet: store.asset?.symbol ?? '',
+                        sourceBuyAmount: store.fiatInputValue,
+                        destinationBuyAmount: store.cryptoInputValue,
+                      );
                       sRouter.push(
                         BuyP2PConfirmationRoute(
                           asset: store.asset!,

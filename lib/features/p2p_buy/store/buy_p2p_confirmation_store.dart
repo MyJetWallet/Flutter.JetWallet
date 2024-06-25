@@ -21,6 +21,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -172,6 +173,15 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
     loader.finishLoadingImmediately();
 
     isDataLoaded = true;
+
+    sAnalytics.buyOrderSummaryScreenView(
+      pmType: PaymenthMethodType.ptp,
+      buyPM: 'PTP',
+      sourceCurrency: paymentAsset?.asset ?? '',
+      destinationWallet: buyAsset ?? '',
+      sourceBuyAmount: paymentAmount.toString(),
+      destinationBuyAmount: buyAmount.toString(),
+    );
   }
 
   @action
@@ -235,6 +245,15 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
       return;
     }
 
+    sAnalytics.failedBuyEndScreenView(
+      pmType: PaymenthMethodType.ptp,
+      buyPM: 'PTP',
+      sourceCurrency: paymentAsset?.asset ?? '',
+      destinationWallet: buyAsset ?? '',
+      sourceBuyAmount: paymentAmount.toString(),
+      destinationBuyAmount: buyAmount.toString(),
+    );
+
     unawaited(
       sRouter.push(
         FailureScreenRouter(
@@ -242,6 +261,14 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
           secondaryText: error,
           primaryButtonName: intl.previewBuyWithAsset_close,
           onPrimaryButtonTap: () {
+            sAnalytics.tapOnTheCloseButtonOnFailedBuyEndScreen(
+              pmType: PaymenthMethodType.ptp,
+              buyPM: 'PTP',
+              sourceCurrency: paymentAsset?.asset ?? '',
+              destinationWallet: buyAsset ?? '',
+              sourceBuyAmount: paymentAmount.toString(),
+              destinationBuyAmount: buyAmount.toString(),
+            );
             navigateToRouter();
           },
         ),
@@ -479,6 +506,14 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
 
   @action
   Future<void> _showSuccessScreen(bool isGoogle) {
+    sAnalytics.successBuyEndScreenView(
+      pmType: PaymenthMethodType.ptp,
+      buyPM: 'PTP',
+      sourceCurrency: paymentAsset?.asset ?? '',
+      destinationWallet: buyAsset ?? '',
+      sourceBuyAmount: paymentAmount.toString(),
+      destinationBuyAmount: buyAmount.toString(),
+    );
     return sRouter
         .push(
       SuccessScreenRouter(
@@ -500,6 +535,14 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
         showProgressBar: true,
         showCloseButton: true,
         onCloseButton: () {
+          sAnalytics.tapOnTheCloseButtonOnSuccessBuyEndScreen(
+            pmType: PaymenthMethodType.ptp,
+            buyPM: 'PTP',
+            sourceCurrency: paymentAsset?.asset ?? '',
+            destinationWallet: buyAsset ?? '',
+            sourceBuyAmount: paymentAmount.toString(),
+            destinationBuyAmount: buyAmount.toString(),
+          );
           sRouter.replaceAll([
             const HomeRouter(
               children: [],
