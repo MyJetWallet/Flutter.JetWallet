@@ -85,6 +85,7 @@ import 'package:simple_networking/modules/wallet_api/models/nft_market/nft_marke
 import 'package:simple_networking/modules/wallet_api/models/notification/register_token_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/p2p_methods/p2p_methods_responce_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/payment_info/payment_info_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/payment_info/payment_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/payment_preview/payment_preview_request_model.dart';
@@ -1249,5 +1250,9 @@ class WalletApiRepository {
       skip: skip,
       take: take,
     );
+  }
+
+  Future<DC<ServerRejectException, P2PMethodsResponceModel>> getP2PMethods() async {
+    return _walletApiDataSources.getP2PMethodsRequest();
   }
 }

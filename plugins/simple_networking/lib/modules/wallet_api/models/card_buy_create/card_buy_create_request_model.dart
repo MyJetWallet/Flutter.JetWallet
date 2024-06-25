@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simple_networking/helpers/decimal_serialiser.dart';
+import 'package:simple_networking/modules/wallet_api/models/p2p_methods/p2p_payment_data.dart';
 
 part 'card_buy_create_request_model.freezed.dart';
 part 'card_buy_create_request_model.g.dart';
@@ -18,6 +19,7 @@ class CardBuyCreateRequestModel with _$CardBuyCreateRequestModel {
     CirclePaymentDataModel? unlimintPaymentData,
     CirclePaymentDataModel? cardPaymentData,
     IbanPaymentPreview? ibanPaymentData,
+    P2PPaymentData? p2PPaymentData,
   }) = _CardBuyCreateRequestModel;
 
   factory CardBuyCreateRequestModel.fromJson(Map<String, dynamic> json) => _$CardBuyCreateRequestModelFromJson(json);
