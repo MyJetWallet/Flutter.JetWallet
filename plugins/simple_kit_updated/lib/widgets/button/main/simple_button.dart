@@ -152,12 +152,17 @@ class SButton extends HookWidget {
         isHighlighted.value = p0;
       },
       child: isLoading
-          ? SizedBox(
-              width: 24,
-              height: 24,
-              child: CircularProgressIndicator(
-                color: textColor(),
-              ),
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: CircularProgressIndicator(
+                    color: textColor(),
+                  ),
+                ),
+              ],
             )
           : Padding(
               padding: const EdgeInsets.symmetric(vertical: 3),

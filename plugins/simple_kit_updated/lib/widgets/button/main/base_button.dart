@@ -46,9 +46,7 @@ class BaseButton extends StatelessWidget {
             border: border,
           ),
           padding: padding ?? const EdgeInsets.symmetric(vertical: 16, horizontal: 48),
-          child: Center(
-            child: child,
-          ),
+          child: child,
         ),
       ),
     );
