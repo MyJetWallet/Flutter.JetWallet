@@ -197,7 +197,7 @@ class PayWithScreen extends StatelessObserverWidget {
                     buyPM: 'PTP',
                   );
 
-                  if (sSignalRModules.pendingOperationCount > 1) {
+                  if (sSignalRModules.pendingOperationCount > 0) {
                     showUnfinishedOperationPopUp(context);
                   } else {
                     sRouter.push(PaymentCurrenceBuyRouter(currency: asset!));
