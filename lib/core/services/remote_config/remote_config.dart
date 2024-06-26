@@ -141,13 +141,12 @@ class RemoteConfig {
 
     getIt.get<SignalRConecrionUrlService>().init(
       urls: [
-        'url2',
         flavor.walletApiSignalR,
-        flavor.walletApiSignalR,
-        flavor.walletApiSignalR,
-        flavor.walletApiSignalR,
-        flavor.walletApiSignalR,
-        flavor.walletApiSignalR,
+        flavor.walletApiSignalR2,
+        flavor.walletApiSignalR3,
+        flavor.walletApiSignalR4,
+        flavor.walletApiSignalR5,
+        flavor.walletApiSignalR6,
       ],
     );
 
