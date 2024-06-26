@@ -7,6 +7,7 @@ import 'package:jetwallet/core/services/apps_flyer_service.dart';
 import 'package:jetwallet/core/services/flavor_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_conection_url_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:simple_networking/config/options.dart';
@@ -136,6 +137,18 @@ class RemoteConfig {
       walletApiSignalR: flavor.walletApiSignalR,
       validationApi: flavor.validationApi,
       iconApi: flavor.iconApi,
+    );
+
+    getIt.get<SignalRConecrionUrlService>().init(
+      urls: [
+        'url2',
+        flavor.walletApiSignalR,
+        flavor.walletApiSignalR,
+        flavor.walletApiSignalR,
+        flavor.walletApiSignalR,
+        flavor.walletApiSignalR,
+        flavor.walletApiSignalR,
+      ],
     );
 
     iconApi = flavor.iconApi;
