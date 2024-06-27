@@ -309,37 +309,45 @@ class SignalRModuleNew {
   }
 
   Future<void> disconnectSocket(String from) async {
-    if (_hubConnection == null) return;
+    try {
+      if (_hubConnection == null) return;
 
-    log(
-      level: lg.Level.warning,
-      place: _loggerValue,
-      message: 'SignalR Disconnect $from',
-    );
-    transport.addToLog(DateTime.now(), 'SignalR Disconnect $from');
+      log(
+        level: lg.Level.warning,
+        place: _loggerValue,
+        message: 'SignalR Disconnect $from',
+      );
+      transport.addToLog(DateTime.now(), 'SignalR Disconnect $from');
 
-    isDisconnecting = true;
-    isSignalRRestarted = false;
+      isDisconnecting = true;
+      isSignalRRestarted = false;
 
-    _pingTimer?.cancel();
-    _pongTimer?.cancel();
-    _reconnectTimer?.cancel();
+      _pingTimer?.cancel();
+      _pongTimer?.cancel();
+      _reconnectTimer?.cancel();
 
-    _pingTimer = null;
-    _pongTimer = null;
-    _reconnectTimer = null;
+      _pingTimer = null;
+      _pongTimer = null;
+      _reconnectTimer = null;
 
-    await _hubConnection?.stop();
+      await _hubConnection?.stop();
 
-    await disableHandlerConnection();
+      await disableHandlerConnection();
 
-    _hubConnection = null;
+      _hubConnection = null;
 
-    log(
-      level: lg.Level.error,
-      place: _loggerValue,
-      message: 'SignalR is Disconnected.',
-    );
+      log(
+        level: lg.Level.error,
+        place: _loggerValue,
+        message: 'SignalR is Disconnected.',
+      );
+    } catch (e) {
+      log(
+        level: lg.Level.error,
+        place: _loggerValue,
+        message: 'SignalR error on disconnectSocket $e',
+      );
+    }
   }
 
   void dispose() {
