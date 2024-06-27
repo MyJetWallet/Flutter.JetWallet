@@ -2162,5 +2162,14 @@
     "get_simple_card_provide_tin": "W trakcie procesu weryfikacji musisz również podać swój NIP (Numer Identyfikacji Podatkowej).",
     "get_simple_card_utility_bill": "Rachunek za media",
     "next": "dalej",
-    "cancel": "anuluj"
+    "cancel": "anuluj",
+    "buy_local_methods": "Metody lokalne",
+    "buy_p2p_service": "Usługa P2P",
+    "buy_transfer": "Przelew",
+    "buy_wallets_accounts": "Portfele i konta",
+    "buy_normally_transfer": "Zwykle przelew jest realizowany w ciągu 30 min, czasami do 24 godzin",
+    "p2p_buy_unfinished_operation": "Nieukończona operacja",
+    "p2p_buy_you_have_unfinished": "Masz nieukończone transakcje poprzez usługę P2P.\n\nAby sprawdzić status transakcji lub ją anulować, kliknij Kontynuuj.",
+    "p2p_buy_conversion_rate": "Kurs wymiany",
+    "p2p_buy_payment_management": "Zarządzanie płatnościami"
 }
