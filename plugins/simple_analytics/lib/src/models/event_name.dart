@@ -510,7 +510,7 @@ class EventName {
   static const tapOnTheContinueWithEarnWithdrawTypeButton = 'Tap on the ‘Continue with earn withdraw type’ button';
   static const earnWithdrawAmountScreenView = 'Earn Withdraw amount’ screen view';
   static const tapOnTheBackFromEarnWithdrawAmountButton = 'Tap on the ‘Back from earn withdraw amount’ button';
-  static const tapOnTheContinueWithEarnWithdrawAmountButton = 'Tap on the ‘Continue with earn withdraw amount’ button';
+  static const tapOnTheContinueWithEarnWithdrawAmountButton = 'Tap on the ‘Confirm withdraw order summary’ button';
   static const earnWithdrawOrderSummaryScreenView = 'Earn withdraw order summary’ screen view';
   static const tapOnTheBackFromEarnWithdrawOrderSummaryButton =
       'Tap on the ‘Back from earn withdraw order summary’ button';
