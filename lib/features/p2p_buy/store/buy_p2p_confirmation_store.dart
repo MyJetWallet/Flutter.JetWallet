@@ -125,12 +125,6 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
       );
 
   @computed
-  CurrencyModel get payCurrency => sSignalRModules.currenciesWithHiddenList.firstWhere(
-        (currency) => currency.symbol == 'EUR',
-        orElse: () => CurrencyModel.empty(),
-      );
-
-  @computed
   CurrencyModel get depositFeeCurrency => sSignalRModules.currenciesWithHiddenList.firstWhere(
         (currency) => currency.symbol == (depositFeeAsset ?? 'BTC'),
         orElse: () => CurrencyModel.empty(),

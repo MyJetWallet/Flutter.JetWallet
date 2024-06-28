@@ -15,16 +15,12 @@ class BuyP2PConfirmationInfoGrid extends StatefulObserverWidget {
     super.key,
     this.paymentFee,
     this.ourFee,
-    required this.totalValue,
-    required this.paymentCurrency,
     required this.asset,
   });
 
   final String? paymentFee;
   final String? ourFee;
 
-  final String totalValue;
-  final CurrencyModel paymentCurrency;
   final CurrencyModel asset;
 
   @override
@@ -141,7 +137,7 @@ class _ConfirmationInfoGridState extends State<BuyP2PConfirmationInfoGrid> with 
                   symbol: widget.asset.symbol,
                 )} = ${volumeFormat(
                   decimal: store.rate ?? Decimal.zero,
-                  symbol: widget.paymentCurrency.symbol,
+                  symbol: store.paymentAsset?.asset ?? '',
                 )}',
                 style: sSubtitle3Style,
               ),

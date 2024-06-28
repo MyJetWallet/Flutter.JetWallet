@@ -103,7 +103,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                   fromAssetValue: volumeFormat(
                     symbol: store.buyCurrency.symbol,
                     accuracy: store.buyCurrency.accuracy,
-                    decimal: store.paymentAmount ?? Decimal.zero,
+                    decimal: store.buyAmount ?? Decimal.zero,
                   ),
                   hasSecondAsset: false,
                 ),
@@ -118,12 +118,6 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                     accuracy: store.tradeFeeCurreny.accuracy,
                     symbol: store.tradeFeeCurreny.symbol,
                   ),
-                  totalValue: volumeFormat(
-                    symbol: store.payCurrency.symbol,
-                    accuracy: store.payCurrency.accuracy,
-                    decimal: store.paymentAmount ?? Decimal.zero,
-                  ),
-                  paymentCurrency: store.payCurrency,
                   asset: store.buyCurrency,
                 ),
                 const SizedBox(height: 16),
