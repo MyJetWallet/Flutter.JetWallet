@@ -7,6 +7,8 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/transaction_history/widgets/history_copy_icon.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/helpers/icon_url_from.dart';
+import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -93,14 +95,18 @@ class BuyP2PDetails extends StatelessObserverWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   const SpaceW8(),
-                  // TODO (SPU-4677)(Yaroslav): change icon
-                  Assets.svg.other.medium.bankAccount.simpleSvg(
-                    width: 20,
+                  SNetworkCachedSvg(
+                    url: iconForPaymentMethod(
+                      methodId: transactionListItem.cryptoBuyInfo?.paymentMethod ?? '',
+                    ),
+                    width: 24,
+                    height: 24,
+                    placeholder: const SizedBox(),
                   ),
                   const SpaceW8(),
                   Flexible(
                     child: TransactionDetailsValueText(
-                      text: transactionListItem.cryptoBuyInfo?.accountLabel ?? 'Account 1',
+                      text: transactionListItem.cryptoBuyInfo?.paymentMethodName ?? '',
                       maxLines: 1,
                     ),
                   ),
@@ -161,7 +167,10 @@ class BuyP2PDetails extends StatelessObserverWidget {
                 ),
               ),
               onTap: () async {
-                // TODO (SPU-4677)(Yaroslav): add url lunch
+                await launchURL(
+                  context,
+                  transactionListItem.cryptoBuyInfo?.paymentUrl ?? '',
+                );
               },
               mainAxisSize: MainAxisSize.max,
             ),
