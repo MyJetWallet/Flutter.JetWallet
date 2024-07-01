@@ -30,8 +30,7 @@ class SendCardDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider<SendCardDetailStore>(
-      create: (context) =>
-          SendCardDetailStore()..init(method, countryCode, currency.symbol),
+      create: (context) => SendCardDetailStore()..init(method, countryCode, currency.symbol),
       builder: (context, child) => SendCardDetailScreenBody(
         countryCode: countryCode,
         currency: currency,
@@ -54,8 +53,7 @@ class SendCardDetailScreenBody extends StatefulObserverWidget {
   final CurrencyModel currency;
 
   @override
-  State<SendCardDetailScreenBody> createState() =>
-      _SendCardDetailScreenBodyState();
+  State<SendCardDetailScreenBody> createState() => _SendCardDetailScreenBodyState();
 }
 
 class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
@@ -107,7 +105,7 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                     isSendGlobal: true,
                     firstText: intl.send_globally_cond_text_1,
                     firstAdditionalText: intl.send_globally_cond_text_add_1,
-                    userAgreementText: ' ${intl.send_globally_cond_text_2}',
+                    userAgreementText: ' ${intl.p2p_terms_and_conditions}',
                     betweenText: '',
                     privacyPolicyText: '',
                     secondText: '.\n',
@@ -189,8 +187,7 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                   child: Material(
                     color: colors.grey5,
                     child: SPrimaryButton2(
-                      active: store.isContinueAvailable &&
-                          getIt<AppStore>().isAcceptedGlobalSendTC,
+                      active: store.isContinueAvailable && getIt<AppStore>().isAcceptedGlobalSendTC,
                       name: intl.addCircleCard_continue,
                       onTap: () {
                         sAnalytics.globalSendContinueReceiveDetail(

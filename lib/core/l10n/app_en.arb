@@ -1093,7 +1093,7 @@
     "send_globally_cond_text_6": "3. I understand that this money transfer is processed via P2P network more. P2P transfers are orchestrated by Payport LLC.\n",
     "send_globally_cond_text_7": "More details",
     "global_send_got_it": "Got it",
-    "global_send_popup_details": "When you initiates money transfer to the bank card of your friend or family member, another individual sends P2P money transfer directly to the receiver. Earn Global LTd orchestrates this transfer, but does not process it directly.",
+    "global_send_popup_details": "Exchanging cryptocurrency via P2P involves receiving funds directly from another person to the specified account details. Smpl Global Limited orchestrates this transfer, but does not process it directly.",
     "action_send_global_send_bottomheet": "Choose asset to send",
     "p2p_transfer": "P2P transfer",
     "global_send_you_send": "You send",
@@ -2119,5 +2119,6 @@
     "p2p_buy_unfinished_operation": "Unfinished operation",
     "p2p_buy_you_have_unfinished": "You have unfinished transactions through the P2P service.\n\nTo check the status of the transaction or to cancel it, click the Continue.",
     "p2p_buy_conversion_rate": "Conversion rate",
-    "p2p_buy_payment_management": "Payment management"
+    "p2p_buy_payment_management": "Payment management",
+    "p2p_terms_and_conditions": "Peer-to-Peer (P2P) Terms and conditions"
 }

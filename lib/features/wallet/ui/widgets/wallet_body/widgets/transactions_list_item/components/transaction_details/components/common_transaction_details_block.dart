@@ -13,10 +13,8 @@ import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transac
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 
-import '../../../../../../../../../../utils/helpers/check_local_operation.dart';
 import '../../../../../../../../../app/store/app_store.dart';
 import '../../../../../../../../helper/is_operation_support_copy.dart';
 import '../../../../../../../../helper/nft_types.dart';
@@ -42,11 +40,6 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
     final operationWithoutBalanceShow = transactionListItem.operationType == OperationType.cardPurchase ||
         transactionListItem.operationType == OperationType.cardRefund ||
         transactionListItem.operationType == OperationType.cardWithdrawal;
-
-    final isLocal = transactionListItem.operationType == OperationType.cryptoBuy &&
-        isOperationLocal(
-          transactionListItem.cryptoBuyInfo?.paymentMethod ?? PaymentMethodType.unsupported,
-        );
 
     final currencyForOperation = transactionListItem.operationType == OperationType.nftBuy ||
             transactionListItem.operationType == OperationType.nftSwap
@@ -75,10 +68,6 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
         ),
         if (devicePR == 2) ...[
           const SpaceH30(),
-        ] else if (transactionListItem.operationType == OperationType.sendGlobally ||
-            ((transactionListItem.operationType == OperationType.p2pBuy || isLocal) &&
-                transactionListItem.status == Status.inProgress)) ...[
-          const SpaceH40(),
         ] else if (transactionListItem.operationType == OperationType.bankingAccountWithdrawal ||
             transactionListItem.operationType == OperationType.bankingBuy ||
             transactionListItem.operationType == OperationType.cryptoBuy ||
@@ -109,14 +98,6 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
         ] else ...[
           const SpaceH67(),
         ],
-        if ((transactionListItem.operationType == OperationType.p2pBuy || isLocal) &&
-            transactionListItem.status == Status.inProgress)
-          Text(
-            intl.history_approximately,
-            style: sBodyText2Style.copyWith(
-              color: colors.grey2,
-            ),
-          ),
         if (transactionListItem.operationType == OperationType.cardPurchase) ...[
           CardPurchaseDetailsHeader(
             transactionListItem: transactionListItem,

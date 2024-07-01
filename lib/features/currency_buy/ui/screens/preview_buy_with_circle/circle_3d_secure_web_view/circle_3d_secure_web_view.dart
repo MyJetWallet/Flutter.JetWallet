@@ -3,6 +3,8 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_pro/webview_flutter.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -58,6 +60,9 @@ class Circle3dSecureWebView extends StatelessWidget {
           children: [
             Expanded(
               child: WebView(
+                gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{}
+                  ..add(Factory<VerticalDragGestureRecognizer>(() => VerticalDragGestureRecognizer())),
+                gestureNavigationEnabled: true,
                 initialUrl: url,
                 javascriptMode: JavascriptMode.unrestricted,
                 onWebViewCreated: (controller) {
@@ -75,27 +80,27 @@ class Circle3dSecureWebView extends StatelessWidget {
                 },
                 navigationDelegate: (request) {
                   final uri = Uri.parse(request.url);
-
+              
                   if (uri.path == '/circle/failure' || uri.path == '/unlimint/failure') {
                     onFailed(intl.something_went_wrong);
-
+              
                     return NavigationDecision.navigate;
                   } else if (uri.path == '/circle/success' || uri.path == '/unlimint/success') {
                     onSuccess(paymentId, url);
-
+              
                     return NavigationDecision.navigate;
                   } else if (uri.path == '/unlimint/cancel') {
                     onCancel?.call(paymentId);
-
+              
                     return NavigationDecision.navigate;
                   } else if (uri.path == '/unlimint/inprocess' || uri.path == '/unlimint/return') {
                     onSuccess(paymentId, url);
-
+              
                     return NavigationDecision.navigate;
                   } else if (uri.path.startsWith('text/html')) {
                     return NavigationDecision.prevent;
                   }
-
+              
                   return NavigationDecision.navigate;
                 },
               ),

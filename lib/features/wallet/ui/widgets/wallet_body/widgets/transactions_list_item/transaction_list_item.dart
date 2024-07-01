@@ -369,6 +369,12 @@ class TransactionListItem extends StatelessWidget {
           symbol: transactionListItem.withdrawalInfo?.receiveAsset ?? '',
         )}';
     }
+    if (transactionListItem.operationType == OperationType.p2pBuy) {
+      return '${intl.history_with} ${getIt<AppStore>().isBalanceHide ? '**** ${transactionListItem.cryptoBuyInfo?.paymentAssetId ?? ''}' : volumeFormat(
+          decimal: transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero,
+          symbol: transactionListItem.cryptoBuyInfo?.paymentAssetId ?? '',
+        )}';
+    }
 
     return null;
   }

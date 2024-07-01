@@ -163,21 +163,15 @@ abstract class _BuyP2PAmountStoreBase with Store {
 
   @action
   void onBuyAll() {
-    if (isFiatEntering) {
-      fiatInputValue = responseOnInputAction(
-        oldInput: primaryAmount,
-        newInput: maxLimit.toString(),
-        accuracy: asset?.accuracy ?? 2,
-      );
-      _calculateCryptoConversion();
-    } else {
-      cryptoInputValue = responseOnInputAction(
-        oldInput: primaryAmount,
-        newInput: maxLimit.toString(),
-        accuracy: asset?.accuracy ?? 2,
-      );
-      _calculateFiatConversion();
-    }
+    isFiatEntering = false;
+
+    cryptoInputValue = responseOnInputAction(
+      oldInput: cryptoInputValue,
+      newInput: maxLimit.toString(),
+      accuracy: asset?.accuracy ?? 2,
+    );
+
+    _calculateFiatConversion();
 
     _validateInput();
   }

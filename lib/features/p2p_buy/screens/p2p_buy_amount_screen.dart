@@ -71,7 +71,7 @@ class P2PBuyAmountScreen extends StatelessWidget {
             loaderText: '',
             header: SPaddingH24(
               child: SSmallHeader(
-                title: intl.prepaid_card_buy_voucher,
+                title: intl.operationName_buy,
                 onBackButtonTap: () {
                   sAnalytics.tapOnTheBackFromAmountScreenButton(
                     destinationWallet: currency.symbol,
@@ -154,7 +154,7 @@ class P2PBuyAmountScreen extends StatelessWidget {
                                 const SpaceH8(),
                                 SuggestionButtonWidget(
                                   title: store.p2pMethod?.name,
-                                  subTitle: intl.amount_screen_pay_with,
+                                  subTitle: intl.withText,
                                   icon: SNetworkCachedSvg(
                                     url: iconForPaymentMethod(
                                       methodId: store.p2pMethod?.methodId ?? '',

@@ -2,11 +2,15 @@ import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/p2p_buy/store/buy_p2p_confirmation_store.dart';
 import 'package:jetwallet/features/p2p_buy/widgets/buy_p2p_confirmation_info_grid.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
@@ -100,11 +104,13 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                   isLoading: !store.isDataLoaded,
                   fromAssetIconUrl: store.buyCurrency.iconUrl,
                   fromAssetDescription: store.buyCurrency.description,
-                  fromAssetValue: volumeFormat(
-                    symbol: store.buyCurrency.symbol,
-                    accuracy: store.buyCurrency.accuracy,
-                    decimal: store.paymentAmount ?? Decimal.zero,
-                  ),
+                  fromAssetValue: getIt<AppStore>().isBalanceHide
+                      ? '**** ${store.buyCurrency.symbol}'
+                      : volumeFormat(
+                          symbol: store.buyCurrency.symbol,
+                          accuracy: store.buyCurrency.accuracy,
+                          decimal: store.buyAmount ?? Decimal.zero,
+                        ),
                   hasSecondAsset: false,
                 ),
                 BuyP2PConfirmationInfoGrid(
@@ -118,12 +124,6 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                     accuracy: store.tradeFeeCurreny.accuracy,
                     symbol: store.tradeFeeCurreny.symbol,
                   ),
-                  totalValue: volumeFormat(
-                    symbol: store.payCurrency.symbol,
-                    accuracy: store.payCurrency.accuracy,
-                    decimal: store.paymentAmount ?? Decimal.zero,
-                  ),
-                  paymentCurrency: store.payCurrency,
                   asset: store.buyCurrency,
                 ),
                 const SizedBox(height: 16),
@@ -136,10 +136,39 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                 ),
                 const SizedBox(height: 24),
                 const SDivider(),
+                SPolicyCheckbox(
+                  height: 65,
+                  firstText: intl.buy_confirmation_privacy_checkbox_1,
+                  userAgreementText: intl.p2p_terms_and_conditions,
+                  betweenText: '',
+                  privacyPolicyText: '',
+                  secondText: '',
+                  activeText: '',
+                  thirdText: '',
+                  activeText2: '',
+                  onCheckboxTap: () {
+                    store.setIsBankTermsChecked();
+                  },
+                  onUserAgreementTap: () {
+                    launchURL(context, p2pTerms);
+                    sAnalytics.tapOnTheButtonTermsAndConditionsOnBuyOrderSummary(
+                      pmType: PaymenthMethodType.ptp,
+                      buyPM: 'PTP',
+                      sourceCurrency: store.paymentAsset?.asset ?? '',
+                      destinationWallet: store.buyAsset ?? '',
+                      sourceBuyAmount: store.paymentAmount.toString(),
+                      destinationBuyAmount: store.buyAmount.toString(),
+                    );
+                  },
+                  onPrivacyPolicyTap: () {},
+                  onActiveTextTap: () {},
+                  onActiveText2Tap: () {},
+                  isChecked: store.isP2PTermsChecked,
+                ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 32),
+                  padding: const EdgeInsets.symmetric(vertical: 64),
                   child: SPrimaryButton2(
-                    active: !store.loader.loading,
+                    active: !store.loader.loading && store.getCheckbox,
                     name: intl.previewBuyWithAsset_confirm,
                     onTap: () {
                       sAnalytics.tapOnTheButtonConfirmOnBuyOrderSummary(
