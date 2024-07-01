@@ -4,12 +4,13 @@ import 'package:flutter/widgets.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/prevent_duplication_events_servise.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
-import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/widgets/payment_method_card.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:logger/logger.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
@@ -22,10 +23,12 @@ class BuyP2pPeymentMethodScreen extends StatefulWidget {
     super.key,
     required this.currency,
     required this.paymentCurrecy,
+    this.methods = const [],
   });
 
   final CurrencyModel currency;
   final PaymentAsset paymentCurrecy;
+  final List<P2PMethodModel> methods;
 
   @override
   State<BuyP2pPeymentMethodScreen> createState() => _BuyP2pPeymentMethodScreenState();
@@ -36,13 +39,16 @@ class _BuyP2pPeymentMethodScreenState extends State<BuyP2pPeymentMethodScreen> {
 
   @override
   void initState() {
+    if (widget.methods.isNotEmpty) {
+      methods.addAll(widget.methods);
+    } else {
+      loadP2PMethods();
+    }
     super.initState();
-    loadP2PMethods();
   }
 
   Future<void> loadP2PMethods() async {
     try {
-      getIt.get<GlobalLoader>().setLoading(true);
       final responce = await sNetwork.getWalletModule().getP2PMethods();
 
       final result =
@@ -54,9 +60,11 @@ class _BuyP2pPeymentMethodScreenState extends State<BuyP2pPeymentMethodScreen> {
         });
       });
     } catch (e) {
-      getIt.get<GlobalLoader>().setLoading(false);
-    } finally {
-      getIt.get<GlobalLoader>().setLoading(false);
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.info,
+            place: 'PaymentCurrenceBuyScreen loadP2PMethods',
+            message: e.toString(),
+          );
     }
   }
 
