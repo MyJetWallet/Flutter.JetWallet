@@ -105,7 +105,7 @@ class _RewardShareCardState extends State<RewardShareCard> {
   Widget build(BuildContext context) {
     final shareText = "${intl.reward_share_main_text}\n\n${sSignalRModules.rewardsData?.referralLink ?? ''}";
     final currentAsset = asset;
-    final icon = currentAsset != null
+    final icon = currentAsset != null && iconsMap[currentAsset.name] != null
         ? iconsMap[currentAsset.name]
         : Assets.svg.assets.crypto.defaultPlaceholderPurple.simpleSvg(
             width: _iconSize,
