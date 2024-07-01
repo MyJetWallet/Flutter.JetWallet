@@ -37,12 +37,31 @@ class _RewardShareCardState extends State<RewardShareCard> {
   late FlipCardController controller;
   late Timer timer;
   late RewardsAssetModel? asset;
+  final Map<String, Widget> iconsMap = {};
 
   Duration animationDuration = const Duration(milliseconds: 500);
 
   @override
   void initState() {
     controller = FlipCardController();
+
+    for (final element in rewardsAssets) {
+      iconsMap.addAll({
+        element.name: SNetworkCachedSvg(
+          url: currencyFrom(
+            sSignalRModules.currenciesList,
+            element.name,
+          ).iconUrl,
+          width: _iconSize,
+          height: _iconSize,
+          placeholder: const SizedBox(
+            width: _iconSize,
+            height: _iconSize,
+          ),
+        ),
+      });
+    }
+
     asset = rewardsAssets.isNotEmpty ? rewardsAssets[Random().nextInt(rewardsAssets.length)] : null;
 
     timer = Timer.periodic(const Duration(seconds: 4), (timer) async {
@@ -87,18 +106,7 @@ class _RewardShareCardState extends State<RewardShareCard> {
     final shareText = "${intl.reward_share_main_text}\n\n${sSignalRModules.rewardsData?.referralLink ?? ''}";
     final currentAsset = asset;
     final icon = currentAsset != null
-        ? SNetworkCachedSvg(
-            url: currencyFrom(
-              sSignalRModules.currenciesList,
-              currentAsset.name,
-            ).iconUrl,
-            width: _iconSize,
-            height: _iconSize,
-            placeholder: const SizedBox(
-              width: _iconSize,
-              height: _iconSize,
-            ),
-          )
+        ? iconsMap[currentAsset.name]
         : Assets.svg.assets.crypto.defaultPlaceholderPurple.simpleSvg(
             width: _iconSize,
             height: _iconSize,
