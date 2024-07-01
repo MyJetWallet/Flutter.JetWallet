@@ -7859,5 +7859,6 @@
     "p2p_buy_unfinished_operation": "Незавершена операція",
     "p2p_buy_you_have_unfinished": "У вас є незавершені транзакції через P2P сервіс.\n\nЩоб перевірити статус транзакції або скасувати її, натисніть Продовжити.",
     "p2p_buy_conversion_rate": "Курс конверсії",
-    "p2p_buy_payment_management": "Управління платежами"
+    "p2p_buy_payment_management": "Управління платежами",
+    "p2p_terms_and_conditions": "Peer-to-Peer (P2P) Terms and conditions"
 }

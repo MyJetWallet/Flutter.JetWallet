@@ -2083,5 +2083,6 @@
     "p2p_buy_unfinished_operation": "Opération inachevée",
     "p2p_buy_you_have_unfinished": "Vous avez des transactions inachevées via le service P2P.\n\nPour vérifier le statut de la transaction ou pour l'annuler, cliquez sur Continuer.",
     "p2p_buy_conversion_rate": "Taux de conversion",
-    "p2p_buy_payment_management": "Gestion des paiements"
+    "p2p_buy_payment_management": "Gestion des paiements",
+    "p2p_terms_and_conditions": "Peer-to-Peer (P2P) Terms and conditions"
 }
