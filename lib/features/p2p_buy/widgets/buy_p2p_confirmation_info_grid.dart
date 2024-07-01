@@ -152,8 +152,15 @@ class _ConfirmationInfoGridState extends State<BuyP2PConfirmationInfoGrid> with 
             fee: widget.paymentFee ?? '',
             isLoaded: store.isDataLoaded,
             onTabListener: () {
-              sAnalytics.paymentProcessingFeeSellPopupView(
+              sAnalytics.tapOnTheButtonPaymentFeeInfoOnBuyCheckout();
+              sAnalytics.paymentProcessingFeePopupView(
                 feeType: FeeType.payment,
+                pmType: PaymenthMethodType.ptp,
+                buyPM: 'PTP',
+                sourceCurrency: store.paymentAsset?.asset ?? '',
+                destinationWallet: store.buyAsset ?? '',
+                sourceBuyAmount: store.paymentAmount.toString(),
+                destinationBuyAmount: store.buyAmount.toString(),
               );
             },
           ),
@@ -164,8 +171,15 @@ class _ConfirmationInfoGridState extends State<BuyP2PConfirmationInfoGrid> with 
             fee: widget.ourFee ?? '',
             isLoaded: store.isDataLoaded,
             onTabListener: () {
-              sAnalytics.paymentProcessingFeeSellPopupView(
+              sAnalytics.tapOnTheButtonPaymentFeeInfoOnBuyCheckout();
+              sAnalytics.paymentProcessingFeePopupView(
                 feeType: FeeType.processing,
+                pmType: PaymenthMethodType.ptp,
+                buyPM: 'PTP',
+                sourceCurrency: store.paymentAsset?.asset ?? '',
+                destinationWallet: store.buyAsset ?? '',
+                sourceBuyAmount: store.paymentAmount.toString(),
+                destinationBuyAmount: store.buyAmount.toString(),
               );
             },
           ),

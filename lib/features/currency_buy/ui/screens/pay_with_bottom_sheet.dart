@@ -14,6 +14,7 @@ import 'package:jetwallet/features/cj_banking_accounts/widgets/show_add_cash_fro
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
+import 'package:jetwallet/features/p2p_buy/utils/show_unfinished_operation_pop_up.dart';
 import 'package:jetwallet/utils/balances/crypto_balance.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -52,15 +53,14 @@ void showPayWithBottomSheet({
             (index) => 'Saved card ${store.cards[index].last4}',
           ),
         ],
-        if (store.isBankingAccountsAvaible)
-          ...List.generate(
-            store.accounts.length,
-            (index) {
-              return index == 0
-                  ? 'CJ ${store.accounts[index].last4IbanCharacters}'
-                  : 'Unlimint ${store.accounts[index].last4IbanCharacters}';
-            },
-          ),
+        ...List.generate(
+          store.accounts.length,
+          (index) {
+            return store.accounts[index].isClearjuctionAccount
+                ? 'CJ ${store.accounts[index].last4IbanCharacters}'
+                : 'Unlimint ${store.accounts[index].last4IbanCharacters}';
+          },
+        ),
         if (store.isP2PAvaible) 'PTP',
       ],
     );
@@ -198,7 +198,10 @@ class PayWithScreen extends StatelessObserverWidget {
                   );
 
                   if (sSignalRModules.pendingOperationCount > 0) {
-                    showUnfinishedOperationPopUp(context);
+                    showUnfinishedOperationPopUp(
+                      context: context,
+                      assetSunbol: asset?.symbol ?? '',
+                    );
                   } else {
                     sRouter.push(PaymentCurrenceBuyRouter(currency: asset!));
                   }
@@ -278,31 +281,4 @@ class PayWithScreen extends StatelessObserverWidget {
       ),
     );
   }
-}
-
-Future<void> showUnfinishedOperationPopUp(BuildContext context) async {
-  await sShowAlertPopup(
-    context,
-    primaryText: intl.p2p_buy_unfinished_operation,
-    secondaryText: intl.p2p_buy_you_have_unfinished,
-    primaryButtonName: intl.prepaid_card_continue,
-    secondaryButtonName: intl.profileDetails_cancel,
-    textAlign: TextAlign.left,
-    image: Image.asset(
-      infoLightAsset,
-      width: 80,
-      height: 80,
-      package: 'simple_kit',
-    ),
-    onPrimaryButtonTap: () async {
-      await sRouter.push(
-        TransactionHistoryRouter(
-          initialIndex: 1,
-        ),
-      );
-    },
-    onSecondaryButtonTap: () {
-      Navigator.pop(context);
-    },
-  );
 }

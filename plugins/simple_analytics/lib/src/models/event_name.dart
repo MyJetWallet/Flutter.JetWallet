@@ -618,4 +618,7 @@ class EventName {
   static const ptpBuyPaymentMethodScreenView = '“PTP buy Payment method” screen view';
   static const tapOnTheBackFromPTPBuyPaymentMethodButton = 'Tap on the ‘Back from PTP buy Payment method’ button';
   static const tapOnThePTPBuyMethodButton = 'Tap on the ‘PTP buy Method’ button';
+  static const ptpBuyWebViewScreenView = '‘PTP Buy web view‘ screen view';
+  static const ptpBuyPopupUnfinishedOperationScreenView = '‘PTP Buy popup Unfinished operation‘ screen view';
+  static const tapOnTheButtonContinueOnPTPBuyPopup = 'Tap on the button ‘Continue’ on PTP Buy popup';
 }
