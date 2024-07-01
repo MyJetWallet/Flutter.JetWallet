@@ -64,7 +64,11 @@ class _RewardShareCardState extends State<RewardShareCard> {
 
     asset = rewardsAssets.isNotEmpty ? rewardsAssets[Random().nextInt(rewardsAssets.length)] : null;
 
-    timer = Timer.periodic(const Duration(seconds: 4), (timer) async {
+    Future<void> flipCard() async {
+      Timer(const Duration(seconds: 1), () async {
+        await controller.flipcard();
+      });
+
       await controller.flipcard().then((value) {
         if (rewardsAssets.isNotEmpty) {
           setState(() {
@@ -72,11 +76,11 @@ class _RewardShareCardState extends State<RewardShareCard> {
           });
         }
       });
+    }
 
-      Timer(const Duration(seconds: 1), () async {
-        await controller.flipcard();
-      });
-    });
+    flipCard();
+
+    timer = Timer.periodic(const Duration(seconds: 4), (timer) => flipCard());
 
     super.initState();
   }
@@ -166,7 +170,7 @@ class _RewardShareCardState extends State<RewardShareCard> {
                         rotateSide: RotateSide.right,
                         controller: controller,
                         animationDuration: animationDuration,
-                        frontWidget: Stack(
+                        backWidget: Stack(
                           children: [
                             Image.asset(
                               simpleRewardCardFront,
@@ -212,7 +216,7 @@ class _RewardShareCardState extends State<RewardShareCard> {
                               ),
                           ],
                         ),
-                        backWidget: Image.asset(
+                        frontWidget: Image.asset(
                           simpleRewardCardRevers,
                           width: _imgWidth,
                           height: _imgHeight,
