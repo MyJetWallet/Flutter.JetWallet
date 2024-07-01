@@ -473,7 +473,7 @@ abstract class _InvestPositionsStoreBase with Store {
 
       if (response.hasError) {
         sNotification.showError(
-          response.error?.cause ?? '',
+          response.error?.cause ?? intl.something_went_wrong,
           id: 1,
           needFeedback: true,
         );

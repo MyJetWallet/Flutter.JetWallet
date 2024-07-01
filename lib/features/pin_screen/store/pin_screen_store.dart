@@ -313,7 +313,7 @@ abstract class _PinScreenStoreBase with Store {
         }
 
         sNotification.showError(
-          response.error?.cause ?? '',
+          response.error?.cause ?? intl.something_went_wrong,
           id: 1,
         );
 
@@ -416,7 +416,7 @@ abstract class _PinScreenStoreBase with Store {
 
       if (getIt<InternetCheckerService>().internetAvailable) {
         sNotification.showError(
-          e.toString(),
+          intl.something_went_wrong,
           id: 1,
         );
       } else {
