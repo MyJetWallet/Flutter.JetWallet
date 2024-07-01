@@ -164,7 +164,7 @@ abstract class _BuyP2PAmountStoreBase with Store {
   @action
   void onBuyAll() {
     cryptoInputValue = responseOnInputAction(
-      oldInput: primaryAmount,
+      oldInput: cryptoInputValue,
       newInput: maxLimit.toString(),
       accuracy: asset?.accuracy ?? 2,
     );
