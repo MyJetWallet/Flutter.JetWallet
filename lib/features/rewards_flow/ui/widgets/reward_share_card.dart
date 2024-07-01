@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,10 +11,20 @@ import 'package:jetwallet/core/services/logs/helpers/encode_query_parameters.dar
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/constants.dart';
+import 'package:jetwallet/utils/extension/double_extension.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_networking/modules/remote_config/models/rewards_asset_model.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../../core/services/remote_config/remote_config_values.dart';
+import '../../../../utils/helpers/currency_from.dart';
+
+const _imgWidth = 160.0;
+const _imgHeight = 208.0;
+const _iconSize = 48.0;
 
 class RewardShareCard extends StatefulObserverWidget {
   const RewardShareCard({super.key});
@@ -24,19 +35,28 @@ class RewardShareCard extends StatefulObserverWidget {
 
 class _RewardShareCardState extends State<RewardShareCard> {
   late FlipCardController controller;
-
   late Timer timer;
+  late RewardsAssetModel? asset;
 
-  Duration animationDuration = const Duration(seconds: 3);
-  Duration delayedDuration = const Duration(seconds: 4);
+  Duration animationDuration = const Duration(milliseconds: 500);
 
   @override
   void initState() {
     controller = FlipCardController();
+    asset = rewardsAssets.isNotEmpty ? rewardsAssets[Random().nextInt(rewardsAssets.length)] : null;
 
-    timer = Timer.periodic(animationDuration, (timer) async {
-      await controller.flipcard();
-      await Future.delayed(delayedDuration);
+    timer = Timer.periodic(const Duration(seconds: 4), (timer) async {
+      await controller.flipcard().then((value) {
+        if (rewardsAssets.isNotEmpty) {
+          setState(() {
+            asset = rewardsAssets[Random().nextInt(rewardsAssets.length)];
+          });
+        }
+      });
+
+      Timer(const Duration(seconds: 1), () async {
+        await controller.flipcard();
+      });
     });
 
     super.initState();
@@ -65,6 +85,24 @@ class _RewardShareCardState extends State<RewardShareCard> {
   @override
   Widget build(BuildContext context) {
     final shareText = "${intl.reward_share_main_text}\n\n${sSignalRModules.rewardsData?.referralLink ?? ''}";
+    final currentAsset = asset;
+    final icon = currentAsset != null
+        ? SNetworkCachedSvg(
+            url: currencyFrom(
+              sSignalRModules.currenciesList,
+              currentAsset.name,
+            ).iconUrl,
+            width: _iconSize,
+            height: _iconSize,
+            placeholder: const SizedBox(
+              width: _iconSize,
+              height: _iconSize,
+            ),
+          )
+        : Assets.svg.assets.crypto.defaultPlaceholderPurple.simpleSvg(
+            width: _iconSize,
+            height: _iconSize,
+          );
 
     return SPaddingH24(
       child: Container(
@@ -120,15 +158,56 @@ class _RewardShareCardState extends State<RewardShareCard> {
                         rotateSide: RotateSide.right,
                         controller: controller,
                         animationDuration: animationDuration,
-                        frontWidget: Image.asset(
-                          simpleRewardCardFront,
-                          width: 168.89,
-                          height: 213.33,
+                        frontWidget: Stack(
+                          children: [
+                            Image.asset(
+                              simpleRewardCardFront,
+                              width: _imgWidth,
+                              height: _imgHeight,
+                            ),
+                            Positioned(
+                              top: 39,
+                              left: 0,
+                              right: 0,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(48),
+                                      border: Border.all(
+                                        color: SColorsLight().white,
+                                        width: 4.33,
+                                      ),
+                                    ),
+                                    child: icon,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            if (currentAsset != null)
+                              Positioned(
+                                top: 106,
+                                left: 0,
+                                right: 0,
+                                child: Text(
+                                  '${currentAsset.value.formatNumber()} ${currentAsset.name}',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    height: 1.23,
+                                    fontSize: 17.78,
+                                    fontFamily: 'Gilroy',
+                                    fontWeight: FontWeight.w600,
+                                    color: SColorsLight().white,
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
                         backWidget: Image.asset(
                           simpleRewardCardRevers,
-                          width: 168.89,
-                          height: 213.33,
+                          width: _imgWidth,
+                          height: _imgHeight,
                         ),
                       ),
                     ),
