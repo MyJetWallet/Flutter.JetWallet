@@ -7,6 +7,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/prevent_duplication_events_servise.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/widgets/payment_method_card.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -49,6 +50,7 @@ class _BuyP2pPeymentMethodScreenState extends State<BuyP2pPeymentMethodScreen> {
 
   Future<void> loadP2PMethods() async {
     try {
+      getIt.get<GlobalLoader>().setLoading(true);
       final responce = await sNetwork.getWalletModule().getP2PMethods();
 
       final result =
@@ -65,6 +67,8 @@ class _BuyP2pPeymentMethodScreenState extends State<BuyP2pPeymentMethodScreen> {
             place: 'PaymentCurrenceBuyScreen loadP2PMethods',
             message: e.toString(),
           );
+    } finally {
+      getIt.get<GlobalLoader>().setLoading(false);
     }
   }
 

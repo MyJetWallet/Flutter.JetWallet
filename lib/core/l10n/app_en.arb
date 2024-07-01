@@ -2119,5 +2119,6 @@
     "p2p_buy_unfinished_operation": "Unfinished operation",
     "p2p_buy_you_have_unfinished": "You have unfinished transactions through the P2P service.\n\nTo check the status of the transaction or to cancel it, click the Continue.",
     "p2p_buy_conversion_rate": "Conversion rate",
-    "p2p_buy_payment_management": "Payment management"
+    "p2p_buy_payment_management": "Payment management",
+    "p2p_terms_and_conditions": "Peer-to-Peer (P2P) Terms and conditions"
 }

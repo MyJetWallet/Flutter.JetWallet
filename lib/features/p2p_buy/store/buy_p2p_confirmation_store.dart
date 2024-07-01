@@ -8,6 +8,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
+import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -141,6 +142,61 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
 
   bool isFromFixed = true;
 
+  @observable
+  bool isP2PTermsChecked = false;
+
+  @action
+  void setIsBankTermsChecked() {
+    isP2PTermsChecked = !isP2PTermsChecked;
+
+    sAnalytics.tapToAgreeToTheTCAndPrivacyPolicyBuy(
+      pmType: PaymenthMethodType.ptp,
+      buyPM: 'PTP',
+      sourceCurrency: paymentAsset?.asset ?? '',
+      destinationWallet: buyAsset ?? '',
+      sourceBuyAmount: paymentAmount.toString(),
+      destinationBuyAmount: buyAmount.toString(),
+      isCheckboxNowTrue: isP2PTermsChecked,
+    );
+  }
+
+  @computed
+  bool get getCheckbox => isP2PTermsChecked;
+
+  @action
+  Future<void> _isChecked() async {
+    try {
+      final storage = sLocalStorageService;
+
+      final status = await storage.getValue(checkedP2PTerms);
+      if (status != null) {
+        isP2PTermsChecked = true;
+      }
+    } catch (e) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'BuyConfirmationStore',
+            message: e.toString(),
+          );
+    }
+  }
+
+  @action
+  Future<void> _setIsChecked() async {
+    try {
+      final storage = sLocalStorageService;
+
+      await storage.setString(checkedP2PTerms, 'true');
+      isP2PTermsChecked = true;
+    } catch (e) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'BuyConfirmationStore',
+            message: e.toString(),
+          );
+    }
+  }
+
   @action
   Future<void> loadPreview({
     String? pAmount,
@@ -176,6 +232,8 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
       sourceBuyAmount: paymentAmount.toString(),
       destinationBuyAmount: buyAmount.toString(),
     );
+
+    await _isChecked();
   }
 
   @action
@@ -336,6 +394,7 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
 
   @action
   Future<void> createPayment() async {
+    unawaited(_setIsChecked());
     await _requestPaymentAccaunt();
   }
 
@@ -386,6 +445,8 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
 
       await _requestPaymentInfo(
         (url, onSuccess, onCancel, onFailed, paymentId) {
+          unawaited(_setIsChecked());
+
           sAnalytics.ptpBuyWebViewScreenView(
             asset: buyAsset ?? '',
             ptpCurrency: paymentAssetSumbol,
@@ -544,14 +605,8 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
     return sRouter
         .push(
       SuccessScreenRouter(
-        secondaryText: isGoogle
-            ? '${intl.successScreen_youBought} '
-                '${volumeFormat(
-                decimal: buyAmount ?? Decimal.zero,
-                accuracy: buyCurrency.accuracy,
-                symbol: buyCurrency.symbol,
-              )}'
-                '\n${intl.paid_with_gpay}'
+        secondaryText: getIt<AppStore>().isBalanceHide
+            ? '**** ${buyCurrency.symbol}'
             : '${intl.successScreen_youBought} '
                 '${volumeFormat(
                 decimal: buyAmount ?? Decimal.zero,
