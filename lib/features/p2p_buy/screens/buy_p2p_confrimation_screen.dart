@@ -2,8 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/p2p_buy/store/buy_p2p_confirmation_store.dart';
 import 'package:jetwallet/features/p2p_buy/widgets/buy_p2p_confirmation_info_grid.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
@@ -100,11 +102,13 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                   isLoading: !store.isDataLoaded,
                   fromAssetIconUrl: store.buyCurrency.iconUrl,
                   fromAssetDescription: store.buyCurrency.description,
-                  fromAssetValue: volumeFormat(
-                    symbol: store.buyCurrency.symbol,
-                    accuracy: store.buyCurrency.accuracy,
-                    decimal: store.buyAmount ?? Decimal.zero,
-                  ),
+                  fromAssetValue: getIt<AppStore>().isBalanceHide
+                      ? '**** ${store.buyCurrency.symbol}'
+                      : volumeFormat(
+                          symbol: store.buyCurrency.symbol,
+                          accuracy: store.buyCurrency.accuracy,
+                          decimal: store.buyAmount ?? Decimal.zero,
+                        ),
                   hasSecondAsset: false,
                 ),
                 BuyP2PConfirmationInfoGrid(
