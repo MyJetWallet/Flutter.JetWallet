@@ -45,12 +45,12 @@ class _RewardShareCardState extends State<RewardShareCard> {
   void initState() {
     controller = FlipCardController();
 
-    for (final element in rewardsAssets) {
+    for (final element in sSignalRModules.currenciesList) {
       iconsMap.addAll({
-        element.name: SNetworkCachedSvg(
+        element.symbol: SNetworkCachedSvg(
           url: currencyFrom(
             sSignalRModules.currenciesList,
-            element.name,
+            element.symbol,
           ).iconUrl,
           width: _iconSize,
           height: _iconSize,
