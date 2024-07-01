@@ -2074,5 +2074,14 @@
     "get_simple_card_provide_tin": "Au cours du processus de vérification, vous devrez également fournir votre NIF (Numéro d'Identification Fiscale).",
     "get_simple_card_utility_bill": "Facture de services publics",
     "next": "suivant",
-    "cancel": "annuler"
+    "cancel": "annuler",
+    "buy_local_methods": "Méthodes locales",
+    "buy_p2p_service": "Service P2P",
+    "buy_transfer": "Transfert",
+    "buy_wallets_accounts": "Portefeuilles & Comptes",
+    "buy_normally_transfer": "Normalement, le transfert est traité en 30 min, parfois jusqu'à 24 heures",
+    "p2p_buy_unfinished_operation": "Opération inachevée",
+    "p2p_buy_you_have_unfinished": "Vous avez des transactions inachevées via le service P2P.\n\nPour vérifier le statut de la transaction ou pour l'annuler, cliquez sur Continuer.",
+    "p2p_buy_conversion_rate": "Taux de conversion",
+    "p2p_buy_payment_management": "Gestion des paiements"
 }

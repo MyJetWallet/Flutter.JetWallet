@@ -206,7 +206,6 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
       response.pick(
         onData: (data) {
           paymentAmount = data.paymentAmount;
-          // paymentAssetSumbol = data.paymentAsset;
           buyAmount = data.buyAmount;
           buyAsset = data.buyAsset;
           depositFeeAmount = data.depositFeeAmount;
@@ -391,14 +390,51 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
         return;
       }
 
+      await _requestPaymentInfo(
+        (url, onSuccess, onCancel, onFailed, paymentId) {
+          sAnalytics.threeDSecureScreenView(
+            pmType: PaymenthMethodType.ptp,
+            buyPM: 'PTP',
+            sourceCurrency: paymentAsset?.asset ?? '',
+            destinationWallet: buyAsset ?? '',
+            sourceBuyAmount: paymentAmount.toString(),
+            destinationBuyAmount: buyAmount.toString(),
+          );
+
+          sRouter.push(
+            Circle3dSecureWebViewRouter(
+              title: intl.previewBuyWithCircle_paymentVerification,
+              url: url,
+              asset: depositFeeCurrency.symbol,
+              amount: paymentAmount.toString(),
+              onSuccess: onSuccess,
+              onFailed: onFailed,
+              onCancel: (text) {
+                sAnalytics.tapOnTheCloseButtonOn3DSecureScreen(
+                  pmType: PaymenthMethodType.ptp,
+                  buyPM: 'PTP',
+                  sourceCurrency: paymentAsset?.asset ?? '',
+                  destinationWallet: buyAsset ?? '',
+                  sourceBuyAmount: paymentAmount.toString(),
+                  destinationBuyAmount: buyAmount.toString(),
+                );
+                onCancel.call(text);
+              },
+              paymentId: paymentId,
+            ),
+          );
+
+          loader.finishLoadingImmediately();
+          showProcessing = true;
+          wasAction = true;
+          loader.startLoadingImmediately();
+        },
+        '',
+      );
+
       if (isWaitingSkipped) {
         return;
       }
-
-      await _requestPaymentInfo(
-        (_, __, ___, ____, _____) {},
-        '',
-      );
     } on ServerRejectException catch (error) {
       unawaited(_showFailureScreen(error.cause));
     } catch (error) {

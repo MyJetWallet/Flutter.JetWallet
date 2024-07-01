@@ -366,7 +366,7 @@ abstract class _PinScreenStoreBase with Store {
 
       if (getIt<InternetCheckerService>().internetAvailable) {
         sNotification.showError(
-          e.toString(),
+          intl.something_went_wrong,
           id: 1,
         );
       } else {
