@@ -51,7 +51,17 @@ class _EurWalletBodyState extends State<EurWalletBody> {
 
   @override
   void initState() {
-    sAnalytics.eurWalletSwipeBetweenWallets();
+    final bankAccountsCount = (sSignalRModules.bankingProfileData?.banking?.accounts ?? [])
+        .where((element) => element.status == AccountStatus.active)
+        .length;
+
+    var allAccountsCount = bankAccountsCount;
+    if (sSignalRModules.bankingProfileData?.simple != null) {
+      if (sSignalRModules.bankingProfileData?.simple?.account?.status == AccountStatus.active) {
+        allAccountsCount++;
+      }
+    }
+    sAnalytics.eurWalletAccountScreen(allAccountsCount);
     final simpleCardStore = getIt.get<SimpleCardStore>();
     final userInfo = getIt.get<UserInfoService>();
 

@@ -6,7 +6,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/internet_checker_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
-import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -288,38 +287,6 @@ abstract class _PinScreenStoreBase with Store {
     try {
       final response = await sNetwork.getAuthModule().postCheckPin(enterPin);
 
-      if (response.hasError) {
-        if (onWrongPin != null) {
-          onWrongPin?.call(response.error?.cause ?? '');
-        }
-
-        flowUnion.maybeWhen(
-          setup: () {
-            sAnalytics.signInFlowPhoneConfirmWrongPhone(
-              errorCode: response.error?.cause ?? '',
-            );
-          },
-          orElse: () {},
-        );
-
-        await _errorFlow();
-        _updateNewPin('');
-        _updateConfirmPin('');
-
-        await resetPin();
-
-        if (isChangePhone || isChangePin) {
-          showForgot = true;
-        }
-
-        sNotification.showError(
-          response.error?.cause ?? intl.something_went_wrong,
-          id: 1,
-        );
-
-        return;
-      }
-
       response.pick(
         onData: (data) async {
           await flowUnion.maybeWhen(
@@ -365,50 +332,33 @@ abstract class _PinScreenStoreBase with Store {
         onError: (ServerRejectException error) async {
           sAnalytics.signInFlowErrorPin(error: error.cause);
 
-          if (isChangePhone) {
+          if (onWrongPin != null) {
+            onWrongPin?.call(response.error?.cause ?? '');
+          }
+
+          flowUnion.maybeWhen(
+            setup: () {
+              sAnalytics.signInFlowPhoneConfirmWrongPhone(
+                errorCode: response.error?.cause ?? '',
+              );
+            },
+            orElse: () {},
+          );
+
+          await _errorFlow();
+          _updateNewPin('');
+          _updateConfirmPin('');
+
+          await resetPin();
+
+          if (isChangePhone || isChangePin) {
             showForgot = true;
           }
 
-          if (error.cause == 'The code you entered is incorrect, 2 attempts remaining.') {
-            await _errorFlow();
-            _updateNewPin('');
-            _updateConfirmPin('');
-
-            await resetPin();
-
-            if (attemptsLeft > 1) {
-              attemptsLeft--;
-              sNotification.showError(
-                '''The PIN you entered is incorrect,$attemptsLeft attempts remaining.''',
-              );
-              _updateNewPin('');
-              _updatePinBoxState(PinBoxEnum.empty);
-            } else {
-              if (isChangePhone) {
-                await sRouter.maybePop();
-                await sRouter.maybePop();
-              }
-              sNotification.showError(
-                '''Incorrect PIN has been entered more than $maxPinAttempts times, '''
-                'you have been logged out of your account.',
-              );
-
-              await getIt.get<LogoutService>().logout(
-                    'PIN SCREEN, logout',
-                    callbackAfterSend: () {},
-                  );
-            }
-
-            await resetPin();
-          } else {
-            if (isChangePhone) {
-              await sRouter.maybePop();
-            }
-            sNotification.showError(
-              'Incorrect PIN has been entered more than $maxPinAttempts times, '
-              'you have been logged out of your account.',
-            );
-          }
+          sNotification.showError(
+            response.error?.cause ?? '',
+            id: 1,
+          );
         },
       );
     } catch (e) {

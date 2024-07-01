@@ -3318,7 +3318,7 @@ class SimpleAnalytics {
         PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
-        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventType: EventType.tap.name,
         PropertyType.eventCategory: EventCategory.withdrawal.id,
       },
     );
@@ -4732,7 +4732,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '360',
-        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventType: EventType.screenView.name,
         PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
@@ -6644,7 +6644,7 @@ class SimpleAnalytics {
         PropertyType.transferFrom: transferFrom,
         PropertyType.transferTo: transferTo,
         PropertyType.amount: enteredAmount,
-        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventType: EventType.screenView.name,
         PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
@@ -6704,7 +6704,7 @@ class SimpleAnalytics {
         PropertyType.transferFrom: transferFrom,
         PropertyType.transferTo: transferTo,
         PropertyType.amount: enteredAmount,
-        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventType: EventType.screenView.name,
         PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
@@ -6724,7 +6724,7 @@ class SimpleAnalytics {
         PropertyType.transferFrom: transferFrom,
         PropertyType.transferTo: transferTo,
         PropertyType.amount: enteredAmount,
-        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventType: EventType.screenView.name,
         PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
