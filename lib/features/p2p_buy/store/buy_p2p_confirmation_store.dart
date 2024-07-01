@@ -386,13 +386,10 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
 
       await _requestPaymentInfo(
         (url, onSuccess, onCancel, onFailed, paymentId) {
-          sAnalytics.threeDSecureScreenView(
-            pmType: PaymenthMethodType.ptp,
-            buyPM: 'PTP',
-            sourceCurrency: paymentAsset?.asset ?? '',
-            destinationWallet: buyAsset ?? '',
-            sourceBuyAmount: paymentAmount.toString(),
-            destinationBuyAmount: buyAmount.toString(),
+          sAnalytics.ptpBuyWebViewScreenView(
+            asset: buyAsset ?? '',
+            ptpCurrency: paymentAssetSumbol,
+            ptpBuyMethod: p2pMethod?.methodId ?? '',
           );
 
           sRouter.push(

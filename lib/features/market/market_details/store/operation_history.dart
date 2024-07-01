@@ -16,6 +16,7 @@ import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_request_model.dart'
     as oh_req;
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart'
@@ -157,6 +158,11 @@ abstract class _OperationHistoryBase with Store {
           );
 
           if (jwOperationPtpManage == '1') {
+            sAnalytics.ptpBuyWebViewScreenView(
+              asset: listToShow[item].cryptoBuyInfo?.buyAssetId ?? '',
+              ptpCurrency: listToShow[item].cryptoBuyInfo?.paymentAssetId ?? '',
+              ptpBuyMethod: listToShow[item].cryptoBuyInfo?.paymentMethod ?? '',
+            );
             final conetext = sRouter.navigatorKey.currentContext!;
             await launchURL(
               conetext,

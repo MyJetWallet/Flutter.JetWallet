@@ -13,6 +13,7 @@ import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/gen/assets.gen.dart';
@@ -167,6 +168,11 @@ class BuyP2PDetails extends StatelessObserverWidget {
                 ),
               ),
               onTap: () async {
+                sAnalytics.ptpBuyWebViewScreenView(
+                  asset: buyAsset.symbol,
+                  ptpCurrency: transactionListItem.cryptoBuyInfo?.paymentAssetId ?? '',
+                  ptpBuyMethod: transactionListItem.cryptoBuyInfo?.paymentMethod ?? '',
+                );
                 await launchURL(
                   context,
                   transactionListItem.cryptoBuyInfo?.paymentUrl ?? '',
