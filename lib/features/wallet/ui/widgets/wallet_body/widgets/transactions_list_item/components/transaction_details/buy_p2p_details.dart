@@ -171,7 +171,7 @@ class BuyP2PDetails extends StatelessObserverWidget {
                 sAnalytics.ptpBuyWebViewScreenView(
                   asset: buyAsset.symbol,
                   ptpCurrency: transactionListItem.cryptoBuyInfo?.paymentAssetId ?? '',
-                  ptpBuyMethod: transactionListItem.cryptoBuyInfo?.paymentMethod ?? '',
+                  ptpBuyMethod: transactionListItem.cryptoBuyInfo?.paymentMethodName ?? '',
                 );
                 await launchURL(
                   context,

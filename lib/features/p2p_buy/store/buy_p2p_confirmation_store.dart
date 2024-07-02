@@ -450,7 +450,7 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
           sAnalytics.ptpBuyWebViewScreenView(
             asset: buyAsset ?? '',
             ptpCurrency: paymentAssetSumbol,
-            ptpBuyMethod: p2pMethod?.methodId ?? '',
+            ptpBuyMethod: p2pMethod?.name ?? '',
           );
 
           sRouter.push(
@@ -568,9 +568,9 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
                 _requestPaymentInfo(onAction, lastAction);
               },
               (payment) {
-                if (payment != null) {
-                  sRouter.maybePop();
-                }
+                sRouter.maybePop();
+
+                _showFailureScreen('');
               },
               (error) {
                 Navigator.pop(sRouter.navigatorKey.currentContext!);
@@ -653,6 +653,6 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
 
   @computed
   String get getProcessingText {
-    return intl.buy_confirmation_local_p2p_processing_text;
+    return intl.p2p_buy_confirmation_processing_text;
   }
 }

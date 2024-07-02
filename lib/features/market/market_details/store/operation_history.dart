@@ -161,7 +161,7 @@ abstract class _OperationHistoryBase with Store {
             sAnalytics.ptpBuyWebViewScreenView(
               asset: listToShow[item].cryptoBuyInfo?.buyAssetId ?? '',
               ptpCurrency: listToShow[item].cryptoBuyInfo?.paymentAssetId ?? '',
-              ptpBuyMethod: listToShow[item].cryptoBuyInfo?.paymentMethod ?? '',
+              ptpBuyMethod: listToShow[item].cryptoBuyInfo?.paymentMethodName ?? '',
             );
             final conetext = sRouter.navigatorKey.currentContext!;
             await launchURL(
