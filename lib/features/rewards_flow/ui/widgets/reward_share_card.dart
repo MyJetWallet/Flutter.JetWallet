@@ -11,7 +11,6 @@ import 'package:jetwallet/core/services/logs/helpers/encode_query_parameters.dar
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/constants.dart';
-import 'package:jetwallet/utils/extension/double_extension.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -20,6 +19,7 @@ import 'package:simple_networking/modules/remote_config/models/rewards_asset_mod
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/services/remote_config/remote_config_values.dart';
+import '../../../../utils/formatting/formatting.dart';
 import '../../../../utils/helpers/currency_from.dart';
 
 const _imgWidth = 160.0;
@@ -36,7 +36,7 @@ class RewardShareCard extends StatefulObserverWidget {
 class _RewardShareCardState extends State<RewardShareCard> {
   late FlipCardController controller;
   late Timer timer;
-  late RewardsAssetModel? asset;
+  RewardsAssetModel? asset;
   final Map<String, Widget> iconsMap = {};
 
   Duration animationDuration = const Duration(milliseconds: 500);
@@ -44,6 +44,7 @@ class _RewardShareCardState extends State<RewardShareCard> {
   @override
   void initState() {
     controller = FlipCardController();
+    final localRewardsAssets = [...rewardsAssets];
 
     for (final element in sSignalRModules.currenciesList) {
       iconsMap.addAll({
@@ -62,7 +63,11 @@ class _RewardShareCardState extends State<RewardShareCard> {
       });
     }
 
-    asset = rewardsAssets.isNotEmpty ? rewardsAssets[Random().nextInt(rewardsAssets.length)] : null;
+    if (localRewardsAssets.isNotEmpty) {
+      final index = Random().nextInt(localRewardsAssets.length);
+      asset = localRewardsAssets[index];
+      localRewardsAssets.removeAt(index);
+    }
 
     Future<void> flipCard() async {
       Timer(const Duration(seconds: 1), () async {
@@ -70,10 +75,18 @@ class _RewardShareCardState extends State<RewardShareCard> {
       });
 
       await controller.flipcard().then((value) {
-        if (rewardsAssets.isNotEmpty) {
+        if (localRewardsAssets.isNotEmpty) {
+          final index = Random().nextInt(localRewardsAssets.length);
+
           setState(() {
-            asset = rewardsAssets[Random().nextInt(rewardsAssets.length)];
+            asset = localRewardsAssets[index];
           });
+
+          localRewardsAssets.removeAt(index);
+
+          if (localRewardsAssets.isEmpty) {
+            localRewardsAssets.addAll(rewardsAssets);
+          }
         }
       });
     }
@@ -203,7 +216,10 @@ class _RewardShareCardState extends State<RewardShareCard> {
                                 left: 0,
                                 right: 0,
                                 child: Text(
-                                  '${currentAsset.value.formatNumber()} ${currentAsset.name}',
+                                  volumeFormat(
+                                    decimal: currentAsset.value,
+                                    symbol: currentAsset.name,
+                                  ),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     height: 1.23,
