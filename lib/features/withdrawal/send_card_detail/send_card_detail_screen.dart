@@ -105,7 +105,7 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                     isSendGlobal: true,
                     firstText: intl.send_globally_cond_text_1,
                     firstAdditionalText: intl.send_globally_cond_text_add_1,
-                    userAgreementText: ' ${intl.p2p_terms_and_conditions}',
+                    userAgreementText: intl.p2p_terms_and_conditions,
                     betweenText: '',
                     privacyPolicyText: '',
                     secondText: '.\n',

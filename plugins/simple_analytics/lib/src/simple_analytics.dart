@@ -8797,7 +8797,7 @@ class SimpleAnalytics {
         PropertyType.pmType: 'PTP',
         PropertyType.buyPM: 'PTP',
         PropertyType.asset: asset,
-        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventType: EventType.screenView.name,
         PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );

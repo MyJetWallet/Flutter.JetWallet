@@ -92,6 +92,7 @@ class P2PBuyAmountScreen extends StatelessWidget {
                         physics: const ClampingScrollPhysics(),
                         slivers: [
                           SliverFillRemaining(
+                             hasScrollBody: false,
                             child: Column(
                               children: [
                                 deviceSize.when(
@@ -124,7 +125,7 @@ class P2PBuyAmountScreen extends StatelessWidget {
                                   },
                                   errorText: store.paymentMethodInputError,
                                   optionText: store.fiatInputValue == '0'
-                                      ? '''${intl.return_to_wallet_max} ${getIt<AppStore>().isBalanceHide ? '**** ${store.asset?.symbol}' : volumeFormat(decimal: store.maxBuyAmount, accuracy: store.asset?.accuracy ?? 1, symbol: store.asset?.symbol ?? '')}'''
+                                      ? '''${intl.p2p_buy_max} ${getIt<AppStore>().isBalanceHide ? '**** ${store.asset?.symbol}' : volumeFormat(decimal: store.maxBuyAmount, accuracy: store.asset?.accuracy ?? 1, symbol: store.asset?.symbol ?? '')}'''
                                       : null,
                                   optionOnTap: () {
                                     store.onBuyAll();
@@ -154,7 +155,7 @@ class P2PBuyAmountScreen extends StatelessWidget {
                                 const SpaceH8(),
                                 SuggestionButtonWidget(
                                   title: store.p2pMethod?.name,
-                                  subTitle: intl.withText,
+                                  subTitle: intl.p2p_buy_with,
                                   icon: SNetworkCachedSvg(
                                     url: iconForPaymentMethod(
                                       methodId: store.p2pMethod?.methodId ?? '',

@@ -2108,5 +2108,8 @@
     "p2p_buy_you_have_unfinished": "Tienes transacciones sin finalizar a través del servicio P2P.\n\nPara comprobar el estado de la transacción o cancelarla, haga clic en Continuar.",
     "p2p_buy_conversion_rate": "Tasa de conversión",
     "p2p_buy_payment_management": "Gestión de pagos",
-    "p2p_terms_and_conditions": "Peer-to-Peer (P2P) Terms and conditions"
+    "p2p_terms_and_conditions": "Peer-to-Peer (P2P) Terms and Conditions",
+    "p2p_buy_confirmation_processing_text": "Una transacción P2P puede tardar hasta 15 minutos en procesarse. Los fondos se abonarán en tu aplicación Simple una vez que el sistema de pago confirme la transacción.",
+    "p2p_buy_max": "Max",
+    "p2p_buy_with": "Pagar con"
 }
