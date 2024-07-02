@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'rewards_asset_model.dart';
+
 part 'remote_config_appconfig_model.freezed.dart';
 part 'remote_config_appconfig_model.g.dart';
 
@@ -43,6 +45,7 @@ class RemoteConfigAppconfigModel with _$RemoteConfigAppconfigModel {
     @Default('https://t.me/Simple_Tap_Bot') String simpleTapLink,
     @Default(true) bool usePhoneForSendGift,
     @Default(3) int simpleCoinRoadmapCompletedSteep,
+    @Default([]) List<RewardsAssetModel> rewardsAssets,
   }) = _RemoteConfigAppconfigModel;
 
   factory RemoteConfigAppconfigModel.fromJson(Map<String, dynamic> json) => _$RemoteConfigAppconfigModelFromJson(json);

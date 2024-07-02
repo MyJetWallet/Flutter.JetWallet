@@ -1,4 +1,6 @@
 // AppConfig
+import 'package:simple_networking/modules/remote_config/models/rewards_asset_model.dart';
+
 late int emailVerificationCodeLength;
 late int phoneVerificationCodeLength;
 late String userAgreementLink;
@@ -36,6 +38,7 @@ String simpleCoinDisclaimerLink = '';
 String simpleTapLink = '';
 bool usePhoneForSendGift = true;
 int simpleCoinRoadmapCompletedSteep = 3;
+List<RewardsAssetModel> rewardsAssets = [];
 
 // Versioning
 late String recommendedVersion;
