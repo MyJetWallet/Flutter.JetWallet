@@ -97,7 +97,7 @@ class _CJAccountLabelScreenState extends State<SimpleCardLabelScreen> {
 
                               if (resp.hasError) {
                                 sNotification.showError(
-                                  resp.error?.cause ?? '',
+                                  resp.error?.cause ?? intl.something_went_wrong,
                                   id: 1,
                                   needFeedback: true,
                                 );

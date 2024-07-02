@@ -89,7 +89,7 @@ class BuyDetails extends StatelessObserverWidget {
           const SpaceH18(),
           TransactionDetailsItem(
             text: intl.history_paid_with,
-            value: transactionListItem.cryptoBuyInfo?.paymentMethod == PaymentMethodType.bankCard
+            value: transactionListItem.cryptoBuyInfo?.paymentMethod == PaymentMethodType.bankCard.name
                 ? Flexible(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -238,19 +238,19 @@ class _BuyDetailsHeader extends StatelessWidget {
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${paymentAsset.symbol}'
               : volumeFormat(
-            symbol: paymentAsset.symbol,
-            accuracy: paymentAsset.accuracy,
-            decimal: transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero,
-          ),
+                  symbol: paymentAsset.symbol,
+                  accuracy: paymentAsset.accuracy,
+                  decimal: transactionListItem.cryptoBuyInfo?.paymentAmount ?? Decimal.zero,
+                ),
           toAssetIconUrl: buyAsset.iconUrl,
           toAssetDescription: buyAsset.description,
           toAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${buyAsset.symbol}'
               : volumeFormat(
-            symbol: buyAsset.symbol,
-            accuracy: buyAsset.accuracy,
-            decimal: transactionListItem.cryptoBuyInfo?.buyAmount ?? Decimal.zero,
-          ),
+                  symbol: buyAsset.symbol,
+                  accuracy: buyAsset.accuracy,
+                  decimal: transactionListItem.cryptoBuyInfo?.buyAmount ?? Decimal.zero,
+                ),
           isError: transactionListItem.status == Status.declined,
           isSmallerVersion: true,
         ),

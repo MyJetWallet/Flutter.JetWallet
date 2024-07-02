@@ -88,14 +88,13 @@ class PaymentMethodCardWidget extends StatelessWidget {
                 ),
               ),
             ],
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
             SizedBox(
               height: 20,
               child: Text(
                 name,
-                style: sBodyText2Style.copyWith(
+                style: sSubtitle3Style.copyWith(
                   color: sKit.colors.black,
-                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),

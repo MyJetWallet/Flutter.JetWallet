@@ -39,8 +39,7 @@ abstract class _SetPhoneNumberStoreBase with Store {
     phoneNumberController.addListener(phoneControllerListener);
 
     Timer(const Duration(milliseconds: 500), () {
-      FocusScope.of(getIt.get<AppRouter>().navigatorKey.currentContext!)
-          .requestFocus(focusNode);
+      FocusScope.of(getIt.get<AppRouter>().navigatorKey.currentContext!).requestFocus(focusNode);
     });
   }
 
@@ -83,8 +82,7 @@ abstract class _SetPhoneNumberStoreBase with Store {
   FocusNode dialFocusNode = FocusNode();
   FocusNode focusNode = FocusNode();
 
-  String phoneNumber() =>
-      '${dialCodeController.text}${phoneNumberController.text}';
+  String phoneNumber() => '${dialCodeController.text}${phoneNumberController.text}';
 
   @computed
   bool get isReadyToContinue {
@@ -137,13 +135,14 @@ abstract class _SetPhoneNumberStoreBase with Store {
 
       loader!.startLoadingImmediately();
 
-      final resp = await sNetwork
-          .getValidationModule()
-          .postPhoneVerificationRequest(model);
+      final resp = await sNetwork.getValidationModule().postPhoneVerificationRequest(model);
 
       if (resp.hasError) {
         _logger.log(stateFlow, 'sendCode', resp.error);
-        sNotification.showError(resp.error?.cause ?? '', id: 1);
+        sNotification.showError(
+          resp.error?.cause ?? intl.something_went_wrong,
+          id: 1,
+        );
 
         if (!fromRegister) await sRouter.maybePop();
 
@@ -246,9 +245,7 @@ abstract class _SetPhoneNumberStoreBase with Store {
   @action
   void updatePhoneNumber(String phoneNumber) {
     final checkStartNumber = _parsePhoneNumber(phoneNumber);
-    if (!validWeakPhoneNumber(checkStartNumber) &&
-        phoneNumber.isNotEmpty &&
-        phoneNumber != '+') {
+    if (!validWeakPhoneNumber(checkStartNumber) && phoneNumber.isNotEmpty && phoneNumber != '+') {
       phoneNumberController.text = phoneInput;
 
       return;
@@ -260,8 +257,7 @@ abstract class _SetPhoneNumberStoreBase with Store {
       final dialString = dialCodeController.text;
       for (var char = 0; char <= dialString.length; char++) {
         final dialStringCheck = dialString.substring(char);
-        final phoneSearchShort =
-            finalPhone.substring(0, dialStringCheck.length);
+        final phoneSearchShort = finalPhone.substring(0, dialStringCheck.length);
         if (dialStringCheck == phoneSearchShort) {
           mustToSubstring = true;
           if (charsToSubstring < dialStringCheck.length) {
@@ -296,18 +292,12 @@ abstract class _SetPhoneNumberStoreBase with Store {
 
   @action
   String _parsePhoneNumber(String phoneNumber) {
-    return phoneNumber.isNotEmpty
-        ? _formatPhoneNumber(phoneNumber)
-        : phoneNumber;
+    return phoneNumber.isNotEmpty ? _formatPhoneNumber(phoneNumber) : phoneNumber;
   }
 
   @action
   String _formatPhoneNumber(String phoneNumber) {
-    return phoneNumber
-        .replaceAll(' ', '')
-        .replaceAll('(', '')
-        .replaceAll(')', '')
-        .replaceAll('-', '');
+    return phoneNumber.replaceAll(' ', '').replaceAll('(', '').replaceAll(')', '').replaceAll('-', '');
   }
 
   @action

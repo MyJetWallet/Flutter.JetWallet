@@ -7,7 +7,6 @@ import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/eur_wallet_body
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/wallet_body.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
 @RoutePage(name: 'WalletRouter')
 class Wallet extends StatefulObserverWidget {
@@ -84,17 +83,7 @@ class _WalletState extends State<Wallet> with TickerProviderStateMixin {
         child: PageView.builder(
           controller: _pageController,
           onPageChanged: (page) {
-            final bankAccountsCount = (sSignalRModules.bankingProfileData?.banking?.accounts ?? [])
-                .where((element) => element.status == AccountStatus.active)
-                .length;
-
-            var allAccountsCount = bankAccountsCount;
-            if (sSignalRModules.bankingProfileData?.simple != null) {
-              if (sSignalRModules.bankingProfileData?.simple?.account?.status == AccountStatus.active) {
-                allAccountsCount++;
-              }
-            }
-            sAnalytics.eurWalletAccountScreen(allAccountsCount);
+            sAnalytics.eurWalletSwipeBetweenWallets();
 
             if (skeepOnPageChanged) {
               skeepOnPageChanged = false;

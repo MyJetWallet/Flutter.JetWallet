@@ -16,6 +16,7 @@ class ClientDetailModel with _$ClientDetailModel {
     @Default(false) bool useSumsub,
     required DateTime recivedAt,
     required String walletCreationDate,
+    @Default(false) bool isCountryDiff,
   }) = _ClientDetailModel;
   factory ClientDetailModel.fromJson(Map<String, dynamic> json) => _$ClientDetailModelFromJson(json);
 }

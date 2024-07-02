@@ -6,6 +6,7 @@ import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_client.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_conection_url_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -39,8 +40,6 @@ class SignalRService {
           () async {
             final service = await createNewService();
             await service.openConnection();
-
-            unawaited(service.checkConnectionTimer());
 
             return service;
           },
@@ -91,6 +90,28 @@ class SignalRService {
     });
 
     sSignalRModules.setInitFinished(true);
+  }
+
+  Future<void> simulateError() async {
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.warning,
+          place: 'SignalRService',
+          message: 'simulateError',
+        );
+
+    try {
+      await getIt
+          .get<SignalRModuleNew>(
+            instanceName: signalRSingletinName,
+          )
+          .simulateError();
+    } catch (e) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'SignalRService',
+            message: 'Force Reconnect Error 2: $e',
+          );
+    }
   }
 
   Future<void> killSignalR() async {
@@ -269,6 +290,10 @@ class SignalRService {
         );
 
         forceReconnectSignalR();
+      },
+      getUrlForConnectin: () {
+        final url = getIt.get<SignalRConecrionUrlService>().getUrl();
+        return url;
       },
     );
   }

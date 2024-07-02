@@ -250,7 +250,7 @@ abstract class _SingleSingInStoreBase with Store {
 
       union = e.toString().contains('50') || e.toString().contains('40')
           ? SingleSingInStateUnion.error(intl.something_went_wrong_try_again)
-          : SingleSingInStateUnion.error(e);
+          : SingleSingInStateUnion.error(intl.something_went_wrong);
     }
   }
 

@@ -269,6 +269,9 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                           );
                         },
                         onReceive: () {
+                          sAnalytics.tapOnTheReceiveButton(
+                            source: 'My Assets - Receive',
+                          );
                           final actualAsset = widget.currency;
                           if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed) &&
                               widget.currency.supportsCryptoDeposit) {

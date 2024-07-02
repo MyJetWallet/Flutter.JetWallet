@@ -26,8 +26,7 @@ part 'user_data_store.g.dart';
 class UserDataStore extends _UserDataStoreBase with _$UserDataStore {
   UserDataStore(super.birthDateInfo);
 
-  static UserDataStore of(BuildContext context) =>
-      Provider.of<UserDataStore>(context, listen: false);
+  static UserDataStore of(BuildContext context) => Provider.of<UserDataStore>(context, listen: false);
 }
 
 abstract class _UserDataStoreBase with Store {
@@ -82,8 +81,7 @@ abstract class _UserDataStoreBase with Store {
     firstName = name;
     firstNameError = true;
 
-    firstNameError =
-        nameRegEx.hasMatch(firstName) || firstName.isEmpty ? false : true;
+    firstNameError = nameRegEx.hasMatch(firstName) || firstName.isEmpty ? false : true;
     updateButtonActivity();
   }
 
@@ -94,8 +92,7 @@ abstract class _UserDataStoreBase with Store {
     lastName = name;
     lastNameError = true;
 
-    lastNameError =
-        nameRegEx.hasMatch(lastName) || lastName.isEmpty ? false : true;
+    lastNameError = nameRegEx.hasMatch(lastName) || lastName.isEmpty ? false : true;
     updateButtonActivity();
   }
 
@@ -113,13 +110,12 @@ abstract class _UserDataStoreBase with Store {
 
     final countryInfo = getIt.get<KycProfileCountriesStore>();
 
-    activeButton =
-        (countryInfo.activeCountry?.countryName.isNotEmpty ?? false) &&
-                birthDateInfo!.selectedDate.isNotEmpty &&
-                nameRegEx.hasMatch(firstName) &&
-                nameRegEx.hasMatch(lastName)
-            ? true
-            : false;
+    activeButton = (countryInfo.activeCountry?.countryName.isNotEmpty ?? false) &&
+            birthDateInfo!.selectedDate.isNotEmpty &&
+            nameRegEx.hasMatch(firstName) &&
+            nameRegEx.hasMatch(lastName)
+        ? true
+        : false;
   }
 
   @action
@@ -164,7 +160,7 @@ abstract class _UserDataStoreBase with Store {
 
       if (resp.hasError) {
         sNotification.showError(
-          resp.error?.cause ?? '',
+          resp.error?.cause ?? intl.something_went_wrong,
           id: 1,
         );
 

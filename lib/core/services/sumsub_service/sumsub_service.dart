@@ -1,12 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_idensic_mobile_sdk_plugin/flutter_idensic_mobile_sdk_plugin.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/global_loader.dart';
 import 'package:logger/logger.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_networking/modules/logs_api/models/add_log_model.dart';
 
 import '../../../features/kyc/choose_documents/store/kyc_country_store.dart';
 import '../../../utils/helpers/navigate_to_router.dart';
@@ -69,47 +73,87 @@ class SumsubService {
     bool needPush = true,
     bool isCard = false,
   }) async {
-    final countries = getIt.get<KycCountryStore>();
-    if (isCard) {
-      sAnalytics.viewKYCSumsubCreation();
-    } else {
-      sAnalytics.kycFlowSumsubShow(
-        country: countries.activeCountry?.countryName ?? '',
-      );
-    }
-
-    getIt.get<SimpleLoggerService>().log(
-          level: Level.info,
-          place: _loggerService,
-          message: 'Launch',
+    try {
+      unawaited(_logMessage('Start launch function isBanking: $isBanking, needPush: $needPush, isCard: $isCard'));
+      final countries = getIt.get<KycCountryStore>();
+      if (isCard) {
+        sAnalytics.viewKYCSumsubCreation();
+      } else {
+        sAnalytics.kycFlowSumsubShow(
+          country: countries.activeCountry?.countryName ?? '',
         );
+      }
 
-    onStatusChanged(
-      SNSMobileSDKStatus newStatus,
-      SNSMobileSDKStatus prevStatus,
-    ) {
-      sAnalytics.kycFlowSumsubClose(
-        country: countries.activeCountry?.countryName ?? '',
-      );
-
-      getIt.get<GlobalLoader>().setLoading(false);
-
-      print('The SDK status was changed: $prevStatus -> $newStatus');
       getIt.get<SimpleLoggerService>().log(
             level: Level.info,
             place: _loggerService,
-            message: 'The SDK status was changed: $prevStatus -> $newStatus',
+            message: 'Launch',
           );
 
-      if (newStatus == SNSMobileSDKStatus.Approved ||
-          newStatus == SNSMobileSDKStatus.ActionCompleted ||
-          newStatus == SNSMobileSDKStatus.Pending) {
-        if (!isBanking) {
-          if (needPush) {
-            sAnalytics.kycFlowVerifyingNowSV(
-              country: countries.activeCountry?.countryName ?? '',
+      onStatusChanged(
+        SNSMobileSDKStatus newStatus,
+        SNSMobileSDKStatus prevStatus,
+      ) {
+        unawaited(_logMessage('The SDK status was changed: $prevStatus -> $newStatus'));
+
+        sAnalytics.kycFlowSumsubClose(
+          country: countries.activeCountry?.countryName ?? '',
+        );
+
+        getIt.get<GlobalLoader>().setLoading(false);
+
+        getIt.get<SimpleLoggerService>().log(
+              level: Level.info,
+              place: _loggerService,
+              message: 'The SDK status was changed: $prevStatus -> $newStatus',
             );
 
+        if (newStatus == SNSMobileSDKStatus.Approved ||
+            newStatus == SNSMobileSDKStatus.ActionCompleted ||
+            newStatus == SNSMobileSDKStatus.Pending) {
+          if (!isBanking) {
+            if (needPush) {
+              sAnalytics.kycFlowVerifyingNowSV(
+                country: countries.activeCountry?.countryName ?? '',
+              );
+
+              sRouter.push(
+                SuccessScreenRouter(
+                  time: 6,
+                  primaryText: intl.kycChooseDocuments_verifyingNow,
+                  secondaryText: intl.kycChooseDocuments_willBeNotified,
+                  showPrimaryButton: true,
+                  buttonText: intl.previewBuyWithUmlimint_close,
+                  onActionButton: () async {
+                    navigateToRouter();
+
+                    if (onFinish != null) onFinish();
+                  },
+                  onSuccess: (p0) {
+                    navigateToRouter();
+
+                    if (onFinish != null) onFinish();
+                  },
+                ),
+              );
+            } else {
+              if (onFinish != null) onFinish();
+            }
+          } else {
+            if (onFinish != null) onFinish();
+          }
+        }
+      }
+
+      Future<SNSActionResultHandlerReaction> onActionResult(SNSMobileSDKActionResult result) {
+        sAnalytics.kycFlowVerifyingNowSV(
+          country: countries.activeCountry?.countryName ?? '',
+        );
+
+        unawaited(_logMessage('In onActionResult: $result'));
+
+        if (!isBanking) {
+          if (needPush) {
             sRouter.push(
               SuccessScreenRouter(
                 time: 6,
@@ -122,11 +166,6 @@ class SumsubService {
 
                   if (onFinish != null) onFinish();
                 },
-                onSuccess: (p0) {
-                  navigateToRouter();
-
-                  if (onFinish != null) onFinish();
-                },
               ),
             );
           } else {
@@ -135,66 +174,52 @@ class SumsubService {
         } else {
           if (onFinish != null) onFinish();
         }
+
+        return Future.value(SNSActionResultHandlerReaction.Continue);
       }
-    }
 
-    Future<SNSActionResultHandlerReaction> onActionResult(SNSMobileSDKActionResult result) {
-      sAnalytics.kycFlowVerifyingNowSV(
-        country: countries.activeCountry?.countryName ?? '',
-      );
+      unawaited(_logMessage('befor initToken'));
 
-      if (!isBanking) {
-        if (needPush) {
-          sRouter.push(
-            SuccessScreenRouter(
-              time: 6,
-              primaryText: intl.kycChooseDocuments_verifyingNow,
-              secondaryText: intl.kycChooseDocuments_willBeNotified,
-              showPrimaryButton: true,
-              buttonText: intl.previewBuyWithUmlimint_close,
-              onActionButton: () async {
-                navigateToRouter();
+      final initToken = isBanking ? await getBankingToken() : await getSDKToken();
 
-                if (onFinish != null) onFinish();
-              },
-            ),
-          );
-        } else {
-          if (onFinish != null) onFinish();
+      unawaited(_logMessage('after initToken: $initToken'));
+
+      void onEvent(SNSMobileSDKEvent event) {
+        if (event.eventType == 'ApplicantLoaded') {
+          getIt.get<GlobalLoader>().setLoading(false);
         }
-      } else {
-        if (onFinish != null) onFinish();
       }
 
-      return Future.value(SNSActionResultHandlerReaction.Continue);
-    }
+      unawaited(_logMessage('befor snsMobileSDK'));
 
-    final initToken = isBanking ? await getBankingToken() : await getSDKToken();
+      final snsMobileSDK = SNSMobileSDK.init(initToken ?? '', getSDKToken)
+          .withHandlers(
+            onStatusChanged: onStatusChanged,
+            onActionResult: onActionResult,
+            onEvent: onEvent,
+          )
+          .withDebug(false)
+          .withLocale(
+            Locale(intl.localeName),
+          )
+          .withAutoCloseOnApprove(0)
+          .build();
 
-    void onEvent(SNSMobileSDKEvent event) {
-      if (event.eventType == 'ApplicantLoaded') {
+      unawaited(_logMessage('after snsMobileSDK: $snsMobileSDK'));
+
+      unawaited(_logMessage('befor snsMobileSDK.launch'));
+
+      final _ = await snsMobileSDK.launch();
+
+      unawaited(_logMessage('after snsMobileSDK.launch'));
+
+      Future.delayed(const Duration(seconds: 3), () {
         getIt.get<GlobalLoader>().setLoading(false);
-      }
+        unawaited(_logMessage('GlobalLoader = false'));
+      });
+    } catch (e) {
+      unawaited(_logMessage('Error: $e', level: 'error'));
     }
-
-    final snsMobileSDK = SNSMobileSDK.init(initToken ?? '', getSDKToken)
-        .withHandlers(
-          onStatusChanged: onStatusChanged,
-          onActionResult: onActionResult,
-          onEvent: onEvent,
-        )
-        .withDebug(false)
-        .withLocale(
-          Locale(intl.localeName),
-        )
-        .withAutoCloseOnApprove(0)
-        .build();
-
-    final _ = await snsMobileSDK.launch();
-
-    Future.delayed(const Duration(seconds: 3), () {
-      getIt.get<GlobalLoader>().setLoading(false);
-    });
   }
 
   void simulateSuccess({
@@ -273,5 +298,23 @@ class SumsubService {
 
       final _ = await snsMobileSDK.launch();
     } catch (e) {}
+  }
+
+  Future<void> _logMessage(
+    String message, {
+    String level = 'info',
+    String process = 'launch',
+  }) async {
+    unawaited(
+      getIt.get<SNetwork>().simpleNetworkingUnathorized.getLogsApiModule().postAddLog(
+            AddLogModel(
+              level: level,
+              message: message,
+              source: 'SumsubService',
+              process: process,
+              token: await getIt.get<LocalStorageService>().getValue(refreshTokenKey),
+            ),
+          ),
+    );
   }
 }

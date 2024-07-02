@@ -78,4 +78,6 @@ class PropertyType {
   static const voucher = 'Voucher';
   static const winAmount = 'Win amount';
   static const withdrawAmount = 'Withdraw amount';
+  static const ptpCurrency = 'PTP Currency';
+  static const ptpBuyMethod = 'PTP buy Method';
 }

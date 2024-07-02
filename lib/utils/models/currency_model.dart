@@ -328,6 +328,10 @@ class CurrencyModel with _$CurrencyModel {
   }
 
   bool get isSingleNetworkForBlockchainSend => networksForBlockchainSend.length == 1;
+
+  bool get supporP2PBuy {
+    return buyMethods.any((buyMethod) => buyMethod.id == PaymentMethodType.paymeP2P);
+  }
 }
 
 class ObservableCurrencyModelListConverter implements JsonConverter<ObservableList<CurrencyModel>, List<dynamic>> {

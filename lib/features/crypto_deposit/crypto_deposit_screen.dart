@@ -79,8 +79,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
     controller = ScrollController();
     pageController = PageController(viewportFraction: 0.9);
 
-    showAlert =
-        kycState.withdrawalStatus != kycOperationStatus(KycStatus.allowed);
+    showAlert = kycState.withdrawalStatus != kycOperationStatus(KycStatus.allowed);
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -188,6 +187,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
                   widget.currency.iconUrl,
                   widget.currency.symbol,
                   deposit.setNetwork,
+                  isReceive: true,
                 ),
         size: widgetSizeFrom(sDeviceSize),
         requiredDocuments: kycState.requiredDocuments,
@@ -204,6 +204,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
           widget.currency.iconUrl,
           widget.currency.symbol,
           deposit.setNetwork,
+          isReceive: true,
         );
       }
     }
@@ -301,8 +302,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
                         asset: widget.currency.symbol,
                       );
 
-                      sAnalytics
-                          .chooseNetworkPopupViewShowedOnReceiveAssetScreen(
+                      sAnalytics.chooseNetworkPopupViewShowedOnReceiveAssetScreen(
                         asset: widget.currency.symbol,
                       );
 
@@ -314,6 +314,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
                         widget.currency.symbol,
                         deposit.setNetwork,
                         backOnClose: false,
+                        isReceive: true,
                       );
                     },
               borderRadius: BorderRadius.circular(16),

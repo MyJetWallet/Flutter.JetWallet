@@ -106,6 +106,9 @@ const _assetScreen = 'asset_screen';
 //Simple coin
 const _mySimpleCoinsScreen = 'my_simple_coins_screen';
 
+//History
+const jwOperationPtpManage = 'jw_operation_ptp_manage';
+
 const String _loggerService = 'DeepLinkService';
 
 enum SourceScreen {
@@ -357,6 +360,7 @@ class DeepLinkService {
       await sRouter.push(
         TransactionHistoryRouter(
           jwOperationId: parameters['jw_operation_id'],
+          jwOperationPtpManage: parameters[jwOperationPtpManage],
         ),
       );
     } else {
@@ -365,6 +369,7 @@ class DeepLinkService {
           action: RouteQueryAction.push,
           query: TransactionHistoryRouter(
             jwOperationId: parameters['jw_operation_id'],
+            jwOperationPtpManage: parameters[jwOperationPtpManage],
           ),
         ),
       );
@@ -833,7 +838,7 @@ class DeepLinkService {
               BlockingType.trade,
             ],
             or: () {
-              showCardOptions(context);
+              showGetSimpleCardModal(context: context);
             },
           );
         },
@@ -870,7 +875,7 @@ class DeepLinkService {
                     BlockingType.trade,
                   ],
                   or: () {
-                    showCardOptions(context);
+                    showGetSimpleCardModal(context: context);
                   },
                 );
               },

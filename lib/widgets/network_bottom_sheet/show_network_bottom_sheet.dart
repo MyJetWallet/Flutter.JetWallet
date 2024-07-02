@@ -14,6 +14,7 @@ void showNetworkBottomSheet(
   String asset,
   void Function(BlockchainModel) setNetwork, {
   bool backOnClose = true,
+  bool isReceive = false,
 }) {
   var isClosed = false;
 
@@ -35,11 +36,12 @@ void showNetworkBottomSheet(
     }
   }
 
-  sAnalytics.chooseNetworkPopupView(asset: asset);
-  sAnalytics.cryptoSendChooseNetworkScreenView(
-    asset: asset,
-    sendMethodType: '0',
-  );
+  isReceive
+      ? sAnalytics.chooseNetworkPopupView(asset: asset)
+      : sAnalytics.cryptoSendChooseNetworkScreenView(
+          asset: asset,
+          sendMethodType: '0',
+        );
 
   sShowBasicModalBottomSheet(
     context: context,

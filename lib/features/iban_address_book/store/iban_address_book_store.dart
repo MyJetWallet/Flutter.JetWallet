@@ -212,7 +212,7 @@ abstract class _IbanAddressBookStoreBase with Store {
       isLabelError = response.error?.errorCode == 'ContactWithThisNameAlreadyExists';
 
       sNotification.showError(
-        response.error?.cause ?? '',
+        response.error?.cause ?? intl.something_went_wrong,
         id: 1,
         needFeedback: true,
       );
@@ -251,7 +251,7 @@ abstract class _IbanAddressBookStoreBase with Store {
         isLabelError = response.error?.errorCode == 'ContactWithThisNameAlreadyExists';
 
         sNotification.showError(
-          response.error?.cause ?? '',
+          response.error?.cause ?? intl.something_went_wrong,
           id: 1,
           needFeedback: true,
         );
@@ -289,7 +289,7 @@ abstract class _IbanAddressBookStoreBase with Store {
     if (response.hasError) {
       loader.finishLoadingImmediately();
       sNotification.showError(
-        response.error?.cause ?? '',
+        response.error?.cause ?? intl.something_went_wrong,
         id: 1,
         needFeedback: true,
       );

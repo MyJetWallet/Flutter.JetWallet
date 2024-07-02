@@ -510,7 +510,7 @@ class EventName {
   static const tapOnTheContinueWithEarnWithdrawTypeButton = 'Tap on the ‘Continue with earn withdraw type’ button';
   static const earnWithdrawAmountScreenView = 'Earn Withdraw amount’ screen view';
   static const tapOnTheBackFromEarnWithdrawAmountButton = 'Tap on the ‘Back from earn withdraw amount’ button';
-  static const tapOnTheContinueWithEarnWithdrawAmountButton = 'Tap on the ‘Continue with earn withdraw amount’ button';
+  static const tapOnTheContinueWithEarnWithdrawAmountButton = 'Tap on the ‘Confirm withdraw order summary’ button';
   static const earnWithdrawOrderSummaryScreenView = 'Earn withdraw order summary’ screen view';
   static const tapOnTheBackFromEarnWithdrawOrderSummaryButton =
       'Tap on the ‘Back from earn withdraw order summary’ button';
@@ -610,4 +610,15 @@ class EventName {
   static const tapOnTheButtonDisclamerOnCollectSimplecoinPopup =
       '''Tap on the button ‘Disclamer' on ‘Collect Simplecoin’ popup''';
   static const tapOnTheButtonSimplecoinOnWalletScreen = '''Tap on the button ‘Simplecoin' on ‘Wallet'  screen''';
+
+  // P2P buy
+  static const ptpBuyPaymentCurrencyScreenView = '“PTP buy Payment currency” screen view';
+  static const tapOnTheBackFromPTPBuyPaymentCurrencyButton = 'Tap on the ‘Back from PTP buy Payment currency’ button';
+  static const tapOnThePTPBuyCurrencyButton = 'Tap on the ‘PTP buy Currency’ button';
+  static const ptpBuyPaymentMethodScreenView = '“PTP buy Payment method” screen view';
+  static const tapOnTheBackFromPTPBuyPaymentMethodButton = 'Tap on the ‘Back from PTP buy Payment method’ button';
+  static const tapOnThePTPBuyMethodButton = 'Tap on the ‘PTP buy Method’ button';
+  static const ptpBuyWebViewScreenView = '‘PTP Buy web view‘ screen view';
+  static const ptpBuyPopupUnfinishedOperationScreenView = '‘PTP Buy popup Unfinished operation‘ screen view';
+  static const tapOnTheButtonContinueOnPTPBuyPopup = 'Tap on the button ‘Continue’ on PTP Buy popup';
 }

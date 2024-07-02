@@ -28,6 +28,7 @@ class TransactionsMainList extends StatefulWidget {
     this.symbol,
     this.filter = TransactionType.none,
     this.jwOperationId,
+    this.jwOperationPtpManage,
     this.pendingOnly = false,
   });
 
@@ -36,6 +37,7 @@ class TransactionsMainList extends StatefulWidget {
   final bool isRecurring;
   final bool zeroPadding;
   final String? jwOperationId;
+  final String? jwOperationPtpManage;
   final bool pendingOnly;
 
   @override
@@ -57,6 +59,7 @@ class _TransactionsMainListState extends State<TransactionsMainList> with Automa
         null,
         null,
         null,
+        widget.jwOperationPtpManage,
       )..initOperationHistory(),
       //dispose: (context, value) => value.stopTimer(),
       builder: (context, child) => _TransactionsListBody(
