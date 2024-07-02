@@ -13,6 +13,8 @@ import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:universal_io/io.dart';
 
+import '../../../../core/l10n/i10n.dart';
+
 part 'kyc_selfie_store.g.dart';
 
 class KycSelfieStore extends _KycSelfieStoreBase with _$KycSelfieStore {
@@ -98,7 +100,7 @@ abstract class _KycSelfieStoreBase with Store {
       union = KycSelfieUnion.error(error);
 
       sNotification.showError(
-        error.toString(),
+        intl.something_went_wrong,
         id: 1,
         needFeedback: true,
       );

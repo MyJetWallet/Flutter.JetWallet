@@ -12,9 +12,11 @@ import 'package:jetwallet/features/market/market_details/model/operation_history
 import 'package:jetwallet/features/wallet/helper/nft_types.dart';
 import 'package:jetwallet/features/wallet/helper/show_transaction_details.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
+import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_request_model.dart'
     as oh_req;
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart'
@@ -156,7 +158,16 @@ abstract class _OperationHistoryBase with Store {
           );
 
           if (jwOperationPtpManage == '1') {
-            // TODO (SPU-4677): add launch url
+            sAnalytics.ptpBuyWebViewScreenView(
+              asset: listToShow[item].cryptoBuyInfo?.buyAssetId ?? '',
+              ptpCurrency: listToShow[item].cryptoBuyInfo?.paymentAssetId ?? '',
+              ptpBuyMethod: listToShow[item].cryptoBuyInfo?.paymentMethod ?? '',
+            );
+            final conetext = sRouter.navigatorKey.currentContext!;
+            await launchURL(
+              conetext,
+              listToShow[item].cryptoBuyInfo?.paymentUrl ?? '',
+            );
           }
         } else {
           await getOperationHistoryOperation(jwOperationId!);

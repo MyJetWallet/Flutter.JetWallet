@@ -7,20 +7,54 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/countries_service.dart';
 import 'package:jetwallet/core/services/format_service.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/prevent_duplication_events_servise.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:logger/logger.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
+import 'package:simple_networking/modules/wallet_api/models/p2p_methods/p2p_methods_responce_model.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 @RoutePage(name: 'PaymentCurrenceBuyRouter')
-class PaymentCurrenceBuyScreen extends StatelessWidget {
+class PaymentCurrenceBuyScreen extends StatefulWidget {
   const PaymentCurrenceBuyScreen({super.key, required this.currency});
 
   final CurrencyModel currency;
+
+  @override
+  State<PaymentCurrenceBuyScreen> createState() => _PaymentCurrenceBuyScreenState();
+}
+
+class _PaymentCurrenceBuyScreenState extends State<PaymentCurrenceBuyScreen> {
+  List<P2PMethodModel> p2pMethods = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    loadP2PMethods();
+  }
+
+  Future<void> loadP2PMethods() async {
+    try {
+      final responce = await sNetwork.getWalletModule().getP2PMethods();
+
+      final result = responce.data?.methods ?? [];
+
+      p2pMethods.addAll(result);
+    } catch (e) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.info,
+            place: 'PaymentCurrenceBuyScreen loadP2PMethods',
+            message: e.toString(),
+          );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +68,7 @@ class PaymentCurrenceBuyScreen extends StatelessWidget {
           getIt.get<PreventDuplicationEventsService>().sendEvent(
                 id: 'payment_currence_buy_screen',
                 event: () {
-                  sAnalytics.ptpBuyPaymentCurrencyScreenView(asset: currency.symbol);
+                  sAnalytics.ptpBuyPaymentCurrencyScreenView(asset: widget.currency.symbol);
                 },
               );
         }
@@ -45,7 +79,7 @@ class PaymentCurrenceBuyScreen extends StatelessWidget {
           child: SSmallHeader(
             title: intl.buy_payment_currency,
             onBackButtonTap: () {
-              sAnalytics.tapOnTheBackFromPTPBuyPaymentCurrencyButton(asset: currency.symbol);
+              sAnalytics.tapOnTheBackFromPTPBuyPaymentCurrencyButton(asset: widget.currency.symbol);
               sRouter.maybePop();
             },
           ),
@@ -84,13 +118,21 @@ class PaymentCurrenceBuyScreen extends StatelessWidget {
                   height: 69,
                   onTap: () {
                     sAnalytics.tapOnThePTPBuyCurrencyButton(
-                      asset: currency.symbol,
+                      asset: widget.currency.symbol,
                       ptpCurrency: availableCurrency[index].asset,
                     );
+
+                    final p2pMethodsForCurrency = p2pMethods
+                        .where(
+                          (method) => method.asset == availableCurrency[index].asset,
+                        )
+                        .toList();
+
                     sRouter.push(
                       BuyP2pPeymentMethodRouter(
-                        currency: currency,
+                        currency: widget.currency,
                         paymentCurrecy: availableCurrency[index],
+                        methods: p2pMethodsForCurrency,
                       ),
                     );
                   },
@@ -118,7 +160,8 @@ class PaymentCurrenceBuyScreen extends StatelessWidget {
 
     final baseCurrency = sSignalRModules.baseCurrency;
 
-    final p2pBuyMethod = currency.buyMethods.firstWhere((buyMethod) => buyMethod.id == PaymentMethodType.paymeP2P);
+    final p2pBuyMethod =
+        widget.currency.buyMethods.firstWhere((buyMethod) => buyMethod.id == PaymentMethodType.paymeP2P);
 
     availableCurrency.addAll(p2pBuyMethod.paymentAssets ?? []);
 

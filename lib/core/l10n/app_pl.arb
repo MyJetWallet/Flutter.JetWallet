@@ -1093,7 +1093,7 @@
     "send_globally_cond_text_6": "3. Rozumiem, że ten przelew jest przetwarzany za pośrednictwem sieci P2P. Przelewy P2P są organizowane przez Payport LLC.",
     "send_globally_cond_text_7": "Więcej szczegółów",
     "global_send_got_it": "Rozumiem",
-    "global_send_popup_details": "Po zainicjowaniu przelewu na kartę bankową znajomego lub członka rodziny, inna osoba wysyła przelew P2P bezpośrednio do odbiorcy. Earn Global Ltd organizuje ten transfer, ale nie przetwarza go bezpośrednio.",
+    "global_send_popup_details": "Wymiana kryptowalut za pośrednictwem P2P polega na otrzymywaniu środków bezpośrednio od innej osoby na określone dane konta. Smpl Global Limited organizuje ten transfer, ale nie przetwarza go bezpośrednio.",
     "action_send_global_send_bottomheet": "Wybierz aktywa do wysłania",
     "p2p_transfer": "Przelew P2P",
     "global_send_you_send": "Wysyłasz",
@@ -2171,5 +2171,6 @@
     "p2p_buy_unfinished_operation": "Nieukończona operacja",
     "p2p_buy_you_have_unfinished": "Masz nieukończone transakcje poprzez usługę P2P.\n\nAby sprawdzić status transakcji lub ją anulować, kliknij Kontynuuj.",
     "p2p_buy_conversion_rate": "Kurs wymiany",
-    "p2p_buy_payment_management": "Zarządzanie płatnościami"
+    "p2p_buy_payment_management": "Zarządzanie płatnościami",
+    "p2p_terms_and_conditions": "Peer-to-Peer (P2P) Terms and conditions"
 }

@@ -1,7 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simple_networking/helpers/decimal_serialiser.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 
 part 'operation_history_response_model.freezed.dart';
 
@@ -50,7 +49,7 @@ class OperationHistoryItem with _$OperationHistoryItem {
     CardRefundInfo? cardRefundInfo,
     CardPurchaseInfo? cardPurchaseInfo,
     EarnOperationInfo? earnOperationInfo,
-    MobileGiftCardOperationInfo? mobileGiftCardOperationInfo
+    MobileGiftCardOperationInfo? mobileGiftCardOperationInfo,
   }) = _OperationHistoryItem;
 
   factory OperationHistoryItem.fromJson(Map<String, dynamic> json) => _$OperationHistoryItemFromJson(json);
@@ -577,10 +576,11 @@ class CryptoBuyInfo with _$CryptoBuyInfo {
     String? cardLast4,
     String? cardLabel,
     String? cardType,
-    @PaymentTypeSerialiser() PaymentMethodType? paymentMethod,
+    String? paymentMethod,
     String? paymentMethodName,
     String? accountId,
     String? accountLabel,
+    String? paymentUrl,
   }) = _CryptoBuyInfo;
 
   factory CryptoBuyInfo.fromJson(Map<String, dynamic> json) => _$CryptoBuyInfoFromJson(json);
@@ -861,7 +861,6 @@ class EarnOperationInfo with _$EarnOperationInfo {
   factory EarnOperationInfo.fromJson(Map<String, dynamic> json) => _$EarnOperationInfoFromJson(json);
 }
 
-
 @freezed
 class MobileGiftCardOperationInfo with _$MobileGiftCardOperationInfo {
   const factory MobileGiftCardOperationInfo({
@@ -872,7 +871,6 @@ class MobileGiftCardOperationInfo with _$MobileGiftCardOperationInfo {
     String? mobileCardAsset,
   }) = _MobileGiftCardOperationInfo;
 
-  factory MobileGiftCardOperationInfo.fromJson(Map<String, dynamic> json) => _$MobileGiftCardOperationInfoFromJson(json);
+  factory MobileGiftCardOperationInfo.fromJson(Map<String, dynamic> json) =>
+      _$MobileGiftCardOperationInfoFromJson(json);
 }
-
-	

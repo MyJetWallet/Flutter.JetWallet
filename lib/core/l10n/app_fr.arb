@@ -1093,7 +1093,7 @@
     "send_globally_cond_text_6": "3. Je comprends que ce transfert d'argent est traité via le réseau P2P plus. Les transferts P2P sont orchestrés par Payport LLC.",
     "send_globally_cond_text_7": "Plus de détails",
     "global_send_got_it": "Compris",
-    "global_send_popup_details": "Lorsque vous initiez un transfert d'argent vers la carte bancaire d'un ami ou d'un membre de la famille, un autre individu envoie directement un transfert d'argent P2P au destinataire. Earn Global Ltd orchestre ce transfert, mais ne le traite pas directement.",
+    "global_send_popup_details": "L'échange de crypto-monnaies via P2P consiste à recevoir des fonds directement d'une autre personne sur les détails du compte spécifiés. Smpl Global Limited orchestre ce transfert, mais ne le traite pas directement.",
     "action_send_global_send_bottomheet": "Sélectionnez l'actif à envoyer",
     "p2p_transfer": "Transfert P2P",
     "global_send_you_send": "Vous envoyez",
@@ -2083,5 +2083,6 @@
     "p2p_buy_unfinished_operation": "Opération inachevée",
     "p2p_buy_you_have_unfinished": "Vous avez des transactions inachevées via le service P2P.\n\nPour vérifier le statut de la transaction ou pour l'annuler, cliquez sur Continuer.",
     "p2p_buy_conversion_rate": "Taux de conversion",
-    "p2p_buy_payment_management": "Gestion des paiements"
+    "p2p_buy_payment_management": "Gestion des paiements",
+    "p2p_terms_and_conditions": "Peer-to-Peer (P2P) Terms and conditions"
 }

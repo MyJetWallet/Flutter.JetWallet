@@ -170,7 +170,7 @@ abstract class _SendGloballyAmountStoreBase with Store {
       );
     } else {
       sNotification.showError(
-        response.error?.cause ?? '',
+        response.error?.cause ?? intl.something_went_wrong,
         id: 1,
         needFeedback: true,
       );
