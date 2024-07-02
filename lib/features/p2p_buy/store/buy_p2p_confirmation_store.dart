@@ -567,10 +567,12 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
                 loader.startLoadingImmediately();
                 _requestPaymentInfo(onAction, lastAction);
               },
-              (payment) {
-                sRouter.maybePop();
+              (payment) async {
+                if (payment != null) {
+                  await _showFailureScreen('');
+                }
 
-                _showFailureScreen('');
+                await sRouter.maybePop();
               },
               (error) {
                 Navigator.pop(sRouter.navigatorKey.currentContext!);

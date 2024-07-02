@@ -2085,7 +2085,7 @@
     "p2p_buy_conversion_rate": "Taux de conversion",
     "p2p_buy_payment_management": "Gestion des paiements",
     "p2p_terms_and_conditions": "Peer-to-Peer (P2P) Terms and Conditions",
-    "p2p_buy_confirmation_processing_text": "Le traitement d'une transaction P2P peut prendre jusqu'à 15 minutes. Les fonds seront crédités sur votre application Simple une fois que le système de paiement aura confirmé la transaction.",
+    "p2p_buy_confirmation_processing_text": "Une transaction P2P peut prendre jusqu'à 30 minutes à traiter. Les fonds seront ajoutés à votre appli Simple après confirmation du système de paiement.",
     "p2p_buy_max": "Max",
     "p2p_buy_with": "Payer avec"
 }

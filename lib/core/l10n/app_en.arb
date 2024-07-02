@@ -2121,7 +2121,7 @@
     "p2p_buy_conversion_rate": "Conversion rate",
     "p2p_buy_payment_management": "Payment management",
     "p2p_terms_and_conditions": "Peer-to-Peer (P2P) Terms and Conditions",
-    "p2p_buy_confirmation_processing_text": "A P2P transaction may take up to 15 minutes to process. The funds will be credited to your Simple app once the payment system confirms the transaction.",
+    "p2p_buy_confirmation_processing_text": "A P2P transaction may take up to 30 minutes to process. The funds will be credited to your Simple app once the payment system confirms the transaction.",
     "p2p_buy_max": "Max",
     "p2p_buy_with": "With"
 }

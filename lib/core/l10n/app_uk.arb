@@ -7861,7 +7861,7 @@
     "p2p_buy_conversion_rate": "Курс конверсії",
     "p2p_buy_payment_management": "Управління платежами",
     "p2p_terms_and_conditions": "Peer-to-Peer (P2P) Terms and Conditions",
-    "p2p_buy_confirmation_processing_text": "Обробка P2P-транзакції може зайняти до 15 хвилин. Кошти будуть зараховані у ваш додаток Simple, як тільки платіжна система підтвердить транзакцію.",
+    "p2p_buy_confirmation_processing_text": "Обробка P2P-транзакції може зайняти до 30 хвилин. Кошти будуть зараховані у ваш додаток Simple, як тільки платіжна система підтвердить транзакцію.",
     "p2p_buy_max": "Макс.",
     "p2p_buy_with": "Оплачується з"
 }

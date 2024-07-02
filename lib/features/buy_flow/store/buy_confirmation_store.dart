@@ -794,6 +794,7 @@ abstract class _BuyConfirmationStoreBase with Store {
                 if (payment != null) {
                   sRouter.maybePop();
                 }
+                navigateToRouter();
               },
               (error) {
                 Navigator.pop(sRouter.navigatorKey.currentContext!);
