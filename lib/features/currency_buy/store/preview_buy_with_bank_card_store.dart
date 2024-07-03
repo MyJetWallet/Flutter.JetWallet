@@ -417,7 +417,6 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
                     accuracy: input.currency.accuracy,
                     symbol: input.currency.symbol,
                   )}',
-            buttonText: intl.previewBuyWithUmlimint_saveCard,
             showProgressBar: true,
           ),
         )

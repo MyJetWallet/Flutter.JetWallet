@@ -844,9 +844,7 @@ abstract class _BuyConfirmationStoreBase with Store {
                 accuracy: buyCurrency.accuracy,
                 symbol: buyCurrency.symbol,
               )}',
-        buttonText: intl.previewBuyWithUmlimint_saveCard,
         showProgressBar: true,
-        showCloseButton: true,
         onCloseButton: () {
           sAnalytics.tapOnTheCloseButtonOnSuccessBuyEndScreen(
             pmType: pmType,
@@ -919,15 +917,15 @@ abstract class _BuyConfirmationStoreBase with Store {
   }
 
   @computed
-  String get getProcessingText {
+  String? get getProcessingText {
     switch (category) {
       case PaymentMethodCategory.cards:
-        return '';
+        return null;
       case PaymentMethodCategory.local:
         return intl.buy_confirmation_local_p2p_processing_text;
 
       default:
-        return '';
+        return null;
     }
   }
 

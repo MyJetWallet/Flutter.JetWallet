@@ -201,7 +201,6 @@ abstract class _InvestDepositeConfirmationStoreBase with Store {
             accuracy: currency.accuracy,
           ),
         ),
-        buttonText: intl.previewBuyWithUmlimint_saveCard,
         showProgressBar: true,
       ),
     )

@@ -1,9 +1,10 @@
 // Animations
 const successAnimationAsset = 'assets/animations/success.riv';
+const successJsonAnimationAsset = 'assets/animations/success.json';
 const splashAnimationAsset = 'assets/animations/splash.riv';
-const failureAnimationAsset = 'assets/animations/failure.riv';
+const failureAnimationAsset = 'assets/animations/error.json';
 const loaderAnimationAsset = 'assets/animations/loader.riv';
-const processingAnimationAsset = 'assets/animations/processing.riv';
+const processingAnimationAsset = 'assets/animations/loading.json';
 
 // Other
 const watchlistImageAsset = 'assets/images/watchlist.png';

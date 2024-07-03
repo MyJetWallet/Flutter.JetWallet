@@ -30,8 +30,7 @@ import '../../../utils/formatting/base/volume_format.dart';
 
 part 'preview_buy_with_unlimint_store.g.dart';
 
-class PreviewBuyWithUnlimitStore extends _PreviewBuyWithUnlimitStoreBase
-    with _$PreviewBuyWithUnlimitStore {
+class PreviewBuyWithUnlimitStore extends _PreviewBuyWithUnlimitStoreBase with _$PreviewBuyWithUnlimitStore {
   PreviewBuyWithUnlimitStore(super.input);
 
   static _PreviewBuyWithUnlimitStoreBase of(BuildContext context) =>
@@ -116,7 +115,7 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
     loader.startLoadingImmediately();
 
     final model = CardBuyCreateRequestModel(
-       buyFixed: true,
+      buyFixed: true,
       paymentMethod: CirclePaymentMethod.unlimint,
       paymentAmount: amountToPay,
       buyAsset: input.currency.symbol,
@@ -124,8 +123,7 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
     );
 
     try {
-      final response =
-          await sNetwork.getWalletModule().postCardBuyCreate(model);
+      final response = await sNetwork.getWalletModule().postCardBuyCreate(model);
 
       response.pick(
         onData: (data) {
@@ -285,12 +283,9 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
               data.status == CardBuyPaymentStatus.waitForPayment;
           final complete = data.status == CardBuyPaymentStatus.success;
           final failed = data.status == CardBuyPaymentStatus.fail;
-          final actionRequired =
-              data.status == CardBuyPaymentStatus.requireAction;
+          final actionRequired = data.status == CardBuyPaymentStatus.requireAction;
 
-          if (pending ||
-              (actionRequired &&
-                  lastAction == data.clientAction!.checkoutUrl)) {
+          if (pending || (actionRequired && lastAction == data.clientAction!.checkoutUrl)) {
             await Future.delayed(const Duration(seconds: 1));
             await _requestPaymentInfo(onAction, lastAction);
           } else if (complete) {
@@ -363,7 +358,6 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
         )}',
         time: input.card != null ? 3 : 5,
         showActionButton: input.card == null,
-        buttonText: intl.previewBuyWithUmlimint_saveCard,
         showProgressBar: true,
         onActionButton: () async {
           tapped = true;

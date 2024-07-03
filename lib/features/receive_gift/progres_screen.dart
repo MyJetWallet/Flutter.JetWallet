@@ -20,7 +20,6 @@ class ProgressScreen extends StatelessObserverWidget {
       loading: loading,
       customLoader: WaitingScreen(
         primaryText: intl.waitingScreen_processing,
-        onSkip: () {},
       ),
       child: Container(),
     );

@@ -223,7 +223,6 @@ abstract class _OfferOrderSummaryStoreBase with Store {
             accuracy: selectedCurrency.accuracy,
           ),
         ),
-        buttonText: intl.previewBuyWithUmlimint_saveCard,
         showProgressBar: true,
       ),
     )

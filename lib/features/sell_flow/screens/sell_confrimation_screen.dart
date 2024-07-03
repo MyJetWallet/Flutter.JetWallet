@@ -9,7 +9,6 @@ import 'package:jetwallet/features/sell_flow/store/sell_confirmation_store.dart'
 import 'package:jetwallet/features/sell_flow/widgets/sell_confirmation_info_grid.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
-import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
@@ -89,8 +88,6 @@ class _SellConfirmationScreenBody extends StatelessObserverWidget {
               primaryText: intl.buy_confirmation_local_p2p_processing_title,
               onSkip: () {
                 store.skipProcessing();
-
-                navigateToRouter();
               },
             )
           : null,

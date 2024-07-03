@@ -335,9 +335,7 @@ abstract class _TransferConfirmationStoreBase with Store {
             symbol: eurCurrency.symbol,
           ),
         ),
-        buttonText: intl.previewBuyWithUmlimint_saveCard,
         showProgressBar: true,
-        showCloseButton: true,
         onCloseButton: () {
           sRouter.replaceAll([
             const HomeRouter(

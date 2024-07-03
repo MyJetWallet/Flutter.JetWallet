@@ -380,7 +380,6 @@ abstract class _ConvertConfirmationStoreBase with Store {
         .push(
       SuccessScreenRouter(
         secondaryText: intl.convert_success_in_process,
-        buttonText: intl.previewBuyWithUmlimint_saveCard,
         showProgressBar: true,
       ),
     )

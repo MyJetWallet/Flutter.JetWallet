@@ -6,7 +6,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/invest_transfer/store/invest_withdraw_confirmation_store.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
-import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/what_to_what_convert/what_to_what_widget.dart';
@@ -50,9 +49,6 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
           ? WaitingScreen(
               wasAction: true,
               primaryText: intl.buy_confirmation_local_p2p_processing_title,
-              onSkip: () {
-                navigateToRouter();
-              },
             )
           : null,
       header: SSmallHeader(

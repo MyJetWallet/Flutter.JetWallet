@@ -111,9 +111,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
     return SPageFrameWithPadding(
       loaderText: intl.loader_please_wait,
       loading: state.loader,
-      customLoader: WaitingScreen(
-        onSkip: () {},
-      ),
+      customLoader: const WaitingScreen(),
       header: SSmallHeader(
         title: intl.buy_confirmation_title,
         subTitle: intl.withdraw,

@@ -50,7 +50,6 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
           loading: sendGiftStore.loader,
           customLoader: WaitingScreen(
             primaryText: intl.waitingScreen_processing,
-            onSkip: () {},
           ),
           header: SSmallHeader(
             title: intl.buy_confirmation_title,

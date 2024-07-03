@@ -615,9 +615,7 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
                 accuracy: buyCurrency.accuracy,
                 symbol: buyCurrency.symbol,
               )}',
-        buttonText: intl.previewBuyWithUmlimint_saveCard,
         showProgressBar: true,
-        showCloseButton: true,
         onCloseButton: () {
           sAnalytics.tapOnTheCloseButtonOnSuccessBuyEndScreen(
             pmType: PaymenthMethodType.ptp,

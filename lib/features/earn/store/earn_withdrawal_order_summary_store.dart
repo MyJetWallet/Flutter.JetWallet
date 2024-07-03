@@ -155,7 +155,6 @@ abstract class _EarnWithdrawalOrderSummaryStoreBase with Store {
         .push(
       SuccessScreenRouter(
         secondaryText: intl.earn_withdraw_successfully,
-        buttonText: intl.previewBuyWithUmlimint_saveCard,
         showProgressBar: true,
       ),
     )

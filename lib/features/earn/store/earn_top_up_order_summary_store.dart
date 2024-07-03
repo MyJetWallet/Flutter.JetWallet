@@ -221,7 +221,6 @@ abstract class _EarnTopUpOrderSummaryStoreBase with Store {
             accuracy: selectedCurrency.accuracy,
           ),
         ),
-        buttonText: intl.previewBuyWithUmlimint_saveCard,
         showProgressBar: true,
       ),
     )

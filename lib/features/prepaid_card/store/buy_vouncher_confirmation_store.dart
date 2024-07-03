@@ -302,7 +302,6 @@ abstract class _BuyVouncherConfirmationStoreBase with Store {
                   accuracy: buyCurrency.accuracy,
                 ),
         ),
-        buttonText: intl.previewBuyWithUmlimint_saveCard,
         showProgressBar: true,
         onSuccess: (_) async {
           sRouter.popUntilRouteWithName(PrepaidCardServiceRouter.name);

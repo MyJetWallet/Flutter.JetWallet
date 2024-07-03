@@ -496,7 +496,6 @@ abstract class _SellConfirmationStoreBase with Store {
         .push(
       SuccessScreenRouter(
         secondaryText: intl.sell_success_cryptocurrencies,
-        buttonText: intl.previewBuyWithUmlimint_saveCard,
         showProgressBar: true,
       ),
     )
