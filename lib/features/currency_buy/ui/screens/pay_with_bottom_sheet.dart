@@ -170,14 +170,11 @@ class PayWithScreen extends StatelessObserverWidget {
         child: Column(
           children: [
             if (store.isCardsAvailable) ...[
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: PaymentMethodCardsWidget(
-                  title: intl.buy_external_cards,
-                  asset: asset,
-                  onSelected: onSelected,
-                  cards: store.cards,
-                ),
+              PaymentMethodCardsWidget(
+                title: intl.buy_external_cards,
+                asset: asset,
+                onSelected: onSelected,
+                cards: store.cards,
               ),
             ],
             const SpaceH16(),
