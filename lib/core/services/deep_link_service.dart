@@ -43,6 +43,7 @@ import 'package:simple_networking/modules/signal_r/models/banking_profile_model.
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 
+import '../../features/app/timer_service.dart';
 import '../../features/wallet/helper/navigate_to_wallet.dart';
 import 'local_storage_service.dart';
 import 'remote_config/models/remote_config_union.dart';
@@ -228,7 +229,8 @@ class DeepLinkService {
   void _kycVerificationCommand() {
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
-        getIt.get<AppStore>().authorizedStatus is Home) {
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
       final kycState = getIt.get<KycService>();
       final kycAlertHandler = getIt.get<KycAlertHandler>();
 
@@ -301,7 +303,8 @@ class DeepLinkService {
 
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
-        getIt.get<AppStore>().authorizedStatus is Home) {
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
       await Future.delayed(const Duration(microseconds: 100));
       await openRewards();
     } else {
@@ -354,23 +357,31 @@ class DeepLinkService {
   Future<void> pushCryptoHistory(
     Map<String, String> parameters,
   ) async {
-    if (getIt.isRegistered<AppStore>() &&
-        getIt.get<AppStore>().remoteConfigStatus is Success &&
-        getIt.get<AppStore>().authorizedStatus is Home) {
+    Future<void> openProfile() async {
+      await Future.delayed(const Duration(milliseconds: 100));
+      sRouter.popUntilRoot();
+      getIt<BottomBarStore>().setHomeTab(BottomItemType.wallets);
+      unawaited(sRouter.push(const AccountRouter()));
       await sRouter.push(
         TransactionHistoryRouter(
           jwOperationId: parameters['jw_operation_id'],
           jwOperationPtpManage: parameters[jwOperationPtpManage],
         ),
       );
+    }
+
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
+      await openProfile();
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
-          action: RouteQueryAction.push,
-          query: TransactionHistoryRouter(
-            jwOperationId: parameters['jw_operation_id'],
-            jwOperationPtpManage: parameters[jwOperationPtpManage],
-          ),
+          func: () async {
+            await Future.delayed(const Duration(seconds: 1));
+            await openProfile();
+          },
         ),
       );
     }
@@ -388,7 +399,8 @@ class DeepLinkService {
 
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
-        getIt.get<AppStore>().authorizedStatus is Home) {
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
       await sRouter.push(
         WalletRouter(
           currency: currency,
@@ -413,7 +425,8 @@ class DeepLinkService {
 
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
-        getIt.get<AppStore>().authorizedStatus is Home) {
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
       final currency = currencyFrom(
         sSignalRModules.currenciesList,
         parameters['jw_asset'] ?? 'BTC',
@@ -451,7 +464,8 @@ class DeepLinkService {
     //navigateToWallet
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
-        getIt.get<AppStore>().authorizedStatus is Home) {
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
       final currency = currencyFrom(
         sSignalRModules.currenciesList,
         parameters['jw_operation_id']!,
@@ -487,7 +501,8 @@ class DeepLinkService {
   ) async {
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
-        getIt.get<AppStore>().authorizedStatus is Home) {
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
       if (showZendesk) {
         await getIt.get<IntercomService>().showMessenger();
       } else {
@@ -522,7 +537,8 @@ class DeepLinkService {
   ) async {
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
-        getIt.get<AppStore>().authorizedStatus is Home) {
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
       await sRouter.push(
         const AccountRouter(),
       );
@@ -544,7 +560,8 @@ class DeepLinkService {
 
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
-        getIt.get<AppStore>().authorizedStatus is Home) {
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
       final gift = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().getGift(jwOperationId);
 
       if (gift.data == null) return;
@@ -616,7 +633,8 @@ class DeepLinkService {
 
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
-        getIt.get<AppStore>().authorizedStatus is Home) {
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
       await openMarket();
     } else {
       getIt<RouteQueryService>().addToQuery(
@@ -636,7 +654,8 @@ class DeepLinkService {
 
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
-        getIt.get<AppStore>().authorizedStatus is Home) {
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
       await shopRateUpPopup(context, force: true);
     } else {
       getIt<RouteQueryService>().addToQuery(
@@ -656,7 +675,8 @@ class DeepLinkService {
 
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
-        getIt.get<AppStore>().authorizedStatus is Home) {
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
       final isEarnAvailable = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
           .any((element) => element.id == AssetPaymentProductsEnum.earnProgram);
 
@@ -721,7 +741,8 @@ class DeepLinkService {
 
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
-        getIt.get<AppStore>().authorizedStatus is Home) {
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
       sNotification.showError(
         intl.something_went_wrong_try_again,
         id: 1,
@@ -748,7 +769,8 @@ class DeepLinkService {
     final symbol = parameters[_jwSymbol];
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
-        getIt.get<AppStore>().authorizedStatus is Home) {
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
       sRouter.popUntilRoot();
 
       unawaited(sRouter.push(const AccountRouter()));
@@ -811,7 +833,8 @@ class DeepLinkService {
   ) async {
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
-        getIt.get<AppStore>().authorizedStatus is Home) {
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
       final context = sRouter.navigatorKey.currentContext!;
 
       final kycState = getIt.get<KycService>();
@@ -894,7 +917,8 @@ class DeepLinkService {
     final cardID = parameters[_jwParameter];
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
-        getIt.get<AppStore>().authorizedStatus is Home) {
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
       final allCards = sSignalRModules.bankingProfileData?.banking?.cards?.where(
             (element) =>
                 element.status != AccountStatusCard.inactive && element.status != AccountStatusCard.unsupported,
@@ -972,7 +996,8 @@ class DeepLinkService {
 
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
-        getIt.get<AppStore>().authorizedStatus is Home) {
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
       await openWallet();
     } else {
       getIt<RouteQueryService>().addToQuery(
@@ -999,7 +1024,8 @@ class DeepLinkService {
   ) async {
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
-        getIt.get<AppStore>().authorizedStatus is Home) {
+        getIt.get<AppStore>().authorizedStatus is Home &&
+        getIt<TimerService>().isPinScreenOpen == false) {
       final isSimpleCoinAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
           .any((element) => element.id == AssetPaymentProductsEnum.simpleTapToken);
       if (isSimpleCoinAvaible) {
