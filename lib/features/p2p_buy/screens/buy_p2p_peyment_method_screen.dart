@@ -42,6 +42,8 @@ class _BuyP2pPeymentMethodScreenState extends State<BuyP2pPeymentMethodScreen> {
   void initState() {
     if (widget.methods.isNotEmpty) {
       methods.addAll(widget.methods);
+
+      methods.sort((a, b) => a.weight.compareTo(b.weight));
     } else {
       loadP2PMethods();
     }
@@ -59,6 +61,7 @@ class _BuyP2pPeymentMethodScreenState extends State<BuyP2pPeymentMethodScreen> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         setState(() {
           methods.addAll(result);
+          methods.sort((a, b) => a.weight.compareTo(b.weight));
         });
       });
     } catch (e) {

@@ -573,6 +573,7 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
                 }
 
                 await sRouter.maybePop();
+                await _requestPaymentInfo(onAction, data.clientAction?.checkoutUrl ?? '');
               },
               (error) {
                 Navigator.pop(sRouter.navigatorKey.currentContext!);
