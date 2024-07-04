@@ -25,7 +25,8 @@ class SuccessScreen extends StatelessWidget {
     this.primaryText,
     this.secondaryText,
     this.bottomWidget,
-    this.showActionButton = false,
+    this.actionButtonName,
+    this.primaryButtonText,
     this.showProgressBar = false,
     this.showPrimaryButton = false,
     this.time = 3,
@@ -39,7 +40,8 @@ class SuccessScreen extends StatelessWidget {
   final Widget? bottomWidget;
   final int time;
   final bool showProgressBar;
-  final bool showActionButton;
+  final String? actionButtonName;
+  final String? primaryButtonText;
   final bool showPrimaryButton;
 
   @override
@@ -55,8 +57,9 @@ class SuccessScreen extends StatelessWidget {
         bottomWidget: bottomWidget,
         time: time,
         showProgressBar: showProgressBar,
-        showActionButton: showActionButton,
+        actionButtonName: actionButtonName,
         showPrimaryButton: showPrimaryButton,
+        primaryButtonText: primaryButtonText,
         onCloseButton: onCloseButton,
       ),
     );
@@ -71,7 +74,8 @@ class _SuccessScreenBody extends StatefulWidget {
     this.primaryText,
     this.secondaryText,
     this.bottomWidget,
-    this.showActionButton = false,
+    this.actionButtonName,
+    this.primaryButtonText,
     this.showProgressBar = false,
     this.showPrimaryButton = false,
     required this.time,
@@ -84,8 +88,9 @@ class _SuccessScreenBody extends StatefulWidget {
   final String? secondaryText;
   final Widget? bottomWidget;
   final int time;
+  final String? primaryButtonText;
   final bool showProgressBar;
-  final bool showActionButton;
+  final String? actionButtonName;
   final bool showPrimaryButton;
 
   @override
@@ -126,13 +131,13 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> with WidgetsBind
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
-    final showBottomSpace = widget.showProgressBar || widget.showActionButton || widget.showPrimaryButton;
     final secondaryText = widget.secondaryText;
     final bottomWidget = widget.bottomWidget;
     final showProgressBar = widget.showProgressBar;
     final onCloseButton = widget.onCloseButton;
-    final showActionButton = widget.showActionButton;
+    final actionButtonName = widget.actionButtonName;
+    final primaryButtonText = widget.primaryButtonText;
+    final showBottomSpace = showProgressBar || actionButtonName != null || widget.showPrimaryButton;
 
     return ReactionBuilder(
       builder: (context) {
@@ -175,13 +180,16 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> with WidgetsBind
                 ),
                 child: Column(
                   children: [
-                    const Spacer(),
+                    const Spacer(
+                      flex: 2,
+                    ),
                     Column(
                       children: [
                         Lottie.asset(
                           successJsonAnimationAsset,
                           width: 80,
                           height: 80,
+                          repeat: false,
                         ),
                         const SpaceH24(),
                         ResultScreenTitle(
@@ -196,7 +204,7 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> with WidgetsBind
                       ],
                     ),
                     const Spacer(
-                      flex: 2,
+                      flex: 3,
                     ),
                     if (bottomWidget != null) ...[
                       const SpaceH24(),
@@ -209,14 +217,13 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> with WidgetsBind
                         width: MediaQuery.of(context).size.width,
                         child: ProgressBar(
                           time: widget.time,
-                          colors: colors,
                         ),
                       ),
                     ],
-                    if (showActionButton) ...[
+                    if (actionButtonName != null) ...[
                       const SpaceH24(),
                       SButton.text(
-                        text: intl.previewBuyWithUmlimint_saveCard,
+                        text: actionButtonName,
                         callback: () {
                           setState(() {
                             shouldPop = false;
@@ -227,9 +234,9 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> with WidgetsBind
                       ),
                     ],
                     if (widget.showPrimaryButton) ...[
-                      if (showActionButton) const SpaceH8(),
+                      if (actionButtonName != null) const SpaceH8(),
                       SButton.black(
-                        text: intl.cardVerification_close,
+                        text: primaryButtonText ?? intl.cardVerification_close,
                         callback: () {
                           setState(() {
                             shouldPop = false;

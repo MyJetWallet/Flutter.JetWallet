@@ -48,9 +48,7 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
         return SPageFrameWithPadding(
           loaderText: intl.loader_please_wait,
           loading: sendGiftStore.loader,
-          customLoader: WaitingScreen(
-            primaryText: intl.waitingScreen_processing,
-          ),
+          customLoader: const WaitingScreen(),
           header: SSmallHeader(
             title: intl.buy_confirmation_title,
             subTitle: intl.send_gift_small_title,

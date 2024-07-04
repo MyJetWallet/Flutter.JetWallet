@@ -296,7 +296,6 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
 
     return sRouter.push(
       SuccessScreenRouter(
-        primaryText: intl.successScreen_success,
         secondaryText: '${volumeFormat(
           decimal: giftModel.amount ?? Decimal.zero,
           accuracy: currency.accuracy,

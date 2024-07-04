@@ -187,7 +187,6 @@ abstract class GeneralSendGiftStoreBase with Store {
 
     return sRouter.push(
       SuccessScreenRouter(
-        primaryText: intl.successScreen_success,
         secondaryText: '${intl.send_gift_you_sent} ${volumeFormat(
           decimal: amount,
           accuracy: currency.accuracy,

@@ -2175,5 +2175,9 @@
     "p2p_terms_and_conditions": "Peer-to-Peer (P2P) Terms and Conditions",
     "p2p_buy_confirmation_processing_text": "Przetworzenie transakcji P2P może potrwać do 30 minut. Środki zostaną przelane do aplikacji Simple po potwierdzeniu transakcji przez system płatności.",
     "p2p_buy_max": "Maks",
-    "p2p_buy_with": "Z"
+    "p2p_buy_with": "Z",
+    "waiting_screen_button_name": "Zamknij",
+    "failure_screen_title": "Nieudane",
+    "failure_screen_button_name": "Gotowe",
+    "success_screen_button_name": "Gotowe"
 }

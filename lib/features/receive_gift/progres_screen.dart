@@ -18,9 +18,7 @@ class ProgressScreen extends StatelessObserverWidget {
     return SPageFrameWithPadding(
       loaderText: intl.loader_please_wait,
       loading: loading,
-      customLoader: WaitingScreen(
-        primaryText: intl.waitingScreen_processing,
-      ),
+      customLoader: const WaitingScreen(),
       child: Container(),
     );
   }

@@ -18,6 +18,7 @@ class WaitingScreen extends StatelessObserverWidget {
     super.key,
     this.primaryText,
     this.secondaryText,
+    this.buttonName,
     this.wasAction = false,
     this.onSkip,
   });
@@ -25,6 +26,7 @@ class WaitingScreen extends StatelessObserverWidget {
   final Function()? onSkip;
   final String? primaryText;
   final String? secondaryText;
+  final String? buttonName;
   final bool wasAction;
 
   void onSkipTap() {
@@ -56,7 +58,9 @@ class WaitingScreen extends StatelessObserverWidget {
         child: Center(
           child: Column(
             children: [
-              const Spacer(),
+              const Spacer(
+                flex: 2,
+              ),
               Column(
                 children: [
                   Lottie.asset(
@@ -77,11 +81,11 @@ class WaitingScreen extends StatelessObserverWidget {
                 ],
               ),
               const Spacer(
-                flex: 2,
+                flex: 3,
               ),
               if (wasAction) ...[
                 SButton.black(
-                  text: intl.previewBuyWithUmlimint_close,
+                  text: buttonName ?? intl.waiting_screen_button_name,
                   callback: onSkipTap,
                 ),
               ],

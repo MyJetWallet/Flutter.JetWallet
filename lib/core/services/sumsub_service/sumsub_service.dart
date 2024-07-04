@@ -123,6 +123,7 @@ class SumsubService {
                   primaryText: intl.kycChooseDocuments_verifyingNow,
                   secondaryText: intl.kycChooseDocuments_willBeNotified,
                   showPrimaryButton: true,
+                  primaryButtonText: intl.cardVerification_close,
                   onActionButton: () async {
                     navigateToRouter();
 
@@ -159,6 +160,7 @@ class SumsubService {
                 primaryText: intl.kycChooseDocuments_verifyingNow,
                 secondaryText: intl.kycChooseDocuments_willBeNotified,
                 showPrimaryButton: true,
+                primaryButtonText: intl.cardVerification_close,
                 onActionButton: () async {
                   navigateToRouter();
 
@@ -231,6 +233,7 @@ class SumsubService {
           primaryText: intl.kycChooseDocuments_verifyingNow,
           secondaryText: intl.kycChooseDocuments_willBeNotified,
           showPrimaryButton: true,
+          primaryButtonText: intl.cardVerification_close,
           onActionButton: () async {
             navigateToRouter();
 

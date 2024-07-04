@@ -70,7 +70,7 @@ class _ConvertConfirmationScreenBody extends StatelessObserverWidget {
       customLoader: store.showProcessing
           ? WaitingScreen(
               wasAction: store.wasAction,
-              primaryText: intl.buy_confirmation_local_p2p_processing_title,
+              buttonName: intl.previewBuyWithUmlimint_close,
               onSkip: () {
                 store.skipProcessing();
               },

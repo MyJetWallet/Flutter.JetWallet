@@ -47,11 +47,7 @@ class EarnWithdrawOrderSummaryScreen extends StatelessWidget {
         return SPageFrameWithPadding(
           loading: store.loader,
           loaderText: intl.register_pleaseWait,
-          customLoader: store.showProcessing
-              ? WaitingScreen(
-                  primaryText: intl.buy_confirmation_local_p2p_processing_title,
-                )
-              : null,
+          customLoader: store.showProcessing ? const WaitingScreen() : null,
           header: SSmallHeader(
             onBackButtonTap: () {
               sAnalytics.tapOnTheBackFromEarnWithdrawOrderSummaryButton(

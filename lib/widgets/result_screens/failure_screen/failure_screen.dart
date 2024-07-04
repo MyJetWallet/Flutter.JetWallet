@@ -14,18 +14,18 @@ import '../widgets/result_screen_description.dart';
 class FailureScreen extends StatelessObserverWidget {
   const FailureScreen({
     super.key,
-    required this.primaryText,
-    required this.primaryButtonName,
     required this.onPrimaryButtonTap,
+    this.primaryText,
     this.secondaryText,
+    this.primaryButtonName,
     this.secondaryButtonName,
     this.onSecondaryButtonTap,
   });
 
-  final String primaryText;
-  final String primaryButtonName;
   final Function() onPrimaryButtonTap;
+  final String? primaryText;
   final String? secondaryText;
+  final String? primaryButtonName;
   final String? secondaryButtonName;
   final Function()? onSecondaryButtonTap;
 
@@ -48,7 +48,9 @@ class FailureScreen extends StatelessObserverWidget {
           ),
           child: Column(
             children: [
-              const Spacer(),
+              const Spacer(
+                flex: 2,
+              ),
               Column(
                 children: [
                   Lottie.asset(
@@ -58,7 +60,7 @@ class FailureScreen extends StatelessObserverWidget {
                   ),
                   const SpaceH24(),
                   ResultScreenTitle(
-                    title: primaryText,
+                    title: primaryText ?? intl.failure_screen_title,
                   ),
                   if (secondaryText != null) ...[
                     const SpaceH16(),
@@ -69,7 +71,7 @@ class FailureScreen extends StatelessObserverWidget {
                 ],
               ),
               const Spacer(
-                flex: 2,
+                flex: 3,
               ),
               if (secondaryButtonName != null && onSecondaryButtonTap != null) ...[
                 SButton.text(
@@ -79,7 +81,7 @@ class FailureScreen extends StatelessObserverWidget {
                 const SpaceH8(),
               ],
               SButton.black(
-                text: primaryButtonName,
+                text: primaryButtonName ?? intl.failure_screen_button_name,
                 callback: onPrimaryButtonTap,
               ),
             ],

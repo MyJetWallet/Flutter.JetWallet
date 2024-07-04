@@ -66,7 +66,7 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
       customLoader: store.showProcessing
           ? WaitingScreen(
               wasAction: true,
-              primaryText: intl.buy_confirmation_local_p2p_processing_title,
+              buttonName: intl.previewBuyWithUmlimint_close,
             )
           : null,
       header: SSmallHeader(

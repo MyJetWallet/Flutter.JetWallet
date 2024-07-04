@@ -357,7 +357,7 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
           symbol: input.currency.symbol,
         )}',
         time: input.card != null ? 3 : 5,
-        showActionButton: input.card == null,
+        actionButtonName: input.card == null ? intl.previewBuyWithUmlimint_saveCard : null,
         showProgressBar: true,
         onActionButton: () async {
           tapped = true;
