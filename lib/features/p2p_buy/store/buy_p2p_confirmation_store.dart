@@ -568,11 +568,12 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
                 _requestPaymentInfo(onAction, lastAction);
               },
               (payment) async {
+                await sRouter.maybePop();
+
                 if (payment != null) {
                   await _showFailureScreen('');
                 }
 
-                await sRouter.maybePop();
                 await _requestPaymentInfo(onAction, data.clientAction?.checkoutUrl ?? '');
               },
               (error) {
