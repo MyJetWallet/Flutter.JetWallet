@@ -26,6 +26,7 @@ class SignalRModuleNew {
     required this.getToken,
     required this.signalRClient,
     required this.forceReconnect,
+    required this.getUrlForConnectin,
     this.isDebug = false,
   }) {
     handler = SignalRFuncHandler(
@@ -53,6 +54,8 @@ class SignalRModuleNew {
 
   final Future<String> Function() getToken;
 
+  final String Function() getUrlForConnectin;
+
   static const _pingTime = 3;
   static const _reconnectTime = 5;
 
@@ -76,6 +79,8 @@ class SignalRModuleNew {
 
   bool isSignalRRestarted = false;
   bool isServiceDisposed = false;
+
+  String? connectionId;
 
   void logMsg(String msg) {
     if (msg.contains('sending data')) {
@@ -131,16 +136,17 @@ class SignalRModuleNew {
     if (isSignalRRestarted) return false;
     if (isServiceDisposed) return false;
 
-    if (isSignalRRestarted) return false;
-
     isSignalRRestarted = true;
 
     transport.createNewSessionLog();
 
-    if (_hubConnection == null) {
+    disconnectSocket('From openConnection');
+
+    try {
+      final url = getUrlForConnectin();
       _hubConnection = HubConnectionBuilder()
           .withUrl(
-            options.walletApiSignalR!,
+            url,
             HttpConnectionOptions(
               client: signalRClient,
               logMessageContent: true,
@@ -152,19 +158,20 @@ class SignalRModuleNew {
 
       await _hubConnection!.start();
 
+      connectionId = _hubConnection?.connectionId;
+
       await sendInitMessage('New Session');
 
       _startPing();
-    } else {
-      if (_hubConnection!.state != HubConnectionState.connected) {
-        await setupMessageHandler();
+      _startPong();
+    } catch (e) {
+      log(
+        level: lg.Level.error,
+        place: _loggerValue,
+        message: 'SignalR error on openConnection $e',
+      );
 
-        await _hubConnection!.start();
-
-        await sendInitMessage('Reconnect Session');
-
-        _startPing();
-      }
+      _startReconnect();
     }
 
     isSignalRRestarted = false;
@@ -193,13 +200,14 @@ class SignalRModuleNew {
             deviceType,
           ],
         );
+
+        log(
+          level: lg.Level.info,
+          place: _loggerValue,
+          message: 'Sucsses SignalR init from: $from',
+        );
       } catch (e) {
         handleError('invoke $e', e);
-
-        isSignalRRestarted = false;
-        isDisconnecting = true;
-
-        rethrow;
       }
     } else {
       log(
@@ -208,23 +216,14 @@ class SignalRModuleNew {
         message: 'SignalR error init ${_hubConnection?.state}',
       );
 
-      //isSignalRRestarted = false;
-      //isDisconnecting = true;
-
       transport.addToLog(
         DateTime.now(),
         'SignalR error init ${_hubConnection?.state}',
       );
-
-      if (!isDisconnecting) {
-        reconnectSignalR();
-      }
     }
   }
 
-  static Future<void> handlePackage() async {
-    // TODO(yaroslav): must be removed.
-  }
+  static Future<void> handlePackage() async {}
 
   void handleError(String msg, Object error) {
     log(
@@ -234,17 +233,11 @@ class SignalRModuleNew {
     );
 
     transport.addToLog(DateTime.now(), 'SignalR error $error');
-
-    if (msg == 'startconnection') {
-      unawaited(reconnectSignalR());
-    }
-
-    //isSignalRRestarted = false;
-    //isDisconnecting = true;
   }
 
-  void simulateError() {
-    _hubConnection?.stop();
+  Future<void> simulateError() async {
+    await _hubConnection?.stop();
+    print('object');
   }
 
   void _startPing() {
@@ -255,30 +248,33 @@ class SignalRModuleNew {
           try {
             transport.addToPing(DateTime.now());
 
-            _hubConnection?.invoke(pingMessage);
+            await _hubConnection?.invoke(pingMessage);
           } catch (e) {
-            transport.addToLog(DateTime.now(), 'Failed to start ping');
+            transport.addToLog(DateTime.now(), 'Failed to send ping ${_hubConnection?.state}');
             log(
               level: lg.Level.error,
               place: _loggerValue,
-              message: 'Failed to start ping',
+              message: 'Failed to send ping ${_hubConnection?.state}',
             );
           }
         } else {
-          transport.addToLog(DateTime.now(), 'Failed to start ping');
+          transport.addToLog(DateTime.now(), 'Failed to send ping ${_hubConnection?.state}');
           log(
             level: lg.Level.error,
             place: _loggerValue,
-            message: 'Failed to start ping',
+            message: 'Failed to send ping ${_hubConnection?.state}',
           );
-
-          _startReconnect();
         }
       },
     );
   }
 
   void pongMessageHandler(List<Object?>? data) {
+    log(
+      level: lg.Level.info,
+      place: _loggerValue,
+      message: 'Pong Message Handler',
+    );
     transport.addToPong(DateTime.now());
 
     _pongTimer?.cancel();
@@ -296,100 +292,62 @@ class SignalRModuleNew {
           message: 'Start pong reconnect',
         );
 
-        if (!isServiceDisposed) {
-          _startReconnect();
-        }
+        if (isServiceDisposed) return;
+
+        _startReconnect();
       },
     );
   }
 
   void _startReconnect() {
     if (_reconnectTimer == null || !_reconnectTimer!.isActive) {
-      _reconnectTimer = Timer.periodic(
+      _reconnectTimer = Timer(
         const Duration(seconds: _reconnectTime),
-        (_) => reconnectSignalR(),
+        () => openConnection(),
       );
     }
   }
 
-  /// Sometimes there will be the following error: \
-  /// Unhandled Exception: SocketException: Reading from a closed socket \
-  /// There are probably some problems with the library
-  Future<void> reconnectSignalR({
-    bool needRefreshToken = true,
-  }) async {
-    // TODO(yaroslav): must be removed.
-    /*transport.addToLog(
-      DateTime.now(),
-      'Start reconnect Signalr. isDisconnecting: $isDisconnecting',
-    );
-    log(
-      level: lg.Level.info,
-      place: _loggerValue,
-      message: 'Start reconnect Signalr. isDisconnecting: $isDisconnecting',
-    );
+  Future<void> disconnectSocket(String from) async {
+    try {
+      if (_hubConnection == null) return;
 
-    if (isServiceDisposed) return;
+      log(
+        level: lg.Level.warning,
+        place: _loggerValue,
+        message: 'SignalR Disconnect $from',
+      );
+      transport.addToLog(DateTime.now(), 'SignalR Disconnect $from');
 
-    if (!isDisconnecting) {
-      try {
-        _pingTimer?.cancel();
-        _pongTimer?.cancel();
+      isDisconnecting = true;
+      isSignalRRestarted = false;
 
-        await _hubConnection?.stop();
+      _pingTimer?.cancel();
+      _pongTimer?.cancel();
+      _reconnectTimer?.cancel();
 
-        await disableHandlerConnection();
+      _pingTimer = null;
+      _pongTimer = null;
+      _reconnectTimer = null;
 
-        if (needRefreshToken) {
-          await refreshToken();
-        }
-      } catch (e) {
-        //isSignalRRestarted = false;
-        //isDisconnecting = true;
-      } finally {
-        await openConnection();
+      await _hubConnection?.stop();
 
-        _reconnectTimer?.cancel();
-      }
+      await disableHandlerConnection();
+
+      _hubConnection = null;
+
+      log(
+        level: lg.Level.error,
+        place: _loggerValue,
+        message: 'SignalR is Disconnected.',
+      );
+    } catch (e) {
+      log(
+        level: lg.Level.error,
+        place: _loggerValue,
+        message: 'SignalR error on disconnectSocket $e',
+      );
     }
-    */
-  }
-
-  Future<void> disconnect(
-    String from, {
-    bool force = false,
-  }) async {
-    if (!force) {
-      if (isSignalRRestarted) return;
-    }
-
-    log(
-      level: lg.Level.warning,
-      place: _loggerValue,
-      message: 'SignalR Disconnect $from',
-    );
-    transport.addToLog(DateTime.now(), 'SignalR Disconnect $from');
-
-    isDisconnecting = true;
-    isSignalRRestarted = false;
-
-    _pingTimer?.cancel();
-    _pongTimer?.cancel();
-    _reconnectTimer?.cancel();
-
-    if (force) {
-      _checkConnectionTimer?.cancel();
-      connectionCheckCount = 0;
-    }
-    await _hubConnection?.stop();
-
-    await disableHandlerConnection();
-
-    log(
-      level: lg.Level.error,
-      place: _loggerValue,
-      message: 'SignalR Disconnected ${_hubConnection!.state}, Force timer: ${_checkConnectionTimer?.isActive}',
-    );
   }
 
   void dispose() {

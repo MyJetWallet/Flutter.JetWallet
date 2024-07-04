@@ -3,10 +3,11 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_pro/webview_flutter.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'Circle3dSecureWebViewRouter')
@@ -50,7 +51,6 @@ class Circle3dSecureWebView extends StatelessWidget {
             title: title,
             onBackButtonTap: () {
               onCancel?.call(null);
-              navigateToRouter();
             },
           ),
         ),
@@ -58,6 +58,9 @@ class Circle3dSecureWebView extends StatelessWidget {
           children: [
             Expanded(
               child: WebView(
+                gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{}
+                  ..add(Factory<VerticalDragGestureRecognizer>(() => VerticalDragGestureRecognizer())),
+                gestureNavigationEnabled: true,
                 initialUrl: url,
                 javascriptMode: JavascriptMode.unrestricted,
                 onWebViewCreated: (controller) {

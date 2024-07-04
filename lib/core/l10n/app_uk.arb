@@ -5261,7 +5261,7 @@
         "description": "Понятно",
         "type": "text"
     },
-    "global_send_popup_details": "Коли ви відправляєте грошовий переказ на банківську картку свого друга або члена сім'ї, інша особа відправляє P2P-грошовий переказ безпосередньо одержувачу. Earn Global LTd організовує цей переказ, але не обробляє його безпосередньо.",
+    "global_send_popup_details": "Обмін криптовалюти через P2P передбачає отримання коштів безпосередньо від іншої особи на вказані реквізити. Smpl Global Limited організовує цей переказ, але не обробляє його безпосередньо.",
     "@global_send_popup_details": {
         "description": "Когда вы отправляете денежный перевод на банковскую карту своего друга или члена семьи, другое лицо отправляет P2P-денежный перевод непосредственно получателю. Earn Global LTd организует этот перевод, но не обрабатывает его напрямую.",
         "type": "text"
@@ -7840,5 +7840,28 @@
     "simplecoin_by_clicking_collect": "Натискаючи \"Забрати\", ви погоджуєтесь з",
     "simplecoin_disclaimer": "Застереження",
     "simplecoin_transaction_historyr": "Історія транзакцій",
-    "simplecoin_my_simplecoins": "Мої Simplecoins"
+    "simplecoin_my_simplecoins": "Мої Simplecoins",
+    "get_simple_card_this_can_be": "Це може бути:",
+    "get_simple_card_provide_documents": "Щоб випустити Simple Card і відкрити рахунок, потрібно надати документи, які підтверджують ваше проживання в одній з країн ЄС.",
+    "get_simple_card_eu_citizen_passport": "Паспорт громадянина ЄС",
+    "get_simple_card_residence_permit": "Дозвіл на проживання",
+    "get_simple_card_need_confirm_residential_address": "Вам також потрібно підтвердити вашу домашню адресу:",
+    "get_simple_card_bank_statement": "Виписка з банку з вашим ім'ям та адресою",
+    "get_simple_card_provide_tin": "Під час процесу верифікації вам також потрібно буде надати ваш TIN (податковий ідентифікаційний номер).",
+    "get_simple_card_utility_bill": "Комунальні платежі",
+    "next": "далі",
+    "cancel": "скасувати",
+    "buy_local_methods": "Локальні методи",
+    "buy_p2p_service": "P2P сервіс",
+    "buy_transfer": "Переказ",
+    "buy_wallets_accounts": "Гаманці та рахунки",
+    "buy_normally_transfer": "Зазвичай переказ обробляється протягом 30 хв, іноді до 24 годин",
+    "p2p_buy_unfinished_operation": "Незавершена операція",
+    "p2p_buy_you_have_unfinished": "У вас є незавершені транзакції через P2P сервіс.\n\nЩоб перевірити статус транзакції або скасувати її, натисніть Продовжити.",
+    "p2p_buy_conversion_rate": "Курс конверсії",
+    "p2p_buy_payment_management": "Управління платежами",
+    "p2p_terms_and_conditions": "Peer-to-Peer (P2P) Terms and Conditions",
+    "p2p_buy_confirmation_processing_text": "Обробка P2P-транзакції може зайняти до 30 хвилин. Кошти будуть зараховані у ваш додаток Simple, як тільки платіжна система підтвердить транзакцію.",
+    "p2p_buy_max": "Макс.",
+    "p2p_buy_with": "Оплачується з"
 }

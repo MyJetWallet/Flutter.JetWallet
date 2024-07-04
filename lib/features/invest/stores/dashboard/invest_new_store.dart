@@ -447,7 +447,7 @@ abstract class _InvestNewStoreBase with Store {
 
         if (response.hasError) {
           sNotification.showError(
-            response.error?.cause ?? '',
+            response.error?.cause ?? intl.something_went_wrong,
             id: 1,
             needFeedback: true,
           );
@@ -480,7 +480,7 @@ abstract class _InvestNewStoreBase with Store {
         loader!.finishLoading();
         if (response.hasError) {
           sNotification.showError(
-            response.error?.cause ?? '',
+            response.error?.cause ?? intl.something_went_wrong,
             id: 1,
             needFeedback: true,
           );
@@ -569,7 +569,7 @@ abstract class _InvestNewStoreBase with Store {
         loader!.finishLoading();
         if (response.hasError) {
           sNotification.showError(
-            response.error?.cause ?? '',
+            response.error?.cause ?? intl.something_went_wrong,
             id: 1,
             needFeedback: true,
           );
@@ -656,7 +656,7 @@ abstract class _InvestNewStoreBase with Store {
 
       if (response.hasError) {
         sNotification.showError(
-          response.error?.cause ?? '',
+          response.error?.cause ?? intl.something_went_wrong,
           id: 1,
           needFeedback: true,
         );
@@ -803,7 +803,7 @@ abstract class _InvestNewStoreBase with Store {
 
         if (response.hasError) {
           sNotification.showError(
-            response.error?.cause ?? '',
+            response.error?.cause ?? intl.something_went_wrong,
             id: 1,
             needFeedback: true,
           );

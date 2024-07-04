@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -6,7 +7,6 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/features/bank_card/add_bank_card.dart';
 import 'package:jetwallet/features/buy_flow/store/payment_method_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/payment_methods_widgets/payment_method_cards_widget.dart';
@@ -14,12 +14,11 @@ import 'package:jetwallet/features/cj_banking_accounts/widgets/show_add_cash_fro
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
+import 'package:jetwallet/features/p2p_buy/utils/show_unfinished_operation_pop_up.dart';
 import 'package:jetwallet/utils/balances/crypto_balance.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -54,15 +53,15 @@ void showPayWithBottomSheet({
             (index) => 'Saved card ${store.cards[index].last4}',
           ),
         ],
-        if (store.isBankingAccountsAvaible)
-          ...List.generate(
-            store.accounts.length,
-            (index) {
-              return index == 0
-                  ? 'CJ ${store.accounts[index].last4IbanCharacters}'
-                  : 'Unlimint ${store.accounts[index].last4IbanCharacters}';
-            },
-          ),
+        ...List.generate(
+          store.accounts.length,
+          (index) {
+            return store.accounts[index].isClearjuctionAccount
+                ? 'CJ ${store.accounts[index].last4IbanCharacters}'
+                : 'Unlimint ${store.accounts[index].last4IbanCharacters}';
+          },
+        ),
+        if (store.isP2PAvaible) 'PTP',
       ],
     );
 
@@ -123,33 +122,25 @@ void _showPayWithBottomSheet({
   })? onSelectedCryptoAsset,
   required PaymentMethodStore store,
 }) {
-  sShowBasicModalBottomSheet(
-    context: context,
-    then: (value) {
-      sAnalytics.tapOnTheButtonCloseForClosingSheetOnPayWithPMSheet(
-        destinationWallet: currency?.symbol ?? '',
+  sRouter
+      .push(
+        PayWithScreenRouter(
+          asset: currency,
+          onSelected: onSelected,
+          store: store,
+          onSelectedCryptoAsset: onSelectedCryptoAsset,
+        ),
+      )
+      .then(
+        (value) => sAnalytics.tapOnTheButtonCloseForClosingSheetOnPayWithPMSheet(
+          destinationWallet: currency?.symbol ?? '',
+        ),
       );
-    },
-    scrollable: true,
-    pinned: ActionBottomSheetHeader(
-      name: intl.amount_screen_pay_with,
-      needBottomPadding: false,
-    ),
-    horizontalPinnedPadding: 0.0,
-    removePinnedPadding: true,
-    children: [
-      _PaymentMethodScreenBody(
-        asset: currency,
-        onSelected: onSelected,
-        store: store,
-        onSelectedCryptoAsset: onSelectedCryptoAsset,
-      ),
-    ],
-  );
 }
 
-class _PaymentMethodScreenBody extends StatelessObserverWidget {
-  const _PaymentMethodScreenBody({
+@RoutePage(name: 'PayWithScreenRouter')
+class PayWithScreen extends StatelessObserverWidget {
+  const PayWithScreen({
     required this.asset,
     required this.store,
     this.onSelected,
@@ -168,123 +159,123 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          if (store.isCardsAvailable) ...[
-            const SpaceH24(),
-            Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: PaymentMethodCardsWidget(
+    return SPageFrame(
+      loaderText: '',
+      header: SPaddingH24(
+        child: SSmallHeader(
+          title: intl.amount_screen_pay_with,
+        ),
+      ),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            if (store.isCardsAvailable) ...[
+              PaymentMethodCardsWidget(
                 title: intl.buy_external_cards,
                 asset: asset,
                 onSelected: onSelected,
                 cards: store.cards,
               ),
-            ),
-          ],
-          const SpaceH24(),
-          STextDivider(intl.sell_amount_accounts),
-          SimpleTableAsset(
-            label: intl.market_crypto,
-            supplement: intl.internal_exchange,
-            assetIcon: Assets.svg.assets.crypto.defaultPlaceholder.simpleSvg(
-              width: 24,
-            ),
-            rightValue: !getIt<AppStore>().isBalanceHide
-                ? calculateCryptoBalance()
-                : '**** ${sSignalRModules.baseCurrency.symbol}',
-            onTableAssetTap: () {
-              showAddCashFromBottomSheet(
-                context: context,
-                onClose: () {},
-                skipAsset: asset?.symbol,
-                onChooseAsset: (currency) {
-                  if (onSelectedCryptoAsset != null) {
-                    onSelectedCryptoAsset?.call(newCurrency: currency);
-                  } else {
-                    sRouter.push(
-                      AmountRoute(
-                        tab: AmountScreenTab.convert,
-                        asset: currency,
-                        toAsset: asset,
-                      ),
-                    );
-                  }
-                },
-              );
-            },
-          ),
-          if (store.accounts.isNotEmpty) ...[
-            for (final account in store.accounts)
+            ],
+            const SpaceH16(),
+            if (store.isP2PAvaible) ...[
+              STextDivider(intl.buy_local_methods),
               SimpleTableAsset(
-                assetIcon: Assets.svg.assets.fiat.account.simpleSvg(
+                label: intl.buy_p2p_service,
+                supplement: intl.buy_transfer,
+                assetIcon: Assets.svg.assets.fiat.p2p.simpleSvg(
                   width: 24,
                 ),
-                label: account.label ?? 'Account 1',
-                supplement: intl.internal_exchange,
+                hasRightValue: false,
                 onTableAssetTap: () {
                   sAnalytics.tapOnTheButtonSomePMForBuyOnPayWithPMSheet(
                     destinationWallet: asset?.symbol ?? '',
-                    pmType: account.isClearjuctionAccount
-                        ? PaymenthMethodType.cjAccount
-                        : PaymenthMethodType.unlimitAccount,
-                    buyPM: account.isClearjuctionAccount
-                        ? 'CJ  ${account.last4IbanCharacters}'
-                        : 'Unlimint  ${account.last4IbanCharacters}',
+                    pmType: PaymenthMethodType.ptp,
+                    buyPM: 'PTP',
                   );
 
-                  if (onSelected != null) {
-                    onSelected!(account: account);
-                  } else {
-                    sRouter.push(
-                      AmountRoute(
-                        tab: AmountScreenTab.buy,
-                        asset: asset,
-                        account: account,
-                      ),
+                  if (sSignalRModules.pendingOperationCount > 0) {
+                    showUnfinishedOperationPopUp(
+                      context: context,
+                      assetSunbol: asset?.symbol ?? '',
                     );
+                  } else {
+                    sRouter.push(PaymentCurrenceBuyRouter(currency: asset!));
                   }
                 },
-                rightValue: getIt<AppStore>().isBalanceHide
-                    ? '**** ${account.currency}'
-                    : '${account.balance} ${account.currency}',
               ),
+            ],
+            STextDivider(intl.buy_wallets_accounts),
+            SimpleTableAsset(
+              label: intl.market_crypto,
+              supplement: intl.internal_exchange,
+              assetIcon: Assets.svg.assets.crypto.defaultPlaceholder.simpleSvg(
+                width: 24,
+              ),
+              rightValue: !getIt<AppStore>().isBalanceHide
+                  ? calculateCryptoBalance()
+                  : '**** ${sSignalRModules.baseCurrency.symbol}',
+              onTableAssetTap: () {
+                showAddCashFromBottomSheet(
+                  context: context,
+                  onClose: () {},
+                  skipAsset: asset?.symbol,
+                  onChooseAsset: (currency) {
+                    if (onSelectedCryptoAsset != null) {
+                      onSelectedCryptoAsset?.call(newCurrency: currency);
+                    } else {
+                      sRouter.push(
+                        AmountRoute(
+                          tab: AmountScreenTab.convert,
+                          asset: currency,
+                          toAsset: asset,
+                        ),
+                      );
+                    }
+                  },
+                );
+              },
+            ),
+            if (store.accounts.isNotEmpty) ...[
+              for (final account in store.accounts)
+                SimpleTableAsset(
+                  assetIcon: Assets.svg.assets.fiat.account.simpleSvg(
+                    width: 24,
+                  ),
+                  label: account.label ?? 'Account 1',
+                  supplement: intl.internal_exchange,
+                  onTableAssetTap: () {
+                    sAnalytics.tapOnTheButtonSomePMForBuyOnPayWithPMSheet(
+                      destinationWallet: asset?.symbol ?? '',
+                      pmType: account.isClearjuctionAccount
+                          ? PaymenthMethodType.cjAccount
+                          : PaymenthMethodType.unlimitAccount,
+                      buyPM: account.isClearjuctionAccount
+                          ? 'CJ  ${account.last4IbanCharacters}'
+                          : 'Unlimint  ${account.last4IbanCharacters}',
+                    );
+
+                    if (onSelected != null) {
+                      onSelected!(account: account);
+                    } else {
+                      sRouter.push(
+                        AmountRoute(
+                          tab: AmountScreenTab.buy,
+                          asset: asset,
+                          account: account,
+                        ),
+                      );
+                    }
+                  },
+                  rightValue: getIt<AppStore>().isBalanceHide
+                      ? '**** ${account.currency}'
+                      : '${account.balance} ${account.currency}',
+                ),
+            ],
+            const SpaceH45(),
           ],
-          const SpaceH45(),
-        ],
+        ),
       ),
     );
   }
-}
-
-void _onAddCardTap(BuildContext context, CurrencyModel? asset) {
-  Navigator.push(
-    context,
-    PageRouteBuilder(
-      opaque: false,
-      barrierColor: Colors.white,
-      pageBuilder: (BuildContext _, __, ___) {
-        return AddBankCardScreen(
-          onCardAdded: () {},
-          amount: '',
-          isPreview: true,
-          asset: asset,
-          divideDateAndLabel: true,
-        );
-      },
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        const begin = Offset(0.0, 1.0);
-        const end = Offset.zero;
-        const curve = Curves.ease;
-
-        final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
-    ),
-  );
 }

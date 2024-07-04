@@ -7,6 +7,7 @@ import 'package:jetwallet/core/services/apps_flyer_service.dart';
 import 'package:jetwallet/core/services/flavor_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_conection_url_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:simple_networking/config/options.dart';
@@ -138,6 +139,17 @@ class RemoteConfig {
       iconApi: flavor.iconApi,
     );
 
+    getIt.get<SignalRConecrionUrlService>().init(
+      urls: [
+        flavor.walletApiSignalR,
+        flavor.walletApiSignalR2,
+        flavor.walletApiSignalR3,
+        flavor.walletApiSignalR4,
+        flavor.walletApiSignalR5,
+        flavor.walletApiSignalR6,
+      ],
+    );
+
     iconApi = flavor.iconApi;
   }
 
@@ -179,6 +191,7 @@ class RemoteConfig {
     simpleTapLink = remoteConfig!.appConfig.simpleTapLink;
     usePhoneForSendGift = remoteConfig!.appConfig.usePhoneForSendGift;
     simpleCoinRoadmapCompletedSteep = remoteConfig!.appConfig.simpleCoinRoadmapCompletedSteep;
+    rewardsAssets = remoteConfig!.appConfig.rewardsAssets;
   }
 
   void overrideVersioningValues() {

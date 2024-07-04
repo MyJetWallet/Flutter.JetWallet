@@ -10,6 +10,7 @@ import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/simple_card/store/simple_card_store.dart';
+import 'package:jetwallet/utils/extension/string_extension.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -50,7 +51,17 @@ class _EurWalletBodyState extends State<EurWalletBody> {
 
   @override
   void initState() {
-    sAnalytics.eurWalletSwipeBetweenWallets();
+    final bankAccountsCount = (sSignalRModules.bankingProfileData?.banking?.accounts ?? [])
+        .where((element) => element.status == AccountStatus.active)
+        .length;
+
+    var allAccountsCount = bankAccountsCount;
+    if (sSignalRModules.bankingProfileData?.simple != null) {
+      if (sSignalRModules.bankingProfileData?.simple?.account?.status == AccountStatus.active) {
+        allAccountsCount++;
+      }
+    }
+    sAnalytics.eurWalletAccountScreen(allAccountsCount);
     final simpleCardStore = getIt.get<SimpleCardStore>();
     final userInfo = getIt.get<UserInfoService>();
 
@@ -248,7 +259,7 @@ class _EurWalletBodyState extends State<EurWalletBody> {
                               type: SButtonContextType.iconedSmall,
                               onTap: () {
                                 sAnalytics.tapOnGetSimpleCard(source: 'eur wallet');
-                                showCardOptions(context);
+                                showGetSimpleCardModal(context: context);
                               },
                               text: intl.simple_card_get_card.capitalize(),
                               icon: Assets.svg.medium.card,
@@ -384,11 +395,5 @@ class _EurWalletBodyState extends State<EurWalletBody> {
         ],
       ),
     );
-  }
-}
-
-extension StringExtension on String {
-  String capitalize() {
-    return '${this[0].toUpperCase()}${substring(1).toLowerCase()}';
   }
 }

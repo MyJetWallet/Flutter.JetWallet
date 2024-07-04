@@ -3318,7 +3318,7 @@ class SimpleAnalytics {
         PropertyType.accountFrom: isCJ ? _simpleAccountText : _personalAccountText,
         PropertyType.eurAccountFromIBAN: accountIban,
         PropertyType.eurAccountFromLabel: accountLabel,
-        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventType: EventType.tap.name,
         PropertyType.eventCategory: EventCategory.withdrawal.id,
       },
     );
@@ -4732,7 +4732,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '360',
-        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventType: EventType.screenView.name,
         PropertyType.eventCategory: EventCategory.sellFlow.id,
       },
     );
@@ -6644,7 +6644,7 @@ class SimpleAnalytics {
         PropertyType.transferFrom: transferFrom,
         PropertyType.transferTo: transferTo,
         PropertyType.amount: enteredAmount,
-        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventType: EventType.screenView.name,
         PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
@@ -6704,7 +6704,7 @@ class SimpleAnalytics {
         PropertyType.transferFrom: transferFrom,
         PropertyType.transferTo: transferTo,
         PropertyType.amount: enteredAmount,
-        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventType: EventType.screenView.name,
         PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
@@ -6724,7 +6724,7 @@ class SimpleAnalytics {
         PropertyType.transferFrom: transferFrom,
         PropertyType.transferTo: transferTo,
         PropertyType.amount: enteredAmount,
-        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventType: EventType.screenView.name,
         PropertyType.eventCategory: EventCategory.transferFlow.id,
       },
     );
@@ -8640,6 +8640,183 @@ class SimpleAnalytics {
         PropertyType.eventId: '635',
         PropertyType.eventType: EventType.tap.name,
         PropertyType.eventCategory: EventCategory.withdrawSimpleCoin.id,
+      },
+    );
+  }
+
+  // P2P buy
+  void ptpBuyPaymentCurrencyScreenView({
+    required String asset,
+  }) {
+    _analytics.logEvent(
+      EventName.ptpBuyPaymentCurrencyScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '616',
+        PropertyType.pmType: 'PTP',
+        PropertyType.buyPM: 'PTP',
+        PropertyType.asset: asset,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
+      },
+    );
+  }
+
+  void tapOnTheBackFromPTPBuyPaymentCurrencyButton({
+    required String asset,
+  }) {
+    _analytics.logEvent(
+      EventName.tapOnTheBackFromPTPBuyPaymentCurrencyButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '617',
+        PropertyType.pmType: 'PTP',
+        PropertyType.buyPM: 'PTP',
+        PropertyType.asset: asset,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
+      },
+    );
+  }
+
+  void tapOnThePTPBuyCurrencyButton({
+    required String asset,
+    required String ptpCurrency,
+  }) {
+    _analytics.logEvent(
+      EventName.tapOnThePTPBuyCurrencyButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '618',
+        PropertyType.pmType: 'PTP',
+        PropertyType.buyPM: 'PTP',
+        PropertyType.asset: asset,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
+        PropertyType.ptpCurrency: ptpCurrency,
+      },
+    );
+  }
+
+  void ptpBuyPaymentMethodScreenView({
+    required String asset,
+    required String ptpCurrency,
+  }) {
+    _analytics.logEvent(
+      EventName.ptpBuyPaymentMethodScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '619',
+        PropertyType.pmType: 'PTP',
+        PropertyType.buyPM: 'PTP',
+        PropertyType.asset: asset,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
+        PropertyType.ptpCurrency: ptpCurrency,
+      },
+    );
+  }
+
+  void tapOnTheBackFromPTPBuyPaymentMethodButton({
+    required String asset,
+    required String ptpCurrency,
+  }) {
+    _analytics.logEvent(
+      EventName.tapOnTheBackFromPTPBuyPaymentMethodButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '620',
+        PropertyType.pmType: 'PTP',
+        PropertyType.buyPM: 'PTP',
+        PropertyType.asset: asset,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
+        PropertyType.ptpCurrency: ptpCurrency,
+      },
+    );
+  }
+
+  void tapOnThePTPBuyMethodButton({
+    required String asset,
+    required String ptpCurrency,
+    required String ptpBuyMethod,
+  }) {
+    _analytics.logEvent(
+      EventName.tapOnThePTPBuyMethodButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '621',
+        PropertyType.pmType: 'PTP',
+        PropertyType.buyPM: 'PTP',
+        PropertyType.asset: asset,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
+        PropertyType.ptpCurrency: ptpCurrency,
+        PropertyType.ptpBuyMethod: ptpBuyMethod,
+      },
+    );
+  }
+
+  void ptpBuyWebViewScreenView({
+    required String asset,
+    required String ptpCurrency,
+    required String ptpBuyMethod,
+  }) {
+    _analytics.logEvent(
+      EventName.ptpBuyWebViewScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '622',
+        PropertyType.pmType: 'PTP',
+        PropertyType.buyPM: 'PTP',
+        PropertyType.asset: asset,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
+        PropertyType.ptpCurrency: ptpCurrency,
+        PropertyType.ptpBuyMethod: ptpBuyMethod,
+      },
+    );
+  }
+
+  void ptpBuyPopupUnfinishedOperationScreenView({
+    required String asset,
+  }) {
+    _analytics.logEvent(
+      EventName.ptpBuyPopupUnfinishedOperationScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '623',
+        PropertyType.pmType: 'PTP',
+        PropertyType.buyPM: 'PTP',
+        PropertyType.asset: asset,
+        PropertyType.eventType: EventType.screenView.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
+      },
+    );
+  }
+
+  void tapOnTheButtonContinueOnPTPBuyPopup({
+    required String asset,
+  }) {
+    _analytics.logEvent(
+      EventName.tapOnTheButtonContinueOnPTPBuyPopup,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '624',
+        PropertyType.pmType: 'PTP',
+        PropertyType.buyPM: 'PTP',
+        PropertyType.asset: asset,
+        PropertyType.eventType: EventType.tap.name,
+        PropertyType.eventCategory: EventCategory.buyFlow.id,
       },
     );
   }

@@ -296,7 +296,7 @@ class _RewardTransferPopupState extends State<RewardTransferPopup> {
                         );
                       } else {
                         sNotification.showError(
-                          response.error?.cause ?? '',
+                          response.error?.cause ?? intl.something_went_wrong,
                           id: 1,
                         );
                       }
