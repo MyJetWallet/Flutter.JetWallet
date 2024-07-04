@@ -239,13 +239,11 @@ class SendGloballyDetails extends StatelessObserverWidget {
             const SpaceH18(),
             TransactionDetailsItem(
               text: intl.global_send_payment_method_title,
-              value: ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width * 0.6,
-                ),
+              value: Flexible(
                 child: TransactionDetailsValueText(
                   textAlign: TextAlign.end,
                   text: transactionListItem.paymeInfo?.methodName ?? '',
+                  
                 ),
               ),
             ),
