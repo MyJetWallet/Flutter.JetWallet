@@ -14,6 +14,5 @@ class CandlesRequestModel with _$CandlesRequestModel {
     required int mergeCandlesCount,
   }) = _CandlesRequestModel;
 
-  factory CandlesRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$CandlesRequestModelFromJson(json);
+  factory CandlesRequestModel.fromJson(Map<String, dynamic> json) => _$CandlesRequestModelFromJson(json);
 }

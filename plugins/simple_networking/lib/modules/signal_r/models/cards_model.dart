@@ -13,8 +13,7 @@ class CardsModel with _$CardsModel {
     required List<CircleCard> cardInfos,
   }) = _CardsModel;
 
-  factory CardsModel.fromJson(Map<String, dynamic> json) =>
-      _$CardsModelFromJson(json);
+  factory CardsModel.fromJson(Map<String, dynamic> json) => _$CardsModelFromJson(json);
 }
 
 @freezed
@@ -30,8 +29,7 @@ class CardModel with _$CardModel {
     required CardPaymentDetailModel paymentDetails,
   }) = _CardModel;
 
-  factory CardModel.fromJson(Map<String, dynamic> json) =>
-      _$CardModelFromJson(json);
+  factory CardModel.fromJson(Map<String, dynamic> json) => _$CardModelFromJson(json);
 }
 
 @freezed
@@ -43,8 +41,7 @@ class CardPaymentDetailModel with _$CardPaymentDetailModel {
     required String paymentAsset,
   }) = _CardPaymentDetailModel;
 
-  factory CardPaymentDetailModel.fromJson(Map<String, dynamic> json) =>
-      _$CardPaymentDetailModelFromJson(json);
+  factory CardPaymentDetailModel.fromJson(Map<String, dynamic> json) => _$CardPaymentDetailModelFromJson(json);
 }
 
 enum Network {

@@ -22,8 +22,7 @@ class IbanBillingAddress extends StatelessObserverWidget {
     final colors = sKit.colors;
     final focusNode = FocusNode();
 
-    final navigationAllowed =
-        (store.loader?.loading ?? true) || store.billingAddressEnableButton;
+    final navigationAllowed = (store.loader?.loading ?? true) || store.billingAddressEnableButton;
 
     return SPageFrame(
       loaderText: intl.circleBillingAddress_pleaseWait,
@@ -65,8 +64,7 @@ class IbanBillingAddress extends StatelessObserverWidget {
                         activeCountry: store.activeCountry,
                         sortedCountries: store.sortedCountries,
                         countryNameSearch: store.countryNameSearch,
-                        pickCountryFromSearch:
-                            (KycProfileCountryModel country) {
+                        pickCountryFromSearch: (KycProfileCountryModel country) {
                           focusNode.requestFocus();
                         },
                         updateCountryNameSearch: store.updateCountryNameSearch,

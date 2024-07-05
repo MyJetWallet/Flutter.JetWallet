@@ -9,8 +9,6 @@ class SStatsIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightStatsIcon()
-        : const SimpleLightStatsIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightStatsIcon() : const SimpleLightStatsIcon();
   }
 }

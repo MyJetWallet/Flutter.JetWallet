@@ -169,7 +169,12 @@ class _AddBankCardScreenBody extends StatelessObserverWidget {
                                   isPreview: isPreview,
                                 );
                               },
-                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                              transitionsBuilder: (
+                                context,
+                                animation,
+                                secondaryAnimation,
+                                child,
+                              ) {
                                 const begin = Offset(0.0, 1.0);
                                 const end = Offset.zero;
                                 const curve = Curves.ease;

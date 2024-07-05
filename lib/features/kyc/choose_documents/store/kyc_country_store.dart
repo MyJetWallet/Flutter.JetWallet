@@ -15,8 +15,7 @@ part 'kyc_country_store.g.dart';
 class KycCountryStore extends _KycCountryStoreBase with _$KycCountryStore {
   KycCountryStore() : super();
 
-  static _KycCountryStoreBase of(BuildContext context) =>
-      Provider.of<KycCountryStore>(context, listen: false);
+  static _KycCountryStoreBase of(BuildContext context) => Provider.of<KycCountryStore>(context, listen: false);
 }
 
 abstract class _KycCountryStoreBase with Store {
@@ -82,8 +81,7 @@ abstract class _KycCountryStoreBase with Store {
 
     if (countryOfRegistration != null) {
       for (var i = 0; i < countries.length; i++) {
-        if (countries[i].countryCode.toLowerCase() ==
-            countryOfRegistration.toLowerCase()) {
+        if (countries[i].countryCode.toLowerCase() == countryOfRegistration.toLowerCase()) {
           country.add(countries[i]);
         }
       }

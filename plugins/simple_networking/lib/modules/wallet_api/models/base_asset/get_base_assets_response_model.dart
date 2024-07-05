@@ -9,6 +9,5 @@ class GetBaseAssetsResponseModel with _$GetBaseAssetsResponseModel {
     required List<String> data,
   }) = _GetBaseAssetsResponseModel;
 
-  factory GetBaseAssetsResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$GetBaseAssetsResponseModelFromJson(json);
+  factory GetBaseAssetsResponseModel.fromJson(Map<String, dynamic> json) => _$GetBaseAssetsResponseModelFromJson(json);
 }

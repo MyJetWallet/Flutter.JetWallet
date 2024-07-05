@@ -26,11 +26,13 @@ class SimpleSpaceScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Observer(
           builder: (context) {
-            final isPrepaidCardAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
-                .any((element) => element.id == AssetPaymentProductsEnum.prepaidCard);
+            final isPrepaidCardAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+              (element) => element.id == AssetPaymentProductsEnum.prepaidCard,
+            );
 
-            final isSimpleCoinAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
-                .any((element) => element.id == AssetPaymentProductsEnum.simpleTapToken);
+            final isSimpleCoinAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+              (element) => element.id == AssetPaymentProductsEnum.simpleTapToken,
+            );
 
             return CustomScrollView(
               physics: const ClampingScrollPhysics(),

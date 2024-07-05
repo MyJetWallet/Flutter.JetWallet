@@ -12,8 +12,7 @@ class SignalrLog with _$SignalrLog {
     final List<SLogData>? logs,
   }) = _SignalrLog;
 
-  factory SignalrLog.fromJson(Map<String, dynamic> json) =>
-      _$SignalrLogFromJson(json);
+  factory SignalrLog.fromJson(Map<String, dynamic> json) => _$SignalrLogFromJson(json);
 }
 
 @freezed
@@ -24,6 +23,5 @@ class SLogData with _$SLogData {
     final String? error,
   }) = _SLogData;
 
-  factory SLogData.fromJson(Map<String, dynamic> json) =>
-      _$SLogDataFromJson(json);
+  factory SLogData.fromJson(Map<String, dynamic> json) => _$SLogDataFromJson(json);
 }

@@ -12,7 +12,6 @@ import 'package:jetwallet/utils/formatting/base/decimal_extension.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -65,9 +64,8 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
           .where((element) => element.status == AccountStatusCard.inCreation)
           .isNotEmpty;
 
-      final isButtonSmall = isLoadingState
-          ? false
-          : store.buttonStatus == BankingShowState.getAccount || store.buttonStatus == BankingShowState.getAccountBlock;
+      final isButtonSmall = !isLoadingState &&
+          (store.buttonStatus == BankingShowState.getAccount || store.buttonStatus == BankingShowState.getAccountBlock);
 
       return SimpleTableAccount(
         assetIcon: SNetworkSvg24(

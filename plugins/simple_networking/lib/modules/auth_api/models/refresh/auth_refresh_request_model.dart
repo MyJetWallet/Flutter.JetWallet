@@ -12,6 +12,5 @@ class AuthRefreshRequestModel with _$AuthRefreshRequestModel {
     required String tokenDateTimeSignatureBase64,
   }) = _AuthRefreshRequestModel;
 
-  factory AuthRefreshRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$AuthRefreshRequestModelFromJson(json);
+  factory AuthRefreshRequestModel.fromJson(Map<String, dynamic> json) => _$AuthRefreshRequestModelFromJson(json);
 }

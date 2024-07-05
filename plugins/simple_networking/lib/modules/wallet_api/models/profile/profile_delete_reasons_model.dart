@@ -10,6 +10,5 @@ class ProfileDeleteReasonsModel with _$ProfileDeleteReasonsModel {
     String? reasonText,
   }) = _ProfileDeleteReasonsModel;
 
-  factory ProfileDeleteReasonsModel.fromJson(Map<String, dynamic> json) =>
-      _$ProfileDeleteReasonsModelFromJson(json);
+  factory ProfileDeleteReasonsModel.fromJson(Map<String, dynamic> json) => _$ProfileDeleteReasonsModelFromJson(json);
 }

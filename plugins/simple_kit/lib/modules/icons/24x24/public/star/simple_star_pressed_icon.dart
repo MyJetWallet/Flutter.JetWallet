@@ -15,7 +15,11 @@ class SStarPressedIcon extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     return sKit.currentTheme == STheme.dark
-        ? SimpleLightStarPressedIcon(color: color,)
-        : SimpleLightStarPressedIcon(color: color,);
+        ? SimpleLightStarPressedIcon(
+            color: color,
+          )
+        : SimpleLightStarPressedIcon(
+            color: color,
+          );
   }
 }

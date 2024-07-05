@@ -17,9 +17,7 @@ class EmptySearchResult extends StatelessObserverWidget {
     final colors = sKit.colors;
 
     return SizedBox(
-      height: MediaQuery.of(context).size.height -
-          MediaQuery.of(context).viewInsets.bottom -
-          220,
+      height: MediaQuery.of(context).size.height - MediaQuery.of(context).viewInsets.bottom - 220,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

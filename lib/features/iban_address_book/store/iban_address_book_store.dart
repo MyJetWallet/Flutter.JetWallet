@@ -112,8 +112,9 @@ abstract class _IbanAddressBookStoreBase with Store {
 
       ibanController.text = ibanMask!.maskText(ibanController.text);
 
-      final countryIndex =
-          countriesList.countries.indexWhere((element) => element.countryCode == (predContactData?.bankCountry ?? ''));
+      final countryIndex = countriesList.countries.indexWhere(
+        (element) => element.countryCode == (predContactData?.bankCountry ?? ''),
+      );
       if (countryIndex != -1) {
         country = countriesList.countries[countryIndex];
       }

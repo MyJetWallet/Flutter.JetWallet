@@ -109,7 +109,9 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                                 primarySymbol: store.primarySymbol,
                                 secondaryAmount: store.asset != null
                                     ? '${intl.earn_est} ${volumeFormat(
-                                        decimal: Decimal.parse(store.secondaryAmount),
+                                        decimal: Decimal.parse(
+                                          store.secondaryAmount,
+                                        ),
                                         symbol: '',
                                         accuracy: store.secondaryAccuracy,
                                       )}'
@@ -199,7 +201,9 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                                     child: SizedBox(
                                       width: 16,
                                       height: 16,
-                                      child: SBankMediumIcon(color: sKit.colors.white),
+                                      child: SBankMediumIcon(
+                                        color: sKit.colors.white,
+                                      ),
                                     ),
                                   ),
                                   onTap: () {
@@ -286,7 +290,9 @@ class _BuyAmountScreenBodyState extends State<BuyAmountTabBody> with AutomaticKe
                                     child: SizedBox(
                                       width: 16,
                                       height: 16,
-                                      child: SBankMediumIcon(color: sKit.colors.white),
+                                      child: SBankMediumIcon(
+                                        color: sKit.colors.white,
+                                      ),
                                     ),
                                   ),
                                   onTap: () {

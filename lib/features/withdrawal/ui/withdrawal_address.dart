@@ -15,8 +15,7 @@ class WithdrawalAddressScreen extends StatefulObserverWidget {
   const WithdrawalAddressScreen({super.key});
 
   @override
-  State<WithdrawalAddressScreen> createState() =>
-      _WithdrawalAddressScreenState();
+  State<WithdrawalAddressScreen> createState() => _WithdrawalAddressScreenState();
 }
 
 class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
@@ -33,8 +32,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (store.withdrawalInputModel?.currency != null) {
-        if (!store
-            .withdrawalInputModel!.currency!.isSingleNetworkForBlockchainSend) {
+        if (!store.withdrawalInputModel!.currency!.isSingleNetworkForBlockchainSend) {
           showNetworkBottomSheet(
             context,
             store.network,
@@ -55,9 +53,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
 
     final store = WithdrawalStore.of(context);
 
-    final asset = store.withdrawalType == WithdrawalType.asset
-        ? store.withdrawalInputModel?.currency?.symbol
-        : 'Matic';
+    final asset = store.withdrawalType == WithdrawalType.asset ? store.withdrawalInputModel?.currency?.symbol : 'Matic';
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
@@ -84,8 +80,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                     highlightColor: colors.grey5,
                     splashColor: Colors.transparent,
                     onTap: () {
-                      if (store.withdrawalType == WithdrawalType.asset &&
-                          store.networks.length > 1) {
+                      if (store.withdrawalType == WithdrawalType.asset && store.networks.length > 1) {
                         showNetworkBottomSheet(
                           context,
                           store.network,
@@ -100,17 +95,14 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                     child: SPaddingH24(
                       child: SStandardField(
                         controller: store.networkController,
-                        labelText:
-                            (store.withdrawalType == WithdrawalType.asset &&
-                                    store.networks.length > 1)
-                                ? intl.currencyWithdraw_chooseNetwork
-                                : intl.cryptoDeposit_network,
+                        labelText: (store.withdrawalType == WithdrawalType.asset && store.networks.length > 1)
+                            ? intl.currencyWithdraw_chooseNetwork
+                            : intl.cryptoDeposit_network,
                         enabled: false,
                         hideIconsIfNotEmpty: false,
                         hideClearButton: true,
                         suffixIcons: [
-                          if (store.withdrawalType == WithdrawalType.asset &&
-                              store.networks.length > 1)
+                          if (store.withdrawalType == WithdrawalType.asset && store.networks.length > 1)
                             const SAngleDownIcon(),
                         ],
                       ),
@@ -138,8 +130,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                         SIconButton(
                           onTap: () {
                             sAnalytics.cryptoSendTapPaste(
-                              asset:
-                                  store.withdrawalInputModel!.currency!.symbol,
+                              asset: store.withdrawalInputModel!.currency!.symbol,
                               sendMethodType: '0',
                             );
 
@@ -150,8 +141,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                         SIconButton(
                           onTap: () {
                             sAnalytics.cryptoSendTapQr(
-                              asset:
-                                  store.withdrawalInputModel!.currency!.symbol,
+                              asset: store.withdrawalInputModel!.currency!.symbol,
                               sendMethodType: '0',
                             );
 
@@ -166,8 +156,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                     ),
                   ),
                 ),
-                if (store.network.tagType == TagType.tag ||
-                    store.network.tagType == TagType.memo) ...[
+                if (store.network.tagType == TagType.tag || store.network.tagType == TagType.memo) ...[
                   const SDivider(),
                   Material(
                     color: colors.white,
@@ -184,8 +173,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                           SIconButton(
                             onTap: () {
                               sAnalytics.cryptoSendTapPaste(
-                                asset: store
-                                    .withdrawalInputModel!.currency!.symbol,
+                                asset: store.withdrawalInputModel!.currency!.symbol,
                                 sendMethodType: '0',
                               );
 
@@ -196,8 +184,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                           SIconButton(
                             onTap: () {
                               sAnalytics.cryptoSendTapQr(
-                                asset: store
-                                    .withdrawalInputModel!.currency!.symbol,
+                                asset: store.withdrawalInputModel!.currency!.symbol,
                                 sendMethodType: '0',
                               );
 
@@ -250,8 +237,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                           name: intl.currencyWithdraw_continue,
                           onTap: () {
                             sAnalytics.cryptoSendTapContinue(
-                              asset:
-                                  store.withdrawalInputModel!.currency!.symbol,
+                              asset: store.withdrawalInputModel!.currency!.symbol,
                               sendMethodType: '0',
                             );
 

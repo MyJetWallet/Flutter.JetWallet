@@ -37,8 +37,7 @@ class SPaymentSelectFiat extends StatelessWidget {
           ),
           child: Column(
             children: [
-              if (widgetSize == SWidgetSize.small)
-                const SpaceH19(), // + 1px border
+              if (widgetSize == SWidgetSize.small) const SpaceH19(), // + 1px border
               if (widgetSize == SWidgetSize.medium) const SpaceH31(),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,

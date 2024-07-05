@@ -103,10 +103,15 @@ class _CJAccountLabelScreenState extends State<SimpleCardLabelScreen> {
                                 );
                                 loader.finishLoadingImmediately();
                               } else {
-                                Navigator.pop(context, labelController.text.trim());
+                                Navigator.pop(
+                                  context,
+                                  labelController.text.trim(),
+                                );
                               }
                             } catch (e) {
-                              sNotification.showError(intl.something_went_wrong_try_again);
+                              sNotification.showError(
+                                intl.something_went_wrong_try_again,
+                              );
                               loader.finishLoadingImmediately();
                             }
                           },

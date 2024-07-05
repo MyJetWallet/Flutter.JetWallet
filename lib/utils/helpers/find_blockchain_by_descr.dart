@@ -5,14 +5,12 @@ import 'package:simple_networking/modules/wallet_api/models/operation_history/op
 String? isTXIDExist(OperationHistoryItem transactionListItem) {
   if (transactionListItem.operationType == OperationType.withdraw) {
     if (!transactionListItem.withdrawalInfo!.isInternal) {
-      if (transactionListItem.withdrawalInfo?.txId != null &&
-          transactionListItem.withdrawalInfo!.txId!.isNotEmpty) {
+      if (transactionListItem.withdrawalInfo?.txId != null && transactionListItem.withdrawalInfo!.txId!.isNotEmpty) {
         return transactionListItem.withdrawalInfo!.txId;
       }
     }
   } else if (transactionListItem.operationType == OperationType.deposit) {
-    if (transactionListItem.depositInfo?.txId != null &&
-        transactionListItem.depositInfo!.txId!.isNotEmpty) {
+    if (transactionListItem.depositInfo?.txId != null && transactionListItem.depositInfo!.txId!.isNotEmpty) {
       return transactionListItem.depositInfo!.txId;
     }
   }
@@ -29,8 +27,7 @@ String? getNetworkFromItem(OperationHistoryItem transactionListItem) {
       }
     }
   } else if (transactionListItem.operationType == OperationType.deposit) {
-    if (transactionListItem.depositInfo?.network != null &&
-        transactionListItem.depositInfo!.network!.isNotEmpty) {
+    if (transactionListItem.depositInfo?.network != null && transactionListItem.depositInfo!.network!.isNotEmpty) {
       return transactionListItem.depositInfo?.network;
     }
   }
@@ -55,12 +52,9 @@ bool showBlockchainButton(String network) {
 }
 
 BlockchainModel? findBlockchaonByDescription(String value) {
-  final index = sSignalRModules.blockchainsModel!.blockchains
-      .indexWhere((element) => element.description == value);
+  final index = sSignalRModules.blockchainsModel!.blockchains.indexWhere((element) => element.description == value);
 
-  return index != -1
-      ? sSignalRModules.blockchainsModel!.blockchains[index]
-      : null;
+  return index != -1 ? sSignalRModules.blockchainsModel!.blockchains[index] : null;
 }
 
 String getBlockChainURL(OperationHistoryItem transactionListItem) {

@@ -30,9 +30,7 @@ class _SIconButtonState extends State<SIconButton> {
       },
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
-      child: highlighted
-          ? (widget.pressedIcon ?? widget.defaultIcon)
-          : widget.defaultIcon,
+      child: highlighted ? (widget.pressedIcon ?? widget.defaultIcon) : widget.defaultIcon,
     );
   }
 }

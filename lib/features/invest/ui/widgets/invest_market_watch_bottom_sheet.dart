@@ -154,7 +154,11 @@ class InstrumentsList extends StatelessObserverWidget {
                           children: [
                             Text(
                               '${investStore.instrumentsList.where(
-                                    (element) => element.sectors?.contains(investStore.activeSection) ?? false,
+                                    (element) =>
+                                        element.sectors?.contains(
+                                          investStore.activeSection,
+                                        ) ??
+                                        false,
                                   ).toList().length} ${intl.invest_tokens}',
                               style: STStyles.body3InvestM.copyWith(
                                 color: colors.grey1,

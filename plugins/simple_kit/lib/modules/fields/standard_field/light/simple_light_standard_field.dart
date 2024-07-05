@@ -41,7 +41,7 @@ class SimpleLightStandardField extends StatefulWidget {
     this.height,
     this.weight,
     this.cursorHeight,
-  })  : assert(
+  }) : assert(
           (controller == null && initialValue != null) ||
               (controller != null && initialValue == null) ||
               (controller == null && initialValue == null),

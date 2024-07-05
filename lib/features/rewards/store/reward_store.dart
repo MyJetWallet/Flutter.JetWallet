@@ -10,8 +10,7 @@ part 'reward_store.g.dart';
 class RewardStore extends _RewardStoreBase with _$RewardStore {
   RewardStore() : super();
 
-  static _RewardStoreBase of(BuildContext context) =>
-      Provider.of<RewardStore>(context, listen: false);
+  static _RewardStoreBase of(BuildContext context) => Provider.of<RewardStore>(context, listen: false);
 }
 
 abstract class _RewardStoreBase with Store {
@@ -72,8 +71,7 @@ abstract class _RewardStoreBase with Store {
   }
 
   @observable
-  ObservableList<CampaignOrReferralModel> sortedCampaigns =
-      ObservableList.of([]);
+  ObservableList<CampaignOrReferralModel> sortedCampaigns = ObservableList.of([]);
 
   List<CampaignOrReferralModel> _sort(
     List<CampaignModel> campaigns,
@@ -84,15 +82,13 @@ abstract class _RewardStoreBase with Store {
     final referralStatsArray = List<ReferralStatsModel>.from(referralStats);
 
     for (final campaign in campaignsArray) {
-      if (campaign.conditions == null ||
-          (campaign.conditions != null && campaign.conditions!.isEmpty)) {
+      if (campaign.conditions == null || (campaign.conditions != null && campaign.conditions!.isEmpty)) {
         combinedArray.add(CampaignOrReferralModel(campaign: campaign));
       }
     }
 
     for (final campaign in campaignsArray) {
-      if (campaign.conditions != null &&
-          (campaign.conditions != null && campaign.conditions!.isNotEmpty)) {
+      if (campaign.conditions != null && (campaign.conditions != null && campaign.conditions!.isNotEmpty)) {
         combinedArray.add(CampaignOrReferralModel(campaign: campaign));
       }
     }

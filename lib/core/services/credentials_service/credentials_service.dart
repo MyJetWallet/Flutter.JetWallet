@@ -205,7 +205,7 @@ abstract class _CredentialsServiceBase with Store {
     validateEmail();
 
     referralCode = '';
-    
+
     password = '';
     validatePassword();
   }

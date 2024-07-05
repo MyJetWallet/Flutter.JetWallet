@@ -14,8 +14,6 @@ class SEditIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? SimpleLightEditIcon(color: color)
-        : SimpleLightEditIcon(color: color);
+    return sKit.currentTheme == STheme.dark ? SimpleLightEditIcon(color: color) : SimpleLightEditIcon(color: color);
   }
 }

@@ -57,9 +57,7 @@ class SContactItem extends StatelessWidget {
                       child: Text(
                         name,
                         style: sSubtitle2Style.copyWith(
-                          color: valid
-                              ? SColorsLight().black
-                              : SColorsLight().grey1,
+                          color: valid ? SColorsLight().black : SColorsLight().grey1,
                         ),
                       ),
                     ),

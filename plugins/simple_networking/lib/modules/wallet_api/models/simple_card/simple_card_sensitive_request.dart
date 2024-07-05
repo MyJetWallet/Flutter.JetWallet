@@ -12,6 +12,5 @@ class SimpleCardSensitiveRequest with _$SimpleCardSensitiveRequest {
     required String timeStamp,
   }) = _SimpleCardSensitiveRequest;
 
-  factory SimpleCardSensitiveRequest.fromJson(Map<String, dynamic> json) =>
-      _$SimpleCardSensitiveRequestFromJson(json);
+  factory SimpleCardSensitiveRequest.fromJson(Map<String, dynamic> json) => _$SimpleCardSensitiveRequestFromJson(json);
 }

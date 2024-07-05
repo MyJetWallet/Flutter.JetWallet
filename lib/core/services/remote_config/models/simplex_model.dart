@@ -9,6 +9,5 @@ class SimplexModel with _$SimplexModel {
     required String origin,
   }) = _SimplexModel;
 
-  factory SimplexModel.fromJson(Map<String, dynamic> json) =>
-      _$SimplexModelFromJson(json);
+  factory SimplexModel.fromJson(Map<String, dynamic> json) => _$SimplexModelFromJson(json);
 }

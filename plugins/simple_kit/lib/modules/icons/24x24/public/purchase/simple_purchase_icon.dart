@@ -16,7 +16,11 @@ class SPurchaseIcon extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     return sKit.currentTheme == STheme.dark
-        ? SimpleLightPurchaseIcon(color: color,)
-        : SimpleLightPurchaseIcon(color: color,);
+        ? SimpleLightPurchaseIcon(
+            color: color,
+          )
+        : SimpleLightPurchaseIcon(
+            color: color,
+          );
   }
 }

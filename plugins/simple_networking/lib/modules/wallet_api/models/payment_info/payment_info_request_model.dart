@@ -9,6 +9,5 @@ class PaymentInfoRequestModel with _$PaymentInfoRequestModel {
     required int depositId,
   }) = _PaymentInfoRequestModel;
 
-  factory PaymentInfoRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$PaymentInfoRequestModelFromJson(json);
+  factory PaymentInfoRequestModel.fromJson(Map<String, dynamic> json) => _$PaymentInfoRequestModelFromJson(json);
 }

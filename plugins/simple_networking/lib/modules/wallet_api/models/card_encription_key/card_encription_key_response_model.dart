@@ -14,8 +14,7 @@ class EncryptionKeyCardResponseModel with _$EncryptionKeyCardResponseModel {
 }
 
 @freezed
-class EncryptionKeyCardResponseDataModel
-    with _$EncryptionKeyCardResponseDataModel {
+class EncryptionKeyCardResponseDataModel with _$EncryptionKeyCardResponseDataModel {
   const factory EncryptionKeyCardResponseDataModel({
     required String keyId,
     required String key,

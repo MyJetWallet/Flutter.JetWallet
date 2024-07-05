@@ -36,21 +36,17 @@ abstract class _KycStepsStoreBase with Store {
   List<RequiredVerified> reqifications;
 
   @observable
-  ObservableList<ModifyRequiredVerified> requiredVerifications =
-      ObservableList.of([]);
+  ObservableList<ModifyRequiredVerified> requiredVerifications = ObservableList.of([]);
 
   @action
   int getVerifyComplete() {
-    return requiredVerifications.isNotEmpty
-        ? requiredVerifications.where((element) => element.verifiedDone).length
-        : 0;
+    return requiredVerifications.isNotEmpty ? requiredVerifications.where((element) => element.verifiedDone).length : 0;
   }
 
   // TODO fix bug here (Bad state, no element)
   @action
   String chooseDocumentsHeaderTitle(BuildContext context) {
-    final element =
-        requiredVerifications.firstWhere((element) => !element.verifiedDone);
+    final element = requiredVerifications.firstWhere((element) => !element.verifiedDone);
 
     return stringRequiredVerified(
       element.requiredVerified!,

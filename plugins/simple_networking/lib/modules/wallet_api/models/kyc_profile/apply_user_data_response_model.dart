@@ -9,6 +9,5 @@ class ApplyUseDataResponseModel with _$ApplyUseDataResponseModel {
     required String? result,
   }) = _ApplyUseDataResponseModel;
 
-  factory ApplyUseDataResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$ApplyUseDataResponseModelFromJson(json);
+  factory ApplyUseDataResponseModel.fromJson(Map<String, dynamic> json) => _$ApplyUseDataResponseModelFromJson(json);
 }

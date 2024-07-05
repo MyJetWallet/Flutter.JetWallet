@@ -8,18 +8,15 @@ NftMarket getNftItem(
   List<NftMarket> nftList,
 ) {
   if (nftAllTypes.contains(transactionListItem.operationType)) {
-    final checkId = (transactionListItem.operationType ==
-                OperationType.nftBuyOpposite ||
+    final checkId = (transactionListItem.operationType == OperationType.nftBuyOpposite ||
             transactionListItem.operationType == OperationType.nftBuy ||
             transactionListItem.operationType == OperationType.nftSwap)
         ? transactionListItem.swapInfo?.buyAssetId
         : (transactionListItem.operationType == OperationType.nftSellOpposite ||
                 transactionListItem.operationType == OperationType.nftSell)
             ? transactionListItem.swapInfo?.sellAssetId
-            : (transactionListItem.operationType ==
-                        OperationType.nftWithdrawal ||
-                    transactionListItem.operationType ==
-                        OperationType.nftWithdrawalFee)
+            : (transactionListItem.operationType == OperationType.nftWithdrawal ||
+                    transactionListItem.operationType == OperationType.nftWithdrawalFee)
                 ? transactionListItem.withdrawalInfo?.withdrawalAssetId
                 : transactionListItem.operationType == OperationType.nftDeposit
                     ? transactionListItem.assetId

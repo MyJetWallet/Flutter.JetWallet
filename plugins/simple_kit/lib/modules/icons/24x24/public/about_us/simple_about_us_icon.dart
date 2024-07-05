@@ -9,8 +9,6 @@ class SAboutUsIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightAboutUsIcon()
-        : const SimpleLightAboutUsIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightAboutUsIcon() : const SimpleLightAboutUsIcon();
   }
 }

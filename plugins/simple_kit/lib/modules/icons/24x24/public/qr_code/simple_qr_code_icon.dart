@@ -9,8 +9,6 @@ class SQrCodeIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightQrCodeIcon()
-        : const SimpleLightQrCodeIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightQrCodeIcon() : const SimpleLightQrCodeIcon();
   }
 }

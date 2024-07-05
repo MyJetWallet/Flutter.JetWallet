@@ -98,7 +98,9 @@ void showInvestModifyBottomSheet({
                             if (position.status == PositionStatus.pending) {
                               await investNewStore.changePendingPrice(
                                 id: position.id!,
-                                price: double.parse(investNewStore.pendingPriceController.text),
+                                price: double.parse(
+                                  investNewStore.pendingPriceController.text,
+                                ),
                               );
                             }
                             Future.delayed(

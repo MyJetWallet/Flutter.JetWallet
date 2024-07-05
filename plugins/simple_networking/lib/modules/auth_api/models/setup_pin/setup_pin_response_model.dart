@@ -9,6 +9,5 @@ class SetupPinResponseModel with _$SetupPinResponseModel {
     required String result,
   }) = _SetupPinResponseModel;
 
-  factory SetupPinResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$SetupPinResponseModelFromJson(json);
+  factory SetupPinResponseModel.fromJson(Map<String, dynamic> json) => _$SetupPinResponseModelFromJson(json);
 }

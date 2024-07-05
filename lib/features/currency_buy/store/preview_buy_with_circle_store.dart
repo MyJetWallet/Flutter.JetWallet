@@ -34,8 +34,7 @@ import '../../../utils/formatting/base/volume_format.dart';
 
 part 'preview_buy_with_circle_store.g.dart';
 
-class PreviewBuyWithCircleStore extends _PreviewBuyWithCircleStoreBase
-    with _$PreviewBuyWithCircleStore {
+class PreviewBuyWithCircleStore extends _PreviewBuyWithCircleStoreBase with _$PreviewBuyWithCircleStore {
   PreviewBuyWithCircleStore(super.input);
 
   static _PreviewBuyWithCircleStoreBase of(BuildContext context) =>
@@ -132,7 +131,7 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
     loader.startLoadingImmediately();
 
     final model = CardBuyCreateRequestModel(
-       buyFixed: true,
+      buyFixed: true,
       paymentMethod: CirclePaymentMethod.circle,
       paymentAmount: amountToPay,
       buyAsset: input.currency.symbol,
@@ -143,8 +142,7 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
     );
 
     try {
-      final response =
-          await sNetwork.getWalletModule().postCardBuyCreate(model);
+      final response = await sNetwork.getWalletModule().postCardBuyCreate(model);
 
       response.pick(
         onData: (data) {
@@ -367,12 +365,9 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
               data.status == CardBuyPaymentStatus.waitForPayment;
           final complete = data.status == CardBuyPaymentStatus.success;
           final failed = data.status == CardBuyPaymentStatus.fail;
-          final actionRequired =
-              data.status == CardBuyPaymentStatus.requireAction;
+          final actionRequired = data.status == CardBuyPaymentStatus.requireAction;
 
-          if (pending ||
-              (actionRequired &&
-                  lastAction == data.clientAction!.checkoutUrl)) {
+          if (pending || (actionRequired && lastAction == data.clientAction!.checkoutUrl)) {
             await Future.delayed(const Duration(seconds: 1));
             await _requestPaymentInfo(onAction, lastAction);
           } else if (complete) {

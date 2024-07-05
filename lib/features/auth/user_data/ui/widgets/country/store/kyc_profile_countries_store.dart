@@ -9,8 +9,7 @@ import 'package:provider/provider.dart';
 
 part 'kyc_profile_countries_store.g.dart';
 
-class KycProfileCountriesStore extends _KycProfileCountriesStoreBase
-    with _$KycProfileCountriesStore {
+class KycProfileCountriesStore extends _KycProfileCountriesStoreBase with _$KycProfileCountriesStore {
   KycProfileCountriesStore() : super();
 
   static _KycProfileCountriesStoreBase of(BuildContext context) =>
@@ -47,8 +46,7 @@ abstract class _KycProfileCountriesStoreBase with Store {
   ObservableList<KycProfileCountryModel> countries = ObservableList.of([]);
 
   @observable
-  ObservableList<KycProfileCountryModel> sortedCountries =
-      ObservableList.of([]);
+  ObservableList<KycProfileCountryModel> sortedCountries = ObservableList.of([]);
 
   @observable
   String countryNameSearch = '';
@@ -83,8 +81,7 @@ abstract class _KycProfileCountriesStoreBase with Store {
 
     if (countryOfRegistration != null) {
       for (var i = 0; i < countries.length; i++) {
-        if (countries[i].countryCode.toLowerCase() ==
-            countryOfRegistration.toLowerCase()) {
+        if (countries[i].countryCode.toLowerCase() == countryOfRegistration.toLowerCase()) {
           country.add(countries[i]);
         }
       }
@@ -102,10 +99,9 @@ abstract class _KycProfileCountriesStoreBase with Store {
     final newList = List<KycProfileCountryModel>.from(countries);
 
     newList.removeWhere(
-      (KycProfileCountryModel element) =>
-          !element.countryName.toLowerCase().contains(
-                countryNameSearch.toLowerCase(),
-              ),
+      (KycProfileCountryModel element) => !element.countryName.toLowerCase().contains(
+            countryNameSearch.toLowerCase(),
+          ),
     );
 
     sortedCountries = ObservableList.of(newList);

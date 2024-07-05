@@ -14,8 +14,7 @@ class CardVerificationResponseModel with _$CardVerificationResponseModel {
 }
 
 @freezed
-class CardVerificationResponseDataModel
-    with _$CardVerificationResponseDataModel {
+class CardVerificationResponseDataModel with _$CardVerificationResponseDataModel {
   const factory CardVerificationResponseDataModel({
     String? cardId,
     CardVerificationState? verificationState,

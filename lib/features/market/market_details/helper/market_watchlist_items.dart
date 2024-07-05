@@ -18,8 +18,7 @@ List<MarketItemModel> marketWatchlistItems() {
       final watchlistItemIndex = watchlistIds.indexOf(id);
 
       if (id == item.associateAsset) {
-        watchlistItems[itemIndex] =
-            watchlistItems[itemIndex].copyWith(weight: watchlistItemIndex);
+        watchlistItems[itemIndex] = watchlistItems[itemIndex].copyWith(weight: watchlistItemIndex);
       }
     }
   }

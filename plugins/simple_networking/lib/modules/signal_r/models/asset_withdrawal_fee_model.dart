@@ -10,8 +10,7 @@ class AssetWithdrawalFeeModel with _$AssetWithdrawalFeeModel {
   const factory AssetWithdrawalFeeModel({
     required List<AssetFeeModel> assetFees,
   }) = _AssetWithdrawalFeeModel;
-  factory AssetWithdrawalFeeModel.fromJson(Map<String, dynamic> json) =>
-      _$AssetWithdrawalFeeModelFromJson(json);
+  factory AssetWithdrawalFeeModel.fromJson(Map<String, dynamic> json) => _$AssetWithdrawalFeeModelFromJson(json);
 }
 
 @freezed
@@ -22,8 +21,7 @@ class AssetFeeModel with _$AssetFeeModel {
     @DecimalSerialiser() required Decimal size,
     required FeeType feeType,
   }) = _AssetFeeModel;
-  factory AssetFeeModel.fromJson(Map<String, dynamic> json) =>
-      _$AssetFeeModelFromJson(json);
+  factory AssetFeeModel.fromJson(Map<String, dynamic> json) => _$AssetFeeModelFromJson(json);
 }
 
 enum FeeType {

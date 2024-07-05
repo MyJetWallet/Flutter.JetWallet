@@ -124,7 +124,10 @@ class _TrancferBody extends StatelessWidget {
                             showTransferFromToBottomSheet(
                               context: context,
                               isFrom: true,
-                              onSelected: ({SimpleBankingAccount? newAccount, CardDataModel? newCard}) {
+                              onSelected: ({
+                                SimpleBankingAccount? newAccount,
+                                CardDataModel? newCard,
+                              }) {
                                 store.setNewFromAsset(
                                   newFromCard: newCard,
                                   newFromAccount: newAccount,
@@ -152,7 +155,10 @@ class _TrancferBody extends StatelessWidget {
                             showTransferFromToBottomSheet(
                               context: context,
                               isFrom: false,
-                              onSelected: ({SimpleBankingAccount? newAccount, CardDataModel? newCard}) {
+                              onSelected: ({
+                                SimpleBankingAccount? newAccount,
+                                CardDataModel? newCard,
+                              }) {
                                 store.setNewToAsset(
                                   newToCard: newCard,
                                   newToAccount: newAccount,

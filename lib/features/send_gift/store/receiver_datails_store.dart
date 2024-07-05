@@ -8,16 +8,12 @@ part 'receiver_datails_store.g.dart';
 
 enum ReceiverContacrType { email, phone }
 
-class ReceiverDatailsStore = ReceiverDatailsStoreBase
-    with _$ReceiverDatailsStore;
+class ReceiverDatailsStore = ReceiverDatailsStoreBase with _$ReceiverDatailsStore;
 
 abstract class ReceiverDatailsStoreBase with Store {
   @computed
   bool get isformValid {
-    return (selectedContactType == ReceiverContacrType.email
-            ? isEmailValid(email)
-            : phoneValid) &&
-        checkIsSelected;
+    return (selectedContactType == ReceiverContacrType.email ? isEmailValid(email) : phoneValid) && checkIsSelected;
   }
 
   @observable
@@ -75,8 +71,7 @@ abstract class ReceiverDatailsStoreBase with Store {
   @action
   Future<void> getInitialCheck() async {
     try {
-      checkIsSelected =
-          await getIt<LocalCacheService>().getGiftPolicyAgreed() ?? false;
+      checkIsSelected = await getIt<LocalCacheService>().getGiftPolicyAgreed() ?? false;
     } catch (e) {
       checkIsSelected = false;
     }

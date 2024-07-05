@@ -20,6 +20,5 @@ class IbanPreviewWithdrawalModel with _$IbanPreviewWithdrawalModel {
     final String? description,
   }) = _IbanPreviewWithdrawalModel;
 
-  factory IbanPreviewWithdrawalModel.fromJson(Map<String, dynamic> json) =>
-      _$IbanPreviewWithdrawalModelFromJson(json);
+  factory IbanPreviewWithdrawalModel.fromJson(Map<String, dynamic> json) => _$IbanPreviewWithdrawalModelFromJson(json);
 }

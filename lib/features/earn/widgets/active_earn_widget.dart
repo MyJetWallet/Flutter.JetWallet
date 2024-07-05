@@ -256,7 +256,11 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                         style: STStyles.body2Medium.copyWith(color: colors.grey1),
                       ),
                       Text(
-                        intl.earn_days_left(daysLeft(earnPosition.closeDateTime ?? DateTime.now())),
+                        intl.earn_days_left(
+                          daysLeft(
+                            earnPosition.closeDateTime ?? DateTime.now(),
+                          ),
+                        ),
                         style: STStyles.subtitle2.copyWith(color: colors.black),
                       ),
                     ],
@@ -272,7 +276,9 @@ class ActiveEarnWidget extends StatelessObserverWidget {
                         style: STStyles.body2Medium.copyWith(color: colors.grey1),
                       ),
                       Text(
-                        DateFormat('dd.MM.yyyy').format(earnPosition.closeDateTime ?? DateTime.now()),
+                        DateFormat('dd.MM.yyyy').format(
+                          earnPosition.closeDateTime ?? DateTime.now(),
+                        ),
                         style: STStyles.subtitle2.copyWith(color: colors.black),
                       ),
                     ],

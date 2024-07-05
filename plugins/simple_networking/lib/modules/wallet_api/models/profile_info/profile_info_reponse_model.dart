@@ -30,8 +30,7 @@ class ProfileInfoResponseModel with _$ProfileInfoResponseModel {
     required bool cardRequested,
   }) = _ProfileInfoResponseModel;
 
-  factory ProfileInfoResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$ProfileInfoResponseModelFromJson(json);
+  factory ProfileInfoResponseModel.fromJson(Map<String, dynamic> json) => _$ProfileInfoResponseModelFromJson(json);
 }
 
 enum UserGender {

@@ -9,6 +9,5 @@ class LogoutRequestModel with _$LogoutRequestModel {
     required String token,
   }) = _LogoutRequestModel;
 
-  factory LogoutRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$LogoutRequestModelFromJson(json);
+  factory LogoutRequestModel.fromJson(Map<String, dynamic> json) => _$LogoutRequestModelFromJson(json);
 }

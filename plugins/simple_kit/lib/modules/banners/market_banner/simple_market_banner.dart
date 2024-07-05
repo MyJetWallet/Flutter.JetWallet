@@ -49,9 +49,7 @@ class SMarketBanner extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 14),
                 child: Column(
-                  mainAxisAlignment: (secondaryText != null)
-                      ? MainAxisAlignment.start
-                      : MainAxisAlignment.center,
+                  mainAxisAlignment: (secondaryText != null) ? MainAxisAlignment.start : MainAxisAlignment.center,
                   children: [
                     SizedBox(
                       width: 177.0,

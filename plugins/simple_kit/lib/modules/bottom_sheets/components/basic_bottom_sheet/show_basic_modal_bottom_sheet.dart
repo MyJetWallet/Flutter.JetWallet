@@ -12,7 +12,7 @@ void sShowBasicModalBottomSheet({
   Color? color,
   double? horizontalPadding,
   AnimationController? transitionAnimationController,
-  Future<bool> Function()? onWillPop,
+  Future Function(bool)? onWillPop,
   bool expanded = false,
   bool enableDrag = true,
   bool isDismissible = true,

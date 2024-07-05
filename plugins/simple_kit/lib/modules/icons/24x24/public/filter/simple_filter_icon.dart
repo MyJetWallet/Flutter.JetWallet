@@ -11,8 +11,6 @@ class SFilterIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? SimpleLightFilterIcon(color: color)
-        : SimpleLightFilterIcon(color: color);
+    return sKit.currentTheme == STheme.dark ? SimpleLightFilterIcon(color: color) : SimpleLightFilterIcon(color: color);
   }
 }

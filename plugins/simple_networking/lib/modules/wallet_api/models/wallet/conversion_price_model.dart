@@ -15,6 +15,5 @@ class ConversionPriceModel with _$ConversionPriceModel {
     required String updateDate,
   }) = _ConversionPriceModel;
 
-  factory ConversionPriceModel.fromJson(Map<String, dynamic> json) =>
-      _$ConversionPriceModelFromJson(json);
+  factory ConversionPriceModel.fromJson(Map<String, dynamic> json) => _$ConversionPriceModelFromJson(json);
 }

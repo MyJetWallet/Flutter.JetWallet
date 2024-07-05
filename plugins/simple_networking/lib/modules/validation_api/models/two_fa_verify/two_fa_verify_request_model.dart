@@ -9,6 +9,5 @@ class TwoFaVerifyRequestModel with _$TwoFaVerifyRequestModel {
     required String code,
   }) = _TwoFaVerifyRequestModel;
 
-  factory TwoFaVerifyRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$TwoFaVerifyRequestModelFromJson(json);
+  factory TwoFaVerifyRequestModel.fromJson(Map<String, dynamic> json) => _$TwoFaVerifyRequestModelFromJson(json);
 }

@@ -9,7 +9,7 @@ void showTransactionDetails({
   required BuildContext context,
   required OperationHistoryItem transactionListItem,
   Function(dynamic)? then,
-   TransactionItemSource source = TransactionItemSource.history,
+  TransactionItemSource source = TransactionItemSource.history,
 }) {
   sShowBasicModalBottomSheet(
     children: [

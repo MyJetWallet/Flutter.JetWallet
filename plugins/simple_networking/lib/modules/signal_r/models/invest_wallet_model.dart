@@ -13,6 +13,5 @@ class InvestWalletModel with _$InvestWalletModel {
     @DecimalNullSerialiser() Decimal? total,
   }) = _InvestWalletModel;
 
-  factory InvestWalletModel.fromJson(Map<String, dynamic> json) =>
-      _$InvestWalletModelFromJson(json);
+  factory InvestWalletModel.fromJson(Map<String, dynamic> json) => _$InvestWalletModelFromJson(json);
 }

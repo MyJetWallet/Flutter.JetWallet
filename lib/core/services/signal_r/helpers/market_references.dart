@@ -63,9 +63,7 @@ List<MarketItemModel> _formattedItems(
 
   return items
       .where(
-        (item) =>
-            item.symbol.toLowerCase().contains(searchInput) ||
-            item.name.toLowerCase().contains(searchInput),
+        (item) => item.symbol.toLowerCase().contains(searchInput) || item.name.toLowerCase().contains(searchInput),
       )
       .toList();
 }

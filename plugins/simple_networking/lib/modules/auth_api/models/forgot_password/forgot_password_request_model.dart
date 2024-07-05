@@ -10,6 +10,5 @@ class ForgotPasswordRequestModel with _$ForgotPasswordRequestModel {
     required String deviceType,
   }) = _ForgotPasswordRequestModel;
 
-  factory ForgotPasswordRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$ForgotPasswordRequestModelFromJson(json);
+  factory ForgotPasswordRequestModel.fromJson(Map<String, dynamic> json) => _$ForgotPasswordRequestModelFromJson(json);
 }

@@ -9,6 +9,5 @@ class AnalyticsModel with _$AnalyticsModel {
     required String apiKey,
   }) = _AnalyticsModel;
 
-  factory AnalyticsModel.fromJson(Map<String, dynamic> json) =>
-      _$AnalyticsModelFromJson(json);
+  factory AnalyticsModel.fromJson(Map<String, dynamic> json) => _$AnalyticsModelFromJson(json);
 }

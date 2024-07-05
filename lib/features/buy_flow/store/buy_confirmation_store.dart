@@ -797,7 +797,10 @@ abstract class _BuyConfirmationStoreBase with Store {
                   await _showFailureScreen('');
                 }
 
-                await _requestPaymentInfo(onAction, data.clientAction?.checkoutUrl ?? '');
+                await _requestPaymentInfo(
+                  onAction,
+                  data.clientAction?.checkoutUrl ?? '',
+                );
               },
               (error) {
                 Navigator.pop(sRouter.navigatorKey.currentContext!);
@@ -959,7 +962,9 @@ abstract class _BuyConfirmationStoreBase with Store {
   }
 }
 
-CirclePaymentMethod convertMethodToCirclePaymentMethod(PaymentMethodCategory method) {
+CirclePaymentMethod convertMethodToCirclePaymentMethod(
+  PaymentMethodCategory method,
+) {
   switch (method) {
     case PaymentMethodCategory.cards:
       return CirclePaymentMethod.bankCard;

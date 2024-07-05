@@ -55,8 +55,7 @@ class _FadeOnScrollState extends State<FadeOnScroll> {
       } else if (_offset >= fullOpacityOffset) {
         return 1;
       } else {
-        return (_offset - widget.zeroOpacityOffset) /
-            (fullOpacityOffset - widget.zeroOpacityOffset);
+        return (_offset - widget.zeroOpacityOffset) / (fullOpacityOffset - widget.zeroOpacityOffset);
       }
     } else {
       // fading out
@@ -65,8 +64,7 @@ class _FadeOnScrollState extends State<FadeOnScroll> {
       } else if (_offset >= widget.zeroOpacityOffset) {
         return 0;
       } else {
-        return (_offset - fullOpacityOffset) /
-            (widget.zeroOpacityOffset - fullOpacityOffset);
+        return (_offset - fullOpacityOffset) / (widget.zeroOpacityOffset - fullOpacityOffset);
       }
     }
   }
@@ -83,8 +81,7 @@ class _FadeOnScrollState extends State<FadeOnScroll> {
       } else if (_offset >= fullOpacityOffset) {
         return 0;
       } else {
-        return (_offset - fullOpacityOffset) /
-            (widget.zeroOpacityOffset - fullOpacityOffset);
+        return (_offset - fullOpacityOffset) / (widget.zeroOpacityOffset - fullOpacityOffset);
       }
     } else {
       // fading out
@@ -93,8 +90,7 @@ class _FadeOnScrollState extends State<FadeOnScroll> {
       } else if (_offset >= widget.zeroOpacityOffset) {
         return 0;
       } else {
-        return (_offset - fullOpacityOffset) /
-            (widget.zeroOpacityOffset - fullOpacityOffset);
+        return (_offset - fullOpacityOffset) / (widget.zeroOpacityOffset - fullOpacityOffset);
       }
     }
   }

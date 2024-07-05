@@ -147,7 +147,10 @@ abstract class _OfferOrderSummaryStoreBase with Store {
     try {
       final storage = sLocalStorageService;
 
-      await storage.setString(earnTermsAndConditionsWasChecked, value.toString());
+      await storage.setString(
+        earnTermsAndConditionsWasChecked,
+        value.toString(),
+      );
       isTermsAndConditionsChecked = value;
     } catch (e) {
       getIt.get<SimpleLoggerService>().log(

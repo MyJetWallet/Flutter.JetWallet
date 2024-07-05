@@ -8,7 +8,11 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
-void showBankTransforSelect(BuildContext context, SimpleBankingAccount bankingAccount, bool isCJ) {
+void showBankTransforSelect(
+  BuildContext context,
+  SimpleBankingAccount bankingAccount,
+  bool isCJ,
+) {
   if (isCJ ? getIt.get<IbanStore>().simpleContacts.isEmpty : getIt.get<IbanStore>().allContacts.isEmpty) {
     if (isCJ) {
       sRouter.push(IbanAdressBookSimpleRoute()).then((value) async {

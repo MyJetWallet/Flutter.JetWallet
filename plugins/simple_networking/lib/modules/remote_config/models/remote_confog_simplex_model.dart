@@ -9,6 +9,5 @@ class RemoteConfogSimplexModel with _$RemoteConfogSimplexModel {
     required String origin,
   }) = _RemoteConfogSimplexModel;
 
-  factory RemoteConfogSimplexModel.fromJson(Map<String, dynamic> json) =>
-      _$RemoteConfogSimplexModelFromJson(json);
+  factory RemoteConfogSimplexModel.fromJson(Map<String, dynamic> json) => _$RemoteConfogSimplexModelFromJson(json);
 }

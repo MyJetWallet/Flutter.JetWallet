@@ -12,8 +12,7 @@ class MarketInfoModel with _$MarketInfoModel {
     required TotalMarketInfoModel totalMarketInfo,
   }) = _MarketInfoModel;
 
-  factory MarketInfoModel.fromJson(Map<String, dynamic> json) =>
-      _$MarketInfoModelFromJson(json);
+  factory MarketInfoModel.fromJson(Map<String, dynamic> json) => _$MarketInfoModelFromJson(json);
 }
 
 @freezed
@@ -23,6 +22,5 @@ class TotalMarketInfoModel with _$TotalMarketInfoModel {
     @DecimalSerialiser() required Decimal marketCapChange24H,
   }) = _TotalMarketInfoModel;
 
-  factory TotalMarketInfoModel.fromJson(Map<String, dynamic> json) =>
-      _$TotalMarketInfoModelFromJson(json);
+  factory TotalMarketInfoModel.fromJson(Map<String, dynamic> json) => _$TotalMarketInfoModelFromJson(json);
 }

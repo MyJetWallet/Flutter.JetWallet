@@ -9,6 +9,5 @@ class ChangePinResponseModel with _$ChangePinResponseModel {
     required String result,
   }) = _ChangePinResponseModel;
 
-  factory ChangePinResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$ChangePinResponseModelFromJson(json);
+  factory ChangePinResponseModel.fromJson(Map<String, dynamic> json) => _$ChangePinResponseModelFromJson(json);
 }

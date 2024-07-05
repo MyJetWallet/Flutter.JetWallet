@@ -13,8 +13,7 @@ class ClickableUnderlinedText extends StatefulObserverWidget {
   final void Function() onTap;
 
   @override
-  State<ClickableUnderlinedText> createState() =>
-      _ClickableUnderlinedTextState();
+  State<ClickableUnderlinedText> createState() => _ClickableUnderlinedTextState();
 }
 
 class _ClickableUnderlinedTextState extends State<ClickableUnderlinedText> {

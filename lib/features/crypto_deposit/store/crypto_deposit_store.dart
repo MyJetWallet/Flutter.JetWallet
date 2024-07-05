@@ -18,12 +18,10 @@ part 'crypto_deposit_store.g.dart';
 
 const _retryTime = 5; // in seconds
 
-class CryptoDepositStore extends _CryptoDepositStoreBase
-    with _$CryptoDepositStore {
+class CryptoDepositStore extends _CryptoDepositStoreBase with _$CryptoDepositStore {
   CryptoDepositStore(super.currency);
 
-  static _CryptoDepositStoreBase of(BuildContext context) =>
-      Provider.of<CryptoDepositStore>(context, listen: false);
+  static _CryptoDepositStoreBase of(BuildContext context) => Provider.of<CryptoDepositStore>(context, listen: false);
 }
 
 abstract class _CryptoDepositStoreBase with Store {
@@ -88,8 +86,7 @@ abstract class _CryptoDepositStoreBase with Store {
         blockchain: network.id,
       );
 
-      final response =
-          await sNetwork.getWalletModule().postDepositAddress(model);
+      final response = await sNetwork.getWalletModule().postDepositAddress(model);
 
       response.pick(
         onData: (data) {

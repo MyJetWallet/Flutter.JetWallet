@@ -9,6 +9,5 @@ class CardRemoveRequestModel with _$CardRemoveRequestModel {
     String? cardId,
   }) = _CardRemoveRequestModel;
 
-  factory CardRemoveRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$CardRemoveRequestModelFromJson(json);
+  factory CardRemoveRequestModel.fromJson(Map<String, dynamic> json) => _$CardRemoveRequestModelFromJson(json);
 }

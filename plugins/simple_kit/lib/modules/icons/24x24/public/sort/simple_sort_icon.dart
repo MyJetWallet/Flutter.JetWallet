@@ -9,8 +9,6 @@ class SSortIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightSortIcon()
-        : const SimpleLightSortIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightSortIcon() : const SimpleLightSortIcon();
   }
 }

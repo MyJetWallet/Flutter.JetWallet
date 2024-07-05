@@ -137,11 +137,15 @@ abstract class _MyVounchersStoreBase with Store {
   }
 
   void _startTimer() {
-    if (listMyVouchers.any((voucher) => voucher.status == BuyPrepaidCardIntentionStatus.purchasing)) {
+    if (listMyVouchers.any(
+      (voucher) => voucher.status == BuyPrepaidCardIntentionStatus.purchasing,
+    )) {
       _timer = Timer.periodic(
         const Duration(seconds: 20),
         (timer) {
-          if (listMyVouchers.any((voucher) => voucher.status == BuyPrepaidCardIntentionStatus.purchasing)) {
+          if (listMyVouchers.any(
+            (voucher) => voucher.status == BuyPrepaidCardIntentionStatus.purchasing,
+          )) {
             getListMyVouchers(isFirsRun: false);
           } else {
             _timer?.cancel();

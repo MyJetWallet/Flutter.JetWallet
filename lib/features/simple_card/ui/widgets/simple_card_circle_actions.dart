@@ -18,7 +18,7 @@ class SimpleCardActionButtons extends StatelessObserverWidget {
     this.onFreeze,
     this.onSettings,
     this.onTerminate,
-   this.onWithdraw,
+    this.onWithdraw,
   });
 
   final bool isDetailsShown;

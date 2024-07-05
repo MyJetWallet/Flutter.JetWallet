@@ -12,6 +12,5 @@ class RewardSpinResponse with _$RewardSpinResponse {
     @DecimalNullSerialiser() Decimal? amount,
   }) = _RewardSpinResponse;
 
-  factory RewardSpinResponse.fromJson(Map<String, dynamic> json) =>
-      _$RewardSpinResponseFromJson(json);
+  factory RewardSpinResponse.fromJson(Map<String, dynamic> json) => _$RewardSpinResponseFromJson(json);
 }

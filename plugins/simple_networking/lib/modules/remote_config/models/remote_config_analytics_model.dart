@@ -9,6 +9,5 @@ class RemoteConfigAnalyticsModel with _$RemoteConfigAnalyticsModel {
     required String apiKey,
   }) = _RemoteConfigAnalyticsModel;
 
-  factory RemoteConfigAnalyticsModel.fromJson(Map<String, dynamic> json) =>
-      _$RemoteConfigAnalyticsModelFromJson(json);
+  factory RemoteConfigAnalyticsModel.fromJson(Map<String, dynamic> json) => _$RemoteConfigAnalyticsModelFromJson(json);
 }

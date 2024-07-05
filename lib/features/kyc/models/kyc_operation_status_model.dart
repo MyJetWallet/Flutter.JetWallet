@@ -2,13 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-enum KycStatus {
-  kycRequired,
-  kycInProgress,
-  allowed,
-  allowedWithKycAlert,
-  blocked
-}
+enum KycStatus { kycRequired, kycInProgress, allowed, allowedWithKycAlert, blocked }
 
 int kycOperationStatus(KycStatus status) {
   switch (status) {

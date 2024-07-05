@@ -35,7 +35,7 @@ class BasicBottomSheet extends StatefulWidget {
   final Function()? onDissmis;
   final double? minHeight;
   final double? horizontalPadding;
-  final Future<bool> Function()? onWillPop;
+  final Future Function(bool)? onWillPop;
   final bool expanded;
   final bool removeBottomSheetBar;
   final bool removeBarPadding;
@@ -94,12 +94,11 @@ class _BasicBottomSheetState extends State<BasicBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: widget.onWillPop ??
-          () {
+    return PopScope(
+      canPop: true,
+      onPopInvoked: widget.onWillPop ??
+          (_) {
             onDissmisAction(context);
-
-            return Future.value(true);
           },
       child: Padding(
         // Make bottomSheet to follow keyboard
@@ -165,15 +164,11 @@ class _BasicBottomSheetState extends State<BasicBottomSheet> {
                         ),
                         constraints: BoxConstraints(
                           maxHeight: maxHeight,
-                          minHeight: widget.expanded
-                              ? maxHeight
-                              : widget.minHeight ?? 0,
+                          minHeight: widget.expanded ? maxHeight : widget.minHeight ?? 0,
                         ),
                         child: ListView(
                           padding: EdgeInsets.zero,
-                          physics: widget.scrollable
-                              ? null
-                              : const NeverScrollableScrollPhysics(),
+                          physics: widget.scrollable ? null : const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           children: widget.children,
                         ),

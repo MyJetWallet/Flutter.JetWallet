@@ -9,8 +9,7 @@ class ApplePayDataModel with _$ApplePayDataModel {
     required ApplePayDataModelToken token,
   }) = _ApplePayDataModel;
 
-  factory ApplePayDataModel.fromJson(Map<String, dynamic> json) =>
-      _$ApplePayDataModelFromJson(json);
+  factory ApplePayDataModel.fromJson(Map<String, dynamic> json) => _$ApplePayDataModelFromJson(json);
 }
 
 @freezed
@@ -33,8 +32,7 @@ class ApplePayDataModelToken with _$ApplePayDataModelToken {
     required ApplePayDataModelTokenPaymentData paymentData,
   }) = _ApplePayDataModelToken;
 
-  factory ApplePayDataModelToken.fromJson(Map<String, dynamic> json) =>
-      _$ApplePayDataModelTokenFromJson(json);
+  factory ApplePayDataModelToken.fromJson(Map<String, dynamic> json) => _$ApplePayDataModelTokenFromJson(json);
 }
 
 @freezed
@@ -45,13 +43,11 @@ class ApplePayDataModelTokenData with _$ApplePayDataModelTokenData {
     required String transactionId,
   }) = _ApplePayDataModelTokenData;
 
-  factory ApplePayDataModelTokenData.fromJson(Map<String, dynamic> json) =>
-      _$ApplePayDataModelTokenDataFromJson(json);
+  factory ApplePayDataModelTokenData.fromJson(Map<String, dynamic> json) => _$ApplePayDataModelTokenDataFromJson(json);
 }
 
 @freezed
-class ApplePayDataModelTokenPaymentData
-    with _$ApplePayDataModelTokenPaymentData {
+class ApplePayDataModelTokenPaymentData with _$ApplePayDataModelTokenPaymentData {
   factory ApplePayDataModelTokenPaymentData({
     required String version,
     required String data,

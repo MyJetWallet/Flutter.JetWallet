@@ -9,8 +9,7 @@ class DisclaimersResponseModel with _$DisclaimersResponseModel {
     List<DisclaimerModel>? disclaimers,
   }) = _DisclaimersResponseModel;
 
-  factory DisclaimersResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$DisclaimersResponseModelFromJson(json);
+  factory DisclaimersResponseModel.fromJson(Map<String, dynamic> json) => _$DisclaimersResponseModelFromJson(json);
 }
 
 @freezed
@@ -23,8 +22,7 @@ class DisclaimerModel with _$DisclaimerModel {
     required List<DisclaimerQuestionsModel> questions,
   }) = _DisclaimerModel;
 
-  factory DisclaimerModel.fromJson(Map<String, dynamic> json) =>
-      _$DisclaimerModelFromJson(json);
+  factory DisclaimerModel.fromJson(Map<String, dynamic> json) => _$DisclaimerModelFromJson(json);
 }
 
 @freezed
@@ -36,6 +34,5 @@ class DisclaimerQuestionsModel with _$DisclaimerQuestionsModel {
     required bool defaultState,
   }) = _DisclaimerQuestionsModel;
 
-  factory DisclaimerQuestionsModel.fromJson(Map<String, dynamic> json) =>
-      _$DisclaimerQuestionsModelFromJson(json);
+  factory DisclaimerQuestionsModel.fromJson(Map<String, dynamic> json) => _$DisclaimerQuestionsModelFromJson(json);
 }

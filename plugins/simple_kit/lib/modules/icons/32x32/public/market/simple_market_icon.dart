@@ -9,9 +9,7 @@ class SMarketActiveIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightMarketActiveIcon()
-        : const SimpleLightMarketActiveIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightMarketActiveIcon() : const SimpleLightMarketActiveIcon();
   }
 }
 

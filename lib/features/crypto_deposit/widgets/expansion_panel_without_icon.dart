@@ -19,9 +19,7 @@ class _SaltedKey<S, V> extends LocalKey {
       return false;
     }
 
-    return other is _SaltedKey<S, V> &&
-        other.salt == salt &&
-        other.value == value;
+    return other is _SaltedKey<S, V> && other.salt == salt && other.value == value;
   }
 
   @override
@@ -241,8 +239,7 @@ class ExpansionPanelListWithoutIcon extends StatefulObserverWidget {
   State<StatefulWidget> createState() => _ExpansionPanelListWithoutIconState();
 }
 
-class _ExpansionPanelListWithoutIconState
-    extends State<ExpansionPanelListWithoutIcon> {
+class _ExpansionPanelListWithoutIconState extends State<ExpansionPanelListWithoutIcon> {
   ExpansionPanelRadio? _currentOpenPanel;
 
   @override
@@ -311,13 +308,9 @@ class _ExpansionPanelListWithoutIconState
 
       // If another ExpansionPanelRadio was already open, apply its
       // expansionCallback (if any) to false, because it's closing.
-      for (var childIndex = 0;
-          childIndex < widget.children.length;
-          childIndex += 1) {
+      for (var childIndex = 0; childIndex < widget.children.length; childIndex += 1) {
         final child = widget.children[childIndex] as ExpansionPanelRadio;
-        if (widget.expansionCallback != null &&
-            childIndex != index &&
-            child.value == _currentOpenPanel?.value) {
+        if (widget.expansionCallback != null && childIndex != index && child.value == _currentOpenPanel?.value) {
           widget.expansionCallback!(childIndex, false);
         }
       }
@@ -363,9 +356,7 @@ class _ExpansionPanelListWithoutIconState
             child: AnimatedContainer(
               duration: widget.animationDuration,
               curve: Curves.fastOutSlowIn,
-              margin: _isChildExpanded(index)
-                  ? widget.expandedHeaderPadding
-                  : EdgeInsets.zero,
+              margin: _isChildExpanded(index) ? widget.expandedHeaderPadding : EdgeInsets.zero,
               child: ConstrainedBox(
                 constraints: const BoxConstraints(
                   minHeight: _kPanelHeaderCollapsedHeight,
@@ -394,14 +385,10 @@ class _ExpansionPanelListWithoutIconState
               AnimatedCrossFade(
                 firstChild: Container(height: 0.0),
                 secondChild: child.body,
-                firstCurve:
-                    const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
-                secondCurve:
-                    const Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
+                firstCurve: const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
+                secondCurve: const Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
                 sizeCurve: Curves.fastOutSlowIn,
-                crossFadeState: _isChildExpanded(index)
-                    ? CrossFadeState.showSecond
-                    : CrossFadeState.showFirst,
+                crossFadeState: _isChildExpanded(index) ? CrossFadeState.showSecond : CrossFadeState.showFirst,
                 duration: widget.animationDuration,
               ),
             ],

@@ -9,8 +9,6 @@ class STickIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightTickIcon()
-        : const SimpleLightTickIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightTickIcon() : const SimpleLightTickIcon();
   }
 }

@@ -26,6 +26,5 @@ class NftMarketInfoResponseModel with _$NftMarketInfoResponseModel {
     required String? shortDescription,
   }) = _NftMarketInfoResponseModel;
 
-  factory NftMarketInfoResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$NftMarketInfoResponseModelFromJson(json);
+  factory NftMarketInfoResponseModel.fromJson(Map<String, dynamic> json) => _$NftMarketInfoResponseModelFromJson(json);
 }

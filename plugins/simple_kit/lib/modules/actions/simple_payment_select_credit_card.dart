@@ -65,8 +65,7 @@ class SPaymentSelectCreditCard extends StatelessWidget {
                     child: Column(
                       children: [
                         Baseline(
-                          baseline:
-                              widgetSize == SWidgetSize.small ? 17.0 : 18.0,
+                          baseline: widgetSize == SWidgetSize.small ? 17.0 : 18.0,
                           baselineType: TextBaseline.alphabetic,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -75,9 +74,7 @@ class SPaymentSelectCreditCard extends StatelessWidget {
                                 child: Text(
                                   name,
                                   style: sSubtitle2Style.copyWith(
-                                    color: limit == 100
-                                        ? SColorsLight().grey2
-                                        : SColorsLight().black,
+                                    color: limit == 100 ? SColorsLight().grey2 : SColorsLight().black,
                                   ),
                                 ),
                               ),
@@ -89,9 +86,7 @@ class SPaymentSelectCreditCard extends StatelessWidget {
                                     amount,
                                     textAlign: TextAlign.end,
                                     style: sSubtitle2Style.copyWith(
-                                      color: limit == 100
-                                          ? SColorsLight().grey2
-                                          : SColorsLight().black,
+                                      color: limit == 100 ? SColorsLight().grey2 : SColorsLight().black,
                                     ),
                                   ),
                                 ),
@@ -148,9 +143,7 @@ class SPaymentSelectCreditCard extends StatelessWidget {
                       width: width,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: limit == 100
-                            ? SColorsLight().red
-                            : SColorsLight().blue,
+                        color: limit == 100 ? SColorsLight().red : SColorsLight().blue,
                       ),
                     ),
                   ),

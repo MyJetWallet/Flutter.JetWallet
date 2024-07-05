@@ -100,7 +100,9 @@ class WithdrawNftDetails extends StatelessObserverWidget {
                         : '',
                   ),
                   const SpaceW10(),
-                  HistoryCopyIcon(transactionListItem.withdrawalInfo!.toAddress ?? ''),
+                  HistoryCopyIcon(
+                    transactionListItem.withdrawalInfo!.toAddress ?? '',
+                  ),
                 ],
               ),
             ),

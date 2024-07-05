@@ -9,8 +9,6 @@ class SNewsDefaultIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightNewsDefaultIcon()
-        : const SimpleLightNewsDefaultIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightNewsDefaultIcon() : const SimpleLightNewsDefaultIcon();
   }
 }

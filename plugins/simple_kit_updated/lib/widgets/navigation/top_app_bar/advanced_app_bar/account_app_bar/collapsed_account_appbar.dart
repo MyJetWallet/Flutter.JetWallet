@@ -39,7 +39,7 @@ class CollapsedAccountAppbar extends HookWidget {
   final String mainHeaderCollapsedTitle;
   final String? mainHeaderCollapsedSubtitle;
 
-  final bool hasRightIcon; 
+  final bool hasRightIcon;
   final VoidCallback? onRightIconTap;
 
   @override

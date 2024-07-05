@@ -13,8 +13,7 @@ class SSkeletonQrCodeLoader extends StatefulWidget {
   State<SSkeletonQrCodeLoader> createState() => _SSkeletonQrCodeLoaderState();
 }
 
-class _SSkeletonQrCodeLoaderState extends State<SSkeletonQrCodeLoader>
-    with SingleTickerProviderStateMixin {
+class _SSkeletonQrCodeLoaderState extends State<SSkeletonQrCodeLoader> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
   @override

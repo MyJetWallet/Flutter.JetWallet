@@ -16,6 +16,5 @@ class CardAddRequestModel with _$CardAddRequestModel {
     final String? cardAssetSymbol,
   }) = _CardAddRequestModel;
 
-  factory CardAddRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$CardAddRequestModelFromJson(json);
+  factory CardAddRequestModel.fromJson(Map<String, dynamic> json) => _$CardAddRequestModelFromJson(json);
 }

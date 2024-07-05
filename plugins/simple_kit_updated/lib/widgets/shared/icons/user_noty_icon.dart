@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
-import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 
 class UserNotyIcon extends StatelessWidget {
   const UserNotyIcon({

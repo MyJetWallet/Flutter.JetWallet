@@ -23,8 +23,7 @@ part 'biometric_store.g.dart';
 class BiometricStore extends _BiometricStoreBase with _$BiometricStore {
   BiometricStore() : super();
 
-  static _BiometricStoreBase of(BuildContext context) =>
-      Provider.of<BiometricStore>(context, listen: false);
+  static _BiometricStoreBase of(BuildContext context) => Provider.of<BiometricStore>(context, listen: false);
 }
 
 abstract class _BiometricStoreBase with Store {
@@ -90,8 +89,7 @@ abstract class _BiometricStoreBase with Store {
       final appsFlyerService = getIt.get<AppsFlyerService>();
       final userInfo = getIt.get<UserInfoService>();
 
-      final appsFlyerID =
-          await appsFlyerService.appsflyerSdk.getAppsFlyerUID() ?? '';
+      final appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID() ?? '';
       final bytes = utf8.encode(userInfo.email);
       final hashEmail = sha256.convert(bytes).toString();
 

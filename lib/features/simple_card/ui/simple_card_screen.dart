@@ -93,7 +93,9 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
       key: const Key('earn-screen-key'),
       onVisibilityChanged: (info) {
         if (info.visibleFraction == 1) {
-          sAnalytics.viewVirtualCardScreen(cardID: simpleCardStore.cardFull?.cardId ?? '');
+          sAnalytics.viewVirtualCardScreen(
+            cardID: simpleCardStore.cardFull?.cardId ?? '',
+          );
         }
       },
       child: SPageFrame(
@@ -130,9 +132,13 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                         showDetails: simpleCardStore.showDetails,
                         onTap: () {
                           if (simpleCardStore.showDetails) {
-                            sAnalytics.tapHideCard(cardID: simpleCardStore.cardFull?.cardId ?? '');
+                            sAnalytics.tapHideCard(
+                              cardID: simpleCardStore.cardFull?.cardId ?? '',
+                            );
                           } else {
-                            sAnalytics.tapShowCard(cardID: simpleCardStore.cardFull?.cardId ?? '');
+                            sAnalytics.tapShowCard(
+                              cardID: simpleCardStore.cardFull?.cardId ?? '',
+                            );
                           }
                           simpleCardStore.setShowDetails(!simpleCardStore.showDetails);
                         },
@@ -171,7 +177,9 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                           isTerminateAvailable: simpleCardStore.isFrozen,
                           isAddCashAvailable: widget.isAddCashAvailable,
                           onAddCash: () {
-                            sAnalytics.tapOnTheDepositButton(source: 'V.Card - Deposit');
+                            sAnalytics.tapOnTheDepositButton(
+                              source: 'V.Card - Deposit',
+                            );
                             handler.handle(
                               multiStatus: [
                                 kycState.depositStatus,
@@ -192,15 +200,23 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                           },
                           onFreeze: () {
                             if (simpleCardStore.isFrozen) {
-                              sAnalytics.tapOnUnfreeze(cardID: simpleCardStore.cardFull?.cardId ?? '');
+                              sAnalytics.tapOnUnfreeze(
+                                cardID: simpleCardStore.cardFull?.cardId ?? '',
+                              );
                             } else {
-                              sAnalytics.tapFreezeCard(cardID: simpleCardStore.cardFull?.cardId ?? '');
+                              sAnalytics.tapFreezeCard(
+                                cardID: simpleCardStore.cardFull?.cardId ?? '',
+                              );
                             }
                             simpleCardStore.setFrozen(!simpleCardStore.isFrozen);
                           },
                           onSettings: () {
-                            sAnalytics.tapOnSettings(cardID: simpleCardStore.cardFull?.cardId ?? '');
-                            sAnalytics.viewCardSettings(cardID: simpleCardStore.cardFull?.cardId ?? '');
+                            sAnalytics.tapOnSettings(
+                              cardID: simpleCardStore.cardFull?.cardId ?? '',
+                            );
+                            sAnalytics.viewCardSettings(
+                              cardID: simpleCardStore.cardFull?.cardId ?? '',
+                            );
                             showCardSettings(
                               context: context,
                               onChangeLableTap: () {
@@ -238,9 +254,13 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                               },
                               onFreezeTap: () {
                                 if (simpleCardStore.isFrozen) {
-                                  sAnalytics.tapOnUnfreeze(cardID: simpleCardStore.cardFull?.cardId ?? '');
+                                  sAnalytics.tapOnUnfreeze(
+                                    cardID: simpleCardStore.cardFull?.cardId ?? '',
+                                  );
                                 } else {
-                                  sAnalytics.tapFreezeCard(cardID: simpleCardStore.cardFull?.cardId ?? '');
+                                  sAnalytics.tapFreezeCard(
+                                    cardID: simpleCardStore.cardFull?.cardId ?? '',
+                                  );
                                 }
                                 simpleCardStore.setFrozen(!simpleCardStore.isFrozen);
                               },
@@ -337,7 +357,9 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                       subtitle: intl.simple_card_type_virtual,
                       hasRightIcon: false,
                       onLeftIconTap: () {
-                        sAnalytics.tapBackFromVirualCard(cardID: simpleCardStore.cardFull?.cardId ?? '');
+                        sAnalytics.tapBackFromVirualCard(
+                          cardID: simpleCardStore.cardFull?.cardId ?? '',
+                        );
                       },
                     ),
                   ),

@@ -40,12 +40,10 @@ class _EmailConfirmationScreenBody extends StatefulObserverWidget {
   const _EmailConfirmationScreenBody();
 
   @override
-  State<_EmailConfirmationScreenBody> createState() =>
-      __EmailConfirmationScreenBodyState();
+  State<_EmailConfirmationScreenBody> createState() => __EmailConfirmationScreenBodyState();
 }
 
-class __EmailConfirmationScreenBodyState
-    extends State<_EmailConfirmationScreenBody> with WidgetsBindingObserver {
+class __EmailConfirmationScreenBodyState extends State<_EmailConfirmationScreenBody> with WidgetsBindingObserver {
   final focusNode = FocusNode();
   final pinError = StandardFieldErrorNotifier();
 
@@ -78,8 +76,7 @@ class __EmailConfirmationScreenBodyState
 
     focusNode.addListener(() {
       if (focusNode.hasFocus &&
-          confirmation.controller.value.text.length ==
-              emailVerificationCodeLength &&
+          confirmation.controller.value.text.length == emailVerificationCodeLength &&
           pinError.value) {
         confirmation.controller.clear();
       }

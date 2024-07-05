@@ -25,8 +25,7 @@ class SQrCodeBox extends StatelessWidget {
             data: data,
             errorCorrectionLevel: QrErrorCorrectLevel.H,
             embeddedImage: const AssetImage(sQrLogo, package: 'simple_kit'),
-            embeddedImageStyle:
-                QrEmbeddedImageStyle(size: Size(logoSize, logoSize)),
+            embeddedImageStyle: QrEmbeddedImageStyle(size: Size(logoSize, logoSize)),
             size: qrBoxSize,
           );
   }

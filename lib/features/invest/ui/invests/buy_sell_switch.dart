@@ -19,7 +19,6 @@ class BuySellSwitch extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final colors = sKit.colors;
 
     void changeActiveTab(bool newValue) {

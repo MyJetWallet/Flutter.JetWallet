@@ -9,8 +9,6 @@ class SErasePressedIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightErasePressedIcon()
-        : const SimpleLightErasePressedIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightErasePressedIcon() : const SimpleLightErasePressedIcon();
   }
 }

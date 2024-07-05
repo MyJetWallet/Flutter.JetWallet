@@ -58,8 +58,11 @@ class Circle3dSecureWebView extends StatelessWidget {
           children: [
             Expanded(
               child: WebView(
-                gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{}
-                  ..add(Factory<VerticalDragGestureRecognizer>(() => VerticalDragGestureRecognizer())),
+                gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{}..add(
+                    Factory<VerticalDragGestureRecognizer>(
+                      () => VerticalDragGestureRecognizer(),
+                    ),
+                  ),
                 gestureNavigationEnabled: true,
                 initialUrl: url,
                 javascriptMode: JavascriptMode.unrestricted,

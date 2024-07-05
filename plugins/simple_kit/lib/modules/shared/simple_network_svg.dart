@@ -22,7 +22,7 @@ class SNetworkSvg24 extends StatelessWidget {
       url,
       width: 24.0,
       height: 24.0,
-      color: color,
+      colorFilter: color != null ? ColorFilter.mode(color!, BlendMode.srcIn) : null,
       placeholderBuilder: (_) {
         return const SAssetPlaceholderIcon();
       },
@@ -52,7 +52,7 @@ class SNetworkSvg extends StatelessWidget {
       url,
       width: width,
       height: height,
-      color: color,
+      colorFilter: color != null ? ColorFilter.mode(color!, BlendMode.srcIn) : null,
       placeholderBuilder: (_) {
         return placeholder ?? const SAssetPlaceholderIcon();
       },
@@ -86,7 +86,7 @@ class SNetworkCachedSvg extends StatelessWidget {
                 snapshot.data!,
                 width: width,
                 height: height,
-                color: color,
+                colorFilter: color != null ? ColorFilter.mode(color!, BlendMode.srcIn) : null,
                 placeholderBuilder: (_) {
                   return placeholder;
                 },

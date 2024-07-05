@@ -70,8 +70,7 @@ class CircleBillingAddressBody extends StatelessObserverWidget {
     store.updateCardholderName(cardholderName);
     store.updateCvv(cvv);
     store.updateExpiryDate(expiryDate);
-    final navigationAllowed =
-        (store.loader?.loading ?? true) || store.billingAddressEnableButton;
+    final navigationAllowed = (store.loader?.loading ?? true) || store.billingAddressEnableButton;
 
     return SPageFrame(
       loaderText: intl.circleBillingAddress_pleaseWait,

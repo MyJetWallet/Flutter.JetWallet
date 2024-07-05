@@ -17,8 +17,7 @@ part 'watchlist_store.g.dart';
 class WatchlistStore extends _WatchlistStoreBase with _$WatchlistStore {
   WatchlistStore() : super();
 
-  static _WatchlistStoreBase of(BuildContext context) =>
-      Provider.of<WatchlistStore>(context, listen: false);
+  static _WatchlistStoreBase of(BuildContext context) => Provider.of<WatchlistStore>(context, listen: false);
 }
 
 abstract class _WatchlistStoreBase with Store {

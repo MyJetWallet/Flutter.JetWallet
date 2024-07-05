@@ -9,8 +9,6 @@ class SPassportIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightPassportIcon()
-        : const SimpleLightPassportIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightPassportIcon() : const SimpleLightPassportIcon();
   }
 }

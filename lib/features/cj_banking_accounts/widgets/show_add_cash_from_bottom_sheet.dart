@@ -24,7 +24,9 @@ void showAddCashFromBottomSheet({
 
   final baseCurrency = sSignalRModules.baseCurrency;
 
-  final initAssetsList = [...sSignalRModules.currenciesList.where((element) => element.symbol != skipAsset)];
+  final initAssetsList = [
+    ...sSignalRModules.currenciesList.where((element) => element.symbol != skipAsset),
+  ];
 
   final searchStore = ActionSearchStore()..init(customCurrencies: initAssetsList);
 
@@ -83,7 +85,9 @@ void showAddCashFromBottomSheet({
                       ? '**** ${baseCurrency.symbol}'
                       : currency.volumeBaseBalance(baseCurrency),
                   onTableAssetTap: () {
-                    sAnalytics.tapOnTheAnyCryptoForDepositButton(cryptoAsset: currency.symbol);
+                    sAnalytics.tapOnTheAnyCryptoForDepositButton(
+                      cryptoAsset: currency.symbol,
+                    );
                     onChooseAsset(currency);
                   },
                 ),

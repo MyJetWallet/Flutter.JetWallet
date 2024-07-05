@@ -1,15 +1,13 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart'
-    show Canvas, Color, CustomPainter, Rect, Size, TextStyle;
+import 'package:flutter/material.dart' show Canvas, Color, CustomPainter, Rect, Size, TextStyle;
 
 import '../chart_style.dart' show ChartStyle;
 import '../model/candle_model.dart';
 import '../model/candle_type_enum.dart';
 import '../utils/number_util.dart';
 
-export 'package:flutter/material.dart'
-    show Canvas, Color, CustomPainter, Rect, Size, TextStyle, required;
+export 'package:flutter/material.dart' show Canvas, Color, CustomPainter, Rect, Size, TextStyle, required;
 
 abstract class BaseChartPainter extends CustomPainter {
   BaseChartPainter({
@@ -63,8 +61,7 @@ abstract class BaseChartPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     canvas.clipRect(Rect.fromLTRB(0, 0, size.width, size.height + 1));
-    mDisplayHeight =
-        size.height - ChartStyle.topPadding - ChartStyle.bottomDateHigh;
+    mDisplayHeight = size.height - ChartStyle.topPadding - ChartStyle.bottomDateHigh;
     mWidth = size.width + 10;
     initRect(size);
     calculateValue();
@@ -152,8 +149,7 @@ abstract class BaseChartPainter extends CustomPainter {
 
   double xToTranslateX(double x) => -mTranslateX + x / scaleX;
 
-  int indexOfTranslateX(double translateX) =>
-      _indexOfTranslateX(translateX, 0, mItemCount - 1);
+  int indexOfTranslateX(double translateX) => _indexOfTranslateX(translateX, 0, mItemCount - 1);
 
   ///Binary search for the index of the current value
   int _indexOfTranslateX(double translateX, int start, int end) {
@@ -163,9 +159,7 @@ abstract class BaseChartPainter extends CustomPainter {
     if (end - start == 1) {
       final startValue = getX(start);
       final endValue = getX(end);
-      return (translateX - startValue).abs() < (translateX - endValue).abs()
-          ? start
-          : end;
+      return (translateX - startValue).abs() < (translateX - endValue).abs() ? start : end;
     }
     final mid = start + (end - start) ~/ 2;
     final midValue = getX(mid);
@@ -188,8 +182,7 @@ abstract class BaseChartPainter extends CustomPainter {
   }
 
   ///scrollX Convert to TranslateX
-  void setTranslateXFromScrollX(double scrollX) =>
-      mTranslateX = scrollX + getMinTranslateX();
+  void setTranslateXFromScrollX(double scrollX) => mTranslateX = scrollX + getMinTranslateX();
 
   ///Get the minimum value of translation
   double getMinTranslateX() {
@@ -225,8 +218,7 @@ abstract class BaseChartPainter extends CustomPainter {
   }
 
   ///translateX into x in view
-  double translateXtoX(double translateX) =>
-      (translateX + mTranslateX) * scaleX;
+  double translateXtoX(double translateX) => (translateX + mTranslateX) * scaleX;
 
   TextStyle getTextStyle(Color color) {
     return TextStyle(fontSize: ChartStyle.defaultTextSize, color: color);

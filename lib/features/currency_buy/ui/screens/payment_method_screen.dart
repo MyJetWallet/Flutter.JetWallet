@@ -89,8 +89,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
         .isNotEmpty;
 
     final showSubheader = widget.currency.buyMethods.isNotEmpty &&
-        !(widget.currency.buyMethods.length == 1 &&
-            widget.currency.buyMethods[0].id == PaymentMethodType.bankCard);
+        !(widget.currency.buyMethods.length == 1 && widget.currency.buyMethods[0].id == PaymentMethodType.bankCard);
 
     final isLimitBlock = cardLimit?.day1State == StateLimitType.block ||
         cardLimit?.day7State == StateLimitType.block ||
@@ -108,8 +107,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
       return sShowAlertPopup(
         context,
         primaryText: '${intl.paymentMethod_showAlertPopupPrimaryText}?',
-        secondaryText:
-            '${intl.paymentMethod_showAlertPopupSecondaryDescrText}?',
+        secondaryText: '${intl.paymentMethod_showAlertPopupSecondaryDescrText}?',
         primaryButtonName: intl.paymentMethod_yesDelete,
         secondaryButtonName: intl.paymentMethod_cancel,
         primaryButtonType: SButtonType.primary3,
@@ -143,8 +141,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
             const end = Offset.zero;
             const curve = Curves.ease;
 
-            final tween =
-                Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+            final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
             return SlideTransition(
               position: animation.drive(tween),
@@ -175,8 +172,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
         children: [
           if (widget.currency.buyMethods.isNotEmpty &&
               !(widget.currency.buyMethods.length == 1 &&
-                  widget.currency.buyMethods.first.id ==
-                      PaymentMethodType.bankCard)) ...[
+                  widget.currency.buyMethods.first.id == PaymentMethodType.bankCard)) ...[
             for (final method in widget.currency.buyMethods)
               if (method.id == PaymentMethodType.simplex) ...[
                 Builder(
@@ -191,8 +187,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                           ),
                         ),
                       ),
-                      isSelected: state.selectedPaymentMethod?.id ==
-                          PaymentMethodType.simplex,
+                      isSelected: state.selectedPaymentMethod?.id == PaymentMethodType.simplex,
                       name: intl.currencyBuy_card,
                       description: intl.curencyBuy_actionItemDescription,
                       onTap: () {
@@ -220,9 +215,8 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                   ),
                   name: intl.currencyBuy_card,
                   description: intl.curencyBuy_actionItemDescription,
-                  isSelected: state.selectedPaymentMethod?.id ==
-                          PaymentMethodType.circleCard &&
-                      state.pickedCircleCard == null,
+                  isSelected:
+                      state.selectedPaymentMethod?.id == PaymentMethodType.circleCard && state.pickedCircleCard == null,
                   onTap: () {
                     sRouter.navigate(
                       AddCircleCardRouter(
@@ -250,12 +244,10 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                           ),
                         ),
                       ),
-                      isSelected: state.selectedPaymentMethod?.id ==
-                              PaymentMethodType.unlimintCard &&
+                      isSelected: state.selectedPaymentMethod?.id == PaymentMethodType.unlimintCard &&
                           state.pickedUnlimintCard == null,
                       name: intl.currencyBuy_card,
-                      description:
-                          intl.curencyBuy_actionItemDescriptionWithoutApplePay,
+                      description: intl.curencyBuy_actionItemDescriptionWithoutApplePay,
                       onTap: () {
                         sRouter.push(
                           CurrencyBuyRouter(
@@ -308,9 +300,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                       },
                     ),
                     onTap: () {
-                      if (cardLimit?.barProgress != 100 &&
-                          !isLimitBlock &&
-                          !state.editMode) {
+                      if (cardLimit?.barProgress != 100 && !isLimitBlock && !state.editMode) {
                         sRouter.push(
                           CurrencyBuyRouter(
                             currency: widget.currency,
@@ -326,8 +316,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                 },
               ),
           ],
-          if (state.unlimintCards.isNotEmpty &&
-              unlimintIncludes.isNotEmpty) ...[
+          if (state.unlimintCards.isNotEmpty && unlimintIncludes.isNotEmpty) ...[
             for (final card in state.unlimintCards)
               Builder(
                 builder: (context) {
@@ -353,9 +342,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                       },
                     ),
                     onTap: () {
-                      if (cardLimit?.barProgress != 100 &&
-                          !isLimitBlock &&
-                          !state.editMode) {
+                      if (cardLimit?.barProgress != 100 && !isLimitBlock && !state.editMode) {
                         sRouter.push(
                           CurrencyBuyRouter(
                             currency: widget.currency,
@@ -372,8 +359,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
               ),
             const SpaceH10(),
           ],
-          if (state.unlimintAltCards.isNotEmpty &&
-              unlimintAltIncludes.isNotEmpty) ...[
+          if (state.unlimintAltCards.isNotEmpty && unlimintAltIncludes.isNotEmpty) ...[
             for (final card in state.unlimintAltCards)
               Builder(
                 builder: (context) {
@@ -399,9 +385,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                       },
                     ),
                     onTap: () {
-                      if (cardLimit?.barProgress != 100 &&
-                          !isLimitBlock &&
-                          !state.editMode) {
+                      if (cardLimit?.barProgress != 100 && !isLimitBlock && !state.editMode) {
                         sRouter.push(
                           CurrencyBuyRouter(
                             currency: widget.currency,

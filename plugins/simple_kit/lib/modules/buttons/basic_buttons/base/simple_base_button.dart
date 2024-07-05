@@ -40,6 +40,7 @@ class SimpleBaseButton extends StatefulWidget {
 
 class _SimpleBaseButtonState extends State<SimpleBaseButton> {
   var isClicked = false;
+  // ignore: unused_field
   late Timer _timer;
 
   void _startTimer() {

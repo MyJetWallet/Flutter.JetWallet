@@ -10,6 +10,5 @@ class AppsFlyerModel with _$AppsFlyerModel {
     required String iosAppId,
   }) = _AppsFlyerModel;
 
-  factory AppsFlyerModel.fromJson(Map<String, dynamic> json) =>
-      _$AppsFlyerModelFromJson(json);
+  factory AppsFlyerModel.fromJson(Map<String, dynamic> json) => _$AppsFlyerModelFromJson(json);
 }

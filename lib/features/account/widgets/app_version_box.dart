@@ -13,8 +13,7 @@ class AppVersionBox extends StatelessObserverWidget {
     final packageInfo = getIt.get<PackageInfoService>().info;
     final colors = sKit.colors;
 
-    return packageInfo.version != 'unknown' &&
-            packageInfo.buildNumber != 'unknown'
+    return packageInfo.version != 'unknown' && packageInfo.buildNumber != 'unknown'
         ? Container(
             padding: const EdgeInsets.symmetric(
               vertical: 4.0,

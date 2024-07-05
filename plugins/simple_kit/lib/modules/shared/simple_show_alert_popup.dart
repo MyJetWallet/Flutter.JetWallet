@@ -32,11 +32,10 @@ Future<void> sShowAlertPopup(
     barrierDismissible: barrierDismissible,
     useSafeArea: false,
     builder: (context) {
-      return WillPopScope(
-        onWillPop: () {
+      return PopScope(
+        canPop: willPopScope,
+        onPopInvoked: (_) {
           onWillPop?.call();
-
-          return Future.value(willPopScope);
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,

@@ -398,7 +398,9 @@ abstract class _InvestDashboardStoreBase with Store {
       return Decimal.zero;
     }
 
-    return Decimal.fromJson('${(Decimal.fromInt(100) * profitSum / amountSum).toDouble()}');
+    return Decimal.fromJson(
+      '${(Decimal.fromInt(100) * profitSum / amountSum).toDouble()}',
+    );
   }
 
   @action

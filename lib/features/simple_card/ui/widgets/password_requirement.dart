@@ -18,9 +18,7 @@ class PasswordRequirement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mainColor = isApproved
-        ? SColorsLight().blue
-        : SColorsLight().black;
+    final mainColor = isApproved ? SColorsLight().blue : SColorsLight().black;
 
     return SPaddingH24(
       child: Column(
@@ -29,10 +27,7 @@ class PasswordRequirement extends StatelessWidget {
           const SpaceH6(),
           Row(
             children: [
-              if (isApproved)
-                const SCheckListIcon()
-              else
-                const SMinusListIcon(),
+              if (isApproved) const SCheckListIcon() else const SMinusListIcon(),
               const SpaceW12(),
               Text(
                 name,

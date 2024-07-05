@@ -9,5 +9,6 @@ abstract class ExecuteCryptoSellRequestModel with _$ExecuteCryptoSellRequestMode
     required String paymentId,
   }) = _ExecuteCryptoSellRequest;
 
-  factory ExecuteCryptoSellRequestModel.fromJson(Map<String, dynamic> json) => _$ExecuteCryptoSellRequestModelFromJson(json);
+  factory ExecuteCryptoSellRequestModel.fromJson(Map<String, dynamic> json) =>
+      _$ExecuteCryptoSellRequestModelFromJson(json);
 }

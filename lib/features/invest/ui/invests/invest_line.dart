@@ -163,7 +163,13 @@ class InvestLine extends StatelessObserverWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    isBalanceHide ? '****' : marketFormat(decimal: amount, accuracy: 0, symbol: ''),
+                    isBalanceHide
+                        ? '****'
+                        : marketFormat(
+                            decimal: amount,
+                            accuracy: 0,
+                            symbol: '',
+                          ),
                     style: STStyles.body2InvestSM.copyWith(
                       color: colors.black,
                     ),
@@ -186,7 +192,13 @@ class InvestLine extends StatelessObserverWidget {
                 children: [
                   if (isClosedPosition)
                     Text(
-                      isBalanceHide ? '****' : marketFormat(decimal: price, accuracy: priceAccuracy, symbol: ''),
+                      isBalanceHide
+                          ? '****'
+                          : marketFormat(
+                              decimal: price,
+                              accuracy: priceAccuracy,
+                              symbol: '',
+                            ),
                       style: STStyles.body2InvestB.copyWith(
                         color: colors.black,
                       ),
@@ -196,8 +208,16 @@ class InvestLine extends StatelessObserverWidget {
                       isBalanceHide
                           ? '****'
                           : isPending
-                              ? marketFormat(decimal: price, accuracy: priceAccuracy, symbol: '')
-                              : marketFormat(decimal: profit, accuracy: priceAccuracy, symbol: ''),
+                              ? marketFormat(
+                                  decimal: price,
+                                  accuracy: priceAccuracy,
+                                  symbol: '',
+                                )
+                              : marketFormat(
+                                  decimal: profit,
+                                  accuracy: priceAccuracy,
+                                  symbol: '',
+                                ),
                       style: STStyles.body2InvestB.copyWith(
                         color: colors.black,
                       ),

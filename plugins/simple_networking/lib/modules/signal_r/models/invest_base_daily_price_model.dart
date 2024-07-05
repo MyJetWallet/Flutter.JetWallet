@@ -11,8 +11,7 @@ class InvestBaseDailyPriceModel with _$InvestBaseDailyPriceModel {
     required List<BaseDailyPrice> dailyPrices,
   }) = _InvestBaseDailyPriceModel;
 
-  factory InvestBaseDailyPriceModel.fromJson(Map<String, dynamic> json) =>
-      _$InvestBaseDailyPriceModelFromJson(json);
+  factory InvestBaseDailyPriceModel.fromJson(Map<String, dynamic> json) => _$InvestBaseDailyPriceModelFromJson(json);
 }
 
 @freezed
@@ -22,6 +21,5 @@ class BaseDailyPrice with _$BaseDailyPrice {
     @DecimalNullSerialiser() Decimal? price,
   }) = _BaseDailyPrice;
 
-  factory BaseDailyPrice.fromJson(Map<String, dynamic> json) =>
-      _$BaseDailyPriceFromJson(json);
+  factory BaseDailyPrice.fromJson(Map<String, dynamic> json) => _$BaseDailyPriceFromJson(json);
 }

@@ -85,8 +85,9 @@ abstract class _AccountWithdrawToStoreBase with Store {
         .toList();
 
     final isAccountAvaible = isCJAccount
-        ? (sSignalRModules.paymentProducts
-                    ?.any((element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount) ??
+        ? (sSignalRModules.paymentProducts?.any(
+                  (element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount,
+                ) ??
                 false) &&
             sSignalRModules.bankingProfileData?.simple?.account != null
         : sSignalRModules.sellMethods.any((element) => element.id == SellMethodsId.ibanSell);

@@ -51,10 +51,8 @@ class _KycSelfieBody extends StatelessObserverWidget {
 
                 sRouter.push(
                   SuccessKycScreenRoute(
-                    primaryText:
-                        intl.kycAlertHandler_showVerifyingAlertPrimaryText,
-                    secondaryText:
-                        '${intl.kycSelfie_successKycScreenSecondaryText}.',
+                    primaryText: intl.kycAlertHandler_showVerifyingAlertPrimaryText,
+                    secondaryText: '${intl.kycSelfie_successKycScreenSecondaryText}.',
                   ),
                 );
               },
@@ -65,9 +63,7 @@ class _KycSelfieBody extends StatelessObserverWidget {
         );
       },
       child: SPageFrame(
-        loaderText: (state.loaderSuccess.loading)
-            ? intl.kycSelfie_done
-            : intl.kycSelfie_pleaseWait,
+        loaderText: (state.loaderSuccess.loading) ? intl.kycSelfie_done : intl.kycSelfie_pleaseWait,
         loading: state.loader,
         loadSuccess: state.loaderSuccess,
         header: SPaddingH24(
@@ -191,13 +187,9 @@ class _KycSelfieBody extends StatelessObserverWidget {
                     await state.pickedImage();
                   }
                 },
-                name: (state.isSelfieNotEmpty)
-                    ? intl.kycDocumentType_uploadPhoto
-                    : intl.kycDocumentType_selfieImage,
+                name: (state.isSelfieNotEmpty) ? intl.kycDocumentType_uploadPhoto : intl.kycDocumentType_selfieImage,
                 active: true,
-                icon: (state.isSelfieNotEmpty)
-                    ? const SArrowUpIcon()
-                    : const SSelfieIcon(),
+                icon: (state.isSelfieNotEmpty) ? const SArrowUpIcon() : const SSelfieIcon(),
               ),
             ),
           ],

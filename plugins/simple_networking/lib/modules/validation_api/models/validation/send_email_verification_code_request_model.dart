@@ -4,8 +4,7 @@ part 'send_email_verification_code_request_model.freezed.dart';
 part 'send_email_verification_code_request_model.g.dart';
 
 @freezed
-class SendEmailVerificationCodeRequestModel
-    with _$SendEmailVerificationCodeRequestModel {
+class SendEmailVerificationCodeRequestModel with _$SendEmailVerificationCodeRequestModel {
   const factory SendEmailVerificationCodeRequestModel({
     required String language,
     required String deviceType,

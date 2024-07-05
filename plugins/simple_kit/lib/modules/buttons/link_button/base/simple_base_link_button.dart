@@ -38,6 +38,7 @@ class _SimpleBaseLinkButtonState extends State<SimpleBaseLinkButton> {
   bool highlighted = false;
 
   var isClicked = false;
+  // ignore: unused_field
   late Timer _timer;
 
   void _startTimer() {

@@ -15,9 +15,7 @@ class SArrowUpIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightArrowUpIcon()
-        : const SimpleLightArrowUpIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightArrowUpIcon() : const SimpleLightArrowUpIcon();
   }
 }
 

@@ -9,8 +9,6 @@ class SQuestionIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightQuestionIcon()
-        : const SimpleLightQuestionIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightQuestionIcon() : const SimpleLightQuestionIcon();
   }
 }
