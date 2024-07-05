@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/button/chips/simple_chip_suggestion.dart';
 import 'package:widgetbook/widgetbook.dart';

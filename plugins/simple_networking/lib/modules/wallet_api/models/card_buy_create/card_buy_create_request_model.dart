@@ -10,8 +10,8 @@ part 'card_buy_create_request_model.g.dart';
 class CardBuyCreateRequestModel with _$CardBuyCreateRequestModel {
   const factory CardBuyCreateRequestModel({
     @DecimalNullSerialiser() Decimal? paymentAmount,
-   required String paymentAsset,
-   required String buyAsset,
+    required String paymentAsset,
+    required String buyAsset,
     @DecimalNullSerialiser() Decimal? buyAmount,
     required bool buyFixed,
     required CirclePaymentMethod paymentMethod,

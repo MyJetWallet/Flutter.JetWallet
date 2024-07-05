@@ -82,13 +82,15 @@ void showInvestInfoBottomSheet({
     horizontalPinnedPadding: 0,
     removePinnedPadding: true,
     horizontalPadding: 0,
-    children: [InfoBlock(
-      type: type,
-      title: title,
-      subtitle: subtitle,
-      bottomWidget: bottomWidget,
-      removeWidgetSpace: removeWidgetSpace,
-    ),],
+    children: [
+      InfoBlock(
+        type: type,
+        title: title,
+        subtitle: subtitle,
+        bottomWidget: bottomWidget,
+        removeWidgetSpace: removeWidgetSpace,
+      ),
+    ],
   );
 }
 
@@ -111,12 +113,12 @@ class InfoBlock extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final iconAsset = type == 'info'
-      ? phoneChangeAsset
-      : type == 'success'
-        ? congratsAsset
-        : type == 'pending'
-        ? recurringBuysAsset
-        : blockedAsset;
+        ? phoneChangeAsset
+        : type == 'success'
+            ? congratsAsset
+            : type == 'pending'
+                ? recurringBuysAsset
+                : blockedAsset;
 
     return SPaddingH24(
       child: Column(
@@ -149,11 +151,9 @@ class InfoBlock extends StatelessObserverWidget {
           const SpaceH16(),
           const SDivider(),
           if (bottomWidget != null) ...[
-            if (!removeWidgetSpace)
-              const SpaceH16(),
+            if (!removeWidgetSpace) const SpaceH16(),
             bottomWidget!,
-            if (!removeWidgetSpace)
-              const SpaceH16(),
+            if (!removeWidgetSpace) const SpaceH16(),
           ],
         ],
       ),

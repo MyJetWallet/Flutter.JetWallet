@@ -9,6 +9,5 @@ class TwoFaDisableRequestModel with _$TwoFaDisableRequestModel {
     required String code,
   }) = _TwoFaDisableRequestModel;
 
-  factory TwoFaDisableRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$TwoFaDisableRequestModelFromJson(json);
+  factory TwoFaDisableRequestModel.fromJson(Map<String, dynamic> json) => _$TwoFaDisableRequestModelFromJson(json);
 }

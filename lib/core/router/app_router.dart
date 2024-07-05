@@ -40,11 +40,7 @@ import 'package:jetwallet/features/currency_buy/models/preview_buy_with_asset_in
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_unlimint_input.dart';
 import 'package:jetwallet/features/currency_buy/ui/curency_buy.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/add_bank_card.dart';
-import 'package:jetwallet/features/p2p_buy/screens/buy_p2p_confrimation_screen.dart';
-import 'package:jetwallet/features/p2p_buy/screens/buy_p2p_peyment_method_screen.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
-import 'package:jetwallet/features/p2p_buy/screens/p2p_buy_amount_screen.dart';
-import 'package:jetwallet/features/p2p_buy/screens/payment_currence_buy_screen.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_asset.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_bank_card.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_circle/circle_3d_secure_web_view/circle_3d_secure_web_view.dart';
@@ -101,6 +97,10 @@ import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/market/ui/market_screen.dart';
 import 'package:jetwallet/features/my_wallets/screens/my_wallets_screen.dart';
+import 'package:jetwallet/features/p2p_buy/screens/buy_p2p_confrimation_screen.dart';
+import 'package:jetwallet/features/p2p_buy/screens/buy_p2p_peyment_method_screen.dart';
+import 'package:jetwallet/features/p2p_buy/screens/p2p_buy_amount_screen.dart';
+import 'package:jetwallet/features/p2p_buy/screens/payment_currence_buy_screen.dart';
 import 'package:jetwallet/features/payment_methods/ui/payment_methods.dart';
 import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';

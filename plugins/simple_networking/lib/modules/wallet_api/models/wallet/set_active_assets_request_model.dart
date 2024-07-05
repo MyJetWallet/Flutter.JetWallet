@@ -20,6 +20,5 @@ class ActiveAsset with _$ActiveAsset {
     required int order,
   }) = _ActiveAsset;
 
-  factory ActiveAsset.fromJson(Map<String, dynamic> json) =>
-      _$ActiveAssetFromJson(json);
+  factory ActiveAsset.fromJson(Map<String, dynamic> json) => _$ActiveAssetFromJson(json);
 }

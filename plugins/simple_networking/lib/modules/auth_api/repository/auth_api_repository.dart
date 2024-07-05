@@ -87,8 +87,7 @@ class AuthApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, ServerTimeResponseModel>>
-      getServerTime() async {
+  Future<DC<ServerRejectException, ServerTimeResponseModel>> getServerTime() async {
     return _authApiDataSource.getServerTimeRequest();
   }
 
@@ -116,8 +115,7 @@ class AuthApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, CountryListResponseModel>>
-      getCountryList() async {
+  Future<DC<ServerRejectException, CountryListResponseModel>> getCountryList() async {
     return _authApiDataSource.getCountryListRequest();
   }
 
@@ -147,18 +145,15 @@ class AuthApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, ResetPinResponseModel>>
-      postResetPin() async {
+  Future<DC<ServerRejectException, ResetPinResponseModel>> postResetPin() async {
     return _authApiDataSource.postResetPinRequest();
   }
 
-  Future<DC<ServerRejectException, SessionCheckResponseModel>>
-      postSessionCheck() async {
+  Future<DC<ServerRejectException, SessionCheckResponseModel>> postSessionCheck() async {
     return _authApiDataSource.postSessionCheckRequest();
   }
 
-  Future<DC<ServerRejectException, StartEmailLoginResponseModel>>
-      postStartEmailLogin(
+  Future<DC<ServerRejectException, StartEmailLoginResponseModel>> postStartEmailLogin(
     StartEmailLoginRequestModel model,
   ) async {
     return _authApiDataSource.postStartEmailLoginRequest(
@@ -166,8 +161,7 @@ class AuthApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, ConfirmEmailLoginResponseModel>>
-      postConfirmEmailLogin(
+  Future<DC<ServerRejectException, ConfirmEmailLoginResponseModel>> postConfirmEmailLogin(
     ConfirmEmailLoginRequestModel model,
   ) async {
     return _authApiDataSource.postConfirmEmailLoginRequest(
@@ -175,8 +169,7 @@ class AuthApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, CountryResponseModel>>
-      getUserCountry() async {
+  Future<DC<ServerRejectException, CountryResponseModel>> getUserCountry() async {
     return _authApiDataSource.getUserCountryRequest();
   }
 

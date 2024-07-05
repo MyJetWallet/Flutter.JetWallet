@@ -10,6 +10,5 @@ class VersioningModel with _$VersioningModel {
     required String minimumVersion,
   }) = _VersioningModel;
 
-  factory VersioningModel.fromJson(Map<String, dynamic> json) =>
-      _$VersioningModelFromJson(json);
+  factory VersioningModel.fromJson(Map<String, dynamic> json) => _$VersioningModelFromJson(json);
 }

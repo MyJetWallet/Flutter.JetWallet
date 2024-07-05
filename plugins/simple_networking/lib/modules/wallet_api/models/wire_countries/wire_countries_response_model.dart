@@ -9,8 +9,7 @@ class WireCountriesResponseModel with _$WireCountriesResponseModel {
     @JsonKey(name: 'supportedCountries') required List<CircleCountry> countries,
   }) = _WireCountriesResponseModel;
 
-  factory WireCountriesResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$WireCountriesResponseModelFromJson(json);
+  factory WireCountriesResponseModel.fromJson(Map<String, dynamic> json) => _$WireCountriesResponseModelFromJson(json);
 }
 
 @freezed
@@ -23,8 +22,7 @@ class CircleCountry with _$CircleCountry {
     required BankAccountType bankAccountType,
   }) = _CircleCountry;
 
-  factory CircleCountry.fromJson(Map<String, dynamic> json) =>
-      _$CircleCountryFromJson(json);
+  factory CircleCountry.fromJson(Map<String, dynamic> json) => _$CircleCountryFromJson(json);
 }
 
 enum BankAccountType {

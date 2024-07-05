@@ -222,7 +222,9 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                     scrollController: _controller,
                     mainHeaderValue: !getIt<AppStore>().isBalanceHide
                         ? _price(
-                            currenciesWithBalanceFrom(sSignalRModules.currenciesList),
+                            currenciesWithBalanceFrom(
+                              sSignalRModules.currenciesList,
+                            ),
                             sSignalRModules.baseCurrency,
                           )
                         : '**** ${sSignalRModules.baseCurrency.symbol}',
@@ -319,7 +321,9 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                       headerTitle: intl.my_wallets_header,
                                       headerValue: !getIt<AppStore>().isBalanceHide
                                           ? _price(
-                                              currenciesWithBalanceFrom(sSignalRModules.currenciesList),
+                                              currenciesWithBalanceFrom(
+                                                sSignalRModules.currenciesList,
+                                              ),
                                               sSignalRModules.baseCurrency,
                                             )
                                           : '**** ${sSignalRModules.baseCurrency.symbol}',
@@ -594,7 +598,11 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => math.max(maxHeight, minHeight);
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     return SizedBox.expand(child: child);
   }
 

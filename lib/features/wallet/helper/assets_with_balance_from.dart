@@ -7,13 +7,10 @@ List<CurrencyModel> sortedCurrenciesWithBalanceFrom(
   List<CurrencyModel> currencies,
   String? currencyId,
 ) {
-  final currenciesWithBalance =
-      currencies.where((currency) => !currency.isAssetBalanceEmpty).toList();
-  final currency = currenciesWithBalance
-      .firstWhere((currency) => currency.symbol == currencyId);
+  final currenciesWithBalance = currencies.where((currency) => !currency.isAssetBalanceEmpty).toList();
+  final currency = currenciesWithBalance.firstWhere((currency) => currency.symbol == currencyId);
 
-  currenciesWithBalance
-      .removeWhere((currency) => currency.symbol == currencyId);
+  currenciesWithBalance.removeWhere((currency) => currency.symbol == currencyId);
   currenciesWithBalance.insert(0, currency);
 
   return currenciesWithBalance;

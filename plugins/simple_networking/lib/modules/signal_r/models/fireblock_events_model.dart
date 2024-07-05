@@ -9,8 +9,7 @@ class FireblockEventsModel with _$FireblockEventsModel {
     List<FireblocksMessageModel>? events,
   }) = _FireblockEventsModel;
 
-  factory FireblockEventsModel.fromJson(Map<String, dynamic> json) =>
-      _$FireblockEventsModelFromJson(json);
+  factory FireblockEventsModel.fromJson(Map<String, dynamic> json) => _$FireblockEventsModelFromJson(json);
 }
 
 @freezed
@@ -20,6 +19,5 @@ class FireblocksMessageModel with _$FireblocksMessageModel {
     String? eventType,
   }) = _FireblocksMessageModel;
 
-  factory FireblocksMessageModel.fromJson(Map<String, dynamic> json) =>
-      _$FireblocksMessageModelFromJson(json);
+  factory FireblocksMessageModel.fromJson(Map<String, dynamic> json) => _$FireblocksMessageModelFromJson(json);
 }

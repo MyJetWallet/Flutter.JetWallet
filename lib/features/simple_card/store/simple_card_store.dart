@@ -58,8 +58,7 @@ abstract class _SimpleCardStoreBase with Store {
   }
 
   @computed
-  ObservableList<String> get cardsWasShowed =>
-      ObservableList.of(
+  ObservableList<String> get cardsWasShowed => ObservableList.of(
         sSignalRModules.keyValue.cardsSimple?.value ?? [],
       );
 
@@ -98,10 +97,7 @@ abstract class _SimpleCardStoreBase with Store {
       var needNotification = false;
       var cardsShown = cardsWasShowed.toList();
       for (final cardEl in cards) {
-        if (
-          !cardsWasShowed.contains(cardEl.cardId) &&
-          cardEl.status == AccountStatusCard.active
-        ) {
+        if (!cardsWasShowed.contains(cardEl.cardId) && cardEl.status == AccountStatusCard.active) {
           needNotification = true;
           cardsShown = [
             ...cardsShown,
@@ -167,7 +163,9 @@ abstract class _SimpleCardStoreBase with Store {
 
             response.pick(
               onData: (data) async {
-                final encrypter = Encrypter(RSA(publicKey: rsaPublicKey, privateKey: rsaPrivateKey));
+                final encrypter = Encrypter(
+                  RSA(publicKey: rsaPublicKey, privateKey: rsaPrivateKey),
+                );
                 final cardNumber = encrypter.decrypt(Encrypted.fromBase64(data.cardNumber!));
                 final cardHolder = encrypter.decrypt(Encrypted.fromBase64(data.cardHolderName!));
                 final cardDate = encrypter.decrypt(Encrypted.fromBase64(data.cardExpDate!));
@@ -293,8 +291,8 @@ abstract class _SimpleCardStoreBase with Store {
           final newCards = allCards?.map((e) {
             return e.cardId == cardFull?.cardId
                 ? e.copyWith(
-              status: value ? AccountStatusCard.frozen : AccountStatusCard.active,
-            )
+                    status: value ? AccountStatusCard.frozen : AccountStatusCard.active,
+                  )
                 : e;
           }).toList();
           allCards = newCards;
@@ -321,7 +319,10 @@ abstract class _SimpleCardStoreBase with Store {
         },
         onError: (error) {
           loader.finishLoadingImmediately();
-          sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: error.cause);
+          sAnalytics.viewErrorOnCardScreen(
+            cardID: cardFull?.cardId ?? '',
+            reason: error.cause,
+          );
           sNotification.showError(
             error.cause,
             id: 1,
@@ -330,14 +331,20 @@ abstract class _SimpleCardStoreBase with Store {
       );
     } on ServerRejectException catch (error) {
       loader.finishLoadingImmediately();
-      sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: error.cause);
+      sAnalytics.viewErrorOnCardScreen(
+        cardID: cardFull?.cardId ?? '',
+        reason: error.cause,
+      );
       sNotification.showError(
         error.cause,
         id: 1,
       );
     } catch (error) {
       loader.finishLoadingImmediately();
-      sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: intl.something_went_wrong);
+      sAnalytics.viewErrorOnCardScreen(
+        cardID: cardFull?.cardId ?? '',
+        reason: intl.something_went_wrong,
+      );
       sNotification.showError(
         intl.something_went_wrong,
         id: 1,
@@ -406,7 +413,10 @@ abstract class _SimpleCardStoreBase with Store {
         } else {
           loader.finishLoading();
           Navigator.pop(context!);
-          sNotification.showError(intl.simple_card_password_working, isError: false);
+          sNotification.showError(
+            intl.simple_card_password_working,
+            isError: false,
+          );
         }
       }
     } on ServerRejectException catch (error) {
@@ -429,7 +439,6 @@ abstract class _SimpleCardStoreBase with Store {
   }
 
   void _afterVerification() {
-
     getIt.get<GlobalLoader>().setLoading(false);
 
     sNotification.showError(intl.simple_card_password_working, isError: false);
@@ -550,7 +559,10 @@ abstract class _SimpleCardStoreBase with Store {
         },
         onError: (error) {
           loader.finishLoadingImmediately();
-          sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: error.cause);
+          sAnalytics.viewErrorOnCardScreen(
+            cardID: cardFull?.cardId ?? '',
+            reason: error.cause,
+          );
           sNotification.showError(
             error.cause,
             id: 1,
@@ -559,14 +571,20 @@ abstract class _SimpleCardStoreBase with Store {
       );
     } on ServerRejectException catch (error) {
       loader.finishLoadingImmediately();
-      sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: error.cause);
+      sAnalytics.viewErrorOnCardScreen(
+        cardID: cardFull?.cardId ?? '',
+        reason: error.cause,
+      );
       sNotification.showError(
         error.cause,
         id: 1,
       );
     } catch (error) {
       loader.finishLoadingImmediately();
-      sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: intl.something_went_wrong);
+      sAnalytics.viewErrorOnCardScreen(
+        cardID: cardFull?.cardId ?? '',
+        reason: intl.something_went_wrong,
+      );
       sNotification.showError(
         intl.something_went_wrong,
         id: 1,
@@ -581,7 +599,9 @@ abstract class _SimpleCardStoreBase with Store {
       final context = sRouter.navigatorKey.currentContext!;
 
       if ((cardFull?.balance ?? Decimal.zero) != Decimal.zero) {
-        sAnalytics.terminateWithBalancePopupScreenView(cardID: cardFull?.cardId ?? '');
+        sAnalytics.terminateWithBalancePopupScreenView(
+          cardID: cardFull?.cardId ?? '',
+        );
 
         await sShowAlertPopup(
           context,
@@ -598,7 +618,9 @@ abstract class _SimpleCardStoreBase with Store {
 
       var continueTrminate = false;
 
-      sAnalytics.approveTerminatePopupScreenView(cardID: cardFull?.cardId ?? '');
+      sAnalytics.approveTerminatePopupScreenView(
+        cardID: cardFull?.cardId ?? '',
+      );
 
       await sShowAlertPopup(
         context,
@@ -607,14 +629,18 @@ abstract class _SimpleCardStoreBase with Store {
             '${intl.simple_card_terminate_terminate_warning_1} ** ${cardFull?.last4NumberCharacters} ${intl.simple_card_terminate_terminate_warning_2}',
         primaryButtonName: intl.simple_card_terminate_confirm,
         onPrimaryButtonTap: () {
-          sAnalytics.tapOnTheConfirmTerminateButton(cardID: cardFull?.cardId ?? '');
+          sAnalytics.tapOnTheConfirmTerminateButton(
+            cardID: cardFull?.cardId ?? '',
+          );
           continueTrminate = true;
           sRouter.maybePop();
         },
         primaryButtonType: SButtonType.primary3,
         secondaryButtonName: intl.simple_card_terminate_cancel,
         onSecondaryButtonTap: () {
-          sAnalytics.tapOnTheCancelTerminateButton(cardID: cardFull?.cardId ?? '');
+          sAnalytics.tapOnTheCancelTerminateButton(
+            cardID: cardFull?.cardId ?? '',
+          );
           continueTrminate = false;
           sRouter.maybePop();
         },
@@ -624,7 +650,9 @@ abstract class _SimpleCardStoreBase with Store {
 
       var isVerifaierd = false;
 
-      sAnalytics.confirmTerminateWithPinScreenView(cardID: cardFull?.cardId ?? '');
+      sAnalytics.confirmTerminateWithPinScreenView(
+        cardID: cardFull?.cardId ?? '',
+      );
 
       await showPinScreen(
         context: context,
@@ -638,7 +666,9 @@ abstract class _SimpleCardStoreBase with Store {
 
       loader.startLoadingImmediately();
 
-      sAnalytics.pleaseWaitLoaderOnCardTerminateLoadingView(cardID: cardFull?.cardId ?? '');
+      sAnalytics.pleaseWaitLoaderOnCardTerminateLoadingView(
+        cardID: cardFull?.cardId ?? '',
+      );
 
       final response = await sNetwork.getWalletModule().postCardTerminate(
             model: SimpleCardTerminateRequestModel(cardId: cardFull?.cardId ?? ''),
@@ -652,7 +682,9 @@ abstract class _SimpleCardStoreBase with Store {
 
           sRouter.maybePop();
 
-          sAnalytics.theCardHasBeenTerminateToastView(cardID: cardFull?.cardId ?? '');
+          sAnalytics.theCardHasBeenTerminateToastView(
+            cardID: cardFull?.cardId ?? '',
+          );
 
           sNotification.showError(
             '${intl.simple_card_terminate_success_1} •• ${cardFull?.last4NumberCharacters} ${intl.simple_card_terminate_success_2}',
@@ -661,7 +693,10 @@ abstract class _SimpleCardStoreBase with Store {
           );
         },
         onError: (error) {
-          sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: error.cause);
+          sAnalytics.viewErrorOnCardScreen(
+            cardID: cardFull?.cardId ?? '',
+            reason: error.cause,
+          );
           sNotification.showError(
             error.cause,
             id: 3,
@@ -669,7 +704,10 @@ abstract class _SimpleCardStoreBase with Store {
         },
       );
     } on ServerRejectException catch (error) {
-      sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: error.cause);
+      sAnalytics.viewErrorOnCardScreen(
+        cardID: cardFull?.cardId ?? '',
+        reason: error.cause,
+      );
       sNotification.showError(
         error.cause,
         id: 4,
@@ -678,7 +716,10 @@ abstract class _SimpleCardStoreBase with Store {
 
       loader.finishLoading();
     } catch (error) {
-      sAnalytics.viewErrorOnCardScreen(cardID: cardFull?.cardId ?? '', reason: intl.something_went_wrong_try_again2);
+      sAnalytics.viewErrorOnCardScreen(
+        cardID: cardFull?.cardId ?? '',
+        reason: intl.something_went_wrong_try_again2,
+      );
       sNotification.showError(
         intl.something_went_wrong_try_again2,
         id: 5,
@@ -747,14 +788,14 @@ abstract class _SimpleCardStoreBase with Store {
   @action
   Future<void> saveReceivedCards(List<String> newList) async {
     await getIt.get<KeyValuesService>().addToKeyValue(
-      KeyValueRequestModel(
-        keys: [
-          KeyValueResponseModel(
-            key: cardsSimpleKey,
-            value: jsonEncode(newList),
+          KeyValueRequestModel(
+            keys: [
+              KeyValueResponseModel(
+                key: cardsSimpleKey,
+                value: jsonEncode(newList),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+        );
   }
 }

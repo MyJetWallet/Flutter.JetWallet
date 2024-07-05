@@ -11,8 +11,7 @@ class InvestPricesModel with _$InvestPricesModel {
     required List<InvestPriceModel> prices,
   }) = _InvestPricesModel;
 
-  factory InvestPricesModel.fromJson(Map<String, dynamic> json) =>
-      _$InvestPricesModelFromJson(json);
+  factory InvestPricesModel.fromJson(Map<String, dynamic> json) => _$InvestPricesModelFromJson(json);
 }
 
 @freezed
@@ -25,6 +24,5 @@ class InvestPriceModel with _$InvestPriceModel {
     @DecimalNullSerialiser() Decimal? bidPrice,
   }) = _InvestPriceModel;
 
-  factory InvestPriceModel.fromJson(Map<String, dynamic> json) =>
-      _$InvestPriceModelFromJson(json);
+  factory InvestPriceModel.fromJson(Map<String, dynamic> json) => _$InvestPriceModelFromJson(json);
 }

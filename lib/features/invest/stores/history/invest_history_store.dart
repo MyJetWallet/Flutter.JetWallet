@@ -73,17 +73,17 @@ abstract class _InvestHistoryBase with Store {
 
   @computed
   List<InvestPositionModel> get listToShow => investHistoryItems
-    .where(
-      (i) => i.status == PositionStatus.closed || i.status == PositionStatus.cancelled,
-    )
-    .toList();
+      .where(
+        (i) => i.status == PositionStatus.closed || i.status == PositionStatus.cancelled,
+      )
+      .toList();
 
   @computed
   List<InvestPositionModel> get listToShowPending => investPendingItems
-    .where(
-      (i) => i.status == PositionStatus.closed || i.status == PositionStatus.cancelled,
-    )
-    .toList();
+      .where(
+        (i) => i.status == PositionStatus.closed || i.status == PositionStatus.cancelled,
+      )
+      .toList();
 
   @action
   Future<bool> refreshHistory({bool needLoader = true}) async {
@@ -122,7 +122,6 @@ abstract class _InvestHistoryBase with Store {
       );
 
       union = const OperationHistoryUnion.loaded();
-
     } catch (e) {
       sNotification.showError(
         intl.something_went_wrong,
@@ -155,7 +154,6 @@ abstract class _InvestHistoryBase with Store {
       );
 
       unionPending = const OperationHistoryUnion.loaded();
-
     } catch (e) {
       sNotification.showError(
         intl.something_went_wrong,
@@ -180,7 +178,6 @@ abstract class _InvestHistoryBase with Store {
         needLoader,
       );
 
-
       final investPositionsStore = getIt.get<InvestPositionsStore>();
       var amount = Decimal.zero;
       var profit = Decimal.zero;
@@ -192,7 +189,9 @@ abstract class _InvestHistoryBase with Store {
           profit += instrument.amountPl ?? Decimal.zero;
         }
         if (amount != Decimal.zero && profit != Decimal.zero) {
-          percent = Decimal.fromJson('${(Decimal.fromInt(100) * profit / amount).toDouble()}');
+          percent = Decimal.fromJson(
+            '${(Decimal.fromInt(100) * profit / amount).toDouble()}',
+          );
         }
       }
 
@@ -202,7 +201,6 @@ abstract class _InvestHistoryBase with Store {
       investHistorySummaryItems = ObservableList.of(investHistorySummary);
 
       unionSummary = const OperationHistoryUnion.loaded();
-
     } catch (e) {
       sNotification.showError(
         intl.something_went_wrong,
@@ -330,10 +328,10 @@ abstract class _InvestHistoryBase with Store {
     }
 
     final response = await sNetwork.getWalletModule().getInvestHistory(
-      skip: '${investHistoryItems.length}',
-      take: '20',
-      symbol: symbol,
-    );
+          skip: '${investHistoryItems.length}',
+          take: '20',
+          symbol: symbol,
+        );
 
     return response.data!;
   }
@@ -348,10 +346,10 @@ abstract class _InvestHistoryBase with Store {
     }
 
     final response = await sNetwork.getWalletModule().getInvestHistoryCanceled(
-      skip: '${investPendingItems.length}',
-      take: '20',
-      symbol: symbol,
-    );
+          skip: '${investPendingItems.length}',
+          take: '20',
+          symbol: symbol,
+        );
 
     return response.data!;
   }
@@ -367,13 +365,13 @@ abstract class _InvestHistoryBase with Store {
     final investStore = getIt.get<InvestDashboardStore>();
 
     final response = await sNetwork.getWalletModule().getInvestHistorySummary(
-      dateFrom: '${DateTime.now().subtract(
-        Duration(
-          days: getDaysByPeriod(investStore.period),
-        ),
-      )}',
-      dateTo: '${DateTime.now()}',
-    );
+          dateFrom: '${DateTime.now().subtract(
+            Duration(
+              days: getDaysByPeriod(investStore.period),
+            ),
+          )}',
+          dateTo: '${DateTime.now()}',
+        );
 
     return response.data!;
   }
@@ -383,10 +381,10 @@ List<InvestPositionModel> _filterUnusedInvestTypeItemsFrom(
   List<InvestPositionModel> items,
 ) {
   final filteredItems = items
-    .where(
-      (i) => i.status == PositionStatus.closed ||
-      i.status == PositionStatus.cancelled,
-    ).toList();
+      .where(
+        (i) => i.status == PositionStatus.closed || i.status == PositionStatus.cancelled,
+      )
+      .toList();
 
   return filteredItems;
 }

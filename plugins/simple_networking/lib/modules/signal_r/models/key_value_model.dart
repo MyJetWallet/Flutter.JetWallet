@@ -20,8 +20,7 @@ class KeyValueModel with _$KeyValueModel {
     required List<KeyValueResponseModel> keys,
   }) = _KeyValueModel;
 
-  factory KeyValueModel.fromJson(Map<String, dynamic> json) =>
-      _$KeyValueModelFromJson(json);
+  factory KeyValueModel.fromJson(Map<String, dynamic> json) => _$KeyValueModelFromJson(json);
 
   /// Takes [KeyValueModel] and parses it according to [KeyValueKeys]
   factory KeyValueModel.parsed(KeyValueModel keyValue) {
@@ -68,7 +67,6 @@ class WatchlistModel with _$WatchlistModel {
 
   factory WatchlistModel.fromJson(Map<String, dynamic> json) => WatchlistModel(
         key: json['key'].toString(),
-        value: (jsonDecode(json['value'].toString()) as List<dynamic>)
-            .cast<String>(),
+        value: (jsonDecode(json['value'].toString()) as List<dynamic>).cast<String>(),
       );
 }

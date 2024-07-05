@@ -9,8 +9,6 @@ class SPhotoIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightPhotoIcon()
-        : const SimpleLightPhotoIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightPhotoIcon() : const SimpleLightPhotoIcon();
   }
 }

@@ -36,9 +36,7 @@ class BottomTab extends StatelessWidget {
           Radius.circular(24),
         ),
         border: Border.all(
-          color: isTextBlue
-              ? scolors.blue.withOpacity(0.4)
-              : scolors.grey2.withOpacity(0.4),
+          color: isTextBlue ? scolors.blue.withOpacity(0.4) : scolors.grey2.withOpacity(0.4),
           /*color: isTextBlue
               ? isActive
                   ? Colors.transparent

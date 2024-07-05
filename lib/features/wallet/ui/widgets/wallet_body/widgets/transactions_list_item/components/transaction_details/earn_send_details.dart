@@ -62,12 +62,16 @@ class EarnSendDetails extends StatelessObserverWidget {
                   children: [
                     Flexible(
                       child: TransactionDetailsValueText(
-                        text: shortAddressFormTwo(transactionListItem.earnOperationInfo?.earnPositionId ?? ''),
+                        text: shortAddressFormTwo(
+                          transactionListItem.earnOperationInfo?.earnPositionId ?? '',
+                        ),
                         maxLines: 1,
                       ),
                     ),
                     const SpaceW10(),
-                    HistoryCopyIcon(transactionListItem.earnOperationInfo?.earnPositionId ?? ''),
+                    HistoryCopyIcon(
+                      transactionListItem.earnOperationInfo?.earnPositionId ?? '',
+                    ),
                   ],
                 ),
               ),

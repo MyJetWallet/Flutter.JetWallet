@@ -215,7 +215,10 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
                   asset: widget.asset,
                   card: widget.card,
                   account: widget.account,
-                  navigateToConvert: ({required fromAsset, required toAsset}) async {
+                  navigateToConvert: ({
+                    required fromAsset,
+                    required toAsset,
+                  }) async {
                     sRouter.popUntilRouteWithName(AmountRoute.name);
 
                     tabController.animateTo(2);
@@ -230,7 +233,10 @@ class _AmountScreenState extends State<AmountScreen> with TickerProviderStateMix
                   asset: widget.asset,
                   account: widget.account,
                   simpleCard: widget.simpleCard,
-                  navigateToConvert: ({required fromAsset, required toAsset}) async {
+                  navigateToConvert: ({
+                    required fromAsset,
+                    required toAsset,
+                  }) async {
                     sRouter.popUntilRouteWithName(AmountRoute.name);
 
                     tabController.animateTo(2);

@@ -7,9 +7,7 @@ const _smallHeightBreakpoint = 800;
 final sDeviceSize = getIt.get<DeviceSize>().size;
 
 DeviceSizeUnion deviceSizeFrom(double screenHeight) {
-  return screenHeight < _smallHeightBreakpoint
-      ? const DeviceSizeUnion.small()
-      : const DeviceSizeUnion.medium();
+  return screenHeight < _smallHeightBreakpoint ? const DeviceSizeUnion.small() : const DeviceSizeUnion.medium();
 }
 
 @lazySingleton

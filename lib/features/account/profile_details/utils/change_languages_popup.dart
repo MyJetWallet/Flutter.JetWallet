@@ -9,7 +9,6 @@ import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/widgets/flag_item.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class LangItem {
@@ -55,8 +54,17 @@ Future<bool?> changeLanguagePopup(BuildContext context) async {
                         ? Assets.svg.medium.checkmark.simpleSvg()
                         : const SizedBox.shrink(),
                     onTableAssetTap: () async {
-                      getIt.get<AppStore>().setLocale(Locale.fromSubtags(languageCode: e.langCode));
-                      unawaited(showNotification(context, intl.lang_change_alert, false, false));
+                      getIt.get<AppStore>().setLocale(
+                            Locale.fromSubtags(languageCode: e.langCode),
+                          );
+                      unawaited(
+                        showNotification(
+                          context,
+                          intl.lang_change_alert,
+                          false,
+                          false,
+                        ),
+                      );
 
                       Navigator.pop(context);
 

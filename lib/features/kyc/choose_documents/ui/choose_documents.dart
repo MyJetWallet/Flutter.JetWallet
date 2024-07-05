@@ -64,13 +64,9 @@ class ChooseDocuments extends StatelessObserverWidget {
                       ),
                     ),
                     const SpaceH16(),
-                    for (var index = 0;
-                        index < state.documents.length;
-                        index++) ...[
-                      if (state.documents[index].document !=
-                              KycDocumentType.selfieImage &&
-                          state.documents[index].document !=
-                              KycDocumentType.residentPermit)
+                    for (var index = 0; index < state.documents.length; index++) ...[
+                      if (state.documents[index].document != KycDocumentType.selfieImage &&
+                          state.documents[index].document != KycDocumentType.residentPermit)
                         SChooseDocument(
                           primaryText: stringKycDocumentType(
                             state.documents[index].document,
@@ -112,8 +108,7 @@ class ChooseDocuments extends StatelessObserverWidget {
                 } else {
                   await sRouter.push(
                     AllowCameraRoute(
-                      permissionDescription:
-                          '${intl.chooseDocuments_permissionDescriptionText1} '
+                      permissionDescription: '${intl.chooseDocuments_permissionDescriptionText1} '
                           '${intl.chooseDocument_camera}',
                       then: () {
                         Navigator.pop(context);

@@ -53,11 +53,7 @@ Future<PhoneNumberModel> decomposePhoneNumber(
 
   final isoCode = info.isoCode;
   final dialCode = info.dialCode;
-  final body = parsable
-      .replaceAll(' ', '')
-      .replaceAll('(', '')
-      .replaceAll(')', '')
-      .replaceAll('-', '');
+  final body = parsable.replaceAll(' ', '').replaceAll('(', '').replaceAll(')', '').replaceAll('-', '');
 
   return PhoneNumberModel(
     isoCode: isoCode ?? 'N/A',

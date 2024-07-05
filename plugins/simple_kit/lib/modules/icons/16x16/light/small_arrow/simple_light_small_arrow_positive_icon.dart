@@ -13,8 +13,7 @@ class SimpleLightSmallArrowPositiveIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SimpleBaseSvg16X16(
-      assetName:
-          'assets/icons/light/16x16/small_arrow/small_arrow_positive.svg',
+      assetName: 'assets/icons/light/16x16/small_arrow/small_arrow_positive.svg',
       color: color,
     );
   }

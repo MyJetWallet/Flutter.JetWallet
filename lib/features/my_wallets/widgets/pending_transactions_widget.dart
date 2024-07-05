@@ -4,8 +4,8 @@ import 'package:simple_kit/simple_kit.dart';
 
 class PendingTransactionsWidget extends StatelessWidget {
   const PendingTransactionsWidget({
-   required this.countOfTransactions,
-   required this.onTap,
+    required this.countOfTransactions,
+    required this.onTap,
   });
 
   final int countOfTransactions;

@@ -31,12 +31,9 @@ class ResendRichText extends StatelessObserverWidget {
             icon: isPhone ? const SPhoneCallIcon() : null,
             addPadding: isPhone,
             active: true,
-            autoSize: intl.localeName == 'es' || intl.localeName == 'uk' ,
-            name: isPhone
-                ? intl.profileDetails_receiveCall
-                : intl.resetRichText_resend,
+            autoSize: intl.localeName == 'es' || intl.localeName == 'uk',
+            name: isPhone ? intl.profileDetails_receiveCall : intl.resetRichText_resend,
             onTap: onTap,
-            
           ),
         ],
       ),

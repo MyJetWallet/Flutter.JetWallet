@@ -13,8 +13,7 @@ class SimpleLightClockIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SimpleBaseSvg20x20(
-      assetName:
-          'assets/icons/light/20x20/deposit_in_progress/clock.svg',
+      assetName: 'assets/icons/light/20x20/deposit_in_progress/clock.svg',
       color: color,
     );
   }

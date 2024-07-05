@@ -13,8 +13,7 @@ class TransferInfoResponseModel with _$TransferInfoResponseModel {
     required String toPhoneNumber,
   }) = _TransferInfoResponseModel;
 
-  factory TransferInfoResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$TransferInfoResponseModelFromJson(json);
+  factory TransferInfoResponseModel.fromJson(Map<String, dynamic> json) => _$TransferInfoResponseModelFromJson(json);
 }
 
 enum TransferStatus {

@@ -20,8 +20,9 @@ class SimpleCoinAssetItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = SColorsLight();
 
-    final isSimpleCoinAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
-        .any((element) => element.id == AssetPaymentProductsEnum.simpleTapToken);
+    final isSimpleCoinAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+      (element) => element.id == AssetPaymentProductsEnum.simpleTapToken,
+    );
 
     if (!isSimpleCoinAvaible) return const Offstage();
 

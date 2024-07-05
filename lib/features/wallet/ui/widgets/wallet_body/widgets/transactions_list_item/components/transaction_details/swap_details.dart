@@ -159,19 +159,19 @@ class _SwapDetailsHeader extends StatelessWidget {
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${paymentAsset.symbol}'
               : volumeFormat(
-            symbol: paymentAsset.symbol,
-            accuracy: paymentAsset.accuracy,
-            decimal: transactionListItem.swapInfo?.sellAmount ?? Decimal.zero,
-          ),
+                  symbol: paymentAsset.symbol,
+                  accuracy: paymentAsset.accuracy,
+                  decimal: transactionListItem.swapInfo?.sellAmount ?? Decimal.zero,
+                ),
           toAssetIconUrl: buyAsset.iconUrl,
           toAssetDescription: buyAsset.description,
           toAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${buyAsset.symbol}'
               : volumeFormat(
-            symbol: buyAsset.symbol,
-            accuracy: buyAsset.accuracy,
-            decimal: transactionListItem.swapInfo?.buyAmount ?? Decimal.zero,
-          ),
+                  symbol: buyAsset.symbol,
+                  accuracy: buyAsset.accuracy,
+                  decimal: transactionListItem.swapInfo?.buyAmount ?? Decimal.zero,
+                ),
           isError: transactionListItem.status == Status.declined,
           isSmallerVersion: true,
         ),

@@ -38,12 +38,10 @@ class SimpleLightStandardFieldObscure extends StatefulWidget {
   final int? maxLength;
 
   @override
-  State<SimpleLightStandardFieldObscure> createState() =>
-      _SimpleLightStandardFieldObscureState();
+  State<SimpleLightStandardFieldObscure> createState() => _SimpleLightStandardFieldObscureState();
 }
 
-class _SimpleLightStandardFieldObscureState
-    extends State<SimpleLightStandardFieldObscure> {
+class _SimpleLightStandardFieldObscureState extends State<SimpleLightStandardFieldObscure> {
   bool obscure = true;
   bool showSuffix = false;
 
@@ -106,11 +104,13 @@ class _SimpleLightStandardFieldObscureState
             highlightColor: SColorsLight().white,
             child: Container(
               padding: const EdgeInsets.all(8),
-              child: obscure ? SEyeCloseIcon(
-                color: SColorsLight().grey3,
-              ) : SEyeOpenIcon(
-                color: SColorsLight().grey3,
-              ),
+              child: obscure
+                  ? SEyeCloseIcon(
+                      color: SColorsLight().grey3,
+                    )
+                  : SEyeOpenIcon(
+                      color: SColorsLight().grey3,
+                    ),
             ),
           ),
       ],

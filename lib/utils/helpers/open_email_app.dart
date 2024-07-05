@@ -43,8 +43,7 @@ Future<void> openEmailApp(BuildContext context) async {
   final storageService = getIt.get<LocalStorageService>();
   final lastMail = await storageService.getValue(lastUsedMail);
   if (lastMail != null) {
-    final lastResult =
-        result.where((element) => element.name == lastMail).toList();
+    final lastResult = result.where((element) => element.name == lastMail).toList();
     if (lastResult.isNotEmpty) {
       await OpenMailApp.openSpecificMailApp(lastResult[0]);
 

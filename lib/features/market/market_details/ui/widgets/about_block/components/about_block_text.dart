@@ -23,8 +23,7 @@ class AboutBlockText extends StatefulWidget {
   State<AboutBlockText> createState() => _AboutBlockTextState();
 }
 
-class _AboutBlockTextState extends State<AboutBlockText>
-    with WidgetsBindingObserver {
+class _AboutBlockTextState extends State<AboutBlockText> with WidgetsBindingObserver {
   bool canTapOnLink = true;
   bool expandText = false;
 
@@ -58,9 +57,7 @@ class _AboutBlockTextState extends State<AboutBlockText>
         children: [
           if (widget.marketInfo.aboutLess.isNotEmpty)
             Text(
-              expandText
-                  ? widget.marketInfo.aboutMore
-                  : widget.marketInfo.aboutLess,
+              expandText ? widget.marketInfo.aboutMore : widget.marketInfo.aboutLess,
               maxLines: expandText ? 20 : 4,
               style: sBodyText1Style.copyWith(color: Colors.black),
             ),
@@ -71,8 +68,7 @@ class _AboutBlockTextState extends State<AboutBlockText>
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (!expandText &&
-                      widget.marketInfo.aboutLess.isNotEmpty) ...[
+                  if (!expandText && widget.marketInfo.aboutLess.isNotEmpty) ...[
                     const SpaceH18(),
                     ClickableUnderlinedText(
                       text: intl.aboutBlockText_readMore,
@@ -84,8 +80,7 @@ class _AboutBlockTextState extends State<AboutBlockText>
                     ),
                   ],
                   if (_urlValid(widget.marketInfo.whitepaperUrl)) ...[
-                    if (widget.marketInfo.aboutLess.isNotEmpty)
-                      const SpaceH15(),
+                    if (widget.marketInfo.aboutLess.isNotEmpty) const SpaceH15(),
                     ClickableUnderlinedText(
                       text: intl.aboutBlockText_whitepaper,
                       onTap: () {

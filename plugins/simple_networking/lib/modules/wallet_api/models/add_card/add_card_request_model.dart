@@ -20,6 +20,5 @@ class AddCardRequestModel with _$AddCardRequestModel {
     required int expYear,
   }) = _AddCardRequestModel;
 
-  factory AddCardRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$AddCardRequestModelFromJson(json);
+  factory AddCardRequestModel.fromJson(Map<String, dynamic> json) => _$AddCardRequestModelFromJson(json);
 }

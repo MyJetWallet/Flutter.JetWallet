@@ -15,6 +15,5 @@ class LoginRequestModel with _$LoginRequestModel {
     @JsonKey(name: 'application') required int platform,
   }) = _LoginRequestModel;
 
-  factory LoginRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$LoginRequestModelFromJson(json);
+  factory LoginRequestModel.fromJson(Map<String, dynamic> json) => _$LoginRequestModelFromJson(json);
 }

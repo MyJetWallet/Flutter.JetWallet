@@ -42,7 +42,9 @@ abstract class _PaymentMethodStoreBase with Store {
     }
 
     final bankingAccounts = sSignalRModules.bankingProfileData?.banking?.accounts
-            ?.where((element) => ((element.balance ?? Decimal.zero) != Decimal.zero) && !(element.isHidden ?? false))
+            ?.where(
+              (element) => ((element.balance ?? Decimal.zero) != Decimal.zero) && !(element.isHidden ?? false),
+            )
             .toList() ??
         <SimpleBankingAccount>[];
 
@@ -69,7 +71,9 @@ abstract class _PaymentMethodStoreBase with Store {
 
   @computed
   bool get isSimpleAccountAvaible =>
-      sSignalRModules.paymentProducts?.any((element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount) ??
+      sSignalRModules.paymentProducts?.any(
+        (element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount,
+      ) ??
       false;
 
   @computed

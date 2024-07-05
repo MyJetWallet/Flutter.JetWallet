@@ -22,8 +22,7 @@ void showDepositDisclaimer({
   required int withdrawalStatus,
   required bool showAllAlerts,
 }) {
-  final action =
-      screenTitle == 'Receive' ? screenTitle : intl.showDepositDisclaimer_send;
+  final action = screenTitle == 'Receive' ? screenTitle : intl.showDepositDisclaimer_send;
 
   if (showAllAlerts) {
     sShowSlideAlertPopup(

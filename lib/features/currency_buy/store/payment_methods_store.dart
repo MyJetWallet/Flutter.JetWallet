@@ -34,8 +34,7 @@ import 'package:simple_networking/modules/wallet_api/models/unlimint/delete_unli
 
 part 'payment_methods_store.g.dart';
 
-class PaymentMethodsScreenStore extends _PaymentMethodsStoreBase
-    with _$PaymentMethodsScreenStore {
+class PaymentMethodsScreenStore extends _PaymentMethodsStoreBase with _$PaymentMethodsScreenStore {
   PaymentMethodsScreenStore(super.currencyModel);
 
   static _PaymentMethodsStoreBase of(BuildContext context) =>
@@ -150,8 +149,7 @@ abstract class _PaymentMethodsStoreBase with Store {
 
             dataCards.removeWhere(
               (card) {
-                return isCardExpired(card.expMonth, card.expYear) ||
-                    card.status == CircleCardStatus.failed;
+                return isCardExpired(card.expMonth, card.expYear) || card.status == CircleCardStatus.failed;
               },
             );
 
@@ -271,8 +269,7 @@ abstract class _PaymentMethodsStoreBase with Store {
     _logger.log(notifier, 'deleteCard');
 
     try {
-      if (card.integration == IntegrationType.circle ||
-          card.integration == null) {
+      if (card.integration == IntegrationType.circle || card.integration == null) {
         final model = DeleteCardRequestModel(cardId: card.id);
         final _ = await sNetwork.getWalletModule().postDeleteCard(model);
         Timer(const Duration(milliseconds: 1500), () {
@@ -280,8 +277,7 @@ abstract class _PaymentMethodsStoreBase with Store {
         });
       } else if (card.integration == IntegrationType.unlimint) {
         final model = DeleteUnlimintCardRequestModel(cardId: card.id);
-        final _ =
-            await sNetwork.getWalletModule().postDeleteUnlimintCard(model);
+        final _ = await sNetwork.getWalletModule().postDeleteUnlimintCard(model);
       } else if (card.integration == IntegrationType.unlimintAlt) {
         final model = CardRemoveRequestModel(cardId: card.id);
         final _ = await sNetwork.getWalletModule().cardRemove(model);

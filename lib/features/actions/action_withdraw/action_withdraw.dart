@@ -52,9 +52,8 @@ class _ActionWithdraw extends StatelessObserverWidget {
                 amount: getIt<AppStore>().isBalanceHide
                     ? '**** ${baseCurrency.symbol}'
                     : currency.volumeBaseBalance(baseCurrency),
-                secondaryText: getIt<AppStore>().isBalanceHide
-                  ? '******* ${currency.symbol}'
-                  : currency.volumeAssetBalance,
+                secondaryText:
+                    getIt<AppStore>().isBalanceHide ? '******* ${currency.symbol}' : currency.volumeAssetBalance,
                 onTap: () {
                   showWithdrawOptions(context, currency);
                 },

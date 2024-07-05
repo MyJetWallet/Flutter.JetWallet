@@ -10,6 +10,5 @@ class KeyValueRequestModel with _$KeyValueRequestModel {
     required List<KeyValueResponseModel> keys,
   }) = _KeyValueRequestModel;
 
-  factory KeyValueRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$KeyValueRequestModelFromJson(json);
+  factory KeyValueRequestModel.fromJson(Map<String, dynamic> json) => _$KeyValueRequestModelFromJson(json);
 }

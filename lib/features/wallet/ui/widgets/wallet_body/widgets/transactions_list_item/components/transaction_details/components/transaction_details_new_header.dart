@@ -60,9 +60,7 @@ class TransactionNewHeader extends StatelessWidget {
               Text(
                 assetValue,
                 style: sTextH5Style.copyWith(
-                  color: isError
-                      ? colors.grey1
-                      : null,
+                  color: isError ? colors.grey1 : null,
                   decoration: isError ? TextDecoration.lineThrough : null,
                 ),
               ),

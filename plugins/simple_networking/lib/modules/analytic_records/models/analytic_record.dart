@@ -11,6 +11,5 @@ class AnalyticRecordModel with _$AnalyticRecordModel {
     required int orderIndex,
   }) = _AnalyticRecordModel;
 
-  factory AnalyticRecordModel.fromJson(Map<String, dynamic> json) =>
-      _$AnalyticRecordModelFromJson(json);
+  factory AnalyticRecordModel.fromJson(Map<String, dynamic> json) => _$AnalyticRecordModelFromJson(json);
 }

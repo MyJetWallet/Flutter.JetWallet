@@ -9,8 +9,6 @@ class SEarnDefaultIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightEarnDefaultIcon()
-        : const SimpleLightEarnDefaultIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightEarnDefaultIcon() : const SimpleLightEarnDefaultIcon();
   }
 }

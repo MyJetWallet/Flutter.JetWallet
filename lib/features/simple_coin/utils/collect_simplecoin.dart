@@ -32,10 +32,13 @@ class ClaimSimplecoin {
 
   static bool isPopUpAlredyShoving = false;
 
-  Future<void> pushCollectSimplecoinDialog({required List<SmplRequestModel> requests}) async {
+  Future<void> pushCollectSimplecoinDialog({
+    required List<SmplRequestModel> requests,
+  }) async {
     final timerService = getIt<TimerService>();
-    final isSimpleTapTokenAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
-        .any((element) => element.id == AssetPaymentProductsEnum.simpleTapToken);
+    final isSimpleTapTokenAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+      (element) => element.id == AssetPaymentProductsEnum.simpleTapToken,
+    );
 
     if (!isSimpleTapTokenAvaible) return;
 

@@ -14,8 +14,6 @@ class SCloseIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? SimpleLightCloseIcon(color: color)
-        : SimpleLightCloseIcon(color: color);
+    return sKit.currentTheme == STheme.dark ? SimpleLightCloseIcon(color: color) : SimpleLightCloseIcon(color: color);
   }
 }

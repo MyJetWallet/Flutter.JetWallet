@@ -28,9 +28,7 @@ class AnimatedOnboardingSlide extends StatelessWidget {
               children: <Widget>[
                 SlideContainer(
                   width: 16,
-                  color: position < currentIndex
-                      ? sColors.black
-                      : sColors.black.withOpacity(0.3),
+                  color: position < currentIndex ? sColors.black : sColors.black.withOpacity(0.3),
                 ),
                 if (position == currentIndex)
                   AnimatedBuilder(

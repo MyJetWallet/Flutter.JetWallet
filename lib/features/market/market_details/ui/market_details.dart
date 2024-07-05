@@ -147,7 +147,9 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
               }
             },
             onBackButtonTap: () {
-              sAnalytics.tapOnTheBackButtonFromMarketAssetScreen(asset: widget.marketItem.symbol);
+              sAnalytics.tapOnTheBackButtonFromMarketAssetScreen(
+                asset: widget.marketItem.symbol,
+              );
               sRouter.maybePop();
             },
           ),
@@ -326,7 +328,9 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
                           accuracy: widget.marketItem.assetAccuracy,
                         ),
                   onTap: () {
-                    sAnalytics.tapOnTheBalanceButtonOnMarketAssetScreen(asset: widget.marketItem.symbol);
+                    sAnalytics.tapOnTheBalanceButtonOnMarketAssetScreen(
+                      asset: widget.marketItem.symbol,
+                    );
 
                     onMarketItemTap(
                       context: context,

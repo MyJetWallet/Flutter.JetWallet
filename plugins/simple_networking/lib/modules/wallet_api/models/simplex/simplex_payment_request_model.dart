@@ -12,6 +12,5 @@ class SimplexPaymentRequestModel with _$SimplexPaymentRequestModel {
     required String toAsset,
   }) = _SimplexPaymentRequestModel;
 
-  factory SimplexPaymentRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$SimplexPaymentRequestModelFromJson(json);
+  factory SimplexPaymentRequestModel.fromJson(Map<String, dynamic> json) => _$SimplexPaymentRequestModelFromJson(json);
 }

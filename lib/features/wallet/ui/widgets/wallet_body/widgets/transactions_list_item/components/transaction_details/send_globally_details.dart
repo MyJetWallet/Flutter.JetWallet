@@ -55,7 +55,9 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     text: transactionListItem.paymeInfo?.accountNumber ?? '',
                   ),
                   const SpaceW10(),
-                  HistoryCopyIcon(transactionListItem.paymeInfo?.accountNumber ?? ''),
+                  HistoryCopyIcon(
+                    transactionListItem.paymeInfo?.accountNumber ?? '',
+                  ),
                 ],
               ),
             ),
@@ -71,7 +73,9 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     text: transactionListItem.paymeInfo?.recipientName ?? '',
                   ),
                   const SpaceW10(),
-                  HistoryCopyIcon(transactionListItem.paymeInfo?.recipientName ?? ''),
+                  HistoryCopyIcon(
+                    transactionListItem.paymeInfo?.recipientName ?? '',
+                  ),
                 ],
               ),
             ),
@@ -87,7 +91,9 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     text: transactionListItem.paymeInfo?.bankName ?? '',
                   ),
                   const SpaceW10(),
-                  HistoryCopyIcon(transactionListItem.paymeInfo?.bankName ?? ''),
+                  HistoryCopyIcon(
+                    transactionListItem.paymeInfo?.bankName ?? '',
+                  ),
                 ],
               ),
             ),
@@ -103,7 +109,9 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     text: transactionListItem.paymeInfo?.ifscCode ?? '',
                   ),
                   const SpaceW10(),
-                  HistoryCopyIcon(transactionListItem.paymeInfo?.ifscCode ?? ''),
+                  HistoryCopyIcon(
+                    transactionListItem.paymeInfo?.ifscCode ?? '',
+                  ),
                 ],
               ),
             ),
@@ -121,7 +129,9 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     ),
                   ),
                   const SpaceW10(),
-                  HistoryCopyIcon(transactionListItem.paymeInfo?.cardNumber ?? ''),
+                  HistoryCopyIcon(
+                    transactionListItem.paymeInfo?.cardNumber ?? '',
+                  ),
                 ],
               ),
             ),
@@ -152,7 +162,9 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     text: transactionListItem.paymeInfo?.phoneNumber ?? '',
                   ),
                   const SpaceW10(),
-                  HistoryCopyIcon(transactionListItem.paymeInfo?.phoneNumber ?? ''),
+                  HistoryCopyIcon(
+                    transactionListItem.paymeInfo?.phoneNumber ?? '',
+                  ),
                 ],
               ),
             ),
@@ -168,7 +180,9 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     text: transactionListItem.paymeInfo?.panNumber ?? '',
                   ),
                   const SpaceW10(),
-                  HistoryCopyIcon(transactionListItem.paymeInfo?.panNumber ?? ''),
+                  HistoryCopyIcon(
+                    transactionListItem.paymeInfo?.panNumber ?? '',
+                  ),
                 ],
               ),
             ),
@@ -184,7 +198,9 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     text: transactionListItem.paymeInfo?.upiAddress ?? '',
                   ),
                   const SpaceW10(),
-                  HistoryCopyIcon(transactionListItem.paymeInfo?.upiAddress ?? ''),
+                  HistoryCopyIcon(
+                    transactionListItem.paymeInfo?.upiAddress ?? '',
+                  ),
                 ],
               ),
             ),
@@ -200,7 +216,9 @@ class SendGloballyDetails extends StatelessObserverWidget {
                     text: transactionListItem.paymeInfo?.bankAccount ?? '',
                   ),
                   const SpaceW10(),
-                  HistoryCopyIcon(transactionListItem.paymeInfo?.bankAccount ?? ''),
+                  HistoryCopyIcon(
+                    transactionListItem.paymeInfo?.bankAccount ?? '',
+                  ),
                 ],
               ),
             ),
@@ -243,7 +261,6 @@ class SendGloballyDetails extends StatelessObserverWidget {
                 child: TransactionDetailsValueText(
                   textAlign: TextAlign.end,
                   text: transactionListItem.paymeInfo?.methodName ?? '',
-                  
                 ),
               ),
             ),

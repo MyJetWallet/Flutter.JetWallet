@@ -251,7 +251,9 @@ class CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
                                               width: 48,
                                               height: 48,
                                               child: Center(
-                                                child: getNetworkIcon(widget.card.cardType),
+                                                child: getNetworkIcon(
+                                                  widget.card.cardType,
+                                                ),
                                               ),
                                             ),
                                           ],

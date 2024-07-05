@@ -9,8 +9,6 @@ class SCircleMinusIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightCircleMinusIcon()
-        : const SimpleLightCircleMinusIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightCircleMinusIcon() : const SimpleLightCircleMinusIcon();
   }
 }

@@ -9,8 +9,6 @@ class SMailPressedIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightMailPressedIcon()
-        : const SimpleLightMailPressedIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightMailPressedIcon() : const SimpleLightMailPressedIcon();
   }
 }

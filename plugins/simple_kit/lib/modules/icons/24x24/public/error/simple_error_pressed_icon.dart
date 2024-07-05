@@ -9,8 +9,6 @@ class SErrorPressedIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightErrorPressedIcon()
-        : const SimpleLightErrorPressedIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightErrorPressedIcon() : const SimpleLightErrorPressedIcon();
   }
 }

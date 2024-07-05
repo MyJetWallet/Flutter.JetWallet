@@ -56,8 +56,7 @@ class NftMarketItem extends StatelessWidget {
                       height: 24,
                       width: 24,
                     ),
-                    errorWidget: (context, url, error) =>
-                        const SSkeletonTextLoader(
+                    errorWidget: (context, url, error) => const SSkeletonTextLoader(
                       height: 24,
                       width: 24,
                     ),

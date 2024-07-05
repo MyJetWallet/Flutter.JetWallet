@@ -9,8 +9,6 @@ class SGiftIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightGiftIcon()
-        : const SimpleLightGiftIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightGiftIcon() : const SimpleLightGiftIcon();
   }
 }

@@ -24,6 +24,5 @@ class KycCountryModel with _$KycCountryModel {
     required String countryName,
   }) = _KycCountryModel;
 
-  factory KycCountryModel.fromJson(Map<String, dynamic> json) =>
-      _$KycCountryModelFromJson(json);
+  factory KycCountryModel.fromJson(Map<String, dynamic> json) => _$KycCountryModelFromJson(json);
 }

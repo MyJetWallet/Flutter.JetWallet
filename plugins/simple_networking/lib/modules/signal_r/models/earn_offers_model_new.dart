@@ -21,9 +21,7 @@ class EarnOfferClientModel with _$EarnOfferClientModel {
     String? name,
     String? description,
     required String assetId,
-    @Default(EarnOfferStatus.undefined)
-    @JsonKey(unknownEnumValue: EarnOfferStatus.undefined)
-    EarnOfferStatus status,
+    @Default(EarnOfferStatus.undefined) @JsonKey(unknownEnumValue: EarnOfferStatus.undefined) EarnOfferStatus status,
     @Default(WithdrawType.undefined) @JsonKey(unknownEnumValue: WithdrawType.undefined) WithdrawType withdrawType,
     @DecimalNullSerialiser() Decimal? apyRate,
     int? paymentPeriodDays,

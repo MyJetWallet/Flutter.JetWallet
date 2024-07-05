@@ -87,7 +87,10 @@ void showInvestListBottomSheet(BuildContext context) {
                                       title: intl.invest_alert_in_progress,
                                       subtitle: intl.invest_alert_in_progress_description,
                                     );
-                                    investPositionsStore.closeAllActive(context, null);
+                                    investPositionsStore.closeAllActive(
+                                      context,
+                                      null,
+                                    );
                                   },
                                   primaryButtonName: intl.invest_alert_cancel,
                                   secondaryButtonName: intl.invest_alert_close_all,
@@ -172,7 +175,10 @@ void showInvestListBottomSheet(BuildContext context) {
                                       title: intl.invest_alert_in_progress,
                                       subtitle: intl.invest_alert_in_progress_description,
                                     );
-                                    investPositionsStore.cancelAllPending(context, null);
+                                    investPositionsStore.cancelAllPending(
+                                      context,
+                                      null,
+                                    );
                                   },
                                   primaryButtonName: intl.invest_alert_cancel,
                                   secondaryButtonName: intl.invest_alert_delete_all,

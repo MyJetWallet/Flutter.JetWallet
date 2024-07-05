@@ -7,8 +7,7 @@ import 'package:mobx/mobx.dart';
 part 'choose_documents_store.g.dart';
 
 @lazySingleton
-class ChooseDocumentsStore = _ChooseDocumentsStoreBase
-    with _$ChooseDocumentsStore;
+class ChooseDocumentsStore = _ChooseDocumentsStoreBase with _$ChooseDocumentsStore;
 
 abstract class _ChooseDocumentsStoreBase with Store {
   _ChooseDocumentsStoreBase() {
@@ -23,9 +22,7 @@ abstract class _ChooseDocumentsStoreBase with Store {
     final countries = getIt.get<KycCountryStore>();
 
     final modifyDocuments = <DocumentsModel>[];
-    for (var i = 0;
-        i < countries.activeCountry!.acceptedDocuments.length;
-        i++) {
+    for (var i = 0; i < countries.activeCountry!.acceptedDocuments.length; i++) {
       modifyDocuments.add(
         DocumentsModel(
           document: countries.activeCountry!.acceptedDocuments[i],

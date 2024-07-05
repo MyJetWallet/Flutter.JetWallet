@@ -13,8 +13,7 @@ class SimpleLightDepositInProgressEarnIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SimpleBaseSvg20x20(
-      assetName:
-          'assets/icons/light/20x20/deposit_in_progress/progress_earn_icon.svg',
+      assetName: 'assets/icons/light/20x20/deposit_in_progress/progress_earn_icon.svg',
       color: color,
     );
   }

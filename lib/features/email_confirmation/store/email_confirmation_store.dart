@@ -23,8 +23,7 @@ import 'package:simple_networking/modules/validation_api/models/verify_email/ver
 
 part 'email_confirmation_store.g.dart';
 
-class EmailConfirmationStore extends _EmailConfirmationStoreBase
-    with _$EmailConfirmationStore {
+class EmailConfirmationStore extends _EmailConfirmationStoreBase with _$EmailConfirmationStore {
   EmailConfirmationStore() : super();
 
   static _EmailConfirmationStoreBase of(BuildContext context) =>
@@ -114,8 +113,7 @@ abstract class _EmailConfirmationStoreBase with Store {
         reason: 9,
       );
 
-      final response =
-          await sNetwork.getValidationModule().postSendEmailConfirmation(model);
+      final response = await sNetwork.getValidationModule().postSendEmailConfirmation(model);
 
       if (response.hasError) {
         _logger.log(stateFlow, 'sendCode', response.error);
@@ -162,9 +160,7 @@ abstract class _EmailConfirmationStoreBase with Store {
         code: controller.text,
       );
 
-      final _ = await sNetwork
-          .getValidationModule()
-          .postVerifyEmailConfirmation(model);
+      final _ = await sNetwork.getValidationModule().postVerifyEmailConfirmation(model);
 
       _.pick(
         onData: (data) async {

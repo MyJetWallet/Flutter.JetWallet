@@ -30,9 +30,7 @@ String get deviceType {
 const _smallHeightBreakpoint = 800;
 
 DeviceSizeUnion deviceSizeFrom(double screenHeight) {
-  return screenHeight < _smallHeightBreakpoint
-      ? const DeviceSizeUnion.small()
-      : const DeviceSizeUnion.medium();
+  return screenHeight < _smallHeightBreakpoint ? const DeviceSizeUnion.small() : const DeviceSizeUnion.medium();
 }
 
 Future<DeviceInfoModel> deviceInfo() async {

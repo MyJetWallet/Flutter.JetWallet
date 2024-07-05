@@ -60,9 +60,7 @@ class MarketNewsBlock extends StatelessObserverWidget {
               if (news.length >= newsPortionAmount) ...[
                 SPaddingH24(
                   child: ClickableUnderlinedText(
-                    text: newsN.canLoadMore
-                        ? intl.marketNewsBlock_readMore
-                        : intl.marketNewsBlock_readLess,
+                    text: newsN.canLoadMore ? intl.marketNewsBlock_readMore : intl.marketNewsBlock_readLess,
                     onTap: () {
                       if (newsN.canLoadMore) {
                         newsN.loadMoreNews(assetId);

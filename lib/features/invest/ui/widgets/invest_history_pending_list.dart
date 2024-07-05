@@ -175,8 +175,9 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                   : SliverGroupedListView<InvestPositionModel, String>(
                       elements: listToShow,
                       groupBy: (position) {
-                        return DateFormat('dd.MM.yyyy')
-                            .format(DateTime.parse('${position.creationTimestamp}Z').toLocal());
+                        return DateFormat('dd.MM.yyyy').format(
+                          DateTime.parse('${position.creationTimestamp}Z').toLocal(),
+                        );
                       },
                       groupSeparatorBuilder: (String date) {
                         return TransactionDaySeparator(text: date);
@@ -184,7 +185,10 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                       sort: false,
                       itemBuilder: (context, position) {
                         return InvestLine(
-                          currency: currencyFrom(currencies, getInstrumentBySymbol(position.symbol ?? '')?.name ?? ''),
+                          currency: currencyFrom(
+                            currencies,
+                            getInstrumentBySymbol(position.symbol ?? '')?.name ?? '',
+                          ),
                           price: position.profitLoss ?? Decimal.zero,
                           operationType: position.direction ?? Direction.undefined,
                           isPending: true,
@@ -198,7 +202,10 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                           onTap: () {
                             investPositionsStore.initPosition(position);
                             showInvestReportBottomSheet(
-                                context, position, getInstrumentBySymbol(position.symbol ?? '')!);
+                              context,
+                              position,
+                              getInstrumentBySymbol(position.symbol ?? '')!,
+                            );
                           },
                         );
                       },
@@ -260,7 +267,9 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                   active: true,
                                   name: intl.transactionsList_retry,
                                   onTap: () {
-                                    InvestHistory.of(context).initInvestPending(symbol: widget.instrument);
+                                    InvestHistory.of(context).initInvestPending(
+                                      symbol: widget.instrument,
+                                    );
                                   },
                                 ),
                               ],
@@ -284,21 +293,36 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                 children: [
                                   InvestLine(
                                     currency: currencyFrom(
-                                        currencies, getInstrumentBySymbol(position.symbol ?? '')?.name ?? ''),
+                                      currencies,
+                                      getInstrumentBySymbol(
+                                            position.symbol ?? '',
+                                          )?.name ??
+                                          '',
+                                    ),
                                     price: position.profitLoss ?? Decimal.zero,
                                     operationType: position.direction ?? Direction.undefined,
                                     isPending: true,
                                     amount: position.amount ?? Decimal.zero,
-                                    leverage: Decimal.fromInt(position.multiplicator ?? 0),
+                                    leverage: Decimal.fromInt(
+                                      position.multiplicator ?? 0,
+                                    ),
                                     isGroup: false,
                                     historyCount: 1,
                                     profit: investStore.getProfitByPosition(position),
                                     profitPercent: investStore.getYieldByPosition(position),
-                                    accuracy: getInstrumentBySymbol(position.symbol ?? '')?.priceAccuracy ?? 2,
+                                    accuracy: getInstrumentBySymbol(
+                                          position.symbol ?? '',
+                                        )?.priceAccuracy ??
+                                        2,
                                     onTap: () {
                                       investPositionsStore.initPosition(position);
                                       showInvestReportBottomSheet(
-                                          context, position, getInstrumentBySymbol(position.symbol ?? '')!);
+                                        context,
+                                        position,
+                                        getInstrumentBySymbol(
+                                          position.symbol ?? '',
+                                        )!,
+                                      );
                                     },
                                   ),
                                   Container(
@@ -357,7 +381,9 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                           active: true,
                                           name: intl.transactionsList_retry,
                                           onTap: () {
-                                            InvestHistory.of(context).investHistoryPending(widget.instrument);
+                                            InvestHistory.of(context).investHistoryPending(
+                                              widget.instrument,
+                                            );
                                           },
                                         ),
                                       ],
@@ -366,13 +392,17 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                 ],
                               )
                             : InvestLine(
-                                currency:
-                                    currencyFrom(currencies, getInstrumentBySymbol(position.symbol ?? '')?.name ?? ''),
+                                currency: currencyFrom(
+                                  currencies,
+                                  getInstrumentBySymbol(position.symbol ?? '')?.name ?? '',
+                                ),
                                 price: position.profitLoss ?? Decimal.zero,
                                 operationType: position.direction ?? Direction.undefined,
                                 isPending: true,
                                 amount: position.amount ?? Decimal.zero,
-                                leverage: Decimal.fromInt(position.multiplicator ?? 0),
+                                leverage: Decimal.fromInt(
+                                  position.multiplicator ?? 0,
+                                ),
                                 isGroup: false,
                                 historyCount: 1,
                                 profit: investStore.getProfitByPosition(position),
@@ -381,7 +411,12 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                 onTap: () {
                                   investPositionsStore.initPosition(position);
                                   showInvestReportBottomSheet(
-                                      context, position, getInstrumentBySymbol(position.symbol ?? '')!);
+                                    context,
+                                    position,
+                                    getInstrumentBySymbol(
+                                      position.symbol ?? '',
+                                    )!,
+                                  );
                                 },
                               );
                       },
@@ -405,21 +440,36 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                 children: [
                                   InvestLine(
                                     currency: currencyFrom(
-                                        currencies, getInstrumentBySymbol(position.symbol ?? '')?.name ?? ''),
+                                      currencies,
+                                      getInstrumentBySymbol(
+                                            position.symbol ?? '',
+                                          )?.name ??
+                                          '',
+                                    ),
                                     price: position.profitLoss ?? Decimal.zero,
                                     operationType: position.direction ?? Direction.undefined,
                                     isPending: true,
                                     amount: position.amount ?? Decimal.zero,
-                                    leverage: Decimal.fromInt(position.multiplicator ?? 0),
+                                    leverage: Decimal.fromInt(
+                                      position.multiplicator ?? 0,
+                                    ),
                                     isGroup: false,
                                     historyCount: 1,
                                     profit: investStore.getProfitByPosition(position),
                                     profitPercent: investStore.getYieldByPosition(position),
-                                    accuracy: getInstrumentBySymbol(position.symbol ?? '')?.priceAccuracy ?? 2,
+                                    accuracy: getInstrumentBySymbol(
+                                          position.symbol ?? '',
+                                        )?.priceAccuracy ??
+                                        2,
                                     onTap: () {
                                       investPositionsStore.initPosition(position);
                                       showInvestReportBottomSheet(
-                                          context, position, getInstrumentBySymbol(position.symbol ?? '')!);
+                                        context,
+                                        position,
+                                        getInstrumentBySymbol(
+                                          position.symbol ?? '',
+                                        )!,
+                                      );
                                     },
                                   ),
                                   const SpaceH24(),
@@ -437,13 +487,17 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                 ],
                               )
                             : InvestLine(
-                                currency:
-                                    currencyFrom(currencies, getInstrumentBySymbol(position.symbol ?? '')?.name ?? ''),
+                                currency: currencyFrom(
+                                  currencies,
+                                  getInstrumentBySymbol(position.symbol ?? '')?.name ?? '',
+                                ),
                                 price: position.profitLoss ?? Decimal.zero,
                                 operationType: position.direction ?? Direction.undefined,
                                 isPending: true,
                                 amount: position.amount ?? Decimal.zero,
-                                leverage: Decimal.fromInt(position.multiplicator ?? 0),
+                                leverage: Decimal.fromInt(
+                                  position.multiplicator ?? 0,
+                                ),
                                 isGroup: false,
                                 historyCount: 1,
                                 profit: investStore.getProfitByPosition(position),
@@ -452,7 +506,12 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                 onTap: () {
                                   investPositionsStore.initPosition(position);
                                   showInvestReportBottomSheet(
-                                      context, position, getInstrumentBySymbol(position.symbol ?? '')!);
+                                    context,
+                                    position,
+                                    getInstrumentBySymbol(
+                                      position.symbol ?? '',
+                                    )!,
+                                  );
                                 },
                               );
                       },

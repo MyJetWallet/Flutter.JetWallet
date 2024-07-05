@@ -18,7 +18,6 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/buy_prepaid_card_intention_dto_list_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/prepaid_card/get_purchase_card_list_request_model.dart';
@@ -356,7 +355,9 @@ class _InfoGrid extends StatelessWidget {
             showCommisionExplanationBottomSheet(context);
           },
           customValueStyle: STStyles.subtitle2.copyWith(
-            color: ((voucher?.feeAmount ?? Decimal.zero) == Decimal.zero && !getIt<AppStore>().isBalanceHide) ? SColorsLight().green : null,
+            color: ((voucher?.feeAmount ?? Decimal.zero) == Decimal.zero && !getIt<AppStore>().isBalanceHide)
+                ? SColorsLight().green
+                : null,
           ),
         ),
         const SizedBox(height: 16),

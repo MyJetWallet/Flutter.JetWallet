@@ -165,15 +165,11 @@ class _BasicBottomSheetState extends State<BasicBottomSheet> {
                         ),
                         constraints: BoxConstraints(
                           maxHeight: maxHeight,
-                          minHeight: widget.expanded
-                              ? maxHeight
-                              : widget.minHeight ?? 0,
+                          minHeight: widget.expanded ? maxHeight : widget.minHeight ?? 0,
                         ),
                         child: ListView(
                           padding: EdgeInsets.zero,
-                          physics: widget.scrollable
-                              ? null
-                              : const NeverScrollableScrollPhysics(),
+                          physics: widget.scrollable ? null : const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           children: widget.children,
                         ),

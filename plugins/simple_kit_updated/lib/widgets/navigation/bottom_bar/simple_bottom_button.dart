@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/navigation/bottom_bar/notification_box.dart';
-import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 
 class SBottomButton extends StatelessWidget {
   const SBottomButton({

@@ -22,9 +22,7 @@ class IndexAllocationItem extends StatelessObserverWidget {
       sSignalRModules.marketItems,
       basketAssetModel.symbol,
     );
-    final targetRebalanceWeightPercent =
-        (basketAssetModel.targetRebalanceWeight * Decimal.parse('100'))
-            .toBigInt();
+    final targetRebalanceWeightPercent = (basketAssetModel.targetRebalanceWeight * Decimal.parse('100')).toBigInt();
 
     return SizedBox(
       height: 40,

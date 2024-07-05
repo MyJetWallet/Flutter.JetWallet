@@ -86,7 +86,13 @@ class MainInvestBlock extends StatelessObserverWidget {
                           ),
                           const SpaceW2(),
                           Text(
-                            isBalanceHide ? '****' : marketFormat(decimal: amount, accuracy: 2, symbol: ''),
+                            isBalanceHide
+                                ? '****'
+                                : marketFormat(
+                                    decimal: amount,
+                                    accuracy: 2,
+                                    symbol: '',
+                                  ),
                             style: STStyles.body3InvestSM.copyWith(
                               color: colors.black,
                             ),
@@ -118,7 +124,13 @@ class MainInvestBlock extends StatelessObserverWidget {
                   ),
                   const SpaceW4(),
                   Text(
-                    isBalanceHide ? '****' : marketFormat(decimal: balance, accuracy: 2, symbol: ''),
+                    isBalanceHide
+                        ? '****'
+                        : marketFormat(
+                            decimal: balance,
+                            accuracy: 2,
+                            symbol: '',
+                          ),
                     style: STStyles.header3Invest.copyWith(
                       color: colors.black,
                     ),

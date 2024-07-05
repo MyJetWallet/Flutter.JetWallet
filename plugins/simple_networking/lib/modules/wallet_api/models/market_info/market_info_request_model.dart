@@ -10,6 +10,5 @@ class MarketInfoRequestModel with _$MarketInfoRequestModel {
     @JsonKey(name: 'lang') required String language,
   }) = _MarketInfoRequestModel;
 
-  factory MarketInfoRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$MarketInfoRequestModelFromJson(json);
+  factory MarketInfoRequestModel.fromJson(Map<String, dynamic> json) => _$MarketInfoRequestModelFromJson(json);
 }

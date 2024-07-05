@@ -75,8 +75,7 @@ class AuthApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, AuthenticationResponseModel>>
-      postLoginRequest(
+  Future<DC<ServerRejectException, AuthenticationResponseModel>> postLoginRequest(
     LoginRequestModel model,
   ) async {
     try {
@@ -137,8 +136,7 @@ class AuthApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, AuthRefreshResponseModel>>
-      postRefreshRequest(
+  Future<DC<ServerRejectException, AuthRefreshResponseModel>> postRefreshRequest(
     AuthRefreshRequestModel model,
   ) async {
     try {
@@ -161,8 +159,7 @@ class AuthApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, AuthenticationResponseModel>>
-      postRegisterRequest(
+  Future<DC<ServerRejectException, AuthenticationResponseModel>> postRegisterRequest(
     RegisterRequestModel model,
   ) async {
     try {
@@ -187,8 +184,7 @@ class AuthApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, ServerTimeResponseModel>>
-      getServerTimeRequest() async {
+  Future<DC<ServerRejectException, ServerTimeResponseModel>> getServerTimeRequest() async {
     try {
       final response = await _apiClient.get(
         '${_apiClient.options.authApi}/common/server-time',
@@ -276,8 +272,7 @@ class AuthApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, CountryListResponseModel>>
-      getCountryListRequest() async {
+  Future<DC<ServerRejectException, CountryListResponseModel>> getCountryListRequest() async {
     try {
       final response = await _apiClient.get(
         '${_apiClient.options.authApi}/kycprofile/CountryList',
@@ -296,8 +291,7 @@ class AuthApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, ChangePinResponseModel>>
-      postChangePinRequest(
+  Future<DC<ServerRejectException, ChangePinResponseModel>> postChangePinRequest(
     String oldPin,
     String newPin,
   ) async {
@@ -368,8 +362,7 @@ class AuthApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, ResetPinResponseModel>>
-      postResetPinRequest() async {
+  Future<DC<ServerRejectException, ResetPinResponseModel>> postResetPinRequest() async {
     try {
       const model = ResetPinRequestModel();
       final response = await _apiClient.post(
@@ -390,8 +383,7 @@ class AuthApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, SessionCheckResponseModel>>
-      postSessionCheckRequest() async {
+  Future<DC<ServerRejectException, SessionCheckResponseModel>> postSessionCheckRequest() async {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.authApi}/session/Check',
@@ -411,8 +403,7 @@ class AuthApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, StartEmailLoginResponseModel>>
-      postStartEmailLoginRequest(
+  Future<DC<ServerRejectException, StartEmailLoginResponseModel>> postStartEmailLoginRequest(
     StartEmailLoginRequestModel model,
   ) async {
     try {
@@ -434,8 +425,7 @@ class AuthApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, ConfirmEmailLoginResponseModel>>
-      postConfirmEmailLoginRequest(
+  Future<DC<ServerRejectException, ConfirmEmailLoginResponseModel>> postConfirmEmailLoginRequest(
     ConfirmEmailLoginRequestModel model,
   ) async {
     try {
@@ -457,8 +447,7 @@ class AuthApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, CountryResponseModel>>
-      getUserCountryRequest() async {
+  Future<DC<ServerRejectException, CountryResponseModel>> getUserCountryRequest() async {
     try {
       final response = await _apiClient.get(
         '${_apiClient.options.authApi}/common/ip-country',

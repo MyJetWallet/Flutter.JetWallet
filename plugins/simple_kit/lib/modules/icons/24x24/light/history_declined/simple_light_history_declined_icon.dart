@@ -12,8 +12,7 @@ class SimpleLightHistoryDeclinedIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SimpleBaseSvg20x20(
-      assetName:
-          'assets/icons/light/24x24/history_declined/history_declined.svg',
+      assetName: 'assets/icons/light/24x24/history_declined/history_declined.svg',
       color: color,
     );
   }

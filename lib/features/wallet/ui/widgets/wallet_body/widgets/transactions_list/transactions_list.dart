@@ -147,12 +147,9 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                               ? screenHeight - screenHeight * 0.369 - 227
                               : screenHeight - screenHeight * 0.369,
                           child: Column(
-                            mainAxisAlignment: widget.isSimpleCard
-                                ? MainAxisAlignment.start
-                                : MainAxisAlignment.center,
+                            mainAxisAlignment: widget.isSimpleCard ? MainAxisAlignment.start : MainAxisAlignment.center,
                             children: [
-                              if (widget.isSimpleCard)
-                                const SpaceH45(),
+                              if (widget.isSimpleCard) const SpaceH45(),
                               Image.asset(
                                 smileAsset,
                                 width: 36,

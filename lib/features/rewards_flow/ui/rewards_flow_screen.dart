@@ -110,7 +110,10 @@ class _RewardsFlowScreenBodyState extends State<_RewardsFlowScreenBody> {
                                 gradient: LinearGradient(
                                   begin: Alignment(0.51, -0.86),
                                   end: Alignment(-0.51, 0.86),
-                                  colors: [Color(0xFFCBB9FF), Color(0xFF9575F3)],
+                                  colors: [
+                                    Color(0xFFCBB9FF),
+                                    Color(0xFF9575F3),
+                                  ],
                                 ),
                                 shape: OvalBorder(),
                               ),

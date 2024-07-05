@@ -46,8 +46,7 @@ void showStartEarnOptions({
         },
         icon: const SActionBuyIcon(),
         name: '${intl.showStartEarnOptions_buy} ${currency.description}',
-        description:
-            intl.showStartEarnOptions_buyAnyCryptoAvailableOnThePlatform,
+        description: intl.showStartEarnOptions_buyAnyCryptoAvailableOnThePlatform,
       ),
       SActionItem(
         onTap: () {

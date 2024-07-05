@@ -30,8 +30,7 @@ class CryptoDepositWithAddress extends StatelessObserverWidget {
     final screenWidth = mediaQuery.size.width;
     final qrCodeSize = screenWidth * 0.6;
 
-    final extraScrollArea =
-        screenHeight - qrCodeSize - screenWidgets - sAddressFieldWithCopyHeight;
+    final extraScrollArea = screenHeight - qrCodeSize - screenWidgets - sAddressFieldWithCopyHeight;
 
     final widgetHeight = extraScrollArea.isNegative
         ? screenHeight - screenWidgets + extraScrollArea.abs()

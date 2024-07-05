@@ -58,8 +58,11 @@ class _HelpCenterWebViewState extends State<HelpCenterWebView> {
             }
 
             return WebView(
-              gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{}
-                ..add(Factory<VerticalDragGestureRecognizer>(() => VerticalDragGestureRecognizer())),
+              gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{}..add(
+                  Factory<VerticalDragGestureRecognizer>(
+                    () => VerticalDragGestureRecognizer(),
+                  ),
+                ),
               initialUrl: widget.link,
               gestureNavigationEnabled: true,
               javascriptMode: JavascriptMode.unrestricted,

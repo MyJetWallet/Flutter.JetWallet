@@ -39,9 +39,7 @@ class SActionPriceFieldWithCurrency extends StatelessWidget {
                         price,
                         maxLines: 1,
                         style: sTextH1Style.copyWith(
-                          color: isErrorActive
-                              ? SColorsLight().red
-                              : SColorsLight().black,
+                          color: isErrorActive ? SColorsLight().red : SColorsLight().black,
                         ),
                       ),
                     )
@@ -57,9 +55,7 @@ class SActionPriceFieldWithCurrency extends StatelessWidget {
                             price,
                             maxLines: 1,
                             style: sTextH1Style.copyWith(
-                              color: isErrorActive
-                                  ? SColorsLight().red
-                                  : SColorsLight().black,
+                              color: isErrorActive ? SColorsLight().red : SColorsLight().black,
                             ),
                           ),
                         ),
@@ -88,8 +84,7 @@ class SActionPriceFieldWithCurrency extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                   height: 1.50,
                   fontFamily: 'Gilroy',
-                  color:
-                      isErrorActive ? SColorsLight().red : SColorsLight().grey1,
+                  color: isErrorActive ? SColorsLight().red : SColorsLight().grey1,
                 ),
               ),
             ),

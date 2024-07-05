@@ -52,8 +52,7 @@ class CountryProfileField extends StatelessObserverWidget {
                 SStandardField(
                   hideClearButton: true,
                   readOnly: true,
-                  controller: TextEditingController()
-                    ..text = countryInfo.activeCountry != null ? ' ' : '',
+                  controller: TextEditingController()..text = countryInfo.activeCountry != null ? ' ' : '',
                   labelText: intl.user_data_country,
                 ),
               ],

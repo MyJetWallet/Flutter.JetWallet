@@ -10,6 +10,5 @@ class RemoteConfigAppsflyer with _$RemoteConfigAppsflyer {
     required String iosAppId,
   }) = _RemoteConfigAppsflyer;
 
-  factory RemoteConfigAppsflyer.fromJson(Map<String, dynamic> json) =>
-      _$RemoteConfigAppsflyerFromJson(json);
+  factory RemoteConfigAppsflyer.fromJson(Map<String, dynamic> json) => _$RemoteConfigAppsflyerFromJson(json);
 }

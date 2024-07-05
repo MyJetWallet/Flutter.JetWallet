@@ -9,8 +9,7 @@ class KycCountriesResponseModel with _$KycCountriesResponseModel {
     @Default([]) List<KycCountryResponseModel> countries,
   }) = _KycCountriesResponseModel;
 
-  factory KycCountriesResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$KycCountriesResponseModelFromJson(json);
+  factory KycCountriesResponseModel.fromJson(Map<String, dynamic> json) => _$KycCountriesResponseModelFromJson(json);
 }
 
 @freezed
@@ -22,6 +21,5 @@ class KycCountryResponseModel with _$KycCountryResponseModel {
     required String countryName,
   }) = _KycCountryResponseModel;
 
-  factory KycCountryResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$KycCountryResponseModelFromJson(json);
+  factory KycCountryResponseModel.fromJson(Map<String, dynamic> json) => _$KycCountryResponseModelFromJson(json);
 }

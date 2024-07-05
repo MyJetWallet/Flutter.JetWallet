@@ -37,27 +37,25 @@ class EarnPositionsListWidget extends StatelessWidget {
               size: SPlaceholderSize.l,
               text: intl.wallet_simple_account_empty,
             ),
-          ...earnPositions
-              .map(
-                (e) => SDepositCard(
-                  earnPosition: e,
-                  onTap: () {
-                    sAnalytics.tapOnTheAnyActiveEarnButton(
-                      assetName: e.assetId,
-                      earnAPYrate: getHighestApyRateAsString(e.offers) ?? '',
-                      earnDepositAmount: e.baseAmount.toString(),
-                      earnOfferStatus: getTextForStatusAnalytics(e.status),
-                      earnPlanName: e.offers.first.description ?? '',
-                      earnWithdrawalType: e.withdrawType.name,
-                      revenue: e.incomeAmount.toString(),
-                    );
-                    context.router.push(
-                      EarnPositionActiveRouter(earnPosition: e),
-                    );
-                  },
-                ),
-              )
-              ,
+          ...earnPositions.map(
+            (e) => SDepositCard(
+              earnPosition: e,
+              onTap: () {
+                sAnalytics.tapOnTheAnyActiveEarnButton(
+                  assetName: e.assetId,
+                  earnAPYrate: getHighestApyRateAsString(e.offers) ?? '',
+                  earnDepositAmount: e.baseAmount.toString(),
+                  earnOfferStatus: getTextForStatusAnalytics(e.status),
+                  earnPlanName: e.offers.first.description ?? '',
+                  earnWithdrawalType: e.withdrawType.name,
+                  revenue: e.incomeAmount.toString(),
+                );
+                context.router.push(
+                  EarnPositionActiveRouter(earnPosition: e),
+                );
+              },
+            ),
+          ),
         ],
       ),
     );

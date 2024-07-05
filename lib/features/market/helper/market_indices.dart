@@ -5,8 +5,7 @@ import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 List<MarketItemModel> getMarketIndices() {
   try {
     final items = sSignalRModules.getMarketPrices;
-    final indices =
-        items.where((item) => item.type == AssetType.indices).toList();
+    final indices = items.where((item) => item.type == AssetType.indices).toList();
 
     return indices;
   } catch (e) {

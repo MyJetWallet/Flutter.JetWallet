@@ -9,6 +9,5 @@ class CheckPinRequestModel with _$CheckPinRequestModel {
     required String pin,
   }) = _CheckPinRequestModel;
 
-  factory CheckPinRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$CheckPinRequestModelFromJson(json);
+  factory CheckPinRequestModel.fromJson(Map<String, dynamic> json) => _$CheckPinRequestModelFromJson(json);
 }

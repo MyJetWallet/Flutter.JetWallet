@@ -14,8 +14,6 @@ class STopUpIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? SimpleLightTopUpIcon(color: color)
-        : SimpleLightTopUpIcon(color: color);
+    return sKit.currentTheme == STheme.dark ? SimpleLightTopUpIcon(color: color) : SimpleLightTopUpIcon(color: color);
   }
 }

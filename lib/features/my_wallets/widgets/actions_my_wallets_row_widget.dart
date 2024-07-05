@@ -35,7 +35,12 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
               ? const SPaddingH24(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [_LoadingButton(), _LoadingButton(), _LoadingButton(), _LoadingButton()],
+                    children: [
+                      _LoadingButton(),
+                      _LoadingButton(),
+                      _LoadingButton(),
+                      _LoadingButton(),
+                    ],
                   ),
                 )
               : Row(
@@ -43,7 +48,9 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
                   children: [
                     CircleActionBuy(
                       onTap: () {
-                        sAnalytics.tapOnTheBuyWalletButton(source: 'Wallets - Buy');
+                        sAnalytics.tapOnTheBuyWalletButton(
+                          source: 'Wallets - Buy',
+                        );
                         if (myWalletsSrore.isReordering) {
                           myWalletsSrore.endReorderingImmediately();
                         } else {
@@ -63,7 +70,9 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
                     ),
                     CircleActionSend(
                       onTap: () {
-                        sAnalytics.tabOnTheSendButton(source: 'My Assets - Send');
+                        sAnalytics.tabOnTheSendButton(
+                          source: 'My Assets - Send',
+                        );
                         if (myWalletsSrore.isReordering) {
                           myWalletsSrore.endReorderingImmediately();
                         } else {
@@ -75,7 +84,9 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
                     CircleActionAddCash(
                       onTap: () {
                         sAnalytics.tapOnTheButtonAddCashWalletsOnWalletsScreen();
-                        sAnalytics.tapOnTheDepositButton(source: 'Wallets - Deposit');
+                        sAnalytics.tapOnTheDepositButton(
+                          source: 'Wallets - Deposit',
+                        );
                         if (myWalletsSrore.isReordering) {
                           myWalletsSrore.endReorderingImmediately();
                         } else {

@@ -9,8 +9,6 @@ class SResidentIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightResidentIcon()
-        : const SimpleLightResidentIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightResidentIcon() : const SimpleLightResidentIcon();
   }
 }

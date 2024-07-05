@@ -17,12 +17,10 @@ class SSkeletonTextLoader extends StatefulWidget {
   final BorderRadius? borderRadius;
 
   @override
-  _SActionConfirmSkeletonLoaderState createState() =>
-      _SActionConfirmSkeletonLoaderState();
+  _SActionConfirmSkeletonLoaderState createState() => _SActionConfirmSkeletonLoaderState();
 }
 
-class _SActionConfirmSkeletonLoaderState extends State<SSkeletonTextLoader>
-    with SingleTickerProviderStateMixin {
+class _SActionConfirmSkeletonLoaderState extends State<SSkeletonTextLoader> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> animation;
 
@@ -44,8 +42,7 @@ class _SActionConfirmSkeletonLoaderState extends State<SSkeletonTextLoader>
     );
 
     animation.addStatusListener((status) {
-      if (status == AnimationStatus.completed ||
-          status == AnimationStatus.dismissed) {
+      if (status == AnimationStatus.completed || status == AnimationStatus.dismissed) {
         _controller.repeat();
       } else if (status == AnimationStatus.dismissed) {
         _controller.forward();

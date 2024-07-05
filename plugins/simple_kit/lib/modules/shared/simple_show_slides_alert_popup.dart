@@ -139,8 +139,7 @@ void sShowSlideAlertPopup(
                     active: activePrimaryButton,
                     onTap: () => onPrimaryButtonTap(),
                   ),
-                if (onSecondaryButtonTap != null &&
-                    secondaryButtonName != null) ...[
+                if (onSecondaryButtonTap != null && secondaryButtonName != null) ...[
                   const SpaceH10(),
                   STextButton1(
                     name: secondaryButtonName,
@@ -223,8 +222,7 @@ void sShowSlideAlertPopup(
             ],
             if (child1 != null) child1,
             const Spacer(),
-            if (onSecondaryButtonTap1 != null &&
-                secondaryButtonName1 != null) ...[
+            if (onSecondaryButtonTap1 != null && secondaryButtonName1 != null) ...[
               STextButton1(
                 name: secondaryButtonName1,
                 active: true,

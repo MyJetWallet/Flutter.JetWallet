@@ -9,8 +9,6 @@ class SActionActiveIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightActionActiveIcon()
-        : const SimpleLightActionActiveIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightActionActiveIcon() : const SimpleLightActionActiveIcon();
   }
 }

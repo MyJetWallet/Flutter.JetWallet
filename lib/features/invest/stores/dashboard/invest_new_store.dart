@@ -161,12 +161,20 @@ abstract class _InvestNewStoreBase with Store {
     tpPriceValue = isBuyMode
         ? marketPrice *
             (Decimal.one +
-                Decimal.fromJson('${(investPositionTakeProfitAmount / volume).toDouble()}') +
-                Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'))
+                Decimal.fromJson(
+                  '${(investPositionTakeProfitAmount / volume).toDouble()}',
+                ) +
+                Decimal.fromJson(
+                  '${((openFee + closeFee) / volume).toDouble()}',
+                ))
         : marketPrice *
             (Decimal.one -
-                Decimal.fromJson('${(investPositionTakeProfitAmount / volume).toDouble()}') -
-                Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'));
+                Decimal.fromJson(
+                  '${(investPositionTakeProfitAmount / volume).toDouble()}',
+                ) -
+                Decimal.fromJson(
+                  '${((openFee + closeFee) / volume).toDouble()}',
+                ));
     tpPriceController.text = 'est. ${volumeFormat(
       decimal: tpPriceValue,
       symbol: '',
@@ -209,12 +217,20 @@ abstract class _InvestNewStoreBase with Store {
     slPriceValue = isBuyMode
         ? marketPrice *
             (Decimal.one +
-                Decimal.fromJson('${(investPositionStopLossAmount / volume).toDouble()}') +
-                Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'))
+                Decimal.fromJson(
+                  '${(investPositionStopLossAmount / volume).toDouble()}',
+                ) +
+                Decimal.fromJson(
+                  '${((openFee + closeFee) / volume).toDouble()}',
+                ))
         : marketPrice *
             (Decimal.one -
-                Decimal.fromJson('${(investPositionStopLossAmount / volume).toDouble()}') -
-                Decimal.fromJson('${((openFee + closeFee) / volume).toDouble()}'));
+                Decimal.fromJson(
+                  '${(investPositionStopLossAmount / volume).toDouble()}',
+                ) -
+                Decimal.fromJson(
+                  '${((openFee + closeFee) / volume).toDouble()}',
+                ));
 
     slPriceController.text = 'est. ${volumeFormat(
       decimal: slPriceValue,
@@ -472,7 +488,9 @@ abstract class _InvestNewStoreBase with Store {
   bool get isBalanceHide => getIt<AppStore>().isBalanceHide;
 
   @action
-  Future<void> createPendingLimitPosition(NewInvestOrderRequestModel model) async {
+  Future<void> createPendingLimitPosition(
+    NewInvestOrderRequestModel model,
+  ) async {
     if (!hasPendingError()) {
       try {
         final response =
@@ -561,7 +579,9 @@ abstract class _InvestNewStoreBase with Store {
   }
 
   @action
-  Future<void> createPendingStopPosition(NewInvestOrderRequestModel model) async {
+  Future<void> createPendingStopPosition(
+    NewInvestOrderRequestModel model,
+  ) async {
     if (!hasPendingError()) {
       try {
         final response =
@@ -684,7 +704,10 @@ abstract class _InvestNewStoreBase with Store {
                 Navigator.pop(context);
                 Navigator.pop(context);
                 sRouter.push(
-                  ActiveInvestManageRouter(instrument: instrument!, position: response.data!.position!),
+                  ActiveInvestManageRouter(
+                    instrument: instrument!,
+                    position: response.data!.position!,
+                  ),
                 );
               },
               primaryButtonName: intl.invest_alert_got_it,
@@ -750,7 +773,10 @@ abstract class _InvestNewStoreBase with Store {
   }
 
   @action
-  Future<void> changePendingPrice({required String id, required double price}) async {
+  Future<void> changePendingPrice({
+    required String id,
+    required double price,
+  }) async {
     try {
       final response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().changePendingPrice(
             id: id,

@@ -67,13 +67,13 @@ class SWalletItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var textColor = SColorsLight().black;
-    final emptyCashText = hideBalance ? '**** $currencySymbol' : '${currencyPrefix ?? ''}0'
-        '${currencyPrefix == null ? ' $currencySymbol' : ''}';
+    final emptyCashText = hideBalance
+        ? '**** $currencySymbol'
+        : '${currencyPrefix ?? ''}0'
+            '${currencyPrefix == null ? ' $currencySymbol' : ''}';
     final formattedAmount = amountDecimal == 0 ? emptyCashText : amount;
-    final isSecondaryTextVisible = showSecondaryText &&
-        !(isPendingDeposit && formattedAmount == emptyCashText);
-    final isAmountVisible = amount != null &&
-        !(isPendingDeposit && formattedAmount == emptyCashText);
+    final isSecondaryTextVisible = showSecondaryText && !(isPendingDeposit && formattedAmount == emptyCashText);
+    final isAmountVisible = amount != null && !(isPendingDeposit && formattedAmount == emptyCashText);
 
     return InkWell(
       highlightColor: SColorsLight().grey5,
@@ -156,9 +156,7 @@ class SWalletItem extends StatelessWidget {
                                     ? Text(
                                         formattedAmount!,
                                         style: sSubtitle2Style.copyWith(
-                                          color: amountDecimal == 0
-                                              ? color
-                                              : textColor,
+                                          color: amountDecimal == 0 ? color : textColor,
                                           height: 1,
                                         ),
                                         softWrap: true,

@@ -9,8 +9,6 @@ class SCopyPressedIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightCopyPressedIcon()
-        : const SimpleLightCopyPressedIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightCopyPressedIcon() : const SimpleLightCopyPressedIcon();
   }
 }

@@ -12,8 +12,7 @@ class PeriodPricesModel with _$PeriodPricesModel {
     @JsonKey(name: 'priceRecords') required List<PeriodPriceModel> prices,
   }) = _PeriodPricesModel;
 
-  factory PeriodPricesModel.fromJson(Map<String, dynamic> json) =>
-      _$PeriodPricesModelFromJson(json);
+  factory PeriodPricesModel.fromJson(Map<String, dynamic> json) => _$PeriodPricesModelFromJson(json);
 }
 
 @freezed
@@ -26,8 +25,7 @@ class PeriodPriceModel with _$PeriodPriceModel {
     @JsonKey(name: 'm3') required PeriodModel threeMonthPrice,
   }) = _PeriodPriceModel;
 
-  factory PeriodPriceModel.fromJson(Map<String, dynamic> json) =>
-      _$PeriodPriceModelFromJson(json);
+  factory PeriodPriceModel.fromJson(Map<String, dynamic> json) => _$PeriodPriceModelFromJson(json);
 }
 
 @freezed
@@ -37,6 +35,5 @@ class PeriodModel with _$PeriodModel {
     @JsonKey(name: 'recordTime') required String date,
   }) = _PeriodModel;
 
-  factory PeriodModel.fromJson(Map<String, dynamic> json) =>
-      _$PeriodModelFromJson(json);
+  factory PeriodModel.fromJson(Map<String, dynamic> json) => _$PeriodModelFromJson(json);
 }

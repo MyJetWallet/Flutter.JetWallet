@@ -64,7 +64,7 @@ class PushNotificationService {
 
     if (await Permission.notification.isGranted) {
       FirebaseMessaging.onMessage.listen(_onMessage);
-      
+
       await _plugin.initialize(
         initializationSettings,
         onDidReceiveNotificationResponse: (details) async {

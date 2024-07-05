@@ -10,8 +10,7 @@ class ApplePayConfig with _$ApplePayConfig {
     required ApplePayConfigData data,
   }) = _ApplePayConfig;
 
-  factory ApplePayConfig.fromJson(Map<String, dynamic> json) =>
-      _$ApplePayConfigFromJson(json);
+  factory ApplePayConfig.fromJson(Map<String, dynamic> json) => _$ApplePayConfigFromJson(json);
 }
 
 @freezed
@@ -27,6 +26,5 @@ class ApplePayConfigData with _$ApplePayConfigData {
     List<String>? requiredShippingContactFields,
   }) = _ApplePayConfigData;
 
-  factory ApplePayConfigData.fromJson(Map<String, dynamic> json) =>
-      _$ApplePayConfigDataFromJson(json);
+  factory ApplePayConfigData.fromJson(Map<String, dynamic> json) => _$ApplePayConfigDataFromJson(json);
 }

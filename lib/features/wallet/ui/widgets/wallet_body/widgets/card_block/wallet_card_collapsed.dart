@@ -18,8 +18,7 @@ class WalletCardCollapsed extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
     final baseCurrency = sSignalRModules.baseCurrency;
-    final isInProgress =
-        currency.assetBalance == Decimal.zero && currency.isPendingDeposit;
+    final isInProgress = currency.assetBalance == Decimal.zero && currency.isPendingDeposit;
 
     return Container(
       height: 200,

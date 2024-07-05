@@ -18,8 +18,7 @@ class SITextButton extends StatefulWidget {
   final Widget? icon;
 
   @override
-  State<SITextButton> createState() =>
-      _SimpleInvestTextButtonState();
+  State<SITextButton> createState() => _SimpleInvestTextButtonState();
 }
 
 class _SimpleInvestTextButtonState extends State<SITextButton> {
@@ -27,7 +26,6 @@ class _SimpleInvestTextButtonState extends State<SITextButton> {
 
   @override
   Widget build(BuildContext context) {
-
     final colors = SColorsLight();
     late Color currentColor;
     late Color currentNameColor;

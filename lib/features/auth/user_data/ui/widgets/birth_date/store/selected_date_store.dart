@@ -11,12 +11,10 @@ import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.
 
 part 'selected_date_store.g.dart';
 
-class SelectedDateStore extends _SelectedDateStoreBase
-    with _$SelectedDateStore {
+class SelectedDateStore extends _SelectedDateStoreBase with _$SelectedDateStore {
   SelectedDateStore() : super();
 
-  static SelectedDateStore of(BuildContext context) =>
-      Provider.of<SelectedDateStore>(context, listen: false);
+  static SelectedDateStore of(BuildContext context) => Provider.of<SelectedDateStore>(context, listen: false);
 }
 
 abstract class _SelectedDateStoreBase with Store {

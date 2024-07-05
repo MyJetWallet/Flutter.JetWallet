@@ -11,8 +11,7 @@ class InvestInstrumentsModel with _$InvestInstrumentsModel {
     required List<InvestInstrumentModel> instruments,
   }) = _InvestInstrumentsModel;
 
-  factory InvestInstrumentsModel.fromJson(Map<String, dynamic> json) =>
-      _$InvestInstrumentsModelFromJson(json);
+  factory InvestInstrumentsModel.fromJson(Map<String, dynamic> json) => _$InvestInstrumentsModelFromJson(json);
 }
 
 @freezed
@@ -46,12 +45,10 @@ class InvestInstrumentModel with _$InvestInstrumentModel {
     DateTime? nextRollOverTime,
   }) = _InvestInstrumentModel;
 
-  factory InvestInstrumentModel.fromJson(Map<String, dynamic> json) =>
-      _$InvestInstrumentModelFromJson(json);
+  factory InvestInstrumentModel.fromJson(Map<String, dynamic> json) => _$InvestInstrumentModelFromJson(json);
 }
 
-enum TradeMode
-{
+enum TradeMode {
   @JsonValue(0)
   undefined,
   @JsonValue(1)

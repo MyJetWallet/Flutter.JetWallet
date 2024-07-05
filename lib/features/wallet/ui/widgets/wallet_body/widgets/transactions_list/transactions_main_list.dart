@@ -232,7 +232,9 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                   padding: EdgeInsets.zero,
                   itemBuilder: (context, transaction) {
                     return Column(
-                      key: Key('${transaction.operationType.name} ^ ${transaction.operationId}}'),
+                      key: Key(
+                        '${transaction.operationType.name} ^ ${transaction.operationId}}',
+                      ),
                       children: [
                         TransactionListItem(
                           transactionListItem: transaction,

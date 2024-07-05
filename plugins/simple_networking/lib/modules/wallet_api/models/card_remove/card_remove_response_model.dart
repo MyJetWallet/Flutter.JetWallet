@@ -9,6 +9,5 @@ class CardRemoveResponseModel with _$CardRemoveResponseModel {
     String? rejectDetail,
   }) = _CardRemoveResponseModel;
 
-  factory CardRemoveResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$CardRemoveResponseModelFromJson(json);
+  factory CardRemoveResponseModel.fromJson(Map<String, dynamic> json) => _$CardRemoveResponseModelFromJson(json);
 }

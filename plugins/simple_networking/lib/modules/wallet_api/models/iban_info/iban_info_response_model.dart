@@ -15,8 +15,7 @@ class IbanInfoResponseModel with _$IbanInfoResponseModel {
     IncomingFeeDetailModel? incomingFeeDetail,
   }) = _IbanInfoResponseModel;
 
-  factory IbanInfoResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$IbanInfoResponseModelFromJson(json);
+  factory IbanInfoResponseModel.fromJson(Map<String, dynamic> json) => _$IbanInfoResponseModelFromJson(json);
 }
 
 enum IbanInfoStatusDto {
@@ -38,8 +37,7 @@ class IbanModel with _$IbanModel {
     String? currency,
   }) = _IbanModel;
 
-  factory IbanModel.fromJson(Map<String, dynamic> json) =>
-      _$IbanModelFromJson(json);
+  factory IbanModel.fromJson(Map<String, dynamic> json) => _$IbanModelFromJson(json);
 }
 
 @freezed
@@ -49,8 +47,7 @@ class RequirementsModel with _$RequirementsModel {
     @Default(false) bool toSetupKyc,
   }) = _RequirementsModel;
 
-  factory RequirementsModel.fromJson(Map<String, dynamic> json) =>
-      _$RequirementsModelFromJson(json);
+  factory RequirementsModel.fromJson(Map<String, dynamic> json) => _$RequirementsModelFromJson(json);
 }
 
 @freezed
@@ -60,6 +57,5 @@ class IncomingFeeDetailModel with _$IncomingFeeDetailModel {
     @DecimalSerialiser() Decimal? absoluteAmount,
   }) = _IncomingFeeDetailModel;
 
-  factory IncomingFeeDetailModel.fromJson(Map<String, dynamic> json) =>
-      _$IncomingFeeDetailModelFromJson(json);
+  factory IncomingFeeDetailModel.fromJson(Map<String, dynamic> json) => _$IncomingFeeDetailModelFromJson(json);
 }

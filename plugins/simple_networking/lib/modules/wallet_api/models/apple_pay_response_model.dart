@@ -16,6 +16,5 @@ class ApplePayResponseModel with _$ApplePayResponseModel {
     @DecimalSerialiser() Decimal? buyAmount,
   }) = _ApplePayResponseModel;
 
-  factory ApplePayResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$ApplePayResponseModelFromJson(json);
+  factory ApplePayResponseModel.fromJson(Map<String, dynamic> json) => _$ApplePayResponseModelFromJson(json);
 }

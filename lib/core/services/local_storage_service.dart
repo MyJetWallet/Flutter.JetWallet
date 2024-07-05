@@ -124,7 +124,10 @@ class LocalStorageService {
     await _storage.write(key: lastUsedMail, value: userMail);
     await _storage.write(key: activeSlot, value: slot);
     await _storage.write(key: deviceId, value: deviceIdUsed);
-    await _storage.write(key: isCardBannerClosed, value: isCardBannerClosedUsed);
+    await _storage.write(
+      key: isCardBannerClosed,
+      value: isCardBannerClosedUsed,
+    );
     await _storage.write(key: userLocale, value: userLocaleTemp);
     await _storage.write(key: showRateUp, value: showRateUpTemp);
     await _storage.write(key: rateUpCount, value: rateUpCountTemp);
@@ -179,7 +182,10 @@ class LocalStorageService {
       await _storage.write(key: lastUsedMail, value: userMail);
       await _storage.write(key: activeSlot, value: slot);
       await _storage.write(key: deviceId, value: deviceIdUsed);
-      await _storage.write(key: isCardBannerClosed, value: isCardBannerClosedUsed);
+      await _storage.write(
+        key: isCardBannerClosed,
+        value: isCardBannerClosedUsed,
+      );
       await _storage.write(key: userLocale, value: userLocaleTemp);
       await _storage.write(key: showRateUp, value: showRateUpTemp);
       await _storage.write(key: rateUpCount, value: rateUpCountTemp);

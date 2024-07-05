@@ -51,10 +51,14 @@ class CardWithdrawalDetails extends StatelessObserverWidget {
             value: Row(
               children: [
                 TransactionDetailsNewValueText(
-                  text: shortTxhashFrom(transactionListItem.cardWithdrawalInfo!.transactionId ?? ''),
+                  text: shortTxhashFrom(
+                    transactionListItem.cardWithdrawalInfo!.transactionId ?? '',
+                  ),
                 ),
                 const SpaceW10(),
-                HistoryCopyIcon(transactionListItem.cardWithdrawalInfo!.transactionId ?? ''),
+                HistoryCopyIcon(
+                  transactionListItem.cardWithdrawalInfo!.transactionId ?? '',
+                ),
               ],
             ),
           ),
@@ -90,7 +94,9 @@ class CardWithdrawalDetails extends StatelessObserverWidget {
                   child: SizedBox(
                     width: 16,
                     height: 16,
-                    child: getSimpleNetworkIcon(transactionListItem.cardWithdrawalInfo!.cardType),
+                    child: getSimpleNetworkIcon(
+                      transactionListItem.cardWithdrawalInfo!.cardType,
+                    ),
                   ),
                 ),
                 const SpaceW8(),
@@ -194,7 +200,10 @@ class CardWithdrawalDetailsHeader extends StatelessWidget {
                 : transactionListItem.status == Status.completed
                     ? SBadgeStatus.success
                     : SBadgeStatus.error,
-            text: transactionDetailsStatusText(transactionListItem.status, isPending: true),
+            text: transactionDetailsStatusText(
+              transactionListItem.status,
+              isPending: true,
+            ),
           ),
           const SizedBox(height: 24),
         ],

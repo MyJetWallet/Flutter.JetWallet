@@ -106,7 +106,9 @@ class BuyDetails extends StatelessObserverWidget {
                           child: SizedBox(
                             width: 16,
                             height: 16,
-                            child: getCardIcon(transactionListItem.cryptoBuyInfo?.cardType),
+                            child: getCardIcon(
+                              transactionListItem.cryptoBuyInfo?.cardType,
+                            ),
                           ),
                         ),
                         const SpaceW8(),

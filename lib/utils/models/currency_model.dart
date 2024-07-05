@@ -116,7 +116,10 @@ class CurrencyModel with _$CurrencyModel {
 
   bool get isAssetBalanceNotEmpty => assetBalance != Decimal.zero;
 
-  Decimal withdrawalFeeSize({required String network, required Decimal amount}) {
+  Decimal withdrawalFeeSize({
+    required String network,
+    required Decimal amount,
+  }) {
     var feeCollection = assetWithdrawalFees;
     var newFeeCollection = assetWithdrawalFees;
     var feeBlockchainCollection = withdrawalBlockchains;
@@ -163,7 +166,10 @@ class CurrencyModel with _$CurrencyModel {
 
   bool get isGrowing => dayPercentChange > 0;
 
-  String withdrawalFeeWithSymbol({required String network, required Decimal amount}) {
+  String withdrawalFeeWithSymbol({
+    required String network,
+    required Decimal amount,
+  }) {
     return volumeFormat(
       decimal: withdrawalFeeSize(
         network: network,

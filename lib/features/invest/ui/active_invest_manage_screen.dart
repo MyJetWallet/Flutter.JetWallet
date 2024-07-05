@@ -170,12 +170,17 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
                           onCheckboxTap: (value) {},
                         ),
                         InvestLine(
-                          currency: currencyFrom(currencies, widget.instrument.name ?? ''),
+                          currency: currencyFrom(
+                            currencies,
+                            widget.instrument.name ?? '',
+                          ),
                           price: investStore.getProfitByPosition(investNewStore.position!),
                           operationType: investNewStore.position!.direction ?? Direction.undefined,
                           isPending: false,
                           amount: investNewStore.position!.amount ?? Decimal.zero,
-                          leverage: Decimal.fromInt(investNewStore.position!.multiplicator ?? 0),
+                          leverage: Decimal.fromInt(
+                            investNewStore.position!.multiplicator ?? 0,
+                          ),
                           isGroup: false,
                           historyCount: 1,
                           profit: investStore.getProfitByPosition(investNewStore.position!),
@@ -188,7 +193,9 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
                         DataLine(
                           mainText: intl.invest_price,
                           secondaryText: marketFormat(
-                            decimal: investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
+                            decimal: investStore.getPendingPriceBySymbol(
+                              widget.instrument.symbol ?? '',
+                            ),
                             accuracy: widget.instrument.priceAccuracy ?? 2,
                             symbol: '',
                           ),
@@ -204,7 +211,9 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
                                   ? 'Est. **** USDT'
                                   : 'Est. ${volumeFormat(
                                       decimal: (investNewStore.position!.volumeBase ?? Decimal.zero) *
-                                          investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? '') *
+                                          investStore.getPendingPriceBySymbol(
+                                            widget.instrument.symbol ?? '',
+                                          ) *
                                           (widget.instrument.closeFee ?? Decimal.zero),
                                       accuracy: 2,
                                       symbol: 'USDT',
@@ -307,7 +316,11 @@ class _ActiveInvestManageScreenState extends State<ActiveInvestManageScreen> {
               showFull: true,
               title: intl.invest_my_invest,
               onButtonTap: () {
-                showInvestReportBottomSheet(context, investNewStore.position!, widget.instrument);
+                showInvestReportBottomSheet(
+                  context,
+                  investNewStore.position!,
+                  widget.instrument,
+                );
               },
             ),
           ),

@@ -9,6 +9,5 @@ class DeleteCardResponseModel with _$DeleteCardResponseModel {
     required bool deleted,
   }) = _DeleteCardResponseModel;
 
-  factory DeleteCardResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$DeleteCardResponseModelFromJson(json);
+  factory DeleteCardResponseModel.fromJson(Map<String, dynamic> json) => _$DeleteCardResponseModelFromJson(json);
 }

@@ -30,9 +30,7 @@ class RewardsDescriptionItem extends StatelessObserverWidget {
       child: Column(
         children: [
           Container(
-            margin: (condition == conditions.first)
-                ? EdgeInsets.zero
-                : const EdgeInsets.only(top: 2),
+            margin: (condition == conditions.first) ? EdgeInsets.zero : const EdgeInsets.only(top: 2),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,

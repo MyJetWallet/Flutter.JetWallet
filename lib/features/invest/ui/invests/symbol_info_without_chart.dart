@@ -25,7 +25,6 @@ class SymbolInfoWithoutChart extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final colors = sKit.colors;
 
     return InkWell(
@@ -94,8 +93,8 @@ class SymbolInfoWithoutChart extends StatelessObserverWidget {
                           color: percent == Decimal.zero
                               ? colors.grey3
                               : percent > Decimal.zero
-                              ? colors.green
-                              : colors.red,
+                                  ? colors.green
+                                  : colors.red,
                         ),
                       ),
                       percentIcon(percent),

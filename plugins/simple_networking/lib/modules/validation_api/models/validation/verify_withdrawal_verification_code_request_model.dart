@@ -4,8 +4,7 @@ part 'verify_withdrawal_verification_code_request_model.freezed.dart';
 part 'verify_withdrawal_verification_code_request_model.g.dart';
 
 @freezed
-class VerifyWithdrawalVerificationCodeRequestModel
-    with _$VerifyWithdrawalVerificationCodeRequestModel {
+class VerifyWithdrawalVerificationCodeRequestModel with _$VerifyWithdrawalVerificationCodeRequestModel {
   const factory VerifyWithdrawalVerificationCodeRequestModel({
     required String code,
     required String operationId,

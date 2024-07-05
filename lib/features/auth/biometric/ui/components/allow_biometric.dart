@@ -28,12 +28,10 @@ class _AllowBiometricScreenBody extends StatefulObserverWidget {
   const _AllowBiometricScreenBody();
 
   @override
-  State<_AllowBiometricScreenBody> createState() =>
-      _AllowCameraScreenBodyState();
+  State<_AllowBiometricScreenBody> createState() => _AllowCameraScreenBodyState();
 }
 
-class _AllowCameraScreenBodyState extends State<_AllowBiometricScreenBody>
-    with WidgetsBindingObserver {
+class _AllowCameraScreenBodyState extends State<_AllowBiometricScreenBody> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();

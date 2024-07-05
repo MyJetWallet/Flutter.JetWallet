@@ -24,8 +24,7 @@ import 'package:universal_io/io.dart';
 
 part 'upload_kyc_documents_store.g.dart';
 
-class UploadKycDocumentsStore extends _UploadKycDocumentsStoreBase
-    with _$UploadKycDocumentsStore {
+class UploadKycDocumentsStore extends _UploadKycDocumentsStoreBase with _$UploadKycDocumentsStore {
   UploadKycDocumentsStore() : super();
 
   static UploadKycDocumentsStore of(BuildContext context) =>
@@ -76,16 +75,12 @@ abstract class _UploadKycDocumentsStoreBase with Store {
       return true;
     }
 
-    return numberSide == 0
-        ? documentFirstSide == null
-        : documentSecondSide == null;
+    return numberSide == 0 ? documentFirstSide == null : documentSecondSide == null;
   }
 
   @computed
   bool get buttonIcon {
-    return (documentFirstSide != null && documentSecondSide != null) ||
-        documentSelfie != null ||
-        documentCard != null;
+    return (documentFirstSide != null && documentSecondSide != null) || documentSelfie != null || documentCard != null;
   }
 
   @action
@@ -119,11 +114,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
 
       final countries = getIt.get<KycCountryStore>();
 
-      final response = await getIt
-          .get<SNetwork>()
-          .simpleImageNetworking
-          .getWalletModule()
-          .postUploadDocuments(
+      final response = await getIt.get<SNetwork>().simpleImageNetworking.getWalletModule().postUploadDocuments(
             formData,
             isSelfie ? 8 : 9,
             countries.activeCountry!.countryCode,
@@ -241,14 +232,12 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         onData: (data) async {
           if (data.data.verificationState == CardVerificationState.blocked) {
             _showBlockedScreen();
-          } else if (data.data.verificationState ==
-              CardVerificationState.fail) {
+          } else if (data.data.verificationState == CardVerificationState.fail) {
             _showFailureScreen(
               onSuccess,
               cardId,
             );
-          } else if (data.data.verificationState ==
-              CardVerificationState.success) {
+          } else if (data.data.verificationState == CardVerificationState.success) {
             await sRouter.push(
               SuccessVerifyingScreenRouter(
                 onSuccess: onSuccess,
@@ -300,11 +289,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
 
       final countries = getIt.get<KycCountryStore>();
 
-      final response = await getIt
-          .get<SNetwork>()
-          .simpleImageNetworking
-          .getWalletModule()
-          .postUploadDocuments(
+      final response = await getIt.get<SNetwork>().simpleImageNetworking.getWalletModule().postUploadDocuments(
             formData,
             type,
             countries.activeCountry!.countryCode,
@@ -407,11 +392,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
 
       final countries = getIt.get<KycCountryStore>();
 
-      final response = await getIt
-          .get<SNetwork>()
-          .simpleImageNetworking
-          .getWalletModule()
-          .postUploadDocuments(
+      final response = await getIt.get<SNetwork>().simpleImageNetworking.getWalletModule().postUploadDocuments(
             formData,
             type,
             countries.activeCountry!.countryCode,
@@ -447,8 +428,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
   bool activeScanButton() {
     _logger.log(notifier, 'activeScanButton');
 
-    final activeDocument =
-        getIt.get<ChooseDocumentsStore>().getActiveDocument();
+    final activeDocument = getIt.get<ChooseDocumentsStore>().getActiveDocument();
 
     if (activeDocument?.document == KycDocumentType.passport) {
       return activeScanButtonType(ActiveScanButton.active);
@@ -489,8 +469,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
   Future<void> _animatePageView(
     PageController controller,
   ) async {
-    if (numberSide == 0 && documentSecondSide == null ||
-        numberSide == 1 && documentFirstSide == null) {
+    if (numberSide == 0 && documentSecondSide == null || numberSide == 1 && documentFirstSide == null) {
       await controller.animateToPage(
         (numberSide == 0) ? 1 : 0,
         duration: const Duration(milliseconds: 2000),
@@ -518,19 +497,14 @@ abstract class _UploadKycDocumentsStoreBase with Store {
 
   @action
   String buttonName({bool isSelfie = false, bool isCard = false}) {
-    final activeDocument =
-        getIt.get<ChooseDocumentsStore>().getActiveDocument();
+    final activeDocument = getIt.get<ChooseDocumentsStore>().getActiveDocument();
 
     if (isSelfie) {
-      return documentSelfie == null
-          ? intl.cardVerification_takeSelfie
-          : intl.cardVerification_uploadPhoto;
+      return documentSelfie == null ? intl.cardVerification_takeSelfie : intl.cardVerification_uploadPhoto;
     }
 
     if (isCard) {
-      return documentCard == null
-          ? intl.cardVerification_takePhoto
-          : intl.cardVerification_uploadPhoto;
+      return documentCard == null ? intl.cardVerification_takePhoto : intl.cardVerification_uploadPhoto;
     }
 
     return activeDocument?.document != KycDocumentType.passport

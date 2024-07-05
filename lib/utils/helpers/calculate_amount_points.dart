@@ -10,9 +10,7 @@ List<Decimal> calculateAmountPositions({
   final maxFromBoth = balance > maxVolume ? maxVolume : balance;
   final lvl5 = rounderByNum(maxFromBoth) * Decimal.fromBigInt((maxFromBoth / rounderByNum(maxFromBoth)).floor());
 
-  final lvl1 = minVolume > lvl5 * Decimal.fromJson('0.01')
-      ? minVolume
-      : lvl5 * Decimal.fromJson('0.01');
+  final lvl1 = minVolume > lvl5 * Decimal.fromJson('0.01') ? minVolume : lvl5 * Decimal.fromJson('0.01');
 
   final preLn1 = log(lvl1.toDouble());
   final preLn5 = log(lvl5.toDouble());
@@ -40,9 +38,7 @@ Decimal calculateAmountMin({
   final maxFromBoth = balance > maxVolume ? maxVolume : balance;
   final lvl5 = rounderByNum(maxFromBoth) * Decimal.fromBigInt((maxFromBoth / rounderByNum(maxFromBoth)).floor());
 
-  final lvl1 = minVolume > lvl5 * Decimal.fromJson('0.01')
-      ? minVolume
-      : lvl5 * Decimal.fromJson('0.01');
+  final lvl1 = minVolume > lvl5 * Decimal.fromJson('0.01') ? minVolume : lvl5 * Decimal.fromJson('0.01');
 
   final preLn1 = log(lvl1.toDouble());
 
@@ -57,9 +53,7 @@ Decimal calculateAmountMinReal({
   final maxFromBoth = balance > maxVolume ? maxVolume : balance;
   final lvl5 = rounderByNum(maxFromBoth) * Decimal.fromBigInt((maxFromBoth / rounderByNum(maxFromBoth)).floor());
 
-  final lvl1 = minVolume > lvl5 * Decimal.fromJson('0.01')
-      ? minVolume
-      : lvl5 * Decimal.fromJson('0.01');
+  final lvl1 = minVolume > lvl5 * Decimal.fromJson('0.01') ? minVolume : lvl5 * Decimal.fromJson('0.01');
 
   return lvl1;
 }

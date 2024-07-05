@@ -10,11 +10,7 @@ class InvestTransferRequestModel with _$InvestTransferRequestModel {
   factory InvestTransferRequestModel({
     required String amountAssetId,
     @DecimalSerialiser() required Decimal amount,
- 
   }) = _InvestTransferRequestModel;
 
-  factory InvestTransferRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$InvestTransferRequestModelFromJson(json);
+  factory InvestTransferRequestModel.fromJson(Map<String, dynamic> json) => _$InvestTransferRequestModelFromJson(json);
 }
-
-

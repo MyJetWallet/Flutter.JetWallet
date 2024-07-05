@@ -89,7 +89,9 @@ class _InvestScreenState extends State<InvestScreen> {
 
                 final percentage = (amountSum == Decimal.zero || profitSum == Decimal.zero)
                     ? Decimal.zero
-                    : Decimal.fromJson('${(Decimal.fromInt(100) * profitSum / amountSum).toDouble()}');
+                    : Decimal.fromJson(
+                        '${(Decimal.fromInt(100) * profitSum / amountSum).toDouble()}',
+                      );
 
                 return MyPortfolio(
                   pending: investStore.totalPendingAmount,
@@ -151,17 +153,27 @@ class _InvestScreenState extends State<InvestScreen> {
                                   children: [
                                     for (final instrument in myInvestsList)
                                       SymbolInfo(
-                                        percent: investStore.getPercentSymbol(instrument.symbol ?? ''),
+                                        percent: investStore.getPercentSymbol(
+                                          instrument.symbol ?? '',
+                                        ),
                                         instrument: instrument,
                                         showProfit: true,
-                                        profit: getGroupedProfit(instrument.symbol ?? ''),
-                                        price: investStore.getPriceBySymbol(instrument.symbol ?? ''),
+                                        profit: getGroupedProfit(
+                                          instrument.symbol ?? '',
+                                        ),
+                                        price: investStore.getPriceBySymbol(
+                                          instrument.symbol ?? '',
+                                        ),
                                         onTap: () {
                                           sRouter.push(
-                                            InstrumentPageRouter(instrument: instrument),
+                                            InstrumentPageRouter(
+                                              instrument: instrument,
+                                            ),
                                           );
                                         },
-                                        candles: investChartStore.getAssetCandles(instrument.symbol ?? ''),
+                                        candles: investChartStore.getAssetCandles(
+                                          instrument.symbol ?? '',
+                                        ),
                                       ),
                                   ],
                                 );
@@ -206,11 +218,15 @@ class _InvestScreenState extends State<InvestScreen> {
                                       if (investStore.myInvestsList.contains(element) ||
                                           investStore.myInvestPendingList.contains(element)) {
                                         sRouter.push(
-                                          InstrumentPageRouter(instrument: element),
+                                          InstrumentPageRouter(
+                                            instrument: element,
+                                          ),
                                         );
                                       } else {
                                         sRouter.push(
-                                          NewInvestPageRouter(instrument: element),
+                                          NewInvestPageRouter(
+                                            instrument: element,
+                                          ),
                                         );
                                       }
                                     },
@@ -247,23 +263,33 @@ class _InvestScreenState extends State<InvestScreen> {
                                 children: [
                                   for (final element in investStore.gainersList)
                                     SymbolInfo(
-                                      percent: investStore.getPercentSymbol(element.symbol ?? ''),
+                                      percent: investStore.getPercentSymbol(
+                                        element.symbol ?? '',
+                                      ),
                                       instrument: element,
                                       showProfit: false,
-                                      price: investStore.getPriceBySymbol(element.symbol ?? ''),
+                                      price: investStore.getPriceBySymbol(
+                                        element.symbol ?? '',
+                                      ),
                                       onTap: () {
                                         if (investStore.myInvestsList.contains(element) ||
                                             investStore.myInvestPendingList.contains(element)) {
                                           sRouter.push(
-                                            InstrumentPageRouter(instrument: element),
+                                            InstrumentPageRouter(
+                                              instrument: element,
+                                            ),
                                           );
                                         } else {
                                           sRouter.push(
-                                            NewInvestPageRouter(instrument: element),
+                                            NewInvestPageRouter(
+                                              instrument: element,
+                                            ),
                                           );
                                         }
                                       },
-                                      candles: investChartStore.getAssetCandles(element.symbol ?? ''),
+                                      candles: investChartStore.getAssetCandles(
+                                        element.symbol ?? '',
+                                      ),
                                     ),
                                 ],
                               );
@@ -296,23 +322,33 @@ class _InvestScreenState extends State<InvestScreen> {
                                 children: [
                                   for (final element in investStore.losersList)
                                     SymbolInfo(
-                                      percent: investStore.getPercentSymbol(element.symbol ?? ''),
+                                      percent: investStore.getPercentSymbol(
+                                        element.symbol ?? '',
+                                      ),
                                       instrument: element,
                                       showProfit: false,
-                                      price: investStore.getPriceBySymbol(element.symbol ?? ''),
+                                      price: investStore.getPriceBySymbol(
+                                        element.symbol ?? '',
+                                      ),
                                       onTap: () {
                                         if (investStore.myInvestsList.contains(element) ||
                                             investStore.myInvestPendingList.contains(element)) {
                                           sRouter.push(
-                                            InstrumentPageRouter(instrument: element),
+                                            InstrumentPageRouter(
+                                              instrument: element,
+                                            ),
                                           );
                                         } else {
                                           sRouter.push(
-                                            NewInvestPageRouter(instrument: element),
+                                            NewInvestPageRouter(
+                                              instrument: element,
+                                            ),
                                           );
                                         }
                                       },
-                                      candles: investChartStore.getAssetCandles(element.symbol ?? ''),
+                                      candles: investChartStore.getAssetCandles(
+                                        element.symbol ?? '',
+                                      ),
                                     ),
                                 ],
                               );

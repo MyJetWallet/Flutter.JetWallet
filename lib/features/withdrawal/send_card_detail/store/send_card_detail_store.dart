@@ -30,12 +30,10 @@ class GlobalSendMethod {
   String value;
 }
 
-class SendCardDetailStore extends _SendCardDetailStoreBase
-    with _$SendCardDetailStore {
+class SendCardDetailStore extends _SendCardDetailStoreBase with _$SendCardDetailStore {
   SendCardDetailStore() : super();
 
-  static SendCardDetailStore of(BuildContext context) =>
-      Provider.of<SendCardDetailStore>(context, listen: false);
+  static SendCardDetailStore of(BuildContext context) => Provider.of<SendCardDetailStore>(context, listen: false);
 }
 
 abstract class _SendCardDetailStoreBase with Store {
@@ -51,9 +49,8 @@ abstract class _SendCardDetailStoreBase with Store {
   void checkContinueButton() {
     final isAnyEmpty = methodList
         .where(
-          (element) => element.info.fieldId == FieldInfoId.cardNumber
-              ? element.value.length != 19
-              : element.value.isEmpty,
+          (element) =>
+              element.info.fieldId == FieldInfoId.cardNumber ? element.value.length != 19 : element.value.isEmpty,
         )
         .isEmpty;
 
@@ -154,9 +151,7 @@ abstract class _SendCardDetailStoreBase with Store {
           for (var i = 0; i < copiedText.length; i++) {
             buffer.write(copiedText[i]);
             final nonZeroIndex = i + 1;
-            if (nonZeroIndex % 4 == 0 &&
-                nonZeroIndex != copiedText.length &&
-                nonZeroIndex != (copiedText.length - 1)) {
+            if (nonZeroIndex % 4 == 0 && nonZeroIndex != copiedText.length && nonZeroIndex != (copiedText.length - 1)) {
               buffer.write(' ');
             }
           }

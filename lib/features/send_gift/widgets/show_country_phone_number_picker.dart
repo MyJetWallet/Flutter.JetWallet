@@ -73,8 +73,7 @@ class _DialCodes extends StatelessObserverWidget {
       itemBuilder: (BuildContext context, int code) {
         return DialCodeItem(
           dialCode: store.sortedDialCodes[code],
-          active: store.activeDialCode?.isoCode ==
-              store.sortedDialCodes[code].isoCode,
+          active: store.activeDialCode?.isoCode == store.sortedDialCodes[code].isoCode,
           onTap: () {
             store.pickDialCodeFromSearch(store.sortedDialCodes[code]);
 

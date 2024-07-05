@@ -9,8 +9,6 @@ class SStartIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightStartIcon()
-        : const SimpleLightStartIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightStartIcon() : const SimpleLightStartIcon();
   }
 }

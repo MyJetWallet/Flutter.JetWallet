@@ -49,8 +49,7 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
 
   late TextEditingController textController;
 
-  final ObservableList<CurrencyModel> isGiftSendActive =
-      sSignalRModules.currenciesList;
+  final ObservableList<CurrencyModel> isGiftSendActive = sSignalRModules.currenciesList;
 
   final baseCurrency = sSignalRModules.baseCurrency;
 
@@ -58,8 +57,7 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
   Widget build(BuildContext context) {
     final sortedAssets = isGiftSendActive
         .where(
-          (element) =>
-              element.supportsGiftlSend && element.isAssetBalanceNotEmpty,
+          (element) => element.supportsGiftlSend && element.isAssetBalanceNotEmpty,
         )
         .toList();
 
@@ -114,8 +112,7 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
                   builder: (_) {
                     return Column(
                       children: [
-                        for (final currency
-                            in searchStore.convertCurrenciesWithBalance)
+                        for (final currency in searchStore.convertCurrenciesWithBalance)
                           SWalletItem(
                             decline: currency.dayPercentChange.isNegative,
                             icon: SNetworkSvg24(
@@ -128,15 +125,10 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
                             secondaryText: getIt<AppStore>().isBalanceHide
                                 ? '******* ${currency.symbol}'
                                 : currency.volumeAssetBalance,
-                            removeDivider: currency ==
-                                    searchStore
-                                        .convertCurrenciesWithBalance.last ||
-                                searchStore
-                                        .convertCurrenciesWithBalance.length ==
-                                    1,
+                            removeDivider: currency == searchStore.convertCurrenciesWithBalance.last ||
+                                searchStore.convertCurrenciesWithBalance.length == 1,
                             onTap: () {
-                              final sendGiftInfo =
-                                  SendGiftInfoModel(currency: currency);
+                              final sendGiftInfo = SendGiftInfoModel(currency: currency);
                               sRouter.push(
                                 GiftReceiversDetailsRouter(
                                   sendGiftInfo: sendGiftInfo,

@@ -12,8 +12,7 @@ class NFTMarkets with _$NFTMarkets {
     required List<NftMarket> nfts,
   }) = _NFTMarkets;
 
-  factory NFTMarkets.fromJson(Map<String, dynamic> json) =>
-      _$NFTMarketsFromJson(json);
+  factory NFTMarkets.fromJson(Map<String, dynamic> json) => _$NFTMarketsFromJson(json);
 }
 
 @freezed
@@ -42,6 +41,5 @@ class NftMarket with _$NftMarket {
     final bool? onSell,
   }) = _NftMarket;
 
-  factory NftMarket.fromJson(Map<String, dynamic> json) =>
-      _$NftMarketFromJson(json);
+  factory NftMarket.fromJson(Map<String, dynamic> json) => _$NftMarketFromJson(json);
 }

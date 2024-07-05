@@ -97,7 +97,10 @@ class _InvestUIState extends State<InvestUIKIT> {
                 ),
                 // SymbolInfo(currency: currency, showProfit: false, price: 1222,),
                 // SymbolInfo(currency: currency, showProfit: true, price: 1212, profit: Decimal.fromInt(1000),),
-                ActiveInvestLine(profit: Decimal.fromInt(900), amount: Decimal.fromInt(1000)),
+                ActiveInvestLine(
+                  profit: Decimal.fromInt(900),
+                  amount: Decimal.fromInt(1000),
+                ),
                 // SymbolInfoLine(currency: currency, price: 1222,),
                 // SymbolInfoWithoutChart(currency: currency, price: 1222,),
                 MainSwitch(
@@ -113,7 +116,10 @@ class _InvestUIState extends State<InvestUIKIT> {
                   currency: currency,
                   title: intl.invest_active_invest,
                 ),
-                RolloverLine(mainText: intl.invest_next_rollover, secondaryText: '-0.005% / -07:34:51'),
+                RolloverLine(
+                  mainText: intl.invest_next_rollover,
+                  secondaryText: '-0.005% / -07:34:51',
+                ),
                 InvestLine(
                   currency: currency,
                   price: Decimal.fromInt(1000),

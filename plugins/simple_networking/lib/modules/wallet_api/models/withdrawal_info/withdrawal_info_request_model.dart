@@ -9,6 +9,5 @@ class WithdrawalInfoRequestModel with _$WithdrawalInfoRequestModel {
     @JsonKey(name: 'id') required String operationId,
   }) = _WithdrawalInfoRequestModel;
 
-  factory WithdrawalInfoRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$WithdrawalInfoRequestModelFromJson(json);
+  factory WithdrawalInfoRequestModel.fromJson(Map<String, dynamic> json) => _$WithdrawalInfoRequestModelFromJson(json);
 }

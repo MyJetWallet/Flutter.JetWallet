@@ -10,6 +10,5 @@ class KeyValueResponseModel with _$KeyValueResponseModel {
     required String value,
   }) = _KeyValueResponseModel;
 
-  factory KeyValueResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$KeyValueResponseModelFromJson(json);
+  factory KeyValueResponseModel.fromJson(Map<String, dynamic> json) => _$KeyValueResponseModelFromJson(json);
 }

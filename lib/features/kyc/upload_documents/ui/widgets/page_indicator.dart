@@ -23,18 +23,14 @@ class PageIndicator extends StatelessObserverWidget {
         Container(
           width: 24,
           height: 2,
-          color: state.numberSide == 0
-              ? colors.black
-              : colors.black.withOpacity(0.3),
+          color: state.numberSide == 0 ? colors.black : colors.black.withOpacity(0.3),
         ),
         if (documentType != KycDocumentType.passport) ...[
           const SpaceW4(),
           Container(
             width: 24,
             height: 2,
-            color: state.numberSide == 1
-                ? colors.black
-                : colors.black.withOpacity(0.3),
+            color: state.numberSide == 1 ? colors.black : colors.black.withOpacity(0.3),
           ),
         ],
       ],

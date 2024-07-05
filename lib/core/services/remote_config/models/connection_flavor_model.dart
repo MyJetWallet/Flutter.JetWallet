@@ -11,9 +11,7 @@ class ConnectionFlavorsModel with _$ConnectionFlavorsModel {
 
   factory ConnectionFlavorsModel.fromList(List list) {
     return ConnectionFlavorsModel(
-      flavors: list
-          .map((e) => ConnectionFlavorModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      flavors: list.map((e) => ConnectionFlavorModel.fromJson(e as Map<String, dynamic>)).toList(),
     );
   }
 }
@@ -29,6 +27,5 @@ class ConnectionFlavorModel with _$ConnectionFlavorModel {
     required String iconApi,
   }) = _ConnectionFlavorModel;
 
-  factory ConnectionFlavorModel.fromJson(Map<String, dynamic> json) =>
-      _$ConnectionFlavorModelFromJson(json);
+  factory ConnectionFlavorModel.fromJson(Map<String, dynamic> json) => _$ConnectionFlavorModelFromJson(json);
 }

@@ -16,8 +16,7 @@ class ProgressBar extends StatefulObserverWidget {
   State<ProgressBar> createState() => _ProgressBarState();
 }
 
-class _ProgressBarState extends State<ProgressBar>
-    with TickerProviderStateMixin {
+class _ProgressBarState extends State<ProgressBar> with TickerProviderStateMixin {
   late AnimationController controller;
 
   @override

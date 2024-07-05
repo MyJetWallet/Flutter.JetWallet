@@ -14,7 +14,6 @@ class SellLimitsResponseModel with _$SellLimitsResponseModel {
     required String buyAsset,
     @DecimalSerialiser() required Decimal maxBuyAmount,
     @DecimalSerialiser() required Decimal minBuyAmount,
-
   }) = _SellLimitsResponseModel;
 
   factory SellLimitsResponseModel.fromJson(Map<String, dynamic> json) => _$SellLimitsResponseModelFromJson(json);

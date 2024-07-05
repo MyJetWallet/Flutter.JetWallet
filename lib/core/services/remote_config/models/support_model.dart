@@ -10,6 +10,5 @@ class SupportModel with _$SupportModel {
     required String crispWebsiteId,
   }) = _SupportModel;
 
-  factory SupportModel.fromJson(Map<String, dynamic> json) =>
-      _$SupportModelFromJson(json);
+  factory SupportModel.fromJson(Map<String, dynamic> json) => _$SupportModelFromJson(json);
 }

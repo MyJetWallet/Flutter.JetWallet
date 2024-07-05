@@ -66,30 +66,35 @@ class _EarnsArchiveScreenState extends State<EarnsArchiveScreen> {
                         SliverFillRemaining(
                           child: Center(
                             child: Padding(
-                              padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.top),
+                              padding: EdgeInsets.only(
+                                bottom: MediaQuery.of(context).padding.top,
+                              ),
                               child: SPlaceholder(
                                 size: SPlaceholderSize.l,
                                 text: intl.wallet_simple_account_empty,
                               ),
                             ),
                           ),
-                        ) else
-                      SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            return SDepositCard(
-                              earnPosition: store.earnPositionsClosed[index],
-                              onTap: () {
-                                sRouter.push(
-                                  EarnPositionActiveRouter(earnPosition: store.earnPositionsClosed[index]),
-                                );
-                              },
-                              isShowDate: true,
-                            );
-                          },
-                          childCount: store.earnPositionsClosed.length,
+                        )
+                      else
+                        SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              return SDepositCard(
+                                earnPosition: store.earnPositionsClosed[index],
+                                onTap: () {
+                                  sRouter.push(
+                                    EarnPositionActiveRouter(
+                                      earnPosition: store.earnPositionsClosed[index],
+                                    ),
+                                  );
+                                },
+                                isShowDate: true,
+                              );
+                            },
+                            childCount: store.earnPositionsClosed.length,
+                          ),
                         ),
-                      ),
                       if (store.isLoadingPagination)
                         SliverToBoxAdapter(
                           child: Container(

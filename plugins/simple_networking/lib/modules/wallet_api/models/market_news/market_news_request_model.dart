@@ -12,6 +12,5 @@ class MarketNewsRequestModel with _$MarketNewsRequestModel {
     @JsonKey(name: 'take') required int amount,
   }) = _MarketNewsRequestModel;
 
-  factory MarketNewsRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$MarketNewsRequestModelFromJson(json);
+  factory MarketNewsRequestModel.fromJson(Map<String, dynamic> json) => _$MarketNewsRequestModelFromJson(json);
 }

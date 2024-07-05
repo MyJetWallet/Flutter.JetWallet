@@ -12,9 +12,7 @@ class AllCardsResponseModel with _$AllCardsResponseModel {
 
   factory AllCardsResponseModel.fromList(List<dynamic> list) {
     return AllCardsResponseModel(
-      cards: list
-          .map((e) => CircleCard.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      cards: list.map((e) => CircleCard.fromJson(e as Map<String, dynamic>)).toList(),
     );
   }
 }

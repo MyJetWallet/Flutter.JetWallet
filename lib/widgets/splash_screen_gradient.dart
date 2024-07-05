@@ -62,7 +62,7 @@ class OnboardingFullScreenGradient extends StatelessWidget {
           ),
           Positioned(
             top: 0,
-            bottom:114,
+            bottom: 114,
             right: 0,
             left: size.width / 2,
             child: GestureDetector(

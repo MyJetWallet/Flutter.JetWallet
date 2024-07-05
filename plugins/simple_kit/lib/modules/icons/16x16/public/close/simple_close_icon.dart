@@ -9,8 +9,6 @@ class SCrossIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightCrossIcon()
-        : const SimpleLightCrossIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightCrossIcon() : const SimpleLightCrossIcon();
   }
 }

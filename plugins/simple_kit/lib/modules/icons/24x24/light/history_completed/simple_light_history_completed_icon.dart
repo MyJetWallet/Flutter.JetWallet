@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/icons/20x20/base/simple_base_svg_20x20.dart';
 
-
 class SimpleLightHistoryCompletedIcon extends StatelessWidget {
   const SimpleLightHistoryCompletedIcon({
     super.key,

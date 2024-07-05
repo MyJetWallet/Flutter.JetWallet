@@ -10,6 +10,5 @@ class AuthRefreshResponseModel with _$AuthRefreshResponseModel {
     required String refreshToken,
   }) = _AuthRefreshResponseModel;
 
-  factory AuthRefreshResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$AuthRefreshResponseModelFromJson(json);
+  factory AuthRefreshResponseModel.fromJson(Map<String, dynamic> json) => _$AuthRefreshResponseModelFromJson(json);
 }

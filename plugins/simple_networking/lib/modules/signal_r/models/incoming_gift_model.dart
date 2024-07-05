@@ -11,8 +11,7 @@ abstract class IncomingGiftModel with _$IncomingGiftModel {
     @Default([]) List<IncomingGiftObject> gifts,
   }) = _IncomingGiftModel;
 
-  factory IncomingGiftModel.fromJson(Map<String, dynamic> json) =>
-      _$IncomingGiftModelFromJson(json);
+  factory IncomingGiftModel.fromJson(Map<String, dynamic> json) => _$IncomingGiftModelFromJson(json);
 }
 
 @freezed
@@ -26,6 +25,5 @@ abstract class IncomingGiftObject with _$IncomingGiftObject {
     DateTime? expireAt,
   }) = _IncomingGiftObject;
 
-  factory IncomingGiftObject.fromJson(Map<String, dynamic> json) =>
-      _$IncomingGiftObjectFromJson(json);
+  factory IncomingGiftObject.fromJson(Map<String, dynamic> json) => _$IncomingGiftObjectFromJson(json);
 }

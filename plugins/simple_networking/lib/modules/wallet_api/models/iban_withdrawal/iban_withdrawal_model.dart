@@ -17,6 +17,5 @@ class IbanWithdrawalModel with _$IbanWithdrawalModel {
     final String? bic,
   }) = _IbanWithdrawalModel;
 
-  factory IbanWithdrawalModel.fromJson(Map<String, dynamic> json) =>
-      _$IbanWithdrawalModelFromJson(json);
+  factory IbanWithdrawalModel.fromJson(Map<String, dynamic> json) => _$IbanWithdrawalModelFromJson(json);
 }

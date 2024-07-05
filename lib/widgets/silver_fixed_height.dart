@@ -1,7 +1,6 @@
 import 'package:flutter/rendering.dart';
 
-class SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight
-    extends SliverGridDelegate {
+class SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight extends SliverGridDelegate {
   /// Creates a delegate that makes grid layouts with a fixed number of tiles in
   /// the cross axis.
   ///
@@ -42,8 +41,7 @@ class SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight
   @override
   SliverGridLayout getLayout(SliverConstraints constraints) {
     assert(_debugAssertIsValid());
-    final usableCrossAxisExtent =
-        constraints.crossAxisExtent - crossAxisSpacing * (crossAxisCount - 1);
+    final usableCrossAxisExtent = constraints.crossAxisExtent - crossAxisSpacing * (crossAxisCount - 1);
     final childCrossAxisExtent = usableCrossAxisExtent / crossAxisCount;
     final childMainAxisExtent = height;
 
