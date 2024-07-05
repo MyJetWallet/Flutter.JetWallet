@@ -10,6 +10,5 @@ class EncryptionKeyResponseModel with _$EncryptionKeyResponseModel {
     required String encryptionKey,
   }) = _EncryptionKeyResponseModel;
 
-  factory EncryptionKeyResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$EncryptionKeyResponseModelFromJson(json);
+  factory EncryptionKeyResponseModel.fromJson(Map<String, dynamic> json) => _$EncryptionKeyResponseModelFromJson(json);
 }

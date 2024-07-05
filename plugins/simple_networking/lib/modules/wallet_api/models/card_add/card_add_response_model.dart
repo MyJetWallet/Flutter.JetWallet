@@ -20,7 +20,7 @@ class CardAddResponseDataModel with _$CardAddResponseDataModel {
     CardStatus? status,
     CardVerificationType? requiredVerification,
     String? last4,
-    @Default(CircleCardNetwork.unsupported)  @CircleCardNetworkSerialiser() CircleCardNetwork network,
+    @Default(CircleCardNetwork.unsupported) @CircleCardNetworkSerialiser() CircleCardNetwork network,
     int? expMonth,
     int? expYear,
     @Default(false) bool showUaAlert,

@@ -24,8 +24,7 @@ ReferralGiftStatus referralGift() {
         ? ReferralGiftStatus.hideGift
         : ReferralGiftStatus.showGift;
   } else {
-    if (referralStats.isNotEmpty &&
-        referralStats[0].total < Decimal.parse(referralStatsTotal.toString())) {
+    if (referralStats.isNotEmpty && referralStats[0].total < Decimal.parse(referralStatsTotal.toString())) {
       return ReferralGiftStatus.showGift;
     }
 

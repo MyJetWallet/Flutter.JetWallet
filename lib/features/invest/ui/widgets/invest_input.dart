@@ -40,8 +40,7 @@ class InvestInput extends StatefulObserverWidget {
   final TextCapitalization? textCapitalization;
 
   @override
-  State<InvestInput> createState() =>
-      _InvestInputState();
+  State<InvestInput> createState() => _InvestInputState();
 }
 
 class _InvestInputState extends State<InvestInput> {
@@ -55,7 +54,6 @@ class _InvestInputState extends State<InvestInput> {
 
   @override
   Widget build(BuildContext context) {
-
     return TextFormField(
       onTap: widget.onTap,
       focusNode: focusNode,
@@ -105,8 +103,7 @@ class _InvestInputState extends State<InvestInput> {
         suffixIcon: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (widget.icon != null)
-              widget.icon!,
+            if (widget.icon != null) widget.icon!,
           ],
         ),
       ),

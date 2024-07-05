@@ -18,8 +18,7 @@ class LogsScreen extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logs =
-        getIt.get<SimpleLoggerService>().logBuffer.toList().reversed.toList();
+    final logs = getIt.get<SimpleLoggerService>().logBuffer.toList().reversed.toList();
 
     return SPageFrame(
       loaderText: intl.loader_please_wait,

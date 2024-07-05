@@ -30,8 +30,7 @@ class SimpleBaseSecondaryButton extends StatefulWidget {
   final Color? borderColor;
 
   @override
-  State<SimpleBaseSecondaryButton> createState() =>
-      _SimpleBaseSecondaryButtonState();
+  State<SimpleBaseSecondaryButton> createState() => _SimpleBaseSecondaryButtonState();
 }
 
 class _SimpleBaseSecondaryButtonState extends State<SimpleBaseSecondaryButton> {

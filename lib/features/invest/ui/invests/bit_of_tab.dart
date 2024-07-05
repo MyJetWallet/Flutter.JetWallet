@@ -17,7 +17,6 @@ class BitOfTap extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final colors = sKit.colors;
 
     return InkWell(
@@ -33,7 +32,7 @@ class BitOfTap extends StatelessObserverWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
           color: isActive ? colors.white : colors.grey5,
-          border:  Border.all(
+          border: Border.all(
             color: isActive ? colors.blue : colors.grey5,
             width: 1.5,
           ),

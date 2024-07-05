@@ -26,12 +26,10 @@ class CryptoDepositWithAddressAndTag extends StatefulObserverWidget {
   final ScrollController scrollController;
 
   @override
-  State<CryptoDepositWithAddressAndTag> createState() =>
-      _CryptoDepositWithAddressAndTagState();
+  State<CryptoDepositWithAddressAndTag> createState() => _CryptoDepositWithAddressAndTagState();
 }
 
-class _CryptoDepositWithAddressAndTagState
-    extends State<CryptoDepositWithAddressAndTag> {
+class _CryptoDepositWithAddressAndTagState extends State<CryptoDepositWithAddressAndTag> {
   late ScrollController controller;
   late PageController pageController;
 
@@ -67,8 +65,7 @@ class _CryptoDepositWithAddressAndTagState
     final screenHeight = mediaQuery.size.height;
     final deviceSize = sDeviceSize;
 
-    final extraScrollArea =
-        screenHeight - qrBoxSize - screenWidgets - sAddressFieldWithCopyHeight;
+    final extraScrollArea = screenHeight - qrBoxSize - screenWidgets - sAddressFieldWithCopyHeight;
 
     var widgetHeight = extraScrollArea.isNegative
         ? screenHeight - screenWidgets + extraScrollArea.abs()
@@ -246,7 +243,7 @@ class _CryptoDepositWithAddressAndTagState
                   asset: deposit.currency.symbol,
                   network: deposit.network.description,
                 );
-                
+
                 sNotification.showError(
                   intl.copy_message,
                   id: 1,

@@ -10,8 +10,7 @@ class CreatePaymentResponseModel with _$CreatePaymentResponseModel {
     required int depositId,
   }) = _CreatePaymentResponseModel;
 
-  factory CreatePaymentResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$CreatePaymentResponseModelFromJson(json);
+  factory CreatePaymentResponseModel.fromJson(Map<String, dynamic> json) => _$CreatePaymentResponseModelFromJson(json);
 }
 
 enum CirclePaymentStatus {

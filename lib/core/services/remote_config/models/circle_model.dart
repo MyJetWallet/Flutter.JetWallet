@@ -9,6 +9,5 @@ class CircleModel with _$CircleModel {
     required bool cvvEnabled,
   }) = _CircleModel;
 
-  factory CircleModel.fromJson(Map<String, dynamic> json) =>
-      _$CircleModelFromJson(json);
+  factory CircleModel.fromJson(Map<String, dynamic> json) => _$CircleModelFromJson(json);
 }

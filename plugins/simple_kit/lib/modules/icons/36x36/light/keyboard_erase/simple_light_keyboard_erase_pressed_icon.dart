@@ -13,8 +13,7 @@ class SimpleLightKeyboardErasePressedIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SimpleBaseSvg36X36(
-      assetName:
-          'assets/icons/light/36x36/keyboard_erase/keyboard_erase_pressed.svg',
+      assetName: 'assets/icons/light/36x36/keyboard_erase/keyboard_erase_pressed.svg',
       color: color,
     );
   }

@@ -68,7 +68,9 @@ class _PaymentCurrenceBuyScreenState extends State<PaymentCurrenceBuyScreen> {
           getIt.get<PreventDuplicationEventsService>().sendEvent(
                 id: 'payment_currence_buy_screen',
                 event: () {
-                  sAnalytics.ptpBuyPaymentCurrencyScreenView(asset: widget.currency.symbol);
+                  sAnalytics.ptpBuyPaymentCurrencyScreenView(
+                    asset: widget.currency.symbol,
+                  );
                 },
               );
         }
@@ -79,7 +81,9 @@ class _PaymentCurrenceBuyScreenState extends State<PaymentCurrenceBuyScreen> {
           child: SSmallHeader(
             title: intl.buy_payment_currency,
             onBackButtonTap: () {
-              sAnalytics.tapOnTheBackFromPTPBuyPaymentCurrencyButton(asset: widget.currency.symbol);
+              sAnalytics.tapOnTheBackFromPTPBuyPaymentCurrencyButton(
+                asset: widget.currency.symbol,
+              );
               sRouter.maybePop();
             },
           ),
@@ -180,7 +184,10 @@ class _PaymentCurrenceBuyScreenState extends State<PaymentCurrenceBuyScreen> {
     return availableCurrency;
   }
 
-  bool checkIsCurrencyAlreadyAdd(String asset, List<PaymentAsset> availableCurrency) {
+  bool checkIsCurrencyAlreadyAdd(
+    String asset,
+    List<PaymentAsset> availableCurrency,
+  ) {
     final ind = availableCurrency.indexWhere((element) => element.asset == asset);
 
     return ind != -1;

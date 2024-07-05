@@ -9,6 +9,5 @@ class ResetPinResponseModel with _$ResetPinResponseModel {
     required String result,
   }) = _ResetPinResponseModel;
 
-  factory ResetPinResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$ResetPinResponseModelFromJson(json);
+  factory ResetPinResponseModel.fromJson(Map<String, dynamic> json) => _$ResetPinResponseModelFromJson(json);
 }

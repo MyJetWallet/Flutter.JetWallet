@@ -74,7 +74,9 @@ class _SimpleCoinTransactionHistoryScreenState extends State<SimpleCoinTransacti
                         SliverFillRemaining(
                           child: Center(
                             child: Padding(
-                              padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.top),
+                              padding: EdgeInsets.only(
+                                bottom: MediaQuery.of(context).padding.top,
+                              ),
                               child: SPlaceholder(
                                 size: SPlaceholderSize.l,
                                 text: intl.wallet_simple_account_empty,
@@ -87,7 +89,9 @@ class _SimpleCoinTransactionHistoryScreenState extends State<SimpleCoinTransacti
                           sort: false,
                           elements: store.historyItems,
                           groupBy: (positionAudit) {
-                            return formatDate(DateFormat('yyyy-MM-dd HH:mm').format(positionAudit.createdAt!));
+                            return formatDate(
+                              DateFormat('yyyy-MM-dd HH:mm').format(positionAudit.createdAt!),
+                            );
                           },
                           groupSeparatorBuilder: (String date) {
                             return TransactionMonthSeparator(text: date);

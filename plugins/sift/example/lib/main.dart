@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -23,7 +24,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initPlatformState();
-    //sUserID();
     setSiftConfig();
   }
 
@@ -31,17 +31,13 @@ class _MyAppState extends State<MyApp> {
     try {
       var res = await _siftPlugin.setSiftConfig(accountId: '123', beaconKey: 'tset');
 
-      print(res);
+      if (kDebugMode) {
+        print(res);
+      }
     } on PlatformException {
-      print('Failed to get platform version.');
-    }
-  }
-
-  Future<void> sUserID() async {
-    try {
-      await _siftPlugin.setUserID('123');
-    } on PlatformException {
-      print('Failed to get platform version.');
+      if (kDebugMode) {
+        print('Failed to get platform version.');
+      }
     }
   }
 

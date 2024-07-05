@@ -23,9 +23,7 @@ class BalanceAmountWidget extends StatelessObserverWidget {
 
     return SPaddingH24(
       child: Text(
-        !getIt<AppStore>().isBalanceHide
-            ? _price(itemsWithBalance, baseCurrency)
-            : '***** ${baseCurrency.symbol}',
+        !getIt<AppStore>().isBalanceHide ? _price(itemsWithBalance, baseCurrency) : '***** ${baseCurrency.symbol}',
         style: sTextH2Style.copyWith(
           height: 1.16,
         ),

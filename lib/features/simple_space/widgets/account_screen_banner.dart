@@ -11,8 +11,9 @@ class AccountScreenBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Observer(
       builder: (context) {
-        final isPrepaidCardAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
-            .any((element) => element.id == AssetPaymentProductsEnum.prepaidCard);
+        final isPrepaidCardAvaible = (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+          (element) => element.id == AssetPaymentProductsEnum.prepaidCard,
+        );
 
         return Padding(
           padding: EdgeInsets.only(

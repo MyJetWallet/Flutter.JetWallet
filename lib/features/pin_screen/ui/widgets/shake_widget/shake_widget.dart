@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'model/sine_curve.dart';
 
-abstract class AnimationControllerState<T extends StatefulWidget>
-    extends State<T> with SingleTickerProviderStateMixin {
+abstract class AnimationControllerState<T extends StatefulWidget> extends State<T> with SingleTickerProviderStateMixin {
   AnimationControllerState(this.animationDuration);
 
   final Duration animationDuration;

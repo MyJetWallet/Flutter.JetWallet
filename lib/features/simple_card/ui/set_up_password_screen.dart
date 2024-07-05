@@ -161,13 +161,16 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
                             return;
                           }
 
-                         if (!store.preContinueCheck()) return;
+                          if (!store.preContinueCheck()) return;
 
                           if (isCreatePassword) {
                             final storageService = getIt.get<LocalStorageService>();
 
                             final pin = await storageService.getValue(pinStatusKey);
-                            await simpleCardStore.createCard(pin ?? '', store.password);
+                            await simpleCardStore.createCard(
+                              pin ?? '',
+                              store.password,
+                            );
                           } else {
                             sAnalytics.viewConfirmWithPin(
                               cardID: simpleCardStore.cardFull?.cardId ?? '',
@@ -183,7 +186,9 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
                                     isConfirmCard: true,
                                     isChangePhone: true,
                                     onChangePhone: (String newPin) {
-                                      store.setCardPassword(simpleCardStore.cardFull?.cardId ?? '');
+                                      store.setCardPassword(
+                                        simpleCardStore.cardFull?.cardId ?? '',
+                                      );
                                     },
                                     onBackPressed: () {
                                       Navigator.pop(context);
@@ -191,13 +196,17 @@ class _SetUpPasswordScreenBody extends StatelessObserverWidget {
                                     onWrongPin: (String error) {},
                                   );
                                 },
-                                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                transitionsBuilder: (
+                                  context,
+                                  animation,
+                                  secondaryAnimation,
+                                  child,
+                                ) {
                                   const begin = Offset(0.0, 1.0);
                                   const end = Offset.zero;
                                   const curve = Curves.ease;
 
-                                  final tween =
-                                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                                  final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
                                   return SlideTransition(
                                     position: animation.drive(tween),

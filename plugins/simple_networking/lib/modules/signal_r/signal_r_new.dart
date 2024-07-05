@@ -237,7 +237,6 @@ class SignalRModuleNew {
 
   Future<void> simulateError() async {
     await _hubConnection?.stop();
-    print('object');
   }
 
   void _startPing() {

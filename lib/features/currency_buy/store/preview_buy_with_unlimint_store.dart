@@ -361,11 +361,11 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
         showProgressBar: true,
         onActionButton: () async {
           tapped = true;
-          final _ = await sNetwork.getWalletModule().postAddUnlimintCard(model);
+          final responce = await sNetwork.getWalletModule().postAddUnlimintCard(model);
 
           await sLocalStorageService.setString(
             lastUsedCard,
-            _.data?.cardId ?? '',
+            responce.data?.cardId ?? '',
           );
 
           navigateToRouter();

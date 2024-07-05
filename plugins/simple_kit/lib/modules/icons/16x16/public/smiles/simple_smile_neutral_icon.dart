@@ -9,8 +9,6 @@ class SSmileNeutralIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightSmileNeutralIcon()
-        : const SimpleLightSmileNeutralIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightSmileNeutralIcon() : const SimpleLightSmileNeutralIcon();
   }
 }

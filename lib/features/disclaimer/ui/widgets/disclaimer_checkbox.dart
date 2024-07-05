@@ -25,9 +25,7 @@ class DisclaimerCheckbox extends StatelessObserverWidget {
     final state = getIt.get<DisclaimerStore>();
 
     if (indexCheckBox != null) {
-      icon = state.questions[indexCheckBox!].defaultState
-          ? const SCheckboxSelectedIcon()
-          : const SCheckboxIcon();
+      icon = state.questions[indexCheckBox!].defaultState ? const SCheckboxSelectedIcon() : const SCheckboxIcon();
     }
 
     return Container(

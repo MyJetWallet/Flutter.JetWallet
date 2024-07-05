@@ -153,6 +153,7 @@ dependencies:
     path: plugins/sift
   simple_kit_updated:
     path: plugins/simple_kit_updated
+  gap: ^3.0.1
 
 dev_dependencies:
   flutter_test:

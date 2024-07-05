@@ -97,7 +97,9 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                 primarySymbol: store.primarySymbol,
                                 secondaryAmount: store.asset != null
                                     ? '${intl.earn_est} ${volumeFormat(
-                                        decimal: Decimal.parse(store.secondaryAmount),
+                                        decimal: Decimal.parse(
+                                          store.secondaryAmount,
+                                        ),
                                         symbol: '',
                                         accuracy: store.secondaryAccuracy,
                                       )}'
@@ -194,7 +196,9 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                     child: SizedBox(
                                       width: 16,
                                       height: 16,
-                                      child: SBankMediumIcon(color: sKit.colors.white),
+                                      child: SBankMediumIcon(
+                                        color: sKit.colors.white,
+                                      ),
                                     ),
                                   ),
                                   onTap: () {
@@ -275,7 +279,9 @@ class _SellAmountScreenBodyState extends State<SellAmountTabBody> with Automatic
                                     child: SizedBox(
                                       width: 16,
                                       height: 16,
-                                      child: SBankMediumIcon(color: sKit.colors.white),
+                                      child: SBankMediumIcon(
+                                        color: sKit.colors.white,
+                                      ),
                                     ),
                                   ),
                                   onTap: () {
@@ -374,12 +380,12 @@ Widget getNetworkIcon(CircleCardNetwork? network) {
 
 Widget getSimpleNetworkIcon(SimpleCardNetwork? network) {
   switch (network) {
-    case SimpleCardNetwork.VISA:
+    case SimpleCardNetwork.visa:
       return const SVisaCardBigIcon(
         width: 15,
         height: 9,
       );
-    case SimpleCardNetwork.MASTERCARD:
+    case SimpleCardNetwork.mastercard:
       return const SMasterCardBigIcon(
         width: 15,
         height: 9,

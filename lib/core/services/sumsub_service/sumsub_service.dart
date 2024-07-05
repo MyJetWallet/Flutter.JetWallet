@@ -74,7 +74,11 @@ class SumsubService {
     bool isCard = false,
   }) async {
     try {
-      unawaited(_logMessage('Start launch function isBanking: $isBanking, needPush: $needPush, isCard: $isCard'));
+      unawaited(
+        _logMessage(
+          'Start launch function isBanking: $isBanking, needPush: $needPush, isCard: $isCard',
+        ),
+      );
       final countries = getIt.get<KycCountryStore>();
       if (isCard) {
         sAnalytics.viewKYCSumsubCreation();
@@ -90,11 +94,15 @@ class SumsubService {
             message: 'Launch',
           );
 
-      onStatusChanged(
+      void onStatusChanged(
         SNSMobileSDKStatus newStatus,
         SNSMobileSDKStatus prevStatus,
       ) {
-        unawaited(_logMessage('The SDK status was changed: $prevStatus -> $newStatus'));
+        unawaited(
+          _logMessage(
+            'The SDK status was changed: $prevStatus -> $newStatus',
+          ),
+        );
 
         sAnalytics.kycFlowSumsubClose(
           country: countries.activeCountry?.countryName ?? '',
@@ -145,7 +153,9 @@ class SumsubService {
         }
       }
 
-      Future<SNSActionResultHandlerReaction> onActionResult(SNSMobileSDKActionResult result) {
+      Future<SNSActionResultHandlerReaction> onActionResult(
+        SNSMobileSDKActionResult result,
+      ) {
         sAnalytics.kycFlowVerifyingNowSV(
           country: countries.activeCountry?.countryName ?? '',
         );
@@ -260,7 +270,7 @@ class SumsubService {
           message: 'Launch',
         );
 
-    onStatusChanged(
+    Future<void> onStatusChanged(
       SNSMobileSDKStatus newStatus,
       SNSMobileSDKStatus prevStatus,
     ) async {
@@ -277,7 +287,9 @@ class SumsubService {
       }
     }
 
-    Future<SNSActionResultHandlerReaction> onActionResult(SNSMobileSDKActionResult result) async {
+    Future<SNSActionResultHandlerReaction> onActionResult(
+      SNSMobileSDKActionResult result,
+    ) async {
       return Future.value(SNSActionResultHandlerReaction.Continue);
     }
 
@@ -297,7 +309,13 @@ class SumsubService {
           .build();
 
       final _ = await snsMobileSDK.launch();
-    } catch (e) {}
+    } catch (e) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: _loggerService,
+            message: 'onStatusChanged error: $e',
+          );
+    }
   }
 
   Future<void> _logMessage(

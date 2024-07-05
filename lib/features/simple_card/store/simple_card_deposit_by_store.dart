@@ -46,7 +46,9 @@ abstract class _SimpleCardDepositByStoreBase with Store {
     }
 
     final bankingAccounts = sSignalRModules.bankingProfileData?.banking?.accounts
-            ?.where((element) => element.status == AccountStatus.active && !(element.isHidden ?? false))
+            ?.where(
+              (element) => element.status == AccountStatus.active && !(element.isHidden ?? false),
+            )
             .toList() ??
         <SimpleBankingAccount>[];
 

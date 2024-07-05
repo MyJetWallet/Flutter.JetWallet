@@ -14,15 +14,10 @@ class ExecuteQuoteResponseModel with _$ExecuteQuoteResponseModel {
     @DecimalSerialiser() required Decimal price,
     @JsonKey(name: 'fromAsset') required String fromAssetSymbol,
     @JsonKey(name: 'toAsset') required String toAssetSymbol,
-    @DecimalSerialiser()
-    @JsonKey(name: 'fromAssetVolume')
-    required Decimal fromAssetAmount,
-    @DecimalSerialiser()
-    @JsonKey(name: 'toAssetVolume')
-    required Decimal toAssetAmount,
+    @DecimalSerialiser() @JsonKey(name: 'fromAssetVolume') required Decimal fromAssetAmount,
+    @DecimalSerialiser() @JsonKey(name: 'toAssetVolume') required Decimal toAssetAmount,
     @JsonKey(name: 'actualTimeInSecond') required int expirationTime,
   }) = _ExecuteQuoteResponseModel;
 
-  factory ExecuteQuoteResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$ExecuteQuoteResponseModelFromJson(json);
+  factory ExecuteQuoteResponseModel.fromJson(Map<String, dynamic> json) => _$ExecuteQuoteResponseModelFromJson(json);
 }

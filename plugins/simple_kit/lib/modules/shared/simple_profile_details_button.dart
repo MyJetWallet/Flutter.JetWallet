@@ -53,8 +53,7 @@ class SProfileDetailsButton extends StatelessWidget {
                   ),
                   const SpaceH20(),
                   SDivider(
-                    color:
-                        isDivider ? SColorsLight().grey4 : Colors.transparent,
+                    color: isDivider ? SColorsLight().grey4 : Colors.transparent,
                   ),
                 ],
               ),

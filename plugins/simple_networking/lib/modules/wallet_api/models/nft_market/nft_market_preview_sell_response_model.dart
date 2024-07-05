@@ -6,8 +6,7 @@ part 'nft_market_preview_sell_response_model.freezed.dart';
 part 'nft_market_preview_sell_response_model.g.dart';
 
 @freezed
-class NftMarketPreviewSellResponseModel
-    with _$NftMarketPreviewSellResponseModel {
+class NftMarketPreviewSellResponseModel with _$NftMarketPreviewSellResponseModel {
   factory NftMarketPreviewSellResponseModel({
     required String symbol,
     @DecimalSerialiser() required Decimal sellPrice,

@@ -9,8 +9,6 @@ class SSendIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightSendIcon()
-        : const SimpleLightSendIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightSendIcon() : const SimpleLightSendIcon();
   }
 }

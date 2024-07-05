@@ -9,8 +9,6 @@ class SConvertIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightConvertIcon()
-        : const SimpleLightConvertIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightConvertIcon() : const SimpleLightConvertIcon();
   }
 }

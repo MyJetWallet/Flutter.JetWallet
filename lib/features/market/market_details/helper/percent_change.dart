@@ -1,2 +1,1 @@
-double percentChangeBetween(double first, double second) =>
-    ((second - first) / first) * 100;
+double percentChangeBetween(double first, double second) => ((second - first) / first) * 100;

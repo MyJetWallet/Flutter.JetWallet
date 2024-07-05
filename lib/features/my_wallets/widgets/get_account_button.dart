@@ -12,8 +12,11 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simple_card/simple_card_create_response.dart';
 
-
-Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context, CurrencyModel eurCurrency) async {
+Future<void> onGetAccountClick(
+  MyWalletsSrore store,
+  BuildContext context,
+  CurrencyModel eurCurrency,
+) async {
   final kycState = getIt.get<KycService>();
 
   if (store.buttonStatus == BankingShowState.getAccountBlock) {
@@ -35,11 +38,9 @@ Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context, Curre
     return;
   }
 
-  if (
-    (sSignalRModules.bankingProfileData?.banking?.cards?.length ?? 0) == 1 &&
-    sSignalRModules.bankingProfileData!.banking!.cards![0].status == AccountStatusCard.inCreation &&
-    !(store.buttonStatus == BankingShowState.inProgress)
-  ) {
+  if ((sSignalRModules.bankingProfileData?.banking?.cards?.length ?? 0) == 1 &&
+      sSignalRModules.bankingProfileData!.banking!.cards![0].status == AccountStatusCard.inCreation &&
+      !(store.buttonStatus == BankingShowState.inProgress)) {
     await sRouter.push(
       WalletRouter(
         currency: eurCurrency,

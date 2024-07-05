@@ -9,6 +9,5 @@ class CountryResponseModel with _$CountryResponseModel {
     required String countryCode,
   }) = _CountryResponseModel;
 
-  factory CountryResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$CountryResponseModelFromJson(json);
+  factory CountryResponseModel.fromJson(Map<String, dynamic> json) => _$CountryResponseModelFromJson(json);
 }

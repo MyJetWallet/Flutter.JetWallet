@@ -66,7 +66,9 @@ class ActiveInvestList extends StatelessObserverWidget {
         amount += groupedPositions[i].amount ?? Decimal.zero;
       }
 
-      return Decimal.fromJson('${(Decimal.fromInt(100) * profit / amount).toDouble()}');
+      return Decimal.fromJson(
+        '${(Decimal.fromInt(100) * profit / amount).toDouble()}',
+      );
     }
 
     Decimal getGroupedLeverage(String symbol) {
@@ -80,7 +82,9 @@ class ActiveInvestList extends StatelessObserverWidget {
         leverage += groupedPositions[i].multiplicator ?? 0;
       }
 
-      return Decimal.fromJson('${(Decimal.fromInt(leverage) / Decimal.fromInt(groupedPositions.length)).toDouble()}');
+      return Decimal.fromJson(
+        '${(Decimal.fromInt(leverage) / Decimal.fromInt(groupedPositions.length)).toDouble()}',
+      );
     }
 
     Decimal getGroupedAmount(String symbol) {
@@ -146,7 +150,9 @@ class ActiveInvestList extends StatelessObserverWidget {
                   balance: instrument != null ? getGroupedProfit(instrument?.symbol ?? '') : profitSum,
                   percent: instrument != null
                       ? getGroupedProfitPercent(instrument?.symbol ?? '')
-                      : Decimal.fromJson('${(Decimal.fromInt(100) * profitSum / amountSum).toDouble()}'),
+                      : Decimal.fromJson(
+                          '${(Decimal.fromInt(100) * profitSum / amountSum).toDouble()}',
+                        ),
                   onShare: () {},
                   currency: currency,
                   title: intl.invest_active_invest,
@@ -193,7 +199,10 @@ class ActiveInvestList extends StatelessObserverWidget {
                     children: [
                       for (final position in positions) ...[
                         InvestLine(
-                          currency: currencyFrom(currencies, getInstrumentBySymbol(position.symbol ?? '').name ?? ''),
+                          currency: currencyFrom(
+                            currencies,
+                            getInstrumentBySymbol(position.symbol ?? '').name ?? '',
+                          ),
                           price: investStore.getProfitByPosition(position),
                           operationType: position.direction ?? Direction.undefined,
                           isPending: false,
@@ -207,7 +216,9 @@ class ActiveInvestList extends StatelessObserverWidget {
                           onTap: () {
                             sRouter.push(
                               ActiveInvestManageRouter(
-                                instrument: getInstrumentBySymbol(position.symbol ?? ''),
+                                instrument: getInstrumentBySymbol(
+                                  position.symbol ?? '',
+                                ),
                                 position: position,
                               ),
                             );
@@ -222,7 +233,9 @@ class ActiveInvestList extends StatelessObserverWidget {
                   List<InvestPositionModel> positions;
                   if (instrument != null) {
                     positions = investPositionsStore.activeList
-                        .where((element) => element.symbol == instrument!.symbol)
+                        .where(
+                          (element) => element.symbol == instrument!.symbol,
+                        )
                         .toList();
                   } else {
                     positions = investPositionsStore.activeList.toList();
@@ -244,7 +257,10 @@ class ActiveInvestList extends StatelessObserverWidget {
                     children: [
                       for (final position in groupedPositons) ...[
                         InvestLine(
-                          currency: currencyFrom(currencies, getInstrumentBySymbol(position.symbol ?? '').name ?? ''),
+                          currency: currencyFrom(
+                            currencies,
+                            getInstrumentBySymbol(position.symbol ?? '').name ?? '',
+                          ),
                           price: Decimal.zero,
                           operationType: Direction.undefined,
                           isPending: false,
@@ -257,7 +273,11 @@ class ActiveInvestList extends StatelessObserverWidget {
                           accuracy: getInstrumentBySymbol(position.symbol ?? '').priceAccuracy ?? 2,
                           onTap: () {
                             sRouter.push(
-                              InstrumentPageRouter(instrument: getInstrumentBySymbol(position.symbol ?? '')),
+                              InstrumentPageRouter(
+                                instrument: getInstrumentBySymbol(
+                                  position.symbol ?? '',
+                                ),
+                              ),
                             );
                           },
                         ),
@@ -282,7 +302,10 @@ class ActiveInvestList extends StatelessObserverWidget {
                         ),
                       for (final position in sortedUniquePositons) ...[
                         InvestLine(
-                          currency: currencyFrom(currencies, getInstrumentBySymbol(position.symbol ?? '').name ?? ''),
+                          currency: currencyFrom(
+                            currencies,
+                            getInstrumentBySymbol(position.symbol ?? '').name ?? '',
+                          ),
                           price: investStore.getProfitByPosition(position),
                           operationType: position.direction ?? Direction.undefined,
                           isPending: false,
@@ -296,7 +319,9 @@ class ActiveInvestList extends StatelessObserverWidget {
                           onTap: () {
                             sRouter.push(
                               ActiveInvestManageRouter(
-                                instrument: getInstrumentBySymbol(position.symbol ?? ''),
+                                instrument: getInstrumentBySymbol(
+                                  position.symbol ?? '',
+                                ),
                                 position: position,
                               ),
                             );
@@ -326,7 +351,10 @@ class ActiveInvestList extends StatelessObserverWidget {
                   children: [
                     for (final position in sortedPositions) ...[
                       InvestLine(
-                        currency: currencyFrom(currencies, getInstrumentBySymbol(position.symbol ?? '').name ?? ''),
+                        currency: currencyFrom(
+                          currencies,
+                          getInstrumentBySymbol(position.symbol ?? '').name ?? '',
+                        ),
                         price: investStore.getProfitByPosition(position),
                         operationType: position.direction ?? Direction.undefined,
                         isPending: false,
@@ -364,9 +392,13 @@ class ActiveInvestList extends StatelessObserverWidget {
     List<InvestPositionModel> positions,
   ) {
     if (investPositionsStore.activeSortState == 1) {
-      positions.sort((a, b) => investStore.getProfitByPosition(b).compareTo(investStore.getProfitByPosition(a)));
+      positions.sort(
+        (a, b) => investStore.getProfitByPosition(b).compareTo(investStore.getProfitByPosition(a)),
+      );
     } else if (investPositionsStore.activeSortState == 2) {
-      positions.sort((a, b) => investStore.getProfitByPosition(a).compareTo(investStore.getProfitByPosition(b)));
+      positions.sort(
+        (a, b) => investStore.getProfitByPosition(a).compareTo(investStore.getProfitByPosition(b)),
+      );
     } else {
       positions.sort((a, b) {
         if (a.creationTimestamp == null && b.creationTimestamp == null) {
@@ -383,7 +415,9 @@ class ActiveInvestList extends StatelessObserverWidget {
   }
 }
 
-List<InvestPositionModel> _filterOutRepeatedSymbols(List<InvestPositionModel> positions) {
+List<InvestPositionModel> _filterOutRepeatedSymbols(
+  List<InvestPositionModel> positions,
+) {
   final symbolCounts = <String, int>{};
 
   for (final position in positions) {
@@ -403,7 +437,11 @@ List<InvestPositionModel> _filterOutRepeatedSymbols(List<InvestPositionModel> po
 }
 
 /// Returns the grouped profit for the specified symbol
-Decimal _getGroupedProfit(String symbol, InvestPositionsStore investPositionsStore, InvestDashboardStore investStore) {
+Decimal _getGroupedProfit(
+  String symbol,
+  InvestPositionsStore investPositionsStore,
+  InvestDashboardStore investStore,
+) {
   final groupedPositions = investPositionsStore.activeList.where((position) => position.symbol == symbol).toList();
   var profit = Decimal.zero;
 

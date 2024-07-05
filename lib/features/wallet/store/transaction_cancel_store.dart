@@ -12,8 +12,7 @@ import 'package:simple_networking/modules/wallet_api/models/transfer_cancel/tran
 
 part 'transaction_cancel_store.g.dart';
 
-class TransactionCancelStore = _TransactionCancelStoreBase
-    with _$TransactionCancelStore;
+class TransactionCancelStore = _TransactionCancelStoreBase with _$TransactionCancelStore;
 
 abstract class _TransactionCancelStoreBase with Store {
   static final _logger = Logger('TransactionCancelStore');

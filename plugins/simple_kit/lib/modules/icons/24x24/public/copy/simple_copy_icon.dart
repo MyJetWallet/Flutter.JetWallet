@@ -14,8 +14,6 @@ class SCopyIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? SimpleLightCopyIcon(color: color)
-        : SimpleLightCopyIcon(color: color);
+    return sKit.currentTheme == STheme.dark ? SimpleLightCopyIcon(color: color) : SimpleLightCopyIcon(color: color);
   }
 }

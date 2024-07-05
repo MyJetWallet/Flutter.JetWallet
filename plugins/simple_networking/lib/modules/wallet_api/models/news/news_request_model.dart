@@ -12,6 +12,5 @@ class NewsRequestModel with _$NewsRequestModel {
     @JsonKey(name: 'lang') required String language,
   }) = _NewsRequestModel;
 
-  factory NewsRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$NewsRequestModelFromJson(json);
+  factory NewsRequestModel.fromJson(Map<String, dynamic> json) => _$NewsRequestModelFromJson(json);
 }

@@ -51,12 +51,12 @@ class SBadge extends StatelessWidget {
                       color: getMainColor,
                     )
                   : status == SBadgeStatus.pending
-                    ? SClockIcon(
-                      color: getMainColor,
-                    )
-                  : SCheckmarkIcon(
-                      color: getMainColor,
-                    ),
+                      ? SClockIcon(
+                          color: getMainColor,
+                        )
+                      : SCheckmarkIcon(
+                          color: getMainColor,
+                        ),
           Text(
             text,
             style: sBodyText1Style.copyWith(

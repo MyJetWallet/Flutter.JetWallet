@@ -11,6 +11,5 @@ class BaseCurrencyModel with _$BaseCurrencyModel {
     @Default(2) int accuracy,
   }) = _BaseCurrencyModel;
 
-  factory BaseCurrencyModel.fromJson(Map<String, dynamic> json) =>
-      _$BaseCurrencyModelFromJson(json);
+  factory BaseCurrencyModel.fromJson(Map<String, dynamic> json) => _$BaseCurrencyModelFromJson(json);
 }

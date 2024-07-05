@@ -13,8 +13,7 @@ class IndicesModel with _$IndicesModel {
     @JsonKey(name: 'indexDetails') required List<IndexModel> indices,
   }) = _IndicesModel;
 
-  factory IndicesModel.fromJson(Map<String, dynamic> json) =>
-      _$IndicesModelFromJson(json);
+  factory IndicesModel.fromJson(Map<String, dynamic> json) => _$IndicesModelFromJson(json);
 }
 
 @freezed
@@ -24,8 +23,7 @@ class IndexModel with _$IndexModel {
     required List<BasketAssetModel> basketAssets,
   }) = _IndexModel;
 
-  factory IndexModel.fromJson(Map<String, dynamic> json) =>
-      _$IndexModelFromJson(json);
+  factory IndexModel.fromJson(Map<String, dynamic> json) => _$IndexModelFromJson(json);
 }
 
 @freezed
@@ -38,6 +36,5 @@ class BasketAssetModel with _$BasketAssetModel {
     @DecimalSerialiser() required Decimal targetRebalanceWeight,
   }) = _BasketAssetModel;
 
-  factory BasketAssetModel.fromJson(Map<String, dynamic> json) =>
-      _$BasketAssetModelFromJson(json);
+  factory BasketAssetModel.fromJson(Map<String, dynamic> json) => _$BasketAssetModelFromJson(json);
 }

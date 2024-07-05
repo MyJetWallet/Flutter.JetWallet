@@ -55,8 +55,7 @@ class SPaymentSelectAsset extends StatelessWidget {
                     child: Column(
                       children: [
                         Baseline(
-                          baseline:
-                              widgetSize == SWidgetSize.small ? 17.0 : 18.0,
+                          baseline: widgetSize == SWidgetSize.small ? 17.0 : 18.0,
                           baselineType: TextBaseline.alphabetic,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,

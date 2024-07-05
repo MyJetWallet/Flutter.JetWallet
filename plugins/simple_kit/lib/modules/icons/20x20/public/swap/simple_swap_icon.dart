@@ -14,8 +14,6 @@ class SSwapIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? SimpleLightSwapIcon(color: color)
-        : SimpleLightSwapIcon(color: color);
+    return sKit.currentTheme == STheme.dark ? SimpleLightSwapIcon(color: color) : SimpleLightSwapIcon(color: color);
   }
 }

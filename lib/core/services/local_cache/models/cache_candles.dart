@@ -10,8 +10,7 @@ class CacheCandles with _$CacheCandles {
     required List<CacheCandlesModel> data,
   }) = _CacheCandles;
 
-  factory CacheCandles.fromJson(Map<String, dynamic> json) =>
-      _$CacheCandlesFromJson(json);
+  factory CacheCandles.fromJson(Map<String, dynamic> json) => _$CacheCandlesFromJson(json);
 }
 
 @freezed
@@ -21,6 +20,5 @@ class CacheCandlesModel with _$CacheCandlesModel {
     required Map<String, List<CandleModel>?> candle,
   }) = _CacheCandlesModel;
 
-  factory CacheCandlesModel.fromJson(Map<String, dynamic> json) =>
-      _$CacheCandlesModelFromJson(json);
+  factory CacheCandlesModel.fromJson(Map<String, dynamic> json) => _$CacheCandlesModelFromJson(json);
 }

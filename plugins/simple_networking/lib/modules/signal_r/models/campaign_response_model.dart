@@ -11,8 +11,7 @@ class CampaignResponseModel with _$CampaignResponseModel {
     required List<CampaignModel> campaigns,
   }) = _CampaignResponseModel;
 
-  factory CampaignResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$CampaignResponseModelFromJson(json);
+  factory CampaignResponseModel.fromJson(Map<String, dynamic> json) => _$CampaignResponseModelFromJson(json);
 }
 
 @freezed
@@ -29,8 +28,7 @@ class CampaignModel with _$CampaignModel {
     required String deepLink,
   }) = _CampaignModel;
 
-  factory CampaignModel.fromJson(Map<String, dynamic> json) =>
-      _$CampaignModelFromJson(json);
+  factory CampaignModel.fromJson(Map<String, dynamic> json) => _$CampaignModelFromJson(json);
 }
 
 @freezed
@@ -43,8 +41,7 @@ class CampaignConditionModel with _$CampaignConditionModel {
     required String description,
   }) = _CampaignConditionModel;
 
-  factory CampaignConditionModel.fromJson(Map<String, dynamic> json) =>
-      _$CampaignConditionModelFromJson(json);
+  factory CampaignConditionModel.fromJson(Map<String, dynamic> json) => _$CampaignConditionModelFromJson(json);
 }
 
 @freezed
@@ -69,6 +66,5 @@ class RewardModel with _$RewardModel {
     @DecimalSerialiser() required Decimal amount,
   }) = _RewardModel;
 
-  factory RewardModel.fromJson(Map<String, dynamic> json) =>
-      _$RewardModelFromJson(json);
+  factory RewardModel.fromJson(Map<String, dynamic> json) => _$RewardModelFromJson(json);
 }

@@ -100,7 +100,9 @@ class ConvertAmountScreenBodyState extends State<ConvertAmountTabBody> with Auto
                                 primarySymbol: store.primarySymbol,
                                 secondaryAmount: store.secondarySymbol != ''
                                     ? '${intl.earn_est} ${volumeFormat(
-                                        decimal: Decimal.parse(store.secondaryAmount),
+                                        decimal: Decimal.parse(
+                                          store.secondaryAmount,
+                                        ),
                                         symbol: '',
                                         accuracy: store.secondaryAccuracy,
                                       )}'

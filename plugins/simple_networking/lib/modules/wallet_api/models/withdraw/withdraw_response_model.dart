@@ -9,6 +9,5 @@ class WithdrawResponseModel with _$WithdrawResponseModel {
     required String operationId,
   }) = _WithdrawResponseModel;
 
-  factory WithdrawResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$WithdrawResponseModelFromJson(json);
+  factory WithdrawResponseModel.fromJson(Map<String, dynamic> json) => _$WithdrawResponseModelFromJson(json);
 }

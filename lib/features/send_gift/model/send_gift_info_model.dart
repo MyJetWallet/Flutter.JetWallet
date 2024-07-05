@@ -17,6 +17,5 @@ class SendGiftInfoModel with _$SendGiftInfoModel {
     String? phoneCountryCode,
   }) = _SendGiftInfoModel;
 
-  factory SendGiftInfoModel.fromJson(Map<String, dynamic> json) =>
-      _$SendGiftInfoModelFromJson(json);
+  factory SendGiftInfoModel.fromJson(Map<String, dynamic> json) => _$SendGiftInfoModelFromJson(json);
 }

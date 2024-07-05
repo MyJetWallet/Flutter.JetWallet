@@ -1,3 +1,4 @@
+// ignore: unnecessary_library_directive
 library simple_chart;
 
 export 'k_chart_widget.dart';

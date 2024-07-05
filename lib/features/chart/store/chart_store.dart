@@ -28,16 +28,14 @@ part 'chart_store.g.dart';
 class ChartStore extends _ChartStoreBase with _$ChartStore {
   ChartStore(super.chartInput);
 
-  static _ChartStoreBase of(BuildContext context) =>
-      Provider.of<ChartStore>(context, listen: false);
+  static _ChartStoreBase of(BuildContext context) => Provider.of<ChartStore>(context, listen: false);
 }
 
 abstract class _ChartStoreBase with Store {
   _ChartStoreBase(this.chartInput) {
     try {
       final currentDate = DateTime.now().toLocal();
-      final localCreationDate =
-          DateTime.parse(chartInput.creationDate).toLocal();
+      final localCreationDate = DateTime.parse(chartInput.creationDate).toLocal();
       final dateDifference = currentDate.difference(localCreationDate).inHours;
       final showWeek = dateDifference > const Duration(days: 7).inHours;
       final showMonth = dateDifference > const Duration(days: 30).inHours;
@@ -118,8 +116,7 @@ abstract class _ChartStoreBase with Store {
   @action
   Future<void> getDataFromCache() async {
     if (chartInput.instrumentId != null) {
-      final getDataFromCache =
-          await getIt<LocalCacheService>().getChart(chartInput.instrumentId!);
+      final getDataFromCache = await getIt<LocalCacheService>().getChart(chartInput.instrumentId!);
 
       if (getDataFromCache != null) {
         candles = getDataFromCache.candle;
@@ -198,8 +195,7 @@ abstract class _ChartStoreBase with Store {
         mergeCandlesCount: mergeCandlesCountFrom(resolution),
       );
 
-      final candlesResponse =
-          await sNetwork.getCandlesModule().getCandles(model);
+      final candlesResponse = await sNetwork.getCandlesModule().getCandles(model);
 
       candlesResponse.pick(
         onData: (candles) {

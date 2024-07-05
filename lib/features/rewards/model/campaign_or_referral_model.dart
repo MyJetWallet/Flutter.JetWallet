@@ -13,8 +13,7 @@ class CampaignOrReferralModel with _$CampaignOrReferralModel {
     ReferralStatsModel? referralState,
   }) = _CampaignOrReferralModel;
 
-  factory CampaignOrReferralModel.fromJson(Map<String, dynamic> json) =>
-      _$CampaignOrReferralModelFromJson(json);
+  factory CampaignOrReferralModel.fromJson(Map<String, dynamic> json) => _$CampaignOrReferralModelFromJson(json);
 }
 
 @freezed
@@ -31,8 +30,7 @@ class CampaignModel with _$CampaignModel {
     required String deepLink,
   }) = _CampaignModel;
 
-  factory CampaignModel.fromJson(Map<String, dynamic> json) =>
-      _$CampaignModelFromJson(json);
+  factory CampaignModel.fromJson(Map<String, dynamic> json) => _$CampaignModelFromJson(json);
 }
 
 @freezed
@@ -47,8 +45,7 @@ class ReferralStatsModel with _$ReferralStatsModel {
     @DecimalSerialiser() required Decimal total,
   }) = _ReferralStatsModel;
 
-  factory ReferralStatsModel.fromJson(Map<String, dynamic> json) =>
-      _$ReferralStatsModelFromJson(json);
+  factory ReferralStatsModel.fromJson(Map<String, dynamic> json) => _$ReferralStatsModelFromJson(json);
 }
 
 @freezed
@@ -61,8 +58,7 @@ class CampaignConditionModel with _$CampaignConditionModel {
     required String description,
   }) = _CampaignConditionModel;
 
-  factory CampaignConditionModel.fromJson(Map<String, dynamic> json) =>
-      _$CampaignConditionModelFromJson(json);
+  factory CampaignConditionModel.fromJson(Map<String, dynamic> json) => _$CampaignConditionModelFromJson(json);
 }
 
 @freezed
@@ -87,6 +83,5 @@ class RewardModel with _$RewardModel {
     @DecimalSerialiser() required Decimal amount,
   }) = _RewardModel;
 
-  factory RewardModel.fromJson(Map<String, dynamic> json) =>
-      _$RewardModelFromJson(json);
+  factory RewardModel.fromJson(Map<String, dynamic> json) => _$RewardModelFromJson(json);
 }

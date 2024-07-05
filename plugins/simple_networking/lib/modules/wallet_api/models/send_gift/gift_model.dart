@@ -19,8 +19,7 @@ abstract class GiftModel with _$GiftModel {
     required String? declineReason,
   }) = _GiftModel;
 
-  factory GiftModel.fromJson(Map<String, dynamic> json) =>
-      _$GiftModelFromJson(json);
+  factory GiftModel.fromJson(Map<String, dynamic> json) => _$GiftModelFromJson(json);
 }
 
 enum GiftStatus {

@@ -132,9 +132,7 @@ class SAssetItem extends StatelessWidget {
               if (divider)
                 SPaddingH24(
                   child: SDivider(
-                    color: lightDivider
-                        ? SColorsLight().grey4
-                        : SColorsLight().grey3,
+                    color: lightDivider ? SColorsLight().grey4 : SColorsLight().grey3,
                     width: double.infinity,
                   ),
                 )
@@ -142,8 +140,7 @@ class SAssetItem extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
                   child: SDivider(
-                    color:
-                        lightDivider ? SColorsLight().blue : SColorsLight().red,
+                    color: lightDivider ? SColorsLight().blue : SColorsLight().red,
                     width: double.infinity,
                   ),
                 ),

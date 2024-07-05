@@ -574,7 +574,10 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
                   await _showFailureScreen('');
                 }
 
-                await _requestPaymentInfo(onAction, data.clientAction?.checkoutUrl ?? '');
+                await _requestPaymentInfo(
+                  onAction,
+                  data.clientAction?.checkoutUrl ?? '',
+                );
               },
               (error) {
                 Navigator.pop(sRouter.navigatorKey.currentContext!);

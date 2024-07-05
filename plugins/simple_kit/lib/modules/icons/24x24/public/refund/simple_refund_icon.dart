@@ -14,8 +14,6 @@ class SRefundIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? SimpleLightRefundIcon(color: color)
-        : SimpleLightRefundIcon(color: color);
+    return sKit.currentTheme == STheme.dark ? SimpleLightRefundIcon(color: color) : SimpleLightRefundIcon(color: color);
   }
 }

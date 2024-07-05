@@ -19,7 +19,7 @@ class LoadingReferralCode extends StatelessWidget {
         ),
         const SpaceW12(),
         Text(
-         intl.checkingReferralCode_checking,
+          intl.checkingReferralCode_checking,
           style: sBodyText2Style.copyWith(
             color: sKit.colors.grey1,
           ),

@@ -11,6 +11,5 @@ class CheckResponseModel with _$CheckResponseModel {
     @Default(false) bool verificationInProgress,
   }) = _CheckResponseModel;
 
-  factory CheckResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$CheckResponseModelFromJson(json);
+  factory CheckResponseModel.fromJson(Map<String, dynamic> json) => _$CheckResponseModelFromJson(json);
 }

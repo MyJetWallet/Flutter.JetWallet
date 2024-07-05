@@ -92,7 +92,7 @@ class P2PBuyAmountScreen extends StatelessWidget {
                         physics: const ClampingScrollPhysics(),
                         slivers: [
                           SliverFillRemaining(
-                             hasScrollBody: false,
+                            hasScrollBody: false,
                             child: Column(
                               children: [
                                 deviceSize.when(
@@ -107,7 +107,9 @@ class P2PBuyAmountScreen extends StatelessWidget {
                                   primarySymbol: store.primarySymbol,
                                   secondaryAmount: store.asset != null
                                       ? '${intl.earn_est} ${volumeFormat(
-                                          decimal: Decimal.parse(store.secondaryAmount),
+                                          decimal: Decimal.parse(
+                                            store.secondaryAmount,
+                                          ),
                                           symbol: '',
                                           accuracy: store.secondaryAccuracy,
                                         )}'

@@ -85,7 +85,11 @@ class MyPortfolio extends StatelessObserverWidget {
                           Text(
                             getIt<AppStore>().isBalanceHide
                                 ? '****'
-                                : marketFormat(decimal: amount, accuracy: 2, symbol: ''),
+                                : marketFormat(
+                                    decimal: amount,
+                                    accuracy: 2,
+                                    symbol: '',
+                                  ),
                             style: STStyles.body3InvestSM.copyWith(
                               color: colors.black,
                             ),
@@ -118,7 +122,11 @@ class MyPortfolio extends StatelessObserverWidget {
                           Text(
                             getIt<AppStore>().isBalanceHide
                                 ? '****'
-                                : marketFormat(decimal: pending, accuracy: 2, symbol: ''),
+                                : marketFormat(
+                                    decimal: pending,
+                                    accuracy: 2,
+                                    symbol: '',
+                                  ),
                             style: STStyles.body3InvestSM.copyWith(
                               color: colors.black,
                             ),
@@ -166,7 +174,11 @@ class MyPortfolio extends StatelessObserverWidget {
                     Text(
                       getIt<AppStore>().isBalanceHide
                           ? '****'
-                          : marketFormat(decimal: balance, accuracy: 2, symbol: ''),
+                          : marketFormat(
+                              decimal: balance,
+                              accuracy: 2,
+                              symbol: '',
+                            ),
                       style: STStyles.header3Invest.copyWith(
                         color: colors.black,
                       ),

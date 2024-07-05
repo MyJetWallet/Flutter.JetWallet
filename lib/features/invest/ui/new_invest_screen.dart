@@ -130,7 +130,9 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                       return;
                     } else {
                       sRouter.push(
-                        NewInvestConfirmationPageRouter(instrument: widget.instrument),
+                        NewInvestConfirmationPageRouter(
+                          instrument: widget.instrument,
+                        ),
                       );
                     }
                   },
@@ -276,7 +278,9 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                   ),
                   currentValue: investNewStore.amountValue == Decimal.zero
                       ? Decimal.zero
-                      : Decimal.fromJson('${log(investNewStore.amountValue.toDouble())}'),
+                      : Decimal.fromJson(
+                          '${log(investNewStore.amountValue.toDouble())}',
+                        ),
                   divisions: ((calculateAmountMaxReal(
                                 balance: sSignalRModules.investWalletData?.balance ?? Decimal.zero,
                                 minVolume: widget.instrument.minVolume ?? Decimal.zero,
@@ -505,7 +509,9 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                             builder: (context) {
                               return InvestInput(
                                 inputFormatters: <TextInputFormatter>[
-                                  FilteringTextInputFormatter.allow(RegExp('[0-9-]')),
+                                  FilteringTextInputFormatter.allow(
+                                    RegExp('[0-9-]'),
+                                  ),
                                 ],
                                 onChanged: investNewStore.onTPAmountInput,
                                 icon: Row(
@@ -533,7 +539,9 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                               return InvestInput(
                                 onChanged: investNewStore.onTPPriceInput,
                                 inputFormatters: <TextInputFormatter>[
-                                  FilteringTextInputFormatter.allow(RegExp('[0-9,.]')),
+                                  FilteringTextInputFormatter.allow(
+                                    RegExp('[0-9,.]'),
+                                  ),
                                 ],
                                 icon: const SizedBox(),
                                 controller: investNewStore.tpPriceController,
@@ -555,7 +563,9 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                         maxValue: calculateLimitsPositions(
                           price: investNewStore.isOrderMode
                               ? investNewStore.pendingValue
-                              : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
+                              : investStore.getPendingPriceBySymbol(
+                                  widget.instrument.symbol ?? '',
+                                ),
                           amount: investNewStore.amountValue,
                           limits: investNewStore.isSLTPPrice
                               ? widget.instrument.takeProfitPriceLimits!
@@ -566,7 +576,9 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                         minValue: calculateLimitsPositions(
                           price: investNewStore.isOrderMode
                               ? investNewStore.pendingValue
-                              : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
+                              : investStore.getPendingPriceBySymbol(
+                                  widget.instrument.symbol ?? '',
+                                ),
                           amount: investNewStore.amountValue,
                           limits: investNewStore.isSLTPPrice
                               ? widget.instrument.takeProfitPriceLimits!
@@ -581,7 +593,9 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                         arrayOfValues: calculateLimitsPositions(
                           price: investNewStore.isOrderMode
                               ? investNewStore.pendingValue
-                              : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
+                              : investStore.getPendingPriceBySymbol(
+                                  widget.instrument.symbol ?? '',
+                                ),
                           amount: investNewStore.amountValue,
                           limits: investNewStore.isSLTPPrice
                               ? widget.instrument.takeProfitPriceLimits!
@@ -674,7 +688,9 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                                   ],
                                 ),
                                 inputFormatters: <TextInputFormatter>[
-                                  FilteringTextInputFormatter.allow(RegExp('[0-9-]')),
+                                  FilteringTextInputFormatter.allow(
+                                    RegExp('[0-9-]'),
+                                  ),
                                 ],
                                 controller: investNewStore.slAmountController,
                                 keyboardType: TextInputType.number,
@@ -690,7 +706,9 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                               return InvestInput(
                                 onChanged: investNewStore.onSLPriceInput,
                                 inputFormatters: <TextInputFormatter>[
-                                  FilteringTextInputFormatter.allow(RegExp('[0-9,.]')),
+                                  FilteringTextInputFormatter.allow(
+                                    RegExp('[0-9,.]'),
+                                  ),
                                 ],
                                 icon: const SizedBox(),
                                 controller: investNewStore.slPriceController,
@@ -712,7 +730,9 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                         maxValue: calculateLimitsPositions(
                           price: investNewStore.isOrderMode
                               ? investNewStore.pendingValue
-                              : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
+                              : investStore.getPendingPriceBySymbol(
+                                  widget.instrument.symbol ?? '',
+                                ),
                           amount: investNewStore.amountValue,
                           limits: investNewStore.isSLTPPrice
                               ? widget.instrument.stopLossPriceLimits!
@@ -724,7 +744,9 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                         minValue: calculateLimitsPositions(
                           price: investNewStore.isOrderMode
                               ? investNewStore.pendingValue
-                              : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
+                              : investStore.getPendingPriceBySymbol(
+                                  widget.instrument.symbol ?? '',
+                                ),
                           amount: investNewStore.amountValue,
                           limits: investNewStore.isSLTPPrice
                               ? widget.instrument.stopLossPriceLimits!
@@ -741,7 +763,9 @@ class _NewInvestScreenState extends State<NewInvestScreen> {
                         arrayOfValues: calculateLimitsPositions(
                           price: investNewStore.isOrderMode
                               ? investNewStore.pendingValue
-                              : investStore.getPendingPriceBySymbol(widget.instrument.symbol ?? ''),
+                              : investStore.getPendingPriceBySymbol(
+                                  widget.instrument.symbol ?? '',
+                                ),
                           amount: investNewStore.amountValue,
                           limits: investNewStore.isSLTPPrice
                               ? widget.instrument.stopLossPriceLimits!

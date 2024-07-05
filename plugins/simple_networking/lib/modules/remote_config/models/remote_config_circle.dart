@@ -9,6 +9,5 @@ class RemoteConfigCircle with _$RemoteConfigCircle {
     required bool cvvEnabled,
   }) = _RemoteConfigCircle;
 
-  factory RemoteConfigCircle.fromJson(Map<String, dynamic> json) =>
-      _$RemoteConfigCircleFromJson(json);
+  factory RemoteConfigCircle.fromJson(Map<String, dynamic> json) => _$RemoteConfigCircleFromJson(json);
 }

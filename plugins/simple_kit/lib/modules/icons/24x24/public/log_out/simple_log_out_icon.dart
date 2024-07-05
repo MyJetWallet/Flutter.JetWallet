@@ -9,8 +9,6 @@ class SLogOutIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightLogOutIcon()
-        : const SimpleLightLogOutIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightLogOutIcon() : const SimpleLightLogOutIcon();
   }
 }

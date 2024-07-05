@@ -6,8 +6,7 @@ part 'calculate_earn_offer_apy_response_model.freezed.dart';
 part 'calculate_earn_offer_apy_response_model.g.dart';
 
 @freezed
-class CalculateEarnOfferApyResponseModel
-    with _$CalculateEarnOfferApyResponseModel {
+class CalculateEarnOfferApyResponseModel with _$CalculateEarnOfferApyResponseModel {
   const factory CalculateEarnOfferApyResponseModel({
     String? offerId,
     List<TierModel>? tiers,
@@ -42,6 +41,5 @@ class TierModel with _$TierModel {
     required bool active,
   }) = _TierModel;
 
-  factory TierModel.fromJson(Map<String, dynamic> json) =>
-      _$TierModelFromJson(json);
+  factory TierModel.fromJson(Map<String, dynamic> json) => _$TierModelFromJson(json);
 }

@@ -31,6 +31,7 @@ class SIconTextButton extends StatefulWidget {
 
 class _SIconTextButtonState extends State<SIconTextButton> {
   var isClicked = false;
+  // ignore: unused_field
   late Timer _timer;
 
   void _startTimer() {

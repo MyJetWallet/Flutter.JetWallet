@@ -11,7 +11,7 @@ Future<void> showPrepaidCardRedirectDialog({
   required BuildContext context,
 }) async {
   sAnalytics.redirectingPrepaidCardPopupView();
-  
+
   await sShowAlertPopup(
     context,
     primaryText: intl.prepaid_card_redirecting,

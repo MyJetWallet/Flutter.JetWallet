@@ -28,8 +28,7 @@ class SResendButton extends StatefulWidget {
   State<SResendButton> createState() => _SResendButtonState();
 }
 
-class _SResendButtonState extends State<SResendButton>
-    with RestorationMixin<SResendButton> {
+class _SResendButtonState extends State<SResendButton> with RestorationMixin<SResendButton> {
   final _timer = RestorableInt(0);
 
   @override
@@ -62,9 +61,7 @@ class _SResendButtonState extends State<SResendButton>
       children: [
         Center(
           child: Text(
-            _timer.value > 0
-                ? '${widget.text1} ${_timer.value} ${widget.text2}'
-                : '${widget.text3}?',
+            _timer.value > 0 ? '${widget.text1} ${_timer.value} ${widget.text2}' : '${widget.text3}?',
             style: sCaptionTextStyle.copyWith(
               color: SColorsLight().grey2,
             ),

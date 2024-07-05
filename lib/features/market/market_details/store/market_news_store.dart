@@ -15,8 +15,7 @@ const newsPortionAmount = 3;
 class MarketNewsStore extends _MarketNewsStoreBase with _$MarketNewsStore {
   MarketNewsStore() : super();
 
-  static _MarketNewsStoreBase of(BuildContext context) =>
-      Provider.of<MarketNewsStore>(context, listen: false);
+  static _MarketNewsStoreBase of(BuildContext context) => Provider.of<MarketNewsStore>(context, listen: false);
 }
 
 abstract class _MarketNewsStoreBase with Store {
@@ -69,9 +68,7 @@ abstract class _MarketNewsStoreBase with Store {
   void updateNews(List<MarketNewsModel> newNews) {
     _logger.log(notifier, 'updateNews');
 
-    newNews.isEmpty
-        ? loadMore = false
-        : news = ObservableList.of(news + newNews);
+    newNews.isEmpty ? loadMore = false : news = ObservableList.of(news + newNews);
   }
 
   @action

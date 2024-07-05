@@ -11,8 +11,7 @@ class BalancesModel with _$BalancesModel {
     required List<BalanceModel> balances,
   }) = _BalancesModel;
 
-  factory BalancesModel.fromJson(Map<String, dynamic> json) =>
-      _$BalancesModelFromJson(json);
+  factory BalancesModel.fromJson(Map<String, dynamic> json) => _$BalancesModelFromJson(json);
 }
 
 @freezed
@@ -36,6 +35,5 @@ class BalanceModel with _$BalanceModel {
     required int earnInProcessCount,
   }) = _BalanceModel;
 
-  factory BalanceModel.fromJson(Map<String, dynamic> json) =>
-      _$BalanceModelFromJson(json);
+  factory BalanceModel.fromJson(Map<String, dynamic> json) => _$BalanceModelFromJson(json);
 }

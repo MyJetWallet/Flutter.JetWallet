@@ -9,6 +9,5 @@ class CardCheckRequestModel with _$CardCheckRequestModel {
     required String cardId,
   }) = _CardCheckRequestModel;
 
-  factory CardCheckRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$CardCheckRequestModelFromJson(json);
+  factory CardCheckRequestModel.fromJson(Map<String, dynamic> json) => _$CardCheckRequestModelFromJson(json);
 }

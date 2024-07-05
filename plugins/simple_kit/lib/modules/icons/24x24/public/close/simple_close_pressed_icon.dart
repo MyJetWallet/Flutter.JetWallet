@@ -9,8 +9,6 @@ class SClosePressedIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightClosePressedIcon()
-        : const SimpleLightClosePressedIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightClosePressedIcon() : const SimpleLightClosePressedIcon();
   }
 }

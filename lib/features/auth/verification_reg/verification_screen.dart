@@ -101,8 +101,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
               getIt<AppRouter>().maybePop();
             },
-            isDisabled: !store.isPhoneDone &&
-                store.step != VerificationScreenStep.phone,
+            isDisabled: !store.isPhoneDone && store.step != VerificationScreenStep.phone,
             isDone: store.isPhoneDone,
           ),
           const SpaceH24(),
@@ -120,8 +119,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
               getIt<AppRouter>().maybePop();
               //sRouter.replace(const UserDataScreenRouter());
             },
-            isDisabled: !store.isPersonalDetailsDone &&
-                store.step != VerificationScreenStep.personalDetail,
+            isDisabled: !store.isPersonalDetailsDone && store.step != VerificationScreenStep.personalDetail,
             isDone: store.isPersonalDetailsDone,
           ),
           const SpaceH24(),
@@ -145,8 +143,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
               ]);
               */
             },
-            isDisabled: !store.isCreatePinDone &&
-                store.step != VerificationScreenStep.pin,
+            isDisabled: !store.isCreatePinDone && store.step != VerificationScreenStep.pin,
             isDone: store.isCreatePinDone,
           ),
         ],

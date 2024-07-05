@@ -31,8 +31,7 @@ class _AccountStatusBannerState extends State<AccountStatusBanner> {
       width: MediaQuery.of(context).size.width - 48,
       height: 56,
       decoration: BoxDecoration(
-        color:
-            highlighted ? widget.mainColor.withOpacity(0.8) : widget.mainColor,
+        color: highlighted ? widget.mainColor.withOpacity(0.8) : widget.mainColor,
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: InkWell(

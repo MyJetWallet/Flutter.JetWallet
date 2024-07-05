@@ -52,10 +52,14 @@ class CardRefundDetails extends StatelessObserverWidget {
             value: Row(
               children: [
                 TransactionDetailsNewValueText(
-                  text: shortTxhashFrom(transactionListItem.cardRefundInfo!.transactionId ?? ''),
+                  text: shortTxhashFrom(
+                    transactionListItem.cardRefundInfo!.transactionId ?? '',
+                  ),
                 ),
                 const SpaceW10(),
-                HistoryCopyIcon(transactionListItem.cardRefundInfo!.transactionId ?? ''),
+                HistoryCopyIcon(
+                  transactionListItem.cardRefundInfo!.transactionId ?? '',
+                ),
               ],
             ),
           ),
@@ -91,7 +95,9 @@ class CardRefundDetails extends StatelessObserverWidget {
                   child: SizedBox(
                     width: 16,
                     height: 16,
-                    child: getSimpleNetworkIcon(transactionListItem.cardRefundInfo!.cardType),
+                    child: getSimpleNetworkIcon(
+                      transactionListItem.cardRefundInfo!.cardType,
+                    ),
                   ),
                 ),
                 const SpaceW8(),
@@ -189,7 +195,10 @@ class CardRefundDetailsHeader extends StatelessWidget {
                 : transactionListItem.status == Status.completed
                     ? SBadgeStatus.success
                     : SBadgeStatus.error,
-            text: transactionDetailsStatusText(transactionListItem.status, isPending: true),
+            text: transactionDetailsStatusText(
+              transactionListItem.status,
+              isPending: true,
+            ),
           ),
           const SizedBox(height: 24),
         ],

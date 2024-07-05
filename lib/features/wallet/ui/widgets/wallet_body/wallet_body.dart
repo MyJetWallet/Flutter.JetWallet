@@ -115,7 +115,9 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                 ? widget.currency.symbol == 'EUR'
                     ? getIt<AppStore>().isBalanceHide
                         ? '**** ${getIt.get<FormatService>().baseCurrency.symbol}'
-                        : widget.currency.volumeBaseBalance(getIt.get<FormatService>().baseCurrency)
+                        : widget.currency.volumeBaseBalance(
+                            getIt.get<FormatService>().baseCurrency,
+                          )
                     : getIt<AppStore>().isBalanceHide
                         ? '******* ${widget.currency.symbol}'
                         : widget.currency.volumeAssetBalance
@@ -132,7 +134,9 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                       )
                 : getIt<AppStore>().isBalanceHide
                     ? '**** ${getIt.get<FormatService>().baseCurrency.symbol}'
-                    : widget.currency.volumeBaseBalance(getIt.get<FormatService>().baseCurrency),
+                    : widget.currency.volumeBaseBalance(
+                        getIt.get<FormatService>().baseCurrency,
+                      ),
             mainHeaderCollapsedSubtitle: widget.currency.description,
             carouselItemsCount: widget.pageCount,
             carouselPageIndex: widget.indexNow,
@@ -172,20 +176,24 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
 
                           final actualAsset = widget.currency;
 
-                          final isCardsAvailable =
-                              actualAsset.buyMethods.any((element) => element.id == PaymentMethodType.bankCard);
+                          final isCardsAvailable = actualAsset.buyMethods.any(
+                            (element) => element.id == PaymentMethodType.bankCard,
+                          );
 
-                          final isSimpleAccountAvaible = sSignalRModules.paymentProducts
-                                  ?.any((element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount) ??
+                          final isSimpleAccountAvaible = sSignalRModules.paymentProducts?.any(
+                                (element) => element.id == AssetPaymentProductsEnum.simpleIbanAccount,
+                              ) ??
                               false;
 
-                          final isBankingAccountsAvaible = actualAsset.buyMethods
-                              .any((element) => element.id == PaymentMethodType.ibanTransferUnlimint);
+                          final isBankingAccountsAvaible = actualAsset.buyMethods.any(
+                            (element) => element.id == PaymentMethodType.ibanTransferUnlimint,
+                          );
 
                           final isBuyAvaible = isCardsAvailable || isSimpleAccountAvaible || isBankingAccountsAvaible;
 
-                          final isDepositBlocker = sSignalRModules.clientDetail.clientBlockers
-                              .any((element) => element.blockingType == BlockingType.deposit);
+                          final isDepositBlocker = sSignalRModules.clientDetail.clientBlockers.any(
+                            (element) => element.blockingType == BlockingType.deposit,
+                          );
 
                           if (kycState.tradeStatus == kycOperationStatus(KycStatus.blocked) || !isBuyAvaible) {
                             sNotification.showError(

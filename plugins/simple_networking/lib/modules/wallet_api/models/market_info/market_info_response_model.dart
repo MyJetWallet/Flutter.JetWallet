@@ -17,6 +17,5 @@ class MarketInfoResponseModel with _$MarketInfoResponseModel {
     required String aboutMore,
   }) = _MarketInfoResponseModel;
 
-  factory MarketInfoResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$MarketInfoResponseModelFromJson(json);
+  factory MarketInfoResponseModel.fromJson(Map<String, dynamic> json) => _$MarketInfoResponseModelFromJson(json);
 }

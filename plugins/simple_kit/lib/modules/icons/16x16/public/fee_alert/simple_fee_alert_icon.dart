@@ -9,8 +9,6 @@ class SFeeAlertIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightFeeAlertIcon()
-        : const SimpleLightFeeAlertIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightFeeAlertIcon() : const SimpleLightFeeAlertIcon();
   }
 }

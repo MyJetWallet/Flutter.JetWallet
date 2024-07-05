@@ -67,7 +67,10 @@ class SDepositCard extends StatelessObserverWidget {
                       : getHighestApyRateAsString(earnPosition.offers),
                   earnPositoinStatus: earnPosition.status,
                   isShowDate: isShowDate,
-                  period: formatPeriod(earnPosition.startDateTime, earnPosition.closeDateTime),
+                  period: formatPeriod(
+                    earnPosition.startDateTime,
+                    earnPosition.closeDateTime,
+                  ),
                 ),
                 const SizedBox(height: 16),
                 CryptoCardBody(

@@ -53,7 +53,11 @@ class JournalItem extends StatelessObserverWidget {
             },
           ),
           mainText: instrument.name!,
-          secondaryText: operationPositionName(item.auditEvent, position, item.closeReason),
+          secondaryText: operationPositionName(
+            item.auditEvent,
+            position,
+            item.closeReason,
+          ),
         ),
         const SpaceH8(),
         if (item.closeReason != PositionCloseReason.undefined) ...[
@@ -128,7 +132,7 @@ class JournalItem extends StatelessObserverWidget {
   }
 
   String normalizeAndFormatDateTime(String timestamp, String dateFormat) {
-    String normalizedTimestamp = timestamp;
+    var normalizedTimestamp = timestamp;
 
     if (!normalizedTimestamp.endsWith('Z') && !RegExp(r'[+-]\d{2}:\d{2}$').hasMatch(normalizedTimestamp)) {
       normalizedTimestamp = '${normalizedTimestamp}Z';

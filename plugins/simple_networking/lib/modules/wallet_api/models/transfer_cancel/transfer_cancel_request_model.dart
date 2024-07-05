@@ -9,6 +9,5 @@ class TransferCancelRequestModel with _$TransferCancelRequestModel {
     @JsonKey(name: 'transferId') required String? transferId,
   }) = _TransferCancelRequestModel;
 
-  factory TransferCancelRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$TransferCancelRequestModelFromJson(json);
+  factory TransferCancelRequestModel.fromJson(Map<String, dynamic> json) => _$TransferCancelRequestModelFromJson(json);
 }

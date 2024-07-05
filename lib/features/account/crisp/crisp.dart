@@ -42,9 +42,7 @@ class _CrispState extends State<Crisp> {
     crispMain.register(
       user: CrispUser(
         email: authInfo.email,
-        nickname: sUserInfo.firstName.isNotEmpty
-            ? '${sUserInfo.firstName} ${sUserInfo.lastName}'
-            : authInfo.email,
+        nickname: sUserInfo.firstName.isNotEmpty ? '${sUserInfo.firstName} ${sUserInfo.lastName}' : authInfo.email,
         phone: sUserInfo.phone,
       ),
     );

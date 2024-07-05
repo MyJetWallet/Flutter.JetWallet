@@ -30,6 +30,5 @@ class SendToBankCardResponse with _$SendToBankCardResponse {
     final String? wise,
   }) = _SendToBankCardResponse;
 
-  factory SendToBankCardResponse.fromJson(Map<String, dynamic> json) =>
-      _$SendToBankCardResponseFromJson(json);
+  factory SendToBankCardResponse.fromJson(Map<String, dynamic> json) => _$SendToBankCardResponseFromJson(json);
 }

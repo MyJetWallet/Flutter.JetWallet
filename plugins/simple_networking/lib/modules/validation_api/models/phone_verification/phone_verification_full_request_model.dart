@@ -4,8 +4,7 @@ part 'phone_verification_full_request_model.freezed.dart';
 part 'phone_verification_full_request_model.g.dart';
 
 @freezed
-class PhoneVerificationFullRequestModel
-    with _$PhoneVerificationFullRequestModel {
+class PhoneVerificationFullRequestModel with _$PhoneVerificationFullRequestModel {
   const factory PhoneVerificationFullRequestModel({
     @JsonKey(name: 'language') required String locale,
     required int verificationType,

@@ -22,8 +22,7 @@ class SimpleLightTextButton1 extends StatelessWidget {
   Widget build(BuildContext context) {
     late Color activeColor;
 
-    activeColor =
-        color != null ? color ?? SColorsLight().black : SColorsLight().black;
+    activeColor = color != null ? color ?? SColorsLight().black : SColorsLight().black;
 
     return SimpleBaseTextButton(
       active: active,

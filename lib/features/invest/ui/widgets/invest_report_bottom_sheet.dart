@@ -481,7 +481,7 @@ class _InvestListScreenState extends State<InvestList> {
   }
 
   String normalizeAndFormatDateTime(String timestamp, String dateFormat) {
-    String normalizedTimestamp = timestamp;
+    var normalizedTimestamp = timestamp;
 
     if (!normalizedTimestamp.endsWith('Z') && !RegExp(r'[+-]\d{2}:\d{2}$').hasMatch(normalizedTimestamp)) {
       normalizedTimestamp = '${normalizedTimestamp}Z';

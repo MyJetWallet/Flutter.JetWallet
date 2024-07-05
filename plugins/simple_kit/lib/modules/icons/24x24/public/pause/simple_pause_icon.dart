@@ -9,8 +9,6 @@ class SPauseIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightPauseIcon()
-        : const SimpleLightPauseIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightPauseIcon() : const SimpleLightPauseIcon();
   }
 }

@@ -58,7 +58,9 @@ class WithdrawDetails extends StatelessObserverWidget {
                     ),
                   ),
                   const SpaceW10(),
-                  HistoryCopyIcon(transactionListItem.withdrawalInfo!.txId ?? ''),
+                  HistoryCopyIcon(
+                    transactionListItem.withdrawalInfo!.txId ?? '',
+                  ),
                 ],
               ),
             ),
@@ -78,7 +80,9 @@ class WithdrawDetails extends StatelessObserverWidget {
                   ),
                 ),
                 const SpaceW8(),
-                HistoryCopyIcon(transactionListItem.withdrawalInfo!.toAddress ?? ''),
+                HistoryCopyIcon(
+                  transactionListItem.withdrawalInfo!.toAddress ?? '',
+                ),
               ],
             ),
           ],

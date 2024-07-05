@@ -43,7 +43,12 @@ class _TVChartState extends State<TVChart> with WidgetsBindingObserver {
   }
 
   // ignore: unused_element
-  void _callOnTick(String listenerGuid, Bar bar, int chartType, String resolution) {
+  void _callOnTick(
+    String listenerGuid,
+    Bar bar,
+    int chartType,
+    String resolution,
+  ) {
     if (_chartLoaded) {
       final controller = _controller!;
       final payload = <String, dynamic>{

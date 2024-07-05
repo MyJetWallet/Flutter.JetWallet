@@ -10,12 +10,10 @@ part 'instruments_model.g.dart';
 class InstrumentsModel with _$InstrumentsModel {
   const factory InstrumentsModel({
     required double now,
-    @JsonKey(name: 'spotInstruments')
-    required List<InstrumentModel> instruments,
+    @JsonKey(name: 'spotInstruments') required List<InstrumentModel> instruments,
   }) = _InstrumentsModel;
 
-  factory InstrumentsModel.fromJson(Map<String, dynamic> json) =>
-      _$InstrumentsModelFromJson(json);
+  factory InstrumentsModel.fromJson(Map<String, dynamic> json) => _$InstrumentsModelFromJson(json);
 }
 
 @freezed
@@ -30,6 +28,5 @@ class InstrumentModel with _$InstrumentModel {
     @DecimalSerialiser() required Decimal maxOppositeVolume,
   }) = _InstrumentModel;
 
-  factory InstrumentModel.fromJson(Map<String, dynamic> json) =>
-      _$InstrumentModelFromJson(json);
+  factory InstrumentModel.fromJson(Map<String, dynamic> json) => _$InstrumentModelFromJson(json);
 }

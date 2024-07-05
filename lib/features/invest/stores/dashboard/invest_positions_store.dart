@@ -127,7 +127,9 @@ abstract class _InvestPositionsStoreBase with Store {
         profit += instrument.amountPl ?? Decimal.zero;
       }
       if (amount != Decimal.zero && profit != Decimal.zero) {
-        percent = Decimal.fromJson('${(Decimal.fromInt(100) * profit / amount).toDouble()}');
+        percent = Decimal.fromJson(
+          '${(Decimal.fromInt(100) * profit / amount).toDouble()}',
+        );
       }
       setTotals(amount, profit, percent);
       setSummary(response.data!);
@@ -351,7 +353,9 @@ abstract class _InvestPositionsStoreBase with Store {
                           ? '**** USDT'
                           : volumeFormat(
                               decimal: (position.volumeBase ?? Decimal.zero) *
-                                  investStore.getPendingPriceBySymbol(instrument.symbol ?? '') *
+                                  investStore.getPendingPriceBySymbol(
+                                    instrument.symbol ?? '',
+                                  ) *
                                   (instrument.closeFee ?? Decimal.zero),
                               accuracy: instrument.priceAccuracy ?? 2,
                               symbol: 'USDT',

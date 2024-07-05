@@ -10,8 +10,7 @@ class CheckPinResponseModel with _$CheckPinResponseModel {
     RejectDetailData? rejectDetail,
   }) = _CheckPinResponseModel;
 
-  factory CheckPinResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$CheckPinResponseModelFromJson(json);
+  factory CheckPinResponseModel.fromJson(Map<String, dynamic> json) => _$CheckPinResponseModelFromJson(json);
 }
 
 @freezed
@@ -22,8 +21,7 @@ class RejectDetailData with _$RejectDetailData {
     String? errorMessage,
   }) = _RejectDetailData;
 
-  factory RejectDetailData.fromJson(Map<String, dynamic> json) =>
-      _$RejectDetailDataFromJson(json);
+  factory RejectDetailData.fromJson(Map<String, dynamic> json) => _$RejectDetailDataFromJson(json);
 }
 
 @freezed
@@ -32,8 +30,7 @@ class AttemptsModel with _$AttemptsModel {
     int? left,
   }) = _AttemptsModel;
 
-  factory AttemptsModel.fromJson(Map<String, dynamic> json) =>
-      _$AttemptsModelFromJson(json);
+  factory AttemptsModel.fromJson(Map<String, dynamic> json) => _$AttemptsModelFromJson(json);
 }
 
 @freezed
@@ -42,6 +39,5 @@ class BlockerModel with _$BlockerModel {
     String? expired,
   }) = _BlockerModel;
 
-  factory BlockerModel.fromJson(Map<String, dynamic> json) =>
-      _$BlockerModelFromJson(json);
+  factory BlockerModel.fromJson(Map<String, dynamic> json) => _$BlockerModelFromJson(json);
 }

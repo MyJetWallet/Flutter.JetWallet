@@ -16,8 +16,7 @@ class CardBuyInfoResponseModel with _$CardBuyInfoResponseModel {
     String? rejectCode,
   }) = _CardBuyInfoResponseModel;
 
-  factory CardBuyInfoResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$CardBuyInfoResponseModelFromJson(json);
+  factory CardBuyInfoResponseModel.fromJson(Map<String, dynamic> json) => _$CardBuyInfoResponseModelFromJson(json);
 }
 
 @freezed
@@ -28,8 +27,7 @@ class ClientActionModel with _$ClientActionModel {
     String? threeDSecureUrl,
   }) = _ClientActionModel;
 
-  factory ClientActionModel.fromJson(Map<String, dynamic> json) =>
-      _$ClientActionModelFromJson(json);
+  factory ClientActionModel.fromJson(Map<String, dynamic> json) => _$ClientActionModelFromJson(json);
 }
 
 @freezed
@@ -43,8 +41,7 @@ class PaymentInfoModel with _$PaymentInfoModel {
     String? tradeFeeAsset,
   }) = _PaymentInfoModel;
 
-  factory PaymentInfoModel.fromJson(Map<String, dynamic> json) =>
-      _$PaymentInfoModelFromJson(json);
+  factory PaymentInfoModel.fromJson(Map<String, dynamic> json) => _$PaymentInfoModelFromJson(json);
 }
 
 @freezed
@@ -55,8 +52,7 @@ class BuyInfoModel with _$BuyInfoModel {
     @DecimalSerialiser() required Decimal rate,
   }) = _BuyInfoModel;
 
-  factory BuyInfoModel.fromJson(Map<String, dynamic> json) =>
-      _$BuyInfoModelFromJson(json);
+  factory BuyInfoModel.fromJson(Map<String, dynamic> json) => _$BuyInfoModelFromJson(json);
 }
 
 enum CardBuyPaymentStatus {

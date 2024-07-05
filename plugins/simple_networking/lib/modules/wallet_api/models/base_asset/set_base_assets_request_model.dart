@@ -9,6 +9,5 @@ class SetBaseAssetsRequestModel with _$SetBaseAssetsRequestModel {
     required String assetSymbol,
   }) = _SetBaseAssetsRequestModel;
 
-  factory SetBaseAssetsRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$SetBaseAssetsRequestModelFromJson(json);
+  factory SetBaseAssetsRequestModel.fromJson(Map<String, dynamic> json) => _$SetBaseAssetsRequestModelFromJson(json);
 }

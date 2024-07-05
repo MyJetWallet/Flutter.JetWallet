@@ -9,8 +9,6 @@ class SFaceIdIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightFaceIdIcon()
-        : const SimpleLightFaceIdIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightFaceIdIcon() : const SimpleLightFaceIdIcon();
   }
 }

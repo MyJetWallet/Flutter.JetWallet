@@ -33,12 +33,8 @@ class SVerifyIndicator extends StatelessWidget {
               borderRadius: BorderRadius.only(
                 topLeft: const Radius.circular(16.0),
                 bottomLeft: const Radius.circular(16.0),
-                topRight: calculateWidth() == 1
-                    ? const Radius.circular(16.0)
-                    : Radius.zero,
-                bottomRight: calculateWidth() == 1
-                    ? const Radius.circular(16.0)
-                    : Radius.zero,
+                topRight: calculateWidth() == 1 ? const Radius.circular(16.0) : Radius.zero,
+                bottomRight: calculateWidth() == 1 ? const Radius.circular(16.0) : Radius.zero,
               ),
             ),
             height: 12,

@@ -95,7 +95,10 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
                 fromAssetDescription: intl.earn_earn,
                 fromAssetValue: isBalanceHide
                     ? '**** ${store.currency.symbol}'
-                    : volumeFormat(decimal: store.amount, symbol: store.currency.symbol),
+                    : volumeFormat(
+                        decimal: store.amount,
+                        symbol: store.currency.symbol,
+                      ),
                 fromAssetBaseAmount: isBalanceHide
                     ? '**** ${sSignalRModules.baseCurrency.symbol}'
                     : '≈${marketFormat(decimal: store.baseAmount, symbol: sSignalRModules.baseCurrency.symbol, accuracy: store.baseCurrency.accuracy)}',
@@ -103,7 +106,10 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
                 toAssetDescription: intl.earn_crypto_wallet,
                 toAssetValue: isBalanceHide
                     ? '**** ${store.currency.symbol}'
-                    : volumeFormat(decimal: store.amount, symbol: store.currency.symbol),
+                    : volumeFormat(
+                        decimal: store.amount,
+                        symbol: store.currency.symbol,
+                      ),
                 toAssetBaseAmount: isBalanceHide
                     ? '**** ${sSignalRModules.baseCurrency.symbol}'
                     : '≈${marketFormat(decimal: store.baseAmount, symbol: sSignalRModules.baseCurrency.symbol, accuracy: store.baseCurrency.accuracy)}',
@@ -120,14 +126,20 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
                   label: intl.earn_basis_amount,
                   value: isBalanceHide
                       ? '**** ${store.currency.symbol}'
-                      : volumeFormat(decimal: store.earnPosition.baseAmount, symbol: store.currency.symbol),
+                      : volumeFormat(
+                          decimal: store.earnPosition.baseAmount,
+                          symbol: store.currency.symbol,
+                        ),
                   needHorizontalPadding: false,
                 ),
                 TwoColumnCell(
                   label: intl.earn_revenue,
                   value: isBalanceHide
                       ? '**** ${store.currency.symbol}'
-                      : volumeFormat(decimal: store.earnPosition.incomeAmount, symbol: store.currency.symbol),
+                      : volumeFormat(
+                          decimal: store.earnPosition.incomeAmount,
+                          symbol: store.currency.symbol,
+                        ),
                   needHorizontalPadding: false,
                 ),
               ],
@@ -153,8 +165,11 @@ class _EarnWithdrawOrderSummaruBody extends StatelessWidget {
               if (store.earnPosition.withdrawType == WithdrawType.lock)
                 Builder(
                   builder: (context) {
-                    final closeDate =
-                        DateTime.now().add(Duration(days: store.earnPosition.offers.first.lockPeriod ?? 0));
+                    final closeDate = DateTime.now().add(
+                      Duration(
+                        days: store.earnPosition.offers.first.lockPeriod ?? 0,
+                      ),
+                    );
                     final formatedData = formatDateToDMYFromDate(closeDate.toString());
 
                     final days = store.earnPosition.offers.first.lockPeriod ?? 1;

@@ -9,8 +9,7 @@ class InvestSectorsModel with _$InvestSectorsModel {
     required List<InvestSectorModel> sectors,
   }) = _InvestSectorsModel;
 
-  factory InvestSectorsModel.fromJson(Map<String, dynamic> json) =>
-      _$InvestSectorsModelFromJson(json);
+  factory InvestSectorsModel.fromJson(Map<String, dynamic> json) => _$InvestSectorsModelFromJson(json);
 }
 
 @freezed
@@ -23,6 +22,5 @@ class InvestSectorModel with _$InvestSectorModel {
     String? bigIconUrl,
   }) = _InvestSectorModel;
 
-  factory InvestSectorModel.fromJson(Map<String, dynamic> json) =>
-      _$InvestSectorModelFromJson(json);
+  factory InvestSectorModel.fromJson(Map<String, dynamic> json) => _$InvestSectorModelFromJson(json);
 }

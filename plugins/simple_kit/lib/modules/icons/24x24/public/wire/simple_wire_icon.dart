@@ -9,8 +9,6 @@ class SWireIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightWireIcon()
-        : const SimpleLightWireIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightWireIcon() : const SimpleLightWireIcon();
   }
 }

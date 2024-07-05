@@ -20,8 +20,7 @@ class NewInvestRequestModel with _$NewInvestRequestModel {
     @DecimalNullSerialiser() required Decimal stopLossValue,
   }) = _NewInvestRequestModel;
 
-  factory NewInvestRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$NewInvestRequestModelFromJson(json);
+  factory NewInvestRequestModel.fromJson(Map<String, dynamic> json) => _$NewInvestRequestModelFromJson(json);
 }
 
 @freezed
@@ -39,12 +38,10 @@ class NewInvestOrderRequestModel with _$NewInvestOrderRequestModel {
     @DecimalNullSerialiser() required Decimal stopLossValue,
   }) = _NewInvestOrderRequestModel;
 
-  factory NewInvestOrderRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$NewInvestOrderRequestModelFromJson(json);
+  factory NewInvestOrderRequestModel.fromJson(Map<String, dynamic> json) => _$NewInvestOrderRequestModelFromJson(json);
 }
 
-enum TPSLType
-{
+enum TPSLType {
   @JsonValue(0)
   undefined,
   @JsonValue(1)
@@ -53,8 +50,7 @@ enum TPSLType
   amount,
 }
 
-enum Direction
-{
+enum Direction {
   @JsonValue(0)
   undefined,
   @JsonValue(1)
@@ -100,12 +96,10 @@ class NewInvestJournalModel with _$NewInvestJournalModel {
     required String amountAssetId,
   }) = _NewInvestJournalModel;
 
-  factory NewInvestJournalModel.fromJson(Map<String, dynamic> json) =>
-      _$NewInvestJournalModelFromJson(json);
+  factory NewInvestJournalModel.fromJson(Map<String, dynamic> json) => _$NewInvestJournalModelFromJson(json);
 }
 
-enum PositionCloseReason
-{
+enum PositionCloseReason {
   @JsonValue(0)
   undefined,
   @JsonValue(1)
@@ -118,8 +112,7 @@ enum PositionCloseReason
   liquidation,
 }
 
-enum PositionAuditEvent
-{
+enum PositionAuditEvent {
   @JsonValue(0)
   undefined,
   @JsonValue(1)
@@ -159,7 +152,5 @@ class InvestSummaryModel with _$InvestSummaryModel {
     @DecimalNullSerialiser() Decimal? percentPl,
   }) = _InvestSummaryModel;
 
-  factory InvestSummaryModel.fromJson(Map<String, dynamic> json) =>
-      _$InvestSummaryModelFromJson(json);
+  factory InvestSummaryModel.fromJson(Map<String, dynamic> json) => _$InvestSummaryModelFromJson(json);
 }
-

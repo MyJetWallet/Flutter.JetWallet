@@ -31,7 +31,7 @@ class DecimalListSerialiser implements JsonConverter<List<Decimal>?, dynamic> {
   @override
   List<Decimal>? fromJson(dynamic json) {
     var decimalList = [];
-    if(json != null) {
+    if (json != null) {
       final doubleList = List.from([...json]);
       decimalList = doubleList.map((e) => Decimal.fromJson('$e')).toList();
     }
@@ -44,4 +44,3 @@ class DecimalListSerialiser implements JsonConverter<List<Decimal>?, dynamic> {
     return list != null ? List.from(list).toString() : null;
   }
 }
-

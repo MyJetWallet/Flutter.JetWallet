@@ -13,8 +13,7 @@ class SimpleLightActionActiveHighlightedIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SimpleBaseSvg56X56(
-      assetName:
-          'assets/icons/light/56x56/action/action_active_highlighted.svg',
+      assetName: 'assets/icons/light/56x56/action/action_active_highlighted.svg',
       color: color,
     );
   }

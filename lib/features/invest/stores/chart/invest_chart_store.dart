@@ -113,7 +113,10 @@ abstract class _InvestChartStoreBase with Store {
   }
 
   @action
-  Future<List<CandleModel>> getAssetCandlesFull(String instrument, String instrumentId) async {
+  Future<List<CandleModel>> getAssetCandlesFull(
+    String instrument,
+    String instrumentId,
+  ) async {
     final investNewStore = getIt.get<InvestNewStore>();
     final candlesFullList = investNewStore.chartInterval == 0
         ? candlesFull1List

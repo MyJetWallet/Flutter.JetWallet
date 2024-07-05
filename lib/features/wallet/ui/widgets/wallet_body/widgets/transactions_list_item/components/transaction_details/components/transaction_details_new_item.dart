@@ -24,8 +24,7 @@ class TransactionDetailsNewItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
-        crossAxisAlignment:
-        fromStart ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+        crossAxisAlignment: fromStart ? CrossAxisAlignment.start : CrossAxisAlignment.center,
         children: [
           TransactionDetailsNameText(
             text: text,
@@ -59,44 +58,43 @@ class TransactionDetailsNewItem extends StatelessWidget {
   }
 
   void _feeExplanation({
-  required BuildContext context,
-  required String title,
-  required String fee,
-  required String description,
-}) {
-
-  sShowBasicModalBottomSheet(
-    context: context,
-    horizontalPinnedPadding: 24,
-    scrollable: true,
-    pinned: SBottomSheetHeader(
-      name: title,
-    ),
-    children: [
-      SPaddingH24(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SpaceH16(),
-            Text(
-              fee,
-              style: sTextH4Style,
-            ),
-            const SpaceH12(),
-            const SDivider(),
-            const SpaceH12(),
-            Text(
-              description,
-              maxLines: 3,
-              style: sCaptionTextStyle.copyWith(
-                color: sKit.colors.grey3,
-              ),
-            ),
-            const SpaceH64(),
-          ],
-        ),
+    required BuildContext context,
+    required String title,
+    required String fee,
+    required String description,
+  }) {
+    sShowBasicModalBottomSheet(
+      context: context,
+      horizontalPinnedPadding: 24,
+      scrollable: true,
+      pinned: SBottomSheetHeader(
+        name: title,
       ),
-    ],
-  );
-}
+      children: [
+        SPaddingH24(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SpaceH16(),
+              Text(
+                fee,
+                style: sTextH4Style,
+              ),
+              const SpaceH12(),
+              const SDivider(),
+              const SpaceH12(),
+              Text(
+                description,
+                maxLines: 3,
+                style: sCaptionTextStyle.copyWith(
+                  color: sKit.colors.grey3,
+                ),
+              ),
+              const SpaceH64(),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
 }

@@ -9,8 +9,6 @@ class SBlueDoneIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightBlueDoneIcon()
-        : const SimpleLightBlueDoneIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightBlueDoneIcon() : const SimpleLightBlueDoneIcon();
   }
 }

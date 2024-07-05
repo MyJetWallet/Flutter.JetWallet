@@ -27,9 +27,7 @@ void showTransactionFeeBottomSheet({
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              isAbsolute
-                  ? tradeFeeAbsolute ?? ''
-                  : '${intl.previewBuyWithUnlimint_from} $tradeFeePercentage%',
+              isAbsolute ? tradeFeeAbsolute ?? '' : '${intl.previewBuyWithUnlimint_from} $tradeFeePercentage%',
               style: sTextH4Style,
             ),
             const SpaceH4(),

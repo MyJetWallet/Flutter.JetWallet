@@ -9,7 +9,7 @@ linter:
     sort_pub_dependencies: false
     
     prefer_relative_imports: true
-    # conflicts with `prefer_relative_imports`
+    # conflicts with `prefer_relative_imports`lines_longer_than_80_chars
     avoid_relative_lib_imports: false
     # conflicts with `prefer_relative_imports`
     always_use_package_imports: false
@@ -20,7 +20,7 @@ linter:
 
     unawaited_futures: true
 
-    lines_longer_than_80_chars: true
+    lines_longer_than_80_chars: false
     
     # experimental, add when stable
     # avoid_dynamic_calls: true

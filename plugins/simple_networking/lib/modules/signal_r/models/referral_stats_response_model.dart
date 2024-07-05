@@ -15,9 +15,7 @@ class ReferralStatsResponseModel with _$ReferralStatsResponseModel {
 
   factory ReferralStatsResponseModel.fromList(List<dynamic> list) {
     return ReferralStatsResponseModel(
-      referralStats: list
-          .map((e) => ReferralStatsModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      referralStats: list.map((e) => ReferralStatsModel.fromJson(e as Map<String, dynamic>)).toList(),
     );
   }
 }
@@ -34,8 +32,7 @@ class ReferralStatsModel with _$ReferralStatsModel {
     @DecimalSerialiser() required Decimal total,
   }) = _ReferralStatsModel;
 
-  factory ReferralStatsModel.fromJson(Map<String, dynamic> json) =>
-      _$ReferralStatsModelFromJson(json);
+  factory ReferralStatsModel.fromJson(Map<String, dynamic> json) => _$ReferralStatsModelFromJson(json);
 }
 
 @freezed

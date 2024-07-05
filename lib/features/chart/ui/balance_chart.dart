@@ -23,15 +23,13 @@ class BalanceChart extends StatefulObserverWidget {
   State<StatefulWidget> createState() => _BalanceChartState();
 }
 
-class _BalanceChartState extends State<BalanceChart>
-    with SingleTickerProviderStateMixin {
+class _BalanceChartState extends State<BalanceChart> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final chartStore = ChartStore.of(context);
     final baseCurrency = sSignalRModules.baseCurrency;
     final currentDate = DateTime.now().toLocal();
-    final localCreationDate =
-        DateTime.parse(widget.walletCreationDate).toLocal();
+    final localCreationDate = DateTime.parse(widget.walletCreationDate).toLocal();
     bool showWeek;
     bool showMonth;
     bool showYear;

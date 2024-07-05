@@ -10,8 +10,7 @@ class WalletHistoryRequestModel with _$WalletHistoryRequestModel {
     required TimeLength period,
   }) = _WalletHistoryRequestModel;
 
-  factory WalletHistoryRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$WalletHistoryRequestModelFromJson(json);
+  factory WalletHistoryRequestModel.fromJson(Map<String, dynamic> json) => _$WalletHistoryRequestModelFromJson(json);
 }
 
 enum TimeLength {

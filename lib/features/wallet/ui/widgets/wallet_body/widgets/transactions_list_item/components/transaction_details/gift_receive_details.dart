@@ -98,10 +98,10 @@ class _GiftReceiveDetailsHeader extends StatelessWidget {
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${paymentAsset.symbol}'
               : volumeFormat(
-            symbol: paymentAsset.symbol,
-            accuracy: paymentAsset.accuracy,
-            decimal: transactionListItem.balanceChange.abs(),
-          ),
+                  symbol: paymentAsset.symbol,
+                  accuracy: paymentAsset.accuracy,
+                  decimal: transactionListItem.balanceChange.abs(),
+                ),
           isError: transactionListItem.status == Status.declined,
           hasSecondAsset: false,
           isSmallerVersion: true,

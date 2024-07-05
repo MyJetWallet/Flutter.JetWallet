@@ -30,8 +30,7 @@ part 'two_fa_phone_store.g.dart';
 class TwoFaPhoneStore extends _TwoFaPhoneStoreBase with _$TwoFaPhoneStore {
   TwoFaPhoneStore(super.trigger);
 
-  static _TwoFaPhoneStoreBase of(BuildContext context) =>
-      Provider.of<TwoFaPhoneStore>(context, listen: false);
+  static _TwoFaPhoneStoreBase of(BuildContext context) => Provider.of<TwoFaPhoneStore>(context, listen: false);
 }
 
 abstract class _TwoFaPhoneStoreBase with Store {
@@ -72,9 +71,7 @@ abstract class _TwoFaPhoneStoreBase with Store {
 
   @action
   void focusListener() {
-    if (focusNode.hasFocus &&
-        controller.value.text.length == codeLength &&
-        pinError.value) {
+    if (focusNode.hasFocus && controller.value.text.length == codeLength && pinError.value) {
       controller.clear();
     }
   }
@@ -181,18 +178,13 @@ abstract class _TwoFaPhoneStoreBase with Store {
 
         await trigger.when(
           startup: () async {
-            final _ = await sNetwork
-                .getValidationModule()
-                .postTwoFaRequestVerification(model);
+            final _ = await sNetwork.getValidationModule().postTwoFaRequestVerification(model);
           },
           security: (_) async {
             if (sUserInfo.twoFaEnabled) {
-              final _ = await sNetwork
-                  .getValidationModule()
-                  .postTwoFaRequestDisable(model);
+              final _ = await sNetwork.getValidationModule().postTwoFaRequestDisable(model);
             } else {
-              final _ =
-                  sNetwork.getValidationModule().postTwoFaRequestEnable(model);
+              final _ = sNetwork.getValidationModule().postTwoFaRequestEnable(model);
             }
           },
         );
@@ -212,8 +204,7 @@ abstract class _TwoFaPhoneStoreBase with Store {
           code: controller.text,
         );
 
-        final response =
-            await sNetwork.getValidationModule().postTwoFaVerify(model);
+        final response = await sNetwork.getValidationModule().postTwoFaVerify(model);
 
         response.pick(
           onNoData: () {
@@ -287,9 +278,7 @@ abstract class _TwoFaPhoneStoreBase with Store {
           requestId: DateTime.now().microsecondsSinceEpoch.toString(),
         );
 
-        final _ = await sNetwork
-            .getValidationModule()
-            .postPhoneVerificationRequest(model);
+        final _ = await sNetwork.getValidationModule().postPhoneVerificationRequest(model);
 
         union = const TwoFaPhoneUnion.input();
       },
@@ -316,9 +305,7 @@ abstract class _TwoFaPhoneStoreBase with Store {
           phoneIso: number.isoCode,
         );
 
-        final response = await sNetwork
-            .getValidationModule()
-            .postPhoneVerificationVerify(model);
+        final response = await sNetwork.getValidationModule().postPhoneVerificationVerify(model);
 
         response.pick(
           onData: (data) {},

@@ -65,7 +65,11 @@ class SCardRow extends StatelessWidget {
             left: 24.0,
             right: 24.0,
             top: !removeDivider ? 0 : 16,
-            bottom: !removeDivider ? 0 : isLast ? 6 : 16,
+            bottom: !removeDivider
+                ? 0
+                : isLast
+                    ? 6
+                    : 16,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

@@ -9,8 +9,6 @@ class SActionSellIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightActionSellIcon()
-        : const SimpleLightActionSellIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightActionSellIcon() : const SimpleLightActionSellIcon();
   }
 }

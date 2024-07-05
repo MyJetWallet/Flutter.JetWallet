@@ -116,10 +116,10 @@ class _DepositDetailsHeader extends StatelessWidget {
           fromAssetValue: getIt<AppStore>().isBalanceHide
               ? '**** ${paymentAsset.symbol}'
               : volumeFormat(
-            symbol: paymentAsset.symbol,
-            accuracy: paymentAsset.accuracy,
-            decimal: transactionListItem.balanceChange,
-          ),
+                  symbol: paymentAsset.symbol,
+                  accuracy: paymentAsset.accuracy,
+                  decimal: transactionListItem.balanceChange,
+                ),
           hasSecondAsset: false,
           isError: transactionListItem.status == Status.declined,
           isSmallerVersion: true,

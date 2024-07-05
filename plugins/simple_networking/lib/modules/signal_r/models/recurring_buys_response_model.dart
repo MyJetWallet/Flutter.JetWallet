@@ -11,6 +11,5 @@ class RecurringBuysResponseModel with _$RecurringBuysResponseModel {
     required List<RecurringBuysModel> recurringBuys,
   }) = _RecurringBuysResponseModel;
 
-  factory RecurringBuysResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$RecurringBuysResponseModelFromJson(json);
+  factory RecurringBuysResponseModel.fromJson(Map<String, dynamic> json) => _$RecurringBuysResponseModelFromJson(json);
 }

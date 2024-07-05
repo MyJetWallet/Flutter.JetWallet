@@ -14,8 +14,7 @@ class EarnFullModel with _$EarnFullModel {
     EarnProfileModel? earnProfile,
   }) = _EarnFullModel;
 
-  factory EarnFullModel.fromJson(Map<String, dynamic> json) =>
-      _$EarnFullModelFromJson(json);
+  factory EarnFullModel.fromJson(Map<String, dynamic> json) => _$EarnFullModelFromJson(json);
 }
 
 @freezed
@@ -38,8 +37,7 @@ class EarnOfferModel with _$EarnOfferModel {
     required List<TierApySettingsModel> tiers,
   }) = _EarnOfferModel;
 
-  factory EarnOfferModel.fromJson(Map<String, dynamic> json) =>
-      _$EarnOfferModelFromJson(json);
+  factory EarnOfferModel.fromJson(Map<String, dynamic> json) => _$EarnOfferModelFromJson(json);
 }
 
 @freezed
@@ -53,6 +51,5 @@ class TierApySettingsModel with _$TierApySettingsModel {
     @DecimalSerialiser() required bool active,
   }) = _TierApySettingsModel;
 
-  factory TierApySettingsModel.fromJson(Map<String, dynamic> json) =>
-      _$TierApySettingsModelFromJson(json);
+  factory TierApySettingsModel.fromJson(Map<String, dynamic> json) => _$TierApySettingsModelFromJson(json);
 }

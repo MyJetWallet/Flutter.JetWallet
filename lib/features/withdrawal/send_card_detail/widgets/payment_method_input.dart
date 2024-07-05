@@ -7,30 +7,18 @@ import 'package:simple_networking/modules/signal_r/models/global_send_methods_mo
 
 // ignore: avoid_classes_with_only_static_members
 class PaymentMethodInput {
-  static Widget cardNumber(GlobalSendMethod method) =>
-      PaymentMethodCardNumber(method: method);
-  static Widget iban(GlobalSendMethod method) =>
-      PaymentMethodRecipientName(method: method);
-  static Widget phoneNumber(GlobalSendMethod method) =>
-      PaymentMethodNumbers(method: method);
-  static Widget recipientName(GlobalSendMethod method) =>
-      PaymentMethodRecipientName(method: method);
-  static Widget panNumber(GlobalSendMethod method) =>
-      PaymentMethodRecipientName(method: method);
-  static Widget upiAddress(GlobalSendMethod method) =>
-      PaymentMethodRecipientName(method: method);
-  static Widget accountNumber(GlobalSendMethod method) =>
-      PaymentMethodRecipientName(method: method);
-  static Widget beneficiaryName(GlobalSendMethod method) =>
-      PaymentMethodRecipientName(method: method);
-  static Widget bankName(GlobalSendMethod method) =>
-      PaymentMethodRecipientName(method: method);
-  static Widget ifscCode(GlobalSendMethod method) =>
-      PaymentMethodRecipientName(method: method);
-  static Widget bankAccount(GlobalSendMethod method) =>
-      PaymentMethodRecipientName(method: method);
-  static Widget wise(GlobalSendMethod method) =>
-      PaymentMethodRecipientName(method: method);
+  static Widget cardNumber(GlobalSendMethod method) => PaymentMethodCardNumber(method: method);
+  static Widget iban(GlobalSendMethod method) => PaymentMethodRecipientName(method: method);
+  static Widget phoneNumber(GlobalSendMethod method) => PaymentMethodNumbers(method: method);
+  static Widget recipientName(GlobalSendMethod method) => PaymentMethodRecipientName(method: method);
+  static Widget panNumber(GlobalSendMethod method) => PaymentMethodRecipientName(method: method);
+  static Widget upiAddress(GlobalSendMethod method) => PaymentMethodRecipientName(method: method);
+  static Widget accountNumber(GlobalSendMethod method) => PaymentMethodRecipientName(method: method);
+  static Widget beneficiaryName(GlobalSendMethod method) => PaymentMethodRecipientName(method: method);
+  static Widget bankName(GlobalSendMethod method) => PaymentMethodRecipientName(method: method);
+  static Widget ifscCode(GlobalSendMethod method) => PaymentMethodRecipientName(method: method);
+  static Widget bankAccount(GlobalSendMethod method) => PaymentMethodRecipientName(method: method);
+  static Widget wise(GlobalSendMethod method) => PaymentMethodRecipientName(method: method);
 
   static Widget getInput(GlobalSendMethod method) {
     switch (method.info.fieldId) {
@@ -120,8 +108,7 @@ class PaymentMethodCardNumber extends StatefulWidget {
   final GlobalSendMethod method;
 
   @override
-  State<PaymentMethodCardNumber> createState() =>
-      _PaymentMethodCardNumberState();
+  State<PaymentMethodCardNumber> createState() => _PaymentMethodCardNumberState();
 }
 
 class _PaymentMethodCardNumberState extends State<PaymentMethodCardNumber> {

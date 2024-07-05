@@ -15,9 +15,7 @@ void resetMarketScrollPosition(
   }
   final screenHeight = MediaQuery.of(context).size.height;
 
-  final minQuantity =
-      ((screenHeight - marketHeaderHeight) - marketBottomHeight) /
-          marketItemHeight;
+  final minQuantity = ((screenHeight - marketHeaderHeight) - marketBottomHeight) / marketItemHeight;
 
   if (minQuantity > itemsLength) {
     _resetPosition(scrollController);

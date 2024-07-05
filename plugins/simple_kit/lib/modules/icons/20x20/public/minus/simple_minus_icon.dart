@@ -14,8 +14,6 @@ class SMinusIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? SimpleLightMinusIcon(color: color)
-        : SimpleLightMinusIcon(color: color);
+    return sKit.currentTheme == STheme.dark ? SimpleLightMinusIcon(color: color) : SimpleLightMinusIcon(color: color);
   }
 }

@@ -15,7 +15,11 @@ class SClockIcon extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     return sKit.currentTheme == STheme.dark
-        ? SimpleLightClockIcon(color: color,)
-        : SimpleLightClockIcon(color: color,);
+        ? SimpleLightClockIcon(
+            color: color,
+          )
+        : SimpleLightClockIcon(
+            color: color,
+          );
   }
 }

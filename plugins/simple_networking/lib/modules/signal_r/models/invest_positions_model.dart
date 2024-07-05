@@ -13,8 +13,7 @@ class InvestPositionsModel with _$InvestPositionsModel {
     required List<InvestPositionModel> positions,
   }) = _InvestPositionsModel;
 
-  factory InvestPositionsModel.fromJson(Map<String, dynamic> json) =>
-      _$InvestPositionsModelFromJson(json);
+  factory InvestPositionsModel.fromJson(Map<String, dynamic> json) => _$InvestPositionsModelFromJson(json);
 }
 
 @freezed
@@ -54,8 +53,7 @@ class InvestPositionModel with _$InvestPositionModel {
     @DecimalNullSerialiser() Decimal? yield,
   }) = _InvestPositionModel;
 
-  factory InvestPositionModel.fromJson(Map<String, dynamic> json) =>
-      _$InvestPositionModelFromJson(json);
+  factory InvestPositionModel.fromJson(Map<String, dynamic> json) => _$InvestPositionModelFromJson(json);
 }
 
 @freezed
@@ -68,8 +66,7 @@ class TPSLPositionModel with _$TPSLPositionModel {
     @DecimalNullSerialiser() Decimal? stopLossValue,
   }) = _TPSLPositionModel;
 
-  factory TPSLPositionModel.fromJson(Map<String, dynamic> json) =>
-      _$TPSLPositionModelFromJson(json);
+  factory TPSLPositionModel.fromJson(Map<String, dynamic> json) => _$TPSLPositionModelFromJson(json);
 }
 
 @freezed
@@ -82,8 +79,7 @@ class InvestPositionResponseModel with _$InvestPositionResponseModel {
       _$InvestPositionResponseModelFromJson(json);
 }
 
-enum PositionType
-{
+enum PositionType {
   @JsonValue(0)
   undefined,
   @JsonValue(1)
@@ -94,8 +90,7 @@ enum PositionType
   stop,
 }
 
-enum PositionStatus
-{
+enum PositionStatus {
   @JsonValue(0)
   undefined,
   @JsonValue(1)
@@ -118,8 +113,7 @@ enum PositionStatus
   draftCancelled,
 }
 
-enum CloseReason
-{
+enum CloseReason {
   @JsonValue(0)
   undefined,
   @JsonValue(1)

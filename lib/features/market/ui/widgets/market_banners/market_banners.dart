@@ -41,9 +41,7 @@ class _MarketBannersBody extends StatelessObserverWidget {
     return Column(
       children: [
         AnimatedContainer(
-          duration: (store.campaigns.isNotEmpty)
-              ? Duration.zero
-              : const Duration(milliseconds: 300),
+          duration: (store.campaigns.isNotEmpty) ? Duration.zero : const Duration(milliseconds: 300),
           curve: Curves.fastOutSlowIn,
           height: store.campaigns.isNotEmpty ? 120.0 : 0.0,
           child: (store.campaigns.isNotEmpty)

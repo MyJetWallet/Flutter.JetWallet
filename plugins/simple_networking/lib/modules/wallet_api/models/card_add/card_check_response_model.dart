@@ -9,8 +9,7 @@ class CardCheckResponseModel with _$CardCheckResponseModel {
     required CardCheckResponseDataModel data,
   }) = _CardCheckResponseModel;
 
-  factory CardCheckResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$CardCheckResponseModelFromJson(json);
+  factory CardCheckResponseModel.fromJson(Map<String, dynamic> json) => _$CardCheckResponseModelFromJson(json);
 }
 
 @freezed
@@ -20,8 +19,7 @@ class CardCheckResponseDataModel with _$CardCheckResponseDataModel {
     VerificationStarted? verificationStarted,
   }) = _CardCheckResponseDataModel;
 
-  factory CardCheckResponseDataModel.fromJson(Map<String, dynamic> json) =>
-      _$CardCheckResponseDataModelFromJson(json);
+  factory CardCheckResponseDataModel.fromJson(Map<String, dynamic> json) => _$CardCheckResponseDataModelFromJson(json);
 }
 
 enum VerificationStarted {

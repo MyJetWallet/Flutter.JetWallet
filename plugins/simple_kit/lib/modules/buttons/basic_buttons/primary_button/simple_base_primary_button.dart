@@ -24,8 +24,7 @@ class SimpleBasePrimaryButton extends StatefulWidget {
   final Color inactiveNameColor;
 
   @override
-  State<SimpleBasePrimaryButton> createState() =>
-      _SimpleBasePrimaryButtonState();
+  State<SimpleBasePrimaryButton> createState() => _SimpleBasePrimaryButtonState();
 }
 
 class _SimpleBasePrimaryButtonState extends State<SimpleBasePrimaryButton> {

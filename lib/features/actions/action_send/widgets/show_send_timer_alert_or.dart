@@ -59,7 +59,9 @@ void showSendTimerAlertOr({
         ? _showTimerAlert(
             clientDetail.clientBlockers[ind].expireDateTime ??
                 DateTime.now().add(
-                  getDurationFromBlocker(clientDetail.clientBlockers[ind].timespanToExpire),
+                  getDurationFromBlocker(
+                    clientDetail.clientBlockers[ind].timespanToExpire,
+                  ),
                 ),
           )
         : or();

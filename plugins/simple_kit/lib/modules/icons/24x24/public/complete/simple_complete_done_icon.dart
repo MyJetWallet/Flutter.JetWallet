@@ -10,8 +10,6 @@ class SCompleteDoneIcon extends StatelessObserverWidget {
   Widget build(
     BuildContext context,
   ) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightCompleteDoneIcon()
-        : const SimpleLightCompleteDoneIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightCompleteDoneIcon() : const SimpleLightCompleteDoneIcon();
   }
 }

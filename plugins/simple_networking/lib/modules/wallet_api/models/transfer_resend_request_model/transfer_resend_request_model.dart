@@ -9,6 +9,5 @@ class TransferResendRequestModel with _$TransferResendRequestModel {
     @JsonKey(name: 'id') required String operationId,
   }) = _TransferResendRequestModel;
 
-  factory TransferResendRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$TransferResendRequestModelFromJson(json);
+  factory TransferResendRequestModel.fromJson(Map<String, dynamic> json) => _$TransferResendRequestModelFromJson(json);
 }

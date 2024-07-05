@@ -12,8 +12,7 @@ class NftCollections with _$NftCollections {
     required List<NftCollection> collection,
   }) = _NftCollections;
 
-  factory NftCollections.fromJson(Map<String, dynamic> json) =>
-      _$NftCollectionsFromJson(json);
+  factory NftCollections.fromJson(Map<String, dynamic> json) => _$NftCollectionsFromJson(json);
 }
 
 @freezed
@@ -33,6 +32,5 @@ class NftCollection with _$NftCollection {
     final int? order,
   }) = _NftCollection;
 
-  factory NftCollection.fromJson(Map<String, dynamic> json) =>
-      _$NftCollectionFromJson(json);
+  factory NftCollection.fromJson(Map<String, dynamic> json) => _$NftCollectionFromJson(json);
 }

@@ -9,8 +9,6 @@ class SSearchIcon extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sKit.currentTheme == STheme.dark
-        ? const SimpleLightSearchIcon()
-        : const SimpleLightSearchIcon();
+    return sKit.currentTheme == STheme.dark ? const SimpleLightSearchIcon() : const SimpleLightSearchIcon();
   }
 }

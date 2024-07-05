@@ -10,9 +10,7 @@ class CandlesResponseModel with _$CandlesResponseModel {
 
   factory CandlesResponseModel.fromList(List<dynamic> list) {
     return CandlesResponseModel(
-      candles: list
-          .map((e) => CandleModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      candles: list.map((e) => CandleModel.fromJson(e as Map<String, dynamic>)).toList(),
     );
   }
 }

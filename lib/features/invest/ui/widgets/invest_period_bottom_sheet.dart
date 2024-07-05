@@ -10,11 +10,10 @@ import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 import '../../../../utils/enum.dart';
 
 void showInvestPeriodBottomSheet(
-    BuildContext context,
-    Function(InvestHistoryPeriod value) onConfirm,
-    InvestHistoryPeriod activePeriod,
+  BuildContext context,
+  Function(InvestHistoryPeriod value) onConfirm,
+  InvestHistoryPeriod activePeriod,
 ) {
-
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
@@ -92,11 +91,9 @@ class _PeriodSheetState extends State<PeriodSheet> {
 
   @override
   Widget build(BuildContext context) {
-
     return SPaddingH24(
       child: Observer(
         builder: (BuildContext context) {
-
           return Column(
             children: [
               Text(

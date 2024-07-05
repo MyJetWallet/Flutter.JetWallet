@@ -7,6 +7,5 @@ part 'reset_pin_request_model.g.dart';
 class ResetPinRequestModel with _$ResetPinRequestModel {
   const factory ResetPinRequestModel() = _ResetPinRequestModel;
 
-  factory ResetPinRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$ResetPinRequestModelFromJson(json);
+  factory ResetPinRequestModel.fromJson(Map<String, dynamic> json) => _$ResetPinRequestModelFromJson(json);
 }

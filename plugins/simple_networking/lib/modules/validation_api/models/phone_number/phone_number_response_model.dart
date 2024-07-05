@@ -9,6 +9,5 @@ class PhoneNumberResponseModel with _$PhoneNumberResponseModel {
     @JsonKey(name: 'data') required String number,
   }) = _PhoneNumberResponseModel;
 
-  factory PhoneNumberResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$PhoneNumberResponseModelFromJson(json);
+  factory PhoneNumberResponseModel.fromJson(Map<String, dynamic> json) => _$PhoneNumberResponseModelFromJson(json);
 }
