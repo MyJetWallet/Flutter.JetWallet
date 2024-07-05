@@ -64,9 +64,8 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
           .where((element) => element.status == AccountStatusCard.inCreation)
           .isNotEmpty;
 
-      final isButtonSmall = isLoadingState
-          ? false
-          : store.buttonStatus == BankingShowState.getAccount || store.buttonStatus == BankingShowState.getAccountBlock;
+      final isButtonSmall = !isLoadingState &&
+          (store.buttonStatus == BankingShowState.getAccount || store.buttonStatus == BankingShowState.getAccountBlock);
 
       return SimpleTableAccount(
         assetIcon: SNetworkSvg24(

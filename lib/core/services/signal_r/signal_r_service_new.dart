@@ -84,13 +84,6 @@ abstract class _SignalRServiceUpdatedBase with Frontend, Store {
     //await run(event: SignalREvents.setIconsApi, data: iconApi);
   }
 
-  // Isolates
-  static SignalRBackEnd _launch(BackendArgument<void> argument) {
-    return SignalRBackEnd(
-      argument: argument,
-    );
-  }
-
   @override
   void initActions() {
     whenEventCome(SignalREvents.getCurrencyModelsData).run(getCurrencyDataFunc);

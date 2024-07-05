@@ -269,11 +269,10 @@ void sShowSlideAlertPopup(
     context: context,
     barrierDismissible: barrierDismissible,
     builder: (context) {
-      return WillPopScope(
-        onWillPop: () {
+      return PopScope(
+        canPop: willPopScope,
+        onPopInvoked: (_) {
           onWillPop?.call();
-
-          return Future.value(willPopScope);
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,

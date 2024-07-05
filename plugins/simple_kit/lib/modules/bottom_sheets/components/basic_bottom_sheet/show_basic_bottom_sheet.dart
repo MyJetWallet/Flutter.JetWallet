@@ -11,7 +11,7 @@ void sShowBasicBottomSheet({
   double? horizontalPadding,
   Function()? whenColmplete,
   AnimationController? transitionAnimationController,
-  Future<bool> Function()? onWillPop,
+  Future Function(bool)? onWillPop,
   bool removeBottomSheetBar = true,
   bool removePinnedPadding = false,
   Widget? pinnedBottom,

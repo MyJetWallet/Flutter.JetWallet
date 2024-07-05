@@ -1,11 +1,14 @@
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:isolator/isolator.dart';
+import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/helpers/set_category_for_buy_methods.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:logger/logger.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_withdrawal_fee_model.dart';
@@ -143,7 +146,11 @@ class SignalRBackEnd extends Backend {
         }
       }
     } catch (e) {
-      print('ERROR: $e');
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'SignalRBackEnd',
+            message: 'Error: $e',
+          );
     }
 
     await send(
@@ -205,7 +212,11 @@ class SignalRBackEnd extends Backend {
         );
       }
     } catch (e) {
-      print('HIDDEM ERROR: $e');
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'SignalRBackEnd',
+            message: 'Error: $e',
+          );
     }
 
     await send(
@@ -297,8 +308,6 @@ class SignalRBackEnd extends Backend {
     required BalancesModel data,
     required SignalREvents event,
   }) {
-    print(currenciesList.length);
-
     if (currenciesList.isNotEmpty) {
       for (final balance in data.balances) {
         final currency = currenciesList.firstWhereOrNull((c) => c.symbol == balance.assetId);

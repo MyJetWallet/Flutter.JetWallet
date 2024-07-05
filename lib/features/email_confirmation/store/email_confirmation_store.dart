@@ -160,9 +160,9 @@ abstract class _EmailConfirmationStoreBase with Store {
         code: controller.text,
       );
 
-      final _ = await sNetwork.getValidationModule().postVerifyEmailConfirmation(model);
+      final responce = await sNetwork.getValidationModule().postVerifyEmailConfirmation(model);
 
-      _.pick(
+      responce.pick(
         onData: (data) async {
           union = const EmailConfirmationUnion.input();
 

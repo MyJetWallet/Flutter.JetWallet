@@ -20,7 +20,7 @@ linter:
 
     unawaited_futures: true
 
-    lines_longer_than_80_chars: true
+    lines_longer_than_80_chars: false
 
     # experimental, add when stable
     # avoid_dynamic_calls: true

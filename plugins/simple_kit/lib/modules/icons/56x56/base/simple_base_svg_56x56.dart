@@ -22,7 +22,7 @@ class SimpleBaseSvg56X56 extends StatelessWidget {
       ),
       child: SvgPicture.asset(
         assetName,
-        color: color,
+        colorFilter: color != null ? ColorFilter.mode(color!, BlendMode.srcIn) : null,
         height: 56.0,
         width: 56.0,
         package: 'simple_kit',

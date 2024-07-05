@@ -220,10 +220,6 @@ class CurrencyModel with _$CurrencyModel {
     return false;
   }
 
-  bool get supportsAtLeastOneFiatDepositMethod {
-    return supportsCardDeposit || supportsSepaDeposit || supportsSwiftDeposit;
-  }
-
   bool get supportsCryptoDeposit {
     if (type == AssetType.fiat) {
       return depositMethods.where((element) => element.id == DepositMethods.ibanReceive).isNotEmpty;
@@ -245,24 +241,8 @@ class CurrencyModel with _$CurrencyModel {
     return depositMethods.where((element) => element.id == DepositMethods.ibanReceive).isNotEmpty;
   }
 
-  bool get supportsCardDeposit {
-    return depositMethods.contains(DepositMethods.cardDeposit);
-  }
-
-  bool get supportsSepaDeposit {
-    return depositMethods.contains(DepositMethods.sepaDeposit);
-  }
-
-  bool get supportsSwiftDeposit {
-    return depositMethods.contains(DepositMethods.swiftDeposit);
-  }
-
   bool get supportsAtLeastOneWithdrawalMethod {
-    return supportIbanSendWithdrawal ||
-        supporGlobalSendWithdrawal ||
-        supportsSepaWithdrawal ||
-        supportsSwiftWithdrawal ||
-        supportsCryptoWithdrawal;
+    return supportIbanSendWithdrawal || supporGlobalSendWithdrawal || supportsCryptoWithdrawal;
   }
 
   bool get isSupportAnyWithdrawal {
@@ -293,14 +273,6 @@ class CurrencyModel with _$CurrencyModel {
 
   bool get supportsByPhoneNicknameWithdrawal {
     return withdrawalMethods.where((element) => element.id == WithdrawalMethods.internalSend).isNotEmpty;
-  }
-
-  bool get supportsSepaWithdrawal {
-    return withdrawalMethods.contains(WithdrawalMethods.sepaWithdrawal);
-  }
-
-  bool get supportsSwiftWithdrawal {
-    return withdrawalMethods.contains(WithdrawalMethods.swiftWithdrawal);
   }
 
   bool get supportIbanSendWithdrawal {

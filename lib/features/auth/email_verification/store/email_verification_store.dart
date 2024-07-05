@@ -141,55 +141,6 @@ abstract class _EmailVerificationStoreBase with Store {
         '${intl.emailVerification_failedToResend}!',
       );
     }
-
-    /*
-    final authService = read(authServicePod);
-    final authInfoN = getIt.get<AppStore>().authState;
-
-    final credentials = getIt.get<CredentialsService>();
-
-    _updateIsResending(true);
-
-    try {
-      final model = StartEmailLoginRequestModel(
-        email: credentials.email,
-        platform: currentPlatform,
-        deviceUid: deviceInfoModel.deviceUid,
-        lang: intl.localeName,
-        application: currentAppPlatform,
-        appsflyerId: appsFlyerID ?? '',
-      );
-
-      final response =
-          await sNetwork.getAuthModule().postStartEmailLogin(model);
-
-      response.pick(
-        onData: (data) {
-          authInfoN.updateEmail(credentials.email);
-          authInfoN.updateVerificationToken(data.verificationToken);
-
-          read(timerNotipod(emailResendCountdown).notifier).refreshTimer();
-
-          _updateIsResending(false);
-        },
-        onError: (e) {
-          _logger.log(stateFlow, 'sendCode', e);
-
-          _updateIsResending(false);
-          sNotification.showError(
-            '${intl.emailVerification_failedToResend}!',
-          );
-        },
-      );
-    } catch (e) {
-      _logger.log(stateFlow, 'sendCode', e);
-
-      _updateIsResending(false);
-      sNotification.showError(
-        '${intl.emailVerification_failedToResend}!',
-      );
-    }
-    */
   }
 
   // TODO: refactor

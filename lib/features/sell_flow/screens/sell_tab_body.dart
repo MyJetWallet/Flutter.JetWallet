@@ -380,12 +380,12 @@ Widget getNetworkIcon(CircleCardNetwork? network) {
 
 Widget getSimpleNetworkIcon(SimpleCardNetwork? network) {
   switch (network) {
-    case SimpleCardNetwork.VISA:
+    case SimpleCardNetwork.visa:
       return const SVisaCardBigIcon(
         width: 15,
         height: 9,
       );
-    case SimpleCardNetwork.MASTERCARD:
+    case SimpleCardNetwork.mastercard:
       return const SMasterCardBigIcon(
         width: 15,
         height: 9,

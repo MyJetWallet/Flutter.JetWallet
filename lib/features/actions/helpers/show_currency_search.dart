@@ -40,7 +40,7 @@ bool showDepositCurrencySearch(BuildContext context) {
   final assets = <CurrencyModel>[];
 
   for (final currency in state.filteredCurrencies) {
-    if (currency.supportsAtLeastOneFiatDepositMethod || currency.supportsCryptoDeposit) {
+    if (currency.supportsCryptoDeposit) {
       assets.add(currency);
     }
   }

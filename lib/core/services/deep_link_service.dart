@@ -54,7 +54,6 @@ import 'user_info/user_info_service.dart';
 const _code = 'jw_code';
 const _command = 'jw_command';
 const _operationId = 'jw_operation_id';
-const _email = 'jw_email';
 const _utmSource = 'utm_source';
 
 // when parameters come in "/" format as part of the link

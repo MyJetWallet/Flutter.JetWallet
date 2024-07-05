@@ -118,17 +118,17 @@ class CardDataModel with _$CardDataModel {
 }
 
 enum SimpleCardNetwork {
-  VISA,
-  MASTERCARD,
+  visa,
+  mastercard,
   unsupported,
 }
 
 extension SimpleCardNetworkExtension on SimpleCardNetwork {
   String get name {
     switch (this) {
-      case SimpleCardNetwork.VISA:
+      case SimpleCardNetwork.visa:
         return 'VISA';
-      case SimpleCardNetwork.MASTERCARD:
+      case SimpleCardNetwork.mastercard:
         return 'MASTERCARD';
       default:
         return 'unsupported';
@@ -137,9 +137,9 @@ extension SimpleCardNetworkExtension on SimpleCardNetwork {
 
   String get frontName {
     switch (this) {
-      case SimpleCardNetwork.VISA:
+      case SimpleCardNetwork.visa:
         return 'Visa';
-      case SimpleCardNetwork.MASTERCARD:
+      case SimpleCardNetwork.mastercard:
         return 'Master Card';
       default:
         return 'Other';
@@ -155,9 +155,9 @@ class SimpleCardNetworkSerialiser implements JsonConverter<SimpleCardNetwork, dy
     final value = json.toString();
 
     if (value == 'VISA') {
-      return SimpleCardNetwork.VISA;
+      return SimpleCardNetwork.visa;
     } else if (value == 'MASTERCARD') {
-      return SimpleCardNetwork.MASTERCARD;
+      return SimpleCardNetwork.mastercard;
     } else {
       return SimpleCardNetwork.unsupported;
     }
