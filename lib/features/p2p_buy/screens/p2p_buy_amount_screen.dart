@@ -8,7 +8,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/prevent_duplication_events_servise.dart';
-import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/suggestion_button_widget.dart';
 import 'package:jetwallet/features/p2p_buy/store/buy_p2p_amount_store.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
@@ -115,23 +114,9 @@ class P2PBuyAmountScreen extends StatelessWidget {
                                         )}'
                                       : null,
                                   secondarySymbol: store.asset != null ? store.secondarySymbol : null,
-                                  onSwap: () {
-                                    store.swapAssets();
-                                    sAnalytics.tapOnTheChangeInputBuyButton(
-                                      pmType: PaymenthMethodType.ptp,
-                                      buyPM: 'PTP',
-                                      sourceCurrency: store.paymentAsset?.asset ?? '',
-                                      destinationWallet: store.asset?.symbol ?? '',
-                                      nowInput: store.isFiatEntering ? NowInputType.fiat : NowInputType.crypro,
-                                    );
-                                  },
+                                  onSwap: () {},
+                                  showSwopButton: false,
                                   errorText: store.paymentMethodInputError,
-                                  optionText: store.fiatInputValue == '0'
-                                      ? '''${intl.p2p_buy_max} ${getIt<AppStore>().isBalanceHide ? '**** ${store.asset?.symbol}' : volumeFormat(decimal: store.maxBuyAmount, accuracy: store.asset?.accuracy ?? 1, symbol: store.asset?.symbol ?? '')}'''
-                                      : null,
-                                  optionOnTap: () {
-                                    store.onBuyAll();
-                                  },
                                   pasteLabel: intl.paste,
                                   onPaste: () async {
                                     final data = await Clipboard.getData('text/plain');
