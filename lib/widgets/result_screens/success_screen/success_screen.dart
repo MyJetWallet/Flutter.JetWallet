@@ -234,6 +234,7 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> with WidgetsBind
                       ),
                     ],
                     if (widget.showPrimaryButton) ...[
+                      if (showProgressBar && actionButtonName == null) const SpaceH24(),
                       if (actionButtonName != null) const SpaceH8(),
                       SButton.black(
                         text: primaryButtonText ?? intl.cardVerification_close,
