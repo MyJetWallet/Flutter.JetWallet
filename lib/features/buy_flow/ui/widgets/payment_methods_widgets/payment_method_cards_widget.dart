@@ -72,7 +72,6 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 8),
         STextDivider(title),
         const SpaceH16(),
         ResponsiveGridList(

@@ -790,11 +790,14 @@ abstract class _BuyConfirmationStoreBase with Store {
                 loader.startLoadingImmediately();
                 _requestPaymentInfo(onAction, lastAction);
               },
-              (payment) {
+              (payment) async {
+                await sRouter.maybePop();
+
                 if (payment != null) {
-                  sRouter.maybePop();
+                  await _showFailureScreen('');
                 }
-                navigateToRouter();
+
+                await _requestPaymentInfo(onAction, data.clientAction?.checkoutUrl ?? '');
               },
               (error) {
                 Navigator.pop(sRouter.navigatorKey.currentContext!);
