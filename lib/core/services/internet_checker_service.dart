@@ -29,15 +29,15 @@ class InternetCheckerService {
     await _checkStatus(result);
   }
 
-  Future<void> _checkStatus(ConnectivityResult result) async {
-    if (result == ConnectivityResult.mobile) {
+  Future<void> _checkStatus(List<ConnectivityResult> result) async {
+    if (result.contains(ConnectivityResult.mobile)) {
       internetAvailable = true;
 
       if (isAlertOpen) {
         Navigator.pop(sRouter.navigatorKey.currentContext!);
         isAlertOpen = false;
       }
-    } else if (result == ConnectivityResult.wifi) {
+    } else if (result.contains(ConnectivityResult.wifi)) {
       internetAvailable = true;
 
       if (isAlertOpen) {
