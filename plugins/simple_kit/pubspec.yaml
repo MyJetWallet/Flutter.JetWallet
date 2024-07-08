@@ -4,8 +4,8 @@ description: UI Kit for Simple design
 publish_to: "none"
 
 environment:
-  sdk: ">=3.3.0 <4.0.0"
-  flutter: ">=3.19.2"
+  sdk: ">=3.4.3 <4.0.0"
+  flutter: ">=3.22.2"
 
 dependencies:
   flutter:
