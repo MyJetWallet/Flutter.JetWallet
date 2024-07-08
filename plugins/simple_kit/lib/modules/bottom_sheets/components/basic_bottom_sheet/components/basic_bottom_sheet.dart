@@ -96,10 +96,10 @@ class _BasicBottomSheetState extends State<BasicBottomSheet> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: true,
-      onPopInvoked: widget.onWillPop ??
-          (_) {
-            onDissmisAction(context);
-          },
+      onPopInvoked: (didPop) {
+        if (didPop) return;
+        widget.onWillPop ?? onDissmisAction(context);
+      },
       child: Padding(
         // Make bottomSheet to follow keyboard
         padding: MediaQuery.of(context).viewInsets,
