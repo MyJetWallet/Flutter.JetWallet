@@ -59,7 +59,7 @@ class _SafeGestureState extends State<SafeGesture> {
       hoverColor: Colors.transparent,
       splashColor: Colors.transparent,
       focusColor: Colors.transparent,
-      overlayColor: MaterialStateProperty.all(Colors.transparent),
+      overlayColor: WidgetStateProperty.all(Colors.transparent),
       child: widget.child,
     );
   }
