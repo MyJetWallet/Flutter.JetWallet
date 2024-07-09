@@ -53,25 +53,25 @@ dependencies:
   responsive_grid_list: ^1.4.0
   collection: ^1.18.0
   animated_background: ^2.0.0
-  flutter_flip_card: ^0.0.5
+  flutter_flip_card: ^0.0.6
   flutter_inappwebview: ^5.3.2
-  timezone: ^0.9.2
+  timezone: ^0.9.4
   readmore: ^3.0.0
 
-  lottie: 2.7.0
+  lottie: 3.1.2
 
   # PLUS PLUGINS
   # packages without '_plus' was made originally by flutter team are not supported anymore
   # Docs: https://plus.fluttercommunity.dev/docs/overview
   android_intent_plus: ^4.0.3 # plugin for launching Android Intents
   package_info_plus: 8.0.0 # querying information about the application package NEED UPDATE
-  share_plus: 7.2.2 # sharing content via the platform share UI
+  share_plus: 9.0.0 # sharing content via the platform share UI
   device_info_plus: 9.1.2 # providing detailed information about the device
   connectivity_plus: ^6.0.3 # plugin allows Flutter apps to discover network connectivity
   device_marketing_names: 0.8.1
   android_id: ^0.3.6
-  flutter_native_splash: ^2.2.17
-  custom_refresh_indicator: ^3.0.0
+  flutter_native_splash: ^2.4.1
+  custom_refresh_indicator: ^3.1.1
   isolator: ^2.0.8
   flutter_launcher_icons: ^0.13.1
   in_app_review: ^2.0.8
