@@ -524,14 +524,14 @@ abstract class _UploadKycDocumentsStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.cardVerification_cardBlocked,
         secondaryText: intl.cardVerification_cardBlockedDescription,
-        primaryButtonName: intl.cardVerification_choosePaymentMethod,
-        onPrimaryButtonTap: () {
+        secondaryButtonName: intl.cardVerification_choosePaymentMethod,
+        onSecondaryButtonTap: () {
           sRouter.removeUntil(
             (route) => route.name == CurrencyBuyRouter.name,
           );
         },
-        secondaryButtonName: intl.cardVerification_close,
-        onSecondaryButtonTap: () => sRouter.popUntilRoot(),
+        primaryButtonName: intl.cardVerification_close,
+        onPrimaryButtonTap: () => sRouter.popUntilRoot(),
       ),
     );
   }
@@ -545,8 +545,8 @@ abstract class _UploadKycDocumentsStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.cardVerification_reviewFailed,
         secondaryText: intl.cardVerification_reviewFailedDescription,
-        primaryButtonName: intl.cardVerification_title,
-        onPrimaryButtonTap: () {
+        secondaryButtonName: intl.cardVerification_title,
+        onSecondaryButtonTap: () {
           sRouter.removeUntil(
             (route) => route.name == AddUnlimintCardRouter.name,
           );
@@ -571,8 +571,8 @@ abstract class _UploadKycDocumentsStoreBase with Store {
           documentSelfie = null;
           documentCard = null;
         },
-        secondaryButtonName: intl.cardVerification_close,
-        onSecondaryButtonTap: () => sRouter.popUntilRoot(),
+        primaryButtonName: intl.cardVerification_close,
+        onPrimaryButtonTap: () => sRouter.popUntilRoot(),
       ),
     );
   }

@@ -1018,8 +1018,8 @@ abstract class _WithdrawalStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.withdrawalPreview_failure,
         secondaryText: error.cause,
-        primaryButtonName: intl.withdrawalPreview_editOrder,
-        onPrimaryButtonTap: () {
+        secondaryButtonName: intl.withdrawalPreview_editOrder,
+        onSecondaryButtonTap: () {
           sRouter.popUntilRoot();
           sRouter.push(
             WithdrawRouter(
@@ -1027,8 +1027,8 @@ abstract class _WithdrawalStoreBase with Store {
             ),
           );
         },
-        secondaryButtonName: intl.withdrawalPreview_close,
-        onSecondaryButtonTap: () => sRouter.popUntilRoot(),
+        primaryButtonName: intl.withdrawalPreview_close,
+        onPrimaryButtonTap: () => sRouter.popUntilRoot(),
       ),
     );
   }
@@ -1111,10 +1111,10 @@ abstract class _WithdrawalStoreBase with Store {
     sRouter.push(
       FailureScreenRouter(
         primaryText: intl.withdrawalConfirm_failure,
-        secondaryText: '''${intl.withdrawalConfirm_failedTo} ${intl.withdrawal_send_verb.toLowerCase()}''',
-        primaryButtonName:
+        secondaryText: '1',
+        secondaryButtonName:
             withdrawalType == WithdrawalType.asset ? intl.withdrawalConfirm_editOrder : intl.send_timer_alert_ok,
-        onPrimaryButtonTap: () {
+        onSecondaryButtonTap: () {
           if (withdrawalType == WithdrawalType.asset) {
             sRouter.replaceAll([
               const HomeRouter(
@@ -1128,8 +1128,8 @@ abstract class _WithdrawalStoreBase with Store {
             sRouter.popUntilRoot();
           }
         },
-        secondaryButtonName: withdrawalType == WithdrawalType.asset ? intl.withdrawalConfirm_close : null,
-        onSecondaryButtonTap: () => sRouter.popUntilRoot(),
+        primaryButtonName: withdrawalType == WithdrawalType.asset ? intl.withdrawalConfirm_close : null,
+        onPrimaryButtonTap: () => sRouter.popUntilRoot(),
       ),
     );
   }

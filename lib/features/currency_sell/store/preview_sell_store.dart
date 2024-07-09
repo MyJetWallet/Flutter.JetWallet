@@ -267,8 +267,8 @@ abstract class _PreviewSellStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.previewSell_failure,
         secondaryText: error.cause,
-        primaryButtonName: intl.previewSell_editOrder,
-        onPrimaryButtonTap: () {
+        secondaryButtonName: intl.previewSell_editOrder,
+        onSecondaryButtonTap: () {
           Navigator.pop(sRouter.navigatorKey.currentContext!);
           Navigator.pop(sRouter.navigatorKey.currentContext!);
           sRouter.navigate(
@@ -277,8 +277,8 @@ abstract class _PreviewSellStoreBase with Store {
             ),
           );
         },
-        secondaryButtonName: intl.previewSell_close,
-        onSecondaryButtonTap: () => sRouter.popUntilRoot(),
+        primaryButtonName: intl.previewSell_close,
+        onPrimaryButtonTap: () => sRouter.popUntilRoot(),
       ),
     );
   }

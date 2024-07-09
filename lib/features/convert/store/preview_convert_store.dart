@@ -299,14 +299,14 @@ abstract class _PreviewConvertStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.previewConvert_failure,
         secondaryText: error.cause,
-        primaryButtonName: intl.previewConvert_editOrder,
-        onPrimaryButtonTap: () {
+        secondaryButtonName: intl.previewConvert_editOrder,
+        onSecondaryButtonTap: () {
           sRouter.removeUntil(
             (route) => route.name == ConvertRouter.name,
           );
         },
-        secondaryButtonName: intl.previewConvert_close,
-        onSecondaryButtonTap: () => sRouter.popUntilRoot(),
+        primaryButtonName: intl.previewConvert_close,
+        onPrimaryButtonTap: () => sRouter.popUntilRoot(),
       ),
     );
   }

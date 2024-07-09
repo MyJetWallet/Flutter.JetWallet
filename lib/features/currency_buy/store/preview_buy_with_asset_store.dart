@@ -292,10 +292,8 @@ abstract class _PreviewBuyWithAssetStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.previewBuyWithAsset_failure,
         secondaryText: error.cause,
-        primaryButtonName: intl.previewBuyWithAsset_editOrder,
-        onPrimaryButtonTap: () {},
-        secondaryButtonName: intl.previewBuyWithAsset_close,
-        onSecondaryButtonTap: () => navigateToRouter(),
+        primaryButtonName: intl.previewBuyWithAsset_close,
+        onPrimaryButtonTap: () => navigateToRouter(),
       ),
     );
   }
