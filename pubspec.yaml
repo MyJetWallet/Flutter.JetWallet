@@ -13,13 +13,13 @@ dependencies:
     sdk: flutter
 
   # TOOLKIT
-  cupertino_icons: ^1.0.6 # IOS icons
+  cupertino_icons: ^1.0.8 # IOS icons
   universal_io: 2.2.2 # Cross-platform 'dart:io' that works in all platforms
-  url_launcher: ^6.2.5 # plugin for launching a URL
+  url_launcher: ^6.3.0 # plugin for launching a URL
   pin_code_fields: 8.0.1 # Generate pin code fields
   qr_flutter: 4.1.0 # QR code rendering
-  grouped_list: 5.1.2 # List with grouped items
-  flutter_slidable: ^3.0.1
+  grouped_list: 6.0.0 # List with grouped items
+  flutter_slidable: ^3.1.0
   visibility_detector: ^0.4.0+2
   mobile_scanner: 5.1.1
   local_auth: 2.2.0 # local authentication via fingerprint, touch ID, face ID, passcode, pin, or pattern
