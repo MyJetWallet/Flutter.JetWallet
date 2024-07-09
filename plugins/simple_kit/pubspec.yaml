@@ -11,13 +11,13 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_svg: ^2.0.10 # SVG rendering and widget library
+  flutter_svg: ^2.0.10+1 # SVG rendering and widget library
   local_auth: ^2.2.0 # local authentication via fingerprint, touch ID, face ID, passcode, pin, or pattern
   flash: ^3.1.1
   rive: 0.13.9 # rive animations
   qr_flutter: 4.1.0 # QR code rendering
-  mobx: ^2.3.3
-  flutter_mobx: ^2.2.0
+  mobx: ^2.3.3+1
+  flutter_mobx: ^2.2.1+1
   get_it: ^7.7.0
   modal_bottom_sheet: 3.0.0-pre
   state_notifier: ^1.0.0
@@ -29,11 +29,11 @@ dev_dependencies:
     sdk: flutter
 
   # Lint
-  flutter_lints: ^3.0.1
+  flutter_lints: ^4.0.0
 
   # AUTOGEN:
-  build_runner: ^2.4.8 # generating files using Dart code
-  mobx_codegen: ^2.6.0
+  build_runner: ^2.4.11 # generating files using Dart code
+  mobx_codegen: ^2.6.1
 
 flutter:
   assets:
