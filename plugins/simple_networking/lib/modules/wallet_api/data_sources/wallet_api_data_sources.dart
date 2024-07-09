@@ -808,12 +808,12 @@ class WalletApiDataSources {
 
   Future<DC<ServerRejectException, void>> postCardSoonRequest() async {
     try {
-      final _ = await _apiClient.get(
+      final responce = await _apiClient.get(
         '${_apiClient.options.walletApi}/profile/request-card',
       );
 
       try {
-        final responseData = _.data as Map<String, dynamic>;
+        final responseData = responce.data as Map<String, dynamic>;
 
         handleFullResponse<Map>(
           responseData,
@@ -2716,9 +2716,9 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final _ = handleFullResponse<Map>(responseData);
+        final fullResponse = handleFullResponse<Map>(responseData);
 
-        return DC.data(SimpleCardCreateResponse.fromJson(_));
+        return DC.data(SimpleCardCreateResponse.fromJson(fullResponse));
       } catch (e) {
         rethrow;
       }
@@ -2738,9 +2738,9 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final _ = handleFullResponse<Map>(responseData);
+        final fullResponse = handleFullResponse<Map>(responseData);
 
-        return DC.data(SimpleCardSensitiveResponse.fromJson(_));
+        return DC.data(SimpleCardSensitiveResponse.fromJson(fullResponse));
       } catch (e) {
         rethrow;
       }
@@ -2762,9 +2762,9 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final _ = handleFullResponse<Map>(responseData);
+        final fullResponse = handleFullResponse<Map>(responseData);
 
-        return DC.data(SimpleCardRemindPinResponse.fromJson(_));
+        return DC.data(SimpleCardRemindPinResponse.fromJson(fullResponse));
       } catch (e) {
         rethrow;
       }
@@ -2786,9 +2786,9 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final _ = handleFullResponse<Map>(responseData);
+        final fullResponse = handleFullResponse<Map>(responseData);
 
-        return DC.data(_['operationId']);
+        return DC.data(fullResponse['operationId']);
       } catch (e) {
         rethrow;
       }

@@ -130,6 +130,7 @@ dependencies:
   logger: ^2.3.0
   dotted_border: ^2.1.0
   intercom_flutter: 9.0.2
+  gap: ^3.0.1
 
   # CRYPTOGRAPHY:
   rsa_encrypt: 2.0.0 # RSA encryption
