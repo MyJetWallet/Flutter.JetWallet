@@ -45,9 +45,9 @@ dependencies:
   shared_preferences: ^2.2.2
   event_bus: ^2.0.0
   native_flutter_proxy: ^0.1.15
-  http_proxy: ^1.2.1
+  http_proxy: ^1.2.2
   animated_list_plus: 0.5.2
-  flutter_idensic_mobile_sdk_plugin: 1.29.0
+  flutter_idensic_mobile_sdk_plugin: 1.31.3
   mask_text_input_formatter: ^2.9.0
   dynamic_height_grid_view: ^0.0.4
   responsive_grid_list: ^1.4.0
@@ -63,13 +63,13 @@ dependencies:
   # PLUS PLUGINS
   # packages without '_plus' was made originally by flutter team are not supported anymore
   # Docs: https://plus.fluttercommunity.dev/docs/overview
-  android_intent_plus: ^4.0.3 # plugin for launching Android Intents
+  android_intent_plus: ^5.0.2 # plugin for launching Android Intents
   package_info_plus: 8.0.0 # querying information about the application package NEED UPDATE
   share_plus: 9.0.0 # sharing content via the platform share UI
-  device_info_plus: 9.1.2 # providing detailed information about the device
+  device_info_plus: 10.1.0 # providing detailed information about the device
   connectivity_plus: ^6.0.3 # plugin allows Flutter apps to discover network connectivity
-  device_marketing_names: 0.8.1
-  android_id: ^0.3.6
+  device_marketing_names: 0.8.4
+  android_id: ^0.4.0
   flutter_native_splash: ^2.4.1
   custom_refresh_indicator: ^3.1.1
   isolator: ^2.0.8
