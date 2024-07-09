@@ -19,7 +19,7 @@ dependencies:
   mobx: ^2.3.3+1
   flutter_mobx: ^2.2.1+1
   get_it: ^7.7.0
-  modal_bottom_sheet: 3.0.0-pre
+  modal_bottom_sheet: 3.0.0
   state_notifier: ^1.0.0
   auto_size_text: ^3.0.0
   flutter_cache_manager: ^3.3.2
