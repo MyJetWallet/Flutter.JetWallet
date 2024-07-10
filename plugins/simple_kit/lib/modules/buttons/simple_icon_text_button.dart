@@ -64,7 +64,7 @@ class _SIconTextButtonState extends State<SIconTextButton> {
         ),
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ).copyWith(
-        overlayColor: MaterialStateProperty.all(colors.grey4),
+        overlayColor: WidgetStateProperty.all(colors.grey4),
       ),
       onPressed: () {
         if (!isClicked) {

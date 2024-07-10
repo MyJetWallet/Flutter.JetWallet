@@ -1,4 +1,4 @@
-/// @Refactor
+// TODO (Yaroslav): Refactor
 
 final errorCodesDescriptionEn = {
   'InternalServerError': 'Something went wrong. Please try again later.',

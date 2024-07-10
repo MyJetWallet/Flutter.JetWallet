@@ -164,6 +164,6 @@ abstract class _SimpleCardLimitsStoreBase with Store {
   }
 
   String _formatMMMMyyyy(DateTime date) {
-    return '${toBeginningOfSentenceCase(DateFormat('MMMM', intl.localeName).format(date)) ?? ''} ${DateFormat('yyyy', intl.localeName).format(date)}';
+    return '${toBeginningOfSentenceCase(DateFormat('MMMM', intl.localeName).format(date))} ${DateFormat('yyyy', intl.localeName).format(date)}';
   }
 }
