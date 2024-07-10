@@ -16,6 +16,7 @@ import 'package:jetwallet/core/services/intercom/intercom_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/earn/widgets/earn_dashboard_section_widget.dart';
 import 'package:jetwallet/features/kyc/models/kyc_verified_model.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/features/my_wallets/widgets/actions_my_wallets_row_widget.dart';
@@ -436,24 +437,34 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                     );
                                   },
                                 ),
-                                const SliverToBoxAdapter(child: SpaceH16()),
                                 if (store.currenciesForSearch.isNotEmpty && !store.isReordering)
                                   SliverToBoxAdapter(
-                                    child: SPaddingH24(
-                                      child: Row(
-                                        children: [
-                                          SButtonContext(
-                                            type: SButtonContextType.iconedSmall,
-                                            text: intl.my_wallets_add_wallet,
-                                            onTap: () {
-                                              sAnalytics.tapOnTheButtonAddWalletOnWalletsScreen();
-                                              showAddWalletBottomSheet(context);
-                                            },
-                                          ),
-                                        ],
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 24,
+                                        right: 24,
+                                        top: 16,
+                                        bottom: 32,
+                                      ),
+                                      child: SPaddingH24(
+                                        child: Row(
+                                          children: [
+                                            SButtonContext(
+                                              type: SButtonContextType.iconedSmall,
+                                              text: intl.my_wallets_add_wallet,
+                                              onTap: () {
+                                                sAnalytics.tapOnTheButtonAddWalletOnWalletsScreen();
+                                                showAddWalletBottomSheet(context);
+                                              },
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
+                                const SliverToBoxAdapter(
+                                  child: EarnDashboardSectionWidget(),
+                                ),
                                 const SliverToBoxAdapter(
                                   child: SizedBox(height: 200),
                                 ),

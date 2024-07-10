@@ -361,7 +361,7 @@ class DeepLinkService {
     Future<void> openProfile() async {
       await Future.delayed(const Duration(milliseconds: 100));
       sRouter.popUntilRoot();
-      getIt<BottomBarStore>().setHomeTab(BottomItemType.wallets);
+      getIt<BottomBarStore>().setHomeTab(BottomItemType.home);
       unawaited(sRouter.push(const AccountRouter()));
       await sRouter.push(
         TransactionHistoryRouter(
@@ -988,7 +988,7 @@ class DeepLinkService {
       final showState = sSignalRModules.bankingProfileData?.showState == BankingShowState.accountList;
 
       sRouter.popUntilRoot();
-      getIt<BottomBarStore>().setHomeTab(BottomItemType.wallets);
+      getIt<BottomBarStore>().setHomeTab(BottomItemType.home);
 
       if (currency != null && context != null && currency.symbol != 'EUR') {
         navigateToWallet(context, currency, isSinglePage: true);
@@ -1040,7 +1040,7 @@ class DeepLinkService {
       );
       if (isSimpleCoinAvaible) {
         sRouter.popUntilRoot();
-        getIt<BottomBarStore>().setHomeTab(BottomItemType.wallets);
+        getIt<BottomBarStore>().setHomeTab(BottomItemType.home);
         await sRouter.push(const MySimpleCoinsRouter());
       }
     } else {

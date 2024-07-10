@@ -215,7 +215,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                 }
               } else {
                 sRouter.popUntilRoot();
-                getIt<BottomBarStore>().setHomeTab(BottomItemType.wallets);
+                getIt<BottomBarStore>().setHomeTab(BottomItemType.home);
               }
             },
             onSend: () {
