@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:gap/gap.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -143,7 +142,6 @@ class _EarnSectionEmptyState extends StatelessWidget {
                 },
               );
             }),
-            // TODO (Yaroslav) SPU-4729: Add "You don't have active yearns yet" section
           ],
         );
       },
@@ -177,9 +175,6 @@ class _EarnSectionDefaultState extends StatelessWidget {
                             )
                           : '**** ${sSignalRModules.baseCurrency.symbol}',
                       description: intl.earn_total,
-                      onTap: () {
-                        // TODO (Yaroslav) SPU-4729: Add bottom sheet showing
-                      },
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -194,9 +189,6 @@ class _EarnSectionDefaultState extends StatelessWidget {
                             )
                           : '**** ${sSignalRModules.baseCurrency.symbol}',
                       description: intl.earn_bloc_this_month,
-                      onTap: () {
-                        // TODO (Yaroslav) SPU-4729: Add bottom sheet showing
-                      },
                     ),
                   ),
                 ],
@@ -216,13 +208,11 @@ class _GrayBlocWidget extends StatelessWidget {
     required this.title,
     required this.value,
     required this.description,
-    required this.onTap,
   });
 
   final String title;
   final String value;
   final String description;
-  final void Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -244,18 +234,6 @@ class _GrayBlocWidget extends StatelessWidget {
               Text(
                 title,
                 style: STStyles.subtitle2,
-              ),
-              const Gap(4),
-              InkWell(
-                onTap: onTap,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 4),
-                  child: Assets.svg.small.info.simpleSvg(
-                    width: 16,
-                    height: 16,
-                    color: SColorsLight().gray10,
-                  ),
-                ),
               ),
             ],
           ),
