@@ -2127,5 +2127,7 @@
     "bottom_bar_home": "Home",
     "earn_bloc_view": "View",
     "earn_bloc_earned": "Earned",
-    "earn_bloc_this_month": "This month"
+    "earn_bloc_this_month": "This month",
+    "tom_mover_section_top_movers": "Top movers",
+    "tom_mover_section_view_all": "View all"
 }

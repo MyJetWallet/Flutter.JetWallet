@@ -4,6 +4,7 @@ class STStyles {
   static const _basicTextStyle = TextStyle(
     overflow: TextOverflow.ellipsis,
     fontFamily: 'Gilroy',
+    leadingDistribution: TextLeadingDistribution.even,
   );
 
   static final header1 = _basicTextStyle.copyWith(
