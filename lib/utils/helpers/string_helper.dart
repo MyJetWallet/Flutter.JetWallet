@@ -222,10 +222,11 @@ String formatCurrencyStringAmount({
     }
   }
 
-  final formatter = NumberFormat.decimalPattern();
+  final formatter = DecimalFormatter(NumberFormat.decimalPattern('en-US'));
 
   final wholePart2 = Decimal.tryParse(wholePart.toString()) ?? Decimal.zero;
-  final wholePart3 = formatter.format(DecimalIntl(wholePart2)).replaceAll(',', ' ');
+
+  final wholePart3 = formatter.format(wholePart2).replaceAll(',', ' ');
 
   final amountPart = beforeDecimal ? wholePart3 : '$wholePart3.$decimalPart';
 
