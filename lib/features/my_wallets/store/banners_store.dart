@@ -102,7 +102,7 @@ abstract class _BannersStoreBase with Store {
 
   @action
   void updateTabController() {
-    final newSelectedIndex = min(selectedIndex, banners.length - 1);
+    final newSelectedIndex = banners.isNotEmpty ? min(selectedIndex, banners.length - 1) : 0;
     controller = TabController(
       initialIndex: newSelectedIndex,
       length: banners.length,
