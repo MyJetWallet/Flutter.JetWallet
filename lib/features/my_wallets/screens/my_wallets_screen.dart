@@ -26,6 +26,7 @@ import 'package:jetwallet/features/my_wallets/widgets/change_order_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/my_wallets_asset_item.dart';
 import 'package:jetwallet/features/my_wallets/widgets/pending_transactions_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/top_movers_dashboard_section.dart';
+import 'package:jetwallet/features/my_wallets/widgets/user_avatar_widget.dart';
 import 'package:jetwallet/features/simple_coin/widgets/simple_coin_asset_item.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
@@ -252,14 +253,7 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                     },
                     profileNotificationsCount: notificationsCount,
                     isLoading: store.isLoading,
-                    userAvatar: Container(
-                      width: 32,
-                      height: 32,
-                      decoration: const ShapeDecoration(
-                        color: Colors.black,
-                        shape: OvalBorder(),
-                      ),
-                    ),
+                    userAvatar: const UserAvatarWidget(),
                     child: const Padding(
                       padding: EdgeInsets.symmetric(vertical: 20),
                       child: ActionsMyWalletsRowWidget(),
@@ -356,6 +350,7 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                       },
                                       isLabelIconShow: getIt<AppStore>().isBalanceHide,
                                       profileNotificationsCount: notificationsCount,
+                                      userAvatar: const UserAvatarWidget(),
                                       child: const Padding(
                                         padding: EdgeInsets.symmetric(vertical: 24),
                                         child: ActionsMyWalletsRowWidget(),

@@ -76,6 +76,10 @@ class CollapsedMainscreenAppbar extends HookWidget {
         profileNotificationsCount: profileNotificationsCount,
         isLoading: isLoading,
         onOnChatTap: onOnChatTap,
+        userAvatar: userAvatar,
+        onUserAvatarTap: () {
+            onProfileTap?.call();
+          },
         child: child,
       ),
       secondChild: Material(

@@ -3,7 +3,6 @@ import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/widgets/navigation/top_app_bar/advanced_app_bar/advanced_app_bar_base.dart';
 import 'package:simple_kit_updated/widgets/navigation/top_app_bar/global_large_alt_appbar.dart';
-import 'package:simple_kit_updated/widgets/shared/icons/user_noty_icon.dart';
 import 'package:simple_kit_updated/widgets/shared/safe_gesture.dart';
 
 class MainScreenAppbar extends StatelessWidget {
@@ -19,6 +18,8 @@ class MainScreenAppbar extends StatelessWidget {
     this.profileNotificationsCount = 0,
     this.isLoading = false,
     this.onOnChatTap,
+    required this.userAvatar,
+    this.onUserAvatarTap,
   });
 
   final bool showIcon;
@@ -36,6 +37,9 @@ class MainScreenAppbar extends StatelessWidget {
 
   final bool isLoading;
 
+  final Widget userAvatar;
+  final VoidCallback? onUserAvatarTap;
+
   @override
   Widget build(BuildContext context) {
     return AdvancedAppBarBase(
@@ -46,17 +50,18 @@ class MainScreenAppbar extends StatelessWidget {
           SimpleLargeAltAppbar(
             title: headerTitle,
             value: headerValue,
-            hasSecondIcon: true,
             showLabelIcon: true,
             labelIcon: isLabelIconShow ? Assets.svg.medium.hide.simpleSvg() : Assets.svg.medium.show.simpleSvg(),
             onLabelIconTap: onLabelIconTap,
-            rightIcon: UserNotyIcon(
-              onTap: onProfileTap ?? () {},
-              notificationsCount: profileNotificationsCount,
-            ),
-            secondIcon: SafeGesture(
+            hasRightIcon: true,
+            rightIcon: SafeGesture(
               onTap: onOnChatTap,
               child: Assets.svg.medium.chat.simpleSvg(),
+            ),
+            hasLeftIcon: true,
+            leftIcon: SafeGesture(
+              onTap: onUserAvatarTap,
+              child: userAvatar,
             ),
             isLoading: isLoading,
           ),
