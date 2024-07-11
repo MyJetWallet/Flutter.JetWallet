@@ -9,7 +9,6 @@ import 'package:jetwallet/core/services/simple_networking/simple_networking.dart
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_asset_input.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_asset_union.dart';
 import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
-import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:jetwallet/widgets/quote_updated_dialog.dart';
 import 'package:logging/logging.dart';
@@ -272,16 +271,6 @@ abstract class _PreviewBuyWithAssetStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.showNoResponseScreen_text,
         secondaryText: intl.showNoResponseScreen_text2,
-        primaryButtonName: intl.serverCode0_ok,
-        onPrimaryButtonTap: () {
-          sRouter.push(
-            const HomeRouter(
-              children: [
-                MyWalletsRouter(),
-              ],
-            ),
-          );
-        },
       ),
     );
   }
@@ -292,8 +281,6 @@ abstract class _PreviewBuyWithAssetStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.previewBuyWithAsset_failure,
         secondaryText: error.cause,
-        primaryButtonName: intl.previewBuyWithAsset_close,
-        onPrimaryButtonTap: () => navigateToRouter(),
       ),
     );
   }

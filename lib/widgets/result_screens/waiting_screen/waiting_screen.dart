@@ -18,20 +18,18 @@ class WaitingScreen extends StatelessObserverWidget {
     super.key,
     this.primaryText,
     this.secondaryText,
-    this.buttonName,
-    this.wasAction = false,
     this.onSkip,
+    this.isLoading = false,
   });
 
   final Function()? onSkip;
   final String? primaryText;
   final String? secondaryText;
-  final String? buttonName;
-  final bool wasAction;
+  final bool isLoading;
 
-  void onSkipTap() {
-    onSkip?.call();
+  void onClose() {
     navigateToRouter();
+    onSkip?.call();
   }
 
   @override
@@ -40,20 +38,18 @@ class WaitingScreen extends StatelessObserverWidget {
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
-      header: wasAction
-          ? GlobalBasicAppBar(
-              hasTitle: false,
-              hasSubtitle: false,
-              hasLeftIcon: false,
-              onRightIconTap: onSkipTap,
-            )
-          : null,
+      header: GlobalBasicAppBar(
+        hasTitle: false,
+        hasSubtitle: false,
+        hasLeftIcon: false,
+        onRightIconTap: onClose,
+      ),
       child: Padding(
         padding: EdgeInsets.only(
           left: 24.0,
           right: 24.0,
-          top: wasAction ? 0 : MediaQuery.of(context).padding.top,
-          bottom: MediaQuery.of(context).padding.bottom + (wasAction ? 16 : 0),
+          top: MediaQuery.of(context).padding.top,
+          bottom: MediaQuery.of(context).padding.bottom + 16,
         ),
         child: Center(
           child: Column(
@@ -83,12 +79,10 @@ class WaitingScreen extends StatelessObserverWidget {
               const Spacer(
                 flex: 3,
               ),
-              if (wasAction) ...[
-                SButton.black(
-                  text: buttonName ?? intl.waiting_screen_button_name,
-                  callback: onSkipTap,
-                ),
-              ],
+              SButton.black(
+                text: isLoading ? intl.waiting_screen_loading_button_name : intl.waiting_screen_processing_button_name,
+                callback: onClose,
+              ),
             ],
           ),
         ),

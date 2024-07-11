@@ -8,26 +8,30 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../core/l10n/i10n.dart';
+import '../../../utils/helpers/navigate_to_router.dart';
 import '../widgets/result_screen_description.dart';
 
 @RoutePage(name: 'FailureScreenRouter')
 class FailureScreen extends StatelessObserverWidget {
   const FailureScreen({
     super.key,
-    required this.onPrimaryButtonTap,
     this.primaryText,
     this.secondaryText,
-    this.primaryButtonName,
     this.secondaryButtonName,
+    this.onPrimaryButtonTap,
     this.onSecondaryButtonTap,
   });
 
-  final Function() onPrimaryButtonTap;
   final String? primaryText;
   final String? secondaryText;
-  final String? primaryButtonName;
   final String? secondaryButtonName;
+  final Function()? onPrimaryButtonTap;
   final Function()? onSecondaryButtonTap;
+
+  void onClose() {
+    navigateToRouter();
+    onPrimaryButtonTap?.call();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +43,12 @@ class FailureScreen extends StatelessObserverWidget {
       canPop: false,
       child: SPageFrame(
         loaderText: intl.register_pleaseWait,
+        header: GlobalBasicAppBar(
+          hasTitle: false,
+          hasSubtitle: false,
+          hasLeftIcon: false,
+          onRightIconTap: onClose,
+        ),
         child: Padding(
           padding: EdgeInsets.only(
             left: 24.0,
@@ -81,8 +91,8 @@ class FailureScreen extends StatelessObserverWidget {
                 const SpaceH8(),
               ],
               SButton.black(
-                text: primaryButtonName ?? intl.failure_screen_button_name,
-                callback: onPrimaryButtonTap,
+                text: intl.failure_screen_button_name,
+                callback: onClose,
               ),
             ],
           ),

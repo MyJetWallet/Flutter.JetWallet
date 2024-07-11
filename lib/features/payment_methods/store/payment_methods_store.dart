@@ -176,10 +176,6 @@ abstract class _PaymentMethodsStoreBase with Store {
             ),
           );
         },
-        primaryButtonName: intl.previewBuyWithCircle_failureCancel,
-        onPrimaryButtonTap: () {
-          sRouter.maybePop();
-        },
       ),
     );
   }

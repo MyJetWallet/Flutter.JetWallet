@@ -16,7 +16,6 @@ import 'package:jetwallet/core/services/simple_networking/simple_networking.dart
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/device_binding_required_flow/show_device_binding_required_flow.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
-import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
@@ -310,7 +309,6 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
         FailureScreenRouter(
           primaryText: intl.previewBuyWithAsset_failure,
           secondaryText: error,
-          primaryButtonName: intl.previewBuyWithAsset_close,
           onPrimaryButtonTap: () {
             sAnalytics.tapOnTheCloseButtonOnFailedBuyEndScreen(
               pmType: PaymenthMethodType.ptp,
@@ -320,7 +318,6 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
               sourceBuyAmount: paymentAmount.toString(),
               destinationBuyAmount: buyAmount.toString(),
             );
-            navigateToRouter();
           },
         ),
       ),
@@ -620,7 +617,6 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
                 accuracy: buyCurrency.accuracy,
                 symbol: buyCurrency.symbol,
               )}',
-        showProgressBar: true,
         onCloseButton: () {
           sAnalytics.tapOnTheCloseButtonOnSuccessBuyEndScreen(
             pmType: PaymenthMethodType.ptp,
@@ -630,11 +626,6 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
             sourceBuyAmount: paymentAmount.toString(),
             destinationBuyAmount: buyAmount.toString(),
           );
-          sRouter.replaceAll([
-            const HomeRouter(
-              children: [],
-            ),
-          ]);
         },
       ),
     )

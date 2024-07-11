@@ -249,14 +249,6 @@ abstract class _PreviewSellStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.showNoResponseScreen_text,
         secondaryText: intl.showNoResponseScreen_text2,
-        primaryButtonName: intl.serverCode0_ok,
-        onPrimaryButtonTap: () {
-          sRouter.navigate(
-            const HomeRouter(
-              children: [MyWalletsRouter()],
-            ),
-          );
-        },
       ),
     );
   }
@@ -277,8 +269,6 @@ abstract class _PreviewSellStoreBase with Store {
             ),
           );
         },
-        primaryButtonName: intl.previewSell_close,
-        onPrimaryButtonTap: () => sRouter.popUntilRoot(),
       ),
     );
   }

@@ -63,12 +63,7 @@ class _BuyVouncherConfirmationBody extends StatelessObserverWidget {
       needPadding: false,
       loading: store.loader,
       loaderText: intl.register_pleaseWait,
-      customLoader: store.showProcessing
-          ? WaitingScreen(
-              wasAction: store.wasAction,
-              buttonName: intl.previewBuyWithUmlimint_close,
-            )
-          : null,
+      customLoader: store.showProcessing ? const WaitingScreen() : null,
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.buy_confirmation_title,

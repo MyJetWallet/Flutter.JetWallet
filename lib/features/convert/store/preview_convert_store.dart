@@ -285,10 +285,6 @@ abstract class _PreviewConvertStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.showNoResponseScreen_text,
         secondaryText: intl.showNoResponseScreen_text2,
-        primaryButtonName: intl.serverCode0_ok,
-        onPrimaryButtonTap: () {
-          sRouter.popUntilRoot();
-        },
       ),
     );
   }
@@ -305,8 +301,6 @@ abstract class _PreviewConvertStoreBase with Store {
             (route) => route.name == ConvertRouter.name,
           );
         },
-        primaryButtonName: intl.previewConvert_close,
-        onPrimaryButtonTap: () => sRouter.popUntilRoot(),
       ),
     );
   }

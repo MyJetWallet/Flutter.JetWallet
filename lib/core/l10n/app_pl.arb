@@ -2179,5 +2179,7 @@
     "waiting_screen_button_name": "Zamknij",
     "failure_screen_title": "Nieudane",
     "failure_screen_button_name": "Gotowe",
-    "success_screen_button_name": "Gotowe"
+    "success_screen_button_name": "Gotowe",
+    "waiting_screen_loading_button_name": "Anulować",
+    "waiting_screen_processing_button_name": "Zrozumiane"
 }

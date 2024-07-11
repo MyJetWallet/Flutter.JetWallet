@@ -977,9 +977,7 @@ abstract class _WithdrawalStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.showNoResponseScreen_text,
         secondaryText: intl.showNoResponseScreen_text2,
-        primaryButtonName: intl.serverCode0_ok,
         onPrimaryButtonTap: () {
-          sRouter.popUntilRoot();
           sRouter.push(
             WithdrawRouter(
               withdrawal: withdrawalInputModel!,
@@ -1020,14 +1018,12 @@ abstract class _WithdrawalStoreBase with Store {
         secondaryText: error.cause,
         secondaryButtonName: intl.withdrawalPreview_editOrder,
         onSecondaryButtonTap: () {
-          sRouter.popUntilRoot();
           sRouter.push(
             WithdrawRouter(
               withdrawal: withdrawalInputModel!,
             ),
           );
         },
-        primaryButtonName: intl.withdrawalPreview_close,
         onPrimaryButtonTap: () => sRouter.popUntilRoot(),
       ),
     );
@@ -1128,8 +1124,6 @@ abstract class _WithdrawalStoreBase with Store {
             sRouter.popUntilRoot();
           }
         },
-        primaryButtonName: withdrawalType == WithdrawalType.asset ? intl.withdrawalConfirm_close : null,
-        onPrimaryButtonTap: () => sRouter.popUntilRoot(),
       ),
     );
   }

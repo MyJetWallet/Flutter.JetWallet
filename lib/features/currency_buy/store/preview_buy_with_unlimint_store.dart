@@ -358,7 +358,6 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
         )}',
         time: input.card != null ? 3 : 5,
         actionButtonName: input.card == null ? intl.previewBuyWithUmlimint_saveCard : null,
-        showProgressBar: true,
         onActionButton: () async {
           tapped = true;
           final responce = await sNetwork.getWalletModule().postAddUnlimintCard(model);
@@ -399,10 +398,6 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.previewBuyWithAsset_failure,
         secondaryText: error,
-        primaryButtonName: intl.previewBuyWithAsset_close,
-        onPrimaryButtonTap: () {
-          navigateToRouter();
-        },
       ),
     );
   }

@@ -52,8 +52,6 @@ class _SimplexWebViewState extends State<SimplexWebView> {
             Navigator.pop(context);
             Navigator.pop(context);
           },
-          primaryButtonName: intl.simplexWebView_close,
-          onPrimaryButtonTap: () => navigateToRouter(),
         ),
       );
     }

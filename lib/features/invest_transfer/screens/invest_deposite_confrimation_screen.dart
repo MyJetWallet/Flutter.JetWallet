@@ -47,12 +47,7 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
     return SPageFrameWithPadding(
       loading: store.loader,
       loaderText: intl.register_pleaseWait,
-      customLoader: store.showProcessing
-          ? WaitingScreen(
-              wasAction: true,
-              buttonName: intl.previewBuyWithUmlimint_close,
-            )
-          : null,
+      customLoader: store.showProcessing ? const WaitingScreen() : null,
       header: SSmallHeader(
         title: intl.buy_confirmation_title,
         subTitle: intl.amount_screen_tab_transfer,

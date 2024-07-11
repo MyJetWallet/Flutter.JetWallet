@@ -2115,5 +2115,7 @@
     "waiting_screen_button_name": "Cerca",
     "failure_screen_title": "Fallido",
     "failure_screen_button_name": "Listo",
-    "success_screen_button_name": "Listo"
+    "success_screen_button_name": "Listo",
+    "waiting_screen_loading_button_name": "Cancelar",
+    "waiting_screen_processing_button_name": "Entiendo"
 }

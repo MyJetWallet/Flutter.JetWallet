@@ -2091,5 +2091,7 @@
     "waiting_screen_button_name": "Fermer",
     "failure_screen_title": "Échoué",
     "failure_screen_button_name": "Fait",
-    "success_screen_button_name": "Fait"
+    "success_screen_button_name": "Fait",
+    "waiting_screen_loading_button_name": "Annuler",
+    "waiting_screen_processing_button_name": "Compris"
 }

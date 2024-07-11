@@ -530,8 +530,6 @@ abstract class _UploadKycDocumentsStoreBase with Store {
             (route) => route.name == CurrencyBuyRouter.name,
           );
         },
-        primaryButtonName: intl.cardVerification_close,
-        onPrimaryButtonTap: () => sRouter.popUntilRoot(),
       ),
     );
   }
@@ -571,8 +569,6 @@ abstract class _UploadKycDocumentsStoreBase with Store {
           documentSelfie = null;
           documentCard = null;
         },
-        primaryButtonName: intl.cardVerification_close,
-        onPrimaryButtonTap: () => sRouter.popUntilRoot(),
       ),
     );
   }

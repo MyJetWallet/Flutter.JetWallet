@@ -80,8 +80,6 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
       loading: state.loader,
       customLoader: state.isChecked
           ? WaitingScreen(
-              buttonName: intl.previewBuyWithUmlimint_close,
-              wasAction: state.wasAction,
               onSkip: () {
                 state.skippedWaiting();
               },

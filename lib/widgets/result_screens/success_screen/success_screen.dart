@@ -13,6 +13,7 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 import '../../../utils/constants.dart';
+import '../../../utils/helpers/navigate_to_router.dart';
 import '../widgets/result_screen_description.dart';
 
 @RoutePage(name: 'SuccessScreenRouter')
@@ -20,15 +21,12 @@ class SuccessScreen extends StatelessWidget {
   const SuccessScreen({
     super.key,
     this.onSuccess,
-    this.onActionButton,
-    this.onCloseButton,
     this.primaryText,
     this.secondaryText,
-    this.bottomWidget,
     this.actionButtonName,
-    this.primaryButtonText,
-    this.showProgressBar = false,
-    this.showPrimaryButton = false,
+    this.onActionButton,
+    this.onCloseButton,
+    this.bottomWidget,
     this.time = 3,
   });
 
@@ -39,10 +37,7 @@ class SuccessScreen extends StatelessWidget {
   final String? secondaryText;
   final Widget? bottomWidget;
   final int time;
-  final bool showProgressBar;
   final String? actionButtonName;
-  final String? primaryButtonText;
-  final bool showPrimaryButton;
 
   @override
   Widget build(BuildContext context) {
@@ -56,10 +51,7 @@ class SuccessScreen extends StatelessWidget {
         secondaryText: secondaryText,
         bottomWidget: bottomWidget,
         time: time,
-        showProgressBar: showProgressBar,
         actionButtonName: actionButtonName,
-        showPrimaryButton: showPrimaryButton,
-        primaryButtonText: primaryButtonText,
         onCloseButton: onCloseButton,
       ),
     );
@@ -75,9 +67,6 @@ class _SuccessScreenBody extends StatefulWidget {
     this.secondaryText,
     this.bottomWidget,
     this.actionButtonName,
-    this.primaryButtonText,
-    this.showProgressBar = false,
-    this.showPrimaryButton = false,
     required this.time,
   });
 
@@ -88,10 +77,7 @@ class _SuccessScreenBody extends StatefulWidget {
   final String? secondaryText;
   final Widget? bottomWidget;
   final int time;
-  final String? primaryButtonText;
-  final bool showProgressBar;
   final String? actionButtonName;
-  final bool showPrimaryButton;
 
   @override
   State<_SuccessScreenBody> createState() => _SuccessScreenBodyState();
@@ -129,15 +115,16 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> with WidgetsBind
     super.dispose();
   }
 
+  void onClose() {
+    navigateToRouter();
+    widget.onCloseButton?.call();
+  }
+
   @override
   Widget build(BuildContext context) {
     final secondaryText = widget.secondaryText;
     final bottomWidget = widget.bottomWidget;
-    final showProgressBar = widget.showProgressBar;
-    final onCloseButton = widget.onCloseButton;
     final actionButtonName = widget.actionButtonName;
-    final primaryButtonText = widget.primaryButtonText;
-    final showBottomSpace = showProgressBar || actionButtonName != null || widget.showPrimaryButton;
 
     return ReactionBuilder(
       builder: (context) {
@@ -162,21 +149,19 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> with WidgetsBind
         child: Observer(
           builder: (context) {
             return SPageFrame(
-              header: onCloseButton != null
-                  ? GlobalBasicAppBar(
-                      hasTitle: false,
-                      hasSubtitle: false,
-                      hasLeftIcon: false,
-                      onRightIconTap: onCloseButton,
-                    )
-                  : null,
+              header: GlobalBasicAppBar(
+                hasTitle: false,
+                hasSubtitle: false,
+                hasLeftIcon: false,
+                onRightIconTap: onClose,
+              ),
               loaderText: intl.register_pleaseWait,
               child: Padding(
                 padding: EdgeInsets.only(
                   left: 24.0,
                   right: 24.0,
                   top: MediaQuery.of(context).padding.top,
-                  bottom: MediaQuery.of(context).padding.bottom + (showBottomSpace ? 16 : 0),
+                  bottom: MediaQuery.of(context).padding.bottom + 16,
                 ),
                 child: Column(
                   children: [
@@ -210,18 +195,16 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> with WidgetsBind
                       const SpaceH24(),
                       bottomWidget,
                     ],
-                    if (showProgressBar) ...[
-                      const SpaceH24(),
-                      SizedBox(
-                        height: 2,
-                        width: MediaQuery.of(context).size.width,
-                        child: ProgressBar(
-                          time: widget.time,
-                        ),
+                    const SpaceH24(),
+                    SizedBox(
+                      height: 2,
+                      width: MediaQuery.of(context).size.width,
+                      child: ProgressBar(
+                        time: widget.time,
                       ),
-                    ],
+                    ),
+                    const SpaceH24(),
                     if (actionButtonName != null) ...[
-                      const SpaceH24(),
                       SButton.text(
                         text: actionButtonName,
                         callback: () {
@@ -232,21 +215,18 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> with WidgetsBind
                           widget.onActionButton?.call();
                         },
                       ),
+                      const SpaceH8(),
                     ],
-                    if (widget.showPrimaryButton) ...[
-                      if (showProgressBar && actionButtonName == null) const SpaceH24(),
-                      if (actionButtonName != null) const SpaceH8(),
-                      SButton.black(
-                        text: primaryButtonText ?? intl.cardVerification_close,
-                        callback: () {
-                          setState(() {
-                            shouldPop = false;
-                          });
+                    SButton.black(
+                      text: intl.success_screen_button_name,
+                      callback: () {
+                        setState(() {
+                          shouldPop = false;
+                        });
 
-                          widget.onActionButton?.call();
-                        },
-                      ),
-                    ],
+                        onClose();
+                      },
+                    ),
                   ],
                 ),
               ),

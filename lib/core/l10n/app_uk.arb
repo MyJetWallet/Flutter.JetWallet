@@ -7867,5 +7867,7 @@
     "waiting_screen_button_name": "Закрити",
     "failure_screen_title": "Не вдалося",
     "failure_screen_button_name": "Готово",
-    "success_screen_button_name": "Готово"
+    "success_screen_button_name": "Готово",
+    "waiting_screen_loading_button_name": "Скасувати",
+    "waiting_screen_processing_button_name": "Зрозуміло"
 }
