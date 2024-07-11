@@ -103,9 +103,8 @@ abstract class GeneralSendGiftStoreBase with Store {
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
       );
       try {
-        await getIt.get<SNetwork>().simpleNetworking.getWalletModule().sendGiftByEmail(
-              model,
-            );
+        await getIt.get<SNetwork>().simpleNetworking.getWalletModule().sendGiftByEmail(model);
+        await showSuccessScreen();
       } catch (e) {
         loader.finishLoadingImmediately();
         await showFailureScreen(intl.something_went_wrong_try_again);
@@ -126,23 +125,12 @@ abstract class GeneralSendGiftStoreBase with Store {
       );
 
       try {
-        await getIt.get<SNetwork>().simpleNetworking.getWalletModule().sendGiftByPhone(
-              model,
-            );
+        await getIt.get<SNetwork>().simpleNetworking.getWalletModule().sendGiftByPhone(model);
+        await showSuccessScreen();
       } catch (e) {
         loader.finishLoadingImmediately();
         await showFailureScreen(intl.something_went_wrong_try_again);
       }
-    }
-    try {
-      loader.finishLoadingImmediately();
-
-      await showSuccessScreen();
-    } catch (e) {
-      loader.finishLoadingImmediately();
-      await showFailureScreen(intl.something_went_wrong_try_again);
-    } finally {
-      loader.finishLoadingImmediately();
     }
 
     loader.finishLoading();
