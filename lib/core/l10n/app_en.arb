@@ -2129,5 +2129,7 @@
     "earn_bloc_earned": "Earned",
     "earn_bloc_this_month": "This month",
     "tom_mover_section_top_movers": "Top movers",
-    "tom_mover_section_view_all": "View all"
+    "tom_mover_section_view_all": "View all",
+    "home_header_simple": "Simple",
+    "home_header_total_balance": "Total balance"
 }

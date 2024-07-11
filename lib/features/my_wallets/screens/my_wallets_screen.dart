@@ -231,8 +231,8 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                             sSignalRModules.baseCurrency,
                           )
                         : '**** ${sSignalRModules.baseCurrency.symbol}',
-                    mainHeaderTitle: 'Total balance',
-                    mainHeaderCollapsedTitle: 'Simple',
+                    mainHeaderTitle: intl.home_header_total_balance,
+                    mainHeaderCollapsedTitle: intl.home_header_simple,
                     isLabelIconShow: getIt<AppStore>().isBalanceHide,
                     onLabelIconTap: () {
                       _onLabelIconTap();
