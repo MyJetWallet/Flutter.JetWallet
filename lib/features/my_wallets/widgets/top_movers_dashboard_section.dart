@@ -1,12 +1,13 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:gap/gap.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/widgets/basic_header.dart';
 import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
-import 'package:jetwallet/features/market/helper/market_gainers.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -20,8 +21,12 @@ class TopMoversDashboardSection extends StatelessWidget {
 
     return Observer(
       builder: (context) {
-        final marketGainers = getMarketGainers();
-        final topMoverslist = marketGainers.sublist(0, 4);
+        final marketItems = sSignalRModules.getMarketPrices
+            .where(
+              (item) => item.dayPriceChange > Decimal.zero,
+            )
+            .toList();
+        final topMoverslist = marketItems.sublist(0, 4);
         topMoverslist.sort((a, b) => b.dayPriceChange.compareTo(a.dayPriceChange));
 
         return Column(
