@@ -140,7 +140,7 @@ class SignalRModuleNew {
 
     transport.createNewSessionLog();
 
-    disconnectSocket('From openConnection');
+    await disconnectSocket('From openConnection');
 
     try {
       final url = getUrlForConnectin();
