@@ -1107,7 +1107,7 @@ abstract class _WithdrawalStoreBase with Store {
     sRouter.push(
       FailureScreenRouter(
         primaryText: intl.withdrawalConfirm_failure,
-        secondaryText: '1',
+        secondaryText: '''${intl.withdrawalConfirm_failedTo} ${intl.withdrawal_send_verb.toLowerCase()}''',
         secondaryButtonName:
             withdrawalType == WithdrawalType.asset ? intl.withdrawalConfirm_editOrder : intl.send_timer_alert_ok,
         onSecondaryButtonTap: () {
