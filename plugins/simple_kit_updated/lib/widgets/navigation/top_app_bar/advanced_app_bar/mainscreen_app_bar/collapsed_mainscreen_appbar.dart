@@ -17,6 +17,7 @@ class CollapsedMainscreenAppbar extends HookWidget {
     this.profileNotificationsCount = 0,
     this.isLoading = false,
     this.onOnChatTap,
+    required this.userAvatar,
   });
 
   final ScrollController scrollController;
@@ -38,6 +39,8 @@ class CollapsedMainscreenAppbar extends HookWidget {
   final VoidCallback? onOnChatTap;
 
   final bool isLoading;
+
+  final Widget userAvatar;
 
   @override
   Widget build(BuildContext context) {
@@ -80,14 +83,13 @@ class CollapsedMainscreenAppbar extends HookWidget {
         child: GlobalBasicAppBar(
           title: mainHeaderCollapsedTitle,
           subtitle: mainHeaderCollapsedSubtitle,
-          hasLeftIcon: false,
+          hasLeftIcon: true,
+          leftIcon: userAvatar,
+          onLeftIconTap: () {
+            onProfileTap?.call();
+          },
           hasRightIcon: true,
-          rightIcon: UserNotyIcon(
-            onTap: onProfileTap ?? () {},
-            notificationsCount: profileNotificationsCount,
-          ),
-          hasSecondIcon: true,
-          secondIcon: SafeGesture(
+          rightIcon: SafeGesture(
             onTap: onOnChatTap,
             child: Assets.svg.medium.chat.simpleSvg(),
           ),

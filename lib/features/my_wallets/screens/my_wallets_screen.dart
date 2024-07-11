@@ -230,8 +230,8 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                             sSignalRModules.baseCurrency,
                           )
                         : '**** ${sSignalRModules.baseCurrency.symbol}',
-                    mainHeaderTitle: intl.my_wallets_header,
-                    mainHeaderCollapsedTitle: intl.my_wallets_header,
+                    mainHeaderTitle: 'Total balance',
+                    mainHeaderCollapsedTitle: 'Simple',
                     isLabelIconShow: getIt<AppStore>().isBalanceHide,
                     onLabelIconTap: () {
                       _onLabelIconTap();
@@ -252,6 +252,14 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                     },
                     profileNotificationsCount: notificationsCount,
                     isLoading: store.isLoading,
+                    userAvatar: Container(
+                      width: 32,
+                      height: 32,
+                      decoration: const ShapeDecoration(
+                        color: Colors.black,
+                        shape: OvalBorder(),
+                      ),
+                    ),
                     child: const Padding(
                       padding: EdgeInsets.symmetric(vertical: 20),
                       child: ActionsMyWalletsRowWidget(),
