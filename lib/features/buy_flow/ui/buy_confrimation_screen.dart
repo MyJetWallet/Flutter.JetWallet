@@ -79,7 +79,6 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
       customLoader: store.showProcessing
           ? WaitingScreen(
               secondaryText: store.getProcessingText,
-              isLoading: true,
               onSkip: () {
                 store.skipProcessing();
               },
