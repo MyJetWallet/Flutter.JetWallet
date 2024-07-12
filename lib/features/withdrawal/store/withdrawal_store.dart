@@ -978,7 +978,7 @@ abstract class _WithdrawalStoreBase with Store {
         primaryText: intl.showNoResponseScreen_text,
         secondaryText: intl.showNoResponseScreen_text2,
         secondaryButtonName: intl.serverCode0_ok,
-        onPrimaryButtonTap: () {
+        onSecondaryButtonTap: () {
           sRouter.push(
             WithdrawRouter(
               withdrawal: withdrawalInputModel!,
