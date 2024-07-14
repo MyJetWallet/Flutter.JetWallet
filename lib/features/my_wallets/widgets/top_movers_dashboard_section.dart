@@ -26,8 +26,10 @@ class TopMoversDashboardSection extends StatelessWidget {
               (item) => item.dayPriceChange > Decimal.zero,
             )
             .toList();
+
+        marketItems.sort((a, b) => b.dayPriceChange.compareTo(a.dayPriceChange));
+
         final topMoverslist = marketItems.sublist(0, 4);
-        topMoverslist.sort((a, b) => b.dayPriceChange.compareTo(a.dayPriceChange));
 
         return Column(
           children: [
