@@ -48,7 +48,7 @@ class _EarnSectionBody extends StatelessWidget {
           children: [
             SBasicHeader(
               title: intl.earn_earn,
-              buttonTitle: intl.earn_bloc_view,
+              buttonTitle: intl.earn_section_view,
               onTap: () {
                 getIt<BottomBarStore>().setHomeTab(BottomItemType.earn);
               },
@@ -166,7 +166,7 @@ class _EarnSectionDefaultState extends StatelessWidget {
                 children: [
                   Expanded(
                     child: _GrayBlocWidget(
-                      title: intl.earn_bloc_earned,
+                      title: intl.earn_section_earned,
                       value: store.isBalanceHide
                           ? marketFormat(
                               decimal: store.positionsTotalValueInVaseCurrency,
@@ -188,7 +188,7 @@ class _EarnSectionDefaultState extends StatelessWidget {
                               accuracy: 2,
                             )
                           : '**** ${sSignalRModules.baseCurrency.symbol}',
-                      description: intl.earn_bloc_this_month,
+                      description: intl.earn_section_this_month,
                     ),
                   ),
                 ],
