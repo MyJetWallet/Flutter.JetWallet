@@ -1740,5 +1740,6 @@
     "failure_screen_button_name": "Gotowe",
     "success_screen_button_name": "Gotowe",
     "waiting_screen_loading_button_name": "Anulować",
-    "waiting_screen_processing_button_name": "Zrozumiane"
+    "waiting_screen_processing_button_name": "Zrozumiane",
+    "withdraw_failure_screen_secondary_button_name": "Edytuj zamówienie"
 }

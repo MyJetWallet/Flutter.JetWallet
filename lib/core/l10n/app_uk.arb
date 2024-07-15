@@ -5832,5 +5832,6 @@
     "failure_screen_button_name": "Готово",
     "success_screen_button_name": "Готово",
     "waiting_screen_loading_button_name": "Скасувати",
-    "waiting_screen_processing_button_name": "Зрозуміло"
+    "waiting_screen_processing_button_name": "Зрозуміло",
+    "withdraw_failure_screen_secondary_button_name": "Редагувати замовлення"
 }

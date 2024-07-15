@@ -1676,5 +1676,6 @@
     "failure_screen_button_name": "Listo",
     "success_screen_button_name": "Listo",
     "waiting_screen_loading_button_name": "Cancelar",
-    "waiting_screen_processing_button_name": "Entiendo"
+    "waiting_screen_processing_button_name": "Entiendo",
+    "withdraw_failure_screen_secondary_button_name": "Editar orden"
 }

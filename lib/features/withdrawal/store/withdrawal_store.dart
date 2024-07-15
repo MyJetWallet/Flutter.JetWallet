@@ -977,7 +977,7 @@ abstract class _WithdrawalStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.showNoResponseScreen_text,
         secondaryText: intl.showNoResponseScreen_text2,
-        secondaryButtonName: intl.serverCode0_ok,
+        secondaryButtonName: intl.withdraw_failure_screen_secondary_button_name,
         onSecondaryButtonTap: () {
           sRouter.push(
             WithdrawRouter(

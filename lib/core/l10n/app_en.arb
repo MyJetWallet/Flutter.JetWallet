@@ -1684,6 +1684,11 @@
     "p2p_terms_and_conditions": "Peer-to-Peer (P2P) Terms and Conditions",
     "p2p_buy_confirmation_processing_text": "A P2P transaction may take up to 30 minutes to process. The funds will be credited to your Simple app once the payment system confirms the transaction.",
     "p2p_buy_with": "With",
+    "failure_screen_title": "Failed",
+    "failure_screen_button_name": "Close",
+    "success_screen_button_name": "Close",
+    "waiting_screen_loading_button_name": "Cancel",
+    "waiting_screen_processing_button_name": "Got it",
     "bottom_bar_home": "Home",
     "earn_section_view": "View",
     "earn_section_earned": "Earned",
@@ -1692,10 +1697,6 @@
     "tom_mover_section_view_all": "View all",
     "home_header_simple": "Simple",
     "home_header_total_balance": "Total balance",
-    "failure_screen_title": "Failed",
-    "failure_screen_button_name": "Close",
-    "success_screen_button_name": "Close",
-    "waiting_screen_loading_button_name": "Cancel",
-    "waiting_screen_processing_button_name": "Got it",
-    "earn_section_total": "Total"
+    "earn_section_total": "Total",
+    "withdraw_failure_screen_secondary_button_name": "Edit order"
 }
