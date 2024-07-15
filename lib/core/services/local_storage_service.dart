@@ -54,7 +54,6 @@ const isCardBannerClosed = 'isCardBannerClosed';
 const earnTermsAndConditionsWasChecked = 'earnTermsAndConditionsWasChecked';
 const isPerapaidCardBannerClosed = 'isPerapaidCardBannerClosed';
 const spareDeviceId = 'spareDeviceId';
-const showInfoBannerOnEarnScreenKey = 'showInfoBannerOnEarnScreen';
 const utmSourceKey = 'utm_source';
 
 final sLocalStorageService = getIt.get<LocalStorageService>();
