@@ -10,7 +10,6 @@ import 'package:jetwallet/features/market/market_details/helper/currency_from.da
 import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/country_code_by_user_register.dart';
-import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
@@ -167,10 +166,6 @@ abstract class _IbanSendConfirmStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.previewBuyWithAsset_failure,
         secondaryText: error,
-        primaryButtonName: intl.send_globally_fail_info,
-        onPrimaryButtonTap: () {
-          navigateToRouter();
-        },
       ),
     );
   }
@@ -187,7 +182,6 @@ abstract class _IbanSendConfirmStoreBase with Store {
           symbol: eurCurrency.symbol,
         )}'
             '\n${intl.send_globally_success_secondary_2}',
-        showProgressBar: true,
       ),
     )
         .then((value) {

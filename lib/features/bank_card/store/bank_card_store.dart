@@ -569,8 +569,6 @@ abstract class _BankCardStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.cardVerification_cardBlocked,
         secondaryText: intl.cardVerification_cardBlockedDescription,
-        primaryButtonName: intl.cardVerification_close,
-        onPrimaryButtonTap: () => sRouter.popUntilRoot(),
       ),
     );
   }

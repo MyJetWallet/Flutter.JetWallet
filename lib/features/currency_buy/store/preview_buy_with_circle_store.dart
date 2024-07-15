@@ -14,7 +14,6 @@ import 'package:jetwallet/core/services/simple_networking/simple_networking.dart
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_circle_input.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_circle/show_circle_cvv_bottom_sheet.dart';
 import 'package:jetwallet/utils/constants.dart';
-import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
@@ -459,10 +458,6 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.previewBuyWithAsset_failure,
         secondaryText: error,
-        primaryButtonName: intl.previewBuyWithAsset_close,
-        onPrimaryButtonTap: () {
-          navigateToRouter();
-        },
       ),
     );
   }
@@ -496,8 +491,8 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
         FailureScreenRouter(
           primaryText: intl.previewBuyWithCircle_failure,
           secondaryText: intl.previewBuyWithCircle_failureDescription,
-          primaryButtonName: intl.previewBuyWithCircle_failureAnotherCard,
-          onPrimaryButtonTap: () {
+          secondaryButtonName: intl.previewBuyWithCircle_failureAnotherCard,
+          onSecondaryButtonTap: () {
             sRouter.navigate(
               AddCircleCardRouter(
                 onCardAdded: (card) {
@@ -507,12 +502,6 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
                 },
               ),
             );
-          },
-          secondaryButtonName: intl.previewBuyWithCircle_failureCancel,
-          onSecondaryButtonTap: () {
-            sRouter.maybePop();
-            sRouter.maybePop();
-            sRouter.maybePop();
           },
         ),
       );

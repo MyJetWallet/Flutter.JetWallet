@@ -12,7 +12,6 @@ import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
-import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
@@ -226,8 +225,6 @@ abstract class _OfferOrderSummaryStoreBase with Store {
             accuracy: selectedCurrency.accuracy,
           ),
         ),
-        buttonText: intl.previewBuyWithUmlimint_saveCard,
-        showProgressBar: true,
       ),
     )
         .then((value) {
@@ -258,10 +255,6 @@ abstract class _OfferOrderSummaryStoreBase with Store {
         FailureScreenRouter(
           primaryText: intl.previewBuyWithAsset_failure,
           secondaryText: error,
-          primaryButtonName: intl.previewBuyWithAsset_close,
-          onPrimaryButtonTap: () {
-            navigateToRouter();
-          },
         ),
       ),
     );

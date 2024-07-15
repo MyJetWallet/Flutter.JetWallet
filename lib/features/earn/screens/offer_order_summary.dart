@@ -12,7 +12,6 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/earn/store/earn_offer_order_summary_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
-import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/widgets/fee_rows/fee_row_widget.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
@@ -48,14 +47,7 @@ class OfferOrderSummaryScreen extends StatelessWidget {
         return SPageFrameWithPadding(
           loading: store.loader,
           loaderText: intl.register_pleaseWait,
-          customLoader: store.showProcessing
-              ? WaitingScreen(
-                  primaryText: intl.buy_confirmation_local_p2p_processing_title,
-                  onSkip: () {
-                    navigateToRouter();
-                  },
-                )
-              : null,
+          customLoader: store.showProcessing ? const WaitingScreen() : null,
           header: SSmallHeader(
             title: intl.earn_order_summary,
             subTitle: intl.earn_transfer,

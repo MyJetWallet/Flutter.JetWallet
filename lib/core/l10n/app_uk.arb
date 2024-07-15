@@ -7863,5 +7863,11 @@
     "p2p_terms_and_conditions": "Peer-to-Peer (P2P) Terms and Conditions",
     "p2p_buy_confirmation_processing_text": "Обробка P2P-транзакції може зайняти до 30 хвилин. Кошти будуть зараховані у ваш додаток Simple, як тільки платіжна система підтвердить транзакцію.",
     "p2p_buy_max": "Макс.",
-    "p2p_buy_with": "Оплачується з"
+    "p2p_buy_with": "Оплачується з",
+    "waiting_screen_button_name": "Закрити",
+    "failure_screen_title": "Не вдалося",
+    "failure_screen_button_name": "Готово",
+    "success_screen_button_name": "Готово",
+    "waiting_screen_loading_button_name": "Скасувати",
+    "waiting_screen_processing_button_name": "Зрозуміло"
 }

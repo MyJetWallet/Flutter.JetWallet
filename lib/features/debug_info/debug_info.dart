@@ -307,7 +307,7 @@ class _DebugInfoState extends State<DebugInfo> with SingleTickerProviderStateMix
                   onPressed: () async {
                     await sRouter.push(
                       SuccessScreenRouter(
-                        secondaryText: 'intl.previewConvert_orderProcessing',
+                        secondaryText: intl.previewConvert_orderProcessing,
                       ),
                     );
                   },

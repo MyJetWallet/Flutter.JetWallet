@@ -130,11 +130,7 @@ class SumsubService {
                   time: 6,
                   primaryText: intl.kycChooseDocuments_verifyingNow,
                   secondaryText: intl.kycChooseDocuments_willBeNotified,
-                  showPrimaryButton: true,
-                  buttonText: intl.previewBuyWithUmlimint_close,
-                  onActionButton: () async {
-                    navigateToRouter();
-
+                  onCloseButton: () async {
                     if (onFinish != null) onFinish();
                   },
                   onSuccess: (p0) {
@@ -169,11 +165,7 @@ class SumsubService {
                 time: 6,
                 primaryText: intl.kycChooseDocuments_verifyingNow,
                 secondaryText: intl.kycChooseDocuments_willBeNotified,
-                showPrimaryButton: true,
-                buttonText: intl.previewBuyWithUmlimint_close,
-                onActionButton: () async {
-                  navigateToRouter();
-
+                onCloseButton: () async {
                   if (onFinish != null) onFinish();
                 },
               ),
@@ -242,11 +234,7 @@ class SumsubService {
         SuccessScreenRouter(
           primaryText: intl.kycChooseDocuments_verifyingNow,
           secondaryText: intl.kycChooseDocuments_willBeNotified,
-          showPrimaryButton: true,
-          buttonText: intl.previewBuyWithUmlimint_close,
-          onActionButton: () async {
-            navigateToRouter();
-
+          onCloseButton: () async {
             if (onFinish != null) onFinish();
           },
           onSuccess: (p0) {

@@ -9,7 +9,6 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
-import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -155,8 +154,6 @@ abstract class _EarnWithdrawalOrderSummaryStoreBase with Store {
         .push(
       SuccessScreenRouter(
         secondaryText: intl.earn_withdraw_successfully,
-        buttonText: intl.previewBuyWithUmlimint_saveCard,
-        showProgressBar: true,
       ),
     )
         .then((value) {
@@ -189,10 +186,6 @@ abstract class _EarnWithdrawalOrderSummaryStoreBase with Store {
         FailureScreenRouter(
           primaryText: intl.previewBuyWithAsset_failure,
           secondaryText: error,
-          primaryButtonName: intl.previewBuyWithAsset_close,
-          onPrimaryButtonTap: () {
-            navigateToRouter();
-          },
         ),
       ),
     );

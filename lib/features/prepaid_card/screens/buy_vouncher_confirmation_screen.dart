@@ -16,7 +16,6 @@ import 'package:jetwallet/features/prepaid_card/utils/show_commision_explanation
 import 'package:jetwallet/features/prepaid_card/utils/show_country_explanation_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
-import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -64,15 +63,7 @@ class _BuyVouncherConfirmationBody extends StatelessObserverWidget {
       needPadding: false,
       loading: store.loader,
       loaderText: intl.register_pleaseWait,
-      customLoader: store.showProcessing
-          ? WaitingScreen(
-              wasAction: store.wasAction,
-              primaryText: intl.buy_confirmation_local_p2p_processing_title,
-              onSkip: () {
-                navigateToRouter();
-              },
-            )
-          : null,
+      customLoader: store.showProcessing ? const WaitingScreen() : null,
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.buy_confirmation_title,

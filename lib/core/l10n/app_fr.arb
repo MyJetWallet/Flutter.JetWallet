@@ -2087,5 +2087,11 @@
     "p2p_terms_and_conditions": "Peer-to-Peer (P2P) Terms and Conditions",
     "p2p_buy_confirmation_processing_text": "Une transaction P2P peut prendre jusqu'à 30 minutes à traiter. Les fonds seront ajoutés à votre appli Simple après confirmation du système de paiement.",
     "p2p_buy_max": "Max",
-    "p2p_buy_with": "Payer avec"
+    "p2p_buy_with": "Payer avec",
+    "waiting_screen_button_name": "Fermer",
+    "failure_screen_title": "Échoué",
+    "failure_screen_button_name": "Fait",
+    "success_screen_button_name": "Fait",
+    "waiting_screen_loading_button_name": "Annuler",
+    "waiting_screen_processing_button_name": "Compris"
 }
