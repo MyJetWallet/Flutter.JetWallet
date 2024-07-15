@@ -7,7 +7,6 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/transfer_flow/store/transfer_confirmation_store.dart';
 import 'package:jetwallet/features/transfer_flow/widgets/transfer_confirmation_info_grid.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
-import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -64,15 +63,7 @@ class _TransferConfirmationScreenBody extends StatelessObserverWidget {
     return SPageFrameWithPadding(
       loading: store.loader,
       loaderText: intl.register_pleaseWait,
-      customLoader: store.showProcessing
-          ? WaitingScreen(
-              wasAction: true,
-              primaryText: intl.buy_confirmation_local_p2p_processing_title,
-              onSkip: () {
-                navigateToRouter();
-              },
-            )
-          : null,
+      customLoader: store.showProcessing ? const WaitingScreen() : null,
       header: SSmallHeader(
         title: intl.buy_confirmation_title,
         subTitle: intl.amount_screen_tab_transfer,

@@ -296,13 +296,11 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
 
     return sRouter.push(
       SuccessScreenRouter(
-        primaryText: intl.successScreen_success,
         secondaryText: '${volumeFormat(
           decimal: giftModel.amount ?? Decimal.zero,
           accuracy: currency.accuracy,
           symbol: currency.symbol,
         )} ${intl.reseive_gift_were_credited_to_my_assets}',
-        showProgressBar: true,
         onSuccess: (context) {
           Navigator.of(context).pop(true);
           Navigator.of(context).pop(true);
@@ -331,15 +329,12 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
       FailureScreenRouter(
         primaryText: intl.previewBuyWithAsset_failure,
         secondaryText: error,
-        primaryButtonName: intl.previewBuyWithAsset_close,
         onPrimaryButtonTap: () {
           sAnalytics.tapOnTheButtonCloseOnFailedClaimGiftScreen(
             giftAmount: giftAmount,
             giftFrom: giftModel.fromName ?? '',
             failedReason: error,
           );
-          Navigator.of(context).pop(true);
-          Navigator.of(context).pop(true);
         },
       ),
     );

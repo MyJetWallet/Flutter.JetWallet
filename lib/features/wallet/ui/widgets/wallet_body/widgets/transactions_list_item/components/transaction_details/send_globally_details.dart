@@ -258,9 +258,17 @@ class SendGloballyDetails extends StatelessObserverWidget {
             TransactionDetailsItem(
               text: intl.global_send_payment_method_title,
               value: Flexible(
-                child: TransactionDetailsValueText(
-                  textAlign: TextAlign.end,
-                  text: transactionListItem.paymeInfo?.methodName ?? '',
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const SpaceW8(),
+                    Flexible(
+                      child: TransactionDetailsValueText(
+                        textAlign: TextAlign.end,
+                        text: transactionListItem.paymeInfo?.methodName ?? '',
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

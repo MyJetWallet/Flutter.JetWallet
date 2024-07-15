@@ -7,7 +7,6 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
-import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
@@ -196,10 +195,6 @@ abstract class _SendGloballyConfirmStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.failed,
         secondaryText: error,
-        primaryButtonName: intl.withdrawalConfirm_close,
-        onPrimaryButtonTap: () {
-          navigateToRouter();
-        },
       ),
     );
   }
@@ -225,7 +220,6 @@ abstract class _SendGloballyConfirmStoreBase with Store {
           symbol: sendCurrency!.symbol,
         )}'
             '\n${intl.send_globally_success_secondary_2}',
-        showProgressBar: true,
         bottomWidget: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

@@ -1,4 +1,3 @@
-import 'package:data_channel/data_channel.dart';
 import 'package:decimal/decimal.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
@@ -8,15 +7,12 @@ import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
-import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/simple_networking.dart';
-
 import '../../../core/di/di.dart';
 import '../../../core/l10n/i10n.dart';
 import '../../../core/router/app_router.dart';
 import '../../../core/services/simple_networking/simple_networking.dart';
 import '../../../utils/formatting/base/volume_format.dart';
-import '../../../utils/helpers/navigate_to_router.dart';
 import '../../../utils/models/currency_model.dart';
 import '../widgets/share_gift_result_bottom_sheet.dart';
 
@@ -98,7 +94,6 @@ abstract class GeneralSendGiftStoreBase with Store {
       giftSubmethod: selectedContactType.name,
     );
 
-    DC<ServerRejectException, void>? response;
     if (selectedContactType == ReceiverContacrType.email) {
       final model = SendGiftByEmailRequestModel(
         pin: newPin,
@@ -108,9 +103,8 @@ abstract class GeneralSendGiftStoreBase with Store {
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
       );
       try {
-        response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().sendGiftByEmail(
-              model,
-            );
+        await getIt.get<SNetwork>().simpleNetworking.getWalletModule().sendGiftByEmail(model);
+        await showSuccessScreen();
       } catch (e) {
         loader.finishLoadingImmediately();
         await showFailureScreen(intl.something_went_wrong_try_again);
@@ -131,28 +125,12 @@ abstract class GeneralSendGiftStoreBase with Store {
       );
 
       try {
-        response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().sendGiftByPhone(
-              model,
-            );
+        await getIt.get<SNetwork>().simpleNetworking.getWalletModule().sendGiftByPhone(model);
+        await showSuccessScreen();
       } catch (e) {
         loader.finishLoadingImmediately();
         await showFailureScreen(intl.something_went_wrong_try_again);
       }
-    }
-    try {
-      loader.finishLoadingImmediately();
-
-      if (response?.hasError ?? true) {
-        loader.finishLoadingImmediately();
-        await showFailureScreen(response?.error?.cause ?? '');
-      } else {
-        await showSuccessScreen();
-      }
-    } catch (e) {
-      loader.finishLoadingImmediately();
-      await showFailureScreen(intl.something_went_wrong_try_again);
-    } finally {
-      loader.finishLoadingImmediately();
     }
 
     loader.finishLoading();
@@ -170,10 +148,6 @@ abstract class GeneralSendGiftStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.failed,
         secondaryText: error,
-        primaryButtonName: intl.withdrawalConfirm_close,
-        onPrimaryButtonTap: () {
-          navigateToRouter();
-        },
       ),
     );
   }
@@ -187,13 +161,11 @@ abstract class GeneralSendGiftStoreBase with Store {
 
     return sRouter.push(
       SuccessScreenRouter(
-        primaryText: intl.successScreen_success,
         secondaryText: '${intl.send_gift_you_sent} ${volumeFormat(
           decimal: amount,
           accuracy: currency.accuracy,
           symbol: currency.symbol,
         )}\n${intl.send_gift_success_message_2}',
-        showProgressBar: true,
         onSuccess: (p0) async {
           await sRouter.replaceAll([
             const HomeRouter(

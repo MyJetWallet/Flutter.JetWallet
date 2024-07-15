@@ -15,7 +15,6 @@ import 'package:jetwallet/core/services/remote_config/remote_config_values.dart'
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
-import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/helpers/rate_up/show_rate_up_popup.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logger/logger.dart';
@@ -240,10 +239,6 @@ abstract class _ConvertConfirmationStoreBase with Store {
         FailureScreenRouter(
           primaryText: intl.previewBuyWithAsset_failure,
           secondaryText: error,
-          primaryButtonName: intl.previewBuyWithAsset_close,
-          onPrimaryButtonTap: () {
-            navigateToRouter();
-          },
         ),
       ),
     );
@@ -380,8 +375,6 @@ abstract class _ConvertConfirmationStoreBase with Store {
         .push(
       SuccessScreenRouter(
         secondaryText: intl.convert_success_in_process,
-        buttonText: intl.previewBuyWithUmlimint_saveCard,
-        showProgressBar: true,
       ),
     )
         .then((value) {

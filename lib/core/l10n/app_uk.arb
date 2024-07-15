@@ -4,50 +4,9 @@
         "description": "Начать!",
         "type": "text"
     },
-    "onboarding_signIn": "Увійдіть у систему",
-    "@onboarding_signIn": {
-        "description": "Войдите в систему",
-        "type": "text"
-    },
-    "onboarding_simpleApp": "Simple app",
-    "onboarding_forYourFinance": "для ваших фінансів",
-    "@onboarding_forYourFinance": {
-        "description": "для ваших финансов",
-        "type": "text"
-    },
-    "onboarding_dontJustBuy": "Не просто купуйте",
-    "@onboarding_dontJustBuy": {
-        "description": "Не просто покупайте",
-        "type": "text"
-    },
-    "onboarding_cryptoEarnIt": "криптовалюта, заробляй її",
-    "@onboarding_cryptoEarnIt": {
-        "description": "криптовалюта, зарабатывай ее",
-        "type": "text"
-    },
-    "onboarding_tradeTwenty": "Торгівля 20+",
-    "@onboarding_tradeTwenty": {
-        "description": "Торговля 20+",
-        "type": "text"
-    },
-    "onboarding_topCryptoAssets": "Найкращі криптоактиви",
-    "@onboarding_topCryptoAssets": {
-        "description": "Лучшие криптоактивы",
-        "type": "text"
-    },
     "onboarding_inviteFriends": "Запросіть друзів",
     "@onboarding_inviteFriends": {
         "description": "Пригласите друзей",
-        "type": "text"
-    },
-    "onboarding_andEarnMore": "і заробляйте більше",
-    "@onboarding_andEarnMore": {
-        "description": "и зарабатывайте больше",
-        "type": "text"
-    },
-    "login_userAgreementText": "Угода користувача",
-    "@login_userAgreementText": {
-        "description": "Пользовательское соглашение",
         "type": "text"
     },
     "login_emailTextFieldLabel": "Електронна адреса",
@@ -55,61 +14,7 @@
         "description": "Электронный адрес",
         "type": "text"
     },
-    "login_credentialsError": "Введена вами електронна пошта та пароль не відповідають нашим записам. Будь ласка, виправте і спробуйте ще раз.",
-    "@login_credentialsError": {
-        "description": "Введенная вами электронная почта и пароль не соответствуют нашим записям. Пожалуйста, исправьте и попробуйте еще раз.",
-        "type": "text"
-    },
-    "login_signIn": "Увійдіть у систему ",
-    "@login_signIn": {
-        "description": "Войдите в систему␣",
-        "type": "text"
-    },
-    "login_password": "Пароль",
-    "@login_password": {
-        "description": "Пароль",
-        "type": "text"
-    },
-    "login_forgotPassword": "Забули пароль",
-    "@login_forgotPassword": {
-        "description": "Забыли пароль",
-        "type": "text"
-    },
-    "login_policyText1": "Увійшовши в систему і продовжуючи користуватися нею, я погоджуюся і даю згоду на",
-    "@login_policyText1": {
-        "description": "Войдя в систему и продолжая пользоваться ею, я соглашаюсь и даю согласие на",
-        "type": "text"
-    },
-    "login_policyText2": "Положення та Умови",
-    "@login_policyText2": {
-        "description": "Privacy Policy Text (part 2)"
-    },
-    "login_continue": "Продовжити",
-    "@login_continue": {
-        "description": "Продолжить",
-        "type": "text"
-    },
-    "login_privacyPolicy": "Privacy Policy",
-    "@login_privacyPolicy": {
-        "description": "Политика конфиденциальности",
-        "type": "text"
-    },
-    "login_andThe": "та",
-    "@login_andThe": {
-        "description": "и",
-        "type": "text"
-    },
     "serverCode0_ok": "OK",
-    "pinScreen_setNewPin": "Створіть PIN-код",
-    "@pinScreen_setNewPin": {
-        "description": "Создайте PIN-код",
-        "type": "text"
-    },
-    "pinScreen_confirmNewPin": "Підтвердіть PIN-код",
-    "@pinScreen_confirmNewPin": {
-        "description": "Подтвердите PIN-код",
-        "type": "text"
-    },
     "pinScreen_enterYourPIN": "Введіть PIN",
     "@pinScreen_enterYourPIN": {
         "description": "Введите PIN-код",
@@ -135,17 +40,7 @@
         "description": "Нам нужно, чтобы вы подтвердили свою личность",
         "type": "text"
     },
-    "accountSecurity_changePin": "Змінити PIN-код",
-    "@accountSecurity_changePin": {
-        "description": "Изменить PIN-код",
-        "type": "text"
-    },
     "accountSecurity_accountCategoryButtonTitle1": "Face / Touch ID",
-    "accountSecurity_accountCategoryButtonTitle3": "Двофакторна автентифікація",
-    "@accountSecurity_accountCategoryButtonTitle3": {
-        "description": "Двухфакторная аутентификация",
-        "type": "text"
-    },
     "register_enterYourEmail": "Введіть свою електронну адресу",
     "@register_enterYourEmail": {
         "description": "Введите свой электронный адрес",
@@ -173,16 +68,6 @@
         "type": "text"
     },
     "register_privacyPolicy": "Privacy Policy",
-    "register_password": "Пароль",
-    "@register_password": {
-        "description": "Пароль",
-        "type": "text"
-    },
-    "register_createPassword": "Створіть пароль",
-    "@register_createPassword": {
-        "description": "Создайте пароль",
-        "type": "text"
-    },
     "register_pleaseWait": "Будь ласка, зачекайте",
     "@register_pleaseWait": {
         "description": "Пожалуйста, подождите",
@@ -243,36 +128,6 @@
         "description": "содержать хотя бы одну цифру (0-9)",
         "type": "text"
     },
-    "forgotPassword_forgotPassword": "Забули пароль",
-    "@forgotPassword_forgotPassword": {
-        "description": "Забыли пароль",
-        "type": "text"
-    },
-    "forgotPassword_resetPassword": "Скинути пароль",
-    "@forgotPassword_resetPassword": {
-        "description": "Сбросить пароль",
-        "type": "text"
-    },
-    "forgotPassword_resettingPassword1": "Скидання забутого пароля призведе до виходу з інших пристроїв, що призведе до",
-    "@forgotPassword_resettingPassword1": {
-        "description": "Сброс забытого пароля приведет к выходу из других устройств, что приведет к",
-        "type": "text"
-    },
-    "forgotPassword_resettingPassword2": "-годинне обмеження на всі вихідні перекази",
-    "@forgotPassword_resettingPassword2": {
-        "description": "-часовое ограничение на все исходящие переводы",
-        "type": "text"
-    },
-    "forgotPassword_error": "Можливо, ви десь пропустили . або @",
-    "@forgotPassword_error": {
-        "description": "Возможно, вы где-то пропустили . или @",
-        "type": "text"
-    },
-    "forgotPassword_buttonName": "Забули пароль",
-    "@forgotPassword_buttonName": {
-        "description": "Забыли пароль",
-        "type": "text"
-    },
     "aboutUs_text1": "У Simple ми бачимо інвестиції інакше.",
     "@aboutUs_text1": {
         "description": "В Simple мы видим инвестиции иначе.",
@@ -298,7 +153,6 @@
         "description": "Общие положения и условия",
         "type": "text"
     },
-    "aboutUs_termButton2": "Privacy Policy",
     "aboutUs_termButton3": "Політика переадресації",
     "@aboutUs_termButton3": {
         "description": "Политика переадресации",
@@ -335,39 +189,9 @@
         "description": "Отправить криптовалюту на другой кошелек или телефон",
         "type": "text"
     },
-    "resetPassword_password": "Пароль",
-    "@resetPassword_password": {
-        "description": "Пароль",
-        "type": "text"
-    },
-    "resetPassword_yourPasswordHasBeenReset": "Ваш пароль було скинуто",
-    "@resetPassword_yourPasswordHasBeenReset": {
-        "description": "Ваш пароль был сброшен",
-        "type": "text"
-    },
-    "resetPassword_continue": "Продовжити",
-    "@resetPassword_continue": {
-        "description": "Продолжить",
-        "type": "text"
-    },
-    "profileDetails_continue": "Продовжити",
-    "@profileDetails_continue": {
-        "description": "Продолжить",
-        "type": "text"
-    },
     "profileDetails_profileDetails": "Деталі профілю",
     "@profileDetails_profileDetails": {
         "description": "Детали профиля",
-        "type": "text"
-    },
-    "profileDetails_changePasswordAlert": "При зміні пароля виведення коштів буде заблоковано на␣",
-    "@profileDetails_changePasswordAlert": {
-        "description": "При смене пароля вывод средств будет заблокирован на␣",
-        "type": "text"
-    },
-    "profileDetails_changePhoneAlert": "При зміні номера телефону виведення коштів буде заблоковано на␣",
-    "@profileDetails_changePhoneAlert": {
-        "description": "При смене номера телефона вывод средств будет заблокирован на␣",
         "type": "text"
     },
     "profileDetails_cancel": "Скасувати",
@@ -376,29 +200,9 @@
         "type": "text"
     },
     "profileDetails_email": "Email",
-    "profileDetails_payAttention": "Зверніть увагу",
-    "@profileDetails_payAttention": {
-        "description": "Обратите внимание",
-        "type": "text"
-    },
-    "profileDetails_changePhoneNumber": "Змінити номер телефону",
-    "@profileDetails_changePhoneNumber": {
-        "description": "Изменить номер телефона",
-        "type": "text"
-    },
     "profileDetails_newPhoneNumberConfirmed": "Підтверджено новий номер телефону",
     "@profileDetails_newPhoneNumberConfirmed": {
         "description": "Подтвержден новый номер телефона",
-        "type": "text"
-    },
-    "profileDetails_changePassword": "Змінити пароль",
-    "@profileDetails_changePassword": {
-        "description": "Изменить пароль",
-        "type": "text"
-    },
-    "profileDetails_defaultCurrency": "Валюта за замовчуванням",
-    "@profileDetails_defaultCurrency": {
-        "description": "Валюта по умолчанию",
         "type": "text"
     },
     "showBasicModalBottomSheet_continue": "Продовжити",
@@ -414,11 +218,6 @@
     "kycAlertHandler_verifyYourProfile": "Верифікуйте свій профіль",
     "@kycAlertHandler_verifyYourProfile": {
         "description": "Верифицируйте свой профиль",
-        "type": "text"
-    },
-    "kycAlertHandler_support": "Підтримка",
-    "@kycAlertHandler_support": {
-        "description": "Поддержка",
         "type": "text"
     },
     "kycAlertHandler_showKycPopupSecondaryText1": "Щоб завершити верифікацію профілю, ви",
@@ -444,11 +243,6 @@
     "kycAlertHandler_done": "Готово",
     "@kycAlertHandler_done": {
         "description": "Готово",
-        "type": "text"
-    },
-    "kycAlertHandler_youAreBlocked": "Рахунок заблоковано",
-    "@kycAlertHandler_youAreBlocked": {
-        "description": "Вас заблокировали",
         "type": "text"
     },
     "kycAlertHandler_factorVerificationEnabled": "Увімкнено 2-факторну перевірку",
@@ -481,16 +275,6 @@
         "description": "нужно пройти следующие шаги",
         "type": "text"
     },
-    "kycAlertHandler_showBlockedAlertSecondaryText1": "Ваш рахунок було заблоковано. ",
-    "@kycAlertHandler_showBlockedAlertSecondaryText1": {
-        "description": "Для разблокировки обратитесь в службу поддержки.",
-        "type": "text"
-    },
-    "kycAlertHandler_showBlockedAlertSecondaryText2": "Будь ласка, зверніться до підтримки за додатковою інформацією.",
-    "@kycAlertHandler_showBlockedAlertSecondaryText2": {
-        "description": "ваш аккаунт",
-        "type": "text"
-    },
     "changePassword_continue": "Продовжити",
     "@changePassword_continue": {
         "description": "Продолжить",
@@ -519,11 +303,6 @@
     "changePassword_pleaseWait": "Будь ласка, зачекайте",
     "@changePassword_pleaseWait": {
         "description": "Пожалуйста, подождите",
-        "type": "text"
-    },
-    "registerPassword_continue": "Продовжити",
-    "@registerPassword_continue": {
-        "description": "Продолжить",
         "type": "text"
     },
     "currencyWithdraw_address": "адресу",
@@ -561,56 +340,6 @@
         "description": "Подтвердите свой профиль",
         "type": "text"
     },
-    "sendByPhoneInput_continue": "Продовжити",
-    "@sendByPhoneInput_continue": {
-        "description": "Продолжить",
-        "type": "text"
-    },
-    "sendByPhoneInput_code": "Код",
-    "@sendByPhoneInput_code": {
-        "description": "Код",
-        "type": "text"
-    },
-    "sendByPhoneInput_byPhone": "телефоном",
-    "@sendByPhoneInput_byPhone": {
-        "description": "телефоном",
-        "type": "text"
-    },
-    "sendByPhoneInput_phoneNumber": "Номер телефону",
-    "@sendByPhoneInput_phoneNumber": {
-        "description": "Номер телефона",
-        "type": "text"
-    },
-    "sendByPhoneInput_send": "Надіслати",
-    "@sendByPhoneInput_send": {
-        "description": "Отправить",
-        "type": "text"
-    },
-    "sendByPhoneInput_select": "Вибрати",
-    "@sendByPhoneInput_select": {
-        "description": "Выбрать",
-        "type": "text"
-    },
-    "sendByPhoneInput_codeLocalNumber": "Цей контакт має місцевий номер.",
-    "@sendByPhoneInput_codeLocalNumber": {
-        "description": "Этот контакт имеет местный номер.",
-        "type": "text"
-    },
-    "sendByPhoneInput_codeSelectCountry": "Будь ласка, оберіть країну",
-    "@sendByPhoneInput_codeSelectCountry": {
-        "description": "Пожалуйста, выберите страну",
-        "type": "text"
-    },
-    "sendByPhoneInput_doubleCheckPhone": "Перевірте номер телефону перед тим, як продовжити.",
-    "@sendByPhoneInput_doubleCheckPhone": {
-        "description": "Проверьте номер телефона перед тем, как продолжить.",
-        "type": "text"
-    },
-    "sendByPhoneInput_makeSureIsCorrect": "Переконайтеся, що номер телефону правильний",
-    "@sendByPhoneInput_makeSureIsCorrect": {
-        "description": "Убедитесь, что номер телефона правильный",
-        "type": "text"
-    },
     "disclaimer_continue": "Продовжити",
     "@disclaimer_continue": {
         "description": "Продолжить",
@@ -636,26 +365,6 @@
         "description": "Позже",
         "type": "text"
     },
-    "noReferralCode_havePromoCode": "У мене є промокод",
-    "@noReferralCode_havePromoCode": {
-        "description": "У меня есть промокод",
-        "type": "text"
-    },
-    "confirmPassword_checkYourEmail": "Перевірте свою електронну пошту",
-    "@confirmPassword_checkYourEmail": {
-        "description": "Проверьте свою электронную почту",
-        "type": "text"
-    },
-    "confirmPassword_recoveryEmail": "Лист для відновлення з інструкцією по скиданню пароля було відправлено на адресу",
-    "@confirmPassword_recoveryEmail": {
-        "description": "Письмо для восстановления с инструкцией по сбросу пароля было отправлено на адрес",
-        "type": "text"
-    },
-    "confirmPassword_seeThePasswordRecovery": "Якщо ви не бачите листа для відновлення пароля у поштовій скринці, перевірте папку зі спамом",
-    "@confirmPassword_seeThePasswordRecovery": {
-        "description": "Если вы не видите письма для восстановления пароля в вашем почтовом ящике, проверьте папку Спам",
-        "type": "text"
-    },
     "something_went_wrong": "Щось пішло не так",
     "@something_went_wrong": {
         "description": "Что-то пошло не так",
@@ -676,16 +385,6 @@
         "description": "Создайте пароль",
         "type": "text"
     },
-    "withdrawalConfirm_your": "Ваш",
-    "@withdrawalConfirm_your": {
-        "description": "Ваш",
-        "type": "text"
-    },
-    "withdrawalConfirm_close": "Закрити",
-    "@withdrawalConfirm_close": {
-        "description": "Закрыть",
-        "type": "text"
-    },
     "withdrawalConfirm_failedToResend": "Не вдалося надіслати повторно. Спробуйте ще раз",
     "@withdrawalConfirm_failedToResend": {
         "description": "Не удалось отправить повторно. Попробуйте еще раз",
@@ -701,11 +400,6 @@
         "description": "Не получилось",
         "type": "text"
     },
-    "withdrawalConfirm_requestHasBeenSubmitted": "запит надіслано",
-    "@withdrawalConfirm_requestHasBeenSubmitted": {
-        "description": "запрос отправлен",
-        "type": "text"
-    },
     "withdrawalConfirm_failedTo": "Не вдалося",
     "@withdrawalConfirm_failedTo": {
         "description": "Не получилось",
@@ -714,16 +408,6 @@
     "mailingCheckbox_wantSubscibe": "Я хочу підписатися на розсилку маркетингових повідомлень про нові продукти, послуги та можливості компанії Simple",
     "@mailingCheckbox_wantSubscibe": {
         "description": "Я хочу подписаться на рассылку маркетинговых сообщений о новых продуктах, услугах и возможностях компании Simple",
-        "type": "text"
-    },
-    "invalidReferralCodeLink_invalidReferralCodeLink": "Невірний код рефералу/посилання",
-    "@invalidReferralCodeLink_invalidReferralCodeLink": {
-        "description": "Неверный код реферала/ссылки",
-        "type": "text"
-    },
-    "loadingReferralCode_checking": "Перевіряємо",
-    "@loadingReferralCode_checking": {
-        "description": "Проверяем",
         "type": "text"
     },
     "withdrawalAddress_address": "Адреса",
@@ -751,21 +435,6 @@
         "description": "Ошибка",
         "type": "text"
     },
-    "showReferralCodeLink_enterReferralCodeLink": "Введіть реферальний код/посилання",
-    "@showReferralCodeLink_enterReferralCodeLink": {
-        "description": "Введите реферальный код/ссылку",
-        "type": "text"
-    },
-    "showReferralCodeLink_referralCodeLink": "Реферальний код/посилання",
-    "@showReferralCodeLink_referralCodeLink": {
-        "description": "Реферальный код/ссылка",
-        "type": "text"
-    },
-    "showReferralCode_pasteReferralLinkOrCode": "Вставте реферальне посилання або код. Рекомендуємо перейти за посиланням або відсканувати QR-код.",
-    "@showReferralCode_pasteReferralLinkOrCode": {
-        "description": "Вставьте реферальную ссылку или код. Рекомендуем перейти по ссылке или отсканировать QR-код.",
-        "type": "text"
-    },
     "validReferralCode_yourReferralCode": "Ваш реферальний код",
     "@validReferralCode_yourReferralCode": {
         "description": "Ваш реферальный код",
@@ -774,21 +443,6 @@
     "validReferralCode_validReferralCode": "Дійсний реферальний код",
     "@validReferralCode_validReferralCode": {
         "description": "Действующий реферальный код",
-        "type": "text"
-    },
-    "passwordReset_pleaseWait": "Будь ласка, зачекайте",
-    "@passwordReset_pleaseWait": {
-        "description": "Пожалуйста, подождите",
-        "type": "text"
-    },
-    "passwordReset_passwordReset": "Скидання пароля",
-    "@passwordReset_passwordReset": {
-        "description": "Сброс пароля",
-        "type": "text"
-    },
-    "authentication_invalidLoginOrPassword": "Неправильний логін або пароль",
-    "@authentication_invalidLoginOrPassword": {
-        "description": "Неправильный логин или пароль",
         "type": "text"
     },
     "uploadKycDocuments_uploadPhotos": "Завантажуйте фотографії",
@@ -854,16 +508,6 @@
     "successKycScreen_done": "Успішно!",
     "@successKycScreen_done": {
         "description": "Успешно!",
-        "type": "text"
-    },
-    "recurringSuccessScreen_success": "Успішно!",
-    "@recurringSuccessScreen_success": {
-        "description": "Успешно!",
-        "type": "text"
-    },
-    "recurringSuccessScreen_orderProcessing": "Обробка замовлення",
-    "@recurringSuccessScreen_orderProcessing": {
-        "description": "Обработка заказа",
         "type": "text"
     },
     "resetRichText_resend": "Повторно відправити",
@@ -961,71 +605,6 @@
         "description": "Повторно отправить",
         "type": "text"
     },
-    "confirmPasswordReset_didntReceiveTheCode": "Не отримали код",
-    "@confirmPasswordReset_didntReceiveTheCode": {
-        "description": "Не получили код",
-        "type": "text"
-    },
-    "confirmPasswordReset_resend": "Повторно відправити",
-    "@confirmPasswordReset_resend": {
-        "description": "Повторно отправить",
-        "type": "text"
-    },
-    "confirmPasswordReset_seconds": "секунди",
-    "@confirmPasswordReset_seconds": {
-        "description": "секунды",
-        "type": "text"
-    },
-    "confirmPasswordReset_youCanResendIn": "Ви можете надіслати повторно через",
-    "@confirmPasswordReset_youCanResendIn": {
-        "description": "Вы можете отправить повторно через",
-        "type": "text"
-    },
-    "confirmPasswordReset_failedToResend": "Не вдалося надіслати повторно. Спробуйте ще раз",
-    "@confirmPasswordReset_failedToResend": {
-        "description": "Не удалось отправить повторно. Попробуйте еще раз",
-        "type": "text"
-    },
-    "sendByPhoneConfirm_resend": "Повторно відправити",
-    "@sendByPhoneConfirm_resend": {
-        "description": "Повторно отправить",
-        "type": "text"
-    },
-    "sendByPhoneConfirm_didntReceiveTheCode": "Не отримали код",
-    "@sendByPhoneConfirm_didntReceiveTheCode": {
-        "description": "Не получили код",
-        "type": "text"
-    },
-    "sendByPhoneConfirm_seconds": "секунди",
-    "@sendByPhoneConfirm_seconds": {
-        "description": "секунды",
-        "type": "text"
-    },
-    "sendByPhoneConfirm_youCanResendIn": "Ви можете надіслати повторно через",
-    "@sendByPhoneConfirm_youCanResendIn": {
-        "description": "Вы можете отправить повторно через",
-        "type": "text"
-    },
-    "sendByPhoneConfirm_confirmSendRequest": "Підтвердити запит на Відправку",
-    "@sendByPhoneConfirm_confirmSendRequest": {
-        "description": "Подтвердить запрос на Отправку",
-        "type": "text"
-    },
-    "sendByPhoneConfirm_openEmailApp": "Відкрийте додаток електронної пошти",
-    "@sendByPhoneConfirm_openEmailApp": {
-        "description": "Откройте приложение электронной почты",
-        "type": "text"
-    },
-    "sendByPhoneConfirm_cancelRequest": "Скасувати запит",
-    "@sendByPhoneConfirm_cancelRequest": {
-        "description": "Отменить запрос",
-        "type": "text"
-    },
-    "sendByPhoneConfirm_description": "Підтвердіть свій запит на відправку, перейшовши за посиланням в електронному листі, який ми надіслали на адресу",
-    "@sendByPhoneConfirm_description": {
-        "description": "Подтвердите свой запрос на отправку, перейдя по ссылке в электронном письме, которое мы прислали на адрес",
-        "type": "text"
-    },
     "phoneVerification_enterSmsCode": "Введіть SMS-код, який ми надіслали на ваш телефон",
     "@phoneVerification_enterSmsCode": {
         "description": "Введите SMS-код, который мы прислали на ваш телефон",
@@ -1036,24 +615,9 @@
         "description": "секунды",
         "type": "text"
     },
-    "phoneVerification_youCanResendIn": "Ви можете надіслати повторно через",
-    "@phoneVerification_youCanResendIn": {
-        "description": "Вы можете отправить повторно через",
-        "type": "text"
-    },
     "phoneVerification_pleaseWait": "Будь ласка, зачекайте",
     "@phoneVerification_pleaseWait": {
         "description": "Пожалуйста, подождите.",
-        "type": "text"
-    },
-    "phoneVerification_phoneConfirmation": "Підтвердження телефону",
-    "@phoneVerification_phoneConfirmation": {
-        "description": "Подтверждение телефона",
-        "type": "text"
-    },
-    "phoneVerification_changeNumber": "змінити номер",
-    "@phoneVerification_changeNumber": {
-        "description": "сменить номер",
         "type": "text"
     },
     "phoneVerification_pleaseContact": "Якщо у вас немає доступу до цього номера, будь ласка, зверніться до",
@@ -1066,16 +630,6 @@
         "description": "поддержка",
         "type": "text"
     },
-    "pushNotification_thisChannelIsUsed": "Цей канал використовується для важливих сповіщень.",
-    "@pushNotification_thisChannelIsUsed": {
-        "description": "Этот канал используется для важных оповещений.",
-        "type": "text"
-    },
-    "pushNotification_userDeclined": "Користувач відмовився або не прийняв дозвіл",
-    "@pushNotification_userDeclined": {
-        "description": "Пользователь отказался или не принял разрешение",
-        "type": "text"
-    },
     "appVersionBox_version": "Версія",
     "@appVersionBox_version": {
         "description": "Версия",
@@ -1084,16 +638,6 @@
     "createBannersList_verifyYourProfile": "Підтвердіть свій профіль",
     "@createBannersList_verifyYourProfile": {
         "description": "Подтвердите свой профиль",
-        "type": "text"
-    },
-    "createBanners_bannerText1": "Відповідно до Політики KYC та AML, ви зобов'язані пройти процес верифікації.",
-    "@createBanners_bannerText1": {
-        "description": "В соответствии с KYC и AML Политикой, вы обязаны пройти процесс верификации.",
-        "type": "text"
-    },
-    "createBanners_bannerText2": "Ви отримаєте повідомлення, коли ми завершимо процес. Зазвичай протягом декількох годин",
-    "@createBanners_bannerText2": {
-        "description": "Вы получите уведомление, когда мы завершим процесс. Обычно в течение нескольких часов",
         "type": "text"
     },
     "createBanners_header2": "Документи перевіряються",
@@ -1111,24 +655,9 @@
         "description": "Для защиты вашей учетной записи рекомендуется включить",
         "type": "text"
     },
-    "createBanners_bannerText4Part1": "Маєте питання?",
-    "@createBanners_bannerText4Part1": {
-        "description": "Есть вопросы?",
-        "type": "text"
-    },
-    "createBanners_header4": "Чат зі службою підтримки",
-    "@createBanners_header4": {
-        "description": "Чат со службой поддержки",
-        "type": "text"
-    },
     "createBanners_authentication": "аутентифікація",
     "@createBanners_authentication": {
         "description": "аутентификация",
-        "type": "text"
-    },
-    "createBanners_bannerText4Part2": "Ми тут, щоб допомогти",
-    "@createBanners_bannerText4Part2": {
-        "description": "Мы здесь, чтобы помочь",
         "type": "text"
     },
     "crispSendMessage_hi": "Привіт",
@@ -1171,11 +700,6 @@
         "description": "Методы оплаты",
         "type": "text"
     },
-    "account_history": "Історія",
-    "@account_history": {
-        "description": "История",
-        "type": "text"
-    },
     "account_support": "Підтримка",
     "@account_support": {
         "description": "Поддержка",
@@ -1189,11 +713,6 @@
     "account_debugInfo": "Інформація щодо налагодження",
     "@account_debugInfo": {
         "description": "Информация о налаживании",
-        "type": "text"
-    },
-    "transactionHistory_history": "Історія",
-    "@transactionHistory_history": {
-        "description": "История",
         "type": "text"
     },
     "log_out": "Вийти",
@@ -1246,16 +765,6 @@
         "description": "Все активы",
         "type": "text"
     },
-    "market_bottomTabLabel2": "Список спостереження",
-    "@market_bottomTabLabel2": {
-        "description": "Список наблюдения",
-        "type": "text"
-    },
-    "market_bottomTabLabel3": "Крипто-набори",
-    "@market_bottomTabLabel3": {
-        "description": "Крипто-наборы",
-        "type": "text"
-    },
     "market_bottomTabLabel4": "Активи, що дорожчають",
     "@market_bottomTabLabel4": {
         "description": "Активы, которые дорожают",
@@ -1271,19 +780,9 @@
         "description": "Крипта",
         "type": "text"
     },
-    "market_nft_items": "пункти",
-    "@market_nft_items": {
-        "description": "пункты",
-        "type": "text"
-    },
     "market_nft_show": "Показувати",
     "@market_nft_show": {
         "description": "Показывать",
-        "type": "text"
-    },
-    "market_nft_done": "Готово",
-    "@market_nft_done": {
-        "description": "Готово",
         "type": "text"
     },
     "operationName_transferByPhone": "Переказ телефоном",
@@ -1316,25 +815,14 @@
         "description": "Купить",
         "type": "text"
     },
-    "operationName_deposit": "Отримати",
-    "@operationName_deposit": {
-        "description": "Получить",
-        "type": "text"
-    },
     "operationName_feeSharePayment": "Частка нагороди за реферальною програмою",
     "@operationName_feeSharePayment": {
         "description": "Часть вознаграждения по реферальной программе",
         "type": "text"
     },
-    "operationName_swap": "Swap",
     "operationName_withdrawalFee": "Комісія за зняття коштів",
     "@operationName_withdrawalFee": {
         "description": "Комиссия за снятие средств",
-        "type": "text"
-    },
-    "operationName_rewardPayment": "Бонус реферальної програми",
-    "@operationName_rewardPayment": {
-        "description": "Бонус реферальной программы",
         "type": "text"
     },
     "operationName_simplex": "Simplex",
@@ -1351,26 +839,6 @@
     "operationName_return_from_earn": "Повернуто з Earn",
     "@operationName_return_from_earn": {
         "description": "Возвращено из Earn",
-        "type": "text"
-    },
-    "portfolioWithBalance_all": "Усе",
-    "@portfolioWithBalance_all": {
-        "description": "Все",
-        "type": "text"
-    },
-    "portfolioWithBalance_crypto": "Крипта",
-    "@portfolioWithBalance_crypto": {
-        "description": "Крипта",
-        "type": "text"
-    },
-    "portfolioWithBalance_fiat": "Фіат",
-    "@portfolioWithBalance_fiat": {
-        "description": "Фиат",
-        "type": "text"
-    },
-    "emptyWalletBody_all": "Усе",
-    "@emptyWalletBody_all": {
-        "description": "Все",
         "type": "text"
     },
     "localizedChartResolutionButton_all": "Усе",
@@ -1403,34 +871,9 @@
         "description": "Купить",
         "type": "text"
     },
-    "news_title": "новини",
-    "@news_title": {
-        "description": "новости",
-        "type": "text"
-    },
-    "news_retry": "Спробуйте ще раз",
-    "@news_retry": {
-        "description": "Попробуйте еще раз",
-        "type": "text"
-    },
-    "newsList_noNewsYet": "Новин поки що немає",
-    "@newsList_noNewsYet": {
-        "description": "Новостей пока нет",
-        "type": "text"
-    },
-    "newsList_text1": "Ваші новини з'являтимуться тут",
-    "@newsList_text1": {
-        "description": "Ваши новости будут появляться здесь",
-        "type": "text"
-    },
     "newsList_wentWrongText": "Щось пішло не так під час завантаження даних",
     "@newsList_wentWrongText": {
         "description": "Что-то пошло не так при загрузке данных",
-        "type": "text"
-    },
-    "newsList_cryptoPanic": "Крипто-паніка",
-    "@newsList_cryptoPanic": {
-        "description": "Крипто-паника",
         "type": "text"
     },
     "transactionsList_retry": "Спробуйте ще раз",
@@ -1441,76 +884,6 @@
     "transactionsList_noTransactionsYet": "Ще немає транзакцій",
     "@transactionsList_noTransactionsYet": {
         "description": "Еще нет транзакций",
-        "type": "text"
-    },
-    "earnAdvantages_tradeAndWithdrawMoneyWithoutLimits": "Торгуйте та знімайте кошти без обмежень",
-    "@earnAdvantages_tradeAndWithdrawMoneyWithoutLimits": {
-        "description": "Торгуйте и снимайте средства без ограничений",
-        "type": "text"
-    },
-    "earnAdvantages_noMinimumMonthlyBalance": "Без мінімального щомісячного залишку",
-    "@earnAdvantages_noMinimumMonthlyBalance": {
-        "description": "Без минимального ежемесячного остатка",
-        "type": "text"
-    },
-    "earnAdvantages_interestCalculatedEveryDay": "Відсотки нараховуються щодня та",
-    "@earnAdvantages_interestCalculatedEveryDay": {
-        "description": "Проценты начисляются ежедневно и",
-        "type": "text"
-    },
-    "earnAdvantages_pricesMayVaryDependingOn": "Тарифи можуть бути змінені в залежності від",
-    "@earnAdvantages_pricesMayVaryDependingOn": {
-        "description": "Тарифы могут быть изменены в зависимости от",
-        "type": "text"
-    },
-    "earnAdvantages_paidOnTheFirstDayOfEveryMonth": "виплачується в перший день кожного місяця",
-    "@earnAdvantages_paidOnTheFirstDayOfEveryMonth": {
-        "description": "выплачивается в первый день каждого месяца",
-        "type": "text"
-    },
-    "earnAdvantages_theMarketSituation": "ситуація на ринку",
-    "@earnAdvantages_theMarketSituation": {
-        "description": "ситуация на рынке",
-        "type": "text"
-    },
-    "earnBodyHeader_upTo": "До",
-    "@earnBodyHeader_upTo": {
-        "description": "До",
-        "type": "text"
-    },
-    "earnBodyHeader_text1Part2": "на вкладену криптовалюту",
-    "@earnBodyHeader_text1Part2": {
-        "description": "на вложенную криптовалюту",
-        "type": "text"
-    },
-    "earnBodyHeader_text1Part1": "відсоток",
-    "@earnBodyHeader_text1Part1": {
-        "description": "процент",
-        "type": "text"
-    },
-    "emptyPortfolioBody_startEarn": "Почніть заробляти",
-    "@emptyPortfolioBody_startEarn": {
-        "description": "Начните зарабатывать",
-        "type": "text"
-    },
-    "emptyPortfolioBody_cryptoWorkForYou": "Дозвольте криптовалюті працювати на вас",
-    "@emptyPortfolioBody_cryptoWorkForYou": {
-        "description": "Разрешите криптовалюте работать на вас",
-        "type": "text"
-    },
-    "emptyPortfolioBody_text1Part2": "Заробляйте, торгуйте та знімайте кошти без обмежень",
-    "@emptyPortfolioBody_text1Part2": {
-        "description": "Зарабатывайте, торгуйте и снимайте средства без ограничений",
-        "type": "text"
-    },
-    "emptyPortfolioBodyTitle_interest": "відсоток",
-    "@emptyPortfolioBodyTitle_interest": {
-        "description": "процент",
-        "type": "text"
-    },
-    "emptyPortfolioBodyTitle_upTo": "На актив",
-    "@emptyPortfolioBodyTitle_upTo": {
-        "description": "На актив",
         "type": "text"
     },
     "walletCardCollapsed_balanceInProcess": "в процесі",
@@ -1538,16 +911,6 @@
         "description": "Отклонено",
         "type": "text"
     },
-    "balanceInProcess_balanceInProcess": "В процесі",
-    "@balanceInProcess_balanceInProcess": {
-        "description": "В процессе",
-        "type": "text"
-    },
-    "transactionListItem_balanceInProcess": "В процесі",
-    "@transactionListItem_balanceInProcess": {
-        "description": "В процессе",
-        "type": "text"
-    },
     "transactionListItem_forText": "Для",
     "@transactionListItem_forText": {
         "description": "Для",
@@ -1558,81 +921,6 @@
         "description": "В процессе",
         "type": "text"
     },
-    "portfolioWithBalanceBody_balanceInProcess": "В процесі",
-    "@portfolioWithBalanceBody_balanceInProcess": {
-        "description": "В процессе",
-        "type": "text"
-    },
-    "portfolioWithBalanceBody_all": "Усе",
-    "@portfolioWithBalanceBody_all": {
-        "description": "Все",
-        "type": "text"
-    },
-    "portfolioWithBalanceBody_deposit": "Депозит",
-    "@portfolioWithBalanceBody_deposit": {
-        "description": "Депозит",
-        "type": "text"
-    },
-    "portfolioWithBalanceBody_transactions": "транзакції",
-    "@portfolioWithBalanceBody_transactions": {
-        "description": "транзакции",
-        "type": "text"
-    },
-    "portfolioWithBalanceBody_simplex": "Купити - Simplex",
-    "@portfolioWithBalanceBody_simplex": {
-        "description": "Купить - Simplex",
-        "type": "text"
-    },
-    "portfolioWithBalanceBody_send": "Відправка",
-    "@portfolioWithBalanceBody_send": {
-        "description": "Отправка",
-        "type": "text"
-    },
-    "portfolioWithBalanceBody_showZeroBalanceWallets": "Приховати нульові гаманці",
-    "@portfolioWithBalanceBody_showZeroBalanceWallets": {
-        "description": "Скрыть нулевые кошельки",
-        "type": "text"
-    },
-    "portfolioWithBalanceBody_showAllWallets": "Показувати всі гаманці",
-    "@portfolioWithBalanceBody_showAllWallets": {
-        "description": "Показывать все кошельки",
-        "type": "text"
-    },
-    "portfolioWithBalanceBody_week": "Тиждень",
-    "@portfolioWithBalanceBody_week": {
-        "description": "Неделя",
-        "type": "text"
-    },
-    "portfolioWithBalanceBody_month": "Місяць",
-    "@portfolioWithBalanceBody_month": {
-        "description": "Месяц",
-        "type": "text"
-    },
-    "portfolioWithBalanceBody_today": "Сьогодні",
-    "@portfolioWithBalanceBody_today": {
-        "description": "Сегодня",
-        "type": "text"
-    },
-    "portfolioWithBalanceBody_portfolio": "Портфель",
-    "@portfolioWithBalanceBody_portfolio": {
-        "description": "Портфель",
-        "type": "text"
-    },
-    "portfolioWithBalanceBody_selling_at": "Продаж за адресою",
-    "@portfolioWithBalanceBody_selling_at": {
-        "description": "Продажа по адресу",
-        "type": "text"
-    },
-    "portfolioWithBalanceBody_selling": "Продаж",
-    "@portfolioWithBalanceBody_selling": {
-        "description": "Продажа",
-        "type": "text"
-    },
-    "portfolioWithBalanceBody_items": "елементи",
-    "@portfolioWithBalanceBody_items": {
-        "description": "элементы",
-        "type": "text"
-    },
     "actionDeposit_fiat": "Фіат",
     "@actionDeposit_fiat": {
         "description": "Фиат",
@@ -1641,31 +929,6 @@
     "actionDeposit_crypto": "Крипта",
     "@actionDeposit_crypto": {
         "description": "Крипта",
-        "type": "text"
-    },
-    "actionDeposit_bottomSheetHeaderName1": "Оберіть актив для депозиту",
-    "@actionDeposit_bottomSheetHeaderName1": {
-        "description": "Выберите актив для депозита",
-        "type": "text"
-    },
-    "actionDeposit_deposit": "Депозит",
-    "@actionDeposit_deposit": {
-        "description": "Депозит",
-        "type": "text"
-    },
-    "actionButton_deposit": "Депозит",
-    "@actionButton_deposit": {
-        "description": "Депозит",
-        "type": "text"
-    },
-    "actionButton_receive": "Отримати",
-    "@actionButton_receive": {
-        "description": "Получить",
-        "type": "text"
-    },
-    "actionButton_action": "Дія",
-    "@actionButton_action": {
-        "description": "Действие",
         "type": "text"
     },
     "returnRateItem_week": "Тиждень",
@@ -1688,22 +951,12 @@
         "description": "Купить",
         "type": "text"
     },
-    "curencyBuy_crypto": "Крипта",
-    "@curencyBuy_crypto": {
-        "description": "Крипта",
-        "type": "text"
-    },
     "curencyBuy_actionItemName": "Банківська картка - Simplex",
     "@curencyBuy_actionItemName": {
         "description": "Банковская карта - Simplex",
         "type": "text"
     },
     "curencyBuy_actionItemDescription": "Visa, Mastercard, Apple Pay",
-    "curencyBuy_NumericKeyboardButtonName2": "Попередній перегляд купівлі",
-    "@curencyBuy_NumericKeyboardButtonName2": {
-        "description": "Предварительный просмотр покупки",
-        "type": "text"
-    },
     "curencyBuy_pleaseWait": "Будь ласка, зачекайте",
     "@curencyBuy_pleaseWait": {
         "description": "Пожалуйста, подождите",
@@ -1749,16 +1002,6 @@
         "description": "Окончательная цена будет пересчитана на основе рыночной цены на момент, когда мы получим подтверждение вашей оплаты",
         "type": "text"
     },
-    "previewBuyWithCircle_youWillPay": "Ви заплатите",
-    "@previewBuyWithCircle_youWillPay": {
-        "description": "Вы заплатите",
-        "type": "text"
-    },
-    "previewBuyWithCircle_buy": "Купити",
-    "@previewBuyWithCircle_buy": {
-        "description": "Купить",
-        "type": "text"
-    },
     "previewBuyWithCircle_youWillGet": "Ви отримаєте",
     "@previewBuyWithCircle_youWillGet": {
         "description": "Вы получите",
@@ -1779,29 +1022,9 @@
         "description": "через несколько дней.",
         "type": "text"
     },
-    "buyWithCircle_paymentWillBeProcessed": "Ваш платіж буде оброблений протягом",
-    "@buyWithCircle_paymentWillBeProcessed": {
-        "description": "Ваш платеж будет обработан в течение",
-        "type": "text"
-    },
-    "buyWithCircle_minutes": "хвилини",
-    "@buyWithCircle_minutes": {
-        "description": "минуты",
-        "type": "text"
-    },
     "previewBuyWithAsset_youPay": "Ви платите",
     "@previewBuyWithAsset_youPay": {
         "description": "Вы платите",
-        "type": "text"
-    },
-    "previewBuyWithAsset_nextPayment": "Наступний платіж",
-    "@previewBuyWithAsset_nextPayment": {
-        "description": "Следующий платеж",
-        "type": "text"
-    },
-    "previewBuyWithAsset_crypto": "Крипта",
-    "@previewBuyWithAsset_crypto": {
-        "description": "Крипта",
         "type": "text"
     },
     "previewBuyWithAsset_youGet": "Ви отримаєте",
@@ -1849,11 +1072,6 @@
         "description": "Цитата обновлена",
         "type": "text"
     },
-    "balanceActionButtons_sell": "Продати",
-    "@balanceActionButtons_sell": {
-        "description": "Продать",
-        "type": "text"
-    },
     "balanceActionButtons_buy": "Купити",
     "@balanceActionButtons_buy": {
         "description": "Купить",
@@ -1872,11 +1090,6 @@
     "actionReceive_receive": "Отримати",
     "@actionReceive_receive": {
         "description": "Получить",
-        "type": "text"
-    },
-    "actionReceive_receive_crypto": "Отримати крипту",
-    "@actionReceive_receive_crypto": {
-        "description": "Получить крипту",
         "type": "text"
     },
     "maximum": "Максимум",
@@ -1899,26 +1112,6 @@
         "description": "уровень защиты",
         "type": "text"
     },
-    "actionBuy_bottomSheetHeaderName1": "Виберіть актив для купівлі",
-    "@actionBuy_bottomSheetHeaderName1": {
-        "description": "Выберите актив для покупки",
-        "type": "text"
-    },
-    "actionBuy_bottomSheetItemTitle1": "Купуйте за готівку",
-    "@actionBuy_bottomSheetItemTitle1": {
-        "description": "Покупайте за наличные",
-        "type": "text"
-    },
-    "actionBuy_bottomSheetItemTitle2": "Купуйте кредитною карткою або криптовалютою",
-    "@actionBuy_bottomSheetItemTitle2": {
-        "description": "Покупайте кредитной картой или криптовалютой",
-        "type": "text"
-    },
-    "actionBuy_actionWithOutRecurringBuyTitle2": "Купуйте за криптовалюту",
-    "@actionBuy_actionWithOutRecurringBuyTitle2": {
-        "description": "Покупайте за криптовалюту",
-        "type": "text"
-    },
     "actionBuy_kycRequired": "Для виведення коштів потрібен KYC",
     "@actionBuy_kycRequired": {
         "description": "Для вывода средств нужен KYC",
@@ -1939,23 +1132,7 @@
         "description": "Вы можете осуществить только одну транзакцию на сумму до $1000. Для снятия или пополнения счета необходимо пройти процедуру KYC.",
         "type": "text"
     },
-    "depositOptions_depositWith": "Поповнити рахунок на",
-    "@depositOptions_depositWith": {
-        "description": "Пополнить счет на",
-        "type": "text"
-    },
-    "depositOptions_wireTransfer": "Банківський переказ",
-    "@depositOptions_wireTransfer": {
-        "description": "Банковский перевод",
-        "type": "text"
-    },
-    "depositOptions_addBankCard": "Додати банківську картку",
-    "@depositOptions_addBankCard": {
-        "description": "Добавить банковскую карту",
-        "type": "text"
-    },
     "depositOptions_actionItemDescription1": "Visa, Mastercard",
-    "depositOptions_actionItemDescription2": "Sepa",
     "addButton_addBankCard": "Додати банківську картку",
     "@addButton_addBankCard": {
         "description": "Добавить банковскую карту",
@@ -1969,16 +1146,6 @@
     "noFee": "Без комісії",
     "@noFee": {
         "description": "Без комиссии",
-        "type": "text"
-    },
-    "actionReccuringInfoDetails_amount": "Сума",
-    "@actionReccuringInfoDetails_amount": {
-        "description": "Сумма",
-        "type": "text"
-    },
-    "paymentMethod_delete": "Видалити",
-    "@paymentMethod_delete": {
-        "description": "Удалить",
         "type": "text"
     },
     "paymentMethod_cancel": "Скасувати",
@@ -1996,36 +1163,6 @@
         "description": "Удалить карту",
         "type": "text"
     },
-    "paymentMethod_showAlertPopupSecondaryText": "Ви впевнені, що хочете видалити збережену картку",
-    "@paymentMethod_showAlertPopupSecondaryText": {
-        "description": "Вы уверены, что хотите удалить сохраненную карточку",
-        "type": "text"
-    },
-    "actionSell_bottomSheetHeaderName": "Виберіть актив для продажу",
-    "@actionSell_bottomSheetHeaderName": {
-        "description": "Выберите актив для продажи",
-        "type": "text"
-    },
-    "sendOptions_sendTo": "Відправити на адресу",
-    "@sendOptions_sendTo": {
-        "description": "Отправляйте на адрес",
-        "type": "text"
-    },
-    "sendOptions_actionItemName1": "Телефон",
-    "@sendOptions_actionItemName1": {
-        "description": "Телефон",
-        "type": "text"
-    },
-    "sendOptions_actionItemDescription1": "Просто виберіть друга з контактів",
-    "@sendOptions_actionItemDescription1": {
-        "description": "Просто выберите друга из контактов",
-        "type": "text"
-    },
-    "sendOptions_actionItemName2": "Крипто гаманець",
-    "@sendOptions_actionItemName2": {
-        "description": "Крипто кошелек",
-        "type": "text"
-    },
     "sendOptions_actionItemDescription2": "Надсилайте на будь-який гаманець",
     "@sendOptions_actionItemDescription2": {
         "description": "Присылайте на любой кошелек (адрес обязателен)",
@@ -2034,11 +1171,6 @@
     "actionSend_bottomSheetHeaderName": "Виберіть актив для відправки",
     "@actionSend_bottomSheetHeaderName": {
         "description": "Выберите актив для отправки",
-        "type": "text"
-    },
-    "actionWithdraw_bottomSheetHeaderName": "Виберіть актив для виведення",
-    "@actionWithdraw_bottomSheetHeaderName": {
-        "description": "Выберите актив для вывода",
         "type": "text"
     },
     "actionBottomSheetHeader_search": "Пошук",
@@ -2054,11 +1186,6 @@
     "countrySelectorButton_country": "Країна",
     "@countrySelectorButton_country": {
         "description": "Страна",
-        "type": "text"
-    },
-    "showDialCodePicker_searchCountry": "Пошук країни",
-    "@showDialCodePicker_searchCountry": {
-        "description": "Поиск страны",
         "type": "text"
     },
     "showCountrySelector_searchCountry": "Пошук країни",
@@ -2131,11 +1258,6 @@
         "description": "Срок действия",
         "type": "text"
     },
-    "addCircleCard_expiryYear": "Рік закінчення терміну дії",
-    "@addCircleCard_expiryYear": {
-        "description": "Год окончания срока действия",
-        "type": "text"
-    },
     "addCircleCard_saveCard": "Збережіть картку для подальших покупок",
     "@addCircleCard_saveCard": {
         "description": "Сохраните карту для дальнейших покупок",
@@ -2171,11 +1293,6 @@
         "description": "Выберите метод оплаты",
         "type": "text"
     },
-    "cardVerification_close": "Закрити",
-    "@cardVerification_close": {
-        "description": "Закрыть",
-        "type": "text"
-    },
     "cardVerification_title": "Верифікація картки",
     "@cardVerification_title": {
         "description": "Верификация карты",
@@ -2199,11 +1316,6 @@
     "cardVerification_digits": "16 цифр",
     "@cardVerification_digits": {
         "description": "16 цифр",
-        "type": "text"
-    },
-    "cardVerification_creditCard": "Кредитна картка",
-    "@cardVerification_creditCard": {
-        "description": "Кредитная карта",
         "type": "text"
     },
     "cardVerification_uploadPhoto": "Завантажити фотографію",
@@ -2236,11 +1348,6 @@
         "description": "Ваше лицо",
         "type": "text"
     },
-    "cardVerification_faceDescription": "Будь ласка, надішліть селфі, на якому ви тримаєте картку, якою було здійснено платіж.",
-    "@cardVerification_faceDescription": {
-        "description": "Пожалуйста, пришлите селфи, на котором вы держите карту, которой был осуществлен платеж.",
-        "type": "text"
-    },
     "cardVerification_takeSelfie": "Зробіть селфі",
     "@cardVerification_takeSelfie": {
         "description": "Сделайте селфи",
@@ -2249,11 +1356,6 @@
     "cardVerification_takePhoto": "Сфотографуйте",
     "@cardVerification_takePhoto": {
         "description": "Сфотографируйте",
-        "type": "text"
-    },
-    "cardVerification_selfieWithCard": "Селфі з карткою",
-    "@cardVerification_selfieWithCard": {
-        "description": "Селфи с картой",
         "type": "text"
     },
     "cardVerification_reviewCompleted": "Огляд завершено",
@@ -2269,11 +1371,6 @@
     "cardVerification_verificationProcess": "Процес верифікації зазвичай займає не більше 15 хвилин",
     "@cardVerification_verificationProcess": {
         "description": "Процесс верификации обычно занимает не более 15 минут",
-        "type": "text"
-    },
-    "cardVerification_cardInReview": "Ваша картка вже знаходиться на розгляді. Будь ласка, спробуйте ще раз пізніше.",
-    "@cardVerification_cardInReview": {
-        "description": "Ваша карточка уже находится на рассмотрении. Пожалуйста, попробуйте еще раз позже.",
         "type": "text"
     },
     "showNoResponseScreen_text": "Немає відповіді від сервера",
@@ -2301,26 +1398,6 @@
         "description": "Неудача",
         "type": "text"
     },
-    "withdrawalPreview_close": "Закрити",
-    "@withdrawalPreview_close": {
-        "description": "Закрыть",
-        "type": "text"
-    },
-    "sendByPhonePreview_editOrder": "Редагувати замовлення",
-    "@sendByPhonePreview_editOrder": {
-        "description": "Редактировать заказ",
-        "type": "text"
-    },
-    "sendByPhonePreview_failure": "Невдача",
-    "@sendByPhonePreview_failure": {
-        "description": "Неудача",
-        "type": "text"
-    },
-    "sendByPhonePreview_close": "Закрити",
-    "@sendByPhonePreview_close": {
-        "description": "Закрыть",
-        "type": "text"
-    },
     "simplexWebView_minutes": "хвилини",
     "@simplexWebView_minutes": {
         "description": "минуты",
@@ -2342,16 +1419,6 @@
         "description": "Неудача",
         "type": "text"
     },
-    "simplexWebView_close": "Закрити",
-    "@simplexWebView_close": {
-        "description": "Закрыть",
-        "type": "text"
-    },
-    "previewConvert_close": "Закрити",
-    "@previewConvert_close": {
-        "description": "Закрыть",
-        "type": "text"
-    },
     "previewConvert_editOrder": "Редагувати замовлення",
     "@previewConvert_editOrder": {
         "description": "Редактировать заказ",
@@ -2367,11 +1434,6 @@
         "description": "Неудача",
         "type": "text"
     },
-    "previewConvert_confirmConvert": "Підтвердити конвертацію",
-    "@previewConvert_confirmConvert": {
-        "description": "Подтвердить конвертацию",
-        "type": "text"
-    },
     "convertRow_available": "Доступно",
     "@convertRow_available": {
         "description": "Доступно",
@@ -2380,11 +1442,6 @@
     "convert_convert": "Обмін",
     "@convert_convert": {
         "description": "Конвертировать",
-        "type": "text"
-    },
-    "convert_previewConvert": "Попередній перегляд конвертації",
-    "@convert_previewConvert": {
-        "description": "Предварительный просмотр конвертации",
         "type": "text"
     },
     "previewSell_confirm": "Підтвердити",
@@ -2410,16 +1467,6 @@
     "previewConvert_exchangeRate": "Обмінний курс",
     "@previewConvert_exchangeRate": {
         "description": "Обменный курс",
-        "type": "text"
-    },
-    "previewConvert_youPay": "Ви платите",
-    "@previewConvert_youPay": {
-        "description": "Вы платите",
-        "type": "text"
-    },
-    "previewConvert_youGet": "Ви отримаєте",
-    "@previewConvert_youGet": {
-        "description": "Вы получите",
         "type": "text"
     },
     "previewConvert_confirm": "Підтвердити",
@@ -2502,11 +1549,6 @@
         "description": "Поделиться",
         "type": "text"
     },
-    "deepLinkService_share": "Поділитися",
-    "@deepLinkService_share": {
-        "description": "Поделиться",
-        "type": "text"
-    },
     "cryptoDeposit_my": "Моя",
     "@cryptoDeposit_my": {
         "description": "Мой",
@@ -2532,11 +1574,6 @@
         "description": "Подтвердить покупку",
         "type": "text"
     },
-    "previewBuyWithAsset_editOrder": "Редагувати замовлення",
-    "@previewBuyWithAsset_editOrder": {
-        "description": "Редактировать заказ",
-        "type": "text"
-    },
     "previewBuyWithAsset_orderProcessing": "Обробка замовлення",
     "@previewBuyWithAsset_orderProcessing": {
         "description": "Обработка заказа",
@@ -2547,39 +1584,14 @@
         "description": "Неудача",
         "type": "text"
     },
-    "previewBuyWithAsset_close": "Закрити",
-    "@previewBuyWithAsset_close": {
-        "description": "Закрыть",
-        "type": "text"
-    },
-    "recurringSelector_withOutRecurringBuyTitle": "Повторити цю покупку",
-    "@recurringSelector_withOutRecurringBuyTitle": {
-        "description": "Повторить эту покупку",
-        "type": "text"
-    },
     "buySimplexDetails_payFrom": "Сплачуйте з",
     "@buySimplexDetails_payFrom": {
         "description": "Платите из",
         "type": "text"
     },
-    "previewBuyWith_text1": "буде залежати від ринкової ціни на момент виконання Рекурентної покупки",
-    "@previewBuyWith_text1": {
-        "description": "будет зависеть от рыночной цены на момент выполнения Рекуррентной покупки",
-        "type": "text"
-    },
-    "previewBuyWith_theAmountOf": "Сума в розмірі",
-    "@previewBuyWith_theAmountOf": {
-        "description": "Сумма в размере",
-        "type": "text"
-    },
     "previewSell_confirmSell": "Підтвердити Продаж",
     "@previewSell_confirmSell": {
         "description": "Подтвердить Продажу",
-        "type": "text"
-    },
-    "previewSell_close": "Закрити",
-    "@previewSell_close": {
-        "description": "Закрыть",
         "type": "text"
     },
     "previewSell_failure": "Невдача",
@@ -2647,11 +1659,6 @@
         "description": "Отправить",
         "type": "text"
     },
-    "localizedActionItems_convert": "Конвертувати",
-    "@localizedActionItems_convert": {
-        "description": "Конвертировать",
-        "type": "text"
-    },
     "minimumAmount_noMinimum": "Без мінімуму",
     "@minimumAmount_noMinimum": {
         "description": "Без минимума",
@@ -2666,11 +1673,6 @@
     "showDepositDisclaimer_send": "Надсилайте",
     "@showDepositDisclaimer_send": {
         "description": "Отправляйте",
-        "type": "text"
-    },
-    "referralCodeLink_pushAllowCamera": "Щоб відсканувати QR-код, надайте дозвіл Simple на доступ до камери",
-    "@referralCodeLink_pushAllowCamera": {
-        "description": "Чтобы отсканировать QR-код, предоставьте разрешение Simple на доступ к камере",
         "type": "text"
     },
     "valid": "Дійсна",
@@ -2693,46 +1695,6 @@
         "description": "Вы подтвердили некорректную операцию",
         "type": "text"
     },
-    "sendByPhoneConfirm_your": "Ваш",
-    "@sendByPhoneConfirm_your": {
-        "description": "Ваш",
-        "type": "text"
-    },
-    "sendByPhoneConfirm_editOrder": "Редагувати замовлення",
-    "@sendByPhoneConfirm_editOrder": {
-        "description": "Редактировать заказ",
-        "type": "text"
-    },
-    "sendByPhoneConfirm_failedToResend": "Не вдалося надіслати повторно. Будь ласка, спробуйте ще раз",
-    "@sendByPhoneConfirm_failedToResend": {
-        "description": "Не удалось отправить повторно. Попробуйте еще раз",
-        "type": "text"
-    },
-    "sendByPhoneConfirm_failure": "Невдача",
-    "@sendByPhoneConfirm_failure": {
-        "description": "Неудача",
-        "type": "text"
-    },
-    "sendByPhoneConfirm_close": "Закрити",
-    "@sendByPhoneConfirm_close": {
-        "description": "Закрыть",
-        "type": "text"
-    },
-    "sendByPhoneConfirm_send": "Надіслати",
-    "@sendByPhoneConfirm_send": {
-        "description": "Отправить",
-        "type": "text"
-    },
-    "sendByPhoneConfirm_requestHasBeenSubmitted": "запит надіслано",
-    "@sendByPhoneConfirm_requestHasBeenSubmitted": {
-        "description": "запрос отправлен",
-        "type": "text"
-    },
-    "sendByPhoneConfirm_failedTo": "Не вдалося",
-    "@sendByPhoneConfirm_failedTo": {
-        "description": "Не удалось",
-        "type": "text"
-    },
     "withdrawalAmount_available": "Доступно",
     "@withdrawalAmount_available": {
         "description": "Доступно",
@@ -2741,11 +1703,6 @@
     "withdrawalAmount_enterMoreThan": "Введіть більше, ніж",
     "@withdrawalAmount_enterMoreThan": {
         "description": "Введите больше, чем",
-        "type": "text"
-    },
-    "withdrawalAmount_youWillReceive": "Ви отримаєте",
-    "@withdrawalAmount_youWillReceive": {
-        "description": "Вы получите",
         "type": "text"
     },
     "withdrawalAmount_youWillSend": "Ви надішлете",
@@ -2758,49 +1715,9 @@
         "description": "кошелёк",
         "type": "text"
     },
-    "withdrawalAmount_preview": "Попередній перегляд",
-    "@withdrawalAmount_preview": {
-        "description": "Предварительный просмотр",
-        "type": "text"
-    },
-    "walletBody_wallet": "гаманець",
-    "@walletBody_wallet": {
-        "description": "кошелёк",
-        "type": "text"
-    },
-    "balanceBlock_wallet": "гаманець",
-    "@balanceBlock_wallet": {
-        "description": "кошелёк",
-        "type": "text"
-    },
-    "emptyWallet_wallet": "гаманець",
-    "@emptyWallet_wallet": {
-        "description": "кошелёк",
-        "type": "text"
-    },
-    "withdrawalPreview_youWillReceive": "Ви отримаєте",
-    "@withdrawalPreview_youWillReceive": {
-        "description": "Вы получите",
-        "type": "text"
-    },
-    "withdrawalPreview_youWillSend": "Ви надішлете",
-    "@withdrawalPreview_youWillSend": {
-        "description": "Вы отправите",
-        "type": "text"
-    },
     "withdrawalPreview_confirm": "Підтвердити",
     "@withdrawalPreview_confirm": {
         "description": "Подтвердить",
-        "type": "text"
-    },
-    "withdrawalPreview_total": "Всього",
-    "@withdrawalPreview_total": {
-        "description": "Всего",
-        "type": "text"
-    },
-    "openEmailAppButton_openEmailApp": "Відкрити додаток електронної пошти",
-    "@openEmailAppButton_openEmailApp": {
-        "description": "Открыть приложение электронной почты",
         "type": "text"
     },
     "uploadKycDocuments_done": "Готово",
@@ -2874,11 +1791,6 @@
         "description": "Обратная сторона",
         "type": "text"
     },
-    "showContactPermission_goToSettings": "Перейдіть до налаштувань",
-    "@showContactPermission_goToSettings": {
-        "description": "Перейдите к настройкам",
-        "type": "text"
-    },
     "allowCamera_goToSettings": "Перейдіть до налаштувань",
     "@allowCamera_goToSettings": {
         "description": "Перейдите к настройкам",
@@ -2902,16 +1814,6 @@
     "allowCamera_headerTitle2": "Дозволити доступ до камери",
     "@allowCamera_headerTitle2": {
         "description": "Разрешить доступ к камере",
-        "type": "text"
-    },
-    "allowFaceId_headerTitle1": "Дайте дозвіл на використання Face ID",
-    "@allowFaceId_headerTitle1": {
-        "description": "Дайте разрешение на использование Face ID",
-        "type": "text"
-    },
-    "allowFaceId_headerTitle2": "Якщо ви хочете використовувати Face ID для розблокування, увімкніть його в налаштуваннях",
-    "@allowFaceId_headerTitle2": {
-        "description": "Если вы хотите использовать Face ID для разблокировки, включите его в настройках",
         "type": "text"
     },
     "allowBiometric_headerTitle1": "Дайте дозвіл на використання біометрії",
@@ -2981,11 +1883,6 @@
     },
     "marketNewsBlock_readMore": "Читати більше",
     "@marketNewsBlock_readMore": {
-        "description": "Читать больше",
-        "type": "text"
-    },
-    "deepLinkService_readMore": "Читати більше",
-    "@deepLinkService_readMore": {
         "description": "Читать больше",
         "type": "text"
     },
@@ -3099,11 +1996,6 @@
         "description": "Нет сохраненных карт",
         "type": "text"
     },
-    "paymentMethods_savedCards": "Збережені картки",
-    "@paymentMethods_savedCards": {
-        "description": "Сохраненные карты",
-        "type": "text"
-    },
     "changeNumberButton_changeNumber": "Змінити номер",
     "@changeNumberButton_changeNumber": {
         "description": "Изменить номер",
@@ -3129,21 +2021,6 @@
         "description": "OK",
         "type": "text"
     },
-    "send_timer_alert_description": "Виведення коштів недоступне до тих пір, поки",
-    "@send_timer_alert_description": {
-        "description": "Вывод средств недоступен до тех пор, пока",
-        "type": "text"
-    },
-    "sendHelperText_text": "Почніть вводити номер телефону або ім'я з телефонної книги",
-    "@sendHelperText_text": {
-        "description": "Начните вводить номер телефона или имя из телефонной книги",
-        "type": "text"
-    },
-    "sendInfoText_text": "Я хочу скористатися телефонною книгою",
-    "@sendInfoText_text": {
-        "description": "Я хочу воспользоваться телефонной книгой",
-        "type": "text"
-    },
     "sendAlert_description": "У вас немає криптовалюти для відправки",
     "@sendAlert_description": {
         "description": "У вас нет криптовалюты для отправки",
@@ -3159,111 +2036,6 @@
         "description": "Покупайте криптовалюту за наличные",
         "type": "text"
     },
-    "showContactPicker_phoneNumber": "Номер телефону",
-    "@showContactPicker_phoneNumber": {
-        "description": "Номер телефона",
-        "type": "text"
-    },
-    "showContactPermission_primaryText": "Надати дозвіл на використання телефонної книги",
-    "@showContactPermission_primaryText": {
-        "description": "Предоставить разрешение на использование телефонной книги",
-        "type": "text"
-    },
-    "showUsePhonebookAlert_enterManually": "Введіть вручну",
-    "@showUsePhonebookAlert_enterManually": {
-        "description": "Введите вручную",
-        "type": "text"
-    },
-    "showContactPermission_enterManually": "Введіть вручну",
-    "@showContactPermission_enterManually": {
-        "description": "Введите вручную",
-        "type": "text"
-    },
-    "showUsePhonebookAlert_usePhonebook": "Використовуйте телефонну книгу",
-    "@showUsePhonebookAlert_usePhonebook": {
-        "description": "Используйте телефонную книгу",
-        "type": "text"
-    },
-    "sendByPhoneAmount_send": "Надіслати",
-    "@sendByPhoneAmount_send": {
-        "description": "Отправить",
-        "type": "text"
-    },
-    "sendByPhoneAmount_available": "Доступно",
-    "@sendByPhoneAmount_available": {
-        "description": "Доступно",
-        "type": "text"
-    },
-    "sendByPhoneAmount_previewSend": "Продовжити",
-    "@sendByPhoneAmount_previewSend": {
-        "description": "Продолжить",
-        "type": "text"
-    },
-    "sendByPhoneRecipient_later": "Пізніше",
-    "@sendByPhoneRecipient_later": {
-        "description": "Позже",
-        "type": "text"
-    },
-    "sendByPhoneRecipient_headerTitle": "Сповістити одержувача про відправлений лист",
-    "@sendByPhoneRecipient_headerTitle": {
-        "description": "Оповестить получателя об отправленном письме",
-        "type": "text"
-    },
-    "sendByPhoneRecipient_text1": "Цей номер телефону не прив'язаний до облікового запису Simple",
-    "@sendByPhoneRecipient_text1": {
-        "description": "Этот номер телефона не привязан к учетной записи Simple",
-        "type": "text"
-    },
-    "sendByPhoneRecipient_text2": "Надіслати повідомлення як отримати кошти",
-    "@sendByPhoneRecipient_text2": {
-        "description": "Отправить сообщение как получить средства",
-        "type": "text"
-    },
-    "sendByPhoneRecipient_text3": "Я надіслав тобі трохи грошей на",
-    "@sendByPhoneRecipient_text3": {
-        "description": "Я отправил тебе немного денег на",
-        "type": "text"
-    },
-    "sendByPhoneRecipient_text4": "Будь ласка, встановіть додаток Simple, щоб отримати їх",
-    "@sendByPhoneRecipient_text4": {
-        "description": "Пожалуйста, установите приложение Simple, чтобы получить их",
-        "type": "text"
-    },
-    "sendByPhoneNotifyRecipient_sendAMessage": "Надіслати повідомлення",
-    "@sendByPhoneNotifyRecipient_sendAMessage": {
-        "description": "Отправить сообщение",
-        "type": "text"
-    },
-    "sendByPhonePreview_youSendTo": "Ви надсилаєте на адресу",
-    "@sendByPhonePreview_youSendTo": {
-        "description": "Вы отправляете на адрес",
-        "type": "text"
-    },
-    "sendByPhonePreview_send": "Надіслати",
-    "@sendByPhonePreview_send": {
-        "description": "Отправить",
-        "type": "text"
-    },
-    "sendByPhonePreview_confirm": "Підтвердити",
-    "@sendByPhonePreview_confirm": {
-        "description": "Подтвердить",
-        "type": "text"
-    },
-    "sendByPhonePreview_total": "Всього",
-    "@sendByPhonePreview_total": {
-        "description": "Всего",
-        "type": "text"
-    },
-    "sendByPhonePreview_amountToSend": "Сума для відправки",
-    "@sendByPhonePreview_amountToSend": {
-        "description": "Сумма для отправки",
-        "type": "text"
-    },
-    "sendByPhonePreview_byPhone": "телефоном",
-    "@sendByPhonePreview_byPhone": {
-        "description": "телефоном",
-        "type": "text"
-    },
     "smsAuth_headerTitle": "SMS-автентифікатор",
     "@smsAuth_headerTitle": {
         "description": "SMS-аутентификатор",
@@ -3274,40 +2046,9 @@
         "description": "Курс",
         "type": "text"
     },
-    "transaction1": "транзакція",
-    "@transaction1": {
-        "description": "транзакция",
-        "type": "text"
-    },
-    "walletBody_transactions": "транзакції",
-    "@walletBody_transactions": {
-        "description": "транзакции",
-        "type": "text"
-    },
     "transactionItem_copied": "скопійовано",
     "@transactionItem_copied": {
         "description": "скопировано",
-        "type": "text"
-    },
-    "emailConfirmedSuccessText_yourEmailAddress": "Ваша електронна адреса",
-    "@emailConfirmedSuccessText_yourEmailAddress": {
-        "description": "Ваш электронный адрес",
-        "type": "text"
-    },
-    "emailConfirmedSuccessText_isConfirmed": "підтверджено",
-    "@emailConfirmedSuccessText_isConfirmed": {
-        "description": "подтверждено",
-        "type": "text"
-    },
-    "withdrawOptions_wallet": "Гаманець",
-    "@withdrawOptions_wallet": {
-        "description": "Кошелек",
-        "type": "text"
-    },
-    "withdrawOptions_actionItemDescription1": "Sepa",
-    "withdrawOptions_actionItemName1": "Крипто гаманець",
-    "@withdrawOptions_actionItemName1": {
-        "description": "Крипто кошелек",
         "type": "text"
     },
     "withdrawOptions_sendTo": "Відправити на адресу",
@@ -3315,19 +2056,9 @@
         "description": "Отправляйте на адрес",
         "type": "text"
     },
-    "withdrawOptions_wireTransfer": "Банківський переказ",
-    "@withdrawOptions_wireTransfer": {
-        "description": "Банковский перевод",
-        "type": "text"
-    },
     "cryptoDeposit_address": "Адреса",
     "@cryptoDeposit_address": {
         "description": "Адрес",
-        "type": "text"
-    },
-    "convertKycDocuments_fileSide": "Фото документу",
-    "@convertKycDocuments_fileSide": {
-        "description": "Фото документа",
         "type": "text"
     },
     "uploadKycDocuments_upload": "Завантажити",
@@ -3345,39 +2076,14 @@
         "description": "Перевод",
         "type": "text"
     },
-    "withdrawDetails_amount": "Сума",
-    "@withdrawDetails_amount": {
-        "description": "Сумма",
-        "type": "text"
-    },
     "withdrawDetails_internalTransfer": "Внутрішній переказ",
     "@withdrawDetails_internalTransfer": {
         "description": "Внутренний перевод",
         "type": "text"
     },
-    "withdrawDetails_withdrawalTo": "Відправити на адресу",
-    "@withdrawDetails_withdrawalTo": {
-        "description": "Отправляйте на адрес",
-        "type": "text"
-    },
     "withdrawDetails_fee": "комісія",
     "@withdrawDetails_fee": {
         "description": "комиссия",
-        "type": "text"
-    },
-    "sActionConfirm_defaultAlert": "Підключення до сервера... Будь ласка, зачекайте або спробуйте пізніше",
-    "@sActionConfirm_defaultAlert": {
-        "description": "Подключение к серверу... Пожалуйста, подождите или попробуйте позже",
-        "type": "text"
-    },
-    "sPaymentSelectEmpty_buyOnlyWithCrypto": "Купуйте тільки за криптовалюту",
-    "@sPaymentSelectEmpty_buyOnlyWithCrypto": {
-        "description": "Покупайте только за криптовалюту",
-        "type": "text"
-    },
-    "sLightStandart_bothProvidedText": "Controller та initialValue не можуть бути надані одночасно",
-    "@sLightStandart_bothProvidedText": {
-        "description": "Controller и initialValue не могут быть предоставлены одновременно",
         "type": "text"
     },
     "sDocumentRecommendation_primaryText1": "У документі має бути чітко вказано",
@@ -3420,16 +2126,6 @@
         "description": "Крипто-паника",
         "type": "text"
     },
-    "deepLinkService_referralLinkCopied": "Реферальне посилання скопійовано",
-    "@deepLinkService_referralLinkCopied": {
-        "description": "Реферальная ссылка скопирована",
-        "type": "text"
-    },
-    "deepLinkService_referralLink": "Реферальне посилання",
-    "@deepLinkService_referralLink": {
-        "description": "Реферальная ссылка",
-        "type": "text"
-    },
     "rewards_referralStats": "Статистика рефералів",
     "@rewards_referralStats": {
         "description": "Статистика рефералов",
@@ -3470,16 +2166,6 @@
         "description": "Пожалуйста, подождите",
         "type": "text"
     },
-    "setPhoneNumber_enterPhoneNumber": "Введіть номер телефону",
-    "@setPhoneNumber_enterPhoneNumber": {
-        "description": "Введите номер телефона",
-        "type": "text"
-    },
-    "setPhoneNumber_text1": "Це дозволить вам надсилати та отримувати криптовалюту телефоном",
-    "@setPhoneNumber_text1": {
-        "description": "Это позволит вам отправлять и получать криптовалюту по телефону",
-        "type": "text"
-    },
     "setPhoneNumber_code": "Код",
     "@setPhoneNumber_code": {
         "description": "Код",
@@ -3505,11 +2191,6 @@
         "description": "Пожалуйста, подождите",
         "type": "text"
     },
-    "forgotPassword_pleaseWait": "Будь ласка, зачекайте",
-    "@forgotPassword_pleaseWait": {
-        "description": "Пожалуйста, подождите",
-        "type": "text"
-    },
     "paymentMethods_pleaseWait": "Будь ласка, зачекайте",
     "@paymentMethods_pleaseWait": {
         "description": "Пожалуйста, подождите",
@@ -3520,29 +2201,9 @@
         "description": "Пожалуйста, подождите",
         "type": "text"
     },
-    "login_pleaseWait": "Будь ласка, зачекайте",
-    "@login_pleaseWait": {
-        "description": "Пожалуйста, подождите",
-        "type": "text"
-    },
     "launchUrl_couldNotLaunch": "Не вдалося запустити",
     "@launchUrl_couldNotLaunch": {
         "description": "Не удалось запустить",
-        "type": "text"
-    },
-    "portfolioWith_balanceProcess": "У процесі",
-    "@portfolioWith_balanceProcess": {
-        "description": "В процессе",
-        "type": "text"
-    },
-    "portfolioWith_zeroWallets": "Приховати нульові гаманці",
-    "@portfolioWith_zeroWallets": {
-        "description": "Скрыть нулевые кошельки",
-        "type": "text"
-    },
-    "portfolioWith_showWallets": "Показати всі гаманці",
-    "@portfolioWith_showWallets": {
-        "description": "Показать все кошельки",
         "type": "text"
     },
     "noInternetConnection_header": "З'єднання відсутнє",
@@ -3557,16 +2218,6 @@
     "y": "Y",
     "vol": "Vol",
     "h": "h",
-    "showContactsPermission_secondaryText1": "Легко запрошувати друзів, обираючи їх з адресної книги на телефоні",
-    "@showContactsPermission_secondaryText1": {
-        "description": "Легко приглашать друзей, выбирая их из адресной книги на телефоне",
-        "type": "text"
-    },
-    "showContactsPermission_secondaryText2": "В іншому випадку вам доведеться вводити контактну інформацію окремо",
-    "@showContactsPermission_secondaryText2": {
-        "description": "В противном случае вам придется вводить контактную информацию отдельно",
-        "type": "text"
-    },
     "chooseDocument_camera": "камера",
     "@chooseDocument_camera": {
         "description": "камера",
@@ -3699,14 +2350,6 @@
         "description": "осталось часов",
         "type": "text"
     },
-    "login_policyText3": "і",
-    "@login_policyText3": {
-        "description": "Privacy Policy Text (part 3)"
-    },
-    "login_policyText4": "Privacy Policy",
-    "@login_policyText4": {
-        "description": "Privacy Policy Text (part 4) - last part"
-    },
     "return_to_wallet_return_to_wallet": "Відшкодуйте зароблене",
     "@return_to_wallet_return_to_wallet": {
         "description": "Возместите заработанное",
@@ -3718,7 +2361,6 @@
         "description": "Доступно",
         "type": "text"
     },
-    "return_to_wallet_max_preset": "MAX",
     "return_to_wallet_preview": "Попередній перегляд",
     "@return_to_wallet_preview": {
         "description": "Предварительный просмотр",
@@ -3774,26 +2416,6 @@
         "description": "Неудача",
         "type": "text"
     },
-    "failure_preview_return_to_wallet_close": "Закрити",
-    "@failure_preview_return_to_wallet_close": {
-        "description": "Закрыть",
-        "type": "text"
-    },
-    "onboarding_buy_crypto": "Купуйте криптовалюту банківською карткою",
-    "@onboarding_buy_crypto": {
-        "description": "Покупайте криптовалюту банковской карточкой",
-        "type": "text"
-    },
-    "onboarding_free_worldwide_transfers": "Безкоштовні перекази по всьому світу",
-    "@onboarding_free_worldwide_transfers": {
-        "description": "Бесплатные переводы по всему миру",
-        "type": "text"
-    },
-    "onboarding_exchange_any_crypto": "Обмінюйте будь-яку криптовалюту",
-    "@onboarding_exchange_any_crypto": {
-        "description": "Обменивайте любую криптовалюту",
-        "type": "text"
-    },
     "pinScreen_forgotYourPin": "Забули свій пін-код",
     "@pinScreen_forgotYourPin": {
         "description": "Забыли свой пин-код",
@@ -3847,26 +2469,6 @@
     "deleteProfileConditions_menuOneSubTitle": "Ваш загальний баланс:␣",
     "@deleteProfileConditions_menuOneSubTitle": {
         "description": "Ваш общий баланс:␣",
-        "type": "text"
-    },
-    "deleteProfileConditions_menuTwoTitle": "Скасуйте всі свої підписки",
-    "@deleteProfileConditions_menuTwoTitle": {
-        "description": "Отмените все свои подписки",
-        "type": "text"
-    },
-    "deleteProfileConditions_menuTwoSubTitle": "У вас є ",
-    "@deleteProfileConditions_menuTwoSubTitle": {
-        "description": "У вас есть␣",
-        "type": "text"
-    },
-    "deleteProfileConditions_menuTwoSubTitle2": "підписки",
-    "@deleteProfileConditions_menuTwoSubTitle2": {
-        "description": "подписки",
-        "type": "text"
-    },
-    "deleteProfileConditions_menuTwoSubTitle3": "У вас немає жодної підписки",
-    "@deleteProfileConditions_menuTwoSubTitle3": {
-        "description": "У вас нет ни одной подписки",
         "type": "text"
     },
     "deleteProfileConditions_warning": "Цей процес незворотній! Всі кошти, що залишилися на вашому балансі, будуть втрачені. \n\nВи будете миттєво видалені з Simple на всіх ваших пристроях.",
@@ -3939,16 +2541,6 @@
         "description": "Мы не смогли отменить транзакцию",
         "type": "text"
     },
-    "currencyBuy_limit": "ліміт",
-    "@currencyBuy_limit": {
-        "description": "лимит",
-        "type": "text"
-    },
-    "currencyBuy_addPaymentMethod": "Додати метод оплати",
-    "@currencyBuy_addPaymentMethod": {
-        "description": "Добавить метод оплаты",
-        "type": "text"
-    },
     "previewBuyWithCircle_cardIsProcessing": "Картка обробляється платіжним провайдером. Це може зайняти до 10 хвилин",
     "@previewBuyWithCircle_cardIsProcessing": {
         "description": "Карта обрабатывается платежным провайдером. Это может занять до 10 минут",
@@ -3972,11 +2564,6 @@
     "previewBuyWithCircle_failureAnotherCard": "Спробуйте іншу картку",
     "@previewBuyWithCircle_failureAnotherCard": {
         "description": "Попробуйте другую карту",
-        "type": "text"
-    },
-    "previewBuyWithCircle_failureCancel": "Скасувати",
-    "@previewBuyWithCircle_failureCancel": {
-        "description": "Отмена",
         "type": "text"
     },
     "previewBuyWithCircle_pleaseWait": "Будь ласка, зачекайте",
@@ -4049,11 +2636,6 @@
         "description": "Лимит на 30 дней",
         "type": "text"
     },
-    "paymentMethodsSheet_learnMore": "Дізнатися більше",
-    "@paymentMethodsSheet_learnMore": {
-        "description": "Узнать больше",
-        "type": "text"
-    },
     "paymentMethodsSheet_hourLeft": "залишилася година",
     "@paymentMethodsSheet_hourLeft": {
         "description": "остался час",
@@ -4079,38 +2661,18 @@
         "description": "Обработка...",
         "type": "text"
     },
-    "waitingScreen_description": "Зазвичай це займає 30-60 секунд",
-    "@waitingScreen_description": {
-        "description": "Обычно это занимает 30-60 секунд",
-        "type": "text"
-    },
-    "operationName_buyWithCard": "Купуйте карткою",
-    "@operationName_buyWithCard": {
-        "description": "Покупайте карточкой",
-        "type": "text"
-    },
     "curencyBuy_unlimint": "банківська картка",
     "@curencyBuy_unlimint": {
         "description": "банковская карта",
         "type": "text"
     },
     "curencyBuy_actionItemDescriptionWithoutApplePay": "Visa, Mastercard",
-    "currencyBuy_morePaymentMethod": "Більше способів оплати",
-    "@currencyBuy_morePaymentMethod": {
-        "description": "Больше способов оплаты",
-        "type": "text"
-    },
     "previewBuyWithUmlimint_disclaimer": "Я прочитав та погоджуюся з",
     "@previewBuyWithUmlimint_disclaimer": {
         "description": "Я прочитал и согласен с",
         "type": "text"
     },
     "previewBuyWithUmlimint_disclaimerTerms": "Положення та Умови",
-    "previewBuyWithUmlimint_skipWait": "Закрити",
-    "@previewBuyWithUmlimint_skipWait": {
-        "description": "Закрыть",
-        "type": "text"
-    },
     "previewBuyWithUmlimint_disclaimerPolicy": "Політика конфіденційності",
     "previewBuyWithUmlimint_saveCard": "Зберегти цю картку",
     "@previewBuyWithUmlimint_saveCard": {
@@ -4137,11 +2699,6 @@
         "description": "Плата за услуги третьей стороны",
         "type": "text"
     },
-    "previewBuyWithUnlimint_feeDescription": "Це стягується компанією Simple для покриття витрат, пов'язаних з обробкою платежів.",
-    "@previewBuyWithUnlimint_feeDescription": {
-        "description": "Это взимается компанией Simple для покрытия расходов, связанных с обработкой платежей.",
-        "type": "text"
-    },
     "previewBuyWithUnlimint_from": "Від",
     "@previewBuyWithUnlimint_from": {
         "description": "От",
@@ -4150,11 +2707,6 @@
     "user_data_whats_your_name": "Персональні дані",
     "@user_data_whats_your_name": {
         "description": "Персональные данные",
-        "type": "text"
-    },
-    "user_data_no_referral_code": "У мене є реферальний код/посилання",
-    "@user_data_no_referral_code": {
-        "description": "У меня есть реферальный код/ссылка",
         "type": "text"
     },
     "user_data_first_name": "Ім'я",
@@ -4222,21 +2774,6 @@
         "description": "Позже",
         "type": "text"
     },
-    "forgot_pass_dialog_title": "Забули пін-код?",
-    "@forgot_pass_dialog_title": {
-        "description": "Забыли пин-код?",
-        "type": "text"
-    },
-    "forgot_pass_dialog_text": "Ви можете його скинути. Після входу в систему створіть новий PIN-код",
-    "@forgot_pass_dialog_text": {
-        "description": "Вы можете его сбросить. После входа в систему создайте новый PIN-код",
-        "type": "text"
-    },
-    "forgot_pass_dialog_btn_reset": "Скинути PIN-код та вийти з системи",
-    "@forgot_pass_dialog_btn_reset": {
-        "description": "Сбросить PIN-код и выйти из системы",
-        "type": "text"
-    },
     "forgot_pass_dialog_btn_cancel": "Скасувати",
     "@forgot_pass_dialog_btn_cancel": {
         "description": "Отмена",
@@ -4257,11 +2794,6 @@
         "description": "Вам должно исполниться 18 лет, чтобы завершить регистрацию",
         "type": "text"
     },
-    "operationName_send": "Відправка",
-    "@operationName_send": {
-        "description": "Отправка",
-        "type": "text"
-    },
     "operationName_receive": "Отримати",
     "@operationName_receive": {
         "description": "Получить",
@@ -4270,11 +2802,6 @@
     "cardVerification_coverSymbols": "Переконайтеся, що ви приховали тризначний код безпеки (CVC/CCV), прикривши його пальцем під час фотографування.",
     "@cardVerification_coverSymbols": {
         "description": "Убедитесь, что вы скрыли трехзначный код безопасности (CVC/CCV), прикрыв его пальцем во время фотографирования.",
-        "type": "text"
-    },
-    "nft_share": "Поділитися",
-    "@nft_share": {
-        "description": "Поделиться",
         "type": "text"
     },
     "buySellDetails_yourReceived": "Ви отримали",
@@ -4372,18 +2899,8 @@
         "description": "Получение кода с помощью телефонного звонка",
         "type": "text"
     },
-    "profileDetails_didNotReceive": "Не отримали код?",
-    "@profileDetails_didNotReceive": {
-        "description": "Не получили код?",
-        "type": "text"
-    },
     "profileDetails_waitForCall": "Чекайте на телефонний дзвінок",
     "@profileDetails_waitForCall": {
-        "description": "Ждите телефонного звонка",
-        "type": "text"
-    },
-    "market_allCrypto": "Вся криптовалюта",
-    "@market_allCrypto": {
         "description": "Ждите телефонного звонка",
         "type": "text"
     },
@@ -4427,11 +2944,6 @@
         "description": "Обмен",
         "type": "text"
     },
-    "previewBuyWithUmlimint_close": "Закрити",
-    "@previewBuyWithUmlimint_close": {
-        "description": "Закрыть",
-        "type": "text"
-    },
     "twoFaPhone_youCanReceive": "Ви можете отримати код повторно через",
     "@twoFaPhone_youCanReceive": {
         "description": "Вы можете получить код с помощью телефонного звонка через",
@@ -4447,25 +2959,9 @@
         "description": "Отправить",
         "type": "text"
     },
-    "walletBody_balance": "баланс",
-    "@walletBody_balance": {
-        "description": "баланс",
-        "type": "text"
-    },
-    "balanceBlock_balance": "баланс",
-    "@balanceBlock_balance": {
-        "description": "баланс",
-        "type": "text"
-    },
-    "emptyWallet_balance": "баланс",
     "sPaymentSelectEmpty_somethingWentWrong": "Щось пішло не так",
     "@sPaymentSelectEmpty_somethingWentWrong": {
         "description": "Что-то пошло не так",
-        "type": "text"
-    },
-    "sPaymentSelectEmpty_contactSupport": "Зверніться до нашої служби підтримки",
-    "@sPaymentSelectEmpty_contactSupport": {
-        "description": "Обратитесь в нашу службу поддержки",
         "type": "text"
     },
     "favorite": "Улюблений",
@@ -4483,29 +2979,14 @@
         "description": "Вы можете осуществить только одну транзакцию на сумму до $700 (или эквивалент этой суммы в другой фиатной валюте). Чтобы снять или добавить больше средств, нужно пройти процедуру KYC.",
         "type": "text"
     },
-    "portfolioWithBalanceBody_my_assets": "Мої активи",
-    "@portfolioWithBalanceBody_my_assets": {
-        "description": "Мои активы",
-        "type": "text"
-    },
     "balanceActionButtons_exchange": "Обмін",
     "@balanceActionButtons_exchange": {
         "description": "Обмен",
         "type": "text"
     },
-    "bottom_bar_my_assets": "Гаманці",
-    "@bottom_bar_my_assets": {
-        "description": "Кошельки",
-        "type": "text"
-    },
     "bottom_bar_market": "Ринок",
     "@bottom_bar_market": {
         "description": "Рынок",
-        "type": "text"
-    },
-    "actionBuy_chooseAsset": "Виберіть актив",
-    "@actionBuy_chooseAsset": {
-        "description": "Выберите актив",
         "type": "text"
     },
     "actionBuy_cards": "Картки",
@@ -4521,16 +3002,6 @@
     "paymentMethod_yesDelete": "Видалити",
     "@paymentMethod_yesDelete": {
         "description": "Удалить",
-        "type": "text"
-    },
-    "paymentMethod_showAlertPopupSecondaryFullText": "Ви впевнені, що хочете назавжди видалити цю картку зі свого облікового запису",
-    "@paymentMethod_showAlertPopupSecondaryFullText": {
-        "description": "Вы уверены, что хотите навсегда удалить эту карту из своей учетной записи",
-        "type": "text"
-    },
-    "previewBuyWithCircle_cvvNewDescription": "Зазвичай трицифровий код CVV знаходиться на звороті картки",
-    "@previewBuyWithCircle_cvvNewDescription": {
-        "description": "Обычно трехзначный код CVV находится на обратной стороне карты",
         "type": "text"
     },
     "currencyBuy_chooseCurrency": "Вибрати валюту",
@@ -4607,11 +3078,6 @@
     "showDepositDisclaimer_primatyTextOnly": "Тільки",
     "@showDepositDisclaimer_primatyTextOnly": {
         "description": "Только",
-        "type": "text"
-    },
-    "profileDetails_changePhoneAlert2": "Зверніть увагу, що після зміни номера телефону всі виведення коштів будуть заблоковані ",
-    "@profileDetails_changePhoneAlert2": {
-        "description": "Обратите внимание, что после смены номера телефона все выводы средств будут заблокированы␣",
         "type": "text"
     },
     "account_verified": "Перевірено",
@@ -4842,21 +3308,6 @@
         "description": "От",
         "type": "text"
     },
-    "previewBuyWithCircle_bankCardFee": "Комісія за використання банківської картки",
-    "@previewBuyWithCircle_bankCardFee": {
-        "description": "Комиссия за использование банковской карты",
-        "type": "text"
-    },
-    "trade_timer_alert_description": "Обмін недоступний до",
-    "@trade_timer_alert_description": {
-        "description": "Обмен недоступен до тех пор, пока",
-        "type": "text"
-    },
-    "deposit_timer_alert_description": "Покупки та депозити призупиняються до тих пір, поки",
-    "@deposit_timer_alert_description": {
-        "description": "Покупки и депозиты приостанавливаются до тех пор, пока",
-        "type": "text"
-    },
     "date": "Дата",
     "@date": {
         "description": "Дата",
@@ -4870,21 +3321,6 @@
     "operationName_buyGooglePay": "Купуйте з Google Pay",
     "@operationName_buyGooglePay": {
         "description": "Покупайте с Google Pay",
-        "type": "text"
-    },
-    "phone_update_block": "Оновлення телефону призупинено до",
-    "@phone_update_block": {
-        "description": "Обновление телефона приостановлено до",
-        "type": "text"
-    },
-    "myAssets_settings": "Налаштування моїх активів",
-    "@myAssets_settings": {
-        "description": "Настройка моих активов",
-        "type": "text"
-    },
-    "myAssets_hideZero": "Приховати нульовий баланс",
-    "@myAssets_hideZero": {
-        "description": "Скрыть нулевой баланс",
         "type": "text"
     },
     "operationName_rewardReferral": "Винагорода за реферала",
@@ -4910,11 +3346,6 @@
     "paid_with_gpay": "Оплачено за допомогою Google Pay",
     "@paid_with_gpay": {
         "description": "Оплачено с помощью Google Pay",
-        "type": "text"
-    },
-    "sendOptions_actionItemName3": "Надіслати за телефоном",
-    "@sendOptions_actionItemName3": {
-        "description": "Отправить по телефону",
         "type": "text"
     },
     "kycChooseDocuments_proceedYourDocument": "Будь ласка, продовжуйте перевірку з будь-яким з наведених нижче документів.",
@@ -4957,29 +3388,14 @@
         "description": "Дата",
         "type": "text"
     },
-    "send_globally_card": "картка",
-    "@send_globally_card": {
-        "description": "карта",
-        "type": "text"
-    },
     "send_globally_con_rate": "Обмінний курс",
     "@send_globally_con_rate": {
         "description": "Обменный курс",
         "type": "text"
     },
-    "send_globally_processing_fee": "Комісія за обробку",
-    "@send_globally_processing_fee": {
-        "description": "Комиссия за обработку",
-        "type": "text"
-    },
     "send_globally_transfer_info": "Зазвичай переказ обробляється протягом 30 хвилин, іноді до 24 годин",
     "@send_globally_transfer_info": {
         "description": "Обычно перевод обрабатывается в течение 30 минут, иногда до 24 часов",
-        "type": "text"
-    },
-    "send_globally_fail_info": "Закрити",
-    "@send_globally_fail_info": {
-        "description": "Закрыть",
         "type": "text"
     },
     "send_globally_success": "Успішно!",
@@ -5005,16 +3421,6 @@
     "send_globally": "Відправляйте по всьому світу",
     "@send_globally": {
         "description": "Отправляйте по всему миру",
-        "type": "text"
-    },
-    "send_globally_amount_in_eur": "Сума в євро",
-    "@send_globally_amount_in_eur": {
-        "description": "Сумма в евро",
-        "type": "text"
-    },
-    "iban_send_info": "Будь ласка, зверніть увагу, що ви можете відправляти тільки на свої особисті банківські рахунки",
-    "@iban_send_info": {
-        "description": "Пожалуйста, обратите внимание, что вы можете отправлять только на свои личные банковские счета",
         "type": "text"
     },
     "iban_euro_balance": "Баланс в євро",
@@ -5045,11 +3451,6 @@
     "iban_label": "Лейбл",
     "@iban_label": {
         "description": "Лейбл",
-        "type": "text"
-    },
-    "send_globally_history_title": "Відправлено",
-    "@send_globally_history_title": {
-        "description": "Отправлено",
         "type": "text"
     },
     "iban_edit_bank_account": "Редагування",
@@ -5087,33 +3488,8 @@
         "description": "Реквизиты счета были удалены",
         "type": "text"
     },
-    "iban_out_send": "Надіслати",
-    "@iban_out_send": {
-        "description": "Отправить",
-        "type": "text"
-    },
-    "iban_out_label": "Лейбл",
-    "@iban_out_label": {
-        "description": "Лейбл",
-        "type": "text"
-    },
     "iban_out_iban": "IBAN",
     "iban_out_bic": "BIC",
-    "iban_out_you_send": "Ви відправляєте",
-    "@iban_out_you_send": {
-        "description": "Вы отправляете",
-        "type": "text"
-    },
-    "iban_out_fee": "Комісія",
-    "@iban_out_fee": {
-        "description": "Комиссия",
-        "type": "text"
-    },
-    "iban_out_total": "Всього",
-    "@iban_out_total": {
-        "description": "Всего",
-        "type": "text"
-    },
     "iban_out_descr_1": "SEPA Instant - до 2 годин",
     "@iban_out_descr_1": {
         "description": "SEPA Instant - до 2 часов",
@@ -5129,29 +3505,14 @@
         "description": "Банк-получатель может взимать дополнительную комиссию.",
         "type": "text"
     },
-    "iban_send_history_title": "Надіслати",
-    "@iban_send_history_title": {
-        "description": "Отправить",
-        "type": "text"
-    },
     "iban_send_history_transaction_id": "ID транзакції",
     "@iban_send_history_transaction_id": {
         "description": "ID транзакции",
         "type": "text"
     },
-    "iban_send_history_transaction_fee": "Комісія",
-    "@iban_send_history_transaction_fee": {
-        "description": "Комиссия",
-        "type": "text"
-    },
     "iban_send_history_send_to": "Адреса отримувача",
     "@iban_send_history_send_to": {
         "description": "Адрес получателя",
-        "type": "text"
-    },
-    "iban_send_accounts": "Акаунти",
-    "@iban_send_accounts": {
-        "description": "Аккаунты",
         "type": "text"
     },
     "global_send_name": "По всьому світу",
@@ -5164,33 +3525,11 @@
         "description": "На банковскую карту или телефон",
         "type": "text"
     },
-    "iban_send_name": "Банківський рахунок",
-    "@iban_send_name": {
-        "description": "Банковский счет",
-        "type": "text"
-    },
-    "iban_send_helper": "Банківський переказ SEPA",
-    "@iban_send_helper": {
-        "description": "Банковский перевод SEPA",
-        "type": "text"
-    },
     "send_globally_cond_text_1": "1. Я підтверджую, що наведена вище інформація є точною та повною.",
     "@send_globally_cond_text_1": {
         "description": "1. Я подтверждаю, что приведенная выше информация является точной и полной.",
         "type": "text"
     },
-    "send_globally_cond_text_2": "Правила та умови програми \"Відправляй по всьому світу\"",
-    "@send_globally_cond_text_2": {
-        "description": "Правила и условия программы \"Отправляй по всему миру\"",
-        "type": "text"
-    },
-    "send_globally_cond_text_3": "T&C of Earn Global Ltd",
-    "send_globally_cond_text_4": "та",
-    "@send_globally_cond_text_4": {
-        "description": "и",
-        "type": "text"
-    },
-    "send_globally_cond_text_5": "Privacy Policy of Earn Global Ltd",
     "limitIsExceeded": "Ліміт перевищено, будь ласка, спробуйте пізніше",
     "@limitIsExceeded": {
         "description": "Лимит превышен, пожалуйста, попробуйте позже",
@@ -5241,11 +3580,6 @@
         "description": "Не удалось",
         "type": "text"
     },
-    "transactionItem_copied_up": "Скопійовано",
-    "@transactionItem_copied_up": {
-        "description": "Скопировано",
-        "type": "text"
-    },
     "send_globally_cond_text_6": "3. Я розумію, що цей грошовий переказ обробляється через мережу P2P. Організатором P2P-переказів є Payport LLC.",
     "@send_globally_cond_text_6": {
         "description": "3. Я понимаю, что этот денежный перевод в большей степени обрабатывается через сеть P2P. Организатором P2P-переводов является Payport LLC.",
@@ -5271,21 +3605,6 @@
         "description": "Выберите актив для отправки",
         "type": "text"
     },
-    "p2p_transfer": "Переказ P2P",
-    "@p2p_transfer": {
-        "description": "Перевод P2P",
-        "type": "text"
-    },
-    "global_send_you_send": "Ви відправляєте",
-    "@global_send_you_send": {
-        "description": "Вы отправляете",
-        "type": "text"
-    },
-    "global_send_est_amount": "Орієнтовна сума",
-    "@global_send_est_amount": {
-        "description": "Ориентировочная сумма",
-        "type": "text"
-    },
     "global_send_payment_method_title": "Метод оплати",
     "@global_send_payment_method_title": {
         "description": "Метод оплаты",
@@ -5304,16 +3623,6 @@
     "global_send_account_number": "Номер рахунку",
     "@global_send_account_number": {
         "description": "Номер счета",
-        "type": "text"
-    },
-    "global_send_beneficiary_name": "Реквізити для оплати",
-    "@global_send_beneficiary_name": {
-        "description": "Реквизиты для оплаты",
-        "type": "text"
-    },
-    "global_send_history_account_name": "Акаунт",
-    "@global_send_history_account_name": {
-        "description": "Аккаунт",
         "type": "text"
     },
     "global_send_history_beneficiary_name": "Ім'я бенефіціара",
@@ -5362,16 +3671,6 @@
         "description": "Общая оплата",
         "type": "text"
     },
-    "withdrawalPreview_receiverAmount": "Сума отримання",
-    "@withdrawalPreview_receiverAmount": {
-        "description": "Сумма получения",
-        "type": "text"
-    },
-    "send_globally_amount_in": "Сума в ",
-    "@send_globally_amount_in": {
-        "description": "Сумма в␣",
-        "type": "text"
-    },
     "global_send_history_sent": "Відправлено",
     "@global_send_history_sent": {
         "description": "Отправлено",
@@ -5397,11 +3696,6 @@
         "description": "Вывести",
         "type": "text"
     },
-    "withdrawal_withdrawal_noun": "Виведення коштів",
-    "@withdrawal_withdrawal_noun": {
-        "description": "Вывод средств",
-        "type": "text"
-    },
     "send_globally_cond_text_add_1": "2. Я згоден з ",
     "@send_globally_cond_text_add_1": {
         "description": "2. Я согласен с␣",
@@ -5422,11 +3716,6 @@
         "description": "Вы должны быть бенефициаром банковского счета",
         "type": "text"
     },
-    "historyRecurringBuys_noTransactionsYet": "Ще немає транзакцій",
-    "@historyRecurringBuys_noTransactionsYet": {
-        "description": "Еще нет транзакций",
-        "type": "text"
-    },
     "historyRecurringBuy_text1": "Ваші транзакції будуть відображатися тут",
     "@historyRecurringBuy_text1": {
         "description": "Ваши транзакции будут отображаться здесь",
@@ -5437,19 +3726,9 @@
         "description": "Получено",
         "type": "text"
     },
-    "operationName_exchanged": "Обмін",
-    "@operationName_exchanged": {
-        "description": "Обмен",
-        "type": "text"
-    },
     "operationName_sent": "Надіслано",
     "@operationName_sent": {
         "description": "Отправлено",
-        "type": "text"
-    },
-    "previewBuyWithCircle_youWillGetApproximately": "Ви отримаєте приблизно",
-    "@previewBuyWithCircle_youWillGetApproximately": {
-        "description": "Вы получите примерно",
         "type": "text"
     },
     "paymentMethod_showAlertPopupSecondaryDescrText": "Ви впевнені, що хочете видалити збережену картку?",
@@ -5512,19 +3791,9 @@
         "description": "Карта Simple",
         "type": "text"
     },
-    "card_claim_card": "Замовити картку!",
-    "@card_claim_card": {
-        "description": "Карта-заявление Simple",
-        "type": "text"
-    },
     "card_main_text": "Simple картка незабаром з'явиться",
     "@card_main_text": {
         "description": "Simple карта скоро появится",
-        "type": "text"
-    },
-    "card_description": "Натисніть кнопку, щоб отримати картку!",
-    "@card_description": {
-        "description": "Нажмите кнопку, чтобы получить карту!",
         "type": "text"
     },
     "card_verify": "Будь ласка, верифікуйте свій обліковий запис, щоб отримати Simple картку",
@@ -5567,21 +3836,6 @@
         "description": "Комиссия за оплату",
         "type": "text"
     },
-    "history_our_fee": "Наша комісія",
-    "@history_our_fee": {
-        "description": "Наша комиссия",
-        "type": "text"
-    },
-    "history_approximately": "Приблизно",
-    "@history_approximately": {
-        "description": "Примерно",
-        "type": "text"
-    },
-    "history_payment_method": "Метод оплати",
-    "@history_payment_method": {
-        "description": "Метод оплаты",
-        "type": "text"
-    },
     "buy_payment_currency": "Валюта платежу",
     "@buy_payment_currency": {
         "description": "Валюта платежа",
@@ -5597,12 +3851,6 @@
         "description": "Карточки",
         "type": "text"
     },
-    "payment_method_local": "Локальний",
-    "@payment_method_local": {
-        "description": "Локальный",
-        "type": "text"
-    },
-    "payment_method_p2p": "P2P",
     "add_card_text": "Додати картку",
     "@add_card_text": {
         "description": "Добавить карту",
@@ -5613,34 +3861,9 @@
         "description": "Итог заказа",
         "type": "text"
     },
-    "buy_confirmation_payment_method": "Метод оплати",
-    "@buy_confirmation_payment_method": {
-        "description": "Метод оплаты",
-        "type": "text"
-    },
-    "buy_confirmation_buy_confirmation": "Обмінний курс",
-    "@buy_confirmation_buy_confirmation": {
-        "description": "Обменный курс",
-        "type": "text"
-    },
     "buy_confirmation_payment_fee": "Комісія за оплату",
     "@buy_confirmation_payment_fee": {
         "description": "Комиссия за оплату",
-        "type": "text"
-    },
-    "buy_confirmation_out_fee": "Наша комісія",
-    "@buy_confirmation_out_fee": {
-        "description": "Наша комиссия",
-        "type": "text"
-    },
-    "buy_confirmation_total": "Всього",
-    "@buy_confirmation_total": {
-        "description": "Всего",
-        "type": "text"
-    },
-    "buy_confirmation_local_info": "Курс обміну буде скориговано відповідно до ринкової\nціни на момент отримання підтвердження платежу",
-    "@buy_confirmation_local_info": {
-        "description": "Курс обмена будет скорректирован в соответствии с рыночной ценой на момент получения подтверждения платежа",
         "type": "text"
     },
     "buy_confirmation_privacy_checkbox_1": "Я прочитав та погоджуюся з ",
@@ -5650,56 +3873,6 @@
     },
     "buy_confirmation_privacy_checkbox_2": "Положення та Умови",
     "buy_confirmation_privacy_checkbox_3": "Політика конфіденційності",
-    "buy_confirmation_privacy_p2p_checkbox_1": "1. Я підтверджую, що наведена вище інформація є точною та повною.",
-    "@buy_confirmation_privacy_p2p_checkbox_1": {
-        "description": "1. Я подтверждаю, что приведенная выше информация является точной и полной.",
-        "type": "text"
-    },
-    "buy_confirmation_privacy_p2p_checkbox_1_5": "2. Я згоден з ",
-    "@buy_confirmation_privacy_p2p_checkbox_1_5": {
-        "description": "2. Я согласен с␣",
-        "type": "text"
-    },
-    "buy_confirmation_privacy_p2p_checkbox_2": "Simple P2P T&C",
-    "@buy_confirmation_privacy_p2p_checkbox_2": {
-        "description": "Это Terms & Conditions в которых описано как и на каких правах мы работаем с нашим партнером, предоставляющим услуги P2P. Это лучше оставить в оригинале на всех языках.",
-        "type": "text"
-    },
-    "buy_confirmation_privacy_p2p_checkbox_3": "3. Я розумію, що грошовий переказ за цю покупку здійснюється через мережу P2P.",
-    "@buy_confirmation_privacy_p2p_checkbox_3": {
-        "description": "3. Я понимаю, что денежный перевод за эту покупку осуществляется через сеть P2P.",
-        "type": "text"
-    },
-    "buy_confirmation_privacy_p2p_heckbox_4": "Детальніше",
-    "@buy_confirmation_privacy_p2p_heckbox_4": {
-        "description": "Подробнее",
-        "type": "text"
-    },
-    "buy_confirmation_privacy_p2p_popup": "Для того, щоб здійснити покупку за допомогою P2P-платежу, спочатку вам потрібно відправити P2P-переказ фізичній особі, дані якої будуть показані пізніше в процесі покупки. Після того, як цей P2P-переказ буде успішно здійснено, придбана криптовалюта буде зарахована на ваш рахунок у додатку Simple.",
-    "@buy_confirmation_privacy_p2p_popup": {
-        "description": "Для того, чтобы совершить покупку с помощью P2P-платежа, сначала вам нужно отправить P2P-перевод физическому лицу, данные которого будут показаны позже в процессе покупки. После того, как этот P2P-перевод будет успешно осуществлен, приобретенная криптовалюта будет зачислена на ваш счет в приложении Simple.",
-        "type": "text"
-    },
-    "buy_confirmation_transaction_fee": "Комісія",
-    "@buy_confirmation_transaction_fee": {
-        "description": "Комиссия",
-        "type": "text"
-    },
-    "buy_confirmation_third_party_fee": "Плата за послуги третьої сторони",
-    "@buy_confirmation_third_party_fee": {
-        "description": "Плата за услуги третьей стороны",
-        "type": "text"
-    },
-    "buy_confirmation_third_fee_descr": "Ця комісія стягується компанією Simple для покриття послуг наших партнерів по обробці даних",
-    "@buy_confirmation_third_fee_descr": {
-        "description": "Эта комиссия взимается компанией Simple для покрытия услуг наших партнеров по обработке данных",
-        "type": "text"
-    },
-    "buy_confirmation_local_p2p_processing_title": "Обробка...",
-    "@buy_confirmation_local_p2p_processing_title": {
-        "description": "Обработка...",
-        "type": "text"
-    },
     "buy_confirmation_local_p2p_processing_text": "Зараз ми обробляємо вашу покупку. Після успішного завершення придбана криптовалюта буде зарахована на рахунок вашого додатку Simple.",
     "@buy_confirmation_local_p2p_processing_text": {
         "description": "Сейчас мы обрабатываем вашу покупку. После успешного завершения приобретенная криптовалюта будет зачислена на счет вашего приложения Simple.",
@@ -5713,11 +3886,6 @@
     "card_delete_notification": "Реквізити картки було видалено",
     "@card_delete_notification": {
         "description": "Реквизиты карты были удалены",
-        "type": "text"
-    },
-    "start_your_journey": "Розпочніть свою подорож\nз додатком Simple",
-    "@start_your_journey": {
-        "description": "Начните свое путешествие\nс приложением Simple",
         "type": "text"
     },
     "buy_crypto": "Купити криптовалюту",
@@ -5743,11 +3911,6 @@
     "sendOptions_to_crypto_wallet": "На криптогаманець",
     "@sendOptions_to_crypto_wallet": {
         "description": "На криптокошелек",
-        "type": "text"
-    },
-    "sendOptions_to_bank_account": "На банківський рахунок",
-    "@sendOptions_to_bank_account": {
-        "description": "На банковский счет",
         "type": "text"
     },
     "send_gift": "Подарунок",
@@ -5796,29 +3959,9 @@
         "description": "Доступно",
         "type": "text"
     },
-    "send_gift_order_summary": "Підсумок замовлення",
-    "@send_gift_order_summary": {
-        "description": "Итог заказа",
-        "type": "text"
-    },
-    "send_gift_your_gift": "Ваш подарунок",
-    "@send_gift_your_gift": {
-        "description": "Ваш подарок",
-        "type": "text"
-    },
-    "send_gift_payment_method": "Метод оплати",
-    "@send_gift_payment_method": {
-        "description": "Метод оплаты",
-        "type": "text"
-    },
     "send_gift_simple_gift": "подарунок Simple",
     "@send_gift_simple_gift": {
         "description": "Подарок Simple",
-        "type": "text"
-    },
-    "send_gift_total_pay": "Загальна сума оплати",
-    "@send_gift_total_pay": {
-        "description": "Общая сумма оплаты",
         "type": "text"
     },
     "send_gift_you_sent": "Ви відправили",
@@ -5927,16 +4070,6 @@
         "description": "Да, отказаться",
         "type": "text"
     },
-    "gift_history_sent": "Відправлено",
-    "@gift_history_sent": {
-        "description": "Отправлено",
-        "type": "text"
-    },
-    "gift_history_received": "Прийнято",
-    "@gift_history_received": {
-        "description": "Принято",
-        "type": "text"
-    },
     "gift_history_remind": "Нагадати",
     "@gift_history_remind": {
         "description": "Напомнить",
@@ -5977,21 +4110,6 @@
         "description": "Обмен на актив",
         "type": "text"
     },
-    "send_gift_summary": "Огляд",
-    "@send_gift_summary": {
-        "description": "Обзор",
-        "type": "text"
-    },
-    "rewards_flow_card_title": "Запросіть друзів і отримайте \nдо 100 євро в криптовалюті",
-    "@rewards_flow_card_title": {
-        "description": "Пригласите друзей и получите \nдо 100 евро в криптовалюте",
-        "type": "text"
-    },
-    "rewards_flow_card_subtitle": "Для вас і ваших друзів після покупки ними криптовалюти на суму 350 євро або більше.",
-    "@rewards_flow_card_subtitle": {
-        "description": "Для вас и вашего друга после его покупки криптовалюты на сумму 350 евро или более.",
-        "type": "text"
-    },
     "rewards_flow_copy_link": "Посилання для запрошення:",
     "@rewards_flow_copy_link": {
         "description": "Скопируйте вашу ссылку для приглашения",
@@ -5999,11 +4117,6 @@
     },
     "rewards_flow_tab_title": "Нагороди",
     "@rewards_flow_tab_title": {
-        "description": "Вознаграждения",
-        "type": "text"
-    },
-    "rewards_flow_your_rewards": "Нагороди",
-    "@rewards_flow_your_rewards": {
         "description": "Вознаграждения",
         "type": "text"
     },
@@ -6115,11 +4228,6 @@
     "reward_share_main_text": "Отримайте до 100 EUR у крипті:\n1. Зареєструйтесь у Simple App за моїм запрошенням\n2. Купіть крипту карткою на €350+\n3. Отримайте винагороду!\nДіють умови та положення",
     "@reward_share_main_text": {
         "description": "Получите до EUR 100 в криптовалюте:\n1. Зарегистрируйтесь в приложении Simple по моей ссылке-приглашению.\n2. Приобретите криптовалюту на сумму от EUR 350 и более.\n3. Получите вознаграждение!\nДействуют условия и положения",
-        "type": "text"
-    },
-    "reward_history_from": "Від",
-    "@reward_history_from": {
-        "description": "От",
         "type": "text"
     },
     "bottom_bar_wallets": "Гаманці",
@@ -6237,11 +4345,6 @@
         "description": "Лейбл аккаунта",
         "type": "text"
     },
-    "wallet_deposit_details": "Деталі депозиту",
-    "@wallet_deposit_details": {
-        "description": "Детали депозита",
-        "type": "text"
-    },
     "transaction_tab_all": "Всі",
     "@transaction_tab_all": {
         "description": "Все",
@@ -6337,19 +4440,9 @@
         "description": "Начать",
         "type": "text"
     },
-    "create_personal_cancel": "Скасувати",
-    "@create_personal_cancel": {
-        "description": "Отменить",
-        "type": "text"
-    },
     "create_personal_creating": "Створення персонального акаунту...",
     "@create_personal_creating": {
         "description": "Создание персонального аккаунта...",
-        "type": "text"
-    },
-    "wallet_title": "Гаманець",
-    "@wallet_title": {
-        "description": "Кошелек",
         "type": "text"
     },
     "buy_confirmation_processing_fee": "Комісія за обробку",
@@ -6412,11 +4505,6 @@
         "description": "Оплатить с помощью",
         "type": "text"
     },
-    "pay_with_balances": "Баланси",
-    "@pay_with_balances": {
-        "description": "Балансы",
-        "type": "text"
-    },
     "create_simple_creating": "Створюється Simple акаунт...",
     "@create_simple_creating": {
         "description": "Создается Simple аккаунт...",
@@ -6447,11 +4535,6 @@
         "description": "Детали аккаунта",
         "type": "text"
     },
-    "my_wallets_actions_warning": "Операція не доступна. Будь ласка, зверніться до підтримки.",
-    "@my_wallets_actions_warning": {
-        "description": "Операция недоступна. Пожалуйста, обратитесь в службу поддержки.",
-        "type": "text"
-    },
     "buy_confirmation_subtitle": "Купити",
     "@buy_confirmation_subtitle": {
         "description": "Купить",
@@ -6460,11 +4543,6 @@
     "cvv_description": "Зазвичай CVV знаходиться на звороті картки",
     "@cvv_description": {
         "description": "Обычно CVV находится на обратной стороне карты",
-        "type": "text"
-    },
-    "operation_is_unavailable": "Операція не доступна. Будь ласка, зверніться до підтримки.",
-    "@operation_is_unavailable": {
-        "description": "Операция недоступна. Пожалуйста, обратитесь в службу поддержки.",
         "type": "text"
     },
     "iban_out_sent_to": "Відправити на адресу",
@@ -6477,19 +4555,9 @@
         "description": "Бенефициар",
         "type": "text"
     },
-    "iban_out_payment_fee": "Комісія за оплату",
-    "@iban_out_payment_fee": {
-        "description": "Комиссия за оплату",
-        "type": "text"
-    },
     "iban_send_history_payment_fee": "Комісія за оплату",
     "@iban_send_history_payment_fee": {
         "description": "Комиссия за оплату",
-        "type": "text"
-    },
-    "iban_send_history_processin_fee": "Комісія за обробку",
-    "@iban_send_history_processin_fee": {
-        "description": "Комиссия за обработку",
         "type": "text"
     },
     "withdrawal_withdrawn": "Виведено",
@@ -6535,11 +4603,6 @@
     "amount_screen_sell_to": "Продаємо на",
     "@amount_screen_sell_to": {
         "description": "Продаем",
-        "type": "text"
-    },
-    "amount_screen_convert_to": "Отримуємо",
-    "@amount_screen_convert_to": {
-        "description": "Получаем",
         "type": "text"
     },
     "sell_confirmation_subtitle": "Продати",
@@ -6616,11 +4679,6 @@
     "sell_amount_accounts": "Акаунти",
     "@sell_amount_accounts": {
         "description": "Аккаунты",
-        "type": "text"
-    },
-    "sell_amount_cryptocurrencies": "Криптовалюти",
-    "@sell_amount_cryptocurrencies": {
-        "description": "Криптовалюты",
         "type": "text"
     },
     "sell_success_cryptocurrencies": "Операцію зроблено",
@@ -6703,11 +4761,6 @@
         "description": "Создание карты...",
         "type": "text"
     },
-    "simple_card_get_card_now": "Отримати Simple картку",
-    "@simple_card_get_card_now": {
-        "description": "Получить Simple карту сейчас",
-        "type": "text"
-    },
     "simple_card_type": "Тип картки",
     "@simple_card_type": {
         "description": "Тип карты",
@@ -6748,41 +4801,6 @@
         "description": "Установка пароля",
         "type": "text"
     },
-    "simple_card_password_requirements": "Вимоги до пароля",
-    "@simple_card_password_requirements": {
-        "description": "Требования к паролю",
-        "type": "text"
-    },
-    "simple_card_password_requirements_1": "Мінімум 8 символів",
-    "@simple_card_password_requirements_1": {
-        "description": "Минимум 8 символов",
-        "type": "text"
-    },
-    "simple_card_password_requirements_2": "Містить принаймні 1 число",
-    "@simple_card_password_requirements_2": {
-        "description": "Содержит по крайней мере 1 число",
-        "type": "text"
-    },
-    "simple_card_password_requirements_3": "Містить принаймні 1 малу літеру",
-    "@simple_card_password_requirements_3": {
-        "description": "Содержит по крайней мере 1 маленькую букву",
-        "type": "text"
-    },
-    "simple_card_password_requirements_4": "Містить принаймні 1 велику літеру",
-    "@simple_card_password_requirements_4": {
-        "description": "Содержит по крайней мере 1 большую букву",
-        "type": "text"
-    },
-    "simple_card_password_requirements_description": "Важливо використовувати унікальний пароль і не використовувати повторно паролі від інших онлайн-платформ або додатків",
-    "@simple_card_password_requirements_description": {
-        "description": "Важно использовать уникальный пароль и не использовать повторно пароли от других онлайн-платформ или приложений",
-        "type": "text"
-    },
-    "simple_card_password_cancel": "Скасувати",
-    "@simple_card_password_cancel": {
-        "description": "Отменить",
-        "type": "text"
-    },
     "simple_card_password_create": "Створити пароль",
     "@simple_card_password_create": {
         "description": "Создать пароль",
@@ -6796,11 +4814,6 @@
     "simple_card_get_card": "Отримати картку",
     "@simple_card_get_card": {
         "description": "Получить карту",
-        "type": "text"
-    },
-    "simple_card_add_cash": "Поповнити",
-    "@simple_card_add_cash": {
-        "description": "Добавьте наличные",
         "type": "text"
     },
     "simple_card_show_details": "Деталі",
@@ -6852,11 +4865,6 @@
     "simple_card_copied": "Скопійовано!",
     "@simple_card_copied": {
         "description": "Скопировано!",
-        "type": "text"
-    },
-    "simple_card_creating_card": "Створення картки",
-    "@simple_card_creating_card": {
-        "description": "Создание карты",
         "type": "text"
     },
     "simple_card_spending_limits": "Ліміти витрат",
@@ -6924,11 +4932,6 @@
         "description": "Все транзакции по карте будут отклонены, пока карта не будет разморожена",
         "type": "text"
     },
-    "simple_card_add_cash_from": "Поповнити з",
-    "@simple_card_add_cash_from": {
-        "description": "Добавьте наличные из",
-        "type": "text"
-    },
     "simple_card_add_cards": "Картки",
     "@simple_card_add_cards": {
         "description": "карты",
@@ -6952,11 +4955,6 @@
     "simple_card_password_rule_4": "Мінімум 8 символів",
     "@simple_card_password_rule_4": {
         "description": "Минимум 8 символов",
-        "type": "text"
-    },
-    "simple_card_get_crypto_first": "Спочатку потрібно отримати криптовалюту",
-    "@simple_card_get_crypto_first": {
-        "description": "Сначала нужно получить криптовалюту",
         "type": "text"
     },
     "simple_card_pin_was_send": "PIN-код було надіслано в SMS",
@@ -6994,19 +4992,9 @@
         "description": "В процессе",
         "type": "text"
     },
-    "iban_send_history_beneficairy": "Бенефіціар",
-    "@iban_send_history_beneficairy": {
-        "description": "Бенефициар",
-        "type": "text"
-    },
     "card_history_description": "Опис",
     "@card_history_description": {
         "description": "Описание",
-        "type": "text"
-    },
-    "card_history_total_charge": "Загальна cума",
-    "@card_history_total_charge": {
-        "description": "Общая сумма",
         "type": "text"
     },
     "card_history_total_refund": "Загалом повернуто",
@@ -7069,7 +5057,6 @@
     "history_paid_with": "Оплачується з",
     "history_withdrawn": "Виведено",
     "history_added_cash": "Заведено готівку",
-    "history_txhash": "Txhash",
     "history_sent_gift": "Відправлено подарунок",
     "history_received_gift": "Отримано подарунок",
     "history_sent_globally": "Відправлено глобально",
@@ -7345,9 +5332,7 @@
     "invest_volume": "Обсяг",
     "invest_success_opened": "Інвестиції відкриті",
     "invest_pending_placed": "Відкладені інвестиції були розміщені",
-    "invest_trigger_price": "Тригерна ціна",
     "invest_open_price": "Ціна відкриття",
-    "invest_s_o_price": "Ціна S/O",
     "invest_close": "Закрити",
     "invest_close_fee": "Комісія за закриття",
     "invest_close_price": "Ціна закриття",
@@ -7362,7 +5347,6 @@
     "invest_cancel": "Скасувати",
     "invest_success_saved_limits": "Take Profit та Stop Loss було змінено",
     "invest_report_ticket": "Квиток",
-    "invest_report_open_price": "Ціна відкриття",
     "invest_report_open_data": "Дані відкриття",
     "invest_report_open_time": "Час відкриття",
     "invest_report_amount": "Сума",
@@ -7380,20 +5364,16 @@
     "invest_report_delete_date": "Дата видалення",
     "invest_report_delete_time": "Час видалення",
     "invest_report_rollover": "Ролловер",
-    "invest_report_so_price": "Ціна S/O",
     "invest_report_journal": "Журнал",
-    "invest_report_rollover_report": "Звіт про ролловер",
     "invest_report_rollover_rate": "Ставка ролловера",
     "invest_active_empty_deposit": "Ви ще не маєте інвестицій. Щоб створити інвестицію, поповніть депозит.",
     "invest_deposit": "Депозит",
     "invest_active_empty": "У вас немає активних інвестицій.",
     "invest_new_invest": "Нова інвестиція",
     "invest_invest": "Інвестувати",
-    "invest_canceled": "Скасовано",
     "invest_opening": "Відкриття",
     "invest_closing": "Закриття",
     "invest_delete": "Видалити",
-    "invest_stop_out": "Зупинити",
     "invest_period": "Період",
     "invest_period_description": "Перегляд історії транзакцій доступний тільки за останні 90 днів",
     "invest_period_days": "дні",
@@ -7410,11 +5390,6 @@
     },
     "earn_funds_are_calculated_based_on_the_current_value": "Кошти розраховані згідно з поточною вартістю криптоактивів",
     "@earn_funds_are_calculated_based_on_the_current_value": {
-        "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/XKUJ00h5dZvM2PFYGRwm5qvf.png",
-        "type": "text"
-    },
-    "earn_total": "Загалом",
-    "@earn_total": {
         "description": "https://s3.eu-west-1.amazonaws.com/po-pub/i/XKUJ00h5dZvM2PFYGRwm5qvf.png",
         "type": "text"
     },
@@ -7489,12 +5464,6 @@
     "earn_deposit": "Депозит",
     "earn_continue": "Продовжити",
     "earn_choose_a_deposit_plan": "Оберіть план депозиту та заробляйте",
-    "earn_freeze_period": "Період заморожування ({days} дн.)",
-    "@earn_freeze_period": {
-        "placeholders": {
-            "days": {}
-        }
-    },
     "earn_flexible_tariff": "Гнучке повернення",
     "earn_are_you_sure": "Ви впевнені?",
     "earn_your_funds_and_accrued": "Ваші кошти та нараховані доходи будуть виплачені після закриття вашого рахунку Earn. Виплата буде {date}.",
@@ -7564,7 +5533,6 @@
     "earn_apy_rate": "Ставка APY",
     "earn_earning_term": "Термін заробітку",
     "earn_flexible": "Гнучкий",
-    "earn_instant": "Миттєвий",
     "earn_i_have_read_and_agreed_to": "Я прочитав(ла) і погоджуюсь з",
     "earn_terms_and_conditions": "Умови та Положення програми Earn",
     "earn_transfer": "Переказ",
@@ -7642,7 +5610,6 @@
             }
         }
     },
-    "profileDetails_waitForSMS": "Чекайте на SMS",
     "earn_transfer_of": "Переказ {value} до\nEarn було розпочато",
     "@earn_transfer_of": {
         "placeholders": {
@@ -7701,7 +5668,6 @@
         }
     },
     "prepaid_card_prepaid_card": "Передплачена картка",
-    "prepaid_card_in_your_profile": "у профілі",
     "prepaid_card_buy_for_cryptocurrency": "Купити за криптовалюту",
     "prepaid_card_prepaid_card_service": "Сервіс передплаченої картки",
     "prepaid_card_explanation": "Ви можете придбати передплачені банківські картки для використання в системах Apple Pay та Google Pay, а також для оплати онлайн покупок. Випуск передплаченої картки здійснюється партнерами Simple.",
@@ -7800,7 +5766,6 @@
     "buy_external_cards": "Сторонні картки",
     "history_payment_amount": "Сума платежу",
     "simplecoin_simplecoin": "Simplecoin",
-    "simplecoin_my_balance": "Мій баланс",
     "simplecoin_roadmap": "План",
     "simplecoin_description": "Ми раді представити наш новий міні-додаток для Telegram! Починайте заробляти та зберігати наші віртуальні монети вже зараз, і незабаром ви дізнаєтеся про всі чудові речі, які можна за них отримати.",
     "simplecoin_join_simple_tap": "Запусти Simple Coin!",
@@ -7862,6 +5827,10 @@
     "p2p_buy_payment_management": "Управління платежами",
     "p2p_terms_and_conditions": "Peer-to-Peer (P2P) Terms and Conditions",
     "p2p_buy_confirmation_processing_text": "Обробка P2P-транзакції може зайняти до 30 хвилин. Кошти будуть зараховані у ваш додаток Simple, як тільки платіжна система підтвердить транзакцію.",
-    "p2p_buy_max": "Макс.",
-    "p2p_buy_with": "Оплачується з"
+    "p2p_buy_with": "Оплачується з",
+    "failure_screen_title": "Не вдалося",
+    "failure_screen_button_name": "Готово",
+    "success_screen_button_name": "Готово",
+    "waiting_screen_loading_button_name": "Скасувати",
+    "waiting_screen_processing_button_name": "Зрозуміло"
 }

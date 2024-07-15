@@ -47,13 +47,11 @@ class _SimplexWebViewState extends State<SimplexWebView> {
         FailureScreenRouter(
           primaryText: intl.simplexWebView_failure,
           secondaryText: intl.simplexWebView_failedToBuy,
-          primaryButtonName: intl.simplexWeb_editOrder,
-          onPrimaryButtonTap: () {
+          secondaryButtonName: intl.simplexWeb_editOrder,
+          onSecondaryButtonTap: () {
             Navigator.pop(context);
             Navigator.pop(context);
           },
-          secondaryButtonName: intl.simplexWebView_close,
-          onSecondaryButtonTap: () => navigateToRouter(),
         ),
       );
     }

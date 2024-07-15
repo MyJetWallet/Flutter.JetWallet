@@ -15,7 +15,6 @@ import 'package:jetwallet/features/currency_buy/models/preview_buy_with_bank_car
 import 'package:jetwallet/features/currency_buy/ui/screens/show_bank_card_cvv_bottom_sheet.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
-import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
@@ -417,8 +416,6 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
                     accuracy: input.currency.accuracy,
                     symbol: input.currency.symbol,
                   )}',
-            buttonText: intl.previewBuyWithUmlimint_saveCard,
-            showProgressBar: true,
           ),
         )
         .then(
@@ -438,10 +435,6 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.previewBuyWithAsset_failure,
         secondaryText: error,
-        primaryButtonName: intl.previewBuyWithAsset_close,
-        onPrimaryButtonTap: () {
-          navigateToRouter();
-        },
       ),
     );
   }

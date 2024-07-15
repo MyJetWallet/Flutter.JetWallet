@@ -11,7 +11,6 @@ import 'package:jetwallet/features/p2p_buy/store/buy_p2p_confirmation_store.dart
 import 'package:jetwallet/features/p2p_buy/widgets/buy_p2p_confirmation_info_grid.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
-import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
@@ -78,12 +77,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
       loaderText: intl.register_pleaseWait,
       customLoader: store.showProcessing
           ? WaitingScreen(
-              wasAction: store.wasAction,
-              primaryText: intl.buy_confirmation_local_p2p_processing_title,
               secondaryText: store.getProcessingText,
-              onSkip: () {
-                navigateToRouter();
-              },
             )
           : null,
       header: SSmallHeader(
