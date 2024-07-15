@@ -174,7 +174,7 @@ class _EarnSectionDefaultState extends StatelessWidget {
                               accuracy: 2,
                             )
                           : '**** ${sSignalRModules.baseCurrency.symbol}',
-                      description: intl.earn_total,
+                      description: intl.earn_section_total,
                     ),
                   ),
                   const SizedBox(width: 8),
