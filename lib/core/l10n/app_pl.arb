@@ -1741,5 +1741,14 @@
     "success_screen_button_name": "Gotowe",
     "waiting_screen_loading_button_name": "Anulować",
     "waiting_screen_processing_button_name": "Zrozumiane",
+    "bottom_bar_home": "Strona główna",
+    "earn_section_view": "Wyświetl",
+    "earn_section_earned": "Zarobione",
+    "earn_section_this_month": "W tym miesiącu",
+    "tom_mover_section_top_movers": "Najwięksi gracze",
+    "tom_mover_section_view_all": "Zobacz wszystkie",
+    "home_header_simple": "Simple",
+    "home_header_total_balance": "Całkowity bilans",
+    "earn_section_total": "Całkowity",
     "withdraw_failure_screen_secondary_button_name": "Edytuj zamówienie"
 }

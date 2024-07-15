@@ -1677,5 +1677,14 @@
     "success_screen_button_name": "Listo",
     "waiting_screen_loading_button_name": "Cancelar",
     "waiting_screen_processing_button_name": "Entiendo",
+    "bottom_bar_home": "Inicio",
+    "earn_section_view": "Ver",
+    "earn_section_earned": "Ganado",
+    "earn_section_this_month": "Este mes",
+    "tom_mover_section_top_movers": "Más activos",
+    "tom_mover_section_view_all": "Ver todos",
+    "home_header_simple": "Simple",
+    "home_header_total_balance": "Saldo total",
+    "earn_section_total": "Total",
     "withdraw_failure_screen_secondary_button_name": "Editar orden"
 }

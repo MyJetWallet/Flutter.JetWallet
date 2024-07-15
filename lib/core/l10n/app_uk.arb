@@ -5833,5 +5833,14 @@
     "success_screen_button_name": "Готово",
     "waiting_screen_loading_button_name": "Скасувати",
     "waiting_screen_processing_button_name": "Зрозуміло",
+    "bottom_bar_home": "Головна",
+    "earn_section_view": "Перегляд",
+    "earn_section_earned": "Зароблено",
+    "earn_section_this_month": "Цього місяця",
+    "tom_mover_section_top_movers": "Найактивніші",
+    "tom_mover_section_view_all": "Переглянути всі",
+    "home_header_simple": "Simple",
+    "home_header_total_balance": "Загальний баланс",
+    "earn_section_total": "Загалом",
     "withdraw_failure_screen_secondary_button_name": "Редагувати замовлення"
 }
