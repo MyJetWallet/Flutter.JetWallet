@@ -12,7 +12,7 @@ class BottomBarStore = _BottomBarStoreBase with _$BottomBarStore;
 
 abstract class _BottomBarStoreBase with Store {
   @observable
-  BottomItemType homeTab = BottomItemType.wallets;
+  BottomItemType homeTab = BottomItemType.home;
   @action
   void setHomeTab(BottomItemType value) {
     homeTab = value;
@@ -34,7 +34,7 @@ abstract class _BottomBarStoreBase with Store {
 
   @computed
   ObservableList<BottomItemType> get bottomBarItems => ObservableList.of([
-        BottomItemType.wallets,
+        BottomItemType.home,
         BottomItemType.market,
         if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
           (element) => element.id == AssetPaymentProductsEnum.earnProgram,

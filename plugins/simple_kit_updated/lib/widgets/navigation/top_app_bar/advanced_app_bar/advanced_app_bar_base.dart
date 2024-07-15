@@ -59,22 +59,22 @@ class AdvancedAppBarBase extends StatelessWidget {
       }
     }
 
-    return Container(
-      height: !isShortVersion ? getHeightWithoutCarousel() : getHeightWithCarousel(),
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        gradient: getGradient(),
-      ),
-      child: Stack(
-        children: [
-          Assets.images.appbarBg.simpleImg(
+    return Stack(
+      children: [
+        Container(
+          height: !isShortVersion ? getHeightWithoutCarousel() : getHeightWithCarousel(),
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            gradient: getGradient(),
+          ),
+          child: Assets.images.appbarBg.simpleImg(
             height: 267,
             width: double.infinity,
             fit: BoxFit.cover,
           ),
-          child,
-        ],
-      ),
+        ),
+        child,
+      ],
     );
   }
 }

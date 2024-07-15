@@ -385,7 +385,7 @@ abstract class _ConvertConfirmationStoreBase with Store {
           ],
         ),
       ]);
-      getIt.get<BottomBarStore>().setHomeTab(BottomItemType.wallets);
+      getIt.get<BottomBarStore>().setHomeTab(BottomItemType.home);
 
       shopRateUpPopup(sRouter.navigatorKey.currentContext!);
     });

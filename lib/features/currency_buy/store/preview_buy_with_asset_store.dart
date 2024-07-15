@@ -251,7 +251,7 @@ abstract class _PreviewBuyWithAssetStoreBase with Store {
         SuccessScreenRouter(
           secondaryText: intl.previewBuyWithAsset_orderProcessing,
           onSuccess: (context) {
-            getIt<BottomBarStore>().setHomeTab(BottomItemType.wallets);
+            getIt<BottomBarStore>().setHomeTab(BottomItemType.home);
             sRouter.push(
               const HomeRouter(
                 children: [

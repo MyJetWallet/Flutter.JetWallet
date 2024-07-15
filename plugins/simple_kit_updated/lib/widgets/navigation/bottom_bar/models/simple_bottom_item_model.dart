@@ -1,7 +1,7 @@
 import 'package:simple_kit_updated/gen/assets.gen.dart';
 
 enum BottomItemType {
-  wallets,
+  home,
   market,
   invest,
   card,

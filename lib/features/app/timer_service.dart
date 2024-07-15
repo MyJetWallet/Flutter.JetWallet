@@ -30,7 +30,7 @@ class TimerService extends ChangeNotifier {
         getIt.get<AppStore>().authorizedStatus is Home) {
       sAnalytics.pinAfterWaiting(timeAfterBlock: 300);
       _isPinScreenOpen = true;
-      getIt.get<BottomBarStore>().setHomeTab(BottomItemType.wallets);
+      getIt.get<BottomBarStore>().setHomeTab(BottomItemType.home);
 
       getIt<AppRouter>().replaceAll([
         PinScreenRoute(
