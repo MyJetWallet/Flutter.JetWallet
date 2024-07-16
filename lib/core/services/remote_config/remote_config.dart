@@ -5,11 +5,13 @@ import 'package:dio/dio.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/apps_flyer_service.dart';
 import 'package:jetwallet/core/services/flavor_service.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_conection_url_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:logger/logger.dart';
 import 'package:simple_networking/config/options.dart';
 import 'package:simple_networking/modules/remote_config/models/remote_config_model.dart';
 import 'package:simple_networking/simple_networking.dart';
@@ -98,6 +100,8 @@ class RemoteConfig {
       remoteConfig = await getRemoteConfigFromServer();
 
       await overrideConfig();
+
+      await pingRemoutConfig();
     } catch (e) {
       getIt.get<AppStore>().setRemoteConfigStatus(
             const RemoteConfigUnion.error(),
@@ -107,6 +111,29 @@ class RemoteConfig {
     }
 
     return this;
+  }
+
+  Future<void> pingRemoutConfig() async {
+    try {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.info,
+            place: 'RemoteConfig pingRemoutConfig',
+            message: 'Start ping Remout Config',
+          );
+      final flavor = flavorService();
+
+      final pingRemoteConfigURL = flavor == Flavor.prod
+          ? 'https://wallet-api.simple.app/api/v1/remote-config/ping'
+          : 'https://wallet-api-uat.simple-spot.biz/api/v1/remote-config/ping';
+
+      await Dio().get(pingRemoteConfigURL);
+    } catch (e) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'RemoteConfig pingRemoutConfig',
+            message: e.toString(),
+          );
+    }
   }
 
   void _refreshTimer() {
