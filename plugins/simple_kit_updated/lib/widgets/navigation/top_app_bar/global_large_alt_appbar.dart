@@ -23,6 +23,7 @@ class SimpleLargeAltAppbar extends StatelessWidget {
     this.isLoading = false,
     this.hasLeftIcon = false,
     this.leftIcon,
+    this.hasTopPart = true,
   });
 
   final String title;
@@ -44,6 +45,8 @@ class SimpleLargeAltAppbar extends StatelessWidget {
 
   final bool isLoading;
 
+  final bool hasTopPart;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -55,27 +58,29 @@ class SimpleLargeAltAppbar extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (hasLeftIcon) ...[
-                leftIcon ?? Assets.svg.medium.user.simpleSvg(),
+          if (hasTopPart) ...[
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (hasLeftIcon) ...[
+                  leftIcon ?? Assets.svg.medium.user.simpleSvg(),
+                ],
+                const Spacer(),
+                if (hasSecondIcon) ...[
+                  const Gap(24),
+                  secondIcon ?? Assets.svg.medium.user.simpleSvg(),
+                ],
+                if (hasRightIcon) ...[
+                  const Gap(24),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 5.5),
+                    child: rightIcon ?? Assets.svg.medium.user.simpleSvg(),
+                  ),
+                ]
               ],
-              const Spacer(),
-              if (hasSecondIcon) ...[
-                const Gap(24),
-                secondIcon ?? Assets.svg.medium.user.simpleSvg(),
-              ],
-              if (hasRightIcon) ...[
-                const Gap(24),
-                Padding(
-                  padding: const EdgeInsets.only(top: 5.5),
-                  child: rightIcon ?? Assets.svg.medium.user.simpleSvg(),
-                ),
-              ]
-            ],
-          ),
-          const SizedBox(height: 20),
+            ),
+            const SizedBox(height: 20),
+          ],
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,

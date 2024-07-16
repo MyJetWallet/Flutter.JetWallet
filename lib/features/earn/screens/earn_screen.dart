@@ -100,6 +100,7 @@ class _EarnViewState extends State<_EarnView> {
         title: intl.earn_earn,
         showLabelIcon: false,
         hasRightIcon: false,
+        hasTopPart: false,
       ),
       child: Observer(
         builder: (context) {
