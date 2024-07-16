@@ -15,7 +15,6 @@ class MainScreenAppbar extends StatelessWidget {
     required this.isLabelIconShow,
     this.onLabelIconTap,
     this.onProfileTap,
-    this.profileNotificationsCount = 0,
     this.isLoading = false,
     this.onOnChatTap,
     required this.userAvatar,
@@ -32,8 +31,6 @@ class MainScreenAppbar extends StatelessWidget {
   final VoidCallback? onLabelIconTap;
   final VoidCallback? onProfileTap;
   final VoidCallback? onOnChatTap;
-
-  final int profileNotificationsCount;
 
   final bool isLoading;
 

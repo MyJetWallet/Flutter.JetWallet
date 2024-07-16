@@ -360,6 +360,7 @@ class _SimpleCardScreenState extends State<SimpleCardScreen> with AutomaticKeepA
                         sAnalytics.tapBackFromVirualCard(
                           cardID: simpleCardStore.cardFull?.cardId ?? '',
                         );
+                        Navigator.pop(context);
                       },
                     ),
                   ),

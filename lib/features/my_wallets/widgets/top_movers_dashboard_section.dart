@@ -1,4 +1,3 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:gap/gap.dart';
@@ -21,13 +20,9 @@ class TopMoversDashboardSection extends StatelessWidget {
 
     return Observer(
       builder: (context) {
-        final marketItems = sSignalRModules.getMarketPrices
-            .where(
-              (item) => item.dayPriceChange > Decimal.zero,
-            )
-            .toList();
+        final marketItems = [...sSignalRModules.getMarketPrices];
 
-        marketItems.sort((a, b) => b.dayPriceChange.compareTo(a.dayPriceChange));
+        marketItems.sort((a, b) => b.dayPercentChange.compareTo(a.dayPercentChange));
 
         final topMoverslist = marketItems.sublist(0, 4);
 
@@ -101,16 +96,23 @@ class _AssetItem extends StatelessWidget {
           const Gap(2),
           Row(
             children: [
-              Assets.svg.medium.arrowUp.simpleSvg(
-                width: 16,
-                height: 16,
-                color: colors.green,
-              ),
+              if (asset.dayPercentChange.isNegative)
+                Assets.svg.medium.arrowDown.simpleSvg(
+                  width: 16,
+                  height: 16,
+                  color: colors.red,
+                )
+              else
+                Assets.svg.medium.arrowUp.simpleSvg(
+                  width: 16,
+                  height: 16,
+                  color: colors.green,
+                ),
               const Gap(2),
               Text(
-                asset.dayPriceChange.toString(),
+                '${asset.dayPercentChange}%',
                 style: STStyles.body2Semibold.copyWith(
-                  color: colors.green,
+                  color: asset.dayPercentChange.isNegative ? colors.red : colors.green,
                 ),
               ),
             ],

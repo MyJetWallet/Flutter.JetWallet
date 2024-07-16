@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_verified_model.dart';
+import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 
@@ -42,38 +44,28 @@ class UserAvatarWidget extends StatelessWidget {
             : '';
 
         return Stack(
+          alignment: Alignment.bottomLeft,
           children: [
+            if (showBlueDot)
+              SvgPicture.asset(
+                userAvatarNotif,
+              )
+            else
+              Padding(
+                padding: const EdgeInsets.only(top: 3),
+                child: SvgPicture.asset(
+                  userAvatar,
+                ),
+              ),
             Padding(
-              padding: const EdgeInsets.all(3),
-              child: CircleAvatar(
-                radius: 16,
-                backgroundColor: Colors.black,
-                child: Text(
-                  initials,
-                  style: STStyles.captionBold.copyWith(
-                    color: SColorsLight().white,
-                  ),
+              padding: const EdgeInsets.only(left: 8, bottom: 8),
+              child: Text(
+                initials,
+                style: STStyles.captionBold.copyWith(
+                  color: SColorsLight().white,
                 ),
               ),
             ),
-            if (showBlueDot)
-              Positioned(
-                right: 0,
-                top: 0,
-                child: Container(
-                  width: 10,
-                  height: 10,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF374CFA),
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      width: 3,
-                      color: Colors.transparent,
-                      strokeAlign: BorderSide.strokeAlignOutside,
-                    ),
-                  ),
-                ),
-              ),
           ],
         );
       },

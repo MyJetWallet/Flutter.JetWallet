@@ -48,7 +48,7 @@ class SimpleLargeAltAppbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        top: 53 + 10, //отступ шторки (53) + отступ аппбара (10)
+        top: 53 + 8, //отступ шторки (53) + отступ аппбара (8)
         bottom: 10,
         left: 24,
         right: 24,
@@ -69,7 +69,7 @@ class SimpleLargeAltAppbar extends StatelessWidget {
               if (hasRightIcon) ...[
                 const Gap(24),
                 Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
+                  padding: const EdgeInsets.only(top: 5.5),
                   child: rightIcon ?? Assets.svg.medium.user.simpleSvg(),
                 ),
               ]

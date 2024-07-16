@@ -17,7 +17,6 @@ import 'package:jetwallet/core/services/remote_config/remote_config_values.dart'
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/earn/widgets/earn_dashboard_section_widget.dart';
-import 'package:jetwallet/features/kyc/models/kyc_verified_model.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/features/my_wallets/widgets/actions_my_wallets_row_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/add_wallet_bottom_sheet.dart';
@@ -176,23 +175,10 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final kycState = getIt.get<KycService>();
 
     store = MyWalletsSrore.of(context) as MyWalletsSrore;
 
     final list = slidableItems(store);
-
-    final notificationsCount = _profileNotificationLength(
-      KycModel(
-        depositStatus: kycState.depositStatus,
-        sellStatus: kycState.tradeStatus,
-        withdrawalStatus: kycState.withdrawalStatus,
-        requiredDocuments: kycState.requiredDocuments,
-        requiredVerifications: kycState.requiredVerifications,
-        verificationInProgress: kycState.verificationInProgress,
-      ),
-      true,
-    );
 
     return VisibilityDetector(
       key: const Key('my_vallets-screen-key'),
@@ -251,7 +237,6 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                         );
                       }
                     },
-                    profileNotificationsCount: notificationsCount,
                     isLoading: store.isLoading,
                     userAvatar: const UserAvatarWidget(),
                     child: const Padding(
@@ -349,7 +334,6 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                         }
                                       },
                                       isLabelIconShow: getIt<AppStore>().isBalanceHide,
-                                      profileNotificationsCount: notificationsCount,
                                       userAvatar: const UserAvatarWidget(),
                                       child: const Padding(
                                         padding: EdgeInsets.symmetric(vertical: 24),
@@ -674,26 +658,6 @@ String _price(
     accuracy: baseCurrency.accuracy,
     symbol: baseCurrency.symbol,
   );
-}
-
-int _profileNotificationLength(KycModel kycState, bool twoFaEnable) {
-  var notificationLength = 0;
-
-  final passed = checkKycPassed(
-    kycState.depositStatus,
-    kycState.sellStatus,
-    kycState.withdrawalStatus,
-  );
-
-  if (!passed) {
-    notificationLength += 1;
-  }
-
-  if (!twoFaEnable) {
-    notificationLength += 1;
-  }
-
-  return notificationLength;
 }
 
 class _LoadingAssetsList extends StatelessWidget {
