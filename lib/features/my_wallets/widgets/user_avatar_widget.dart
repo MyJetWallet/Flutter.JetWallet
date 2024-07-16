@@ -44,7 +44,7 @@ class UserAvatarWidget extends StatelessWidget {
             : '';
 
         return Stack(
-          alignment: Alignment.bottomLeft,
+          alignment: Alignment.center,
           children: [
             if (showBlueDot)
               SvgPicture.asset(
@@ -58,11 +58,15 @@ class UserAvatarWidget extends StatelessWidget {
                 ),
               ),
             Padding(
-              padding: const EdgeInsets.only(left: 8, bottom: 8),
-              child: Text(
-                initials,
-                style: STStyles.captionBold.copyWith(
-                  color: SColorsLight().white,
+              padding: EdgeInsets.only(right: showBlueDot ? 3 : 0, top: 3),
+              child: Expanded(
+                child: Center(
+                  child: Text(
+                    initials,
+                    style: STStyles.captionBold.copyWith(
+                      color: SColorsLight().white,
+                    ),
+                  ),
                 ),
               ),
             ),
