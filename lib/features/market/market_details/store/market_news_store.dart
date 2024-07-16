@@ -10,7 +10,7 @@ import 'package:simple_networking/modules/wallet_api/models/market_news/market_n
 
 part 'market_news_store.g.dart';
 
-const newsPortionAmount = 3;
+const newsPortionAmount = 5;
 
 class MarketNewsStore extends _MarketNewsStoreBase with _$MarketNewsStore {
   MarketNewsStore() : super();
@@ -21,6 +21,8 @@ class MarketNewsStore extends _MarketNewsStoreBase with _$MarketNewsStore {
 abstract class _MarketNewsStoreBase with Store {
   static final _logger = Logger('NewsStore');
 
+  String _assetId = '';
+
   @observable
   bool isNewsLoaded = false;
 
@@ -30,17 +32,26 @@ abstract class _MarketNewsStoreBase with Store {
   @observable
   bool loadMore = true;
 
+  @observable
+  bool isLoading = false;
+
+  @observable
+  bool isLoadingPagination = false;
+
   @computed
-  bool get canLoadMore => news.length >= 3 && loadMore;
+  bool get canLoadMore => news.length >= newsPortionAmount && loadMore;
 
   @action
-  Future<void> loadMoreNews(String assetId) async {
+  Future<void> loadMoreNews() async {
+    if (isLoading || isLoadingPagination) return;
+
     _logger.log(notifier, 'loadMoreNews');
 
     try {
+      isLoadingPagination = true;
       final response = await sNetwork.getWalletModule().postMarketNews(
             MarketNewsRequestModel(
-              assetId: assetId,
+              assetId: _assetId,
               language: intl.localeName,
               lastSeen: news.last.timestamp,
               amount: newsPortionAmount,
@@ -54,6 +65,8 @@ abstract class _MarketNewsStoreBase with Store {
       );
     } catch (e) {
       _logger.log(stateFlow, 'loadMoreNews', e);
+    } finally {
+      isLoadingPagination = false;
     }
   }
 
@@ -72,29 +85,50 @@ abstract class _MarketNewsStoreBase with Store {
   }
 
   @action
+  void clearNews() {
+    _logger.log(notifier, 'clearNews');
+
+    loadMore = false;
+    news = ObservableList.of([]);
+  }
+
+  @action
   Future<void> loadNews(String id) async {
-    isNewsLoaded = false;
+    if (isLoading || isLoadingPagination) return;
 
-    if (id == 'CPWR') {
-      isNewsLoaded = true;
+    try {
+      _assetId = id;
 
-      return;
-    }
-    final response = await sNetwork.getWalletModule().postMarketNews(
-          MarketNewsRequestModel(
-            assetId: id,
-            language: intl.localeName,
-            lastSeen: DateTime.now().toIso8601String(),
-            amount: newsPortionAmount,
-          ),
-        );
+      clearNews();
 
-    response.pick(
-      onData: (data) {
-        updateNews(data.news);
+      isLoading = true;
+      isNewsLoaded = false;
 
+      if (id == 'CPWR') {
         isNewsLoaded = true;
-      },
-    );
+
+        return;
+      }
+      final response = await sNetwork.getWalletModule().postMarketNews(
+            MarketNewsRequestModel(
+              assetId: id,
+              language: intl.localeName,
+              lastSeen: DateTime.now(),
+              amount: newsPortionAmount,
+            ),
+          );
+
+      response.pick(
+        onData: (data) {
+          updateNews(data.news);
+
+          isNewsLoaded = true;
+        },
+      );
+    } catch (e) {
+      _logger.log(stateFlow, 'loadNews', e);
+    } finally {
+      isLoading = false;
+    }
   }
 }

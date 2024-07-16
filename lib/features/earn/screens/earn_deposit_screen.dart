@@ -71,7 +71,9 @@ class _EarnDepositScreenState extends State<EarnDepositScreen> {
             package: 'simple_kit',
           ),
           onWillPop: () async {
-            closeScreen();
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              closeScreen();
+            });
           },
           onPrimaryButtonTap: () {
             sAnalytics.tapOnTheTopUpEarnWalletButton(
@@ -83,14 +85,14 @@ class _EarnDepositScreenState extends State<EarnDepositScreen> {
 
             navigateToWallet(context, store.currency);
           },
-          onSecondaryButtonTap: () {
+          onSecondaryButtonTap: () async {
             sAnalytics.tapOnTheCancelTopUpEarnWalletButton(
               assetName: widget.offer.assetId,
               earnAPYrate: widget.offer.apyRate?.toStringAsFixed(2) ?? Decimal.zero.toString(),
               earnPlanName: widget.offer.description ?? '',
               earnWithdrawalType: widget.offer.withdrawType.name,
             );
-            closeScreen();
+            await sRouter.maybePop();
           },
         );
       });

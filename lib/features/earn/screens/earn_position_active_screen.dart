@@ -82,6 +82,7 @@ class EarnPositionActiveScreen extends StatelessWidget {
                 earnWithdrawalType: earnPosition.withdrawType.name,
                 revenue: earnPosition.incomeAmount.toString(),
               );
+              Navigator.pop(context);
             },
             title: currency.description,
             rightIcon: Assets.svg.medium.history.simpleSvg(),

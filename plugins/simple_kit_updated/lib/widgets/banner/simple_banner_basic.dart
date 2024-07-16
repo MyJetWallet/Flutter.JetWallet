@@ -30,7 +30,7 @@ class SBannerBasic extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.only(top: 16, bottom: 16, left: 20, right: 16),
       decoration: ShapeDecoration(
         color: color,
         shape: RoundedRectangleBorder(

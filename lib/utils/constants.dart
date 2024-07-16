@@ -152,3 +152,9 @@ const simpleCoinAssetBackground = 'assets/images/simple_coin_asset_background.pn
 const simpleCoinAsset = 'assets/images/simple_coin.png';
 const mySimpleLendingBg = 'assets/images/my_simple_lending_bg.webp';
 const simpleCoinHeader = 'assets/images/simple_coin_header.png';
+
+// User Avatar
+const userAvatarNotif = 'assets/images/user_avatar_notif.svg';
+const userAvatar = 'assets/images/user_avatar.svg';
+
+const cryptopanicLogo = 'assets/images/cryptopanic_logo.svg';

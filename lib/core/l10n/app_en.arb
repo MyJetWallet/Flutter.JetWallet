@@ -1698,5 +1698,6 @@
     "home_header_simple": "Simple",
     "home_header_total_balance": "Total balance",
     "earn_section_total": "Total",
-    "withdraw_failure_screen_secondary_button_name": "Edit order"
+    "withdraw_failure_screen_secondary_button_name": "Edit order",
+    "news_section_partner": "Powered by CryptoPanic"
 }

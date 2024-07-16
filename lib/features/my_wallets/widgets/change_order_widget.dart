@@ -4,11 +4,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 class ChangeOrderWidget extends StatelessWidget {
   const ChangeOrderWidget({
-    required this.isTopPosition,
     required this.onPressedDone,
   });
 
-  final bool isTopPosition;
   final void Function() onPressedDone;
 
   @override
@@ -16,10 +14,8 @@ class ChangeOrderWidget extends StatelessWidget {
     final colors = sKit.colors;
 
     return Container(
-      padding: EdgeInsets.only(
-        left: 24,
-        right: 24,
-        top: !isTopPosition ? 53 : 0,
+      padding: const EdgeInsets.symmetric(
+        horizontal: 24,
       ),
       color: colors.white,
       child: Column(

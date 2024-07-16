@@ -1,10 +1,15 @@
+import 'dart:math';
+
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:decimal/decimal.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/store/earn_store.dart';
 import 'package:jetwallet/features/earn/widgets/basic_header.dart';
@@ -12,6 +17,7 @@ import 'package:jetwallet/features/earn/widgets/chips_suggestion_m.dart';
 import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
 import 'package:jetwallet/features/earn/widgets/offers_overlay_content.dart';
 import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
+import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
@@ -50,6 +56,7 @@ class _EarnSectionBody extends StatelessWidget {
               title: intl.earn_earn,
               buttonTitle: intl.earn_section_view,
               onTap: () {
+                getIt.get<EventBus>().fire(EndReordering());
                 getIt<BottomBarStore>().setHomeTab(BottomItemType.earn);
               },
             ),
@@ -114,6 +121,7 @@ class _EarnSectionEmptyState extends StatelessWidget {
                   height: 40,
                 ),
                 onTap: () {
+                  getIt.get<EventBus>().fire(EndReordering());
                   sAnalytics.tapOnTheAnyOfferButton(
                     assetName: currencyOffers.first.assetId,
                     sourse: 'Home screen',
@@ -229,17 +237,14 @@ class _GrayBlocWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Text(
-                title,
-                style: STStyles.subtitle2,
-              ),
-            ],
-          ),
           Text(
+            title,
+            style: STStyles.subtitle2,
+          ),
+          AutoSizeText(
             value,
             style: STStyles.subtitle1,
+            maxLines: 1,
           ),
           Text(
             description,
@@ -262,12 +267,45 @@ class _ActiveEarnsParagraph extends StatelessWidget {
     final store = Provider.of<EarnStore>(context);
     final currencies = sSignalRModules.currenciesList;
 
-    return Builder(
+    return Observer(
       builder: (context) {
+        final formatService = getIt.get<FormatService>();
+
         final iconUrls = <String>{};
 
-        for (final position in store.earnPositions) {
-          final currency = currencies.firstWhere((c) => c.symbol == position.assetId);
+        final positions = store.earnPositions;
+
+        final sumbolsWithAmount = <({String symbol, Decimal amount})>[];
+
+        for (final position in positions) {
+          final positionAmount = formatService.convertOneCurrencyToAnotherOne(
+            fromCurrency: position.assetId,
+            fromCurrencyAmmount: position.baseAmount,
+            toCurrency: sSignalRModules.baseCurrency.symbol,
+            baseCurrency: sSignalRModules.baseCurrency.symbol,
+            isMin: true,
+          );
+          if (sumbolsWithAmount.any((element) => element.symbol == position.assetId)) {
+            final record = sumbolsWithAmount.firstWhere(
+              (element) => element.symbol == position.assetId,
+            );
+            sumbolsWithAmount.removeWhere((element) => element.symbol == position.assetId);
+            final recordWithNewSum = (
+              symbol: record.symbol,
+              amount: record.amount + positionAmount,
+            );
+            sumbolsWithAmount.add(recordWithNewSum);
+          } else {
+            sumbolsWithAmount.add((symbol: position.assetId, amount: positionAmount));
+          }
+        }
+
+        sumbolsWithAmount.sort((a, b) => b.amount.compareTo(a.amount));
+
+        final topMovers = sumbolsWithAmount.sublist(0, min(3, sumbolsWithAmount.length));
+
+        for (final record in topMovers) {
+          final currency = currencies.firstWhere((c) => c.symbol == record.symbol);
           iconUrls.add(currency.iconUrl);
         }
         return Row(
