@@ -1,0 +1,166 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/format_service.dart';
+import 'package:jetwallet/features/earn/widgets/basic_header.dart';
+import 'package:jetwallet/features/market/market_details/helper/format_news_date.dart';
+import 'package:jetwallet/features/market/market_details/store/market_news_store.dart';
+import 'package:jetwallet/utils/constants.dart';
+import 'package:jetwallet/utils/helpers/launch_url.dart';
+import 'package:provider/provider.dart';
+import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_networking/modules/wallet_api/models/market_news/market_news_response_model.dart';
+
+class NewsDashboardSection extends StatelessWidget {
+  const NewsDashboardSection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Provider(
+      create: (context) => MarketNewsStore()..loadNews('BTC'),
+      child: Observer(
+        builder: (context) {
+          final newsStore = MarketNewsStore.of(context);
+
+          final news = newsStore.news;
+
+          return CustomScrollView(
+            shrinkWrap: true,
+            primary: false,
+            slivers: [
+              SliverToBoxAdapter(
+                child: SBasicHeader(
+                  title: intl.news,
+                  subtitle: intl.news_section_partner,
+                  showLinkButton: false,
+                  subtitleIcon: SvgPicture.asset(
+                    cryptopanicLogo,
+                  ),
+                ),
+              ),
+              SliverList.builder(
+                itemCount: news.length,
+                itemBuilder: (context, index) {
+                  return NewsItem(news: news[index]);
+                },
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class NewsItem extends HookWidget {
+  const NewsItem({super.key, required this.news});
+
+  final MarketNewsModel news;
+
+  @override
+  Widget build(BuildContext context) {
+    final isHighlated = useState(false);
+
+    final colors = SColorsLight();
+
+    final asset = getIt.get<FormatService>().findCurrency(
+          assetSymbol: news.associatedAssets.first,
+        );
+    return SafeGesture(
+      onTap: () async {
+        await launchURL(context, news.urlAddress);
+      },
+      highlightColor: colors.gray2,
+      onHighlightChanged: (p0) {
+        isHighlated.value = p0;
+      },
+      child: ColoredBox(
+        color: isHighlated.value ? colors.gray2 : Colors.transparent,
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 24,
+            vertical: 20,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  SNetworkSvg(
+                    width: 20,
+                    height: 20,
+                    url: asset.iconUrl,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    asset.symbol,
+                    style: STStyles.body2Semibold.copyWith(
+                      color: colors.black,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    '•',
+                    style: STStyles.body2Medium.copyWith(
+                      color: colors.gray6,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    formatNewsDate(news.timestamp),
+                    style: STStyles.body2Medium.copyWith(
+                      color: colors.gray10,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Text(
+                news.source,
+                style: STStyles.subtitle1,
+                maxLines: 3,
+              ),
+              const SizedBox(height: 4),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Text(
+                      news.topic,
+                      style: STStyles.body1Medium.copyWith(
+                        color: colors.gray10,
+                      ),
+                      maxLines: 5,
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      const SizedBox(width: 8),
+                      Container(
+                        width: 56,
+                        height: 56,
+                        clipBehavior: Clip.antiAlias,
+                        decoration: ShapeDecoration(
+                          image: const DecorationImage(
+                            image: NetworkImage('https://placehold.co/600x400.png'),
+                            fit: BoxFit.cover,
+                          ),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
