@@ -380,7 +380,6 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                       },
                                     ),
                                   ),
-                                  const SliverToBoxAdapter(child: SpaceH10()),
                                 ],
                                 if (store.isReordering)
                                   SliverPersistentHeader(
@@ -397,6 +396,12 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                       ),
                                     ),
                                   ),
+                                SliverToBoxAdapter(
+                                  child: STableHeader(
+                                    size: SHeaderSize.m,
+                                    title: intl.my_wallets_header,
+                                  ),
+                                ),
                                 const SliverToBoxAdapter(
                                   child: SimpleCoinAssetItem(),
                                 ),
@@ -414,7 +419,6 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
 
                                     setState(() {});
                                   },
-                                  //itemCount: list.length,
                                   itemCount: list.length,
                                   itemBuilder: (context, index) {
                                     return ReorderableDelayedDragStartListener(
