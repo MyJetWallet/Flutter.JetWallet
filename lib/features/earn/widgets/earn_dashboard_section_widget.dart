@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -232,17 +233,14 @@ class _GrayBlocWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Text(
-                title,
-                style: STStyles.subtitle2,
-              ),
-            ],
-          ),
           Text(
+            title,
+            style: STStyles.subtitle2,
+          ),
+          AutoSizeText(
             value,
             style: STStyles.subtitle1,
+            maxLines: 1,
           ),
           Text(
             description,
