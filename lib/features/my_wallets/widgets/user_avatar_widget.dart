@@ -59,14 +59,10 @@ class UserAvatarWidget extends StatelessWidget {
               ),
             Padding(
               padding: EdgeInsets.only(right: showBlueDot ? 3 : 0, top: 3),
-              child: Expanded(
-                child: Center(
-                  child: Text(
-                    initials,
-                    style: STStyles.captionBold.copyWith(
-                      color: SColorsLight().white,
-                    ),
-                  ),
+              child: Text(
+                initials,
+                style: STStyles.captionBold.copyWith(
+                  color: SColorsLight().white,
                 ),
               ),
             ),
