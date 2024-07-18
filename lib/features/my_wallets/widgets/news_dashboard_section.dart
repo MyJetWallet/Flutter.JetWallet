@@ -25,28 +25,30 @@ class NewsDashboardSection extends StatelessWidget {
 
         final news = newsStore.news;
 
-        return CustomScrollView(
-          shrinkWrap: true,
-          primary: false,
-          slivers: [
-            SliverToBoxAdapter(
-              child: SBasicHeader(
-                title: intl.news,
-                subtitle: intl.news_section_partner,
-                showLinkButton: false,
-                subtitleIcon: SvgPicture.asset(
-                  cryptopanicLogo,
-                ),
-              ),
-            ),
-            SliverList.builder(
-              itemCount: news.length,
-              itemBuilder: (context, index) {
-                return NewsItem(news: news[index]);
-              },
-            ),
-          ],
-        );
+        return news.isEmpty
+            ? const Offstage()
+            : CustomScrollView(
+                shrinkWrap: true,
+                primary: false,
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: SBasicHeader(
+                      title: intl.news,
+                      subtitle: intl.news_section_partner,
+                      showLinkButton: false,
+                      subtitleIcon: SvgPicture.asset(
+                        cryptopanicLogo,
+                      ),
+                    ),
+                  ),
+                  SliverList.builder(
+                    itemCount: news.length,
+                    itemBuilder: (context, index) {
+                      return NewsItem(news: news[index]);
+                    },
+                  ),
+                ],
+              );
       },
     );
   }
