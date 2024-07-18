@@ -123,7 +123,7 @@ abstract class _MyWalletsSroreBase with Store {
   @action
   void endReorderingImmediately() {
     isReordering = false;
-    reorderingCurrencies = currencies;
+    reorderingCurrencies = currenciesForMyWallet(currencies: _allAssets);
   }
 
   @action

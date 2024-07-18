@@ -11,6 +11,7 @@ class SBasicHeader extends StatelessWidget {
     this.onTap,
     this.showLinkButton = true,
     super.key,
+    this.subtitleIcon,
   });
 
   final String title;
@@ -18,6 +19,7 @@ class SBasicHeader extends StatelessWidget {
   final String? subtitle;
   final void Function()? onTap;
   final bool showLinkButton;
+  final Widget? subtitleIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +44,20 @@ class SBasicHeader extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              if (subtitle != null)
-                Text(
-                  subtitle!,
-                  style: STStyles.body1Medium.copyWith(
-                    color: colors.grey1,
-                  ),
-                )
-              else
+              if (subtitle != null) ...[
+                Row(
+                  children: [
+                    Text(
+                      subtitle!,
+                      style: STStyles.body1Medium.copyWith(
+                        color: colors.grey1,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    if (subtitleIcon != null) subtitleIcon ?? const Offstage(),
+                  ],
+                ),
+              ] else
                 Text(
                   title,
                   style: sTextH4Style,

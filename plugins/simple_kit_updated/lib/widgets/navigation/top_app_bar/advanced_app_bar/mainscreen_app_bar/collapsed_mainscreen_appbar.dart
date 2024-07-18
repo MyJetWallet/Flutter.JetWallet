@@ -14,7 +14,6 @@ class CollapsedMainscreenAppbar extends HookWidget {
     required this.isLabelIconShow,
     this.onLabelIconTap,
     this.onProfileTap,
-    this.profileNotificationsCount = 0,
     this.isLoading = false,
     this.onOnChatTap,
     required this.userAvatar,
@@ -34,7 +33,6 @@ class CollapsedMainscreenAppbar extends HookWidget {
   final VoidCallback? onLabelIconTap;
 
   final VoidCallback? onProfileTap;
-  final int profileNotificationsCount;
 
   final VoidCallback? onOnChatTap;
 
@@ -73,13 +71,12 @@ class CollapsedMainscreenAppbar extends HookWidget {
         onLabelIconTap: onLabelIconTap,
         isLabelIconShow: isLabelIconShow,
         onProfileTap: onProfileTap,
-        profileNotificationsCount: profileNotificationsCount,
         isLoading: isLoading,
         onOnChatTap: onOnChatTap,
         userAvatar: userAvatar,
         onUserAvatarTap: () {
-            onProfileTap?.call();
-          },
+          onProfileTap?.call();
+        },
         child: child,
       ),
       secondChild: Material(

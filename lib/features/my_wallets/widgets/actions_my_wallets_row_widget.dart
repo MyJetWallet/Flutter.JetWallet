@@ -51,21 +51,19 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
                         sAnalytics.tapOnTheBuyWalletButton(
                           source: 'Wallets - Buy',
                         );
-                        if (myWalletsSrore.isReordering) {
-                          myWalletsSrore.endReorderingImmediately();
-                        } else {
-                          showBuyAction(context: context);
-                        }
+
+                        myWalletsSrore.endReorderingImmediately();
+
+                        showBuyAction(context: context);
                       },
                     ),
                     CircleActionSell(
                       onTap: () {
                         sAnalytics.tapOnTheSellButtonOnWalletsScr();
-                        if (myWalletsSrore.isReordering) {
-                          myWalletsSrore.endReorderingImmediately();
-                        } else {
-                          showSellAction(context);
-                        }
+
+                        myWalletsSrore.endReorderingImmediately();
+
+                        showSellAction(context);
                       },
                     ),
                     CircleActionSend(
@@ -73,11 +71,10 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
                         sAnalytics.tabOnTheSendButton(
                           source: 'My Assets - Send',
                         );
-                        if (myWalletsSrore.isReordering) {
-                          myWalletsSrore.endReorderingImmediately();
-                        } else {
-                          showSendAction(context);
-                        }
+
+                        myWalletsSrore.endReorderingImmediately();
+
+                        showSendAction(context);
                       },
                       isDisabled: isEmptyBalanse,
                     ),
@@ -87,11 +84,10 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
                         sAnalytics.tapOnTheDepositButton(
                           source: 'Wallets - Deposit',
                         );
-                        if (myWalletsSrore.isReordering) {
-                          myWalletsSrore.endReorderingImmediately();
-                        } else {
-                          showSelectAccountForAddCash(context);
-                        }
+
+                        myWalletsSrore.endReorderingImmediately();
+
+                        showSelectAccountForAddCash(context);
                       },
                     ),
                   ],

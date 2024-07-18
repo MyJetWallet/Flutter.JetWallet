@@ -66,8 +66,11 @@ class GlobalBasicAppBar extends StatelessWidget {
                             child: SafeGesture(
                               onTap: hasLeftIcon
                                   ? () {
-                                      onLeftIconTap?.call();
-                                      Navigator.pop(context);
+                                      if (onLeftIconTap != null) {
+                                        onLeftIconTap?.call();
+                                      } else {
+                                        Navigator.pop(context);
+                                      }
                                     }
                                   : null,
                               child: leftIcon ?? Assets.svg.medium.arrowLeft.simpleSvg(),

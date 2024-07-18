@@ -100,6 +100,7 @@ class _EarnViewState extends State<_EarnView> {
         title: intl.earn_earn,
         showLabelIcon: false,
         hasRightIcon: false,
+        hasTopPart: false,
       ),
       child: Observer(
         builder: (context) {
@@ -132,13 +133,10 @@ class _EarnViewState extends State<_EarnView> {
                     ) : '**** ${sSignalRModules.baseCurrency.symbol}'}',
                   lableIcon: SafeGesture(
                     onTap: _showBanner,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: Assets.svg.small.info.simpleSvg(
-                        width: 16,
-                        height: 16,
-                        color: SColorsLight().gray10,
-                      ),
+                    child: Assets.svg.small.info.simpleSvg(
+                      width: 16,
+                      height: 16,
+                      color: SColorsLight().gray10,
                     ),
                   ),
                 ),

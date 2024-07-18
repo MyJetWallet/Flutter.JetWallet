@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math' as math;
 
 import 'package:auto_route/auto_route.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
@@ -17,13 +16,14 @@ import 'package:jetwallet/core/services/remote_config/remote_config_values.dart'
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/earn/widgets/earn_dashboard_section_widget.dart';
-import 'package:jetwallet/features/kyc/models/kyc_verified_model.dart';
+import 'package:jetwallet/features/market/market_details/store/market_news_store.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/features/my_wallets/widgets/actions_my_wallets_row_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/add_wallet_bottom_sheet.dart';
 import 'package:jetwallet/features/my_wallets/widgets/banners_carusel.dart';
 import 'package:jetwallet/features/my_wallets/widgets/change_order_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/my_wallets_asset_item.dart';
+import 'package:jetwallet/features/my_wallets/widgets/news_dashboard_section.dart';
 import 'package:jetwallet/features/my_wallets/widgets/pending_transactions_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/top_movers_dashboard_section.dart';
 import 'package:jetwallet/features/my_wallets/widgets/user_avatar_widget.dart';
@@ -62,8 +62,11 @@ class MyWalletsScreen extends StatefulWidget {
 class _MyWalletsScreenState extends State<MyWalletsScreen> {
   @override
   Widget build(BuildContext context) {
-    return Provider<MyWalletsSrore>(
-      create: (context) => MyWalletsSrore(),
+    return MultiProvider(
+      providers: [
+        Provider<MyWalletsSrore>(create: (context) => MyWalletsSrore()),
+        Provider<MarketNewsStore>(create: (context) => MarketNewsStore()..loadNews('')),
+      ],
       builder: (context, child) => const _MyWalletsScreenBody(),
     );
   }
@@ -78,7 +81,6 @@ class _MyWalletsScreenBody extends StatefulObserverWidget {
 
 class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
   final _controller = ScrollController();
-  bool isTopPosition = true;
 
   // for analytic
   GlobalHistoryTab historyTab = GlobalHistoryTab.pending;
@@ -112,18 +114,9 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
     );
 
     _controller.addListener(() {
-      if (_controller.position.pixels <= 265) {
-        if (!isTopPosition) {
-          setState(() {
-            isTopPosition = true;
-          });
-        }
-      } else {
-        if (isTopPosition) {
-          setState(() {
-            isTopPosition = false;
-          });
-        }
+      if (_controller.offset >= _controller.position.maxScrollExtent) {
+        final newsStore = MarketNewsStore.of(context);
+        newsStore.loadMoreNews();
       }
     });
 
@@ -141,6 +134,8 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
   }
 
   void _onLabelIconTap() {
+    getIt.get<EventBus>().fire(EndReordering());
+
     if (getIt<AppStore>().isBalanceHide) {
       getIt<AppStore>().setIsBalanceHide(false);
     } else {
@@ -153,12 +148,11 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
 
   void _headerTap() {
     sAnalytics.tapOnTheButtonProfileOnWalletsScreen();
+
     final myWalletsSrore = MyWalletsSrore.of(context);
-    if (myWalletsSrore.isReordering) {
-      myWalletsSrore.endReorderingImmediately();
-    } else {
-      sRouter.push(const AccountRouter());
-    }
+    myWalletsSrore.endReorderingImmediately();
+
+    sRouter.push(const AccountRouter());
   }
 
   Future<void> goTop() async {
@@ -176,23 +170,10 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final kycState = getIt.get<KycService>();
 
     store = MyWalletsSrore.of(context) as MyWalletsSrore;
 
     final list = slidableItems(store);
-
-    final notificationsCount = _profileNotificationLength(
-      KycModel(
-        depositStatus: kycState.depositStatus,
-        sellStatus: kycState.tradeStatus,
-        withdrawalStatus: kycState.withdrawalStatus,
-        requiredDocuments: kycState.requiredDocuments,
-        requiredVerifications: kycState.requiredVerifications,
-        verificationInProgress: kycState.verificationInProgress,
-      ),
-      true,
-    );
 
     return VisibilityDetector(
       key: const Key('my_vallets-screen-key'),
@@ -220,50 +201,53 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
             loading: store.loader,
             child: Column(
               children: [
-                if (!store.isReordering)
-                  CollapsedMainscreenAppbar(
-                    scrollController: _controller,
-                    mainHeaderValue: !getIt<AppStore>().isBalanceHide
-                        ? _price(
-                            currenciesWithBalanceFrom(
-                              sSignalRModules.currenciesList,
-                            ),
-                            sSignalRModules.baseCurrency,
-                          )
-                        : '**** ${sSignalRModules.baseCurrency.symbol}',
-                    mainHeaderTitle: intl.home_header_total_balance,
-                    mainHeaderCollapsedTitle: intl.home_header_simple,
-                    isLabelIconShow: getIt<AppStore>().isBalanceHide,
-                    onLabelIconTap: () {
-                      _onLabelIconTap();
-                    },
-                    onProfileTap: () {
-                      _headerTap();
-                    },
-                    onOnChatTap: () async {
-                      if (showZendesk) {
-                        await getIt.get<IntercomService>().showMessenger();
-                      } else {
-                        await sRouter.push(
-                          CrispRouter(
-                            welcomeText: intl.crispSendMessage_hi,
+                CollapsedMainscreenAppbar(
+                  scrollController: _controller,
+                  mainHeaderValue: !getIt<AppStore>().isBalanceHide
+                      ? _price(
+                          currenciesWithBalanceFrom(
+                            sSignalRModules.currenciesList,
                           ),
-                        );
-                      }
-                    },
-                    profileNotificationsCount: notificationsCount,
-                    isLoading: store.isLoading,
-                    userAvatar: const UserAvatarWidget(),
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 20),
-                      child: ActionsMyWalletsRowWidget(),
-                    ),
+                          sSignalRModules.baseCurrency,
+                        )
+                      : '**** ${sSignalRModules.baseCurrency.symbol}',
+                  mainHeaderTitle: intl.home_header_total_balance,
+                  mainHeaderCollapsedTitle: intl.home_header_simple,
+                  isLabelIconShow: getIt<AppStore>().isBalanceHide,
+                  onLabelIconTap: () {
+                    _onLabelIconTap();
+                  },
+                  onProfileTap: () {
+                    _headerTap();
+                  },
+                  onOnChatTap: () async {
+                    getIt.get<EventBus>().fire(EndReordering());
+
+                    if (showZendesk) {
+                      await getIt.get<IntercomService>().showMessenger();
+                    } else {
+                      await sRouter.push(
+                        CrispRouter(
+                          welcomeText: intl.crispSendMessage_hi,
+                        ),
+                      );
+                    }
+                  },
+                  isLoading: store.isLoading,
+                  userAvatar: const UserAvatarWidget(),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: ActionsMyWalletsRowWidget(),
                   ),
+                ),
                 Expanded(
                   child: CustomRefreshIndicator(
                     notificationPredicate: !store.isReordering ? (_) => true : (_) => false,
                     offsetToArmed: 75,
-                    onRefresh: () => getIt.get<SignalRService>().forceReconnectSignalR(),
+                    onRefresh: () async {
+                      await getIt.get<SignalRService>().forceReconnectSignalR();
+                      await MarketNewsStore.of(context).loadNews('');
+                    },
                     builder: (
                       BuildContext context,
                       Widget child,
@@ -315,48 +299,8 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                           ? const _LoadingAssetsList()
                           : CustomScrollView(
                               controller: _controller,
-                              physics: store.isReordering
-                                  ? const ClampingScrollPhysics()
-                                  : const AlwaysScrollableScrollPhysics(),
+                              physics: const AlwaysScrollableScrollPhysics(),
                               slivers: [
-                                if (store.isReordering)
-                                  SliverToBoxAdapter(
-                                    child: MainScreenAppbar(
-                                      headerTitle: intl.my_wallets_header,
-                                      headerValue: !getIt<AppStore>().isBalanceHide
-                                          ? _price(
-                                              currenciesWithBalanceFrom(
-                                                sSignalRModules.currenciesList,
-                                              ),
-                                              sSignalRModules.baseCurrency,
-                                            )
-                                          : '**** ${sSignalRModules.baseCurrency.symbol}',
-                                      onLabelIconTap: () {
-                                        _onLabelIconTap();
-                                      },
-                                      onProfileTap: () {
-                                        _headerTap();
-                                      },
-                                      onOnChatTap: () async {
-                                        if (showZendesk) {
-                                          await getIt.get<IntercomService>().showMessenger();
-                                        } else {
-                                          await sRouter.push(
-                                            CrispRouter(
-                                              welcomeText: intl.crispSendMessage_hi,
-                                            ),
-                                          );
-                                        }
-                                      },
-                                      isLabelIconShow: getIt<AppStore>().isBalanceHide,
-                                      profileNotificationsCount: notificationsCount,
-                                      userAvatar: const UserAvatarWidget(),
-                                      child: const Padding(
-                                        padding: EdgeInsets.symmetric(vertical: 24),
-                                        child: ActionsMyWalletsRowWidget(),
-                                      ),
-                                    ),
-                                  ),
                                 const SliverToBoxAdapter(
                                   child: BannerCarusel(),
                                 ),
@@ -368,51 +312,49 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                         sAnalytics.tapOnTheButtonPendingTransactionsOnWalletsScreen(
                                           numberOfPendingTrx: store.countOfPendingTransactions,
                                         );
-                                        if (store.isReordering) {
-                                          store.endReorderingImmediately();
-                                        } else {
-                                          historyTab = GlobalHistoryTab.pending;
-                                          sRouter
-                                              .push(
-                                            TransactionHistoryRouter(
-                                              initialIndex: 1,
-                                              onTabChanged: (index) {
-                                                final result =
-                                                    index == 0 ? GlobalHistoryTab.all : GlobalHistoryTab.pending;
-                                                setState(() {
-                                                  historyTab = result;
-                                                });
-                                              },
-                                            ),
-                                          )
-                                              .then(
-                                            (value) {
-                                              sAnalytics.tapOnTheButtonBackOnGlobalTransactionHistoryScreen(
-                                                globalHistoryTab: historyTab,
-                                              );
+
+                                        store.endReorderingImmediately();
+
+                                        historyTab = GlobalHistoryTab.pending;
+                                        sRouter
+                                            .push(
+                                          TransactionHistoryRouter(
+                                            initialIndex: 1,
+                                            onTabChanged: (index) {
+                                              final result =
+                                                  index == 0 ? GlobalHistoryTab.all : GlobalHistoryTab.pending;
+                                              setState(() {
+                                                historyTab = result;
+                                              });
                                             },
-                                          );
-                                        }
+                                          ),
+                                        )
+                                            .then(
+                                          (value) {
+                                            sAnalytics.tapOnTheButtonBackOnGlobalTransactionHistoryScreen(
+                                              globalHistoryTab: historyTab,
+                                            );
+                                          },
+                                        );
                                       },
                                     ),
                                   ),
-                                  const SliverToBoxAdapter(child: SpaceH10()),
                                 ],
                                 if (store.isReordering)
-                                  SliverPersistentHeader(
-                                    pinned: store.isReordering,
-                                    delegate: _SliverAppBarDelegate(
-                                      minHeight: isTopPosition ? 64 : 117,
-                                      maxHeight: isTopPosition ? 64 : 117,
-                                      child: ChangeOrderWidget(
-                                        isTopPosition: isTopPosition,
-                                        onPressedDone: () {
-                                          store.onEndReordering();
-                                          goTop();
-                                        },
-                                      ),
+                                  SliverToBoxAdapter(
+                                    child: ChangeOrderWidget(
+                                      onPressedDone: () {
+                                        store.onEndReordering();
+                                        goTop();
+                                      },
                                     ),
                                   ),
+                                SliverToBoxAdapter(
+                                  child: STableHeader(
+                                    size: SHeaderSize.m,
+                                    title: intl.my_wallets_header,
+                                  ),
+                                ),
                                 const SliverToBoxAdapter(
                                   child: SimpleCoinAssetItem(),
                                 ),
@@ -430,7 +372,6 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
 
                                     setState(() {});
                                   },
-                                  //itemCount: list.length,
                                   itemCount: list.length,
                                   itemBuilder: (context, index) {
                                     return ReorderableDelayedDragStartListener(
@@ -473,7 +414,10 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                   child: TopMoversDashboardSection(),
                                 ),
                                 const SliverToBoxAdapter(
-                                  child: SizedBox(height: 200),
+                                  child: NewsDashboardSection(),
+                                ),
+                                const SliverToBoxAdapter(
+                                  child: SizedBox(height: 24),
                                 ),
                               ],
                             ),
@@ -598,38 +542,6 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
   }
 }
 
-class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  _SliverAppBarDelegate({
-    required this.minHeight,
-    required this.maxHeight,
-    required this.child,
-  });
-
-  final double minHeight;
-  final double maxHeight;
-  final Widget child;
-
-  @override
-  double get minExtent => minHeight;
-
-  @override
-  double get maxExtent => math.max(maxHeight, minHeight);
-
-  @override
-  Widget build(
-    BuildContext context,
-    double shrinkOffset,
-    bool overlapsContent,
-  ) {
-    return SizedBox.expand(child: child);
-  }
-
-  @override
-  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return maxHeight != oldDelegate.maxHeight || minHeight != oldDelegate.minHeight || child != oldDelegate.child;
-  }
-}
-
 class _OnlyOnePointerRecognizer extends OneSequenceGestureRecognizer {
   int _p = 0;
 
@@ -674,26 +586,6 @@ String _price(
     accuracy: baseCurrency.accuracy,
     symbol: baseCurrency.symbol,
   );
-}
-
-int _profileNotificationLength(KycModel kycState, bool twoFaEnable) {
-  var notificationLength = 0;
-
-  final passed = checkKycPassed(
-    kycState.depositStatus,
-    kycState.sellStatus,
-    kycState.withdrawalStatus,
-  );
-
-  if (!passed) {
-    notificationLength += 1;
-  }
-
-  if (!twoFaEnable) {
-    notificationLength += 1;
-  }
-
-  return notificationLength;
 }
 
 class _LoadingAssetsList extends StatelessWidget {

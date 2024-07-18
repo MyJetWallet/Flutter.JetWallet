@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/features/my_wallets/store/banners_store.dart';
+import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/navigation/carousel/carousel_widget.dart';
@@ -38,6 +41,7 @@ class _BannerCaruselState extends State<BannerCarusel> with TickerProviderStateM
                             for (final baner in store.banners)
                               SPromoBanner(
                                 onBannerTap: () {
+                                  getIt.get<EventBus>().fire(EndReordering());
                                   store.onBannerTap(baner);
                                 },
                                 onCloseBannerTap: () {
