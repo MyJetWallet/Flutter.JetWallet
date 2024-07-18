@@ -30,14 +30,20 @@ abstract class _MarketNewsStoreBase with Store {
   @observable
   bool loadMore = true;
 
+  @observable
+  bool isLoading = false;
+
   @computed
   bool get canLoadMore => news.length >= 3 && loadMore;
 
   @action
   Future<void> loadMoreNews(String assetId) async {
+    if (isLoading) return;
+
     _logger.log(notifier, 'loadMoreNews');
 
     try {
+      isLoading = true;
       final response = await sNetwork.getWalletModule().postMarketNews(
             MarketNewsRequestModel(
               assetId: assetId,
@@ -54,6 +60,8 @@ abstract class _MarketNewsStoreBase with Store {
       );
     } catch (e) {
       _logger.log(stateFlow, 'loadMoreNews', e);
+    } finally {
+      isLoading = false;
     }
   }
 
@@ -73,28 +81,37 @@ abstract class _MarketNewsStoreBase with Store {
 
   @action
   Future<void> loadNews(String id) async {
-    isNewsLoaded = false;
+    if (isLoading) return;
 
-    if (id == 'CPWR') {
-      isNewsLoaded = true;
+    try {
+      isLoading = true;
+      isNewsLoaded = false;
 
-      return;
-    }
-    final response = await sNetwork.getWalletModule().postMarketNews(
-          MarketNewsRequestModel(
-            assetId: id,
-            language: intl.localeName,
-            lastSeen: DateTime.now().toIso8601String(),
-            amount: newsPortionAmount,
-          ),
-        );
-
-    response.pick(
-      onData: (data) {
-        updateNews(data.news);
-
+      if (id == 'CPWR') {
         isNewsLoaded = true;
-      },
-    );
+
+        return;
+      }
+      final response = await sNetwork.getWalletModule().postMarketNews(
+            MarketNewsRequestModel(
+              assetId: id,
+              language: intl.localeName,
+              lastSeen: DateTime.now(),
+              amount: newsPortionAmount,
+            ),
+          );
+
+      response.pick(
+        onData: (data) {
+          updateNews(data.news);
+
+          isNewsLoaded = true;
+        },
+      );
+    } catch (e) {
+      _logger.log(stateFlow, 'loadNews', e);
+    } finally {
+      isLoading = false;
+    }
   }
 }

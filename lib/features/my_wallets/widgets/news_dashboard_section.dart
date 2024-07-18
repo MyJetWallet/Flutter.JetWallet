@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/features/earn/widgets/basic_header.dart';
-import 'package:jetwallet/features/market/market_details/helper/format_news_date.dart';
 import 'package:jetwallet/features/market/market_details/store/market_news_store.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
-import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_news/market_news_response_model.dart';
@@ -20,38 +19,35 @@ class NewsDashboardSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Provider(
-      create: (context) => MarketNewsStore()..loadNews('BTC'),
-      child: Observer(
-        builder: (context) {
-          final newsStore = MarketNewsStore.of(context);
+    return Observer(
+      builder: (context) {
+        final newsStore = MarketNewsStore.of(context);
 
-          final news = newsStore.news;
+        final news = newsStore.news;
 
-          return CustomScrollView(
-            shrinkWrap: true,
-            primary: false,
-            slivers: [
-              SliverToBoxAdapter(
-                child: SBasicHeader(
-                  title: intl.news,
-                  subtitle: intl.news_section_partner,
-                  showLinkButton: false,
-                  subtitleIcon: SvgPicture.asset(
-                    cryptopanicLogo,
-                  ),
+        return CustomScrollView(
+          shrinkWrap: true,
+          primary: false,
+          slivers: [
+            SliverToBoxAdapter(
+              child: SBasicHeader(
+                title: intl.news,
+                subtitle: intl.news_section_partner,
+                showLinkButton: false,
+                subtitleIcon: SvgPicture.asset(
+                  cryptopanicLogo,
                 ),
               ),
-              SliverList.builder(
-                itemCount: news.length,
-                itemBuilder: (context, index) {
-                  return NewsItem(news: news[index]);
-                },
-              ),
-            ],
-          );
-        },
-      ),
+            ),
+            SliverList.builder(
+              itemCount: news.length,
+              itemBuilder: (context, index) {
+                return NewsItem(news: news[index]);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -111,7 +107,7 @@ class NewsItem extends HookWidget {
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    formatNewsDate(news.timestamp),
+                    DateFormat('dd MMMM').format(news.timestamp),
                     style: STStyles.body2Medium.copyWith(
                       color: colors.gray10,
                     ),
@@ -146,8 +142,8 @@ class NewsItem extends HookWidget {
                         height: 56,
                         clipBehavior: Clip.antiAlias,
                         decoration: ShapeDecoration(
-                          image: const DecorationImage(
-                            image: NetworkImage('https://placehold.co/600x400.png'),
+                          image: DecorationImage(
+                            image: NetworkImage(news.imageUrl),
                             fit: BoxFit.cover,
                           ),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

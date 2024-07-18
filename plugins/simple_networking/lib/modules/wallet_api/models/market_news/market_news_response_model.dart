@@ -17,11 +17,14 @@ class MarketNewsModel with _$MarketNewsModel {
   const factory MarketNewsModel({
     required String source,
     required String topic,
+    required String description,
     required String lang,
-    required String timestamp,
+    required DateTime timestamp,
     required String urlAddress,
-    required Sentiment sentiment,
     required List<String> associatedAssets,
+    required String imageUrl,
+    required Sentiment sentiment,
+    required String integrationSource,
   }) = _MarketNewsModel;
 
   factory MarketNewsModel.fromJson(Map<String, dynamic> json) => _$MarketNewsModelFromJson(json);

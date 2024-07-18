@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-String formatNewsDate(String timestamp) => ' ${timeago.format(
-      DateTime.parse('${timestamp}Z').toLocal(),
+String formatNewsDate(DateTime timestamp) => ' ${timeago.format(
+      timestamp.toLocal(),
     )}';
 
 String formatBannersDate(

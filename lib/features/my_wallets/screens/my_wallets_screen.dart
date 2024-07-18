@@ -17,6 +17,7 @@ import 'package:jetwallet/core/services/remote_config/remote_config_values.dart'
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/earn/widgets/earn_dashboard_section_widget.dart';
+import 'package:jetwallet/features/market/market_details/store/market_news_store.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/features/my_wallets/widgets/actions_my_wallets_row_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/add_wallet_bottom_sheet.dart';
@@ -62,8 +63,11 @@ class MyWalletsScreen extends StatefulWidget {
 class _MyWalletsScreenState extends State<MyWalletsScreen> {
   @override
   Widget build(BuildContext context) {
-    return Provider<MyWalletsSrore>(
-      create: (context) => MyWalletsSrore(),
+    return MultiProvider(
+      providers: [
+        Provider<MyWalletsSrore>(create: (context) => MyWalletsSrore()),
+        Provider<MarketNewsStore>(create: (context) => MarketNewsStore()..loadNews('')),
+      ],
       builder: (context, child) => const _MyWalletsScreenBody(),
     );
   }
@@ -124,6 +128,10 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
             isTopPosition = false;
           });
         }
+      }
+      if (_controller.offset >= _controller.position.maxScrollExtent) {
+        final newsStore = MarketNewsStore.of(context);
+        newsStore.loadMoreNews('');
       }
     });
 
