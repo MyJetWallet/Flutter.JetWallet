@@ -77,27 +77,30 @@ class ProductBannerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = SColorsLight();
-    return Container(
-      width: 140,
-      height: 120,
-      padding: const EdgeInsets.all(16),
-      decoration: ShapeDecoration(
-        color: colors.extraLightsPurple,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          icon,
-          const Spacer(),
-          const SizedBox(height: 9),
-          Text(
-            title,
-            style: STStyles.body1Semibold,
+    return SafeGesture(
+      onTap: onTap,
+      child: Container(
+        width: 140,
+        height: 120,
+        padding: const EdgeInsets.all(16),
+        decoration: ShapeDecoration(
+          color: colors.extraLightsPurple,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
           ),
-        ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            icon,
+            const Spacer(),
+            const SizedBox(height: 9),
+            Text(
+              title,
+              style: STStyles.body1Semibold,
+            ),
+          ],
+        ),
       ),
     );
   }
