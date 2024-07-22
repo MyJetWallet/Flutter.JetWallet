@@ -49,6 +49,10 @@ class ProfileBannersSection extends StatelessWidget {
                 },
               ),
             ),
+            if (profileBanners.isNotEmpty)
+              const SliverToBoxAdapter(
+                child: SizedBox(height: 20),
+              ),
           ],
         );
       },
