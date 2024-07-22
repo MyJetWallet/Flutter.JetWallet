@@ -21,7 +21,7 @@ class BannersStore extends _BannersStoreBase with _$BannersStore {
 
 abstract class _BannersStoreBase with Store {
   _BannersStoreBase({required this.vsync}) {
-    banners = ObservableList.of(sSignalRModules.banersListMessage.banners);
+    updateBannersLists();
 
     updateTabController();
 
@@ -32,7 +32,7 @@ abstract class _BannersStoreBase with Store {
       (msg) {
         controller.dispose();
 
-        banners = ObservableList.of(msg.banners);
+        updateBannersLists();
 
         updateTabController();
 
@@ -44,13 +44,33 @@ abstract class _BannersStoreBase with Store {
   final TickerProvider vsync;
 
   @observable
-  ObservableList<BanerModel> banners = ObservableList.of([]);
+  ObservableList<BanerModel> marketingBanners = ObservableList.of([]);
+
+  @observable
+  ObservableList<BanerModel> profileBanners = ObservableList.of([]);
+
+  @observable
+  ObservableList<BanerModel> productBanners = ObservableList.of([]);
 
   @observable
   late TabController controller;
 
   @observable
   int selectedIndex = 0;
+
+  void updateBannersLists() {
+    final allbanners = sSignalRModules.banersListMessage.banners;
+
+    marketingBanners = ObservableList.of(
+      allbanners.where((banner) => banner.group == BanerGroupType.marketing),
+    );
+    profileBanners = ObservableList.of(
+      allbanners.where((banner) => banner.group == BanerGroupType.profile),
+    );
+    productBanners = ObservableList.of(
+      allbanners.where((banner) => banner.group == BanerGroupType.product),
+    );
+  }
 
   @action
   void addListener() {
@@ -76,7 +96,7 @@ abstract class _BannersStoreBase with Store {
   void onBannerTap(BanerModel baner) {
     sAnalytics.tapOnTheBanner(
       bannerId: baner.bannerId,
-      bannerTitle: baner.title,
+      bannerTitle: baner.title ?? '',
     );
     final action = baner.action;
     if (action != null) {
@@ -88,10 +108,10 @@ abstract class _BannersStoreBase with Store {
   Future<void> onCloseBannerTap(BanerModel baner) async {
     sAnalytics.closeBanner(
       bannerId: baner.bannerId,
-      bannerTitle: baner.title,
+      bannerTitle: baner.title ?? '',
     );
 
-    banners.removeWhere((element) => element.bannerId == baner.bannerId);
+    marketingBanners.removeWhere((element) => element.bannerId == baner.bannerId);
 
     await sNetwork.getWalletModule().postCloseBanner(
           CloseBannerRequestModel(
@@ -102,10 +122,10 @@ abstract class _BannersStoreBase with Store {
 
   @action
   void updateTabController() {
-    final newSelectedIndex = banners.isNotEmpty ? min(selectedIndex, banners.length - 1) : 0;
+    final newSelectedIndex = marketingBanners.isNotEmpty ? min(selectedIndex, marketingBanners.length - 1) : 0;
     controller = TabController(
       initialIndex: newSelectedIndex,
-      length: banners.length,
+      length: marketingBanners.length,
       vsync: vsync,
       animationDuration: const Duration(milliseconds: 100),
     );

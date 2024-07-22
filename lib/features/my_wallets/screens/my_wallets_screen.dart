@@ -17,14 +17,16 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/earn/widgets/earn_dashboard_section_widget.dart';
 import 'package:jetwallet/features/market/market_details/store/market_news_store.dart';
+import 'package:jetwallet/features/my_wallets/store/banners_store.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/features/my_wallets/widgets/actions_my_wallets_row_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/add_wallet_bottom_sheet.dart';
-import 'package:jetwallet/features/my_wallets/widgets/banners_carusel.dart';
 import 'package:jetwallet/features/my_wallets/widgets/change_order_widget.dart';
+import 'package:jetwallet/features/my_wallets/widgets/marketing_banners_carusel.dart';
 import 'package:jetwallet/features/my_wallets/widgets/my_wallets_asset_item.dart';
 import 'package:jetwallet/features/my_wallets/widgets/news_dashboard_section.dart';
 import 'package:jetwallet/features/my_wallets/widgets/pending_transactions_widget.dart';
+import 'package:jetwallet/features/my_wallets/widgets/profile_banners_section.dart';
 import 'package:jetwallet/features/my_wallets/widgets/top_movers_dashboard_section.dart';
 import 'package:jetwallet/features/my_wallets/widgets/user_avatar_widget.dart';
 import 'package:jetwallet/features/simple_coin/widgets/simple_coin_asset_item.dart';
@@ -59,13 +61,17 @@ class MyWalletsScreen extends StatefulWidget {
   State<MyWalletsScreen> createState() => _MyWalletsScreenState();
 }
 
-class _MyWalletsScreenState extends State<MyWalletsScreen> {
+class _MyWalletsScreenState extends State<MyWalletsScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         Provider<MyWalletsSrore>(create: (context) => MyWalletsSrore()),
         Provider<MarketNewsStore>(create: (context) => MarketNewsStore()..loadNews('')),
+        Provider<BannersStore>(
+          create: (context) => BannersStore(vsync: this),
+          dispose: (context, store) => store.dispose(),
+        ),
       ],
       builder: (context, child) => const _MyWalletsScreenBody(),
     );
@@ -301,9 +307,6 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                               controller: _controller,
                               physics: const AlwaysScrollableScrollPhysics(),
                               slivers: [
-                                const SliverToBoxAdapter(
-                                  child: BannerCarusel(),
-                                ),
                                 if (store.countOfPendingTransactions > 0) ...[
                                   SliverToBoxAdapter(
                                     child: PendingTransactionsWidget(
@@ -340,6 +343,9 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                     ),
                                   ),
                                 ],
+                                const SliverToBoxAdapter(
+                                  child: ProfileBannersSection(),
+                                ),
                                 if (store.isReordering)
                                   SliverToBoxAdapter(
                                     child: ChangeOrderWidget(
@@ -407,6 +413,9 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                       ),
                                     ),
                                   ),
+                                const SliverToBoxAdapter(
+                                  child: BannerCarusel(),
+                                ),
                                 const SliverToBoxAdapter(
                                   child: EarnDashboardSectionWidget(),
                                 ),

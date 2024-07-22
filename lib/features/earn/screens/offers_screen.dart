@@ -5,7 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/store/earn_store.dart';
-import 'package:jetwallet/features/earn/widgets/chips_suggestion_m.dart';
+import 'package:jetwallet/features/earn/widgets/earn_offer_item.dart';
 import 'package:jetwallet/features/earn/widgets/offers_overlay_content.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -56,7 +56,7 @@ class _OffersScreenState extends State<OffersScreen> {
                     final currency = currencies.firstWhere((currency) => currency.symbol == assetId);
                     offers.sort((a, b) => b.apyRate!.compareTo(a.apyRate!));
 
-                    return ChipsSuggestionM(
+                    return EarnOfferItem(
                       isSingleOffer: offers.length == 1,
                       percentage: formatApyRate(offers.first.apyRate),
                       cryptoName: currency.description,

@@ -5,8 +5,8 @@ import 'package:simple_kit_updated/gen/assets.gen.dart';
 import 'package:simple_kit_updated/helpers/icons_extension.dart';
 import 'package:simple_kit_updated/widgets/typography/simple_typography.dart';
 
-class ChipsSuggestionM extends StatelessWidget {
-  const ChipsSuggestionM({
+class EarnOfferItem extends StatelessWidget {
+  const EarnOfferItem({
     required this.percentage,
     required this.cryptoName,
     required this.onTap,
@@ -24,6 +24,7 @@ class ChipsSuggestionM extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = SColorsLight();
 
+    // TODO (Yaroslav): replace to component
     return Padding(
       padding: const EdgeInsets.only(
         left: 24,

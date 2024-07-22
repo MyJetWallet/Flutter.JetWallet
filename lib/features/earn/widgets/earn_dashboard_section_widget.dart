@@ -13,7 +13,7 @@ import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/store/earn_store.dart';
 import 'package:jetwallet/features/earn/widgets/basic_header.dart';
-import 'package:jetwallet/features/earn/widgets/chips_suggestion_m.dart';
+import 'package:jetwallet/features/earn/widgets/earn_offer_item.dart';
 import 'package:jetwallet/features/earn/widgets/earn_offers_list.dart';
 import 'package:jetwallet/features/earn/widgets/offers_overlay_content.dart';
 import 'package:jetwallet/features/home/store/bottom_bar_store.dart';
@@ -109,7 +109,7 @@ class _EarnSectionEmptyState extends StatelessWidget {
                 return const Offstage();
               }
 
-              return ChipsSuggestionM(
+              return EarnOfferItem(
                 isSingleOffer: currencyOffers.length == 1,
                 percentage: formatApyRate(
                   store.highestApyOffersPerCurrency[currencyDescription]?.apyRate,

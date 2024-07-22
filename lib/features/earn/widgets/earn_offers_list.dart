@@ -6,7 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/widgets/basic_header.dart';
-import 'package:jetwallet/features/earn/widgets/chips_suggestion_m.dart';
+import 'package:jetwallet/features/earn/widgets/earn_offer_item.dart';
 import 'package:jetwallet/features/earn/widgets/offers_overlay_content.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -58,7 +58,7 @@ class OffersListWidget extends StatelessWidget {
                 return const Offstage();
               }
 
-              return ChipsSuggestionM(
+              return EarnOfferItem(
                 isSingleOffer: currencyOffers.length == 1,
                 percentage: formatApyRate(
                   highestApyOffers[currencyDescription]?.apyRate,
