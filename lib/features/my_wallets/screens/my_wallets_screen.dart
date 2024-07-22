@@ -26,6 +26,7 @@ import 'package:jetwallet/features/my_wallets/widgets/marketing_banners_carusel.
 import 'package:jetwallet/features/my_wallets/widgets/my_wallets_asset_item.dart';
 import 'package:jetwallet/features/my_wallets/widgets/news_dashboard_section.dart';
 import 'package:jetwallet/features/my_wallets/widgets/pending_transactions_widget.dart';
+import 'package:jetwallet/features/my_wallets/widgets/products_banners_section.dart';
 import 'package:jetwallet/features/my_wallets/widgets/profile_banners_section.dart';
 import 'package:jetwallet/features/my_wallets/widgets/top_movers_dashboard_section.dart';
 import 'package:jetwallet/features/my_wallets/widgets/user_avatar_widget.dart';
@@ -345,6 +346,9 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                 ],
                                 const SliverToBoxAdapter(
                                   child: ProfileBannersSection(),
+                                ),
+                                const SliverToBoxAdapter(
+                                  child: ProductsBannersSection(),
                                 ),
                                 if (store.isReordering)
                                   SliverToBoxAdapter(
