@@ -22,7 +22,7 @@ class MarketNewsModel with _$MarketNewsModel {
     required DateTime timestamp,
     required String urlAddress,
     required List<String> associatedAssets,
-    required String imageUrl,
+    String? imageUrl,
     required Sentiment sentiment,
     required String integrationSource,
   }) = _MarketNewsModel;

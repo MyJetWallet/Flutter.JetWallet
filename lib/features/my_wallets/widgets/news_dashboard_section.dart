@@ -158,23 +158,24 @@ class NewsItem extends HookWidget {
                       maxLines: 5,
                     ),
                   ),
-                  Row(
-                    children: [
-                      const SizedBox(width: 8),
-                      Container(
-                        width: 56,
-                        height: 56,
-                        clipBehavior: Clip.antiAlias,
-                        decoration: ShapeDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage(news.imageUrl),
-                            fit: BoxFit.cover,
+                  if (news.imageUrl != null)
+                    Row(
+                      children: [
+                        const SizedBox(width: 8),
+                        Container(
+                          width: 56,
+                          height: 56,
+                          clipBehavior: Clip.antiAlias,
+                          decoration: ShapeDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(news.imageUrl ?? ''),
+                              fit: BoxFit.cover,
+                            ),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                           ),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
                 ],
               ),
             ],
