@@ -94,8 +94,9 @@ class ProductBannerWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            icon,
-            const Spacer(),
+            Expanded(
+              child: icon,
+            ),
             const SizedBox(height: 9),
             Text(
               title,
