@@ -43,7 +43,7 @@ abstract class _MarketNewsStoreBase with Store {
 
   @action
   Future<void> loadMoreNews() async {
-    if (isLoading || isLoadingPagination) return;
+    if (isLoading || isLoadingPagination || !canLoadMore) return;
 
     _logger.log(notifier, 'loadMoreNews');
 
@@ -71,13 +71,6 @@ abstract class _MarketNewsStoreBase with Store {
   }
 
   @action
-  void cutNewToDefaultSize() {
-    _logger.log(notifier, 'cutNewToDefaultSize');
-
-    news = ObservableList.of(news.sublist(0, newsPortionAmount));
-  }
-
-  @action
   void updateNews(List<MarketNewsModel> newNews) {
     _logger.log(notifier, 'updateNews');
 
@@ -88,7 +81,7 @@ abstract class _MarketNewsStoreBase with Store {
   void clearNews() {
     _logger.log(notifier, 'clearNews');
 
-    loadMore = false;
+    loadMore = true;
     news = ObservableList.of([]);
   }
 
