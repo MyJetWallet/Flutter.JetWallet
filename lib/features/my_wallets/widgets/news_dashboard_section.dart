@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -12,6 +14,7 @@ import 'package:jetwallet/features/market/market_details/store/market_news_store
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -86,9 +89,20 @@ class NewsItem extends HookWidget {
 
     final colors = SColorsLight();
 
-    final asset = getIt.get<FormatService>().findCurrency(
-          assetSymbol: news.associatedAssets.first,
-        );
+    var assets = <CurrencyModel>[];
+
+    for (final assetId in news.associatedAssets) {
+      final asset = getIt.get<FormatService>().findCurrency(
+            assetSymbol: assetId,
+            findInHideTerminalList: true,
+          );
+      if (asset.symbol != 'unknown') {
+        assets.add(asset);
+      }
+    }
+
+    assets = assets.sublist(0, min(assets.length, 3));
+
     return SafeGesture(
       onTap: () async {
         getIt.get<EventBus>().fire(EndReordering());
@@ -110,18 +124,7 @@ class NewsItem extends HookWidget {
             children: [
               Row(
                 children: [
-                  SNetworkSvg(
-                    width: 20,
-                    height: 20,
-                    url: asset.iconUrl,
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    asset.symbol,
-                    style: STStyles.body2Semibold.copyWith(
-                      color: colors.black,
-                    ),
-                  ),
+                  _AssociatedAssetsRow(assets: assets),
                   const SizedBox(width: 4),
                   Text(
                     '•',
@@ -182,6 +185,64 @@ class NewsItem extends HookWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _AssociatedAssetsRow extends StatelessWidget {
+  const _AssociatedAssetsRow({required this.assets});
+
+  final List<CurrencyModel> assets;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = SColorsLight();
+
+    return Row(
+      children: [
+        SizedBox(
+          width: assets.length > 1 ? (16 * assets.length + 4).toDouble() : 20,
+          height: 20,
+          child: Stack(
+            children: [
+              for (var i = 0; i < assets.length; i++)
+                Positioned(
+                  right: i == 0 ? 0 : i * 16,
+                  child: Container(
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          width: 1.5,
+                          strokeAlign: BorderSide.strokeAlignOutside,
+                          color: colors.white,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: SNetworkSvg(
+                      width: 20,
+                      height: 20,
+                      url: assets.reversed.toList()[i].iconUrl,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
+        const SizedBox(width: 8),
+        for (var i = 0; i < assets.length; i++)
+          Builder(
+            builder: (context) {
+              final text = assets[i].symbol + (i == assets.length - 1 ? '' : ', ');
+              return Text(
+                text,
+                style: STStyles.body2Semibold.copyWith(
+                  color: colors.black,
+                ),
+              );
+            },
+          ),
+      ],
     );
   }
 }
