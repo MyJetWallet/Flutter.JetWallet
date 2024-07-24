@@ -14,7 +14,7 @@ dependencies:
   flutter_svg: ^2.0.10+1 # SVG rendering and widget library
   local_auth: ^2.2.0 # local authentication via fingerprint, touch ID, face ID, passcode, pin, or pattern
   flash: ^3.1.1
-  rive: 0.13.9 # rive animations
+  rive: 0.13.10 # rive animations
   qr_flutter: 4.1.0 # QR code rendering
   mobx: ^2.3.3+1
   flutter_mobx: ^2.2.1+1
@@ -22,7 +22,7 @@ dependencies:
   modal_bottom_sheet: 3.0.0
   state_notifier: ^1.0.0
   auto_size_text: ^3.0.0
-  flutter_cache_manager: ^3.3.2
+  flutter_cache_manager: ^3.3.3
 
 dev_dependencies:
   flutter_test:
