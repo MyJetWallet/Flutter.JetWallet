@@ -7,7 +7,7 @@ import 'package:jetwallet/features/market/market_details/store/operation_history
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/transaction_list_item.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:provider/provider.dart';
-import 'package:rive/rive.dart';
+import 'package:rive/rive.dart' as rive;
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
@@ -379,7 +379,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                                   color: colors.grey5,
                                   shape: BoxShape.circle,
                                 ),
-                                child: const RiveAnimation.asset(
+                                child: const rive.RiveAnimation.asset(
                                   loadingAnimationAsset,
                                 ),
                               ),
