@@ -16,47 +16,49 @@ class ProductsBannersSection extends StatelessWidget {
     return Observer(
       builder: (context) {
         final productBanners = store.productBanners;
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 120,
-              child: CustomScrollView(
-                scrollDirection: Axis.horizontal,
-                physics: const AlwaysScrollableScrollPhysics(),
-                slivers: [
-                  SliverPadding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    sliver: SliverList.separated(
-                      itemCount: productBanners.length,
-                      itemBuilder: (context, index) {
-                        final banner = productBanners[index];
+        return productBanners.isNotEmpty
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 120,
+                    child: CustomScrollView(
+                      scrollDirection: Axis.horizontal,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      slivers: [
+                        SliverPadding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          sliver: SliverList.separated(
+                            itemCount: productBanners.length,
+                            itemBuilder: (context, index) {
+                              final banner = productBanners[index];
 
-                        return ProductBannerWidget(
-                          title: banner.title ?? '',
-                          onTap: () {
-                            getIt.get<EventBus>().fire(EndReordering());
-                            store.onBannerTap(banner);
-                          },
-                          icon: banner.image != null
-                              ? Image.network(
-                                  banner.image ?? '',
-                                  fit: BoxFit.cover,
-                                )
-                              : const SizedBox(),
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(width: 8);
-                      },
+                              return ProductBannerWidget(
+                                title: banner.title ?? '',
+                                onTap: () {
+                                  getIt.get<EventBus>().fire(EndReordering());
+                                  store.onBannerTap(banner);
+                                },
+                                icon: banner.image != null
+                                    ? Image.network(
+                                        banner.image ?? '',
+                                        fit: BoxFit.cover,
+                                      )
+                                    : const SizedBox(),
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return const SizedBox(width: 8);
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
+                  if (productBanners.isNotEmpty) const SizedBox(height: 16),
                 ],
-              ),
-            ),
-            if (productBanners.isNotEmpty) const SizedBox(height: 16),
-          ],
-        );
+              )
+            : const Offstage();
       },
     );
   }

@@ -37,8 +37,8 @@ class ChipsSuggestionM extends HookWidget {
           padding: const EdgeInsets.only(
             left: 16,
             right: 12,
-            top: 12,
-            bottom: 12,
+            top: 14,
+            bottom: 14,
           ),
           decoration: BoxDecoration(
             border: Border.all(color: colors.gray4),
@@ -51,26 +51,27 @@ class ChipsSuggestionM extends HookWidget {
                 icon ?? const SizedBox(),
                 const SizedBox(width: 12),
               ],
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  if (title != null)
-                    Text(
-                      title ?? '',
-                      style: STStyles.subtitle1,
-                    ),
-                  if (subtitle != null)
-                    Text(
-                      subtitle ?? '',
-                      style: STStyles.body1Semibold.copyWith(
-                        color: colors.gray10,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    if (title != null)
+                      Text(
+                        title ?? '',
+                        style: STStyles.subtitle1,
                       ),
-                    ),
-                ],
+                    if (subtitle != null)
+                      Text(
+                        subtitle ?? '',
+                        style: STStyles.body1Semibold.copyWith(
+                          color: colors.gray10,
+                        ),
+                      ),
+                  ],
+                ),
               ),
-              const Spacer(),
               if (value != null) ...[
                 Text(
                   value ?? '',
