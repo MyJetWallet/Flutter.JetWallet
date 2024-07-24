@@ -129,7 +129,7 @@ dependencies:
   confetti: 0.7.0
   logger: ^2.4.0
   dotted_border: ^2.1.0
-  intercom_flutter: 9.0.2
+  intercom_flutter: 9.0.4
   gap: ^3.0.1
 
   # CRYPTOGRAPHY:
