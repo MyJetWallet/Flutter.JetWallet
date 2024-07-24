@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -30,8 +32,13 @@ class ProfileBannersSection extends StatelessWidget {
                   return ProfileBannerWidget(
                     title: banner.title != '' ? banner.title : null,
                     subtitle: banner.description != '' ? banner.description : null,
-                    onTap: () {
+                    onTap: () async {
                       getIt.get<EventBus>().fire(EndReordering());
+
+                      if (Platform.isIOS) {
+                        await Future.delayed(const Duration(microseconds: 200));
+                      }
+
                       store.onBannerTap(banner);
                     },
                     icon: banner.image != null
