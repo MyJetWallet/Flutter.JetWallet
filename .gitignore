@@ -104,6 +104,7 @@ app.*.map.json
 **/macos/Flutter/Flutter-Debug.xcconfig
 **/macos/Flutter/Flutter-Release.xcconfig
 **/macos/Flutter/Flutter-Profile.xcconfig
+**/macos/
 
 # Exceptions to above rules.
 !**/ios/**/default.mode1v3
