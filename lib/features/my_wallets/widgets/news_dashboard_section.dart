@@ -70,6 +70,10 @@ class NewsDashboardSection extends StatelessWidget {
                           ),
                         ),
                       ),
+                    )
+                  else
+                    const SliverToBoxAdapter(
+                      child: SizedBox(height: 48),
                     ),
                 ],
               );
