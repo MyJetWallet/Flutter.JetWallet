@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -25,6 +27,12 @@ class _HelpCenterWebViewState extends State<HelpCenterWebView> {
   late WebViewController controller;
 
   @override
+  void initState() {
+    super.initState();
+    if (Platform.isAndroid) WebView.platform = AndroidWebView();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
@@ -38,28 +46,17 @@ class _HelpCenterWebViewState extends State<HelpCenterWebView> {
           },
         ),
       ),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          var width = 700.0;
-          final height = constraints.maxHeight;
-          width = (constraints.maxWidth > width) ? width : constraints.maxWidth;
-          if (height <= width) {
-            width = height * 0.6;
-          }
-
-          return WebView(
-            gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{}..add(
-                Factory<VerticalDragGestureRecognizer>(
-                  () => VerticalDragGestureRecognizer(),
-                ),
-              ),
-            initialUrl: widget.link,
-            gestureNavigationEnabled: true,
-            javascriptMode: JavascriptMode.unrestricted,
-            onWebViewCreated: (controller) {
-              this.controller = controller;
-            },
-          );
+      child: WebView(
+        gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{}..add(
+            Factory<VerticalDragGestureRecognizer>(
+              () => VerticalDragGestureRecognizer(),
+            ),
+          ),
+        initialUrl: widget.link,
+        gestureNavigationEnabled: true,
+        javascriptMode: JavascriptMode.unrestricted,
+        onWebViewCreated: (controller) {
+          this.controller = controller;
         },
       ),
     );

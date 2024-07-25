@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_kit_updated/simple_kit_updated.dart';
 
 class ChangeOrderWidget extends StatelessWidget {
   const ChangeOrderWidget({
@@ -43,12 +44,13 @@ class ChangeOrderWidget extends StatelessWidget {
               SIconTextButton(
                 onTap: onPressedDone,
                 text: intl.my_wallets_button_done,
-                icon: SizedBox(
+                textStyle: STStyles.body1Bold.copyWith(
+                  color: colors.blue,
+                ),
+                icon: Assets.svg.medium.checkmark.simpleSvg(
                   width: 20,
                   height: 20,
-                  child: SDoneIcon(
-                    color: colors.purple,
-                  ),
+                  color: colors.blue,
                 ),
               ),
             ],

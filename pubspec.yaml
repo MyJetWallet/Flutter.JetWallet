@@ -35,7 +35,11 @@ dependencies:
   decimal: ^3.0.2 # deal with decimal numbers without losing precision
   store_redirect: 2.0.2 # Redirect to AppStore or GooglePlay
   crisp: ^0.3.1 # Library for support chart and knowledge base
-  flutter_webview_pro: ^3.0.1+1 # provides a WebView widget on Android and iOS
+  flutter_webview_pro: # provides a WebView widget on Android and iOS
+    git:
+      url: https://github.com/wenzhiming/flutter-plugins.git
+      ref: dev-3.0.4
+      path: packages/webview_flutter/webview_flutter
   appsflyer_sdk: 6.13.2+1 # plugin for AppsFlyer SDK with Android and iOS support
   credit_card_validator: ^2.1.0 # Credit card validation helpers
   flutter_holo_date_picker: ^1.1.3

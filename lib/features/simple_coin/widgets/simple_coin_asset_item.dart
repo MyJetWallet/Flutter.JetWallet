@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -7,6 +8,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/constants.dart';
+import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
@@ -42,6 +44,7 @@ class SimpleCoinAssetItem extends StatelessWidget {
                 ),
                 child: SafeGesture(
                   onTap: () async {
+                    getIt.get<EventBus>().fire(EndReordering());
                     sAnalytics.tapOnTheButtonSimplecoinOnWalletScreen();
                     await sRouter.push(const MySimpleCoinsRouter());
                   },
