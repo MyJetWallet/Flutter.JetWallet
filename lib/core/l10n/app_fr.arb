@@ -1662,5 +1662,7 @@
     "home_header_simple": "Simple",
     "home_header_total_balance": "Solde total",
     "earn_section_total": "Total",
-    "withdraw_failure_screen_secondary_button_name": "Modifier l'Ordre"
+    "withdraw_failure_screen_secondary_button_name": "Modifier l'Ordre",
+    "news_section_partner": "Propulsé par CryptoPanic",
+    "news_section_crypto_news": "Actualités crypto"
 }

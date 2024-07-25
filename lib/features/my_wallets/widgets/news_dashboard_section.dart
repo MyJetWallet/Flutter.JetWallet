@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -162,7 +163,7 @@ class NewsItem extends HookWidget {
                       ],
                     ),
                   ),
-                  if (news.imageUrl != null)
+                  if (news.imageUrl != null && news.imageUrl != '')
                     Row(
                       children: [
                         const SizedBox(width: 8),
@@ -171,11 +172,19 @@ class NewsItem extends HookWidget {
                           height: 56,
                           clipBehavior: Clip.antiAlias,
                           decoration: ShapeDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(news.imageUrl ?? ''),
-                              fit: BoxFit.cover,
-                            ),
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          ),
+                          child: CachedNetworkImage(
+                            imageUrl: news.imageUrl ?? '',
+                            fit: BoxFit.cover,
+                            fadeInDuration: Duration.zero,
+                            fadeOutDuration: Duration.zero,
+                            placeholder: (context, url) => SSkeletonLoader(
+                              width: 56,
+                              height: 56,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            errorWidget: (context, url, error) => const SizedBox(),
                           ),
                         ),
                       ],

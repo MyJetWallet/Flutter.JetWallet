@@ -5842,5 +5842,7 @@
     "home_header_simple": "Simple",
     "home_header_total_balance": "Загальний баланс",
     "earn_section_total": "Загалом",
-    "withdraw_failure_screen_secondary_button_name": "Редагувати замовлення"
+    "withdraw_failure_screen_secondary_button_name": "Редагувати замовлення",
+    "news_section_partner": "За підтримки CryptoPanic",
+    "news_section_crypto_news": "Новини криптовалют"
 }
