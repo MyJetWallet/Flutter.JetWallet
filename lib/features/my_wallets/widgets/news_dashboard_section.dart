@@ -15,7 +15,6 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
@@ -28,8 +27,6 @@ class NewsDashboardSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Observer(
       builder: (context) {
-        final colors = SColorsLight();
-
         final newsStore = MarketNewsStore.of(context);
         final news = newsStore.news;
 
@@ -64,25 +61,11 @@ class NewsDashboardSection extends StatelessWidget {
                       },
                     ),
                   if (newsStore.isLoadingPagination)
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 24),
-                        child: Container(
-                          width: 24.0,
-                          height: 24.0,
-                          decoration: BoxDecoration(
-                            color: colors.gray2,
-                            shape: BoxShape.circle,
-                          ),
-                          child: const RiveAnimation.asset(
-                            loadingAnimationAsset,
-                          ),
-                        ),
-                      ),
-                    )
-                  else
-                    const SliverToBoxAdapter(
-                      child: SizedBox(height: 48),
+                    SliverList.builder(
+                      itemCount: 4,
+                      itemBuilder: (context, index) {
+                        return const LoadingNewsItem();
+                      },
                     ),
                 ],
               );

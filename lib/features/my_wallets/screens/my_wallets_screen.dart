@@ -299,7 +299,7 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                           ? const _LoadingAssetsList()
                           : CustomScrollView(
                               controller: _controller,
-                              physics: const AlwaysScrollableScrollPhysics().applyTo(const ClampingScrollPhysics()),
+                              physics: const AlwaysScrollableScrollPhysics(),
                               slivers: [
                                 const SliverToBoxAdapter(
                                   child: BannerCarusel(),
