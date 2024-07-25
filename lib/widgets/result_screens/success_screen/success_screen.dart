@@ -87,23 +87,6 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> with WidgetsBind
   bool shouldPop = true;
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-
-    if (state == AppLifecycleState.resumed) {
-      TimerStore.of(context).dispose();
-
-      Future.delayed(const Duration(milliseconds: 100), () {
-        if (widget.onSuccess == null && shouldPop) {
-          sRouter.popUntilRoot();
-        } else {
-          widget.onSuccess!.call(context);
-        }
-      });
-    }
-  }
-
-  @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
     super.initState();
