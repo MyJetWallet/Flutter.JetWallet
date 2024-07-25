@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -21,7 +22,7 @@ class ProductsBannersSection extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 120,
+                    height: 144,
                     child: CustomScrollView(
                       scrollDirection: Axis.horizontal,
                       physics: const AlwaysScrollableScrollPhysics(),
@@ -34,15 +35,15 @@ class ProductsBannersSection extends StatelessWidget {
                               final banner = productBanners[index];
 
                               return ProductBannerWidget(
-                                title: banner.title ?? '',
                                 onTap: () {
                                   getIt.get<EventBus>().fire(EndReordering());
                                   store.onBannerTap(banner);
                                 },
                                 icon: banner.image != null
-                                    ? Image.network(
-                                        banner.image ?? '',
-                                        fit: BoxFit.cover,
+                                    ? CachedNetworkImage(
+                                        imageUrl: banner.image ?? '',
+                                        fadeInDuration: Duration.zero,
+                                        fadeOutDuration: Duration.zero,
                                       )
                                     : const SizedBox(),
                               );
@@ -67,12 +68,10 @@ class ProductsBannersSection extends StatelessWidget {
 class ProductBannerWidget extends StatelessWidget {
   const ProductBannerWidget({
     super.key,
-    required this.title,
     required this.icon,
     required this.onTap,
   });
 
-  final String title;
   final Widget icon;
   final void Function() onTap;
 
@@ -83,27 +82,14 @@ class ProductBannerWidget extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: 140,
-        height: 120,
-        padding: const EdgeInsets.all(16),
+        height: 144,
         decoration: ShapeDecoration(
           color: colors.extraLightsPurple,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: icon,
-            ),
-            const SizedBox(height: 9),
-            Text(
-              title,
-              style: STStyles.body1Semibold,
-            ),
-          ],
-        ),
+        child: icon,
       ),
     );
   }
