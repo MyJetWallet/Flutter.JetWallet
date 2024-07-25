@@ -18,6 +18,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
+import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_news/market_news_response_model.dart';
 
 class NewsDashboardSection extends StatelessWidget {
@@ -48,12 +49,20 @@ class NewsDashboardSection extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SliverList.builder(
-                    itemCount: news.length,
-                    itemBuilder: (context, index) {
-                      return NewsItem(news: news[index]);
-                    },
-                  ),
+                  if (newsStore.isLoading)
+                    SliverList.builder(
+                      itemCount: 4,
+                      itemBuilder: (context, index) {
+                        return const LoadingNewsItem();
+                      },
+                    )
+                  else
+                    SliverList.builder(
+                      itemCount: news.length,
+                      itemBuilder: (context, index) {
+                        return NewsItem(news: news[index]);
+                      },
+                    ),
                   if (newsStore.isLoadingPagination)
                     SliverToBoxAdapter(
                       child: Padding(
@@ -279,5 +288,79 @@ class _AssociatedAssetsRow extends StatelessWidget {
               ),
             ],
           );
+  }
+}
+
+class LoadingNewsItem extends StatelessWidget {
+  const LoadingNewsItem({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 20,
+        left: 24,
+        right: 24,
+        bottom: 24,
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              SSkeletonLoader(
+                width: 20,
+                height: 20,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              const SizedBox(width: 8),
+              SSkeletonLoader(
+                width: 32,
+                height: 8,
+                borderRadius: BorderRadius.circular(2),
+              ),
+              const SizedBox(width: 8),
+              SSkeletonLoader(
+                width: 48,
+                height: 8,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SSkeletonLoader(
+                    width: MediaQuery.of(context).size.width - 124,
+                    height: 12,
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                  const SizedBox(height: 10),
+                  SSkeletonLoader(
+                    width: MediaQuery.of(context).size.width - 124,
+                    height: 12,
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                  const SizedBox(height: 10),
+                  SSkeletonLoader(
+                    width: 154,
+                    height: 12,
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                ],
+              ),
+              const SizedBox(width: 20),
+              SSkeletonLoader(
+                width: 56,
+                height: 56,
+                borderRadius: BorderRadius.circular(3),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
