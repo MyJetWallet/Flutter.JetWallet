@@ -17,17 +17,19 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/earn/widgets/earn_dashboard_section_widget.dart';
 import 'package:jetwallet/features/market/market_details/store/market_news_store.dart';
+import 'package:jetwallet/features/my_wallets/store/banners_store.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/features/my_wallets/widgets/actions_my_wallets_row_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/add_wallet_bottom_sheet.dart';
-import 'package:jetwallet/features/my_wallets/widgets/banners_carusel.dart';
 import 'package:jetwallet/features/my_wallets/widgets/change_order_widget.dart';
+import 'package:jetwallet/features/my_wallets/widgets/marketing_banners_carusel.dart';
 import 'package:jetwallet/features/my_wallets/widgets/my_wallets_asset_item.dart';
 import 'package:jetwallet/features/my_wallets/widgets/news_dashboard_section.dart';
 import 'package:jetwallet/features/my_wallets/widgets/pending_transactions_widget.dart';
+import 'package:jetwallet/features/my_wallets/widgets/products_banners_section.dart';
+import 'package:jetwallet/features/my_wallets/widgets/profile_banners_section.dart';
 import 'package:jetwallet/features/my_wallets/widgets/top_movers_dashboard_section.dart';
 import 'package:jetwallet/features/my_wallets/widgets/user_avatar_widget.dart';
-import 'package:jetwallet/features/simple_coin/widgets/simple_coin_asset_item.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
@@ -41,6 +43,7 @@ import 'package:simple_kit/modules/icons/24x24/public/start_reorder/simple_start
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_kit_updated/simple_kit_updated.dart';
 import 'package:simple_kit_updated/widgets/shared/simple_skeleton_loader.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:timezone/data/latest.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -59,13 +62,17 @@ class MyWalletsScreen extends StatefulWidget {
   State<MyWalletsScreen> createState() => _MyWalletsScreenState();
 }
 
-class _MyWalletsScreenState extends State<MyWalletsScreen> {
+class _MyWalletsScreenState extends State<MyWalletsScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         Provider<MyWalletsSrore>(create: (context) => MyWalletsSrore()),
         Provider<MarketNewsStore>(create: (context) => MarketNewsStore()..loadNews('')),
+        Provider<BannersStore>(
+          create: (context) => BannersStore(vsync: this),
+          dispose: (context, store) => store.dispose(),
+        ),
       ],
       builder: (context, child) => const _MyWalletsScreenBody(),
     );
@@ -301,9 +308,6 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                               controller: _controller,
                               physics: const AlwaysScrollableScrollPhysics(),
                               slivers: [
-                                const SliverToBoxAdapter(
-                                  child: BannerCarusel(),
-                                ),
                                 if (store.countOfPendingTransactions > 0) ...[
                                   SliverToBoxAdapter(
                                     child: PendingTransactionsWidget(
@@ -340,6 +344,15 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                     ),
                                   ),
                                 ],
+                                const SliverToBoxAdapter(
+                                  child: SizedBox(height: 8),
+                                ),
+                                const SliverToBoxAdapter(
+                                  child: ProfileBannersSection(),
+                                ),
+                                const SliverToBoxAdapter(
+                                  child: ProductsBannersSection(),
+                                ),
                                 if (store.isReordering)
                                   SliverToBoxAdapter(
                                     child: ChangeOrderWidget(
@@ -354,9 +367,6 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                     size: SHeaderSize.m,
                                     title: intl.my_wallets_header,
                                   ),
-                                ),
-                                const SliverToBoxAdapter(
-                                  child: SimpleCoinAssetItem(),
                                 ),
                                 SliverReorderableList(
                                   proxyDecorator: (child, index, animation) {
@@ -408,8 +418,14 @@ class __MyWalletsScreenBodyState extends State<_MyWalletsScreenBody> {
                                     ),
                                   ),
                                 const SliverToBoxAdapter(
-                                  child: EarnDashboardSectionWidget(),
+                                  child: BannerCarusel(),
                                 ),
+                                if ((sSignalRModules.assetProducts ?? <AssetPaymentProducts>[]).any(
+                                  (element) => element.id == AssetPaymentProductsEnum.earnProgram,
+                                ))
+                                  const SliverToBoxAdapter(
+                                    child: EarnDashboardSectionWidget(),
+                                  ),
                                 const SliverToBoxAdapter(
                                   child: TopMoversDashboardSection(),
                                 ),
