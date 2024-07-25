@@ -65,6 +65,7 @@ abstract class _MarketNewsStoreBase with Store {
       );
     } catch (e) {
       _logger.log(stateFlow, 'loadMoreNews', e);
+      loadMore = false;
     } finally {
       isLoadingPagination = false;
     }
@@ -120,6 +121,7 @@ abstract class _MarketNewsStoreBase with Store {
       );
     } catch (e) {
       _logger.log(stateFlow, 'loadNews', e);
+      loadMore = true;
     } finally {
       isLoading = false;
     }
