@@ -146,23 +146,28 @@ class NewsItem extends HookWidget {
                 ],
               ),
               const SizedBox(height: 12),
-              Text(
-                news.source,
-                style: STStyles.subtitle1,
-                maxLines: 3,
-              ),
-              const SizedBox(height: 4),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
-                    child: Text(
-                      news.topic,
-                      style: STStyles.body1Medium.copyWith(
-                        color: colors.gray10,
-                      ),
-                      maxLines: 5,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          news.source,
+                          style: STStyles.subtitle1,
+                          maxLines: 3,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          news.topic,
+                          style: STStyles.body1Medium.copyWith(
+                            color: colors.gray10,
+                          ),
+                          maxLines: 5,
+                        ),
+                      ],
                     ),
                   ),
                   if (news.imageUrl != null)
@@ -202,51 +207,77 @@ class _AssociatedAssetsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = SColorsLight();
 
-    return Row(
-      children: [
-        SizedBox(
-          width: assets.length > 1 ? (16 * assets.length + 4).toDouble() : 20,
-          height: 20,
-          child: Stack(
+    return assets.isNotEmpty
+        ? Row(
             children: [
-              for (var i = 0; i < assets.length; i++)
-                Positioned(
-                  right: i == 0 ? 0 : i * 16,
-                  child: Container(
-                    decoration: ShapeDecoration(
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(
-                          width: 1.5,
-                          strokeAlign: BorderSide.strokeAlignOutside,
-                          color: colors.white,
+              SizedBox(
+                width: assets.length > 1 ? (16 * assets.length + 4).toDouble() : 20,
+                height: 20,
+                child: Stack(
+                  children: [
+                    for (var i = 0; i < assets.length; i++)
+                      Positioned(
+                        right: i == 0 ? 0 : i * 16,
+                        child: Container(
+                          decoration: ShapeDecoration(
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                width: 1.5,
+                                strokeAlign: BorderSide.strokeAlignOutside,
+                                color: colors.white,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: SNetworkSvg(
+                            width: 20,
+                            height: 20,
+                            url: assets.reversed.toList()[i].iconUrl,
+                          ),
                         ),
-                        borderRadius: BorderRadius.circular(10),
                       ),
-                    ),
-                    child: SNetworkSvg(
-                      width: 20,
-                      height: 20,
-                      url: assets.reversed.toList()[i].iconUrl,
-                    ),
-                  ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              for (var i = 0; i < assets.length; i++)
+                Builder(
+                  builder: (context) {
+                    final text = assets[i].symbol + (i == assets.length - 1 ? '' : ', ');
+                    return Text(
+                      text,
+                      style: STStyles.body2Semibold.copyWith(
+                        color: colors.black,
+                      ),
+                    );
+                  },
                 ),
             ],
-          ),
-        ),
-        const SizedBox(width: 8),
-        for (var i = 0; i < assets.length; i++)
-          Builder(
-            builder: (context) {
-              final text = assets[i].symbol + (i == assets.length - 1 ? '' : ', ');
-              return Text(
-                text,
+          )
+        : Row(
+            children: [
+              Container(
+                width: 20,
+                height: 20,
+                decoration: ShapeDecoration(
+                  color: colors.blue,
+                  shape: const OvalBorder(),
+                ),
+                padding: const EdgeInsets.all(4),
+                child: Assets.svg.medium.crypto.simpleSvg(
+                  width: 12,
+                  height: 12,
+                  color: colors.white,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                intl.news_section_crypto_news,
                 style: STStyles.body2Semibold.copyWith(
                   color: colors.black,
                 ),
-              );
-            },
-          ),
-      ],
-    );
+              ),
+            ],
+          );
   }
 }
