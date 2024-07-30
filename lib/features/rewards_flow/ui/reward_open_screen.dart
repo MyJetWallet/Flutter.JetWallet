@@ -218,6 +218,7 @@ abstract class _RewardOpenStoreBase with Store {
 
     final currency = currencyFrom(
       sSignalRModules.currenciesWithHiddenList,
+      //TODO Anna Bielikh need refactoring
       spinData != null ? spinData?.assetSymbol ?? 'BTC' : 'BTC',
     );
 
