@@ -1688,5 +1688,6 @@
     "earn_section_total": "Total",
     "withdraw_failure_screen_secondary_button_name": "Editar orden",
     "news_section_partner": "Impulsado por CryptoPanic",
-    "news_section_crypto_news": "Noticias de criptomonedas"
+    "news_section_crypto_news": "Noticias de criptomonedas",
+    "earn_section_all_time": "Todo el tiempo"
 }
