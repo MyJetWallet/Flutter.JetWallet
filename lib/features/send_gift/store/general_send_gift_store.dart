@@ -174,26 +174,32 @@ abstract class GeneralSendGiftStoreBase with Store {
               ],
             ),
           ]);
-
-          await Future.delayed(const Duration(milliseconds: 300), () {
-            final context = sRouter.navigatorKey.currentContext!;
-            shareGiftResultBottomSheet(
-              context: context,
-              currency: currency,
-              amount: amount,
-              email: selectedContactType == ReceiverContacrType.email ? _email : null,
-              phoneNumber: selectedContactType == ReceiverContacrType.phone ? (_phoneCountryCode + _phoneBody) : null,
-              onClose: () {
-                sAnalytics.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet();
-              },
-            );
-          });
-
-          await Future.delayed(const Duration(milliseconds: 300), () {
-            shopRateUpPopup(sRouter.navigatorKey.currentContext!);
-          });
+          await postCompleteFlow();
+        },
+        onCloseButton: () async {
+          await postCompleteFlow();
         },
       ),
     );
+  }
+
+  Future<void> postCompleteFlow() async {
+    await Future.delayed(const Duration(milliseconds: 300), () {
+      final context = sRouter.navigatorKey.currentContext!;
+      shareGiftResultBottomSheet(
+        context: context,
+        currency: currency,
+        amount: amount,
+        email: selectedContactType == ReceiverContacrType.email ? _email : null,
+        phoneNumber: selectedContactType == ReceiverContacrType.phone ? (_phoneCountryCode + _phoneBody) : null,
+        onClose: () {
+          sAnalytics.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet();
+        },
+      );
+    });
+
+    await Future.delayed(const Duration(milliseconds: 300), () {
+      shopRateUpPopup(sRouter.navigatorKey.currentContext!);
+    });
   }
 }
