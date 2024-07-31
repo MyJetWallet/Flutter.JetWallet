@@ -212,23 +212,25 @@ class _PrepaidCardServiceScreenBodyState extends State<_PrepaidCardServiceScreen
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: Container(
-              margin: EdgeInsets.only(
-                left: 24,
-                right: 24,
-                bottom: MediaQuery.of(context).padding.bottom + 16,
-              ),
-              child: SButton.blue(
-                text: intl.prepaid_card_buy_card,
-                callback: () {
-                  sAnalytics.tapOnTheBuyCardButton();
-                  sRouter.push(const PrepaidCardPreBuyTabsRouter()).then((value) {
-                    if (voucherHasJustBeenPurchased) {
-                      store.getListMyVouchers();
-                      voucherHasJustBeenPurchased = false;
-                    }
-                  });
-                },
+            child: SafeArea(
+              child: Container(
+                margin: EdgeInsets.only(
+                  left: 24,
+                  right: 24,
+                  bottom: MediaQuery.of(context).padding.top <= 24 ? 24 : 16,
+                ),
+                child: SButton.blue(
+                  text: intl.prepaid_card_buy_card,
+                  callback: () {
+                    sAnalytics.tapOnTheBuyCardButton();
+                    sRouter.push(const PrepaidCardPreBuyTabsRouter()).then((value) {
+                      if (voucherHasJustBeenPurchased) {
+                        store.getListMyVouchers();
+                        voucherHasJustBeenPurchased = false;
+                      }
+                    });
+                  },
+                ),
               ),
             ),
           ),

@@ -46,88 +46,90 @@ class GlobalBasicAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 53),
-      child: SizedBox(
-        height: 64,
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Opacity(
-                            opacity: hasLeftIcon ? 1 : 0,
-                            child: SafeGesture(
-                              onTap: hasLeftIcon
-                                  ? () {
-                                      if (onLeftIconTap != null) {
-                                        onLeftIconTap?.call();
-                                      } else {
-                                        Navigator.pop(context);
-                                      }
-                                    }
-                                  : null,
-                              child: leftIcon ?? Assets.svg.medium.arrowLeft.simpleSvg(),
-                            ),
-                          ),
-                          const Gap(24),
-                          if (hasSecondIcon) const Gap(24),
-                        ],
-                      ),
-                      Flexible(
-                        child: Opacity(
-                          opacity: hasTitle ? 1 : 0,
-                          child: Text(
-                            title ?? '',
-                            style: STStyles.header6,
-                          ),
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          if (hasSecondIcon)
+    return SafeArea(
+      child: Padding(
+        padding: MediaQuery.of(context).padding.top <= 24 ? const EdgeInsets.only(top: 16) : EdgeInsets.zero,
+        child: SizedBox(
+          height: 64,
+          child: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
                             Opacity(
-                              opacity: hasSecondIcon ? 1 : 0,
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 8),
-                                child: secondIcon ?? Assets.svg.medium.user.simpleSvg(),
+                              opacity: hasLeftIcon ? 1 : 0,
+                              child: SafeGesture(
+                                onTap: hasLeftIcon
+                                    ? () {
+                                        if (onLeftIconTap != null) {
+                                          onLeftIconTap?.call();
+                                        } else {
+                                          Navigator.pop(context);
+                                        }
+                                      }
+                                    : null,
+                                child: leftIcon ?? Assets.svg.medium.arrowLeft.simpleSvg(),
                               ),
                             ),
-                          const Gap(24),
-                          Opacity(
-                            opacity: hasRightIcon ? 1 : 0,
-                            child: SafeGesture(
-                              onTap: hasRightIcon
-                                  ? onRightIconTap != null
-                                      ? () => onRightIconTap!()
-                                      : null
-                                  : null,
-                              child: rightIcon ?? Assets.svg.medium.close.simpleSvg(),
+                            const Gap(24),
+                            if (hasSecondIcon) const Gap(24),
+                          ],
+                        ),
+                        Flexible(
+                          child: Opacity(
+                            opacity: hasTitle ? 1 : 0,
+                            child: Text(
+                              title ?? '',
+                              style: STStyles.header6,
                             ),
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  Opacity(
-                    opacity: hasSubtitle ? 1 : 0,
-                    child: Text(
-                      subtitle ?? '',
-                      style: STStyles.body2Medium.copyWith(
-                        color: subtitleTextColor ?? SColorsLight().gray10,
+                        ),
+                        Row(
+                          children: [
+                            if (hasSecondIcon)
+                              Opacity(
+                                opacity: hasSecondIcon ? 1 : 0,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 8),
+                                  child: secondIcon ?? Assets.svg.medium.user.simpleSvg(),
+                                ),
+                              ),
+                            const Gap(24),
+                            Opacity(
+                              opacity: hasRightIcon ? 1 : 0,
+                              child: SafeGesture(
+                                onTap: hasRightIcon
+                                    ? onRightIconTap != null
+                                        ? () => onRightIconTap!()
+                                        : null
+                                    : null,
+                                child: rightIcon ?? Assets.svg.medium.close.simpleSvg(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Opacity(
+                      opacity: hasSubtitle ? 1 : 0,
+                      child: Text(
+                        subtitle ?? '',
+                        style: STStyles.body2Medium.copyWith(
+                          color: subtitleTextColor ?? SColorsLight().gray10,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
