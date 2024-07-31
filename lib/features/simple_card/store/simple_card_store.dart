@@ -677,10 +677,11 @@ abstract class _SimpleCardStoreBase with Store {
       loader.finishLoadingImmediately();
 
       response.pick(
-        onNoError: (data) {
+        onNoError: (data) async {
           allCards?.removeWhere((element) => element.cardId == cardFull?.cardId);
 
-          sRouter.maybePop();
+          await sRouter.maybePop();
+          await sRouter.maybePop();
 
           sAnalytics.theCardHasBeenTerminateToastView(
             cardID: cardFull?.cardId ?? '',
