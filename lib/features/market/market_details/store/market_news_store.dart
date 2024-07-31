@@ -43,7 +43,7 @@ abstract class _MarketNewsStoreBase with Store {
 
   @action
   Future<void> loadMoreNews() async {
-    if (isLoading || isLoadingPagination || !canLoadMore) return;
+    if (isLoading || isLoadingPagination || !canLoadMore || news.length >= 100) return;
 
     _logger.log(notifier, 'loadMoreNews');
 
