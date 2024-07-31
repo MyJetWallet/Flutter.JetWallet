@@ -196,7 +196,7 @@ class _EarnSectionDefaultState extends StatelessWidget {
                               accuracy: 2,
                             )
                           : '**** ${sSignalRModules.baseCurrency.symbol}',
-                      description: intl.earn_section_this_month,
+                      description: intl.earn_section_all_time,
                     ),
                   ),
                 ],
