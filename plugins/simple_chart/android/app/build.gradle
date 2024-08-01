@@ -31,7 +31,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.charts"
-        minSdkVersion 24
+        minSdkVersion 21
         targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
