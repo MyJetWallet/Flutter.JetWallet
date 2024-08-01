@@ -78,6 +78,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
       customLoader: store.showProcessing
           ? WaitingScreen(
               secondaryText: store.getProcessingText,
+              isCanClouse: store.isWebViewAlredyShoved,
             )
           : null,
       header: SSmallHeader(

@@ -80,6 +80,9 @@ abstract class _BuyConfirmationStoreBase with Store {
     cancelTimer();
   }
 
+  @observable
+  bool isWebViewAlredyShoved = false;
+
   final cancelToken = CancelToken();
   Future<void> cancelAllRequest() async {
     cancelToken.cancel('exit');
@@ -673,6 +676,13 @@ abstract class _BuyConfirmationStoreBase with Store {
             destinationWallet: buyAsset ?? '',
             sourceBuyAmount: paymentAmount.toString(),
             destinationBuyAmount: buyAmount.toString(),
+          );
+
+          Future.delayed(
+            const Duration(seconds: 1),
+            () {
+              isWebViewAlredyShoved = true;
+            },
           );
 
           sRouter.push(

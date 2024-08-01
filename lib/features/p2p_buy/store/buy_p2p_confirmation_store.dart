@@ -50,6 +50,10 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
   bool isDataLoaded = false;
   @observable
   bool terminateUpdates = false;
+
+  @observable
+  bool isWebViewAlredyShoved = false;
+
   @action
   void termiteUpdate() {
     terminateUpdates = true;
@@ -450,6 +454,12 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
             ptpBuyMethod: p2pMethod?.name ?? '',
           );
 
+          Future.delayed(
+            const Duration(seconds: 1),
+            () {
+              isWebViewAlredyShoved = true;
+            },
+          );
           sRouter.push(
             Circle3dSecureWebViewRouter(
               title: intl.previewBuyWithCircle_paymentVerification,
