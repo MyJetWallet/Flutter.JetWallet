@@ -82,6 +82,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
               onSkip: () {
                 store.skipProcessing();
               },
+              isCanClouse: store.isWebViewAlredyShoved || store.category != PaymentMethodCategory.cards,
             )
           : null,
       header: SSmallHeader(

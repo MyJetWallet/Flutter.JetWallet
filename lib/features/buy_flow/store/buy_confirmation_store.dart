@@ -80,6 +80,9 @@ abstract class _BuyConfirmationStoreBase with Store {
     cancelTimer();
   }
 
+  @observable
+  bool isWebViewAlredyShoved = false;
+
   final cancelToken = CancelToken();
   Future<void> cancelAllRequest() async {
     cancelToken.cancel('exit');
@@ -674,6 +677,8 @@ abstract class _BuyConfirmationStoreBase with Store {
             sourceBuyAmount: paymentAmount.toString(),
             destinationBuyAmount: buyAmount.toString(),
           );
+
+          isWebViewAlredyShoved = true;
 
           sRouter.push(
             Circle3dSecureWebViewRouter(

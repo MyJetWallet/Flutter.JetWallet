@@ -20,12 +20,14 @@ class WaitingScreen extends StatelessObserverWidget {
     this.secondaryText,
     this.onSkip,
     this.isLoading = false,
+    this.isCanClouse = true,
   });
 
   final Function()? onSkip;
   final String? primaryText;
   final String? secondaryText;
   final bool isLoading;
+  final bool isCanClouse;
 
   void onClose() {
     navigateToRouter();
@@ -42,6 +44,7 @@ class WaitingScreen extends StatelessObserverWidget {
         hasTitle: false,
         hasSubtitle: false,
         hasLeftIcon: false,
+        hasRightIcon: isCanClouse,
         onRightIconTap: onClose,
       ),
       child: Padding(
@@ -79,10 +82,12 @@ class WaitingScreen extends StatelessObserverWidget {
               const Spacer(
                 flex: 3,
               ),
-              SButton.black(
-                text: isLoading ? intl.waiting_screen_loading_button_name : intl.waiting_screen_processing_button_name,
-                callback: onClose,
-              ),
+              if (isCanClouse)
+                SButton.black(
+                  text:
+                      isLoading ? intl.waiting_screen_loading_button_name : intl.waiting_screen_processing_button_name,
+                  callback: onClose,
+                ),
             ],
           ),
         ),
