@@ -678,7 +678,12 @@ abstract class _BuyConfirmationStoreBase with Store {
             destinationBuyAmount: buyAmount.toString(),
           );
 
-          isWebViewAlredyShoved = true;
+          Future.delayed(
+            const Duration(seconds: 1),
+            () {
+              isWebViewAlredyShoved = true;
+            },
+          );
 
           sRouter.push(
             Circle3dSecureWebViewRouter(

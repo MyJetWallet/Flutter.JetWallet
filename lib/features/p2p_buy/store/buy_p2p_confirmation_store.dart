@@ -454,8 +454,12 @@ abstract class _BuyP2PConfirmationStoreBase with Store {
             ptpBuyMethod: p2pMethod?.name ?? '',
           );
 
-          isWebViewAlredyShoved = true;
-
+          Future.delayed(
+            const Duration(seconds: 1),
+            () {
+              isWebViewAlredyShoved = true;
+            },
+          );
           sRouter.push(
             Circle3dSecureWebViewRouter(
               title: intl.previewBuyWithCircle_paymentVerification,
